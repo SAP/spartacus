@@ -6,20 +6,20 @@ This guide shows how to build and run both in development mode and in production
 
 # Prerequisites
 
-Before carrying out the procedures below, please ensure the following frontend and backend requirements are in place.
+Before carrying out the procedures below, please ensure the following front end and back end requirements are in place.
 
-## Frontend Requirements
+## Front end Requirements
 
 Your Angular development environment should include the following:
 
 - node.js >= 8.9.0
 - yarn >= 1.9.4
 
-## Backend Requirements
+## Back end Requirements
 
-The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
+The Spartacus JavaScript Storefront uses SAP Commerce for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-Perform the following steps to set up your backend:
+Perform the following steps to set up your back end:
 
 - Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
 
@@ -50,15 +50,15 @@ $ yarn install
 
 The simplest way to build and run from the source code is to work in development mode.
 
-## Configuring Your Backend URL
+## Configuring Your Back end URL
 
 Carry out the following steps before you build and launch.
 
-1. Configure your backend URL in the `projects/storefrontapp/environments/environment.ts` file.
+1. Configure your back end URL in the `projects/storefrontapp/environments/environment.ts` file.
 
    The `environment.ts` file contains properties that are applied when the app is run in development mode.
 
-2. Add your backend base URL to the `occBaseUrl` property, as follows:
+2. Add your back end base URL to the `occBaseUrl` property, as follows:
 
    ```
    export const environment = {
@@ -89,11 +89,11 @@ Contrary to development mode, in production mode you need to package and build a
 $ yarn build:core:lib
 ```
 
-## Configuring Your Backend URL
+## Configuring Your Back end URL
 
-1. Configure your backend URL in the `projects/storefrontapp/environments/environment.prod.ts` file.
+1. Configure your back end URL in the `projects/storefrontapp/environments/environment.prod.ts` file.
 
-2. Add your backend base URL to the `occBaseUrl` property, as follows:
+2. Add your back end base URL to the `occBaseUrl` property, as follows:
 
    ```
    export const environment = {
