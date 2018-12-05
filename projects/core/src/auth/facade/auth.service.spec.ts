@@ -42,11 +42,22 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should return a user token', () => {
+    store.dispatch(new fromAuthStore.LoadUserTokenSuccess(mockToken));
+
+    let result: UserToken;
+    service
+      .getUserToken()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(mockToken);
+  });
+
   it('should expose userToken state', () => {
     store.dispatch(new fromAuthStore.LoadUserTokenSuccess(mockToken));
 
     let result: UserToken;
-    const subscription = service.userToken$.subscribe(token => {
+    const subscription = service.getUserToken().subscribe(token => {
       result = token;
     });
     subscription.unsubscribe();
@@ -58,7 +69,7 @@ describe('AuthService', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
     let result: ClientToken;
-    const subscription = service.clientToken$.subscribe(token => {
+    const subscription = service.getClientToken().subscribe(token => {
       result = token;
     });
     subscription.unsubscribe();
@@ -70,7 +81,7 @@ describe('AuthService', () => {
     spyOn(service, 'loadClientToken').and.stub();
 
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess({} as ClientToken));
-    const subscription = service.clientToken$.subscribe(_token => {});
+    const subscription = service.getClientToken().subscribe(_token => {});
     subscription.unsubscribe();
 
     expect(service.loadClientToken).toHaveBeenCalled();
@@ -86,6 +97,17 @@ describe('AuthService', () => {
         password: 'password'
       })
     );
+  });
+
+  it('should return a client token', () => {
+    store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
+
+    let result: ClientToken;
+    service
+      .getClientToken()
+      .subscribe(token => (result = token))
+      .unsubscribe();
+    expect(result).toEqual(mockClientToken);
   });
 
   it('should dispatch proper action for refreshUserToken', () => {
@@ -132,7 +154,7 @@ describe('AuthService', () => {
     );
   });
 
-  it('refresh the client toke', () => {
+  it('refresh the client token', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
     spyOn(service, 'loadClientToken').and.stub();

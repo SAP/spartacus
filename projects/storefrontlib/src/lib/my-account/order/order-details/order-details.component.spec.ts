@@ -1,22 +1,27 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
-
 import { OrderDetailsComponent } from '../order-details/order-details.component';
+import { UserService } from '../../../user/facade/user.service';
+import { CardModule } from '../../../ui/components/card/card.module';
 import {
   RoutingService,
-  Order,
   Cart,
   PromotionResult,
   AuthService,
-  UserToken
+  UserToken,
+  Order
 } from '@spartacus/core';
-import { UserService } from '../../../user/facade/user.service';
-import { CardModule } from '../../../ui/components/card/card.module';
 
-const mockOrder: Order = {
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
+
+const mockOrder = {
   code: '1',
   statusDisplay: 'Shipped',
   deliveryAddress: {
@@ -87,7 +92,6 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: AuthService;
   let mockRoutingService: RoutingService;
   let mockUserService: any;
   let el: DebugElement;
@@ -102,9 +106,6 @@ describe('OrderDetailsComponent', () => {
         }
       })
     };
-    mockAuthService = <AuthService>{
-      userToken$: of(<UserToken>{ userId: 'test' })
-    };
     mockUserService = {
       orderDetails$: of(mockOrder),
       loadOrderDetails: createSpy(),
@@ -116,7 +117,7 @@ describe('OrderDetailsComponent', () => {
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: AuthService, useClass: MockAuthService }
       ],
       declarations: [
         MockCartItemListComponent,
