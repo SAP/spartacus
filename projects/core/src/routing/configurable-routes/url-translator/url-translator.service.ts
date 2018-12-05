@@ -137,7 +137,7 @@ export class UrlTranslatorService {
       return this.ROOT_URL;
     }
 
-    // find first path for every nested route that can staisfy it's parameters with given parameters
+    // find first path for every nested route that can satisfy it's parameters with given parameters
     const nestedRoutesPaths = this.findPathsWithFillableParams(
       nestedRoutesTranslations,
       nestedRoutesParams
