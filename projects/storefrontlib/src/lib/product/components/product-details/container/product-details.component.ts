@@ -56,6 +56,25 @@ export class ProductDetailsComponent implements OnChanges {
     this.activeTab.forEach(el => el.classList.remove('active'));
     this.activeTab = [<HTMLElement>event.target, tab];
     this.activeTab.forEach(el => el.classList.add('active'));
+
+    // only scroll if the element is not yet visible
+    if (this.isElementOutViewport(tab)) {
+      tab.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+    }
+  }
+
+  private isElementOutViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return (
+      rect.bottom < 0 ||
+      rect.right < 0 ||
+      rect.left > window.innerWidth ||
+      rect.top > window.innerHeight
+    );
   }
 
   goToReviews() {
