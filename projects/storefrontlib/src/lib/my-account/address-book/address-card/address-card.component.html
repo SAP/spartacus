@@ -1,5 +1,5 @@
 <div class="cx-address-card card">
-  <div class="card-header" *ngIf="address.defaultAddress && !editMode">
+  <div class="card-header" *ngIf="address?.defaultAddress && !editMode">
     &#10003; DEFAULT
   </div>
   <div class="card-body" [class.cx-address-card--delete-mode]="editMode">
@@ -8,19 +8,19 @@
     </div>
     <div class="address_data">
       <div class="cx-address-card__label--bold">
-        {{ address.firstName }} {{ address.lastName }}
+        {{ address?.firstName }} {{ address?.lastName }}
       </div>
-      <div class="cx-address-card__label">{{ address.line1 }}</div>
-      <div class="cx-address-card__label">{{ address.line2 }}</div>
+      <div class="cx-address-card__label">{{ address?.line1 }}</div>
+      <div class="cx-address-card__label">{{ address?.line2 }}</div>
       <div class="cx-address-card__label">
-        {{ address.town }},
-        <span *ngIf="!address.region?.isocode">{{
-          address.country?.isocode
+        {{ address?.town }},
+        <span *ngIf="!address?.region?.isocode">{{
+          address?.country?.isocode
         }}</span
-        ><span>{{ address.region?.isocode }}</span>
+        ><span>{{ address?.region?.isocode }}</span>
       </div>
-      <div class="cx-address-card__label">{{ address.postalCode }}</div>
-      <div class="cx-address-card__label">{{ address.phone }}</div>
+      <div class="cx-address-card__label">{{ address?.postalCode }}</div>
+      <div class="cx-address-card__label">{{ address?.phone }}</div>
     </div>
 
     <div *ngIf="editMode" class="row cx-address-card__delete">
@@ -40,13 +40,13 @@
     </div>
     <div *ngIf="!editMode" class="cx-address-card__actions">
       <a
-        *ngIf="!address.defaultAddress"
+        *ngIf="!address?.defaultAddress"
         (click)="setAddressAsDefault(address.id)"
-        class="card-link btn-link"
+        class="card-link btn-link set-default"
         >set as default</a
       >
-      <a (click)="openEditFormEvent()" class="card-link btn-link">edit</a>
-      <a (click)="setEditMode()" class="card-link btn-link">delete</a>
+      <a (click)="openEditFormEvent()" class="card-link btn-link edit">edit</a>
+      <a (click)="setEditMode()" class="card-link btn-link delete">delete</a>
     </div>
   </div>
 </div>

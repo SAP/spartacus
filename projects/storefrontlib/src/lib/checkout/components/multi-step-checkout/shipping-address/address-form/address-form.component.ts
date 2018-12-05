@@ -134,6 +134,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.addressData) {
       this.address['controls'].firstName.setValue(this.addressData.firstName);
       this.address['controls'].lastName.setValue(this.addressData.lastName);
+      this.address['controls'].titleCode.setValue('mr');
       this.address['controls'].line1.setValue(this.addressData.line1);
       this.address['controls'].line2.setValue(this.addressData.line2);
       this.address['controls'].line2.setValue(this.addressData.line2);

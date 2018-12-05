@@ -14,7 +14,7 @@ export class AddressForm {
   static readonly PHONE_NUMBER = '555 555 555';
 
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('cx-root'))
+    private parentElement: ElementFinder = element(by.tagName('body'))
   ) {}
 
   readonly form: ElementFinder = this.parentElement.element(
