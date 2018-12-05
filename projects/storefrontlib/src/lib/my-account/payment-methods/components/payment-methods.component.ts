@@ -26,20 +26,22 @@ export class PaymentMethodsComponent implements OnInit {
     });
   }
 
-  getCardContent(payment): Card {
-    const actions = [
-      payment.defaultPayment
-        ? null
-        : { name: 'Set as default', event: 'default' },
-      { name: 'Delete', event: 'edit' }
-    ].filter(Boolean);
+  getCardContent({
+    defaultPayment,
+    accountHolderName,
+    expiryMonth,
+    expiryYear,
+    cardNumber
+  }): Card {
+    const actions = [];
+    if (!defaultPayment) {
+      actions.push({ name: 'Set as default', event: 'default' });
+    }
+    actions.push({ name: 'Delete', event: 'edit' });
     const card: Card = {
-      header: payment.defaultPayment ? 'DEFAULT' : null,
-      textBold: payment.accountHolderName,
-      text: [
-        payment.cardNumber,
-        `Expires: ${payment.expiryMonth}/${payment.expiryYear}`
-      ],
+      header: defaultPayment ? 'DEFAULT' : null,
+      textBold: accountHolderName,
+      text: [cardNumber, `Expires: ${expiryMonth}/${expiryYear}`],
       actions,
       deleteMsg: 'Are you sure you want to delete this payment method?'
     };

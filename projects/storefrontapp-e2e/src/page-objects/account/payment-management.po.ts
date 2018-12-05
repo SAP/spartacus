@@ -18,10 +18,11 @@ export class PaymentManagementPage extends AppPage {
 
   async getCard(index) {
     const card = await this.page.all(by.css('cx-card')).get(index);
+    const links = await card.all(by.css('.card-link'));
     const result = {
       card,
-      selectDefaultLink: await card.all(by.css('.card-link')).first(),
-      deleteLink: await card.all(by.css('.card-link')).last(),
+      selectDefaultLink: links.first(),
+      deleteLink: links.last(),
       expiry: await card.all(by.css('.card__label')).last(),
       confirmDelete: await card.element(by.css('.btn-primary'))
     };
