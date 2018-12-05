@@ -74,7 +74,7 @@ class MockCardComponent {
   fitToContainer;
 }
 
-fdescribe('ShippingAddressComponent', () => {
+describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockRouting: any;
