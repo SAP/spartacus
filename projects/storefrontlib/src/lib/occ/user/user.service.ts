@@ -61,13 +61,40 @@ export class OccUserService {
   }
 
   loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
-    const url = this.getUserEndpoint() + userId + PAYMENT_DETAILS_ENDPOINT;
+    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
     return this.http
       .get<PaymentDetailsList>(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  deleteUserPaymentMethod(userId: string, paymentMethodID: string) {
+    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .delete(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  setDefaultUserPaymentMethod(userId: string, paymentMethodID: string) {
+    const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .patch(
+        url,
+        // TODO Remove billingAddress property
+        { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
+        { headers }
+      )
       .pipe(catchError((error: any) => throwError(error)));
   }
 
