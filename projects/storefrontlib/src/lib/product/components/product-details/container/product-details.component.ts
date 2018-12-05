@@ -34,7 +34,7 @@ export class ProductDetailsComponent implements OnChanges {
   }
 
   isWritingReview = false;
-  activeTab: HTMLElement[] = [];
+  activatedElements: HTMLElement[] = [];
 
   @ViewChild('descriptionHeader')
   set initial(ref: ElementRef) {
@@ -53,9 +53,10 @@ export class ProductDetailsComponent implements OnChanges {
   }
 
   select(event: MouseEvent, tab: HTMLElement) {
-    this.activeTab.forEach(el => el.classList.remove('active'));
-    this.activeTab = [<HTMLElement>event.target, tab];
-    this.activeTab.forEach(el => el.classList.add('active'));
+    // toggle active class on both header and content panel
+    this.activatedElements.forEach(el => el.classList.remove('active'));
+    this.activatedElements = [<HTMLElement>event.target, tab];
+    this.activatedElements.forEach(el => el.classList.add('active'));
 
     // only scroll if the element is not yet visible
     if (this.isElementOutViewport(tab)) {
