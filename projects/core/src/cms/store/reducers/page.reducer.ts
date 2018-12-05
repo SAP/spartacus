@@ -1,11 +1,6 @@
 import * as fromPageData from '../actions/page.action';
-import { Page } from '../../models/page.model';
-
-export interface PageState {
-  entities: { [context: string]: Page };
-  count: number;
-  latestPageKey: string;
-}
+import { Page } from '../../model/page.model';
+import { PageState } from '../cms-state';
 
 export const initialState: PageState = {
   entities: {},

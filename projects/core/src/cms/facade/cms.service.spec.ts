@@ -8,9 +8,9 @@ import * as fromActions from '../store/actions/page.action';
 import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
-import { Page } from '../models/page.model';
+import { Page } from '../model/page.model';
 import { PageType } from '@spartacus/core';
-import { DefaultPageService } from '../services/default-page.service';
+import { DefaultPageService } from '../occ/default-page.service';
 import { CmsModuleConfig } from '../cms-module-config';
 
 const MockCmsModuleConfig: CmsModuleConfig = {

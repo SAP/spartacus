@@ -12,7 +12,7 @@ import {
 } from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../services/occ-cms.service';
+import { OccCmsService } from '../../occ/occ-cms.service';
 import { RoutingService } from '@spartacus/core';
 
 @Injectable()

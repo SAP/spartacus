@@ -1,9 +1,5 @@
 import * as fromNavigationItem from '../actions/navigation-entry-item.action';
-import { NodeItem } from '../../models/node-item.model';
-
-export interface NavigationItemState {
-  nodes: { [nodeId: string]: NodeItem };
-}
+import { NavigationItemState } from '../cms-state';
 
 export const initialState: NavigationItemState = {
   nodes: {}

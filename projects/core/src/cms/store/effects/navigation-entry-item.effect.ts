@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
-import { OccCmsService } from '../../services/occ-cms.service';
-import { IdList } from '../../models/idList.model';
+import { OccCmsService } from '../../occ/occ-cms.service';
+import { IdList } from '../../model/idList.model';
 import { RoutingService } from '@spartacus/core';
 
 @Injectable()

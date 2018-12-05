@@ -1,9 +1,6 @@
 import * as fromComponent from '../actions/component.action';
 import { CmsComponent } from '@spartacus/core';
-
-export interface ComponentState {
-  entities: { [id: string]: any };
-}
+import { ComponentState } from '../cms-state';
 
 export const initialState: ComponentState = {
   entities: {}

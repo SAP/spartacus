@@ -6,7 +6,7 @@ import {
 
 import { OccCmsService } from './occ-cms.service';
 import { PageContext, PageType, CmsComponent, CMSPage } from '@spartacus/core';
-import { IdList } from './../models/idList.model';
+import { IdList } from './../model/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
 
 const comps: CmsComponent[] = [

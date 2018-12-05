@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { Page } from '../models/page.model';
-import { DefaultPageService } from '../services/default-page.service';
+import { Page } from '../model/page.model';
+import { DefaultPageService } from '../occ/default-page.service';
 import { CmsComponent } from '@spartacus/core';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { IdList } from './../models/idList.model';
+import { IdList } from './../model/idList.model';
 import { CmsModuleConfig } from '../cms-module-config';
 import { PageContext, PageType, CMSPage, CmsComponent } from '@spartacus/core';
 
