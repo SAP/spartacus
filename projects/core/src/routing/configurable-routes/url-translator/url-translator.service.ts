@@ -182,8 +182,8 @@ export class UrlTranslatorService {
   } {
     return (nestedRoutes || []).reduce(
       ({ nestedRoutesNames, nestedRoutesParams }, route) => ({
-        nestedRoutesNames: nestedRoutesNames.concat(route.name),
-        nestedRoutesParams: nestedRoutesParams.concat(route.params)
+        nestedRoutesNames: [...nestedRoutesNames, route.name],
+        nestedRoutesParams: [...nestedRoutesParams, route.params]
       }),
       { nestedRoutesNames: [], nestedRoutesParams: [] }
     );
