@@ -11,12 +11,7 @@ export class RouteRecognizerService {
     private urlParser: UrlParserService
   ) {}
 
-  recognizeByDefaultUrl(
-    url: string
-  ): {
-    nestedRoutesNames: string[];
-    nestedRoutesParams: object[];
-  } {
+  recognizeByDefaultUrl(url: string): { name: string; params: object }[] {
     url = removeLeadingSlash(url); // url will be compared with paths translations which do not have leading slash
     const routesTranslations = this.defaultRoutesTranslations;
     const urlSegments = this.urlParser.getPrimarySegments(url);
@@ -26,23 +21,14 @@ export class RouteRecognizerService {
       []
     );
 
-    if (recognizedNestedRoutes) {
-      const nestedRoutesNames: string[] = [];
-      const nestedRoutesParams: object[] = [];
-      recognizedNestedRoutes.forEach(recognizedNestedRoute => {
-        nestedRoutesNames.push(recognizedNestedRoute.routeName);
-        nestedRoutesParams.push(recognizedNestedRoute.params);
-      });
-      return { nestedRoutesNames, nestedRoutesParams };
-    }
-    return { nestedRoutesNames: null, nestedRoutesParams: null };
+    return recognizedNestedRoutes;
   }
 
   private getNestedRoutesRecursive(
     remainingUrlSegments: string[],
     routesTranslations: RoutesTranslations,
-    accResult: { routeName: string; params: object }[]
-  ): { routeName: string; params: object }[] {
+    accResult: { name: string; params: object }[]
+  ): { name: string; params: object }[] {
     if (!routesTranslations) {
       return remainingUrlSegments.length ? null : accResult;
     }
@@ -67,7 +53,7 @@ export class RouteRecognizerService {
           const result = this.getNestedRoutesRecursive(
             remainingUrlSegments.slice(pathSegments.length),
             routeTranslation.children,
-            accResult.concat({ routeName, params })
+            accResult.concat({ name: routeName, params })
           );
           // if remaining segments were successfuly matched, return result. otherwise continue loop for other paths and routes
           if (result) {

@@ -3,7 +3,9 @@ export interface TranslateUrlOptionsRouteObject {
   params?: object;
 }
 
+export type TranslateUrlOptionsRoute = string | TranslateUrlOptionsRouteObject;
+
 export interface TranslateUrlOptions {
-  route?: (string | TranslateUrlOptionsRouteObject)[];
+  route?: TranslateUrlOptionsRoute[];
   url?: string;
 }
