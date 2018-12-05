@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PaymentDetailsPageComponent } from './payment-details-page.component';
-import { AuthGuard } from '../../../auth/guards/auth.guard';
+import { AuthGuard } from '@spartacus/core';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { PaymentDetailsPageLayoutModule } from '../../layout/payment-details-page-layout/payment-details-page-layout.module';
 
