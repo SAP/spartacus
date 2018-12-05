@@ -43,7 +43,199 @@ describe('UrlTranslatorService', () => {
   });
 
   describe('translate', () => {
-    describe(', when first argument is string url,', () => {
+    describe(', when options is null,', () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = null;
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(', when options is empty object,', () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = {};
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options contain both 'url' and 'route' properties,`, () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = { url: 'testUrl', route: ['testRoute'] };
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options 'url' property is empty string,`, () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = { url: '' };
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options 'url' property is null,`, () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = { url: null };
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options 'route' property is empty array,`, () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = { route: [] };
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options 'route' property is null,`, () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = { url: '' };
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options 'route' array contains empty object,`, () => {
+      let options: TranslateUrlOptions;
+      beforeEach(() => {
+        spyOn(console, 'warn');
+        options = { route: [{}] };
+      });
+
+      it(`should console.warn in non-production environment`, () => {
+        serverConfig.production = false;
+        service.translate(options);
+        expect(console.warn).toHaveBeenCalled();
+      });
+
+      it(`should NOT console.warn in production environment`, () => {
+        serverConfig.production = true;
+        service.translate(options);
+        expect(console.warn).not.toHaveBeenCalled();
+      });
+
+      it(`should return the root url`, () => {
+        expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options contain 'url' property,`, () => {
       it('should try to recognize nested routes names in given url', () => {
         spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
           null
@@ -76,7 +268,7 @@ describe('UrlTranslatorService', () => {
       });
     });
 
-    describe(', when first argument is array of nested routes names,', () => {
+    describe(`, when options contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
         serverConfig.production = false;

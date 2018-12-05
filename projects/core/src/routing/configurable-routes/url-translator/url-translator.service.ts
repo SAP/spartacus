@@ -28,24 +28,14 @@ export class UrlTranslatorService {
       return this.ROOT_URL;
     }
 
-    let nestedRoutes;
-
-    if (options.url && typeof options.url === 'string') {
-      // if string url was passed, try to recognize route by default url shape:
-
-      nestedRoutes = this.routeRecognizer.recognizeByDefaultUrl(options.url);
-
-      // if cannot recognize route, return original url
-      if (!nestedRoutes) {
-        return options.url;
-      }
-    } else if (options.route && options.route.length) {
-      nestedRoutes = options.route;
-    } else {
-      return this.ROOT_URL;
+    if (options.url) {
+      const recognizedRoute = this.routeRecognizer.recognizeByDefaultUrl(
+        options.url
+      );
+      return recognizedRoute ? this.generateUrl(recognizedRoute) : options.url;
     }
 
-    return this.generateUrl(nestedRoutes);
+    return this.generateUrl(options.route);
   }
 
   private validateOptions(options: TranslateUrlOptions): boolean {
@@ -54,6 +44,7 @@ export class UrlTranslatorService {
         `Incorrect options for translating url. Options have to be an object. Options: `,
         options
       );
+      return false;
     }
     if (!options.url && !options.route) {
       this.warn(
@@ -69,8 +60,23 @@ export class UrlTranslatorService {
       );
       return false;
     }
+    if (options.url) {
+      return this.validateOptionsUrl(options.url);
+    }
     if (options.route) {
       return this.validateOptionsRoute(options.route);
+    }
+    return true;
+  }
+
+  private validateOptionsUrl(url: string): boolean {
+    if (!url || typeof url !== 'string') {
+      this.warn(
+        `Incorrect options for translating url.`,
+        `'url' property should be a non-empty string. Url: `,
+        url
+      );
+      return false;
     }
     return true;
   }
@@ -79,6 +85,15 @@ export class UrlTranslatorService {
     nestedRoutes: TranslateUrlOptionsRoute[]
   ): boolean {
     const length = nestedRoutes.length;
+    if (!length) {
+      this.warn(
+        `Incorrect options for translating url.`,
+        `'route' array should not be empty. Route: `,
+        nestedRoutes
+      );
+      return false;
+    }
+
     for (let i = 0; i < length; i++) {
       const nestedRoute = nestedRoutes[i];
       if (typeof nestedRoute !== 'string' && !nestedRoute.name) {
@@ -93,20 +108,18 @@ export class UrlTranslatorService {
     return true;
   }
 
-  private generateUrl(
-    nestedRoutes: TranslateUrlOptionsRouteObject[]
-  ): string[] {
-    nestedRoutes = this.standarizeNestedRoutes(nestedRoutes);
+  private generateUrl(nestedRoutes: TranslateUrlOptionsRoute[]): string[] {
+    const standarizedNestedRoutes = this.standarizeNestedRoutes(nestedRoutes);
 
     // if no routes given, return root url
-    if (!nestedRoutes.length) {
+    if (!standarizedNestedRoutes.length) {
       return this.ROOT_URL;
     }
 
     const {
       nestedRoutesNames,
       nestedRoutesParams
-    } = this.splitRoutesNamesAndParams(nestedRoutes);
+    } = this.splitRoutesNamesAndParams(standarizedNestedRoutes);
 
     const nestedRoutesTranslations = this.configurableRoutesService.getNestedRoutesTranslations(
       nestedRoutesNames
