@@ -7,9 +7,10 @@ import { StoreFinderService } from './store-finder.service';
 import { WindowRef } from './window-ref';
 import { LongitudeLatitude } from '../models/longitude-latitude';
 
-describe('StoreFinderService', () => {
+fdescribe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
+  let winRef: WindowRef;
 
   const queryText = 'test';
   const countryIsoCode = 'CA';
@@ -50,8 +51,17 @@ describe('StoreFinderService', () => {
 
     service = TestBed.get(StoreFinderService);
     store = TestBed.get(Store);
+    winRef = TestBed.get(WindowRef);
 
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(
+      winRef.nativeWindow.navigator.geolocation,
+      'watchPosition'
+    ).and.callThrough();
+    spyOn(
+      winRef.nativeWindow.navigator.geolocation,
+      'clearWatch'
+    ).and.callThrough();
   });
 
   it('should inject StoreFinderService', inject(
@@ -82,6 +92,22 @@ describe('StoreFinderService', () => {
           longitudeLatitude
         })
       );
+      expect(
+        winRef.nativeWindow.navigator.geolocation.watchPosition
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('Find Stores Twice with My Location', () => {
+    it('should clear watch geolocation', () => {
+      service.findStores(queryText, true);
+      service.findStores(queryText, false);
+      expect(
+        winRef.nativeWindow.navigator.geolocation.watchPosition
+      ).toHaveBeenCalled();
+      expect(
+        winRef.nativeWindow.navigator.geolocation.clearWatch
+      ).toHaveBeenCalled();
     });
   });
 

@@ -8,7 +8,7 @@ import * as fromStore from '../store';
 
 @Injectable()
 export class StoreFinderService {
-  geolocationWatchId: number;
+  private geolocationWatchId: number;
 
   constructor(
     private store: Store<fromStore.StoresState>,
