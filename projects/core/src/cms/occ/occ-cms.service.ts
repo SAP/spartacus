@@ -4,8 +4,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
 import { CmsModuleConfig } from '../model/cms-config';
-import { PageContext } from '../../routing';
-import { CMSPage, PageType, CmsComponent } from '../../occ-models';
+import { PageContext } from '../../routing/index';
+import { CMSPage, PageType, CmsComponent } from '../../occ-models/index';
 
 @Injectable()
 export class OccCmsService {

@@ -6,6 +6,7 @@ import {
   ConfigModule,
   Config,
   CmsModuleConfig,
+  CmsModule as CmsCoreModule,
   defaultCmsModuleConfig
 } from '@spartacus/core';
 
@@ -22,7 +23,8 @@ import { OutletModule } from '../outlet/outlet.module';
     CommonModule,
     HttpClientModule,
     ConfigModule.withConfig(defaultCmsModuleConfig),
-    OutletModule
+    OutletModule,
+    CmsCoreModule
   ],
   providers: [...guards, { provide: CmsModuleConfig, useExisting: Config }],
   declarations: [...components],

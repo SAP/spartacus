@@ -7,7 +7,7 @@ import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
 import { OccCmsService } from '../../occ/occ-cms.service';
 import { IdList } from '../../model/idList.model';
-import { RoutingService } from '../../../routing';
+import { RoutingService } from '../../../routing/index';
 
 @Injectable()
 export class NavigationEntryItemEffects {

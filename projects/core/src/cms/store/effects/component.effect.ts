@@ -13,7 +13,7 @@ import {
 
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { RoutingService } from '../../../routing';
+import { RoutingService } from '../../../routing/index';
 
 @Injectable()
 export class ComponentEffects {

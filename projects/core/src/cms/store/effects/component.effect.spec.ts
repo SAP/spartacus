@@ -14,8 +14,8 @@ import * as fromActions from '../actions/component.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { PageType, CmsComponent } from '../../../occ-models';
-import { RoutingService } from '../../../routing';
+import { PageType, CmsComponent } from '../../../occ-models/index';
+import { RoutingService } from '../../../routing/index';
 
 const router = {
   state: {

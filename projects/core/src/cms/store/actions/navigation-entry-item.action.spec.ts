@@ -1,5 +1,5 @@
 import * as fromAction from './navigation-entry-item.action';
-import { CmsComponent } from '../../../occ-models';
+import { CmsComponent } from '../../../occ-models/index';
 
 describe('Navigation Entry Item Actions', () => {
   describe('LoadNavigationItems Actions', () => {
