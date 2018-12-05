@@ -25,7 +25,7 @@ export class UserService {
   /**
    * Returns a user
    */
-  get(): Observable<User> {
+  getDetails(): Observable<User> {
     return this.store.pipe(select(fromStore.getDetails));
   }
 
@@ -181,6 +181,13 @@ export class UserService {
   }
 
   /**
+   * Retrieves titles
+   */
+  loadTitles(): void {
+    this.store.dispatch(new fromStore.LoadTitles());
+  }
+
+  /**
    * Retrieves delivery countries
    */
   loadDeliveryCountries(): void {
@@ -215,12 +222,5 @@ export class UserService {
    */
   getAllRegions(): Observable<Region[]> {
     return this.store.pipe(select(fromStore.getAllRegions));
-  }
-
-  /**
-   * Retrieves titles
-   */
-  loadTitles(): void {
-    this.store.dispatch(new fromStore.LoadTitles());
   }
 }
