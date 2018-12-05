@@ -18,7 +18,7 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../facade/auth.service';
 import { ClientErrorHandlingService } from '../services/client-error/client-error-handling.service';
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
-import { USE_CLIENT_TOKEN } from '@spartacus/core';
+import { USE_CLIENT_TOKEN } from '../../occ/index';
 
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 

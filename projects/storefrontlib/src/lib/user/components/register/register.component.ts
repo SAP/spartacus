@@ -6,7 +6,12 @@ import {
   Validators
 } from '@angular/forms';
 
-import { AuthService, RoutingService, Title, UserService } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  Title,
+  UserService
+} from '@spartacus/core';
 
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';

@@ -6,7 +6,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
-import { AuthConfig } from '@spartacus/core';
+import { AuthConfig } from '../../index';
 
 import { UserToken } from '../../models/token-types.model';
 

@@ -18,7 +18,7 @@ import * as fromOrderDetailsReducer from './order-details.reducer';
 
 import * as fromAction from '../actions';
 
-import { UserState, USER_FEATURE } from '../index';
+import { UserState, USER_FEATURE } from '../user-state';
 import { LOGOUT } from '../../../auth/index';
 
 export function getReducers(): ActionReducerMap<UserState> {

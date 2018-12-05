@@ -4,7 +4,8 @@ import * as fromActions from '../actions/user-register.action';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
-import { OccUserService, UserRegisterFormData } from '../../../user/index';
+import { UserRegisterFormData } from '../../../user/model/user.model';
+import { OccUserService } from '../../../user/occ/index';
 import { LoadUserToken } from '../../../auth/index';
 
 @Injectable()

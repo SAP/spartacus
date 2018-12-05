@@ -5,13 +5,13 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { AuthConfig } from '@spartacus/core';
+import { AuthConfig } from '../index';
 
 import { of, Observable } from 'rxjs';
 
 import { AuthService } from '../facade/auth.service';
 import { ClientToken } from './../models/token-types.model';
-import { InterceptorUtil } from '@spartacus/core';
+import { InterceptorUtil } from '../../occ/index';
 
 import { ClientTokenInterceptor } from './client-token.interceptor';
 

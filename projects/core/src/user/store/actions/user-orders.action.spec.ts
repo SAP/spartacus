@@ -1,5 +1,5 @@
 import * as fromUserOrdersAction from './user-orders.action';
-import { OrderHistoryList } from '@spartacus/core';
+import { OrderHistoryList } from '../../../occ-models/index';
 
 const mockUserOrder: {
   userId: string;

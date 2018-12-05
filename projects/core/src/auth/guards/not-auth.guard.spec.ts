@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '../../routing/index';
 
 import { of, Observable } from 'rxjs';
 
