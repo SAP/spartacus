@@ -5,6 +5,11 @@ import { UrlParserService } from './url-parser.service';
 import { ServerConfig } from 'projects/core/src/config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
+import {
+  TranslateUrlOptions,
+  TranslateUrlOptionsRoute,
+  TranslateUrlOptionsRouteObject
+} from './translate-url-options';
 
 @Injectable()
 export class UrlTranslatorService {
@@ -17,45 +22,104 @@ export class UrlTranslatorService {
     private config: ServerConfig
   ) {}
 
-  translate(
-    urlOrNestedRoutesNames: string | string[],
-    nestedRoutesParams?: object[]
-  ): string | string[] {
-    let nestedRoutesNames;
-
-    // if string url was passed, try to recognize route:
-    if (typeof urlOrNestedRoutesNames === 'string') {
-      const url = urlOrNestedRoutesNames;
-      ({
-        nestedRoutesNames,
-        nestedRoutesParams
-      } = this.routeRecognizer.recognizeByUrl(url));
-
-      // if cannot recognize route, return original url
-      if (!nestedRoutesNames) {
-        return url;
-      }
-    } else if (Array.isArray(urlOrNestedRoutesNames)) {
-      nestedRoutesNames = urlOrNestedRoutesNames;
-    }
-
-    return this.generateUrl(nestedRoutesNames, nestedRoutesParams);
-  }
-
-  private generateUrl(
-    nestedRoutesNames: string[],
-    nestedRoutesParams?: object[]
-  ): string[] {
-    // if no routes names given, return root url
-    if (!nestedRoutesNames || !nestedRoutesNames.length) {
+  translate(options: TranslateUrlOptions): string | string[] {
+    // if options are invalid, return the root url
+    if (!this.validateOptions(options)) {
       return this.ROOT_URL;
     }
 
-    nestedRoutesParams = this.ensureListLength(
-      nestedRoutesParams,
-      nestedRoutesNames.length,
-      {}
-    );
+    if (options.url) {
+      const recognizedRoute = this.routeRecognizer.recognizeByDefaultUrl(
+        options.url
+      );
+      return recognizedRoute ? this.generateUrl(recognizedRoute) : options.url;
+    }
+
+    return this.generateUrl(options.route);
+  }
+
+  private validateOptions(options: TranslateUrlOptions): boolean {
+    if (!options || typeof options !== 'object') {
+      this.warn(
+        `Incorrect options for translating url. Options have to be an object. Options: `,
+        options
+      );
+      return false;
+    }
+    if (!options.url && !options.route) {
+      this.warn(
+        `Incorrect options for translating url. Options must have 'url' or 'route' property. Options: `,
+        options
+      );
+      return false;
+    }
+    if (options.url && options.route) {
+      this.warn(
+        `Incorrect options for translating url. Options cannot have both 'url' and 'route' property. Options: `,
+        options
+      );
+      return false;
+    }
+    if (options.url) {
+      return this.validateOptionsUrl(options.url);
+    }
+    if (options.route) {
+      return this.validateOptionsRoute(options.route);
+    }
+    return true;
+  }
+
+  private validateOptionsUrl(url: string): boolean {
+    if (!url || typeof url !== 'string') {
+      this.warn(
+        `Incorrect options for translating url.`,
+        `'url' property should be a non-empty string. Url: `,
+        url
+      );
+      return false;
+    }
+    return true;
+  }
+
+  private validateOptionsRoute(
+    nestedRoutes: TranslateUrlOptionsRoute[]
+  ): boolean {
+    const length = nestedRoutes.length;
+    if (!length) {
+      this.warn(
+        `Incorrect options for translating url.`,
+        `'route' array should not be empty. Route: `,
+        nestedRoutes
+      );
+      return false;
+    }
+
+    for (let i = 0; i < length; i++) {
+      const nestedRoute = nestedRoutes[i];
+      if (typeof nestedRoute !== 'string' && !nestedRoute.name) {
+        this.warn(
+          `Incorrect options for translating url.`,
+          `'route' array can contain only elements which are string or object with 'name' property. Route: `,
+          nestedRoutes
+        );
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private generateUrl(nestedRoutes: TranslateUrlOptionsRoute[]): string[] {
+    const standarizedNestedRoutes = this.standarizeNestedRoutes(nestedRoutes);
+
+    // if no routes given, return root url
+    if (!standarizedNestedRoutes.length) {
+      return this.ROOT_URL;
+    }
+
+    const {
+      nestedRoutesNames,
+      nestedRoutesParams
+    } = this.splitRoutesNamesAndParams(standarizedNestedRoutes);
 
     const nestedRoutesTranslations = this.configurableRoutesService.getNestedRoutesTranslations(
       nestedRoutesNames
@@ -68,12 +132,12 @@ export class UrlTranslatorService {
 
     const [leafNestedRouteTranslation] = nestedRoutesTranslations.slice(-1);
 
-    // if no route was switched off in config (set to null), return root url:
+    // if leaf route was disabled in config (set to null), return root url:
     if (!leafNestedRouteTranslation.paths) {
       return this.ROOT_URL;
     }
 
-    // find first path for every nested route that can staisfy it's parameters with given parameters
+    // find first path for every nested route that can satisfy it's parameters with given parameters
     const nestedRoutesPaths = this.findPathsWithFillableParams(
       nestedRoutesTranslations,
       nestedRoutesParams
@@ -96,18 +160,33 @@ export class UrlTranslatorService {
     return result;
   }
 
-  private ensureListLength(
-    list: any[],
-    expectedLength: number,
-    fillingElement: any
-  ): object[] {
-    list = list || [];
-    const missingLength = expectedLength - list.length;
-    if (missingLength < 0) {
-      return list;
-    }
-    const missingArray = new Array(missingLength).fill(fillingElement);
-    return list.concat(missingArray);
+  /**
+   * Converts all elements to objects
+   */
+  private standarizeNestedRoutes(
+    nestedRoutes: TranslateUrlOptionsRoute[]
+  ): TranslateUrlOptionsRouteObject[] {
+    return (nestedRoutes || []).map(
+      route =>
+        typeof route === 'string'
+          ? { name: route, params: {} }
+          : { name: route.name, params: route.params || {} }
+    );
+  }
+
+  private splitRoutesNamesAndParams(
+    nestedRoutes: TranslateUrlOptionsRouteObject[]
+  ): {
+    nestedRoutesNames: string[];
+    nestedRoutesParams: object[];
+  } {
+    return (nestedRoutes || []).reduce(
+      ({ nestedRoutesNames, nestedRoutesParams }, route) => ({
+        nestedRoutesNames: nestedRoutesNames.concat(route.name),
+        nestedRoutesParams: nestedRoutesParams.concat(route.params)
+      }),
+      { nestedRoutesNames: [], nestedRoutesParams: [] }
+    );
   }
 
   private provideParamsValues(

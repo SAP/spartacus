@@ -164,10 +164,7 @@ export class ConfigurableRoutesService {
   ): Routes {
     if (this.isConfigurable(route, 'cxPath')) {
       // we assume that 'path' and 'redirectTo' cannot be both configured for one route
-      if (
-        this.isConfigurable(route, 'cxRedirectTo') &&
-        !this.config.production
-      ) {
+      if (this.isConfigurable(route, 'cxRedirectTo')) {
         this.warn(
           `A path should not have set both "cxPath" and "cxRedirectTo" properties! Route: '${route}`
         );
@@ -196,9 +193,7 @@ export class ConfigurableRoutesService {
   ): Route[] {
     return this.getTranslatedPaths(route, 'cxPath', routesTranslations).map(
       translatedPath => {
-        return Object.assign({}, route, {
-          path: translatedPath
-        });
+        return { ...route, path: translatedPath };
       }
     );
   }
@@ -213,7 +208,7 @@ export class ConfigurableRoutesService {
       translations
     );
     return translatedPaths.length
-      ? [Object.assign({}, route, { redirectTo: translatedPaths[0] })] // take the first path from list by convention
+      ? [{ ...route, redirectTo: translatedPaths[0] }] // take the first path from list by convention
       : [];
   }
 

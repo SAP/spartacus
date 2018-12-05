@@ -30,8 +30,8 @@ describe('RouteRecognizerService', () => {
     service = TestBed.get(RouteRecognizerService);
   });
 
-  describe('recognizeByUrl', () => {
-    function test_recognizeByUrl({
+  describe('recognizeByDefaultUrl', () => {
+    function test_recognizeByDefaultUrl({
       url,
       defaultTranslations,
       expectedResult
@@ -39,55 +39,49 @@ describe('RouteRecognizerService', () => {
       url: string;
       defaultTranslations: RoutesTranslations;
       expectedResult: {
-        nestedRoutesNames: string[];
-        nestedRoutesParams: object[];
-      };
+        name: string;
+        params: object;
+      }[];
     }) {
       loader.routesConfig.translations.default = defaultTranslations;
-      expect(service.recognizeByUrl(url)).toEqual(expectedResult);
+      expect(service.recognizeByDefaultUrl(url)).toEqual(expectedResult);
     }
 
     it('should return route name for given absolute url', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: '/path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [{}]
-        }
+        expectedResult: [{ name: 'page2', params: {} }]
       });
     });
 
     it('should return route name for given relative url, treating as absolute', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [{}]
-        }
+        expectedResult: [{ name: 'page2', params: {} }]
       });
     });
 
     it('should return null for unknown url (case 1)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'unknown-path',
         defaultTranslations: {
           page1: { paths: ['path1'] },
           page2: { paths: ['path2'] }
         },
-        expectedResult: { nestedRoutesNames: null, nestedRoutesParams: null }
+        expectedResult: null
       });
     });
 
     it('should return null for unknown url (case 2)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/path2/path3/unknown-path4',
         defaultTranslations: {
           page1: {
@@ -104,63 +98,58 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: null,
-          nestedRoutesParams: null
-        }
+        expectedResult: null
       });
     });
 
     it('should return route name and params for given url (case 1)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path2/value1/value2',
         defaultTranslations: {
           page1: { paths: ['path1/:param1/:param2'] },
           page2: { paths: ['path2/:param1/:param2'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [{ param1: 'value1', param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page2', params: { param1: 'value1', param2: 'value2' } }
+        ]
       });
     });
 
     it('should return route name and params for given url (case 2)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path/value1/path/value2',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
           page2: { paths: ['path/:param1/path/:param2/:param3'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1'],
-          nestedRoutesParams: [{ param1: 'value1', param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1', param2: 'value2' } }
+        ]
       });
     });
 
     it('should return route name and params for given url (case 3)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path/value1/path/value2/value3',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
           page2: { paths: ['path/:param1/path/:param2/:param3'] }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page2'],
-          nestedRoutesParams: [
-            {
+        expectedResult: [
+          {
+            name: 'page2',
+            params: {
               param1: 'value1',
               param2: 'value2',
               param3: 'value3'
             }
-          ]
-        }
+          }
+        ]
       });
     });
 
     it('should return 2 names of nested routes for given url consisting of 2 nested routes (case 1)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/path2',
         defaultTranslations: {
           page1: {
@@ -172,15 +161,15 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{}, {}]
-        }
+        expectedResult: [
+          { name: 'page1', params: {} },
+          { name: 'page2', params: {} }
+        ]
       });
     });
 
     it('should return 2 names of nested routes for given url consisting of 2 nested routes (case 2)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/path2',
         defaultTranslations: {
           page1: {
@@ -197,15 +186,15 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{}, {}]
-        }
+        expectedResult: [
+          { name: 'page1', params: {} },
+          { name: 'page2', params: {} }
+        ]
       });
     });
 
     it('should return 3 names of nested routes for given url consisting of 3 nested routes', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/path2/path3',
         defaultTranslations: {
           page1: {
@@ -222,15 +211,16 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2', 'page3'],
-          nestedRoutesParams: [{}, {}, {}]
-        }
+        expectedResult: [
+          { name: 'page1', params: {} },
+          { name: 'page2', params: {} },
+          { name: 'page3', params: {} }
+        ]
       });
     });
 
     it('should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 1)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/value1/path2/value2',
         defaultTranslations: {
           page1: {
@@ -242,15 +232,15 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page2', params: { param2: 'value2' } }
+        ]
       });
     });
 
     it('should return routes names and params objects in relevant order for url consisting of 2 nested routes (case 2)', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/value1/path2/value2',
         defaultTranslations: {
           page1: {
@@ -267,15 +257,15 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page2', params: { param2: 'value2' } }
+        ]
       });
     });
 
     it('should return routes names and params objects in relevant order for url consisting of 3 nested routes', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/value1/path2/value2/path3/value3',
         defaultTranslations: {
           page1: {
@@ -292,19 +282,16 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page2', 'page3'],
-          nestedRoutesParams: [
-            { param1: 'value1' },
-            { param2: 'value2' },
-            { param3: 'value3' }
-          ]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page2', params: { param2: 'value2' } },
+          { name: 'page3', params: { param3: 'value3' } }
+        ]
       });
     });
 
     it('should return routes exactly matching to given url - even if some other translations are matching partialy', () => {
-      test_recognizeByUrl({
+      test_recognizeByDefaultUrl({
         url: 'path1/value1/path2/value2/path3',
         defaultTranslations: {
           page1: {
@@ -324,10 +311,10 @@ describe('RouteRecognizerService', () => {
             }
           }
         },
-        expectedResult: {
-          nestedRoutesNames: ['page1', 'page20'],
-          nestedRoutesParams: [{ param1: 'value1' }, { param2: 'value2' }]
-        }
+        expectedResult: [
+          { name: 'page1', params: { param1: 'value1' } },
+          { name: 'page20', params: { param2: 'value2' } }
+        ]
       });
     });
   });
