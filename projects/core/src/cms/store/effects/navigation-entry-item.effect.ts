@@ -58,7 +58,6 @@ export class NavigationEntryItemEffects {
         // future work
         // send request to get list of media
       } else {
-        console.warn('Navigation nodes are empty:', data.nodeId);
         return of(
           new navigationItemActions.LoadNavigationItemsFail(
             'navigation nodes are empty'
