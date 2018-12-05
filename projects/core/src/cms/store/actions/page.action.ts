@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { PageContext } from '@spartacus/core';
-import { Page } from '../../models/page.model';
+import { Page } from '../../model/page.model';
+import { PageContext } from '../../../routing';
 
 export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';

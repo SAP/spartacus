@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, select } from '@ngrx/store';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '../../../occ-models';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/component.selectors';
+import { CmsState } from '../cms-state';
 
 describe('Cms Component Selectors', () => {
-  let store: Store<fromReducers.CmsState>;
+  let store: Store<CmsState>;
 
   const component: CmsComponent = {
     uid: 'comp1',

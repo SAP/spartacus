@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { CartService } from '../../cart/facade/cart.service';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 

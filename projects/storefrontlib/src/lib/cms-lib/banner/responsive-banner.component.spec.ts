@@ -4,9 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsModuleConfig } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponents: {

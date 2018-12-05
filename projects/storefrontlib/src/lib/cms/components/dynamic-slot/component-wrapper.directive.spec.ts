@@ -1,12 +1,14 @@
 import { Component, Inject, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { ComponentMapperService } from '../../services';
-import { CmsModuleConfig } from '../../cms-module-config';
 import { CmsComponentData } from '../cms-component-data';
 import { CxApiService } from '../../../cx-api/cx-api.service';
-import { CmsService } from '../../facade/cms.service';
-import { CmsComponent } from '@spartacus/core';
+import {
+  CmsComponent,
+  CmsService,
+  ComponentMapperService,
+  CmsModuleConfig
+} from '@spartacus/core';
 
 const testText = 'test text';
 

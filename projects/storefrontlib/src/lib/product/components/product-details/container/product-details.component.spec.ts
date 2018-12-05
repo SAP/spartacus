@@ -4,8 +4,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
 
-import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
-import { ProductService } from '@spartacus/core';
+import { ProductService, ComponentMapperService } from '@spartacus/core';
 
 import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';

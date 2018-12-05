@@ -5,8 +5,7 @@ import {
 } from '@angular/core';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService, CmsModuleConfig } from '@spartacus/core';
 
 @Component({
   selector: 'cx-banner',

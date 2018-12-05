@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { CmsService } from '@spartacus/core';
 import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { OutletDirective } from '../../../outlet';
-import { CmsService } from '../../facade/cms.service';
 
 class MockCmsService {
   getContentSlot() {}

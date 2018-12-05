@@ -5,7 +5,7 @@ import { NavigationModule } from '../navigation/navigation.module';
 
 import { CategoryNavigationComponent } from './category-navigation.component';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsModuleConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

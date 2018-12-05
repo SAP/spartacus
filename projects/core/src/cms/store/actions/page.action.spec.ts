@@ -1,6 +1,7 @@
 import * as fromPage from './page.action';
-import { PageContext, PageType } from '@spartacus/core';
-import { Page } from '../../models/page.model';
+import { Page } from '../../model/page.model';
+import { PageContext } from '../../../routing';
+import { PageType } from '../../../occ-models';
 
 describe('Cms Page Actions', () => {
   describe('LoadPageData Actions', () => {

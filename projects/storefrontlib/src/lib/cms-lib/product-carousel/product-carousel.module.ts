@@ -5,7 +5,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { MediaModule } from '../../ui/components/media/media.module';
 import { BootstrapModule } from '../../bootstrap.module';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsModuleConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

@@ -14,7 +14,7 @@ import { Subscription, fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-carousel',

@@ -1,7 +1,7 @@
 import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
-import { CmsModuleConfig } from '../cms-module-config';
+import { CmsModuleConfig } from '../model/cms-config';
 
 const createSpy = jasmine.createSpy;
 

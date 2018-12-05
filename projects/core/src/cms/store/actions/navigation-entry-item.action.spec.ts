@@ -1,5 +1,5 @@
 import * as fromAction from './navigation-entry-item.action';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '../../../occ-models';
 
 describe('Navigation Entry Item Actions', () => {
   describe('LoadNavigationItems Actions', () => {

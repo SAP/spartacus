@@ -22,4 +22,4 @@ import { CmsOccModule } from '../occ/cms-occ.module';
   ],
   providers: [reducerProvider]
 })
-export class ProductStoreModule {}
+export class CmsStoreModule {}

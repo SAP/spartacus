@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BannerComponent } from './banner.component';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
-import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { ConfigModule, CmsModuleConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

@@ -1,6 +1,12 @@
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 
+export interface CmsState {
+  page: PageState;
+  component: ComponentState;
+  navigation: NavigationItemState;
+}
+
 export const CMS_FEATURE = 'cms';
 
 export interface ComponentState {

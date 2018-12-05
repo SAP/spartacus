@@ -1,9 +1,9 @@
-import { CmsModuleConfig } from './cms/cms-module-config';
 import {
   AuthConfig,
   OccConfig,
   RoutingModuleConfig,
-  ConfigurableRoutesConfig
+  ConfigurableRoutesConfig,
+  CmsModuleConfig
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 

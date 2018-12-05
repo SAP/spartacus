@@ -18,12 +18,8 @@ import { DefaultPageService } from '../../occ/default-page.service';
 
 import { Page } from '../../model/page.model';
 
-import {
-  RoutingService,
-  PageContext,
-  PageType,
-  CMSPage
-} from '@spartacus/core';
+import { RoutingService, PageContext } from '../../../routing';
+import { PageType, CMSPage } from '../../../occ-models';
 
 @Injectable()
 export class PageEffects {

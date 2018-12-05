@@ -1,5 +1,5 @@
 import * as fromComponent from './component.action';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '../../../occ-models';
 
 describe('Cms Component Actions', () => {
   describe('LoadComponent Actions', () => {

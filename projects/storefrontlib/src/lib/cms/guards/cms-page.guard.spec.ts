@@ -2,8 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { CmsPageGuards } from './cms-page.guard';
-import { CmsService } from '../facade/cms.service';
-import { RoutingService, PageType } from '@spartacus/core';
+import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
 class MockCmsService {
   hasPage() {}

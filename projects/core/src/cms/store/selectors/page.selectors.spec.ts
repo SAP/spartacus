@@ -5,11 +5,12 @@ import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors/page.selectors';
 
-import { Page } from '../../models/page.model';
-import { CmsComponent } from '@spartacus/core';
+import { Page } from '../../model/page.model';
+import { CmsComponent } from '../../../occ-models';
+import { CmsState } from '../cms-state';
 
 describe('Cms PageData Selectors', () => {
-  let store: Store<fromReducers.CmsState>;
+  let store: Store<CmsState>;
 
   const components: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent' },

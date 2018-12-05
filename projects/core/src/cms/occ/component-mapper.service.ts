@@ -6,7 +6,7 @@ import {
   Renderer2,
   PLATFORM_ID
 } from '@angular/core';
-import { CmsModuleConfig } from '../cms-module-config';
+import { CmsModuleConfig } from '../model/cms-config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable()

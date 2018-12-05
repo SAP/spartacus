@@ -4,12 +4,13 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { RoutingService, PageType } from '@spartacus/core';
-import { OccCmsService } from '../../services/occ-cms.service';
+import { PageType } from '../../../occ-models';
+import { RoutingService } from '../../../routing';
+import { OccCmsService } from '../../occ/occ-cms.service';
 import {
   CmsModuleConfig,
   defaultCmsModuleConfig
-} from '../../cms-module-config';
+} from '../../model/cms-config';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
 

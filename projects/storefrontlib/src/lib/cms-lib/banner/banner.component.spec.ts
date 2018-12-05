@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsModuleConfig } from '@spartacus/core';
+import { CmsService } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 
 const UseCmsModuleConfig: CmsModuleConfig = {

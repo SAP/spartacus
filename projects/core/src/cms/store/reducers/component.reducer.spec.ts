@@ -1,6 +1,6 @@
 import * as fromComponent from './component.reducer';
 import * as fromActions from '../actions/component.action';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '../../../occ-models';
 
 describe('Cms Component Reducer', () => {
   describe('undefined action', () => {

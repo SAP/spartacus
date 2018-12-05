@@ -10,13 +10,7 @@ import {
 import * as fromPage from './page.reducer';
 import * as fromComponent from './component.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
-import { PageState, ComponentState, NavigationItemState } from '../cms-state';
-
-export interface CmsState {
-  page: PageState;
-  component: ComponentState;
-  navigation: NavigationItemState;
-}
+import { CmsState } from '../cms-state';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 @Injectable()
 export class NavigationService {

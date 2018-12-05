@@ -4,10 +4,11 @@ import { StoreModule, Store, select } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from '../selectors';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '../../../occ-models';
+import { CmsState } from '../cms-state';
 
 describe('Navigation Entry Items Selectors', () => {
-  let store: Store<fromReducers.CmsState>;
+  let store: Store<CmsState>;
 
   const mockComponents: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },

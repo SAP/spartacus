@@ -3,14 +3,12 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromPage from '../reducers/page.reducer';
 
-import { Page } from '../../models/page.model';
+import { Page } from '../../model/page.model';
+import { PageState, CmsState } from '../cms-state';
 
-export const getPageState: MemoizedSelector<
-  any,
-  fromPage.PageState
-> = createSelector(
+export const getPageState: MemoizedSelector<any, PageState> = createSelector(
   fromFeature.getCmsState,
-  (state: fromFeature.CmsState) => state.page
+  (state: CmsState) => state.page
 );
 
 export const getPageEntities: MemoizedSelector<

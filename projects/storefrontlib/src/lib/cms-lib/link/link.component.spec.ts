@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsModuleConfig } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 
 const UseCmsModuleConfig: CmsModuleConfig = {

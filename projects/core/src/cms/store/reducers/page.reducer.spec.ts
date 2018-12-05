@@ -1,7 +1,7 @@
 import * as fromPage from './page.reducer';
 import * as fromActions from '../actions/page.action';
-import { Page } from '../../models/page.model';
-import { CmsComponent } from '@spartacus/core';
+import { Page } from '../../model/page.model';
+import { CmsComponent } from '../../../occ-models';
 
 describe('Cms Page Reducer', () => {
   describe('undefined action', () => {

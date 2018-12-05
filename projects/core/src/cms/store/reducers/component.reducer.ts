@@ -1,5 +1,5 @@
 import * as fromComponent from '../actions/component.action';
-import { CmsComponent } from '@spartacus/core';
+import { CmsComponent } from '../../../occ-models';
 import { ComponentState } from '../cms-state';
 
 export const initialState: ComponentState = {

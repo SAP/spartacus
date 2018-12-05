@@ -6,8 +6,7 @@ import { RouterModule } from '@angular/router';
 import { MiniCartComponent } from './mini-cart.component';
 
 import { BannerModule } from '../banner/banner.module';
-import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { ConfigModule, CmsModuleConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [

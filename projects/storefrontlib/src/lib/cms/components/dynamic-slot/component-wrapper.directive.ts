@@ -10,12 +10,14 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { CmsComponent } from '@spartacus/core';
-import { ComponentMapperService } from '../../services/component-mapper.service';
-import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
-import { CmsModuleConfig } from '../../cms-module-config';
+import {
+  CmsModuleConfig,
+  CmsService,
+  ComponentMapperService
+} from '@spartacus/core';
 
 @Directive({
   selector: '[cxComponentWrapper]'

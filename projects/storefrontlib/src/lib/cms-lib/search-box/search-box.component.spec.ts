@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import { SearchBoxComponent } from './search-box.component';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { BootstrapModule } from '../../bootstrap.module';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { ProductSearchService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
