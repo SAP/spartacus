@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { OccOrderService } from './../../../occ/order/order.service';
+import { OrderHistoryList } from '@spartacus/core';
 
 @Injectable()
 export class UserOrdersEffect {
@@ -25,7 +26,7 @@ export class UserOrdersEffect {
           payload.sort
         )
         .pipe(
-          map((orders: any) => {
+          map((orders: OrderHistoryList) => {
             return new fromUserOrdersAction.LoadUserOrdersSuccess(orders);
           }),
           catchError(error =>

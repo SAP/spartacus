@@ -151,7 +151,7 @@ describe('UserService', () => {
       new fromStore.LoadUserOrdersSuccess({
         orders: [],
         pagination: {},
-        sort: []
+        sorts: []
       })
     );
 
@@ -162,7 +162,7 @@ describe('UserService', () => {
     expect(orderList).toEqual({
       orders: [],
       pagination: {},
-      sort: []
+      sorts: []
     });
   });
 
