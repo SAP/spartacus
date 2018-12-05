@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 
-import { UserService } from '../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 
 import { PaymentMethodsComponent } from './payment-methods.component';
 import { Component, DebugElement } from '@angular/core';
