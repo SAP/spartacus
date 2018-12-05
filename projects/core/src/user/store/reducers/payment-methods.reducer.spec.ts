@@ -52,4 +52,74 @@ describe('User Payment Methods Reducer', () => {
       expect(state.isLoading).toEqual(true);
     });
   });
+
+  describe('SET_DEFAULT_USER_PAYMENT_METHOD action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethod(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
+  describe('SET_DEFAULT_USER_PAYMENT_METHOD_FAIL action', () => {
+    it('should set isLoading flag to false', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      initialState.isLoading = true;
+      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodFail(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
+  describe('SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS action', () => {
+    it('should set isLoading flag to false', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      initialState.isLoading = true;
+      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodSuccess(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
+  describe('DELETE_USER_PAYMENT_METHOD action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethod(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
+  describe('DELETE_USER_PAYMENT_METHOD_FAIL action', () => {
+    it('should set isLoading flag to false', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      initialState.isLoading = true;
+      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethodFail(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
+  describe('DELETE_USER_PAYMENT_METHOD_SUCCESS action', () => {
+    it('should set isLoading flag to false', () => {
+      const { initialState } = fromUserPaymentMethodsReducer;
+      initialState.isLoading = true;
+      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethodSuccess(
+        {}
+      );
+      const state = fromUserPaymentMethodsReducer.reducer(initialState, action);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
 });
