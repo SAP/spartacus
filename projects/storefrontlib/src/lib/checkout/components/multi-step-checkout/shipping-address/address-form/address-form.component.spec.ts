@@ -309,7 +309,7 @@ describe('AddressFormComponent', () => {
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls['titleCode'].setValue('test titleCode');
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls['itstName'].setValue('test itstName');
+      controls['firstName'].setValue('test firstName');
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls['lastName'].setValue('test lastName');
       expect(isContinueBtnDisabled()).toBeTruthy();

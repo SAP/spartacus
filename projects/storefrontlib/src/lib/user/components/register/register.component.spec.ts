@@ -89,7 +89,7 @@ describe('RegisterComponent', () => {
 
       component.ngOnInit();
 
-      let titleList;
+      let titleList: Title[];
       component.titles$
         .subscribe(data => {
           titleList = data;
