@@ -40,9 +40,9 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.addressesLoading$;
+    this.isLoading$ = this.userService.getAddressesLoading();
 
-    this.existingAddresses$ = this.userService.addresses$.pipe(
+    this.existingAddresses$ = this.userService.getAddresses().pipe(
       tap(addresses => {
         if (addresses.length === 0) {
           this.userService.loadAddresses(this.cartData.userId);
