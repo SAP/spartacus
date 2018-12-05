@@ -24,10 +24,7 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
 })
 export class ProductDetailsComponent implements OnChanges {
   static outlets = ProductDetailOutlets;
-  @ViewChild('tabSet')
-  tabSet;
-  @ViewChild('tabSetWrapper')
-  tabSetWrapper;
+
   @Input()
   productCode: string;
   product$: Observable<any>;
@@ -59,7 +56,6 @@ export class ProductDetailsComponent implements OnChanges {
     this.activeTab.forEach(el => el.classList.remove('active'));
     this.activeTab = [<HTMLElement>event.target, tab];
     this.activeTab.forEach(el => el.classList.add('active'));
-    // tab.scrollIntoView();
   }
 
   goToReviews() {
