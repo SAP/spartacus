@@ -1,0 +1,44 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+//cx-payment-methods variables
+$cx-payment-methods-padding-left-sm: 1.25rem !default;
+$cx-payment-methods-padding-right-sm: 1.25rem !default;
+
+$cx-payment-methods-header-padding: 2.5rem 0 0 0 !default;
+
+$cx-payment-methods-existing-methods-padding: 0rem 0 2.5rem 0 !default;
+$cx-payment-methods-existing-methods-padding-md: 0 0 3.125rem 0 !default;
+$cx-payment-methods-existing-methods-padding-sm: 0 0 4.375rem 0 !default;
+
+$cx-payment-methods-card-padding-top: 1.875rem !default;
+
+.cx-payment-methods {
+  &__header {
+    padding: $cx-payment-methods-header-padding;
+  }
+
+  &__existing-methods {
+    display: flex;
+    align-items: flex-end;
+    padding: $cx-payment-methods-existing-methods-padding;
+
+    @include media-breakpoint-down(md) {
+      padding: $cx-payment-methods-existing-methods-padding-md;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: $cx-payment-methods-existing-methods-padding-sm;
+    }
+  }
+
+  &__card {
+    padding-top: $cx-payment-methods-card-padding-top;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $cx-payment-methods-padding-left-sm;
+    padding-right: $cx-payment-methods-padding-right-sm;
+  }
+}
