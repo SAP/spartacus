@@ -133,7 +133,7 @@ export class UserService {
    * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  setPaymentMethodAsDefault(userId: string, paymentMethodId: string) {
+  setPaymentMethodAsDefault(userId: string, paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
         userId: userId,
@@ -148,7 +148,7 @@ export class UserService {
    * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  deleteUserPaymentMethod(userId: string, paymentMethodId: string) {
+  deleteUserPaymentMethod(userId: string, paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
         userId: userId,
