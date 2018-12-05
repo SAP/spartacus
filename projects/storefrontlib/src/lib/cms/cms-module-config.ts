@@ -1,5 +1,4 @@
-import { OccConfig } from '@spartacus/core';
-import { AuthModuleConfig } from '../auth/auth-module.config';
+import { AuthConfig, OccConfig } from '@spartacus/core';
 import { StaticProvider } from '@angular/core';
 
 export type CmsComponentId =
@@ -26,8 +25,7 @@ export type CMSComponentConfig = {
   }
 };
 
-export abstract class CmsModuleConfig extends OccConfig
-  implements AuthModuleConfig {
+export abstract class CmsModuleConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
