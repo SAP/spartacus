@@ -129,6 +129,24 @@ export class UserService {
     this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
   }
 
+  setPaymentMethodAsDefault(userId: string, paymentMethodId: string) {
+    this.store.dispatch(
+      new fromStore.SetDefaultUserPaymentMethod({
+        userId: userId,
+        paymentMethodId
+      })
+    );
+  }
+
+  deleteUserPaymentMethod(userId: string, paymentMethodId: string) {
+    this.store.dispatch(
+      new fromStore.DeleteUserPaymentMethod({
+        userId: userId,
+        paymentMethodId
+      })
+    );
+  }
+
   loadAddresses(userId: string) {
     this.store.dispatch(new fromStore.LoadUserAddresses(userId));
   }
