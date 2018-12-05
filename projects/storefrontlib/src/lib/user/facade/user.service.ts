@@ -105,6 +105,12 @@ export class UserService {
   getPaymentMethodsLoading(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getPaymentMethodsLoading));
   }
+
+  /**
+   * Sets the payment as a default one
+   * @param userId a user ID
+   * @param paymentMethodId a payment method ID
+   */
   setPaymentMethodAsDefault(userId: string, paymentMethodId: string) {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
