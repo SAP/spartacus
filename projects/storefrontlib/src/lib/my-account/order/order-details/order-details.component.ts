@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
-import { AuthService, RoutingService } from '@spartacus/core';
+import { AuthService, RoutingService, Order } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,7 +21,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     private routingService: RoutingService
   ) {}
 
-  order$: Observable<any>;
+  order$: Observable<Order>;
   subscription: Subscription;
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.order$ = this.userService.orderDetails$;
+    this.order$ = this.userService.getOrderDetails();
   }
 
   getAddressCardContent(address): Card {

@@ -71,6 +71,28 @@ export class UserService {
   }
 
   /**
+   * Retrieves order's details
+   *
+   * @param userId a user's ID
+   * @param orderCode an order code
+   */
+  loadOrderDetails(userId: string, orderCode: string): void {
+    this.store.dispatch(
+      new fromStore.LoadOrderDetails({
+        userId: userId,
+        orderCode: orderCode
+      })
+    );
+  }
+
+  /**
+   * Clears order's details
+   */
+  clearOrderDetails(): void {
+    this.store.dispatch(new fromStore.ClearOrderDetails());
+  }
+
+  /**
    * Returns order history list
    */
   getOrderHistoryList(): Observable<OrderHistoryList> {
@@ -133,28 +155,6 @@ export class UserService {
         paymentMethodId
       })
     );
-  }
-
-  /**
-   * Retrieves order's details
-   *
-   * @param userId a user's ID
-   * @param orderCode an order code
-   */
-  loadOrderDetails(userId: string, orderCode: string): void {
-    this.store.dispatch(
-      new fromStore.LoadOrderDetails({
-        userId: userId,
-        orderCode: orderCode
-      })
-    );
-  }
-
-  /**
-   * Clears order's details
-   */
-  clearOrderDetails(): void {
-    this.store.dispatch(new fromStore.ClearOrderDetails());
   }
 
   /**

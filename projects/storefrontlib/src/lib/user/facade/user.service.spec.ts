@@ -93,6 +93,23 @@ describe('UserService', () => {
     expect(order).toEqual({ code: 'testOrder' });
   });
 
+  it('should be able to load order details', () => {
+    service.loadOrderDetails('userId', 'orderCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadOrderDetails({
+        userId: 'userId',
+        orderCode: 'orderCode'
+      })
+    );
+  });
+
+  it('should be able to clear order details', () => {
+    service.clearOrderDetails();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearOrderDetails()
+    );
+  });
+
   it('should be able to get order history list', () => {
     store.dispatch(
       new fromStore.LoadUserOrdersSuccess({
@@ -186,23 +203,6 @@ describe('UserService', () => {
         userId: 'userId',
         paymentMethodId: 'paymentMethodId'
       })
-    );
-  });
-
-  it('should be able to load order details', () => {
-    service.loadOrderDetails('userId', 'orderCode');
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.LoadOrderDetails({
-        userId: 'userId',
-        orderCode: 'orderCode'
-      })
-    );
-  });
-
-  it('should be able to clear order details', () => {
-    service.clearOrderDetails();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.ClearOrderDetails()
     );
   });
 

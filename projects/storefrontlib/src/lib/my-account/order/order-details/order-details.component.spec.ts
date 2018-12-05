@@ -2,23 +2,15 @@ import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import { AuthService, RoutingService, UserToken, Order } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ userId: 'test' } as UserToken);
-  }
-}
-
-const mockOrder = {
+const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
   deliveryAddress: {
@@ -60,6 +52,20 @@ const mockOrder = {
   }
 };
 
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
+
+class MockUserService {
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+  loadOrderDetails(_userId: string, _orderCode: string): void {}
+  clearOrderDetails(): void {}
+}
+
 @Component({
   selector: 'cx-order-summary',
   template: ''
@@ -90,7 +96,7 @@ describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
   let mockRoutingService: any;
-  let mockUserService: any;
+  let userService: UserService;
   let el: DebugElement;
 
   beforeEach(async(() => {
@@ -103,17 +109,12 @@ describe('OrderDetailsComponent', () => {
         }
       })
     };
-    mockUserService = {
-      orderDetails$: of(mockOrder),
-      loadOrderDetails: createSpy(),
-      clearOrderDetails: createSpy()
-    };
 
     TestBed.configureTestingModule({
       imports: [CardModule],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
+        { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService }
       ],
       declarations: [
@@ -127,6 +128,7 @@ describe('OrderDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailsComponent);
     el = fixture.debugElement;
+    userService = TestBed.get(UserService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -137,13 +139,17 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should initialize ', () => {
+    spyOn(userService, 'loadOrderDetails').and.stub();
+
     fixture.detectChanges();
-    let order;
-    component.order$.subscribe(value => {
-      order = value;
-    });
+    let order: Order;
+    component.order$
+      .subscribe(value => {
+        order = value;
+      })
+      .unsubscribe();
     expect(order).toEqual(mockOrder);
-    expect(mockUserService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
   });
 
   it('should order details info bar be not null', () => {
