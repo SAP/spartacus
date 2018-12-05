@@ -5,8 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { RouterModule } from '@angular/router';
 
-import { metaReducers } from './reducers';
-import { reducerToken, reducerProvider } from './reducers';
+import { metaReducers, reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects';
 import { ProductConverterModule } from '../../product';
 import { USER_FEATURE } from './user-state';

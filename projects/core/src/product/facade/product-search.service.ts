@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
 @Injectable()
 export class ProductSearchService {
