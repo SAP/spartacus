@@ -12,11 +12,11 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/cart.action';
-import { CartDataService } from '@spartacus/core';
-import { CartService } from '@spartacus/core';
-import * as fromAuth from '../../../auth/store';
-import * as fromCart from '@spartacus/core';
-import * as fromUser from '../../../user/store';
+import { CartDataService } from '../../facade/cart-data.service';
+import { CartService } from '../../facade/cart.service';
+import * as fromAuth from '../../../auth/store/index';
+import * as fromCart from '../../store/index';
+import * as fromUser from '../../../../../storefrontlib/src/lib/user/store';
 import { OccCartService } from '@spartacus/core';
 
 import * as fromEffects from './cart.effect';

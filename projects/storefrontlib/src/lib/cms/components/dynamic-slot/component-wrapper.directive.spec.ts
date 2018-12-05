@@ -1,11 +1,12 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, Inject, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
 import { CmsComponentData } from '../cms-component-data';
-import { CxApiService } from '@spartacus/storefront';
+import { CxApiService } from '../../../cx-api/cx-api.service';
 import { CmsService } from '../../facade/cms.service';
+import { CmsComponent } from '@spartacus/core';
 
 const testText = 'test text';
 
@@ -16,7 +17,10 @@ const testText = 'test text';
   `
 })
 export class TestComponent {
-  constructor(public cmsData: CmsComponentData) {}
+  constructor(
+    public cmsData: CmsComponentData<CmsComponent>,
+    @Inject('testService') public testService
+  ) {}
 }
 
 @NgModule({
@@ -27,8 +31,16 @@ export class TestComponent {
 export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSTestComponent: 'cx-test'
+  cmsComponents: {
+    CMSTestComponent: {
+      selector: 'cx-test',
+      providers: [
+        {
+          provide: 'testService',
+          useValue: 'testValue'
+        }
+      ]
+    }
   }
 };
 
@@ -74,6 +86,14 @@ describe('ComponentWrapperDirective', () => {
       );
       expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
     });
+
+    it('should provide configurable cms component providers', () => {
+      fixture.detectChanges();
+      const testCromponemtInstance = <TestComponent>(
+        fixture.debugElement.children[0].componentInstance
+      );
+      expect(testCromponemtInstance.testService).toEqual('testValue');
+    });
   });
 
   describe('with web component', () => {
@@ -81,7 +101,7 @@ describe('ComponentWrapperDirective', () => {
 
     beforeEach(() => {
       const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
-      cmsMapping.cmsComponentMapping.CMSTestComponent =
+      cmsMapping.cmsComponents.CMSTestComponent.selector =
         'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);
       fixture.detectChanges();

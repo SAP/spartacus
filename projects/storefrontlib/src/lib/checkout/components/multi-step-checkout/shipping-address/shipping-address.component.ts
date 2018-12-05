@@ -7,13 +7,10 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, Address, CartDataService } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-import { Address } from '../../../models/address-model';
-import { CartDataService } from '@spartacus/core';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 
@@ -24,10 +21,10 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
-  existingAddresses$: Observable<any>;
+  existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedAddress: Address;

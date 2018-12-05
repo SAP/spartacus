@@ -8,11 +8,15 @@ import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
-import { OccCartService } from '@spartacus/core';
+import {
+  OccCartService,
+  ProductImageConverterService,
+  PaymentDetails,
+  OrderEntry
+} from '@spartacus/core';
 import { OccOrderService } from '../../../occ/order/order.service';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
-import { ProductImageConverterService } from '@spartacus/core';
-console.log(OccCartService);
+
 @Injectable()
 export class CheckoutEffects {
   @Effect()
@@ -61,7 +65,9 @@ export class CheckoutEffects {
       return this.occCartService
         .getSupportedDeliveryModes(payload.userId, payload.cartId)
         .pipe(
-          map(data => new fromActions.LoadSupportedDeliveryModesSuccess(data)),
+          map(data => {
+            return new fromActions.LoadSupportedDeliveryModesSuccess(data);
+          }),
           catchError(error =>
             of(new fromActions.LoadSupportedDeliveryModesFail(error))
           )
@@ -183,7 +189,7 @@ export class CheckoutEffects {
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
           map(data => {
-            for (const entry of data.entries) {
+            for (const entry of data.entries as OrderEntry[]) {
               this.productImageConverter.convertProduct(entry.product);
             }
             return data;
@@ -262,7 +268,7 @@ export class CheckoutEffects {
   }
 
   private getParamsForPaymentProvider(
-    paymentDetails: any,
+    paymentDetails: PaymentDetails,
     parameters: { key; value }[],
     mappingLabels: any
   ) {

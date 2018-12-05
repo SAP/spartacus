@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '@spartacus/core';
+import { Cart, CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-page-layout',
@@ -10,7 +10,7 @@ import { CartService } from '@spartacus/core';
   styleUrls: ['./cart-page-layout.component.scss']
 })
 export class CartPageLayoutComponent implements OnInit {
-  cart$: Observable<any>;
+  cart$: Observable<Cart>;
 
   constructor(protected cartService: CartService) {}
 

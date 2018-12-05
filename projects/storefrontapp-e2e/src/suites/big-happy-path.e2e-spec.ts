@@ -83,7 +83,7 @@ describe('Big Happy Path', () => {
     const addressForm = shippingAddress.addressForm;
     await addressForm.waitForReady();
 
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,643.08');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,623.08');
 
     await addressForm.fillIn();
     await addressForm.nextButton.click();
@@ -102,7 +102,7 @@ describe('Big Happy Path', () => {
     await paymentMethod.waitForReady();
 
     expect(await paymentMethod.header.getText()).toContain('PAYMENT');
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
 
     const paymentForm = paymentMethod.paymentForm;
     await paymentForm.waitForReady();
@@ -122,7 +122,9 @@ describe('Big Happy Path', () => {
     expect(await reviewForm.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await reviewForm.shippingMethod.getText()).toContain('standard-net');
+    expect(await reviewForm.shippingMethod.getText()).toContain(
+      'standard-gross'
+    );
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -130,7 +132,7 @@ describe('Big Happy Path', () => {
       AddressForm.CITY
     );
 
-    expect(await checkoutPage.orderSummary.getText()).toContain('$2,655.07');
+    expect(await checkoutPage.orderSummary.getText()).toContain('$2,635.07');
 
     const orderConfirmationPage = await checkoutPage.placeOrder();
     await orderConfirmationPage.waitForReady();
@@ -160,7 +162,7 @@ describe('Big Happy Path', () => {
       PRODUCT_CODE
     );
     expect(await orderConfirmationPage.orderSummary.getText()).toContain(
-      '$2,823.67'
+      '$2,635.07'
     );
   });
 
@@ -172,7 +174,7 @@ describe('Big Happy Path', () => {
       'Order history'
     );
     expect(await orderHistoryPage.historyItem(0).getText()).toContain(
-      '$2,823.67'
+      '$2,635.07'
     );
 
     // Logout at the end of test
