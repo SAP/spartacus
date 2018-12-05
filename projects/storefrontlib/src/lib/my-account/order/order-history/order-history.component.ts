@@ -1,7 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { AuthService, RoutingService } from '@spartacus/core';
+
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthService, RoutingService } from '@spartacus/core';
+
 import { UserService } from '../../../user/facade/user.service';
 
 @Component({
@@ -30,7 +33,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.subscription = this.auth.userToken$.subscribe(userData => {
+    this.subscription = this.auth.getUserToken().subscribe(userData => {
       if (userData && userData.userId) {
         this.user_id = userData.userId;
       }
