@@ -80,7 +80,7 @@ describe('ProductSearchService', () => {
   ));
 
   it('should be able to get search results', () => {
-    service.searchResults$.subscribe(results => {
+    service.getSearchResults().subscribe(results => {
       expect(results).toEqual(mockSearchResults);
     });
   });

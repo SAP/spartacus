@@ -42,6 +42,13 @@ export class ProductSearchService {
     );
   }
 
+  public getSearchResults(): Observable<any> {
+    return this.store.pipe(
+      select(fromStore.getSearchResults),
+      filter(results => Object.keys(results).length > 0)
+    );
+  }
+
   searchAuxiliary(query: string, searchConfig?: SearchConfig) {
     this.store.dispatch(
       new fromStore.SearchProducts(
