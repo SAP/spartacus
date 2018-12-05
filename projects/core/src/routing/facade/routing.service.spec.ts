@@ -103,7 +103,7 @@ describe('RoutingService', () => {
   it('should expose the whole router state', inject(
     [RoutingService],
     (service: RoutingService) => {
-      service.redirectUrl$.subscribe(url => {
+      service.getRedirectUrl().subscribe(url => {
         expect(mockRedirectUrl).toHaveBeenCalledWith(fromStore.getRedirectUrl);
         expect(url).toEqual('redirect_url');
       });
@@ -113,7 +113,7 @@ describe('RoutingService', () => {
   it('should expose redirectUrl state', inject(
     [RoutingService],
     (service: RoutingService) => {
-      service.routerState$.subscribe(state => {
+      service.getRouterState().subscribe(state => {
         expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
         expect(state).toEqual({});
       });

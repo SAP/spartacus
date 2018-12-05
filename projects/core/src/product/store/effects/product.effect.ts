@@ -42,7 +42,7 @@ export class ProductEffects {
   refreshProduct$ = this.actions$.pipe(
     ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
     switchMap(() =>
-      this.routingService.routerState$.pipe(
+      this.routingService.getRouterState().pipe(
         filter(routerState => routerState !== undefined),
         map(routerState => routerState.state.context),
         take(1),
