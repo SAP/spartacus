@@ -43,4 +43,9 @@ describe('HomePageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should be able to get cmsTicketId', () => {
+    component.ngOnInit();
+    expect(component.cmsTicketId).toEqual('mockCmsTicketId');
+  });
 });
