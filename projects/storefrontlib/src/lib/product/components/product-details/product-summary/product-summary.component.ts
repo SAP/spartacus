@@ -1,4 +1,10 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
@@ -10,9 +16,10 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
 export class ProductSummaryComponent {
   static outlets = ProductDetailOutlets;
 
-  @Input()
-  product: any;
   itemCount = 1;
+
+  @Input() product: any;
+  @Output() onOpenReview = new EventEmitter();
 
   get outlets() {
     return ProductSummaryComponent.outlets;
@@ -35,5 +42,9 @@ export class ProductSummaryComponent {
       (this.product.stock.stockLevel > 0 ||
         this.product.stock.stockLevelStatus === 'inStock')
     );
+  }
+
+  openReview() {
+    this.onOpenReview.emit();
   }
 }

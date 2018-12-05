@@ -43,8 +43,7 @@ export class ProductDetailsComponent implements OnChanges {
     }
   }
 
-  @ViewChild('reviewHeader')
-  reviewHeader: ElementRef;
+  @ViewChild('reviewHeader') reviewHeader: ElementRef;
 
   constructor(protected productService: ProductService) {}
 
@@ -78,7 +77,7 @@ export class ProductDetailsComponent implements OnChanges {
     );
   }
 
-  goToReviews() {
+  openReview() {
     this.reviewHeader.nativeElement.click();
   }
 }
