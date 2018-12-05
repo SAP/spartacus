@@ -79,5 +79,6 @@ export class ProductDetailsComponent implements OnChanges {
 
   openReview() {
     this.reviewHeader.nativeElement.click();
+    this.isWritingReview = true;
   }
 }
