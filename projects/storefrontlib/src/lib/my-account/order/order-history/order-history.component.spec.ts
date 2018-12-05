@@ -20,7 +20,7 @@ const mockOrders: OrderHistoryList = {
   orders: [
     {
       code: '1',
-      placed: new Date(),
+      placed: new Date('2018-01-01'),
       statusDisplay: 'test',
       total: { formattedValue: '1' }
     }
@@ -108,13 +108,13 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let order: OrderHistoryList;
+    let orders: OrderHistoryList;
     component.orders$
       .subscribe(value => {
-        order = value;
+        orders = value;
       })
       .unsubscribe();
-    expect(order).toEqual(mockOrders);
+    expect(orders).toEqual(mockOrders);
   });
 
   xit('should redirect when clicking on order id', () => {

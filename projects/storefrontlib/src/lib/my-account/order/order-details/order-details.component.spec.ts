@@ -2,7 +2,14 @@ import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { AuthService, RoutingService, UserToken, Order } from '@spartacus/core';
+import {
+  RoutingService,
+  Cart,
+  PromotionResult,
+  AuthService,
+  UserToken,
+  Order
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -72,7 +79,7 @@ class MockUserService {
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Component({
@@ -87,7 +94,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: any[] = [];
+  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -95,12 +102,12 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockRoutingService: any;
   let userService: UserService;
+  let mockRoutingService: RoutingService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = {
+    mockRoutingService = <RoutingService>{
       routerState$: of({
         state: {
           params: {
