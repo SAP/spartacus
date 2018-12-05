@@ -107,7 +107,7 @@ describe('StoreFinderService', () => {
       ).toHaveBeenCalled();
       expect(
         winRef.nativeWindow.navigator.geolocation.clearWatch
-      ).toHaveBeenCalled();
+      ).toHaveBeenCalledWith(geolocationWatchId);
     });
   });
 
