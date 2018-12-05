@@ -113,7 +113,7 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fit('should call ngOnInit to get countries and titles data even when they not exist', done => {
+  it('should call ngOnInit to get countries and titles data even when they not exist', done => {
     spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'loadDeliveryCountries').and.stub();
 
@@ -140,7 +140,7 @@ describe('AddressFormComponent', () => {
       .unsubscribe();
   });
 
-  fit('should call ngOnInit to get countries, titles and regions data when data exist', () => {
+  it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
     spyOn(userService, 'getAllDeliveryCountries').and.returnValue(
       of(mockCountries)
     );
@@ -174,7 +174,7 @@ describe('AddressFormComponent', () => {
     expect(regions).toBe(mockRegions);
   });
 
-  fit('should add address with address verification result "accept"', () => {
+  it('should add address with address verification result "accept"', () => {
     spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getAllRegions').and.returnValue(of([]));
@@ -191,7 +191,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  fit('should clear address verification result with address verification result "reject"', () => {
+  it('should clear address verification result with address verification result "reject"', () => {
     spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getAllRegions').and.returnValue(of([]));
@@ -208,7 +208,7 @@ describe('AddressFormComponent', () => {
     ).toHaveBeenCalledWith();
   });
 
-  fit('should open suggested address with address verification result "review"', () => {
+  it('should open suggested address with address verification result "review"', () => {
     spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getAllRegions').and.returnValue(of([]));
@@ -225,23 +225,23 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  fit('should call verfiyAddress()', () => {
+  it('should call verfiyAddress()', () => {
     component.verifyAddress();
     expect(mockCheckoutService.verifyAddress).toHaveBeenCalled();
   });
 
-  fit('should call back()', () => {
+  it('should call back()', () => {
     component.back();
     expect(component.backToAddress.emit).toHaveBeenCalledWith();
   });
 
-  fit('should call toggleDefaultAddress()', () => {
+  it('should call toggleDefaultAddress()', () => {
     component.address.value.defaultAddress = false;
     component.toggleDefaultAddress();
     expect(component.address.value.defaultAddress).toBeTruthy();
   });
 
-  fit('should call titleSelected()', () => {
+  it('should call titleSelected()', () => {
     const mockTitleCode = 'test title code';
     component.titleSelected({ code: mockTitleCode });
     expect(component.address['controls'].titleCode.value).toEqual(
@@ -249,7 +249,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  fit('should call countrySelected()', () => {
+  it('should call countrySelected()', () => {
     spyOn(userService, 'loadRegions').and.stub();
 
     const mockCountryIsocode = 'test country isocode';
@@ -260,7 +260,7 @@ describe('AddressFormComponent', () => {
     expect(userService.loadRegions).toHaveBeenCalled();
   });
 
-  fit('should call regionSelected()', () => {
+  it('should call regionSelected()', () => {
     const mockRegionIsocode = 'test region isocode';
     component.regionSelected({ isocode: mockRegionIsocode });
     expect(
@@ -272,7 +272,7 @@ describe('AddressFormComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.btn-primary'));
 
-    fit('should call "verifyAddress" function when being clicked and when form is valid', () => {
+    it('should call "verifyAddress" function when being clicked and when form is valid', () => {
       spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
       spyOn(userService, 'getTitles').and.returnValue(of([]));
       spyOn(userService, 'getAllRegions').and.returnValue(of([]));
