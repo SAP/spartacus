@@ -7,7 +7,7 @@ import { StoreFinderService } from './store-finder.service';
 import { WindowRef } from './window-ref';
 import { LongitudeLatitude } from '../models/longitude-latitude';
 
-fdescribe('StoreFinderService', () => {
+describe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
   let winRef: WindowRef;
