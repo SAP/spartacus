@@ -20,7 +20,7 @@ export class ProductReviewService {
     );
   }
 
-  add(productCode: string, review: any) {
+  add(productCode: string, review: any): void {
     this.store.dispatch(
       new fromStore.PostProductReview({
         productCode: productCode,

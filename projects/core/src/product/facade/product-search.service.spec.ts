@@ -86,7 +86,7 @@ describe('ProductSearchService', () => {
   });
 
   it('should be able to get auxiliary search results', () => {
-    service.auxSearchResults$.subscribe(results => {
+    service.getAuxSearchResults().subscribe(results => {
       expect(results).toEqual(mockAuxSearchResults);
     });
   });

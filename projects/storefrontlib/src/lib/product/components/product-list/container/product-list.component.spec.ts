@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { ProductListComponent } from './product-list.component';
@@ -30,6 +30,10 @@ import { ProductSearchService } from '@spartacus/core';
 class MockProductSearchService {
   search = createSpy();
   searchResults$ = of();
+
+  getSearchResults(): Observable<any> {
+    return of();
+  }
 }
 class MockActivatedRoute {
   snapshot = { queryParams: {} };

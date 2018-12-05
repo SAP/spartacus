@@ -8,20 +8,6 @@ import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
 @Injectable()
 export class ProductSearchService {
-  readonly searchResults$: Observable<any> = this.store.pipe(
-    select(fromStore.getSearchResults),
-    filter(results => Object.keys(results).length > 0)
-  );
-
-  readonly auxSearchResults$: Observable<any> = this.store.pipe(
-    select(fromStore.getAuxSearchResults),
-    filter(results => Object.keys(results).length > 0)
-  );
-
-  readonly searchSuggestions$: Observable<any> = this.store.pipe(
-    select(fromStore.getProductSuggestions)
-  );
-
   constructor(
     private store: Store<fromStore.ProductsState>,
     private router: Router
@@ -42,11 +28,19 @@ export class ProductSearchService {
     );
   }
 
-  public getSearchResults(): Observable<any> {
+  getSearchResults(): Observable<any> {
     return this.store.pipe(
       select(fromStore.getSearchResults),
       filter(results => Object.keys(results).length > 0)
     );
+  }
+
+  getAuxSearchResults(): Observable<any> {
+    return this.store.pipe(select(fromStore.getProductSuggestions));
+  }
+
+  getSearchSuggestions(): Observable<any> {
+    return this.store.pipe(select(fromStore.getProductSuggestions));
   }
 
   searchAuxiliary(query: string, searchConfig?: SearchConfig) {
