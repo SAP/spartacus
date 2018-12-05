@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { AddressValidation, Address } from '@spartacus/core';
 
 export const VERIFY_ADDRESS = '[Checkout] Verify Address';
 export const VERIFY_ADDRESS_FAIL = '[Checkout] Verify Address Fail';
@@ -9,7 +10,7 @@ export const CLEAR_ADDRESS_VERIFICATION_RESULTS =
 
 export class VerifyAddress implements Action {
   readonly type = VERIFY_ADDRESS;
-  constructor(public payload: { userId: string; address: string }) {}
+  constructor(public payload: { userId: string; address: Address }) {}
 }
 
 export class VerifyAddressFail implements Action {
@@ -19,7 +20,7 @@ export class VerifyAddressFail implements Action {
 
 export class VerifyAddressSuccess implements Action {
   readonly type = VERIFY_ADDRESS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: AddressValidation) {}
 }
 
 export class ClearAddressVerificationResults implements Action {

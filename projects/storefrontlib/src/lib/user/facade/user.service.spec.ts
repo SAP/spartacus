@@ -151,7 +151,7 @@ describe('UserService', () => {
       new fromStore.LoadUserOrdersSuccess({
         orders: [],
         pagination: {},
-        sort: []
+        sorts: []
       })
     );
 
@@ -162,7 +162,7 @@ describe('UserService', () => {
     expect(orderList).toEqual({
       orders: [],
       pagination: {},
-      sort: []
+      sorts: []
     });
   });
 
@@ -265,6 +265,26 @@ describe('UserService', () => {
     service.loadPaymentMethods('testUserId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadUserPaymentMethods('testUserId')
+    );
+  });
+
+  it('should dispatch proper action for setPaymentMethodAsDefault', () => {
+    service.setPaymentMethodAsDefault('userId', 'paymentMethodId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.SetDefaultUserPaymentMethod({
+        userId: 'userId',
+        paymentMethodId: 'paymentMethodId'
+      })
+    );
+  });
+
+  it('should dispatch proper action for deleteUserPaymentMethod', () => {
+    service.deleteUserPaymentMethod('userId', 'paymentMethodId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.DeleteUserPaymentMethod({
+        userId: 'userId',
+        paymentMethodId: 'paymentMethodId'
+      })
     );
   });
 

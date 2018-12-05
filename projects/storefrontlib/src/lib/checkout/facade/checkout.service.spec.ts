@@ -1,11 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
-import { Address } from '@spartacus/core';
 import * as fromCheckout from '../store';
 import { CartDataService } from '../../cart/facade';
-
 import { CheckoutService } from './checkout.service';
+import { Address, PaymentDetails } from '@spartacus/core';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
@@ -14,11 +13,18 @@ describe('CheckoutService', () => {
   const userId = 'testUserId';
   const cart = { code: 'testCartId', guid: 'testGuid' };
 
+  const paymentDetails: PaymentDetails = {
+    id: 'mockPaymentDetails'
+  };
+
   const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart'
+    line1: 'Toyosaki 2 create on cart',
+    town: 'Montreal',
+    postalCode: 'L6M1P9',
+    country: { isocode: 'CA' }
   };
 
   beforeEach(() => {
@@ -107,15 +113,13 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the delivery address', () => {
-    store.dispatch(
-      new fromCheckout.SetDeliveryAddressSuccess({ id: 'addressId' })
-    );
+    store.dispatch(new fromCheckout.SetDeliveryAddressSuccess(address));
 
     let deliveryAddress;
     service.deliveryAddress$.subscribe(data => {
       deliveryAddress = data;
     });
-    expect(deliveryAddress).toEqual({ id: 'addressId' });
+    expect(deliveryAddress).toEqual(address);
   });
 
   it('should be able to get the address verification result', () => {
@@ -131,15 +135,13 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the payment details', () => {
-    store.dispatch(
-      new fromCheckout.SetPaymentDetailsSuccess({ id: 'payment id' })
-    );
+    store.dispatch(new fromCheckout.SetPaymentDetailsSuccess(paymentDetails));
 
-    let paymentDetails;
+    let tempPaymentDetails;
     service.paymentDetails$.subscribe(data => {
-      paymentDetails = data;
+      tempPaymentDetails = data;
     });
-    expect(paymentDetails).toEqual({ id: 'payment id' });
+    expect(tempPaymentDetails).toEqual(paymentDetails);
   });
 
   it('should be able to get the order details', () => {
@@ -207,15 +209,14 @@ describe('CheckoutService', () => {
   it('should be able to create payment details', () => {
     cartData.userId = userId;
     cartData.cart = cart;
-    const paymentInfo = 'mockInfo';
 
-    service.createPaymentDetails(paymentInfo);
+    service.createPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.CreatePaymentDetails({
         userId: userId,
         cartId: cart.code,
-        paymentDetails: paymentInfo
+        paymentDetails
       })
     );
   });
@@ -235,15 +236,18 @@ describe('CheckoutService', () => {
   });
 
   it('should load address verification results', () => {
+    const testAddress: Address = {
+      id: 'testAddress1'
+    };
     cartData.userId = userId;
     cartData.cart = cart;
 
-    service.verifyAddress('mockAddress');
+    service.verifyAddress(testAddress);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.VerifyAddress({
         userId: userId,
-        address: 'mockAddress'
+        address: testAddress
       })
     );
   });
@@ -266,13 +270,13 @@ describe('CheckoutService', () => {
     cartData.userId = userId;
     cartData.cart = cart;
 
-    service.setPaymentDetails('mockPaymentDetails');
+    service.setPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.SetPaymentDetails({
         userId: userId,
         cartId: cartData.cart.code,
-        paymentDetails: 'mockPaymentDetails'
+        paymentDetails
       })
     );
   });

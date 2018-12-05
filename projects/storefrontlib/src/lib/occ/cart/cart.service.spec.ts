@@ -3,11 +3,11 @@ import { OccCartService } from './cart.service';
 import {
   OccConfig,
   Address,
-  DeliveryMode,
   Cart,
   CartList,
   CartModification,
-  PaymentDetails
+  PaymentDetails,
+  DeliveryModeList
 } from '@spartacus/core';
 import {
   HttpClientTestingModule,
@@ -373,11 +373,11 @@ describe('OccCartService', () => {
 
   describe('get all supported delivery modes for cart', () => {
     it('should get all supported delivery modes for cart for given user id and cart id', () => {
-      const mockDeliveryMode: DeliveryMode = {
-        name: 'mockDeliveryMode'
+      const mockDeliveryModes: DeliveryModeList = {
+        deliveryModes: [{ name: 'mockDeliveryMode' }]
       };
       service.getSupportedDeliveryModes(userId, cartId).subscribe(result => {
-        expect(result).toEqual(mockDeliveryMode);
+        expect(result).toEqual(mockDeliveryModes);
       });
 
       const mockReq = httpMock.expectOne(req => {
@@ -394,7 +394,7 @@ describe('OccCartService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mockDeliveryMode);
+      mockReq.flush(mockDeliveryModes);
     });
   });
 
