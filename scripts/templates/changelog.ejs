@@ -63,32 +63,35 @@
         continue;
     }
 %>
-<tr><td colspan=3><h3><%
-  if (scope) {
-    %><%= scope %> (<%= packages[scope].version %>)<%
-  } else {
-    %>Misc<%
-  }
-%></h3></td></tr>
-  <tr>
-    <td><b>Commit</b>
-    <td><b>Description</b>
-    <td><b>Notes</b>
-  </tr>
-<%
-    let nbRows = 0;
-    for (const commit of scopeCommits) {
-        nbRows++;
-        switch (commit.type) {
-            case 'fix': %><%- include('./changelog-fix', commit) %><% break;
-            case 'feat': %><%- include('./changelog-feat', commit) %><% break;
-        }
+<% if (scope === library || !library) { %>
+  <tr><td colspan=3><h3><%
+    if (scope) {
+      %><%= scope %> (<%= packages[scope].version %>)<%
+    } else {
+      %>Misc<%
     }
-    // Add an empty row to get the alternating colors in sync.
-    if (scope != scopes[scopes.length - 1] && nbRows % 2) { %>
-<tr></tr>
-    <% } %>
+  %></h3></td></tr>
+    <tr>
+      <td><b>Commit</b>
+      <td><b>Description</b>
+      <td><b>Notes</b>
+    </tr>
+  <%
+      let nbRows = 0;
+      for (const commit of scopeCommits) {
+          nbRows++;
+          switch (commit.type) {
+              case 'fix': %><%- include('./changelog-fix', commit) %><% break;
+              case 'feat': %><%- include('./changelog-feat', commit) %><% break;
+          }
+      }
+      // Add an empty row to get the alternating colors in sync.
+      if (scope != scopes[scopes.length - 1] && nbRows % 2 && !library) { %>
+        <tr></tr>
+      <% } %>
+  <% } %>
 <% } %>
 </tbody>
 </table>
 ----
+

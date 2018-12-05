@@ -23,7 +23,7 @@ export interface ChangelogOptions {
   to?: string;
   githubTokenFile?: string;
   githubToken?: string;
-
+  library?: string;
   stdout?: boolean;
 }
 
@@ -146,6 +146,7 @@ program
   .option('--verbose', 'Print output')
   .option('--githubToken <token>', 'Github token for release generation')
   .option('--tokenFile <pathToFile>', 'File with github token')
+  .option('--lib <lib>', 'Changelog for passed library')
   .parse(process.argv);
 
 const config = {
@@ -153,7 +154,8 @@ const config = {
   to: program.to,
   stdout: program.verbose || false,
   githubToken: program.githubToken,
-  githubTokenFile: program.tokenFile
+  githubTokenFile: program.tokenFile,
+  library: program.lib
 };
 
 if (typeof config.from === 'undefined') {
@@ -173,6 +175,24 @@ if (typeof config.from === 'undefined') {
     )
   );
   process.exit(1);
+} else if (typeof config.library === 'string') {
+  switch (config.library) {
+    case 'core':
+    case '@spartacus/core':
+      config.library = '@spartacus/core';
+      break;
+    case 'storefrontlib':
+    case '@spartacus/storefrontlib':
+      config.library = '@spartacus/storefrontlib';
+      break;
+    case 'styles':
+    case '@spartacus/styles':
+    case 'storefrontstyles':
+      config.library = '@spartacus/styles';
+      break;
+    default:
+      config.library = undefined;
+  }
 }
 
 run(config, new logging.NullLogger());
