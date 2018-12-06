@@ -54,4 +54,8 @@ describe('Address management page', () => {
     await addressBookPage.deleteAddress();
     expect(addressBookPage.addressCards.count()).toEqual(1);
   });
+
+  it('should logout user', async () => {
+    await LoginHelper.logOutViaHeader();
+  });
 });
