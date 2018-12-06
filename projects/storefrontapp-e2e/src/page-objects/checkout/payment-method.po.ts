@@ -17,6 +17,10 @@ export class PaymentMethod {
 
   readonly paymentForm: PaymentForm = new PaymentForm(this.container);
 
+  readonly addNewPaymentMethodButton: ElementFinder = this.container.element(
+    by.css('.btn-action')
+  );
+
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.container);
   }
