@@ -1,6 +1,52 @@
 $useTabsOnPDP: false !default;
 
 %pdpTabs {
+  > div {
+    background: var(--cx-background-color, var(--cx-background));
+    &:not(.active) {
+      display: none;
+    }
+    .container > h4 {
+      display: none;
+    }
+  }
+  > h3 {
+    &.active,
+    &:hover {
+      color: var(--cx-color, var(--cx-primary));
+    }
+    &:not(.active) {
+      cursor: pointer;
+    }
+
+    // border effect
+    &:after {
+      content: '';
+      display: block;
+      margin: 10px auto auto auto;
+      height: var(--cx-height, 5px);
+      background: var(--cx-color, var(--cx-primary));
+
+      // the tab hover effect uses a border in the :after pseudo
+      // that is animated from 0% to 100% width
+      width: 0;
+      opacity: var(--cx-opacity, 0);
+      transition: all var(--cx-transition-time, 0.6s);
+    }
+
+    &.active:after,
+    &:hover:after {
+      width: 100%;
+    }
+    &.active:after,
+    &.active:hover:after {
+      opacity: var(--cx-opacity, 1);
+    }
+    &:not(.active):hover:after {
+      opacity: var(--cx-opacity, 0.5);
+    }
+  }
+
   @include media-breakpoint-up(md) {
     display: grid;
     grid-template-columns: auto repeat(4, 14vw) auto;
@@ -12,41 +58,8 @@ $useTabsOnPDP: false !default;
       text-align: center;
       margin: 0;
 
-      &:not(.active) {
-        cursor: pointer;
-      }
       &:first-of-type {
         grid-column: 2;
-      }
-      &.active {
-        color: var(--cx-color, var(--cx-primary));
-      }
-
-      // border effect
-      &:after {
-        content: '';
-        display: block;
-        margin: 10px auto auto auto;
-        height: var(--cx-height, 5px);
-        background: var(--cx-color, var(--cx-primary));
-
-        // the tab hover effect uses a border in the :after pseudo
-        // that is animated from 0% to 100% width
-        width: 0;
-        opacity: var(--cx-opacity, 0);
-        transition: all var(--cx-transition-time, 0.6s);
-      }
-
-      &.active:after,
-      &:hover:after {
-        width: 100%;
-      }
-      &.active:after,
-      &.active:hover:after {
-        opacity: var(--cx-opacity, 1);
-      }
-      &:not(.active):hover:after {
-        opacity: var(--cx-opacity, 0.5);
       }
     }
 
@@ -54,17 +67,9 @@ $useTabsOnPDP: false !default;
     > div {
       order: 2;
       grid-column: 1 / span 6;
-      background: var(--cx-background-color, var(--cx-background));
       padding: 50px 10vw;
-
       border-top: var(--cx-border-width, 1px)
         var(--cx-border-color, var(--cx-light)) var(--cx-border-style, solid);
-      &:not(.active) {
-        display: none;
-      }
-      .container > h4 {
-        display: none;
-      }
     }
   }
 }
