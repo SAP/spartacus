@@ -4,14 +4,17 @@ import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import { GlobalMessage, GlobalMessageType } from '../models/message.model';
+import {
+  GlobalMessage,
+  GlobalMessageType
+} from '../models/global-message.model';
 
 @Injectable()
 export class GlobalMessageService {
   readonly messages$: Observable<
     Map<GlobalMessageType, string[]>
   > = this.store.pipe(
-    select(fromStore.getGlobalMessagesEntities),
+    select(fromStore.getGlobalMessageEntities),
     filter(data => data !== undefined)
   );
 

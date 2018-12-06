@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { GlobalMessageService } from '../facade/global-message.service';
-import { GlobalMessageType } from './../models/message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 @Component({
   selector: 'cx-global-message',

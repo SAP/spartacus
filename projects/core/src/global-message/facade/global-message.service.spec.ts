@@ -5,7 +5,10 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
-import { GlobalMessageType, GlobalMessage } from '../models/message.model';
+import {
+  GlobalMessageType,
+  GlobalMessage
+} from '../models/global-message.model';
 import { GlobalMessageService } from './global-message.service';
 
 const mockMessages = new Map<GlobalMessageType, string[]>();
@@ -24,7 +27,10 @@ describe('GlobalMessageService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('messages', fromStore.getReducers())
+        StoreModule.forFeature(
+          fromStore.GLOBAL_MESSAGE_FEATURE,
+          fromStore.getReducers()
+        )
       ],
       providers: [GlobalMessageService]
     });

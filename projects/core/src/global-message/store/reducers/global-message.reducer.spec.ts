@@ -1,6 +1,9 @@
 import * as fromGlobalMessage from './global-message.reducer';
 import * as fromActions from './../actions';
-import { GlobalMessage, GlobalMessageType } from '../../models/message.model';
+import {
+  GlobalMessage,
+  GlobalMessageType
+} from '../../models/global-message.model';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
