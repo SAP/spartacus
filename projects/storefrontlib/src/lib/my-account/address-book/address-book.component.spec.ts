@@ -9,6 +9,7 @@ import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { CheckoutService } from '../../checkout/facade';
 import { StoreModule } from '@ngrx/store';
+import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 
 const mockAddress = {
   id: '123',
@@ -51,6 +52,7 @@ describe('AddressBookComponent', () => {
   let mockUserService;
   let mockCheckoutService;
   let el: DebugElement;
+  let mockGlobalMessageService: any;
   const addresses = new BehaviorSubject<any>({
     isLoading: false,
     isActionProcessing: false,
@@ -81,6 +83,10 @@ describe('AddressBookComponent', () => {
       verifyAddress: jasmine.createSpy()
     };
 
+    mockGlobalMessageService = {
+      add: jasmine.createSpy()
+    };
+
     TestBed.configureTestingModule({
       imports: [
         AddressBookModule,
@@ -90,7 +96,8 @@ describe('AddressBookComponent', () => {
       ],
       providers: [
         { provide: UserService, useValue: mockUserService },
-        { provide: CheckoutService, useValue: mockCheckoutService }
+        { provide: CheckoutService, useValue: mockCheckoutService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
     }).compileComponents();
   }));

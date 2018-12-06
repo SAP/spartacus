@@ -2,6 +2,7 @@ import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 import { AddressBookPageLayoutModule } from './address-book-page-layout.module';
 import { AddressBookPageLayoutComponent } from './address-book-page-layout.component';
 import { StoreModule } from '@ngrx/store';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 
 describe('AddressBookPageLayoutComponent', () => {
   let component: AddressBookPageLayoutComponent;
@@ -9,7 +10,8 @@ describe('AddressBookPageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddressBookPageLayoutModule, StoreModule.forRoot({})]
+      imports: [AddressBookPageLayoutModule, StoreModule.forRoot({})],
+      providers: [GlobalMessageService]
     }).compileComponents();
   }));
 
