@@ -1,8 +1,6 @@
 $useTabsOnPDP: false !default;
 
 %pdpTabs {
-  display: grid;
-
   > div {
     background: var(--cx-background-color, var(--cx-background));
     &:not(.active) {
@@ -78,6 +76,7 @@ $useTabsOnPDP: false !default;
   }
 
   @include media-breakpoint-up(md) {
+    display: grid;
     grid-template-columns: auto repeat(4, 14vw) auto;
 
     > h3 {
