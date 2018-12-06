@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { CartNotEmptyGuard, AuthGuard } from '@spartacus/core';
-
+import { AuthGuard } from '@spartacus/core';
+import { CartNotEmptyGuard } from '../../../cart/guards/cart-not-empty.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { MultiStepCheckoutPageLayoutModule } from '../../layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.component';

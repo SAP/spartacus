@@ -4,7 +4,7 @@ import { CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { skipWhile, map, switchMap } from 'rxjs/operators';
 
-import { CartService } from '../facade/cart.service';
+import { CartService } from '@spartacus/core';
 
 @Injectable()
 export class CartNotEmptyGuard implements CanActivate {
