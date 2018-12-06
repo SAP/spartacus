@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '../../occ';
+import { OccConfig } from '../../occ/config/occ-config';
 import { Order, OrderHistoryList } from '../../occ-models';
 
 // To be changed to a more optimised params after ticket: C3PO-1076

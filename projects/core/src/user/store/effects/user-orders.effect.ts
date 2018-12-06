@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { OccOrderService } from '../../occ/index';
-import { OrderHistoryList } from '../../../occ-models/index';
+import { OrderHistoryList } from '../../../occ-models/occ.models';
 
 @Injectable()
 export class UserOrdersEffect {

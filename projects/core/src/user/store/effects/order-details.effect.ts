@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OccOrderService } from '../../occ';
+import { OccOrderService } from '../../occ/index';
 
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { ProductImageConverterService } from '../../../product';

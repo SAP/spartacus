@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { OccUserService } from '../../occ';
+import { OccUserService } from '../../occ/index';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { AddressList } from '../../../occ-models';
 

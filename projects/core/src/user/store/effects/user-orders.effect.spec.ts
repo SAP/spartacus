@@ -6,8 +6,8 @@ import * as fromUserOrdersEffect from './user-orders.effect';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
-import { OccConfig } from '../../../occ';
-import { OccOrderService } from '../../occ';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { OccOrderService } from '../../occ/index';
 
 const mockUserOrders = {
   orders: [],

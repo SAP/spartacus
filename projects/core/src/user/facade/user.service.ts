@@ -11,7 +11,7 @@ import {
   Title,
   Country,
   Region
-} from '../../occ-models/index';
+} from '../../occ-models/occ.models';
 
 @Injectable()
 export class UserService {

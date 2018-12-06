@@ -10,7 +10,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN
 } from '../../occ/utils/interceptor-util';
-import { OccConfig } from '../../occ';
+import { OccConfig } from '../../occ/config/occ-config';
 import {
   User,
   Address,

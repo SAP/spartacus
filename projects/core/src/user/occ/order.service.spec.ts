@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
 import { Order } from '../../occ-models';
-import { OccConfig } from '../../occ';
+import { OccConfig } from '../../occ/config/occ-config';
 import { OccOrderService } from '..';
 
 const userId = '123';
