@@ -398,7 +398,19 @@ describe('MultiStepCheckoutComponent', () => {
     );
   });
 
-  it('should show terms and conditions only on step 4', () => {
+  it('should show terms and conditions on step 4, and only step 4', () => {
+    mockAllSteps();
+    component.ngOnInit();
+
+    const getPlaceOrderForm = () =>
+      fixture.debugElement.query(
+        By.css('.cx-multi-step-checkout__place-order-form')
+      );
+
+    expect(getPlaceOrderForm()).toBeTruthy();
+  });
+
+  it('should show terms and conditions on step 4 only', () => {
     component.ngOnInit();
 
     const getPlaceOrderForm = () =>
@@ -407,9 +419,6 @@ describe('MultiStepCheckoutComponent', () => {
       );
 
     expect(getPlaceOrderForm()).toBeFalsy();
-
-    mockAllSteps();
-    expect(getPlaceOrderForm()).toBeTruthy();
   });
 
   it('should call setStep(3) when back button clicked', () => {
