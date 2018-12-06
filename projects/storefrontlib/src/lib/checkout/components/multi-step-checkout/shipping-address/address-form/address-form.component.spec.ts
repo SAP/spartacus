@@ -14,6 +14,7 @@ import { GlobalMessageService } from '../../../../../global-message/facade/globa
 import { UserService } from '../../../../../user/facade/user.service';
 
 import { AddressFormComponent } from './address-form.component';
+import { AddressValidation } from '@spartacus/core';
 
 const mockTitles = [
   {
@@ -49,7 +50,7 @@ const mockRegions = [
 class MockCheckoutService {
   clearAddressVerificationResults = createSpy();
   verifyAddress = createSpy();
-  getAddressVerificationResults(): Observable<any> {
+  getAddressVerificationResults(): Observable<AddressValidation> {
     return of({ decision: 'ACCEPT' });
   }
 }

@@ -16,7 +16,8 @@ import {
   PaymentDetails,
   DeliveryMode,
   CardType,
-  Order
+  Order,
+  AddressValidation
 } from '@spartacus/core';
 
 @Injectable()
@@ -52,7 +53,7 @@ export class CheckoutService {
     );
   }
 
-  getAddressVerificationResults(): Observable<any> {
+  getAddressVerificationResults(): Observable<AddressValidation> {
     return this.checkoutStore.pipe(
       select(fromCheckoutStore.getAddressVerificationResults),
       filter(results => Object.keys(results).length !== 0)
