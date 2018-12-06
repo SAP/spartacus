@@ -13,8 +13,8 @@ import { OccConfig } from '../../occ/config/occ-config';
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
   baseReqString: string;
-  activeLang = this.config.site.language;
-  activeCurr = this.config.site.currency;
+  activeLang: string = this.config.site.language;
+  activeCurr: string = this.config.site.currency;
 
   constructor(
     private languageService: LanguageService,

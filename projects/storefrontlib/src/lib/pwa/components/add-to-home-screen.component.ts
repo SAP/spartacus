@@ -10,7 +10,7 @@ export abstract class AddToHomeScreenComponent implements OnInit {
     this.canPrompt$ = this.addToHomeScreenService.canPrompt$;
   }
 
-  prompt() {
+  prompt(): void {
     this.addToHomeScreenService.firePrompt();
   }
 }

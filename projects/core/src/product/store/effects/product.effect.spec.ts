@@ -15,6 +15,7 @@ import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
 
+import { Product } from '../../../occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
@@ -43,7 +44,7 @@ describe('Product Effects', () => {
   let effects: fromEffects.ProductEffects;
 
   const productCode = 'testCode';
-  const product = {
+  const product: Product = {
     code: 'testCode',
     name: 'testProduct'
   };

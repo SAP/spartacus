@@ -7,13 +7,11 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+
 import { Observable, Subscription } from 'rxjs';
 
-import { UserToken } from '../../../auth/models/token-types.model';
-
-import { AuthService } from '../../../auth/facade/auth.service';
 import { UserService } from '../../facade/user.service';
-import { RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',
@@ -21,7 +19,7 @@ import { RoutingService } from '@spartacus/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<any>;
+  user$: Observable<User>;
   isLogin = false;
 
   subscription: Subscription;
@@ -52,18 +50,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.user$ = this.userService.user$;
 
-    this.subscription = this.auth.userToken$.subscribe((token: UserToken) => {
-      if (token && token.access_token && !this.isLogin) {
-        this.isLogin = true;
-        this.userService.loadUserDetails(token.userId);
-        this.auth.login();
-      } else if (token && !token.access_token && this.isLogin) {
-        this.isLogin = false;
-      }
-    });
+    this.subscription = this.auth
+      .getUserToken()
+      .subscribe((token: UserToken) => {
+        if (token && token.access_token && !this.isLogin) {
+          this.isLogin = true;
+          this.userService.loadUserDetails(token.userId);
+          this.auth.login();
+        } else if (token && !token.access_token && this.isLogin) {
+          this.isLogin = false;
+        }
+      });
   }
 
-  logout() {
+  logout(): void {
     this.isLogin = false;
     this.auth.logout();
 

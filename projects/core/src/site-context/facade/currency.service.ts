@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { filter } from 'rxjs/operators';
+import { Currency } from '../../occ-models';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
@@ -15,7 +16,7 @@ export class CurrencyService {
   /**
    * Represents all the currencies supported by the current store.
    */
-  getAll(): Observable<fromStore.LanguagesEntities> {
+  getAll(): Observable<Currency[]> {
     this.store.dispatch(new fromStore.LoadCurrencies());
     return this.store.pipe(select(fromStore.getAllCurrencies));
   }

@@ -9,10 +9,11 @@ import { StateWithSiteContext } from '../store/state';
 import { CurrencyService } from './currency.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { Currency } from '../../occ-models/occ.models';
 
 import { SiteContextModule } from '../site-context.module';
 
-const mockCurrencies: any[] = [
+const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
 ];
 

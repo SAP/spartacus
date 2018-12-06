@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { RoutingService } from '@spartacus/core';
 
@@ -9,7 +8,7 @@ import { RoutingService } from '@spartacus/core';
   styleUrls: ['./product-page.component.scss']
 })
 export class ProductPageComponent implements OnInit, OnDestroy {
-  productCode;
+  productCode: string;
   subscription: Subscription;
 
   constructor(private routingService: RoutingService) {}

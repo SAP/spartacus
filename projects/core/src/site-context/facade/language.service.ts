@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { filter } from 'rxjs/operators';
+import { Language } from '../../occ-models';
 
 /**
  * Facade that provides easy access to language state, actions and selectors.
@@ -15,7 +16,7 @@ export class LanguageService {
   /**
    * Represents all the languages supported by the current store.
    */
-  getAll(): Observable<fromStore.LanguagesEntities> {
+  getAll(): Observable<Language[]> {
     this.store.dispatch(new fromStore.LoadLanguages());
     return this.store.pipe(select(fromStore.getAllLanguages));
   }

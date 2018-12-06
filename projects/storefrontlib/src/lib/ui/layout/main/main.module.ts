@@ -28,6 +28,6 @@ import { PwaModule } from './../../../pwa/pwa.module';
     PwaModule
   ],
   declarations: [StorefrontComponent, FooterComponent],
-  exports: [StorefrontComponent, FooterComponent]
+  exports: [StorefrontComponent]
 })
 export class MainModule {}
