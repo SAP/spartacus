@@ -58,7 +58,7 @@ describe('CheckoutService', () => {
     );
 
     let deliveryModes;
-    service.supportedDeliveryModes$.subscribe(data => {
+    service.getSupportedDeliveryModes().subscribe(data => {
       deliveryModes = data;
     });
     expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);

@@ -1,5 +1,5 @@
 <div class="cx-delivery-mode-form container">
-  <div class="row ">
+  <div class="row">
     <div class="col-md-12 col-lg-9">
       <!-- TITLE -->
       <h3 class="cx-delivery-mode-form__title d-none d-lg-block d-xl-block">
@@ -9,8 +9,7 @@
       <div [formGroup]="mode">
         <div
           class="form-check"
-          *ngFor="let mode of (supportedDeliveryModes$ | async)"
-        >
+          *ngFor="let mode of (supportedDeliveryModes$ | async)">
           <input
             class="form-check-input"
             role="radio"
@@ -20,11 +19,11 @@
             aria-checked="true"
             [value]="mode.code"
             formControlName="deliveryModeId"
-          />
+            />
           <label
-            class="cx-delivery-mode-form__label form-check-label form-radio-label"
-            for="deliveryMode-{{mode.code}}"
-          >
+            class="cx-delivery-mode-form__label form-check-label
+            form-radio-label"
+            for="deliveryMode-{{mode.code}}">
             <div class="cx-delivery-mode-form__label--shipping-mode">
               {{ mode.name }}
             </div>
@@ -48,8 +47,7 @@
             <button
               class="btn btn-block btn-primary"
               [disabled]="deliveryModeInvalid"
-              (click)="next()"
-            >
+              (click)="next()">
               Continue
             </button>
           </div>

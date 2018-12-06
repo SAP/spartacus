@@ -11,14 +11,10 @@ import {
   CartDataService,
   ANONYMOUS_USERID
 } from '../../cart/facade/cart-data.service';
-import { Address, PaymentDetails } from '@spartacus/core';
+import { Address, PaymentDetails, DeliveryMode } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
-  readonly supportedDeliveryModes$: Observable<any> = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getSupportedDeliveryModes)
-  );
-
   readonly selectedDeliveryMode$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSelectedDeliveryMode)
   );
@@ -54,6 +50,12 @@ export class CheckoutService {
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
     private cartData: CartDataService
   ) {}
+
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getSupportedDeliveryModes)
+    );
+  }
 
   createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
