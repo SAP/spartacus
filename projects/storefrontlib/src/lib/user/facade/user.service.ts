@@ -9,12 +9,11 @@ import {
   Address,
   Region,
   Title,
-  Country
+  Country,
+  OrderHistoryList
 } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
-
-import { OrderHistoryList } from 'projects/backend/occ-client/lib/models';
 
 import * as fromStore from '../store';
 
