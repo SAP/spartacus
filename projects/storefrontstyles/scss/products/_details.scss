@@ -105,7 +105,7 @@ $useTabsOnPDP: false !default;
     // the div elements contain the content and will be rendered after the tabs
     > div {
       order: 2;
-      grid-column: 1;
+      grid-column-start: 1;
       grid-column-end: -1;
       padding: 50px 0;
       border-top: var(--cx-border-width, 1px)
