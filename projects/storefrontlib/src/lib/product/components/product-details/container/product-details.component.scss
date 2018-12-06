@@ -2,22 +2,10 @@
 @import 'functions';
 @import 'mixins';
 $cx-product-details-trbl-margin: 0 0 40px 0 !default;
-$cx-product-details-table-width: 100% !default;
-$cx-product-details-tab-content-background-color: 'background' !default;
 $cx-product-details-tab-title-color: 'text' !default;
+$cx-product-details-tab-content-background-color: 'background' !default;
 $cx-product-details-tab-title-trbl-padding: 0 20px 0 20px !default;
-$cx-product-details-tab-border-color: 'primary' !default;
 $cx-product-details-tab-content-trbl-padding: 3rem 8rem !default;
-$cx-accordian-mobile-background-color: 'inverse' !default;
-$cx-accordian-mobile-body-background-color: 'background' !default;
-$cx-accordion-mobile-body-padding: 30px 20px 20px 20px !default;
-$cx-accordion-mobile-head-border: 1px solid !default;
-$cx-accordion-mobile-head-border-color: 'light' !default;
-$cx-accordion-mobile-head-trbl-padding: 0 !default;
-$cx-accordion-mobile-head-link-color: 'text' !default;
-$cx-accordion-mobile-head-link-padding: 25px 20px !default;
-$cx-accordion-mobile-head-btn-border: 5px solid !default;
-$cx-accordion-mobile-head-btn-height: 74px !default;
 
 cx-product-summary {
   margin: $cx-product-details-trbl-margin;
