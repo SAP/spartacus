@@ -55,6 +55,20 @@ $useTabsOnPDP: false !default;
         var(--cx-border-color, var(--cx-light)) var(--cx-border-style, solid);
       font-size: 18px;
       padding: 15px 0 0 0;
+      &:before {
+        content: '+';
+        margin: 5px 15px;
+        float: right;
+        font-size: 33px;
+        bottom: 12px;
+        position: relative;
+        color: var(--cx-color, var(--cx-text));
+      }
+      &.active {
+        &:before {
+          content: '–';
+        }
+      }
     }
     > div {
       padding: 15px 5px;
