@@ -91,7 +91,7 @@ class MockOrderSummaryComponent {
   cart: any;
 }
 
-fdescribe('MultiStepCheckoutComponent', () => {
+describe('MultiStepCheckoutComponent', () => {
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
 
@@ -101,29 +101,16 @@ fdescribe('MultiStepCheckoutComponent', () => {
   let mockRoutingService: any;
   let mockGlobalMessageService: any;
 
-  // const mockAllSteps = () => {
-  //   mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
-  //   spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
-  //     of(mockSelectedCode)
-  //   );
-  //   mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
-  //   mockCheckoutService.orderDetails$.next(mockOrderDetails);
-  // };
+  const mockAllSteps = () => {
+    mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+      of(mockSelectedCode)
+    );
+    mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
+    mockCheckoutService.orderDetails$.next(mockOrderDetails);
+  };
 
   beforeEach(async(() => {
-    // mockCheckoutService = {
-    //   deliveryAddress$: new BehaviorSubject({}),
-    //   selectedDeliveryModeCode$: new BehaviorSubject(''),
-    //   paymentDetails$: new BehaviorSubject({}),
-    //   orderDetails$: new BehaviorSubject({}),
-    //   clearCheckoutData: createSpy(),
-    //   createAndSetAddress: createSpy(),
-    //   setDeliveryAddress: createSpy(),
-    //   setDeliveryMode: createSpy(),
-    //   createPaymentDetails: createSpy(),
-    //   setPaymentDetails: createSpy(),
-    //   placeOrder: createSpy()
-    // };
     mockCartService = {
       activeCart$: new BehaviorSubject({}),
       loadCartDetails: createSpy()
@@ -166,15 +153,6 @@ fdescribe('MultiStepCheckoutComponent', () => {
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'nextStep').and.callThrough();
   });
-
-  const mockAllSteps = () => {
-    mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
-    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
-      of(mockSelectedCode)
-    );
-    mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
-    mockCheckoutService.orderDetails$.next(mockOrderDetails);
-  };
 
   it('should be created', () => {
     expect(component).toBeTruthy();
