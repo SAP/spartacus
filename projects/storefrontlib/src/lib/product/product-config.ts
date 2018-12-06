@@ -1,13 +1,17 @@
 export abstract class ProductModuleConfig {
-  styles?: {
-    blue?: boolean;
-    imageSpinner?: boolean;
+  product?: {
+    styles?: {
+      blue?: boolean;
+      imageSpinner?: boolean;
+    };
   };
 }
 
 export const defaultProductConfig: ProductModuleConfig = {
-  styles: {
-    blue: false,
-    imageSpinner: false
+  product: {
+    styles: {
+      blue: false,
+      imageSpinner: false
+    }
   }
 };

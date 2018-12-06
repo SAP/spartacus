@@ -25,8 +25,10 @@ if (!environment.production) {
         enabled: true,
         addToHomeScreen: true
       },
-      styles: {
-        blue: true
+      product: {
+        styles: {
+          blue: true
+        }
       }
     }),
     ...devImports

@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { StylingDirective } from '../styling/styling.directive';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { CmsModule } from '../../../cms/cms.module';
 import { OutletModule } from '../../../outlet/index';
+import { StylingModule } from '../../../styling/styling.module';
 import { ComponentsModule } from './../../../ui/components/components.module';
 import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
 import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
@@ -28,15 +28,15 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     CmsModule,
     AddToCartModule,
     BootstrapModule,
-    OutletModule
+    OutletModule,
+    StylingModule
   ],
   declarations: [
     ProductSummaryComponent,
     ProductAttributesComponent,
     ProductDetailsComponent,
     ProductImagesComponent,
-    ProductReviewsComponent,
-    StylingDirective
+    ProductReviewsComponent
   ],
   exports: [
     ProductDetailsComponent,

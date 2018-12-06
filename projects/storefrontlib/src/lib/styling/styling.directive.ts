@@ -7,7 +7,7 @@ import {
   ElementRef,
   Input
 } from '@angular/core';
-import { ProductModuleConfig } from '../../product-config';
+import { ProductModuleConfig } from '../product/product-config';
 
 @Directive({
   selector: '[cxStylingDirective]'
@@ -24,7 +24,7 @@ export class StylingDirective implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.config.styles) {
+    if (this.config.product.styles) {
       this.insjectStyle();
     }
   }
@@ -33,7 +33,7 @@ export class StylingDirective implements OnInit {
     // this.vcr.createEmbeddedView(this.templateRef, {
     //   $implicit: 'red'
     // });
-    if (this.config.styles.blue) {
+    if (this.config.product.styles.blue) {
       this.renderer.setProperty(
         this.el.nativeElement,
         'innerHTML',
