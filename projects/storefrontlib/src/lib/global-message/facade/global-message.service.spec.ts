@@ -43,7 +43,7 @@ describe('GlobalMessageService', () => {
   ));
 
   it('should be able to get all messages', () => {
-    service.messages$.subscribe(results => {
+    service.getAllMessages().subscribe(results => {
       expect(results).toEqual(mockMessages);
     });
   });
