@@ -14,6 +14,7 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { Product } from '../../../occ-models';
 import { LanguageChange } from '../../../site-context/store/actions/languages.action';
 import { OccConfig } from '../../../occ/config/occ-config';
 
@@ -43,7 +44,7 @@ describe('Product Effects', () => {
   let effects: fromEffects.ProductEffects;
 
   const productCode = 'testCode';
-  const product = {
+  const product: Product = {
     code: 'testCode',
     name: 'testProduct'
   };
