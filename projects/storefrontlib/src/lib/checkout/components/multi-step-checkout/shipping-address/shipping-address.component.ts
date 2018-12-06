@@ -41,23 +41,20 @@ export class ShippingAddressComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.userService.addressesLoading$;
-
+    this.userService.loadAddresses(this.cartData.userId);
     this.existingAddresses$ = this.userService.addresses$.pipe(
       tap(addresses => {
-        if (addresses.length === 0) {
-          this.userService.loadAddresses(this.cartData.userId);
-        } else {
-          if (this.cards.length === 0) {
-            addresses.forEach(address => {
-              const card = this.getCardContent(address);
-              if (
-                this.selectedAddress &&
-                this.selectedAddress.id === address.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        console.log('addresses, condition:', addresses, addresses.length === 0);
+        if (this.cards.length === 0) {
+          addresses.forEach(address => {
+            const card = this.getCardContent(address);
+            if (
+              this.selectedAddress &&
+              this.selectedAddress.id === address.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );
