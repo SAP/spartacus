@@ -25,6 +25,7 @@
           <h3 (click)="select($event, specifications)">Specs</h3>
           <div #specifications>
             <div class="container">
+              <h2>Specs</h2>
               <cx-product-attributes
                 class="container"
                 [product]="product"
@@ -39,6 +40,7 @@
           </h3>
           <div #reviews>
             <div class="container">
+              <h2>Reviews ({{ product?.numberOfReviews }})</h2>
               <cx-product-reviews
                 class="container"
                 [(isWritingReview)]="isWritingReview"
@@ -52,6 +54,7 @@
           <h3 (click)="select($event, shipping)">Shipping</h3>
           <div #shipping>
             <div class="container">
+              <h2>Shipping</h2>
               <!--
                 <h3
                   yComponentWrapper
