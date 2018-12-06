@@ -1,7 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthService, RoutingService } from '@spartacus/core';
+import {
+  RoutingService,
+  Order,
+  OrderHistoryList,
+  AuthService
+} from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 
 @Component({
@@ -16,7 +21,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     private userSerivce: UserService
   ) {}
 
-  orders$: Observable<any>;
+  orders$: Observable<OrderHistoryList>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
 
@@ -30,14 +35,14 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.subscription = this.auth.userToken$.subscribe(userData => {
+    this.subscription = this.auth.getUserToken().subscribe(userData => {
       if (userData && userData.userId) {
         this.user_id = userData.userId;
       }
     });
 
     this.orders$ = this.userSerivce.orderList$.pipe(
-      tap((orders: any) => {
+      tap((orders: OrderHistoryList) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
@@ -60,8 +65,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeSortCode(sortCode: string) {
-    const event = {
+  changeSortCode(sortCode: string): void {
+    const event: { sortCode: string; currentPage: number } = {
       sortCode,
       currentPage: 0
     };
@@ -69,19 +74,19 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.fetchOrders(event);
   }
 
-  pageChange(page: number) {
-    const event = {
+  pageChange(page: number): void {
+    const event: { sortCode: string; currentPage: number } = {
       sortCode: this.sortType,
       currentPage: page
     };
     this.fetchOrders(event);
   }
 
-  goToOrderDetail(order) {
+  goToOrderDetail(order: Order): void {
     this.routing.go(['my-account/orders/', order.code]);
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }) {
+  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
     this.userSerivce.loadOrderList(
       this.user_id,
       this.PAGE_SIZE,

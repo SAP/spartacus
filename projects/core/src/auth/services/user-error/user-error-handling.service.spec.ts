@@ -17,35 +17,37 @@ class MockHttpHandler extends HttpHandler {
 }
 
 class AuthServiceStub {
-  userToken$: Observable<UserToken>;
-  refreshUserToken(_token: UserToken) {}
-  logout() {}
+  getUserToken(): Observable<UserToken> {
+    return of();
+  }
+  refreshUserToken(_token: UserToken): void {}
+  logout(): void {}
 }
 
 describe('UserErrorHandlingService', () => {
   const httpRequest = new HttpRequest('GET', '/');
-  const userToken: UserToken = {
+  const userToken = {
     access_token: 'xxx',
     token_type: 'bearer',
     refresh_token: 'xxx',
     expires_in: 1000,
     scope: ['xxx'],
     userId: 'xxx'
-  };
+  } as UserToken;
 
-  const newToken: UserToken = {
+  const newToken = {
     access_token: '1234',
     token_type: 'bearer',
     refresh_token: '5678',
     expires_in: 1000,
     scope: ['xxx'],
     userId: 'xxx'
-  };
+  } as UserToken;
 
   let service: UserErrorHandlingService;
   let httpHandler: HttpHandler;
   let router: Router;
-  let authService: AuthServiceStub;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -71,34 +73,34 @@ describe('UserErrorHandlingService', () => {
 
   describe('handleExpiredUserToken', () => {
     it('should redirect to login if no token', () => {
-      authService.userToken$ = of({} as UserToken);
-      const sub = service
+      spyOn(authService, 'getUserToken').and.returnValue(of({}));
+      service
         .handleExpiredUserToken(httpRequest, httpHandler)
-        .subscribe();
-      sub.unsubscribe();
+        .subscribe()
+        .unsubscribe();
 
       expect(router.navigate).toHaveBeenCalledWith(['/login']);
     });
 
     it('should get new token', () => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
       spyOn(authService, 'refreshUserToken').and.stub();
-      authService.userToken$ = of(userToken);
 
-      const sub = service
+      service
         .handleExpiredUserToken(httpRequest, httpHandler)
-        .subscribe();
+        .subscribe()
+        .unsubscribe();
       expect(authService.refreshUserToken).toHaveBeenCalledWith(userToken);
-      sub.unsubscribe();
     });
 
     it('should only dispatch refresh token event once', () => {
-      authService.userToken$ = of(userToken);
+      spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
       spyOn(authService, 'refreshUserToken').and.returnValue(of(newToken));
 
-      const sub = service
+      service
         .handleExpiredUserToken(httpRequest, httpHandler)
-        .subscribe();
-      sub.unsubscribe();
+        .subscribe()
+        .unsubscribe();
 
       expect(authService.refreshUserToken).toHaveBeenCalledWith(userToken);
       expect(authService.refreshUserToken).not.toHaveBeenCalledWith(newToken);

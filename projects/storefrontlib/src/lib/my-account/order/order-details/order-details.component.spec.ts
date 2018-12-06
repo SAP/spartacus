@@ -1,13 +1,25 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
-
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
+import {
+  RoutingService,
+  Cart,
+  PromotionResult,
+  AuthService,
+  UserToken,
+  Order
+} from '@spartacus/core';
+
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
 
 const mockOrder = {
   code: '1',
@@ -57,7 +69,7 @@ const mockOrder = {
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Component({
@@ -72,7 +84,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: any[] = [];
+  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -80,13 +92,12 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: AuthService;
-  let mockRoutingService: any;
+  let mockRoutingService: RoutingService;
   let mockUserService: any;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = {
+    mockRoutingService = <RoutingService>{
       routerState$: of({
         state: {
           params: {
@@ -94,9 +105,6 @@ describe('OrderDetailsComponent', () => {
           }
         }
       })
-    };
-    mockAuthService = <AuthService>{
-      userToken$: of(<UserToken>{ userId: 'test' })
     };
     mockUserService = {
       orderDetails$: of(mockOrder),
@@ -109,7 +117,7 @@ describe('OrderDetailsComponent', () => {
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: AuthService, useClass: MockAuthService }
       ],
       declarations: [
         MockCartItemListComponent,
@@ -133,7 +141,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should initialize ', () => {
     fixture.detectChanges();
-    let order;
+    let order: Order;
     component.order$.subscribe(value => {
       order = value;
     });
