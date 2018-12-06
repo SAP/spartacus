@@ -16,58 +16,24 @@ export function reducer(
 ): FindStoresState {
   switch (action.type) {
     case fromStoreFinder.ON_HOLD:
-    case fromStoreFinder.FIND_STORES: {
-      return {
-        ...state,
-        isLoading: true
-      };
+    case fromStoreFinder.FIND_STORES:
+    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY:
+    case fromStoreFinder.FIND_ALL_STORES_BY_REGION: {
+      return { ...state, isLoading: true };
     }
 
-    case fromStoreFinder.FIND_STORES_SUCCESS: {
-      const findStoresEntities = action.payload;
-
-      return {
-        ...state,
-        findStoresEntities,
-        isLoading: false
-      };
-    }
-
-    case fromStoreFinder.FIND_STORES_FAIL: {
-      return {
-        ...state,
-        isLoading: false
-      };
-    }
-
-    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_SUCCESS: {
-      const findStoresEntities = action.payload;
-
-      return {
-        ...state,
-        findStoresEntities
-      };
-    }
-
-    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_FAIL: {
-      return {
-        ...state
-      };
-    }
-
+    case fromStoreFinder.FIND_STORES_SUCCESS:
+    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_SUCCESS:
     case fromStoreFinder.FIND_ALL_STORES_BY_REGION_SUCCESS: {
       const findStoresEntities = action.payload;
 
-      return {
-        ...state,
-        findStoresEntities
-      };
+      return { ...state, findStoresEntities, isLoading: false };
     }
 
+    case fromStoreFinder.FIND_STORES_FAIL:
+    case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_FAIL:
     case fromStoreFinder.FIND_ALL_STORES_BY_REGION_FAIL: {
-      return {
-        ...state
-      };
+      return { ...state, isLoading: false };
     }
   }
 
