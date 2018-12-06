@@ -1,19 +1,16 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+
 import { of, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
+
 import { OrderDetailsComponent } from '../order-details/order-details.component';
 import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
-import {
-  RoutingService,
-  Cart,
-  PromotionResult,
-  AuthService,
-  UserToken,
-  Order
-} from '@spartacus/core';
 
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -69,7 +66,7 @@ const mockOrder = {
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: Cart;
+  cart: any;
 }
 
 @Component({
@@ -84,7 +81,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: PromotionResult[] = [];
+  potentialProductPromotions: any[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -92,12 +89,12 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockRoutingService: RoutingService;
+  let mockRoutingService: any;
   let mockUserService: any;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = <RoutingService>{
+    mockRoutingService = {
       routerState$: of({
         state: {
           params: {
@@ -141,7 +138,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should initialize ', () => {
     fixture.detectChanges();
-    let order: Order;
+    let order;
     component.order$.subscribe(value => {
       order = value;
     });

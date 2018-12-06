@@ -1,15 +1,6 @@
 import { by, element, ElementFinder } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 
-export interface PaymentMethod {
-  cardNumber?: string;
-  cardHolder?: string;
-  cardType?: string;
-  cardMonth?: string;
-  cardYear?: string;
-  cardCCV?: string;
-}
-
 export class PaymentForm {
   static readonly CARD_HOLDER = 'Winston Rumfoord';
   static readonly CARD_NUMBER = '4111111111111111';
@@ -59,22 +50,13 @@ export class PaymentForm {
     await E2EUtil.selectNgSelectOptionByText(this.expiryYear, value);
   }
 
-  async fillIn(userOverrides?: PaymentMethod) {
-    const defaultData: PaymentMethod = {
-      cardHolder: PaymentForm.CARD_HOLDER,
-      cardNumber: PaymentForm.CARD_NUMBER,
-      cardType: PaymentForm.CARD_TYPE,
-      cardMonth: PaymentForm.CARD_MONTH,
-      cardYear: PaymentForm.CARD_YEAR,
-      cardCCV: PaymentForm.CARD_CCV
-    };
-    const dataForFill: PaymentMethod = { ...defaultData, ...userOverrides };
-    await this.accountHolderName.sendKeys(dataForFill.cardHolder);
-    await this.cardNumber.sendKeys(dataForFill.cardNumber);
-    await this.selectCardType(dataForFill.cardType);
-    await this.selectExpiryMonth(dataForFill.cardMonth);
-    await this.selectExpiryYear(dataForFill.cardYear);
-    await this.verificationNumber.sendKeys(dataForFill.cardCCV);
+  async fillIn() {
+    await this.accountHolderName.sendKeys(PaymentForm.CARD_HOLDER);
+    await this.cardNumber.sendKeys(PaymentForm.CARD_NUMBER);
+    await this.selectCardType(PaymentForm.CARD_TYPE);
+    await this.selectExpiryMonth(PaymentForm.CARD_MONTH);
+    await this.selectExpiryYear(PaymentForm.CARD_YEAR);
+    await this.verificationNumber.sendKeys(PaymentForm.CARD_CCV);
   }
 
   async waitForReady() {

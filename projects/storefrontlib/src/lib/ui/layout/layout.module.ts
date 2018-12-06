@@ -20,7 +20,6 @@ import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 import { OutletRefModule } from '../../outlet/index';
-import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/payment-details-page-layout.module';
 import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 
 const layoutModules = [
@@ -32,7 +31,6 @@ const layoutModules = [
   MultiStepCheckoutPageLayoutModule,
   OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
-  PaymentDetailsPageLayoutModule,
   ProductDetailsPageLayoutModule,
   RegisterLayoutModule,
   LoginPageLayoutModule,

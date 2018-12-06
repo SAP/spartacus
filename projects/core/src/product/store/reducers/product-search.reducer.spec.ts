@@ -1,18 +1,13 @@
 import * as fromProductSearch from './product-search.reducer';
 import * as fromActions from '../actions/product-search.action';
-import { ProductList, Suggestion } from '../../../occ-models';
 import { SearchConfig } from '../../model/search-config';
-import { ProductsSearchState } from '../product-state';
 
 describe('Product Search Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromProductSearch;
       const action = {} as any;
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        undefined,
-        action
-      );
+      const state = fromProductSearch.reducer(undefined, action);
 
       expect(state).toBe(initialState);
     });
@@ -27,10 +22,7 @@ describe('Product Search Reducer', () => {
         queryText: 'test',
         searchConfig: mockSearchConfig
       });
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        initialState,
-        action
-      );
+      const state = fromProductSearch.reducer(initialState, action);
 
       expect(state.loading).toEqual(true);
     });
@@ -40,7 +32,7 @@ describe('Product Search Reducer', () => {
     it('should populate search results after loading', () => {
       const mockSearchConfig: SearchConfig = { pageSize: 10 };
 
-      const results: ProductList = { products: [{ code: '123' }] };
+      const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
       const loadAction = new fromActions.SearchProducts({
         queryText: 'test',
@@ -48,10 +40,7 @@ describe('Product Search Reducer', () => {
       });
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
       const resultAction = new fromActions.SearchProductsSuccess(results);
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        loadingState,
-        resultAction
-      );
+      const state = fromProductSearch.reducer(loadingState, resultAction);
 
       expect(state.loading).toEqual(false);
       expect(state.results).toEqual(results);
@@ -60,7 +49,7 @@ describe('Product Search Reducer', () => {
     it('should populate auxiliary search results after loading', () => {
       const mockSearchConfig: SearchConfig = { pageSize: 10 };
 
-      const results: ProductList = { products: [{ code: '123' }] };
+      const results = { products: [{ code: '123' }] };
       const { initialState } = fromProductSearch;
       const loadAction = new fromActions.SearchProducts(
         {
@@ -71,10 +60,7 @@ describe('Product Search Reducer', () => {
       );
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
       const resultAction = new fromActions.SearchProductsSuccess(results, true);
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        loadingState,
-        resultAction
-      );
+      const state = fromProductSearch.reducer(loadingState, resultAction);
 
       expect(state.loading).toEqual(false);
       expect(state.auxResults).toEqual(results);
@@ -84,10 +70,7 @@ describe('Product Search Reducer', () => {
       const { initialState } = fromProductSearch;
       const previousState = { ...initialState, loading: false };
       const action = new fromActions.SearchProductsSuccess({});
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        previousState,
-        action
-      );
+      const state = fromProductSearch.reducer(previousState, action);
 
       expect(state).toEqual(initialState);
     });
@@ -95,14 +78,11 @@ describe('Product Search Reducer', () => {
 
   describe('GET_PRODUCT_SUGGESTIONS_SUCCESS action', () => {
     it('should populate product suggestions', () => {
-      const suggestions: Suggestion[] = [{ value: '123' }];
+      const suggestions = [{ code: '123' }];
 
       const { initialState } = fromProductSearch;
       const action = new fromActions.GetProductSuggestionsSuccess(suggestions);
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        initialState,
-        action
-      );
+      const state = fromProductSearch.reducer(initialState, action);
 
       expect(state.suggestions).toEqual(suggestions);
     });
@@ -110,8 +90,8 @@ describe('Product Search Reducer', () => {
 
   describe('CLEAN_PRODUCT_SEARCH action', () => {
     it('should clean the Product Search State', () => {
-      const results: ProductList = { products: [{ code: '123' }] };
-      const suggestions: Suggestion[] = [];
+      const results = { products: [{ code: '123' }] };
+      const suggestions = [];
 
       const { initialState } = fromProductSearch;
       const queryAction = new fromActions.SearchProductsSuccess(results);
@@ -122,10 +102,7 @@ describe('Product Search Reducer', () => {
       fromProductSearch.reducer(initialState, querySuggestionAction);
 
       const cleanAction = new fromActions.CleanProductSearchState();
-      const newState: ProductsSearchState = fromProductSearch.reducer(
-        initialState,
-        cleanAction
-      );
+      const newState = fromProductSearch.reducer(initialState, cleanAction);
 
       expect(newState).toEqual(initialState);
     });

@@ -35,19 +35,4 @@ describe('ViewAllStores Selectors', () => {
       expect(result).toEqual(searchResult);
     });
   });
-
-  describe('getViewAllStoresLoading', () => {
-    it('should return isLoading flag', () => {
-      let result;
-      store
-        .pipe(select(fromSelectors.getViewAllStoresLoading))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.ViewAllStores());
-
-      expect(result).toEqual(true);
-    });
-  });
 });

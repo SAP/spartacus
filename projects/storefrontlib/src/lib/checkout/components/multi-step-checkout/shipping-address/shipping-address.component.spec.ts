@@ -145,7 +145,7 @@ describe('ShippingAddressComponent', () => {
       undefined
     ]);
     expect(card.actions).toEqual([
-      { name: 'Ship to this address', event: 'send' }
+      { name: jasmine.any(String), event: 'send' }
     ]);
   });
 

@@ -6,21 +6,19 @@ import { Router } from '@angular/router';
 
 import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
-import { ProductSearchPage, Suggestion } from '../../occ-models';
-
 @Injectable()
 export class ProductSearchService {
-  readonly searchResults$: Observable<ProductSearchPage> = this.store.pipe(
+  readonly searchResults$: Observable<any> = this.store.pipe(
     select(fromStore.getSearchResults),
     filter(results => Object.keys(results).length > 0)
   );
 
-  readonly auxSearchResults$: Observable<ProductSearchPage> = this.store.pipe(
+  readonly auxSearchResults$: Observable<any> = this.store.pipe(
     select(fromStore.getAuxSearchResults),
     filter(results => Object.keys(results).length > 0)
   );
 
-  readonly searchSuggestions$: Observable<Suggestion[]> = this.store.pipe(
+  readonly searchSuggestions$: Observable<any> = this.store.pipe(
     select(fromStore.getProductSuggestions)
   );
 

@@ -12,12 +12,6 @@ class MockOccUserService {
   loadUserPaymentMethods(_userId: string): Observable<any> {
     return;
   }
-  setDefaultUserPaymentMethod(): Observable<any> {
-    return of({});
-  }
-  deleteUserPaymentMethod(): Observable<any> {
-    return of({});
-  }
 }
 
 const mockUserPaymentMethods: PaymentDetailsList = {
@@ -61,48 +55,6 @@ describe('User Payment Methods effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userPaymentMethodsEffect.loadUserPaymentMethods$).toBeObservable(
-        expected
-      );
-    });
-  });
-
-  describe('setDefaultUserPaymentMethod$', () => {
-    it('should set default payment method', () => {
-      const action = new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethod(
-        {
-          userId: '123',
-          paymentMethodId: '123'
-        }
-      );
-      const completion = [
-        new fromUserPaymentMethodsAction.SetDefaultUserPaymentMethodSuccess({}),
-        new fromUserPaymentMethodsAction.LoadUserPaymentMethods('123')
-      ];
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion[0], c: completion[1] });
-
-      expect(
-        userPaymentMethodsEffect.setDefaultUserPaymentMethod$
-      ).toBeObservable(expected);
-    });
-  });
-
-  describe('deleteUserPaymentMethod$', () => {
-    it('should delete payment method', () => {
-      const action = new fromUserPaymentMethodsAction.DeleteUserPaymentMethod({
-        userId: '123',
-        paymentMethodId: '123'
-      });
-      const completion = [
-        new fromUserPaymentMethodsAction.DeleteUserPaymentMethodSuccess({}),
-        new fromUserPaymentMethodsAction.LoadUserPaymentMethods('123')
-      ];
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion[0], c: completion[1] });
-
-      expect(userPaymentMethodsEffect.deleteUserPaymentMethod$).toBeObservable(
         expected
       );
     });

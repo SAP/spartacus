@@ -24,7 +24,6 @@ export * from './layout/store-finder-page-layout/store-finder-page-layout.compon
 export * from './layout/sale-page-layout/sale-page-layout.component';
 export * from './layout/help-page-layout/help-page-layout.component';
 export * from './layout/contact-page-layout/contact-page-layout.component';
-export * from './layout/payment-details-page-layout/payment-details-page-layout.component';
 export * from './components/media/picture/picture.component';
 export * from './components/form-components/star-rating/star-rating.component';
 export * from './components/form-components/item-counter/item-counter.component';
@@ -54,6 +53,5 @@ export * from './pages/store-finder-page/store-finder-page.module';
 export * from './pages/sale-page/sale-page.module';
 export * from './pages/help-page/help-page.module';
 export * from './pages/contact-page/contact-page.module';
-export * from './pages/payment-details-page/payment-details-page.module';
 
 export * from './layout/main/main.module';

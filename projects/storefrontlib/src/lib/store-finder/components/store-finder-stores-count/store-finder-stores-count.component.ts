@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { StoreFinderService } from '../../services/store-finder.service';
-
 import * as fromStore from '../../store';
+import { StoreFinderService } from '../../services/store-finder.service';
 
 @Component({
   selector: 'cx-store-finder-stores-count',
@@ -25,8 +24,6 @@ export class StoreFinderStoresCountComponent implements OnInit {
     this.locations$ = this.store.pipe(
       select(fromStore.getViewAllStoresEntities)
     );
-    this.isLoading$ = this.store.pipe(
-      select(fromStore.getViewAllStoresLoading)
-    );
+    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
   }
 }

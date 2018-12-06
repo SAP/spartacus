@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { Product } from '../../../occ-models';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -17,7 +16,7 @@ export class LoadProductFail implements Action {
 
 export class LoadProductSuccess implements Action {
   readonly type = LOAD_PRODUCT_SUCCESS;
-  constructor(public payload: Product) {}
+  constructor(public payload: any) {}
 }
 
 // action types

@@ -46,24 +46,6 @@ export function reducer(
         isLoading: true
       };
     }
-
-    case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD:
-    case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD: {
-      return {
-        ...state,
-        isLoading: true
-      };
-    }
-
-    case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL:
-    case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS:
-    case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_FAIL:
-    case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_SUCCESS: {
-      return {
-        ...state,
-        isLoading: false
-      };
-    }
   }
   return state;
 }

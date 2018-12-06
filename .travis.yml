@@ -10,7 +10,6 @@ branches:
     - master
     - "/^feature\\/.*$/"
     - "/^hotfix\\/.*$/"
-    - "/^release\\/.*$/"
 jobs:
   include:
     - stage: 'Validation'

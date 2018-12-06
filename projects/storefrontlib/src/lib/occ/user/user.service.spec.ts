@@ -149,66 +149,13 @@ describe('OccUserService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}?saved=true`
+          req.url === endpoint + `/${username}` + paymentDetailsEndpoint
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockUserPaymentMethods);
-    });
-  });
-
-  describe('set default user payment method', () => {
-    it('should set default payment method for given user', () => {
-      const mockPayment: PaymentDetails = {
-        defaultPayment: true,
-        id: '123'
-      };
-
-      service
-        .setDefaultUserPaymentMethod(username, mockPayment.id)
-        .subscribe(result => {
-          expect(result).toEqual('');
-        });
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'PATCH' &&
-          req.body.defaultPayment === true &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush('');
-    });
-  });
-
-  describe('delete user payment method', () => {
-    it('should delete payment method for given user', () => {
-      const mockPayment: PaymentDetails = {
-        id: '123'
-      };
-
-      service
-        .deleteUserPaymentMethod(username, mockPayment.id)
-        .subscribe(result => expect(result).toEqual(''));
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'DELETE' &&
-          req.url ===
-            `${endpoint}/${username}${paymentDetailsEndpoint}/${mockPayment.id}`
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush('');
     });
   });
 });

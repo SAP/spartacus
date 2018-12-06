@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { ErrorModel } from '../../../occ-models';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -23,11 +22,7 @@ export class ProductReviewsEffects {
           });
         }),
         catchError(_error =>
-          of(
-            new productReviewsActions.LoadProductReviewsFail({
-              message: productCode
-            } as ErrorModel)
-          )
+          of(new productReviewsActions.LoadProductReviewsFail(productCode))
         )
       );
     })

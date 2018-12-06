@@ -22,11 +22,18 @@ describe('ProductSearchService', () => {
     }
   }
   const mockSearchResults = {
-    products: [{ code: '1' }, { code: '2' }, { code: '3' }]
+    results: {
+      0: 'p1',
+      1: 'p2',
+      2: 'p3'
+    }
   };
 
   const mockAuxSearchResults = {
-    products: [{ code: 'aux1' }, { code: 'aux2' }]
+    results: {
+      0: 'ap1',
+      1: 'ap2'
+    }
   };
 
   const mockSelect = selector => {

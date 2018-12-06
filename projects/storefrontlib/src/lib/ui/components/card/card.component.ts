@@ -1,22 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-export interface CardAction {
-  event: string;
-  name: string;
-}
-
-export interface CardLinkAction {
-  link: string;
-  name: string;
-}
-
 export interface Card {
   header?: string;
   title?: string;
   textBold?: string;
   text?: Array<any>;
   img?: string;
-  actions?: Array<CardAction | CardLinkAction>;
+  actions?: Array<any>;
   deleteMsg?: string;
 }
 
@@ -34,8 +24,6 @@ export class CardComponent implements OnInit {
   sendCard: EventEmitter<number> = new EventEmitter();
   @Output()
   editCard: EventEmitter<number> = new EventEmitter();
-  @Output()
-  cancelCard: EventEmitter<number> = new EventEmitter();
 
   @Input()
   border = false;
@@ -59,7 +47,6 @@ export class CardComponent implements OnInit {
 
   cancelEdit(): void {
     this.editMode = false;
-    this.cancelCard.emit(5);
   }
 
   delete(): void {

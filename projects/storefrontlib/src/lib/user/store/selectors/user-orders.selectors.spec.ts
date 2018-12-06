@@ -4,15 +4,14 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { OrderHistoryList } from '@spartacus/core';
 
-const mockUserOrders: OrderHistoryList = {
+const mockUserOrders: any = {
   orders: [],
   pagination: {
     currentPage: 1,
     pageSize: 5
   },
-  sorts: [{ code: 'byPage' }]
+  sort: [{ code: 'byPage' }]
 };
 
 describe('User Orders Selectors', () => {

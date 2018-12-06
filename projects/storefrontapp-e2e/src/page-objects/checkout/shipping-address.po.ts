@@ -15,17 +15,9 @@ export class ShippingAddress {
     by.css('h3.cx-shipping-address__title')
   );
 
-  readonly nextButton: ElementFinder = this.container.element(
-    by.css('.btn-primary')
-  );
-
   readonly addressForm: AddressForm = new AddressForm(this.container);
 
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.container);
-  }
-
-  async selectDefaultAddress() {
-    return this.container.element(by.css('cx-card .card-link')).click();
   }
 }

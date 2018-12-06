@@ -1,12 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import {
-  RoutingService,
-  OrderHistoryList,
-  AuthService,
-  UserToken
-} from '@spartacus/core';
+
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
 
 import { of, BehaviorSubject, Observable } from 'rxjs';
 
@@ -17,14 +13,9 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 
 import { OrderHistoryComponent } from './order-history.component';
 
-const mockOrders: OrderHistoryList = {
+const mockOrders = {
   orders: [
-    {
-      code: '1',
-      placed: new Date('2018-01-01'),
-      statusDisplay: 'test',
-      total: { formattedValue: '1' }
-    }
+    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
@@ -71,7 +62,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should load order list when data not exist', () => {
-    const initialOrderListState: OrderHistoryList = {
+    const initialOrderListState = {
       orders: [],
       pagination: {},
       sorts: []
@@ -81,7 +72,7 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orderList: OrderHistoryList;
+    let orderList;
     component.orders$
       .subscribe(value => {
         orderList = value;
@@ -96,13 +87,13 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orders: OrderHistoryList;
+    let order;
     component.orders$
       .subscribe(value => {
-        orders = value;
+        order = value;
       })
       .unsubscribe();
-    expect(orders).toEqual(mockOrders);
+    expect(order).toEqual(mockOrders);
   });
 
   xit('should redirect when clicking on order id', () => {
@@ -117,7 +108,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display No orders found page if no orders are found', () => {
-    const initialOrderListState: OrderHistoryList = {
+    const initialOrderListState = {
       orders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
       sorts: [{ code: 'byDate', selected: true }]

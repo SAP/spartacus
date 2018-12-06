@@ -1,5 +1,4 @@
 export const PRODUCT_FEATURE = 'product';
-import { Review, Suggestion, ProductSearchPage } from '../../occ-models';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductState;
@@ -16,13 +15,13 @@ export interface ProductsState {
 }
 
 export interface ProductsSearchState {
-  results: ProductSearchPage;
-  suggestions: Suggestion[];
-  auxResults: ProductSearchPage;
+  results: any;
+  suggestions: any[];
+  auxResults: any;
   loading: boolean;
 }
 
 export interface ProductReviewsState {
   productCode: string;
-  list: Review[];
+  list: any[];
 }

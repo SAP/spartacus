@@ -4,20 +4,20 @@ import { TestBed } from '@angular/core/testing';
 
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ReviewList } from '../../../occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
+
 import * as fromEffects from '../effects/product-reviews.effect';
 import * as fromActions from '../actions/product-reviews.action';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-const reviewData: ReviewList = {
+const reviewData = {
   reviews: [
     {
-      id: '1',
+      id: 1,
       rating: 3
     },
     {
-      id: '2',
+      id: 2,
       rating: 5
     }
   ]

@@ -7,7 +7,6 @@ import { StoreFinderStoreDescriptionComponent } from './store-finder-store-descr
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreFinderService, StoreDataService } from '../../services';
-import { SpinnerComponent } from '../../../ui';
 
 import * as fromReducers from '../../store';
 
@@ -75,8 +74,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
       declarations: [
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
-        StoreFinderMapComponent,
-        SpinnerComponent
+        StoreFinderMapComponent
       ],
       providers: [
         StoreDataService,

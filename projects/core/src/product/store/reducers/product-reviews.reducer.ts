@@ -1,6 +1,5 @@
 import * as fromProductReviews from './../actions/product-reviews.action';
 import { ProductReviewsState } from '../product-state';
-import { Review } from '../../../occ-models';
 
 export const initialState: ProductReviewsState = {
   productCode: '',
@@ -27,7 +26,6 @@ export function reducer(
   return state;
 }
 
-export const getReviewList = (state: ProductReviewsState): Review[] =>
-  state.list;
+export const getReviewList = (state: ProductReviewsState) => state.list;
 export const getReviewProductCode = (state: ProductReviewsState) =>
   state.productCode;

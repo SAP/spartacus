@@ -1,12 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { AuthService, RoutingService } from '@spartacus/core';
+
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import {
-  RoutingService,
-  Order,
-  OrderHistoryList,
-  AuthService
-} from '@spartacus/core';
+
 import { UserService } from '../../../user/facade/user.service';
 
 @Component({
@@ -21,7 +19,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     private userSerivce: UserService
   ) {}
 
-  orders$: Observable<OrderHistoryList>;
+  orders$: Observable<any>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
 
@@ -42,7 +40,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     });
 
     this.orders$ = this.userSerivce.orderList$.pipe(
-      tap((orders: OrderHistoryList) => {
+      tap((orders: any) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
@@ -65,8 +63,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeSortCode(sortCode: string): void {
-    const event: { sortCode: string; currentPage: number } = {
+  changeSortCode(sortCode: string) {
+    const event = {
       sortCode,
       currentPage: 0
     };
@@ -74,19 +72,19 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.fetchOrders(event);
   }
 
-  pageChange(page: number): void {
-    const event: { sortCode: string; currentPage: number } = {
+  pageChange(page: number) {
+    const event = {
       sortCode: this.sortType,
       currentPage: page
     };
     this.fetchOrders(event);
   }
 
-  goToOrderDetail(order: Order): void {
+  goToOrderDetail(order) {
     this.routing.go(['my-account/orders/', order.code]);
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
+  private fetchOrders(event: { sortCode: string; currentPage: number }) {
     this.userSerivce.loadOrderList(
       this.user_id,
       this.PAGE_SIZE,
