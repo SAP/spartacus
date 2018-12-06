@@ -19,7 +19,7 @@ export class ProductSummaryComponent {
   itemCount = 1;
 
   @Input() product: any;
-  @Output() onOpenReview = new EventEmitter();
+  @Output() openReview = new EventEmitter();
 
   get outlets() {
     return ProductSummaryComponent.outlets;
@@ -44,7 +44,7 @@ export class ProductSummaryComponent {
     );
   }
 
-  openReview() {
-    this.onOpenReview.emit();
+  launchReview() {
+    this.openReview.emit();
   }
 }
