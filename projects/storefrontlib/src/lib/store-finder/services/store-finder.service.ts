@@ -52,7 +52,7 @@ export class StoreFinderService {
     );
   }
 
-  clearWatchGeolocationAndDispatchAction(action: Action) {
+  private clearWatchGeolocationAndDispatchAction(action: Action) {
     if (this.geolocationWatchId != null) {
       this.winRef.nativeWindow.navigator.geolocation.clearWatch(
         this.geolocationWatchId
