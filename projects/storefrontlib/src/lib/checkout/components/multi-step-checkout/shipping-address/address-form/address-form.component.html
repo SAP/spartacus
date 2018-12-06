@@ -8,6 +8,7 @@
               <label aria-required="true">
                 <span class="label-content required">Title</span>
                 <ng-select
+                  formControlName="titleCode"
                   [searchable]="false"
                   [clearable]="false"
                   [items]="titles"
@@ -111,7 +112,6 @@
                   <span class="label-content required">State</span>
                   <ng-container *ngIf="regions[0].name">
                     <ng-select
-                      formControlName="isocode"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
@@ -124,7 +124,6 @@
                   </ng-container>
                   <ng-container *ngIf="!regions[0].name">
                     <ng-select
-                      formControlName="isocode"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"

@@ -8,6 +8,7 @@ import { AddressBookModule } from './address-book.module';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { CheckoutService } from '../../checkout/facade';
+import { StoreModule } from '@ngrx/store';
 
 const mockAddress = {
   id: '123',
@@ -81,7 +82,12 @@ describe('AddressBookComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [AddressBookModule, AddressFormModule, SpinnerModule],
+      imports: [
+        AddressBookModule,
+        AddressFormModule,
+        SpinnerModule,
+        StoreModule.forRoot({})
+      ],
       providers: [
         { provide: UserService, useValue: mockUserService },
         { provide: CheckoutService, useValue: mockCheckoutService }

@@ -3,6 +3,7 @@ import { AddressCardComponent } from './address-card.component';
 import { AddressBookModule } from '../address-book.module';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 
 const mockAddress = {
   id: '123',
@@ -25,7 +26,7 @@ describe('AddressCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddressBookModule]
+      imports: [AddressBookModule, StoreModule.forRoot({})]
     }).compileComponents();
   }));
 

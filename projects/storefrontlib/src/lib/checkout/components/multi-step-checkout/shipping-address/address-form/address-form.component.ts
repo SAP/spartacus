@@ -51,17 +51,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
-    titleCode: ['', Validators.required],
+    titleCode: [null, Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: [undefined, Validators.required]
+      isocode: [null, Validators.required]
     }),
     country: this.fb.group({
-      isocode: [undefined, Validators.required]
+      isocode: [null, Validators.required]
     }),
     postalCode: ['', Validators.required],
     phone: ''
@@ -130,26 +130,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
     );
 
-    // @TODO: Refactor
     if (this.addressData) {
-      this.address['controls'].firstName.setValue(this.addressData.firstName);
-      this.address['controls'].lastName.setValue(this.addressData.lastName);
-      this.address['controls'].titleCode.setValue('mr');
-      this.address['controls'].line1.setValue(this.addressData.line1);
-      this.address['controls'].line2.setValue(this.addressData.line2);
-      this.address['controls'].line2.setValue(this.addressData.line2);
-      this.address['controls'].town.setValue(this.addressData.town);
-      this.address['controls'].postalCode.setValue(this.addressData.postalCode);
-      this.address['controls'].phone.setValue(this.addressData.phone);
-      this.address['controls'].defaultAddress.setValue(
-        this.addressData.defaultAddress
-      );
-      this.countrySelected(this.addressData.country);
+      this.address.patchValue(this.addressData);
 
+      this.countrySelected(this.addressData.country);
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
-      console.log(this.addressData);
     }
   }
 
@@ -171,7 +158,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   toggleDefaultAddress() {
-    this.address.value.defaultAddress = !this.address.value.defaultAddress;
+    this.address['controls'].defaultAddress.setValue(
+      this.address.value.defaultAddress
+    );
   }
 
   back() {

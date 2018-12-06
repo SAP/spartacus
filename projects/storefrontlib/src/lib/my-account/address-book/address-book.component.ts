@@ -47,7 +47,11 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   showEditAddressForm(address) {
-    this.activeAddress = address;
+    // @TODO: Since we don't get titleCode from API we need to mock it for edit.
+    this.activeAddress = {
+      ...address,
+      titleCode: 'mr'
+    };
     this.isEditAddressFormOpen = true;
   }
 
@@ -80,12 +84,16 @@ export class AddressBookComponent implements OnInit, OnDestroy {
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             text: 'New address was added successfully!'
           });
-          this.userService.loadAddresses(this.userId);
           this.hideAddAddressForm();
+          this.userService.loadAddresses(this.userId);
           break;
         }
 
         case actionTypes.UPDATE_USER_ADDRESS_SUCCESS: {
+          this.messagesService.add({
+            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            text: 'Address updated successfully!'
+          });
           this.hideEditAddressForm();
           this.userService.loadAddresses(this.userId);
           break;

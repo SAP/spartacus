@@ -201,9 +201,14 @@ describe('AddressFormComponent', () => {
     expect(component.backToAddress.emit).toHaveBeenCalledWith();
   });
 
-  it('should call toggleDefaultAddress()', () => {
-    component.address.value.defaultAddress = false;
-    component.toggleDefaultAddress();
+  it('should toggleDefaultAddress() adapt control value', () => {
+    const checkbox = fixture.debugElement.query(
+      By.css('[formcontrolname=defaultAddress]')
+    ).nativeElement;
+
+    fixture.detectChanges();
+    checkbox.click();
+
     expect(component.address.value.defaultAddress).toBeTruthy();
   });
 

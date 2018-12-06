@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { Store } from '@ngrx/store';
-import { StoreModule } from '@ngrx/store';
 import { AddressBookComponent } from './address-book.component';
 import { AddressCardComponent } from './address-card/address-card.component';
 import { CardModule } from '../../ui/components/card/card.module';
@@ -18,11 +16,10 @@ import { UserService } from '../../user/facade/user.service';
     CommonModule,
     AddressFormModule,
     SpinnerModule,
-    GlobalMessageModule,
-    StoreModule.forRoot({})
+    GlobalMessageModule
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
-  providers: [UserService, Store]
+  providers: [UserService]
 })
 export class AddressBookModule {}

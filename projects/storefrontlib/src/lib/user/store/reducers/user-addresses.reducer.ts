@@ -20,21 +20,12 @@ export function reducer(
   switch (action.type) {
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS: {
       const list: Address[] = action.payload;
-
-      if (list !== undefined) {
-        return {
-          ...state,
-          list,
-          isLoading: false,
-          isActionProcessing: false
-        };
-      } else {
-        return {
-          ...state,
-          isLoading: false,
-          isActionProcessing: false
-        };
-      }
+      return {
+        ...state,
+        list,
+        isLoading: false,
+        isActionProcessing: false
+      };
     }
 
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL: {
@@ -51,21 +42,9 @@ export function reducer(
       };
     }
 
+    case fromUserAddressesAction.UPDATE_USER_ADDRESS:
+    case fromUserAddressesAction.DELETE_USER_ADDRESS:
     case fromUserAddressesAction.ADD_USER_ADDRESS: {
-      return {
-        ...state,
-        isActionProcessing: true
-      };
-    }
-
-    case fromUserAddressesAction.UPDATE_USER_ADDRESS: {
-      return {
-        ...state,
-        isActionProcessing: true
-      };
-    }
-
-    case fromUserAddressesAction.DELETE_USER_ADDRESS: {
       return {
         ...state,
         isActionProcessing: true
