@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-
-import { Cart, OrderEntry, UserToken } from '@spartacus/core';
-import { AuthService } from '../../auth/facade/auth.service';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
+import { Cart, OrderEntry } from '../../occ-models/index';
+import { AuthService, UserToken } from '../../auth/index';
 
 import * as fromAction from '../store/actions';
 import * as fromReducer from '../store/reducers';

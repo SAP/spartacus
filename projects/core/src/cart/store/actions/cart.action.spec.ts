@@ -1,5 +1,5 @@
+import { Cart } from '../../../occ-models/index';
 import * as fromCart from './../actions/cart.action';
-import { Cart } from '@spartacus/core';
 
 const cart: Cart = {
   code: 'xxx',
