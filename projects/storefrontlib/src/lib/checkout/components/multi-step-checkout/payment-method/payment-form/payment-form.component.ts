@@ -54,7 +54,7 @@ export class PaymentFormComponent implements OnInit {
   ngOnInit() {
     this.expMonthAndYear();
 
-    this.cardTypes$ = this.checkoutService.cardTypes$.pipe(
+    this.cardTypes$ = this.checkoutService.getCardTypes().pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutService.loadSupportedCardTypes();

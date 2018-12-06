@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
@@ -9,6 +9,7 @@ import createSpy = jasmine.createSpy;
 import { CheckoutService } from '../../../../facade/checkout.service';
 import { Address } from '../../../../models/address-model';
 import { PaymentFormComponent } from './payment-form.component';
+import { CardType } from '@spartacus/core';
 
 const mockAddress: Address = {
   firstName: 'John',
@@ -22,13 +23,13 @@ const mockAddress: Address = {
   country: { isocode: 'JP' }
 };
 
-const mockCardTypes = [
+const mockCardTypes: CardType[] = [
   {
     code: 'amex',
     name: 'American Express'
   },
   {
-    isocode: 'maestro',
+    code: 'maestro',
     name: 'Maestro'
   }
 ];
@@ -42,28 +43,32 @@ class MockCardComponent {
   content: any;
 }
 
-describe('PaymentFormComponent', () => {
+class MockCheckoutService {
+  deliveryAddress$ = new BehaviorSubject(null);
+  loadSupportedCardTypes = createSpy();
+  getCardTypes(): Observable<CardType[]> {
+    return of();
+  }
+}
+
+fdescribe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
-  let mockCheckoutService: any;
+  let mockCheckoutService: MockCheckoutService;
   let controls: FormGroup['controls'];
 
   beforeEach(async(() => {
-    mockCheckoutService = {
-      cardTypes$: new BehaviorSubject([]),
-      deliveryAddress$: new BehaviorSubject(null),
-      loadSupportedCardTypes: createSpy()
-    };
-
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule],
       declarations: [PaymentFormComponent, MockCardComponent],
-      providers: [{ provide: CheckoutService, useValue: mockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
     })
       .overrideComponent(PaymentFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }
       })
       .compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -80,7 +85,7 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get suppored card types if they do not exist', done => {
-    mockCheckoutService.cardTypes$.next([]);
+    spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(of([]));
     component.ngOnInit();
     component.cardTypes$.subscribe(() => {
       expect(mockCheckoutService.loadSupportedCardTypes).toHaveBeenCalled();
@@ -89,7 +94,9 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get suppored card types if they exist', () => {
-    mockCheckoutService.cardTypes$.next(mockCardTypes);
+    spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+      of(mockCardTypes)
+    );
     component.ngOnInit();
     let cardTypes;
     component.cardTypes$.subscribe(data => {
@@ -99,7 +106,9 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    mockCheckoutService.cardTypes$.next(mockCardTypes);
+    spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+      of(mockCardTypes)
+    );
     mockCheckoutService.deliveryAddress$.next(mockAddress);
     component.ngOnInit();
     let cardTypes;
@@ -172,7 +181,9 @@ describe('PaymentFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid', () => {
-      mockCheckoutService.cardTypes$.next(mockCardTypes);
+      spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
+        of(mockCardTypes)
+      );
       mockCheckoutService.deliveryAddress$.next(mockAddress);
 
       spyOn(component, 'next');

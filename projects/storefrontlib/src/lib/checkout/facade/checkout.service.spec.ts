@@ -103,7 +103,7 @@ describe('CheckoutService', () => {
     );
 
     let cardTypes;
-    service.cardTypes$.subscribe(data => {
+    service.getCardTypes().subscribe(data => {
       cardTypes = data;
     });
     expect(cardTypes).toEqual([
