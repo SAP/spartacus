@@ -75,27 +75,39 @@ $useTabsOnPDP: false !default;
     }
   }
 
+  // in order to align the tabs to the left
+  // we simulate the container size
+  @include media-breakpoint-only(md) {
+    grid-template-columns: auto 10px repeat(4, 180px) 0px auto;
+  }
+  @include media-breakpoint-only(lg) {
+    grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
+  }
+  @include media-breakpoint-only(xl) {
+    grid-template-columns: auto 10px repeat(4, 180px) 420px auto;
+  }
+
   @include media-breakpoint-up(md) {
     display: grid;
-    grid-template-columns: auto repeat(4, 14vw) auto;
 
     > h3 {
       order: 0;
       transition: all 0.6s;
-
+      font-size: 1.2rem;
       text-align: center;
       margin: 0;
 
       &:first-of-type {
-        grid-column: 2;
+        grid-column: 3;
       }
     }
 
     // the div elements contain the content and will be rendered after the tabs
     > div {
       order: 2;
-      grid-column: 1 / span 6;
-      padding: 50px 10vw;
+      grid-column: 1;
+      grid-column-end: -1;
+      padding: 50px 0;
       border-top: var(--cx-border-width, 1px)
         var(--cx-border-color, var(--cx-light)) var(--cx-border-style, solid);
     }
