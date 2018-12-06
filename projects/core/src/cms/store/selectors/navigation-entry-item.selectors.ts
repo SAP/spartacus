@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
+import * as fromFeature from '../reducers/index';
 import * as fromNavigationEntryItem from '../reducers/navigation-entry-item.reducer';
 import { CmsState, NavigationItemState } from '../cms-state';
 

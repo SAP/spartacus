@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromReducers from '../reducers';
-import * as fromActions from '../actions';
-import * as fromSelectors from '../selectors';
-import { CmsComponent } from '../../../occ-models';
+import * as fromReducers from '../reducers/index';
+import * as fromActions from '../actions/index';
+import * as fromSelectors from '../selectors/index';
+import { CmsComponent } from '../../../occ-models/index';
 import { CmsState } from '../cms-state';
 
 describe('Navigation Entry Items Selectors', () => {

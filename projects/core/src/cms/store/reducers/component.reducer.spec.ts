@@ -1,6 +1,6 @@
 import * as fromComponent from './component.reducer';
 import * as fromActions from '../actions/component.action';
-import { CmsComponent } from '../../../occ-models';
+import { CmsComponent } from '../../../occ-models/index';
 
 describe('Cms Component Reducer', () => {
   describe('undefined action', () => {

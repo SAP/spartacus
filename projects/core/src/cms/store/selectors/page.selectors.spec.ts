@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromReducers from '../reducers';
-import * as fromActions from '../actions';
+import * as fromReducers from '../reducers/index';
+import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/page.selectors';
 
 import { Page } from '../../model/page.model';
-import { CmsComponent } from '../../../occ-models';
+import { CmsComponent } from '../../../occ-models/index';
 import { CmsState } from '../cms-state';
 
 describe('Cms PageData Selectors', () => {

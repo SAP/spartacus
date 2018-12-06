@@ -1,5 +1,6 @@
 export * from './model/cms-config';
 export * from './model/page.model';
+export * from './model/node-item.model';
 export * from './occ/index';
 export * from './occ/cms-occ.module';
 

@@ -32,7 +32,7 @@ describe('CmsPageGuards', () => {
     });
   });
 
-  describe('canCactivate', () => {
+  describe('canActivate', () => {
     it('should return true when CmsService hasPage is true for the page context', inject(
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {

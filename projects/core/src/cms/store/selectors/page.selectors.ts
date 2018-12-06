@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
+import * as fromFeature from '../reducers/index';
 import * as fromPage from '../reducers/page.reducer';
 
 import { Page } from '../../model/page.model';
