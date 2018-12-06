@@ -12,15 +12,22 @@ import { CmsComponent } from '../../occ-models/cms-component.models';
   providedIn: 'root'
 })
 export class CmsService {
-  readonly currentPage$: Observable<Page> = this.store.pipe(
-    select(fromStore.getLatestPage)
-  );
-
   constructor(
     private store: Store<CmsState>,
     private defaultPageService: DefaultPageService
   ) {}
 
+  /**
+   * Get current CMS page data
+   */
+  getCurrentPage(): Observable<Page> {
+    return this.store.pipe(select(fromStore.getLatestPage));
+  }
+
+  /**
+   * Get CMS component data by uid
+   * @param uid : CMS componet uid
+   */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     const selector = fromStore.componentSelectorFactory(uid);
     return this.store.pipe(
@@ -34,6 +41,10 @@ export class CmsService {
     );
   }
 
+  /**
+   * Given the position, get CMS components (with uid and typecode) inside the content slot
+   * @param position : content slot position
+   */
   getContentSlot(
     position: string
   ): Observable<{ uid: string; typeCode: string }[]> {
@@ -43,12 +54,21 @@ export class CmsService {
     );
   }
 
+  /**
+   * Given navigation node uid, get items (with id and type) inside the navigation entries
+   * @param navigationNodeUid : uid of the navigation node
+   */
   getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
     return this.store.pipe(
       select(fromStore.itemsSelectorFactory(navigationNodeUid))
     );
   }
 
+  /**
+   * Load navigation items data
+   * @param rootUid : the uid of the root navigation node
+   * @param itemList : list of items (with id and type)
+   */
   loadNavigationItems(rootUid: string, itemList: any[]) {
     this.store.dispatch(
       new fromStore.LoadNavigationItems({
@@ -58,6 +78,10 @@ export class CmsService {
     );
   }
 
+  /**
+   * Given pageContext, return whether the CMS page data exists or not
+   * @param pageContext
+   */
   hasPage(pageContext): Observable<boolean> {
     let tryTimes = 0;
 

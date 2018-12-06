@@ -127,7 +127,7 @@ describe('CmsService', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
 
       let result;
-      const subscription = service.currentPage$.subscribe(value => {
+      const subscription = service.getCurrentPage().subscribe(value => {
         result = value;
       });
       subscription.unsubscribe();
