@@ -73,7 +73,7 @@ describe('CheckoutService', () => {
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
     let selectedMode;
-    service.selectedDeliveryMode$.subscribe(data => {
+    service.getSelectedDeliveryMode().subscribe(data => {
       selectedMode = data;
     });
     expect(selectedMode).toEqual({ code: 'mode1' });
@@ -88,7 +88,7 @@ describe('CheckoutService', () => {
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
     let selectedModeCode;
-    service.selectedDeliveryModeCode$.subscribe(data => {
+    service.getSelectedDeliveryModeCode().subscribe(data => {
       selectedModeCode = data;
     });
     expect(selectedModeCode).toEqual('mode1');

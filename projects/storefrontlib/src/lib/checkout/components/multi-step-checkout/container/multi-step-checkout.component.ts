@@ -81,7 +81,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step2: select delivery mode
     this.subscriptions.push(
-      this.checkoutService.selectedDeliveryModeCode$
+      this.checkoutService
+        .getSelectedDeliveryModeCode()
         .pipe(filter(selected => selected !== '' && this.step === 2))
         .subscribe(selectedMode => {
           this.nextStep(3);

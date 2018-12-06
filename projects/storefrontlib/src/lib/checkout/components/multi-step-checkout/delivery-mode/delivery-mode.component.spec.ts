@@ -28,7 +28,7 @@ const mockDeliveryMode2 = {
 
 const mockSupportedDeliveryModes = [mockDeliveryMode1, mockDeliveryMode2];
 
-fdescribe('DeliveryModeComponent', () => {
+describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let mockCheckoutService: MockCheckoutService;

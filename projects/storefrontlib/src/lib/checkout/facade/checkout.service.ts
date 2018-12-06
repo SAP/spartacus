@@ -15,14 +15,6 @@ import { Address, PaymentDetails, DeliveryMode } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
-  readonly selectedDeliveryMode$: Observable<any> = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getSelectedDeliveryMode)
-  );
-
-  readonly selectedDeliveryModeCode$: Observable<any> = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getSelectedCode)
-  );
-
   readonly cardTypes$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAllCardTypes)
   );
@@ -55,6 +47,16 @@ export class CheckoutService {
     return this.checkoutStore.pipe(
       select(fromCheckoutStore.getSupportedDeliveryModes)
     );
+  }
+
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getSelectedDeliveryMode)
+    );
+  }
+
+  getSelectedDeliveryModeCode(): Observable<any> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getSelectedCode));
   }
 
   createAndSetAddress(address: Address): void {

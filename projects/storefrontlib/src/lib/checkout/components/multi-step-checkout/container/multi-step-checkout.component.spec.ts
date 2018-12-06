@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 
 import { RoutingService } from '@spartacus/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
@@ -15,6 +15,22 @@ import { CartService } from './../../../../cart/facade/cart.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
+
+class MockCheckoutService {
+  deliveryAddress$ = new BehaviorSubject({});
+  paymentDetails$ = new BehaviorSubject({});
+  orderDetails$ = new BehaviorSubject({});
+  clearCheckoutData = createSpy();
+  createAndSetAddress = createSpy();
+  setDeliveryAddress = createSpy();
+  setDeliveryMode = createSpy();
+  createPaymentDetails = createSpy();
+  setPaymentDetails = createSpy();
+  placeOrder = createSpy();
+  getSelectedDeliveryModeCode(): Observable<any> {
+    return of('');
+  }
+}
 
 const mockAddress: Address = {
   id: 'mock address id',
@@ -75,37 +91,39 @@ class MockOrderSummaryComponent {
   cart: any;
 }
 
-describe('MultiStepCheckoutComponent', () => {
+fdescribe('MultiStepCheckoutComponent', () => {
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
 
-  let mockCheckoutService: any;
+  let mockCheckoutService: MockCheckoutService;
   let mockCartService: any;
   let mockCartDataService: any;
   let mockRoutingService: any;
   let mockGlobalMessageService: any;
 
-  const mockAllSteps = () => {
-    mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
-    mockCheckoutService.selectedDeliveryModeCode$.next(mockSelectedCode);
-    mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
-    mockCheckoutService.orderDetails$.next(mockOrderDetails);
-  };
+  // const mockAllSteps = () => {
+  //   mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
+  //   spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+  //     of(mockSelectedCode)
+  //   );
+  //   mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
+  //   mockCheckoutService.orderDetails$.next(mockOrderDetails);
+  // };
 
   beforeEach(async(() => {
-    mockCheckoutService = {
-      deliveryAddress$: new BehaviorSubject({}),
-      selectedDeliveryModeCode$: new BehaviorSubject(''),
-      paymentDetails$: new BehaviorSubject({}),
-      orderDetails$: new BehaviorSubject({}),
-      clearCheckoutData: createSpy(),
-      createAndSetAddress: createSpy(),
-      setDeliveryAddress: createSpy(),
-      setDeliveryMode: createSpy(),
-      createPaymentDetails: createSpy(),
-      setPaymentDetails: createSpy(),
-      placeOrder: createSpy()
-    };
+    // mockCheckoutService = {
+    //   deliveryAddress$: new BehaviorSubject({}),
+    //   selectedDeliveryModeCode$: new BehaviorSubject(''),
+    //   paymentDetails$: new BehaviorSubject({}),
+    //   orderDetails$: new BehaviorSubject({}),
+    //   clearCheckoutData: createSpy(),
+    //   createAndSetAddress: createSpy(),
+    //   setDeliveryAddress: createSpy(),
+    //   setDeliveryMode: createSpy(),
+    //   createPaymentDetails: createSpy(),
+    //   setPaymentDetails: createSpy(),
+    //   placeOrder: createSpy()
+    // };
     mockCartService = {
       activeCart$: new BehaviorSubject({}),
       loadCartDetails: createSpy()
@@ -130,13 +148,15 @@ describe('MultiStepCheckoutComponent', () => {
         MockOrderSummaryComponent
       ],
       providers: [
-        { provide: CheckoutService, useValue: mockCheckoutService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: CartService, useValue: mockCartService },
         { provide: CartDataService, useValue: mockCartDataService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
         { provide: RoutingService, useValue: mockRoutingService }
       ]
     }).compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -146,6 +166,15 @@ describe('MultiStepCheckoutComponent', () => {
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'nextStep').and.callThrough();
   });
+
+  const mockAllSteps = () => {
+    mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+      of(mockSelectedCode)
+    );
+    mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
+    mockCheckoutService.orderDetails$.next(mockOrderDetails);
+  };
 
   it('should be created', () => {
     expect(component).toBeTruthy();
@@ -168,15 +197,18 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call processSteps() to process step 2: select delivery mode', () => {
     mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
-    mockCheckoutService.selectedDeliveryModeCode$.next(mockSelectedCode);
-
+    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+      of(mockSelectedCode)
+    );
     component.processSteps();
     expect(component.nextStep).toHaveBeenCalledWith(3);
   });
 
   it('should call processSteps() to process step 3: set payment info', () => {
     mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
-    mockCheckoutService.selectedDeliveryModeCode$.next(mockSelectedCode);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+      of(mockSelectedCode)
+    );
     mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
 
     component.processSteps();
@@ -185,7 +217,9 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call processSteps() to process step 4: place order', () => {
     mockCheckoutService.deliveryAddress$.next(mockDeliveryAddresses);
-    mockCheckoutService.selectedDeliveryModeCode$.next(mockSelectedCode);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+      of(mockSelectedCode)
+    );
     mockCheckoutService.paymentDetails$.next(mockPaymentDetails);
     mockCheckoutService.orderDetails$.next(mockOrderDetails);
 
