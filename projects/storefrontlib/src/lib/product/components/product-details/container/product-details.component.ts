@@ -68,7 +68,7 @@ export class ProductDetailsComponent implements OnChanges {
   }
 
   private isElementOutViewport(el) {
-    var rect = el.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
     return (
       rect.bottom < 0 ||
       rect.right < 0 ||
