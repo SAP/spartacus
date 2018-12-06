@@ -48,7 +48,7 @@ $useTabsOnPDP: false !default;
     }
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     > h3 {
       text-indent: 20px;
       border-top: var(--cx-border-width, 1px)
