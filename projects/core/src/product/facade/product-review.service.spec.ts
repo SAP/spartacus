@@ -3,7 +3,7 @@ import { StoreModule, Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 
-import * as fromStore from '../store/index';
+import * as fromStore from '../store';
 
 import { ProductReviewService } from './product-review.service';
 import { Review } from '../../occ-models';

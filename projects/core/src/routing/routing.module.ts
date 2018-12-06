@@ -8,7 +8,7 @@ import {
 } from '@ngrx/router-store';
 import { StoreModule, MetaReducer, META_REDUCERS } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { getStorageSyncReducer } from './store/reducers/index';
+import { getStorageSyncReducer } from './store/reducers';
 import {
   reducerToken,
   CustomSerializer,

@@ -6,10 +6,10 @@ import * as fromOrderDetailsEffect from './order-details.effect';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
-import { ProductImageConverterService } from '../../../product';
+import { ProductImageConverterService } from '../../../product/store/converters/index';
 import { OccOrderService } from '../../occ/index';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { Order } from '../../../occ-models';
+import { Order } from '../../../occ-models/index';
 
 const mockOrderDetails: Order = {};
 

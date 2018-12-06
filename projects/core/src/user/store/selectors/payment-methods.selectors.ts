@@ -3,7 +3,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromUserPaymentMethodsReducer from '../reducers/payment-methods.reducer';
 import { UserPaymentMethodsState, UserState } from '../user-state';
-import { PaymentDetails } from '../../../occ-models';
+import { PaymentDetails } from '../../../occ-models/index';
 
 export const getPaymentMethodsState: MemoizedSelector<
   any,

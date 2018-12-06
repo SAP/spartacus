@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
-import { User } from '../../../occ-models';
+import { User } from '../../../occ-models/index';
 
 @Injectable()
 export class UserDetailsEffects {

@@ -2,7 +2,7 @@ import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from './../reducers';
 import * as fromReducer from './../reducers/delivery-countries.reducer';
 import { UserState, DeliveryCountriesState } from '../user-state';
-import { Country } from '../../../occ-models';
+import { Country } from '../../../occ-models/index';
 
 export const getDeliveryCountriesState: MemoizedSelector<
   any,

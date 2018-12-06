@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { OccUserService } from '../../occ/index';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesEffect from './user-addresses.effect';
-import { AddressList } from '../../../occ-models';
+import { AddressList } from '../../../occ-models/index';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {

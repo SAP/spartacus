@@ -12,7 +12,7 @@ import * as fromReducer from './router.reducer';
 import * as fromAction from './../actions/';
 import * as fromNgrxRouter from '@ngrx/router-store';
 
-import { PageType } from '../../../occ-models';
+import { PageType } from '../../../occ-models/index';
 
 @Component({
   selector: 'cx-test-cmp',

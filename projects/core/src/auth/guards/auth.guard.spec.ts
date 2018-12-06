@@ -6,11 +6,11 @@ import {
   NavigationExtras
 } from '@angular/router';
 
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+
 import { of, Observable } from 'rxjs';
 
 import { AuthGuard } from './auth.guard';
-import { UserToken, AuthService } from '../index';
-import { RoutingService } from '../../routing/index';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',

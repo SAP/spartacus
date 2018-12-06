@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Address } from '../../../occ-models';
+import { Address } from '../../../occ-models/index';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';

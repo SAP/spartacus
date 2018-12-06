@@ -17,7 +17,7 @@ import {
   AddressValidation,
   AddressList,
   PaymentDetailsList
-} from '../../occ-models';
+} from '../../occ-models/index';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';

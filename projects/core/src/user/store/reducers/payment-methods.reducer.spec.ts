@@ -1,6 +1,6 @@
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
 import * as fromUserPaymentMethodsReducer from './payment-methods.reducer';
-import { PaymentDetails } from '../../../occ-models';
+import { PaymentDetails } from '../../../occ-models/index';
 
 describe('User Payment Methods Reducer', () => {
   describe('undefined action', () => {

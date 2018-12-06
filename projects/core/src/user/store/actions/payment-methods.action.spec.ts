@@ -1,5 +1,5 @@
 import * as fromUserPaymentMethodsAction from './payment-methods.action';
-import { PaymentDetailsList } from '../../../occ-models';
+import { PaymentDetailsList } from '../../../occ-models/index';
 
 const userId = '123';
 

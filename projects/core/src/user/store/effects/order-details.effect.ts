@@ -5,8 +5,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { OccOrderService } from '../../occ/index';
 
 import * as fromOrderDetailsAction from '../actions/order-details.action';
-import { ProductImageConverterService } from '../../../product';
-import { Order } from '../../../occ-models';
+import { ProductImageConverterService } from '../../../product/store/converters/index';
+import { Order } from '../../../occ-models/index';
 
 @Injectable()
 export class OrderDetailsEffect {

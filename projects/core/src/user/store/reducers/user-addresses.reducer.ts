@@ -1,6 +1,6 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { UserAddressesState } from '../user-state';
-import { Address } from '../../../occ-models';
+import { Address } from '../../../occ-models/index';
 
 export const initialState: UserAddressesState = {
   list: [],

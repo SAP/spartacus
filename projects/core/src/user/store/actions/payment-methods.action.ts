@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { PaymentDetails } from '../../../occ-models';
+import { PaymentDetails } from '../../../occ-models/index';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =

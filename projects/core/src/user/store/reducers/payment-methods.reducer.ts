@@ -1,6 +1,6 @@
 import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 import { UserPaymentMethodsState } from '../user-state';
-import { PaymentDetails } from '../../../occ-models';
+import { PaymentDetails } from '../../../occ-models/index';
 
 export const initialState: UserPaymentMethodsState = {
   list: [],

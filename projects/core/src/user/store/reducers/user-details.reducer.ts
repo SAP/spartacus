@@ -1,6 +1,6 @@
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import { UserDetailsState } from '../user-state';
-import { User } from '../../../occ-models';
+import { User } from '../../../occ-models/index';
 
 export const initialState: UserDetailsState = {
   details: <User>{}

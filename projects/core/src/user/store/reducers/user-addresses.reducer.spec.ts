@@ -1,6 +1,6 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesReducer from './user-addresses.reducer';
-import { Address } from '../../../occ-models';
+import { Address } from '../../../occ-models/index';
 
 describe('User Addresses Reducer', () => {
   describe('undefined action', () => {

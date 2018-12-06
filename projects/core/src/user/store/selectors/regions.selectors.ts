@@ -3,7 +3,7 @@ import { MemoizedSelector, createSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers';
 import * as fromReducer from '../reducers/regions.reducer';
 import { UserState, RegionsState } from '../user-state';
-import { Region } from '../../../occ-models';
+import { Region } from '../../../occ-models/index';
 
 export const getRegionsState: MemoizedSelector<
   any,

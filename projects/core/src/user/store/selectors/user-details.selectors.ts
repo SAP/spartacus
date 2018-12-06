@@ -1,9 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
+import * as fromFeature from '../reducers/index';
 import * as fromUserDetailsReducer from '../reducers/user-details.reducer';
 import { UserDetailsState, UserState } from '../user-state';
-import { User } from '../../../occ-models';
+import { User } from '../../../occ-models/index';
 
 export const getDetailsState: MemoizedSelector<
   any,

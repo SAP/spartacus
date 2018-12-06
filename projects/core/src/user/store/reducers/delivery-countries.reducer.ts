@@ -1,6 +1,6 @@
 import * as fromAction from '../actions';
 import { DeliveryCountriesState } from '../user-state';
-import { Country } from '../../../occ-models';
+import { Country } from '../../../occ-models/index';
 
 export const initialState: DeliveryCountriesState = {
   entities: {}

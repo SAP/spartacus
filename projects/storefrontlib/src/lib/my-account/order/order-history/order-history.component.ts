@@ -1,6 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AuthService, RoutingService, UserService, OrderHistoryList, Order } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserService,
+  OrderHistoryList,
+  Order
+} from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';

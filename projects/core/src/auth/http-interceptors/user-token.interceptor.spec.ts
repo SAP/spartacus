@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
-import { AuthConfig } from '../index';
+import { AuthConfig } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
