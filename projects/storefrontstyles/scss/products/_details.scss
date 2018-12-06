@@ -11,6 +11,7 @@ $useTabsOnPDP: false !default;
     }
   }
   > h3 {
+    margin-bottom: 0;
     &.active,
     &:hover {
       color: var(--cx-color, var(--cx-primary));
