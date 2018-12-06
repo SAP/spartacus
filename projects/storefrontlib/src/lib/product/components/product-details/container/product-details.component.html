@@ -55,14 +55,12 @@
           <div #shipping>
             <div class="container">
               <h2>Shipping</h2>
-              <!--
-                <h3
-                  yComponentWrapper
-                  componentType="CMSTabParagraphComponent"
-                  componentUid="deliveryTab"
-                ></h3>
-                <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
-              -->
+              <ng-container
+                cxComponentWrapper
+                componentType="CMSTabParagraphComponent"
+                componentUid="deliveryTab"
+              ></ng-container>
+              <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
             </div>
           </div>
         </ng-container>
