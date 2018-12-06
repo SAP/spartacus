@@ -27,7 +27,7 @@ if (!environment.production) {
       },
       product: {
         styles: {
-          blue: true
+          summary: 'summary'
         }
       }
     }),

@@ -1,44 +1,24 @@
-import {
-  Directive,
-  // TemplateRef,
-  // ViewContainerRef,
-  OnInit,
-  Renderer2,
-  ElementRef,
-  Input
-} from '@angular/core';
-import { ProductModuleConfig } from '../product/product-config';
+import { Directive, OnInit, Renderer2, ElementRef, Input } from '@angular/core';
 
 @Directive({
   selector: '[cxStylingDirective]'
 })
 export class StylingDirective implements OnInit {
-  @Input() cxStylingDirective: any;
+  @Input() cxStylingDirective: string;
 
-  constructor(
-    // private vcr: ViewContainerRef,
-    // private templateRef: TemplateRef<any>,
-    private renderer: Renderer2,
-    private el: ElementRef,
-    private config: ProductModuleConfig
-  ) {}
+  constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit() {
-    if (this.config.product.styles) {
-      this.insjectStyle();
-    }
+    this.insjectStyle();
   }
 
   private insjectStyle(): void {
-    // this.vcr.createEmbeddedView(this.templateRef, {
-    //   $implicit: 'red'
-    // });
-    if (this.config.product.styles.blue) {
-      this.renderer.setProperty(
-        this.el.nativeElement,
-        'innerHTML',
-        `<style>@import url(styles/blue-color.css);</style>`
-      );
-    }
+    const styleElement = this.renderer.createElement('style');
+    const styleValue = this.renderer.createText(
+      `@import url(styles/${this.cxStylingDirective}.css);`
+    );
+
+    this.renderer.appendChild(styleElement, styleValue);
+    this.renderer.appendChild(this.el.nativeElement.parentNode, styleElement);
   }
 }

@@ -1,8 +1,8 @@
 export abstract class ProductModuleConfig {
   product?: {
     styles?: {
-      blue?: boolean;
-      imageSpinner?: boolean;
+      pdp?: string;
+      summary?: string;
     };
   };
 }
@@ -10,8 +10,8 @@ export abstract class ProductModuleConfig {
 export const defaultProductConfig: ProductModuleConfig = {
   product: {
     styles: {
-      blue: false,
-      imageSpinner: false
+      pdp: null,
+      summary: null
     }
   }
 };

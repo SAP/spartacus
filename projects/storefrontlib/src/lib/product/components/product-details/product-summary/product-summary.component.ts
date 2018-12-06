@@ -1,23 +1,16 @@
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { ProductSummaryStyles } from '../product-details-styles.model';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
+import { ProductModuleConfig } from '../../../product-config';
 
 @Component({
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   styleUrls: ['./product-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.ShadowDom
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductSummaryComponent {
   static outlets = ProductDetailOutlets;
-  static styles = ProductSummaryStyles;
 
   @Input()
   product: any;
@@ -27,9 +20,15 @@ export class ProductSummaryComponent {
     return ProductSummaryComponent.outlets;
   }
 
-  get styles() {
-    return ProductSummaryComponent.styles;
+  get style(): string {
+    return this.config.product &&
+      this.config.product.styles &&
+      this.config.product.styles.summary
+      ? this.config.product.styles.summary
+      : '';
   }
+
+  constructor(private config: ProductModuleConfig) {}
 
   updateCount(value) {
     this.itemCount = value;
