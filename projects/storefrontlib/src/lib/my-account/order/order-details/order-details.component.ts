@@ -1,10 +1,17 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-
-import { AuthService, RoutingService, UserService } from '@spartacus/core';
-
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import {
+  RoutingService,
+  Order,
+  Address,
+  AuthService,
+  PaymentDetails,
+  DeliveryMode,
+  Consignment,
+  OrderEntry,
+  UserService
+} from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -20,7 +27,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     private routingService: RoutingService
   ) {}
 
-  order$: Observable<any>;
+  order$: Observable<Order>;
   subscription: Subscription;
 
   ngOnInit() {
@@ -43,7 +50,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     this.order$ = this.userService.orderDetails$;
   }
 
-  getAddressCardContent(address): Card {
+  getAddressCardContent(address: Address): Card {
     return {
       title: 'Ship to',
       textBold: `${address.firstName} ${address.lastName}`,
@@ -56,7 +63,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getBillingAddressCardContent(billingAddress): Card {
+  getBillingAddressCardContent(billingAddress: Address): Card {
     return {
       title: 'Bill To',
       textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
@@ -71,7 +78,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getPaymentCardContent(payment): Card {
+  getPaymentCardContent(payment: PaymentDetails): Card {
     return {
       title: 'Payment',
       textBold: payment.accountHolderName,
@@ -83,7 +90,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingMethodCardContent(shipping): Card {
+  getShippingMethodCardContent(shipping: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: shipping.name,
@@ -91,8 +98,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getConsignmentProducts(consignment) {
-    const products = [];
+  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
+    const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {
       products.push(element.orderEntry);
     });

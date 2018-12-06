@@ -6,7 +6,8 @@ import {
   AuthService,
   RoutingService,
   UserToken,
-  UserService
+  UserService,
+  OrderHistoryList
 } from '@spartacus/core';
 
 import { of, BehaviorSubject, Observable } from 'rxjs';
@@ -17,9 +18,14 @@ import { PaginationAndSortingModule } from '../../../ui/components/pagination-an
 
 import { OrderHistoryComponent } from './order-history.component';
 
-const mockOrders = {
+const mockOrders: OrderHistoryList = {
   orders: [
-    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
+    {
+      code: '1',
+      placed: new Date('2018-01-01'),
+      statusDisplay: 'test',
+      total: { formattedValue: '1' }
+    }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
@@ -66,7 +72,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should load order list when data not exist', () => {
-    const initialOrderListState = {
+    const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: {},
       sorts: []
@@ -76,7 +82,7 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orderList;
+    let orderList: OrderHistoryList;
     component.orders$
       .subscribe(value => {
         orderList = value;
@@ -91,13 +97,13 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let order;
+    let orders: OrderHistoryList;
     component.orders$
       .subscribe(value => {
-        order = value;
+        orders = value;
       })
       .unsubscribe();
-    expect(order).toEqual(mockOrders);
+    expect(orders).toEqual(mockOrders);
   });
 
   xit('should redirect when clicking on order id', () => {
@@ -112,7 +118,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should display No orders found page if no orders are found', () => {
-    const initialOrderListState = {
+    const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
       sorts: [{ code: 'byDate', selected: true }]
