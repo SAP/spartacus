@@ -44,7 +44,7 @@
     "@ngrx/router-store": "^6.1.0",
     "@ngrx/store": "^6.1.0",
     "@spartacus/core": "^0.1.0-prealpha.3",
-    "@spartacus/storefront": "^0.1.0-prealpha.8",
+    "@spartacus/storefront": "^0.1.0-prealpha.9",
     "@spartacus/styles": "^0.1.0-prealpha.5",
     "@types/googlemaps": "^3.30.13",
     "bootstrap": "^4.1.3",
