@@ -23,7 +23,8 @@
     "start:prod": "ng serve --prod",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test": "ng test",
-    "test:core:lib": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\""
+    "test:core:lib": "concurrently \"ng test core --sourceMap --code-coverage\" \"ng test storefrontlib --sourceMap --code-coverage\"",
+    "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage"
   },
   "private": false,
   "dependencies": {
