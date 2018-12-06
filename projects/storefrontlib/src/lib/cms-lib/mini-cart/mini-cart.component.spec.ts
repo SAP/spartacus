@@ -30,7 +30,7 @@ const orderEntry: OrderEntry = {
 
 const testEntries: { [id: string]: OrderEntry }[] = [{ '1234': orderEntry }];
 
-const mockComponentData = {
+const mockComponentData: any = {
   uid: '001',
   typeCode: 'MiniCartComponent',
   modifiedTime: '2017-12-21T18:15:15+0000',

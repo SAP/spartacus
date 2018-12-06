@@ -50,7 +50,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  typeahead = (text$: Observable<string>) =>
+  typeahead = (text$: Observable<string>): Observable<any[]> =>
     combineLatest(
       text$.pipe(
         debounceTime(300),

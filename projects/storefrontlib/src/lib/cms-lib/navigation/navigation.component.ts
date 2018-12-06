@@ -27,7 +27,7 @@ export class NavigationComponent extends AbstractCmsComponent
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: any;
 
   constructor(
     protected cmsService: CmsService,

@@ -3,9 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ProductService, Product } from '@spartacus/core';
+import { ProductService, Product, CmsComponent } from '@spartacus/core';
 
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -15,7 +15,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
 
-const mockComponentData = {
+const mockComponentData: any = {
   uid: '001',
   typeCode: 'ProductCarouselComponent',
   modifiedTime: '2017-12-21T18:15:15+0000',
@@ -37,18 +37,19 @@ const mockProduct: Product = {
 };
 
 class MockCmsService {
-  getComponentData() {
+  getComponentData<T extends CmsComponent>(): Observable<T> {
     return of(mockComponentData);
   }
 }
 
 class MockProductService {
-  get() {
+  get(): Observable<any> {
     return of(mockProduct);
   }
 
-  isProductLoaded() {
-    return of(Boolean);
+  isProductLoaded(): Observable<boolean> {
+    // return of(Boolean);
+    return of(true);
   }
 }
 

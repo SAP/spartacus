@@ -40,7 +40,7 @@ export class NavigationService {
    * @param nodeData
    * @param items
    */
-  public createNode(nodeData, items): any {
+  public createNode(nodeData: any, items: any): any {
     const node = {};
 
     node['title'] = nodeData.title;

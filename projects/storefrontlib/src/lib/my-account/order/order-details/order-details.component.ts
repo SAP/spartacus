@@ -2,7 +2,15 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '../../../user/facade/user.service';
-import { AuthService, RoutingService, Order } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  Order,
+  PaymentDetails,
+  DeliveryMode,
+  Consignment,
+  OrderEntry
+} from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -69,7 +77,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getPaymentCardContent(payment): Card {
+  getPaymentCardContent(payment: PaymentDetails): Card {
     return {
       title: 'Payment',
       textBold: payment.accountHolderName,
@@ -81,7 +89,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingMethodCardContent(shipping): Card {
+  getShippingMethodCardContent(shipping: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: shipping.name,
@@ -89,8 +97,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getConsignmentProducts(consignment) {
-    const products = [];
+  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
+    const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {
       products.push(element.orderEntry);
     });
