@@ -98,8 +98,8 @@ describe('ProductDetailsComponent in product', () => {
     productDetailsComponent.ngOnChanges();
     productDetailsComponent.product$.subscribe(() => {
       fixture.detectChanges();
-      productDetailsComponent.goToReviews();
-      expect(productDetailsComponent.tabSet.activeId).toEqual('reviews');
+      productDetailsComponent.openReview();
+      expect(productDetailsComponent.isWritingReview).toEqual(true);
     });
   });
 });
