@@ -85,8 +85,14 @@ describe('ReviewSubmitComponent', () => {
       loadSupportedDeliveryModes: createSpy()
     };
     mockCartService = {
-      activeCart$: new BehaviorSubject(null),
-      entries$: new BehaviorSubject(null)
+      cart$: new BehaviorSubject(null),
+      entries$: new BehaviorSubject(null),
+      getActiveCart(): BehaviorSubject<null> {
+        return this.cart$;
+      },
+      getEntries(): BehaviorSubject<null> {
+        return this.entries$;
+      }
     };
 
     TestBed.configureTestingModule({
@@ -117,8 +123,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
-    mockCartService.activeCart$.next({});
-    mockCartService.entries$.next([]);
+    mockCartService.getActiveCart().next({});
+    mockCartService.getEntries().next([]);
     mockCheckoutService.selectedDeliveryMode$.next('mockMode');
     mockUserService.getCountry.and.returnValue(of('mockCountryName'));
 
@@ -133,8 +139,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get delivery mode if it does not exists', done => {
-    mockCartService.activeCart$.next({});
-    mockCartService.entries$.next([]);
+    mockCartService.getActiveCart().next({});
+    mockCartService.getEntries().next([]);
     mockCheckoutService.selectedDeliveryMode$.next(null);
     mockUserService.getCountry.and.returnValue(of(null));
 
@@ -186,8 +192,8 @@ describe('ReviewSubmitComponent', () => {
         .textContent;
 
     beforeEach(() => {
-      mockCartService.activeCart$.next(mockCart);
-      mockCartService.entries$.next([]);
+      mockCartService.getActiveCart().next(mockCart);
+      mockCartService.getEntries().next([]);
       fixture.detectChanges();
     });
 
@@ -257,16 +263,16 @@ describe('ReviewSubmitComponent', () => {
       fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
-      mockCartService.activeCart$.next(mockCart);
-      mockCartService.entries$.next(mockEntries);
+      mockCartService.getActiveCart().next(mockCart);
+      mockCartService.getEntries().next(mockEntries);
       fixture.detectChanges();
       expect(getCartItemList().items).toEqual(['cart entry 1', 'cart entry 2']);
       expect(getCartItemList().isReadOnly).toBe(true);
     });
 
     it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
-      mockCartService.activeCart$.next(mockCart);
-      mockCartService.entries$.next(mockEntries);
+      mockCartService.getActiveCart().next(mockCart);
+      mockCartService.getEntries().next(mockEntries);
 
       fixture.detectChanges();
       expect(getCartItemList().potentialProductPromotions).toEqual([

@@ -46,8 +46,12 @@ describe('MiniCartComponent', () => {
   ];
 
   const MockCartService = {
-    cart$: of(testCart),
-    entries$: of(testEntries)
+    getActiveCart() {
+      return of(testCart);
+    },
+    getEntries() {
+      return of(testEntries);
+    }
   };
 
   beforeEach(async(() => {

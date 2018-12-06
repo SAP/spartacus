@@ -17,21 +17,21 @@ import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 export class CartService {
   private callback: Function;
 
-  readonly activeCart$: Observable<Cart> = this.store.pipe(
-    select(fromSelector.getActiveCart)
-  );
+  getActiveCart(): Observable<Cart> {
+    return this.store.pipe(select(fromSelector.getActiveCart));
+  }
 
-  readonly entries$: Observable<OrderEntry[]> = this.store.pipe(
-    select(fromSelector.getEntries)
-  );
+  getEntries(): Observable<OrderEntry[]> {
+    return this.store.pipe(select(fromSelector.getEntries));
+  }
 
-  readonly cartMergeComplete$: Observable<boolean> = this.store.pipe(
-    select(fromSelector.getCartMergeComplete)
-  );
+  getCartMergeComplete(): Observable<boolean> {
+    return this.store.pipe(select(fromSelector.getCartMergeComplete));
+  }
 
-  readonly loaded$: Observable<boolean> = this.store.pipe(
-    select(fromSelector.getLoaded)
-  );
+  getLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromSelector.getLoaded));
+  }
 
   constructor(
     private store: Store<fromReducer.CartState>,

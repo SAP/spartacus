@@ -12,6 +12,7 @@ import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
+import { Cart } from 'projects/backend/occ-client/lib/models';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
@@ -22,6 +23,12 @@ class MockCartService {
     });
   }
   getEntry(_productCode: string): Observable<any> {
+    return of();
+  }
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
+  getActiveCart(): Observable<Cart> {
     return of();
   }
 }

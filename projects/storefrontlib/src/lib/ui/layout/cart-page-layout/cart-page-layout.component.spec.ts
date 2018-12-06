@@ -6,10 +6,15 @@ import { of, Observable } from 'rxjs';
 import { CartService } from '../../../cart/facade';
 
 import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { Cart } from 'projects/backend/occ-client/lib/models';
 
 class MockCartService {
-  activeCart$: Observable<any>;
-  cartMergeComplete$: Observable<boolean>;
+  getActiveCart(): Observable<Cart> {
+    return of();
+  }
+  getCartMergeComplete(): Observable<Boolean> {
+    return of();
+  }
   removeCartEntry() {}
   loadCartDetails() {}
 }
@@ -57,9 +62,9 @@ describe('CartPageLayoutComponent', () => {
   });
 
   it('should call ngOnInit', () => {
-    service.cartMergeComplete$ = of(true);
+    spyOn(service, 'getActiveCart').and.returnValue(of('mockCart'));
+    spyOn(service, 'getCartMergeComplete').and.returnValue(of(true));
     spyOn(service, 'loadCartDetails').and.stub();
-    service.activeCart$ = of('mockCart');
 
     component.ngOnInit();
 

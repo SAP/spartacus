@@ -17,8 +17,12 @@ const CART_NOT_CREATED = Object.freeze({});
 const mockRouter = { navigate: () => {} };
 
 class CartServiceStub {
-  activeCart$: Observable<Cart>;
-  loaded$: Observable<boolean>;
+  getActiveCart(): Observable<Cart> {
+    return of();
+  }
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
   isCartEmpty(_cart: any): boolean {
     return false;
   }
@@ -57,12 +61,14 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is NOT loaded', () => {
       beforeEach(() => {
-        cartService.loaded$ = of(false);
+        spyOn(cartService, 'getLoaded').and.returnValue(of(false));
       });
 
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_CREATED);
+          spyOn(cartService, 'getActiveCart').and.returnValue(
+            of(CART_NOT_CREATED)
+          );
         });
 
         it('then Router should NOT redirect', () => {
@@ -85,7 +91,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_EMPTY);
+          spyOn(cartService, 'getActiveCart').and.returnValue(of(CART_EMPTY));
         });
 
         it('then Router should NOT redirect', () => {
@@ -108,7 +114,9 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_EMPTY);
+          spyOn(cartService, 'getActiveCart').and.returnValue(
+            of(CART_NOT_EMPTY)
+          );
         });
 
         it('then Router should NOT redirect', () => {
@@ -132,12 +140,14 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is loaded', () => {
       beforeEach(() => {
-        cartService.loaded$ = of(true);
+        spyOn(cartService, 'getLoaded').and.returnValue(of(true));
       });
 
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_CREATED);
+          spyOn(cartService, 'getActiveCart').and.returnValue(
+            of(CART_NOT_CREATED)
+          );
         });
 
         it('then Router should redirect to main page', () => {
@@ -162,7 +172,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_EMPTY);
+          spyOn(cartService, 'getActiveCart').and.returnValue(of(CART_EMPTY));
         });
 
         it('then Router should redirect to main page', () => {
@@ -187,7 +197,9 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_EMPTY);
+          spyOn(cartService, 'getActiveCart').and.returnValue(
+            of(CART_NOT_EMPTY)
+          );
         });
 
         it('then Router should NOT redirect', () => {

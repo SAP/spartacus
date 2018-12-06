@@ -40,8 +40,8 @@ export class ReviewSubmitComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.activeCart$;
-    this.entries$ = this.cartService.entries$;
+    this.cart$ = this.cartService.getActiveCart();
+    this.entries$ = this.cartService.getEntries();
 
     this.deliveryMode$ = this.checkoutService.selectedDeliveryMode$.pipe(
       tap(selected => {

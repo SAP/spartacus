@@ -348,7 +348,10 @@ describe('CartService', () => {
     it('should return a loaded state', () => {
       store.dispatch(new fromCart.CreateCartSuccess(cart));
       let result;
-      service.loaded$.subscribe(value => (result = value)).unsubscribe();
+      service
+        .getLoaded()
+        .subscribe(value => (result = value))
+        .unsubscribe();
       expect(result).toEqual(true);
     });
   });
@@ -376,7 +379,8 @@ describe('CartService', () => {
     it('should return true when the merge is complete', () => {
       store.dispatch(new fromCart.MergeCartSuccess());
       let result;
-      service.cartMergeComplete$
+      service
+        .getCartMergeComplete()
         .subscribe(mergeComplete => (result = mergeComplete))
         .unsubscribe();
       expect(result).toEqual(true);
