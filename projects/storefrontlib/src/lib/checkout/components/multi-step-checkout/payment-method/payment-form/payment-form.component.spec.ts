@@ -1,15 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from '../../../../facade/checkout.service';
-import { Address } from '../../../../models/address-model';
 import { PaymentFormComponent } from './payment-form.component';
-import { CardType } from '@spartacus/core';
+import { CardType, Address } from '@spartacus/core';
 
 const mockAddress: Address = {
   firstName: 'John',
@@ -44,14 +43,16 @@ class MockCardComponent {
 }
 
 class MockCheckoutService {
-  deliveryAddress$ = new BehaviorSubject(null);
   loadSupportedCardTypes = createSpy();
   getCardTypes(): Observable<CardType[]> {
     return of();
   }
+  getDeliveryAddress(): Observable<Address> {
+    return of(null);
+  }
 }
 
-fdescribe('PaymentFormComponent', () => {
+describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let mockCheckoutService: MockCheckoutService;
@@ -109,7 +110,9 @@ fdescribe('PaymentFormComponent', () => {
     spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
       of(mockCardTypes)
     );
-    mockCheckoutService.deliveryAddress$.next(mockAddress);
+    spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
+      of(mockAddress)
+    );
     component.ngOnInit();
     let cardTypes;
     component.cardTypes$.subscribe(data => {
@@ -184,8 +187,9 @@ fdescribe('PaymentFormComponent', () => {
       spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
         of(mockCardTypes)
       );
-      mockCheckoutService.deliveryAddress$.next(mockAddress);
-
+      spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
+        of(mockAddress)
+      );
       spyOn(component, 'next');
 
       fixture.detectChanges();

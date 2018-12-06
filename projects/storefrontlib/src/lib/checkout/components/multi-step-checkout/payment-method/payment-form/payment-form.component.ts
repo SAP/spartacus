@@ -61,7 +61,7 @@ export class PaymentFormComponent implements OnInit {
         }
       })
     );
-    this.shippingAddress$ = this.checkoutService.deliveryAddress$;
+    this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
   }
 
   expMonthAndYear() {

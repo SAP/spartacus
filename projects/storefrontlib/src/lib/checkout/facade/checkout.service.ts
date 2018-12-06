@@ -15,30 +15,12 @@ import {
   Address,
   PaymentDetails,
   DeliveryMode,
-  CardType
+  CardType,
+  Order
 } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
-  readonly deliveryAddress$: Observable<any> = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getDeliveryAddress)
-  );
-
-  readonly addressVerificationResults$: Observable<
-    any
-  > = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getAddressVerificationResults),
-    filter(results => Object.keys(results).length !== 0)
-  );
-
-  readonly paymentDetails$: Observable<any> = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getPaymentDetails)
-  );
-
-  readonly orderDetails$: Observable<any> = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getOrderDetails)
-  );
-
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
     private cartData: CartDataService
@@ -62,6 +44,27 @@ export class CheckoutService {
 
   getCardTypes(): Observable<CardType[]> {
     return this.checkoutStore.pipe(select(fromCheckoutStore.getAllCardTypes));
+  }
+
+  getDeliveryAddress(): Observable<Address> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getDeliveryAddress)
+    );
+  }
+
+  getAddressVerificationResults(): Observable<any> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getAddressVerificationResults),
+      filter(results => Object.keys(results).length !== 0)
+    );
+  }
+
+  getPaymentDetails(): Observable<PaymentDetails> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getPaymentDetails));
+  }
+
+  getOrderDetails(): Observable<Order> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getOrderDetails));
   }
 
   createAndSetAddress(address: Address): void {
