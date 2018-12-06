@@ -8,7 +8,7 @@ import { select, Store } from '@ngrx/store';
 import { StateWithProduct } from '../product-state';
 import * as actions from '../actions/index';
 import * as selectors from '../selectors/index';
-import * as convertors from '../converters/index';
+import * as converters from '../converters/index';
 
 import { OccProductService } from '../../occ/product.service';
 
@@ -51,7 +51,7 @@ export class ProductEffects {
     private actions$: Actions,
     private store: Store<StateWithProduct>,
     private occProductService: OccProductService,
-    private productImageConverter: convertors.ProductImageConverterService,
-    private productReferenceConverterService: convertors.ProductReferenceConverterService
+    private productImageConverter: converters.ProductImageConverterService,
+    private productReferenceConverterService: converters.ProductReferenceConverterService
   ) {}
 }
