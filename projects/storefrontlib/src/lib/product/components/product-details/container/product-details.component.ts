@@ -16,8 +16,7 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
 @Component({
   selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnChanges {
   static outlets = ProductDetailOutlets;
