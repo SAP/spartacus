@@ -22,7 +22,7 @@ export class ComponentEffects {
     ofType(componentActions.LOAD_COMPONENT),
     map((action: componentActions.LoadComponent) => action.payload),
     switchMap(uid => {
-      return this.routingService.routerState$.pipe(
+      return this.routingService.getRouterState().pipe(
         filter(routerState => routerState !== undefined),
         map(routerState => routerState.state.context),
         take(1),

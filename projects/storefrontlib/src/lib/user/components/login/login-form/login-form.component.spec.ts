@@ -19,9 +19,11 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  redirectUrl$ = of('/test');
   go = createSpy();
   clearRedirectUrl = createSpy();
+  getRedirectUrl() {
+    return of('/test');
+  }
 }
 
 class MockGlobalMessageService {
