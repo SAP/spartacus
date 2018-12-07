@@ -14,7 +14,9 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { LanguageChange, OccConfig } from '@spartacus/core';
+import { Product } from '../../../occ-models';
+import { LanguageChange } from '../../../site-context/store/actions/languages.action';
+import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -32,9 +34,11 @@ const router = {
     cmsRequired: false
   }
 };
-const mockRoutingService = {
-  routerState$: of(router)
-};
+class MockRoutingService {
+  getRouterState() {
+    return of(router);
+  }
+}
 
 describe('Product Effects', () => {
   let actions$: Observable<any>;
@@ -42,7 +46,7 @@ describe('Product Effects', () => {
   let effects: fromEffects.ProductEffects;
 
   const productCode = 'testCode';
-  const product = {
+  const product: Product = {
     code: 'testCode',
     name: 'testProduct'
   };
@@ -57,7 +61,7 @@ describe('Product Effects', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useValue: mockRoutingService }
+        { provide: RoutingService, useClass: MockRoutingService }
       ]
     });
     service = TestBed.get(OccProductService);

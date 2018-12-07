@@ -1,45 +1,52 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { filter } from 'rxjs/operators';
+
+import { Observable } from 'rxjs';
 
 import * as fromCheckoutStore from '../store/';
 import {
   CartDataService,
   ANONYMOUS_USERID
-} from '../../cart/services/cart-data.service';
+} from '../../cart/facade/cart-data.service';
+import { Address, PaymentDetails } from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
-  readonly supportedDeliveryModes$ = this.checkoutStore.pipe(
+  readonly supportedDeliveryModes$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSupportedDeliveryModes)
   );
 
-  readonly selectedDeliveryMode$ = this.checkoutStore.pipe(
+  readonly selectedDeliveryMode$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSelectedDeliveryMode)
   );
 
-  readonly selectedDeliveryModeCode$ = this.checkoutStore.pipe(
+  readonly selectedDeliveryModeCode$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getSelectedCode)
   );
 
-  readonly cardTypes$ = this.checkoutStore.pipe(
+  readonly cardTypes$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAllCardTypes)
   );
 
-  readonly deliveryAddress$ = this.checkoutStore.pipe(
+  readonly deliveryAddress$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getDeliveryAddress)
   );
 
-  readonly addressVerificationResults$ = this.checkoutStore.pipe(
+  readonly addressVerificationResults$: Observable<
+    any
+  > = this.checkoutStore.pipe(
     select(fromCheckoutStore.getAddressVerificationResults),
     filter(results => Object.keys(results).length !== 0)
   );
 
-  readonly paymentDetails$ = this.checkoutStore.pipe(
+  readonly paymentDetails$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getPaymentDetails)
   );
 
-  readonly orderDetails$ = this.checkoutStore.pipe(
+  readonly orderDetails$: Observable<any> = this.checkoutStore.pipe(
     select(fromCheckoutStore.getOrderDetails)
   );
 
@@ -48,7 +55,7 @@ export class CheckoutService {
     private cartData: CartDataService
   ) {}
 
-  createAndSetAddress(address) {
+  createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.AddDeliveryAddress({
@@ -60,7 +67,7 @@ export class CheckoutService {
     }
   }
 
-  loadSupportedDeliveryModes() {
+  loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.LoadSupportedDeliveryModes({
@@ -71,7 +78,7 @@ export class CheckoutService {
     }
   }
 
-  setDeliveryMode(mode: any) {
+  setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryMode({
@@ -83,23 +90,23 @@ export class CheckoutService {
     }
   }
 
-  loadSupportedCardTypes() {
+  loadSupportedCardTypes(): void {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
-  createPaymentDetails(paymentInfo) {
+  createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          paymentDetails: paymentInfo
+          paymentDetails
         })
       );
     }
   }
 
-  placeOrder() {
+  placeOrder(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.PlaceOrder({
@@ -110,18 +117,18 @@ export class CheckoutService {
     }
   }
 
-  verifyAddress(address) {
+  verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({
           userId: this.cartData.userId,
-          address: address
+          address
         })
       );
     }
   }
 
-  setDeliveryAddress(address) {
+  setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryAddress({
@@ -133,7 +140,7 @@ export class CheckoutService {
     }
   }
 
-  setPaymentDetails(paymentDetails) {
+  setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetPaymentDetails({
@@ -145,17 +152,17 @@ export class CheckoutService {
     }
   }
 
-  clearAddressVerificationResults() {
+  clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
     );
   }
 
-  clearCheckoutData() {
+  clearCheckoutData(): void {
     this.checkoutStore.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 
-  clearCheckoutStep(stepNumber: number) {
+  clearCheckoutStep(stepNumber: number): void {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearCheckoutStep(stepNumber)
     );

@@ -1,11 +1,11 @@
 import * as fromUserDetailsAction from './user-details.action';
+import { User } from '@spartacus/core';
 
-const mockUserDetails: any = {
+const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  type: 'Mock Type',
   uid: 'UID'
 };
 

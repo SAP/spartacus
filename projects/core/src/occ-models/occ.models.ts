@@ -44,6 +44,17 @@ export interface Region {
 
 /**
  *
+ * An interface representing RegionList.
+ */
+export interface RegionList {
+  /**
+   * @member {Region[]} [regions]
+   */
+  regions?: Region[];
+}
+
+/**
+ *
  * An interface representing Address.
  */
 export interface Address {
@@ -1467,6 +1478,10 @@ export interface PaymentDetails {
    * @member {CardType} [cardType]
    */
   cardType?: CardType;
+  /**
+   * @member {string} [cvn]
+   */
+  cvn?: string;
   /**
    * @member {boolean} [defaultPayment]
    */

@@ -5,7 +5,7 @@ import * as NgrxStore from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { ProductSearchService } from './product-search.service';
-import { SearchConfig } from '@spartacus/core';
+import { SearchConfig } from '../model/search-config';
 import { EMPTY, of } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -22,18 +22,11 @@ describe('ProductSearchService', () => {
     }
   }
   const mockSearchResults = {
-    results: {
-      0: 'p1',
-      1: 'p2',
-      2: 'p3'
-    }
+    products: [{ code: '1' }, { code: '2' }, { code: '3' }]
   };
 
   const mockAuxSearchResults = {
-    results: {
-      0: 'ap1',
-      1: 'ap2'
-    }
+    products: [{ code: 'aux1' }, { code: 'aux2' }]
   };
 
   const mockSelect = selector => {

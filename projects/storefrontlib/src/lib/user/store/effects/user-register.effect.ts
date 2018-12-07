@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import * as fromActions from '../actions/user-register.action';
-import * as fromTokenActions from './../../../auth/store/actions';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../../occ/user/user.service';
 import { UserRegisterFormData } from '../../models/user.model';
+import { LoadUserToken } from '@spartacus/core';
 
 @Injectable()
 export class UserRegisterEffects {
@@ -17,7 +17,7 @@ export class UserRegisterEffects {
     mergeMap((user: UserRegisterFormData) => {
       return this.userService.registerUser(user).pipe(
         switchMap(_result => [
-          new fromTokenActions.LoadUserToken({
+          new LoadUserToken({
             userId: user.uid,
             password: user.password
           }),

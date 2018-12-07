@@ -6,14 +6,16 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { UserService } from '../../../../user/facade/user.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { Card } from '../../../../ui/components/card/card.component';
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
+import { UserService } from '../../../../user/facade/user.service';
+import { Card } from '../../../../ui/components/card/card.component';
+import { PaymentDetails } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-method',
@@ -23,9 +25,9 @@ import { visaImgSrc } from '../../../../ui/images/visa';
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
-  existingPaymentMethods$: Observable<any>;
+  existingPaymentMethods$: Observable<PaymentDetails[]>;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedPayment: any;

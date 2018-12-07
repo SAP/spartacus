@@ -72,24 +72,18 @@ describe('StoreFinderListComponent', () => {
     // then verify storefinder
     expect(storeFinderService.findStores).toHaveBeenCalledWith(
       queryText,
-      undefined
+      false
     );
   });
 
-  it('should find stores with geodata', () => {
+  it('should find stores with my geolocation', () => {
     // given component is called with quuery-text params
-    const latitude = 10.1;
-    const longitude = 21.8;
     activatedRoute.paramsSubscriptionHandler({
-      latitude: latitude,
-      longitude: longitude
+      useMyLocation: 'true'
     });
 
     // then verify storefinder
-    expect(storeFinderService.findStores).toHaveBeenCalledWith('', {
-      latitude: latitude,
-      longitude: longitude
-    });
+    expect(storeFinderService.findStores).toHaveBeenCalledWith('', true);
   });
 
   it('should change pages', () => {
@@ -97,7 +91,12 @@ describe('StoreFinderListComponent', () => {
     const pageNumber = 4;
     component.searchQuery = {
       queryText: '',
-      longitudeLatitude: { longitude: 0, latitude: 0 }
+      useMyLocation: true
+    };
+
+    component.geolocation = {
+      longitude: 0,
+      latitude: 0
     };
 
     // when

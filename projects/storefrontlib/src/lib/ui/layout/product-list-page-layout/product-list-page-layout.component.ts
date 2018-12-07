@@ -10,9 +10,9 @@ export class ProductListPageLayoutComponent {
   gridMode: String;
 
   @Input()
-  categoryCode;
+  categoryCode: string;
   @Input()
-  brandCode;
+  brandCode: string;
   @Input()
-  query;
+  query: string;
 }

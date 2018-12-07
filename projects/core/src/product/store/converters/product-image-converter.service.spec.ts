@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { ProductImageConverterService } from './product-image-converter.service';
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

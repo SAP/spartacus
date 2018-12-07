@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
+import { Review } from '../../../occ-models';
 import {
   ProductReviewsState,
   ProductsState,
@@ -10,14 +10,20 @@ import { getProductsState } from './feature.selector';
 export const getProductReviewsState: MemoizedSelector<
   StateWithProduct,
   ProductReviewsState
-> = createSelector(getProductsState, (state: ProductsState) => state.reviews);
+> = createSelector(
+  getProductsState,
+  (state: ProductsState) => state.reviews
+);
 
 export const getSelectedProductReviewsFactory = (
   productCode
-): MemoizedSelector<any, any> => {
-  return createSelector(getProductReviewsState, reviewData => {
-    if (reviewData.productCode === productCode) {
-      return reviewData.list;
+): MemoizedSelector<any, Review[]> => {
+  return createSelector(
+    getProductReviewsState,
+    reviewData => {
+      if (reviewData.productCode === productCode) {
+        return reviewData.list;
+      }
     }
-  });
+  );
 };
