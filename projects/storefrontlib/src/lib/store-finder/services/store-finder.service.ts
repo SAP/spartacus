@@ -50,13 +50,13 @@ export class StoreFinderService {
     );
   }
 
-  private clearWatchGeolocation(action: Action) {
+  private clearWatchGeolocation(callbackAction: Action) {
     if (this.geolocationWatchId !== null) {
       this.winRef.nativeWindow.navigator.geolocation.clearWatch(
         this.geolocationWatchId
       );
       this.geolocationWatchId = null;
     }
-    this.store.dispatch(action);
+    this.store.dispatch(callbackAction);
   }
 }
