@@ -3,7 +3,12 @@ set -e
 set -o pipefail
 
 echo "Updating dependencies"
-yarn
+yarn 
+echo "Building libs and storefront app"
+yarn build:core:lib
+yarn build
+
+
 #echo "-----"
 #./ci-scripts/validate.sh
 #echo "-----"
