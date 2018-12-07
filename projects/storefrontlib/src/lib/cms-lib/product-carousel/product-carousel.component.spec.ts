@@ -48,7 +48,6 @@ class MockProductService {
   }
 
   isProductLoaded(): Observable<boolean> {
-    // return of(Boolean);
     return of(true);
   }
 }
