@@ -15,7 +15,18 @@ const routes: Routes = [
     component: CategoryPageComponent,
     data: { pageLabel: 'search', cxPath: 'search' }
   },
-
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: CategoryPageComponent,
+    data: { cxPath: 'category' }
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: CategoryPageComponent,
+    data: { cxPath: 'brand' }
+  },
   // redirect OLD links
   {
     path: 'Open-Catalogue/:title/c/:categoryCode',
@@ -36,13 +47,6 @@ const routes: Routes = [
     path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
     redirectTo: null,
     data: { cxRedirectTo: 'category' }
-  },
-
-  {
-    path: null,
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent,
-    data: { cxPath: 'category' }
   }
 ];
 

@@ -19,13 +19,10 @@ export const defaultStorefrontRoutesTranslations: {
       paramsMapping: { productCode: 'code' }
     },
     category: {
-      paths: [
-        'category/:categoryCode/:title',
-        'category/:categoryCode',
-        'Brands/:brandName/c/:brandCode'
-      ],
+      paths: ['category/:categoryCode'],
       paramsMapping: { categoryCode: 'code' }
     },
+    brand: { paths: ['Brands/:brandName/c/:brandCode'] },
     storeFinder: {
       paths: ['store-finder'],
       children: {

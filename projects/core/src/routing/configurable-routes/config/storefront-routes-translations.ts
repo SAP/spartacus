@@ -23,6 +23,7 @@ export interface StorefrontRoutesTranslations {
   orderConfirmation?: StorefrontRouteTranslation;
   product?: StorefrontRouteTranslation;
   category?: StorefrontRouteTranslation;
+  brand?: StorefrontRouteTranslation;
   storeFinder?: {
     paths?: string[];
     children?: {
