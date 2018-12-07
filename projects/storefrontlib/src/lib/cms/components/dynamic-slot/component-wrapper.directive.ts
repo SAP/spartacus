@@ -9,11 +9,13 @@ import {
   Renderer2,
   ChangeDetectorRef
 } from '@angular/core';
+import { CmsComponent } from '@spartacus/core';
 import { ComponentMapperService } from '../../services/component-mapper.service';
 import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
+import { CmsModuleConfig } from '../../cms-module-config';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -37,7 +39,8 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private injector: Injector,
     private cmsService: CmsService,
     private renderer: Renderer2,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private config: CmsModuleConfig
   ) {}
 
   ngAfterViewInit() {
@@ -91,7 +94,9 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  private getCmsDataForComponent(): CmsComponentData {
+  private getCmsDataForComponent<T extends CmsComponent>(): CmsComponentData<
+    T
+  > {
     return {
       uid: this.componentUid,
       contextParameters: this.contextParameters,
@@ -99,13 +104,16 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     };
   }
 
-  private getInjectorForComponent() {
+  private getInjectorForComponent(): Injector {
+    const configProviders =
+      (this.config.cmsComponents[this.componentType] || {}).providers || [];
     return Injector.create({
       providers: [
         {
           provide: CmsComponentData,
           useValue: this.getCmsDataForComponent()
-        }
+        },
+        ...configProviders
       ],
       parent: this.injector
     });

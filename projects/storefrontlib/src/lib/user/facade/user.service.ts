@@ -3,14 +3,23 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store';
+import {
+  User,
+  Order,
+  PaymentDetails,
+  Address,
+  Region,
+  Title,
+  Country
+} from '@spartacus/core';
 
 @Injectable()
 export class UserService {
-  readonly user$: Observable<any> = this.store.pipe(
+  readonly user$: Observable<User> = this.store.pipe(
     select(fromStore.getDetails)
   );
 
-  readonly orderDetails$: Observable<any> = this.store.pipe(
+  readonly orderDetails$: Observable<Order> = this.store.pipe(
     select(fromStore.getOrderDetails)
   );
 
@@ -21,29 +30,29 @@ export class UserService {
     select(fromStore.getOrdersLoaded)
   );
 
-  readonly paymentMethods$: Observable<any> = this.store.pipe(
+  readonly paymentMethods$: Observable<PaymentDetails[]> = this.store.pipe(
     select(fromStore.getPaymentMethods)
   );
   readonly paymentMethodsLoading$: Observable<boolean> = this.store.pipe(
     select(fromStore.getPaymentMethodsLoading)
   );
 
-  readonly addresses$: Observable<any> = this.store.pipe(
+  readonly addresses$: Observable<Address[]> = this.store.pipe(
     select(fromStore.getAddresses)
   );
   readonly addressesLoading$: Observable<boolean> = this.store.pipe(
     select(fromStore.getAddressesLoading)
   );
 
-  readonly titles$: Observable<any> = this.store.pipe(
+  readonly titles$: Observable<Title[]> = this.store.pipe(
     select(fromStore.getAllTitles)
   );
 
-  readonly allDeliveryCountries$: Observable<any> = this.store.pipe(
+  readonly allDeliveryCountries$: Observable<Country[]> = this.store.pipe(
     select(fromStore.getAllDeliveryCountries)
   );
 
-  readonly allRegions$: Observable<any> = this.store.pipe(
+  readonly allRegions$: Observable<Region[]> = this.store.pipe(
     select(fromStore.getAllRegions)
   );
 
@@ -118,6 +127,24 @@ export class UserService {
 
   loadPaymentMethods(userId: string) {
     this.store.dispatch(new fromStore.LoadUserPaymentMethods(userId));
+  }
+
+  setPaymentMethodAsDefault(userId: string, paymentMethodId: string) {
+    this.store.dispatch(
+      new fromStore.SetDefaultUserPaymentMethod({
+        userId: userId,
+        paymentMethodId
+      })
+    );
+  }
+
+  deleteUserPaymentMethod(userId: string, paymentMethodId: string) {
+    this.store.dispatch(
+      new fromStore.DeleteUserPaymentMethod({
+        userId: userId,
+        paymentMethodId
+      })
+    );
   }
 
   loadAddresses(userId: string) {

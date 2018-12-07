@@ -14,7 +14,7 @@ import * as fromActions from '../actions/component.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { RoutingService, PageType } from '@spartacus/core';
+import { RoutingService, PageType, CmsComponent } from '@spartacus/core';
 
 const router = {
   state: {
@@ -26,14 +26,19 @@ const router = {
   }
 };
 const mockRoutingService = {
-  routerState$: of(router)
+  getRouterState() {
+    return of(router);
+  }
 };
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: OccCmsService;
   let effects: fromEffects.ComponentEffects;
 
-  const component: any = { uid: 'comp1', typeCode: 'SimpleBannerComponent' };
+  const component: CmsComponent = {
+    uid: 'comp1',
+    typeCode: 'SimpleBannerComponent'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

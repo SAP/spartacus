@@ -1,14 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
+
+import { RoutingService } from '@spartacus/core';
+
+import { BehaviorSubject } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
-import { UserService } from '../../../../user/facade/user.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { RoutingService } from '@spartacus/core';
-import { ShippingAddressComponent } from './shipping-address.component';
 import { Address } from '../../../models/address-model';
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { UserService } from '../../../../user/facade/user.service';
+
+import { ShippingAddressComponent } from './shipping-address.component';
 
 const mockAddress1: Address = {
   firstName: 'John',
@@ -141,7 +145,7 @@ describe('ShippingAddressComponent', () => {
       undefined
     ]);
     expect(card.actions).toEqual([
-      { name: jasmine.any(String), event: 'send' }
+      { name: 'Ship to this address', event: 'send' }
     ]);
   });
 

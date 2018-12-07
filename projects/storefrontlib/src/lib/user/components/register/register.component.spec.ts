@@ -1,12 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of, BehaviorSubject } from 'rxjs';
+
+import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+
+import { of, BehaviorSubject, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
-import { RegisterComponent } from './register.component';
 import { UserService } from '../../facade/user.service';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
+
+import { RegisterComponent } from './register.component';
 
 const mockTitlesList = [
   {
@@ -19,44 +22,51 @@ const mockTitlesList = [
   }
 ];
 
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ access_token: 'test' } as UserToken);
+  }
+}
+
+class MockRoutingService {
+  go = createSpy();
+  back = createSpy();
+  clearRedirectUrl = createSpy();
+  getRedirectUrl() {
+    return of();
+  }
+}
+
+class MockUserService {
+  titles$ = new BehaviorSubject([]);
+  loadTitles = createSpy();
+  registerUser = createSpy();
+}
+
 describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let mockAuthService: any;
-  let mockRoutingService: any;
-  let mockUserService: any;
+  let routingService: MockRoutingService;
+  let userService: MockUserService;
 
   beforeEach(async(() => {
-    mockRoutingService = {
-      redirectUrl$: new BehaviorSubject(null),
-      go: createSpy(),
-      back: createSpy(),
-      clearRedirectUrl: createSpy()
-    };
-    mockAuthService = {
-      userToken$: of({ access_token: 'test' })
-    };
-    mockUserService = {
-      titles$: new BehaviorSubject([]),
-      loadTitles: createSpy(),
-      registerUser: createSpy()
-    };
-
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [RegisterComponent],
       providers: [
-        { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegisterComponent);
+    routingService = TestBed.get(RoutingService);
+    userService = TestBed.get(UserService);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -69,45 +79,49 @@ describe('RegisterComponent', () => {
 
   describe('ngOnInit', () => {
     it('should load titles', () => {
-      mockUserService.titles$.next(mockTitlesList);
+      userService.titles$.next(mockTitlesList);
       component.ngOnInit();
 
       let titleList;
-      component.titles$.subscribe(data => {
-        titleList = data;
-      });
+      component.titles$
+        .subscribe(data => {
+          titleList = data;
+        })
+        .unsubscribe();
       expect(titleList).toEqual(mockTitlesList);
     });
 
     it('should fetch titles if the state is empty', done => {
-      mockUserService.titles$.next([]);
+      userService.titles$.next([]);
       component.ngOnInit();
 
-      component.titles$.subscribe(() => {
-        expect(mockUserService.loadTitles).toHaveBeenCalled();
-        done();
-      });
+      component.titles$
+        .subscribe(() => {
+          expect(userService.loadTitles).toHaveBeenCalled();
+          done();
+        })
+        .unsubscribe();
     });
 
     it('should go to redirect url after registration', () => {
-      mockRoutingService.redirectUrl$.next('testUrl');
+      spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
       component.ngOnInit();
 
-      expect(mockRoutingService.go).toHaveBeenCalledWith(['testUrl']);
-      expect(mockRoutingService.clearRedirectUrl).toHaveBeenCalled();
+      expect(routingService.go).toHaveBeenCalledWith(['testUrl']);
+      expect(routingService.clearRedirectUrl).toHaveBeenCalled();
     });
 
     it('should go back after registration', () => {
-      mockRoutingService.redirectUrl$.next(undefined);
+      spyOn(routingService, 'getRedirectUrl').and.returnValue(of(undefined));
       component.ngOnInit();
 
-      expect(mockRoutingService.back).toHaveBeenCalled();
+      expect(routingService.back).toHaveBeenCalled();
     });
   });
 
   describe('form validate', () => {
     it('form invalid when empty', () => {
-      mockUserService.titles$.next(mockTitlesList);
+      userService.titles$.next(mockTitlesList);
       component.ngOnInit();
 
       expect(component.userRegistrationForm.valid).toBeFalsy();
@@ -179,13 +193,7 @@ describe('RegisterComponent', () => {
   describe('submit', () => {
     it('should submit form', () => {
       component.submit();
-      expect(mockUserService.registerUser).toHaveBeenCalledWith(
-        '',
-        '',
-        '',
-        '',
-        ''
-      );
+      expect(userService.registerUser).toHaveBeenCalledWith('', '', '', '', '');
     });
   });
 });

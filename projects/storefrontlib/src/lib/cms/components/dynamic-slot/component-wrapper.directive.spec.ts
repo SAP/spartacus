@@ -1,23 +1,26 @@
-import { Component, NgModule } from '@angular/core';
+import { Component, Inject, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { ComponentMapperService } from '../../services';
 import { CmsModuleConfig } from '../../cms-module-config';
-import * as fromReducers from '../../store/reducers';
-import { StoreModule } from '@ngrx/store';
-import { OutletDirective } from '../../../outlet';
 import { CmsComponentData } from '../cms-component-data';
-import { CxApiService } from '@spartacus/storefront';
+import { CxApiService } from '../../../cx-api/cx-api.service';
 import { CmsService } from '../../facade/cms.service';
+import { CmsComponent } from '@spartacus/core';
 
 const testText = 'test text';
 
 @Component({
   selector: 'cx-test',
-  template: `<div id="debugEl1">${testText}</div>`
+  template: `
+    <div id="debugEl1">${testText}</div>
+  `
 })
 export class TestComponent {
-  constructor(public cmsData: CmsComponentData) {}
+  constructor(
+    public cmsData: CmsComponentData<CmsComponent>,
+    @Inject('testService') public testService
+  ) {}
 }
 
 @NgModule({
@@ -28,8 +31,16 @@ export class TestComponent {
 export class TestModule {}
 
 const MockCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSTestComponent: 'cx-test'
+  cmsComponents: {
+    CMSTestComponent: {
+      selector: 'cx-test',
+      providers: [
+        {
+          provide: 'testService',
+          useValue: 'testValue'
+        }
+      ]
+    }
   }
 };
 
@@ -44,20 +55,13 @@ describe('ComponentWrapperDirective', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        TestModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ],
-      declarations: [
-        TestWrapperComponent,
-        ComponentWrapperDirective,
-        OutletDirective
-      ],
+      imports: [TestModule],
+      declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         ComponentMapperService,
         { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
-        { provide: CmsService, useValue: { getComponentData: () => {} } }
+        { provide: CmsService, useValue: { getComponentData: () => {} } },
+        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
       ]
     }).compileComponents();
   }));
@@ -82,6 +86,14 @@ describe('ComponentWrapperDirective', () => {
       );
       expect(testCromponemtInstance.cmsData.uid).toContain('test_uid');
     });
+
+    it('should provide configurable cms component providers', () => {
+      fixture.detectChanges();
+      const testCromponemtInstance = <TestComponent>(
+        fixture.debugElement.children[0].componentInstance
+      );
+      expect(testCromponemtInstance.testService).toEqual('testValue');
+    });
   });
 
   describe('with web component', () => {
@@ -89,7 +101,7 @@ describe('ComponentWrapperDirective', () => {
 
     beforeEach(() => {
       const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
-      cmsMapping.cmsComponentMapping.CMSTestComponent =
+      cmsMapping.cmsComponents.CMSTestComponent.selector =
         'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);
       fixture.detectChanges();

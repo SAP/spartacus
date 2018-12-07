@@ -7,5 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class ProductDetailsPageLayoutComponent {
   @Input()
-  productCode;
+  productCode: string;
 }

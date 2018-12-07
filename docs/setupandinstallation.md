@@ -6,9 +6,9 @@ To build the Spartacus project from source, see [Contributor Setup](contributors
 
 # Prerequisites
 
-Before carrying out the procedures below, please ensure the following frontend and backend requirements are in place.
+Before carrying out the procedures below, please ensure the following front end and back end requirements are in place.
 
-## Frontend Requirements
+## Front end Requirements
 
 Your Angular development environment should include the following:
 
@@ -16,11 +16,11 @@ Your Angular development environment should include the following:
 - node.js >= 8.9.0
 - yarn >= 1.9.4
 
-## Backend Requirements
+## Back end Requirements
 
-The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
+The Spartacus JavaScript Storefront uses SAP Commerce for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-Perform the following steps to set up your backend:
+Perform the following steps to set up your back end:
 
 - Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
 
@@ -30,7 +30,7 @@ Perform the following steps to set up your backend:
 
    3. Add this [build.gradle](assets/build.gradle) file to your `b2c_for_spartacus` recipe folder.
 
-   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, intialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
+   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, initialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
 
 - Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
 
@@ -77,14 +77,15 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 # Adding the Storefront Dependencies
 
-There are two libraries you must add to your storefront application. You can do so with yarn, as follows:
+There are several libraries you must add to your storefront application. You can do so with yarn, as follows:
 
 ```
-$ yarn add @spartacus/styles
-$ yarn add @spartacus/storefront
+$ yarn add @spartacus/core@next
+$ yarn add @spartacus/storefront@next
+$ yarn add @spartacus/styles@next
 ```
 
-The storefront libraries are not yet released and the `@next` tag will install the latest pre-alpha version available.
+The storefront libraries are not yet released, so we suggest using the `@next` tag to install the latest pre-alpha version that is available.
 
 # Importing the Storefront Module into Your Application
 
@@ -124,9 +125,9 @@ export class AppModule { }
 
 # Configuring the Storefront
 
-The Spartacus storefront has default values for all of its configurations. However, you may need to override these values. An example use case would be so that your storefront can communicate with your SAP Commerce backend.
+The Spartacus storefront has default values for all of its configurations. However, you may need to override these values. An example use case would be so that your storefront can communicate with your SAP Commerce back end.
 
-To configure the storfront, use the `withConfig` method on the StorefrontModule. The following is an example:
+To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example:
 
 ```
   imports: [
@@ -143,7 +144,7 @@ To configure the storfront, use the `withConfig` method on the StorefrontModule.
   ],
 ```
 
-This example uses the default values for the configs. You do not have to specify a config if you do not need to override its value. For example, if you only need to override the backend base URL, you can use this config:
+This example uses the default values for the configs. You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use this config:
 
 ```
 imports: [BrowserModule, StorefrontModule.withConfig({
@@ -171,15 +172,15 @@ This procedure adds the storefront component in the UI.
 
 # Building and Starting
 
-This section describes how to validate your backend installation, and then start the application with the storefront enabled.
+This section describes how to validate your back end installation, and then start the application with the storefront enabled.
 
-## Validating the Backend
+## Validating the Back end
 
-1. Use a web browser (Chrome is highly recommended) to access the CMS OCC endpoint of your backend.
+1. Use a web browser (Chrome is highly recommended) to access the CMS OCC endpoint of your back end.
 
    The default is available at: `{server-base-url}/rest/v2/electronics/cms/pages`.
 
-   For example, with a backend instace running from `https://localhost:9002`, you would access: https://localhost:9002/rest/v2/electronics/cms/pages.
+   For example, with a back end instance running from `https://localhost:9002`, you would access: https://localhost:9002/rest/v2/electronics/cms/pages.
 
 2. Accept the security exception in your browser if you are running a development instance with a self-signed HTTPS certificate.
 
@@ -199,7 +200,7 @@ This section describes how to validate your backend installation, and then start
 
 The following are known issues with the current release of Spartacus JavaScript Storefront:
 
-- When using SAP Commerce 1808 for your backend, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
+- When using SAP Commerce 1808 for your back end, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
 
 - The Spartacus storefront is currently missing all categories.
 

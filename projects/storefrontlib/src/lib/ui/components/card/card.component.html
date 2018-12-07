@@ -1,46 +1,89 @@
-<div *ngIf="content" class="cx-card" [class.cx-card--border]="border" [class.cx-card--fit-to-container]="fitToContainer">
+<div
+  *ngIf="content"
+  class="cx-card"
+  [class.cx-card--border]="border"
+  [class.cx-card--fit-to-container]="fitToContainer"
+>
   <!-- Card Header -->
   <div *ngIf="content.header && !editMode" class="card-header">
-    {{content.header}}
+    {{ content.header }}
   </div>
   <!-- Card Body -->
   <div class="card-body cx-card-body" [class.cx-card--delete-mode]="editMode">
     <!-- Edit message -->
-    <div *ngIf="editMode" class="cx-card-body__delete-msg">{{content.deleteMsg}}</div>
+    <div *ngIf="editMode" class="cx-card-body__delete-msg">
+      {{ content.deleteMsg }}
+    </div>
     <!-- Card title -->
-    <h4 *ngIf="content.title" class="cx-card-body__title">{{content.title}}</h4>
+    <h4 *ngIf="content.title" class="cx-card-body__title">
+      {{ content.title }}
+    </h4>
     <!-- Card Content -->
     <div class="cx-card-body__container">
       <!-- Card Label -->
       <div class="cx-card-body__label-container">
-        <div *ngIf="content.textBold" class="card__label--bold">{{content.textBold}}</div>
+        <div *ngIf="content.textBold" class="card__label--bold">
+          {{ content.textBold }}
+        </div>
         <div *ngFor="let line of content.text">
-          <div class="card__label">{{line}}</div>
+          <div class="card__label">{{ line }}</div>
         </div>
       </div>
       <!-- Image -->
       <div *ngIf="content.img" class="cx-card-body__img-container">
-        <img src="{{content.img}}" alt="">
+        <img src="{{content.img}}" alt="" />
       </div>
     </div>
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body__delete">
       <div class="col-md-6">
-        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">cancel</button>
+        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+          cancel
+        </button>
       </div>
       <div class="col-md-6">
-        <button class="btn btn-block btn-primary" (click)="delete()">delete</button>
+        <button class="btn btn-block btn-primary" (click)="delete()">
+          delete
+        </button>
       </div>
     </div>
     <!-- Actions -->
-    <div *ngIf="content.actions && !editMode" class="cx-card-body__actions-container">
+    <div
+      *ngIf="content.actions && !editMode"
+      class="cx-card-body__actions-container"
+    >
       <div *ngFor="let action of content.actions">
         <div [ngSwitch]="action.event">
-          <a *ngSwitchCase="'delete'" class="card-link btn-link" (click)="delete()">{{action.name}}</a>
-          <a *ngSwitchCase="'default'" class="card-link btn-link" (click)="setDefault()">{{action.name}}</a>
-          <a *ngSwitchCase="'send'" class="card-link btn-link" (click)="send()">{{action.name}}</a>
-          <a *ngSwitchCase="'edit'" class="card-link btn-link" (click)="edit()">{{action.name}}</a>
-          <a *ngSwitchDefault href="{{action.link}}" class="card-link btn-link">{{action.name}}</a>
+          <a
+            *ngSwitchCase="'delete'"
+            class="card-link btn-link"
+            (click)="delete()"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchCase="'default'"
+            class="card-link btn-link"
+            (click)="setDefault()"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchCase="'send'"
+            class="card-link btn-link"
+            (click)="send()"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchCase="'edit'"
+            class="card-link btn-link"
+            (click)="edit()"
+            >{{ action.name }}</a
+          >
+          <a
+            *ngSwitchDefault
+            href="{{action.link}}"
+            class="card-link btn-link"
+            >{{ action.name }}</a
+          >
         </div>
       </div>
     </div>

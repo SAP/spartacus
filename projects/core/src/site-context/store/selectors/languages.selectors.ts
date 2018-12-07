@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
+import { Language } from '../../../occ-models/occ.models';
 import {
   StateWithSiteContext,
   LanguagesState,
@@ -23,16 +23,25 @@ export const getLanguagesState: MemoizedSelector<
 export const getLanguagesEntities: MemoizedSelector<
   StateWithSiteContext,
   LanguagesEntities
-> = createSelector(getLanguagesState, languagesEntitiesSelector);
+> = createSelector(
+  getLanguagesState,
+  languagesEntitiesSelector
+);
 
 export const getActiveLanguage: MemoizedSelector<
   StateWithSiteContext,
   string
-> = createSelector(getLanguagesState, activeLanguageSelector);
+> = createSelector(
+  getLanguagesState,
+  activeLanguageSelector
+);
 
 export const getAllLanguages: MemoizedSelector<
   StateWithSiteContext,
-  any
-> = createSelector(getLanguagesEntities, entities => {
-  return Object.keys(entities).map(isocode => entities[isocode]);
-});
+  Language[]
+> = createSelector(
+  getLanguagesEntities,
+  entities => {
+    return Object.keys(entities).map(isocode => entities[isocode]);
+  }
+);
