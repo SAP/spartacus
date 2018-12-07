@@ -17,7 +17,9 @@ const router = {
   }
 };
 const mockRoutingService = {
-  routerState$: of(router)
+  getRouterState() {
+    return of(router);
+  }
 };
 describe('ProductGuard', () => {
   beforeEach(() => {

@@ -34,9 +34,11 @@ const router = {
     cmsRequired: false
   }
 };
-const mockRoutingService = {
-  routerState$: of(router)
-};
+class MockRoutingService {
+  getRouterState() {
+    return of(router);
+  }
+}
 
 describe('Product Effects', () => {
   let actions$: Observable<any>;
@@ -71,7 +73,7 @@ describe('Product Effects', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useValue: mockRoutingService }
+        { provide: RoutingService, useClass: MockRoutingService }
       ]
     });
     service = TestBed.get(OccProductService);
