@@ -51,5 +51,3 @@ export function reducer<T extends CmsComponent>(
   }
   return state;
 }
-
-export const getComponentEntities = (state: ComponentState) => state.entities;

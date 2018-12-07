@@ -11,12 +11,14 @@ import { CMS_FEATURE } from './cms-state';
 
 import { metaReducers } from './reducers/index';
 import { CmsOccModule } from '../occ/cms-occ.module';
+import { StateModule } from '../../state/state.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     CmsOccModule,
+    StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],

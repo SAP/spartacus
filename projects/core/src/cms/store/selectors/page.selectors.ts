@@ -1,10 +1,14 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import * as fromFeature from '../reducers/index';
-import * as fromPage from '../reducers/page.reducer';
 
 import { Page } from '../../model/page.model';
 import { PageState, CmsState } from '../cms-state';
+
+export const getPageEntitiesSelector = (state: PageState) => state.entities;
+export const getPageCount = (state: PageState) => state.count;
+export const getLatestPageKeySelector = (state: PageState) =>
+  state.latestPageKey;
 
 export const getPageState: MemoizedSelector<any, PageState> = createSelector(
   fromFeature.getCmsState,
@@ -16,15 +20,15 @@ export const getPageEntities: MemoizedSelector<
   { [context: string]: Page }
 > = createSelector(
   getPageState,
-  fromPage.getPageEntities
+  getPageEntitiesSelector
 );
 
 export const getLatestPageKey: MemoizedSelector<any, string> = createSelector(
   getPageState,
-  fromPage.getLatestPageKey
+  getLatestPageKeySelector
 );
 
-export const getLatestPage: MemoizedSelector<any, Page> = createSelector(
+export const getLatestPage: MemoizedSelector<any, any> = createSelector(
   getPageEntities,
   getLatestPageKey,
   (entities, key): Page => {

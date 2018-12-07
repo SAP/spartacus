@@ -66,7 +66,3 @@ export function reducer(
   }
   return state;
 }
-
-export const getPageEntities = (state: PageState) => state.entities;
-export const getPageCount = (state: PageState) => state.count;
-export const getLatestPageKey = (state: PageState) => state.latestPageKey;
