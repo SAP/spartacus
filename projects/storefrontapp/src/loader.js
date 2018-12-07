@@ -1,9 +1,16 @@
 function appendLink() {
-  document.head.innerHTML +=
-    '<link rel="stylesheet" type="text/css" href="styles/colors.css" />';
+  document.head.appendChild(_createLink('styles/colors.css'));
 }
 
 function addLoadingToPicture() {
-  document.head.innerHTML +=
-    '<link rel="stylesheet" type="text/css" href="styles/picture.css" />';
+  document.head.appendChild(_createLink('styles/picture.css'));
+}
+
+function _createLink(href) {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = href;
+
+  return link;
 }
