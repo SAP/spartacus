@@ -25,7 +25,9 @@ const mockRouterState = {
 
 const routingServiceMock = {
   go: createSpy('go'),
-  routerState$: of(mockRouterState)
+  getRouterState() {
+    return of(mockRouterState);
+  }
 };
 const componentDataMock = { data$: of({}) };
 
