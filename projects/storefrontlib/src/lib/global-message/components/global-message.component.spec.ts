@@ -13,7 +13,7 @@ mockMessages.set(GlobalMessageType.MSG_TYPE_ERROR, ['Error']);
 
 class MockMessageService {
   remove = createSpy();
-  getAllMessages() {
+  get() {
     return of(mockMessages);
   }
 }

@@ -16,7 +16,7 @@ export class GlobalMessageComponent implements OnInit {
   constructor(protected globalMessageService: GlobalMessageService) {}
 
   ngOnInit() {
-    this.messages$ = this.globalMessageService.getAllMessages();
+    this.messages$ = this.globalMessageService.get();
   }
 
   clear(type: GlobalMessageType, index: number) {

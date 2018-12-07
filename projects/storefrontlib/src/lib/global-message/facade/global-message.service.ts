@@ -13,7 +13,7 @@ export class GlobalMessageService {
   /**
    * Get all global messages
    */
-  getAllMessages(): Observable<Map<GlobalMessageType, string[]>> {
+  get(): Observable<Map<GlobalMessageType, string[]>> {
     return this.store.pipe(
       select(fromStore.getGlobalMessagesEntities),
       filter(data => data !== undefined)
