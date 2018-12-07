@@ -36,7 +36,7 @@ export interface StorefrontRoutesTranslations {
   contact?: StorefrontRouteTranslation;
   help?: StorefrontRouteTranslation;
   sale?: StorefrontRouteTranslation;
-  myAccount_orders?: StorefrontRouteTranslation;
+  orders?: StorefrontRouteTranslation;
   myAccount_orderDetails?: StorefrontRouteTranslation;
   pageNotFound?: StorefrontRouteTranslation;
 }

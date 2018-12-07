@@ -38,7 +38,7 @@ describe(`OrderConfirmationPageGuard`, () => {
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
         expect(routingService.translateAndGo).toHaveBeenCalledWith({
-          route: ['myAccount_orders']
+          route: ['orders']
         });
         done();
       });

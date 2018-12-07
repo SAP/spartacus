@@ -43,7 +43,7 @@ export const defaultStorefrontRoutesTranslations: {
     contact: { paths: ['contact'] },
     help: { paths: ['faq'] },
     sale: { paths: ['sale'] },
-    myAccount_orders: { paths: ['my-account/orders'] },
+    orders: { paths: ['my-account/orders'] },
     myAccount_orderDetails: {
       paths: ['my-account/orders/:orderCode'],
       paramsMapping: { orderCode: 'code' }
