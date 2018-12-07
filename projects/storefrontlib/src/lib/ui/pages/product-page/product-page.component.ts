@@ -14,10 +14,12 @@ export class ProductPageComponent implements OnInit, OnDestroy {
   constructor(private routingService: RoutingService) {}
 
   ngOnInit() {
-    this.subscription = this.routingService.routerState$.subscribe(
-      routerState =>
-        (this.productCode = routerState.state.params['productCode'])
-    );
+    this.subscription = this.routingService
+      .getRouterState()
+      .subscribe(
+        routerState =>
+          (this.productCode = routerState.state.params['productCode'])
+      );
   }
 
   ngOnDestroy() {

@@ -29,10 +29,12 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  redirectUrl$ = new BehaviorSubject(null);
   go = createSpy();
   back = createSpy();
   clearRedirectUrl = createSpy();
+  getRedirectUrl() {
+    return of();
+  }
 }
 
 class MockUserService {
@@ -102,7 +104,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should go to redirect url after registration', () => {
-      routingService.redirectUrl$.next('testUrl');
+      spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
       component.ngOnInit();
 
       expect(routingService.go).toHaveBeenCalledWith(['testUrl']);
@@ -110,7 +112,7 @@ describe('RegisterComponent', () => {
     });
 
     it('should go back after registration', () => {
-      routingService.redirectUrl$.next(undefined);
+      spyOn(routingService, 'getRedirectUrl').and.returnValue(of(undefined));
       component.ngOnInit();
 
       expect(routingService.back).toHaveBeenCalled();
