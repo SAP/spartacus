@@ -46,6 +46,7 @@ export class AddToCartComponent implements OnInit {
   }
 
   addToCart() {
+    console.log('Product code: ' + this.productCode);
     if (!this.productCode || this.quantity <= 0) {
       return;
     }
