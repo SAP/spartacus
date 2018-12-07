@@ -81,7 +81,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   goToOrderDetail(order) {
     this.routing.translateAndGo({
-      route: [{ name: 'myAccount_orderDetails', params: { order } }]
+      route: [{ name: 'orderDetails', params: { order } }]
     });
   }
 

@@ -12,7 +12,7 @@ const routes: Routes = [
     path: null,
     canActivate: [AuthGuard, CmsPageGuards],
     component: OrderDetailsPageComponent,
-    data: { pageLabel: 'order', cxPath: 'myAccount_orderDetails' }
+    data: { pageLabel: 'order', cxPath: 'orderDetails' }
   }
 ];
 

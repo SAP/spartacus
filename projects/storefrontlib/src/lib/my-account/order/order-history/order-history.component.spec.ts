@@ -116,7 +116,7 @@ describe('OrderHistoryComponent', () => {
       expect(mockRoutingService.translateAndGo).toHaveBeenCalledWith({
         route: [
           {
-            name: 'myAccount_orderDetails',
+            name: 'orderDetails',
             params: mockOrders.orders[1]
           }
         ]
