@@ -3,7 +3,6 @@ import {
   Input,
   OnChanges,
   ViewChild,
-  ViewEncapsulation,
   ElementRef
 } from '@angular/core';
 
