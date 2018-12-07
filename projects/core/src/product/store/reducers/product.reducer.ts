@@ -12,14 +12,17 @@ export function reducer(
   switch (action.type) {
     case fromProduct.LOAD_PRODUCT_START: {
       const code = action.payload;
+      const newState: any = {
+        loading: true
+      };
+      if (state.entities[code]) {
+        newState.value = state.entities[code].value;
+      }
       return {
         ...state,
         entities: {
           ...state.entities,
-          [code]: {
-            loading: true,
-            value: state.entities[code] ? state.entities[code].value : null
-          }
+          [code]: newState
         }
       };
     }
