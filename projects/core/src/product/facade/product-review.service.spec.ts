@@ -6,11 +6,12 @@ import { of } from 'rxjs';
 import * as fromStore from '../store';
 
 import { ProductReviewService } from './product-review.service';
+import { Review } from '../../occ-models';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
   let store: Store<fromStore.ProductsState>;
-  const mockReview = { code: 'testId' };
+  const mockReview = { id: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,10 +38,10 @@ describe('ReviewService', () => {
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockReview)
+        of([mockReview])
       );
       service.getByProductCode('testId').subscribe(reviews => {
-        expect(reviews).toBe(mockReview);
+        expect(reviews).toEqual([mockReview]);
       });
     });
 
@@ -58,12 +59,11 @@ describe('ReviewService', () => {
 
   describe('add(productCode, review)', () => {
     it('should be able to add review for product', () => {
-      service.add('testId', 'test review');
+      const productCode = 'testId';
+      const review: Review = { id: '123', comment: 'test review' };
+      service.add(productCode, review);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.PostProductReview({
-          productCode: 'testId',
-          review: 'test review'
-        })
+        new fromStore.PostProductReview({ productCode, review })
       );
     });
   });

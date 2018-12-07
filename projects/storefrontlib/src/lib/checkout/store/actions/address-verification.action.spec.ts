@@ -1,17 +1,20 @@
 import * as fromAction from '../actions/address-verification.action';
+import { AddressValidation, Address } from '@spartacus/core';
 
 describe('Address Verification Actions', () => {
   describe('VerifyAddress', () => {
     it('should create the action', () => {
-      const payload = {
-        userId: 'userId',
-        address: 'address'
+      const address: Address = {
+        id: 'testAddress1'
       };
 
-      const action = new fromAction.VerifyAddress({
+      const payload = {
         userId: 'userId',
-        address: 'address'
-      });
+        address
+      };
+
+      const action = new fromAction.VerifyAddress(payload);
+
       expect({ ...action }).toEqual({
         type: fromAction.VERIFY_ADDRESS,
         payload: payload
@@ -33,11 +36,14 @@ describe('Address Verification Actions', () => {
 
   describe('VerifyAddressSuccess', () => {
     it('should create the action', () => {
-      const addresses = ['address1', 'address2'];
-      const action = new fromAction.VerifyAddressSuccess(addresses);
+      const addressValidation: AddressValidation = {
+        decision: 'test address validation',
+        suggestedAddresses: [{ id: 'address1' }]
+      };
+      const action = new fromAction.VerifyAddressSuccess(addressValidation);
       expect({ ...action }).toEqual({
         type: fromAction.VERIFY_ADDRESS_SUCCESS,
-        payload: addresses
+        payload: addressValidation
       });
     });
   });

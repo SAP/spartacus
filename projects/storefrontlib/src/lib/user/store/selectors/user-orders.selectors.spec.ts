@@ -4,14 +4,15 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
+import { OrderHistoryList } from '@spartacus/core';
 
-const mockUserOrders: any = {
+const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {
     currentPage: 1,
     pageSize: 5
   },
-  sort: [{ code: 'byPage' }]
+  sorts: [{ code: 'byPage' }]
 };
 
 describe('User Orders Selectors', () => {
@@ -38,7 +39,7 @@ describe('User Orders Selectors', () => {
         orders: {
           orders: [],
           pagination: {},
-          sort: []
+          sorts: []
         },
         loading: false,
         loaded: false
@@ -55,7 +56,7 @@ describe('User Orders Selectors', () => {
       expect(result).toEqual({
         orders: [],
         pagination: {},
-        sort: []
+        sorts: []
       });
 
       store.dispatch(new fromActions.LoadUserOrdersSuccess(mockUserOrders));

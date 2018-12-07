@@ -7,12 +7,11 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, Address } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { Address } from '../../../models/address-model';
 import { CartDataService } from '../../../../cart/facade/cart-data.service';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
@@ -24,10 +23,10 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
-  existingAddresses$: Observable<any>;
+  existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedAddress: Address;
@@ -42,23 +41,19 @@ export class ShippingAddressComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.userService.addressesLoading$;
-
+    this.userService.loadAddresses(this.cartData.userId);
     this.existingAddresses$ = this.userService.addresses$.pipe(
       tap(addresses => {
-        if (addresses.length === 0) {
-          this.userService.loadAddresses(this.cartData.userId);
-        } else {
-          if (this.cards.length === 0) {
-            addresses.forEach(address => {
-              const card = this.getCardContent(address);
-              if (
-                this.selectedAddress &&
-                this.selectedAddress.id === address.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          addresses.forEach(address => {
+            const card = this.getCardContent(address);
+            if (
+              this.selectedAddress &&
+              this.selectedAddress.id === address.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );

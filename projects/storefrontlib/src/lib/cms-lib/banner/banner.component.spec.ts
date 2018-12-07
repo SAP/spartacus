@@ -9,8 +9,8 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    SimpleBannerComponent: 'BannerComponent'
+  cmsComponents: {
+    SimpleBannerComponent: { selector: 'BannerComponent' }
   },
   server: {
     baseUrl: 'https://localhost:9002'
