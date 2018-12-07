@@ -28,8 +28,8 @@ export class ProductDetailsPage extends AppPage {
     by.css('.code')
   );
   readonly tabs: ElementArrayFinder = this.page
-    .element(by.tagName('ngb-tabset'))
-    .all(by.css('li'));
+    .element(by.css('.details'))
+    .all(by.css('div'));
 
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
     by.css('.price')
