@@ -98,13 +98,15 @@ describe('OrderDetailsComponent', () => {
 
   beforeEach(async(() => {
     mockRoutingService = <RoutingService>{
-      routerState$: of({
-        state: {
-          params: {
-            orderCode: '1'
+      getRouterState() {
+        return of({
+          state: {
+            params: {
+              orderCode: '1'
+            }
           }
-        }
-      })
+        });
+      }
     };
     mockUserService = {
       orderDetails$: of(mockOrder),
