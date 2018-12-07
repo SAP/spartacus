@@ -3,8 +3,7 @@ set -e
 set -o pipefail
 
 echo "Updating dependencies"
-yarn
-yarn build:core:lib
+yarn build
 #echo "-----"
 #./ci-scripts/validate.sh
 #echo "-----"
