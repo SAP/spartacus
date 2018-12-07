@@ -5,13 +5,13 @@ export const defaultStorefrontRoutesTranslations: {
   [languageCode: string]: StorefrontRoutesTranslations;
 } = {
   default: {
-    homepage: { paths: [''] },
+    home: { paths: [''] },
     cart: { paths: ['cart'] },
     search: { paths: ['search/:query'] },
     login: { paths: ['login'] },
     register: { paths: ['register'] },
-    resetNewPassword: { paths: ['reset-new-password/:token'] },
-    resetPassword: { paths: ['reset-password'] },
+    resetPassword: { paths: ['reset-new-password/:token'] },
+    forgotPassword: { paths: ['reset-password'] },
     checkout: { paths: ['checkout'] },
     orderConfirmation: { paths: ['order-confirmation'] },
     product: {
@@ -19,13 +19,10 @@ export const defaultStorefrontRoutesTranslations: {
       paramsMapping: { productCode: 'code' }
     },
     category: {
-      paths: [
-        'category/:categoryCode/:title',
-        'category/:categoryCode',
-        'Brands/:brandName/c/:brandCode'
-      ],
+      paths: ['category/:categoryCode'],
       paramsMapping: { categoryCode: 'code' }
     },
+    brand: { paths: ['Brands/:brandName/c/:brandCode'] },
     storeFinder: {
       paths: ['store-finder'],
       children: {
@@ -43,8 +40,8 @@ export const defaultStorefrontRoutesTranslations: {
     contact: { paths: ['contact'] },
     help: { paths: ['faq'] },
     sale: { paths: ['sale'] },
-    myAccount_orders: { paths: ['my-account/orders'] },
-    myAccount_orderDetails: {
+    orders: { paths: ['my-account/orders'] },
+    orderDetails: {
       paths: ['my-account/orders/:orderCode'],
       paramsMapping: { orderCode: 'code' }
     },

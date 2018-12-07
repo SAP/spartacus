@@ -12,17 +12,18 @@ interface StorefrontRouteTranslation {
 }
 
 export interface StorefrontRoutesTranslations {
-  homepage?: StorefrontRouteTranslation;
+  home?: StorefrontRouteTranslation;
   cart?: StorefrontRouteTranslation;
   search?: StorefrontRouteTranslation;
   login?: StorefrontRouteTranslation;
   register?: StorefrontRouteTranslation;
-  resetNewPassword?: StorefrontRouteTranslation;
   resetPassword?: StorefrontRouteTranslation;
+  forgotPassword?: StorefrontRouteTranslation;
   checkout?: StorefrontRouteTranslation;
   orderConfirmation?: StorefrontRouteTranslation;
   product?: StorefrontRouteTranslation;
   category?: StorefrontRouteTranslation;
+  brand?: StorefrontRouteTranslation;
   storeFinder?: {
     paths?: string[];
     children?: {
@@ -36,7 +37,7 @@ export interface StorefrontRoutesTranslations {
   contact?: StorefrontRouteTranslation;
   help?: StorefrontRouteTranslation;
   sale?: StorefrontRouteTranslation;
-  myAccount_orders?: StorefrontRouteTranslation;
-  myAccount_orderDetails?: StorefrontRouteTranslation;
+  orders?: StorefrontRouteTranslation;
+  orderDetails?: StorefrontRouteTranslation;
   pageNotFound?: StorefrontRouteTranslation;
 }
