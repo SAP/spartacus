@@ -10,7 +10,7 @@ const routes: Routes = [
     path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
     component: ResetNewPasswordComponent,
-    data: { pageLabel: 'homepage', cxPath: 'resetNewPassword' }
+    data: { pageLabel: 'homepage', cxPath: 'resetPassword' }
   }
 ];
 @NgModule({

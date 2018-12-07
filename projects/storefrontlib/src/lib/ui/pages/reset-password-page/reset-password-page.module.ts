@@ -12,7 +12,7 @@ const routes: Routes = [
     path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
     component: ResetPasswordPageComponent,
-    data: { pageLabel: 'login', cxPath: 'resetPassword' }
+    data: { pageLabel: 'login', cxPath: 'forgotPassword' }
   }
 ];
 

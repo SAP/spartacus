@@ -17,8 +17,8 @@ export interface StorefrontRoutesTranslations {
   search?: StorefrontRouteTranslation;
   login?: StorefrontRouteTranslation;
   register?: StorefrontRouteTranslation;
-  resetNewPassword?: StorefrontRouteTranslation;
   resetPassword?: StorefrontRouteTranslation;
+  forgotPassword?: StorefrontRouteTranslation;
   checkout?: StorefrontRouteTranslation;
   orderConfirmation?: StorefrontRouteTranslation;
   product?: StorefrontRouteTranslation;
