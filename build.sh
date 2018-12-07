@@ -4,7 +4,6 @@ set -o pipefail
 
 echo "Updating dependencies"
 yarn
-yarn build
 #echo "-----"
 #./ci-scripts/validate.sh
 #echo "-----"
