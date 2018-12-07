@@ -7,16 +7,9 @@ import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 
 describe('RoutingService', () => {
-  const mockRedirectUrl = createSpy().and.returnValue(() => of('redirect_url'));
-  const mockRouterState = createSpy().and.returnValue(() => of({}));
   let store;
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValues(
-      mockRouterState,
-      mockRedirectUrl
-    );
-
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [RoutingService]
@@ -100,23 +93,30 @@ describe('RoutingService', () => {
     }
   ));
 
-  it('should expose the whole router state', inject(
+  it('should expose the redirectUrl', inject(
     [RoutingService],
     (service: RoutingService) => {
-      service.redirectUrl$.subscribe(url => {
-        expect(mockRedirectUrl).toHaveBeenCalledWith(fromStore.getRedirectUrl);
-        expect(url).toEqual('redirect_url');
-      });
+      const mockRedirectUrl = createSpy().and.returnValue(() =>
+        of('redirect_url')
+      );
+      spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
+
+      let redirectUrl;
+      service.getRedirectUrl().subscribe(url => (redirectUrl = url));
+      expect(redirectUrl).toEqual('redirect_url');
     }
   ));
 
-  it('should expose redirectUrl state', inject(
+  it('should expose whole router state', inject(
     [RoutingService],
     (service: RoutingService) => {
-      service.routerState$.subscribe(state => {
-        expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
-        expect(state).toEqual({});
-      });
+      const mockRouterState = createSpy().and.returnValue(() => of({}));
+      spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+      let routerState;
+      service.getRouterState().subscribe(state => (routerState = state));
+      expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
+      expect(routerState).toEqual({});
     }
   ));
 });
