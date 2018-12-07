@@ -4,19 +4,27 @@ import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { Product } from '../../occ-models';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {
   constructor(private store: Store<fromStore.ProductsState>) {}
 
   /**
-   * Returns the product observable. The product is loaded
-   * under the hood on first request.
+   * Returns the product observable. The product will be loaded
+   * whenever there's no value observed.
+   *
+   * The underlying product loader ensures that the product is
+   * only loaded once, even in case of parallel observers.
    */
   get(productCode: string): Observable<Product> {
-    this.store.dispatch(new fromStore.LoadProduct(productCode));
     return this.store.pipe(
-      select(fromStore.getSelectedProductFactory(productCode))
+      select(fromStore.getSelectedProductFactory(productCode)),
+      tap(product => {
+        if (!product) {
+          this.store.dispatch(new fromStore.LoadProduct(productCode));
+        }
+      })
     );
   }
 
