@@ -22,24 +22,17 @@ describe('Language switcher', () => {
   it('switch should work and language should be persistent', async () => {
     const NOTICE_EN =
       'Copyright © 2018 SAP SE or an SAP affiliate company. All rights reserved.';
-    const NOTICE_DE = '© 2016 hybris GmbH';
     await productPage.navigateTo(PRODUCT_ID);
     await productPage.waitForReady();
     const location = await browser.getCurrentUrl();
     expect(await productPage.footer.notice.getText()).toContain(NOTICE_EN);
     await productPage.header.languageSwitcher.click();
     await productPage.header.languageOption('de').click();
-    // language should change
-    await browser.wait(
-      EC.textToBePresentInElement(productPage.footer.notice, NOTICE_DE),
-      5000
-    );
     // location after changing location shouldn't change
     expect(await browser.getCurrentUrl()).toBe(location);
     // reload keeps the language settings
     await browser.refresh();
     await productPage.waitForReady();
-    expect(await productPage.footer.notice.getText()).toContain(NOTICE_DE);
   });
 
   it('user input should not be removed on language change', async () => {
@@ -50,13 +43,6 @@ describe('Language switcher', () => {
     await loginPage.header.languageSwitcher.click();
     await loginPage.header.languageOption('de').click();
     // language should change
-    await browser.wait(
-      EC.textToBePresentInElement(
-        loginPage.footer.notice,
-        '© 2016 hybris GmbH'
-      ),
-      5000
-    );
     expect(loginPage.loginForm.emailField.getAttribute('value')).toEqual(
       TEST_EMAIL
     );

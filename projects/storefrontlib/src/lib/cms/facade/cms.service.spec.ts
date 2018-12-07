@@ -19,7 +19,7 @@ const MockCmsModuleConfig: CmsModuleConfig = {
   }
 };
 
-const mockContentSlot: any[] = [
+const mockContentSlot: { uid: string; typeCode: string }[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }
@@ -127,7 +127,7 @@ describe('CmsService', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
 
       let result;
-      const subscription = service.currentPage$.subscribe(value => {
+      const subscription = service.getCurrentPage().subscribe(value => {
         result = value;
       });
       subscription.unsubscribe();

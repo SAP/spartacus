@@ -12,7 +12,7 @@ import { ProductCarouselModule } from './product-carousel/product-carousel.modul
 import { SearchBoxModule } from './search-box/search-box.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
-import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
+// import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
 @NgModule({
   imports: [
@@ -27,9 +27,9 @@ import { TabParagraphContainerModule } from './tab-paragraph-container/tab-parag
     // BreadcrumbModule,
     ProductCarouselModule,
     SearchBoxModule,
-    MiniCartModule,
+    MiniCartModule
     // ProductReferencesModule,
-    TabParagraphContainerModule
+    // TabParagraphContainerModule
   ]
 })
 export class CmsLibModule {}
