@@ -143,7 +143,7 @@ describe('CartNotEmptyGuard', () => {
             .subscribe()
             .unsubscribe();
           expect(routingService.translateAndGo).toHaveBeenCalledWith({
-            route: ['homepage']
+            route: ['home']
           });
         });
 
@@ -170,7 +170,7 @@ describe('CartNotEmptyGuard', () => {
             .subscribe()
             .unsubscribe();
           expect(routingService.translateAndGo).toHaveBeenCalledWith({
-            route: ['homepage']
+            route: ['home']
           });
         });
 

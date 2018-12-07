@@ -11,7 +11,7 @@ export class PageNotFoundComponent {
   errorNav: { label: string; routeName: string[] }[] = [
     {
       label: 'Homepage',
-      routeName: ['homepage']
+      routeName: ['home']
     },
     {
       label: 'Frequently Asked Question',

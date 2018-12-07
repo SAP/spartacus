@@ -79,8 +79,6 @@ describe('NotAuthGuard', () => {
       .canActivate()
       .subscribe()
       .unsubscribe();
-    expect(service.translateAndGo).toHaveBeenCalledWith({
-      route: ['homepage']
-    });
+    expect(service.translateAndGo).toHaveBeenCalledWith({ route: ['home'] });
   });
 });

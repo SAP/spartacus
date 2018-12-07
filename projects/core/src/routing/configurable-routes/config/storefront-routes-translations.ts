@@ -12,7 +12,7 @@ interface StorefrontRouteTranslation {
 }
 
 export interface StorefrontRoutesTranslations {
-  homepage?: StorefrontRouteTranslation;
+  home?: StorefrontRouteTranslation;
   cart?: StorefrontRouteTranslation;
   search?: StorefrontRouteTranslation;
   login?: StorefrontRouteTranslation;

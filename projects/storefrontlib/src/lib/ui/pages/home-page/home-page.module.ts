@@ -11,7 +11,7 @@ const routes: Routes = [
     path: null,
     canActivate: [CmsPageGuards],
     component: HomePageComponent,
-    data: { pageLabel: 'homepage', cxPath: 'homepage' }
+    data: { pageLabel: 'homepage', cxPath: 'home' }
   }
 ];
 

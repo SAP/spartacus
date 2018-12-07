@@ -5,7 +5,7 @@ export const defaultStorefrontRoutesTranslations: {
   [languageCode: string]: StorefrontRoutesTranslations;
 } = {
   default: {
-    homepage: { paths: [''] },
+    home: { paths: [''] },
     cart: { paths: ['cart'] },
     search: { paths: ['search/:query'] },
     login: { paths: ['login'] },
