@@ -50,7 +50,7 @@ describe('UserService', () => {
 
     let userDetails: User;
     service
-      .getDetails()
+      .get()
       .subscribe(data => {
         userDetails = data;
       })

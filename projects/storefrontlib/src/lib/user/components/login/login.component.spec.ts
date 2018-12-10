@@ -24,7 +24,7 @@ class MockRoutingService {
   go = createSpy();
 }
 class MockUserService {
-  getDetails(): Observable<User> {
+  get(): Observable<User> {
     return of();
   }
   loadDetails(_userId: string) {
@@ -123,7 +123,7 @@ describe('LoginComponent', () => {
 
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
-      spyOn(userService, 'getDetails').and.returnValue(of(mockUserDetails));
+      spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -137,7 +137,7 @@ describe('LoginComponent', () => {
 
     it('should display the correct message depending on whether the user is logged on or not', () => {
       spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-      spyOn(userService, 'getDetails').and.returnValue(of({} as User));
+      spyOn(userService, 'get').and.returnValue(of({} as User));
 
       component.ngOnInit();
       fixture.detectChanges();

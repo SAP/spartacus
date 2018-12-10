@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthService, RoutingService, UserToken, Title } from '@spartacus/core';
 
-import { of, BehaviorSubject, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 

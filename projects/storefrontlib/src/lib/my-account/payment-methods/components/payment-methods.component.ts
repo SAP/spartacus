@@ -24,7 +24,7 @@ export class PaymentMethodsComponent implements OnInit {
     this.paymentMethods$ = this.userService.getPaymentMethods();
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.getDetails().subscribe(data => {
+    this.userService.get().subscribe(data => {
       this.userId = data.uid;
       this.userService.loadPaymentMethods(this.userId);
     });

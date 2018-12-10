@@ -24,7 +24,7 @@ export class UserService {
   /**
    * Returns a user
    */
-  getDetails(): Observable<User> {
+  get(): Observable<User> {
     return this.store.pipe(select(fromStore.getDetails));
   }
 
