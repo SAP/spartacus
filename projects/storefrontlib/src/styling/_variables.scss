@@ -1,67 +1,55 @@
-$white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
+// VALUES USED AS EXAMPLES
 
-$blue: #007bff !default;
-$indigo: #6610f2 !default;
-$purple: #6f42c1 !default;
-$pink: #e83e8c !default;
-$red: #dc3545 !default;
-$orange: #fd7e14 !default;
-$yellow: #ffc107 !default;
-$green: #28a745 !default;
-$teal: #20c997 !default;
-$cyan: #17a2b8 !default;
+:host {
+  --cx-g-color-primary: red;
+  --cx-g-color-secondary: blue; //colors
+  --cx-g-border-radius: 2em;
+  --cx-g-transition-duration: 1s;
+  --cx-g-animation-duration: 1s;
+  --cx-g-font-weight-normal: 400; //--cx-g-font-weight-[variation] bold, light
+  --cx-g-font-size: 1rem;
+  --cx-g-line-height: 1.33em;
+}
 
-$colors: () !default;
+%component {
+  --cx-margin: 20px;
+  --cx-padding: 20px;
 
-$colors: map-merge(
-  (
-    'blue': $blue,
-    'indigo': $indigo,
-    'purple': $purple,
-    'pink': $pink,
-    'red': $red,
-    'orange': $orange,
-    'yellow': $yellow,
-    'green': $green,
-    'teal': $teal,
-    'cyan': $cyan,
-    'white': $white,
-    'gray': $gray-600,
-    'gray-dark': $gray-800
-  ),
-  $colors
-);
+  --cx-height: 20px;
+  --cx-width: 20px;
+  --cx-min-height: 20px;
+  --cx-min-width: 20px;
 
-$primary: $blue !default;
-$secondary: $gray-600 !default;
-$success: $green !default;
-$info: $cyan !default;
-$warning: $yellow !default;
-$danger: $red !default;
-$light: $gray-100 !default;
-$dark: $gray-800 !default;
+  --cx-background-color: pink;
+  --cx-color: green;
+  --cx-text-align: center;
 
-$theme-colors: () !default;
-$theme-colors: map-merge(
-  (
-    'primary': $primary,
-    'secondary': $secondary,
-    'success': $success,
-    'info': $info,
-    'warning': $warning,
-    'danger': $danger,
-    'light': $light,
-    'dark': $dark
-  ),
-  $theme-colors
-);
+  --cx-border-width: 1px;
+  --cx-border-style: solid;
+  --cx-border-color: magenta;
+
+  --cx-position: fixed;
+  --cx-z-index: 0;
+
+  --cx-display: grid;
+  --cx-grid-row: 1/ 2;
+  --cx-grid-column: 1/ 2;
+  --cx-grid-template-columns: auto;
+  --cx-grid-template-rows: auto;
+
+  --cx-justify-self: middle;
+  --cx-align-self: middle;
+  --cx-place-self: middle;
+  --cx-justify-items: middle;
+  --cx-align-items: middle;
+
+  --cx-grid-column-gap: 20px;
+  --cx-grid-row-gap: 20px;
+  --cx-flex-direction: column;
+  --cx-justify-content: center;
+  --cx-align-items: start;
+  --cx-align-content: end;
+
+  --cx-zoom: 1;
+  --cx-opacity: 90%;
+}

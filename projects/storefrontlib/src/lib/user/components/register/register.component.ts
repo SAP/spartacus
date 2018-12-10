@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
-            return this.routing.redirectUrl$.pipe(take(1));
+            return this.routing.getRedirectUrl().pipe(take(1));
           }
           return of();
         })
