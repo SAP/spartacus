@@ -26,7 +26,7 @@ import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy, OnInit {
   productGroups: Array<string[]>;
-  products: { [key: string]: Observable<Product> }[] = [];
+  products: { [key: string]: Observable<Product> } = {};
 
   resize$: Subscription;
 
