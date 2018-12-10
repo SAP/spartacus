@@ -20,9 +20,11 @@ const routerState = {
     }
   }
 };
-const mockRoutingService = {
-  routerState$: of(routerState)
-};
+class MockRoutingService {
+  getRouterState() {
+    return of(routerState);
+  }
+}
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
@@ -30,7 +32,7 @@ describe('HomePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HomePageComponent, MockLandingPageLayoutComponent],
-      providers: [{ provide: RoutingService, useValue: mockRoutingService }]
+      providers: [{ provide: RoutingService, useClass: MockRoutingService }]
     }).compileComponents();
   }));
 
