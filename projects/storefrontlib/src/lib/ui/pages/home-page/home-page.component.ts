@@ -21,11 +21,11 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor(private routingService: RoutingService) {}
 
   ngOnInit() {
-    this.subscription = this.routingService.routerState$.subscribe(
-      routerState => {
+    this.subscription = this.routingService
+      .getRouterState()
+      .subscribe(routerState => {
         this.cmsTicketId = routerState.state.queryParams['cmsTicketId'];
-      }
-    );
+      });
   }
 
   ngOnDestroy() {

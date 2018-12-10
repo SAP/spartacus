@@ -44,23 +44,20 @@ export class PaymentMethodComponent implements OnInit {
 
   ngOnInit() {
     this.isLoading$ = this.userService.getPaymentMethodsLoading();
+    this.userService.loadPaymentMethods(this.cartData.userId);
 
     this.existingPaymentMethods$ = this.userService.getPaymentMethods().pipe(
       tap(payments => {
-        if (payments.length === 0) {
-          this.userService.loadPaymentMethods(this.cartData.userId);
-        } else {
-          if (this.cards.length === 0) {
-            payments.forEach(payment => {
-              const card = this.getCardContent(payment);
-              if (
-                this.selectedPayment &&
-                this.selectedPayment.id === payment.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          payments.forEach(payment => {
+            const card = this.getCardContent(payment);
+            if (
+              this.selectedPayment &&
+              this.selectedPayment.id === payment.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );
