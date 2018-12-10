@@ -8,9 +8,9 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { ProductService } from '@spartacus/core';
+import { ProductService, Product } from '@spartacus/core';
 
-import { Subscription, fromEvent } from 'rxjs';
+import { Subscription, fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
@@ -26,7 +26,7 @@ import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy, OnInit {
   productGroups: Array<string[]>;
-  products: { [key: string]: string }[] = [];
+  products: { [key: string]: Observable<Product> }[] = [];
 
   resize$: Subscription;
 
