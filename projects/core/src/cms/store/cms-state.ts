@@ -11,12 +11,12 @@ export interface ComponentState {
   entities: { [id: string]: any };
 }
 
-export interface TestState {
-  nodes: { [nodeId: string]: any };
+export interface NavigationNodes {
+  [nodeId: string]: NodeItem;
 }
 
 export interface NavigationItemState {
-  nodes: { [nodeId: string]: NodeItem };
+  nodes: NavigationNodes;
 }
 
 export interface PageState {

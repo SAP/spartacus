@@ -1,13 +1,19 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { CmsState, StateWithCms, TestState } from '../cms-state';
+import {
+  CmsState,
+  NavigationItemState,
+  NavigationNodes,
+  StateWithCms
+} from '../cms-state';
 import { getCmsState } from './feature.selectors';
 
-export const getNavigationEntryItemsSelector = (state: TestState) =>
-  state.nodes;
+export const getNavigationEntryItemsSelector: (
+  state: NavigationItemState
+) => NavigationNodes = state => state.nodes;
 
 export const getNavigationEntryItemState: MemoizedSelector<
   StateWithCms,
-  TestState
+  NavigationItemState
 > = createSelector(
   getCmsState,
   (state: CmsState) => state.navigation
