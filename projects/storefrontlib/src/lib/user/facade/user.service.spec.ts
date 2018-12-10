@@ -197,7 +197,7 @@ describe('UserService', () => {
   });
 
   it('should dispatch proper action for deleteUserPaymentMethod', () => {
-    service.deleteUserPaymentMethod('userId', 'paymentMethodId');
+    service.deletePaymentMethod('userId', 'paymentMethodId');
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.DeleteUserPaymentMethod({
         userId: 'userId',
@@ -296,7 +296,7 @@ describe('UserService', () => {
     );
     let countries: Country[];
     service
-      .getAllDeliveryCountries()
+      .getDeliveryCountries()
       .subscribe(data => {
         countries = data;
       })
@@ -338,7 +338,7 @@ describe('UserService', () => {
 
     let regions: Region[];
     service
-      .getAllRegions()
+      .getRegions()
       .subscribe(data => {
         regions = data;
       })

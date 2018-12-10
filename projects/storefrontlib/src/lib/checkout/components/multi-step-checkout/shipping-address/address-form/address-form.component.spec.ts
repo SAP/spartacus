@@ -23,12 +23,12 @@ class MockUserService {
   }
   loadTitles(): void {}
 
-  getAllDeliveryCountries(): Observable<Country[]> {
+  getDeliveryCountries(): Observable<Country[]> {
     return of();
   }
   loadDeliveryCountries(): void {}
 
-  getAllRegions(): Observable<Region[]> {
+  getRegions(): Observable<Region[]> {
     return of();
   }
   loadRegions(_countryIsoCode: string): void {}
@@ -114,13 +114,13 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call ngOnInit to get countries and titles data even when they not exist', done => {
-    spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'loadDeliveryCountries').and.stub();
 
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'loadTitles').and.stub();
 
-    spyOn(userService, 'getAllRegions').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     mockCheckoutService.addressVerificationResults$.next({});
     component.ngOnInit();
@@ -141,11 +141,11 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
-    spyOn(userService, 'getAllDeliveryCountries').and.returnValue(
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(
       of(mockCountries)
     );
     spyOn(userService, 'getTitles').and.returnValue(of(mockTitles));
-    spyOn(userService, 'getAllRegions').and.returnValue(of(mockRegions));
+    spyOn(userService, 'getRegions').and.returnValue(of(mockRegions));
 
     mockCheckoutService.addressVerificationResults$.next({});
     component.ngOnInit();
@@ -175,9 +175,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should add address with address verification result "accept"', () => {
-    spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userService, 'getAllRegions').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
     mockCheckoutService.addressVerificationResults$.next(
@@ -192,9 +192,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should clear address verification result with address verification result "reject"', () => {
-    spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userService, 'getAllRegions').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult = { decision: 'REJECT' };
     mockCheckoutService.addressVerificationResults$.next(
@@ -209,9 +209,9 @@ describe('AddressFormComponent', () => {
   });
 
   it('should open suggested address with address verification result "review"', () => {
-    spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userService, 'getAllRegions').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult = { decision: 'REVIEW' };
     mockCheckoutService.addressVerificationResults$.next(
@@ -273,9 +273,9 @@ describe('AddressFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
-      spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
+      spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
       spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userService, 'getAllRegions').and.returnValue(of([]));
+      spyOn(userService, 'getRegions').and.returnValue(of([]));
       spyOn(component, 'verifyAddress');
 
       fixture.detectChanges();
@@ -302,9 +302,9 @@ describe('AddressFormComponent', () => {
         fixture.detectChanges();
         return getContinueBtn().nativeElement.disabled;
       };
-      spyOn(userService, 'getAllDeliveryCountries').and.returnValue(of([]));
+      spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
       spyOn(userService, 'getTitles').and.returnValue(of([]));
-      spyOn(userService, 'getAllRegions').and.returnValue(of([]));
+      spyOn(userService, 'getRegions').and.returnValue(of([]));
 
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls['titleCode'].setValue('test titleCode');

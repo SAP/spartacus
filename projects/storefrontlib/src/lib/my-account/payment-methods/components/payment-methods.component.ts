@@ -55,7 +55,7 @@ export class PaymentMethodsComponent implements OnInit {
 
   deletePaymentMethod(paymentMethod) {
     if (this.userId) {
-      this.userService.deleteUserPaymentMethod(this.userId, paymentMethod.id);
+      this.userService.deletePaymentMethod(this.userId, paymentMethod.id);
     }
     this.editCard = null;
   }

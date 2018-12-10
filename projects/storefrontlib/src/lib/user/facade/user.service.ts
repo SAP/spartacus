@@ -106,7 +106,7 @@ export class UserService {
   }
 
   /**
-   * Retrieves a payment method
+   * Loads all user's payment methods.
    * @param userId a user ID
    */
   loadPaymentMethods(userId: string): void {
@@ -147,7 +147,7 @@ export class UserService {
    * @param userId a user ID
    * @param paymentMethodId a payment method ID
    */
-  deleteUserPaymentMethod(userId: string, paymentMethodId: string): void {
+  deletePaymentMethod(userId: string, paymentMethodId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
         userId: userId,
@@ -225,7 +225,7 @@ export class UserService {
   /**
    * Returns all delivery countries
    */
-  getAllDeliveryCountries(): Observable<Country[]> {
+  getDeliveryCountries(): Observable<Country[]> {
     return this.store.pipe(select(fromStore.getAllDeliveryCountries));
   }
 
@@ -248,7 +248,7 @@ export class UserService {
   /**
    * Returns all regions
    */
-  getAllRegions(): Observable<Region[]> {
+  getRegions(): Observable<Region[]> {
     return this.store.pipe(select(fromStore.getAllRegions));
   }
 }

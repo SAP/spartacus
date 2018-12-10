@@ -67,7 +67,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.userService.getAllDeliveryCountries().pipe(
+    this.countries$ = this.userService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
           this.userService.loadDeliveryCountries();
@@ -85,7 +85,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.userService.getAllRegions().pipe(
+    this.regions$ = this.userService.getRegions().pipe(
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 

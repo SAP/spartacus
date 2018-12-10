@@ -34,7 +34,7 @@ class MockUserService {
     return of([mockPayment]);
   }
   loadPaymentMethods(_userId: string): void {}
-  deleteUserPaymentMethod(_userId: string, _paymentMethodId: string): void {}
+  deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
   setPaymentMethodAsDefault(_userId: string, _paymentMethodId: string): void {}
   get(): Observable<User> {
     return of({ uid: 'userId' } as User);
@@ -180,7 +180,7 @@ describe('PaymentMethodsComponent', () => {
 
   it('should successfully delete card', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-    spyOn(userService, 'deleteUserPaymentMethod').and.stub();
+    spyOn(userService, 'deletePaymentMethod').and.stub();
 
     function getDeleteButton(elem: DebugElement) {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
@@ -194,7 +194,7 @@ describe('PaymentMethodsComponent', () => {
     fixture.detectChanges();
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
-    expect(userService.deleteUserPaymentMethod).toHaveBeenCalledWith(
+    expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
       'userId',
       mockPayment.id
     );
