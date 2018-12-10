@@ -1,6 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { UserOrdersState } from './../reducers/user-orders.reducer';
-
 import * as fromFeature from '../reducers';
 import * as fromUserOrdersReducer from '../reducers/user-orders.reducer';
 import { OrderHistoryList } from '@spartacus/core';

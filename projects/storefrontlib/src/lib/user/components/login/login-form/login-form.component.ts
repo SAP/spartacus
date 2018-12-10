@@ -32,7 +32,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         switchMap(data => {
           if (data && data.access_token) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-            return this.routing.redirectUrl$.pipe(take(1));
+            return this.routing.getRedirectUrl().pipe(take(1));
           }
           return of();
         })
