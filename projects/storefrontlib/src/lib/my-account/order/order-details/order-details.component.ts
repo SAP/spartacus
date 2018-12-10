@@ -50,7 +50,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.order$ = this.userService.getOrdersDetail();
+    this.order$ = this.userService.getOrderDetails();
   }
 
   getAddressCardContent(address: Address): Card {

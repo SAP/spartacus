@@ -65,7 +65,7 @@ export class UserService {
   /**
    * Returns an order's detail
    */
-  getOrdersDetail(): Observable<Order> {
+  getOrderDetails(): Observable<Order> {
     return this.store.pipe(select(fromStore.getOrderDetails));
   }
 

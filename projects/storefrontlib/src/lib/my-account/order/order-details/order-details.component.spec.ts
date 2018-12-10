@@ -66,7 +66,7 @@ class MockAuthService {
 }
 
 class MockUserService {
-  getOrdersDetail(): Observable<Order> {
+  getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
   loadOrderDetails(_userId: string, _orderCode: string): void {}

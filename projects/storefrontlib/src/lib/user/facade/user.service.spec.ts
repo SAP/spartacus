@@ -85,7 +85,7 @@ describe('UserService', () => {
 
     let order: Order;
     service
-      .getOrdersDetail()
+      .getOrderDetails()
       .subscribe(data => {
         order = data;
       })
