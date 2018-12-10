@@ -1,7 +1,11 @@
 <div [ngClass]="compact ? 'cx-cart-item--compact row' : 'cx-cart-item row'">
   <!-- Item Image -->
   <div class="col-2 cx-cart-item__image-container">
-    <a [routerLink]="['product'] | cxTranslateUrl: [item.product]">
+    <a
+      [routerLink]="
+        { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
+      "
+    >
       <cx-picture
         [imageContainer]="item.product.images?.PRIMARY"
         imageFormat="thumbnail"
@@ -20,7 +24,8 @@
           <a
             class="cx-cart-item__name--link"
             [routerLink]="
-              { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+              { route: [{ name: 'product', params: item.product }] }
+                | cxTranslateUrl
             "
             >{{ item.product.name }}</a
           >
