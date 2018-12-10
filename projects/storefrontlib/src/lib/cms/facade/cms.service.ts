@@ -129,7 +129,9 @@ export class CmsService {
     this.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage) {
         const previousContract = [];
-        document.body.classList.forEach(attr => previousContract.push(attr));
+        Array.from(document.body.classList).forEach(attr =>
+          previousContract.push(attr)
+        );
         previousContract.forEach(attr => document.body.classList.remove(attr));
 
         // now, we hard-coded catalog verion uuid.
