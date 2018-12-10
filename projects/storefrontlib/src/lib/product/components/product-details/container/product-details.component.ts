@@ -47,18 +47,20 @@ export class ProductDetailsComponent implements OnChanges {
   }
 
   select(event: MouseEvent, tab: HTMLElement) {
-    // toggle active class on both header and content panel
-    this.activatedElements.forEach(el => el.classList.remove('active'));
-    this.activatedElements = [<HTMLElement>event.target, tab];
-    this.activatedElements.forEach(el => el.classList.add('active'));
+    if (this.activatedElements.indexOf(tab) === -1) {
+      // remove active class on both header and content panel
+      this.activatedElements.forEach(el => el.classList.remove('active'));
+      this.activatedElements = [<HTMLElement>event.target, tab];
+      this.activatedElements.forEach(el => el.classList.add('active'));
 
-    // only scroll if the element is not yet visible
-    if (this.isElementOutViewport(tab)) {
-      tab.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest'
-      });
+      // only scroll if the element is not yet visible
+      if (this.isElementOutViewport(tab)) {
+        tab.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
     }
   }
 
