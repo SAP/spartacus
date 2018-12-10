@@ -5,7 +5,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { CurrencyService } from '../facade/currency.service';
 import { LanguageService } from '../facade/language.service';
@@ -14,6 +14,11 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { SiteContextInterceptor } from './site-context.interceptor';
 
 class MockCurrencyService {
+  getActive(): Observable<string> {
+    return of();
+  }
+}
+class MockLanguageService {
   getActive(): Observable<string> {
     return of();
   }
@@ -32,15 +37,13 @@ export class MockSiteContextModuleConfig {
   };
 }
 
-const mockLanguageService = {
-  activeLanguage$: new BehaviorSubject(null)
-};
 describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
 
   let httpMock: HttpTestingController;
   let currencyService: CurrencyService;
+  let languageService: LanguageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,7 +51,7 @@ describe('SiteContextInterceptor', () => {
       providers: [
         {
           provide: LanguageService,
-          useValue: mockLanguageService
+          useClass: MockLanguageService
         },
         {
           provide: CurrencyService,
@@ -68,6 +71,7 @@ describe('SiteContextInterceptor', () => {
 
     httpMock = TestBed.get(HttpTestingController);
     currencyService = TestBed.get(CurrencyService);
+    languageService = TestBed.get(LanguageService);
   });
 
   afterEach(() => {
@@ -78,7 +82,7 @@ describe('SiteContextInterceptor', () => {
     [HttpClient],
     (http: HttpClient) => {
       spyOn(currencyService, 'getActive').and.returnValue(of());
-      mockLanguageService.activeLanguage$.next(null);
+      spyOn(languageService, 'getActive').and.returnValue(of());
 
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
@@ -98,7 +102,7 @@ describe('SiteContextInterceptor', () => {
     [HttpClient],
     (http: HttpClient) => {
       spyOn(currencyService, 'getActive').and.returnValue(of(currencyJpy));
-      mockLanguageService.activeLanguage$.next(languageDe);
+      spyOn(languageService, 'getActive').and.returnValue(of(languageDe));
 
       http
         .get('https://localhost:9002/rest/v2/electronics')
