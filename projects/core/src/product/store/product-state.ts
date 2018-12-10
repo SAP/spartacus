@@ -6,12 +6,7 @@ export interface StateWithProduct {
 }
 
 export interface ProductState {
-  entities: {
-    [productCode: string]: {
-      loading: boolean;
-      value: any;
-    };
-  };
+  entities: { [productCode: string]: any };
 }
 
 export interface ProductsState {
