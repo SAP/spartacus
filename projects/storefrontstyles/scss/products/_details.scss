@@ -6,6 +6,12 @@ $useTabsOnPDP: false !default;
     &:not(.active) {
       display: none;
     }
+    @include media-breakpoint-down(sm) {
+      // on small devices we hide the toggled items
+      &.active.toggled {
+        display: none;
+      }
+    }
     .container > h2 {
       display: none;
     }

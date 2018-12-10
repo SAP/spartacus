@@ -49,7 +49,9 @@ export class ProductDetailsComponent implements OnChanges {
   select(event: MouseEvent, tab: HTMLElement) {
     if (this.activatedElements.indexOf(tab) === -1) {
       // remove active class on both header and content panel
-      this.activatedElements.forEach(el => el.classList.remove('active'));
+      this.activatedElements.forEach(el =>
+        el.classList.remove('active', 'toggled')
+      );
       this.activatedElements = [<HTMLElement>event.target, tab];
       this.activatedElements.forEach(el => el.classList.add('active'));
 
@@ -61,6 +63,8 @@ export class ProductDetailsComponent implements OnChanges {
           inline: 'nearest'
         });
       }
+    } else {
+      this.activatedElements.forEach(el => el.classList.toggle('toggled'));
     }
   }
 
