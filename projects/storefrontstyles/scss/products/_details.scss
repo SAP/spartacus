@@ -34,8 +34,11 @@ $useTabsOnPDP: false !default;
     &:hover {
       color: var(--cx-color, var(--cx-primary));
     }
-    &:not(.active) {
-      cursor: pointer;
+    cursor: pointer;
+    @include media-breakpoint-up(md) {
+      &.active {
+        cursor: initial;
+      }
     }
 
     // border effect
