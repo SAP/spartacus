@@ -30,9 +30,9 @@ export class SearchBoxComponentService {
 
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
 
-  queryParam$: Observable<string> = this.routingService.routerState$.pipe(
-    map(routingData => routingData.state.params.query)
-  );
+  queryParam$: Observable<string> = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params.query));
 
   constructor(
     @Optional()
