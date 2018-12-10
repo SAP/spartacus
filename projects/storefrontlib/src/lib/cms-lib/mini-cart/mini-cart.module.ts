@@ -6,7 +6,8 @@ import { RouterModule } from '@angular/router';
 import { MiniCartComponent } from './mini-cart.component';
 
 import { BannerModule } from '../banner/banner.module';
-import { UrlTranslatorModule } from '@spartacus/core';
+import { ConfigModule, UrlTranslatorModule } from '@spartacus/core';
+import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @NgModule({
   imports: [
@@ -14,6 +15,11 @@ import { UrlTranslatorModule } from '@spartacus/core';
     RouterModule,
     BannerModule,
     MediaModule,
+    ConfigModule.withConfig(<CmsModuleConfig>{
+      cmsComponents: {
+        MiniCartComponent: { selector: 'cx-mini-cart' }
+      }
+    }),
     UrlTranslatorModule
   ],
   declarations: [MiniCartComponent],

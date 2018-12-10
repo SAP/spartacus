@@ -9,8 +9,8 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { TranslateUrlOptions } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSLinkComponent: 'LinkComponent'
+  cmsComponents: {
+    CMSLinkComponent: { selector: 'LinkComponent' }
   }
 };
 

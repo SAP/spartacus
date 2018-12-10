@@ -36,6 +36,10 @@ export class SearchResultsPage extends AppPage {
     by.css('.page-item:first-of-type .page-link')
   );
 
+  readonly paginationSelectedPageBtnNumber: ElementFinder = this.pagination.element(
+    by.css('.page-item.active > .page-link')
+  );
+
   readonly paginationThirdPageBtn: ElementFinder = this.pagination.element(
     by.css('.page-item:nth-child(4) .page-link')
   );

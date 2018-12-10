@@ -77,18 +77,15 @@ describe('StoreFinderGridComponent', () => {
     createComponent();
 
     expect(component).toBeTruthy();
-    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
-      countryIsoCode,
-      regionIsoCode
-    );
   });
 
-  it('should route when viewStore is called', () => {
+  it('should route when viewStore is called with region', () => {
     mockActivatedRoute.snapshot.params = {
       country: countryIsoCode,
       region: regionIsoCode
     };
     configureTestBed();
+    spyOn(storeFinderService, 'viewAllStoresForRegion');
     createComponent();
 
     component.viewStore(location);
@@ -101,6 +98,34 @@ describe('StoreFinderGridComponent', () => {
           params: {
             country: countryIsoCode,
             region: regionIsoCode,
+            store: location.name
+          }
+        }
+      ]
+    });
+    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
+      countryIsoCode,
+      regionIsoCode
+    );
+  });
+
+  it('should route when viewStore is called without region', () => {
+    mockActivatedRoute.snapshot.params = {
+      country: countryIsoCode
+    };
+    configureTestBed();
+    spyOn(storeFinderService, 'viewAllStoresForCountry');
+    createComponent();
+
+    component.viewStore(location);
+
+    expect(mockRoutingService.translateAndGo).toHaveBeenCalledWith({
+      route: [
+        'storeFinder',
+        {
+          name: 'storeDescription',
+          params: {
+            country: countryIsoCode,
             store: location.name
           }
         }

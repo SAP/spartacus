@@ -43,6 +43,12 @@ const routes: Routes = [
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage', cxPath: 'storeDescription' },
         component: StoreFinderStoreDescriptionComponent
+      },
+      {
+        path: 'country/:country/:store',
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'storefinderPage' },
+        component: StoreFinderStoreDescriptionComponent
       }
     ]
   }

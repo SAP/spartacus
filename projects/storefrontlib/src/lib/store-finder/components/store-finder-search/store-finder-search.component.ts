@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-
-import { WindowRef } from '../../services/window-ref';
 import { RoutingService } from '@spartacus/core';
 
 @Component({
@@ -12,7 +10,7 @@ import { RoutingService } from '@spartacus/core';
 export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();
 
-  constructor(private winRef: WindowRef, private routing: RoutingService) {}
+  constructor(private routing: RoutingService) {}
 
   findStores(address: string) {
     this.routing.translateAndGo(
@@ -22,16 +20,9 @@ export class StoreFinderSearchComponent {
   }
 
   viewStoresWithMyLoc() {
-    this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
-      (position: Position) => {
-        this.routing.translateAndGo(
-          { route: ['storeFinder', 'searchResults'] },
-          {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          }
-        );
-      }
+    this.routing.translateAndGo(
+      { route: ['storeFinder', 'searchResults'] },
+      { useMyLocation: true }
     );
   }
 

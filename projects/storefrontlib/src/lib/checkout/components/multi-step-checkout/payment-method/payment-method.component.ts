@@ -15,6 +15,7 @@ import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
+import { PaymentDetails } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-method',
@@ -24,9 +25,9 @@ import { Card } from '../../../../ui/components/card/card.component';
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
-  existingPaymentMethods$: Observable<any>;
+  existingPaymentMethods$: Observable<PaymentDetails[]>;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedPayment: any;
@@ -43,22 +44,19 @@ export class PaymentMethodComponent implements OnInit {
   ngOnInit() {
     this.isLoading$ = this.userService.paymentMethodsLoading$;
 
+    this.userService.loadPaymentMethods(this.cartData.userId);
     this.existingPaymentMethods$ = this.userService.paymentMethods$.pipe(
       tap(payments => {
-        if (payments.length === 0) {
-          this.userService.loadPaymentMethods(this.cartData.userId);
-        } else {
-          if (this.cards.length === 0) {
-            payments.forEach(payment => {
-              const card = this.getCardContent(payment);
-              if (
-                this.selectedPayment &&
-                this.selectedPayment.id === payment.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          payments.forEach(payment => {
+            const card = this.getCardContent(payment);
+            if (
+              this.selectedPayment &&
+              this.selectedPayment.id === payment.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );

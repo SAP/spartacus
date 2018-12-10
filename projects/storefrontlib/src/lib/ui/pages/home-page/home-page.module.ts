@@ -12,6 +12,12 @@ const routes: Routes = [
     canActivate: [CmsPageGuards],
     component: HomePageComponent,
     data: { pageLabel: 'homepage', cxPath: 'home' }
+  },
+  {
+    path: 'previewServlet',
+    canActivate: [CmsPageGuards],
+    component: HomePageComponent,
+    data: { pageLabel: 'homepage' }
   }
 ];
 

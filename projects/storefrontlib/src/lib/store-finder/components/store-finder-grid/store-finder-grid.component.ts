@@ -3,9 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromStore from '../../store';
 import { StoreFinderService } from '../../services/store-finder.service';
 import { RoutingService } from '@spartacus/core';
+
+import * as fromStore from '../../store';
 
 @Component({
   selector: 'cx-store-finder-grid',
@@ -52,6 +53,22 @@ export class StoreFinderGridComponent implements OnInit {
   }
 
   viewStore(location: any): void {
+    if (this.route.snapshot.params.region) {
+      this.routingService.translateAndGo({
+        route: [
+          'storeFinder',
+          {
+            name: 'storeDescription',
+            params: {
+              country: this.route.snapshot.params.country,
+              region: this.route.snapshot.params.region,
+              store: location.name
+            }
+          }
+        ]
+      });
+      return;
+    }
     this.routingService.translateAndGo({
       route: [
         'storeFinder',
@@ -59,7 +76,6 @@ export class StoreFinderGridComponent implements OnInit {
           name: 'storeDescription',
           params: {
             country: this.route.snapshot.params.country,
-            region: this.route.snapshot.params.region,
             store: location.name
           }
         }

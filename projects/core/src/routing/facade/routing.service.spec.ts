@@ -5,28 +5,19 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
-import { NavigationExtras } from '@angular/router';
 import { UrlTranslatorService } from '../configurable-routes/url-translator/url-translator.service';
 
 describe('RoutingService', () => {
-  const mockRedirectUrl = createSpy().and.returnValue(() => of('redirect_url'));
-  const mockRouterState = createSpy().and.returnValue(() => of({}));
-  const mockUrlTranslatorService = { translate: () => {} };
   let store;
   let service: RoutingService;
   let urlTranslator: UrlTranslatorService;
 
   beforeEach(() => {
-    spyOnProperty(NgrxStore, 'select').and.returnValues(
-      mockRouterState,
-      mockRedirectUrl
-    );
-
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlTranslatorService, useValue: mockUrlTranslatorService }
+        { provide: UrlTranslatorService, useValue: { translate: () => {} } }
       ]
     });
 
@@ -119,17 +110,24 @@ describe('RoutingService', () => {
     });
   });
 
-  it('should expose the whole router state', () => {
-    service.redirectUrl$.subscribe(url => {
-      expect(mockRedirectUrl).toHaveBeenCalledWith(fromStore.getRedirectUrl);
-      expect(url).toEqual('redirect_url');
-    });
+  it('should expose the redirectUrl', () => {
+    const mockRedirectUrl = createSpy().and.returnValue(() =>
+      of('redirect_url')
+    );
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
+
+    let redirectUrl;
+    service.getRedirectUrl().subscribe(url => (redirectUrl = url));
+    expect(redirectUrl).toEqual('redirect_url');
   });
 
-  it('should expose redirectUrl state', () => {
-    service.routerState$.subscribe(state => {
-      expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
-      expect(state).toEqual({});
-    });
+  it('should expose whole router state', () => {
+    const mockRouterState = createSpy().and.returnValue(() => of({}));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+    let routerState;
+    service.getRouterState().subscribe(state => (routerState = state));
+    expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
+    expect(routerState).toEqual({});
   });
 });

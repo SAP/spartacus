@@ -1,7 +1,8 @@
 import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
+import { PaymentDetails } from '@spartacus/core';
 
 export interface UserPaymentMethodsState {
-  list: any;
+  list: PaymentDetails[];
   isLoading: boolean;
 }
 
@@ -16,7 +17,7 @@ export function reducer(
 ): UserPaymentMethodsState {
   switch (action.type) {
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS: {
-      const list = action.payload;
+      const list: PaymentDetails[] = action.payload;
 
       if (list !== undefined) {
         return {
@@ -43,6 +44,24 @@ export function reducer(
       return {
         ...state,
         isLoading: true
+      };
+    }
+
+    case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD:
+    case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD: {
+      return {
+        ...state,
+        isLoading: true
+      };
+    }
+
+    case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL:
+    case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS:
+    case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_FAIL:
+    case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false
       };
     }
   }

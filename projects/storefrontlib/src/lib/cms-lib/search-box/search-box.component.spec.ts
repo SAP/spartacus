@@ -3,26 +3,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { of } from 'rxjs';
-
 import { SearchBoxComponent } from './search-box.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '../../cms/facade/cms.service';
-
 import { SearchBoxComponentService } from './search-box-component.service';
 import { ProductSearchService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    SearchBoxComponent: 'SearchBoxComponent'
-  }
-};
 @Pipe({
   name: 'cxTranslateUrl'
 })
@@ -63,21 +53,10 @@ describe('SearchBoxComponent in CmsLib', () => {
     key: 'Enter123'
   };
 
-  const mockState = {
-    state: {
-      params: {
-        query: 'test'
-      }
-    }
-  };
-
-  const mockRoutingService = {
-    routerState$: of(mockState)
-  };
-
   class SearchBoxComponentServiceSpy {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
-    search = jasmine.createSpy('search').and.callFake(() => of([]));
+    typeahead = jasmine.createSpy('search').and.callFake(() => of([]));
+    queryParam$ = of('test');
   }
 
   beforeEach(async(() => {
@@ -96,7 +75,6 @@ describe('SearchBoxComponent in CmsLib', () => {
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
         {
           provide: ProductSearchService,
           useValue: {}
@@ -106,8 +84,7 @@ describe('SearchBoxComponent in CmsLib', () => {
           useValue: {
             data$: of({})
           }
-        },
-        { provide: RoutingService, useValue: mockRoutingService }
+        }
       ]
     })
       .overrideComponent(SearchBoxComponent, {
@@ -143,23 +120,21 @@ describe('SearchBoxComponent in CmsLib', () => {
 
   it('should search input value be equal to search query if was defined', () => {
     fixture.detectChanges();
-    expect(searchBoxComponent.searchBoxControl.value).toEqual(
-      mockState.state.params.query
-    );
+    expect(searchBoxComponent.searchBoxControl.value).toEqual('test');
   });
 
   it('should dispatch new search query on text update', () => {
     searchBoxComponent.searchBoxControl.setValue('testQuery');
     expect(searchBoxComponent.searchBoxControl.value).toEqual('testQuery');
     fixture.detectChanges();
-    expect(serviceSpy.search).toHaveBeenCalled();
+    expect(serviceSpy.typeahead).toHaveBeenCalled();
   });
 
   it('should dispatch new search query on input', () => {
     searchBoxComponent.queryText = 'test input';
     expect(searchBoxComponent.searchBoxControl.value).toEqual('test input');
     fixture.detectChanges();
-    expect(serviceSpy.search).toHaveBeenCalled();
+    expect(serviceSpy.typeahead).toHaveBeenCalled();
   });
 
   it('should call onKey(event: any) and launchSearchPage(query: string)', () => {

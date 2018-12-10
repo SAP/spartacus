@@ -6,8 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./tertiary-bar.component.scss']
 })
 export class TertiaryBarComponent {
-  constructor() {}
-
   tertiaryNavItems: { label: string; routeName: string[] }[] = [
     {
       label: 'Sale',

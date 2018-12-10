@@ -4,14 +4,11 @@ import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
-import { WindowRef } from '../../services/window-ref';
 
 import * as fromStore from '../../store';
 import { RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 
-const latitude = 10.1;
-const longitude = 39.2;
 const query = 'address';
 
 const keyEvent = {
@@ -20,31 +17,6 @@ const keyEvent = {
 const badKeyEvent = {
   key: 'Enter95'
 };
-
-const coor: Coordinates = {
-  latitude: latitude,
-  longitude: longitude,
-  accuracy: 0,
-  altitude: null,
-  altitudeAccuracy: null,
-  heading: null,
-  speed: null
-};
-const position = { coords: coor, timestamp: new Date().valueOf() };
-
-class WindowRefMock {
-  get nativeWindow(): any {
-    return {
-      navigator: {
-        geolocation: {
-          getCurrentPosition: function(callback: Function) {
-            callback(position);
-          }
-        }
-      }
-    };
-  }
-}
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -56,7 +28,7 @@ class MockTranslateUrlPipe implements PipeTransform {
 describe('StoreFinderSearchComponent', () => {
   let component: StoreFinderSearchComponent;
   let fixture: ComponentFixture<StoreFinderSearchComponent>;
-  let windowRef: WindowRef;
+
   let routingService: RoutingService;
 
   beforeEach(async(() => {
@@ -69,7 +41,6 @@ describe('StoreFinderSearchComponent', () => {
       ],
       declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: WindowRef, useClass: WindowRefMock },
         {
           provide: RoutingService,
           useValue: { translateAndGo: jasmine.createSpy() }
@@ -81,10 +52,8 @@ describe('StoreFinderSearchComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchComponent);
     component = fixture.componentInstance;
-    windowRef = TestBed.get(WindowRef);
     routingService = TestBed.get(RoutingService);
 
-    spyOn(windowRef, 'nativeWindow').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -119,7 +88,7 @@ describe('StoreFinderSearchComponent', () => {
     component.viewStoresWithMyLoc();
     expect(routingService.translateAndGo).toHaveBeenCalledWith(
       { route: ['storeFinder', 'searchResults'] },
-      { latitude, longitude }
+      { useMyLocation: true }
     );
   });
 });
