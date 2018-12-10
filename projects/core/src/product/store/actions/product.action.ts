@@ -26,7 +26,4 @@ export class LoadProductSuccess implements Action {
 }
 
 // action types
-export type ProductAction =
-  | LoadProduct
-  | LoadProductFail
-  | LoadProductSuccess;
+export type ProductAction = LoadProduct | LoadProductFail | LoadProductSuccess;
