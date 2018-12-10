@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
-import { CmsModuleConfig } from '../model/cms-config';
+import { CmsConfig } from '../config/cms-config';
 import { PageContext } from '../../routing/index';
 import { CMSPage, PageType, CmsComponent } from '../../occ-models/index';
 
@@ -11,7 +11,7 @@ import { CMSPage, PageType, CmsComponent } from '../../occ-models/index';
 export class OccCmsService {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private config: CmsModuleConfig) {}
+  constructor(private http: HttpClient, private config: CmsConfig) {}
 
   protected getBaseEndPoint() {
     return (

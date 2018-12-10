@@ -4,10 +4,10 @@ import { CmsComponent } from '../../../occ-models/index';
 import * as fromReducers from '../reducers/index';
 import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/component.selectors';
-import { CmsState } from '../cms-state';
+import { StateWithCms } from '../cms-state';
 
 describe('Cms Component Selectors', () => {
-  let store: Store<CmsState>;
+  let store: Store<StateWithCms>;
 
   const component: CmsComponent = {
     uid: 'comp1',

@@ -1,11 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import {
-  ActionReducerMap,
-  createFeatureSelector,
-  MetaReducer,
-  ActionReducer,
-  MemoizedSelector
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import * as fromPage from './page.reducer';
 import * as fromComponent from './component.reducer';
@@ -28,11 +22,6 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };
-
-export const getCmsState: MemoizedSelector<
-  any,
-  CmsState
-> = createFeatureSelector<CmsState>('cms');
 
 export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {

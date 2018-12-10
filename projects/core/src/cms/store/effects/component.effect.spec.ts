@@ -5,10 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../occ/occ-cms.service';
-import {
-  CmsModuleConfig,
-  defaultCmsModuleConfig
-} from '../../model/cms-config';
+import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './component.effect';
 import * as fromActions from '../actions/component.action';
 
@@ -16,6 +13,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { PageType, CmsComponent } from '../../../occ-models/index';
 import { RoutingService } from '../../../routing/index';
+import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 
 const router = {
   state: {
@@ -44,7 +42,7 @@ describe('Component Effects', () => {
       imports: [HttpClientTestingModule, StoreModule.forRoot({})],
       providers: [
         OccCmsService,
-        { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
+        { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useValue: mockRoutingService }

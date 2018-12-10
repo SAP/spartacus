@@ -5,14 +5,14 @@ import { NavigationModule } from '../navigation/navigation.module';
 
 import { CategoryNavigationComponent } from './category-navigation.component';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
     NavigationModule,
     BootstrapModule,
-    ConfigModule.withConfig(<CmsModuleConfig>{
+    ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CategoryNavigationComponent: { selector: 'cx-category-navigation' }
       }

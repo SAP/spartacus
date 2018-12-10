@@ -7,10 +7,10 @@ import * as fromSelectors from '../selectors/page.selectors';
 
 import { Page } from '../../model/page.model';
 import { CmsComponent } from '../../../occ-models/index';
-import { CmsState } from '../cms-state';
+import { StateWithCms } from '../cms-state';
 
 describe('Cms PageData Selectors', () => {
-  let store: Store<CmsState>;
+  let store: Store<StateWithCms>;
 
   const components: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent' },

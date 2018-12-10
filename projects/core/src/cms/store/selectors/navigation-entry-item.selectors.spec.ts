@@ -5,10 +5,10 @@ import * as fromReducers from '../reducers/index';
 import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/index';
 import { CmsComponent } from '../../../occ-models/index';
-import { CmsState } from '../cms-state';
+import { StateWithCms } from '../cms-state';
 
 describe('Navigation Entry Items Selectors', () => {
-  let store: Store<CmsState>;
+  let store: Store<StateWithCms>;
 
   const mockComponents: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },

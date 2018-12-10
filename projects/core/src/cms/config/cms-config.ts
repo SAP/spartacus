@@ -26,7 +26,7 @@ export type CMSComponentConfig = {
   }
 };
 
-export abstract class CmsModuleConfig extends OccConfig implements AuthConfig {
+export abstract class CmsConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
     client_secret?: string;
@@ -39,13 +39,3 @@ export abstract class CmsModuleConfig extends OccConfig implements AuthConfig {
 
   cmsComponents?: CMSComponentConfig;
 }
-
-export const defaultCmsModuleConfig: CmsModuleConfig = {
-  defaultPageIdForType: {
-    ProductPage: ['productDetails'],
-    CategoryPage: ['productList', 'productGrid', 'category']
-  },
-  cmsComponents: {
-    CMSTabParagraphComponent: { selector: 'cx-paragraph' }
-  }
-};

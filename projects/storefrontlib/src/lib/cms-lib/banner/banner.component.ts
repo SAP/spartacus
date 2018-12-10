@@ -5,7 +5,7 @@ import {
 } from '@angular/core';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService, CmsModuleConfig } from '@spartacus/core';
+import { CmsService, CmsConfig } from '@spartacus/core';
 
 @Component({
   selector: 'cx-banner',
@@ -17,7 +17,7 @@ export class BannerComponent extends AbstractCmsComponent {
   constructor(
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected config: CmsModuleConfig
+    protected config: CmsConfig
   ) {
     super(cmsService, cd);
   }

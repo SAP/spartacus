@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LinkComponent } from './link.component';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    ConfigModule.withConfig(<CmsModuleConfig>{
+    ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSLinkComponent: { selector: 'cx-link' }
       }

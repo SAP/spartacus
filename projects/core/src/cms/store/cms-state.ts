@@ -3,6 +3,10 @@ import { Page } from '../model/page.model';
 
 export const CMS_FEATURE = 'cms';
 
+export interface StateWithCms {
+  [CMS_FEATURE]: CmsState;
+}
+
 export interface ComponentState {
   entities: { [id: string]: any };
 }

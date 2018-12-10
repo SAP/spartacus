@@ -10,10 +10,10 @@ import * as fromReducers from '../store/reducers';
 import { of } from 'rxjs';
 import { Page } from '../model/page.model';
 import { DefaultPageService } from '../occ/default-page.service';
-import { CmsModuleConfig } from '../model/cms-config';
+import { CmsConfig } from '../config/cms-config';
 import { PageType } from '../../occ-models/occ.models';
 
-const MockCmsModuleConfig: CmsModuleConfig = {
+const MockCmsModuleConfig: CmsConfig = {
   defaultPageIdForType: {
     ProductPage: ['testProductPage']
   }
@@ -46,7 +46,7 @@ describe('CmsService', () => {
       providers: [
         CmsService,
         DefaultPageService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsConfig, useValue: MockCmsModuleConfig }
       ]
     });
 

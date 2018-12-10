@@ -6,7 +6,7 @@ import {
 
 import { OccCmsService } from './occ-cms.service';
 import { IdList } from './../model/idList.model';
-import { CmsModuleConfig } from '../model/cms-config';
+import { CmsConfig } from '../config/cms-config';
 import { CmsComponent, CMSPage, PageType } from '../../occ-models/index';
 import { PageContext } from '../../routing/index';
 
@@ -34,7 +34,7 @@ const listComponents: any = {
   pagination: { count: 10 }
 };
 
-const MockCmsModuleConfig: CmsModuleConfig = {
+const MockCmsModuleConfig: CmsConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -57,7 +57,7 @@ describe('OccCmsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig }
+        { provide: CmsConfig, useValue: MockCmsModuleConfig }
       ]
     });
 

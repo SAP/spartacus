@@ -13,11 +13,7 @@ import { CmsComponent } from '@spartacus/core';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
-import {
-  CmsModuleConfig,
-  CmsService,
-  ComponentMapperService
-} from '@spartacus/core';
+import { CmsConfig, CmsService, ComponentMapperService } from '@spartacus/core';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -42,7 +38,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private cmsService: CmsService,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
-    private config: CmsModuleConfig
+    private config: CmsConfig
   ) {}
 
   ngAfterViewInit() {

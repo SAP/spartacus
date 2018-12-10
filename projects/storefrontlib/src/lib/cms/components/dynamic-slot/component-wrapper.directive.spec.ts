@@ -7,7 +7,7 @@ import {
   CmsComponent,
   CmsService,
   ComponentMapperService,
-  CmsModuleConfig
+  CmsConfig
 } from '@spartacus/core';
 
 const testText = 'test text';
@@ -32,7 +32,7 @@ export class TestComponent {
 })
 export class TestModule {}
 
-const MockCmsModuleConfig: CmsModuleConfig = {
+const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: {
       selector: 'cx-test',
@@ -61,7 +61,7 @@ describe('ComponentWrapperDirective', () => {
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useValue: { getComponentData: () => {} } },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
       ]
@@ -102,7 +102,7 @@ describe('ComponentWrapperDirective', () => {
     let scriptEl;
 
     beforeEach(() => {
-      const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
+      const cmsMapping = TestBed.get(CmsConfig) as CmsConfig;
       cmsMapping.cmsComponents.CMSTestComponent.selector =
         'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);

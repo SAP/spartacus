@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import {
   ConfigModule,
   Config,
-  CmsModuleConfig,
+  CmsConfig,
   CmsModule as CmsCoreModule,
   defaultCmsModuleConfig
 } from '@spartacus/core';
@@ -26,7 +26,7 @@ import { OutletModule } from '../outlet/outlet.module';
     OutletModule,
     CmsCoreModule
   ],
-  providers: [...guards, { provide: CmsModuleConfig, useExisting: Config }],
+  providers: [...guards, { provide: CmsConfig, useExisting: Config }],
   declarations: [...components],
   exports: [...components]
 })

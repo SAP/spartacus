@@ -6,7 +6,7 @@ import {
   Renderer2,
   PLATFORM_ID
 } from '@angular/core';
-import { CmsModuleConfig } from '../model/cms-config';
+import { CmsConfig } from '../config/cms-config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class ComponentMapperService {
 
   constructor(
     private componentFactoryResolver: ComponentFactoryResolver,
-    private config: CmsModuleConfig,
+    private config: CmsConfig,
     @Inject(DOCUMENT) private document: any,
     @Inject(PLATFORM_ID) private platform: any
   ) {}
@@ -47,6 +47,12 @@ export class ComponentMapperService {
     if (!componentConfig) {
       if (this.missingComponents.indexOf(typeCode) === -1) {
         this.missingComponents.push(typeCode);
+        console.warn(
+          'No component implementation found for the CMS component type',
+          typeCode,
+          '.\n',
+          'Make sure you implement a component and register it in the mapper.'
+        );
       }
     }
     return componentConfig ? componentConfig.selector : null;

@@ -5,7 +5,7 @@ import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
 import { DefaultPageService } from '../occ/default-page.service';
-import { CmsState } from '../store/cms-state';
+import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ-models/cms-component.models';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { CmsComponent } from '../../occ-models/cms-component.models';
 })
 export class CmsService {
   constructor(
-    private store: Store<CmsState>,
+    private store: Store<StateWithCms>,
     private defaultPageService: DefaultPageService
   ) {}
 

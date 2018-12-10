@@ -7,14 +7,14 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationService } from './navigation.service';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     BootstrapModule,
-    ConfigModule.withConfig(<CmsModuleConfig>{
+    ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         NavigationComponent: { selector: 'cx-navigation' }
       }

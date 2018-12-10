@@ -7,16 +7,14 @@ import { Observable, of } from 'rxjs';
 import { PageType } from '../../../occ-models/index';
 import { RoutingService } from '../../../routing/index';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import {
-  CmsModuleConfig,
-  defaultCmsModuleConfig
-} from '../../model/cms-config';
+import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers/index';
+import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 
 const router = {
   state: {
@@ -67,7 +65,7 @@ describe('Navigation Entry Items Effects', () => {
       ],
       providers: [
         OccCmsService,
-        { provide: CmsModuleConfig, useValue: defaultCmsModuleConfig },
+        { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useValue: mockRoutingService }

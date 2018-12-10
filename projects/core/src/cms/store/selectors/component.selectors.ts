@@ -1,28 +1,29 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import * as fromFeature from '../reducers/index';
-import { ComponentState, CmsState } from '../cms-state';
+import { CmsState, ComponentState, StateWithCms } from '../cms-state';
+import { getCmsState } from './feature.selectors';
 
 export const getComponentEntitiesSelector = (state: ComponentState) =>
   state.entities;
 
 export const getComponentState: MemoizedSelector<
-  any,
+  StateWithCms,
   ComponentState
 > = createSelector(
-  fromFeature.getCmsState,
+  getCmsState,
   (state: CmsState) => state.component
 );
 
 export const getComponentEntities: MemoizedSelector<
-  any,
+  StateWithCms,
   { [id: string]: any }
 > = createSelector(
   getComponentState,
   getComponentEntitiesSelector
 );
 
-export const componentSelectorFactory = (uid): MemoizedSelector<any, any> => {
+export const componentSelectorFactory = (
+  uid
+): MemoizedSelector<StateWithCms, any> => {
   return createSelector(
     getComponentEntities,
     entities => {

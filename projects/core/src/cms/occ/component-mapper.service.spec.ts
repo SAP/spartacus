@@ -1,7 +1,7 @@
 import { Component, NgModule, PLATFORM_ID, Renderer2 } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { ComponentMapperService } from './component-mapper.service';
-import { CmsModuleConfig } from '../model/cms-config';
+import { CmsConfig } from '../config/cms-config';
 
 const createSpy = jasmine.createSpy;
 
@@ -18,7 +18,7 @@ export class TestComponent {}
 })
 export class TestModule {}
 
-const MockCmsModuleConfig: CmsModuleConfig = {
+const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: { selector: 'cx-test' },
     CMSWebComponent: { selector: 'path/to/file.js#cms-component' }
@@ -33,7 +33,7 @@ describe('ComponentMapperService', () => {
       imports: [TestModule],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
         Renderer2,
         { provide: PLATFORM_ID, useValue: 'no-browser' }
       ]
