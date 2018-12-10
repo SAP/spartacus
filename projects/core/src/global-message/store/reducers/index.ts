@@ -1,17 +1,15 @@
 import { InjectionToken, Provider } from '@angular/core';
 import * as fromGlobalMessage from './global-message.reducer';
-import {
-  GlobalMessageState
-} from '../global-message-state';
-import { ActionReducerMap } from '@ngrx/store';
+import { GlobalMessageState } from '../state';
+import { ActionReducer } from '@ngrx/store';
 
-export function getReducers(): ActionReducerMap<GlobalMessageState> {
+export function getReducers(): ActionReducer<GlobalMessageState> {
   return fromGlobalMessage.reducer;
 }
 
 export const reducerToken: InjectionToken<
-  ActionReducerMap<GlobalMessageState>
-> = new InjectionToken<ActionReducerMap<GlobalMessageState>>(
+  ActionReducer<GlobalMessageState>
+> = new InjectionToken<ActionReducer<GlobalMessageState>>(
   'GlobalMessageReducers'
 );
 

@@ -14,8 +14,8 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import { GlobalMessageService } from '../facade/global-message.service';
-import { GlobalMessageType } from './../models/message.model';
+import { GlobalMessageService } from '@spartacus/core';
+import { GlobalMessageType } from '@spartacus/core';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 

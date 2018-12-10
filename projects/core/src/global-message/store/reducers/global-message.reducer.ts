@@ -1,7 +1,7 @@
 import { GlobalMessageAction } from '../actions/global-message.actions';
 import { GlobalMessage } from '../../models/global-message.model';
 import * as fromAction from '../actions';
-import { GlobalMessageState } from './../global-message-state';
+import { GlobalMessageState } from '../state';
 
 export const initialState: GlobalMessageState = {
   entities: {}

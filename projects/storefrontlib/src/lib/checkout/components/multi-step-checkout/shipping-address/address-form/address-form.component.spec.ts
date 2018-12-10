@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from '../../../../facade';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
 import { UserService } from '../../../../../user/facade/user.service';
 
 import { AddressFormComponent } from './address-form.component';

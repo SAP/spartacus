@@ -9,11 +9,7 @@ import {
   GlobalMessage,
   GlobalMessageType
 } from '../../models/global-message.model';
-import {
-  GlobalMessageState,
-  GLOBAL_MESSAGE_FEATURE,
-  StateWithGlobalMessage
-} from '../../store/global-message-state';
+import { GLOBAL_MESSAGE_FEATURE, StateWithGlobalMessage } from '../state';
 
 describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;
