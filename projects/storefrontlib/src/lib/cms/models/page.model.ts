@@ -1,4 +1,5 @@
 export interface Page {
+  uuid?: string;
   pageId?: string;
   name?: string;
   template?: string;

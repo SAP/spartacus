@@ -89,6 +89,7 @@ export class PageEffects {
     pageContext: PageContext
   ): { key: string; value: Page } {
     const page: Page = {
+      uuid: res.uuid,
       loadTime: Date.now(),
       name: res.name,
       pageId: res.uid,
