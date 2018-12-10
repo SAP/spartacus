@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
-          this.userService.loadDetails(token.userId);
+          this.userService.load(token.userId);
           this.auth.login();
         } else if (token && !token.access_token && this.isLogin) {
           this.isLogin = false;

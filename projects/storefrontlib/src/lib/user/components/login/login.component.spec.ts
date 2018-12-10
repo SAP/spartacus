@@ -27,7 +27,7 @@ class MockUserService {
   get(): Observable<User> {
     return of();
   }
-  loadDetails(_userId: string) {
+  load(_userId: string) {
     return of();
   }
 }
@@ -111,12 +111,12 @@ describe('LoginComponent', () => {
   });
 
   it('should load user details when token exists', () => {
-    spyOn(userService, 'loadDetails').and.stub();
+    spyOn(userService, 'load').and.stub();
     spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
 
     component.ngOnInit();
 
-    expect(userService.loadDetails).toHaveBeenCalledWith(mockUserToken.userId);
+    expect(userService.load).toHaveBeenCalledWith(mockUserToken.userId);
     expect(authService.login).toHaveBeenCalled();
     expect(component.isLogin).toBeTruthy();
   });

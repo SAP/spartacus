@@ -31,7 +31,7 @@ export class UserService {
   /**
    * Loads the user's details
    */
-  loadDetails(userId: string): void {
+  load(userId: string): void {
     this.store.dispatch(new fromStore.LoadUserDetails(userId));
   }
 
