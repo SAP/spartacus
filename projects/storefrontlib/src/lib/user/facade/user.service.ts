@@ -63,9 +63,9 @@ export class UserService {
   }
 
   /**
-   * Returns order details
+   * Returns an order's detail
    */
-  getOrderDetails(): Observable<Order> {
+  getOrdersDetail(): Observable<Order> {
     return this.store.pipe(select(fromStore.getOrderDetails));
   }
 
@@ -114,7 +114,7 @@ export class UserService {
   }
 
   /**
-   * Returns payment methods
+   * Returns all user's payment methods
    */
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return this.store.pipe(select(fromStore.getPaymentMethods));
