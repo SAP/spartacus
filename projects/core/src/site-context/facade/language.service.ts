@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Language } from '../../occ-models';
 
 /**
@@ -17,8 +17,14 @@ export class LanguageService {
    * Represents all the languages supported by the current store.
    */
   getAll(): Observable<Language[]> {
-    this.store.dispatch(new fromStore.LoadLanguages());
-    return this.store.pipe(select(fromStore.getAllLanguages));
+    return this.store.pipe(
+      select(fromStore.getAllLanguages),
+      tap(languages => {
+        if (!languages || languages.length === 0) {
+          this.store.dispatch(new fromStore.LoadLanguages());
+        }
+      })
+    );
   }
 
   /**

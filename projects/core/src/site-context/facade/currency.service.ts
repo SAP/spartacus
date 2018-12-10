@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { Currency } from '../../occ-models';
 
 /**
@@ -17,8 +17,14 @@ export class CurrencyService {
    * Represents all the currencies supported by the current store.
    */
   getAll(): Observable<Currency[]> {
-    this.store.dispatch(new fromStore.LoadCurrencies());
-    return this.store.pipe(select(fromStore.getAllCurrencies));
+    return this.store.pipe(
+      select(fromStore.getAllCurrencies),
+      tap(currencies => {
+        if (!currencies || currencies.length === 0) {
+          this.store.dispatch(new fromStore.LoadCurrencies());
+        }
+      })
+    );
   }
 
   /**
