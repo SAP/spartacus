@@ -6,7 +6,7 @@ import { tap, filter, take, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from 'projects/core/src/routing/facade/routing.service';
 
 @Injectable()
 export class UserErrorHandlingService {

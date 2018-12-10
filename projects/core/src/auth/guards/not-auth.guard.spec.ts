@@ -50,39 +50,55 @@ describe('NotAuthGuard', () => {
     service = TestBed.get(RoutingService);
   });
 
-  it('should return false', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+  describe(', when user is authorised,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+    });
 
-    let result: boolean;
-    authGuard
-      .canActivate()
-      .subscribe(value => (result = value))
-      .unsubscribe();
+    it('should return false', () => {
+      let result: boolean;
+      authGuard
+        .canActivate()
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-    expect(result).toBe(false);
+      expect(result).toBe(false);
+    });
+
+    it('should redirect to homepage', () => {
+      spyOn(service, 'translateAndGo');
+      authGuard
+        .canActivate()
+        .subscribe()
+        .unsubscribe();
+      expect(service.translateAndGo).toHaveBeenCalledWith({ route: ['home'] });
+    });
   });
 
-  it('should return true', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(
-      of({ access_token: undefined } as UserToken)
-    );
+  describe(', when user is NOT authorised,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(
+        of({ access_token: undefined } as UserToken)
+      );
+    });
 
-    let result: boolean;
-    authGuard
-      .canActivate()
-      .subscribe(value => (result = value))
-      .unsubscribe();
+    it('should return true', () => {
+      let result: boolean;
+      authGuard
+        .canActivate()
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-    expect(result).toBe(true);
-  });
+      expect(result).toBe(true);
+    });
 
-  it('should redirect to homepage if cannot activate route', () => {
-    authService.userToken$ = of(mockUserToken);
-    spyOn(service, 'translateAndGo');
-    authGuard
-      .canActivate()
-      .subscribe()
-      .unsubscribe();
-    expect(service.translateAndGo).toHaveBeenCalledWith({ route: ['home'] });
+    it('should not redirect', () => {
+      spyOn(service, 'translateAndGo');
+      authGuard
+        .canActivate()
+        .subscribe()
+        .unsubscribe();
+      expect(service.translateAndGo).not.toHaveBeenCalled();
+    });
   });
 });
