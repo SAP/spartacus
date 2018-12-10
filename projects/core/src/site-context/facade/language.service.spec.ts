@@ -1,15 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { StoreModule, Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
+
 import { of } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { LanguageService } from './language.service';
-import { OccConfig } from '../../occ/config/occ-config';
-import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { Language } from '../../occ-models/occ.models';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { OccConfig } from '../../occ/config/occ-config';
+
+import { LanguageService } from './language.service';
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
@@ -35,7 +39,10 @@ describe('LanguageService', () => {
     );
 
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('siteContext', fromStore.getReducers())
+      ],
       providers: [
         LanguageService,
         { provide: OccConfig, useValue: defaultOccConfig }
