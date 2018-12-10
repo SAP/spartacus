@@ -7,17 +7,22 @@ import { NavigationExtras } from '@angular/router';
   providedIn: 'root'
 })
 export class RoutingService {
-  readonly routerState$: Observable<any> = this.store.pipe(
-    select(fromStore.getRouterState)
-  );
-
-  readonly redirectUrl$: Observable<string> = this.store.pipe(
-    select(fromStore.getRedirectUrl)
-  );
-
   constructor(private store: Store<fromStore.RouterState>) {}
 
-  public go(path: any[], query?: object, extras?: NavigationExtras) {
+  /**
+   * Get the current router state
+   */
+  getRouterState(): Observable<any> {
+    return this.store.pipe(select(fromStore.getRouterState));
+  }
+
+  /**
+   * Navigation with a new state into history
+   * @param path
+   * @param query
+   * @param extras: Represents the extra options used during navigation.
+   */
+  go(path: any[], query?: object, extras?: NavigationExtras) {
     this.store.dispatch(
       new fromStore.Go({
         path,
@@ -27,6 +32,9 @@ export class RoutingService {
     );
   }
 
+  /**
+   * Navigating back
+   */
   back() {
     const isLastPageInApp =
       document.referrer.indexOf(window.location.origin) > -1;
@@ -38,14 +46,31 @@ export class RoutingService {
     return;
   }
 
+  /**
+   * Navigating forward
+   */
   forward() {
     this.store.dispatch(new fromStore.Forward());
   }
 
+  /**
+   * Get the redirect url from store
+   */
+  getRedirectUrl(): Observable<string> {
+    return this.store.pipe(select(fromStore.getRedirectUrl));
+  }
+
+  /**
+   * Remove the redirect url from store
+   */
   clearRedirectUrl() {
     this.store.dispatch(new fromStore.ClearRedirectUrl());
   }
 
+  /**
+   * Put redirct url into store
+   * @param url: redirect url
+   */
   saveRedirectUrl(url: string) {
     this.store.dispatch(new fromStore.SaveRedirectUrl(url));
   }

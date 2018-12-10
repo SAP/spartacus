@@ -25,7 +25,9 @@ const router = {
   }
 };
 const mockRoutingService = {
-  routerState$: of(router)
+  getRouterState() {
+    return of(router);
+  }
 };
 describe('Component Effects', () => {
   let actions$: Observable<any>;

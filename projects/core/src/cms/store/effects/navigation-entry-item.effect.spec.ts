@@ -26,7 +26,9 @@ const router = {
   }
 };
 const mockRoutingService = {
-  routerState$: of(router)
+  getRouterState() {
+    return of(router);
+  }
 };
 describe('Navigation Entry Items Effects', () => {
   let actions$: Observable<any>;

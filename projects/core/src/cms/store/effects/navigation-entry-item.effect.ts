@@ -23,7 +23,7 @@ export class NavigationEntryItemEffects {
     }),
     mergeMap(data => {
       if (data.ids.componentIds.idList.length > 0) {
-        return this.routingService.routerState$.pipe(
+        return this.routingService.getRouterState().pipe(
           filter(routerState => routerState !== undefined),
           map(routerState => routerState.state.context),
           take(1),

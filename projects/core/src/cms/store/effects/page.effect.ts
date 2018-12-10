@@ -34,7 +34,7 @@ export class PageEffects {
     map((action: pageActions.LoadPageData) => action.payload),
     switchMap(pageContext => {
       if (pageContext === undefined) {
-        return this.routingService.routerState$.pipe(
+        return this.routingService.getRouterState().pipe(
           filter(routerState => routerState && routerState.state),
           filter(routerState => routerState.state.cmsRequired),
           map(routerState => routerState.state.context),
