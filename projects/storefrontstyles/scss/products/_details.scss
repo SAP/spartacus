@@ -1,16 +1,28 @@
 $useTabsOnPDP: false !default;
 
 %pdpTabs {
+  // On small devices we hide the toggled items
+  // in order to allow for a more condensed layout
+  @include media-breakpoint-down(sm) {
+    > div.active.toggled {
+      display: none;
+    }
+    > h3.active.toggled {
+      color: initial;
+      &:before {
+        content: '+';
+      }
+      &:after {
+        width: 0;
+        opacity: var(--cx-opacity, 0);
+      }
+    }
+  }
+
   > div {
     background: var(--cx-background-color, var(--cx-background));
     &:not(.active) {
       display: none;
-    }
-    @include media-breakpoint-down(sm) {
-      // on small devices we hide the toggled items
-      &.active.toggled {
-        display: none;
-      }
     }
     .container > h2 {
       display: none;
