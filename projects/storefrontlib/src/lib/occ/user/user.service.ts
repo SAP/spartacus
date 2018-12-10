@@ -60,7 +60,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  addUserAddress(userId, address) {
+  addUserAddress(userId: string, address: object) {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -71,7 +71,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  updateUserAddress(userId, addressId, address) {
+  updateUserAddress(userId: string, addressId: string, address: object) {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
@@ -83,7 +83,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  deleteUserAddress(userId, addressId) {
+  deleteUserAddress(userId: string, addressId: string) {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
