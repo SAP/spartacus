@@ -6,7 +6,7 @@ import { of, Observable } from 'rxjs';
 import { CartService } from '../../../cart/facade';
 
 import { CartPageLayoutComponent } from './cart-page-layout.component';
-import { Cart } from 'projects/backend/occ-client/lib/models';
+import { Cart } from '@spartacus/core';
 
 class MockCartService {
   getActiveCart(): Observable<Cart> {

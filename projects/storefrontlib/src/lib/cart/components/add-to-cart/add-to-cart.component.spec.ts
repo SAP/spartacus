@@ -12,7 +12,7 @@ import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';
-import { Cart } from 'projects/backend/occ-client/lib/models';
+import { Cart } from '@spartacus/core';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
