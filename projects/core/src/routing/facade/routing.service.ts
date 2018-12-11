@@ -35,15 +35,12 @@ export class RoutingService {
   ) {
     let path: any[];
 
-    if (
-      pathOrTranslateUrlOptions &&
-      typeof pathOrTranslateUrlOptions === 'object'
-    ) {
-      const routeMetadata = pathOrTranslateUrlOptions as TranslateUrlOptions;
-      const translatedPath = this.urlTranslator.translate(routeMetadata);
-      path = Array.isArray(translatedPath) ? translatedPath : [translatedPath];
+    if (Array.isArray(pathOrTranslateUrlOptions)) {
+      path = pathOrTranslateUrlOptions;
     } else {
-      path = pathOrTranslateUrlOptions as any[];
+      const translateUrlOptions = pathOrTranslateUrlOptions;
+      const translatedPath = this.urlTranslator.translate(translateUrlOptions);
+      path = Array.isArray(translatedPath) ? translatedPath : [translatedPath];
     }
     return this.navigate(path, query, extras);
   }
