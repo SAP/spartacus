@@ -32,8 +32,10 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should dispatch navigation action', () => {
+    it('should dispatch navigation action with non-translated path when first argument is an array', () => {
+      spyOn(urlTranslator, 'translate');
       service.go(['/search', 'query']);
+      expect(urlTranslator.translate).not.toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
           path: ['/search', 'query'],
@@ -42,24 +44,23 @@ describe('RoutingService', () => {
         })
       );
     });
-  });
 
-  describe('translateAndGo', () => {
-    it('should call "go" method with translated url', () => {
-      const translateUrlOptions = { route: ['testRoute'] };
-      const queryParams = { testQueryParam: 'testQueryParamValue' };
-      const extras = { fragment: 'testFragment' };
-      const translatedPath = ['translated-path'];
-
-      spyOn(urlTranslator, 'translate').and.returnValue(translatedPath);
-      spyOn(service, 'go');
-
-      service.translateAndGo(translateUrlOptions, queryParams, extras);
-      expect(urlTranslator.translate).toHaveBeenCalledWith(translateUrlOptions);
-      expect(service.go).toHaveBeenCalledWith(
-        translatedPath,
-        queryParams,
-        extras
+    it('should dispatch navigation action with translated path when first argument is an object', () => {
+      spyOn(urlTranslator, 'translate').and.returnValue([
+        '',
+        'translated',
+        'path'
+      ]);
+      service.go({ route: ['testRoute'] });
+      expect(urlTranslator.translate).toHaveBeenCalledWith({
+        route: ['testRoute']
+      });
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.Go({
+          path: ['', 'translated', 'path'],
+          query: undefined,
+          extras: undefined
+        })
       );
     });
   });

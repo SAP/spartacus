@@ -43,7 +43,7 @@ describe('StoreFinderSearchComponent', () => {
       providers: [
         {
           provide: RoutingService,
-          useValue: { translateAndGo: jasmine.createSpy() }
+          useValue: { go: jasmine.createSpy() }
         }
       ]
     }).compileComponents();
@@ -64,7 +64,7 @@ describe('StoreFinderSearchComponent', () => {
   it('should dispatch new query', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
-    expect(routingService.translateAndGo).toHaveBeenCalledWith(
+    expect(routingService.go).toHaveBeenCalledWith(
       { route: ['storeFinder', 'searchResults'] },
       { query }
     );
@@ -73,7 +73,7 @@ describe('StoreFinderSearchComponent', () => {
   it('should call onKey and dispatch query', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
-    expect(routingService.translateAndGo).toHaveBeenCalledWith(
+    expect(routingService.go).toHaveBeenCalledWith(
       { route: ['storeFinder', 'searchResults'] },
       { query }
     );
@@ -81,12 +81,12 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should only call onKey', () => {
     component.onKey(badKeyEvent);
-    expect(routingService.translateAndGo).not.toHaveBeenCalled();
+    expect(routingService.go).not.toHaveBeenCalled();
   });
 
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
-    expect(routingService.translateAndGo).toHaveBeenCalledWith(
+    expect(routingService.go).toHaveBeenCalledWith(
       { route: ['storeFinder', 'searchResults'] },
       { useMyLocation: true }
     );

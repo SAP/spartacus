@@ -6,7 +6,12 @@ import {
   NavigationExtras
 } from '@angular/router';
 
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  TranslateUrlOptions
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -29,8 +34,11 @@ class AuthServiceStub {
 class ActivatedRouteSnapshotStub {}
 class RouterStateSnapshotStub {}
 class RoutingServiceStub {
-  go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
-  translateAndGo() {}
+  go(
+    _path: any[] | TranslateUrlOptions,
+    _query?: object,
+    _extras?: NavigationExtras
+  ) {}
   saveRedirectUrl(_url: string) {}
 }
 
@@ -71,7 +79,6 @@ describe('AuthGuard', () => {
     authService = TestBed.get(AuthService);
 
     spyOn(service, 'go').and.stub();
-    spyOn(service, 'translateAndGo').and.stub();
     spyOn(service, 'saveRedirectUrl').and.stub();
   });
 
@@ -111,7 +118,7 @@ describe('AuthGuard', () => {
       .subscribe()
       .unsubscribe();
 
-    expect(service.translateAndGo).toHaveBeenCalledWith({ route: ['login'] });
+    expect(service.go).toHaveBeenCalledWith({ route: ['login'] });
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

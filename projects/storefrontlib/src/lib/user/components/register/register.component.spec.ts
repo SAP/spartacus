@@ -39,7 +39,6 @@ class MockAuthService {
 
 class MockRoutingService {
   go = createSpy();
-  translateAndGo = createSpy();
   back = createSpy();
   clearRedirectUrl = createSpy();
   getRedirectUrl() {

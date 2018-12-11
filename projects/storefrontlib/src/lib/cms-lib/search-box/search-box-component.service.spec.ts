@@ -24,7 +24,7 @@ const mockRouterState = {
 };
 
 const routingServiceMock = {
-  translateAndGo: createSpy('translateAndGo'),
+  go: createSpy('go'),
   getRouterState() {
     return of(mockRouterState);
   }
@@ -66,7 +66,7 @@ describe('SearchBoxComponentService', () => {
 
       service.launchSearchPage(mockQueryString);
       expect(service.launchSearchPage).toHaveBeenCalled();
-      expect(routingServiceMock.translateAndGo).toHaveBeenCalledWith({
+      expect(routingServiceMock.go).toHaveBeenCalledWith({
         route: [
           {
             name: 'search',

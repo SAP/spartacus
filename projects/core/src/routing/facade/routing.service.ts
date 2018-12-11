@@ -24,33 +24,28 @@ export class RoutingService {
 
   /**
    * Navigation with a new state into history
-   * @param path
+   * @param pathOrTranslateUrlOptions: Path or options to translate url
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  go(path: any[], query?: object, extras?: NavigationExtras) {
-    this.store.dispatch(
-      new fromStore.Go({
-        path,
-        query,
-        extras
-      })
-    );
-  }
-
-  /**
-   * Translation of an URL and navigation to it with a new state into history
-   * @param translateUrlOptions
-   * @param query
-   * @param extras: Represents the extra options used during navigation.
-   */
-  public translateAndGo(
-    translateUrlOptions: TranslateUrlOptions,
+  go(
+    pathOrTranslateUrlOptions: any[] | TranslateUrlOptions,
     query?: object,
     extras?: NavigationExtras
   ) {
-    const path = this.urlTranslator.translate(translateUrlOptions) as any[];
-    this.go(path, query, extras);
+    let path: any[];
+
+    if (
+      pathOrTranslateUrlOptions &&
+      typeof pathOrTranslateUrlOptions === 'object'
+    ) {
+      const routeMetadata = pathOrTranslateUrlOptions as TranslateUrlOptions;
+      const translatedPath = this.urlTranslator.translate(routeMetadata);
+      path = Array.isArray(translatedPath) ? translatedPath : [translatedPath];
+    } else {
+      path = pathOrTranslateUrlOptions as any[];
+    }
+    return this.navigate(path, query, extras);
   }
 
   /**
@@ -94,5 +89,21 @@ export class RoutingService {
    */
   saveRedirectUrl(url: string) {
     this.store.dispatch(new fromStore.SaveRedirectUrl(url));
+  }
+
+  /**
+   * Navigation with a new state into history
+   * @param path
+   * @param query
+   * @param extras: Represents the extra options used during navigation.
+   */
+  private navigate(path: any[], query?: object, extras?: NavigationExtras) {
+    this.store.dispatch(
+      new fromStore.Go({
+        path,
+        query,
+        extras
+      })
+    );
   }
 }

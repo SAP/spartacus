@@ -68,7 +68,7 @@ export class SearchBoxComponentService {
     );
 
   public launchSearchPage(query: string) {
-    this.routingService.translateAndGo({
+    this.routingService.go({
       route: [{ name: 'search', params: { query } }]
     });
   }

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, TranslateUrlOptions } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -27,8 +27,11 @@ class AuthServiceStub {
 }
 
 class RoutingServiceStub {
-  go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
-  translateAndGo() {}
+  go(
+    _path: any[] | TranslateUrlOptions,
+    _query?: object,
+    _extras?: NavigationExtras
+  ) {}
 }
 
 describe('NotAuthGuard', () => {
@@ -66,12 +69,12 @@ describe('NotAuthGuard', () => {
     });
 
     it('should redirect to homepage', () => {
-      spyOn(service, 'translateAndGo');
+      spyOn(service, 'go');
       authGuard
         .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(service.translateAndGo).toHaveBeenCalledWith({ route: ['home'] });
+      expect(service.go).toHaveBeenCalledWith({ route: ['home'] });
     });
   });
 
@@ -93,12 +96,12 @@ describe('NotAuthGuard', () => {
     });
 
     it('should not redirect', () => {
-      spyOn(service, 'translateAndGo');
+      spyOn(service, 'go');
       authGuard
         .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(service.translateAndGo).not.toHaveBeenCalled();
+      expect(service.go).not.toHaveBeenCalled();
     });
   });
 });

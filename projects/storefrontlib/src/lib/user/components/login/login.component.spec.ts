@@ -23,7 +23,6 @@ class MockAuthService {
 }
 class MockRoutingService {
   go = createSpy('go');
-  translateAndGo = createSpy('translateAndGo');
 }
 class MockUserService {
   user$ = new BehaviorSubject(null);
@@ -118,7 +117,7 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(authService.logout).toHaveBeenCalled();
-    expect(routingService.translateAndGo).toHaveBeenCalledWith({
+    expect(routingService.go).toHaveBeenCalledWith({
       route: ['login']
     });
   });

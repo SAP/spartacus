@@ -50,7 +50,7 @@ describe('StoreFinderGridComponent', () => {
   let fixture: ComponentFixture<StoreFinderGridComponent>;
   let storeFinderService: StoreFinderService;
   const mockRoutingService = {
-    translateAndGo: jasmine.createSpy('translateAndGo')
+    go: jasmine.createSpy('go')
   };
 
   it('should create with country routing parameter', () => {
@@ -90,7 +90,7 @@ describe('StoreFinderGridComponent', () => {
 
     component.viewStore(location);
 
-    expect(mockRoutingService.translateAndGo).toHaveBeenCalledWith({
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
       route: [
         'storeFinder',
         {
@@ -119,7 +119,7 @@ describe('StoreFinderGridComponent', () => {
 
     component.viewStore(location);
 
-    expect(mockRoutingService.translateAndGo).toHaveBeenCalledWith({
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
       route: [
         'storeFinder',
         {

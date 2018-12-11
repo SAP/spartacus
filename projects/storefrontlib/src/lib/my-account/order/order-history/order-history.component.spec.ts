@@ -52,7 +52,7 @@ class MockUserService {
   orderList$ = new BehaviorSubject(null);
   orderListLoaded$ = of(true);
   loadOrderList = createSpy('loadOrderList');
-  translateAndGo = createSpy('translateAndGo');
+  go = createSpy('go');
 }
 class MockRoutingService {}
 
@@ -131,7 +131,7 @@ describe('OrderHistoryComponent', () => {
     );
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
-      expect(routingService.translateAndGo).toHaveBeenCalledWith({
+      expect(routingService.go).toHaveBeenCalledWith({
         route: [
           {
             name: 'orderDetails',

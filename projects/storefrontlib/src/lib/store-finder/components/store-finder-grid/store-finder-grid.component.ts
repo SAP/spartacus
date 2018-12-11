@@ -54,7 +54,7 @@ export class StoreFinderGridComponent implements OnInit {
 
   viewStore(location: any): void {
     if (this.route.snapshot.params.region) {
-      this.routingService.translateAndGo({
+      this.routingService.go({
         route: [
           'storeFinder',
           {
@@ -69,7 +69,7 @@ export class StoreFinderGridComponent implements OnInit {
       });
       return;
     }
-    this.routingService.translateAndGo({
+    this.routingService.go({
       route: [
         'storeFinder',
         {

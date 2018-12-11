@@ -13,14 +13,14 @@ export class StoreFinderSearchComponent {
   constructor(private routing: RoutingService) {}
 
   findStores(address: string) {
-    this.routing.translateAndGo(
+    this.routing.go(
       { route: ['storeFinder', 'searchResults'] },
       { query: address }
     );
   }
 
   viewStoresWithMyLoc() {
-    this.routing.translateAndGo(
+    this.routing.go(
       { route: ['storeFinder', 'searchResults'] },
       { useMyLocation: true }
     );

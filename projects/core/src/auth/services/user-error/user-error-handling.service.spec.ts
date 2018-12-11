@@ -25,7 +25,7 @@ class AuthServiceStub {
 }
 
 class MockRoutingService {
-  translateAndGo() {}
+  go() {}
 }
 
 describe('UserErrorHandlingService', () => {
@@ -72,7 +72,7 @@ describe('UserErrorHandlingService', () => {
     httpHandler = TestBed.get(HttpHandler);
     authService = TestBed.get(AuthService);
 
-    spyOn(routingService, 'translateAndGo').and.stub();
+    spyOn(routingService, 'go').and.stub();
     spyOn(httpHandler, 'handle').and.callThrough();
   });
 
@@ -84,7 +84,7 @@ describe('UserErrorHandlingService', () => {
         .subscribe()
         .unsubscribe();
 
-      expect(routingService.translateAndGo).toHaveBeenCalledWith({
+      expect(routingService.go).toHaveBeenCalledWith({
         route: ['login']
       });
     });
