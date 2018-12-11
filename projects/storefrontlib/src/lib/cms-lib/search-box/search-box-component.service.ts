@@ -74,13 +74,13 @@ export class SearchBoxComponentService {
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
     this.executeSearch(text, config);
 
-    const suggestions = this.searchService.searchSuggestions$.pipe(
-      map(res => res.map(suggestion => suggestion.value))
-    );
+    const suggestions = this.searchService
+      .getSearchSuggestions()
+      .pipe(map(res => res.map(suggestion => suggestion.value)));
 
-    const products = this.searchService.auxSearchResults$.pipe(
-      map(res => res.products || [])
-    );
+    const products = this.searchService
+      .getAuxSearchResults()
+      .pipe(map(res => res.products || []));
     return combineLatest(suggestions, products).pipe(
       map(([a, b]) => [...a, ...b])
     );

@@ -47,7 +47,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userService.titles$.pipe(
+    this.titles$ = this.userService.getTitles().pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
@@ -78,7 +78,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.userService.registerUser(
+    this.userService.register(
       this.userRegistrationForm.value.titleCode,
       this.userRegistrationForm.value.firstName,
       this.userRegistrationForm.value.lastName,
