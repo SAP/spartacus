@@ -12,10 +12,12 @@ export class ProductGuard implements CanActivate {
     private routingService: RoutingService,
     private productService: ProductService
   ) {
-    this.routingService.routerState$.subscribe(
-      routerState =>
-        (this.productCode = routerState.state.params['productCode'])
-    );
+    this.routingService
+      .getRouterState()
+      .subscribe(
+        routerState =>
+          (this.productCode = routerState.state.params['productCode'])
+      );
   }
 
   canActivate(): Observable<boolean> {
