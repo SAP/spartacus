@@ -1,19 +1,28 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { ProductSearchService } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  Suggestion
+} from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockQueryString = '?query=mockQuery';
 
-const productSearchServiceMock = {
-  searchSuggestions$: of([]),
-  auxSearchResults$: of([]),
-  searchAuxiliary: createSpy().and.returnValue(of([])),
-  getSuggestions: createSpy().and.returnValue(of({}))
-};
+class MockProductSearchService {
+  searchAuxiliary = createSpy().and.returnValue(of([]));
+  getSuggestions = createSpy().and.returnValue(of({}));
+
+  getSearchSuggestions(): Observable<Suggestion[]> {
+    return of();
+  }
+  getAuxSearchResults(): Observable<ProductSearchPage> {
+    return of();
+  }
+}
 
 const mockRouterState = {
   state: {
@@ -45,7 +54,7 @@ describe('SearchBoxComponentService', () => {
         },
         {
           provide: ProductSearchService,
-          useValue: productSearchServiceMock
+          useClass: MockProductSearchService
         },
         SearchBoxComponentService
       ]
