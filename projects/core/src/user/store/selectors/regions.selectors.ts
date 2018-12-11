@@ -1,6 +1,6 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
+import * as fromFeature from '../reducers/index';
 import * as fromReducer from '../reducers/regions.reducer';
 import { UserState, RegionsState } from '../user-state';
 import { Region } from '../../../occ-models/index';

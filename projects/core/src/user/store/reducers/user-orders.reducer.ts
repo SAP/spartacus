@@ -1,5 +1,5 @@
 import * as fromUserOrdersAction from '../actions/user-orders.action';
-import * as fromAction from '../actions';
+import * as fromAction from '../actions/index';
 import { UserOrdersState } from '../user-state';
 
 export const initialState: UserOrdersState = {

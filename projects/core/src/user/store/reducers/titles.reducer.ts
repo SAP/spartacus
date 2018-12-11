@@ -1,4 +1,4 @@
-import * as fromAction from '../actions';
+import * as fromAction from '../actions/index';
 import { TitlesState } from '../user-state';
 
 export const initialState: TitlesState = {

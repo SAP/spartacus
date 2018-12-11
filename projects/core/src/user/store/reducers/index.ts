@@ -16,7 +16,7 @@ import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
 
-import * as fromAction from '../actions';
+import * as fromAction from '../actions/index';
 
 import { UserState, USER_FEATURE } from '../user-state';
 import { LOGOUT } from '../../../auth/index';

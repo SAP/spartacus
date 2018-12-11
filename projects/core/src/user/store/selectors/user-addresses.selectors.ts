@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers';
+import * as fromFeature from '../reducers/index';
 import * as fromUserAddressesReducer from '../reducers/user-addresses.reducer';
 import { UserAddressesState, UserState } from '../user-state';
 
