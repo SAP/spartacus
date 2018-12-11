@@ -16,10 +16,7 @@ describe('Cms Component Selectors', () => {
   };
 
   const entities = {
-    testCode: {
-      loading: false,
-      value: product
-    }
+    testCode: product
   };
 
   beforeEach(() => {
@@ -59,7 +56,7 @@ describe('Cms Component Selectors', () => {
 
       store.dispatch(new fromActions.LoadProductSuccess(product));
 
-      expect(result).toEqual([entities['testCode'].value]);
+      expect(result).toEqual([entities['testCode']]);
     });
   });
 
