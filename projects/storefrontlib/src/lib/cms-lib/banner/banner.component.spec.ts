@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -16,6 +16,13 @@ const UseCmsModuleConfig: CmsModuleConfig = {
     baseUrl: 'https://localhost:9002'
   }
 };
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('BannerComponent', () => {
   let bannerComponent: BannerComponent;
@@ -45,7 +52,11 @@ describe('BannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [BannerComponent, GenericLinkComponent],
+      declarations: [
+        BannerComponent,
+        GenericLinkComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
