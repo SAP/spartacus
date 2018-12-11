@@ -6,7 +6,7 @@ import {
   getAllLanguages,
   getActiveLanguage
 } from '../store/selectors/languages.selectors';
-import { Language } from '../../occ-models/occ.models';
+import { Language } from '../../occ/occ-models/occ.models';
 import {
   LoadLanguages,
   SetActiveLanguage

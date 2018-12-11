@@ -11,7 +11,7 @@ import {
   getActiveCurrency
 } from '../store/selectors/currencies.selectors';
 import { OccConfig } from '../../occ/config/occ-config';
-import { Currency } from '../../occ-models/occ.models';
+import { Currency } from '../../occ/occ-models/occ.models';
 
 @Injectable()
 export class CurrencyService {
