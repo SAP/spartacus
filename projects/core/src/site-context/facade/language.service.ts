@@ -20,7 +20,7 @@ export class LanguageService {
     return this.store.pipe(
       select(fromStore.getAllLanguages),
       tap(languages => {
-        if (!languages || languages.length === 0) {
+        if (!languages) {
           this.store.dispatch(new fromStore.LoadLanguages());
         }
       })

@@ -3,7 +3,7 @@ import { CurrenciesState } from '../state';
 import { Currency } from '../../../occ-models/occ.models';
 
 export const initialState: CurrenciesState = {
-  entities: {},
+  entities: null,
   activeCurrency: null
 };
 

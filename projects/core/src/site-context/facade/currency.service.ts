@@ -20,7 +20,7 @@ export class CurrencyService {
     return this.store.pipe(
       select(fromStore.getAllCurrencies),
       tap(currencies => {
-        if (!currencies || currencies.length === 0) {
+        if (!currencies) {
           this.store.dispatch(new fromStore.LoadCurrencies());
         }
       })
