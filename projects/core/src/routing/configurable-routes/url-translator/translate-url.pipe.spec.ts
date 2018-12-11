@@ -8,8 +8,8 @@ describe('TranslateUrlPipe', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
+        TranslateUrlPipe,
         { provide: UrlTranslatorService, useValue: { translate: () => {} } }
       ]
     });
