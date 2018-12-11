@@ -1,31 +1,51 @@
-<ng-container *cxOutlet="position">
-  <ng-container
-    *ngFor="let component of (currentSlot$ | async | slice: 0:limit)"
+<ng-container *ngIf="(currentSlot$ | async) as currentSlot">
+  <div
+    [attr.data-smartedit-component-id]="currentSlot.uid"
+    data-smartedit-component-type="ContentSlot"
+    data-smartedit-catalog-version-uuid="electronics-spaContentCatalog/Staged"
+    [attr.data-smartedit-component-uuid]="currentSlot.uuid"
+    class="smartEditComponent"
   >
-    <ng-container *cxOutlet="component.typeCode">
-      <!--
-        We should get ride of this attr data
-        as we dont' want a hosting element wrappring our components.
-        It's currently only used in one test case.
-        [attr.data-component-uid]="component.uid"
-      -->
-      <ng-container *ngIf="componentClass; else: containerWrapper">
-        <!-- we only create a wrappimg div if we need to host a css class -->
+    <ng-container *cxOutlet="position">
+      <ng-container
+        *ngFor="let component of (currentSlot?.components | slice: 0:limit)"
+      >
         <div
-          cxComponentWrapper
-          [componentType]="component.typeCode"
-          [componentUid]="component.uid"
-          [contextParameters]="contextParameters"
-          [componentCssClass]="componentClass"
-        ></div>
+          class="smartEditComponent"
+          [attr.data-smartedit-component-id]="component.uid"
+          [attr.data-smartedit-component-type]="component.typeCode"
+          data-smartedit-catalog-version-uuid="electronics-spaContentCatalog/Staged"
+          [attr.data-smartedit-component-uuid]="component.uuid"
+        >
+          <ng-container *cxOutlet="component.typeCode">
+            <!--
+              We should get ride of this attr data
+              as we dont' want a hosting element wrappring our components.
+              It's currently only used in one test case.
+              [attr.data-component-uid]="component.uid"
+            -->
+            <ng-container *ngIf="componentClass; else: containerWrapper">
+              <!--
+                we only create a wrappimg div if we need to host a css class
+              -->
+              <div
+                cxComponentWrapper
+                [componentType]="component.typeCode"
+                [componentUid]="component.uid"
+                [contextParameters]="contextParameters"
+                [componentCssClass]="componentClass"
+              ></div>
+            </ng-container>
+            <ng-template
+              #containerWrapper
+              cxComponentWrapper
+              [componentType]="component.typeCode"
+              [componentUid]="component.uid"
+              [contextParameters]="contextParameters"
+            ></ng-template>
+          </ng-container>
+        </div>
       </ng-container>
-      <ng-template
-        #containerWrapper
-        cxComponentWrapper
-        [componentType]="component.typeCode"
-        [componentUid]="component.uid"
-        [contextParameters]="contextParameters"
-      ></ng-template>
     </ng-container>
-  </ng-container>
+  </div>
 </ng-container>

@@ -25,6 +25,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
       .getRouterState()
       .subscribe(routerState => {
         this.cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+        console.log(this.cmsTicketId);
       });
   }
 
