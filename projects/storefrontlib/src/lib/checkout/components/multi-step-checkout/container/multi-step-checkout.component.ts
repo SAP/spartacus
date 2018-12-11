@@ -6,13 +6,15 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { RoutingService } from '@spartacus/core';
+import {
+  RoutingService,
+  CheckoutService,
+  CheckoutAddress
+} from '@spartacus/core';
 
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../facade/checkout.service';
-import { Address } from '../../../models/address-model';
 import { CartDataService } from '../../../../cart/facade/cart-data.service';
 import { CartService } from '../../../../cart/facade/cart.service';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
@@ -30,7 +32,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
   done = false;
 
-  deliveryAddress: Address;
+  deliveryAddress: CheckoutAddress;
   paymentDetails: any;
   shippingMethod: string;
   subscriptions: Subscription[] = [];

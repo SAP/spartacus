@@ -8,8 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../facade/checkout.service';
-import { Address } from '../../../models/address-model';
+import { CheckoutService, CheckoutAddress } from '@spartacus/core';
 import { CartService } from '../../../../cart/facade/cart.service';
 import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
@@ -22,7 +21,7 @@ import { Card } from '../../../../ui/components/card/card.component';
 })
 export class ReviewSubmitComponent implements OnInit {
   @Input()
-  deliveryAddress: Address;
+  deliveryAddress: CheckoutAddress;
   @Input()
   shippingMethod: string;
   @Input()

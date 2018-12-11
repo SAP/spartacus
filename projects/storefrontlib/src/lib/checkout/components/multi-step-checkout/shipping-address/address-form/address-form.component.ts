@@ -11,7 +11,7 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { UserService } from '../../../../../user/facade/user.service';
-import { CheckoutService } from '../../../../facade/checkout.service';
+import { CheckoutService } from '@spartacus/core';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 

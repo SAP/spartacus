@@ -9,7 +9,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../../facade/checkout.service';
+import { CheckoutService } from '@spartacus/core';
 import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
