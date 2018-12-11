@@ -37,11 +37,11 @@ describe('SearchBoxComponent in CmsLib', () => {
     getComponentData: () => of(mockSearchBoxComponentData)
   };
 
-  const mockKeyEvent1 = {
+  const mockKeyEvent1 = <KeyboardEvent>{
     key: 'Enter'
   };
 
-  const mockKeyEvent2 = {
+  const mockKeyEvent2 = <KeyboardEvent>{
     key: 'Enter123'
   };
 
