@@ -61,7 +61,7 @@ If the bug does indeed apply to Spartacus code, please create an issue.
 * Provide detailed, step-by-step instructions for reproducing the issue with an example, including, if possible:
 
   * A URL to your example
-  * Any rquired username or password (but don't give us credentials that can be mis-used)
+  * Any required username or password (but don't give us credentials that can be mis-used)
   * Screenshots if it helps us understand better.
 
 * Use our [issue template](ISSUE_TEMPLATE.md).
@@ -172,8 +172,8 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 * [Definition of Done](docs/contributing/definition-of-done.md)
 * [Coding Guidelines](docs/contributing/coding-guidelines.md)
-* [Commit Guidelines](docs/commit-guidelines.md)
-* [Development Tools for Spartacus](dev-tools.md)
+* [Commit Guidelines](docs/contributing/commit-guidelines.md)
+* [Development Tools for Spartacus](docs/contributing/dev-tools.md)
 
 ### Contribution Process
 

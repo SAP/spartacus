@@ -17,7 +17,7 @@ See [Recommend Angular Dev Tools](dev-tools.md).
 
 ## Code is Styled
 
-See [Spartacus Coding Guidelines](coding-guidelines).
+See [Spartacus Coding Guidelines](coding-guidelines.md).
 
 ### Code Linting
 

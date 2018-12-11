@@ -3,8 +3,6 @@
 To keep the Spartacus code readable and maintainable, please follow these rules, even if you find them violated somewhere. Note that this list is not complete.
 When a file is consistently not following these rules and adhering to the rules would make the code worse, follow the local style.
 
-[TOC]
-
 ## Overall Angular Guidelines
 
 ### General
@@ -73,7 +71,7 @@ Also, logged-in users and anonymous users may see different response data. When 
 
 ### Naming Conventions
 
-Component selectors should always start with "cx-". (Currently, many component selectors start with "y-" but this is being chnaged.)
+Component selectors should always start with "cx-".
 
 ### Code Structure
 
@@ -99,6 +97,6 @@ Always try to reduce module dependencies.
 
 ### Layers in Spartacus
 
-`occ -> ngrx/store -> component`
+`occ -> ngrx/store -> facade -> component`
 
-We are currently planning to add a one-layer "facade" between ngrx/store and component. ProductModule is currently done, as is a part of CmsModule. We will add facades to all feature modules soon.
+The store code is encapsulated by facade sercices.  The components should be injected with facade services, but they should not access the store directly.
