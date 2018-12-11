@@ -26,20 +26,8 @@ export class LanguageService {
     this.load();
   }
 
-  get(): Observable<Language[]> {
-    return this.store.pipe(select(getAllLanguages));
-  }
-
   protected load(): void {
     this.store.dispatch(new LoadLanguages());
-  }
-
-  getActive(): Observable<string> {
-    return this.store.pipe(select(getActiveLanguage));
-  }
-
-  setActive(isocode: string): void {
-    this.store.dispatch(new SetActiveLanguage(isocode));
   }
 
   protected initActive(): void {
@@ -52,5 +40,17 @@ export class LanguageService {
     } else {
       this.setActive(this.config.site.language);
     }
+  }
+
+  get(): Observable<Language[]> {
+    return this.store.pipe(select(getAllLanguages));
+  }
+
+  getActive(): Observable<string> {
+    return this.store.pipe(select(getActiveLanguage));
+  }
+
+  setActive(isocode: string): void {
+    this.store.dispatch(new SetActiveLanguage(isocode));
   }
 }
