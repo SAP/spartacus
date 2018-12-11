@@ -2,7 +2,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { of, Observable } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { ProductSearchService } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  Suggestion
+} from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
@@ -12,10 +16,10 @@ class MockProductSearchService {
   searchAuxiliary = createSpy().and.returnValue(of([]));
   getSuggestions = createSpy().and.returnValue(of({}));
 
-  getSearchSuggestions(): Observable<any> {
+  getSearchSuggestions(): Observable<Suggestion[]> {
     return of();
   }
-  getAuxSearchResults(): Observable<any> {
+  getAuxSearchResults(): Observable<ProductSearchPage> {
     return of();
   }
 }

@@ -25,13 +25,13 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ActivatedRoute } from '@angular/router';
-import { ProductSearchService } from '@spartacus/core';
+import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
 class MockProductSearchService {
   search = createSpy();
   searchResults$ = of();
 
-  getSearchResults(): Observable<any> {
+  getSearchResults(): Observable<ProductSearchPage> {
     return of();
   }
 }
