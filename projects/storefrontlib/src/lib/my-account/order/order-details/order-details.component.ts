@@ -1,6 +1,15 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 
-import { AuthService, RoutingService } from '@spartacus/core';
+import {
+  RoutingService,
+  Order,
+  Address,
+  AuthService,
+  PaymentDetails,
+  DeliveryMode,
+  Consignment,
+  OrderEntry
+} from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -21,7 +30,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     private routingService: RoutingService
   ) {}
 
-  order$: Observable<any>;
+  order$: Observable<Order>;
   subscription: Subscription;
 
   ngOnInit() {
@@ -29,9 +38,9 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       .getUserToken()
       .pipe(map(userData => userData.userId));
 
-    const orderCode$ = this.routingService.routerState$.pipe(
-      map(routingData => routingData.state.params.orderCode)
-    );
+    const orderCode$ = this.routingService
+      .getRouterState()
+      .pipe(map(routingData => routingData.state.params.orderCode));
 
     this.subscription = combineLatest(userId$, orderCode$).subscribe(
       ([userId, orderCode]) => {
@@ -41,10 +50,10 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.order$ = this.userService.orderDetails$;
+    this.order$ = this.userService.getOrderDetails();
   }
 
-  getAddressCardContent(address): Card {
+  getAddressCardContent(address: Address): Card {
     return {
       title: 'Ship to',
       textBold: `${address.firstName} ${address.lastName}`,
@@ -57,7 +66,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getBillingAddressCardContent(billingAddress): Card {
+  getBillingAddressCardContent(billingAddress: Address): Card {
     return {
       title: 'Bill To',
       textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
@@ -72,7 +81,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getPaymentCardContent(payment): Card {
+  getPaymentCardContent(payment: PaymentDetails): Card {
     return {
       title: 'Payment',
       textBold: payment.accountHolderName,
@@ -84,7 +93,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingMethodCardContent(shipping): Card {
+  getShippingMethodCardContent(shipping: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: shipping.name,
@@ -92,8 +101,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getConsignmentProducts(consignment) {
-    const products = [];
+  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
+    const products: OrderEntry[] = [];
     consignment.entries.forEach(element => {
       products.push(element.orderEntry);
     });
