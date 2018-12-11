@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { CardType } from '@spartacus/core';
 
 export const LOAD_CARD_TYPES = '[Checkout] Load Card Types';
 export const LOAD_CARD_TYPES_FAIL = '[Checkout] Load Card Fail';
@@ -16,7 +17,7 @@ export class LoadCardTypesFail implements Action {
 
 export class LoadCardTypesSuccess implements Action {
   readonly type = LOAD_CARD_TYPES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: CardType[]) {}
 }
 
 export type CardTypesAction =
