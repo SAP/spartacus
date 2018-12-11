@@ -4,7 +4,7 @@ import { StoreModule, combineReducers } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
-import * as fromStore from '../../store';
+import * as fromStore from '../index';
 import { UserRegisterEffects } from './user-register.effect';
 import { OccUserService, UserRegisterFormData } from '../../../user/index';
 import { LoadUserToken } from '../../../auth/index';

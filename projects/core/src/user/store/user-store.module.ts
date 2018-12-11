@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { metaReducers, reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects/index';
 import { ProductConverterModule } from '../../product/store/index';
-import { USER_FEATURE } from './user-state';
+import { USER_FEATURE } from './index';
 
 @NgModule({
   imports: [

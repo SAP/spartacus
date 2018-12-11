@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import { UserService } from './user.service';
 import { USER_FEATURE } from '../store/user-state';
 import { Address, PaymentDetailsList, Region } from '../../occ-models';
