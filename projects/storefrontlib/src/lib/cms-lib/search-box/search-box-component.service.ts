@@ -50,7 +50,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  typeahead = (text$: Observable<string>) =>
+  typeahead = (text$: Observable<string>): Observable<any[]> =>
     combineLatest(
       text$.pipe(
         debounceTime(300),
@@ -67,7 +67,7 @@ export class SearchBoxComponentService {
       })
     );
 
-  public launchSearchPage(query: string) {
+  public launchSearchPage(query: string): void {
     this.routingService.go(['/search', query]);
   }
 
@@ -86,7 +86,7 @@ export class SearchBoxComponentService {
     );
   }
 
-  private executeSearch(search: string, config: SearchBoxConfig) {
+  private executeSearch(search: string, config: SearchBoxConfig): void {
     if (config.displayProducts) {
       this.searchService.searchAuxiliary(search, {
         pageSize: config.maxProducts
