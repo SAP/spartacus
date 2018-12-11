@@ -30,7 +30,7 @@ export class LanguageService {
     return this.store.pipe(select(getAllLanguages));
   }
 
-  load(): void {
+  protected load(): void {
     this.store.dispatch(new LoadLanguages());
   }
 
@@ -42,7 +42,7 @@ export class LanguageService {
     this.store.dispatch(new SetActiveLanguage(isocode));
   }
 
-  initActive(): void {
+  protected initActive(): void {
     if (sessionStorage) {
       const language = !sessionStorage.getItem('language')
         ? this.config.site.language

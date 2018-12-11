@@ -26,23 +26,11 @@ export class CurrencyService {
     this.load();
   }
 
-  get(): Observable<Currency[]> {
-    return this.store.pipe(select(getAllCurrencies));
-  }
-
-  load(): void {
+  protected load(): void {
     this.store.dispatch(new LoadCurrencies());
   }
 
-  getActive(): Observable<string> {
-    return this.store.pipe(select(getActiveCurrency));
-  }
-
-  setActive(isocode: string): void {
-    this.store.dispatch(new SetActiveCurrency(isocode));
-  }
-
-  initActive(): void {
+  protected initActive(): void {
     if (sessionStorage) {
       const currency = !sessionStorage.getItem('currency')
         ? this.config.site.currency
@@ -52,5 +40,17 @@ export class CurrencyService {
     } else {
       this.setActive(this.config.site.currency);
     }
+  }
+
+  get(): Observable<Currency[]> {
+    return this.store.pipe(select(getAllCurrencies));
+  }
+
+  getActive(): Observable<string> {
+    return this.store.pipe(select(getActiveCurrency));
+  }
+
+  setActive(isocode: string): void {
+    this.store.dispatch(new SetActiveCurrency(isocode));
   }
 }
