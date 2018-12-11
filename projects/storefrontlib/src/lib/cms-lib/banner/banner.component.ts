@@ -23,7 +23,7 @@ export class BannerComponent extends AbstractCmsComponent {
     super(cmsService, cd);
   }
 
-  hasImage() {
+  hasImage(): boolean {
     return !!this.component && !!this.component && !!this.component.media;
   }
 
@@ -36,11 +36,11 @@ export class BannerComponent extends AbstractCmsComponent {
     return '_self';
   }
 
-  getAltText() {
+  getAltText(): string {
     return this.hasImage() ? this.component.media.altText : '';
   }
 
-  public getBaseUrl() {
+  public getBaseUrl(): string {
     return this.config.server.baseUrl || '';
   }
 }
