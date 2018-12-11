@@ -138,7 +138,7 @@ export class CmsService {
         document.body.classList.add(`smartedit-page-uid-${cmsPage.pageId}`);
         document.body.classList.add(`smartedit-page-uuid-${cmsPage.uuid}`);
         document.body.classList.add(
-          'smartedit-catalog-version-uuid-electronics-spaContentCatalog/Staged'
+          'smartedit-catalog-version-uuid-electronicsContentCatalog/Online'
         );
       }
     });
