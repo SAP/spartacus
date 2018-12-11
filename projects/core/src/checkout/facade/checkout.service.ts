@@ -10,8 +10,8 @@ import * as fromCheckoutStore from '../store/';
 import {
   CartDataService,
   ANONYMOUS_USERID
-} from '../../cart/facade/cart-data.service';
-import { Address, PaymentDetails } from '@spartacus/core';
+} from '../../../../storefrontlib/src/lib/cart/facade/cart-data.service';
+import { Address, PaymentDetails } from '../../occ-models/index';
 
 @Injectable()
 export class CheckoutService {
