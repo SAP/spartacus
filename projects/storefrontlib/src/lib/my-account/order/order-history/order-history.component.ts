@@ -1,12 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+
 import {
   RoutingService,
   Order,
   OrderHistoryList,
   AuthService
 } from '@spartacus/core';
+
+import { Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 import { UserService } from '../../../user/facade/user.service';
 
 @Component({
@@ -41,8 +44,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.orders$ = this.userSerivce.orderList$.pipe(
-      tap((orders: OrderHistoryList) => {
+    this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
+      tap((orders: any) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
@@ -56,7 +59,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.userSerivce.orderListLoaded$;
+    this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
   }
 
   ngOnDestroy() {
