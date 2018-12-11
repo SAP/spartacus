@@ -10,10 +10,12 @@ import { LongitudeLatitude } from '../models/longitude-latitude';
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
+  let winRef: WindowRef;
 
   const queryText = 'test';
   const countryIsoCode = 'CA';
   const regionIsoCode = 'CA-QC';
+  const geolocationWatchId = 1;
 
   const longitudeLatitude: LongitudeLatitude = {
     longitude: 10.1,
@@ -24,11 +26,11 @@ describe('StoreFinderService', () => {
     nativeWindow: {
       navigator: {
         geolocation: {
-          getCurrentPosition: callback => {
-            callback({
-              coords: longitudeLatitude
-            });
-          }
+          watchPosition: callback => {
+            callback({ coords: longitudeLatitude });
+            return geolocationWatchId;
+          },
+          clearWatch: () => {}
         }
       }
     }
@@ -49,8 +51,17 @@ describe('StoreFinderService', () => {
 
     service = TestBed.get(StoreFinderService);
     store = TestBed.get(Store);
+    winRef = TestBed.get(WindowRef);
 
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(
+      winRef.nativeWindow.navigator.geolocation,
+      'watchPosition'
+    ).and.callThrough();
+    spyOn(
+      winRef.nativeWindow.navigator.geolocation,
+      'clearWatch'
+    ).and.callThrough();
   });
 
   it('should inject StoreFinderService', inject(
@@ -81,6 +92,22 @@ describe('StoreFinderService', () => {
           longitudeLatitude
         })
       );
+      expect(
+        winRef.nativeWindow.navigator.geolocation.watchPosition
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('Find Stores Twice with My Location', () => {
+    it('should clear watch geolocation', () => {
+      service.findStores(queryText, true);
+      service.findStores(queryText, false);
+      expect(
+        winRef.nativeWindow.navigator.geolocation.watchPosition
+      ).toHaveBeenCalled();
+      expect(
+        winRef.nativeWindow.navigator.geolocation.clearWatch
+      ).toHaveBeenCalledWith(geolocationWatchId);
     });
   });
 
