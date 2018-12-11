@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of, Observable } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
@@ -23,10 +25,15 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ActivatedRoute } from '@angular/router';
-import { ProductSearchService } from '@spartacus/core';
+import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
 class MockProductSearchService {
-  search() {}
+  search = createSpy();
+  searchResults$ = of();
+
+  getSearchResults(): Observable<ProductSearchPage> {
+    return of();
+  }
 }
 class MockActivatedRoute {
   snapshot = { queryParams: {} };
@@ -75,7 +82,6 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
-    spyOn(service, 'search').and.callThrough();
   });
 
   it('should create', () => {
