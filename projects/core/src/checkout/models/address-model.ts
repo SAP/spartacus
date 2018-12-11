@@ -1,4 +1,4 @@
-export interface Address {
+export interface CheckoutAddress {
   id?: string;
   titleCode: string;
   firstName: string;
