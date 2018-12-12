@@ -1,6 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ProductEntity, ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
+import { Product } from '../../../occ-models/occ.models';
 
 export const getProductState: MemoizedSelector<any, any> = createSelector(
   getProductsState,
@@ -33,7 +34,7 @@ export const getSelectedProductStateFactory = (
   );
 };
 
-export const getSelectedProductFactory = (code): MemoizedSelector<StateWithProduct, any> => {
+export const getSelectedProductFactory = (code): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code),
     productState => {

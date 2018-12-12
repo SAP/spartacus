@@ -10,7 +10,7 @@ export function reducer(
   action: fromProduct.ProductAction
 ): ProductState {
   switch (action.type) {
-    case fromProduct.LOAD_PRODUCT_START: {
+    case fromProduct.LOAD_PRODUCT: {
       const code = action.payload;
       const newState: any = {
         loading: true
