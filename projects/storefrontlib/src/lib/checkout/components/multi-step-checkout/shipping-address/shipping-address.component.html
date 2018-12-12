@@ -27,7 +27,10 @@
             class="cx-shipping-address__card col-md-12 col-lg-6"
             *ngFor="let address of existingAddresses; let i = index"
           >
-            <div class="cx-shipping-address__card-inner">
+            <div
+              class="cx-shipping-address__card-inner"
+              (click)="addressSelected(address, i)"
+            >
               <cx-card
                 [border]="true"
                 [fitToContainer]="true"
