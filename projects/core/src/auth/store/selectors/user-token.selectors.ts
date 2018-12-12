@@ -13,10 +13,7 @@ export const getUserTokenState: MemoizedSelector<
   (state: AuthState) => state.userToken
 );
 
-export const getUserToken: MemoizedSelector<
-  StateWithAuth,
-  UserToken
-> = createSelector(
+export const getUserToken: MemoizedSelector<any, UserToken> = createSelector(
   getUserTokenState,
   getUserTokenSelector
 );
