@@ -1,9 +1,7 @@
 import * as fromProduct from '../actions/product.action';
 import { ProductState } from '../product-state';
 
-export const initialState: ProductState = {
-  entities: {}
-};
+export const initialState: ProductState = {};
 
 export function reducer(
   state = initialState,
@@ -15,15 +13,12 @@ export function reducer(
       const newState: any = {
         loading: true
       };
-      if (state.entities[code]) {
-        newState.value = state.entities[code].value;
+      if (state[code]) {
+        newState.value = state[code].value;
       }
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [code]: newState
-        }
+        [code]: newState
       };
     }
 
@@ -32,23 +27,16 @@ export function reducer(
 
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [detail.code]: { loading: false, value: detail }
-        }
+        [detail.code]: { loading: false, value: detail }
       };
     }
     case fromProduct.LOAD_PRODUCT_FAIL: {
       return {
         ...state,
-        entities: {
-          ...state.entities,
-          [action.payload.code]: { loading: false, value: null }
-        }
+        [action.payload.code]: { loading: false, value: null }
       };
     }
   }
   return state;
 }
 
-export const getProductEntities = (state: ProductState) => state.entities;

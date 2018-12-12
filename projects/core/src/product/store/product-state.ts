@@ -11,9 +11,7 @@ export interface ProductEntity {
 }
 
 export interface ProductState {
-  entities: {
-    [productCode: string]: ProductEntity;
-  };
+  [productCode: string]: ProductEntity;
 }
 
 export interface ProductsState {

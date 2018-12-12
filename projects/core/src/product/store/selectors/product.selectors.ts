@@ -16,7 +16,7 @@ export const getSelectedProductsFactory = (
     details => {
       return codes
         .map(code =>
-          details.entities[code] ? details.entities[code].value : undefined
+          details[code] ? details[code].value : undefined
         )
         .filter(product => product !== undefined);
     }
@@ -29,7 +29,7 @@ export const getSelectedProductStateFactory = (
   return createSelector(
     getProductState,
     details => {
-      return details.entities[code] ? details.entities[code] : false;
+      return details[code] ? details[code] : false;
     }
   );
 };
@@ -49,6 +49,6 @@ export const getAllProductCodes: MemoizedSelector<
 > = createSelector(
   getProductState,
   details => {
-    return Object.keys(details.entities);
+    return Object.keys(details);
   }
 );
