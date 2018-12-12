@@ -7,6 +7,7 @@ import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsService } from '../../cms/facade/cms.service';
+import { TranslateUrlOptions } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponents: {
@@ -21,7 +22,9 @@ const UseCmsModuleConfig: CmsModuleConfig = {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(options: TranslateUrlOptions): string {
+    return '/translated-path' + options.url;
+  }
 }
 
 describe('ResponsiveBannerComponent', () => {
@@ -102,7 +105,7 @@ describe('ResponsiveBannerComponent', () => {
     );
     expect(responsiveBannerComponent.component).toBe(componentData);
     expect(el.query(By.css('a')).nativeElement.href).toContain(
-      responsiveBannerComponent.component.urlLink
+      '/translated-path' + responsiveBannerComponent.component.urlLink
     );
     expect(el.query(By.css('img')).nativeElement.src).toContain(
       responsiveBannerComponent.component.media.desktop.url
