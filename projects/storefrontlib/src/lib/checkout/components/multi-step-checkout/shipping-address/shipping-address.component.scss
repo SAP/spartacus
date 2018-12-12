@@ -63,6 +63,7 @@ $cx-shipping-address-loading-padding: 30px !default;
 
     &-inner {
       height: $cx-shipping-address-card-height;
+      cursor: pointer;
       @include var-color(
         'background-color',
         $cx-shipping-address-card-background-color
