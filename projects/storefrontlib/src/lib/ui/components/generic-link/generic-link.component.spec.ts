@@ -61,20 +61,20 @@ describe('GenericLinkComponent', () => {
   });
 
   describe('routerUrl', () => {
-    it('should return absolute url when url is string', () => {
+    it('should return absolute url wrapped in array when url is string', () => {
       component.url = 'local/url';
-      expect(component.routerUrl).toBe('/local/url');
+      expect(component.routerUrl).toEqual(['/local/url']);
 
       component.url = '/local/url';
-      expect(component.routerUrl).toBe('/local/url');
+      expect(component.routerUrl).toEqual(['/local/url']);
     });
-  });
 
-  it('should url when url is array', () => {
-    component.url = ['array', 'of', 'url', 'segments'];
-    expect(component.routerUrl).toBe(['array', 'of', 'url', 'segments']);
+    it('should original url when url is array', () => {
+      component.url = ['array', 'of', 'url', 'segments'];
+      expect(component.routerUrl).toEqual(['array', 'of', 'url', 'segments']);
 
-    component.url = ['/array', 'of', 'url', 'segments'];
-    expect(component.routerUrl).toBe(['/array', 'of', 'url', 'segments']);
+      component.url = ['/array', 'of', 'url', 'segments'];
+      expect(component.routerUrl).toEqual(['/array', 'of', 'url', 'segments']);
+    });
   });
 });
