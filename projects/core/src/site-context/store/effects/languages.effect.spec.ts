@@ -12,7 +12,7 @@ import { ConfigModule } from '../../../config/config.module';
 import { Language } from '../../../occ-models/occ.models';
 
 describe('Languages Effects', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<fromActions.LanguagesAction>;
   let service: OccSiteService;
   let effects: fromEffects.LanguagesEffects;
 

@@ -1,12 +1,12 @@
 import * as fromLanguages from './languages.reducer';
 import * as fromActions from '../actions/languages.action';
-import { Language } from '../../../occ-models/occ.models';
+import { Language, Currency } from '../../../occ-models/occ.models';
 
 describe('Languages Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromLanguages;
-      const action = {} as any;
+      const action = {} as fromActions.LanguagesAction;
       const state = fromLanguages.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -19,7 +19,7 @@ describe('Languages Reducer', () => {
         { active: true, isocode: 'ja', name: 'Japanese' }
       ];
 
-      const entities = {
+      const entities: { [key: string]: Currency } = {
         ja: languages[0]
       };
 

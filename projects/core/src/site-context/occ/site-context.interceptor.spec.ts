@@ -2,7 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  TestRequest
 } from '@angular/common/http/testing';
 
 import { of, Observable } from 'rxjs';
@@ -18,6 +19,7 @@ class MockCurrencyService {
     return of();
   }
 }
+
 class MockLanguageService {
   getActive(): Observable<string> {
     return of();
@@ -87,7 +89,7 @@ describe('SiteContextInterceptor', () => {
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
@@ -110,7 +112,7 @@ describe('SiteContextInterceptor', () => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
       expect(mockReq.request.params.get('lang')).toEqual(languageDe);

@@ -1,24 +1,25 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
+  TestRequest
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { LanguageList, CurrencyList } from '../../occ-models/occ.models';
 
-const MockOccModuleConfig = {
-  server: {
+class MockOccModuleConfig {
+  server = {
     baseUrl: '',
     occPrefix: ''
-  },
+  };
 
-  site: {
+  site = {
     baseSite: '',
     language: '',
     currency: ''
-  }
-};
+  };
+}
 
 describe('OccSiteService', () => {
   let service: OccSiteService;
@@ -29,7 +30,7 @@ describe('OccSiteService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useClass: MockOccModuleConfig }
       ]
     });
 
@@ -51,7 +52,7 @@ describe('OccSiteService', () => {
         expect(result).toEqual(languages);
       });
 
-      const mockReq = httpMock.expectOne({
+      const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
         url: '/languages'
       });
@@ -71,7 +72,7 @@ describe('OccSiteService', () => {
       service.loadCurrencies().subscribe(result => {
         expect(result).toEqual(currencies);
       });
-      const mockReq = httpMock.expectOne({
+      const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
         url: '/currencies'
       });

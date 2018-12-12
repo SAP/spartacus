@@ -12,7 +12,7 @@ import { ConfigModule } from '../../../config/config.module';
 import { Currency } from '../../../occ-models/occ.models';
 
 describe('Currencies Effects', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<fromActions.CurrenciesAction>;
   let service: OccSiteService;
   let effects: fromEffects.CurrenciesEffects;
 
