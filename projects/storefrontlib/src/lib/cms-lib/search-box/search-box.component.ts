@@ -31,14 +31,14 @@ export class SearchBoxComponent implements OnInit {
     });
   }
 
-  typeahead = (text$: Observable<string>) =>
+  typeahead = (text$: Observable<string>): Observable<string[]> =>
     this.service.typeahead(merge(text$, this.queryText$));
 
-  public submitSearch() {
+  public submitSearch(): void {
     this.service.launchSearchPage(this.searchBoxControl.value);
   }
 
-  selectSuggestion(item) {
+  selectSuggestion(item): void {
     if (typeof item.item === 'string') {
       this.searchBoxControl.setValue(item.item);
       this.submitSearch();
@@ -47,13 +47,13 @@ export class SearchBoxComponent implements OnInit {
     }
   }
 
-  public onKey(event: any) {
+  public onKey(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.service.launchSearchPage(this.searchBoxControl.value);
     }
   }
 
-  public toggleMobileSearchInput() {
+  public toggleMobileSearchInput(): void {
     this.isMobileSearchVisible = !this.isMobileSearchVisible;
   }
 }
