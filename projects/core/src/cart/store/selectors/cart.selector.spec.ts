@@ -1,13 +1,14 @@
 import { Store, StoreModule, select } from '@ngrx/store';
+import { TestBed } from '@angular/core/testing';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
-import { TestBed } from '@angular/core/testing';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { CartsState } from '../cart-state';
 
 describe('Cart selectors', () => {
-  let store: Store<fromReducers.CartState>;
+  let store: Store<CartsState>;
 
   const testCart: Cart = {
     code: 'xxx',
