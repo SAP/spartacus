@@ -1,9 +1,16 @@
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 
-import { defaultOccConfig, LanguageService, OccConfig } from '@spartacus/core';
+import {
+  defaultOccConfig,
+  LanguageService,
+  OccConfig,
+  Language
+} from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
 import { LanguageSelectorComponent } from './language-selector.component';
 
 const mockLanguages: any[] = [
@@ -11,10 +18,16 @@ const mockLanguages: any[] = [
 ];
 const mockActiveLang = 'ja';
 
-const languageServiceMock = {
-  languages$: of(mockLanguages),
-  activeLanguage$: of(mockActiveLang)
-};
+class MockLanguageService {
+  get(): Observable<Language[]> {
+    return of(mockLanguages);
+  }
+  getActive(): Observable<string> {
+    return of(mockActiveLang);
+  }
+  setActive(_language: string): void {}
+}
+
 describe('LanguageSelectorComponent', () => {
   let component: LanguageSelectorComponent;
   let fixture: ComponentFixture<LanguageSelectorComponent>;
@@ -27,7 +40,7 @@ describe('LanguageSelectorComponent', () => {
       providers: [
         {
           provide: LanguageService,
-          useValue: languageServiceMock
+          useClass: MockLanguageService
         },
         { provide: OccConfig, useValue: defaultOccConfig }
       ]
@@ -52,17 +65,25 @@ describe('LanguageSelectorComponent', () => {
   });
 
   it('should get languages and activeLanguage in ngOnInit', () => {
-    component.languages$.subscribe(value => {
-      expect(value).toEqual(mockLanguages);
-    });
-    component.activeLanguage$.subscribe(value => {
-      expect(value).toEqual(mockActiveLang);
-    });
+    let languagesResult: Language[];
+    component.languages$
+      .subscribe(value => (languagesResult = value))
+      .unsubscribe();
+    expect(languagesResult).toEqual(mockLanguages);
+
+    let activeResult: string;
+    component.activeLanguage$
+      .subscribe(value => (activeResult = value))
+      .unsubscribe();
+    expect(activeResult).toEqual(mockActiveLang);
   });
 
-  it('should change language', () => {
+  it(`should call facade's 'setActive()'`, () => {
+    spyOn(service, 'setActive').and.stub();
+
     component.setActiveLanguage('en');
-    expect(service.activeLanguage).toEqual('en');
+
+    expect(service.setActive).toHaveBeenCalledWith('en');
   });
 
   it('should contain dropdown with languages', () => {
