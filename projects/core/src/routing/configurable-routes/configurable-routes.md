@@ -1,5 +1,6 @@
 # Configurable routes <!-- omit in toc -->
 
+## Introduction
 The navigation in a web application is mostly done through URLs. URLs can be used to deeplink into a specific application state and contribute to the usability and SEO capabilities of the application. To that reason, it is most important that customers can customize those URLs.
 
 In a Single Page Application, URLs are intercepted by the application logic so that the view(s) can be updated seamlessly. This requires *routing logic*, which, in case of Spartacus, is provided by the Angular Router.
@@ -8,8 +9,25 @@ While the Angular router contains a rich set of features and configuration optio
 
 This is where configurable routes comes in to play; every route in Spartacus is configurable and can be translated. 
 
+## Features
+
+The following features are supported:
+- Configure routes
+- Translate routes
+- Disable standard routes
+- Configurable router links
+- Add route parameters
+- Aliases
+- Redirects
+- Load configuration from backend
+
+## Limitations
+
 ## Table of contents <!-- omit in toc -->
 
+- [Introduction](#introduction)
+- [Features](#features)
+- [Limitations](#limitations)
 - [Prerequisites](#prerequisites)
 - [Config](#config)
   - [Predefined config](#predefined-config)
@@ -40,18 +58,17 @@ This is where configurable routes comes in to play; every route in Spartacus is 
 - Set active language using `ConfigurableRoutesService.translateRouterConfig(<languageCode>)` in `StorefrontComponent`
 
 **SUBJECTS OF CHANGE:**
-
-- setting active language is planned to be moved out from `StorefrontComponent`
+Setting active language is planned to be moved out from `StorefrontComponent`
 
 
 ## Config
 
 ### Predefined config
 
-The predefined routes config for Storefront's pages can be found in [`defaut-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts).
+The predefined routes config for Storefront's pages can be found in [`default-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts).
 
 ```typescript
-// defaut-storefront-routes-translations.ts
+// default-storefront-routes-translations.ts
 default: {
     /* ... */
     product: { 
@@ -63,8 +80,7 @@ default: {
 ```
 
 **SUBJECTS OF CHANGE:**
-
-- default config is planned to be moved out from `@spartacus/core` and splitted in between the feature modules in `@spartacus/storefrontlib`
+The default config is planned to be moved out from `@spartacus/core` and splitted in between the feature modules in `@spartacus/storefrontlib`.
 
 ### Extending predefined config
 
