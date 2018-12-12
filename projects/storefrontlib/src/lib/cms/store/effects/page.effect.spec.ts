@@ -13,7 +13,7 @@ import {
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../models/page.model';
-import { PageContext, PageType, CmsComponent } from '@spartacus/core';
+import { PageContext, PageType } from '@spartacus/core';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
