@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { ErrorModel } from '../../../occ-models';
+import { ErrorModel } from '../../../occ/occ-models';
 
 @Injectable()
 export class ProductReviewsEffects {
