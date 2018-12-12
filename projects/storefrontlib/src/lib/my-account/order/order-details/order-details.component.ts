@@ -34,11 +34,13 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
 
   ngOnInit() {
-    const userId$ = this.authService
+    const userId$: Observable<string> = this.authService
       .getUserToken()
       .pipe(map(userData => userData.userId));
 
-    const orderCode$ = this.routingService
+    const orderCode$: Observable<
+      any
+    > = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.params.orderCode));
 
