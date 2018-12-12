@@ -15,6 +15,7 @@ import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from '../../services/default-page.service';
+import { SmartEditService } from '../../smart-edit/smart-edit.service';
 
 import { Page } from '../../models/page.model';
 
@@ -81,7 +82,8 @@ export class PageEffects {
     private actions$: Actions,
     private occCmsService: OccCmsService,
     private defaultPageService: DefaultPageService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private smartEditService: SmartEditService
   ) {}
 
   private getPageData(
@@ -92,6 +94,7 @@ export class PageEffects {
       loadTime: Date.now(),
       uuid: res.uuid,
       name: res.name,
+      catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
       template: res.template,
       seen: new Array<string>(),
@@ -103,6 +106,7 @@ export class PageEffects {
       page.slots[slot.position] = {
         uid: slot.slotId,
         uuid: slot.slotUuid,
+        catalogUuid: this.getCatalogUuid(slot),
         components: []
       };
       if (
@@ -113,12 +117,17 @@ export class PageEffects {
           page.slots[slot.position].components.push({
             uid: component.uid,
             uuid: component.uuid,
+            catalogUuid: this.getCatalogUuid(component),
             typeCode: component.typeCode
           });
         }
       }
     }
-    this.defaultPageService.getDefaultPageIdsBytype(pageContext.type);
+
+    return { key: this.getPageKey(pageContext, page), value: page };
+  }
+
+  private getPageKey(pageContext: PageContext, page: Page): string {
     switch (pageContext.type) {
       case PageType.CATEGORY_PAGE:
       case PageType.CATALOG_PAGE:
@@ -127,15 +136,24 @@ export class PageEffects {
           pageContext.type
         );
         if (defaultPageIds.indexOf(page.pageId) > -1) {
-          return { key: page.pageId + '_' + pageContext.type, value: page };
+          return page.pageId + '_' + pageContext.type;
         } else {
-          return { key: pageContext.id + '_' + pageContext.type, value: page };
+          return pageContext.id + '_' + pageContext.type;
         }
       }
 
       case PageType.CONTENT_PAGE: {
-        return { key: page.pageId + '_' + pageContext.type, value: page };
+        return page.pageId + '_' + pageContext.type;
       }
+    }
+  }
+
+  private getCatalogUuid(cmsItem: any) {
+    if (cmsItem.properties) {
+      return cmsItem.properties.smartedit.catalogVersionUuid;
+    } else if (this.smartEditService.cmsTicketId) {
+      // due to smartedit bug: CMSX-8181, for page and slot, we have to hard-coded the catalogUUID.
+      return 'electronicsContentCatalog/Online';
     }
   }
 
@@ -147,7 +165,9 @@ export class PageEffects {
           slot.components.component &&
           Array.isArray(slot.components.component)
         ) {
-          for (const component of slot.components.component) {
+          for (const component of slot.components.component as any) {
+            // we dont put smartedit properties into store
+            component.properties = undefined;
             components.push(component);
           }
         }
