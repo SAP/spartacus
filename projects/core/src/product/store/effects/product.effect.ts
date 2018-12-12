@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
+import { map, catchError, mergeMap, switchMap, groupBy, filter } from 'rxjs/operators';
 
 import * as actions from '../actions/index';
 import * as converters from '../converters/index';
@@ -14,6 +14,7 @@ export class ProductEffects {
   @Effect()
   loadProduct$ = this.actions$.pipe(
     ofType(actions.LOAD_PRODUCT),
+    filter((action: any) => action && action.meta && action.meta.entity && action.meta.entity.load),
     map((action: actions.LoadProduct) => action.payload),
     groupBy(productCode => productCode),
     mergeMap(group =>

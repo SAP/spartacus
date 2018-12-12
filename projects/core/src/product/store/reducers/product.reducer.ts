@@ -8,35 +8,7 @@ export function reducer(
   action: fromProduct.ProductAction
 ): ProductState {
   switch (action.type) {
-    case fromProduct.LOAD_PRODUCT: {
-      const code = action.payload;
-      const newState: any = {
-        loading: true,
-        error: false
-      };
-      if (state[code]) {
-        newState.value = state[code].value;
-      }
-      return {
-        ...state,
-        [code]: newState
-      };
-    }
-
-    case fromProduct.LOAD_PRODUCT_SUCCESS: {
-      const detail = action.payload;
-
-      return {
-        ...state,
-        [detail.code]: { loading: false, value: detail, error: false }
-      };
-    }
-    case fromProduct.LOAD_PRODUCT_FAIL: {
-      return {
-        ...state,
-        [action.payload.code]: { loading: false, value: null, error: true }
-      };
-    }
   }
   return state;
 }
+
