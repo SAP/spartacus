@@ -22,8 +22,8 @@ describe('Product Reducer', () => {
       const { initialState } = fromProduct;
       const action = new fromActions.LoadProductSuccess(product);
       const state = fromProduct.reducer(initialState, action);
-      expect(state.entities).toEqual({
-        testCode: { loading: false, value: product }
+      expect(state).toEqual({
+        testCode: { loading: false, value: product, error: false }
       });
     });
   });
@@ -43,17 +43,19 @@ describe('Product Reducer', () => {
         initialState,
         successAction
       );
-      expect(stateAfterSuccess.entities).toBeTruthy();
+      expect(stateAfterSuccess).toBeTruthy();
 
-      expect(stateAfterSuccess.entities[code]).toEqual({
+      expect(stateAfterSuccess[code]).toEqual({
         loading: false,
+        error: false,
         value: product
       });
 
       const failAction = new fromActions.LoadProductFail(product);
       const stateAfterFail = fromProduct.reducer(stateAfterSuccess, failAction);
-      expect(stateAfterFail.entities[code]).toEqual({
+      expect(stateAfterFail[code]).toEqual({
         loading: false,
+        error: true,
         value: null
       });
     });

@@ -33,22 +33,6 @@ describe('Cms Component Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getProductEntities', () => {
-    it('should return products as entities', () => {
-      let result;
-
-      store
-        .pipe(select(fromSelectors.getProductState))
-        .subscribe(value => (result = value));
-
-      expect(result.entities).toEqual({});
-
-      store.dispatch(new fromActions.LoadProductSuccess(product));
-
-      expect(result.entities).toEqual(entities);
-    });
-  });
-
   describe('getSelectedProductsFactory', () => {
     it('should return product by code', () => {
       let result;

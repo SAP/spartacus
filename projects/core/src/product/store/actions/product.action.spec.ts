@@ -9,10 +9,7 @@ describe('Product Actions', () => {
         const action = new fromProduct.LoadProduct(productCode);
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT,
-          payload: productCode,
-          meta: {
-            reload: false
-          }
+          payload: productCode
         });
       });
     });

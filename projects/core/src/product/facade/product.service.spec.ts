@@ -36,7 +36,9 @@ describe('ProductService', () => {
   describe('get(productCode)', () => {
     it('should be able to get product by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockProduct)
+        of({
+          value: mockProduct
+        })
       );
       service.get('testId').subscribe(product => {
         expect(product).toBe(mockProduct);
@@ -46,7 +48,10 @@ describe('ProductService', () => {
 
   describe('loadProduct(productCode)', () => {
     it('should be able to trigger the product load action for a product.', () => {
-      service.get('productCode');
+      service
+        .get('productCode')
+        .subscribe()
+        .unsubscribe();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadProduct('productCode')
       );
@@ -56,7 +61,7 @@ describe('ProductService', () => {
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockProduct)
+        of({ value: mockProduct })
       );
       service.get('existingProduct').subscribe(result => {
         expect(result).toBeTruthy();
@@ -64,7 +69,9 @@ describe('ProductService', () => {
     });
 
     it('should be false that the product is loaded when an empty object is returned by the store', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => of({}));
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({ value: {} })
+      );
       service.get('emptyObjectProduct').subscribe(result => {
         expect(result).toEqual({});
       });
@@ -72,7 +79,7 @@ describe('ProductService', () => {
 
     it('should be false that the product is loaded when undefined is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(undefined)
+        of({ value: undefined })
       );
       service.get('undefinedProduct').subscribe(result => {
         expect(result).toBeFalsy();

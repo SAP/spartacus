@@ -85,48 +85,11 @@ describe('Product Effects', () => {
   describe('loadProduct$', () => {
     it('should return loadProductStart action if product not loaded', () => {
       const action = new fromActions.LoadProduct(productCode);
-      const completion = new fromActions.LoadProductStart(productCode);
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.loadProduct$).toBeObservable(expected);
-    });
-
-    it('should not return action if product was loaded', () => {
-      const action = new fromActions.LoadProduct('testLoadedCode');
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('');
-      expect(effects.loadProduct$).toBeObservable(expected);
-    });
-
-    it('should not return action if product is loading', () => {
-      const action = new fromActions.LoadProduct('testLoadingCode');
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('');
-      expect(effects.loadProduct$).toBeObservable(expected);
-    });
-
-    it('should return loadProductStart action with reload parameter if product is loaded', () => {
-      const action = new fromActions.LoadProduct('testLoadedCode', true);
-      const completion = new fromActions.LoadProductStart('testLoadedCode');
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-      expect(effects.loadProduct$).toBeObservable(expected);
-    });
-  });
-
-  describe('loadProductStart$', () => {
-    it('should return searchResult from SearchProductsSuccess', () => {
-      const action = new fromActions.LoadProductStart(productCode);
       const completion = new fromActions.LoadProductSuccess(product);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
-
-      expect(effects.loadProductStart$).toBeObservable(expected);
+      expect(effects.loadProduct$).toBeObservable(expected);
     });
   });
 });
