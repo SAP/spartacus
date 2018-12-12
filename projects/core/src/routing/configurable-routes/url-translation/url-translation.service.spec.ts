@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RouteRecognizerService } from './route-recognizer.service';
-import { UrlParserService } from './url-parser.service';
-import { UrlTranslatorService } from './url-translator.service';
+import { UrlParsingService } from './url-parsing.service';
+import { UrlTranslationService } from './url-translation.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
 import { RouteTranslation } from '../routes-config';
 import { TranslateUrlOptions } from './translate-url-options';
@@ -12,8 +12,8 @@ const mockConfigurableRoutesService = {
   getNestedRoutesTranslations: () => {}
 };
 
-describe('UrlTranslatorService', () => {
-  let service: UrlTranslatorService;
+describe('UrlTranslationService', () => {
+  let service: UrlTranslationService;
   let serverConfig: ServerConfig;
   let routesService: ConfigurableRoutesService;
   let routeRecognizer: RouteRecognizerService;
@@ -22,8 +22,8 @@ describe('UrlTranslatorService', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        UrlTranslatorService,
-        UrlParserService,
+        UrlTranslationService,
+        UrlParsingService,
         {
           provide: ConfigurableRoutesService,
           useValue: mockConfigurableRoutesService
@@ -36,7 +36,7 @@ describe('UrlTranslatorService', () => {
       ]
     });
 
-    service = TestBed.get(UrlTranslatorService);
+    service = TestBed.get(UrlTranslationService);
     serverConfig = TestBed.get(ServerConfig);
     routesService = TestBed.get(ConfigurableRoutesService);
     routeRecognizer = TestBed.get(RouteRecognizerService);

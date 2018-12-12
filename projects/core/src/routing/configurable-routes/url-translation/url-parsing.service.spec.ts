@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlParserService } from './url-parser.service';
+import { UrlParsingService } from './url-parsing.service';
 
-describe('UrlParserService', () => {
-  let service: UrlParserService;
+describe('UrlParsingService', () => {
+  let service: UrlParsingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      providers: [UrlParserService]
+      providers: [UrlParsingService]
     });
-    service = TestBed.get(UrlParserService);
+    service = TestBed.get(UrlParsingService);
   });
 
   describe('getPrimarySegments', () => {

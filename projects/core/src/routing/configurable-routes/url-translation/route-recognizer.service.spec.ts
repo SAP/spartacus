@@ -3,7 +3,7 @@ import { RoutesConfigLoader } from '../routes-config-loader';
 import { RoutesTranslations } from '../routes-config';
 import { RouteRecognizerService } from './route-recognizer.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import { UrlParserService } from './url-parser.service';
+import { UrlParsingService } from './url-parsing.service';
 
 const mockRoutesConfigLoader = {
   routesConfig: { translations: { default: {} } }
@@ -18,7 +18,7 @@ describe('RouteRecognizerService', () => {
       imports: [RouterTestingModule],
       providers: [
         RouteRecognizerService,
-        UrlParserService,
+        UrlParsingService,
         {
           provide: RoutesConfigLoader,
           useValue: mockRoutesConfigLoader

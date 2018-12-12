@@ -5,25 +5,25 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
-import { UrlTranslatorService } from '../configurable-routes/url-translator/url-translator.service';
+import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 
 describe('RoutingService', () => {
   let store;
   let service: RoutingService;
-  let urlTranslator: UrlTranslatorService;
+  let urlTranslator: UrlTranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlTranslatorService, useValue: { translate: () => {} } }
+        { provide: UrlTranslationService, useValue: { translate: () => {} } }
       ]
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(RoutingService);
-    urlTranslator = TestBed.get(UrlTranslatorService);
+    urlTranslator = TestBed.get(UrlTranslationService);
     spyOn(store, 'dispatch');
   });
 
