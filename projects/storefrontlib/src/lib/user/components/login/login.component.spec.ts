@@ -7,10 +7,11 @@ import {
   AuthService,
   RoutingService,
   UserToken,
-  UserService
+  UserService,
+  User
 } from '@spartacus/core';
 
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
@@ -27,8 +28,12 @@ class MockRoutingService {
   go = createSpy();
 }
 class MockUserService {
-  user$ = new BehaviorSubject(null);
-  loadUserDetails = createSpy();
+  get(): Observable<User> {
+    return of();
+  }
+  load(_userId: string) {
+    return of();
+  }
 }
 
 const mockUserToken: UserToken = {
@@ -40,12 +45,11 @@ const mockUserToken: UserToken = {
   userId: 'xxx'
 };
 
-const mockUserDetails: any = {
+const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  type: 'Mock Type',
   uid: 'UID'
 };
 
@@ -111,19 +115,20 @@ describe('LoginComponent', () => {
   });
 
   it('should load user details when token exists', () => {
+    spyOn(userService, 'load').and.stub();
     spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+
     component.ngOnInit();
 
-    expect(userService.loadUserDetails).toHaveBeenCalledWith(
-      mockUserToken.userId
-    );
+    expect(userService.load).toHaveBeenCalledWith(mockUserToken.userId);
     expect(authService.login).toHaveBeenCalled();
     expect(component.isLogin).toBeTruthy();
   });
 
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
-      userService.user$.next(mockUserDetails);
+      spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
+
       component.ngOnInit();
       fixture.detectChanges();
 
@@ -135,8 +140,9 @@ describe('LoginComponent', () => {
     });
 
     it('should display the correct message depending on whether the user is logged on or not', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({}));
-      userService.user$.next({});
+      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      spyOn(userService, 'get').and.returnValue(of({} as User));
+
       component.ngOnInit();
       fixture.detectChanges();
 

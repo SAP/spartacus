@@ -7,6 +7,8 @@ import {
   Input
 } from '@angular/core';
 
+import { PaymentDetails } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -15,7 +17,6 @@ import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 import { UserService } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
-import { PaymentDetails } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-method',
@@ -42,10 +43,10 @@ export class PaymentMethodComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.paymentMethodsLoading$;
-
+    this.isLoading$ = this.userService.getPaymentMethodsLoading();
     this.userService.loadPaymentMethods(this.cartData.userId);
-    this.existingPaymentMethods$ = this.userService.paymentMethods$.pipe(
+
+    this.existingPaymentMethods$ = this.userService.getPaymentMethods().pipe(
       tap(payments => {
         if (this.cards.length === 0) {
           payments.forEach(payment => {

@@ -43,8 +43,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.orders$ = this.userSerivce.orderList$.pipe(
-      tap((orders: OrderHistoryList) => {
+    this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
+      tap((orders: any) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
@@ -58,7 +58,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.userSerivce.orderListLoaded$;
+    this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
   }
 
   ngOnDestroy() {

@@ -7,6 +7,9 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -16,7 +19,6 @@ import { GlobalMessageService } from '../../../../../global-message/facade/globa
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cx-address-form',
@@ -65,7 +67,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.userService.allDeliveryCountries$.pipe(
+    this.countries$ = this.userService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
           this.userService.loadDeliveryCountries();
@@ -74,7 +76,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching titles
-    this.titles$ = this.userService.titles$.pipe(
+    this.titles$ = this.userService.getTitles().pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
@@ -83,7 +85,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.userService.allRegions$.pipe(
+    this.regions$ = this.userService.getRegions().pipe(
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
