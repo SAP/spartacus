@@ -8,7 +8,7 @@ import { combineLatest } from 'rxjs';
   providedIn: 'root'
 })
 export class SmartEditService {
-  private _cmsTicketId = '';
+  private _cmsTicketId: string;
 
   constructor(
     private cmsService: CmsService,
@@ -33,7 +33,6 @@ export class SmartEditService {
     ).subscribe(([cmsPage, routerState]) => {
       if (cmsPage === undefined && routerState.state) {
         this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
-        console.log(this._cmsTicketId);
       }
     });
   }
@@ -41,17 +40,16 @@ export class SmartEditService {
   private addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage) {
-        console.log(cmsPage);
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)
         );
         previousContract.forEach(attr => document.body.classList.remove(attr));
-        // now, we hard-coded catalog verion uuid.
+
         document.body.classList.add(`smartedit-page-uid-${cmsPage.pageId}`);
         document.body.classList.add(`smartedit-page-uuid-${cmsPage.uuid}`);
         document.body.classList.add(
-          'smartedit-catalog-version-uuid-electronicsContentCatalog/Online'
+          `smartedit-catalog-version-uuid-${cmsPage.catalogUuid}`
         );
       }
     });
