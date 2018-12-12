@@ -8,10 +8,9 @@ import { Cart, OrderEntry } from '../../occ-models/index';
 import { AuthService, UserToken } from '../../auth/index';
 
 import * as fromAction from '../store/actions';
-import * as fromReducer from '../store/reducers';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-
+import { CartState } from '../store/cart-state';
 @Injectable()
 export class CartService {
   private callback: Function;
@@ -33,7 +32,7 @@ export class CartService {
   );
 
   constructor(
-    private store: Store<fromReducer.CartState>,
+    private store: Store<CartState>,
     private cartData: CartDataService,
     private authService: AuthService
   ) {

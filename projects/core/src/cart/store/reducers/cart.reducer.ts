@@ -1,13 +1,6 @@
 import * as fromAction from './../actions';
 import { OrderEntry } from '../../../occ-models/index';
-
-export interface CartState {
-  content: any;
-  entries: { [code: string]: OrderEntry };
-  refresh: boolean;
-  loaded: boolean;
-  cartMergeComplete: boolean;
-}
+import { CartState } from '../cart-state';
 
 export const initialState: CartState = {
   content: {},
@@ -94,10 +87,3 @@ export function reducer(
 
   return state;
 }
-
-export const getCartContent = (state: CartState) => state.content;
-export const getRefresh = (state: CartState) => state.refresh;
-export const getEntries = (state: CartState) => state.entries;
-export const getLoaded = (state: CartState) => state.loaded;
-export const getCartMergeComplete = (state: CartState) =>
-  state.cartMergeComplete;

@@ -1,30 +1,44 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
-import * as fromFeature from './../reducers';
-import * as fromCart from './../reducers/cart.reducer';
+import {
+  MemoizedSelector,
+  createSelector,
+  createFeatureSelector
+} from '@ngrx/store';
 import { Cart, OrderEntry } from '../../../occ-models/index';
+import { CartState, CartsState } from '../cart-state';
+
+export const getCartContentSelector = (state: CartState) => state.content;
+export const getRefreshSelector = (state: CartState) => state.refresh;
+export const getEntriesSelector = (state: CartState) => state.entries;
+export const getLoadedSelector = (state: CartState) => state.loaded;
+export const getCartMergeCompleteSelector = (state: CartState) =>
+  state.cartMergeComplete;
+
+export const getCartState: MemoizedSelector<
+  any,
+  CartsState
+> = createFeatureSelector<CartsState>('cart');
 
 export const getActiveCartState: MemoizedSelector<
   any,
-  fromCart.CartState
+  CartState
 > = createSelector(
-  fromFeature.getCartState,
-  (cartState: fromFeature.CartState) => cartState.active
+  getCartState,
+  (cartState: CartsState) => cartState.active
 );
 
 export const getActiveCart: MemoizedSelector<any, Cart> = createSelector(
   getActiveCartState,
-  fromCart.getCartContent
+  getCartContentSelector
 );
 
 export const getRefresh: MemoizedSelector<any, boolean> = createSelector(
   getActiveCartState,
-  fromCart.getRefresh
+  getRefreshSelector
 );
 
 export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
   getActiveCartState,
-  fromCart.getLoaded
+  getLoadedSelector
 );
 
 export const getCartMergeComplete: MemoizedSelector<
@@ -32,7 +46,7 @@ export const getCartMergeComplete: MemoizedSelector<
   boolean
 > = createSelector(
   getActiveCartState,
-  fromCart.getCartMergeComplete
+  getCartMergeCompleteSelector
 );
 
 export const getEntriesMap: MemoizedSelector<
@@ -40,7 +54,7 @@ export const getEntriesMap: MemoizedSelector<
   { [code: string]: OrderEntry }
 > = createSelector(
   getActiveCartState,
-  fromCart.getEntries
+  getEntriesSelector
 );
 
 export const getEntrySelectorFactory = (
