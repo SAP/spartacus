@@ -21,12 +21,17 @@ The following features are supported:
 - Redirects
 - Load configuration from backend
 
+## Future outlook
+TODO
 ## Limitations
+TODO
 
+(current file content)
 ## Table of contents <!-- omit in toc -->
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [Future outlook](#future-outlook)
 - [Limitations](#limitations)
 - [Prerequisites](#prerequisites)
 - [Config](#config)
