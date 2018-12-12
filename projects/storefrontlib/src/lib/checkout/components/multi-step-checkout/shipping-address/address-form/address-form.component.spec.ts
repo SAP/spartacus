@@ -22,16 +22,19 @@ class MockUserService {
   getTitles(): Observable<Title[]> {
     return of();
   }
+
   loadTitles(): void {}
 
   getDeliveryCountries(): Observable<Country[]> {
     return of();
   }
+
   loadDeliveryCountries(): void {}
 
   getRegions(): Observable<Region[]> {
     return of();
   }
+
   loadRegions(_countryIsoCode: string): void {}
 }
 
