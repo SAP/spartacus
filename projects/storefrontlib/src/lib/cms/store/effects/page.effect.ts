@@ -90,6 +90,7 @@ export class PageEffects {
   ): { key: string; value: Page } {
     const page: Page = {
       loadTime: Date.now(),
+      uuid: res.uuid,
       name: res.name,
       pageId: res.uid,
       template: res.template,
@@ -99,14 +100,19 @@ export class PageEffects {
     page.seen.push(pageContext.id);
 
     for (const slot of res.contentSlots.contentSlot) {
-      page.slots[slot.position] = [];
+      page.slots[slot.position] = {
+        uid: slot.slotId,
+        uuid: slot.slotUuid,
+        components: []
+      };
       if (
         slot.components.component &&
         Array.isArray(slot.components.component)
       ) {
         for (const component of slot.components.component) {
-          page.slots[slot.position].push({
+          page.slots[slot.position].components.push({
             uid: component.uid,
+            uuid: component.uuid,
             typeCode: component.typeCode
           });
         }
