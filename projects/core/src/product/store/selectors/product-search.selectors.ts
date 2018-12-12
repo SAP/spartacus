@@ -7,6 +7,7 @@ import {
   ProductsState,
   StateWithProduct
 } from '../product-state';
+import { ProductSearchPage, Suggestion } from '../../../occ-models/occ.models';
 
 export const getProductsSearchState: MemoizedSelector<
   StateWithProduct,
@@ -16,19 +17,19 @@ export const getProductsSearchState: MemoizedSelector<
   (state: ProductsState) => state.search
 );
 
-export const getSearchResults: MemoizedSelector<any, any> = createSelector(
+export const getSearchResults: MemoizedSelector<StateWithProduct, ProductSearchPage> = createSelector(
   getProductsSearchState,
   fromProductSearch.getSearchResults
 );
 
-export const getAuxSearchResults: MemoizedSelector<any, any> = createSelector(
+export const getAuxSearchResults: MemoizedSelector<StateWithProduct, ProductSearchPage> = createSelector(
   getProductsSearchState,
   fromProductSearch.getAuxSearchResults
 );
 
 export const getProductSuggestions: MemoizedSelector<
-  any,
-  any[]
+  StateWithProduct,
+  Suggestion[]
 > = createSelector(
   getProductsSearchState,
   fromProductSearch.getProductSuggestions

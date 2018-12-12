@@ -3,12 +3,12 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
-import { Product } from '../../occ-models';
+import { Product } from '../../occ-models/occ.models';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  constructor(private store: Store<fromStore.StateWithProduct>) {}
 
   /**
    * Returns the product observable. The product will be loaded

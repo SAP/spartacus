@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ProductsState } from '../product-state';
+import { ProductEntity, ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
 
 export const getProductState: MemoizedSelector<any, any> = createSelector(
@@ -9,7 +9,7 @@ export const getProductState: MemoizedSelector<any, any> = createSelector(
 
 export const getSelectedProductsFactory = (
   codes
-): MemoizedSelector<any, any> => {
+): MemoizedSelector<StateWithProduct, any[]> => {
   return createSelector(
     getProductState,
     details => {
@@ -24,7 +24,7 @@ export const getSelectedProductsFactory = (
 
 export const getSelectedProductStateFactory = (
   code
-): MemoizedSelector<any, any> => {
+): MemoizedSelector<StateWithProduct, ProductEntity> => {
   return createSelector(
     getProductState,
     details => {
@@ -33,7 +33,7 @@ export const getSelectedProductStateFactory = (
   );
 };
 
-export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
+export const getSelectedProductFactory = (code): MemoizedSelector<StateWithProduct, any> => {
   return createSelector(
     getSelectedProductStateFactory(code),
     productState => {
@@ -43,7 +43,7 @@ export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
 };
 
 export const getAllProductCodes: MemoizedSelector<
-  any,
+  StateWithProduct,
   string[]
 > = createSelector(
   getProductState,
