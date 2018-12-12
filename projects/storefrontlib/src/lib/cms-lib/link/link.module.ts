@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LinkComponent } from './link.component';
-import { ConfigModule, UrlTranslatorModule } from '@spartacus/core';
+import { ConfigModule, UrlTranslationModule } from '@spartacus/core';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
         CMSLinkComponent: { selector: 'cx-link' }
       }
     }),
-    UrlTranslatorModule
+    UrlTranslationModule
   ],
   declarations: [LinkComponent],
   exports: [LinkComponent],

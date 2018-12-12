@@ -3,8 +3,8 @@ import * as fromStore from '../store';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
-import { UrlTranslatorService } from '../configurable-routes/url-translator/url-translator.service';
-import { TranslateUrlOptions } from '../configurable-routes/url-translator/translate-url-options';
+import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ import { TranslateUrlOptions } from '../configurable-routes/url-translator/trans
 export class RoutingService {
   constructor(
     private store: Store<fromStore.RouterState>,
-    private urlTranslator: UrlTranslatorService
+    private urlTranslator: UrlTranslationService
   ) {}
 
   /**

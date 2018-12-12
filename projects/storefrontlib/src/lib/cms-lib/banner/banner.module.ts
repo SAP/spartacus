@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { BannerComponent } from './banner.component';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
-import { ConfigModule, UrlTranslatorModule } from '@spartacus/core';
+import { ConfigModule, UrlTranslationModule } from '@spartacus/core';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 
 @NgModule({
@@ -18,7 +18,7 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
         SimpleBannerComponent: { selector: 'cx-banner' }
       }
     }),
-    UrlTranslatorModule
+    UrlTranslationModule
   ],
   declarations: [BannerComponent, ResponsiveBannerComponent],
   exports: [BannerComponent, ResponsiveBannerComponent],

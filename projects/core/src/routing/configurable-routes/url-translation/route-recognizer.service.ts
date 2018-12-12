@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoutesConfigLoader } from '../routes-config-loader';
-import { UrlParserService } from './url-parser.service';
+import { UrlParsingService } from './url-parsing.service';
 import { RoutesTranslations } from '../routes-config';
 import { removeLeadingSlash, isParam, getParamName } from './path-utils';
 
@@ -8,7 +8,7 @@ import { removeLeadingSlash, isParam, getParamName } from './path-utils';
 export class RouteRecognizerService {
   constructor(
     private routesConfigLoader: RoutesConfigLoader,
-    private urlParser: UrlParserService
+    private urlParser: UrlParsingService
   ) {}
 
   recognizeByDefaultUrl(url: string): { name: string; params: object }[] {

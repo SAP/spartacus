@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { UrlTranslatorModule } from '@spartacus/core';
+import { UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -16,7 +16,7 @@ import { UrlTranslatorModule } from '@spartacus/core';
     NgSelectModule,
     BootstrapModule,
     PaginationAndSortingModule,
-    UrlTranslatorModule
+    UrlTranslationModule
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent]

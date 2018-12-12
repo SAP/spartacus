@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { UrlSegmentGroup, PRIMARY_OUTLET } from '@angular/router';
 
 @Injectable()
-export class UrlParserService {
+export class UrlParsingService {
   constructor(private router: Router) {}
 
   getPrimarySegments(url: string): string[] {

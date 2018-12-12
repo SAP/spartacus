@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { PageNotFoundComponent } from './404.component';
-import { UrlTranslatorModule } from '@spartacus/core';
+import { UrlTranslationModule } from '@spartacus/core';
 
 const routes: Routes = [
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes), UrlTranslatorModule],
+  imports: [CommonModule, RouterModule.forChild(routes), UrlTranslationModule],
   declarations: [PageNotFoundComponent],
   exports: [PageNotFoundComponent]
 })
