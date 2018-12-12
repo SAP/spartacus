@@ -3,7 +3,7 @@ import { LoginHelper } from '../page-objects/login/login.helper';
 import { LoginPage } from '../page-objects/login/login.po';
 import { by, element } from 'protractor';
 
-fdescribe('Login', () => {
+describe('Login', () => {
   const home: HomePage = new HomePage();
   const login: LoginPage = new LoginPage();
 
@@ -56,11 +56,7 @@ fdescribe('Login', () => {
     await LoginHelper.loginUserViaHeader(LoginHelper.userEmail, WRONG_PASSWORD);
 
     expect(await home.header.isLoggedIn()).toBeFalsy();
-    /*
-    expect(await login.page.getText()).toContain(
-      'Bad credentials. Please login again.'
-    );
-    */
+
     const error = await element(by.tagName('cx-global-message')).element(
       by.css('.alert-danger')
     );
