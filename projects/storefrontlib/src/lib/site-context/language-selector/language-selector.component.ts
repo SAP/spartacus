@@ -20,7 +20,7 @@ export class LanguageSelectorComponent implements OnInit {
     this.activeLanguage$ = this.languageService.getActive();
   }
 
-  setActiveLanguage(language) {
+  setActiveLanguage(language: string) {
     this.languageService.setActive(language);
   }
 }
