@@ -44,8 +44,8 @@ describe('SiteContextInterceptor', () => {
   const currencyJpy = 'JPY';
 
   let httpMock: HttpTestingController;
-  let currencyService: CurrencyService;
-  let languageService: LanguageService;
+  let currencyService: MockCurrencyService;
+  let languageService: MockLanguageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
