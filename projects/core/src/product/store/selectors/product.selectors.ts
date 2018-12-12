@@ -1,5 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ProductEntity, ProductsState, StateWithProduct } from '../product-state';
+import {
+  ProductEntity,
+  ProductsState,
+  StateWithProduct
+} from '../product-state';
 import { getProductsState } from './feature.selector';
 import { Product } from '../../../occ-models/occ.models';
 
@@ -15,9 +19,7 @@ export const getSelectedProductsFactory = (
     getProductState,
     details => {
       return codes
-        .map(code =>
-          details[code] ? details[code].value : undefined
-        )
+        .map(code => (details[code] ? details[code].value : undefined))
         .filter(product => product !== undefined);
     }
   );
@@ -34,11 +36,35 @@ export const getSelectedProductStateFactory = (
   );
 };
 
-export const getSelectedProductFactory = (code): MemoizedSelector<StateWithProduct, Product> => {
+export const getSelectedProductFactory = (
+  code
+): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code),
     productState => {
       return productState ? productState.value : undefined;
+    }
+  );
+};
+
+export const getSelectedProductLoadingFactory = (
+  code
+): MemoizedSelector<StateWithProduct, boolean> => {
+  return createSelector(
+    getSelectedProductStateFactory(code),
+    productState => {
+      return productState ? productState.loading : undefined;
+    }
+  );
+};
+
+export const getSelectedProductErrorFactory = (
+  code
+): MemoizedSelector<StateWithProduct, boolean> => {
+  return createSelector(
+    getSelectedProductStateFactory(code),
+    productState => {
+      return productState ? productState.error : undefined;
     }
   );
 };

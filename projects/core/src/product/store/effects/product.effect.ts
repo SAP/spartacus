@@ -11,7 +11,6 @@ import { OccProductService } from '../../occ/product.service';
 
 @Injectable()
 export class ProductEffects {
-
   @Effect()
   loadProductStart$ = this.actions$.pipe(
     ofType(actions.LOAD_PRODUCT),

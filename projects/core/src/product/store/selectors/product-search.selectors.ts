@@ -17,12 +17,18 @@ export const getProductsSearchState: MemoizedSelector<
   (state: ProductsState) => state.search
 );
 
-export const getSearchResults: MemoizedSelector<StateWithProduct, ProductSearchPage> = createSelector(
+export const getSearchResults: MemoizedSelector<
+  StateWithProduct,
+  ProductSearchPage
+> = createSelector(
   getProductsSearchState,
   fromProductSearch.getSearchResults
 );
 
-export const getAuxSearchResults: MemoizedSelector<StateWithProduct, ProductSearchPage> = createSelector(
+export const getAuxSearchResults: MemoizedSelector<
+  StateWithProduct,
+  ProductSearchPage
+> = createSelector(
   getProductsSearchState,
   fromProductSearch.getAuxSearchResults
 );

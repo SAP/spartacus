@@ -1,11 +1,17 @@
 export const PRODUCT_FEATURE = 'product';
-import { Review, Suggestion, ProductSearchPage, Product } from '../../occ-models/occ.models';
+import {
+  Review,
+  Suggestion,
+  ProductSearchPage,
+  Product
+} from '../../occ-models/occ.models';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductState;
 }
 
 export interface ProductEntity {
+  error: boolean;
   loading: boolean;
   value?: Product;
 }
