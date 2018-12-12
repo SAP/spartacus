@@ -1,11 +1,12 @@
 # Configurable routes <!-- omit in toc -->
 
-Path to every route in Storefront and Shell App can be configurable and translatable. This means that we don't have to hardcode paths in templates and in the code anymore.
+The navigation in a web application is mostly done through URLs. URLs can be used to deeplink into a specific application state and contribute to the usability and SEO capabilities of the application. To that reason, it is most important that customers can customize those URLs.
 
-Instead of it, the translations of paths can be defined in the Storefront's config. Then the translated paths will be generated in templates and in the code, basing on given information:
+In a Single Page Application, URLs are intercepted by the application logic so that the view(s) can be updated seamlessly. This requires *routing logic*, which, in case of Spartacus, is provided by the Angular Router.
 
-- a unique name of route and params object, or
-- a path having a default shape
+While the Angular router contains a rich set of features and configuration options, Spartacus contains components that are intended to run without any configuration by default. Moreover, configuration is intended to be runtime configurable by business users. 
+
+This is where configurable routes comes in to play; every route in Spartacus is configurable and can be translated. 
 
 ## Table of contents <!-- omit in toc -->
 
