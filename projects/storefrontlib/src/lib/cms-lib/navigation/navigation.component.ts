@@ -27,7 +27,7 @@ export class NavigationComponent extends AbstractCmsComponent
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: any;
 
   constructor(
     protected cmsService: CmsService,
@@ -37,7 +37,7 @@ export class NavigationComponent extends AbstractCmsComponent
     super(cmsService, cd);
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     if (!this.component) {
       return;
     }
