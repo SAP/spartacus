@@ -14,19 +14,19 @@ import { OccConfig } from '../../occ/config/occ-config';
 
 import { SiteContextInterceptor } from './site-context.interceptor';
 
-class MockCurrencyService {
+class MockCurrencyService extends CurrencyService {
   getActive(): Observable<string> {
     return of();
   }
 }
 
-class MockLanguageService {
+class MockLanguageService extends LanguageService {
   getActive(): Observable<string> {
     return of();
   }
 }
 
-export class MockSiteContextModuleConfig {
+export class MockSiteContextModuleConfig extends CurrencyService {
   server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'

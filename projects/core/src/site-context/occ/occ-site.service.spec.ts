@@ -8,7 +8,7 @@ import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { LanguageList, CurrencyList } from '../../occ-models/occ.models';
 
-class MockOccModuleConfig {
+class MockOccModuleConfig extends OccConfig {
   server = {
     baseUrl: '',
     occPrefix: ''
