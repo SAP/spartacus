@@ -15,7 +15,6 @@ import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../services/occ-cms.service';
 import { DefaultPageService } from '../../services/default-page.service';
-import { SmartEditService } from '../../smart-edit/smart-edit.service';
 
 import { Page } from '../../models/page.model';
 
@@ -82,8 +81,7 @@ export class PageEffects {
     private actions$: Actions,
     private occCmsService: OccCmsService,
     private defaultPageService: DefaultPageService,
-    private routingService: RoutingService,
-    private smartEditService: SmartEditService
+    private routingService: RoutingService
   ) {}
 
   private getPageData(
@@ -151,7 +149,7 @@ export class PageEffects {
   private getCatalogUuid(cmsItem: any) {
     if (cmsItem.properties) {
       return cmsItem.properties.smartedit.catalogVersionUuid;
-    } else if (this.smartEditService.cmsTicketId) {
+    } else {
       // due to smartedit bug: CMSX-8181, for page and slot, we have to hard-coded the catalogUUID.
       return 'electronicsContentCatalog/Online';
     }
