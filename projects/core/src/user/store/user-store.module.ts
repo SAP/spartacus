@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 
 import { metaReducers, reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects/index';
-import { ProductConverterModule } from '../../product/store/index';
 import { USER_FEATURE } from './user-state';
 
 @NgModule({
@@ -16,8 +15,7 @@ import { USER_FEATURE } from './user-state';
     ReactiveFormsModule,
     StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    RouterModule,
-    ProductConverterModule
+    RouterModule
   ],
   providers: [reducerProvider]
 })
