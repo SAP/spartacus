@@ -52,17 +52,13 @@ describe('CurrencyService', () => {
     expect(store.dispatch).toHaveBeenCalledTimes(0);
   });
 
-  it('should be able to load currencies', () => {
-    service.getAll().subscribe();
-    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
-  });
-
   it('should be able to get currencies', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
 
     service.getAll().subscribe(results => {
       expect(results).toEqual(mockCurrencies);
     });
+    expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
   });
 
   it('should be able to get active currencies', () => {

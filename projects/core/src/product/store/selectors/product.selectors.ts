@@ -1,45 +1,49 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import {
-  ProductsState,
-  ProductState,
-  StateWithProduct
-} from '../product-state';
+import { ProductsState } from '../product-state';
 import { getProductsState } from './feature.selector';
 
-export const getProductState: MemoizedSelector<
-  StateWithProduct,
-  ProductState
-> = createSelector(
+export const getProductState: MemoizedSelector<any, any> = createSelector(
   getProductsState,
   (state: ProductsState) => state.details
 );
 
 export const getSelectedProductsFactory = (
   codes
-): MemoizedSelector<StateWithProduct, any[]> => {
+): MemoizedSelector<any, any> => {
   return createSelector(
     getProductState,
     details => {
       return codes
-        .map(code => details.entities[code])
+        .map(code =>
+          details.entities[code] ? details.entities[code].value : undefined
+        )
         .filter(product => product !== undefined);
     }
   );
 };
 
-export const getSelectedProductFactory = (
+export const getSelectedProductStateFactory = (
   code
-): MemoizedSelector<StateWithProduct, any> => {
+): MemoizedSelector<any, any> => {
   return createSelector(
     getProductState,
     details => {
-      return details.entities[code];
+      return details.entities[code] ? details.entities[code] : false;
+    }
+  );
+};
+
+export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
+  return createSelector(
+    getSelectedProductStateFactory(code),
+    productState => {
+      return productState ? productState.value : undefined;
     }
   );
 };
 
 export const getAllProductCodes: MemoizedSelector<
-  StateWithProduct,
+  any,
   string[]
 > = createSelector(
   getProductState,

@@ -46,7 +46,7 @@ describe('ProductService', () => {
 
   describe('loadProduct(productCode)', () => {
     it('should be able to trigger the product load action for a product.', () => {
-      service.get('productCode').subscribe();
+      service.get('productCode');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadProduct('productCode')
       );

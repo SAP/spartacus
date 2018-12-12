@@ -8,7 +8,7 @@ import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {
-  constructor(private store: Store<fromStore.StateWithProduct>) {}
+  constructor(private store: Store<fromStore.ProductsState>) {}
 
   /**
    * Returns the product observable. The product will be loaded
