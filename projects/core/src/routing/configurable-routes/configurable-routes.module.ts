@@ -8,7 +8,9 @@ import {
   defaultConfigurableRoutesConfig
 } from './configurable-routes-config';
 
-export function loadRoutesConfig(loader: RoutesConfigLoader) {
+export function loadRoutesConfig(
+  loader: RoutesConfigLoader
+): () => Promise<void> {
   const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }

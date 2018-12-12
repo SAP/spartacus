@@ -6,6 +6,9 @@ import { Router, Routes } from '@angular/router';
 import { ConfigurableRoutes } from './configurable-route';
 import { RoutesConfig } from './routes-config';
 
+class MockServerConfig extends ServerConfig {
+  production = false;
+}
 const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
   routesConfig: {
     translations: {
@@ -14,7 +17,7 @@ const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
     parameterNamesMapping: {}
   }
 };
-const mockServerConfig: ServerConfig = { production: false };
+// const mockServerConfig: ServerConfig = { production: false };
 class MockRouter {
   config: Routes | ConfigurableRoutes;
   resetConfig(newConfig): void {
@@ -24,7 +27,7 @@ class MockRouter {
 
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
-  let serverConfig: ServerConfig;
+  let serverConfig: MockServerConfig;
   let router: Router;
 
   beforeEach(() => {
@@ -35,7 +38,7 @@ describe('ConfigurableRoutesService', () => {
           provide: RoutesConfigLoader,
           useValue: mockRoutesConfigLoader
         },
-        { provide: ServerConfig, useValue: mockServerConfig },
+        { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: Router,
           useClass: MockRouter

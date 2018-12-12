@@ -22,7 +22,7 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  go(path: any[], query?: object, extras?: NavigationExtras) {
+  go(path: string[], query?: object, extras?: NavigationExtras) {
     this.store.dispatch(
       new fromStore.Go({
         path,
@@ -35,7 +35,7 @@ export class RoutingService {
   /**
    * Navigating back
    */
-  back() {
+  back(): void {
     const isLastPageInApp =
       document.referrer.indexOf(window.location.origin) > -1;
     if (isLastPageInApp) {
@@ -49,7 +49,7 @@ export class RoutingService {
   /**
    * Navigating forward
    */
-  forward() {
+  forward(): void {
     this.store.dispatch(new fromStore.Forward());
   }
 
@@ -63,7 +63,7 @@ export class RoutingService {
   /**
    * Remove the redirect url from store
    */
-  clearRedirectUrl() {
+  clearRedirectUrl(): void {
     this.store.dispatch(new fromStore.ClearRedirectUrl());
   }
 
@@ -71,7 +71,7 @@ export class RoutingService {
    * Put redirct url into store
    * @param url: redirect url
    */
-  saveRedirectUrl(url: string) {
+  saveRedirectUrl(url: string): void {
     this.store.dispatch(new fromStore.SaveRedirectUrl(url));
   }
 }

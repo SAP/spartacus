@@ -25,7 +25,7 @@ export class ConfigurableRoutesService {
     return this._routesConfig.translations[this.currentLanguageCode];
   }
 
-  changeLanguage(languageCode: string) {
+  changeLanguage(languageCode: string): void {
     if (this._routesConfig.translations[languageCode] === undefined) {
       if (!this.config.production) {
         console.warn(
@@ -43,7 +43,7 @@ export class ConfigurableRoutesService {
   }
 
   getPathsForPage(pageName: string): string[] {
-    const paths = this.currentRoutesTranslations[pageName];
+    const paths: string[] = this.currentRoutesTranslations[pageName];
     if (paths === undefined && !this.config.production) {
       console.warn(
         `No paths were configured for page '${pageName}' in language '${
@@ -60,7 +60,7 @@ export class ConfigurableRoutesService {
 
   // TODO #187: spike of handling properly nested routes
   private translateRoutes(routes: Routes): Routes {
-    const translatedRoutes = [];
+    const translatedRoutes: Routes = [];
     routes.forEach(route => {
       if (this.isConfigurable(route, 'cxPath')) {
         translatedRoutes.push(...this.translatePath(route));

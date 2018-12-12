@@ -6,10 +6,14 @@ import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
 
-const mockHttpClient = {
-  get: () => new BehaviorSubject(null)
-};
-const mockServerConfig: ServerConfig = { server: { baseUrl: 'test-base-url' } };
+class MockHttpClient {
+  get = () => new BehaviorSubject(null);
+}
+
+class MockServerConfig extends ServerConfig {
+  server = { baseUrl: 'test-base-url' };
+}
+
 const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
   routesConfig: {
     translations: {
@@ -49,15 +53,15 @@ const mockFetchedRoutesConfig: RoutesConfig = {
 
 describe('RoutesConfigLoader', () => {
   let loader: RoutesConfigLoader;
-  let http: HttpClient;
+  let http: MockHttpClient;
   let configurableRoutesConfig: ConfigurableRoutesConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         RoutesConfigLoader,
-        { provide: HttpClient, useValue: mockHttpClient },
-        { provide: ServerConfig, useValue: mockServerConfig },
+        { provide: HttpClient, useClass: MockHttpClient },
+        { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: ConfigurableRoutesConfig,
           useValue: mockConfigurableRoutesModuleConfig
