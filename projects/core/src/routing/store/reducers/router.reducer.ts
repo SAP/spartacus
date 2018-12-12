@@ -21,7 +21,7 @@ export interface RouterState
   redirectUrl: string;
 }
 
-export const initialState = {
+export const initialState: RouterState = {
   redirectUrl: '',
   navigationId: 0,
   state: {
