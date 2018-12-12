@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 
 import { CmsService } from '../facade/cms.service';
-import { RoutingService, PageType } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { SmartEditService } from './smart-edit.service';
 import { Page } from '../models/page.model';
 
