@@ -9,15 +9,24 @@ import { RoutesConfig } from './routes-config';
 class MockServerConfig extends ServerConfig {
   production = false;
 }
-const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
-  routesConfig: {
+
+class MockRoutesConfigLoader {
+  routesConfig: RoutesConfig = {
     translations: {
       default: {}
     },
     parameterNamesMapping: {}
-  }
-};
-// const mockServerConfig: ServerConfig = { production: false };
+  };
+}
+// const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
+//   routesConfig: {
+//     translations: {
+//       default: {}
+//     },
+//     parameterNamesMapping: {}
+//   }
+// };
+
 class MockRouter {
   config: Routes | ConfigurableRoutes;
   resetConfig(newConfig): void {
@@ -29,6 +38,7 @@ describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
   let router: Router;
+  let mockRoutesConfigLoader: MockRoutesConfigLoader;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,7 +46,7 @@ describe('ConfigurableRoutesService', () => {
         ConfigurableRoutesService,
         {
           provide: RoutesConfigLoader,
-          useValue: mockRoutesConfigLoader
+          useClass: MockRoutesConfigLoader
         },
         { provide: ServerConfig, useClass: MockServerConfig },
         {
@@ -49,6 +59,7 @@ describe('ConfigurableRoutesService', () => {
     service = TestBed.get(ConfigurableRoutesService);
     serverConfig = TestBed.get(ServerConfig);
     router = TestBed.get(Router);
+    mockRoutesConfigLoader = TestBed.get(RoutesConfigLoader);
 
     router.config = [];
   });

@@ -22,7 +22,7 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  go(path: string[], query?: object, extras?: NavigationExtras) {
+  go(path: string[], query?: object, extras?: NavigationExtras): void {
     this.store.dispatch(
       new fromStore.Go({
         path,

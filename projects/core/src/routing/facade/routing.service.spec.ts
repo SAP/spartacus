@@ -7,7 +7,7 @@ import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
 
 describe('RoutingService', () => {
-  let store;
+  let store: Store<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

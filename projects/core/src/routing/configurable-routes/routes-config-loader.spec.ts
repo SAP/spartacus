@@ -14,8 +14,8 @@ class MockServerConfig extends ServerConfig {
   server = { baseUrl: 'test-base-url' };
 }
 
-const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
-  routesConfig: {
+class MockConfigurableRoutesModuleConfig extends ConfigurableRoutesConfig {
+  routesConfig: RoutesConfig = {
     translations: {
       default: {
         page1: ['default-path1'],
@@ -32,8 +32,9 @@ const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
         param1: 'otherParam1'
       }
     }
-  }
-};
+  };
+}
+
 const mockFetchedRoutesConfig: RoutesConfig = {
   translations: {
     default: {
@@ -54,7 +55,7 @@ const mockFetchedRoutesConfig: RoutesConfig = {
 describe('RoutesConfigLoader', () => {
   let loader: RoutesConfigLoader;
   let http: MockHttpClient;
-  let configurableRoutesConfig: ConfigurableRoutesConfig;
+  let mockConfigurableRoutesConfig: MockConfigurableRoutesModuleConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,20 +65,20 @@ describe('RoutesConfigLoader', () => {
         { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: ConfigurableRoutesConfig,
-          useValue: mockConfigurableRoutesModuleConfig
+          useClass: MockConfigurableRoutesModuleConfig
         }
       ]
     });
 
     loader = TestBed.get(RoutesConfigLoader);
     http = TestBed.get(HttpClient);
-    configurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
+    mockConfigurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
   });
 
   describe('loadRoutesConfig', () => {
     describe(', when shouldFetch is configured to true,', () => {
       beforeEach(() => {
-        configurableRoutesConfig.routesConfig.fetch = true;
+        mockConfigurableRoutesConfig.routesConfig.fetch = true;
       });
 
       it('should fetch routes config from url', () => {
@@ -123,7 +124,7 @@ describe('RoutesConfigLoader', () => {
 
     describe(', when shouldFetch is configured to false,', () => {
       beforeEach(() => {
-        configurableRoutesConfig.routesConfig.fetch = false;
+        mockConfigurableRoutesConfig.routesConfig.fetch = false;
       });
 
       it('should NOT fetch routes config', () => {
