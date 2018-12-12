@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Language } from '../../../occ-models/occ.models';
+import { Language } from '../../../occ/occ-models/occ.models';
 import {
   StateWithSiteContext,
   LanguagesState,
