@@ -49,10 +49,10 @@ class MockCmsService {
 
 describe('MiniCartComponent', () => {
   const MockCartService = {
-    getActiveCart() {
+    getActive(): Observable<Cart> {
       return of(testCart);
     },
-    getEntries() {
+    getEntries(): Observable<{ [id: string]: OrderEntry }[]> {
       return of(testEntries);
     }
   };

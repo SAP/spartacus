@@ -18,9 +18,9 @@ export class CartPageLayoutComponent implements OnInit {
   ngOnInit() {
     this.cartService.getCartMergeComplete().subscribe(isCartMergeComplete => {
       if (isCartMergeComplete) {
-        this.cartService.loadCartDetails();
+        this.cartService.loadDetails();
       }
     });
-    this.cart$ = this.cartService.getActiveCart();
+    this.cart$ = this.cartService.getActive();
   }
 }
