@@ -28,29 +28,59 @@ describe('Page Effects', () => {
   let defaultPageService: DefaultPageService;
   let effects: fromEffects.PageEffects;
 
-  const comps: CmsComponent[] = [
-    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-    { uid: 'comp3', typeCode: 'NavigationComponent' }
+  const comps: any[] = [
+    {
+      uid: 'comp1',
+      typeCode: 'SimpleBannerComponent',
+      uuid: 'compUuid1',
+      catalogUuid: 'electronicsContentCatalog/Online'
+    },
+    {
+      uid: 'comp2',
+      typeCode: 'CMSLinkComponent',
+      uuid: 'compUuid2',
+      catalogUuid: 'electronicsContentCatalog/Online'
+    },
+    {
+      uid: 'comp3',
+      typeCode: 'NavigationComponent',
+      uuid: 'compUuid3',
+      catalogUuid: 'electronicsContentCatalog/Online'
+    }
   ];
   const cmsPageData: any = {
+    uuid: 'mockPageUuid',
     uid: 'testPageId',
     name: 'testPage',
     template: 'testTemplate',
     contentSlots: {
       contentSlot: [
-        { components: { component: comps }, position: 'testPosition' }
+        {
+          slotId: 'mockContentSlotUid',
+          slotUuid: 'mockSlotUuid',
+          components: { component: comps },
+          position: 'testPosition'
+        }
       ]
     }
   };
 
   const page: Page = {
+    uuid: 'mockPageUuid',
     loadTime: 1000000000000,
     name: 'testPage',
     pageId: 'testPageId',
     template: 'testTemplate',
     seen: new Array<string>(),
-    slots: { testPosition: comps }
+    catalogUuid: 'electronicsContentCatalog/Online',
+    slots: {
+      testPosition: {
+        uid: 'mockContentSlotUid',
+        uuid: 'mockSlotUuid',
+        catalogUuid: 'electronicsContentCatalog/Online',
+        components: comps
+      }
+    }
   };
 
   beforeEach(() => {

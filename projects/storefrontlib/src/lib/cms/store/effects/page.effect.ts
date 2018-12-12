@@ -165,7 +165,9 @@ export class PageEffects {
         ) {
           for (const component of slot.components.component as any) {
             // we dont put smartedit properties into store
-            component.properties = undefined;
+            if (component.properties) {
+              component.properties = undefined;
+            }
             components.push(component);
           }
         }
