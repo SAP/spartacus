@@ -1,11 +1,9 @@
 import { HomePage } from '../page-objects/home.po';
 import { LoginHelper } from '../page-objects/login/login.helper';
-import { LoginPage } from '../page-objects/login/login.po';
 import { by, element } from 'protractor';
 
 describe('Login', () => {
   const home: HomePage = new HomePage();
-  const login: LoginPage = new LoginPage();
 
   const USER_FULL_NAME = `${LoginHelper.DEFAULT_FIRST_NAME} ${
     LoginHelper.DEFAULT_LAST_NAME
