@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
@@ -22,6 +22,8 @@ import { ComponentMapperService } from './services/component-mapper.service';
 import { DefaultPageService } from './services/default-page.service';
 import { OutletModule } from '../outlet/outlet.module';
 
+import { CmsTicketInterceptor } from './smart-edit/cms-ticket.interceptor';
+
 const services: any[] = [
   OccCmsService,
   ComponentMapperService,
@@ -41,7 +43,12 @@ const services: any[] = [
     reducerProvider,
     ...services,
     ...guards,
-    { provide: CmsModuleConfig, useExisting: Config }
+    { provide: CmsModuleConfig, useExisting: Config },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CmsTicketInterceptor,
+      multi: true
+    }
   ],
   declarations: [...components],
   exports: [...components]
