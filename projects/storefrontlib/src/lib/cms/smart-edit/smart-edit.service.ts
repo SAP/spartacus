@@ -31,7 +31,7 @@ export class SmartEditService {
       this.cmsService.getCurrentPage(),
       this.routingService.getRouterState()
     ).subscribe(([cmsPage, routerState]) => {
-      if (cmsPage === undefined && routerState.state) {
+      if (cmsPage === undefined && routerState.state && !this._cmsTicketId) {
         this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
       }
     });
