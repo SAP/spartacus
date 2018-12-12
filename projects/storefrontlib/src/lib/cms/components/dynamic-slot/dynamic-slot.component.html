@@ -2,7 +2,7 @@
   <div
     [attr.data-smartedit-component-id]="currentSlot.uid"
     data-smartedit-component-type="ContentSlot"
-    data-smartedit-catalog-version-uuid="currentSlot.catalogUuid"
+    [attr.data-smartedit-catalog-version-uuid]="currentSlot.catalogUuid"
     [attr.data-smartedit-component-uuid]="currentSlot.uuid"
     class="smartEditComponent"
   >
@@ -14,7 +14,7 @@
           class="smartEditComponent"
           [attr.data-smartedit-component-id]="component.uid"
           [attr.data-smartedit-component-type]="component.typeCode"
-          data-smartedit-catalog-version-uuid="component.catalogUuid"
+          [attr.data-smartedit-catalog-version-uuid]="component.catalogUuid"
           [attr.data-smartedit-component-uuid]="component.uuid"
         >
           <ng-container *cxOutlet="component.typeCode">
