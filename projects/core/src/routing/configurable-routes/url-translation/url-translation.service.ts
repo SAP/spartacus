@@ -166,11 +166,10 @@ export class UrlTranslationService {
   private standarizeNestedRoutes(
     nestedRoutes: TranslateUrlOptionsRoute[]
   ): TranslateUrlOptionsRouteObject[] {
-    return (nestedRoutes || []).map(
-      route =>
-        typeof route === 'string'
-          ? { name: route, params: {} }
-          : { name: route.name, params: route.params || {} }
+    return (nestedRoutes || []).map(route =>
+      typeof route === 'string'
+        ? { name: route, params: {} }
+        : { name: route.name, params: route.params || {} }
     );
   }
 
