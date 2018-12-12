@@ -50,7 +50,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  typeahead = (text$: Observable<string>) =>
+  typeahead = (text$: Observable<string>): Observable<any[]> =>
     combineLatest(
       text$.pipe(
         debounceTime(300),
@@ -67,7 +67,7 @@ export class SearchBoxComponentService {
       })
     );
 
-  public launchSearchPage(query: string) {
+  public launchSearchPage(query: string): void {
     this.routingService.go({
       route: [{ name: 'search', params: { query } }]
     });
@@ -76,19 +76,19 @@ export class SearchBoxComponentService {
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
     this.executeSearch(text, config);
 
-    const suggestions = this.searchService.searchSuggestions$.pipe(
-      map(res => res.map(suggestion => suggestion.value))
-    );
+    const suggestions = this.searchService
+      .getSearchSuggestions()
+      .pipe(map(res => res.map(suggestion => suggestion.value)));
 
-    const products = this.searchService.auxSearchResults$.pipe(
-      map(res => res.products || [])
-    );
+    const products = this.searchService
+      .getAuxSearchResults()
+      .pipe(map(res => res.products || []));
     return combineLatest(suggestions, products).pipe(
       map(([a, b]) => [...a, ...b])
     );
   }
 
-  private executeSearch(search: string, config: SearchBoxConfig) {
+  private executeSearch(search: string, config: SearchBoxConfig): void {
     if (config.displayProducts) {
       this.searchService.searchAuxiliary(search, {
         pageSize: config.maxProducts

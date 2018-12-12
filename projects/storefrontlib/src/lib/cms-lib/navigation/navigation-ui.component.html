@@ -1,4 +1,4 @@
-<div class="cx-navigation__item nav-item" ngbDropdown>
+<div *ngIf="node" class="cx-navigation__item nav-item" ngbDropdown>
   <a
     *ngIf="node.children && !node.title; else: nodeWithChildren"
     ngbDropdownToggle

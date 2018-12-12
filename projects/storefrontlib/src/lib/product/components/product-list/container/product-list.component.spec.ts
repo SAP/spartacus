@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { ProductListComponent } from './product-list.component';
@@ -25,11 +25,15 @@ import { PaginationComponent } from '../../../../ui/components/pagination-and-so
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductSearchService } from '@spartacus/core';
+import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
 class MockProductSearchService {
   search = createSpy();
   searchResults$ = of();
+
+  getSearchResults(): Observable<ProductSearchPage> {
+    return of();
+  }
 }
 class MockActivatedRoute {
   snapshot = { queryParams: {} };

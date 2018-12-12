@@ -6,7 +6,11 @@ import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
 import { CmsModuleConfig } from '../../cms/cms-module-config';
 import { CmsComponentData } from '@spartacus/storefront';
-import { TranslateUrlOptions } from '@spartacus/core';
+import {
+  CmsLinkComponent,
+  Component,
+  TranslateUrlOptions
+} from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsModuleConfig = {
   cmsComponents: {
@@ -28,17 +32,15 @@ describe('LinkComponent', () => {
   let fixture: ComponentFixture<LinkComponent>;
   let el: DebugElement;
 
-  const componentData = {
+  const componentData: CmsLinkComponent = {
     uid: '001',
     typeCode: 'CMSLinkComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
     name: 'TestCMSLinkComponent',
-    type: 'link',
     linkName: 'Arbitrary link name',
     url: '/store-finder'
   };
 
-  const MockCmsComponentData = {
+  const MockCmsComponentData = <CmsComponentData<Component>>{
     data$: of(componentData)
   };
 
@@ -68,7 +70,7 @@ describe('LinkComponent', () => {
 
   it('should contain link name and url', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('a')).nativeElement;
+    const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
     expect(element.href).toContain('/translated-path' + componentData.url);

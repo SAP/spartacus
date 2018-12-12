@@ -1,9 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateUrlOptions } from '@spartacus/core';
+import { DebugElement, ElementRef } from '@angular/core';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -15,9 +16,9 @@ class MockTranslateUrlPipe implements PipeTransform {
 }
 
 describe('Navigation UI Component', () => {
-  let fixture;
-  let navigationComponent;
-  let element;
+  let fixture: ComponentFixture<NavigationUIComponent>;
+  let navigationComponent: any;
+  let element: DebugElement;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -35,8 +36,8 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render "Reorder" if title is missing', () => {
-      const getLink = () => element.query(By.css('a'));
-      const mockData = {
+      const getLink = (): ElementRef => element.query(By.css('a'));
+      const mockData: any = {
         children: []
       };
       navigationComponent.node = mockData;
@@ -46,28 +47,30 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render correct title if provided', () => {
-      const getLink = () => element.query(By.css('.cx-navigation__link'));
-      const mockData = {
+      const getLink = (): ElementRef =>
+        element.query(By.css('.cx-navigation__link'));
+      const mockData: any = {
         title: 'Test 1',
         url: '/test-url',
         children: []
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = getLink().nativeElement;
+      const link: HTMLLinkElement = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('role')).toEqual('link');
     });
 
     it('should render correct title as a link if children are missing', () => {
-      const getLink = () => element.query(By.css('a.cx-navigation__link'));
+      const getLink = (): ElementRef =>
+        element.query(By.css('a.cx-navigation__link'));
       const mockData = {
         title: 'Test 1',
         url: '/test-url'
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
-      const link = getLink().nativeElement;
+      const link: HTMLLinkElement = getLink().nativeElement;
       expect(link.textContent).toContain(mockData.title);
       expect(link.getAttribute('href')).toEqual(
         '/translated-path' + mockData.url
@@ -81,7 +84,7 @@ describe('Navigation UI Component', () => {
         element.query(By.css('.cx-navigation__child-list')).children[0];
       const getFirstDropdownLink = () =>
         element.query(By.css('.cx-navigation__child-list a'));
-      const mockData = {
+      const mockData: any = {
         title: 'Test title',
         children: [
           {
@@ -97,7 +100,7 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
 
-      const dropdown = getDropdown().nativeElement;
+      const dropdown: HTMLElement = getDropdown().nativeElement;
       expect(dropdown.getAttribute('aria-label')).toEqual(mockData.title);
       expect(dropdown.getAttribute('role')).toEqual('list');
       expect(dropdown.childElementCount).toBe(2);
@@ -115,11 +118,11 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render children of children', () => {
-      const getFirstDropdownItem = () =>
+      const getFirstDropdownItem = (): DebugElement =>
         element.query(By.css('.cx-navigation__child-list')).children[0];
-      const getSublinks = () =>
+      const getSublinks = (): DebugElement[] =>
         element.queryAll(By.css('a:not(.cx-navigation__child-link)'));
-      const mockData = {
+      const mockData: any = {
         title: 'Test title',
         children: [
           {
@@ -141,7 +144,8 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
 
-      const firstDropdownItem = getFirstDropdownItem().nativeElement;
+      const firstDropdownItem: HTMLElement = getFirstDropdownItem()
+        .nativeElement;
       expect(firstDropdownItem.getAttribute('role')).toEqual('listitem');
       const sublinks = getSublinks();
       expect(sublinks[0].nativeElement.getAttribute('href')).toEqual(
@@ -159,9 +163,9 @@ describe('Navigation UI Component', () => {
     });
 
     it('should render in column layout if dropdownMode equals column', () => {
-      const getFirstDropdownItem = () =>
+      const getFirstDropdownItem = (): DebugElement =>
         element.query(By.css('.cx-navigation__child-column'));
-      const mockData = {
+      const mockData: any = {
         title: 'Test title',
         children: [
           {
@@ -174,7 +178,8 @@ describe('Navigation UI Component', () => {
       navigationComponent.dropdownMode = 'column';
       fixture.detectChanges();
 
-      const firstDropdownItem = getFirstDropdownItem().nativeElement;
+      const firstDropdownItem: HTMLElement = getFirstDropdownItem()
+        .nativeElement;
       expect(firstDropdownItem).toBeTruthy();
     });
   });
