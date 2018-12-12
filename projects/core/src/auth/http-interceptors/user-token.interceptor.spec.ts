@@ -1,13 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
+  TestRequest
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { AuthConfig } from '@spartacus/core';
 
-import { of, Observable } from 'rxjs';
+import { of, Observable, Subscription } from 'rxjs';
 
 import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
@@ -23,24 +24,24 @@ const userToken = {
   userId: 'xxx'
 } as UserToken;
 
-class MockAuthService {
+class MockAuthService extends AuthService {
   getUserToken(): Observable<UserToken> {
     return of();
   }
 }
 
-const MockAuthConfig: AuthConfig = {
-  server: {
+class MockAuthConfig extends AuthConfig {
+  server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  },
+  };
 
-  site: {
+  site = {
     baseSite: 'electronics',
     language: '',
     currency: ''
-  }
-};
+  };
+}
 
 describe('UserTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -50,7 +51,7 @@ describe('UserTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useValue: MockAuthConfig },
+        { provide: AuthConfig, useClass: MockAuthConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
@@ -67,15 +68,15 @@ describe('UserTokenInterceptor', () => {
   it(`Should not add 'Authorization' header with a token info to an HTTP request`, inject(
     [HttpClient],
     (http: HttpClient) => {
-      const sub = http.get('/xxx').subscribe(result => {
+      const sub: Subscription = http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
-      const authHeader = mockReq.request.headers.get('Authorization');
+      const authHeader: string = mockReq.request.headers.get('Authorization');
       expect(authHeader).toBeFalsy();
       expect(authHeader).toEqual(null);
 
@@ -88,17 +89,17 @@ describe('UserTokenInterceptor', () => {
     [HttpClient],
     (http: HttpClient) => {
       spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
-      const sub = http
+      const sub: Subscription = http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
-      const authHeader = mockReq.request.headers.get('Authorization');
+      const authHeader: string = mockReq.request.headers.get('Authorization');
       expect(authHeader).toBeTruthy();
       expect(authHeader).toEqual(
         `${userToken.token_type} ${userToken.access_token}`
@@ -113,17 +114,17 @@ describe('UserTokenInterceptor', () => {
     [HttpClient],
     (http: HttpClient) => {
       const headers = { Authorization: 'bearer 123' };
-      const sub = http
+      const sub: Subscription = http
         .get('https://localhost:9002/rest/v2/electronics', { headers })
         .subscribe(result => {
           expect(result).toBeTruthy();
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
-      const authHeader = mockReq.request.headers.get('Authorization');
+      const authHeader: string = mockReq.request.headers.get('Authorization');
       expect(authHeader).toBeTruthy();
       expect(authHeader).toEqual(headers.Authorization);
       sub.unsubscribe();

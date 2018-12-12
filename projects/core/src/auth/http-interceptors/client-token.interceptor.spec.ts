@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  TestRequest
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
@@ -22,22 +23,22 @@ const testToken = {
   scope: ''
 } as ClientToken;
 
-class MockAuthService {
+class MockAuthService extends AuthService {
   getClientToken(): Observable<ClientToken> {
     return of();
   }
 }
 
-const MockAuthModuleConfig: AuthConfig = {
-  server: {
+class MockAuthModuleConfig extends AuthConfig {
+  server = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  },
+  };
 
-  site: {
+  site = {
     baseSite: 'electronics'
-  }
-};
+  };
+}
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -47,7 +48,7 @@ describe('ClientTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useValue: MockAuthModuleConfig },
+        { provide: AuthConfig, useClass: MockAuthModuleConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
@@ -72,10 +73,10 @@ describe('ClientTokenInterceptor', () => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
-        let mockReq = httpMock.expectOne(
+        let mockReq: TestRequest = httpMock.expectOne(
           'https://localhost:9002/rest/v2/electronics/test'
         );
-        let authHeader = mockReq.request.headers.get('Authorization');
+        let authHeader: string = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
         spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
@@ -112,10 +113,10 @@ describe('ClientTokenInterceptor', () => {
           })
           .unsubscribe();
 
-        const mockReq = httpMock.expectOne(
+        const mockReq: TestRequest = httpMock.expectOne(
           '/somestore/forgottenpasswordtokens'
         );
-        const authHeader = mockReq.request.headers.get('Authorization');
+        const authHeader: string = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(headers.Authorization);
       }
     ));

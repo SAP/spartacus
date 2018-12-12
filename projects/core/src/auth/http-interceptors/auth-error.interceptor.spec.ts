@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
+  TestRequest
 } from '@angular/common/http/testing';
 import {
   HTTP_INTERCEPTORS,
@@ -22,7 +23,7 @@ import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
-class MockUserErrorHandlingService {
+class MockUserErrorHandlingService extends UserErrorHandlingService {
   handleExpiredUserToken(
     _request: HttpRequest<any>,
     _next: HttpHandler
@@ -32,7 +33,7 @@ class MockUserErrorHandlingService {
   handleExpiredRefreshToken() {}
 }
 
-class MockClientErrorHandlingService {
+class MockClientErrorHandlingService extends ClientErrorHandlingService {
   handleExpiredClientToken(
     _request: HttpRequest<any>,
     _next: HttpHandler
@@ -41,8 +42,8 @@ class MockClientErrorHandlingService {
   }
 }
 
-class MockAuthService {
-  logout() {}
+class MockAuthService extends AuthService {
+  logout(): void {}
 }
 
 describe('AuthErrorInterceptor', () => {
@@ -101,7 +102,7 @@ describe('AuthErrorInterceptor', () => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
       mockReq.flush(
@@ -128,7 +129,7 @@ describe('AuthErrorInterceptor', () => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
@@ -156,7 +157,7 @@ describe('AuthErrorInterceptor', () => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
@@ -194,7 +195,7 @@ describe('AuthErrorInterceptor', () => {
         }
       );
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne(req => {
       return req.method === 'POST' && req.url === url;
     });
 

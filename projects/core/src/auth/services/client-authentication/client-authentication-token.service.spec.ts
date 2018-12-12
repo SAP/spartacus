@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  TestRequest
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
 import { AuthConfig } from '@spartacus/core';
@@ -13,18 +14,19 @@ const token: ClientToken = {
   expires_in: 13123,
   scope: 'user'
 };
+
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-const MockAuthConfig = {
-  server: {
+class MockAuthConfig extends AuthConfig {
+  server = {
     baseUrl: ''
-  },
+  };
 
-  authentication: {
+  authentication = {
     client_id: '',
     client_sercret: ''
-  }
-};
+  };
+}
 
 describe('ClientAuthenticationTokenService', () => {
   let service: ClientAuthenticationTokenService;
@@ -35,7 +37,7 @@ describe('ClientAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         ClientAuthenticationTokenService,
-        { provide: AuthConfig, useValue: MockAuthConfig }
+        { provide: AuthConfig, useClass: MockAuthConfig }
       ]
     });
 
@@ -53,7 +55,7 @@ describe('ClientAuthenticationTokenService', () => {
         expect(result).toEqual(token);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === mockOauthEndpoint;
       });
       expect(mockReq.cancelled).toBeFalsy();
