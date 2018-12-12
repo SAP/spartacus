@@ -2,22 +2,10 @@
 @import 'functions';
 @import 'mixins';
 $cx-product-details-trbl-margin: 0 0 40px 0 !default;
-$cx-product-details-table-width: 100% !default;
-$cx-product-details-tab-content-background-color: 'background' !default;
 $cx-product-details-tab-title-color: 'text' !default;
+$cx-product-details-tab-content-background-color: 'background' !default;
 $cx-product-details-tab-title-trbl-padding: 0 20px 0 20px !default;
-$cx-product-details-tab-border-color: 'primary' !default;
 $cx-product-details-tab-content-trbl-padding: 3rem 8rem !default;
-$cx-accordian-mobile-background-color: 'inverse' !default;
-$cx-accordian-mobile-body-background-color: 'background' !default;
-$cx-accordion-mobile-body-padding: 30px 20px 20px 20px !default;
-$cx-accordion-mobile-head-border: 1px solid !default;
-$cx-accordion-mobile-head-border-color: 'light' !default;
-$cx-accordion-mobile-head-trbl-padding: 0 !default;
-$cx-accordion-mobile-head-link-color: 'text' !default;
-$cx-accordion-mobile-head-link-padding: 25px 20px !default;
-$cx-accordion-mobile-head-btn-border: 5px solid !default;
-$cx-accordion-mobile-head-btn-height: 74px !default;
 
 cx-product-summary {
   margin: $cx-product-details-trbl-margin;
@@ -37,73 +25,5 @@ cx-product-summary {
       $cx-product-details-tab-content-background-color
     );
     padding: $cx-product-details-tab-content-trbl-padding;
-  }
-}
-
-.cx-product-details__tabset {
-  @include media-breakpoint-down(sm) {
-    display: none;
-  }
-}
-
-.cx-product-details__tabset-mobile {
-  @include media-breakpoint-up(md) {
-    display: none;
-  }
-  .accordion {
-    .card {
-      margin-bottom: 0;
-      border-bottom: $cx-accordion-mobile-head-border;
-      @include var-color(
-        'border-color',
-        $cx-accordion-mobile-head-border-color
-      );
-      &:first-of-type {
-        border-bottom: $cx-accordion-mobile-head-border;
-        border-top: $cx-accordion-mobile-head-border;
-        @include var-color(
-          'border-color',
-          $cx-accordion-mobile-head-border-color
-        );
-      }
-      &:not(:first-of-type) {
-        border-bottom: $cx-accordion-mobile-head-border;
-        @include var-color(
-          'border-color',
-          $cx-accordion-mobile-head-border-color
-        );
-      }
-      &:not(:last-of-type) {
-        border-bottom: $cx-accordion-mobile-head-border;
-        @include var-color(
-          'border-color',
-          $cx-accordion-mobile-head-border-color
-        );
-      }
-      &-header {
-        @include var-color('background', $cx-accordian-mobile-background-color);
-        padding: $cx-accordion-mobile-head-trbl-padding;
-        .btn {
-          padding: $cx-accordion-mobile-head-link-padding;
-          display: block;
-          min-height: $cx-accordion-mobile-head-btn-height;
-          &[aria-expanded='true'] {
-            border-bottom: $cx-accordion-mobile-head-btn-border;
-            border-radius: 0;
-            @include var-color('color', $cx-product-details-tab-border-color);
-          }
-          &:after {
-            @include var-color('color', $cx-accordion-mobile-head-link-color);
-          }
-        }
-      }
-      &-body {
-        padding: $cx-accordion-mobile-body-padding;
-        @include var-color(
-          'background',
-          $cx-accordian-mobile-body-background-color
-        );
-      }
-    }
   }
 }
