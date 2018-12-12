@@ -1,6 +1,8 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+
+import { CurrencyService, Currency } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
-import { CurrencyService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-currency-selector',
@@ -9,17 +11,17 @@ import { CurrencyService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrencySelectorComponent implements OnInit {
-  currencies$: Observable<any>;
+  currencies$: Observable<Currency[]>;
   activeCurrency$: Observable<string>;
 
   constructor(private currencyService: CurrencyService) {}
 
   ngOnInit() {
-    this.currencies$ = this.currencyService.currencies$;
-    this.activeCurrency$ = this.currencyService.activeCurrency$;
+    this.currencies$ = this.currencyService.get();
+    this.activeCurrency$ = this.currencyService.getActive();
   }
 
-  setActiveCurrency(currency) {
-    this.currencyService.activeCurrency = currency;
+  setActiveCurrency(currency): void {
+    this.currencyService.setActive(currency);
   }
 }
