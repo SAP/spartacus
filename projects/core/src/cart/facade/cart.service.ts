@@ -10,7 +10,7 @@ import { AuthService, UserToken } from '../../auth/index';
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { CartState } from '../store/cart-state';
+import { CartsState } from '../store/cart-state';
 @Injectable()
 export class CartService {
   private callback: Function;
@@ -32,7 +32,7 @@ export class CartService {
   );
 
   constructor(
-    private store: Store<CartState>,
+    private store: Store<CartsState>,
     private cartData: CartDataService,
     private authService: AuthService
   ) {
