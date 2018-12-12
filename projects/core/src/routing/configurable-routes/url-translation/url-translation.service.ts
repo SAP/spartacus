@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
 import { RouteRecognizerService } from './route-recognizer.service';
 import { UrlParsingService } from './url-parsing.service';
-import { ServerConfig } from 'projects/core/src/config/server-config/server-config';
+import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import {
