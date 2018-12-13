@@ -1,5 +1,5 @@
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion, ProductSearchPage } from '../../../occ-models';
+import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
 import { ProductsSearchState } from '../product-state';
 
 export const initialState: ProductsSearchState = {
