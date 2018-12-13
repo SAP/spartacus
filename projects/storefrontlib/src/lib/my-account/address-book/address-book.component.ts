@@ -1,8 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ActionsSubject } from '@ngrx/store';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../global-message/models/message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import * as actionTypes from '../../user/store/actions/user-addresses.action';
 import { UserService } from '../../user/facade/user.service';
 
