@@ -10,7 +10,7 @@ describe('User Addresses Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserAddressesReducer;
-      const action = {} as any;
+      const action = {} as fromUserAddressesAction.UserAddressesAction;
       const state = fromUserAddressesReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
