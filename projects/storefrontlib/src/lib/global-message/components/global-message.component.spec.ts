@@ -10,21 +10,22 @@ mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
 mockMessages.set(GlobalMessageType.MSG_TYPE_INFO, ['Info']);
 mockMessages.set(GlobalMessageType.MSG_TYPE_ERROR, ['Error']);
 
+class MockMessageService {
+  remove = createSpy();
+  get() {
+    return of(mockMessages);
+  }
+}
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
   let fixture: ComponentFixture<GlobalMessageComponent>;
-  let mockMessageService: any;
+  let messageService: GlobalMessageService;
 
   beforeEach(async(() => {
-    mockMessageService = {
-      messages$: of(mockMessages),
-      remove: createSpy()
-    };
-
     TestBed.configureTestingModule({
       declarations: [GlobalMessageComponent],
       providers: [
-        { provide: GlobalMessageService, useValue: mockMessageService }
+        { provide: GlobalMessageService, useClass: MockMessageService }
       ]
     }).compileComponents();
   }));
@@ -32,6 +33,8 @@ describe('GlobalMessageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);
     globalMessageComponent = fixture.componentInstance;
+
+    messageService = TestBed.get(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -49,7 +52,7 @@ describe('GlobalMessageComponent', () => {
 
   it('should be able to remove messages', () => {
     globalMessageComponent.clear(GlobalMessageType.MSG_TYPE_CONFIRMATION, 0);
-    expect(mockMessageService.remove).toHaveBeenCalledWith(
+    expect(messageService.remove).toHaveBeenCalledWith(
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
       0
     );

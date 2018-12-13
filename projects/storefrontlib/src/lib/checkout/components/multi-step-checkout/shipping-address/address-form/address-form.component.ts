@@ -1,21 +1,25 @@
 import {
   Component,
   OnInit,
+  Input,
   Output,
   EventEmitter,
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { UserService } from '../../../../../user/facade/user.service';
 import { CheckoutService } from '../../../../facade/checkout.service';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { UserService } from '../../../../../user/facade/user.service';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Address } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-form',
@@ -28,8 +32,21 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   regions$: Observable<any>;
 
+  @Input()
+  addressData: Address;
+
+  @Input()
+  actionBtnLabel: string;
+
+  @Input()
+  cancelBtnLabel: string;
+
+  @Input()
+  setAsDefaultField: boolean;
+
   @Output()
   addAddress = new EventEmitter<any>();
+
   @Output()
   backToAddress = new EventEmitter<any>();
 
@@ -38,17 +55,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
-    titleCode: ['', Validators.required],
+    titleCode: [null, Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [null, Validators.required]
     }),
     country: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [null, Validators.required]
     }),
     postalCode: ['', Validators.required],
     phone: ''
@@ -64,7 +81,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.userService.allDeliveryCountries$.pipe(
+    this.countries$ = this.userService.getDeliveryCountries().pipe(
       tap(countries => {
         if (Object.keys(countries).length === 0) {
           this.userService.loadDeliveryCountries();
@@ -73,7 +90,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching titles
-    this.titles$ = this.userService.titles$.pipe(
+    this.titles$ = this.userService.getTitles().pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
@@ -82,7 +99,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // Fetching regions
-    this.regions$ = this.userService.allRegions$.pipe(
+    this.regions$ = this.userService.getRegions().pipe(
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
@@ -116,6 +133,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    if (this.addressData) {
+      this.address.patchValue(this.addressData);
+
+      this.countrySelected(this.addressData.country);
+      if (this.addressData.region) {
+        this.regionSelected(this.addressData.region);
+      }
+    }
   }
 
   titleSelected(title) {
@@ -136,7 +162,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   toggleDefaultAddress() {
-    this.address.value.defaultAddress = !this.address.value.defaultAddress;
+    this.address['controls'].defaultAddress.setValue(
+      this.address.value.defaultAddress
+    );
   }
 
   back() {
