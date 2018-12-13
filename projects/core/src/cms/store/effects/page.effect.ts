@@ -81,7 +81,7 @@ export class PageEffects {
   ) {}
 
   private getPageData(
-    res: any,
+    res: CMSPage,
     pageContext: PageContext
   ): { key: string; value: Page } {
     const page: Page = {
