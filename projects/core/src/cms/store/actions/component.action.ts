@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CmsComponent } from '../../../occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 
 export const LOAD_COMPONENT = '[Cms] Load Component';
 export const LOAD_COMPONENT_FAIL = '[Cms] Load Component Fail';

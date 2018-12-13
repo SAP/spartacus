@@ -11,7 +11,7 @@ import * as fromActions from '../actions/component.action';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { PageType, CmsComponent } from '../../../occ-models/index';
+import { PageType, CmsComponent } from '../../../occ/occ-models/index';
 import { RoutingService } from '../../../routing/index';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 

@@ -1,7 +1,7 @@
 import * as fromPage from './page.action';
 import { Page } from '../../model/page.model';
 import { PageContext } from '../../../routing/index';
-import { PageType } from '../../../occ-models/index';
+import { PageType } from '../../../occ/occ-models/index';
 
 describe('Cms Page Actions', () => {
   describe('LoadPageData Actions', () => {

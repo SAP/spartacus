@@ -5,7 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
 import { PageContext } from '../../routing/index';
-import { CMSPage, PageType, CmsComponent } from '../../occ-models/index';
+import { CMSPage, PageType, CmsComponent } from '../../occ/occ-models/index';
 
 @Injectable()
 export class OccCmsService {

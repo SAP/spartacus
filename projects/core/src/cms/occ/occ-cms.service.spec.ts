@@ -7,7 +7,7 @@ import {
 import { OccCmsService } from './occ-cms.service';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
-import { CmsComponent, CMSPage, PageType } from '../../occ-models/index';
+import { CmsComponent, CMSPage, PageType } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 
 const comps: CmsComponent[] = [

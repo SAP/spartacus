@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
 import { DefaultPageService } from '../occ/default-page.service';
 import { StateWithCms } from '../store/cms-state';
-import { CmsComponent } from '../../occ-models/cms-component.models';
+import { CmsComponent } from '../../occ/occ-models/cms-component.models';
 
 @Injectable({
   providedIn: 'root'

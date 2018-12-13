@@ -10,7 +10,7 @@ import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../model/page.model';
-import { PageType, CmsComponent } from '../../../occ-models';
+import { PageType, CmsComponent } from '../../../occ/occ-models';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';

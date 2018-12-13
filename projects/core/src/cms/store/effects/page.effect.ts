@@ -19,7 +19,7 @@ import { DefaultPageService } from '../../occ/default-page.service';
 import { Page } from '../../model/page.model';
 
 import { RoutingService, PageContext } from '../../../routing/index';
-import { PageType, CMSPage } from '../../../occ-models/index';
+import { PageType, CMSPage } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class PageEffects {

@@ -6,7 +6,7 @@ import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/page.selectors';
 
 import { Page } from '../../model/page.model';
-import { CmsComponent } from '../../../occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 import { StateWithCms } from '../cms-state';
 
 describe('Cms PageData Selectors', () => {

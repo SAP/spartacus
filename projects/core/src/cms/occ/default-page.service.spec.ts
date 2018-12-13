@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { DefaultPageService } from './default-page.service';
 import { CmsConfig } from '../config/cms-config';
-import { PageType } from '../../occ-models/occ.models';
+import { PageType } from '../../occ/occ-models/occ.models';
 
 const MockCmsModuleConfig: CmsConfig = {
   defaultPageIdForType: {

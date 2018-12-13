@@ -4,7 +4,7 @@ import { StoreModule, Store, select } from '@ngrx/store';
 import * as fromReducers from '../reducers/index';
 import * as fromActions from '../actions/index';
 import * as fromSelectors from '../selectors/index';
-import { CmsComponent } from '../../../occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 import { StateWithCms } from '../cms-state';
 
 describe('Navigation Entry Items Selectors', () => {

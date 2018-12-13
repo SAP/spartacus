@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 import { Page } from '../model/page.model';
 import { DefaultPageService } from '../occ/default-page.service';
 import { CmsConfig } from '../config/cms-config';
-import { PageType } from '../../occ-models/occ.models';
+import { PageType } from '../../occ/occ-models/occ.models';
 
 const MockCmsModuleConfig: CmsConfig = {
   defaultPageIdForType: {

@@ -1,5 +1,5 @@
 import * as fromComponent from '../actions/component.action';
-import { CmsComponent } from '../../../occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 import { ComponentState } from '../cms-state';
 
 export const initialState: ComponentState = {
