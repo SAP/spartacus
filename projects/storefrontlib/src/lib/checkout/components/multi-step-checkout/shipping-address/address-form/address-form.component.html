@@ -75,6 +75,7 @@
               <label aria-required="true">
                 <span class="label-content required">Country</span>
                 <ng-select
+                  class="country-select"
                   formControlName="isocode"
                   [searchable]="false"
                   [clearable]="false"
@@ -112,11 +113,13 @@
                   <span class="label-content required">State</span>
                   <ng-container *ngIf="regions[0].name">
                     <ng-select
+                      class="region-select"
+                      formControlName="isocode"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
                       bindLabel="name"
-                      bindValue="region"
+                      bindValue="isocode"
                       placeholder="Select One..."
                       (change)="regionSelected($event)"
                     >
@@ -124,6 +127,7 @@
                   </ng-container>
                   <ng-container *ngIf="!regions[0].name">
                     <ng-select
+                      class="region-select"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
@@ -162,7 +166,7 @@
             />
           </label>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="setAsDefaultField !== false">
           <div class="form-check">
             <label>
               <input

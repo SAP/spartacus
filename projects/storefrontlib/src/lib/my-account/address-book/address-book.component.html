@@ -50,6 +50,7 @@
             <cx-address-form
               actionBtnLabel="Add address"
               cancelBtnLabel="Back to address list"
+              [setAsDefaultField]="!(addresses.list === undefined)"
               (addAddress)="addUserAddress($event)"
               (backToAddress)="hideAddAddressForm()"
             ></cx-address-form>

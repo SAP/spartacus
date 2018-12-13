@@ -21,7 +21,7 @@ export class AddressForm {
     by.tagName('cx-address-form')
   );
   readonly countrySelect: ElementFinder = this.form.element(
-    by.css('[bindValue="isocode"]')
+    by.css('[bindValue="isocode"].country-select')
   );
   readonly titleSelect: ElementFinder = this.form.element(
     by.css('[bindValue="code"]')
@@ -42,7 +42,7 @@ export class AddressForm {
     by.css('[formcontrolname="town"]')
   );
   readonly province: ElementFinder = this.form.element(
-    by.css('[bindValue="region"]')
+    by.css('[bindValue="isocode"].region-select')
   );
   readonly postalCode: ElementFinder = this.form.element(
     by.css('[formcontrolname="postalCode"]')

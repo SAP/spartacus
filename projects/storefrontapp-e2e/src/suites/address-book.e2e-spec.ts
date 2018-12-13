@@ -12,17 +12,15 @@ describe('Address management page', () => {
 
   beforeAll(async () => {
     await home.navigateTo();
-    await home.waitForReady();
   });
 
   it('should be able to open address book page using menu', async () => {
+    await home.waitForReady();
     await LoginHelper.registerNewUser();
 
     // Use navigation and go to address book page
     await header.navigationMenu.click();
     await addressBookPage.menuItem.click();
-
-    await addressBookPage.waitForReady();
 
     expect(addressBookPage.page).toBeTruthy();
   });
@@ -30,6 +28,7 @@ describe('Address management page', () => {
   it('should be able to add new address', async () => {
     await addressBookPage.addNewAddress(addressForm);
     expect(addressBookPage.addressCards.count()).toEqual(1);
+    await addressBookPage.openNewAddressFormBtn.click();
     await addressBookPage.addNewAddress(addressForm);
     expect(addressBookPage.addressCards.count()).toEqual(2);
   });

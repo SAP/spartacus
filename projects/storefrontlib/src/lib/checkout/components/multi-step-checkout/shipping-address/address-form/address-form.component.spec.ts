@@ -236,6 +236,8 @@ describe('AddressFormComponent', () => {
   });
 
   it('should toggleDefaultAddress() adapt control value', () => {
+    component.setAsDefaultField = true;
+    fixture.detectChanges();
     const checkbox = fixture.debugElement.query(
       By.css('[formcontrolname=defaultAddress]')
     ).nativeElement;

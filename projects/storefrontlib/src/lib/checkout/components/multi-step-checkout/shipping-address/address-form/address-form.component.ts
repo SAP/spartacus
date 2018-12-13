@@ -42,6 +42,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @Input()
   cancelBtnLabel: string;
 
+  @Input()
+  setAsDefaultField: boolean;
+
   @Output()
   addAddress = new EventEmitter<any>();
 

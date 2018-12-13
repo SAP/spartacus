@@ -58,7 +58,6 @@ export class AddressBookPage extends AppPage {
   }
 
   async addNewAddress(addressForm: AddressForm) {
-    await this.openNewAddressFormBtn.click();
     await addressForm.waitForReady();
     await addressForm.fillIn();
     await this.addAddressActionBtn.click();
