@@ -9,10 +9,9 @@ import { OccCartService } from '../../../occ/cart/cart.service';
 import { OccConfig, DeliveryModeList, PaymentDetails } from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
-import * as fromUserActions from '../../../user/store/actions';
+import * as fromUserActions from '@spartacus/core';
 import * as fromGlobalMessageActions from '../../../global-message/store/actions';
-import { OccOrderService } from '../../../occ/order/order.service';
-import { ProductImageConverterService } from '@spartacus/core';
+import { ProductImageConverterService, OccOrderService } from '@spartacus/core';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
 import { Address } from '../../models/address-model';
 
