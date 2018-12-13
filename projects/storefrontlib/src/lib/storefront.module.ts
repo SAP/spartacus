@@ -1,4 +1,5 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+
 import {
   AuthModule,
   ConfigModule,
@@ -6,13 +7,15 @@ import {
   RoutingModule,
   StateModule
 } from '@spartacus/core';
-import { OccModule } from './occ/index';
-import { SiteContextModule } from './site-context/index';
+
+import { StorefrontModuleConfig } from './storefront-config';
+
 import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
-import { UiModule, UiFrameworkModule } from './ui/index';
-import { StorefrontModuleConfig } from './storefront-config';
 import { CxApiModule } from './cx-api/cx-api.module';
+import { OccModule } from './occ/index';
+import { SiteContextModule } from './site-context/index';
+import { UiModule, UiFrameworkModule } from './ui/index';
 
 @NgModule({
   imports: [
@@ -28,6 +31,7 @@ import { CxApiModule } from './cx-api/cx-api.module';
     ConfigModule.forRoot(),
     CxApiModule
   ],
+  exports: [UiModule],
   declarations: []
 })
 export class StorefrontModule {

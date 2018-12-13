@@ -2,7 +2,7 @@ import {
   Directive,
   ViewContainerRef,
   Input,
-  AfterViewInit,
+  OnInit,
   OnDestroy,
   ComponentRef,
   Injector,
@@ -20,7 +20,7 @@ import { CmsModuleConfig } from '../../cms-module-config';
 @Directive({
   selector: '[cxComponentWrapper]'
 })
-export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
+export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input()
   componentType: string;
   @Input()
@@ -43,7 +43,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private config: CmsModuleConfig
   ) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     if (this.componentMapper.isWebComponent(this.componentType)) {
       this.launchWebComponent();
     } else {

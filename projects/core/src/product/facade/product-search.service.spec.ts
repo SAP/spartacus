@@ -8,7 +8,7 @@ import { ProductSearchService } from './product-search.service';
 import { SearchConfig } from '../model/search-config';
 import { EMPTY, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { ProductSearchPage } from '../../occ-models';
+import { ProductSearchPage } from '../../occ/occ-models';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
