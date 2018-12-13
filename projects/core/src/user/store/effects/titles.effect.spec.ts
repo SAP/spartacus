@@ -8,12 +8,13 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+import { TitleList } from '../../../occ/occ-models';
 
 class MockMiscsService {
   loadTitles() {}
 }
 
-const mockTitlesList = {
+const mockTitlesList: TitleList = {
   titles: [
     {
       code: 'mr',

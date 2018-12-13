@@ -1,5 +1,6 @@
 import * as fromReducer from './titles.reducer';
 import * as fromActions from '../actions/';
+import { Title } from '../../../occ/occ-models';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {
@@ -14,7 +15,7 @@ describe('Titles Reducer', () => {
 
   describe('LOAD_TITLES_SUCCESS action', () => {
     it('should populate the titles state entities', () => {
-      const mockTitles = [
+      const mockTitles: Title[] = [
         {
           code: 'mr',
           name: 'Mr.'

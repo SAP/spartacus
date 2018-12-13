@@ -62,7 +62,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  addUserAddress(userId: string, address: object) {
+  addUserAddress(userId: string, address: Address): Observable<any> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -73,7 +73,11 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  updateUserAddress(userId: string, addressId: string, address: object) {
+  updateUserAddress(
+    userId: string,
+    addressId: string,
+    address: Address
+  ): Observable<any> {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
@@ -85,7 +89,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  deleteUserAddress(userId: string, addressId: string) {
+  deleteUserAddress(userId: string, addressId: string): Observable<any> {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
@@ -108,7 +112,10 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  deleteUserPaymentMethod(userId: string, paymentMethodID: string) {
+  deleteUserPaymentMethod(
+    userId: string,
+    paymentMethodID: string
+  ): Observable<any> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -119,7 +126,10 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  setDefaultUserPaymentMethod(userId: string, paymentMethodID: string) {
+  setDefaultUserPaymentMethod(
+    userId: string,
+    paymentMethodID: string
+  ): Observable<any> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -128,7 +138,7 @@ export class OccUserService {
     return this.http
       .patch(
         url,
-        // TODO Remove billingAddress property
+        // TODO: Remove billingAddress property
         { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
         { headers }
       )
@@ -136,7 +146,7 @@ export class OccUserService {
   }
 
   registerUser(user: UserRegisterFormData): Observable<User> {
-    const url = this.getUserEndpoint();
+    const url: string = this.getUserEndpoint();
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
