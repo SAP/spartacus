@@ -8,7 +8,7 @@ import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from '../../../facade/checkout.service';
 import { CartService } from '../../../../cart/facade/cart.service';
-import { UserService } from '../../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 
 import { ReviewSubmitComponent } from './review-submit.component';
 

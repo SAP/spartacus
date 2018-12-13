@@ -11,9 +11,9 @@ import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
+import { UserService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { UserService } from '../../../../../user/facade/user.service';
 
 import { AddressFormComponent } from './address-form.component';
 import { AddressValidation } from '@spartacus/core';
@@ -249,9 +249,16 @@ describe('AddressFormComponent', () => {
     expect(component.backToAddress.emit).toHaveBeenCalledWith();
   });
 
-  it('should call toggleDefaultAddress()', () => {
-    component.address.value.defaultAddress = false;
-    component.toggleDefaultAddress();
+  it('should toggleDefaultAddress() adapt control value', () => {
+    component.setAsDefaultField = true;
+    fixture.detectChanges();
+    const checkbox = fixture.debugElement.query(
+      By.css('[formcontrolname=defaultAddress]')
+    ).nativeElement;
+
+    fixture.detectChanges();
+    checkbox.click();
+
     expect(component.address.value.defaultAddress).toBeTruthy();
   });
 

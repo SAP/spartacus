@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Currency } from '../../../occ-models/occ.models';
+import { Currency } from '../../../occ/occ-models/occ.models';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';

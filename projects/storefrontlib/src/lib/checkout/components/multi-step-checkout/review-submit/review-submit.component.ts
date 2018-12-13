@@ -11,7 +11,7 @@ import { tap } from 'rxjs/operators';
 import { CheckoutService } from '../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
 import { CartService } from '../../../../cart/facade/cart.service';
-import { UserService } from '../../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
