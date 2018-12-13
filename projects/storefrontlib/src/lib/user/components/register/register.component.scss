@@ -1,13 +1,15 @@
-@import 'theme';
-@import 'functions';
-@import 'mixins';
-//register page variables
-$cx-register-registration-link-text-decoration: underline !important;
-.cx-section__login-link {
-  margin-top: $spacer;
+:host {
+  --cx-text-decoration: underline;
+  --cx-margin: 1rem 0 0;
 }
 
-.cx-section__registration-link {
-  cursor: pointer;
-  text-decoration: $cx-register-registration-link-text-decoration;
+form {
+  a {
+    cursor: pointer;
+    text-decoration: var(--cx-text-decoration);
+  }
+
+  .cx-btn-link {
+    margin: var(--cx-margin);
+  }
 }
