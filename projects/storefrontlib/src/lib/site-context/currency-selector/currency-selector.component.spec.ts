@@ -1,20 +1,33 @@
 import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 
-import { CurrencyService, defaultOccConfig, OccConfig } from '@spartacus/core';
+import {
+  CurrencyService,
+  defaultOccConfig,
+  OccConfig,
+  Currency
+} from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
 import { CurrencySelectorComponent } from './currency-selector.component';
 
-const mockCurrencies: any[] = [
+const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
 ];
 const mockActiveCurr = 'USD';
 
-const currencyServiceMock = {
-  currencies$: of(mockCurrencies),
-  activeCurrency$: of(mockActiveCurr)
-};
+class MockCurrencyService {
+  get(): Observable<Currency[]> {
+    return of(mockCurrencies);
+  }
+  getActive(): Observable<string> {
+    return of(mockActiveCurr);
+  }
+  setActive(_currency: string): void {}
+}
+
 describe('CurrencySelectorComponent', () => {
   let component: CurrencySelectorComponent;
   let fixture: ComponentFixture<CurrencySelectorComponent>;
@@ -27,7 +40,7 @@ describe('CurrencySelectorComponent', () => {
       providers: [
         {
           provide: CurrencyService,
-          useValue: currencyServiceMock
+          useClass: MockCurrencyService
         },
         { provide: OccConfig, useValue: defaultOccConfig }
       ]
@@ -52,17 +65,29 @@ describe('CurrencySelectorComponent', () => {
   });
 
   it('should get currencies and activeCurrency in ngOnInit', () => {
-    component.currencies$.subscribe(value => {
-      expect(value).toEqual(mockCurrencies);
-    });
-    component.activeCurrency$.subscribe(value => {
-      expect(value).toEqual(mockActiveCurr);
-    });
+    let currenciesResult: Currency[];
+    component.currencies$
+      .subscribe(value => {
+        currenciesResult = value;
+      })
+      .unsubscribe();
+    expect(currenciesResult).toEqual(mockCurrencies);
+
+    let activeCurrencyResult: string;
+    component.activeCurrency$
+      .subscribe(value => {
+        activeCurrencyResult = value;
+      })
+      .unsubscribe();
+    expect(activeCurrencyResult).toEqual(mockActiveCurr);
   });
 
-  it('should change currency', () => {
+  it(`should call facade's 'setActive()'`, () => {
+    spyOn(service, 'setActive').and.stub();
+
     component.setActiveCurrency('CAD');
-    expect(service.activeCurrency).toEqual('CAD');
+
+    expect(service.setActive).toHaveBeenCalledWith('CAD');
   });
 
   it('should contain dropdown with currencies', () => {

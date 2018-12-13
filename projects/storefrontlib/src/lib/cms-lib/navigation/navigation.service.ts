@@ -29,7 +29,7 @@ export class NavigationService {
     }
   }
 
-  private processChildren(node, itemsList) {
+  private processChildren(node, itemsList): void {
     for (const child of node.children) {
       this.getNavigationEntryItems(child, false, itemsList);
     }
@@ -40,7 +40,7 @@ export class NavigationService {
    * @param nodeData
    * @param items
    */
-  public createNode(nodeData, items) {
+  public createNode(nodeData: any, items: any): any {
     const node = {};
 
     node['title'] = nodeData.title;

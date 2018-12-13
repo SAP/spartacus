@@ -1,5 +1,9 @@
 import { Action } from '@ngrx/store';
-import { Suggestion, ProductSearchPage, ErrorModel } from '../../../occ-models';
+import {
+  Suggestion,
+  ProductSearchPage,
+  ErrorModel
+} from '../../../occ/occ-models';
 import { SearchConfig } from '../../model/search-config';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';

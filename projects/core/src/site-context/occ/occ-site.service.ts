@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { OccConfig } from '../../occ/config/occ-config';
-import { LanguageList, CurrencyList } from '../../occ-models/occ.models';
+import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
 
 @Injectable({
   providedIn: 'root'

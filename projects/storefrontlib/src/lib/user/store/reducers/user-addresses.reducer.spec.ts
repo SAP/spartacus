@@ -47,4 +47,31 @@ describe('User Addresses Reducer', () => {
       expect(state.isLoading).toEqual(true);
     });
   });
+
+  describe('ADD_USER_ADDRESS action', () => {
+    it('should set isActionProcessing flag to true', () => {
+      const { initialState } = fromUserAddressesReducer;
+      const action = new fromUserAddressesAction.AddUserAddress({});
+      const state = fromUserAddressesReducer.reducer(initialState, action);
+      expect(state.isActionProcessing).toEqual(true);
+    });
+  });
+
+  describe('UPDATE_USER_ADDRESS action', () => {
+    it('should set isActionProcessing flag to true', () => {
+      const { initialState } = fromUserAddressesReducer;
+      const action = new fromUserAddressesAction.UpdateUserAddress({});
+      const state = fromUserAddressesReducer.reducer(initialState, action);
+      expect(state.isActionProcessing).toEqual(true);
+    });
+  });
+
+  describe('DELETE_USER_ADDRESS action', () => {
+    it('should set isActionProcessing flag to true', () => {
+      const { initialState } = fromUserAddressesReducer;
+      const action = new fromUserAddressesAction.DeleteUserAddress({});
+      const state = fromUserAddressesReducer.reducer(initialState, action);
+      expect(state.isActionProcessing).toEqual(true);
+    });
+  });
 });

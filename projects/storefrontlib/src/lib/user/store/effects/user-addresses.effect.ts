@@ -27,6 +27,60 @@ export class UserAddressesEffects {
     })
   );
 
+  @Effect()
+  addUserAddress$: Observable<any> = this.actions$.pipe(
+    ofType(fromUserAddressesAction.ADD_USER_ADDRESS),
+    map((action: fromUserAddressesAction.AddUserAddress) => action.payload),
+    mergeMap(payload => {
+      return this.occUserService
+        .addUserAddress(payload.userId, payload.address)
+        .pipe(
+          map((data: any) => {
+            return new fromUserAddressesAction.AddUserAddressSuccess(data);
+          }),
+          catchError(error =>
+            of(new fromUserAddressesAction.AddUserAddressFail(error))
+          )
+        );
+    })
+  );
+
+  @Effect()
+  updateUserAddress$: Observable<any> = this.actions$.pipe(
+    ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS),
+    map((action: fromUserAddressesAction.UpdateUserAddress) => action.payload),
+    mergeMap(payload => {
+      return this.occUserService
+        .updateUserAddress(payload.userId, payload.addressId, payload.address)
+        .pipe(
+          map((data: any) => {
+            return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
+          }),
+          catchError(error =>
+            of(new fromUserAddressesAction.UpdateUserAddressFail(error))
+          )
+        );
+    })
+  );
+
+  @Effect()
+  deleteUserAddress$: Observable<any> = this.actions$.pipe(
+    ofType(fromUserAddressesAction.DELETE_USER_ADDRESS),
+    map((action: fromUserAddressesAction.DeleteUserAddress) => action.payload),
+    mergeMap(payload => {
+      return this.occUserService
+        .deleteUserAddress(payload.userId, payload.addressId)
+        .pipe(
+          map((data: any) => {
+            return new fromUserAddressesAction.DeleteUserAddressSuccess(data);
+          }),
+          catchError(error =>
+            of(new fromUserAddressesAction.DeleteUserAddressFail(error))
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private occUserService: OccUserService

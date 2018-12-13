@@ -2,7 +2,7 @@ import {
   Directive,
   ViewContainerRef,
   Input,
-  AfterViewInit,
+  OnInit,
   OnDestroy,
   ComponentRef,
   Injector,
@@ -18,7 +18,7 @@ import { CmsConfig, CmsService, ComponentMapperService } from '@spartacus/core';
 @Directive({
   selector: '[cxComponentWrapper]'
 })
-export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
+export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input()
   componentType: string;
   @Input()
@@ -41,7 +41,7 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private config: CmsConfig
   ) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     if (this.componentMapper.isWebComponent(this.componentType)) {
       this.launchWebComponent();
     } else {
