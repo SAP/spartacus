@@ -11,7 +11,7 @@ import {
   LanguageService,
   RoutingService
 } from '@spartacus/core';
-import { CmsService } from '../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root'

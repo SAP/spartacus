@@ -6,7 +6,7 @@ import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 class MockCmsService {
   getComponentData() {

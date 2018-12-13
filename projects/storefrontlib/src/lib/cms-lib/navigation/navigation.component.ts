@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-navigation',
