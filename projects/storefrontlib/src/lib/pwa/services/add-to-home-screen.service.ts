@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PWAModuleConfig } from '../pwa.module-config';
-import { GlobalMessageType } from './../../global-message/models/message.model';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 
