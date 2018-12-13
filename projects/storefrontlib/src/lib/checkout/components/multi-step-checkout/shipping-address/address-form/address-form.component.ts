@@ -16,7 +16,11 @@ import { tap } from 'rxjs/operators';
 
 import { UserService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade/checkout.service';
-import { GlobalMessageService, GlobalMessageType, UserService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  UserService
+} from '@spartacus/core';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { Address } from '@spartacus/core';
