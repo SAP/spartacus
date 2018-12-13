@@ -1,14 +1,12 @@
 import * as fromProduct from '../actions/product.action';
-import { ProductState } from '../product-state';
+import { Product } from '../../../occ-models/occ.models';
 
-export const initialState: ProductState = {};
+export const initialState: Product = {};
 
 export function reducer(
   state = initialState,
-  action: fromProduct.ProductAction
-): ProductState {
-  switch (action.type) {
-  }
+  _action: fromProduct.ProductAction
+): Product {
   return state;
 }
 

@@ -1,18 +1,19 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducerMap, MetaReducer, ActionReducer, combineReducers } from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import * as fromProductsSearch from './product-search.reducer';
 import * as fromProduct from './product.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
 import { ProductsState } from '../product-state';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context';
-import { entityReducer } from './load.reducer';
-import { LOAD_PRODUCT } from '../actions/product.action';
+import { entityReducer } from '../../../store-entities/entity.reducer';
+import { PRODUCT_DETAIL_ENTITY } from '../actions/';
+import { Product } from '../../../occ-models/occ.models';
 
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {
     search: fromProductsSearch.reducer,
-    details: entityReducer(fromProduct.reducer, LOAD_PRODUCT),
+    details: entityReducer<Product>(fromProduct.reducer, PRODUCT_DETAIL_ENTITY),
     reviews: fromProductReviews.reducer
   };
 }

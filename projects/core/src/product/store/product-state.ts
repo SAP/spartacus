@@ -1,28 +1,19 @@
-export const PRODUCT_FEATURE = 'product';
+import { EntityState } from '../../store-entities/entity-state';
 
+export const PRODUCT_FEATURE = 'product';
 import {
-  Product,
   Review,
   Suggestion,
-  ProductSearchPage
-} from '../../occ/occ-models';
+  ProductSearchPage,
+  Product
+} from '../../occ-models/occ.models';
 
 export interface StateWithProduct {
-  [PRODUCT_FEATURE]: ProductState;
-}
-
-export interface ProductEntity {
-  error: boolean;
-  loading: boolean;
-  value?: Product;
-}
-
-export interface ProductState {
-  [productCode: string]: ProductEntity;
+  [PRODUCT_FEATURE]: ProductsState;
 }
 
 export interface ProductsState {
-  details: ProductState;
+  details: EntityState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
 }
