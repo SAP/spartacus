@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CmsService } from '../facade/cms.service';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, CmsService } from '@spartacus/core';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
