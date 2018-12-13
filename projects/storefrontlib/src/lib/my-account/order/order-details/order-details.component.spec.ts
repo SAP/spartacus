@@ -1,20 +1,19 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import {
   RoutingService,
   Cart,
   PromotionResult,
   AuthService,
   UserToken,
-  Order
+  Order,
+  UserService
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
 const mockOrder: Order = {
