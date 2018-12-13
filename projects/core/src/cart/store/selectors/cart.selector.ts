@@ -3,7 +3,7 @@ import {
   createSelector,
   createFeatureSelector
 } from '@ngrx/store';
-import { Cart, OrderEntry } from '../../../occ-models/index';
+import { Cart, OrderEntry } from '../../../occ/occ-models/index';
 import { CartState, CartsState } from '../cart-state';
 
 export const getCartContentSelector = (state: CartState) => state.content;

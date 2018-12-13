@@ -1,4 +1,4 @@
-import { OrderEntry } from '../../occ-models/index';
+import { OrderEntry } from '../../occ/occ-models/index';
 export const CART_FEATURE = 'cart';
 
 export interface CartsState {

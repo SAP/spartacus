@@ -1,4 +1,4 @@
-import { Cart } from '../../../occ-models/index';
+import { Cart } from '../../../occ/occ-models/index';
 import * as fromCart from './../actions/cart.action';
 
 const cart: Cart = {

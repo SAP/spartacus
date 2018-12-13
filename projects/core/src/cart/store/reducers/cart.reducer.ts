@@ -1,5 +1,5 @@
 import * as fromAction from './../actions';
-import { OrderEntry } from '../../../occ-models/index';
+import { OrderEntry } from '../../../occ/occ-models/index';
 import { CartState } from '../cart-state';
 
 export const initialState: CartState = {
