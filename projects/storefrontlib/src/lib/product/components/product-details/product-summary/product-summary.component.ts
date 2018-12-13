@@ -1,4 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  ViewEncapsulation
+} from '@angular/core';
 
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 import { ProductModuleConfig } from '../../../product-config';
@@ -7,7 +12,8 @@ import { ProductModuleConfig } from '../../../product-config';
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   styleUrls: ['./product-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class ProductSummaryComponent {
   static outlets = ProductDetailOutlets;
@@ -20,12 +26,13 @@ export class ProductSummaryComponent {
     return ProductSummaryComponent.outlets;
   }
 
-  get style(): string {
-    return this.config.product &&
-      this.config.product.styles &&
-      this.config.product.styles.summary
-      ? this.config.product.styles.summary
-      : '';
+  get style() {
+    if (
+      this.config.product.styles.summary &&
+      this.config.product.styles.summary.cssIncludePaths
+    ) {
+      return this.config.product.styles.summary.cssIncludePaths;
+    }
   }
 
   constructor(private config: ProductModuleConfig) {}

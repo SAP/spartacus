@@ -4,21 +4,24 @@ import { Directive, OnInit, Renderer2, ElementRef, Input } from '@angular/core';
   selector: '[cxStylingDirective]'
 })
 export class StylingDirective implements OnInit {
-  @Input() cxStylingDirective: string;
+  @Input() cxStylingDirective: string[];
 
   constructor(private renderer: Renderer2, private el: ElementRef) {}
 
   ngOnInit() {
-    this.insjectStyle();
+    if (this.cxStylingDirective) {
+      for (const style of this.cxStylingDirective) {
+        this.insjectStyle(style);
+      }
+    }
   }
 
-  private insjectStyle(): void {
-    const styleElement = this.renderer.createElement('style');
-    const styleValue = this.renderer.createText(
-      `@import url(styles/${this.cxStylingDirective}.css);`
-    );
+  private insjectStyle(path: string): void {
+    const styleElement = this.renderer.createElement('link');
+    styleElement.rel = 'stylesheet';
+    styleElement.type = 'text/css';
+    styleElement.href = `styles/${path}.css`;
 
-    this.renderer.appendChild(styleElement, styleValue);
     this.renderer.appendChild(this.el.nativeElement.parentNode, styleElement);
   }
 }

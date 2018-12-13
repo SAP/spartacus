@@ -1,8 +1,9 @@
 export abstract class ProductModuleConfig {
   product?: {
     styles?: {
-      pdp?: string;
-      summary?: string;
+      summary?: {
+        cssIncludePaths?: string[];
+      };
     };
   };
 }
@@ -10,7 +11,6 @@ export abstract class ProductModuleConfig {
 export const defaultProductConfig: ProductModuleConfig = {
   product: {
     styles: {
-      pdp: null,
       summary: null
     }
   }
