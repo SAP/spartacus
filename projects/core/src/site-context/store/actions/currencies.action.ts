@@ -5,7 +5,7 @@ import {
   LoaderLoadAction,
   LoaderSuccessAction
 } from '../../../store-entities/loader.action';
-import { CURRENCIES_ENTITY } from '../reducers';
+import { CURRENCIES_ENTITY } from '../state';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
 export const LOAD_CURRENCIES_FAIL = '[Site-context] Load Currencies Fail';

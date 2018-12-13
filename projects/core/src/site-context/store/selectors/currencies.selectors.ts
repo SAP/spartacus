@@ -7,7 +7,10 @@ import {
   SiteContextState
 } from '../state';
 import { getSiteContextState } from './site-context.selector';
-import { loaderValueSelector } from '../../../store-entities/loader.selectors';
+import {
+  loaderLoadingSelector,
+  loaderValueSelector
+} from '../../../store-entities/loader.selectors';
 
 const currenciesEntitiesSelector = (state: CurrenciesState) => state.entities;
 const activeCurrencySelector = (state: CurrenciesState) => state.activeCurrency;
@@ -18,6 +21,14 @@ export const getCurrenciesState: MemoizedSelector<
 > = createSelector(
   getSiteContextState,
   (state: SiteContextState) => loaderValueSelector(state.currencies)
+);
+
+export const areCurrenciesLoading: MemoizedSelector<
+  StateWithSiteContext,
+  boolean
+> = createSelector(
+  getSiteContextState,
+  (state: SiteContextState) => loaderLoadingSelector(state.currencies)
 );
 
 export const getCurrenciesEntities: MemoizedSelector<

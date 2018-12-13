@@ -29,6 +29,10 @@ export class CurrencyService {
     );
   }
 
+  areLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.areCurrenciesLoading));
+  }
+
   /**
    * Represents the isocode of the active currency.
    */

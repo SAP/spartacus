@@ -9,4 +9,3 @@ export function reducer(
 ): Product {
   return state;
 }
-

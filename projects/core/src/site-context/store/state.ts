@@ -6,6 +6,8 @@ export interface StateWithSiteContext {
   [SITE_CONTEXT_FEATURE]: SiteContextState;
 }
 
+export const CURRENCIES_ENTITY = 'CURRENCIES';
+
 export interface SiteContextState {
   languages: LanguagesState;
   currencies: LoaderState<CurrenciesState>;

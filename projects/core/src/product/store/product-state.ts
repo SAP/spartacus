@@ -1,12 +1,13 @@
 import { EntityState } from '../../store-entities/entity-state';
+import {
+  Product,
+  ProductSearchPage,
+  Review,
+  Suggestion
+} from '../../occ-models/occ.models';
 
 export const PRODUCT_FEATURE = 'product';
-import {
-  Review,
-  Suggestion,
-  ProductSearchPage,
-  Product
-} from '../../occ-models/occ.models';
+export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductsState;

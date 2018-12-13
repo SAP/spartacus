@@ -2,7 +2,8 @@ import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
 
 export function loaderReducer<T>(
-  loadActionType: string, reducer?: (state: T, action: any) => T
+  loadActionType: string,
+  reducer?: (state: T, action: any) => T
 ) {
   return (
     state: LoaderState<T> = { loading: false, error: false, value: undefined },

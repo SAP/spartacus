@@ -10,7 +10,6 @@ import { map, tap } from 'rxjs/operators';
 export class ProductService {
   constructor(private store: Store<fromStore.StateWithProduct>) {}
 
-
   /**
    * Returns the product observable. The product will be loaded
    * whenever there's no value observed.

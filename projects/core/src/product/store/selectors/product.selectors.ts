@@ -5,7 +5,10 @@ import { Product } from '../../../occ-models/occ.models';
 import { LoaderState } from '../../../store-entities/loader-state';
 import { EntityState } from '../../../store-entities/entity-state';
 import { entityStateSelector } from '../../../store-entities/entity.selectors';
-import { loaderLoadingSelector, loaderValueSelector } from '../../../store-entities/loader.selectors';
+import {
+  loaderLoadingSelector,
+  loaderValueSelector
+} from '../../../store-entities/loader.selectors';
 
 export const getProductState: MemoizedSelector<any, any> = createSelector(
   getProductsState,
@@ -62,7 +65,6 @@ export const getSelectedProductErrorFactory = (
     productState => loaderLoadingSelector(productState)
   );
 };
-
 
 export const getAllProductCodes: MemoizedSelector<
   StateWithProduct,
