@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
+import { CmsTicketInterceptor } from './smart-edit/cms-ticket.interceptor';
 
 import {
   ConfigModule,
@@ -26,7 +28,15 @@ import { OutletModule } from '../outlet/outlet.module';
     OutletModule,
     CmsCoreModule
   ],
-  providers: [...guards, { provide: CmsConfig, useExisting: Config }],
+  providers: [
+    ...guards,
+    { provide: CmsConfig, useExisting: Config },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CmsTicketInterceptor,
+      multi: true
+    }
+  ],
   declarations: [...components],
   exports: [...components]
 })
