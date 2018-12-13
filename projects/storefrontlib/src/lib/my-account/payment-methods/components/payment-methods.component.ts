@@ -37,7 +37,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryYear,
     cardNumber
   }): Card {
-    const actions = [];
+    const actions: { name: string; event: string }[] = [];
     if (!defaultPayment) {
       actions.push({ name: 'Set as default', event: 'default' });
     }
