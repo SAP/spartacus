@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { AddressBookComponent } from './address-book.component';
 import { UserService } from '../../user/facade/user.service';
 import { AddressBookModule } from './address-book.module';
@@ -25,27 +25,6 @@ const mockAddress = {
   defaultAddress: false
 };
 
-const mockTitleCodes = [
-  {
-    code: 'mr',
-    name: 'Mr.'
-  }
-];
-
-const mockCountries = [
-  {
-    isocode: 'JP',
-    name: 'Japan'
-  }
-];
-
-const mockRegions = [
-  {
-    isocode: 'US-AL',
-    name: 'Alabama'
-  }
-];
-
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
@@ -68,13 +47,13 @@ describe('AddressBookComponent', () => {
       deleteUserAddress: jasmine.createSpy(),
       updateUserAddress: jasmine.createSpy(),
       setAddressAsDefault: jasmine.createSpy(),
+      getDeliveryCountries: jasmine.createSpy().and.returnValue(of([])),
+      getTitles: jasmine.createSpy().and.returnValue(of([])),
+      getRegions: jasmine.createSpy().and.returnValue(of([])),
       user$: user.asObservable(),
       loadTitles: jasmine.createSpy(),
       loadDeliveryCountries: jasmine.createSpy(),
-      loadRegions: jasmine.createSpy(),
-      titles$: new BehaviorSubject(mockTitleCodes),
-      allDeliveryCountries$: new BehaviorSubject(mockCountries),
-      allRegions$: new BehaviorSubject(mockRegions)
+      loadRegions: jasmine.createSpy()
     };
 
     mockCheckoutService = {

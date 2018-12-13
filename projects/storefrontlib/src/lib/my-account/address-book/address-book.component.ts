@@ -56,7 +56,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   }
 
   hideEditAddressForm() {
-    this.activeAddress = {};
+    // this.activeAddress = {};
     this.isEditAddressFormOpen = false;
   }
 
@@ -79,6 +79,21 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   handleActionEvents() {
     return this.actions.subscribe(action => {
       switch (action.type) {
+        case actionTypes.LOAD_USER_ADDRESSES_SUCCESS: {
+          this.userService.addressesState$.subscribe(data => {
+            this.hideAddAddressForm();
+            if (!data.list) {
+              this.showAddAddressForm();
+            }
+          });
+          break;
+        }
+
+        case actionTypes.ADD_USER_ADDRESS: {
+          this.hideAddAddressForm();
+          break;
+        }
+
         case actionTypes.ADD_USER_ADDRESS_SUCCESS: {
           this.messagesService.add({
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
@@ -89,6 +104,16 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           break;
         }
 
+        case actionTypes.ADD_USER_ADDRESS_FAIL: {
+          this.showAddAddressForm();
+          break;
+        }
+
+        case actionTypes.UPDATE_USER_ADDRESS: {
+          this.hideEditAddressForm();
+          break;
+        }
+
         case actionTypes.UPDATE_USER_ADDRESS_SUCCESS: {
           this.messagesService.add({
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
@@ -96,6 +121,11 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           });
           this.hideEditAddressForm();
           this.userService.loadAddresses(this.userId);
+          break;
+        }
+
+        case actionTypes.UPDATE_USER_ADDRESS_FAIL: {
+          this.showEditAddressForm(this.activeAddress);
           break;
         }
 
