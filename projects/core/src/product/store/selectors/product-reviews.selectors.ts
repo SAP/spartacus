@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { Review } from '../../../occ-models/occ.models';
+import { Review } from '../../../occ/occ-models';
 import {
   ProductReviewsState,
   ProductsState,

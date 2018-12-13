@@ -7,7 +7,10 @@ import {
   ProductsState,
   StateWithProduct
 } from '../product-state';
-import { ProductSearchPage, Suggestion } from '../../../occ-models/occ.models';
+import {
+  ProductSearchPage,
+  Suggestion
+} from '../../../occ/occ-models/occ.models';
 
 export const getProductsSearchState: MemoizedSelector<
   StateWithProduct,

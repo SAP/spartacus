@@ -1,25 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { ComponentsModule } from './../../../../ui/components/components.module';
+import {
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
-
-import { ComponentMapperService } from '../../../../cms/services/component-mapper.service';
 import { ProductService } from '@spartacus/core';
-
-import { BootstrapModule } from '../../../../bootstrap.module';
 import { ProductDetailsComponent } from './product-details.component';
 import { OutletDirective } from '../../../../outlet';
-import {
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-} from '../../../../cms/components';
-import { ProductImagesComponent } from '../product-images/product-images.component';
-import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { ProductAttributesComponent } from '../product-attributes/product-attributes.component';
-import { ProductReviewsComponent } from '../product-reviews/product-reviews.component';
-
-class MockComponentMapperService {}
 
 const mockProduct = 'mockProduct';
 
@@ -42,22 +33,78 @@ export class MockAddToCartComponent {
   quantity;
 }
 
+@Component({
+  selector: 'cx-product-reviews',
+  template: 'product-reviews'
+})
+class MockProductReviewsComponent {
+  @Input()
+  product;
+  @Input()
+  isWritingReview;
+}
+
+@Component({
+  selector: 'cx-product-images',
+  template: 'product-images.component'
+})
+export class MockProductImagesComponent {
+  @Input()
+  product: any;
+}
+
+@Component({
+  selector: 'cx-product-summary',
+  template: 'product-summary.component'
+})
+export class MockProductSummaryComponent {
+  @Input() product: any;
+  @Output() openReview = new EventEmitter();
+}
+
+@Directive({
+  selector: '[cxComponentWrapper]'
+})
+export class MockComponentWrapperDirective {
+  @Input()
+  componentType: string;
+  @Input()
+  componentUid: string;
+}
+
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'dynamic-slot.component'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
+@Component({
+  selector: 'cx-product-attributes',
+  template: 'product-attributes.component'
+})
+export class MockProductAttributesComponent {
+  @Input()
+  product: any;
+}
+
 describe('ProductDetailsComponent in product', () => {
   let productDetailsComponent: ProductDetailsComponent;
   let fixture: ComponentFixture<ProductDetailsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, BootstrapModule, ComponentsModule],
+      imports: [ReactiveFormsModule],
       declarations: [
         ProductDetailsComponent,
-
-        DynamicSlotComponent,
-        ComponentWrapperDirective,
-        ProductImagesComponent,
-        ProductSummaryComponent,
-        ProductAttributesComponent,
-        ProductReviewsComponent,
+        MockDynamicSlotComponent,
+        MockComponentWrapperDirective,
+        MockProductImagesComponent,
+        MockProductSummaryComponent,
+        MockProductAttributesComponent,
+        MockProductReviewsComponent,
         MockAddToCartComponent,
         OutletDirective
       ],
@@ -65,10 +112,6 @@ describe('ProductDetailsComponent in product', () => {
         {
           provide: ProductService,
           useClass: MockProductService
-        },
-        {
-          provide: ComponentMapperService,
-          useClass: MockComponentMapperService
         }
       ]
     }).compileComponents();
@@ -98,8 +141,8 @@ describe('ProductDetailsComponent in product', () => {
     productDetailsComponent.ngOnInit();
     productDetailsComponent.product$.subscribe(() => {
       fixture.detectChanges();
-      productDetailsComponent.goToReviews();
-      expect(productDetailsComponent.tabSet.activeId).toEqual('reviews');
+      productDetailsComponent.openReview();
+      expect(productDetailsComponent.isWritingReview).toEqual(true);
     });
   });
 });

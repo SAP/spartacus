@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { filter, tap } from 'rxjs/operators';
-import { Currency } from '../../occ-models';
+import { Currency } from '../../occ/occ-models';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.

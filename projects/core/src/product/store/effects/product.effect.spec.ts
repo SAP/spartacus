@@ -6,7 +6,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccProductService } from '../../occ/product.service';
-import { PageType } from '../../../occ-models/occ.models';
+import { PageType } from '../../../occ/occ-models/occ.models';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
 
@@ -14,8 +14,7 @@ import * as fromEffects from './product.effect';
 import * as fromActions from '../actions/product.action';
 import { StoreModule } from '@ngrx/store';
 import { RoutingService } from '../../../routing/facade/routing.service';
-
-import { Product } from '../../../occ-models';
+import { Product } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {

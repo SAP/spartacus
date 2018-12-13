@@ -5,9 +5,10 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
-import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
+import { LanguageService } from '../facade/language.service';
 import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()

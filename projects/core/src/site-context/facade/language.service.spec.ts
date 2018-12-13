@@ -10,7 +10,7 @@ import { LanguageService } from './language.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { SiteContextModule } from '../site-context.module';
-import { Language } from '../../occ-models/occ.models';
+import { Language } from '../../occ/occ-models/occ.models';
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }

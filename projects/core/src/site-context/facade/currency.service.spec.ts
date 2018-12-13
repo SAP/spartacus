@@ -6,10 +6,11 @@ import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { CurrencyService } from './currency.service';
-import { OccConfig } from '../../occ/config/occ-config';
+import { Currency } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { Currency } from '../../occ-models/occ.models';
+import { OccConfig } from '../../occ/config/occ-config';
+
+import { CurrencyService } from './currency.service';
 
 import { SiteContextModule } from '../site-context.module';
 
@@ -74,7 +75,7 @@ describe('CurrencyService', () => {
     });
   });
 
-  describe('set activeCurrency(isocode)', () => {
+  describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
       service.setActive('USD');
       expect(store.dispatch).toHaveBeenCalledWith(

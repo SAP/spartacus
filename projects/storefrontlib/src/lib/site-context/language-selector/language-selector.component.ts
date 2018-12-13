@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 
-import { LanguageService } from '@spartacus/core';
+import { LanguageService, Language } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-language-selector',
@@ -9,7 +10,7 @@ import { LanguageService } from '@spartacus/core';
   styleUrls: ['./language-selector.component.scss']
 })
 export class LanguageSelectorComponent implements OnInit {
-  languages$: Observable<any>;
+  languages$: Observable<Language[]>;
   activeLanguage$: Observable<string>;
 
   constructor(private languageService: LanguageService) {}

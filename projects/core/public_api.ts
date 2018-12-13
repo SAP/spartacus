@@ -8,5 +8,4 @@ export * from './src/product/index';
 export * from './src/site-context/index';
 export * from './src/occ/index';
 export * from './src/routing/index';
-export * from './src/occ-models/index';
 export * from './src/auth/index';

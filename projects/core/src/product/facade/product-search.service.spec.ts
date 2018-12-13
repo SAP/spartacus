@@ -8,6 +8,7 @@ import { ProductSearchService } from './product-search.service';
 import { SearchConfig } from '../model/search-config';
 import { EMPTY, of } from 'rxjs';
 import { Router } from '@angular/router';
+import { ProductSearchPage } from '../../occ/occ-models';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
@@ -73,15 +74,21 @@ describe('ProductSearchService', () => {
   ));
 
   it('should be able to get search results', () => {
-    service.searchResults$.subscribe(results => {
-      expect(results).toEqual(mockSearchResults);
-    });
+    let tempSearchResult: ProductSearchPage;
+    service
+      .getSearchResults()
+      .subscribe(result => (tempSearchResult = result))
+      .unsubscribe();
+    expect(tempSearchResult).toEqual(mockSearchResults);
   });
 
   it('should be able to get auxiliary search results', () => {
-    service.auxSearchResults$.subscribe(results => {
-      expect(results).toEqual(mockAuxSearchResults);
-    });
+    let tempAuxSearchResult: ProductSearchPage;
+    service
+      .getAuxSearchResults()
+      .subscribe(result => (tempAuxSearchResult = result))
+      .unsubscribe();
+    expect(tempAuxSearchResult).toEqual(mockAuxSearchResults);
   });
 
   describe('search(query, searchConfig)', () => {

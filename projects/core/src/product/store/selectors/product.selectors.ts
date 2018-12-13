@@ -5,7 +5,7 @@ import {
   StateWithProduct
 } from '../product-state';
 import { getProductsState } from './feature.selector';
-import { Product } from '../../../occ-models/occ.models';
+import { Product } from '../../../occ/occ-models/occ.models';
 
 export const getProductState: MemoizedSelector<any, any> = createSelector(
   getProductsState,
