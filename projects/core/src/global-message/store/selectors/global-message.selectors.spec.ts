@@ -1,15 +1,18 @@
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import * as fromReducers from './../reducers';
-import * as fromSelectors from './../selectors';
-import * as fromActions from './../actions';
+import * as fromReducers from './../reducers/index';
+import * as fromSelectors from './../selectors/index';
+import * as fromActions from './../actions/index';
 import { TestBed } from '@angular/core/testing';
 
 import {
   GlobalMessage,
   GlobalMessageType
 } from '../../models/global-message.model';
-import { GLOBAL_MESSAGE_FEATURE, StateWithGlobalMessage } from '../state';
+import {
+  GLOBAL_MESSAGE_FEATURE,
+  StateWithGlobalMessage
+} from '../global-message-state';
 
 describe('Global Messages selectors', () => {
   let store: Store<StateWithGlobalMessage>;

@@ -3,7 +3,7 @@ import {
   GLOBAL_MESSAGE_FEATURE,
   GlobalMessageState,
   StateWithGlobalMessage
-} from '../state';
+} from '../global-message-state';
 
 export const getGlobalMessageState: MemoizedSelector<
   StateWithGlobalMessage,

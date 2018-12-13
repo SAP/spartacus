@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import {
   GlobalMessage,
   GlobalMessageType

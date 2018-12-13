@@ -1,5 +1,5 @@
 import * as fromGlobalMessage from './global-message.reducer';
-import * as fromActions from './../actions';
+import * as fromActions from './../actions/index';
 import {
   GlobalMessage,
   GlobalMessageType

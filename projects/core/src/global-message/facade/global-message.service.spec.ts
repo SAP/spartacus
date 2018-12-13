@@ -4,7 +4,7 @@ import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import * as fromStore from '../store';
+import * as fromStore from '../store/index';
 import {
   GlobalMessageType,
   GlobalMessage
