@@ -23,22 +23,21 @@ const testToken = {
   scope: ''
 } as ClientToken;
 
-class MockAuthService extends AuthService {
+class MockAuthService {
   getClientToken(): Observable<ClientToken> {
     return of();
   }
 }
 
-class MockAuthModuleConfig extends AuthConfig {
-  server = {
+const MockAuthModuleConfig: AuthConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
-
-  site = {
+  },
+  site: {
     baseSite: 'electronics'
-  };
-}
+  }
+};
 
 describe('ClientTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -48,7 +47,7 @@ describe('ClientTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useClass: MockAuthModuleConfig },
+        { provide: AuthConfig, useValue: MockAuthModuleConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,

@@ -17,16 +17,15 @@ const token: ClientToken = {
 
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-class MockAuthConfig extends AuthConfig {
-  server = {
+const MockAuthConfig: AuthConfig = {
+  server: {
     baseUrl: ''
-  };
-
-  authentication = {
+  },
+  authentication: {
     client_id: '',
-    client_sercret: ''
-  };
-}
+    client_secret: ''
+  }
+};
 
 describe('ClientAuthenticationTokenService', () => {
   let service: ClientAuthenticationTokenService;
@@ -37,7 +36,7 @@ describe('ClientAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         ClientAuthenticationTokenService,
-        { provide: AuthConfig, useClass: MockAuthConfig }
+        { provide: AuthConfig, useValue: MockAuthConfig }
       ]
     });
 

@@ -24,24 +24,23 @@ const userToken = {
   userId: 'xxx'
 } as UserToken;
 
-class MockAuthService extends AuthService {
+class MockAuthService {
   getUserToken(): Observable<UserToken> {
     return of();
   }
 }
 
-class MockAuthConfig extends AuthConfig {
-  server = {
+const MockAuthConfig: AuthConfig = {
+  server: {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
-  };
-
-  site = {
+  },
+  site: {
     baseSite: 'electronics',
     language: '',
     currency: ''
-  };
-}
+  }
+};
 
 describe('UserTokenInterceptor', () => {
   let httpMock: HttpTestingController;
@@ -51,7 +50,7 @@ describe('UserTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useClass: MockAuthConfig },
+        { provide: AuthConfig, useValue: MockAuthConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,

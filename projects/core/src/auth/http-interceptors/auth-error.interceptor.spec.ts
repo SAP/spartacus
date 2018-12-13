@@ -23,7 +23,7 @@ import { USE_CLIENT_TOKEN } from '../../occ/utils/interceptor-util';
 
 import { AuthErrorInterceptor } from './auth-error.interceptor';
 
-class MockUserErrorHandlingService extends UserErrorHandlingService {
+class MockUserErrorHandlingService {
   handleExpiredUserToken(
     _request: HttpRequest<any>,
     _next: HttpHandler
@@ -33,7 +33,7 @@ class MockUserErrorHandlingService extends UserErrorHandlingService {
   handleExpiredRefreshToken() {}
 }
 
-class MockClientErrorHandlingService extends ClientErrorHandlingService {
+class MockClientErrorHandlingService {
   handleExpiredClientToken(
     _request: HttpRequest<any>,
     _next: HttpHandler
@@ -42,7 +42,7 @@ class MockClientErrorHandlingService extends ClientErrorHandlingService {
   }
 }
 
-class MockAuthService extends AuthService {
+class MockAuthService {
   logout(): void {}
 }
 
