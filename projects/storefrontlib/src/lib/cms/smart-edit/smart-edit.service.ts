@@ -14,16 +14,12 @@ export class SmartEditService {
     private cmsService: CmsService,
     private routingService: RoutingService
   ) {
-    this.init();
+    this.getCmsTicket();
+    this.addPageContract();
   }
 
   get cmsTicketId(): string {
     return this._cmsTicketId;
-  }
-
-  private init() {
-    this.getCmsTicket();
-    this.addPageContract();
   }
 
   private getCmsTicket() {
