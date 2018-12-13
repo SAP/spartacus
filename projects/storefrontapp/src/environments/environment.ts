@@ -5,5 +5,7 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: ''
+  // occBaseUrl: 'https://10.27.165.187:9002',
+  occBaseUrl:
+    'https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com'
 };

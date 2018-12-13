@@ -1,15 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
+import { CartService, UserService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-
 import createSpy = jasmine.createSpy;
-
 import { CheckoutService } from '../../../facade/checkout.service';
-import { CartService } from '@spartacus/core';
-import { UserService } from '../../../../user/facade/user.service';
-
 import { ReviewSubmitComponent } from './review-submit.component';
 
 const mockCart = {

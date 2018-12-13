@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
-import * as fromUserActions from '../../../user/store/actions';
+import * as fromUserActions from '@spartacus/core';
 import * as fromGlobalMessagesActions from '../../../global-message/store/actions';
 
 import { Observable, of } from 'rxjs';
@@ -11,10 +11,10 @@ import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 import {
   OccCartService,
   ProductImageConverterService,
-  PaymentDetails,
-  OrderEntry
+  OccOrderService,
+  OrderEntry,
+  PaymentDetails
 } from '@spartacus/core';
-import { OccOrderService } from '../../../occ/order/order.service';
 import { GlobalMessageType } from '../../../global-message/models/message.model';
 
 @Injectable()

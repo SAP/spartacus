@@ -14,9 +14,9 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
+import { UserService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade/checkout.service';
 import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { UserService } from '../../../../../user/facade/user.service';
 import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
