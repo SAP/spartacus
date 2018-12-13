@@ -22,7 +22,7 @@ export class SmartEditService {
     return this._cmsTicketId;
   }
 
-  private getCmsTicket() {
+  protected getCmsTicket() {
     combineLatest(
       this.cmsService.getCurrentPage(),
       this.routingService.getRouterState()
@@ -35,7 +35,7 @@ export class SmartEditService {
       });
   }
 
-  private addPageContract() {
+  protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage && this._cmsTicketId !== undefined) {
         const previousContract = [];

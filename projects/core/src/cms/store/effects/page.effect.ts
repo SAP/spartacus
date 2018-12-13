@@ -142,7 +142,7 @@ export class PageEffects {
     }
   }
 
-  private getCatalogUuid(cmsItem: any) {
+  private getCatalogUuid(cmsItem: any): string {
     if (cmsItem.properties) {
       return cmsItem.properties.smartedit.catalogVersionUuid;
     } else {

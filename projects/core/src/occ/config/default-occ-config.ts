@@ -2,7 +2,7 @@ import { OccConfig } from './occ-config';
 
 export const defaultOccConfig: OccConfig = {
   site: {
-    baseSite: 'electronics-spa',
+    baseSite: 'electronics',
     language: 'en',
     currency: 'USD'
   }
