@@ -60,6 +60,41 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  addUserAddress(userId: string, address: object) {
+    const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .post(url, address, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateUserAddress(userId: string, addressId: string, address: object) {
+    const url =
+      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .patch(url, address, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  deleteUserAddress(userId: string, addressId: string) {
+    const url =
+      this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http
+      .delete(url, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
     const headers = new HttpHeaders({

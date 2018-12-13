@@ -2,8 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of, Observable } from 'rxjs';
 
-import { CartService } from '@spartacus/core';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CartService, CmsService } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { Cart, OrderEntry, CmsComponent } from '@spartacus/core';
