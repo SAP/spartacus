@@ -86,13 +86,23 @@ describe('SmartEditService', () => {
 
   describe('should add page contract', () => {
     it('when navigate to a new page', () => {
-      spyOn(cmsService, 'getCurrentPage').and.returnValue(
+      spyOn(cmsService, 'getCurrentPage').and.returnValues(
+        of(undefined),
         of({
           pageId: 'testPageId',
           uuid: 'testPageUuid',
           catalogUuid: 'testPageCatalogUuid'
         })
       );
+      spyOn(routingService, 'getRouterState').and.returnValue(
+        of({
+          state: {
+            url: '/test',
+            queryParams: { cmsTicketId: 'mockCmsTicketId' }
+          }
+        })
+      );
+      service['getCmsTicket']();
       service['addPageContract']();
       expect(
         document.body.classList.contains('smartedit-page-uid-testPageId')

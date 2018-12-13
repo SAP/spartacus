@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CmsService } from '../facade/cms.service';
 import { RoutingService } from '@spartacus/core';
 import { combineLatest } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -26,16 +27,18 @@ export class SmartEditService {
     combineLatest(
       this.cmsService.getCurrentPage(),
       this.routingService.getRouterState()
-    ).subscribe(([cmsPage, routerState]) => {
-      if (cmsPage === undefined && routerState.state && !this._cmsTicketId) {
-        this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
-      }
-    });
+    )
+      .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
+      .subscribe(([{}, routerState]) => {
+        if (routerState.state && !this._cmsTicketId) {
+          this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+        }
+      });
   }
 
   private addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
-      if (cmsPage) {
+      if (cmsPage && this._cmsTicketId !== undefined) {
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)
