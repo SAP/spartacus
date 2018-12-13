@@ -42,7 +42,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageEntities', () => {
     it('should return pages as entities', () => {
-      let result;
+      let result: { [key: string]: Page };
 
       store
         .pipe(select(fromSelectors.getPageEntities))
@@ -58,7 +58,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getLatestPageKey', () => {
     it('should return the latest page key', () => {
-      let result;
+      let result: string;
 
       store
         .pipe(select(fromSelectors.getLatestPageKey))
@@ -74,7 +74,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getLatestPage', () => {
     it('should return the latest page', () => {
-      let result;
+      let result: Page;
 
       store
         .pipe(select(fromSelectors.getLatestPage))
@@ -91,7 +91,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('currentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      let result;
+      let result: CmsComponent[];
 
       store
         .pipe(select(fromSelectors.currentSlotSelectorFactory('left')))
