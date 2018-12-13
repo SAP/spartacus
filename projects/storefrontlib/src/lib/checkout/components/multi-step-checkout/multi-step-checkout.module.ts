@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CartModule } from '../../../cart/cart.module';
+import { CartComponentModule } from '../../../cart/cart.module';
 import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 import { DeliveryModeModule } from './delivery-mode/delivery-mode.module';
 import { PaymentMethodModule } from './payment-method/payment-method.module';
@@ -13,7 +13,7 @@ import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shar
 @NgModule({
   imports: [
     CommonModule,
-    CartModule,
+    CartComponentModule,
     CartSharedModule,
 
     ShippingAddressModule,
