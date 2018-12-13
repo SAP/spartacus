@@ -3,6 +3,9 @@ import { ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
 import { Product } from '../../../occ-models/occ.models';
 import { LoaderState } from '../../../store-entities/loader-state';
+import { EntityState } from '../../../store-entities/entity-state';
+import { entityStateSelector } from '../../../store-entities/entity.selectors';
+import { loaderLoadingSelector, loaderValueSelector } from '../../../store-entities/loader.selectors';
 
 export const getProductState: MemoizedSelector<any, any> = createSelector(
   getProductsState,
@@ -29,20 +32,37 @@ export const getSelectedProductStateFactory = (
 ): MemoizedSelector<StateWithProduct, LoaderState<Product>> => {
   return createSelector(
     getProductState,
-    details => {
-      return details.entities[code] ? details.entities[code] : false;
-    }
+    details => entityStateSelector(details, code)
   );
 };
 
-export const getSelectedProductFactory = (code): MemoizedSelector<StateWithProduct, Product> => {
+export const getSelectedProductFactory = (
+  code
+): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getSelectedProductStateFactory(code),
-    productState => {
-      return productState ? productState.value : undefined;
-    }
+    productState => loaderValueSelector(productState)
   );
 };
+
+export const getSelectedProductLoadingFactory = (
+  code
+): MemoizedSelector<StateWithProduct, boolean> => {
+  return createSelector(
+    getSelectedProductStateFactory(code),
+    productState => loaderLoadingSelector(productState)
+  );
+};
+
+export const getSelectedProductErrorFactory = (
+  code
+): MemoizedSelector<StateWithProduct, boolean> => {
+  return createSelector(
+    getSelectedProductStateFactory(code),
+    productState => loaderLoadingSelector(productState)
+  );
+};
+
 
 export const getAllProductCodes: MemoizedSelector<
   StateWithProduct,

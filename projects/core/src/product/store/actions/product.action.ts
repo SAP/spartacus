@@ -1,19 +1,15 @@
 import { Product } from '../../../occ-models';
-import {
-  EntityFailAction,
-  EntityLoadAction,
-  EntitySuccessAction
-} from '../../../store-entities/entity.action';
+import { EntityFailAction, EntityLoadAction, EntitySuccessAction } from '../../../store-entities/entity.action';
+import { PRODUCT_DETAIL_ENTITY } from '../reducers/index';
+
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
 export const LOAD_PRODUCT_SUCCESS = '[Product] Load Product Data Success';
 
-export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
-
 export class LoadProduct extends EntityLoadAction {
-  readonly type = 'LOAD PRODUCT';
-  constructor(productCode: string) {
-    super(PRODUCT_DETAIL_ENTITY, productCode);
+  readonly type = LOAD_PRODUCT;
+  constructor(public payload: string) {
+    super(PRODUCT_DETAIL_ENTITY, payload);
   }
 }
 
@@ -25,7 +21,7 @@ export class LoadProductFail extends EntityFailAction {
 }
 
 export class LoadProductSuccess extends EntitySuccessAction {
-  readonly type = LOAD_PRODUCT;
+  readonly type = LOAD_PRODUCT_SUCCESS;
   constructor(public payload: Product) {
     super(PRODUCT_DETAIL_ENTITY, payload.code);
   }
