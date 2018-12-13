@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { StateWithSiteContext } from '../store/state';
-import { Language } from '../../occ-models/occ.models';
+import { Language } from '../../occ/occ-models/occ.models';
 import {
   LoadLanguages,
   SetActiveLanguage
