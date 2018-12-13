@@ -199,12 +199,6 @@ This section describes how to validate your back end installation, and then star
 
 The following are known issues with the current release of Spartacus JavaScript Storefront:
 
-- When using SAP Commerce 1811 for your back end, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
-
-- The Spartacus storefront is currently missing all categories.
-
-- The Spartacus storefront is currently missing the footer.
-
 - Certain AddOns may cause the Spartacus storefront to not work properly.
 
 - Spartacus relies on the `cmsoccaddon` for CMS information. However, this extension is currently not fully compatible with SmartEdit. As a result, the categories may not appear in Spartacus. To avoid this problem, remove the SmartEdit CMS web services and personalization extensions.
