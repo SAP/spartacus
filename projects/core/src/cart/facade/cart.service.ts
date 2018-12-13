@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Cart, OrderEntry } from '../../occ-models/index';
+import { Cart, OrderEntry } from '../../occ/occ-models/index';
 import { AuthService, UserToken } from '../../auth/index';
 
 import * as fromAction from '../store/actions';

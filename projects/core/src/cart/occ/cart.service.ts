@@ -8,7 +8,7 @@ import {
   Address,
   DeliveryModeList,
   PaymentDetails
-} from '../../occ-models/occ.models';
+} from '../../occ/occ-models/occ.models';
 import { CustomEncoder } from './custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
