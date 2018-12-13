@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 
-const LOADER_LOAD_ACTION = '[LOADER] LOAD';
-const LOADER_FAIL_ACTION = '[LOADER] FAIL';
-const LOADER_SUCCESS_ACTION = '[LOADER] SUCCESS';
+export const LOADER_LOAD_ACTION = '[LOADER] LOAD';
+export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
+export const LOADER_SUCCESS_ACTION = '[LOADER] SUCCESS';
 
 export interface LoaderMeta {
   entity: {

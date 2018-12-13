@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
-import { Product } from '../../occ-models/occ.models';
+import { Product } from '../../occ/occ-models/occ.models';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable()

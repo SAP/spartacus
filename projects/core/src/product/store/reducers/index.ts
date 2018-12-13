@@ -5,7 +5,7 @@ import * as fromProductReviews from './product-reviews.reducer';
 import { PRODUCT_DETAIL_ENTITY, ProductsState } from '../product-state';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context';
 import { entityReducer } from '../../../store-entities/entity.reducer';
-import { Product } from '../../../occ-models/occ.models';
+import { Product } from '../../../occ/occ-models/occ.models';
 
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {

@@ -1,12 +1,14 @@
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
 
+export const initialLoaderState: LoaderState<any> = { loading: false, error: false, value: undefined };
+
 export function loaderReducer<T>(
   loadActionType: string,
   reducer?: (state: T, action: any) => T
 ) {
   return (
-    state: LoaderState<T> = { loading: false, error: false, value: undefined },
+    state: LoaderState<T> = initialLoaderState,
     action: LoaderAction
   ): LoaderState<T> => {
     if (

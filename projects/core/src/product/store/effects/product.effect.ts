@@ -32,7 +32,9 @@ export class ProductEffects {
               this.productReferenceConverterService.convertProduct(product);
               return new actions.LoadProductSuccess(product);
             }),
-            catchError(error => of(new actions.LoadProductFail(error)))
+            catchError(error =>
+              of(new actions.LoadProductFail(productCode, error))
+            )
           );
         })
       )

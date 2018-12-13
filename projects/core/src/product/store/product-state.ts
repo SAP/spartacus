@@ -4,7 +4,7 @@ import {
   ProductSearchPage,
   Review,
   Suggestion
-} from '../../occ-models/occ.models';
+} from '../../occ/occ-models/occ.models';
 
 export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';

@@ -1,4 +1,4 @@
-import { Product } from '../../../occ-models';
+import { Product } from '../../../occ/occ-models';
 import {
   EntityFailAction,
   EntityLoadAction,
@@ -19,8 +19,8 @@ export class LoadProduct extends EntityLoadAction {
 
 export class LoadProductFail extends EntityFailAction {
   readonly type = LOAD_PRODUCT_FAIL;
-  constructor(public payload: any) {
-    super(PRODUCT_DETAIL_ENTITY, payload);
+  constructor(productCode: string, public payload: any) {
+    super(PRODUCT_DETAIL_ENTITY, productCode, payload);
   }
 }
 
