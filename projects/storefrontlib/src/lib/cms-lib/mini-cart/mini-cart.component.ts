@@ -10,7 +10,6 @@ import { CartService } from '../../cart/facade/cart.service';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { Cart, OrderEntry, CmsService } from '@spartacus/core';
 
-
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',

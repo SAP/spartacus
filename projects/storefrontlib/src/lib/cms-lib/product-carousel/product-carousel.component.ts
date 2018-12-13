@@ -18,7 +18,6 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
 import { CmsService } from '@spartacus/core';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
-
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
