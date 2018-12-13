@@ -1,6 +1,6 @@
 import * as fromProductSearch from './product-search.reducer';
 import * as fromActions from '../actions/product-search.action';
-import { ProductList, Suggestion } from '../../../occ-models';
+import { ProductList, Suggestion } from '../../../occ/occ-models';
 import { SearchConfig } from '../../model/search-config';
 import { ProductsSearchState } from '../product-state';
 

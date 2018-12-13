@@ -10,12 +10,10 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { CmsComponent } from '@spartacus/core';
-import { ComponentMapperService } from '../../services/component-mapper.service';
-import { CmsService } from '../../facade/cms.service';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
-import { CmsModuleConfig } from '../../cms-module-config';
+import { CmsConfig, CmsService, ComponentMapperService } from '@spartacus/core';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -40,7 +38,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private cmsService: CmsService,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
-    private config: CmsModuleConfig
+    private config: CmsConfig
   ) {}
 
   ngOnInit() {
