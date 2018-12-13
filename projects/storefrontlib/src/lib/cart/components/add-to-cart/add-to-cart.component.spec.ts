@@ -17,7 +17,7 @@ import { Cart } from '@spartacus/core';
 const productCode = '1234';
 const mockCartEntry: any = [];
 class MockCartService {
-  addCartEntry(_productCode: string, _quantity: number): void {
+  addEntry(_productCode: string, _quantity: number): void {
     mockCartEntry.push({
       '1234': { entryNumber: 0, product: { code: productCode } }
     });
@@ -28,7 +28,7 @@ class MockCartService {
   getLoaded(): Observable<boolean> {
     return of();
   }
-  getActiveCart(): Observable<Cart> {
+  getActive(): Observable<Cart> {
     return of();
   }
 }
@@ -36,7 +36,7 @@ class MockCartService {
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service;
+  let service: CartService;
   let modalInstance;
 
   beforeEach(async(() => {
@@ -79,13 +79,13 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call addToCart()', () => {
-    spyOn(service, 'addCartEntry').and.callThrough();
+    spyOn(service, 'addEntry').and.callThrough();
 
     addToCartComponent.addToCart();
     addToCartComponent.cartEntry$.subscribe();
 
     expect(modalInstance.open).toHaveBeenCalled();
-    expect(service.addCartEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
   });
 
   // UI test will be added after replacing Material
