@@ -5,7 +5,7 @@ import {
   SortModel,
   OrderHistory,
   OrderHistoryList
-} from '../../../occ-models/index';
+} from '../../../occ/occ-models/index';
 
 describe('User Orders Reducer', () => {
   describe('undefined action', () => {

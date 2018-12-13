@@ -11,7 +11,7 @@ import {
   AddressList,
   PaymentDetails,
   PaymentDetailsList
-} from '../../occ-models/index';
+} from '../../occ/occ-models/index';
 import { OccConfig } from '../../occ/config/occ-config';
 
 const username: any = 'mockUsername';

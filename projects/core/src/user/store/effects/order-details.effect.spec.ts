@@ -9,7 +9,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { ProductImageConverterService } from '../../../product/store/converters/index';
 import { OccOrderService } from '../../occ/index';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { Order } from '../../../occ-models/index';
+import { Order } from '../../../occ/occ-models/index';
 
 const mockOrderDetails: Order = {};
 

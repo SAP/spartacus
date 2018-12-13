@@ -12,7 +12,7 @@ import {
   PaymentDetails,
   Title,
   Country
-} from '../../occ-models/index';
+} from '../../occ/occ-models/index';
 
 import * as fromStore from '../store/index';
 import { UserService } from './user.service';

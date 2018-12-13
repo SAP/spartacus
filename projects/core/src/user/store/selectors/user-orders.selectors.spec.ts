@@ -5,7 +5,7 @@ import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import { UserState, USER_FEATURE } from '../user-state';
-import { OrderHistoryList } from '../../../occ-models/index';
+import { OrderHistoryList } from '../../../occ/occ-models/index';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],

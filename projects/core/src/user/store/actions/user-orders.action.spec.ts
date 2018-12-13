@@ -1,5 +1,5 @@
 import * as fromUserOrdersAction from './user-orders.action';
-import { OrderHistoryList } from '../../../occ-models/index';
+import { OrderHistoryList } from '../../../occ/occ-models/index';
 
 const mockUserOrder: {
   userId: string;

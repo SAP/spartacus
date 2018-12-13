@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
-import { Order } from '../../occ-models/index';
+import { Order } from '../../occ/occ-models/index';
 import { OccConfig } from '../../occ/config/occ-config';
 import { OccOrderService } from '../occ/index';
 

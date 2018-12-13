@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ/index';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList } from '../../../occ-models/index';
+import { AddressList } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class UserAddressesEffects {

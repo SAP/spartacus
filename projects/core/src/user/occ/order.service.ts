@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 
 import { OccConfig } from '../../occ/config/occ-config';
-import { Order, OrderHistoryList } from '../../occ-models/index';
+import { Order, OrderHistoryList } from '../../occ/occ-models/index';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';

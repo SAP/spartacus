@@ -4,7 +4,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { PaymentDetailsList } from '../../../occ-models';
+import { PaymentDetailsList } from '../../../occ/occ-models/index';
 import { UserState, USER_FEATURE } from '../user-state';
 
 const mockUserPaymentMethods: PaymentDetailsList = {

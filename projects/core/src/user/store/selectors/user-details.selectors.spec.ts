@@ -4,7 +4,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { User } from '../../../occ-models/index';
+import { User } from '../../../occ/occ-models/index';
 import { UserState, USER_FEATURE } from '../user-state';
 
 const mockUserDetails: User = {

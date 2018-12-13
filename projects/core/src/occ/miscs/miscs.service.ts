@@ -8,7 +8,7 @@ import {
   TitleList,
   CardTypeList,
   RegionList
-} from '../../occ-models/index';
+} from '../../occ/occ-models/index';
 
 const ENDPOINT_COUNTRIES = 'countries';
 const ENDPOINT_TITLES = 'titles';

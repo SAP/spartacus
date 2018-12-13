@@ -1,5 +1,5 @@
 import * as fromUserAddressesAction from './user-addresses.action';
-import { Address } from '../../../occ-models/index';
+import { Address } from '../../../occ/occ-models/index';
 
 const userId = '123';
 

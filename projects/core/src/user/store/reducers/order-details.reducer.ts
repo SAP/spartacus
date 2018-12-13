@@ -1,6 +1,6 @@
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OrderDetailsState } from '../user-state';
-import { Order } from '../../../occ-models/index';
+import { Order } from '../../../occ/occ-models/index';
 
 export const initialState: OrderDetailsState = {
   order: {}

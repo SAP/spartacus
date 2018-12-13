@@ -11,7 +11,7 @@ import {
   Country,
   Region,
   OrderHistoryList
-} from '../../occ-models/occ.models';
+} from '../../occ/occ-models/index';
 
 import { Observable } from 'rxjs';
 

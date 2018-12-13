@@ -6,7 +6,7 @@ import { OccOrderService } from '../../occ/index';
 
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { ProductImageConverterService } from '../../../product/store/converters/index';
-import { Order } from '../../../occ-models/index';
+import { Order } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class OrderDetailsEffect {

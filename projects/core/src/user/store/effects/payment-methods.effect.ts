@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ/index';
 import * as fromUserPaymentMethodsAction from '../actions/payment-methods.action';
-import { PaymentDetailsList } from '../../../occ-models/index';
+import { PaymentDetailsList } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class UserPaymentMethodsEffects {

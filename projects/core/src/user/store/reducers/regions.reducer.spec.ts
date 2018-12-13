@@ -1,6 +1,6 @@
 import * as fromReducer from './regions.reducer';
 import * as fromActions from '../actions/index';
-import { Region } from '../../../occ-models/index';
+import { Region } from '../../../occ/occ-models/index';
 
 describe('Regions Reducer', () => {
   describe('undefined action', () => {

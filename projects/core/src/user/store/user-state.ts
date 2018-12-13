@@ -39,6 +39,7 @@ export interface TitlesState {
 export interface UserAddressesState {
   list: any[];
   isLoading: boolean;
+  isActionProcessing: boolean;
 }
 
 export interface UserDetailsState {

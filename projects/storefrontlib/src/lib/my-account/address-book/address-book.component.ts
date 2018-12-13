@@ -3,8 +3,17 @@ import { Observable, Subscription } from 'rxjs';
 import { ActionsSubject } from '@ngrx/store';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../global-message/models/message.model';
-import * as actionTypes from '../../user/store/actions/user-addresses.action';
-import { UserService } from '../../user/facade/user.service';
+import {
+  UserService,
+  LOAD_USER_ADDRESSES_SUCCESS,
+  ADD_USER_ADDRESS,
+  ADD_USER_ADDRESS_SUCCESS,
+  ADD_USER_ADDRESS_FAIL,
+  UPDATE_USER_ADDRESS,
+  UPDATE_USER_ADDRESS_SUCCESS,
+  UPDATE_USER_ADDRESS_FAIL,
+  DELETE_USER_ADDRESS_SUCCESS
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-book',
@@ -79,7 +88,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   handleActionEvents() {
     return this.actions.subscribe(action => {
       switch (action.type) {
-        case actionTypes.LOAD_USER_ADDRESSES_SUCCESS: {
+        case LOAD_USER_ADDRESSES_SUCCESS: {
           this.userService.addressesState$.subscribe(data => {
             this.hideAddAddressForm();
             if (!data.list) {
@@ -89,12 +98,12 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           break;
         }
 
-        case actionTypes.ADD_USER_ADDRESS: {
+        case ADD_USER_ADDRESS: {
           this.hideAddAddressForm();
           break;
         }
 
-        case actionTypes.ADD_USER_ADDRESS_SUCCESS: {
+        case ADD_USER_ADDRESS_SUCCESS: {
           this.messagesService.add({
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             text: 'New address was added successfully!'
@@ -104,17 +113,17 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           break;
         }
 
-        case actionTypes.ADD_USER_ADDRESS_FAIL: {
+        case ADD_USER_ADDRESS_FAIL: {
           this.showAddAddressForm();
           break;
         }
 
-        case actionTypes.UPDATE_USER_ADDRESS: {
+        case UPDATE_USER_ADDRESS: {
           this.hideEditAddressForm();
           break;
         }
 
-        case actionTypes.UPDATE_USER_ADDRESS_SUCCESS: {
+        case UPDATE_USER_ADDRESS_SUCCESS: {
           this.messagesService.add({
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             text: 'Address updated successfully!'
@@ -124,12 +133,12 @@ export class AddressBookComponent implements OnInit, OnDestroy {
           break;
         }
 
-        case actionTypes.UPDATE_USER_ADDRESS_FAIL: {
+        case UPDATE_USER_ADDRESS_FAIL: {
           this.showEditAddressForm(this.activeAddress);
           break;
         }
 
-        case actionTypes.DELETE_USER_ADDRESS_SUCCESS: {
+        case DELETE_USER_ADDRESS_SUCCESS: {
           this.messagesService.add({
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
             text: 'Address deleted successfully!'
