@@ -22,20 +22,21 @@ The Spartacus JavaScript Storefront uses SAP Commerce for its back end, and make
 
 Perform the following steps to set up your back end:
 
-- Install a new instance of SAP Commerce 1811 using the `b2c_acc_plus` recipe, as follows:
+- Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
 
-   1. In the `installer/recipes` folder of SAP Commerce 1811, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
+   1. In the `installer/recipes` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
 
    2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
 
    3. Add this [build.gradle](assets/build.gradle) file to your `b2c_for_spartacus` recipe folder.
 
-   4. Follow the instructions in https://help.hybris.com/1811/hcd/8c46c266866910149666a0fe4caeee4e.html to install, initialize and start a new instance of SAP Commerce 1811, using `b2c_for_spartacus` as the recipe name.
+   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, initialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
 
-- Configure your OCC client, as described here: https://help.hybris.com/1811/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
+- Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
 
-- For more information on importing ImpEx, see https://help.hybris.com/1811/hcd/2f095d195c0740aab4b0bbdf0f0a2d12.html. 
+  For more information on importing ImpEx, see https://help.hybris.com/1808/hcd/2f095d195c0740aab4b0bbdf0f0a2d12.html. 
 
+- Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
 
 # Creating a New Angular Application
 
@@ -199,7 +200,7 @@ This section describes how to validate your back end installation, and then star
 
 The following are known issues with the current release of Spartacus JavaScript Storefront:
 
-- When using SAP Commerce 1811 for your back end, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
+- When using SAP Commerce 1808 for your back end, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
 
 - The Spartacus storefront is currently missing all categories.
 
