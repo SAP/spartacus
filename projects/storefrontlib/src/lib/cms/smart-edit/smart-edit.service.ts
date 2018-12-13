@@ -28,7 +28,7 @@ export class SmartEditService {
       this.routingService.getRouterState()
     )
       .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
-      .subscribe(([{}, routerState]) => {
+      .subscribe(([, routerState]) => {
         if (routerState.state && !this._cmsTicketId) {
           this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
         }
