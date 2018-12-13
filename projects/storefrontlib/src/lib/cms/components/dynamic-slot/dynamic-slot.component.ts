@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 
-import { CmsService } from '../../facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
