@@ -4,8 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import { OccConfig } from '@spartacus/core';
-import { ProductImageConverterService, Cart } from '@spartacus/core';
+import { ProductImageConverterService, Cart, OccConfig } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
@@ -16,7 +15,7 @@ import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromAuth from '../../../../../../core/src/auth/store/index';
 import * as fromCart from '../../../cart/store';
-import * as fromUser from '../../../user/store';
+import * as fromUser from '@spartacus/core';
 import { OccCartService } from '../../../occ/cart/cart.service';
 
 import * as fromEffects from './cart.effect';

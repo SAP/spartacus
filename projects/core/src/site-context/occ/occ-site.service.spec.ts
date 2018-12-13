@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
-import { LanguageList, CurrencyList } from '../../occ-models/occ.models';
+import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

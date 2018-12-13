@@ -1,6 +1,6 @@
 import * as fromLanguages from './languages.reducer';
 import * as fromActions from '../actions/languages.action';
-import { Language, Currency } from '../../../occ-models/occ.models';
+import { Language, Currency } from '../../../occ/occ-models/occ.models';
 
 describe('Languages Reducer', () => {
   describe('undefined action', () => {

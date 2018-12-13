@@ -1,6 +1,6 @@
 import * as fromCurrencies from './currencies.reducer';
 import * as fromActions from '../actions/currencies.action';
-import { Currency } from '../../../occ-models/occ.models';
+import { Currency } from '../../../occ/occ-models/occ.models';
 import { CurrenciesAction } from '../actions/currencies.action';
 
 describe('Currencies Reducer', () => {
