@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
     ReactiveFormsModule,
     MediaModule,
     ProductModule,
-    ConfigModule.withConfig(<CmsModuleConfig>{
+    ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SearchBoxComponent: {
           selector: 'cx-searchbox',

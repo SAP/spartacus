@@ -6,7 +6,7 @@ import { PaymentDetails, User } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
-import { UserService } from '../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { CardComponent } from './../../../ui/components/card/card.component';
 
 import { PaymentMethodsComponent } from './payment-methods.component';

@@ -1,5 +1,5 @@
 export const PRODUCT_FEATURE = 'product';
-import { Review, Suggestion, ProductSearchPage } from '../../occ-models';
+import { Review, Suggestion, ProductSearchPage } from '../../occ/occ-models';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductState;

@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { PaymentDetails } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
-
-import { UserService } from './../../../user/facade/user.service';
 import { Card } from '../../../ui/components/card/card.component';
+import { UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-methods',
