@@ -3,7 +3,7 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of } from 'rxjs';
 import { AddressBookComponent } from './address-book.component';
-import { UserService } from '../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { AddressBookModule } from './address-book.module';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
