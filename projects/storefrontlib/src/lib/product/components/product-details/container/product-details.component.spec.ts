@@ -8,9 +8,7 @@ import {
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
-import { ProductService, ComponentMapperService } from '@spartacus/core';
-
-import { BootstrapModule } from '../../../../bootstrap.module';
+import { ProductService } from '@spartacus/core';
 
 import { ProductDetailsComponent } from './product-details.component';
 import { OutletDirective } from '../../../../outlet';
