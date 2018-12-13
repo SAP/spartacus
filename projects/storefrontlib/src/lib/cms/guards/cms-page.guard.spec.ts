@@ -1,39 +1,45 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject, of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { CmsPageGuards } from './cms-page.guard';
-import { CmsService } from '../facade/cms.service';
-import { RoutingService, PageType } from '@spartacus/core';
+import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
 class MockCmsService {
   hasPage() {}
 }
-const mockRoutingService = {
-  routerState$: new BehaviorSubject(null)
-};
+class MockRoutingService {
+  getRouterState(): Observable<any> {
+    return of();
+  }
+}
 
 describe('CmsPageGuards', () => {
+  let routingService: RoutingService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CmsPageGuards,
-        { provide: RoutingService, useValue: mockRoutingService },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService }
       ],
       imports: [RouterTestingModule]
     });
 
-    mockRoutingService.routerState$.next({
-      state: {
-        url: '/test',
-        queryParams: {},
-        params: {},
-        context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
-      }
-    });
+    routingService = TestBed.get(RoutingService);
+    spyOn(routingService, 'getRouterState').and.returnValue(
+      of({
+        state: {
+          url: '/test',
+          queryParams: {},
+          params: {},
+          context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
+        }
+      })
+    );
   });
 
-  describe('canCactivate', () => {
+  describe('canActivate', () => {
     it('should return true when CmsService hasPage is true for the page context', inject(
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {

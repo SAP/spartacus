@@ -1,51 +1,56 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
+
 import { StateWithSiteContext } from '../store/state';
-import {
-  getAllLanguages,
-  getActiveLanguage
-} from '../store/selectors/languages.selectors';
-import { Language } from '../../occ-models/occ.models';
+import { Language } from '../../occ/occ-models/occ.models';
 import {
   LoadLanguages,
   SetActiveLanguage
 } from '../store/actions/languages.action';
-
+import {
+  getAllLanguages,
+  getActiveLanguage
+} from '../store/selectors/languages.selectors';
 import { OccConfig } from '../../occ/config/occ-config';
+
 @Injectable()
 export class LanguageService {
-  readonly languages$: Observable<Language[]> = this.store.pipe(
-    select(getAllLanguages)
-  );
-
-  readonly activeLanguage$: Observable<string> = this.store.pipe(
-    select(getActiveLanguage)
-  );
-
   constructor(
     private store: Store<StateWithSiteContext>,
     private config: OccConfig
   ) {
-    this.initActiveLanguage();
-    this.loadLanguages();
+    this.initActive();
+    this.load();
   }
 
-  protected loadLanguages() {
+  protected load(): void {
     this.store.dispatch(new LoadLanguages());
   }
 
-  public set activeLanguage(isocode: string) {
-    this.store.dispatch(new SetActiveLanguage(isocode));
-  }
-
-  protected initActiveLanguage() {
+  protected initActive(): void {
     if (sessionStorage) {
-      this.activeLanguage = !sessionStorage.getItem('language')
+      const language = !sessionStorage.getItem('language')
         ? this.config.site.language
         : sessionStorage.getItem('language');
+
+      this.setActive(language);
     } else {
-      this.activeLanguage = this.config.site.language;
+      this.setActive(this.config.site.language);
     }
+  }
+
+  get(): Observable<Language[]> {
+    return this.store.pipe(select(getAllLanguages));
+  }
+
+  getActive(): Observable<string> {
+    return this.store.pipe(select(getActiveLanguage));
+  }
+
+  setActive(isocode: string): void {
+    this.store.dispatch(new SetActiveLanguage(isocode));
   }
 }
