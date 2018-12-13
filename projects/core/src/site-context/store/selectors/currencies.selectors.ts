@@ -7,6 +7,7 @@ import {
   SiteContextState
 } from '../state';
 import { getSiteContextState } from './site-context.selector';
+import { LoaderState } from '../../../store-entities/loader-state';
 
 const currenciesEntitiesSelector = (state: CurrenciesState) => state.entities;
 const activeCurrencySelector = (state: CurrenciesState) => state.activeCurrency;
@@ -16,7 +17,7 @@ export const getCurrenciesState: MemoizedSelector<
   CurrenciesState
 > = createSelector(
   getSiteContextState,
-  (state: SiteContextState) => state.currencies
+  (state: SiteContextState) => state.currencies.value
 );
 
 export const getCurrenciesEntities: MemoizedSelector<

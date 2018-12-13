@@ -13,7 +13,7 @@ import { Product } from '../../../occ-models/occ.models';
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {
     search: fromProductsSearch.reducer,
-    details: entityReducer<Product>(fromProduct.reducer, PRODUCT_DETAIL_ENTITY),
+    details: entityReducer<Product>(PRODUCT_DETAIL_ENTITY),
     reviews: fromProductReviews.reducer
   };
 }

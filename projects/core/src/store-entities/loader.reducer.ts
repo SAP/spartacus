@@ -2,8 +2,7 @@ import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
 
 export function loaderReducer<T>(
-  reducer: (state: T, action: any) => T,
-  loadActionType: string
+  loadActionType: string, reducer?: (state: T, action: any) => T
 ) {
   return (
     state: LoaderState<T> = { loading: false, error: false, value: undefined },
@@ -21,19 +20,19 @@ export function loaderReducer<T>(
           ...state,
           loading: true,
           error: false,
-          value: reducer(state ? state.value : undefined, action)
+          value: reducer ? reducer(state.value, action) : state.value
         };
       } else if (entity.error) {
         return {
           ...state,
           loading: false,
           error: true,
-          value: reducer(undefined, action)
+          value: reducer ? reducer(undefined, action) : undefined
         };
       } else {
         return {
           ...state,
-          value: reducer(action.payload, action),
+          value: reducer ? reducer(state.value, action) : action.payload,
           loading: false,
           error: false
         };
@@ -42,7 +41,7 @@ export function loaderReducer<T>(
 
     return {
       ...state,
-      value: reducer(state.value, action)
+      value: reducer ? reducer(state.value, action) : state.value
     };
   };
 }
