@@ -1,6 +1,6 @@
 import * as fromReducer from './../reducers/product-reviews.reducer';
 import * as fromActions from './../actions/product-reviews.action';
-import { Review } from '../../../occ-models';
+import { Review } from '../../../occ/occ-models';
 
 describe('Product Reviews reducer', () => {
   describe('undefined action', () => {
