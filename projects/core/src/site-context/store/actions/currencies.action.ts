@@ -1,6 +1,10 @@
 import { Action } from '@ngrx/store';
 import { Currency } from '../../../occ/occ-models/occ.models';
-import { failMeta, LoaderAction, LoaderMeta, loadMeta, successMeta } from '../../../store-entities/loader.action';
+import {
+  LoaderFailAction,
+  LoaderLoadAction,
+  LoaderSuccessAction
+} from '../../../store-entities/loader.action';
 import { CURRENCIES_ENTITY } from '../reducers';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';
@@ -9,21 +13,25 @@ export const LOAD_CURRENCIES_SUCCESS = '[Site-context] Load Currencies Success';
 export const SET_ACTIVE_CURRENCY = '[Site-context] Set Active Currency';
 export const CURRENCY_CHANGE = '[Site-context] Currency Change';
 
-export class LoadCurrencies implements LoaderAction {
+export class LoadCurrencies extends LoaderLoadAction {
   readonly type = LOAD_CURRENCIES;
-  readonly meta = loadMeta(CURRENCIES_ENTITY);
+  constructor() {
+    super(CURRENCIES_ENTITY);
+  }
 }
 
-export class LoadCurrenciesFail implements LoaderAction {
+export class LoadCurrenciesFail extends LoaderFailAction {
   readonly type = LOAD_CURRENCIES_FAIL;
-  readonly meta = failMeta(CURRENCIES_ENTITY);
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CURRENCIES_ENTITY, payload);
+  }
 }
 
-export class LoadCurrenciesSuccess implements Action {
+export class LoadCurrenciesSuccess extends LoaderSuccessAction {
   readonly type = LOAD_CURRENCIES_SUCCESS;
-  readonly meta = successMeta(CURRENCIES_ENTITY);
-  constructor(public payload: Currency[]) {}
+  constructor(public payload: Currency[]) {
+    super(CURRENCIES_ENTITY);
+  }
 }
 
 export class SetActiveCurrency implements Action {
