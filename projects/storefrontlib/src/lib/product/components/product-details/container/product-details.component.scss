@@ -1,14 +1,14 @@
 @import 'theme';
 @import 'functions';
 @import 'mixins';
-$cx-product-details-trbl-margin: 0 0 40px 0 !default;
+$cx-product-details-margin-bottom: 40px !default;
 $cx-product-details-tab-title-color: 'text' !default;
 $cx-product-details-tab-content-background-color: 'background' !default;
 $cx-product-details-tab-title-trbl-padding: 0 20px 0 20px !default;
 $cx-product-details-tab-content-trbl-padding: 3rem 8rem !default;
 
 cx-product-summary {
-  margin: $cx-product-details-trbl-margin;
+  margin-bottom: $cx-product-details-margin-bottom;
 }
 
 .cx-product-details {
