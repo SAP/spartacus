@@ -6,7 +6,7 @@ import { Router, Routes } from '@angular/router';
 import { ConfigurableRoutes } from './configurable-route';
 import { RoutesConfig } from './routes-config';
 
-class MockServerConfig extends ServerConfig {
+class MockServerConfig {
   production = false;
 }
 
@@ -18,14 +18,6 @@ class MockRoutesConfigLoader {
     parameterNamesMapping: {}
   };
 }
-// const mockRoutesConfigLoader: { routesConfig: RoutesConfig } = {
-//   routesConfig: {
-//     translations: {
-//       default: {}
-//     },
-//     parameterNamesMapping: {}
-//   }
-// };
 
 class MockRouter {
   config: Routes | ConfigurableRoutes;

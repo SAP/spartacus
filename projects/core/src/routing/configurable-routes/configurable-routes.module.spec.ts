@@ -14,7 +14,7 @@ describe('CongifurableRoutesModule', () => {
     TestBed.configureTestingModule({
       imports: [ConfigurableRoutesModule],
       providers: [
-        { provide: RoutesConfigLoader, useCLass: mockRoutesConfigLoader }
+        { provide: RoutesConfigLoader, useClass: MockRoutesConfigLoader }
       ]
     });
 

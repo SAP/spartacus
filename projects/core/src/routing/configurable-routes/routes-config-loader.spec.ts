@@ -10,11 +10,11 @@ class MockHttpClient {
   get = () => new BehaviorSubject(null);
 }
 
-class MockServerConfig extends ServerConfig {
+class MockServerConfig {
   server = { baseUrl: 'test-base-url' };
 }
 
-class MockConfigurableRoutesModuleConfig extends ConfigurableRoutesConfig {
+class MockConfigurableRoutesModuleConfig {
   routesConfig: RoutesConfig = {
     translations: {
       default: {
