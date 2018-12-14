@@ -43,7 +43,7 @@ export class ReviewSubmitComponent implements OnInit {
     this.cart$ = this.cartService.activeCart$;
     this.entries$ = this.cartService.entries$;
 
-    this.deliveryMode$ = this.checkoutService.selectedDeliveryMode$.pipe(
+    this.deliveryMode$ = this.checkoutService.getSelectedDeliveryMode().pipe(
       tap(selected => {
         if (selected === null) {
           this.checkoutService.loadSupportedDeliveryModes();
