@@ -79,7 +79,7 @@ translations: {
 
 When request for translations fails after 2 automatic retries, then a fatal error is thrown and unfortunately the app crashes.
 
-## SUBJECTS OF CHANGE
+## Subjects of change
 
 - [#662](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/662) a better way of handling the failure is under consideration
 
