@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
+  TestRequest
 } from '@angular/common/http/testing';
 import {
   HTTP_INTERCEPTORS,
@@ -42,7 +43,7 @@ class MockClientErrorHandlingService {
 }
 
 class MockAuthService {
-  logout() {}
+  logout(): void {}
 }
 
 describe('AuthErrorInterceptor', () => {
@@ -101,7 +102,7 @@ describe('AuthErrorInterceptor', () => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
       mockReq.flush(
@@ -128,7 +129,7 @@ describe('AuthErrorInterceptor', () => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
@@ -156,7 +157,7 @@ describe('AuthErrorInterceptor', () => {
         expect(result).toBeTruthy();
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'GET';
       });
 
@@ -194,7 +195,7 @@ describe('AuthErrorInterceptor', () => {
         }
       );
 
-    const mockReq = httpMock.expectOne(req => {
+    const mockReq: TestRequest = httpMock.expectOne(req => {
       return req.method === 'POST' && req.url === url;
     });
 

@@ -1,12 +1,14 @@
 import { Component, Inject, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { ComponentMapperService } from '../../services';
-import { CmsModuleConfig } from '../../cms-module-config';
 import { CmsComponentData } from '../cms-component-data';
 import { CxApiService } from '../../../cx-api/cx-api.service';
-import { CmsService } from '../../facade/cms.service';
-import { CmsComponent } from '@spartacus/core';
+import {
+  CmsComponent,
+  CmsService,
+  ComponentMapperService,
+  CmsConfig
+} from '@spartacus/core';
 
 const testText = 'test text';
 
@@ -30,7 +32,7 @@ export class TestComponent {
 })
 export class TestModule {}
 
-const MockCmsModuleConfig: CmsModuleConfig = {
+const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: {
       selector: 'cx-test',
@@ -59,7 +61,7 @@ describe('ComponentWrapperDirective', () => {
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         ComponentMapperService,
-        { provide: CmsModuleConfig, useValue: MockCmsModuleConfig },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useValue: { getComponentData: () => {} } },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
       ]
@@ -100,7 +102,7 @@ describe('ComponentWrapperDirective', () => {
     let scriptEl;
 
     beforeEach(() => {
-      const cmsMapping = TestBed.get(CmsModuleConfig) as CmsModuleConfig;
+      const cmsMapping = TestBed.get(CmsConfig) as CmsConfig;
       cmsMapping.cmsComponents.CMSTestComponent.selector =
         'path/to/file.js#cms-component';
       fixture = TestBed.createComponent(TestWrapperComponent);
