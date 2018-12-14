@@ -1,16 +1,13 @@
 import { Currency, Language } from '../../occ/occ-models/occ.models';
-import { LoaderState } from '../../state/utils/loader/loader-state';
 export const SITE_CONTEXT_FEATURE = 'siteContext';
 
 export interface StateWithSiteContext {
   [SITE_CONTEXT_FEATURE]: SiteContextState;
 }
 
-export const CURRENCIES_ENTITY = 'CURRENCIES';
-
 export interface SiteContextState {
   languages: LanguagesState;
-  currencies: LoaderState<CurrenciesState>;
+  currencies: CurrenciesState;
 }
 
 export interface CurrencyEntities {

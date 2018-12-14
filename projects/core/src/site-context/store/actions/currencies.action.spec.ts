@@ -1,11 +1,5 @@
 import * as fromCurrency from './currencies.action';
 import { Currency } from '../../../occ/occ-models/occ.models';
-import {
-  failMeta,
-  loadMeta,
-  successMeta
-} from '../../../state/utils/loader/loader.action';
-import { CURRENCIES_ENTITY } from '@spartacus/core';
 
 describe('Currencies Actions', () => {
   describe('LoadCurrencies Actions', () => {
@@ -13,8 +7,7 @@ describe('Currencies Actions', () => {
       it('should create an action', () => {
         const action = new fromCurrency.LoadCurrencies();
         expect({ ...action }).toEqual({
-          type: fromCurrency.LOAD_CURRENCIES,
-          meta: loadMeta(CURRENCIES_ENTITY)
+          type: fromCurrency.LOAD_CURRENCIES
         });
       });
     });
@@ -26,8 +19,7 @@ describe('Currencies Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCurrency.LOAD_CURRENCIES_FAIL,
-          payload,
-          meta: failMeta(CURRENCIES_ENTITY, payload)
+          payload
         });
       });
     });
@@ -41,8 +33,7 @@ describe('Currencies Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCurrency.LOAD_CURRENCIES_SUCCESS,
-          payload,
-          meta: successMeta(CURRENCIES_ENTITY)
+          payload
         });
       });
     });
