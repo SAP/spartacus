@@ -40,7 +40,6 @@ describe('Loader reducer', () => {
         error: true,
         value: undefined
       };
-      console.log(state);
       expect(state).toEqual(expectedState);
     });
   });
@@ -59,7 +58,6 @@ describe('Loader reducer', () => {
         error: false,
         value: data
       };
-      console.log(state);
       expect(state).toEqual(expectedState);
     });
   });

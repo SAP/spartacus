@@ -23,7 +23,7 @@ export class ProductService {
       tap(productState => {
         if (
           !productState.loading &&
-          !productState.value &&
+          productState.value === undefined &&
           !productState.error
         ) {
           this.store.dispatch(new fromStore.LoadProduct(productCode));
