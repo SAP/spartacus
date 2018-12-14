@@ -5,7 +5,7 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/currencies.selectors';
 import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
-import { Currency } from '../../../occ-models';
+import { Currency } from '../../../occ/occ-models';
 
 describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
