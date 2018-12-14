@@ -1,5 +1,5 @@
 import * as fromActions from './product-reviews.action';
-import { ErrorModel, ReviewList } from '../../../occ-models';
+import { ErrorModel, ReviewList } from '../../../occ/occ-models';
 
 describe('Product Review Actions', () => {
   describe('LoadProductReview Actions', () => {

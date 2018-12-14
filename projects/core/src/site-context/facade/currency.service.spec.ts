@@ -1,15 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { StoreModule, Store } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { CurrencyService } from './currency.service';
-import { OccConfig } from '../../occ/config/occ-config';
+import { Currency } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { Currency } from '../../occ-models/occ.models';
+import { OccConfig } from '../../occ/config/occ-config';
+
+import { CurrencyService } from './currency.service';
 
 const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -18,24 +17,15 @@ const mockCurrencies: Currency[] = [
 const mockActiveCurr = 'USD';
 
 describe('CurrencyService', () => {
-  const mockSelect1 = createSpy('select').and.returnValue(() =>
-    of(mockCurrencies)
-  );
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveCurr)
-  );
-
   let service: CurrencyService;
   let store: Store<StateWithSiteContext>;
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockSelect1,
-      mockSelect2
-    );
-
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('siteContext', fromStore.getReducers())
+      ],
       providers: [
         CurrencyService,
         { provide: OccConfig, useValue: defaultOccConfig }
@@ -55,6 +45,8 @@ describe('CurrencyService', () => {
   ));
 
   it('should load currencies and set active currency when service is constructed', () => {
+    store.dispatch(new fromStore.LoadCurrenciesSuccess(mockCurrencies));
+
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
     let activeCurr = sessionStorage.getItem('currency');
     if (!activeCurr) {
@@ -66,20 +58,32 @@ describe('CurrencyService', () => {
   });
 
   it('should be able to get currencies', () => {
-    service.currencies$.subscribe(results => {
-      expect(results).toEqual(mockCurrencies);
-    });
+    store.dispatch(new fromStore.LoadCurrenciesSuccess(mockCurrencies));
+
+    let result: Currency[];
+    service
+      .get()
+      .subscribe(results => (result = results))
+      .unsubscribe();
+    expect(result).toEqual(mockCurrencies);
   });
 
   it('should be able to get active currencies', () => {
-    service.activeCurrency$.subscribe(results => {
-      expect(results).toEqual(mockActiveCurr);
-    });
+    store.dispatch(new fromStore.SetActiveCurrency(mockActiveCurr));
+
+    let result: string;
+    service
+      .getActive()
+      .subscribe(results => (result = results))
+      .unsubscribe();
+
+    expect(result).toEqual(mockActiveCurr);
   });
 
-  describe('set activeCurrency(isocode)', () => {
+  describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
-      service.activeCurrency = 'USD';
+      store.dispatch(new fromStore.LoadCurrenciesSuccess(mockCurrencies));
+      service.setActive('USD');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveCurrency('USD')
       );

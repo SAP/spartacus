@@ -51,6 +51,7 @@ describe('NotAuthGuard', () => {
     spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
 
     let result: boolean;
+
     authGuard
       .canActivate()
       .subscribe(value => (result = value))

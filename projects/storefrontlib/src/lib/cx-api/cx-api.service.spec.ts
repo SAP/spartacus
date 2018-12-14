@@ -10,7 +10,7 @@ import {
   CurrencyService,
   AuthService
 } from '@spartacus/core';
-import { CmsService } from '../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 class MockAuthService {}
 class MockCmsService {}

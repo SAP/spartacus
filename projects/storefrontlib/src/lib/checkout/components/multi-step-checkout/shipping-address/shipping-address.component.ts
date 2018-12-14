@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -40,9 +40,10 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.addressesLoading$;
+    this.isLoading$ = this.userService.getAddressesLoading();
     this.userService.loadAddresses(this.cartData.userId);
-    this.existingAddresses$ = this.userService.addresses$.pipe(
+
+    this.existingAddresses$ = this.userService.getAddresses().pipe(
       tap(addresses => {
         if (this.cards.length === 0) {
           addresses.forEach(address => {

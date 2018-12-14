@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import { GlobalMessageComponent } from './global-messsage.component';
-import { GlobalMessageType } from './../models/message.model';
-import { GlobalMessageService } from '../facade/global-message.service';
+import { GlobalMessageComponent } from './global-message.component';
+import { GlobalMessageType, GlobalMessageService } from '@spartacus/core';
 
 const mockMessages = new Map<GlobalMessageType, string[]>();
 mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
@@ -11,21 +10,22 @@ mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
 mockMessages.set(GlobalMessageType.MSG_TYPE_INFO, ['Info']);
 mockMessages.set(GlobalMessageType.MSG_TYPE_ERROR, ['Error']);
 
+class MockMessageService {
+  remove = createSpy();
+  get() {
+    return of(mockMessages);
+  }
+}
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
   let fixture: ComponentFixture<GlobalMessageComponent>;
-  let mockMessageService: any;
+  let messageService: GlobalMessageService;
 
   beforeEach(async(() => {
-    mockMessageService = {
-      messages$: of(mockMessages),
-      remove: createSpy()
-    };
-
     TestBed.configureTestingModule({
       declarations: [GlobalMessageComponent],
       providers: [
-        { provide: GlobalMessageService, useValue: mockMessageService }
+        { provide: GlobalMessageService, useClass: MockMessageService }
       ]
     }).compileComponents();
   }));
@@ -33,6 +33,8 @@ describe('GlobalMessageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);
     globalMessageComponent = fixture.componentInstance;
+
+    messageService = TestBed.get(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -50,7 +52,7 @@ describe('GlobalMessageComponent', () => {
 
   it('should be able to remove messages', () => {
     globalMessageComponent.clear(GlobalMessageType.MSG_TYPE_CONFIRMATION, 0);
-    expect(mockMessageService.remove).toHaveBeenCalledWith(
+    expect(messageService.remove).toHaveBeenCalledWith(
       GlobalMessageType.MSG_TYPE_CONFIRMATION,
       0
     );

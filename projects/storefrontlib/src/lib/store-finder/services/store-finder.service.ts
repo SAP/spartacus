@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { LongitudeLatitude } from '../models/longitude-latitude';
 import { WindowRef } from './window-ref';
@@ -8,6 +8,8 @@ import * as fromStore from '../store';
 
 @Injectable()
 export class StoreFinderService {
+  private geolocationWatchId: number = null;
+
   constructor(
     private store: Store<fromStore.StoresState>,
     private winRef: WindowRef
@@ -15,36 +17,46 @@ export class StoreFinderService {
 
   findStores(queryText: string, useMyLocation?: boolean) {
     if (useMyLocation) {
-      this.store.dispatch(new fromStore.OnHold());
-      this.winRef.nativeWindow.navigator.geolocation.getCurrentPosition(
+      this.clearWatchGeolocation(new fromStore.OnHold());
+      this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
         (pos: Position) => {
           const longitudeLatitude: LongitudeLatitude = {
             longitude: pos.coords.longitude,
             latitude: pos.coords.latitude
           };
-          this.store.dispatch(
+          this.clearWatchGeolocation(
             new fromStore.FindStores({ queryText, longitudeLatitude })
           );
         }
       );
     } else {
-      this.store.dispatch(new fromStore.FindStores({ queryText }));
+      this.clearWatchGeolocation(new fromStore.FindStores({ queryText }));
     }
   }
 
   viewAllStores() {
-    this.store.dispatch(new fromStore.ViewAllStores());
+    this.clearWatchGeolocation(new fromStore.ViewAllStores());
   }
 
   viewAllStoresForCountry(countryIsoCode: string) {
-    this.store.dispatch(
+    this.clearWatchGeolocation(
       new fromStore.FindAllStoresByCountry({ countryIsoCode })
     );
   }
 
   viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
-    this.store.dispatch(
+    this.clearWatchGeolocation(
       new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
     );
+  }
+
+  private clearWatchGeolocation(callbackAction: Action) {
+    if (this.geolocationWatchId !== null) {
+      this.winRef.nativeWindow.navigator.geolocation.clearWatch(
+        this.geolocationWatchId
+      );
+      this.geolocationWatchId = null;
+    }
+    this.store.dispatch(callbackAction);
   }
 }

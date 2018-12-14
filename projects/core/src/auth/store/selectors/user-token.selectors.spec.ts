@@ -26,6 +26,7 @@ describe('UserToken Selectors', () => {
   describe('getUserToken', () => {
     it('should return a user token from the state', () => {
       let result: UserToken;
+
       store
         .pipe(select(fromSelectors.getUserToken))
         .subscribe(value => (result = value));
