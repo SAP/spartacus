@@ -6,17 +6,18 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { RoutingService } from '@spartacus/core';
-
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import {
+  RoutingService,
+  GlobalMessageService,
+  GlobalMessageType,
+  CartService,
+  CartDataService
+} from '@spartacus/core';
 
 import { CheckoutService } from '../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
-import { CartDataService } from '@spartacus/core';
-import { CartService } from '@spartacus/core';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from './../../../../global-message/models/message.model';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
 

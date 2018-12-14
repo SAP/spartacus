@@ -2,7 +2,12 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { CartService, RoutingService, CartDataService } from '@spartacus/core';
+import {
+  CartService,
+  RoutingService,
+  CartDataService,
+  GlobalMessageService
+} from '@spartacus/core';
 
 import { BehaviorSubject } from 'rxjs';
 
@@ -10,7 +15,6 @@ import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from './../../../facade/checkout.service';
 import { Address } from '../../../models/address-model';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
