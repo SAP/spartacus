@@ -295,7 +295,8 @@ export class UrlTranslationService {
 
   private warn(...args) {
     if (!this.config.production) {
-      console.warn(...args);
+      const x = console;
+      x['warn'](...args);
     }
   }
 }

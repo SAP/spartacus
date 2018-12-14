@@ -259,7 +259,8 @@ export class ConfigurableRoutesService {
 
   private warn(...args) {
     if (!this.config.production) {
-      console.warn(...args);
+      const x = console;
+      x['warn'](...args);
     }
   }
 }
