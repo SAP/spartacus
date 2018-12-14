@@ -37,9 +37,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService.addressesState$;
+    this.addresses$ = this.userService.getAddresses();
 
-    this.userService.user$.subscribe(data => {
+    this.userService.get().subscribe(data => {
       this.userId = data.uid;
       this.userService.loadAddresses(this.userId);
     });
@@ -89,7 +89,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     return this.actions.subscribe(action => {
       switch (action.type) {
         case LOAD_USER_ADDRESSES_SUCCESS: {
-          this.userService.addressesState$.subscribe(data => {
+          this.userService.getAddressesState().subscribe(data => {
             this.hideAddAddressForm();
             if (!data.list) {
               this.showAddAddressForm();
