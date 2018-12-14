@@ -1,18 +1,18 @@
 import { ActivatedRoute } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 import { StoreFinderService, StoreDataService } from '../../services';
 import { SpinnerComponent } from '../../../ui';
+import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
 import * as fromReducers from '../../store';
 
-const countryIsoCode = 'CA';
-const regionIsoCode = 'CA-QC';
+const storeId = 'shop_new_york_1';
 
 const mockActivatedRoute = {
   snapshot: {
@@ -20,12 +20,18 @@ const mockActivatedRoute = {
   }
 };
 
-class StoreDataServiceMock {}
+class MapRendererServiceMock {
+  public renderMap(_mapElement: HTMLElement, _locations: any[]): void {}
+  public centerMap(_latitude: number, _longitude: number): void {}
+}
+
+class StoreDataServiceMock {
+  getStoreLatitude() {}
+  getStoreLongitude() {}
+}
 
 class StoreFinderServiceMock {
-  findStores() {}
-  viewAllStoresForCountry() {}
-  viewAllStoresForRegion() {}
+  viewStoreById() {}
 }
 
 describe('StoreFinderStoreDescriptionComponent', () => {
@@ -33,36 +39,17 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
   let storeFinderService: StoreFinderService;
 
-  it('should call storeFinderService with country', () => {
+  it('should call storeFinderService with store id', () => {
     mockActivatedRoute.snapshot.params = {
-      country: countryIsoCode
+      store: storeId
     };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForCountry');
+    spyOn(storeFinderService, 'viewStoreById');
 
     createComponent();
 
     expect(component).toBeTruthy();
-    expect(storeFinderService.viewAllStoresForCountry).toHaveBeenCalledWith(
-      countryIsoCode
-    );
-  });
-
-  it('should call storeFinderService with country and region', () => {
-    mockActivatedRoute.snapshot.params = {
-      country: countryIsoCode,
-      region: regionIsoCode
-    };
-    configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForRegion');
-
-    createComponent();
-
-    expect(component).toBeTruthy();
-    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
-      countryIsoCode,
-      regionIsoCode
-    );
+    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(storeId);
   });
 
   function configureTestBed() {
@@ -82,7 +69,8 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         StoreDataService,
         { provide: StoreDataService, useClass: StoreDataServiceMock },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
       ]
     });
     bed.compileComponents();
