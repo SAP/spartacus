@@ -1,7 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  TestRequest
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
@@ -33,7 +34,6 @@ const MockAuthModuleConfig: AuthConfig = {
     baseUrl: 'https://localhost:9002',
     occPrefix: '/rest/v2/'
   },
-
   site: {
     baseSite: 'electronics'
   }
@@ -72,10 +72,10 @@ describe('ClientTokenInterceptor', () => {
             expect(result).toBeTruthy();
           })
           .unsubscribe();
-        let mockReq = httpMock.expectOne(
+        let mockReq: TestRequest = httpMock.expectOne(
           'https://localhost:9002/rest/v2/electronics/test'
         );
-        let authHeader = mockReq.request.headers.get('Authorization');
+        let authHeader: string = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(null);
 
         spyOn<any>(InterceptorUtil, 'getInterceptorParam').and.returnValue(
@@ -112,10 +112,10 @@ describe('ClientTokenInterceptor', () => {
           })
           .unsubscribe();
 
-        const mockReq = httpMock.expectOne(
+        const mockReq: TestRequest = httpMock.expectOne(
           '/somestore/forgottenpasswordtokens'
         );
-        const authHeader = mockReq.request.headers.get('Authorization');
+        const authHeader: string = mockReq.request.headers.get('Authorization');
         expect(authHeader).toBe(headers.Authorization);
       }
     ));

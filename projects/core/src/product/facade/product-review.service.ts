@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromStore from '../store/index';
-import { Review } from '../../occ-models';
+import { Review } from '../../occ/occ-models';
 
 @Injectable()
 export class ProductReviewService {

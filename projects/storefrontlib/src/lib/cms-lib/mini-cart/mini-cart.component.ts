@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 
 import { CartService } from '../../cart/facade/cart.service';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry, CmsService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-mini-cart',
