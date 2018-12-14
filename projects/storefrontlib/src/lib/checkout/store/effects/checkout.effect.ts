@@ -2,19 +2,19 @@ import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
 import * as fromUserActions from '@spartacus/core';
-import * as fromGlobalMessagesActions from '../../../global-message/store/actions';
 
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { GlobalMessageType } from '../../../global-message/models/message.model';
 import {
   ProductImageConverterService,
   OccOrderService,
   OrderEntry,
-  PaymentDetails
+  PaymentDetails,
+  GlobalMessageType,
+  AddMessage
 } from '@spartacus/core';
 
 @Injectable()
@@ -196,7 +196,7 @@ export class CheckoutEffects {
           }),
           switchMap(data => [
             new fromActions.PlaceOrderSuccess(data),
-            new fromGlobalMessagesActions.AddMessage({
+            new AddMessage({
               text: 'Order placed successfully',
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })

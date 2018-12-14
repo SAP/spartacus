@@ -14,8 +14,7 @@ import { filter } from 'rxjs/operators';
 import { CheckoutService } from '../../../facade/checkout.service';
 import { CartDataService } from '../../../../cart/facade/cart-data.service';
 import { CartService } from '../../../../cart/facade/cart.service';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from './../../../../global-message/models/message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
 

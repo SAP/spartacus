@@ -86,7 +86,9 @@ export class PageEffects {
   ): { key: string; value: Page } {
     const page: Page = {
       loadTime: Date.now(),
+      uuid: res.uuid,
       name: res.name,
+      catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
       template: res.template,
       seen: new Array<string>(),
@@ -95,20 +97,31 @@ export class PageEffects {
     page.seen.push(pageContext.id);
 
     for (const slot of res.contentSlots.contentSlot) {
-      page.slots[slot.position] = [];
+      page.slots[slot.position] = {
+        uid: slot.slotId,
+        uuid: slot.slotUuid,
+        catalogUuid: this.getCatalogUuid(slot),
+        components: []
+      };
       if (
         slot.components.component &&
         Array.isArray(slot.components.component)
       ) {
         for (const component of slot.components.component) {
-          page.slots[slot.position].push({
+          page.slots[slot.position].components.push({
             uid: component.uid,
+            uuid: component.uuid,
+            catalogUuid: this.getCatalogUuid(component),
             typeCode: component.typeCode
           });
         }
       }
     }
-    this.defaultPageService.getDefaultPageIdsBytype(pageContext.type);
+
+    return { key: this.getPageKey(pageContext, page), value: page };
+  }
+
+  private getPageKey(pageContext: PageContext, page: Page): string {
     switch (pageContext.type) {
       case PageType.CATEGORY_PAGE:
       case PageType.CATALOG_PAGE:
@@ -117,15 +130,24 @@ export class PageEffects {
           pageContext.type
         );
         if (defaultPageIds.indexOf(page.pageId) > -1) {
-          return { key: page.pageId + '_' + pageContext.type, value: page };
+          return page.pageId + '_' + pageContext.type;
         } else {
-          return { key: pageContext.id + '_' + pageContext.type, value: page };
+          return pageContext.id + '_' + pageContext.type;
         }
       }
 
       case PageType.CONTENT_PAGE: {
-        return { key: page.pageId + '_' + pageContext.type, value: page };
+        return page.pageId + '_' + pageContext.type;
       }
+    }
+  }
+
+  private getCatalogUuid(cmsItem: any): string {
+    if (cmsItem.properties) {
+      return cmsItem.properties.smartedit.catalogVersionUuid;
+    } else {
+      // due to smartedit bug: CMSX-8181, for page and slot, we have to hard-coded the catalogUUID.
+      return 'electronicsContentCatalog/Online';
     }
   }
 
@@ -137,7 +159,11 @@ export class PageEffects {
           slot.components.component &&
           Array.isArray(slot.components.component)
         ) {
-          for (const component of slot.components.component) {
+          for (const component of slot.components.component as any) {
+            // we dont put smartedit properties into store
+            if (component.properties) {
+              component.properties = undefined;
+            }
             components.push(component);
           }
         }

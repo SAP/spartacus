@@ -16,7 +16,7 @@ import createSpy = jasmine.createSpy;
 import { CheckoutService } from './../../../facade/checkout.service';
 import { CartDataService } from './../../../../cart/facade/cart-data.service';
 import { CartService } from './../../../../cart/facade/cart.service';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 

@@ -9,7 +9,7 @@ import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { CheckoutService } from '../../checkout/facade';
 import { StoreModule } from '@ngrx/store';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
 
 const mockAddress = {
   id: '123',
