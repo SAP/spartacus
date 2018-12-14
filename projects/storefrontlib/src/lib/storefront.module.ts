@@ -4,9 +4,9 @@ import {
   AuthModule,
   ConfigModule,
   provideConfig,
-  RoutingModule
+  RoutingModule,
+  StateModule
 } from '@spartacus/core';
-import { StateModule } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
 

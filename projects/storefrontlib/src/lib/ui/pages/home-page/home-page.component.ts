@@ -1,12 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy
-} from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { RoutingService } from '@spartacus/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'cx-home-page',
@@ -14,23 +6,6 @@ import { RoutingService } from '@spartacus/core';
   styleUrls: ['./home-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomePageComponent implements OnInit, OnDestroy {
-  cmsTicketId: string;
-  subscription: Subscription;
-
-  constructor(private routingService: RoutingService) {}
-
-  ngOnInit() {
-    this.subscription = this.routingService
-      .getRouterState()
-      .subscribe(routerState => {
-        this.cmsTicketId = routerState.state.queryParams['cmsTicketId'];
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+export class HomePageComponent {
+  constructor() {}
 }

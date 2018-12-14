@@ -4,7 +4,7 @@ import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { NavigationService } from '../navigation/navigation.service';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
 

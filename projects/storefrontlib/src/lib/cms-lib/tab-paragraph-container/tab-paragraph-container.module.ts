@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(<CmsModuleConfig>{
+    ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSTabParagraphComponent: { selector: 'cx-tab-paragraph-container' }
       }
