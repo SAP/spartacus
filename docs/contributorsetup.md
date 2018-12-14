@@ -12,7 +12,7 @@ Before carrying out the procedures below, please ensure the following front end 
 
 Your Angular development environment should include the following:
 
-- node.js >= 8.9.0
+- node.js >= 10.14.1
 - yarn >= 1.9.4
 
 ## Back end Requirements

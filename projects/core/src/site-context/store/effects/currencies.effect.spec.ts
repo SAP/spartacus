@@ -9,7 +9,7 @@ import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { OccModule } from '../../../occ/occ.module';
 import { ConfigModule } from '../../../config/config.module';
-import { Currency } from '../../../occ-models/occ.models';
+import { Currency } from '../../../occ/occ-models/occ.models';
 
 describe('Currencies Effects', () => {
   let actions$: Observable<any>;

@@ -20,14 +20,14 @@
   margin-top: calc(-1 * (var(--cx-spinner-size) / 2));
   margin-left: calc(-1 * (var(--cx-spinner-size) / 2));
   border-radius: 50%;
-  border: 2px solid var(--cx-light);
-  border-top-color: var(--cx-primary);
+  border: 2px solid var(--cx-g-color-light);
+  border-top-color: var(--cx-g-color-primary);
   animation: spin 0.6s linear infinite;
   z-index: 1;
 
   // add smooth transition
   opacity: var(--cx-opacity, 0);
-  transition: all var(--cx-transition-time, 0.6s);
+  transition: all var(--cx-g-transition-duration, 0.6s);
 }
 
 %overlay {
@@ -43,5 +43,5 @@
   background-color: hsla(60, 1%, 21%, 0.7);
 
   opacity: var(--cx-opacity, 0);
-  transition: all var(--cx-transition-time, 0.6s);
+  transition: all var(--cx-g-transition-duration, 0.6s);
 }

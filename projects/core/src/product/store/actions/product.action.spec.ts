@@ -1,5 +1,5 @@
 import * as fromProduct from './product.action';
-import { Product } from '../../../occ-models';
+import { Product } from '../../../occ/occ-models';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {

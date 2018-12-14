@@ -4,7 +4,7 @@ import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { Currency } from '../../occ-models/occ.models';
+import { Currency } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { OccConfig } from '../../occ/config/occ-config';
 
