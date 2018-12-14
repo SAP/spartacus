@@ -1,14 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
+import { Router } from '@angular/router';
+
 import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 
+import { EMPTY, of } from 'rxjs';
+
 import * as fromStore from '../store';
+import { SearchConfig } from '../model/search-config';
+import { ProductSearchPage } from '../../occ/occ-models';
 
 import { ProductSearchService } from './product-search.service';
-import { SearchConfig } from '../model/search-config';
-import { EMPTY, of } from 'rxjs';
-import { Router } from '@angular/router';
-import { ProductSearchPage } from '../../occ/occ-models';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
@@ -22,11 +24,11 @@ describe('ProductSearchService', () => {
       return {};
     }
   }
-  const mockSearchResults = {
+  const mockSearchResults: ProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }]
   };
 
-  const mockAuxSearchResults = {
+  const mockAuxSearchResults: ProductSearchPage = {
     products: [{ code: 'aux1' }, { code: 'aux2' }]
   };
 

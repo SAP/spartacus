@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
+import { Store, select } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
 import { map, tap, filter, take } from 'rxjs/operators';
-import { Product } from '../../occ/occ-models';
+
 import * as fromStore from '../store/index';
+import { StateWithProduct } from '../store/index';
+import { Product } from '../../occ/occ-models';
 
 @Injectable()
 export class ProductService {
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  constructor(private store: Store<StateWithProduct>) {}
 
   get(productCode: string): Observable<Product> {
     return this.store.pipe(

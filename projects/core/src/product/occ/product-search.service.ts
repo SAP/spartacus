@@ -1,7 +1,10 @@
-import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+
+import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+
+import { SuggestionList, ProductSearchPage } from '../../occ';
 import { SearchConfig } from '../model/search-config';
 import { OccConfig } from '../../occ/config/occ-config';
 
@@ -27,7 +30,7 @@ export class OccProductSearchService {
   query(
     fullQuery: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
-  ): Observable<any> {
+  ): Observable<ProductSearchPage> {
     let params = new HttpParams({
       fromString:
         '&fields=' +
@@ -49,11 +52,14 @@ export class OccProductSearchService {
     }
 
     return this.http
-      .get(this.getProductEndpoint() + '/search', { params: params })
+      .get(this.getProductEndpoint() + '/search', { params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  queryProductSuggestions(term: string, pageSize = 3): Observable<any> {
+  queryProductSuggestions(
+    term: string,
+    pageSize = 3
+  ): Observable<SuggestionList> {
     return this.http
       .get(this.getProductEndpoint() + '/suggestions', {
         params: new HttpParams()
