@@ -2,7 +2,7 @@ import { HomePage } from '../page-objects/home.po';
 import { LoginHelper } from '../page-objects/login/login.helper';
 import { by, element } from 'protractor';
 
-fdescribe('Login', () => {
+describe('Login', () => {
   const home: HomePage = new HomePage();
 
   const USER_FULL_NAME = `${LoginHelper.DEFAULT_FIRST_NAME} ${
