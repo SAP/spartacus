@@ -1,17 +1,20 @@
-import { Observable, of } from 'rxjs';
-import { OccProductService } from './../../occ/product.service';
-
-import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
 
-import * as productReviewsActions from './../actions/product-reviews.action';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+
+import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { ErrorModel } from '../../../occ/occ-models';
+
+import * as productReviewsActions from './../actions/product-reviews.action';
+import { OccProductService } from './../../occ/product.service';
+import { ErrorModel, Review } from '../../../occ/occ-models';
 
 @Injectable()
 export class ProductReviewsEffects {
   @Effect()
-  loadProductReviews$: Observable<any> = this.actions$.pipe(
+  loadProductReviews$: Observable<
+    { productCode: string; list: Review[] } | ErrorModel
+  > = this.actions$.pipe(
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),
     mergeMap(productCode => {
@@ -34,7 +37,7 @@ export class ProductReviewsEffects {
   );
 
   @Effect()
-  postProductReview: Observable<any> = this.actions$.pipe(
+  postProductReview: Observable<Review | any> = this.actions$.pipe(
     ofType(productReviewsActions.POST_PRODUCT_REVIEW),
     map((action: productReviewsActions.PostProductReview) => action.payload),
     mergeMap(payload => {

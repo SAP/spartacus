@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Product } from '../../../occ/occ-models';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';

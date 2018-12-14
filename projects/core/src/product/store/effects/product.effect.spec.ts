@@ -1,22 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
 
-import { hot, cold } from 'jasmine-marbles';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { StoreModule, Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 
-import { OccProductService } from '../../occ/product.service';
-import { PageType } from '../../../occ/occ-models/occ.models';
+import { hot, cold } from 'jasmine-marbles';
+
+import * as fromActions from '../actions/product.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
+import { OccProductService } from '../../occ/product.service';
+import { Product } from '../../../occ/occ-models';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { PageType } from '../../../occ/occ-models/occ.models';
+import { RoutingService } from '../../../routing/facade/routing.service';
+import { LanguageChange } from '../../../site-context/store/actions/languages.action';
 
 import * as fromEffects from './product.effect';
-import * as fromActions from '../actions/product.action';
-import { StoreModule } from '@ngrx/store';
-import { RoutingService } from '../../../routing/facade/routing.service';
-import { Product } from '../../../occ/occ-models';
-import { LanguageChange } from '../../../site-context/store/actions/languages.action';
-import { OccConfig } from '../../../occ/config/occ-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -41,7 +43,7 @@ class MockRoutingService {
 }
 
 describe('Product Effects', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
 

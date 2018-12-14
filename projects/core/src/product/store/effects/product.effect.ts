@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
+
 import { Observable, of } from 'rxjs';
 import {
   map,
@@ -12,17 +13,16 @@ import {
 } from 'rxjs/operators';
 
 import * as productActions from '../actions/product.action';
-import { OccProductService } from '../../occ/product.service';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
-
+import { OccProductService } from '../../occ/product.service';
 import { RoutingService } from '../../../routing/index';
-import { PageType } from '../../../occ/occ-models/occ.models';
+import { PageType, Product } from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductEffects {
   @Effect()
-  loadProduct$: Observable<any> = this.actions$.pipe(
+  loadProduct$: Observable<{ payload: Product }> = this.actions$.pipe(
     ofType(productActions.LOAD_PRODUCT),
     map((action: productActions.LoadProduct) => action.payload),
     mergeMap(productCode => {

@@ -1,11 +1,13 @@
-import * as fromProduct from './product.reducer';
 import * as fromActions from '../actions/product.action';
+import { Product } from '../../../occ/occ-models/occ.models';
+
+import * as fromProduct from './product.reducer';
 
 describe('Product Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromProduct;
-      const action = {} as any;
+      const action = {} as fromActions.ProductAction;
       const state = fromProduct.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -14,7 +16,7 @@ describe('Product Reducer', () => {
 
   describe('LOAD_PRODUCT_SUCCESS action', () => {
     it('should populate product details entities', () => {
-      const product = {
+      const product: Product = {
         code: 'testCode',
         name: 'testProduct'
       };
@@ -30,7 +32,7 @@ describe('Product Reducer', () => {
   describe('LOAD_PRODUCT_FAIL action', () => {
     it('should return an empty product', () => {
       const code = 'testCode';
-      const product = {
+      const product: Product = {
         code,
         name: 'testProduct'
       };
