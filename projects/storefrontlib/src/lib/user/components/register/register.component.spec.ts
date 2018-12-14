@@ -1,15 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AuthService, RoutingService, UserToken, Title } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  Title,
+  UserService
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { UserService } from '../../facade/user.service';
 import { Pipe, PipeTransform } from '@angular/core';
-
 import { RegisterComponent } from './register.component';
 import { RouterTestingModule } from '@angular/router/testing';
 

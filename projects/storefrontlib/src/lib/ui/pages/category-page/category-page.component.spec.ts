@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-import { CmsService } from '../../../cms/facade/cms.service';
-import { Page } from '../../../cms/models/page.model';
+import { CmsService, Page } from '@spartacus/core';
 import { CategoryPageComponent } from './category-page.component';
 
 @Component({ selector: 'cx-product-list-page-layout', template: '' })

@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, ChangeDetectorRef, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CmsService } from '../facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 /**
  * @deprecated Inject CmsComponentData instead

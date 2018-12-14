@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 import { CartService } from '../../cart/facade/cart.service';
-import { CmsService } from '../../cms/facade/cms.service';
-import { Pipe, PipeTransform } from '@angular/core';
+import { CmsService } from '@spartacus/core';
+
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, OrderEntry, CmsComponent } from '@spartacus/core';
+import { PipeTransform, Pipe } from '@angular/core';
 
 @Pipe({
   name: 'cxTranslateUrl'

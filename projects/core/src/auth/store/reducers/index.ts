@@ -1,6 +1,11 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import {
+  ActionReducer,
+  ActionReducerMap,
+  MetaReducer,
+  Action
+} from '@ngrx/store';
 
 import * as fromUserTokenReducer from './user-token.reducer';
 import * as fromClientTokenReducer from './client-token.reducer';
@@ -24,8 +29,8 @@ export const reducerProvider: Provider = {
 };
 
 export function clearAuthState(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
+  reducer: ActionReducer<AuthState, Action>
+): ActionReducer<AuthState, Action> {
   return function(state, action) {
     if (action.type === LOGOUT) {
       state = {

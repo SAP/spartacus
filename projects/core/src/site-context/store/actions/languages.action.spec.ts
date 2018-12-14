@@ -1,5 +1,5 @@
 import * as fromLanguage from './languages.action';
-import { Language } from '../../../occ-models/occ.models';
+import { Language } from '../../../occ/occ-models/occ.models';
 
 describe('Languages Actions', () => {
   describe('LoadLanguages Actions', () => {

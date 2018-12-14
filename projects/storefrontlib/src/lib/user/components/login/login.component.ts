@@ -7,11 +7,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  User,
+  UserService
+} from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
-
-import { UserService } from '../../facade/user.service';
 
 @Component({
   selector: 'cx-login',

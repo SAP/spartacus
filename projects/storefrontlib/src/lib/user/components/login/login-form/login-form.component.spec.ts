@@ -7,7 +7,7 @@ import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
 import { PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 

@@ -6,7 +6,7 @@ import { BootstrapModule } from '../../../bootstrap.module';
 import { CmsModule } from './../../../cms/cms.module';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginComponent } from './login.component';
-import { UrlTranslationModule } from '@spartacus/core';
+import { UserModule, UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -16,6 +16,7 @@ import { UrlTranslationModule } from '@spartacus/core';
     RouterModule,
     CmsModule,
     BootstrapModule,
+    UserModule,
     UrlTranslationModule
   ],
   declarations: [LoginComponent, LoginFormComponent],

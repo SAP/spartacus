@@ -4,11 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsConfig } from '@spartacus/core';
+import { CmsService } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
+const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     SimpleBannerComponent: { selector: 'BannerComponent' }
   },
@@ -59,7 +59,7 @@ describe('BannerComponent', () => {
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));

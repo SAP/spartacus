@@ -8,7 +8,7 @@ import { ProductService, Product, CmsComponent } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 import { BootstrapModule } from '../../bootstrap.module';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { ProductCarouselComponent } from './product-carousel.component';

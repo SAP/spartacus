@@ -7,12 +7,12 @@ import {
   AuthService,
   RoutingService,
   UserToken,
+  UserService,
   OrderHistoryList
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';

@@ -4,12 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig, TranslateUrlOptions } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { TranslateUrlOptions } from '@spartacus/core';
+import { CmsService } from '@spartacus/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
+const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     SimpleResponsiveBannerComponent: { selector: 'ResponsiveBannerComponent' }
   },
@@ -82,7 +81,7 @@ describe('ResponsiveBannerComponent', () => {
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));

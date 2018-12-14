@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  Input,
   Output,
   EventEmitter,
   OnDestroy,
@@ -14,11 +15,14 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { CheckoutService } from '../../../../facade/checkout.service';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { UserService } from '../../../../../user/facade/user.service';
-import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  UserService
+} from '@spartacus/core';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
+import { Address } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-form',
@@ -31,8 +35,21 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   titles$: Observable<any>;
   regions$: Observable<any>;
 
+  @Input()
+  addressData: Address;
+
+  @Input()
+  actionBtnLabel: string;
+
+  @Input()
+  cancelBtnLabel: string;
+
+  @Input()
+  setAsDefaultField: boolean;
+
   @Output()
   addAddress = new EventEmitter<any>();
+
   @Output()
   backToAddress = new EventEmitter<any>();
 
@@ -41,17 +58,17 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
-    titleCode: ['', Validators.required],
+    titleCode: [null, Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [null, Validators.required]
     }),
     country: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [null, Validators.required]
     }),
     postalCode: ['', Validators.required],
     phone: ''
@@ -119,6 +136,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    if (this.addressData) {
+      this.address.patchValue(this.addressData);
+
+      this.countrySelected(this.addressData.country);
+      if (this.addressData.region) {
+        this.regionSelected(this.addressData.region);
+      }
+    }
   }
 
   titleSelected(title) {
@@ -139,7 +165,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   toggleDefaultAddress() {
-    this.address.value.defaultAddress = !this.address.value.defaultAddress;
+    this.address['controls'].defaultAddress.setValue(
+      this.address.value.defaultAddress
+    );
   }
 
   back() {

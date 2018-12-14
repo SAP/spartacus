@@ -15,7 +15,7 @@ describe('UserToken reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserToken;
-      const action = {} as any;
+      const action = {} as fromActions.UserTokenAction;
       const state = fromUserToken.reducer(undefined, action);
 
       expect(state).toBe(initialState);

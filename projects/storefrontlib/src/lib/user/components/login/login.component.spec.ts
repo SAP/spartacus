@@ -3,13 +3,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  UserService,
+  User
+} from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
-
-import { UserService } from '../../facade/user.service';
 
 import { LoginComponent } from './login.component';
 import { RouterTestingModule } from '@angular/router/testing';
