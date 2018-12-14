@@ -4,8 +4,10 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccProductService } from './product.service';
+import { ReviewList } from '../../occ';
 import { OccConfig } from '../../occ/config/occ-config';
+
+import { OccProductService } from './product.service';
 
 const productCode = 'testCode';
 const product = {
@@ -14,10 +16,9 @@ const product = {
 };
 
 const maxCount = 2;
-const productReviews = [
-  { id: 1, text: 'Review 1' },
-  { id: 2, text: 'Review 2' }
-];
+const productReviews: ReviewList = {
+  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }]
+};
 
 const MockOccModuleConfig: OccConfig = {
   server: {
