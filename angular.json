@@ -58,16 +58,16 @@
                   "with": "projects/storefrontapp/src/environments/environment.ci.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
+              "buildOptimizer": false,
+              "tsConfig": "projects/storefrontapp/tsconfig.app.json"
             },
             "qa": {
               "fileReplacements": [

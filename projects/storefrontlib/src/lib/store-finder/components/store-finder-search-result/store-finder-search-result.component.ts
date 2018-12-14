@@ -38,7 +38,9 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.ngUnsubscribe.unsubscribe();
+    if (this.ngUnsubscribe) {
+      this.ngUnsubscribe.unsubscribe();
+    }
   }
 
   viewPage(pageNumber: number) {
