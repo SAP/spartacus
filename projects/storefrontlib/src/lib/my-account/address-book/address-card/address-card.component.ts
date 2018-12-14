@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Address } from '@spartacus/core';
-import { UserService } from '../../../user/facade/user.service';
+import { Address, UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-card',

@@ -3,13 +3,13 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of } from 'rxjs';
 import { AddressBookComponent } from './address-book.component';
-import { UserService } from '../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 import { AddressBookModule } from './address-book.module';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { CheckoutService } from '../../checkout/facade';
 import { StoreModule } from '@ngrx/store';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
 
 const mockAddress = {
   id: '123',

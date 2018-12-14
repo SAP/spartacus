@@ -15,9 +15,11 @@ import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { CheckoutService } from '../../../../facade/checkout.service';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { UserService } from '../../../../../user/facade/user.service';
-import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  UserService
+} from '@spartacus/core';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { Address } from '@spartacus/core';
