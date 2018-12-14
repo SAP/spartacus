@@ -5,11 +5,20 @@
     --cx-#{$color}: #{$value};
   }
 
+  @each $color, $value in $theme-colors {
+    --cx-g-color-#{$color}: #{$value};
+  }
+
   --direction: #{$direction};
 
   --cx-transition-time: 0.5s;
 
   --cx-border-style: solid;
+
+  --cx-g-direction: #{$direction};
+  --cx-g-transition-duration: 0.5s;
+  --cx-g-animation-duration: 1s;
+  --cx-g-border-radius: 1em;
 }
 
 * {
