@@ -11,9 +11,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { UserService } from '@spartacus/core';
+import { UserService, GlobalMessageService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
 
 import { AddressFormComponent } from './address-form.component';
 
