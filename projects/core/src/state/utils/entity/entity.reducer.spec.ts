@@ -4,7 +4,7 @@ import { EntityAction } from './entity.action';
 describe('Entity reducer', () => {
   const testSubReducer = jasmine
     .createSpy()
-    .and.callFake((state = 'test', action) => state);
+    .and.callFake((state = 'test', _action) => state);
 
   describe('undefined action', () => {
     it('should return the default state', () => {

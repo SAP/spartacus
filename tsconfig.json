@@ -12,8 +12,8 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2015", "dom"],
     "strictPropertyInitialization": false,
-//    "noUnusedLocals": true,
-//    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]

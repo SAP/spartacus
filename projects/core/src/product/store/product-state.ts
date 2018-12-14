@@ -4,7 +4,7 @@ import {
   Review,
   Suggestion
 } from '../../occ/occ-models/occ.models';
-import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader.state';
+import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
 export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';

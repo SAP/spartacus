@@ -1,4 +1,4 @@
-import { EntityLoaderState } from './entity-loader.state';
+import { EntityLoaderState } from './entity-loader-state';
 import { LoaderState } from '../loader/loader-state';
 
 export function entityStateSelector<T>(

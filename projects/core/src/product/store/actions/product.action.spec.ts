@@ -1,6 +1,6 @@
 import * as fromProduct from './product.action';
 import { Product } from '../../../occ/occ-models';
-import { PRODUCT_DETAIL_ENTITY } from '@spartacus/core';
+import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import {
   entityFailMeta,
   entityLoadMeta,

@@ -1,4 +1,4 @@
-import { EntityLoaderState } from './entity-loader.state';
+import { EntityLoaderState } from './entity-loader-state';
 import {
   entityErrorSelector,
   entityLoadingSelector,
