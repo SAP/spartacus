@@ -1,5 +1,5 @@
 import { Currency, Language } from '../../occ/occ-models/occ.models';
-import { LoaderState } from '../../store-entities/loader-state';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 export const SITE_CONTEXT_FEATURE = 'siteContext';
 
 export interface StateWithSiteContext {

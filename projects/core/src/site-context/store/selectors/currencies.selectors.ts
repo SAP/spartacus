@@ -10,7 +10,7 @@ import { getSiteContextState } from './site-context.selector';
 import {
   loaderLoadingSelector,
   loaderValueSelector
-} from '../../../store-entities/loader.selectors';
+} from '../../../state/utils/loader/loader.selectors';
 
 const currenciesEntitiesSelector = (state: CurrenciesState) => state.entities;
 const activeCurrencySelector = (state: CurrenciesState) => state.activeCurrency;

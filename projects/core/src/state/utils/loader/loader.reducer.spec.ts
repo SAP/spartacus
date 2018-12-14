@@ -5,15 +5,14 @@ import {
   LoaderSuccessAction
 } from './loader.action';
 
-const TEST_ENTITY_TYPE = 'test';
-
 describe('Loader reducer', () => {
+  const TEST_ENTITY_TYPE = 'test';
+
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = {} as any;
       const state = loaderReducer(TEST_ENTITY_TYPE)(undefined, action);
       expect(state).toEqual(initialLoaderState);
-      console.log(state);
     });
   });
 
@@ -26,7 +25,6 @@ describe('Loader reducer', () => {
         error: false,
         value: undefined
       };
-      console.log(state);
       expect(state).toEqual(expectedState);
     });
   });

@@ -2,14 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import {
-  map,
-  catchError,
-  mergeMap,
-  switchMap,
-  groupBy,
-  filter
-} from 'rxjs/operators';
+import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
 
 import * as actions from '../actions/index';
 import * as converters from '../converters/index';

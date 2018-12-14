@@ -5,10 +5,10 @@ export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
 export const LOADER_SUCCESS_ACTION = '[LOADER] SUCCESS';
 
 export interface LoaderMeta {
-  entity: {
+  loader: {
     type?: string;
     load?: boolean;
-    error?: boolean;
+    error?: any;
   };
 }
 
@@ -17,27 +17,27 @@ export interface LoaderAction extends Action {
   readonly meta?: LoaderMeta;
 }
 
-export function loadMeta(entityType: string) {
+export function loadMeta(entityType: string): LoaderMeta {
   return {
-    entity: {
+    loader: {
       type: entityType,
       load: true
     }
   };
 }
 
-export function failMeta(entityType: string, error?: any) {
+export function failMeta(entityType: string, error?: any): LoaderMeta {
   return {
-    entity: {
+    loader: {
       type: entityType,
       error: error ? error : true
     }
   };
 }
 
-export function successMeta(entityType: string) {
+export function successMeta(entityType: string): LoaderMeta {
   return {
-    entity: {
+    loader: {
       type: entityType
     }
   };

@@ -4,7 +4,7 @@ import { ActionReducerMap } from '@ngrx/store';
 import * as fromLanguages from './languages.reducer';
 import * as fromCurrencies from './currencies.reducer';
 import { CURRENCIES_ENTITY, CurrenciesState, SiteContextState } from '../state';
-import { loaderReducer } from '../../../store-entities/loader.reducer';
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<SiteContextState> {
   return {

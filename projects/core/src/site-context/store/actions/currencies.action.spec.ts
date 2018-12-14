@@ -4,7 +4,7 @@ import {
   failMeta,
   loadMeta,
   successMeta
-} from '../../../store-entities/loader.action';
+} from '../../../state/utils/loader/loader.action';
 import { CURRENCIES_ENTITY } from '@spartacus/core';
 
 describe('Currencies Actions', () => {

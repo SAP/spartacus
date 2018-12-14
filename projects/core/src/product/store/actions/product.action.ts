@@ -1,10 +1,10 @@
 import { Product } from '../../../occ/occ-models';
+import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction
-} from '../../../store-entities/entity.action';
-import { PRODUCT_DETAIL_ENTITY } from '../product-state';
+} from '../../../state/utils/entity-loader/entity-loader.action';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';

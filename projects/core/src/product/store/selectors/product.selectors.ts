@@ -2,12 +2,12 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
 import { Product } from '../../../occ/occ-models/occ.models';
-import { LoaderState } from '../../../store-entities/loader-state';
-import { entityStateSelector } from '../../../store-entities/entity.selectors';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderLoadingSelector,
   loaderValueSelector
-} from '../../../store-entities/loader.selectors';
+} from '../../../state/utils/loader/loader.selectors';
+import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 
 export const getProductState: MemoizedSelector<any, any> = createSelector(
   getProductsState,

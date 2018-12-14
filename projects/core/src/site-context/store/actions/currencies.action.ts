@@ -4,7 +4,7 @@ import {
   LoaderFailAction,
   LoaderLoadAction,
   LoaderSuccessAction
-} from '../../../store-entities/loader.action';
+} from '../../../state/utils/loader/loader.action';
 import { CURRENCIES_ENTITY } from '../state';
 
 export const LOAD_CURRENCIES = '[Site-context] Load Currencies';

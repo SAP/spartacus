@@ -1,7 +1,11 @@
 import { LoaderState } from './loader-state';
-import { loaderErrorSelector, loaderLoadingSelector, loaderValueSelector } from './loader.selectors';
+import {
+  loaderErrorSelector,
+  loaderLoadingSelector,
+  loaderValueSelector
+} from './loader.selectors';
 
-fdescribe('Loader selectores', () => {
+describe('Loader selectors', () => {
   const TestState: LoaderState<string> = {
     loading: true,
     error: false,
@@ -22,5 +26,4 @@ fdescribe('Loader selectores', () => {
     const value = loaderErrorSelector(TestState);
     expect(value).toBe(TestState.error);
   });
-
 });

@@ -1,7 +1,11 @@
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
 
-export const initialLoaderState: LoaderState<any> = { loading: false, error: false, value: undefined };
+export const initialLoaderState: LoaderState<any> = {
+  loading: false,
+  error: false,
+  value: undefined
+};
 
 export function loaderReducer<T>(
   loadActionType: string,
@@ -13,10 +17,10 @@ export function loaderReducer<T>(
   ): LoaderState<T> => {
     if (
       action.meta &&
-      action.meta.entity &&
-      action.meta.entity.type === loadActionType
+      action.meta.loader &&
+      action.meta.loader.type === loadActionType
     ) {
-      const entity = action.meta.entity;
+      const entity = action.meta.loader;
 
       if (entity.load) {
         return {
@@ -30,7 +34,7 @@ export function loaderReducer<T>(
           ...state,
           loading: false,
           error: true,
-          value: reducer ? reducer(undefined, action) : undefined
+          value: reducer ? reducer(state.value, action) : undefined
         };
       } else {
         return {

@@ -10,9 +10,9 @@ import {
   successMeta
 } from './loader.action';
 
-const TEST_ENTITY_TYPE = 'test';
+describe('Loader Actions', () => {
+  const TEST_ENTITY_TYPE = 'test';
 
-fdescribe('Loader Actions', () => {
   describe('Action creators', () => {
     describe('LoaderLoadAction', () => {
       it('should create an action', () => {
@@ -50,7 +50,7 @@ fdescribe('Loader Actions', () => {
       it('should create a meta', () => {
         const meta = loadMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
-          entity: {
+          loader: {
             type: TEST_ENTITY_TYPE,
             load: true
           }
@@ -62,7 +62,7 @@ fdescribe('Loader Actions', () => {
       it('should create a meta', () => {
         const meta = failMeta(TEST_ENTITY_TYPE, 'error');
         expect(meta).toEqual({
-          entity: {
+          loader: {
             type: TEST_ENTITY_TYPE,
             error: 'error'
           }
@@ -74,7 +74,7 @@ fdescribe('Loader Actions', () => {
       it('should create a meta', () => {
         const meta = successMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
-          entity: {
+          loader: {
             type: TEST_ENTITY_TYPE
           }
         });

@@ -1,12 +1,11 @@
 import * as fromProduct from './product.action';
 import { Product } from '../../../occ/occ-models';
+import { PRODUCT_DETAIL_ENTITY } from '@spartacus/core';
 import {
   entityFailMeta,
   entityLoadMeta,
-  EntityMeta,
   entitySuccessMeta
-} from '../../../store-entities/entity.action';
-import { PRODUCT_DETAIL_ENTITY } from '@spartacus/core';
+} from '../../../state/utils/entity-loader/entity-loader.action';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {
