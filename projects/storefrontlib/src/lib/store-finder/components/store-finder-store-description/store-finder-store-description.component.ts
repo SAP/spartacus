@@ -7,7 +7,6 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 import { StoreDataService, StoreFinderService } from '../../services/index';
 
 import * as fromStore from '../../store';
-import { tap } from '../../../../../../../node_modules/rxjs/operators';
 
 @Component({
   selector: 'cx-store-finder-store-description',
@@ -31,10 +30,7 @@ export class StoreFinderStoreDescriptionComponent
 
   ngOnInit() {
     this.requestStoresData();
-    this.location$ = this.store.pipe(
-      select(fromStore.getFindStoresEntities),
-      tap(info => console.log(info))
-    );
+    this.location$ = this.store.pipe(select(fromStore.getFindStoresEntities));
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
   }
 
