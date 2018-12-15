@@ -43,11 +43,10 @@ export class OccStoreFinderService {
 
   findStoreById(storeId: string): Observable<any> {
     const storeDetailsUrl = this.getStoresEndpoint(storeId);
+    const params = { fields: 'FULL' };
 
     return this.http
-      .get(storeDetailsUrl, {
-        params: { fields: 'FULL' }
-      })
+      .get(storeDetailsUrl, { params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
