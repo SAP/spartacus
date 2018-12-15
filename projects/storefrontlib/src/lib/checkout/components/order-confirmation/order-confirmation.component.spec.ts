@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from '../../facade';
 import { OrderConfirmationComponent } from './order-confirmation.component';
+import { Order } from '@spartacus/core';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
@@ -28,21 +29,24 @@ class MockCartComponent {
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
 
-const mockCheckoutService = {
-  orderDetails$: of({
-    code: 'test-code-412',
-    deliveryAddress: {
-      country: {}
-    },
-    deliveryMode: {},
-    paymentInfo: {
-      billingAddress: {
+class MockCheckoutService {
+  clearCheckoutData = createSpy();
+
+  getOrderDetails(): Observable<Order> {
+    return of({
+      code: 'test-code-412',
+      deliveryAddress: {
         country: {}
+      },
+      deliveryMode: {},
+      paymentInfo: {
+        billingAddress: {
+          country: {}
+        }
       }
-    }
-  }),
-  clearCheckoutData: createSpy()
-};
+    });
+  }
+}
 
 describe('OrderConfirmationComponent', () => {
   let component: OrderConfirmationComponent;
@@ -57,7 +61,7 @@ describe('OrderConfirmationComponent', () => {
         MockOrderSummaryComponent,
         MockAddtoHomeScreenBannerComponent
       ],
-      providers: [{ provide: CheckoutService, useValue: mockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
     }).compileComponents();
   }));
 
