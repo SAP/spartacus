@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { CmsTicketInterceptor } from './cms-ticket.interceptor';
+import { CmsTicketInterceptor } from './http-interceptors/cms-ticket.interceptor';
 
 @NgModule({
   providers: [

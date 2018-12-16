@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
-import { RoutingService } from '../routing/facade/routing.service';
-import { CmsService } from '../cms/facade/cms.service';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Injectable({
   providedIn: 'root'
