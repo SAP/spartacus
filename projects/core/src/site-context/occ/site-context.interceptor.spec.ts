@@ -6,7 +6,7 @@ import {
   TestRequest
 } from '@angular/common/http/testing';
 import { SiteContextInterceptor } from './site-context.interceptor';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
 import { OccConfig } from '../../occ/config/occ-config';
@@ -15,7 +15,7 @@ class MockCurrencyService {
   isocode = new BehaviorSubject(null);
 
   getActive(): Observable<string> {
-    return of();
+    return this.isocode;
   }
 
   setActive(isocode: string) {
@@ -27,7 +27,7 @@ class MockLanguageService {
   isocode = new BehaviorSubject(null);
 
   getActive(): Observable<string> {
-    return of();
+    return this.isocode;
   }
 
   setActive(isocode: string) {
