@@ -1,15 +1,27 @@
+[^ Configurable routes](../README.md)
+
+---
+
 # Configure routes
 
 ## Config
 
+All routes in Spartacus can be configured and internationalized by importing `ConfigModule.withConfig()` with an object containing `routesConfig` property: 
+
+ ```typescript
+ConfigModule.withConfig({
+    routesConfig: { /* ... */ },
+    /* ... */
+})
+```
+
 ### Predefined config
 
-The predefined routes config for Storefront's pages can be found in [`default-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts).
+The routing in Spartacus is intended to run without any configuration by default, thanks to the predefined config (which can be found in [`default-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts)).
 
 ```typescript
 // default-storefront-routes-translations.ts
 default: {
-    /* ... */
     product: { 
         paths: ['product/:productCode'],
         /* ... */
@@ -20,12 +32,12 @@ default: {
 
 ### Extending predefined config
 
-Every part of the predefined config can be extended or overwritten in the Shell App, using `StorefrontModule.withConfig`:
+Every part of the predefined config can be extended or overwritten in the application, using `ConfigModule.withConfig`:
 
 1. for all languages (`default` key):
 
     ```typescript
-    StorefrontModule.withConfig({
+    ConfigModule.withConfig({
         routesConfig: {
             translations: {
                 default: {
@@ -41,7 +53,7 @@ Every part of the predefined config can be extended or overwritten in the Shell 
 2. for specific languages (for example `en` key):
 
     ```typescript
-    StorefrontModule.withConfig({
+    ConfigModule.withConfig({
         routesConfig: {
             translations: {
                 /* predefined not overwritten: 
@@ -62,7 +74,7 @@ Every part of the predefined config can be extended or overwritten in the Shell 
 3. both for all languages (`default` key) and for specific languages (for example `en` key):
 
     ```typescript
-    StorefrontModule.withConfig({
+    ConfigModule.withConfig({
         routesConfig: {
             translations: {
                 default: { 
@@ -88,7 +100,7 @@ Every part of the predefined config can be extended or overwritten in the Shell 
 All route parameters that appear in predefined config (for example `:productCode` param in `product/:productCode` path) mustn't be omitted in overwritten paths. Otherwise Storefront's components may break. For example please **don't do**:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
@@ -123,7 +135,7 @@ const routes: Routes = [
 where config is:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
@@ -166,7 +178,7 @@ const routes: Routes = [
 then the children's configuration should be nested at `children` property of the parent route:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
@@ -186,5 +198,5 @@ StorefrontModule.withConfig({
 
 ### Subjects of change
 
-- `cxPath` property is considered to be replaced with other property
-- `path` is considered to contain the first default [path alias](#path-aliases)
+- `cxPath` property is considered to be replaced with other, more self-explanatory property
+- `path` is considered not to be `null` but the predefined default path taken into account

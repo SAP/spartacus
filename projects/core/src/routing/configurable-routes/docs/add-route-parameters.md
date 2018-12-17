@@ -1,9 +1,13 @@
+[^ Configurable routes](../README.md)
+
+---
+
 # Add route params
 
-More route parameters can be configured (for example for SEO purposes):
+Additional route parameters can be configured to make the URL more specific, which can be useful for SEO.
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             en: {
@@ -43,7 +47,7 @@ Then additional params are also needed in `{ route: <route> }` and `{ url: <url>
     And `default` translations need `:productName` param too. For example:
 
     ```typescript
-    StorefrontModule.withConfig({
+    ConfigModule.withConfig({
         routesConfig: {
             translations: {
                 default: {

@@ -1,3 +1,7 @@
+[^ Configurable routes](../README.md)
+
+---
+
 # Redirects
 
 Angular's `Route` needs a name of configurable route in `data.cxRedirectTo` property in order to redirect to it. For example:

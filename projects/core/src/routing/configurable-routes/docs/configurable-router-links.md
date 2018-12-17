@@ -1,5 +1,42 @@
 
-# Configurable router links
+[^ Configurable routes](../README.md)
+
+---
+
+# Configurable router links <!-- omit in toc -->
+
+While the [router configuration](./configure-routes.md) allows the application to listen to different routes, the links to those routes must take the route configuration into account as well.
+
+Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It allows to:
+
+1. transform **the name of the route** and **the params object** into the configured path
+2. transform **the path having the default shape** into the configured path
+
+## Table of contents <!-- omit in toc -->
+
+- [Assumptions and limitations](#assumptions-and-limitations)
+- [Prerequisites](#prerequisites)
+- [Router links](#router-links)
+  - [Transform the name of the route and the params object](#transform-the-name-of-the-route-and-the-params-object)
+    - [The route with parameters](#the-route-with-parameters)
+  - [Transform the path having the default shape](#transform-the-path-having-the-default-shape)
+- [Links to nested routes](#links-to-nested-routes)
+- [Params mapping](#params-mapping)
+  - [Predefined `paramsMaping`](#predefined-paramsmaping)
+    - [Define `paramsMapping` under `default` key](#define-paramsmapping-under-default-key)
+- [Programmatic API](#programmatic-api)
+  - [Navigation to the translated path](#navigation-to-the-translated-path)
+  - [Simply translation of the path](#simply-translation-of-the-path)
+
+
+## Assumptions and limitations
+
+- the output path is always absolute (the path array contains the leading `''`)
+- the route that cannot be resolved from *a route's name and params* will return the root URL `['/']`
+- the route that cannot be resolved from the supposed *path having the default shape* will return the original URL
+- a *routes' names and params* are given in an array in order to support [Links to nested routes](#links-to-nested-routes) (planned API optimisation for non-nested routes: [#706](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/706))
+- the relative *path having the default shape* is treated as absolute
+
 
 ## Prerequisites
 
@@ -7,13 +44,7 @@ Import `UrlTranslatorModule` in every module that uses configurable router links
 
 ## Router links
 
-Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It can:
-
-1. transform **a name of a route** and **a params object** into a configured path
-2. transform **a path having a default shape** into a configured path
-
-
-### Transform a name of a route and a params object
+### Transform the name of the route and the params object
 
 ```typescript
 { route: <route> } | cxTranslateUrl
@@ -22,13 +53,41 @@ Configured router links can be automatically generated in HTML templates using `
 Example:
 
 ```html
+<a [routerLink]="{ route: [ { name: 'cart' } ] } | cxTranslateUrl"></a>
+```
+
+when config is:
+
+```typescript
+ConfigModule.withConfig({
+    routesConfig: {
+        translations: {
+            en: {
+                cart: { paths: ['custom/cart-path'] }
+            }
+        }
+    }
+})
+```
+
+result in:
+
+```html
+<a [routerLink]="['', 'custom', 'cart-path']"></a>
+```
+
+#### The route with parameters
+
+When the route needs parameters, the object with route's `name` and `params` can be passed instead of just simple string. For example:
+
+```html
 <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
 ```
 
 where config is:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             en: {
@@ -45,61 +104,8 @@ result:
 <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
 ```
 
-#### What if `{ route: <route> }` cannot be translated?
 
-When the path cannot be translated from `{ route: <unknown-route> }` (for example due to typo in the route's name, mising necessary params or wrong config) *the root URL* `['/']` is returned:
-
-```html
-<a [routerLink]="{ route: <unknown-route> } | cxTranslateUrl"></a>
-```
-
-result:
-
-```html
-<a [routerLink]="['/']"></a>
-```
-
-#### Pass `string` when only a name of route is needed
-
-When only a name of route is needed (i.e. no params), then it can be given as `string` instead of object with `name` property. For example:
-
-Both:
-
-```html
-<a [routerLink]="{ route: ['cart'] } | cxTranslateUrl"></a>
-```
-
-and
-
-```html
-<a [routerLink]="{ route: [ { name: 'cart' } ] } | cxTranslateUrl"></a>
-```
-
-when config is:
-
-```typescript
-StorefrontModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                cart: { paths: ['custom/cart-path'] } // no params needed
-            }
-        }
-    }
-})
-```
-
-result in:
-
-```html
-<a [routerLink]="['', 'custom', 'cart-path']"></a>
-```
-
-#### Why `<route>` is an array?
-
-It's to support children routes (nested routes).
-
-### Transform a path having a default shape
+### Transform the path having the default shape
 
 ```typescript
 { url: <url> } | cxTranslateUrl
@@ -107,7 +113,7 @@ It's to support children routes (nested routes).
 
 Examples:
 
-1. When the predefined path **is not overwritten**
+1. When the predefined path **is not overwritten** in the config
 
     ```html
     <a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a> 
@@ -116,7 +122,7 @@ Examples:
     config:
 
     ```typescript
-    StorefrontModule.withConfig({
+    ConfigModule.withConfig({
         routesConfig: {
             translations: {
                 /* 
@@ -138,7 +144,7 @@ Examples:
     <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
     ```
 
-2. When the predefined path **is overwritten**
+2. When the predefined path **is overwritten** in the config
 
     ```html
     <a [routerLink]="{ url: 'p/1234' } | cxTranslateUrl"></a>
@@ -147,7 +153,7 @@ Examples:
     config:
 
     ```typescript
-    StorefrontModule.withConfig({
+    ConfigModule.withConfig({
         routesConfig: {
             translations: {
                 default: {
@@ -166,57 +172,6 @@ Examples:
     ```html
     <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
     ```
-
-#### What if `{ url: <url> }` cannot be translated?
-
-When the path cannot be translated from `{ url: <unknown-url> }` (for example due to unexpected shape of the URL, or wrong config) *the original URL* is returned:
-
-```html
-<a [routerLink]="{ url: '/unknown/url' } | cxTranslateUrl"></a> 
-```
-
-result:
-
-```html
-<a [routerLink]="'/unknown/url'"></a>
-```
-
-#### Relative path in `{ url: <url> }` is treated as absolute
-
-When URL in `{ url: <url> }` is relative (without leading `/`), it will be treated the same as absolute. For example:
-
-Both:
-
-```html
-<a [routerLink]="{ u0 rl: 'product/1234' } | cxTranslateUrl"></a> 
-```
-
-and
-
-```html
-<a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a> 
-```
-
-result in:
-
-```html
-<a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
-```
-
-## Output paths are alaways absolute
-
-Output paths always contain the leading `''` in array:
-
-```html
-<a [routerLink]="['', product, 1234]"></a>
-```
-
-which equals the leading `/` in the URL:
-
-```html
-<a href="/product/1234"></a>
-```
-
 
 ## Links to nested routes
 
@@ -246,7 +201,7 @@ const routes: Routes = [
 then config should contain **objects** with `children` routes translations:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             en: {
@@ -287,7 +242,7 @@ result:
 ```
 
 
-## Params mapping
+## Parameters mapping
 
 When properties of given `params` object do not match exactly to names of route parameters, they can be mapped using `paramsMapping` option in the configuration. For example:
 
@@ -300,7 +255,7 @@ The `params` object below does not contain necessary property `productCode`, but
 Then `paramsMapping` needs to be configured:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
@@ -325,12 +280,12 @@ result:
 <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
 ```
 
-### Predefined `paramsMaping`
+### Predefined parameters mapping
 
-Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`defaut-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts).
+Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts).
 
 ```typescript
-// defaut-storefront-routes-translations.ts
+// default-storefront-routes-translations.ts
 
 default: {
     product: {
@@ -349,18 +304,20 @@ default: {
 }
 ```
 
-#### Define `paramsMapping` under `default` key
+#### Define parameters mapping under key: default
 
-Not to repeat `paramsMapping` for all languages, it's recommended to define them under `default` key in the configuration.
+Not to repeat `paramsMapping` for all languages, it's recommended to configure them under `default` key.
 
-## Navigation in TypeScript code
+## Programmatic API
+
+### Navigation to the translated path
 
 The `RoutingService.go` method called with `{ route: <route> }` or `{ url: <url> }` navigates to the translated path. For example:
 
 When config is:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
@@ -396,14 +353,14 @@ routingService.go(['product', 1234]);
 // router navigates to ['product', 1234]
 ```
 
-## Translation of paths in TypeScript code
+### Simply translation of the path
 
 The `UrlTranslationService.translate` method called with `{ route: <route> }` or `{ url: <url> }` returns the translated path (just like `cxTranslateUrl` pipe in HTML templates). For example:
 
 When config is:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {

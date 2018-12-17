@@ -1,9 +1,13 @@
+[^ Configurable routes](../README.md)
+
+---
+
 # Load configuration from backend
 
-When `fetch` is set to `true` in `routesConfig`, app will wait with bootstraping until translations of routes are succesfully fetched from backend's URL `<baseUrl>/routes-config`. Example:
+When `fetch` is set to `true` in `routesConfig`, app will wait with bootstraping until translations of routes are succesfully fetched from backend's URL `<baseUrl>/routes-config` (**NOTE**: this endpoint is not available in the backend yet). Example:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     server: {
         baseUrl: '<base-server-url>'
     },
@@ -32,7 +36,7 @@ JSON returned by `<base-server-url>/routes-config` will have the *highest priori
 Static config will have *medium priority*:
 
 ```typescript
-StorefrontModule.withConfig({
+ConfigModule.withConfig({
     server: {
         baseUrl: '<base-server-url>'
     },

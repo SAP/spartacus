@@ -20,7 +20,7 @@ The following features are supported:
 - [Add route parameters](./docs/add-route-parameters.md)
 - [Aliases](./docs/route-aliases.md)
 - [Redirects](./docs/redirects.md)
-- [Load configuration from backend](./load-configuration-from-backend.md)
+- [Load configuration from backend](./docs/load-configuration-from-backend.md)
 
 ## Future outlook
 
