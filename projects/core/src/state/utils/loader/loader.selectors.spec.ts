@@ -2,6 +2,7 @@ import { LoaderState } from './loader-state';
 import {
   loaderErrorSelector,
   loaderLoadingSelector,
+  loaderSuccessSelector,
   loaderValueSelector
 } from './loader.selectors';
 
@@ -9,6 +10,7 @@ describe('Loader selectors', () => {
   const TestState: LoaderState<string> = {
     loading: true,
     error: false,
+    success: false,
     value: 'test value'
   };
 
@@ -25,5 +27,10 @@ describe('Loader selectors', () => {
   it('loaderErrorSelector should return error flag', () => {
     const value = loaderErrorSelector(TestState);
     expect(value).toBe(TestState.error);
+  });
+
+  it('loaderErrorSelector should return error flag', () => {
+    const value = loaderSuccessSelector(TestState);
+    expect(value).toBe(TestState.success);
   });
 });
