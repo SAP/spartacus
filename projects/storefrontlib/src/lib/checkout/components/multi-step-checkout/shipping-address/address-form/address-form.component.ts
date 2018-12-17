@@ -119,8 +119,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutService.addressVerificationResults$.subscribe(
-      (results: any) => {
+    this.addressVerifySub = this.checkoutService
+      .getAddressVerificationResults()
+      .subscribe((results: any) => {
         if (results === 'FAIL') {
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
@@ -134,8 +135,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
-      }
-    );
+      });
 
     if (this.addressData) {
       this.address.patchValue(this.addressData);
