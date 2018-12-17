@@ -1,8 +1,5 @@
-import * as fromAction from '../actions';
-
-export interface BillingCountriesState {
-  entities: { [isocode: string]: any };
-}
+import * as fromAction from '../actions/index';
+import { BillingCountriesState } from '../user-state';
 
 export const initialState: BillingCountriesState = {
   entities: {}

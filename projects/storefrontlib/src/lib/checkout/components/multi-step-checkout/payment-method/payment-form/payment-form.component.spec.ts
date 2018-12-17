@@ -123,11 +123,12 @@ describe('PaymentFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgSelectModule
-      ],
-      declarations: [PaymentFormComponent, MockCardComponent, MockBillingAddressFormComponent],
+      imports: [ReactiveFormsModule, NgSelectModule],
+      declarations: [
+        PaymentFormComponent,
+        MockCardComponent,
+        MockBillingAddressFormComponent
+      ]
     })
       .overrideComponent(PaymentFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }

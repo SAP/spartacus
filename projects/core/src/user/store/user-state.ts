@@ -11,6 +11,7 @@ export interface DeliveryCountriesState {
 export interface UserState {
   account: UserDetailsState;
   addresses: UserAddressesState;
+  billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: UserPaymentMethodsState;
   orders: UserOrdersState;
@@ -21,6 +22,10 @@ export interface UserState {
 
 export interface OrderDetailsState {
   order: any;
+}
+
+export interface BillingCountriesState {
+  entities: { [isocode: string]: any };
 }
 
 export interface UserPaymentMethodsState {
