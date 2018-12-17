@@ -61,19 +61,8 @@ export class CmsService {
    * Given the position, get CMS components (with uuid, uid and typecode) inside the content slot
    * @param position : content slot position
    */
-  getContentSlot(position: string): Observable<any> {
-    return this.store.pipe(
-      select(fromStore.currentSlotSelectorFactory(position)),
-      filter(Boolean)
-    );
-  }
-
-  /**
-   * Given navigation node uid, get items (with id and type) inside the navigation entries
-   * @param navigationNodeUid : uid of the navigation node
-   */
-  getNavigationEntryItems(
-    navigationNodeUid: string
+  getContentSlot(
+    position: string
   ): Observable<{
     uid: string;
     uuid: string;
@@ -85,6 +74,17 @@ export class CmsService {
       catalogUuid?: string;
     }[];
   }> {
+    return this.store.pipe(
+      select(fromStore.currentSlotSelectorFactory(position)),
+      filter(Boolean)
+    );
+  }
+
+  /**
+   * Given navigation node uid, get items (with id and type) inside the navigation entries
+   * @param navigationNodeUid : uid of the navigation node
+   */
+  getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
     return this.store.pipe(
       select(fromStore.itemsSelectorFactory(navigationNodeUid))
     );
