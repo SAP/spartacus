@@ -26,7 +26,6 @@ export function loaderReducer<T>(
         return {
           ...state,
           loading: true,
-          error: false,
           value: reducer ? reducer(state.value, action) : state.value
         };
       } else if (entity.error) {
@@ -34,6 +33,7 @@ export function loaderReducer<T>(
           ...state,
           loading: false,
           error: true,
+          success: false,
           value: reducer ? reducer(state.value, action) : undefined
         };
       } else {
@@ -41,7 +41,8 @@ export function loaderReducer<T>(
           ...state,
           value: reducer ? reducer(state.value, action) : action.payload,
           loading: false,
-          error: false
+          error: false,
+          success: true
         };
       }
     }

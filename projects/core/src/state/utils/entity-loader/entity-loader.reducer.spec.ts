@@ -47,6 +47,7 @@ describe('EntityLoader reducer', () => {
           [TEST_ENTITY_ID]: {
             loading: false,
             error: true,
+            success: false,
             value: undefined
           }
         }
@@ -69,6 +70,7 @@ describe('EntityLoader reducer', () => {
           [TEST_ENTITY_ID]: {
             loading: false,
             error: false,
+            success: true,
             value: data
           }
         }

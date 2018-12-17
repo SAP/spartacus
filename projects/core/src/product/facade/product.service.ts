@@ -22,8 +22,9 @@ export class ProductService {
       select(fromStore.getSelectedProductStateFactory(productCode)),
       tap(productState => {
         if (
+          productCode &&
           !productState.loading &&
-          productState.value === undefined &&
+          !productState.success &&
           !productState.error
         ) {
           this.store.dispatch(new fromStore.LoadProduct(productCode));

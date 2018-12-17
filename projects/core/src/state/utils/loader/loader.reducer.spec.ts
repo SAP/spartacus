@@ -36,6 +36,7 @@ describe('Loader reducer', () => {
       const expectedState = {
         loading: false,
         error: true,
+        success: false,
         value: undefined
       };
       expect(state).toEqual(expectedState);
@@ -54,6 +55,7 @@ describe('Loader reducer', () => {
       const expectedState = {
         loading: false,
         error: false,
+        success: true,
         value: data
       };
       expect(state).toEqual(expectedState);

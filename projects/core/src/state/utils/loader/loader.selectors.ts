@@ -11,3 +11,7 @@ export function loaderLoadingSelector<T>(state: LoaderState<T>): boolean {
 export function loaderErrorSelector<T>(state: LoaderState<T>): boolean {
   return state.error;
 }
+
+export function loaderSuccessSelector<T>(state: LoaderState<T>): boolean {
+  return state.success;
+}
