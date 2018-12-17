@@ -1,18 +1,28 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ProductsState } from '../product-state';
+
+import {
+  ProductsState,
+  ProductState,
+  StateWithProduct
+} from '../product-state';
+import { Product } from '../../../occ/occ-models';
+
 import { getProductsState } from './feature.selector';
 
-export const getProductState: MemoizedSelector<any, any> = createSelector(
+export const getProductState: MemoizedSelector<
+  StateWithProduct,
+  ProductState
+> = createSelector(
   getProductsState,
   (state: ProductsState) => state.details
 );
 
 export const getSelectedProductsFactory = (
-  codes
-): MemoizedSelector<any, any> => {
+  codes: string[]
+): MemoizedSelector<StateWithProduct, Product[]> => {
   return createSelector(
     getProductState,
-    details => {
+    (details: ProductState) => {
       return codes
         .map(code => details.entities[code])
         .filter(product => product !== undefined);
@@ -20,7 +30,9 @@ export const getSelectedProductsFactory = (
   );
 };
 
-export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
+export const getSelectedProductFactory = (
+  code: string
+): MemoizedSelector<StateWithProduct, Product> => {
   return createSelector(
     getProductState,
     details => {
@@ -30,7 +42,7 @@ export const getSelectedProductFactory = (code): MemoizedSelector<any, any> => {
 };
 
 export const getAllProductCodes: MemoizedSelector<
-  any,
+  StateWithProduct,
   string[]
 > = createSelector(
   getProductState,

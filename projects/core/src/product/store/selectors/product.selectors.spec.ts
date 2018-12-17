@@ -1,21 +1,28 @@
 import { TestBed } from '@angular/core/testing';
+
 import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
+import {
+  PRODUCT_FEATURE,
+  StateWithProduct,
+  ProductState
+} from '../product-state';
+import * as fromReducers from '../reducers';
+import { Product } from '../../../occ/occ-models/occ.models';
+
 import * as fromSelectors from './product.selectors';
-import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;
 
   const code = 'testCode';
-  const product = {
+  const product: Product = {
     code,
     name: 'testProduct'
   };
 
-  const entities = {
+  const entities: { [code: string]: Product } = {
     testCode: product
   };
 
@@ -32,8 +39,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getProductEntities', () => {
     it('should return products as entities', () => {
-      let result;
-
+      let result: ProductState;
       store
         .pipe(select(fromSelectors.getProductState))
         .subscribe(value => (result = value));
@@ -47,8 +53,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductsFactory', () => {
     it('should return product by code', () => {
-      let result;
-
+      let result: Product[];
       store
         .pipe(select(fromSelectors.getSelectedProductsFactory(['testCode'])))
         .subscribe(value => (result = value));
@@ -61,8 +66,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getAllProductCodes', () => {
     it('should return product codes as an array', () => {
-      let result;
-
+      let result: string[];
       store
         .pipe(select(fromSelectors.getAllProductCodes))
         .subscribe(value => (result = value));
@@ -77,8 +81,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductFactory', () => {
     it('should return a single product by productCode', () => {
-      let result;
-
+      let result: Product;
       store
         .pipe(select(fromSelectors.getSelectedProductFactory(code)))
         .subscribe(value => (result = value));
