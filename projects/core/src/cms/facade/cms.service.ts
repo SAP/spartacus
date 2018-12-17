@@ -72,7 +72,19 @@ export class CmsService {
    * Given navigation node uid, get items (with id and type) inside the navigation entries
    * @param navigationNodeUid : uid of the navigation node
    */
-  getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
+  getNavigationEntryItems(
+    navigationNodeUid: string
+  ): Observable<{
+    uid: string;
+    uuid: string;
+    catalogUuid?: string;
+    components: {
+      uid: string;
+      typeCode: string;
+      uuid: string;
+      catalogUuid?: string;
+    }[];
+  }> {
     return this.store.pipe(
       select(fromStore.itemsSelectorFactory(navigationNodeUid))
     );
