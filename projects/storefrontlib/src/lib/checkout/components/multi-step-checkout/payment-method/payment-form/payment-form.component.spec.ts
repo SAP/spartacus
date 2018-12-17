@@ -310,15 +310,25 @@ describe('PaymentFormComponent', () => {
       controls.payment['cvn'].setValue('test cvn');
 
       // set values for billing address form
-      controls.billingAddress['titleCode'].setValue('mr');
-      controls.billingAddress['firstName'].setValue('John');
-      controls.billingAddress['lastName'].setValue('Doe');
-      controls.billingAddress['line1'].setValue('Green Street');
-      controls.billingAddress['line2'].setValue('420');
-      controls.billingAddress['town'].setValue('Montreal');
-      controls.billingAddress.region['controls'].isocode.setValue('CA-QC');
-      controls.billingAddress.country['controls'].isocode.setValue('CA');
-      controls.billingAddress['postalCode'].setValue('H3A');
+      controls.billingAddress['titleCode'].setValue(
+        mockBillingAddress.titleCode
+      );
+      controls.billingAddress['firstName'].setValue(
+        mockBillingAddress.firstName
+      );
+      controls.billingAddress['lastName'].setValue(mockBillingAddress.lastName);
+      controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
+      controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
+      controls.billingAddress['town'].setValue(mockBillingAddress.town);
+      controls.billingAddress.region['controls'].isocode.setValue(
+        mockBillingAddress.region
+      );
+      controls.billingAddress.country['controls'].isocode.setValue(
+        mockBillingAddress.country
+      );
+      controls.billingAddress['postalCode'].setValue(
+        mockBillingAddress.postalCode
+      );
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
@@ -382,23 +392,33 @@ describe('PaymentFormComponent', () => {
 
       // set values for billing address form
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['titleCode'].setValue('mr');
+      controls.billingAddress['titleCode'].setValue(
+        mockBillingAddress.titleCode
+      );
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['firstName'].setValue('John');
+      controls.billingAddress['firstName'].setValue(
+        mockBillingAddress.firstName
+      );
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['lastName'].setValue('Doe');
+      controls.billingAddress['lastName'].setValue(mockBillingAddress.lastName);
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['line1'].setValue('Green Street');
+      controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['line2'].setValue('420');
+      controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['town'].setValue('Montreal');
+      controls.billingAddress['town'].setValue(mockBillingAddress.town);
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.region['controls'].isocode.setValue('CA-QC');
+      controls.billingAddress.region['controls'].isocode.setValue(
+        mockBillingAddress.region
+      );
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.country['controls'].isocode.setValue('CA');
+      controls.billingAddress.country['controls'].isocode.setValue(
+        mockBillingAddress.country
+      );
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['postalCode'].setValue('H3A');
+      controls.billingAddress['postalCode'].setValue(
+        mockBillingAddress.postalCode
+      );
 
       expect(isContinueBtnDisabled()).toBeFalsy();
     });
