@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
+import { Observable } from 'rxjs';
+
+import * as fromStore from '../store/index';
+import { UserAddressesState } from '../store/index';
 import {
   Order,
   User,
@@ -12,10 +16,6 @@ import {
   Region,
   OrderHistoryList
 } from '../../occ/occ-models/index';
-
-import { Observable } from 'rxjs';
-
-import * as fromStore from '../store/index';
 
 @Injectable()
 export class UserService {
@@ -47,7 +47,7 @@ export class UserService {
   readonly addressesLoading$: Observable<boolean> = this.store.pipe(
     select(fromStore.getAddressesLoading)
   );
-  readonly addressesState$: Observable<any> = this.store.pipe(
+  readonly addressesState$: Observable<UserAddressesState> = this.store.pipe(
     select(fromStore.getAddressesState)
   );
 

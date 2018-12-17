@@ -1,3 +1,5 @@
+import { Address } from '../../occ/occ-models/occ.models';
+
 export const USER_FEATURE = 'user';
 
 export interface StateWithUser {
@@ -37,7 +39,7 @@ export interface TitlesState {
 }
 
 export interface UserAddressesState {
-  list: any[];
+  list: Address[];
   isLoading: boolean;
   isActionProcessing: boolean;
 }
