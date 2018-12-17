@@ -158,7 +158,7 @@ describe('PaymentFormComponent', () => {
     };
 
     spyOn(checkoutService, 'loadSupportedCardTypes').and.callThrough();
-    spyOn(userService, 'getAllBillingCountries').and.callThrough();
+    spyOn(userService, 'loadBillingCountries').and.callThrough();
 
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
     spyOn(component.backToPayment, 'emit').and.callThrough();
@@ -187,6 +187,18 @@ describe('PaymentFormComponent', () => {
       cardTypes = data;
     });
     expect(cardTypes).toBe(mockCardTypes);
+  });
+
+  it('should call ngOnInit to get billing countries', () => {
+    spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
+      of(mockBillingCountries)
+    );
+    component.ngOnInit();
+    let countries: Country[];
+    component.countries$.subscribe(data => {
+      countries = data;
+    });
+    expect(countries).toBe(mockBillingCountries);
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
@@ -276,7 +288,7 @@ describe('PaymentFormComponent', () => {
         of(mockAddress)
       );
       spyOn(mockUserService, 'getAllBillingCountries').and.returnValue(
-        of(mockBillingAddress)
+        of(mockBillingCountries)
       );
       spyOn(component, 'next');
 
