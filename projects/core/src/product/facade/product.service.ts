@@ -17,16 +17,14 @@ export class ProductService {
    * The underlying product loader ensures that the product is
    * only loaded once, even in case of parallel observers.
    */
-  get(productCode: string): Observable<Product> {
+  get(productCode: string, forceReload = false): Observable<Product> {
     return this.store.pipe(
       select(fromStore.getSelectedProductStateFactory(productCode)),
       tap(productState => {
-        if (
-          productCode &&
-          !productState.loading &&
-          !productState.success &&
-          !productState.error
-        ) {
+        const attemptedLoad =
+          productState.loading || productState.success || productState.error;
+
+        if (!attemptedLoad || forceReload) {
           this.store.dispatch(new fromStore.LoadProduct(productCode));
         }
       }),
