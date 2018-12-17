@@ -1,13 +1,17 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { CmsService } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 import { DynamicSlotComponent } from './dynamic-slot.component';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { OutletDirective } from '../../../outlet';
 
 class MockCmsService {
-  getContentSlot() {
+  getContentSlot(): Observable<{
+    uid: string;
+    uuid: string;
+    catalogUuid: string;
+  }> {
     return of({
       uid: 'slot_uid',
       catalogUuid: 'slot_catalogUuid',

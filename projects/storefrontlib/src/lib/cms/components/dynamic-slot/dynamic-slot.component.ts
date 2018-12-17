@@ -46,7 +46,11 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  private addSmartEditContract(slot: any): void {
+  private addSmartEditContract(slot: {
+    uid: string;
+    uuid: string;
+    catalogUuid?: string;
+  }): void {
     this.renderer.addClass(
       this.hostElement.nativeElement,
       'smartEditComponent'

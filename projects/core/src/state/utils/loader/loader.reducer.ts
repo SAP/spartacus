@@ -1,15 +1,23 @@
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
+import { Action } from '@ngrx/store';
 
 export const initialLoaderState: LoaderState<any> = {
   loading: false,
   error: false,
+  success: false,
   value: undefined
 };
 
+/**
+ * Higher order reducer that adds generic loading flag to chunk of the state
+ *
+ * Utilizes "loader" meta field of actions to set specific flags for specific
+ * action (LOAD, SUCCESS, FAIL)
+ */
 export function loaderReducer<T>(
   loadActionType: string,
-  reducer?: (state: T, action: any) => T
+  reducer?: (state: T, action: Action) => T
 ) {
   return (
     state: LoaderState<T> = initialLoaderState,
