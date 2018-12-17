@@ -54,7 +54,6 @@ describe('Login', () => {
     await LoginHelper.loginUserViaHeader(LoginHelper.userEmail, WRONG_PASSWORD);
 
     expect(await home.header.isLoggedIn()).toBeFalsy();
-
     const error = await element(by.tagName('cx-global-message')).element(
       by.css('.alert-danger')
     );
