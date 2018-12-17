@@ -1,5 +1,6 @@
 import { Component, Inject, NgModule } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CmsComponentData } from '../cms-component-data';
 import { CxApiService } from '../../../cx-api/cx-api.service';
@@ -46,14 +47,24 @@ const MockCmsModuleConfig: CmsConfig = {
   }
 };
 
+class MockCmsService {
+  getComponentData() {}
+  isLaunchInSmartEdit(): boolean {
+    return true;
+  }
+}
+
 @Component({
   template:
-    '<ng-container cxComponentWrapper componentType="CMSTestComponent" componentUid="test_uid"></ng-container>'
+    '<ng-container cxComponentWrapper componentType="CMSTestComponent" ' +
+    'componentUid="test_uid" componentUuid="test_uuid" componentCatalogUuid="test_catalogUuid">' +
+    '</ng-container>'
 })
 class TestWrapperComponent {}
 
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
+  let cmsService: CmsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -62,7 +73,7 @@ describe('ComponentWrapperDirective', () => {
       providers: [
         ComponentMapperService,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
-        { provide: CmsService, useValue: { getComponentData: () => {} } },
+        { provide: CmsService, useClass: MockCmsService },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
       ]
     }).compileComponents();
@@ -71,6 +82,7 @@ describe('ComponentWrapperDirective', () => {
   describe('with angular component', () => {
     beforeEach(() => {
       fixture = TestBed.createComponent(TestWrapperComponent);
+      cmsService = TestBed.get(CmsService);
     });
 
     it('should instantiate the found component correctly', () => {
@@ -79,6 +91,45 @@ describe('ComponentWrapperDirective', () => {
       expect(compiled.querySelector('#debugEl1').textContent).toContain(
         testText
       );
+    });
+
+    it('should add smartedit contract if app launch in smart edit', () => {
+      fixture.detectChanges();
+      const el = fixture.debugElement;
+      const compEl = el.query(By.css('cx-test')).nativeElement;
+      expect(compEl.getAttribute('data-smartedit-component-id')).toEqual(
+        'test_uid'
+      );
+      expect(compEl.getAttribute('data-smartedit-component-type')).toEqual(
+        'CMSTestComponent'
+      );
+      expect(
+        compEl.getAttribute('data-smartedit-catalog-version-uuid')
+      ).toEqual('test_catalogUuid');
+      expect(compEl.getAttribute('data-smartedit-component-uuid')).toEqual(
+        'test_uuid'
+      );
+      expect(compEl.classList.contains('smartEditComponent')).toBeTruthy();
+    });
+
+    it('should not add smartedit contract if app launch in smart edit', () => {
+      spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
+
+      fixture = TestBed.createComponent(TestWrapperComponent);
+      fixture.detectChanges();
+      const el = fixture.debugElement;
+      const compEl = el.query(By.css('cx-test')).nativeElement;
+      expect(compEl.getAttribute('data-smartedit-component-id')).toEqual(null);
+      expect(compEl.getAttribute('data-smartedit-component-type')).toEqual(
+        null
+      );
+      expect(
+        compEl.getAttribute('data-smartedit-catalog-version-uuid')
+      ).toEqual(null);
+      expect(compEl.getAttribute('data-smartedit-component-uuid')).toEqual(
+        null
+      );
+      expect(compEl.classList.contains('smartEditComponent')).toBeFalsy();
     });
 
     it('should inject cms component data', () => {
