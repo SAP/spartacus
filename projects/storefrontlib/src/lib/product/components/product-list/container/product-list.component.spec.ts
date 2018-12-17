@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
-import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
+import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -25,11 +25,15 @@ import { PaginationAndSortingModule } from '../../../../ui/components/pagination
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ActivatedRoute } from '@angular/router';
-import { ProductSearchService } from '@spartacus/core';
+import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
 class MockProductSearchService {
   search = createSpy();
   searchResults$ = of();
+
+  getSearchResults(): Observable<ProductSearchPage> {
+    return of();
+  }
 }
 class MockActivatedRoute {
   snapshot = { queryParams: {} };

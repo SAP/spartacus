@@ -1,15 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
+import { CartService, UserService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
-
 import createSpy = jasmine.createSpy;
-
 import { CheckoutService } from '../../../facade/checkout.service';
-import { CartService } from '../../../../cart/facade/cart.service';
-import { UserService } from '../../../../user/facade/user.service';
-
 import { ReviewSubmitComponent } from './review-submit.component';
 
 const mockCart = {
@@ -67,11 +62,18 @@ class MockCardComponent {
   content;
 }
 
+class MockCheckoutService {
+  loadSupportedDeliveryModes = createSpy();
+  getSelectedDeliveryMode() {
+    return of();
+  }
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
 
-  let mockCheckoutService: any;
+  let mockCheckoutService: MockCheckoutService;
   let mockUserService: any;
   let mockCartService: any;
 
@@ -80,10 +82,7 @@ describe('ReviewSubmitComponent', () => {
       getCountry: createSpy().and.returnValue(of(null)),
       loadDeliveryCountries: createSpy()
     };
-    mockCheckoutService = {
-      selectedDeliveryMode$: new BehaviorSubject(null),
-      loadSupportedDeliveryModes: createSpy()
-    };
+
     mockCartService = {
       cart$: new BehaviorSubject(null),
       entries$: new BehaviorSubject(null),
@@ -102,11 +101,13 @@ describe('ReviewSubmitComponent', () => {
         MockCardComponent
       ],
       providers: [
-        { provide: CheckoutService, useValue: mockCheckoutService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useValue: mockUserService },
         { provide: CartService, useValue: mockCartService }
       ]
     }).compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -125,7 +126,9 @@ describe('ReviewSubmitComponent', () => {
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
     mockCartService.getActiveCart().next({});
     mockCartService.getEntries().next([]);
-    mockCheckoutService.selectedDeliveryMode$.next('mockMode');
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of('mockMode')
+    );
     mockUserService.getCountry.and.returnValue(of('mockCountryName'));
 
     component.ngOnInit();
@@ -141,7 +144,9 @@ describe('ReviewSubmitComponent', () => {
   it('should call ngOnInit to get delivery mode if it does not exists', done => {
     mockCartService.getActiveCart().next({});
     mockCartService.getEntries().next([]);
-    mockCheckoutService.selectedDeliveryMode$.next(null);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of(null)
+    );
     mockUserService.getCountry.and.returnValue(of(null));
 
     component.ngOnInit();

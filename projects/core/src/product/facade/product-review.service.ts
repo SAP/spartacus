@@ -3,11 +3,11 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import * as fromStore from '../store/index';
-import { Review } from '../../occ-models';
+import { Review } from '../../occ/occ-models';
 
 @Injectable()
 export class ProductReviewService {
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  constructor(private store: Store<fromStore.StateWithProduct>) {}
 
   getByProductCode(productCode: string): Observable<Review[]> {
     const selector = fromStore.getSelectedProductReviewsFactory(productCode);
@@ -21,7 +21,7 @@ export class ProductReviewService {
     );
   }
 
-  add(productCode: string, review: Review) {
+  add(productCode: string, review: Review): void {
     this.store.dispatch(
       new fromStore.PostProductReview({
         productCode: productCode,

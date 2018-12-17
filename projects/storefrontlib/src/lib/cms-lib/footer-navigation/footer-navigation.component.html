@@ -3,7 +3,7 @@
     <div class="row">
       <div
         class="col-xs-12 col-sm-4 col-md-3"
-        *ngFor="let child of node.children"
+        *ngFor="let child of node?.children"
       >
         <div class="cx-footer-navigation__container">
           <h1 class="cx-footer-navigation__title">{{ child.title }}</h1>

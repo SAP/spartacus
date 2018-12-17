@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of, Observable } from 'rxjs';
 
-import { CartService } from '../../../cart/facade';
+import { CartService } from '@spartacus/core';
 
 import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { Cart } from '@spartacus/core';

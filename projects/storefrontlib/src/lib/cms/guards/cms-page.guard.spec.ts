@@ -2,8 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable } from 'rxjs';
 import { CmsPageGuards } from './cms-page.guard';
-import { CmsService } from '../facade/cms.service';
-import { RoutingService, PageType } from '@spartacus/core';
+import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
 class MockCmsService {
   hasPage() {}
@@ -40,7 +39,7 @@ describe('CmsPageGuards', () => {
     );
   });
 
-  describe('canCactivate', () => {
+  describe('canActivate', () => {
     it('should return true when CmsService hasPage is true for the page context', inject(
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {

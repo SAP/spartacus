@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
+import { Cart, CartService } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { CartService } from '../../cart/facade';
-
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
-import { Cart } from '@spartacus/core';
 
 const MAIN_PAGE_ROUTE = [''];
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
