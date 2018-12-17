@@ -11,7 +11,7 @@ import { ProductSearchPage, Suggestion } from '../../occ/occ-models';
 @Injectable()
 export class ProductSearchService {
   constructor(
-    private store: Store<fromStore.ProductsState>,
+    private store: Store<fromStore.StateWithProduct>,
     private router: Router
   ) {}
 
