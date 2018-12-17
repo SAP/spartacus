@@ -36,7 +36,7 @@ describe('Currencies Selectors', () => {
         .pipe(select(fromSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(entities);
@@ -66,7 +66,7 @@ describe('Currencies Selectors', () => {
         .pipe(select(fromSelectors.getAllCurrencies))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(currencies);

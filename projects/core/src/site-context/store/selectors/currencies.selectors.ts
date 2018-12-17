@@ -41,6 +41,8 @@ export const getAllCurrencies: MemoizedSelector<
 > = createSelector(
   getCurrenciesEntities,
   entities => {
-    return Object.keys(entities).map(isocode => entities[isocode]);
+    return entities
+      ? Object.keys(entities).map(isocode => entities[isocode])
+      : null;
   }
 );
