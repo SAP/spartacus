@@ -99,7 +99,7 @@ export class PageEffects {
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = {
         uid: slot.slotId,
-        uuid: slot.slotUuid,
+        uuid: slot.slotId,
         catalogUuid: this.getCatalogUuid(slot),
         components: []
       };

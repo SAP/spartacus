@@ -5,12 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
 import { PageContext } from '../../routing/index';
-import {
-  CMSPage,
-  PageType,
-  CmsComponent,
-  ListAdaptedComponents
-} from '../../occ/occ-models/index';
+import { CMSPage, PageType, CmsComponent } from '../../occ/occ-models/index';
 
 @Injectable()
 export class OccCmsService {
@@ -72,7 +67,7 @@ export class OccCmsService {
     currentPage?: number,
     pageSize?: number,
     sort?: string
-  ): Observable<ListAdaptedComponents> {
+  ): Observable<any> {
     let strParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       strParams === ''
