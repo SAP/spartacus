@@ -28,7 +28,7 @@ export class AuthService {
    * @param userId
    * @param password
    */
-  authorize(userId: string, password: string) {
+  authorize(userId: string, password: string): void {
     this.store.dispatch(
       new LoadUserToken({
         userId: userId,
@@ -60,28 +60,28 @@ export class AuthService {
   /**
    * Store the provided token
    */
-  authorizeWithToken(token: UserToken) {
+  authorizeWithToken(token: UserToken): void {
     this.store.dispatch(new LoadUserTokenSuccess(token));
   }
 
   /**
    * Login
    */
-  login() {
+  login(): void {
     this.store.dispatch(new Login());
   }
 
   /**
    * Logout
    */
-  logout() {
+  logout(): void {
     this.store.dispatch(new Logout());
   }
 
   /**
    * Loads a new client token
    */
-  loadClientToken() {
+  loadClientToken(): void {
     this.store.dispatch(new LoadClientToken());
   }
 

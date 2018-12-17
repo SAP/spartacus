@@ -11,6 +11,10 @@ import { AuthStoreModule } from '../store/auth-store.module';
 import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
 import { ClientAuthenticationTokenService } from '../services/client-authentication/client-authentication-token.service';
 
+class MockUserAuthenticationTokenService {}
+
+class MockClientAuthenticationTokenService {}
+
 const mockToken = {
   userId: 'user@sap.com',
   refresh_token: 'foo'
@@ -29,8 +33,14 @@ describe('AuthService', () => {
       imports: [AuthStoreModule],
       providers: [
         AuthService,
-        { provide: UserAuthenticationTokenService, useValue: {} },
-        { provide: ClientAuthenticationTokenService, useValue: {} }
+        {
+          provide: UserAuthenticationTokenService,
+          useClass: MockUserAuthenticationTokenService
+        },
+        {
+          provide: ClientAuthenticationTokenService,
+          useClass: MockClientAuthenticationTokenService
+        }
       ]
     });
 
@@ -103,6 +113,7 @@ describe('AuthService', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
     let result: ClientToken;
+
     service
       .getClientToken()
       .subscribe(token => (result = token))

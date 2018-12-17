@@ -6,8 +6,7 @@ import { AuthService, RoutingService } from '@spartacus/core';
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../../global-message/models/message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({

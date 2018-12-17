@@ -21,7 +21,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
   constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.orderDetails$;
+    this.order$ = this.checkoutService.getOrderDetails();
   }
 
   ngOnDestroy() {

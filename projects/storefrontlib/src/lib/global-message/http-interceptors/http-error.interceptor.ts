@@ -9,8 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { GlobalMessageService } from '../facade/global-message.service';
-import { GlobalMessageType } from './../models/message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
