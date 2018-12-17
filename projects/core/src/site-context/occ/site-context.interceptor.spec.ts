@@ -4,25 +4,11 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-
-import { of, Observable } from 'rxjs';
-
-import { CurrencyService } from '../facade/currency.service';
-import { LanguageService } from '../facade/language.service';
-import { OccConfig } from '../../occ/config/occ-config';
-
 import { SiteContextInterceptor } from './site-context.interceptor';
-
-class MockCurrencyService {
-  getActive(): Observable<string> {
-    return of();
-  }
-}
-class MockLanguageService {
-  getActive(): Observable<string> {
-    return of();
-  }
-}
+import { BehaviorSubject } from 'rxjs';
+import { LanguageService } from '../facade/language.service';
+import { CurrencyService } from '../facade/currency.service';
+import { OccConfig } from '../../occ/config/occ-config';
 
 export class MockSiteContextModuleConfig {
   server = {
@@ -37,13 +23,29 @@ export class MockSiteContextModuleConfig {
   };
 }
 
+const mockCurrencyService = {
+  isocode: new BehaviorSubject(null),
+  getActive() {
+    return this.isocode;
+  },
+  setActive(isocode: string) {
+    this.isocode.next(isocode);
+  }
+};
+const mockLanguageService = {
+  isocode: new BehaviorSubject(null),
+  getActive() {
+    return this.isocode;
+  },
+  setActive(isocode: string) {
+    this.isocode.next(isocode);
+  }
+};
 describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
   const currencyJpy = 'JPY';
 
   let httpMock: HttpTestingController;
-  let currencyService: CurrencyService;
-  let languageService: LanguageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,11 +53,11 @@ describe('SiteContextInterceptor', () => {
       providers: [
         {
           provide: LanguageService,
-          useClass: MockLanguageService
+          useValue: mockLanguageService
         },
         {
           provide: CurrencyService,
-          useClass: MockCurrencyService
+          useValue: mockCurrencyService
         },
         {
           provide: OccConfig,
@@ -70,8 +72,6 @@ describe('SiteContextInterceptor', () => {
     });
 
     httpMock = TestBed.get(HttpTestingController);
-    currencyService = TestBed.get(CurrencyService);
-    languageService = TestBed.get(LanguageService);
   });
 
   afterEach(() => {
@@ -81,9 +81,6 @@ describe('SiteContextInterceptor', () => {
   it('should not add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(currencyService, 'getActive').and.returnValue(of());
-      spyOn(languageService, 'getActive').and.returnValue(of());
-
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -101,9 +98,8 @@ describe('SiteContextInterceptor', () => {
   it('should add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
-      spyOn(currencyService, 'getActive').and.returnValue(of(currencyJpy));
-      spyOn(languageService, 'getActive').and.returnValue(of(languageDe));
-
+      mockLanguageService.setActive(languageDe);
+      mockCurrencyService.setActive(currencyJpy);
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {
