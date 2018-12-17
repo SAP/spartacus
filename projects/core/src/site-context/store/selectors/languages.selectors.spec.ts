@@ -37,7 +37,7 @@ describe('Languages Selectors', () => {
         .pipe(select(fromSelectors.getLanguagesEntities))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
 
@@ -69,7 +69,7 @@ describe('Languages Selectors', () => {
         .pipe(select(fromSelectors.getAllLanguages))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
 
