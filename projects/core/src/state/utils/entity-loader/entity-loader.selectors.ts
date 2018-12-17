@@ -31,3 +31,11 @@ export function entityErrorSelector<T>(
   const entityState = entityStateSelector(state, id);
   return entityState.error;
 }
+
+export function entitySuccessSelector<T>(
+  state: EntityLoaderState<T>,
+  id: string
+): boolean {
+  const entityState = entityStateSelector(state, id);
+  return entityState.success;
+}
