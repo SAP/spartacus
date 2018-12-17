@@ -50,7 +50,8 @@ describe('AddressBookComponent', () => {
 
   beforeEach(async(() => {
     mockUserService = {
-      addressesState$: addresses.asObservable(),
+      getAddressesState: jasmine.createSpy().and.returnValue(addresses),
+      get: jasmine.createSpy().and.returnValue(user),
       addUserAddress: jasmine.createSpy(),
       loadAddresses: jasmine.createSpy(),
       deleteUserAddress: jasmine.createSpy(),
@@ -59,7 +60,6 @@ describe('AddressBookComponent', () => {
       getDeliveryCountries: jasmine.createSpy().and.returnValue(of([])),
       getTitles: jasmine.createSpy().and.returnValue(of([])),
       getRegions: jasmine.createSpy().and.returnValue(of([])),
-      user$: user.asObservable(),
       loadTitles: jasmine.createSpy(),
       loadDeliveryCountries: jasmine.createSpy(),
       loadRegions: jasmine.createSpy()
