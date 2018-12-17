@@ -5,7 +5,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccCartService } from '../../../occ/cart/cart.service';
 import {
   OccConfig,
   DeliveryModeList,
@@ -15,7 +14,8 @@ import {
   ProductImageConverterService,
   OccOrderService,
   GlobalMessageType,
-  AddMessage
+  AddMessage,
+  OccCartService
 } from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';

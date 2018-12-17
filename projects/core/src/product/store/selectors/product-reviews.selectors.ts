@@ -17,7 +17,7 @@ export const getProductReviewsState: MemoizedSelector<
 
 export const getSelectedProductReviewsFactory = (
   productCode
-): MemoizedSelector<any, Review[]> => {
+): MemoizedSelector<StateWithProduct, Review[]> => {
   return createSelector(
     getProductReviewsState,
     reviewData => {
