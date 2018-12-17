@@ -5,7 +5,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { SmartEditService } from './smart-edit.service';
+import { SmartEditService } from '../services/smart-edit.service';
 import { CmsTicketInterceptor } from './cms-ticket.interceptor';
 
 class MockSmartEditService {

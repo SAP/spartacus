@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { SmartEditService } from './smart-edit.service';
+import { SmartEditService } from '../services/smart-edit.service';
 
 @Injectable()
 export class CmsTicketInterceptor implements HttpInterceptor {
