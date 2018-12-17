@@ -62,7 +62,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  addUserAddress(userId: string, address: Address): Observable<any> {
+  addUserAddress(userId: string, address: Address): Observable<{}> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export class OccUserService {
     userId: string,
     addressId: string,
     address: Address
-  ): Observable<any> {
+  ): Observable<{}> {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
@@ -89,7 +89,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  deleteUserAddress(userId: string, addressId: string): Observable<any> {
+  deleteUserAddress(userId: string, addressId: string): Observable<{}> {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
@@ -115,7 +115,7 @@ export class OccUserService {
   deleteUserPaymentMethod(
     userId: string,
     paymentMethodID: string
-  ): Observable<any> {
+  ): Observable<{}> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -129,7 +129,7 @@ export class OccUserService {
   setDefaultUserPaymentMethod(
     userId: string,
     paymentMethodID: string
-  ): Observable<any> {
+  ): Observable<{}> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

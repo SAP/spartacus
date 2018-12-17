@@ -9,8 +9,8 @@ import * as fromUserDetailsEffect from './user-details.effect';
 import { User } from '../../../occ/occ-models';
 
 class MockOccUserService {
-  loadUser(_username: string): Observable<any> {
-    return;
+  loadUser(_username: string): Observable<User> {
+    return of();
   }
 }
 

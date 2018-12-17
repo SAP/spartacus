@@ -11,7 +11,9 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Country, CountryList } from '../../../occ/occ-models/index';
 
 class MockMiscsService {
-  loadDeliveryCountries() {}
+  loadDeliveryCountries(): Observable<CountryList> {
+    return of();
+  }
 }
 
 const mockCountries: Country[] = [

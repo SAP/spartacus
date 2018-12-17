@@ -11,7 +11,9 @@ import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { TitleList } from '../../../occ/occ-models';
 
 class MockMiscsService {
-  loadTitles() {}
+  loadTitles(): Observable<TitleList> {
+    return of();
+  }
 }
 
 const mockTitlesList: TitleList = {
