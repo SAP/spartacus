@@ -13,7 +13,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from '../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
-import * as fromAuth from '../../../../../../core/src/auth/store/index';
+import * as fromAuth from '@spartacus/core';
 import * as fromCart from '../../../cart/store';
 import * as fromUser from '@spartacus/core';
 import { OccCartService } from '../../../occ/cart/cart.service';
