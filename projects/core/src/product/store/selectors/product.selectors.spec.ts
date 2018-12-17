@@ -18,6 +18,8 @@ describe('Cms Component Selectors', () => {
   const entities = {
     testCode: {
       loading: false,
+      error: false,
+      success: true,
       value: product
     }
   };
@@ -73,6 +75,52 @@ describe('Cms Component Selectors', () => {
 
       store.dispatch(new fromActions.LoadProductSuccess(product));
       expect(result).toEqual(product);
+    });
+  });
+
+  describe('getSelectedProductLoadingFactory', () => {
+    it('should return isLoading information', () => {
+      let result;
+
+      store
+        .pipe(select(fromSelectors.getSelectedProductLoadingFactory(code)))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadProduct(product.code));
+      expect(result).toBeTruthy();
+
+      store.dispatch(new fromActions.LoadProductSuccess(product));
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getSelectedProductSuccessFactory', () => {
+    it('should return success information', () => {
+      let result;
+
+      store
+        .pipe(select(fromSelectors.getSelectedProductSuccessFactory(code)))
+        .subscribe(value => (result = value));
+
+      expect(result).toBeFalsy();
+
+      store.dispatch(new fromActions.LoadProductSuccess(product));
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe('getSelectedProductErrorFactory', () => {
+    it('should return error information', () => {
+      let result;
+
+      store
+        .pipe(select(fromSelectors.getSelectedProductErrorFactory(code)))
+        .subscribe(value => (result = value));
+
+      expect(result).toBeFalsy();
+
+      store.dispatch(new fromActions.LoadProductFail(code, undefined));
+      expect(result).toBeTruthy();
     });
   });
 });

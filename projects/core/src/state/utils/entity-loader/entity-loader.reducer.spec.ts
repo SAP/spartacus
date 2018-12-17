@@ -30,6 +30,7 @@ describe('EntityLoader reducer', () => {
           [TEST_ENTITY_ID]: {
             loading: true,
             error: false,
+            success: false,
             value: undefined
           }
         }
