@@ -1,12 +1,13 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { StoreModule, Store } from '@ngrx/store';
+import { StoreModule, Store, MemoizedSelector } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
 
 import { EMPTY, of } from 'rxjs';
 
 import * as fromStore from '../store';
+import { StateWithProduct } from '../store';
 import { SearchConfig } from '../model/search-config';
 import { ProductSearchPage } from '../../occ/occ-models';
 
@@ -32,7 +33,9 @@ describe('ProductSearchService', () => {
     products: [{ code: 'aux1' }, { code: 'aux2' }]
   };
 
-  const mockSelect = selector => {
+  const mockSelect = (
+    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
+  ) => {
     switch (selector) {
       case fromStore.getSearchResults:
         return () => of(mockSearchResults);

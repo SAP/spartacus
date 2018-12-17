@@ -37,7 +37,10 @@ export class ProductReviewsEffects {
   );
 
   @Effect()
-  postProductReview: Observable<Review | any> = this.actions$.pipe(
+  postProductReview: Observable<
+    | productReviewsActions.PostProductReviewSuccess
+    | productReviewsActions.PostProductReviewFail
+  > = this.actions$.pipe(
     ofType(productReviewsActions.POST_PRODUCT_REVIEW),
     map((action: productReviewsActions.PostProductReview) => action.payload),
     mergeMap(payload => {

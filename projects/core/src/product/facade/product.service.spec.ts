@@ -92,7 +92,7 @@ describe('ProductService', () => {
           success: true
         })
       );
-      let isSuccess;
+      let isSuccess: boolean;
       service.isSuccess('testId').subscribe(value => {
         isSuccess = value;
       });
@@ -117,27 +117,42 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: mockProduct })
       );
-      service.get('existingProduct').subscribe(result => {
-        expect(result).toBeTruthy();
-      });
+      let result: Product;
+      service
+        .get('existingProduct')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toBeTruthy();
     });
 
     it('should be false that the product is loaded when an empty object is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: {} })
       );
-      service.get('emptyObjectProduct').subscribe(result => {
-        expect(result).toEqual({});
-      });
+      let result: Product;
+      service
+        .get('emptyObjectProduct')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toEqual({});
     });
 
     it('should be false that the product is loaded when undefined is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: undefined })
       );
-      service.get('undefinedProduct').subscribe(result => {
-        expect(result).toBeFalsy();
-      });
+      let result: Product;
+      service
+        .get('undefinedProduct')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toBeFalsy();
     });
   });
 });

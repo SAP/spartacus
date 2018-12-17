@@ -34,7 +34,7 @@ export class PostProductReview implements Action {
 
 export class PostProductReviewFail implements Action {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class PostProductReviewSuccess implements Action {

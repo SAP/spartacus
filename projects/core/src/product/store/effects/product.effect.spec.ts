@@ -55,7 +55,7 @@ describe('Product Effects', () => {
   const mockProductState = {
     details: {
       entities: {
-        testLoadedCode: { loading: false, value: 'loaded product' },
+        testLoadedCode: { loading: false, value: product },
         testLoadingCode: { loading: true, value: null }
       }
     }
