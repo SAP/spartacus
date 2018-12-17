@@ -131,7 +131,7 @@ describe('ProductDetailsComponent in product', () => {
 
   it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
-    productDetailsComponent.ngOnInit();
+    productDetailsComponent.ngOnChanges();
     productDetailsComponent.product$.subscribe(product =>
       expect(product).toEqual(mockProduct)
     );
@@ -139,7 +139,7 @@ describe('ProductDetailsComponent in product', () => {
 
   it('should go to reviews tab', () => {
     productDetailsComponent.productCode = '123456';
-    productDetailsComponent.ngOnInit();
+    productDetailsComponent.ngOnChanges();
     productDetailsComponent.product$.subscribe(() => {
       fixture.detectChanges();
       productDetailsComponent.openReview();
