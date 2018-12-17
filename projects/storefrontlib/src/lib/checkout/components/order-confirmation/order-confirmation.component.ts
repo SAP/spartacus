@@ -4,8 +4,9 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { CheckoutService } from '../../services/checkout.service';
+import { CheckoutService } from '../../facade/checkout.service';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -15,16 +16,16 @@ import { Card } from '../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
-  order: any;
+  order$: Observable<any>;
 
   constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.order = this.checkoutService.orderDetails;
+    this.order$ = this.checkoutService.getOrderDetails();
   }
 
   ngOnDestroy() {
-    this.checkoutService.orderDetails = undefined;
+    this.checkoutService.clearCheckoutData();
   }
 
   getAddressCardContent(deliveryAddress: any): Card {

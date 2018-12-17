@@ -6,13 +6,17 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
+
+import { PaymentDetails } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../services/checkout.service';
-import { Card } from '../../../../ui/components/card/card.component';
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
+import { UserService } from '@spartacus/core';
+import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-method',
@@ -22,9 +26,9 @@ import { visaImgSrc } from '../../../../ui/images/visa';
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
-  existingPaymentMethods$: Observable<any>;
+  existingPaymentMethods$: Observable<PaymentDetails[]>;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedPayment: any;
@@ -33,27 +37,27 @@ export class PaymentMethodComponent implements OnInit {
   @Output()
   addPaymentInfo = new EventEmitter<any>();
 
-  constructor(protected checkoutService: CheckoutService) {}
+  constructor(
+    protected cartData: CartDataService,
+    protected userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.checkoutService.paymentMethodsLoading$;
+    this.isLoading$ = this.userService.getPaymentMethodsLoading();
+    this.userService.loadPaymentMethods(this.cartData.userId);
 
-    this.existingPaymentMethods$ = this.checkoutService.paymentMethods$.pipe(
+    this.existingPaymentMethods$ = this.userService.getPaymentMethods().pipe(
       tap(payments => {
-        if (payments.length === 0) {
-          this.checkoutService.loadUserPaymentMethods();
-        } else {
-          if (this.cards.length === 0) {
-            payments.forEach(payment => {
-              const card = this.getCardContent(payment);
-              if (
-                this.selectedPayment &&
-                this.selectedPayment.id === payment.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          payments.forEach(payment => {
+            const card = this.getCardContent(payment);
+            if (
+              this.selectedPayment &&
+              this.selectedPayment.id === payment.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );

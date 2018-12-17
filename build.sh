@@ -11,4 +11,6 @@ echo "-----"
 echo "-----"
 ./ci-scripts/unit-tests.sh
 echo "-----"
+./ci-scripts/unit-tests-sonar.sh
+echo "-----"
 ./ci-scripts/e2e-tests.sh

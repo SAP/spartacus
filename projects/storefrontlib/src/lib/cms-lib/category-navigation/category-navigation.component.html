@@ -1,5 +1,10 @@
 <nav class="cx-navigation">
   <div class="cx-navigation__list nav">
-    <cx-navigation *ngFor="let child of node.children" ngbDropdown [node]="child" [dropdownMode]="'column'"></cx-navigation>
+    <cx-navigation
+      *ngFor="let child of node?.children"
+      ngbDropdown
+      [node]="child"
+      [dropdownMode]="'column'"
+    ></cx-navigation>
   </div>
 </nav>

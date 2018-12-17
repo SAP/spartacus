@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, CurrencyEntities } from '../store/state';
+
+import { StateWithSiteContext } from '../store/state';
+import { Currency } from '../../occ/occ-models/occ.models';
 import {
   LoadCurrencies,
   SetActiveCurrency
@@ -14,37 +18,39 @@ import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
 export class CurrencyService {
-  readonly currencies$: Observable<CurrencyEntities> = this.store.pipe(
-    select(getAllCurrencies)
-  );
-
-  readonly activeCurrency$: Observable<string> = this.store.pipe(
-    select(getActiveCurrency)
-  );
-
   constructor(
     private store: Store<StateWithSiteContext>,
     private config: OccConfig
   ) {
-    this.initActiveCurrency();
-    this.loadCurrencies();
+    this.initActive();
+    this.load();
   }
 
-  protected loadCurrencies() {
+  protected load(): void {
     this.store.dispatch(new LoadCurrencies());
   }
 
-  public set activeCurrency(isocode: string) {
-    this.store.dispatch(new SetActiveCurrency(isocode));
-  }
-
-  protected initActiveCurrency() {
+  protected initActive(): void {
     if (sessionStorage) {
-      this.activeCurrency = !sessionStorage.getItem('currency')
+      const currency = !sessionStorage.getItem('currency')
         ? this.config.site.currency
         : sessionStorage.getItem('currency');
+
+      this.setActive(currency);
     } else {
-      this.activeCurrency = this.config.site.currency;
+      this.setActive(this.config.site.currency);
     }
+  }
+
+  get(): Observable<Currency[]> {
+    return this.store.pipe(select(getAllCurrencies));
+  }
+
+  getActive(): Observable<string> {
+    return this.store.pipe(select(getActiveCurrency));
+  }
+
+  setActive(isocode: string): void {
+    this.store.dispatch(new SetActiveCurrency(isocode));
   }
 }

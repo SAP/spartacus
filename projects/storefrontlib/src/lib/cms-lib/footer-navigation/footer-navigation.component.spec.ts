@@ -1,65 +1,62 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FooterNavigationComponent } from './footer-navigation.component';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { NavigationModule } from '../navigation/navigation.module';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CmsService } from '../../cms/facade/cms.service';
+
 import { NavigationService } from '../navigation/navigation.service';
+import { CmsService } from '@spartacus/core';
+import { NavigationComponent } from '..';
+import { FooterNavigationComponent } from './footer-navigation.component';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    FooterNavigationComponent: 'FooterNavigationComponent'
-  }
-};
-
-const mockLinks = [
-  {
-    title: 'Test child 1',
-    url: '/test1',
-    target: true
-  },
-  {
-    title: 'Test child 2',
-    url: '/',
-    target: false
-  }
-];
-
+@Component({
+  selector: 'cx-navigation-ui',
+  template: ''
+})
+class MockNavigationUIComponent {
+  @Input()
+  dropdownMode = 'list';
+  @Input()
+  node;
+}
 describe('FooterNavigationComponent', () => {
-  let footerNavigationComponent: FooterNavigationComponent;
+  let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let footer: DebugElement;
   let column: DebugElement;
 
-  beforeEach(async(() => {
-    const mockCmsService = {};
-    const mockNavigationService = {};
+  const mockLinks = [
+    {
+      title: 'Test child 1',
+      url: '/test1',
+      target: true
+    },
+    {
+      title: 'Test child 2',
+      url: '/',
+      target: false
+    }
+  ];
 
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        RouterTestingModule,
-        NavigationModule
+      imports: [RouterTestingModule],
+      declarations: [
+        FooterNavigationComponent,
+        NavigationComponent,
+        MockNavigationUIComponent
       ],
-      declarations: [FooterNavigationComponent],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
-        { provide: CmsService, useValue: mockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService }
+        NavigationService,
+        { provide: CmsService, useValue: {} },
+        { provide: NavigationService, useValue: {} }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
-    footerNavigationComponent = fixture.componentInstance;
-
-    footerNavigationComponent.node = {
+    component = fixture.componentInstance;
+    component.node = {
       children: [
         {
           title: 'Test 1',
@@ -73,7 +70,7 @@ describe('FooterNavigationComponent', () => {
   });
 
   it('should create FooterNavigationComponent in CmsLib', () => {
-    expect(footerNavigationComponent).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('UI tests', () => {

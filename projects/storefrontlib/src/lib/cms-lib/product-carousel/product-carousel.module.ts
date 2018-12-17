@@ -4,9 +4,21 @@ import { RouterModule } from '@angular/router';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { MediaModule } from '../../ui/components/media/media.module';
 import { BootstrapModule } from '../../bootstrap.module';
+import { ConfigModule } from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MediaModule, BootstrapModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MediaModule,
+    BootstrapModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductCarouselComponent: { selector: 'cx-product-carousel' }
+      }
+    })
+  ],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
   exports: [ProductCarouselComponent]

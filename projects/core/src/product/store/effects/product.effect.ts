@@ -15,10 +15,9 @@ import * as productActions from '../actions/product.action';
 import { OccProductService } from '../../occ/product.service';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
-// import { RoutingService } from '../../../routing/facade/routing.service';
 
 import { RoutingService } from '../../../routing/index';
-import { PageType } from '../../../occ-models/occ.models';
+import { PageType } from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductEffects {
@@ -42,7 +41,7 @@ export class ProductEffects {
   refreshProduct$ = this.actions$.pipe(
     ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
     switchMap(() =>
-      this.routingService.routerState$.pipe(
+      this.routingService.getRouterState().pipe(
         filter(routerState => routerState !== undefined),
         map(routerState => routerState.state.context),
         take(1),

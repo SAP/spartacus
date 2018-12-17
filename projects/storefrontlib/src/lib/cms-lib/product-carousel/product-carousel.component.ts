@@ -7,11 +7,16 @@ import {
   OnInit,
   ChangeDetectorRef
 } from '@angular/core';
-import { Subscription, fromEvent } from 'rxjs';
+
+import { ProductService, Product } from '@spartacus/core';
+
+import { Subscription, fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { ProductService } from '@spartacus/core';
+
+import { CmsService } from '@spartacus/core';
+import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cx-product-carousel',
@@ -21,13 +26,14 @@ import { ProductService } from '@spartacus/core';
 })
 export class ProductCarouselComponent extends AbstractCmsComponent
   implements OnDestroy, OnInit {
-  productGroups: any[];
-  products = {};
+  productGroups: Array<string[]>;
+  products: { [key: string]: Observable<Product> } = {};
 
   resize$: Subscription;
 
   @ViewChild('carousel')
-  carousel: any;
+  carousel: NgbCarousel;
+
   @Input()
   productCodes: Array<string>;
 
@@ -45,15 +51,15 @@ export class ProductCarouselComponent extends AbstractCmsComponent
       .subscribe(() => this.createGroups());
   }
 
-  prev() {
+  prev(): void {
     this.carousel.prev();
   }
 
-  next() {
+  next(): void {
     this.carousel.next();
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     this.setProductCodes();
     this.productCodes.forEach(code => {
       this.products[code] = this.productService.get(code);
@@ -63,10 +69,10 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     super.fetchData();
   }
 
-  protected createGroups() {
-    const groups = [];
+  protected createGroups(): void {
+    const groups: Array<string[]> = [];
     this.productCodes.forEach(product => {
-      const lastGroup = groups[groups.length - 1];
+      const lastGroup: string[] = groups[groups.length - 1];
       if (lastGroup && lastGroup.length < this.getItemsPerPage()) {
         lastGroup.push(product);
       } else {
@@ -80,7 +86,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     const smallScreenMaxWidth = 576;
     const tabletScreenMaxWidth = 768;
     const { innerWidth } = window;
-    let itemsPerPage;
+    let itemsPerPage: number;
     if (innerWidth < smallScreenMaxWidth) {
       itemsPerPage = 1;
     } else if (
@@ -94,7 +100,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     return itemsPerPage;
   }
 
-  protected setProductCodes() {
+  protected setProductCodes(): void {
     if (this.component && this.component.productCodes) {
       this.productCodes = this.component.productCodes.split(' ');
     }

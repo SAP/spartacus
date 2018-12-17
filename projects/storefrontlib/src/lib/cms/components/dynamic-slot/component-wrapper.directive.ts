@@ -2,23 +2,23 @@ import {
   Directive,
   ViewContainerRef,
   Input,
-  AfterViewInit,
+  OnInit,
   OnDestroy,
   ComponentRef,
   Injector,
   Renderer2,
   ChangeDetectorRef
 } from '@angular/core';
-import { ComponentMapperService } from '../../services/component-mapper.service';
-import { CmsService } from '../../facade/cms.service';
+import { CmsComponent } from '@spartacus/core';
 import { CmsComponentData } from '../cms-component-data';
 import { AbstractCmsComponent } from '../abstract-cms-component';
 import { CxApiService } from '../../../cx-api/cx-api.service';
+import { CmsConfig, CmsService, ComponentMapperService } from '@spartacus/core';
 
 @Directive({
   selector: '[cxComponentWrapper]'
 })
-export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
+export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input()
   componentType: string;
   @Input()
@@ -37,10 +37,11 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     private injector: Injector,
     private cmsService: CmsService,
     private renderer: Renderer2,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private config: CmsConfig
   ) {}
 
-  ngAfterViewInit() {
+  ngOnInit() {
     if (this.componentMapper.isWebComponent(this.componentType)) {
       this.launchWebComponent();
     } else {
@@ -91,7 +92,9 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     }
   }
 
-  private getCmsDataForComponent(): CmsComponentData {
+  private getCmsDataForComponent<T extends CmsComponent>(): CmsComponentData<
+    T
+  > {
     return {
       uid: this.componentUid,
       contextParameters: this.contextParameters,
@@ -99,13 +102,16 @@ export class ComponentWrapperDirective implements AfterViewInit, OnDestroy {
     };
   }
 
-  private getInjectorForComponent() {
+  private getInjectorForComponent(): Injector {
+    const configProviders =
+      (this.config.cmsComponents[this.componentType] || {}).providers || [];
     return Injector.create({
       providers: [
         {
           provide: CmsComponentData,
           useValue: this.getCmsDataForComponent()
-        }
+        },
+        ...configProviders
       ],
       parent: this.injector
     });

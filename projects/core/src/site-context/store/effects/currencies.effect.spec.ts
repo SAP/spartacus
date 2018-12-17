@@ -9,17 +9,18 @@ import * as fromEffects from './currencies.effect';
 import * as fromActions from '../actions/currencies.action';
 import { OccModule } from '../../../occ/occ.module';
 import { ConfigModule } from '../../../config/config.module';
+import { Currency } from '../../../occ/occ-models/occ.models';
 
 describe('Currencies Effects', () => {
   let actions$: Observable<any>;
   let service: OccSiteService;
   let effects: fromEffects.CurrenciesEffects;
 
-  const data = {
-    currencies: [
-      { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
-    ]
-  };
+  const currencies: Currency[] = [
+    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+  ];
+
+  const data = { currencies };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of, Observable } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
@@ -22,10 +24,20 @@ import { FormsModule } from '@angular/forms';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-import { ProductSearchService } from '@spartacus/core';
+import { ActivatedRoute } from '@angular/router';
+import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
 class MockProductSearchService {
-  search() {}
+  search = createSpy();
+  searchResults$ = of();
+
+  getSearchResults(): Observable<ProductSearchPage> {
+    return of();
+  }
+}
+class MockActivatedRoute {
+  snapshot = { queryParams: {} };
+  setParams = params => (this.snapshot.queryParams = params);
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -47,6 +59,10 @@ describe('ProductListComponent in product-list', () => {
         {
           provide: ProductSearchService,
           useClass: MockProductSearchService
+        },
+        {
+          provide: ActivatedRoute,
+          useClass: MockActivatedRoute
         }
       ],
       declarations: [
@@ -66,11 +82,26 @@ describe('ProductListComponent in product-list', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     service = TestBed.get(ProductSearchService);
-    spyOn(service, 'search').and.callThrough();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call ngOnChanges and get search results with params provided with url', () => {
+    const activeRoute = TestBed.get(ActivatedRoute);
+    activeRoute.setParams({
+      query: 'myBestQueryEver:category:bestqueries',
+      categoryCode: 'mockCategoryCode',
+      page: 112
+    });
+    component.categoryCode = 'mockCategoryCode';
+    component.ngOnInit();
+    component.ngOnChanges();
+    expect(service.search).toHaveBeenCalledWith(
+      'myBestQueryEver:category:bestqueries',
+      { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
+    );
   });
 
   it('should call ngOnChanges and get search results with category code', () => {
@@ -79,7 +110,7 @@ describe('ProductListComponent in product-list', () => {
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
-      { pageSize: 10 }
+      { pageSize: 10, categoryCode: 'mockCategoryCode' }
     );
   });
 
@@ -89,7 +120,7 @@ describe('ProductListComponent in product-list', () => {
     component.ngOnChanges();
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
-      { pageSize: 10 }
+      { pageSize: 10, brandCode: 'mockBrandCode' }
     );
   });
 

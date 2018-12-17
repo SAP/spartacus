@@ -1,40 +1,31 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { StoreModule, Store } from '@ngrx/store';
-import * as ngrxStore from '@ngrx/store';
-import { of } from 'rxjs';
-import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { LanguageService } from './language.service';
-import { OccConfig } from '../../occ/config/occ-config';
+import { Language } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { OccConfig } from '../../occ/config/occ-config';
 
-const mockLanguages: any[] = [
+import { LanguageService } from './language.service';
+
+const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
 ];
 
 const mockActiveLang = 'ja';
 
 describe('LanguageService', () => {
-  const mockSelect1 = createSpy('select').and.returnValue(() =>
-    of(mockLanguages)
-  );
-  const mockSelect2 = createSpy('select').and.returnValue(() =>
-    of(mockActiveLang)
-  );
-
   let service: LanguageService;
   let store: Store<StateWithSiteContext>;
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockSelect1,
-      mockSelect2
-    );
-
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('siteContext', fromStore.getReducers())
+      ],
       providers: [
         LanguageService,
         { provide: OccConfig, useValue: defaultOccConfig }
@@ -54,6 +45,8 @@ describe('LanguageService', () => {
   ));
 
   it('should load languages and set active language when service is constructed', () => {
+    store.dispatch(new fromStore.LoadLanguagesSuccess(mockLanguages));
+
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadLanguages());
     let activeLang = sessionStorage.getItem('language');
     if (!activeLang) {
@@ -65,20 +58,33 @@ describe('LanguageService', () => {
   });
 
   it('should be able to get languages', () => {
-    service.languages$.subscribe(results => {
-      expect(results).toEqual(mockLanguages);
-    });
+    store.dispatch(new fromStore.LoadLanguagesSuccess(mockLanguages));
+
+    let result: Language[];
+    service
+      .get()
+      .subscribe(results => (result = results))
+      .unsubscribe();
+
+    expect(result).toEqual(mockLanguages);
   });
 
   it('should be able to get active languages', () => {
-    service.activeLanguage$.subscribe(results => {
-      expect(results).toEqual(mockActiveLang);
-    });
+    store.dispatch(new fromStore.SetActiveLanguage(mockActiveLang));
+
+    let result: string;
+    service
+      .getActive()
+      .subscribe(results => (result = results))
+      .unsubscribe();
+
+    expect(result).toEqual(mockActiveLang);
   });
 
-  describe('set activeLanguage(isocode)', () => {
+  describe('setActive(isocode)', () => {
     it('should be able to set active language', () => {
-      service.activeLanguage = 'ja';
+      store.dispatch(new fromStore.LoadLanguagesSuccess(mockLanguages));
+      service.setActive('ja');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveLanguage('ja')
       );

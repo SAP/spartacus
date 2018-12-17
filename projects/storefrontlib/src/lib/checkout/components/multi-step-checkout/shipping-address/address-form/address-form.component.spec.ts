@@ -1,26 +1,43 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import * as fromCheckout from '../../../../store';
-import * as fromCart from '../../../../../cart/store';
-import * as fromUser from '../../../../../user/store';
-
-import { StoreModule, Store } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
-
-import { AddressFormComponent } from './address-form.component';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-
-import { BehaviorSubject } from 'rxjs';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CheckoutService } from '../../../../services';
-import { CartService, CartDataService } from '../../../../../cart/services';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { AddressFormModule } from './address-form.module';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
 import { ChangeDetectionStrategy } from '@angular/core';
 
-const mockTitles = [
+import { NgSelectModule } from '@ng-select/ng-select';
+
+import { Title, Country, Region } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { UserService, GlobalMessageService } from '@spartacus/core';
+import { CheckoutService } from '../../../../facade';
+
+import { AddressFormComponent } from './address-form.component';
+import { AddressValidation } from '@spartacus/core';
+
+class MockUserService {
+  getTitles(): Observable<Title[]> {
+    return of();
+  }
+
+  loadTitles(): void {}
+
+  getDeliveryCountries(): Observable<Country[]> {
+    return of();
+  }
+
+  loadDeliveryCountries(): void {}
+
+  getRegions(): Observable<Region[]> {
+    return of();
+  }
+
+  loadRegions(_countryIsoCode: string): void {}
+}
+
+const mockTitles: Title[] = [
   {
     code: 'mr',
     name: 'Mr.'
@@ -30,17 +47,17 @@ const mockTitles = [
     name: 'Mrs.'
   }
 ];
-const mockCountries = [
-  {
-    isocode: 'AL',
-    name: 'Albania'
-  },
+const mockCountries: Country[] = [
   {
     isocode: 'AD',
     name: 'Andorra'
+  },
+  {
+    isocode: 'RS',
+    name: 'Serbia'
   }
 ];
-const mockRegions = [
+const mockRegions: Region[] = [
   {
     isocode: 'CA-ON',
     name: 'Ontario'
@@ -51,79 +68,50 @@ const mockRegions = [
   }
 ];
 
+class MockCheckoutService {
+  clearAddressVerificationResults = createSpy();
+  verifyAddress = createSpy();
+  getAddressVerificationResults(): Observable<AddressValidation> {
+    return of({ decision: 'ACCEPT' });
+  }
+}
+
 describe('AddressFormComponent', () => {
-  let store: Store<fromCheckout.CheckoutState>;
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
-  let service: CheckoutService;
   let controls: FormGroup['controls'];
-  let mockSelectors: {
-    checkout: {
-      getAddressVerificationResults: BehaviorSubject<any>;
-    };
-    user: {
-      getAllDeliveryCountries: BehaviorSubject<any[]>;
-      getAllTitles: BehaviorSubject<any[]>;
-      getAllRegions: BehaviorSubject<any[]>;
-    };
-  };
+
+  let mockCheckoutService: MockCheckoutService;
+  let userService: UserService;
+  let mockGlobalMessageService: any;
 
   beforeEach(async(() => {
+    mockGlobalMessageService = {
+      add: createSpy()
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        AddressFormModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers())
-      ],
+      imports: [ReactiveFormsModule, NgSelectModule],
+      declarations: [AddressFormComponent],
       providers: [
-        CheckoutService,
-        CartService,
-        CartDataService,
-        NgbModal,
-        GlobalMessageService
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
     })
       .overrideComponent(AddressFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }
       })
       .compileComponents();
+
+    userService = TestBed.get(UserService);
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
-    service = TestBed.get(CheckoutService);
     controls = component.address.controls;
-
-    mockSelectors = {
-      checkout: {
-        getAddressVerificationResults: new BehaviorSubject({})
-      },
-      user: {
-        getAllDeliveryCountries: new BehaviorSubject([]),
-        getAllTitles: new BehaviorSubject([]),
-        getAllRegions: new BehaviorSubject([])
-      }
-    };
-    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-      switch (selector) {
-        case fromCheckout.getAddressVerificationResults:
-          return () => mockSelectors.checkout.getAddressVerificationResults;
-        case fromUser.getAllDeliveryCountries:
-          return () => mockSelectors.user.getAllDeliveryCountries;
-        case fromUser.getAllTitles:
-          return () => mockSelectors.user.getAllTitles;
-        case fromUser.getAllRegions:
-          return () => mockSelectors.user.getAllRegions;
-      }
-    });
-
-    spyOn(store, 'dispatch').and.callThrough();
 
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
@@ -133,47 +121,82 @@ describe('AddressFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get countries and titles data even when they not exist', () => {
-    mockSelectors.user.getAllDeliveryCountries.next([]);
-    mockSelectors.user.getAllTitles.next([]);
-    mockSelectors.user.getAllRegions.next([]);
-    mockSelectors.checkout.getAddressVerificationResults.next({});
+  it('should call ngOnInit to get countries and titles data even when they not exist', done => {
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'loadDeliveryCountries').and.stub();
+
+    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userService, 'loadTitles').and.stub();
+
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
+
+    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
+      of({})
+    );
     component.ngOnInit();
-    component.countries$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromUser.LoadDeliveryCountries()
-      );
-    });
-    component.titles$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(new fromUser.LoadTitles());
-    });
+
+    component.countries$
+      .subscribe(() => {
+        expect(userService.loadDeliveryCountries).toHaveBeenCalled();
+        done();
+      })
+      .unsubscribe();
+
+    component.titles$
+      .subscribe(() => {
+        expect(userService.loadTitles).toHaveBeenCalled();
+        done();
+      })
+      .unsubscribe();
   });
 
   it('should call ngOnInit to get countries, titles and regions data when data exist', () => {
-    mockSelectors.user.getAllDeliveryCountries.next(mockCountries);
-    mockSelectors.user.getAllTitles.next(mockTitles);
-    mockSelectors.user.getAllRegions.next(mockRegions);
-    mockSelectors.checkout.getAddressVerificationResults.next({});
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(
+      of(mockCountries)
+    );
+    spyOn(userService, 'getTitles').and.returnValue(of(mockTitles));
+    spyOn(userService, 'getRegions').and.returnValue(of(mockRegions));
+
+    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
+      of({})
+    );
+
     component.ngOnInit();
-    component.countries$.subscribe(countries => {
-      expect(countries).toBe(mockCountries);
-    });
-    component.titles$.subscribe(titles => {
-      expect(titles).toBe(mockTitles);
-    });
-    component.regions$.subscribe(regions => {
-      expect(regions).toBe(mockRegions);
-    });
+
+    let countries: Country[];
+    component.countries$
+      .subscribe(data => {
+        countries = data;
+      })
+      .unsubscribe();
+    let titles: Title[];
+    component.titles$
+      .subscribe(data => {
+        titles = data;
+      })
+      .unsubscribe();
+    let regions: Region[];
+    component.regions$
+      .subscribe(data => {
+        regions = data;
+      })
+      .unsubscribe();
+
+    expect(countries).toBe(mockCountries);
+    expect(titles).toBe(mockTitles);
+    expect(regions).toBe(mockRegions);
   });
 
   it('should add address with address verification result "accept"', () => {
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
+
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
-    mockSelectors.user.getAllDeliveryCountries.next([]);
-    mockSelectors.user.getAllTitles.next([]);
-    mockSelectors.user.getAllRegions.next([]);
-    mockSelectors.checkout.getAddressVerificationResults.next(
-      mockAddressVerificationResult
+    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
     );
+
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     expect(component.addAddress.emit).toHaveBeenCalledWith(
@@ -182,29 +205,33 @@ describe('AddressFormComponent', () => {
   });
 
   it('should clear address verification result with address verification result "reject"', () => {
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
+
     const mockAddressVerificationResult = { decision: 'REJECT' };
+    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
+    );
+
     spyOn(component, 'openSuggestedAddress');
-    mockSelectors.user.getAllDeliveryCountries.next([]);
-    mockSelectors.user.getAllTitles.next([]);
-    mockSelectors.user.getAllRegions.next([]);
-    mockSelectors.checkout.getAddressVerificationResults.next(
-      mockAddressVerificationResult
-    );
     component.ngOnInit();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromCheckout.ClearAddressVerificationResults()
-    );
+    expect(
+      mockCheckoutService.clearAddressVerificationResults
+    ).toHaveBeenCalledWith();
   });
 
   it('should open suggested address with address verification result "review"', () => {
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
+
     const mockAddressVerificationResult = { decision: 'REVIEW' };
-    spyOn(component, 'openSuggestedAddress');
-    mockSelectors.user.getAllDeliveryCountries.next([]);
-    mockSelectors.user.getAllTitles.next([]);
-    mockSelectors.user.getAllRegions.next([]);
-    mockSelectors.checkout.getAddressVerificationResults.next(
-      mockAddressVerificationResult
+    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
     );
+
+    spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     expect(component.openSuggestedAddress).toHaveBeenCalledWith(
       mockAddressVerificationResult
@@ -212,9 +239,8 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call verfiyAddress()', () => {
-    spyOn(service, 'verifyAddress');
     component.verifyAddress();
-    expect(service.verifyAddress).toHaveBeenCalled();
+    expect(mockCheckoutService.verifyAddress).toHaveBeenCalled();
   });
 
   it('should call back()', () => {
@@ -222,9 +248,16 @@ describe('AddressFormComponent', () => {
     expect(component.backToAddress.emit).toHaveBeenCalledWith();
   });
 
-  it('should call toggleDefaultAddress()', () => {
-    component.address.value.defaultAddress = false;
-    component.toggleDefaultAddress();
+  it('should toggleDefaultAddress() adapt control value', () => {
+    component.setAsDefaultField = true;
+    fixture.detectChanges();
+    const checkbox = fixture.debugElement.query(
+      By.css('[formcontrolname=defaultAddress]')
+    ).nativeElement;
+
+    fixture.detectChanges();
+    checkbox.click();
+
     expect(component.address.value.defaultAddress).toBeTruthy();
   });
 
@@ -237,14 +270,14 @@ describe('AddressFormComponent', () => {
   });
 
   it('should call countrySelected()', () => {
+    spyOn(userService, 'loadRegions').and.stub();
+
     const mockCountryIsocode = 'test country isocode';
     component.countrySelected({ isocode: mockCountryIsocode });
     expect(
       component.address['controls'].country['controls'].isocode.value
     ).toEqual(mockCountryIsocode);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromUser.LoadRegions(mockCountryIsocode)
-    );
+    expect(userService.loadRegions).toHaveBeenCalled();
   });
 
   it('should call regionSelected()', () => {
@@ -260,7 +293,11 @@ describe('AddressFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "verifyAddress" function when being clicked and when form is valid', () => {
+      spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+      spyOn(userService, 'getTitles').and.returnValue(of([]));
+      spyOn(userService, 'getRegions').and.returnValue(of([]));
       spyOn(component, 'verifyAddress');
+
       fixture.detectChanges();
 
       getContinueBtn().nativeElement.click();
@@ -285,9 +322,9 @@ describe('AddressFormComponent', () => {
         fixture.detectChanges();
         return getContinueBtn().nativeElement.disabled;
       };
-      mockSelectors.user.getAllDeliveryCountries.next([]);
-      mockSelectors.user.getAllTitles.next([]);
-      mockSelectors.user.getAllRegions.next([]);
+      spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+      spyOn(userService, 'getTitles').and.returnValue(of([]));
+      spyOn(userService, 'getRegions').and.returnValue(of([]));
 
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls['titleCode'].setValue('test titleCode');

@@ -3,6 +3,15 @@ import { SearchConfig } from '../../models/search-config';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 describe('Find Stores Actions', () => {
+  describe('OnHold', () => {
+    it('should create OnHold action', () => {
+      const action = new fromActions.OnHold();
+      expect({ ...action }).toEqual({
+        type: fromActions.ON_HOLD
+      });
+    });
+  });
+
   describe('FindStores', () => {
     it('should create FindStores action', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };

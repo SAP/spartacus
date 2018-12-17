@@ -1,9 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
-import { OrderConfirmationComponent } from './order-confirmation.component';
 import { By } from '@angular/platform-browser';
-import { CheckoutService } from '../../services';
-import { CartService } from '../../../cart/services';
+import { of, Observable } from 'rxjs';
+import createSpy = jasmine.createSpy;
+
+import { CheckoutService } from '../../facade';
+import { OrderConfirmationComponent } from './order-confirmation.component';
+import { Order } from '@spartacus/core';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
@@ -23,20 +26,26 @@ class MockCartComponent {
   content: any;
 }
 
-class CheckoutServiceMock {
-  entries;
-  orderDetails = {
-    code: 'test-code-412',
-    deliveryAddress: {
-      country: {}
-    },
-    deliveryMode: {},
-    paymentInfo: {
-      billingAddress: {
+@Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
+class MockAddtoHomeScreenBannerComponent {}
+
+class MockCheckoutService {
+  clearCheckoutData = createSpy();
+
+  getOrderDetails(): Observable<Order> {
+    return of({
+      code: 'test-code-412',
+      deliveryAddress: {
         country: {}
+      },
+      deliveryMode: {},
+      paymentInfo: {
+        billingAddress: {
+          country: {}
+        }
       }
-    }
-  };
+    });
+  }
 }
 
 describe('OrderConfirmationComponent', () => {
@@ -49,12 +58,10 @@ describe('OrderConfirmationComponent', () => {
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
         MockCartComponent,
-        MockOrderSummaryComponent
+        MockOrderSummaryComponent,
+        MockAddtoHomeScreenBannerComponent
       ],
-      providers: [
-        { provide: CheckoutService, useClass: CheckoutServiceMock },
-        { provide: CartService, useValue: {} }
-      ]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
     }).compileComponents();
   }));
 

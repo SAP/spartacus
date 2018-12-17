@@ -10,7 +10,7 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
 export class ParagraphComponent extends AbstractCmsComponent {
   paragraphData: string;
 
-  protected fetchData() {
+  protected fetchData(): void {
     if (this.component && this.component.content) {
       this.paragraphData = this.component.content;
     }

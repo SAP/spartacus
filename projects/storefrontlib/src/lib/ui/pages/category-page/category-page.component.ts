@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import * as fromCmsStore from '../../../cms/store';
+import { Observable } from 'rxjs';
+import { CmsService, Page } from '@spartacus/core';
 
 @Component({
   selector: 'cx-category-page',
@@ -9,14 +9,14 @@ import * as fromCmsStore from '../../../cms/store';
   styleUrls: ['./category-page.component.scss']
 })
 export class CategoryPageComponent implements OnInit {
-  categoryCode;
-  brandCode;
-  query;
-  cmsPage$;
+  categoryCode: string;
+  brandCode: string;
+  query: string;
+  cmsPage$: Observable<Page>;
 
   constructor(
     protected activeRoute: ActivatedRoute,
-    private store: Store<fromCmsStore.CmsState>
+    protected cmsService: CmsService
   ) {}
 
   ngOnInit() {
@@ -32,6 +32,6 @@ export class CategoryPageComponent implements OnInit {
       }
     });
 
-    this.cmsPage$ = this.store.pipe(select(fromCmsStore.getLatestPage));
+    this.cmsPage$ = this.cmsService.getCurrentPage();
   }
 }

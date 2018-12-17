@@ -6,14 +6,15 @@ import {
   Input,
   EventEmitter
 } from '@angular/core';
+
+import { RoutingService, Address } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { RoutingService } from '@spartacus/core';
-import { CheckoutService } from '../../../services/checkout.service';
-
+import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { UserService } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
-import { Address } from '../../../models/address-model';
 
 @Component({
   selector: 'cx-shipping-address',
@@ -22,10 +23,10 @@ import { Address } from '../../../models/address-model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
-  existingAddresses$: Observable<any>;
+  existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
   cards = [];
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   @Input()
   selectedAddress: Address;
@@ -33,29 +34,27 @@ export class ShippingAddressComponent implements OnInit {
   addAddress = new EventEmitter<any>();
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected userService: UserService,
+    protected cartData: CartDataService,
     protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.checkoutService.addressesLoading$;
+    this.isLoading$ = this.userService.getAddressesLoading();
+    this.userService.loadAddresses(this.cartData.userId);
 
-    this.existingAddresses$ = this.checkoutService.shippingAddresses$.pipe(
+    this.existingAddresses$ = this.userService.getAddresses().pipe(
       tap(addresses => {
-        if (addresses.length === 0) {
-          this.checkoutService.loadUserAddresses();
-        } else {
-          if (this.cards.length === 0) {
-            addresses.forEach(address => {
-              const card = this.getCardContent(address);
-              if (
-                this.selectedAddress &&
-                this.selectedAddress.id === address.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          addresses.forEach(address => {
+            const card = this.getCardContent(address);
+            if (
+              this.selectedAddress &&
+              this.selectedAddress.id === address.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );

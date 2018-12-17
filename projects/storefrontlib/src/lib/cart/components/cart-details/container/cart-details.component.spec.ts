@@ -1,12 +1,12 @@
-import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule } from '@ngrx/store';
-import { CartDataService } from '../../../services/cart-data.service';
-import { CartService } from '../../../services/cart.service';
-import * as fromReducer from '../../../store/reducers';
-import { CartDetailsComponent } from './cart-details.component';
+
+import { CartSharedModule } from './../../cart-shared/cart-shared.module';
+import { CartDataService } from '../../../facade/cart-data.service';
+import { CartService } from '../../../facade/cart.service';
 import { ComponentsModule } from '../../../../ui/components/components.module';
+
+import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {
   removeCartEntry() {}
@@ -168,13 +168,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducer.getReducers),
-        ComponentsModule,
-        CartSharedModule
-      ],
+      imports: [RouterTestingModule, ComponentsModule, CartSharedModule],
       declarations: [CartDetailsComponent],
       providers: [
         CartDataService,

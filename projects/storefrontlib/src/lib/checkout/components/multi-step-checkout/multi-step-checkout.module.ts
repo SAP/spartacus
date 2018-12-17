@@ -8,11 +8,13 @@ import { PaymentMethodModule } from './payment-method/payment-method.module';
 import { ReviewSubmitModule } from './review-submit/review-submit.module';
 
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
+import { CartSharedModule } from '../../../cart/components/cart-shared/cart-shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     CartModule,
+    CartSharedModule,
 
     ShippingAddressModule,
     DeliveryModeModule,

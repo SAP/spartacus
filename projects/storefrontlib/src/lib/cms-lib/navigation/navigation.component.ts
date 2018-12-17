@@ -5,13 +5,12 @@ import {
   Input,
   OnDestroy
 } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { NavigationService } from './navigation.service';
-import { Store, select } from '@ngrx/store';
-import * as fromStore from '../../cms/store';
 import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
-import { CmsService } from '../../cms/facade/cms.service';
+
+import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import { NavigationService } from './navigation.service';
+import { CmsService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-navigation',
@@ -28,18 +27,17 @@ export class NavigationComponent extends AbstractCmsComponent
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: any;
 
   constructor(
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    private navigationService: NavigationService,
-    protected store: Store<fromStore.CmsState>
+    private navigationService: NavigationService
   ) {
     super(cmsService, cd);
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     if (!this.component) {
       return;
     }
@@ -47,11 +45,9 @@ export class NavigationComponent extends AbstractCmsComponent
       ? this.component.navigationNode
       : this.component;
 
-    this.itemSubscription = this.store
-      .pipe(
-        select(fromStore.itemsSelectorFactory(navigation.uid)),
-        takeWhile(() => !this.done)
-      )
+    this.itemSubscription = this.cmsService
+      .getNavigationEntryItems(navigation.uid)
+      .pipe(takeWhile(() => !this.done))
       .subscribe(items => {
         if (items === undefined) {
           this.navigationService.getNavigationEntryItems(navigation, true, []);

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tertiary-bar.component.scss']
 })
 export class TertiaryBarComponent implements OnInit {
-  tertiaryNavItems: any[] = [
+  tertiaryNavItems: { label: string; url: string }[] = [
     {
       label: 'Sale',
       url: '/sale'

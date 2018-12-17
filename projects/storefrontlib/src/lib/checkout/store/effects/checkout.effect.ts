@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
-import * as fromUserActions from '../../../user/store/actions';
-import * as fromGlobalMessagesActions from '../../../global-message/store/actions';
+import * as fromUserActions from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccOrderService } from '../../../occ/order/order.service';
-import { GlobalMessageType } from '../../../global-message/models/message.model';
-import { ProductImageConverterService } from '@spartacus/core';
+import {
+  ProductImageConverterService,
+  OccOrderService,
+  OrderEntry,
+  PaymentDetails,
+  GlobalMessageType,
+  AddMessage
+} from '@spartacus/core';
 
 @Injectable()
 export class CheckoutEffects {
@@ -61,7 +65,9 @@ export class CheckoutEffects {
       return this.occCartService
         .getSupportedDeliveryModes(payload.userId, payload.cartId)
         .pipe(
-          map(data => new fromActions.LoadSupportedDeliveryModesSuccess(data)),
+          map(data => {
+            return new fromActions.LoadSupportedDeliveryModesSuccess(data);
+          }),
           catchError(error =>
             of(new fromActions.LoadSupportedDeliveryModesFail(error))
           )
@@ -183,14 +189,14 @@ export class CheckoutEffects {
         .placeOrder(payload.userId, payload.cartId)
         .pipe(
           map(data => {
-            for (const entry of data.entries) {
+            for (const entry of data.entries as OrderEntry[]) {
               this.productImageConverter.convertProduct(entry.product);
             }
             return data;
           }),
           switchMap(data => [
             new fromActions.PlaceOrderSuccess(data),
-            new fromGlobalMessagesActions.AddMessage({
+            new AddMessage({
               text: 'Order placed successfully',
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })
@@ -262,7 +268,7 @@ export class CheckoutEffects {
   }
 
   private getParamsForPaymentProvider(
-    paymentDetails: any,
+    paymentDetails: PaymentDetails,
     parameters: { key; value }[],
     mappingLabels: any
   ) {

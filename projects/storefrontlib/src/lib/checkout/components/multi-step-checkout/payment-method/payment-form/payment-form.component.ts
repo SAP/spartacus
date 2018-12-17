@@ -7,15 +7,14 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, map, takeWhile } from 'rxjs/operators';
 
-import * as fromCheckoutStore from '../../../../store';
-import * as fromUser from '../../../../../user/store';
-import { CheckoutService } from '../../../../services/checkout.service';
-import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
+import { Card } from '../../../../../ui/components/card/card.component';
+
+import { CheckoutService } from '../../../../facade/checkout.service';
+import { UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-form',
@@ -70,27 +69,24 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   infoIconImgSrc = infoIconImgSrc;
 
   constructor(
-    protected store: Store<fromCheckoutStore.CheckoutState>,
     protected checkoutService: CheckoutService,
+    protected userService: UserService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit() {
     this.expMonthAndYear();
 
-    // Fetching billing countries
-    this.countries$ = this.store.pipe(
-      select(fromUser.getAllBillingCountries),
+    this.countries$ = this.userService.getAllBillingCountries().pipe(
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
-          this.store.dispatch(new fromUser.LoadBillingCountries());
+          this.userService.loadBillingCountries();
         }
       })
     );
 
-    this.cardTypes$ = this.store.pipe(
-      select(fromCheckoutStore.getAllCardTypes),
+    this.cardTypes$ = this.checkoutService.getCardTypes().pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutService.loadSupportedCardTypes();
@@ -98,9 +94,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.shippingAddress$ = this.store.pipe(
-      select(fromCheckoutStore.getDeliveryAddress)
-    );
+    this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
 
     this.showSameAsShippingAddressCheckbox()
       .pipe(takeWhile(() => this.isAlive))

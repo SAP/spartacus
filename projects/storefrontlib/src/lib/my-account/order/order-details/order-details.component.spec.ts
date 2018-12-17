@@ -1,16 +1,22 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import createSpy = jasmine.createSpy;
+import {
+  RoutingService,
+  Cart,
+  PromotionResult,
+  AuthService,
+  UserToken,
+  Order,
+  UserService
+} from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { RoutingService } from '@spartacus/core';
-import { UserService } from '../../../user/facade/user.service';
-import { AuthService } from '../../../auth/facade/auth.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
-const mockOrder = {
+const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
   deliveryAddress: {
@@ -52,13 +58,27 @@ const mockOrder = {
   }
 };
 
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
+
+class MockUserService {
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+  loadOrderDetails(_userId: string, _orderCode: string): void {}
+  clearOrderDetails(): void {}
+}
+
 @Component({
   selector: 'cx-order-summary',
   template: ''
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Component({
@@ -73,7 +93,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: any[] = [];
+  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -81,36 +101,29 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockAuthService: any;
-  let mockRoutingService: any;
-  let mockUserService: any;
+  let userService: UserService;
+  let mockRoutingService: RoutingService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = {
-      routerState$: of({
-        state: {
-          params: {
-            orderCode: '1'
+    mockRoutingService = <RoutingService>{
+      getRouterState() {
+        return of({
+          state: {
+            params: {
+              orderCode: '1'
+            }
           }
-        }
-      })
-    };
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
-    };
-    mockUserService = {
-      orderDetails$: of(mockOrder),
-      loadOrderDetails: createSpy(),
-      clearOrderDetails: createSpy()
+        });
+      }
     };
 
     TestBed.configureTestingModule({
       imports: [CardModule],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService }
       ],
       declarations: [
         MockCartItemListComponent,
@@ -123,6 +136,7 @@ describe('OrderDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailsComponent);
     el = fixture.debugElement;
+    userService = TestBed.get(UserService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -133,13 +147,17 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should initialize ', () => {
+    spyOn(userService, 'loadOrderDetails').and.stub();
+
     fixture.detectChanges();
-    let order;
-    component.order$.subscribe(value => {
-      order = value;
-    });
+    let order: Order;
+    component.order$
+      .subscribe(value => {
+        order = value;
+      })
+      .unsubscribe();
     expect(order).toEqual(mockOrder);
-    expect(mockUserService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
   });
 
   it('should order details info bar be not null', () => {

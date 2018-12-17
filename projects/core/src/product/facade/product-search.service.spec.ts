@@ -5,26 +5,29 @@ import * as NgrxStore from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { ProductSearchService } from './product-search.service';
-import { SearchConfig } from '@spartacus/core';
+import { SearchConfig } from '../model/search-config';
 import { EMPTY, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { ProductSearchPage } from '../../occ/occ-models';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
+  let routerService: Router;
   let store: Store<fromStore.ProductsState>;
-
-  const mockSearchResults = {
-    results: {
-      0: 'p1',
-      1: 'p2',
-      2: 'p3'
+  class MockRouter {
+    createUrlTree() {
+      return {};
     }
+    navigateByUrl() {
+      return {};
+    }
+  }
+  const mockSearchResults = {
+    products: [{ code: '1' }, { code: '2' }, { code: '3' }]
   };
 
   const mockAuxSearchResults = {
-    results: {
-      0: 'ap1',
-      1: 'ap2'
-    }
+    products: [{ code: 'aux1' }, { code: 'aux2' }]
   };
 
   const mockSelect = selector => {
@@ -46,11 +49,20 @@ describe('ProductSearchService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('product', fromStore.getReducers())
       ],
-      providers: [ProductSearchService]
+      providers: [
+        ProductSearchService,
+        {
+          provide: Router,
+          useClass: MockRouter
+        }
+      ]
     });
 
     store = TestBed.get(Store);
     service = TestBed.get(ProductSearchService);
+    routerService = TestBed.get(Router);
+    spyOn(routerService, 'navigateByUrl').and.callThrough();
+    spyOn(service, 'search').and.callThrough();
     spyOn(store, 'dispatch').and.callThrough();
   });
 
@@ -62,21 +74,29 @@ describe('ProductSearchService', () => {
   ));
 
   it('should be able to get search results', () => {
-    service.searchResults$.subscribe(results => {
-      expect(results).toEqual(mockSearchResults);
-    });
+    let tempSearchResult: ProductSearchPage;
+    service
+      .getSearchResults()
+      .subscribe(result => (tempSearchResult = result))
+      .unsubscribe();
+    expect(tempSearchResult).toEqual(mockSearchResults);
   });
 
   it('should be able to get auxiliary search results', () => {
-    service.auxSearchResults$.subscribe(results => {
-      expect(results).toEqual(mockAuxSearchResults);
-    });
+    let tempAuxSearchResult: ProductSearchPage;
+    service
+      .getAuxSearchResults()
+      .subscribe(result => (tempAuxSearchResult = result))
+      .unsubscribe();
+    expect(tempAuxSearchResult).toEqual(mockAuxSearchResults);
   });
 
   describe('search(query, searchConfig)', () => {
     it('should be able to search products', () => {
       const searchConfig: SearchConfig = {};
+
       service.search('test query', searchConfig);
+      expect(routerService.navigateByUrl).toHaveBeenCalledWith({});
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',
