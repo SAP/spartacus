@@ -4,7 +4,9 @@ import { getProductsState } from './feature.selector';
 import { Product } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
+  loaderErrorSelector,
   loaderLoadingSelector,
+  loaderSuccessSelector,
   loaderValueSelector
 } from '../../../state/utils/loader/loader.selectors';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
@@ -56,12 +58,21 @@ export const getSelectedProductLoadingFactory = (
   );
 };
 
+export const getSelectedProductSuccessFactory = (
+  code
+): MemoizedSelector<StateWithProduct, boolean> => {
+  return createSelector(
+    getSelectedProductStateFactory(code),
+    productState => loaderSuccessSelector(productState)
+  );
+};
+
 export const getSelectedProductErrorFactory = (
   code
 ): MemoizedSelector<StateWithProduct, boolean> => {
   return createSelector(
     getSelectedProductStateFactory(code),
-    productState => loaderLoadingSelector(productState)
+    productState => loaderErrorSelector(productState)
   );
 };
 
