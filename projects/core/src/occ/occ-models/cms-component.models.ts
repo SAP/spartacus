@@ -22,3 +22,13 @@ export interface CmsSearchBoxComponent extends CmsComponent {
   waitTimeBeforeRequest?: number;
   minCharactersBeforeRequest?: number;
 }
+
+export interface CmsParagraphComponent extends CmsComponent {
+  content?: string;
+  container?: string;
+  modifiedTime?: string;
+  name?: string;
+  title?: string;
+  typeCode?: string;
+  uid?: string;
+}

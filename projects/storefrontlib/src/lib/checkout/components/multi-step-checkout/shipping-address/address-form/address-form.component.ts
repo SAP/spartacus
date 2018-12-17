@@ -14,10 +14,12 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { UserService } from '@spartacus/core';
 import { CheckoutService } from '../../../../facade/checkout.service';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  UserService
+} from '@spartacus/core';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { Address } from '@spartacus/core';
@@ -117,8 +119,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutService.addressVerificationResults$.subscribe(
-      (results: any) => {
+    this.addressVerifySub = this.checkoutService
+      .getAddressVerificationResults()
+      .subscribe((results: any) => {
         if (results === 'FAIL') {
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
@@ -132,8 +135,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
-      }
-    );
+      });
 
     if (this.addressData) {
       this.address.patchValue(this.addressData);
