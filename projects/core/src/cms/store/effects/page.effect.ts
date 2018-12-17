@@ -81,7 +81,7 @@ export class PageEffects {
   ) {}
 
   private getPageData(
-    res: CMSPage,
+    res: any,
     pageContext: PageContext
   ): { key: string; value: Page } {
     const page: Page = {
@@ -99,7 +99,7 @@ export class PageEffects {
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = {
         uid: slot.slotId,
-        uuid: slot.slotId,
+        uuid: slot.slotUuid,
         catalogUuid: this.getCatalogUuid(slot),
         components: []
       };
