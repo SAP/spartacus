@@ -38,6 +38,12 @@ export class ProductService {
     );
   }
 
+  isSuccess(productCode: string): Observable<boolean> {
+    return this.store.pipe(
+      select(fromStore.getSelectedProductSuccessFactory(productCode))
+    );
+  }
+
   hasError(productCode: string): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getSelectedProductErrorFactory(productCode))

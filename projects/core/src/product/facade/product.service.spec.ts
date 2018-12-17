@@ -46,6 +46,51 @@ describe('ProductService', () => {
     });
   });
 
+  describe('isLoading(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          loading: true
+        })
+      );
+      let isLoading;
+      service.isLoading('testId').subscribe(value => {
+        isLoading = value;
+      });
+      expect(isLoading).toBeTruthy();
+    });
+  });
+
+  describe('hasError(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          error: true
+        })
+      );
+      let hasError;
+      service.hasError('testId').subscribe(value => {
+        hasError = value;
+      });
+      expect(hasError).toBeTruthy();
+    });
+  });
+
+  describe('hasError(productCode)', () => {
+    it('should be able to get loading flag by code', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of({
+          success: true
+        })
+      );
+      let isSuccess;
+      service.isSuccess('testId').subscribe(value => {
+        isSuccess = value;
+      });
+      expect(isSuccess).toBeTruthy();
+    });
+  });
+
   describe('loadProduct(productCode)', () => {
     it('should be able to trigger the product load action for a product.', () => {
       service
