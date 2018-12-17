@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewChild,
+  ElementRef,
+  OnChanges
+} from '@angular/core';
 
 import { ProductService } from '@spartacus/core';
 
@@ -11,7 +17,7 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnChanges {
   static outlets = ProductDetailOutlets;
 
   @Input()
@@ -37,7 +43,7 @@ export class ProductDetailsComponent implements OnInit {
 
   constructor(protected productService: ProductService) {}
 
-  ngOnInit() {
+  ngOnChanges(): void {
     this.product$ = this.productService.get(this.productCode);
   }
 
