@@ -48,7 +48,7 @@ const MockCmsModuleConfig: CmsConfig = {
 };
 
 class MockCmsService {
-  getComponentData() {}
+  getComponentData(): any {}
   isLaunchInSmartEdit(): boolean {
     return true;
   }
