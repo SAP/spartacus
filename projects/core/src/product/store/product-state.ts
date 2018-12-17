@@ -1,10 +1,13 @@
-export const PRODUCT_FEATURE = 'product';
 import {
-  Review,
-  Suggestion,
+  Product,
   ProductSearchPage,
-  Product
-} from '../../occ/occ-models';
+  Review,
+  Suggestion
+} from '../../occ/occ-models/occ.models';
+import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
+
+export const PRODUCT_FEATURE = 'product';
+export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
 
 export interface StateWithProduct {
   [PRODUCT_FEATURE]: ProductState;
@@ -15,7 +18,7 @@ export interface ProductState {
 }
 
 export interface ProductsState {
-  details: ProductState;
+  details: EntityLoaderState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
 }
