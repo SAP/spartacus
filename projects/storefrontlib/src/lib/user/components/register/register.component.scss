@@ -1,15 +1,8 @@
-:host {
-  --cx-text-decoration: underline;
-  --cx-margin: 1rem 0 0;
-}
-
 form {
   a {
-    cursor: pointer;
-    text-decoration: var(--cx-text-decoration);
+    text-decoration: var(--cx-text-decoration, underline);
   }
-
   .cx-btn-link {
-    margin: var(--cx-margin);
+    margin: var(--cx-margin, 1rem 0 0);
   }
 }
