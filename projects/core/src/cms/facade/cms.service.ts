@@ -69,7 +69,7 @@ export class CmsService {
    * @param rootUid : the uid of the root navigation node
    * @param itemList : list of items (with id and type)
    */
-  loadNavigationItems(rootUid: string, itemList: any[]) {
+  loadNavigationItems(rootUid: string, itemList: { id: string; type: any }[]) {
     this.store.dispatch(
       new fromStore.LoadNavigationItems({
         nodeId: rootUid,

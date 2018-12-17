@@ -7,7 +7,12 @@ import {
 import { OccCmsService } from './occ-cms.service';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
-import { CmsComponent, CMSPage, PageType } from '../../occ/occ-models/index';
+import {
+  CmsComponent,
+  CMSPage,
+  PageType,
+  ListAdaptedComponents
+} from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 
 const comps: CmsComponent[] = [
@@ -29,8 +34,8 @@ const component: CmsComponent = {
   uid: 'comp1',
   typeCode: 'SimpleBannerComponent'
 };
-const listComponents: any = {
-  component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
+const listComponents: ListAdaptedComponents = {
+  components: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
   pagination: { count: 10 }
 };
 

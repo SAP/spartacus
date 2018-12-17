@@ -26,7 +26,7 @@ const mockContentSlot: { uid: string; typeCode: string }[] = [
 ];
 
 describe('CmsService', () => {
-  let store;
+  let store: any;
 
   const page: Page = {
     pageId: 'testPageId',
@@ -126,7 +126,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
 
-      let result;
+      let result: Page;
       const subscription = service.getCurrentPage().subscribe(value => {
         result = value;
       });

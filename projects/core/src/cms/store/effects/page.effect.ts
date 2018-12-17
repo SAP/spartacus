@@ -129,7 +129,7 @@ export class PageEffects {
     }
   }
 
-  private getComponents(pageData: CMSPage) {
+  private getComponents(pageData: CMSPage): any[] {
     const components = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
