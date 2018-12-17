@@ -37,7 +37,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       .pipe(map(userData => userData.userId));
 
     const orderCode$: Observable<
-      any
+      string
     > = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.params.orderCode));
