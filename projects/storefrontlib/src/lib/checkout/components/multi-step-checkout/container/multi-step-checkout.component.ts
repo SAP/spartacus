@@ -13,11 +13,11 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   CartService,
-  CartDataService
+  CartDataService,
+  Address
 } from '@spartacus/core';
 
 import { CheckoutService } from '../../../facade/checkout.service';
-import { Address } from '../../../models/address-model';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
 
@@ -65,7 +65,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   processSteps() {
     // step1: set delivery address
     this.subscriptions.push(
-      this.checkoutService.deliveryAddress$
+      this.checkoutService
+        .getDeliveryAddress()
         .pipe(
           filter(
             deliveryAddress =>
@@ -82,7 +83,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step2: select delivery mode
     this.subscriptions.push(
-      this.checkoutService.selectedDeliveryModeCode$
+      this.checkoutService
+        .getSelectedDeliveryModeCode()
         .pipe(filter(selected => selected !== '' && this.step === 2))
         .subscribe(selectedMode => {
           this.nextStep(3);
@@ -94,7 +96,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step3: set payment information
     this.subscriptions.push(
-      this.checkoutService.paymentDetails$
+      this.checkoutService
+        .getPaymentDetails()
         .pipe(
           filter(
             paymentInfo =>
@@ -122,7 +125,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step4: place order
     this.subscriptions.push(
-      this.checkoutService.orderDetails$
+      this.checkoutService
+        .getOrderDetails()
         .pipe(
           filter(order => Object.keys(order).length !== 0 && this.step === 4)
         )

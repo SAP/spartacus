@@ -62,11 +62,18 @@ class MockCardComponent {
   content;
 }
 
+class MockCheckoutService {
+  loadSupportedDeliveryModes = createSpy();
+  getSelectedDeliveryMode() {
+    return of();
+  }
+}
+
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
 
-  let mockCheckoutService: any;
+  let mockCheckoutService: MockCheckoutService;
   let mockUserService: any;
   let mockCartService: any;
 
@@ -75,10 +82,7 @@ describe('ReviewSubmitComponent', () => {
       getCountry: createSpy().and.returnValue(of(null)),
       loadDeliveryCountries: createSpy()
     };
-    mockCheckoutService = {
-      selectedDeliveryMode$: new BehaviorSubject(null),
-      loadSupportedDeliveryModes: createSpy()
-    };
+
     mockCartService = {
       activeCart$: new BehaviorSubject(null),
       entries$: new BehaviorSubject(null)
@@ -91,11 +95,13 @@ describe('ReviewSubmitComponent', () => {
         MockCardComponent
       ],
       providers: [
-        { provide: CheckoutService, useValue: mockCheckoutService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useValue: mockUserService },
         { provide: CartService, useValue: mockCartService }
       ]
     }).compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -114,7 +120,9 @@ describe('ReviewSubmitComponent', () => {
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
     mockCartService.activeCart$.next({});
     mockCartService.entries$.next([]);
-    mockCheckoutService.selectedDeliveryMode$.next('mockMode');
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of('mockMode')
+    );
     mockUserService.getCountry.and.returnValue(of('mockCountryName'));
 
     component.ngOnInit();
@@ -130,7 +138,9 @@ describe('ReviewSubmitComponent', () => {
   it('should call ngOnInit to get delivery mode if it does not exists', done => {
     mockCartService.activeCart$.next({});
     mockCartService.entries$.next([]);
-    mockCheckoutService.selectedDeliveryMode$.next(null);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of(null)
+    );
     mockUserService.getCountry.and.returnValue(of(null));
 
     component.ngOnInit();
