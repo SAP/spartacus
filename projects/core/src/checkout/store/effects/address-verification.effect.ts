@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/address-verification.action';
-import { OccUserService } from '@spartacus/core';
+import { OccUserService } from '../../../user';
 
 @Injectable()
 export class AddressVerificationEffect {

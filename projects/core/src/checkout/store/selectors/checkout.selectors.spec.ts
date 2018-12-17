@@ -4,7 +4,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { Address } from '../../models/address-model';
+import { CheckoutAddress } from '../../models/address-model';
 import { PaymentDetails, Order } from '@spartacus/core';
 
 describe('Checkout Selectors', () => {
@@ -24,7 +24,7 @@ describe('Checkout Selectors', () => {
 
   describe('getDeliveryAddress', () => {
     it('should return the cart delivery address', () => {
-      const address: Address = {
+      const address: CheckoutAddress = {
         id: 'testAddressId',
         firstName: 'John',
         lastName: 'Doe',

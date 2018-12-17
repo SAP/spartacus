@@ -1,21 +1,17 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
-import * as fromUserActions from '@spartacus/core';
+import * as fromUserActions from './../../../user';
 
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
-import {
-  OccCartService,
-  ProductImageConverterService,
-  OccOrderService,
-  OrderEntry,
-  PaymentDetails,
-  GlobalMessageType,
-  AddMessage
-} from '@spartacus/core';
+import { OccCartService } from '../../../cart/';
+import { OccOrderService } from '../../../user/';
+import { GlobalMessageType, AddMessage } from '../../../global-message/';
+import { ProductImageConverterService } from '../../../product/';
+import { OrderEntry, PaymentDetails } from '../../../occ/occ-models';
 
 @Injectable()
 export class CheckoutEffects {

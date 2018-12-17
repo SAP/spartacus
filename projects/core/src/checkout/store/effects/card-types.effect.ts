@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { OccMiscsService } from '@spartacus/core';
+import { OccMiscsService } from '../../../occ';
 import * as fromAction from '../actions/card-types.action';
 
 @Injectable()
