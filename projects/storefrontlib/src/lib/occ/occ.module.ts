@@ -9,7 +9,6 @@ import {
   OccMiscsService,
   OccOrderService
 } from '@spartacus/core';
-import { OccCartService } from './cart/cart.service';
 import { OccStoreFinderService } from './store/store-finder.service';
 import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
 
@@ -17,7 +16,6 @@ import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
   imports: [CommonModule, HttpClientModule],
   providers: [
     OccUserService,
-    OccCartService,
     OccMiscsService,
     OccOrderService,
     OccStoreFinderService,

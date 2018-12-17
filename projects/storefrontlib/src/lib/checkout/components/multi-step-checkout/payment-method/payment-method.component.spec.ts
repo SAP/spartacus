@@ -1,14 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
-import { PaymentDetails } from '@spartacus/core';
-
+import { CartDataService, UserService, PaymentDetails } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
-
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '@spartacus/core';
-
 import { PaymentMethodComponent } from './payment-method.component';
 
 class MockUserService {

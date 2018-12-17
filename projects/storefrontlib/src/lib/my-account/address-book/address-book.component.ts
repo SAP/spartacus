@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ActionsSubject } from '@ngrx/store';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../global-message/models/message.model';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   UserService,
   LOAD_USER_ADDRESSES_SUCCESS,
   ADD_USER_ADDRESS,

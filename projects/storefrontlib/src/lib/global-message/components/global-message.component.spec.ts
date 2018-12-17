@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import { GlobalMessageComponent } from './global-messsage.component';
-import { GlobalMessageType } from './../models/message.model';
-import { GlobalMessageService } from '../facade/global-message.service';
+import { GlobalMessageComponent } from './global-message.component';
+import { GlobalMessageType, GlobalMessageService } from '@spartacus/core';
 
 const mockMessages = new Map<GlobalMessageType, string[]>();
 mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
