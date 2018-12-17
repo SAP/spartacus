@@ -32,18 +32,27 @@ export class ProductService {
     );
   }
 
+  /**
+   * Returns boolean observable for product's loading state
+   */
   isLoading(productCode: string): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getSelectedProductLoadingFactory(productCode))
     );
   }
 
+  /**
+   * Returns boolean observable for product's load success state
+   */
   isSuccess(productCode: string): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getSelectedProductSuccessFactory(productCode))
     );
   }
 
+  /**
+   * Returns boolean observable for product's load error state
+   */
   hasError(productCode: string): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getSelectedProductErrorFactory(productCode))
