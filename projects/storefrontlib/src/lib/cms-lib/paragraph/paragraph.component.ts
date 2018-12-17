@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsParagraphComponent } from '@spartacus/core';
 
 @Component({
   selector: 'cx-paragraph',
@@ -7,13 +8,6 @@ import { AbstractCmsComponent } from '../../cms/components/abstract-cms-componen
   styleUrls: ['./paragraph.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ParagraphComponent extends AbstractCmsComponent {
-  paragraphData: string;
-
-  protected fetchData(): void {
-    if (this.component && this.component.content) {
-      this.paragraphData = this.component.content;
-    }
-    super.fetchData();
-  }
+export class ParagraphComponent {
+  constructor(public component: CmsComponentData<CmsParagraphComponent>) {}
 }
