@@ -113,7 +113,7 @@ describe('PaymentMethodsComponent', () => {
       of([mockPayment, mockPayment])
     );
 
-    function getCards(elem: DebugElement) {
+    function getCards(elem: DebugElement): DebugElement[] {
       return elem.queryAll(By.css('cx-card'));
     }
     component.ngOnInit();
@@ -127,19 +127,19 @@ describe('PaymentMethodsComponent', () => {
       of([mockPayment, { ...mockPayment, defaultPayment: false }])
     );
 
-    function getCardHeader(elem: DebugElement) {
+    function getCardHeader(elem: DebugElement): string {
       return elem.query(By.css('cx-card .card-header')).nativeElement
         .textContent;
     }
-    function getTextBold(elem: DebugElement) {
+    function getTextBold(elem: DebugElement): string {
       return elem.query(By.css('cx-card .card__label--bold')).nativeElement
         .textContent;
     }
-    function getCardNumber(elem: DebugElement) {
+    function getCardNumber(elem: DebugElement): string {
       return elem.queryAll(By.css('cx-card .card__label'))[0].nativeElement
         .textContent;
     }
-    function getExpiration(elem: DebugElement) {
+    function getExpiration(elem: DebugElement): string {
       return elem.queryAll(By.css('cx-card .card__label'))[1].nativeElement
         .textContent;
     }
@@ -156,14 +156,14 @@ describe('PaymentMethodsComponent', () => {
   it('should show confirm on delete', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
 
-    function getDeleteMsg(elem: DebugElement) {
+    function getDeleteMsg(elem: DebugElement): string {
       return elem.query(By.css('cx-card .cx-card-body__delete-msg'))
         .nativeElement.textContent;
     }
-    function getDeleteButton(elem: DebugElement) {
+    function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
     }
-    function getCancelButton(elem: DebugElement) {
+    function getCancelButton(elem: DebugElement): DebugElement {
       return elem.query(By.css('cx-card .btn-secondary'));
     }
     component.ngOnInit();
@@ -182,10 +182,10 @@ describe('PaymentMethodsComponent', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     spyOn(userService, 'deletePaymentMethod').and.stub();
 
-    function getDeleteButton(elem: DebugElement) {
+    function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
     }
-    function getConfirmButton(elem: DebugElement) {
+    function getConfirmButton(elem: DebugElement): DebugElement {
       return elem.query(By.css('cx-card .btn-primary'));
     }
     component.ngOnInit();
@@ -207,7 +207,7 @@ describe('PaymentMethodsComponent', () => {
     );
     spyOn(userService, 'setPaymentMethodAsDefault').and.stub();
 
-    function getSetDefaultButton(elem: DebugElement) {
+    function getSetDefaultButton(elem: DebugElement): any {
       return elem.queryAll(By.css('cx-card .card-link'))[1].nativeElement;
     }
     component.ngOnInit();
