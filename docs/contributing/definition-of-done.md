@@ -55,6 +55,8 @@ yarn sass
 
 ## Unit Tests are Passing
 
+There are unit tests and they are passing.
+
 Run the following commands to perform unit tests:
 
 ```
@@ -65,6 +67,10 @@ yarn test storefrontlib
 When you run these commands, Chrome opens, and you can see the progress of the tests, with detailed information, including whether the tests pass.
 
 ## End-To-End Tests are Passing
+
+When applicable, end-to-end tests are written for the positive test scenarios. 
+
+All the end-to-end tests are passing. 
 
 Run the following command to perform end-to-end tests:
 
