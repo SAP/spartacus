@@ -24,10 +24,22 @@ export class MockSiteContextModuleConfig {
 }
 
 const mockCurrencyService = {
-  activeCurrency$: new BehaviorSubject(null)
+  isocode: new BehaviorSubject(null),
+  getActive() {
+    return this.isocode;
+  },
+  setActive(isocode: string) {
+    this.isocode.next(isocode);
+  }
 };
 const mockLanguageService = {
-  activeLanguage$: new BehaviorSubject(null)
+  isocode: new BehaviorSubject(null),
+  getActive() {
+    return this.isocode;
+  },
+  setActive(isocode: string) {
+    this.isocode.next(isocode);
+  }
 };
 describe('SiteContextInterceptor', () => {
   const languageDe = 'de';
@@ -69,8 +81,6 @@ describe('SiteContextInterceptor', () => {
   it('should not add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
-      mockLanguageService.activeLanguage$.next(null);
-      mockCurrencyService.activeCurrency$.next(null);
       http.get('/xxx').subscribe(result => {
         expect(result).toBeTruthy();
       });
@@ -88,8 +98,8 @@ describe('SiteContextInterceptor', () => {
   it('should add parameters: lang and curr to a request', inject(
     [HttpClient],
     (http: HttpClient) => {
-      mockLanguageService.activeLanguage$.next(languageDe);
-      mockCurrencyService.activeCurrency$.next(currencyJpy);
+      mockLanguageService.setActive(languageDe);
+      mockCurrencyService.setActive(currencyJpy);
       http
         .get('https://localhost:9002/rest/v2/electronics')
         .subscribe(result => {

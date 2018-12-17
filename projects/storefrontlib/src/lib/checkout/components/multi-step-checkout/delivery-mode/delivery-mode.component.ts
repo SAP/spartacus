@@ -37,20 +37,22 @@ export class DeliveryModeComponent implements OnInit {
   constructor(private fb: FormBuilder, private service: CheckoutService) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.service.supportedDeliveryModes$.pipe(
-      takeWhile(() => !this.leave),
-      tap(supportedModes => {
-        if (Object.keys(supportedModes).length === 0) {
-          this.service.loadSupportedDeliveryModes();
-        } else {
-          if (this.selectedShippingMethod) {
-            this.mode.controls['deliveryModeId'].setValue(
-              this.selectedShippingMethod
-            );
+    this.supportedDeliveryModes$ = this.service
+      .getSupportedDeliveryModes()
+      .pipe(
+        takeWhile(() => !this.leave),
+        tap(supportedModes => {
+          if (Object.keys(supportedModes).length === 0) {
+            this.service.loadSupportedDeliveryModes();
+          } else {
+            if (this.selectedShippingMethod) {
+              this.mode.controls['deliveryModeId'].setValue(
+                this.selectedShippingMethod
+              );
+            }
           }
-        }
-      })
-    );
+        })
+      );
   }
 
   next() {

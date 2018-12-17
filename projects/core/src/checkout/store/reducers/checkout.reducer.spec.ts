@@ -193,11 +193,11 @@ describe('Checkout reducer', () => {
     });
   });
 
-  describe('CLEAR_MISCS_DATA action', () => {
+  describe('CHECKOUT_CLEAR_MISCS_DATA action', () => {
     it('should clear mics data', () => {
       const { initialState } = fromCheckout;
 
-      const action = new fromActions.ClearMiscsData();
+      const action = new fromActions.CheckoutClearMiscsData();
       const state = fromCheckout.reducer(initialState, action);
       expect(state.deliveryMode).toEqual(initialState.deliveryMode);
     });

@@ -11,7 +11,7 @@ export const initialState: CardTypesState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.CardTypesAction | fromAction.MiscsDataAction
+  action: fromAction.CardTypesAction | fromAction.CheckoutMiscsDataAction
 ): CardTypesState {
   switch (action.type) {
     case fromAction.LOAD_CARD_TYPES_SUCCESS: {
@@ -34,7 +34,7 @@ export function reducer(
       };
     }
 
-    case fromAction.CLEAR_MISCS_DATA: {
+    case fromAction.CHECKOUT_CLEAR_MISCS_DATA: {
       return initialState;
     }
   }

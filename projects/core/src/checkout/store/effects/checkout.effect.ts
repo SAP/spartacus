@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import * as fromActions from './../actions';
-import * as fromUserActions from '../../../../../storefrontlib/src/lib/user/store/actions';
-import * as fromGlobalMessagesActions from '../../../../../storefrontlib/src/lib/global-message/store/actions';
+import * as fromUserActions from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
-import { OccCartService } from '../../../../../storefrontlib/src/lib/occ/cart/cart.service';
-import { OccOrderService } from '../../../../../storefrontlib/src/lib/occ/order/order.service';
-import { GlobalMessageType } from '../../../../../storefrontlib/src/lib/global-message/models/message.model';
-import { PaymentDetails, OrderEntry } from '../../../occ-models/index';
-import { ProductImageConverterService } from '../../../product/index';
+import {
+  OccCartService,
+  ProductImageConverterService,
+  OccOrderService,
+  OrderEntry,
+  PaymentDetails,
+  GlobalMessageType,
+  AddMessage
+} from '@spartacus/core';
+
 @Injectable()
 export class CheckoutEffects {
   @Effect()
@@ -192,7 +196,7 @@ export class CheckoutEffects {
           }),
           switchMap(data => [
             new fromActions.PlaceOrderSuccess(data),
-            new fromGlobalMessagesActions.AddMessage({
+            new AddMessage({
               text: 'Order placed successfully',
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })

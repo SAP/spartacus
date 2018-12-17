@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
 
-export const CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
+export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
 
-export class ClearMiscsData implements Action {
-  readonly type = CLEAR_MISCS_DATA;
+export class CheckoutClearMiscsData implements Action {
+  readonly type = CHECKOUT_CLEAR_MISCS_DATA;
 }
 
-export type MiscsDataAction = ClearMiscsData;
+export type CheckoutMiscsDataAction = CheckoutClearMiscsData;
 
 export * from './checkout.action';
 export * from './card-types.action';

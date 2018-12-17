@@ -8,9 +8,12 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService, CheckoutAddress } from '@spartacus/core';
-import { CartService } from '../../../../cart/facade/cart.service';
-import { UserService } from '../../../../user/facade/user.service';
+import {
+  CheckoutService,
+  CheckoutAddress,
+  CartService,
+  UserService
+} from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -42,7 +45,7 @@ export class ReviewSubmitComponent implements OnInit {
     this.cart$ = this.cartService.activeCart$;
     this.entries$ = this.cartService.entries$;
 
-    this.deliveryMode$ = this.checkoutService.selectedDeliveryMode$.pipe(
+    this.deliveryMode$ = this.checkoutService.getSelectedDeliveryMode().pipe(
       tap(selected => {
         if (selected === null) {
           this.checkoutService.loadSupportedDeliveryModes();

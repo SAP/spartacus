@@ -57,7 +57,10 @@ export const getPaymentDetails: MemoizedSelector<any, any> = createSelector(
   fromReducer.getPaymentDetails
 );
 
-export const getOrderDetails: MemoizedSelector<any, any> = createSelector(
+export const getCheckoutOrderDetails: MemoizedSelector<
+  any,
+  any
+> = createSelector(
   getCheckoutStepsState,
   fromReducer.getOrderDetails
 );

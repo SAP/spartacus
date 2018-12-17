@@ -1,9 +1,9 @@
 import * as fromCurrencies from '../actions/currencies.action';
 import { CurrenciesState } from '../state';
-import { Currency } from '../../../occ-models/occ.models';
+import { Currency } from '../../../occ/occ-models/occ.models';
 
 export const initialState: CurrenciesState = {
-  entities: {},
+  entities: null,
   activeCurrency: null
 };
 

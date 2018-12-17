@@ -1,18 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+
 import {
-  RoutingService,
-  OrderHistoryList,
   AuthService,
-  UserToken
+  RoutingService,
+  UserToken,
+  UserService,
+  OrderHistoryList
 } from '@spartacus/core';
 
-import { of, BehaviorSubject, Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
-import createSpy = jasmine.createSpy;
-
-import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';
@@ -36,10 +35,20 @@ class MockAuthService {
   }
 }
 class MockUserService {
-  orderList$ = new BehaviorSubject(null);
-  orderListLoaded$ = of(true);
-  loadOrderList = createSpy();
+  getOrderHistoryList(): Observable<OrderHistoryList> {
+    return of();
+  }
+  getOrderHistoryListLoaded(): Observable<boolean> {
+    return of(true);
+  }
+  loadOrderList(
+    _userId: string,
+    _pageSize: number,
+    _currentPage?: number,
+    _sort?: string
+  ): void {}
 }
+
 class MockRoutingService {}
 
 describe('OrderHistoryComponent', () => {
@@ -76,7 +85,10 @@ describe('OrderHistoryComponent', () => {
       pagination: {},
       sorts: []
     };
-    userService.orderList$.next(initialOrderListState);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(
+      of(initialOrderListState)
+    );
+    spyOn(userService, 'loadOrderList').and.stub();
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -92,7 +104,7 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should read order list when data exist', () => {
-    userService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -106,7 +118,8 @@ describe('OrderHistoryComponent', () => {
   });
 
   xit('should redirect when clicking on order id', () => {
-    userService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -122,7 +135,9 @@ describe('OrderHistoryComponent', () => {
       pagination: { totalResults: 0, sort: 'byDate' },
       sorts: [{ code: 'byDate', selected: true }]
     };
-    userService.orderList$.next(initialOrderListState);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(
+      of(initialOrderListState)
+    );
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -133,7 +148,9 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    userService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+    spyOn(userService, 'loadOrderList').and.stub();
+
     component.ngOnInit();
     fixture.detectChanges();
     component.changeSortCode('byOrderNumber');
@@ -148,7 +165,9 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    userService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+    spyOn(userService, 'loadOrderList').and.stub();
+
     component.ngOnInit();
     fixture.detectChanges();
     component.pageChange(1);

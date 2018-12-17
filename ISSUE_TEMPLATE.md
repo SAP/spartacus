@@ -2,7 +2,7 @@ This template is to be used for bug reports and small enhancements. For feature 
 
 Note: For the bug to be accepted, it must be reproducible using the latest release of Spartacus. See our [Contributor Documentation](CONTRIBUTING.md) for more information.
 
-## Enviroment Details
+## Environment Details
 
 - Spartacus:  <!-- Spartacus release -->
 - Browser: <!-- Your browser, version -->

@@ -1,5 +1,5 @@
-import { CheckoutService } from './checkout.service';
+// import { CheckoutService } from './checkout.service';
 
-export const services: any[] = [CheckoutService];
+// export const services: any[] = [CheckoutService];
 
 export * from './checkout.service';
