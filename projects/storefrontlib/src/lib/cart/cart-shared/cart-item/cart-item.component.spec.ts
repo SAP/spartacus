@@ -1,4 +1,4 @@
-import { ComponentsModule } from './../../../../ui/components/components.module';
+import { ComponentsModule } from './../../../ui/components/components.module';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';

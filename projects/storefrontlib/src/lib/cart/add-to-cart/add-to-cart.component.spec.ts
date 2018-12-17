@@ -6,9 +6,8 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { of, Observable } from 'rxjs';
 
-import { CartDataService } from '@spartacus/core';
-import { CartService } from '@spartacus/core';
-import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
+import { CartDataService, CartService } from '@spartacus/core';
+import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
 import { AddToCartModule } from './add-to-cart.module';

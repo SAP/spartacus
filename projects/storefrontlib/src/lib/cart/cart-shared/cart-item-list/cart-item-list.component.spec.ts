@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { CartService } from '@spartacus/core';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
-import { ComponentsModule } from '../../../../ui/components/components.module';
+import { ComponentsModule } from '../../../ui/components/components.module';
 
 import { CartItemListComponent } from './cart-item-list.component';
 

@@ -10,7 +10,7 @@ import { of, BehaviorSubject } from 'rxjs';
 
 import { CartSharedModule } from './../../cart-shared/cart-shared.module';
 import { CartService } from '@spartacus/core';
-import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
+import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
