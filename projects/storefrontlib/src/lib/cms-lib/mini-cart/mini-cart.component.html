@@ -1,10 +1,9 @@
 <ng-container *ngIf="(cart$ | async) as cart">
   <div class="cx-mini-cart">
-    <button
+    <a
       id="mini-cart"
       class="cx-mini-cart__button btn btn-primary"
       aria-label="Cart"
-      type="button"
       [routerLink]="{ route: ['cart'] } | cxTranslateUrl"
     >
       <svg
@@ -34,6 +33,6 @@
         "
         >{{ cart?.deliveryItemsQuantity }}</span
       >
-    </button>
+    </a>
   </div>
 </ng-container>

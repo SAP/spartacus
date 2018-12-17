@@ -1,18 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of, Observable } from 'rxjs';
 import { CartService } from '../../cart/facade/cart.service';
-import { CmsService } from '@spartacus/core';
+import { CmsService, TranslateUrlOptions } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, OrderEntry, CmsComponent } from '@spartacus/core';
 import { PipeTransform, Pipe } from '@angular/core';
+import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(options: TranslateUrlOptions) {
+    return '/translated-path/' + options.route[0];
+  }
 }
 
 const testCart: Cart = {
@@ -94,5 +97,25 @@ describe('MiniCartComponent', () => {
     expect(miniCartComponent.showProductCount).toEqual(
       +mockComponentData.shownProductCount
     );
+  });
+
+  describe('template', () => {
+    beforeEach(() => {
+      miniCartComponent.cart$ = of(testCart);
+      fixture.detectChanges();
+    });
+
+    it('should contain link to cart page', () => {
+      const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
+        .attributes.href.value;
+      expect(linkHref).toBe('/translated-path/cart');
+    });
+
+    it('should contain number of items in cart', () => {
+      const cartItemsNumber = fixture.debugElement.query(
+        By.css('.cx-mini-cart__count')
+      ).nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('1');
+    });
   });
 });
