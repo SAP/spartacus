@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '../../../cart/facade/cart.service';
-import { Cart } from '@spartacus/core';
+import { Cart, CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-page-layout',

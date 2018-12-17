@@ -3,7 +3,7 @@ import { LanguagesState } from '../state';
 import { Language } from '../../../occ/occ-models/occ.models';
 
 export const initialState: LanguagesState = {
-  entities: {},
+  entities: null,
   activeLanguage: null
 };
 
