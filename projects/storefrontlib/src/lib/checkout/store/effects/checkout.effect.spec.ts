@@ -5,14 +5,20 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccConfig, DeliveryModeList, PaymentDetails } from '@spartacus/core';
+import {
+  OccConfig,
+  DeliveryModeList,
+  PaymentDetails,
+  LoadUserPaymentMethods,
+  LoadUserAddresses,
+  ProductImageConverterService,
+  OccOrderService,
+  GlobalMessageType,
+  AddMessage,
+  OccCartService
+} from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
-import * as fromUserActions from '@spartacus/core';
-import * as fromGlobalMessageActions from '../../../global-message/store/actions';
-import { ProductImageConverterService, OccOrderService } from '@spartacus/core';
-import { GlobalMessageType } from '../../../global-message/models/message.model';
 import { Address } from '../../models/address-model';
 
 const MockOccModuleConfig: OccConfig = {
@@ -80,7 +86,7 @@ describe('Checkout effect', () => {
         address: address
       });
 
-      const completion1 = new fromUserActions.LoadUserAddresses(userId);
+      const completion1 = new LoadUserAddresses(userId);
       const completion2 = new fromActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -313,7 +319,7 @@ describe('Checkout effect', () => {
         cartId: cartId,
         paymentDetails: mockPaymentDetails
       });
-      const completion1 = new fromUserActions.LoadUserPaymentMethods(userId);
+      const completion1 = new LoadUserPaymentMethods(userId);
       const completion2 = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
@@ -362,7 +368,7 @@ describe('Checkout effect', () => {
         cartId: cartId
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
-      const completion2 = new fromGlobalMessageActions.AddMessage({
+      const completion2 = new AddMessage({
         text: 'Order placed successfully',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION
       });

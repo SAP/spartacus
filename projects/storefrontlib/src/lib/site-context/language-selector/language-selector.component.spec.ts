@@ -19,7 +19,7 @@ const mockLanguages: any[] = [
 const mockActiveLang = 'ja';
 
 class MockLanguageService {
-  get(): Observable<Language[]> {
+  getAll(): Observable<Language[]> {
     return of(mockLanguages);
   }
   getActive(): Observable<string> {
