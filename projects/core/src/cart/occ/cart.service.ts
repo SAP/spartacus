@@ -1,6 +1,6 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccConfig } from '../../occ/index';
+import { OccConfig } from '../../occ/config/occ-config';
 import {
   CartList,
   Cart,

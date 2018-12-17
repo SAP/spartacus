@@ -7,11 +7,13 @@ import { reducerToken, reducerProvider } from './reducers/index';
 import { metaReducers } from './reducers/index';
 import { effects } from './effects/index';
 import { CART_FEATURE } from './cart-state';
+import { CartOccModule } from './../occ/cart-occ.module';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
+    CartOccModule,
     StoreModule.forFeature(CART_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],

@@ -162,7 +162,7 @@ const mockData = [
   }
 ];
 
-xdescribe('CartDetailsComponent', () => {
+describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
 

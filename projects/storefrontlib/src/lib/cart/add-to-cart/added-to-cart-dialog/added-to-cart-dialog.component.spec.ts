@@ -2,14 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Component, Input } from '@angular/core';
+import { CartService } from '@spartacus/core';
 
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { of, BehaviorSubject } from 'rxjs';
 
-import { CartSharedModule } from './../../cart-shared/cart-shared.module';
-import { CartService } from '@spartacus/core';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
@@ -24,6 +23,23 @@ class MockCartService {
   removeCartEntry(_entry) {}
 }
 
+@Component({
+  selector: 'cx-cart-item',
+  template: ''
+})
+class MockCartItemComponent {
+  @Input()
+  compact = false;
+  @Input()
+  item;
+  @Input()
+  potentialProductPromotions: any[];
+  @Input()
+  isReadOnly = false;
+  @Input()
+  cartIsLoading = false;
+}
+
 describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
@@ -31,14 +47,8 @@ describe('AddedToCartDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        RouterTestingModule,
-        CartSharedModule,
-        NgbModule,
-        SpinnerModule
-      ],
-      declarations: [AddedToCartDialogComponent],
+      imports: [FormsModule, RouterTestingModule, NgbModule, SpinnerModule],
+      declarations: [AddedToCartDialogComponent, MockCartItemComponent],
       providers: [
         {
           provide: NgbActiveModal,
