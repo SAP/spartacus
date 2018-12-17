@@ -2,7 +2,7 @@
   --cx-background-color: var(--cx-dark);
   --cx-color: var(--cx-inverse);
 }
-
+// do we need those above being global, what about the fallback?
 footer {
   background-color: var(--cx-background-color);
   color: var(--cx-color);
