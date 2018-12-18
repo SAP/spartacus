@@ -1,5 +1,6 @@
 import * as fromAction from '../actions/index';
 import { RegionsState } from '../user-state';
+import { Region } from '../../../occ/occ-models';
 
 export const initialState: RegionsState = {
   entities: []
@@ -11,7 +12,7 @@ export function reducer(
 ): RegionsState {
   switch (action.type) {
     case fromAction.LOAD_REGIONS_SUCCESS: {
-      const entities = action.payload;
+      const entities: Region[] = action.payload;
       if (entities) {
         return {
           ...state,

@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
-
 import { StoreFinderPageComponent } from './store-finder-page.component';
 
 @Component({
