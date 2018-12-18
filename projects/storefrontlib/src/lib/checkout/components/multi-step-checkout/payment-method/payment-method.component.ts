@@ -12,7 +12,7 @@ import { PaymentDetails } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
+import { CartDataService } from '@spartacus/core';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
 import { UserService } from '@spartacus/core';

@@ -12,10 +12,26 @@ import { CmsComponent } from '../../occ/occ-models/cms-component.models';
   providedIn: 'root'
 })
 export class CmsService {
+  private _launchInSmartEdit = false;
+
   constructor(
     private store: Store<StateWithCms>,
     private defaultPageService: DefaultPageService
   ) {}
+
+  /**
+   * Set _launchInSmartEdit value
+   */
+  set launchInSmartEdit(value) {
+    this._launchInSmartEdit = value;
+  }
+
+  /**
+   * Whether the app launched in smart edit
+   */
+  isLaunchInSmartEdit(): boolean {
+    return this._launchInSmartEdit;
+  }
 
   /**
    * Get current CMS page data
@@ -42,12 +58,22 @@ export class CmsService {
   }
 
   /**
-   * Given the position, get CMS components (with uid and typecode) inside the content slot
+   * Given the position, get CMS components (with uuid, uid and typecode) inside the content slot
    * @param position : content slot position
    */
   getContentSlot(
     position: string
-  ): Observable<{ uid: string; typeCode: string }[]> {
+  ): Observable<{
+    uid: string;
+    uuid: string;
+    catalogUuid?: string;
+    components: {
+      uid: string;
+      typeCode: string;
+      uuid: string;
+      catalogUuid?: string;
+    }[];
+  }> {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)
