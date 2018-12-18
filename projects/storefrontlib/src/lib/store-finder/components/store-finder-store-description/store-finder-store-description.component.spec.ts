@@ -10,6 +10,14 @@ import { StoreFinderService, StoreDataService } from '../../services';
 import { SpinnerComponent } from '../../../ui';
 
 import * as fromReducers from '../../store';
+import { PipeTransform, Pipe } from '@angular/core';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
@@ -76,6 +84,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
         StoreFinderMapComponent,
+        MockTranslateUrlPipe,
         SpinnerComponent
       ],
       providers: [
