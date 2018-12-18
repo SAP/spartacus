@@ -1,0 +1,41 @@
+<ng-container *ngIf="(cart$ | async) as cart">
+  <div class="cx-cart-details container">
+    <ng-container *ngIf="(entries$ | async) as entries">
+      <div class="row">
+        <div class="col-md-12 col-lg-9">
+          <div class="cx-cart-details__cart-total">
+            Cart total ({{ cart.deliveryItemsQuantity }} items):
+            {{ cart.totalPrice?.formattedValue }}
+          </div>
+          <div
+            class="cx-cart-details__promotions"
+            *ngIf="cartHasPromotions(cart)"
+          >
+            <strong
+              *ngFor="let promotion of getAllPromotionsForCart(cart)"
+              [innerHTML]="promotion.description"
+            >
+            </strong>
+          </div>
+          <cx-cart-item-list
+            [items]="entries"
+            [potentialProductPromotions]="cart.potentialProductPromotions"
+            [cartIsLoading]="!(cartLoaded$ | async)"
+          ></cx-cart-item-list>
+          <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->
+        </div>
+        <div class="col-md-5 offset-md-7 col-lg-3 offset-lg-0">
+          <cx-order-summary [cart]="cart"></cx-order-summary>
+          <button
+            [routerLink]="{ route: ['checkout'] } | cxTranslateUrl"
+            *ngIf="entries.length"
+            class="btn btn-primary btn-block"
+            type="button"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

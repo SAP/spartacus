@@ -2,6 +2,7 @@
  * Public API Surface of core
  */
 
+export * from './src/cart/index';
 export * from './src/config/index';
 export * from './src/state/index';
 export * from './src/product/index';
@@ -12,3 +13,4 @@ export * from './src/user/index';
 export * from './src/auth/index';
 export * from './src/global-message/index';
 export * from './src/cms/index';
+export * from './src/smart-edit/index';
