@@ -1,20 +1,19 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
 import {
   RoutingService,
   Cart,
   PromotionResult,
   AuthService,
   UserToken,
-  Order
+  Order,
+  UserService
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
 const mockOrder: Order = {
@@ -168,7 +167,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display correct order ID', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__detail:first-of-type .cx-order-details__value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.code);
@@ -176,7 +175,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display correct order status', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__detail:last-of-type .cx-order-details__value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
@@ -184,13 +183,15 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display order summary', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('cx-order-summary'));
+    const element: DebugElement = el.query(By.css('cx-order-summary'));
     expect(element).not.toBeNull();
   });
 
   it('should order details display "ship to" data', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('.cx-card-body__label-container'));
+    const element: DebugElement = el.query(
+      By.css('.cx-card-body__label-container')
+    );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
         mockOrder.deliveryAddress.lastName &&
@@ -203,7 +204,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "bill to" data', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__account-summary.row > div:nth-child(2)')
     );
     expect(element.nativeElement.textContent).toContain(
@@ -218,7 +219,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "payment" data', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__account-summary.row > div:nth-child(3)')
     );
     expect(element.nativeElement.textContent).toContain(
@@ -232,7 +233,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "shipping" data', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__account-summary.row > div:nth-child(4)')
     );
     expect(element.nativeElement.textContent).toContain(

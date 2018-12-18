@@ -4,9 +4,10 @@ import {
   AuthModule,
   ConfigModule,
   provideConfig,
-  RoutingModule
+  RoutingModule,
+  StateModule,
+  SmartEditModule
 } from '@spartacus/core';
-import { StateModule } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
 
@@ -29,7 +30,8 @@ import { UiModule, UiFrameworkModule } from './ui/index';
     UiModule,
     UiFrameworkModule,
     ConfigModule.forRoot(),
-    CxApiModule
+    CxApiModule,
+    SmartEditModule
   ],
   exports: [UiModule],
   declarations: []

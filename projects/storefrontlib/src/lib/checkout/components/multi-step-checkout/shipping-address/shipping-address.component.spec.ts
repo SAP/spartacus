@@ -2,15 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { RoutingService, Address } from '@spartacus/core';
-
+import {
+  RoutingService,
+  Address,
+  CartDataService,
+  UserService
+} from '@spartacus/core';
 import { of, Observable } from 'rxjs';
-
 import createSpy = jasmine.createSpy;
-
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
-
 import { ShippingAddressComponent } from './shipping-address.component';
 
 class MockUserService {
