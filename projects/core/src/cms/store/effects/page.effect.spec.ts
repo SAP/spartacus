@@ -14,12 +14,23 @@ import { PageType } from '../../../occ/occ-models';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import { PageContext } from '../../../routing';
+import { PageContext, RoutingService } from '../../../routing';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 
 export function mockDateNow(): number {
   return 1000000000000;
 }
+
+const mockRouterState = {
+  state: {
+    cmsRequired: true,
+    context: {}
+  }
+};
+
+const mockRoutingService = {
+  routerState$: of(mockRouterState)
+};
 
 describe('Page Effects', () => {
   let actions$: Observable<any>;
@@ -112,6 +123,7 @@ describe('Page Effects', () => {
       ],
       providers: [
         OccCmsService,
+        { provide: RoutingService, useValue: mockRoutingService },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         DefaultPageService,
         fromEffects.PageEffects,

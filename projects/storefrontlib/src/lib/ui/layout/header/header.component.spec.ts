@@ -3,7 +3,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
-import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { HeaderComponent } from './header.component';
 
 @Component({
@@ -39,6 +38,12 @@ class MockLoginComponent {}
 })
 class MockMobileMenuComponent {}
 
+@Component({
+  selector: 'cx-tertiary-bar',
+  template: ''
+})
+export class MockTertiaryBarComponent {}
+
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
@@ -54,7 +59,7 @@ describe('HeaderComponent', () => {
         MockLoginComponent,
         MockMobileMenuComponent,
         HeaderSkipperComponent,
-        TertiaryBarComponent
+        MockTertiaryBarComponent
       ]
     }).compileComponents();
   }));

@@ -10,7 +10,6 @@ import { CartDataService, CartService } from '@spartacus/core';
 import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
-import { AddToCartModule } from './add-to-cart.module';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
@@ -34,15 +33,16 @@ describe('AddToCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        AddToCartModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
         NgbModule
       ],
+      declarations: [AddToCartComponent],
       providers: [
         CartDataService,
-        { provide: CartService, useClass: MockCartService }
+        { provide: CartService, useClass: MockCartService },
+        { provide: NgbModal, useValue: { open: () => {} } }
       ]
     }).compileComponents();
   }));
@@ -52,9 +52,9 @@ describe('AddToCartComponent', () => {
     addToCartComponent = fixture.componentInstance;
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
-    modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
-    spyOn(modalInstance, 'open').and.callThrough();
+    modalInstance = TestBed.get(NgbModal);
 
+    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     fixture.detectChanges();
   });
 

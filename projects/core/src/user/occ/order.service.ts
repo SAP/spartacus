@@ -13,7 +13,7 @@ const FULL_PARAMS = 'fields=FULL';
 export class OccOrderService {
   constructor(protected http: HttpClient, protected config: OccConfig) {}
 
-  protected getOrderEndpoint(userId: string) {
+  protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = '/users/' + userId + '/orders';
     return (
       (this.config.server.baseUrl || '') +
