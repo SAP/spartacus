@@ -22,10 +22,18 @@ export class MultiStepCheckoutPage extends AppPage {
     by.cssContainingText('button', 'Place Order')
   );
 
+  readonly termsAndConditions: ElementFinder = this.page.element(
+    by.css('.cx-multi-step-checkout__tc-link')
+  );
+
   readonly shippingAddress: ShippingAddress = new ShippingAddress(this.page);
   readonly deliveryForm: DeliveryModeForm = new DeliveryModeForm(this.page);
   readonly paymentMethod: PaymentMethod = new PaymentMethod(this.page);
   readonly reviewForm: ReviewForm = new ReviewForm(this.page);
+
+  async openTermsAndConditions() {
+    await this.termsAndConditions.click();
+  }
 
   async placeOrder() {
     await this.agreeToTermsCheckbox.click();
