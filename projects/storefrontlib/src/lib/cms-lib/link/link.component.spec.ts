@@ -4,10 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
+import { CmsLinkComponent, Component } from '@spartacus/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
+const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSLinkComponent: { selector: 'LinkComponent' }
   }
@@ -18,17 +19,15 @@ describe('LinkComponent', () => {
   let fixture: ComponentFixture<LinkComponent>;
   let el: DebugElement;
 
-  const componentData = {
+  const componentData: CmsLinkComponent = {
     uid: '001',
     typeCode: 'CMSLinkComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
     name: 'TestCMSLinkComponent',
-    type: 'link',
     linkName: 'Arbitrary link name',
     url: '/store-finder'
   };
 
-  const MockCmsComponentData = {
+  const MockCmsComponentData = <CmsComponentData<Component>>{
     data$: of(componentData)
   };
 
@@ -37,7 +36,7 @@ describe('LinkComponent', () => {
       imports: [RouterTestingModule],
       declarations: [LinkComponent],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
@@ -58,7 +57,7 @@ describe('LinkComponent', () => {
 
   it('should contain link name and url', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('a')).nativeElement;
+    const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
     expect(element.href).toContain(componentData.url);

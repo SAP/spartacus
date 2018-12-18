@@ -1,5 +1,6 @@
 import * as fromReducer from './../reducers/product-reviews.reducer';
 import * as fromActions from './../actions/product-reviews.action';
+import { Review } from '../../../occ/occ-models';
 
 describe('Product Reviews reducer', () => {
   describe('undefined action', () => {
@@ -15,13 +16,13 @@ describe('Product Reviews reducer', () => {
   describe('LOAD_PRODUCT_REVIEWS_SUCCESS', () => {
     it('should populate product reviews', () => {
       const productCode = '123';
-      const reviews = [
+      const reviews: Review[] = [
         {
-          id: 1,
+          id: '1',
           rating: 3
         },
         {
-          id: 2,
+          id: '2',
           rating: 5
         }
       ];

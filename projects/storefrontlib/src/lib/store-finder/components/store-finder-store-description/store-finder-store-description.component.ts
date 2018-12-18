@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 import { StoreDataService, StoreFinderService } from '../../services/index';
@@ -17,6 +17,7 @@ export class StoreFinderStoreDescriptionComponent
   extends AbstractStoreItemComponent
   implements OnInit, OnDestroy {
   location: any;
+  isLoading$: Observable<any>;
   ngUnsubscribe: Subscription;
 
   constructor(
@@ -40,6 +41,7 @@ export class StoreFinderStoreDescriptionComponent
           )[0];
         }
       });
+    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
   }
 
   requestStoresData() {

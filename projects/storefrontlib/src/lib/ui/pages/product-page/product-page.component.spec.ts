@@ -24,7 +24,9 @@ const routerState = {
   }
 };
 const mockRoutingService = {
-  routerState$: of(routerState)
+  getRouterState() {
+    return of(routerState);
+  }
 };
 describe('ProductPageComponent in pages', () => {
   let component: ProductPageComponent;

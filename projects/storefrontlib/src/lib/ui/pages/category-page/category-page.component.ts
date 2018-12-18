@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CmsService } from '../../../cms/facade/cms.service';
-import { Page } from '../../../cms/models/page.model';
+import { CmsService, Page } from '@spartacus/core';
 
 @Component({
   selector: 'cx-category-page',
@@ -33,6 +32,6 @@ export class CategoryPageComponent implements OnInit {
       }
     });
 
-    this.cmsPage$ = this.cmsService.currentPage$;
+    this.cmsPage$ = this.cmsService.getCurrentPage();
   }
 }

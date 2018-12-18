@@ -14,14 +14,14 @@ export class AddressForm {
   static readonly PHONE_NUMBER = '555 555 555';
 
   constructor(
-    private parentElement: ElementFinder = element(by.tagName('cx-root'))
+    private parentElement: ElementFinder = element(by.tagName('body'))
   ) {}
 
   readonly form: ElementFinder = this.parentElement.element(
     by.tagName('cx-address-form')
   );
   readonly countrySelect: ElementFinder = this.form.element(
-    by.css('[bindValue="isocode"]')
+    by.css('[bindValue="isocode"].country-select')
   );
   readonly titleSelect: ElementFinder = this.form.element(
     by.css('[bindValue="code"]')
@@ -42,7 +42,7 @@ export class AddressForm {
     by.css('[formcontrolname="town"]')
   );
   readonly province: ElementFinder = this.form.element(
-    by.css('[bindValue="region"]')
+    by.css('[bindValue="isocode"].region-select')
   );
   readonly postalCode: ElementFinder = this.form.element(
     by.css('[formcontrolname="postalCode"]')

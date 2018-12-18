@@ -7,7 +7,7 @@ import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
 
 import { LoginFormComponent } from './login-form.component';
 
@@ -19,9 +19,11 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  redirectUrl$ = of('/test');
   go = createSpy();
   clearRedirectUrl = createSpy();
+  getRedirectUrl() {
+    return of('/test');
+  }
 }
 
 class MockGlobalMessageService {

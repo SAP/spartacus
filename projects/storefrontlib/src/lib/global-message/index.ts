@@ -1,2 +1,2 @@
 export * from './global-message.module';
-export * from './components/global-messsage.component';
+export * from './components/global-message.component';

@@ -329,25 +329,6 @@
   dependencies:
     symbol-observable "^1.2.0"
 
-"@spartacus/core@^0.1.0-prealpha.3":
-  version "0.1.0-prealpha.3"
-  resolved "https://registry.yarnpkg.com/@spartacus/core/-/core-0.1.0-prealpha.3.tgz#ce549ac7bf995e8eaaf83b31e312d57760c64369"
-  integrity sha512-6T0jmAETOdep1OnkSB6Ij7njf2UGMgec7y5JCSIZfQL4cDu/LI7uMln+WHgZuQtZdsFDyB3cehoIAWUYwS/9tA==
-  dependencies:
-    tslib "^1.9.0"
-
-"@spartacus/storefront@^0.1.0-prealpha.8":
-  version "0.1.0-prealpha.8"
-  resolved "https://registry.yarnpkg.com/@spartacus/storefront/-/storefront-0.1.0-prealpha.8.tgz#29cd41606f48936db1a616edbe5f152de29dc426"
-  integrity sha512-su53pUsiET4HUxgLkFEsaDHPz/hwiRDOW0PqAwzJ8zvIdOk8W+TIzkBA6BLVvcHxmUScj+eUMs1XJMDDbdXtSQ==
-  dependencies:
-    tslib "^1.9.0"
-
-"@spartacus/styles@^0.1.0-prealpha.5":
-  version "0.1.0-prealpha.5"
-  resolved "https://registry.yarnpkg.com/@spartacus/styles/-/styles-0.1.0-prealpha.5.tgz#28566c889763a718c528d587304d61c974d18a97"
-  integrity sha512-gQHcxxYRVheSk02CWejyFrZgdZtbbPXuZtcPoZatbpuXl1EIoZOc2YPyaNViXIp3IzuI0zducYZ9HTXiDqImfg==
-
 "@szmarczak/http-timer@^1.1.0":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@szmarczak/http-timer/-/http-timer-1.1.1.tgz#6402258dfe467532b26649ef076b4d11f74fb612"

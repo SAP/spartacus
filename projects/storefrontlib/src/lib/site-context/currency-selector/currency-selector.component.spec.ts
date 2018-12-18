@@ -12,8 +12,16 @@ const mockCurrencies: any[] = [
 const mockActiveCurr = 'USD';
 
 const currencyServiceMock = {
-  currencies$: of(mockCurrencies),
-  activeCurrency$: of(mockActiveCurr)
+  active: mockActiveCurr,
+  getAll() {
+    return of(mockCurrencies);
+  },
+  getActive() {
+    return of(this.active);
+  },
+  setActive(isocode: string) {
+    this.active = isocode;
+  }
 };
 describe('CurrencySelectorComponent', () => {
   let component: CurrencySelectorComponent;
@@ -62,7 +70,7 @@ describe('CurrencySelectorComponent', () => {
 
   it('should change currency', () => {
     component.setActiveCurrency('CAD');
-    expect(service.activeCurrency).toEqual('CAD');
+    service.getActive().subscribe(value => expect(value).toEqual('CAD'));
   });
 
   it('should contain dropdown with currencies', () => {
