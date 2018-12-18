@@ -25,7 +25,7 @@ describe('Cms Page Reducer', () => {
         pageId: 'testPageId',
         name: 'testPage',
         seen: [],
-        slots: { left: components }
+        slots: { left: { components } }
       };
       const payload = { key: 'test', value: page };
 
@@ -42,7 +42,7 @@ describe('Cms Page Reducer', () => {
       const page: Page = {
         pageId: 'testPageId',
         seen: [],
-        slots: { position: 'left', value: 'uid' }
+        slots: { left: { uid: 'uid' } }
       };
       const payload = { key: 'test', value: page };
       const { initialState } = fromPage;
@@ -51,7 +51,7 @@ describe('Cms Page Reducer', () => {
       const newPage: Page = {
         pageId: 'testPageId',
         seen: ['123'],
-        slots: { left: 'uid' }
+        slots: { left: { uid: 'uid' } }
       };
       const newPayload = { key: 'test', value: newPage };
       const action = new fromActions.LoadPageDataSuccess(newPayload);
@@ -64,7 +64,7 @@ describe('Cms Page Reducer', () => {
     it('should overwrite the existing cms page', () => {
       const page: Page = {
         pageId: 'testPageId',
-        slots: { left: ['comp1'] }
+        slots: { left: { components: [{ uid: 'comp1' }] } }
       };
       const payload = { key: 'test', value: page };
       const { initialState } = fromPage;
@@ -72,13 +72,15 @@ describe('Cms Page Reducer', () => {
 
       const newPage: Page = {
         pageId: 'testPageId',
-        slots: { left: ['comp1', 'comp2'] }
+        slots: { left: { components: [{ uid: 'comp1' }, { uid: 'comp2' }] } }
       };
       const newPayload = { key: 'test', value: newPage };
       const action = new fromActions.LoadPageDataSuccess(newPayload);
       const state = fromPage.reducer(currentState, action);
 
-      expect(state.entities['test'].slots['left']).toEqual(['comp1', 'comp2']);
+      expect(state.entities['test'].slots['left']).toEqual({
+        components: [{ uid: 'comp1' }, { uid: 'comp2' }]
+      });
       expect(state.latestPageKey).toEqual('test');
     });
   });
@@ -89,7 +91,7 @@ describe('Cms Page Reducer', () => {
         pageId: 'testPageId',
         name: 'testPage',
         seen: [],
-        slots: { position: 'left', value: null }
+        slots: { left: null }
       };
       const payload = { key: 'test', value: page };
 
