@@ -4,8 +4,8 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { Product, ReviewList, Review } from '../../occ';
 import { OccConfig } from '../../occ/config/occ-config';
+import { Product, ReviewList, Review } from '../../occ/occ-models/occ.models';
 
 const ENDPOINT_PRODUCT = 'products';
 

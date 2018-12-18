@@ -4,9 +4,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { SuggestionList, ProductSearchPage } from '../../occ';
 import { SearchConfig } from '../model/search-config';
 import { OccConfig } from '../../occ/config/occ-config';
+import {
+  SuggestionList,
+  ProductSearchPage
+} from '../../occ/occ-models/occ.models';
 
 const ENDPOINT_PRODUCT = 'products';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {

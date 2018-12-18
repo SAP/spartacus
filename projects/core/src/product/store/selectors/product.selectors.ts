@@ -1,9 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { EntityLoaderState } from 'projects/core/src/state';
-
 import { ProductsState, StateWithProduct } from '../product-state';
 import { Product } from '../../../occ/occ-models/occ.models';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {

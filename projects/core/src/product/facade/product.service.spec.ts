@@ -5,14 +5,14 @@ import * as ngrxStore from '@ngrx/store';
 
 import { of } from 'rxjs';
 
-import { Product } from '../../occ';
 import * as fromStore from '../store/index';
-import { ProductState } from '../store/index';
+import { ProductsState } from '../store/index';
+import { Product } from '../../occ/occ-models/occ.models';
 
 import { ProductService } from './product.service';
 
 describe('ProductService', () => {
-  let store: Store<ProductState>;
+  let store: Store<ProductsState>;
   let service: ProductService;
   const mockProduct: Product = { code: 'testId' };
 

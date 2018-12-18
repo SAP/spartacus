@@ -10,11 +10,7 @@ export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
 
 export interface StateWithProduct {
-  [PRODUCT_FEATURE]: ProductState;
-}
-
-export interface ProductState {
-  entities: { [productCode: string]: Product };
+  [PRODUCT_FEATURE]: ProductsState;
 }
 
 export interface ProductsState {

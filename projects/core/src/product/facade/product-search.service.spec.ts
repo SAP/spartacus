@@ -7,9 +7,9 @@ import * as NgrxStore from '@ngrx/store';
 import { EMPTY, of } from 'rxjs';
 
 import * as fromStore from '../store';
-import { StateWithProduct } from '../store';
 import { SearchConfig } from '../model/search-config';
-import { ProductSearchPage } from '../../occ/occ-models';
+import { StateWithProduct } from '../store/product-state';
+import { ProductSearchPage } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchService } from './product-search.service';
 

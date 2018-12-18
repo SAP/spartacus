@@ -5,7 +5,7 @@ import {
   ProductsState,
   StateWithProduct
 } from '../product-state';
-import { Review } from '../../../occ/occ-models';
+import { Review } from '../../../occ/occ-models/occ.models';
 
 import { getProductsState } from './feature.selector';
 

@@ -12,7 +12,7 @@ import {
   ErrorModel,
   ProductSearchPage,
   Suggestion
-} from '../../../occ/occ-models';
+} from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductsSearchEffects {

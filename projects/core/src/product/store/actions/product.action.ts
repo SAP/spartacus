@@ -1,5 +1,5 @@
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
-import { Product } from '../../../occ/occ-models';
+import { Product } from '../../../occ/occ-models/occ.models';
 import {
   EntityFailAction,
   EntityLoadAction,
