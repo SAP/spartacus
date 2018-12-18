@@ -58,7 +58,7 @@
       <!-- searchbox results -->
       <ng-template #rt let-suggestion="result">
         <div
-          *ngIf="!suggestion.code; else: productView"
+          *ngIf="!suggestion.code; else productView"
           class="cx-search-box__dropdown-content"
         >
           {{ suggestion }}

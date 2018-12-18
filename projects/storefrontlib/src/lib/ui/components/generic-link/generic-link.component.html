@@ -1,4 +1,4 @@
-<ng-container *ngIf="isAbsoluteUrl(url); else: isRelativeUrl">
+<ng-container *ngIf="isAbsoluteUrl(url); else isRelativeUrl">
   <a
     role="link"
     [href]="url"
