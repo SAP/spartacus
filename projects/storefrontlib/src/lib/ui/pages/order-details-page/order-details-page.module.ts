@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { OrderDetailsPageLayoutModule } from '../../layout/order-details-page-layout/order-details-page-layout.module';
 import { OrderDetailsPageComponent } from './order-details-page.component';
@@ -9,10 +9,10 @@ import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: 'my-account/orders/:orderCode',
+    path: null,
     canActivate: [AuthGuard, CmsPageGuards],
     component: OrderDetailsPageComponent,
-    data: { pageLabel: 'order' }
+    data: { pageLabel: 'order', cxPath: 'orderDetails' }
   }
 ];
 

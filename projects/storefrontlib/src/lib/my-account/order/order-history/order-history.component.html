@@ -35,12 +35,18 @@
             <th scope="col">Total</th>
           </thead>
           <tbody>
-            <tr *ngFor="let order of orders.orders">
+            <tr
+              *ngFor="let order of orders.orders"
+              (click)="goToOrderDetail(order)"
+            >
               <td class="cx-order-history__code">
                 <div class="d-md-none cx-order-history__label">Order #</div>
                 <a
-                  routerLink="/my-account/orders/{{ order.code }}"
-                  routerLinkActive="active"
+                  [routerLink]="
+                    {
+                      route: [{ name: 'orderDetails', params: order }]
+                    } | cxTranslateUrl
+                  "
                   class="cx-order-history__value"
                 >
                   {{ order?.code }}</a
@@ -49,8 +55,11 @@
               <td class="cx-order-history__placed">
                 <div class="d-md-none cx-order-history__label">Date</div>
                 <a
-                  routerLink="/my-account/orders/{{ order.code }}"
-                  routerLinkActive="active"
+                  [routerLink]="
+                    {
+                      route: [{ name: 'orderDetails', params: order }]
+                    } | cxTranslateUrl
+                  "
                   class="cx-order-history__value"
                   >{{ order?.placed | date: 'longDate' }}</a
                 >
@@ -58,8 +67,11 @@
               <td class="cx-order-history__status">
                 <div class="d-md-none cx-order-history__label">Status</div>
                 <a
-                  routerLink="/my-account/orders/{{ order.code }}"
-                  routerLinkActive="active"
+                  [routerLink]="
+                    {
+                      route: [{ name: 'orderDetails', params: order }]
+                    } | cxTranslateUrl
+                  "
                   class="cx-order-history__value"
                 >
                   {{ order?.statusDisplay }}</a
@@ -68,8 +80,11 @@
               <td class="cx-order-history__total">
                 <div class="d-md-none cx-order-history__label">Total</div>
                 <a
-                  routerLink="/my-account/orders/{{ order.code }}"
-                  routerLinkActive="active"
+                  [routerLink]="
+                    {
+                      route: [{ name: 'orderDetails', params: order }]
+                    } | cxTranslateUrl
+                  "
                   class="cx-order-history__value"
                 >
                   {{ order?.total.formattedValue }}</a
@@ -106,7 +121,7 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>We have no order records for this account.</div>
             <a
-              routerLink="/"
+              [routerLink]="{ route: ['home'] } | cxTranslateUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >Start Shopping</a

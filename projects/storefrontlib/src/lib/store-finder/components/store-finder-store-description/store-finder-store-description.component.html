@@ -15,7 +15,11 @@
           <a [href]="getDirections(location)" target="_blank">Get Directions</a>
         </p>
         <p>Call {{ location.address?.phone }}</p>
-        <p><a href="contact">Contact us</a></p>
+        <p>
+          <a [routerLink]="{ route: ['contact'] } | cxTranslateUrl"
+            >Contact us</a
+          >
+        </p>
       </section>
       <div class="schedule">
         <cx-schedule [location]="location"> <h3>Store hours</h3> </cx-schedule>
