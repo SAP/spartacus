@@ -8,16 +8,14 @@ import { Observable } from 'rxjs';
 
 import * as fromCheckoutStore from '../store/';
 import {
-  CartDataService,
-  ANONYMOUS_USERID
-} from '../../cart/facade/cart-data.service';
-import {
   Address,
   PaymentDetails,
   DeliveryMode,
   CardType,
   Order,
-  AddressValidation
+  AddressValidation,
+  CartDataService,
+  ANONYMOUS_USERID
 } from '@spartacus/core';
 
 @Injectable()

@@ -6,9 +6,8 @@ import * as fromUserActions from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
-
-import { OccCartService } from '../../../occ/cart/cart.service';
 import {
+  OccCartService,
   ProductImageConverterService,
   OccOrderService,
   OrderEntry,
