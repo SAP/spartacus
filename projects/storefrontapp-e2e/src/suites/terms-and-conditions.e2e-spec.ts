@@ -7,7 +7,7 @@ import { LoginForm } from '../page-objects/login/login-form.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { browser } from 'protractor';
 
-describe('Terms and Conditions', () => {
+fdescribe('Terms and Conditions', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
@@ -22,14 +22,18 @@ describe('Terms and Conditions', () => {
     await LoginHelper.registerNewUser();
     await LoginHelper.logOutViaHeader();
 
+    const categoryDslr = await home.navigateViaSplashBanner();
+    await categoryDslr.waitForReady();
+
+    // Go to product page.
     const productDetailsPage = new ProductDetailsPage();
+    await productDetailsPage.waitForReady();
+
+    // Add-to-Cart.
     await productDetailsPage.itemCounterUpButton.click();
     await productDetailsPage.addToCartButton.click();
-
-    // Added-to-Cart modal opens. Close it.
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
-
     const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
     await atcModal.goToCheckoutButton.click();
