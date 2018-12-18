@@ -2,18 +2,12 @@
 @import 'functions';
 @import 'mixins';
 
-$cx-footer-background-color: 'dark' !default;
-$cx-footer-notice-color: 'dark' !default;
 $cx-footer-notice-background-color: 'inverse' !default;
 $cx-footer-sm-social-border-color: 'inverse' !default;
 $cx-footer-xs-container-border-color: 'dark' !default;
 
 //footer variables
-$cx-footer-nav-trbl-padding: 34px 0 0 0 !default;
-$cx-footer-nav-md-trbl-margin: 0 0 47px 0 !default;
 $cx-footer-nav-xs-container-border-top: 1px solid !default;
-$cx-footer-nav-xs-container-trbl-padding: 0 0 24px 0 !default;
-$cx-footer-nav-title-font-case: capitalize !default;
 $cx-footer-nav-title-trbl-margin: 0 0 12px 0 !default;
 $cx-footer-nav-title-xs-text-align: center !default;
 $cx-footer-nav-list-trbl-padding: 0 !default;
@@ -32,16 +26,16 @@ $cx-footer-nav-notice-trbl-padding: 33px 0 32px 0 !default;
 $cx-footer-nav-notice-text-align: center !default;
 
 nav {
-  padding: $cx-footer-nav-trbl-padding;
+  padding: var(--cx-padding, 34px 0 0);
 
   @include media-breakpoint-up(md) {
-    margin: $cx-footer-nav-md-trbl-margin;
+    margin: var(--cx-margin, 0 0 47px);
   }
 
   h1 {
     @include type('5');
-    margin: $cx-footer-nav-title-trbl-margin;
-    text-transform: $cx-footer-nav-title-font-case;
+    margin: var(--cx-margin, 0 0 12px);
+    text-transform: var(--cx-text-transform, capitalize);
 
     @include media-breakpoint-down(xs) {
       text-align: $cx-footer-nav-title-xs-text-align;
@@ -54,7 +48,7 @@ nav {
       text-align: $cx-footer-nav-list-xs-text-align;
       border-top: $cx-footer-nav-xs-container-border-top;
       @include var-color('border-color', $cx-footer-xs-container-border-color);
-      padding: $cx-footer-nav-xs-container-trbl-padding;
+      padding: var(--cx-padding, 0 0 24px);
 
       &:first-of-type {
         border-top: none;
@@ -71,11 +65,11 @@ nav {
       text-decoration: $cx-footer-nav-link-hover-decoration;
     }
   }
-  .notice {
-    padding: $cx-footer-nav-notice-trbl-padding;
-    text-align: $cx-footer-nav-notice-text-align;
-    @include type();
-    @include var-color('color', $cx-footer-notice-color);
-    @include var-color('background-color', $cx-footer-notice-background-color);
-  }
+}
+.notice {
+  padding: $cx-footer-nav-notice-trbl-padding;
+  text-align: $cx-footer-nav-notice-text-align;
+  @include type();
+  color: var(--cx-color, var(--cx-dark));
+  @include var-color('background-color', $cx-footer-notice-background-color);
 }
