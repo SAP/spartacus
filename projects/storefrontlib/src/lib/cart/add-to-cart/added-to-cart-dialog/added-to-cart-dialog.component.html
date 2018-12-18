@@ -1,6 +1,6 @@
 <div class="cx-added-to-cart-dialog" #dialog>
   <!-- Modal Header -->
-  <ng-container *ngIf="(loaded$ | async); else loading">
+  <ng-container *ngIf="(loaded$ | async); else: loading">
     <div class="cx-added-to-cart-dialog__header modal-header">
       <div class="cx-added-to-cart-dialog__title modal-title">
         {{ quantity }} item(s) added to your cart

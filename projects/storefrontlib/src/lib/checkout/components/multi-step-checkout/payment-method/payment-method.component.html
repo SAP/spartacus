@@ -5,11 +5,11 @@
     <h3 class="cx-payment-method__title d-none d-lg-block d-xl-block">
       Payment
     </h3>
-    <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <ng-container *ngIf="!(isLoading$ | async); else: loading">
       <ng-container
         *ngIf="
           existingPaymentMethods?.length && !newPaymentFormManuallyOpened;
-          else newPaymentForm
+          else: newPaymentForm
         "
       >
         <p class="cx-payment-method__text">Choose a payment method</p>

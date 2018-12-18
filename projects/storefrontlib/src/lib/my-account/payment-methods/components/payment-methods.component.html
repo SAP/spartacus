@@ -5,7 +5,7 @@
     <div class="cx-payment-methods__msg">
       New payment methods are added during checkout.
     </div>
-    <div *ngIf="(loading$ | async); else cards"><cx-spinner></cx-spinner></div>
+    <div *ngIf="(loading$ | async); else: cards"><cx-spinner></cx-spinner></div>
     <ng-template #cards>
       <div
         *ngIf="(paymentMethods$ | async) as paymentMethods"

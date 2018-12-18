@@ -11,7 +11,7 @@
         It's currently only used in one test case.
         [attr.data-component-uid]="component.uid"
       -->
-      <ng-container *ngIf="componentClass; else containerWrapper">
+      <ng-container *ngIf="componentClass; else: containerWrapper">
         <!-- we only create a wrappimg div if we need to host a css class -->
         <div
           cxComponentWrapper

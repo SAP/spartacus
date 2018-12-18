@@ -1,4 +1,4 @@
-<div class="container" *ngIf="!(isLoading$ | async) && location; else loading">
+<div class="container" *ngIf="!(isLoading$ | async) && location; else: loading">
   <div class="row">
     <article class="storeInfo col-lg-4">
       <h2>{{ location.displayName }}</h2>

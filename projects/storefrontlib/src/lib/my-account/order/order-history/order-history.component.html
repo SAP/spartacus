@@ -5,7 +5,7 @@
 
     <!-- BODY -->
     <div class="cx-order-history__body">
-      <ng-container *ngIf="orders.pagination.totalResults > 0; else noOrder">
+      <ng-container *ngIf="orders.pagination.totalResults > 0; else: noOrder">
         <!-- Select Form and Pagination Top -->
         <div class="cx-order-history__form-pagination--top row">
           <div
