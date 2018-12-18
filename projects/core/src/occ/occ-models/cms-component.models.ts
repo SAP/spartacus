@@ -32,3 +32,8 @@ export interface CmsParagraphComponent extends CmsComponent {
   typeCode?: string;
   uid?: string;
 }
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsComponent {
+  container?: string;
+}
