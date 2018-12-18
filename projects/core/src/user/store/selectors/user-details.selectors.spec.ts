@@ -32,7 +32,7 @@ describe('User Details Selectors', () => {
 
   describe('getDetails', () => {
     it('should return a user details', () => {
-      let result;
+      let result: User;
       store
         .pipe(select(fromSelectors.getDetails))
         .subscribe(value => (result = value));

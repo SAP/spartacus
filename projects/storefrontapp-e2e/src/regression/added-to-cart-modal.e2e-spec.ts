@@ -30,10 +30,10 @@ describe('Added to cart modal', () => {
     expect(await addedToCartModal.totalCount.getText()).toContain('2 items');
     // actin buttons links correctly
     expect(
-      await addedToCartModal.viewCartButton.getAttribute('routerlink')
+      await addedToCartModal.viewCartButton.getAttribute('href')
     ).toContain('/cart');
     expect(
-      await addedToCartModal.goToCheckoutButton.getAttribute('routerlink')
+      await addedToCartModal.goToCheckoutButton.getAttribute('href')
     ).toContain('/checkout');
     // closing modal works
     await addedToCartModal.closeButton.click();

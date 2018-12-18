@@ -9,10 +9,10 @@ import { MultiStepCheckoutPageComponent } from './multi-step-checkout-page.compo
 
 const routes: Routes = [
   {
-    path: 'checkout',
+    path: null,
     canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
-    data: { pageLabel: 'multiStepCheckoutSummaryPage' },
-    component: MultiStepCheckoutPageComponent
+    component: MultiStepCheckoutPageComponent,
+    data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
   }
 ];
 

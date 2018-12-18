@@ -1,10 +1,14 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
-import { StoreFinderSearchComponent } from '../store-finder-search/store-finder-search.component';
 import { WindowRef } from '../../services/window-ref';
+import { Component } from '@angular/core';
+
+@Component({
+  template: '',
+  selector: 'cx-store-finder-search'
+})
+class MockStoreFinderSearchComponent {}
 
 describe('StoreFinderHeaderComponent', () => {
   let component: StoreFinderHeaderComponent;
@@ -12,8 +16,10 @@ describe('StoreFinderHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [StoreFinderHeaderComponent, StoreFinderSearchComponent],
+      declarations: [
+        StoreFinderHeaderComponent,
+        MockStoreFinderSearchComponent
+      ],
       providers: [WindowRef]
     }).compileComponents();
   }));

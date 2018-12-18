@@ -14,3 +14,4 @@ export * from './src/user/index';
 export * from './src/auth/index';
 export * from './src/global-message/index';
 export * from './src/cms/index';
+export * from './src/smart-edit/index';

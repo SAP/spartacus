@@ -8,6 +8,15 @@ import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { GlobalMessageService } from '@spartacus/core';
+import { PipeTransform, Pipe } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 import { LoginFormComponent } from './login-form.component';
 
@@ -39,8 +48,8 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [LoginFormComponent],
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      declarations: [LoginFormComponent, MockTranslateUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },

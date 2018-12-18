@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-
-import { RoutingService, CmsService } from '@spartacus/core';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+
+import { RoutingService } from '../../routing/facade/routing.service';
+import { CmsService } from '../../cms/facade/cms.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,13 +32,16 @@ export class SmartEditService {
       .subscribe(([, routerState]) => {
         if (routerState.state && !this._cmsTicketId) {
           this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+          if (this._cmsTicketId) {
+            this.cmsService.launchInSmartEdit = true;
+          }
         }
       });
   }
 
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
-      if (cmsPage && this._cmsTicketId !== undefined) {
+      if (cmsPage && this._cmsTicketId) {
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)

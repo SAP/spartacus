@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { PageNotFoundComponent } from './404.component';
+import { UrlTranslationModule } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: '**',
+    path: null,
     component: PageNotFoundComponent,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'notFound' }
+    data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
   }
 ];
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(routes)],
+  imports: [CommonModule, RouterModule.forChild(routes), UrlTranslationModule],
   declarations: [PageNotFoundComponent],
   exports: [PageNotFoundComponent]
 })

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CheckoutService } from '@spartacus/core';
+import { RoutingService, CheckoutService } from '@spartacus/core';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router
+    private routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean> {
@@ -19,7 +19,7 @@ export class OrderConfirmationPageGuard implements CanActivate {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {
           return true;
         } else {
-          this.router.navigate(['/my-account/orders']);
+          this.routingService.go({ route: ['orders'] });
           return false;
         }
       })
