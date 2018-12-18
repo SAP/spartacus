@@ -3,7 +3,6 @@
 @import 'mixins';
 
 $cx-footer-notice-background-color: 'inverse' !default;
-$cx-footer-sm-social-border-color: 'inverse' !default;
 $cx-footer-xs-container-border-color: 'dark' !default;
 
 //footer variables
@@ -14,14 +13,6 @@ $cx-footer-nav-list-trbl-padding: 0 !default;
 $cx-footer-nav-list-xs-text-align: center !default;
 $cx-footer-nav-link-trbl-padding: 0 !default;
 $cx-footer-nav-link-hover-decoration: none !default;
-$cx-footer-nav-social-sm-border-top: 1px solid !default;
-$cx-footer-nav-social-sm-trbl-margin: 24px 0 45px 0 !default;
-$cx-footer-nav-social-sm-trbl-padding: 30px 0 0 0 !default;
-$cx-footer-nav-social-sm-text-align: center !default;
-$cx-footer-nav-social-xs-trbl-margin: 0 !default;
-$cx-footer-nav-social-title-font-case: capitalize !default;
-$cx-footer-nav-social-list-trbl-padding: 0 !default;
-$cx-footer-nav-social-item-trbl-margin: 0 ($spacer * 0.25) ($spacer * 0.25) 0 !default;
 $cx-footer-nav-notice-trbl-padding: 33px 0 32px 0 !default;
 $cx-footer-nav-notice-text-align: center !default;
 
