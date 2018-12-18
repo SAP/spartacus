@@ -9,6 +9,8 @@ import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
 import { Page } from '../model/page.model';
+import { ContentSlotData } from '../model/content-slot.model';
+
 import { DefaultPageService } from '../occ/default-page.service';
 import { CmsConfig } from '../config/cms-config';
 import { PageType } from '../../occ/occ-models/occ.models';
@@ -19,11 +21,13 @@ const MockCmsModuleConfig: CmsConfig = {
   }
 };
 
-const mockContentSlot: { uid: string; typeCode: string }[] = [
-  { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-  { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-  { uid: 'comp3', typeCode: 'NavigationComponent' }
-];
+const mockContentSlot: ContentSlotData = {
+  components: [
+    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+    { uid: 'comp3', typeCode: 'NavigationComponent' }
+  ]
+};
 
 describe('CmsService', () => {
   let store;
