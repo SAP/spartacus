@@ -34,8 +34,6 @@ describe(`OrderConfirmationPageGuard`, () => {
     routingService = TestBed.get(RoutingService);
     guard = TestBed.get(OrderConfirmationPageGuard);
     mockCheckoutService = TestBed.get(CheckoutService);
-
-    spyOn(routingService, 'go').and.stub();
   });
 
   describe(`when there is NO order details present`, () => {
