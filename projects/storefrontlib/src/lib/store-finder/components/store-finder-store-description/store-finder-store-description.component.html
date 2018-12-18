@@ -1,9 +1,6 @@
 <div
   class="container"
-  *ngIf="
-    !(isLoading$ | async) && (location$ | async) as location;
-    else: loading
-  "
+  *ngIf="!(isLoading$ | async) && (location$ | async) as location; else loading"
 >
   <div class="row">
     <article class="storeInfo col-lg-4">
