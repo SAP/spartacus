@@ -333,7 +333,7 @@ describe('UserService', () => {
   });
 
   it('should be able to add user address', () => {
-    const mockAddress = {
+    const mockAddress: Address = {
       firstName: 'John',
       lastName: 'Doe',
       titleCode: 'mr',
@@ -356,7 +356,7 @@ describe('UserService', () => {
 
   it('should be able to update user address', () => {
     const mockAddressUpdate = {
-      city: 'Test'
+      town: 'Test Town'
     };
 
     service.updateUserAddress('testUserId', '123', mockAddressUpdate);

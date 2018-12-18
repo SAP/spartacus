@@ -6,7 +6,7 @@ describe('User Payment Methods Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserPaymentMethodsReducer;
-      const action = {} as any;
+      const action = {} as fromUserPaymentMethodsAction.UserPaymentMethodsAction;
       const state = fromUserPaymentMethodsReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
