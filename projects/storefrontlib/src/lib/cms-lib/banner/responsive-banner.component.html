@@ -2,7 +2,7 @@
   fxFlex
   class="link"
   *ngIf="hasImage()"
-  [url]="component.urlLink"
+  [url]="{ url: component.urlLink } | cxTranslateUrl"
   [target]="getTarget()"
 >
   <picture [class]="getClass()">

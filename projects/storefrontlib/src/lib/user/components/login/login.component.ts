@@ -81,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         child => child.GUARD_NAME === 'AuthGuard'
       )
     ) {
-      this.routing.go(['/login']);
+      this.routing.go({ route: ['login'] });
     }
   }
 

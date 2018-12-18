@@ -6,19 +6,18 @@ import { Observable, of } from 'rxjs';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
+import { User } from '../../../occ/occ-models';
 
 class MockOccUserService {
-  loadUser(_username: string): Observable<any> {
-    return;
+  loadUser(_username: string): Observable<User> {
+    return of();
   }
 }
 
-const mockUserDetails: any = {
+const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
-  name: 'First Last',
-  type: 'Mock Type',
   uid: 'UID'
 };
 
