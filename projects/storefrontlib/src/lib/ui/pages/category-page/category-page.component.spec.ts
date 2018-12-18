@@ -7,24 +7,24 @@ import { By } from '@angular/platform-browser';
 import { CmsService, Page } from '@spartacus/core';
 import { CategoryPageComponent } from './category-page.component';
 
-@Component({ selector: 'cx-product-list-page-layout', template: '' })
-export class MockProductListPageLayoutComponent {
+@Component({ selector: 'cx-product-list-page-layout' })
+class MockProductListPageLayoutComponent {
   @Input()
   gridMode: String;
   @Input()
-  categoryCode;
+  categoryCode: any;
   @Input()
-  brandCode;
+  brandCode: any;
   @Input()
-  query;
+  query: any;
 }
 
-@Component({ selector: 'cx-category-page-layout', template: '' })
-export class MockCategoryPageLayoutComponent {
+@Component({ selector: 'cx-category-page-layout' })
+class MockCategoryPageLayoutComponent {
   @Input()
-  categoryCode;
+  categoryCode: any;
   @Input()
-  query;
+  query: any;
 }
 
 class MockActivatedRoute {
