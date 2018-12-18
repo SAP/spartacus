@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -7,12 +6,14 @@ import { tap, filter, take, switchMap } from 'rxjs/operators';
 
 import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 @Injectable()
 export class UserErrorHandlingService {
-  readonly LOGIN_URL = '/login';
-
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private routingService: RoutingService
+  ) {}
 
   public handleExpiredUserToken(
     request: HttpRequest<any>,
@@ -37,7 +38,7 @@ export class UserErrorHandlingService {
         if (token.access_token && token.refresh_token && !oldToken) {
           this.authService.refreshUserToken(token);
         } else if (!token.access_token && !token.refresh_token) {
-          this.router.navigate([this.LOGIN_URL]);
+          this.routingService.go({ route: ['login'] });
         }
         oldToken = oldToken || token;
       }),

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { OrderConfirmationPageLayoutModule } from '../../layout/order-confirmation-page-layout/order-confirmation-page-layout.module';
@@ -10,10 +10,10 @@ import { AuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: 'orderConfirmation',
+    path: null,
     canActivate: [AuthGuard, CmsPageGuards, OrderConfirmationPageGuard],
-    data: { pageLabel: 'orderConfirmationPage' },
-    component: OrderConfirmationPageComponent
+    component: OrderConfirmationPageComponent,
+    data: { pageLabel: 'orderConfirmationPage', cxPath: 'orderConfirmation' }
   }
 ];
 
