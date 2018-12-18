@@ -14,7 +14,7 @@ import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 import { Card } from '../../../../../ui/components/card/card.component';
 
 import { CheckoutService } from '../../../../facade/checkout.service';
-import { UserService } from '@spartacus/core';
+import { UserService, Country } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-form',
@@ -154,7 +154,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     return combineLatest(this.countries$, this.shippingAddress$).pipe(
       map(([countries, address]) => {
         return !!countries.filter(
-          country => country.isocode === address.country.isocode
+          (country: Country): boolean =>
+            country.isocode === address.country.isocode
         ).length;
       })
     );

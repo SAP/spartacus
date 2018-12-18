@@ -6,7 +6,7 @@ import { BootstrapModule } from '../../../../../bootstrap.module';
 import { CardModule } from '../../../../../ui/components/card/card.module';
 
 import { PaymentFormComponent } from './payment-form.component';
-import { BillingAddressFormComponent } from './../billing-address-form/billing-address-form.component';
+import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
 
 @NgModule({
   imports: [
@@ -14,9 +14,10 @@ import { BillingAddressFormComponent } from './../billing-address-form/billing-a
     ReactiveFormsModule,
     NgSelectModule,
     BootstrapModule,
-    CardModule
+    CardModule,
+    BillingAddressFormModule
   ],
-  declarations: [PaymentFormComponent, BillingAddressFormComponent],
+  declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
   exports: [PaymentFormComponent]
 })

@@ -108,7 +108,10 @@ export class PaymentMethodComponent implements OnInit {
   }
 
   addNewPaymentMethod(paymentDetails) {
-    this.addPaymentInfo.emit({ payload: paymentDetails, newPayment: true });
+    this.addPaymentInfo.emit({
+      payload: { payment: paymentDetails },
+      newPayment: true
+    });
   }
 
   showNewPaymentForm() {

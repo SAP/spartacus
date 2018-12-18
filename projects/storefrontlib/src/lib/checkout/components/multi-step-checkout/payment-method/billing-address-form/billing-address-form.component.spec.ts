@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import * as fromCheckout from '../../../../store';
 import * as fromCart from '../../../../../cart/store';
-import * as fromUser from '../../../../../user/store';
+import * as fromUser from '@spartacus/core';
 
 import { StoreModule, Store } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
@@ -12,11 +12,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { BehaviorSubject } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CheckoutService } from '../../../../services';
-import { CartService, CartDataService } from '../../../../../cart/services';
 import { BillingAddressFormModule } from './billing-address-form.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { CheckoutService } from '../../../../facade/checkout.service';
+import { CartDataService } from '../../../../../cart/facade/cart-data.service';
+import { CartService } from '../../../../../cart/facade/cart.service';
 
 describe('BillingAddressFormComponent', () => {
   let store: Store<fromCheckout.CheckoutState>;

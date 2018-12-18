@@ -15,7 +15,6 @@ import { BillingAddressFormComponent } from './billing-address-form.component';
     NgSelectModule
   ],
   declarations: [BillingAddressFormComponent],
-  entryComponents: [],
   exports: [BillingAddressFormComponent]
 })
 export class BillingAddressFormModule {}
