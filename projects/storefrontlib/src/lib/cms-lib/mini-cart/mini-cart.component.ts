@@ -35,7 +35,7 @@ export class MiniCartComponent extends AbstractCmsComponent {
     this.showProductCount = +this.component.shownProductCount;
     this.banner = this.component.lightboxBannerComponent;
 
-    this.cart$ = this.cartService.getActiveCart();
+    this.cart$ = this.cartService.getActive();
     this.entries$ = this.cartService.getEntries();
 
     super.fetchData();

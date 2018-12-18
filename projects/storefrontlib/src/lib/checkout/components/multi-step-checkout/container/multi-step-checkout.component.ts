@@ -51,14 +51,14 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   ) {}
 
   private refreshCart() {
-    this.cartService.loadCartDetails();
+    this.cartService.loadDetails();
   }
 
   ngOnInit() {
     if (!this.cartDataService.getDetails) {
-      this.cartService.loadCartDetails();
+      this.cartService.loadDetails();
     }
-    this.cart$ = this.cartService.getActiveCart();
+    this.cart$ = this.cartService.getActive();
     this.processSteps();
   }
 

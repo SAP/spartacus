@@ -9,14 +9,14 @@ import { CartPageLayoutComponent } from './cart-page-layout.component';
 import { Cart } from '@spartacus/core';
 
 class MockCartService {
-  getActiveCart(): Observable<Cart> {
+  getActive(): Observable<Cart> {
     return of();
   }
   getCartMergeComplete(): Observable<Boolean> {
     return of();
   }
-  removeCartEntry() {}
-  loadCartDetails() {}
+  removeEntry() {}
+  loadDetails() {}
 }
 
 @Component({
@@ -62,13 +62,13 @@ describe('CartPageLayoutComponent', () => {
   });
 
   it('should call ngOnInit', () => {
-    spyOn(service, 'getActiveCart').and.returnValue(of('mockCart'));
+    spyOn(service, 'getActive').and.returnValue(of('mockCart'));
     spyOn(service, 'getCartMergeComplete').and.returnValue(of(true));
-    spyOn(service, 'loadCartDetails').and.stub();
+    spyOn(service, 'loadDetails').and.stub();
 
     component.ngOnInit();
 
-    expect(service.loadCartDetails).toHaveBeenCalled();
+    expect(service.loadDetails).toHaveBeenCalled();
     let result;
     component.cart$
       .subscribe(cart => {

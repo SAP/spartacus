@@ -50,7 +50,7 @@ export class AddToCartComponent implements OnInit {
       return;
     }
     this.openModal();
-    this.cartService.addCartEntry(this.productCode, this.quantity);
+    this.cartService.addEntry(this.productCode, this.quantity);
   }
 
   private openModal() {
@@ -59,7 +59,7 @@ export class AddToCartComponent implements OnInit {
       size: 'lg'
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
-    this.modalInstance.cart$ = this.cartService.getActiveCart();
+    this.modalInstance.cart$ = this.cartService.getActive();
     this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
   }

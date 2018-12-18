@@ -19,8 +19,8 @@ class MockNgbActiveModal {
 }
 
 class MockCartService {
-  updateCartEntry(_entryNumber, _updatedQuantity) {}
-  removeCartEntry(_entry) {}
+  updateEntry(_entryNumber, _updatedQuantity) {}
+  removeEntry(_entry) {}
 }
 
 @Component({

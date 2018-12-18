@@ -39,11 +39,11 @@ describe('Cart effect', () => {
     entryEffects = TestBed.get(fromEffects.CartEntryEffects);
     cartService = TestBed.get(OccCartService);
 
-    spyOn(cartService, 'addCartEntry').and.returnValue(
+    spyOn(cartService, 'addEntry').and.returnValue(
       of({ entry: 'testEntry' })
     );
-    spyOn(cartService, 'removeCartEntry').and.returnValue(of({}));
-    spyOn(cartService, 'updateCartEntry').and.returnValue(of({}));
+    spyOn(cartService, 'removeEntry').and.returnValue(of({}));
+    spyOn(cartService, 'updateEntry').and.returnValue(of({}));
   });
 
   describe('addEntry$', () => {

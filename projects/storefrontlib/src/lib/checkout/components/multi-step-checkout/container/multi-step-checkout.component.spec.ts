@@ -133,10 +133,10 @@ describe('MultiStepCheckoutComponent', () => {
   beforeEach(async(() => {
     mockCartService = {
       activeCart$: new BehaviorSubject({}),
-      getActiveCart(): BehaviorSubject<{}> {
+      getActive(): BehaviorSubject<{}> {
         return this.activeCart$;
       },
-      loadCartDetails: createSpy()
+      loadDetails: createSpy()
     };
     mockCartDataService = {
       getDetails: false
@@ -183,10 +183,10 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call ngOnInit() before process steps', () => {
     const mockCartData = {};
-    mockCartService.getActiveCart().next(mockCartData);
+    mockCartService.getActive().next(mockCartData);
     component.ngOnInit();
     expect(component.step).toEqual(1);
-    expect(mockCartService.loadCartDetails).toHaveBeenCalled();
+    expect(mockCartService.loadDetails).toHaveBeenCalled();
   });
 
   it('should call processSteps() to process step 1: set delivery address', () => {
@@ -373,7 +373,7 @@ describe('MultiStepCheckoutComponent', () => {
       subTotal: { formattedValue: 11119 }
     };
 
-    mockCartService.getActiveCart().next(mockCartData);
+    mockCartService.getActive().next(mockCartData);
     fixture.detectChanges();
 
     const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))

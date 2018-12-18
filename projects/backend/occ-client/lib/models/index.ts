@@ -6,6 +6,7 @@
 
 import * as msRest from 'ms-rest-js';
 
+
 /**
  * @interface
  * An interface representing Country.

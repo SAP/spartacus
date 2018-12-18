@@ -9,9 +9,9 @@ import { ComponentsModule } from '../../../ui/components/components.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {
-  removeCartEntry() {}
-  loadCartDetails() {}
-  updateCartEntry() {}
+  removeEntry() {}
+  loadDetails() {}
+  updateEntry() {}
 }
 
 const mockData = [

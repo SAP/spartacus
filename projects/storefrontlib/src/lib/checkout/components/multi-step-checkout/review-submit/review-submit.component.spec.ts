@@ -86,7 +86,7 @@ describe('ReviewSubmitComponent', () => {
     mockCartService = {
       cart$: new BehaviorSubject(null),
       entries$: new BehaviorSubject(null),
-      getActiveCart(): BehaviorSubject<null> {
+      getActive(): BehaviorSubject<null> {
         return this.cart$;
       },
       getEntries(): BehaviorSubject<null> {
@@ -124,7 +124,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
-    mockCartService.getActiveCart().next({});
+    mockCartService.getActive().next({});
     mockCartService.getEntries().next([]);
     spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
       of('mockMode')
@@ -142,7 +142,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get delivery mode if it does not exists', done => {
-    mockCartService.getActiveCart().next({});
+    mockCartService.getActive().next({});
     mockCartService.getEntries().next([]);
     spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
       of(null)
@@ -197,7 +197,7 @@ describe('ReviewSubmitComponent', () => {
         .textContent;
 
     beforeEach(() => {
-      mockCartService.getActiveCart().next(mockCart);
+      mockCartService.getActive().next(mockCart);
       mockCartService.getEntries().next([]);
       fixture.detectChanges();
     });
@@ -268,7 +268,7 @@ describe('ReviewSubmitComponent', () => {
       fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
-      mockCartService.getActiveCart().next(mockCart);
+      mockCartService.getActive().next(mockCart);
       mockCartService.getEntries().next(mockEntries);
       fixture.detectChanges();
       expect(getCartItemList().items).toEqual(['cart entry 1', 'cart entry 2']);
@@ -276,7 +276,7 @@ describe('ReviewSubmitComponent', () => {
     });
 
     it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
-      mockCartService.getActiveCart().next(mockCart);
+      mockCartService.getActive().next(mockCart);
       mockCartService.getEntries().next(mockEntries);
 
       fixture.detectChanges();

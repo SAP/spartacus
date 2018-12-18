@@ -15,7 +15,7 @@ const CART_NOT_CREATED = Object.freeze({});
 const mockRouter = { navigate: () => {} };
 
 class CartServiceStub {
-  getActiveCart(): Observable<Cart> {
+  getActive(): Observable<Cart> {
     return of();
   }
   getLoaded(): Observable<boolean> {
@@ -64,7 +64,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActiveCart').and.returnValue(
+          spyOn(cartService, 'getActive').and.returnValue(
             of(CART_NOT_CREATED)
           );
         });
@@ -89,7 +89,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActiveCart').and.returnValue(of(CART_EMPTY));
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_EMPTY));
         });
 
         it('then Router should NOT redirect', () => {
@@ -112,7 +112,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActiveCart').and.returnValue(
+          spyOn(cartService, 'getActive').and.returnValue(
             of(CART_NOT_EMPTY)
           );
         });
@@ -143,7 +143,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActiveCart').and.returnValue(
+          spyOn(cartService, 'getActive').and.returnValue(
             of(CART_NOT_CREATED)
           );
         });
@@ -170,7 +170,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActiveCart').and.returnValue(of(CART_EMPTY));
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_EMPTY));
         });
 
         it('then Router should redirect to main page', () => {
@@ -195,7 +195,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          spyOn(cartService, 'getActiveCart').and.returnValue(
+          spyOn(cartService, 'getActive').and.returnValue(
             of(CART_NOT_EMPTY)
           );
         });
