@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards';
 import { StoreFinderPageComponent } from './store-finder-page.component';
@@ -15,39 +15,33 @@ import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/comp
 
 const routes: Routes = [
   {
-    path: 'store-finder',
+    path: null,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage' },
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinder' },
     component: StoreFinderPageComponent,
     children: [
       {
-        path: 'find-stores',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'searchResults' },
         component: StoreFinderSearchResultComponent
       },
       {
-        path: 'view-all-stores',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'allStores' },
         component: StoreFinderStoresCountComponent
       },
       {
-        path: 'country/:country/region/:region',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'listStores' },
         component: StoreFinderGridComponent
       },
       {
-        path: 'country/:country',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderGridComponent
-      },
-      {
-        path: 'country/:country/region/:region/:store',
-        canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'storeDescription' },
         component: StoreFinderStoreDescriptionComponent
       },
       {
