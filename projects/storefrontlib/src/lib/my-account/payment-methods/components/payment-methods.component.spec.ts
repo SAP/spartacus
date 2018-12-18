@@ -1,12 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
+import { Component, DebugElement } from '@angular/core';
 
-import { UserService } from '../../../user/facade/user.service';
+import { PaymentDetails, User } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+
+import { UserService } from '@spartacus/core';
+import { CardComponent } from './../../../ui/components/card/card.component';
 
 import { PaymentMethodsComponent } from './payment-methods.component';
-import { Component, DebugElement } from '@angular/core';
-import { CardComponent } from './../../../ui/components/card/card.component';
 
 @Component({
   template: '<div>Spinner</div>',
@@ -14,7 +17,7 @@ import { CardComponent } from './../../../ui/components/card/card.component';
 })
 class MockCxSpinnerComponent {}
 
-const mockPayment = {
+const mockPayment: PaymentDetails = {
   defaultPayment: true,
   accountHolderName: 'John Doe',
   cardNumber: '4111 1111 1111 1111',
@@ -23,32 +26,35 @@ const mockPayment = {
   id: '2'
 };
 
+class MockUserService {
+  getPaymentMethodsLoading(): Observable<boolean> {
+    return of();
+  }
+  getPaymentMethods(): Observable<PaymentDetails[]> {
+    return of([mockPayment]);
+  }
+  loadPaymentMethods(_userId: string): void {}
+  deletePaymentMethod(_userId: string, _paymentMethodId: string): void {}
+  setPaymentMethodAsDefault(_userId: string, _paymentMethodId: string): void {}
+  get(): Observable<User> {
+    return of({ uid: 'userId' } as User);
+  }
+}
+
 describe('PaymentMethodsComponent', () => {
   let component: PaymentMethodsComponent;
   let fixture: ComponentFixture<PaymentMethodsComponent>;
-  let mockUserService;
+  let userService: UserService;
   let el: DebugElement;
-  const loading = new BehaviorSubject<boolean>(true);
-  const paymentMethods = new BehaviorSubject<any>([mockPayment]);
-  const user = new BehaviorSubject<any>({ uid: 'userId' });
 
   beforeEach(async(() => {
-    mockUserService = {
-      paymentMethodsLoading$: loading.asObservable(),
-      paymentMethods$: paymentMethods.asObservable(),
-      loadPaymentMethods: jasmine.createSpy(),
-      deleteUserPaymentMethod: jasmine.createSpy(),
-      setPaymentMethodAsDefault: jasmine.createSpy(),
-      user$: user.asObservable()
-    };
-
     TestBed.configureTestingModule({
       declarations: [
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
         CardComponent
       ],
-      providers: [{ provide: UserService, useValue: mockUserService }]
+      providers: [{ provide: UserService, useClass: MockUserService }]
     }).compileComponents();
   }));
 
@@ -56,6 +62,7 @@ describe('PaymentMethodsComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    userService = TestBed.get(UserService);
   });
 
   it('should create', () => {
@@ -80,6 +87,8 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show spinner if payment methods are loading', () => {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(true));
+
     function getSpinner(elem: DebugElement) {
       return elem.query(By.css('cx-spinner'));
     }
@@ -89,49 +98,52 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show payment methods after loading', () => {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
     function getCard(elem: DebugElement) {
       return elem.query(By.css('cx-card'));
     }
     component.ngOnInit();
-    loading.next(false);
     fixture.detectChanges();
     expect(getCard(el)).toBeTruthy();
   });
 
   it('should render all payment methods', () => {
-    function getCards(elem: DebugElement) {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+    spyOn(userService, 'getPaymentMethods').and.returnValue(
+      of([mockPayment, mockPayment])
+    );
+
+    function getCards(elem: DebugElement): DebugElement[] {
       return elem.queryAll(By.css('cx-card'));
     }
     component.ngOnInit();
-    loading.next(false);
-    paymentMethods.next([mockPayment, mockPayment]);
     fixture.detectChanges();
     expect(getCards(el).length).toEqual(2);
   });
 
   it('should render correct content in card', () => {
-    function getCardHeader(elem: DebugElement) {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+    spyOn(userService, 'getPaymentMethods').and.returnValue(
+      of([mockPayment, { ...mockPayment, defaultPayment: false }])
+    );
+
+    function getCardHeader(elem: DebugElement): string {
       return elem.query(By.css('cx-card .card-header')).nativeElement
         .textContent;
     }
-    function getTextBold(elem: DebugElement) {
+    function getTextBold(elem: DebugElement): string {
       return elem.query(By.css('cx-card .card__label--bold')).nativeElement
         .textContent;
     }
-    function getCardNumber(elem: DebugElement) {
+    function getCardNumber(elem: DebugElement): string {
       return elem.queryAll(By.css('cx-card .card__label'))[0].nativeElement
         .textContent;
     }
-    function getExpiration(elem: DebugElement) {
+    function getExpiration(elem: DebugElement): string {
       return elem.queryAll(By.css('cx-card .card__label'))[1].nativeElement
         .textContent;
     }
     component.ngOnInit();
-    loading.next(false);
-    paymentMethods.next([
-      mockPayment,
-      { ...mockPayment, defaultPayment: false }
-    ]);
     fixture.detectChanges();
     expect(getCardHeader(el)).toContain('DEFAULT');
     expect(getTextBold(el)).toContain(mockPayment.accountHolderName);
@@ -142,18 +154,19 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should show confirm on delete', () => {
-    function getDeleteMsg(elem: DebugElement) {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+
+    function getDeleteMsg(elem: DebugElement): string {
       return elem.query(By.css('cx-card .cx-card-body__delete-msg'))
         .nativeElement.textContent;
     }
-    function getDeleteButton(elem: DebugElement) {
+    function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
     }
-    function getCancelButton(elem: DebugElement) {
+    function getCancelButton(elem: DebugElement): DebugElement {
       return elem.query(By.css('cx-card .btn-secondary'));
     }
     component.ngOnInit();
-    loading.next(false);
     fixture.detectChanges();
     getDeleteButton(el).click();
     fixture.detectChanges();
@@ -166,38 +179,41 @@ describe('PaymentMethodsComponent', () => {
   });
 
   it('should successfully delete card', () => {
-    function getDeleteButton(elem: DebugElement) {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+    spyOn(userService, 'deletePaymentMethod').and.stub();
+
+    function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;
     }
-    function getConfirmButton(elem: DebugElement) {
+    function getConfirmButton(elem: DebugElement): DebugElement {
       return elem.query(By.css('cx-card .btn-primary'));
     }
     component.ngOnInit();
-    loading.next(false);
     fixture.detectChanges();
     getDeleteButton(el).click();
     fixture.detectChanges();
     getConfirmButton(el).nativeElement.click();
     fixture.detectChanges();
-    expect(mockUserService.deleteUserPaymentMethod).toHaveBeenCalledWith(
+    expect(userService.deletePaymentMethod).toHaveBeenCalledWith(
       'userId',
       mockPayment.id
     );
   });
 
   it('should successfully set card as default', () => {
-    function getSetDefaultButton(elem: DebugElement) {
+    spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
+    spyOn(userService, 'getPaymentMethods').and.returnValue(
+      of([mockPayment, { ...mockPayment, defaultPayment: false }])
+    );
+    spyOn(userService, 'setPaymentMethodAsDefault').and.stub();
+
+    function getSetDefaultButton(elem: DebugElement): any {
       return elem.queryAll(By.css('cx-card .card-link'))[1].nativeElement;
     }
     component.ngOnInit();
-    loading.next(false);
-    paymentMethods.next([
-      mockPayment,
-      { ...mockPayment, defaultPayment: false }
-    ]);
     fixture.detectChanges();
     getSetDefaultButton(el).click();
-    expect(mockUserService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
+    expect(userService.setPaymentMethodAsDefault).toHaveBeenCalledWith(
       'userId',
       mockPayment.id
     );

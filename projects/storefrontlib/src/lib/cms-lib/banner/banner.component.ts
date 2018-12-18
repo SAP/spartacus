@@ -5,8 +5,7 @@ import {
 } from '@angular/core';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsService, CmsConfig } from '@spartacus/core';
 
 @Component({
   selector: 'cx-banner',
@@ -18,12 +17,12 @@ export class BannerComponent extends AbstractCmsComponent {
   constructor(
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected config: CmsModuleConfig
+    protected config: CmsConfig
   ) {
     super(cmsService, cd);
   }
 
-  hasImage() {
+  hasImage(): boolean {
     return !!this.component && !!this.component && !!this.component.media;
   }
 
@@ -36,11 +35,11 @@ export class BannerComponent extends AbstractCmsComponent {
     return '_self';
   }
 
-  getAltText() {
+  getAltText(): string {
     return this.hasImage() ? this.component.media.altText : '';
   }
 
-  public getBaseUrl() {
+  public getBaseUrl(): string {
     return this.config.server.baseUrl || '';
   }
 }

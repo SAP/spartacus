@@ -6,8 +6,7 @@ import { AuthService, RoutingService } from '@spartacus/core';
 import { Subscription, of } from 'rxjs';
 import { take, switchMap } from 'rxjs/operators';
 
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../../global-message/models/message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
@@ -33,7 +32,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         switchMap(data => {
           if (data && data.access_token) {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-            return this.routing.redirectUrl$.pipe(take(1));
+            return this.routing.getRedirectUrl().pipe(take(1));
           }
           return of();
         })

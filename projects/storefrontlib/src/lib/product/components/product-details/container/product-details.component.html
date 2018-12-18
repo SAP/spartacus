@@ -1,130 +1,69 @@
 <ng-container *ngIf="(product$ | async) as product">
   <ng-container *cxOutlet="outlets.PAGE">
     <ng-container *cxOutlet="outlets.SUMMARY">
-      <cx-product-summary class="container" [product]="product">
+      <cx-product-summary
+        class="container"
+        [product]="product"
+        (openReview)="openReview()"
+      >
         <cx-product-images [product]="product"></cx-product-images>
       </cx-product-summary>
     </ng-container>
 
     <ng-container *cxOutlet="outlets.TAB">
-      <div class="cx-product-details__tabset" #tabSetWrapper>
-        <ngb-tabset justify="center" #tabSet>
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              <div class="cx-product-details__tab-title">Product Details</div>
-            </ng-template>
-            <ng-template ngbTabContent>
-              <div class="cx-product-details__tab-section">
-                <ng-container *cxOutlet="outlets.DESCRIPTION">
-                  <div class="container">
-                    <p [innerHTML]="product?.description"></p>
-                  </div>
-                </ng-container>
-              </div>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              <div class="cx-product-details__tab-title">Specs</div>
-            </ng-template>
-            <ng-template ngbTabContent>
-              <div class="cx-product-details__tab-section">
-                <ng-container *cxOutlet="outlets.SPECIFICATIONS">
-                  <div class="container">
-                    <cx-product-attributes
-                      [product]="product"
-                    ></cx-product-attributes>
-                  </div>
-                </ng-container>
-              </div>
-            </ng-template>
-          </ngb-tab>
+      <div class="details">
+        <ng-container *cxOutlet="outlets.DESCRIPTION">
+          <h3 #descriptionHeader (click)="select($event, description)">
+            Product Details
+          </h3>
+          <div #description>
+            <div class="container" [innerHTML]="product?.description"></div>
+          </div>
+        </ng-container>
 
-          <ngb-tab id="reviews">
-            <ng-template ngbTabTitle>
-              <div class="cx-product-details__tab-title">
-                Reviews ({{ product?.numberOfReviews }})
-              </div>
-            </ng-template>
-            <ng-template ngbTabContent>
-              <div class="cx-product-details__tab-section">
-                <ng-container *cxOutlet="outlets.REVIEWS">
-                  <div class="container">
-                    <cx-product-reviews
-                      [(isWritingReview)]="isWritingReview"
-                      [product]="product"
-                    ></cx-product-reviews>
-                  </div>
-                </ng-container>
-              </div>
-            </ng-template>
-          </ngb-tab>
-          <ngb-tab>
-            <ng-template ngbTabTitle>
-              <div class="cx-product-details__tab-title">Shipping</div>
-            </ng-template>
-            <ng-template ngbTabContent>
-              <div class="cx-product-details__tab-section">
-                <ng-container *cxOutlet="outlets.SHIPPING">
-                  <div class="container">
-                    <ng-container
-                      cxComponentWrapper
-                      componentType="CMSTabParagraphComponent"
-                      componentUid="deliveryTab"
-                    ></ng-container>
-                    <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
-                  </div>
-                </ng-container>
-              </div>
-            </ng-template>
-          </ngb-tab>
-        </ngb-tabset>
-      </div>
+        <ng-container *cxOutlet="outlets.SPECIFICATIONS">
+          <h3 (click)="select($event, specifications)">Specs</h3>
+          <div #specifications>
+            <div class="container">
+              <h2>Specs</h2>
+              <cx-product-attributes
+                class="container"
+                [product]="product"
+              ></cx-product-attributes>
+            </div>
+          </div>
+        </ng-container>
 
-      <!-- Mobile accordion -->
-      <div class="cx-product-details__tabset-mobile">
-        <ngb-accordion #acc="ngbAccordion">
-          <ngb-panel id="toggle-1" title="Product Details">
-            <ng-template ngbPanelContent>
-              <ng-container *cxOutlet="outlets.DESCRIPTION">
-                <p [innerHTML]="product?.description"></p>
-              </ng-container>
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel id="toggle-2" title="Specs">
-            <ng-template ngbPanelContent>
-              <ng-container *cxOutlet="outlets.SPECIFICATIONS">
-                <cx-product-attributes
-                  [product]="product"
-                ></cx-product-attributes>
-              </ng-container>
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel id="toggle-3" title="Reviews">
-            <ng-template ngbPanelContent>
-              <ng-container *cxOutlet="outlets.REVIEWS">
-                <cx-product-reviews
-                  [(isWritingReview)]="isWritingReview"
-                  [product]="product"
-                ></cx-product-reviews>
-              </ng-container>
-            </ng-template>
-          </ngb-panel>
-          <ngb-panel id="toggle-4" title="Shipping">
-            <ng-template ngbPanelContent>
-              <ng-container *cxOutlet="outlets.SHIPPING">
-                <div class="container">
-                  <div
-                    cxComponentWrapper
-                    componentType="CMSTabParagraphComponent"
-                    componentUid="deliveryTab"
-                  ></div>
-                  <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
-                </div>
-              </ng-container>
-            </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+        <ng-container *cxOutlet="outlets.REVIEWS">
+          <h3 #reviewHeader (click)="select($event, reviews)">
+            Reviews ({{ product?.numberOfReviews }})
+          </h3>
+          <div #reviews>
+            <div class="container">
+              <h2>Reviews ({{ product?.numberOfReviews }})</h2>
+              <cx-product-reviews
+                class="container"
+                [(isWritingReview)]="isWritingReview"
+                [product]="product"
+              ></cx-product-reviews>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *cxOutlet="outlets.SHIPPING">
+          <h3 (click)="select($event, shipping)">Shipping</h3>
+          <div #shipping>
+            <div class="container">
+              <h2>Shipping</h2>
+              <ng-container
+                cxComponentWrapper
+                componentType="CMSTabParagraphComponent"
+                componentUid="deliveryTab"
+              ></ng-container>
+              <cx-dynamic-slot position="Tabs"></cx-dynamic-slot>
+            </div>
+          </div>
+        </ng-container>
       </div>
     </ng-container> </ng-container
 ></ng-container>

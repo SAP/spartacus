@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { UserModule } from '../../../user/user.module';
+import { UserComponentModule } from '../../../user/user.module';
 import { ResetPasswordLayoutComponent } from './reset-password-page-layout.component';
 
 @NgModule({
-  imports: [UserModule],
+  imports: [UserComponentModule],
   declarations: [ResetPasswordLayoutComponent],
   exports: [ResetPasswordLayoutComponent]
 })

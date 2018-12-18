@@ -21,7 +21,8 @@
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
-              "projects/storefrontapp/src/manifest.json"
+              "projects/storefrontapp/src/manifest.json",
+              "projects/storefrontapp/src/webApplicationInjector.js"
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {

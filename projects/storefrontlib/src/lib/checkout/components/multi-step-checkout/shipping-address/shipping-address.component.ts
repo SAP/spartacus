@@ -7,13 +7,15 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { RoutingService, Address } from '@spartacus/core';
+import {
+  RoutingService,
+  Address,
+  CartDataService,
+  UserService
+} from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -40,24 +42,21 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.addressesLoading$;
+    this.isLoading$ = this.userService.getAddressesLoading();
+    this.userService.loadAddresses(this.cartData.userId);
 
-    this.existingAddresses$ = this.userService.addresses$.pipe(
+    this.existingAddresses$ = this.userService.getAddresses().pipe(
       tap(addresses => {
-        if (addresses.length === 0) {
-          this.userService.loadAddresses(this.cartData.userId);
-        } else {
-          if (this.cards.length === 0) {
-            addresses.forEach(address => {
-              const card = this.getCardContent(address);
-              if (
-                this.selectedAddress &&
-                this.selectedAddress.id === address.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          addresses.forEach(address => {
+            const card = this.getCardContent(address);
+            if (
+              this.selectedAddress &&
+              this.selectedAddress.id === address.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );
