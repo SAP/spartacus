@@ -99,7 +99,16 @@ function createRecursiveDirectory(filePath: string): string {
 
 function transpileSass(buffer: string): any {
   const css = sass.renderSync({
-    data: buffer
+    data: buffer,
+    includePaths: ['./node_modules/@spartacus/styles/scss'],
+    importer: function(url, prev, _done) {
+      if (url[0] === '~') {
+        const baseUrl = prev.split('@spartacus')[0];
+        return { file: baseUrl.concat('', url.substr(1)) };
+      } else {
+        return null;
+      }
+    }
   });
 
   return css.css;
