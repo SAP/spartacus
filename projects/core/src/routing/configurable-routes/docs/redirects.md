@@ -15,7 +15,7 @@ const routes: Routes = [
         data: { cxRedirectTo: 'product' }
 
         /* this will be replaced by the path from config (in application's bootstrap time) */
-        redirectTo: null, 
+        redirectTo: null,
 
         /* ... */
     }
@@ -30,7 +30,7 @@ Angular requires any defined `redirectTo` in compilation time.
 
 When both `cxPath` and `cxRedirectTo` are defined, then the route won't be translated.
 
-More about `cxPath` in [Configure routes](./configure-routes.md).
+More about `cxPath` in [Configure routes](./routes-configuration.md).
 
 ## Subjects of change
 

@@ -8,19 +8,19 @@ In a Single Page Application, URLs are intercepted by the application logic so t
 
 While the Angular router contains a rich set of features and configuration options, Spartacus contains components that are intended to run without any configuration by default. Moreover, configuration is intended to be runtime configurable by business users.
 
-This is where configurable routes comes in to play; every route in Spartacus is configurable and can be translated. 
+This is where configurable routes comes in to play - every route in Spartacus is configurable and can be translated.
 
 ## Features
 
 The following features are supported:
 
-- [Configure routes](./docs/configure-routes.md)
+- [Routes configuration](./docs/routes-configuration.md)
 - [Configurable router links](./docs/configurable-router-links.md)
-- [Disable standard routes](./docs/disable-standard-routes.md)
-- [Add route parameters](./docs/add-route-parameters.md)
-- [Aliases](./docs/route-aliases.md)
+- [Disabling standard routes](./docs/disabling-standard-routes.md)
+- [Additional route parameters](./docs/additional-route-parameters.md)
+- [Route aliases](./docs/route-aliases.md)
 - [Redirects](./docs/redirects.md)
-- [Load configuration from backend](./docs/load-configuration-from-backend.md)
+- [Loading configuration from backend](./docs/loading-configuration-from-backend.md)
 
 ## Future outlook
 

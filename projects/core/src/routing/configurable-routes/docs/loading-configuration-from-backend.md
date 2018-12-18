@@ -2,7 +2,7 @@
 
 ---
 
-# Load configuration from backend
+# Loading configuration from backend
 
 When `fetch` is set to `true` in `routesConfig`, app will wait with bootstraping until translations of routes are succesfully fetched from backend's URL `<baseUrl>/routes-config` (**NOTE**: this endpoint is not available in the backend yet). Example:
 
@@ -11,7 +11,7 @@ ConfigModule.withConfig({
     server: {
         baseUrl: '<base-server-url>'
     },
-    routesConfig: { 
+    routesConfig: {
         fetch: true // will fetch translations from '<base-server-url>/routes-config'
     }
 })
@@ -87,6 +87,6 @@ When request for translations fails after 2 automatic retries, then a fatal erro
 
 - [#662](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/662) a better way of handling the failure is under consideration
 
-## LIMITATIONS
+## Limitations
 
 - Endpoint with translations of routes is not configurable. It's always `<baseUrl>/routes-config`

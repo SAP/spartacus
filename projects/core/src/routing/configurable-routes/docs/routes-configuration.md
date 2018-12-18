@@ -2,7 +2,7 @@
 
 ---
 
-# Configure routes
+# Routes configuration
 
 ## Config
 
@@ -17,7 +17,7 @@ ConfigModule.withConfig({
 
 ### Predefined config
 
-The routing in Spartacus is intended to run without any configuration by default, thanks to the predefined config (which can be found in [`default-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts)).
+The routing in Spartacus is intended to run without any configuration by default, thanks to the predefined config (which can be found in [`default-storefront-routes-translations.ts`](../config/default-storefront-routes-translations.ts)).
 
 ```typescript
 // default-storefront-routes-translations.ts

@@ -5,7 +5,7 @@
 
 # Configurable router links <!-- omit in toc -->
 
-While the [router configuration](./configure-routes.md) allows the application to listen to different routes, the links to those routes must take the route configuration into account as well.
+While the [router configuration](./routes-configuration.md) allows the application to listen to different routes, the links to those routes must take the route configuration into account as well.
 
 Configured router links can be automatically generated in HTML templates using `cxTranslateUrl` pipe. It allows to:
 
@@ -282,7 +282,7 @@ result:
 
 ### Predefined parameters mapping
 
-Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-translations.ts`](./config/default-storefront-routes-translations.ts).
+Some Storefront's routes already have predefined `paramsMapping`. They can be found in [`default-storefront-routes-translations.ts`](../config/default-storefront-routes-translations.ts).
 
 ```typescript
 // default-storefront-routes-translations.ts
