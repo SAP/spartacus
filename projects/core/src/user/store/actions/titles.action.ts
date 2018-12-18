@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Title } from '../../../occ/occ-models';
 
 export const LOAD_TITLES = '[User] Load Tiltes';
 export const LOAD_TITLES_FAIL = '[User] Load Titles Fail';
@@ -16,7 +17,7 @@ export class LoadTitlesFail implements Action {
 
 export class LoadTitlesSuccess implements Action {
   readonly type = LOAD_TITLES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Title[]) {}
 }
 
 export type TitlesAction = LoadTitles | LoadTitlesFail | LoadTitlesSuccess;
