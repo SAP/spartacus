@@ -5,6 +5,7 @@ import { AppPage } from '../app.po';
 import { OrderConfirmationPage } from './order-confirmation.po';
 import { ShippingAddress } from './shipping-address.po';
 import { PaymentMethod } from './payment-method.po';
+import { TermsAndConditionsPage } from '../terms-and-conditions.po';
 export class MultiStepCheckoutPage extends AppPage {
   readonly page: ElementFinder = element(
     by.tagName('cx-multi-step-checkout-page')
@@ -33,6 +34,7 @@ export class MultiStepCheckoutPage extends AppPage {
 
   async openTermsAndConditions() {
     await this.termsAndConditions.click();
+    return new TermsAndConditionsPage();
   }
 
   async placeOrder() {
