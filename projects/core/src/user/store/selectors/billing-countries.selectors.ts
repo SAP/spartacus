@@ -1,10 +1,10 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 import { UserState } from '../user-state';
-import * as fromFeature from '../reducers/index';
 import * as fromReducer from '../reducers/billing-countries.reducer';
+import { getUserState } from '../reducers/index';
 
 export const getBillingCountriesState = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.billingCountries
 );
 
