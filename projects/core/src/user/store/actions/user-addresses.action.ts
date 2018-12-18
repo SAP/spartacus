@@ -35,7 +35,7 @@ export class LoadUserAddressesSuccess implements Action {
 // Adding address actions
 export class AddUserAddress implements Action {
   readonly type = ADD_USER_ADDRESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { userId: string; address: Address }) {}
 }
 
 export class AddUserAddressFail implements Action {
@@ -51,7 +51,9 @@ export class AddUserAddressSuccess implements Action {
 // Updating address actions
 export class UpdateUserAddress implements Action {
   readonly type = UPDATE_USER_ADDRESS;
-  constructor(public payload: any) {}
+  constructor(
+    public payload: { userId: string; addressId: string; address: Address }
+  ) {}
 }
 
 export class UpdateUserAddressFail implements Action {

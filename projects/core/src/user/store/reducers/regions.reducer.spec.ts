@@ -6,7 +6,9 @@ describe('Regions Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as any;
+      const action = {} as
+        | fromActions.RegionsAction
+        | fromActions.ClearMiscsData;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
