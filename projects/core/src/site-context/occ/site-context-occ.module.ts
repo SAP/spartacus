@@ -8,6 +8,7 @@ import { OccModule } from '../../occ/occ.module';
 @NgModule({
   imports: [OccModule, CommonModule, HttpClientModule],
   providers: [
+    OccModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: SiteContextInterceptor,

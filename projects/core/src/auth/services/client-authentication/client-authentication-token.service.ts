@@ -14,7 +14,7 @@ export class ClientAuthenticationTokenService {
   constructor(private config: AuthConfig, private http: HttpClient) {}
 
   loadClientAuthenticationToken(): Observable<ClientToken> {
-    const url = this.getOAuthEndpoint();
+    const url: string = this.getOAuthEndpoint();
     const params = new HttpParams()
       .set(
         'client_id',
@@ -34,7 +34,7 @@ export class ClientAuthenticationTokenService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getOAuthEndpoint() {
+  private getOAuthEndpoint(): string {
     return (this.config.server.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }

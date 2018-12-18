@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 
 import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
-import { ProductSearchPage, Suggestion } from '../../occ-models';
+import { ProductSearchPage, Suggestion } from '../../occ/occ-models';
 
 @Injectable()
 export class ProductSearchService {
   constructor(
-    private store: Store<fromStore.ProductsState>,
+    private store: Store<fromStore.StateWithProduct>,
     private router: Router
   ) {}
 

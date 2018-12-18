@@ -9,6 +9,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
 import { ProductService } from '@spartacus/core';
+
 import { ProductDetailsComponent } from './product-details.component';
 import { OutletDirective } from '../../../../outlet';
 
@@ -131,9 +132,9 @@ describe('ProductDetailsComponent in product', () => {
   it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
-    let product;
-    productDetailsComponent.product$.subscribe(x => (product = x));
-    expect(product).toEqual(mockProduct);
+    productDetailsComponent.product$.subscribe(product =>
+      expect(product).toEqual(mockProduct)
+    );
   });
 
   it('should go to reviews tab', () => {

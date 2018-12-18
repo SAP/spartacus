@@ -4,11 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { CmsLinkComponent, Component } from '@spartacus/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
+const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSLinkComponent: { selector: 'LinkComponent' }
   }
@@ -36,7 +36,7 @@ describe('LinkComponent', () => {
       imports: [RouterTestingModule],
       declarations: [LinkComponent],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
