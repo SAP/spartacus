@@ -10,6 +10,6 @@ export class StorefrontComponent implements OnInit {
   constructor(private configurableRoutesService: ConfigurableRoutesService) {}
 
   ngOnInit() {
-    this.configurableRoutesService.changeLanguage('default'); // TODO #186: subscribe to active language from facade and pass it here
+    this.configurableRoutesService.translateRouterConfig('en');
   }
 }

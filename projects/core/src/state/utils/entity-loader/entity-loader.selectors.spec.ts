@@ -14,6 +14,7 @@ describe('EntityLoader selectors', () => {
       [testId]: {
         loading: true,
         error: false,
+        success: false,
         value: testValue
       }
     }
@@ -30,6 +31,11 @@ describe('EntityLoader selectors', () => {
   });
 
   it('loaderErrorSelector should return error flag', () => {
+    const value = entityErrorSelector(TestState, testId);
+    expect(value).toBe(false);
+  });
+
+  it('loaderSuccessSelector should return success flag', () => {
     const value = entityErrorSelector(TestState, testId);
     expect(value).toBe(false);
   });

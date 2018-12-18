@@ -3,7 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import {
+  CartService,
   RoutingService,
+  CartDataService,
+  GlobalMessageService,
   Address,
   PaymentDetails,
   Order
@@ -14,9 +17,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { CheckoutService } from './../../../facade/checkout.service';
-import { CartDataService } from './../../../../cart/facade/cart-data.service';
-import { CartService } from './../../../../cart/facade/cart.service';
-import { GlobalMessageService } from '@spartacus/core';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
@@ -236,7 +236,9 @@ describe('MultiStepCheckoutComponent', () => {
     );
 
     component.processSteps();
-    expect(mockRoutingService.go).toHaveBeenCalledWith(['orderConfirmation']);
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
+      route: ['orderConfirmation']
+    });
   });
 
   it('should call setStep()', () => {
