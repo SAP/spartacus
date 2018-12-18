@@ -25,6 +25,10 @@ export class ReviewForm {
     by.css('.cx-review__summary-card__address')
   );
 
+  readonly termsAndConditions: ElementFinder = this.form.element(
+    by.css('.cx-review__summary-card__address')
+  );
+
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.form);
   }
