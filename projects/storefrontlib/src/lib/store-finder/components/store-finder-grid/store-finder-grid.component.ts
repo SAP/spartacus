@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { StoreFinderService } from '../../services/store-finder.service';
+import { RoutingService } from '@spartacus/core';
 
 import * as fromStore from '../../store';
 
@@ -20,7 +21,7 @@ export class StoreFinderGridComponent implements OnInit {
     private store: Store<fromStore.StoresState>,
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
-    private router: Router
+    private routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -53,21 +54,32 @@ export class StoreFinderGridComponent implements OnInit {
 
   viewStore(location: any): void {
     if (this.route.snapshot.params.region) {
-      this.router.navigate([
-        'store-finder',
-        'country',
-        this.route.snapshot.params.country,
-        'region',
-        this.route.snapshot.params.region,
-        location.name
-      ]);
+      this.routingService.go({
+        route: [
+          'storeFinder',
+          {
+            name: 'storeDescription',
+            params: {
+              country: this.route.snapshot.params.country,
+              region: this.route.snapshot.params.region,
+              store: location.name
+            }
+          }
+        ]
+      });
       return;
     }
-    this.router.navigate([
-      'store-finder',
-      'country',
-      this.route.snapshot.params.country,
-      location.name
-    ]);
+    this.routingService.go({
+      route: [
+        'storeFinder',
+        {
+          name: 'storeDescription',
+          params: {
+            country: this.route.snapshot.params.country,
+            store: location.name
+          }
+        }
+      ]
+    });
   }
 }

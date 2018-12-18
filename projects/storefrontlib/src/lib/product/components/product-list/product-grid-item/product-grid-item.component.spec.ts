@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ChangeDetectionStrategy, Input, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Input,
+  Component,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -44,6 +50,13 @@ export class MockPictureComponent {
   imageAlt;
 }
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('ProductGridItemComponent in product-list', () => {
   let component: ProductGridItemComponent;
   let fixture: ComponentFixture<ProductGridItemComponent>;
@@ -70,7 +83,8 @@ describe('ProductGridItemComponent in product-list', () => {
         ProductGridItemComponent,
         MockPictureComponent,
         MockAddToCartComponent,
-        MockStarRatingComponent
+        MockStarRatingComponent,
+        MockTranslateUrlPipe
       ]
     })
       .overrideComponent(ProductGridItemComponent, {

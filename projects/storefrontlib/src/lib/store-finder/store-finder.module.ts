@@ -26,6 +26,7 @@ import { StoreFinderSearchResultComponent } from './components/store-finder-sear
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
 import { SpinnerModule } from '../ui/components/spinner/spinner.module';
+import { UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
     EffectsModule.forFeature(effects),
     PaginationAndSortingModule,
     BootstrapModule,
-    SpinnerModule
+    SpinnerModule,
+    UrlTranslationModule
   ],
   declarations: [
     StoreFinderSearchComponent,
