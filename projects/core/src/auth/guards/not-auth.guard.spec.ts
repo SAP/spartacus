@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
-import { RoutingService, TranslateUrlOptions } from '@spartacus/core';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 import { of, Observable } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
 
 import { NotAuthGuard } from './not-auth.guard';
+import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -37,7 +38,7 @@ class RoutingServiceStub {
 describe('NotAuthGuard', () => {
   let authGuard: NotAuthGuard;
   let authService: AuthServiceStub;
-  let service: RoutingService;
+  let routing: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,7 +51,7 @@ describe('NotAuthGuard', () => {
     });
     authService = TestBed.get(AuthService);
     authGuard = TestBed.get(NotAuthGuard);
-    service = TestBed.get(RoutingService);
+    routing = TestBed.get(RoutingService);
   });
 
   describe(', when user is authorised,', () => {
@@ -69,12 +70,12 @@ describe('NotAuthGuard', () => {
     });
 
     it('should redirect to homepage', () => {
-      spyOn(service, 'go');
+      spyOn(routing, 'go');
       authGuard
         .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(service.go).toHaveBeenCalledWith({ route: ['home'] });
+      expect(routing.go).toHaveBeenCalledWith({ route: ['home'] });
     });
   });
 
@@ -96,12 +97,12 @@ describe('NotAuthGuard', () => {
     });
 
     it('should not redirect', () => {
-      spyOn(service, 'go');
+      spyOn(routing, 'go');
       authGuard
         .canActivate()
         .subscribe()
         .unsubscribe();
-      expect(service.go).not.toHaveBeenCalled();
+      expect(routing.go).not.toHaveBeenCalled();
     });
   });
 });

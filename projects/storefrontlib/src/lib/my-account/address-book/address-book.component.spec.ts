@@ -25,11 +25,20 @@ const mockAddress = {
   defaultAddress: false
 };
 
+class MockCheckoutService {
+  clearAddressVerificationResults = jasmine.createSpy();
+
+  verifyAddress = jasmine.createSpy();
+
+  getAddressVerificationResults() {
+    return new BehaviorSubject({ decision: 'ACCEPT' });
+  }
+}
+
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
   let mockUserService;
-  let mockCheckoutService;
   let el: DebugElement;
   let mockGlobalMessageService: any;
   const addresses = new BehaviorSubject<any>({
@@ -56,12 +65,6 @@ describe('AddressBookComponent', () => {
       loadRegions: jasmine.createSpy()
     };
 
-    mockCheckoutService = {
-      addressVerificationResults$: new BehaviorSubject({ decision: 'ACCEPT' }),
-      clearAddressVerificationResults: jasmine.createSpy(),
-      verifyAddress: jasmine.createSpy()
-    };
-
     mockGlobalMessageService = {
       add: jasmine.createSpy()
     };
@@ -75,7 +78,7 @@ describe('AddressBookComponent', () => {
       ],
       providers: [
         { provide: UserService, useValue: mockUserService },
-        { provide: CheckoutService, useValue: mockCheckoutService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
     }).compileComponents();

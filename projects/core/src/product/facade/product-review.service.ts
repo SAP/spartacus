@@ -7,7 +7,7 @@ import { Review } from '../../occ/occ-models';
 
 @Injectable()
 export class ProductReviewService {
-  constructor(private store: Store<fromStore.ProductsState>) {}
+  constructor(private store: Store<fromStore.StateWithProduct>) {}
 
   getByProductCode(productCode: string): Observable<Review[]> {
     const selector = fromStore.getSelectedProductReviewsFactory(productCode);

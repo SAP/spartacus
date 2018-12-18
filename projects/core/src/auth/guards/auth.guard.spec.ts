@@ -6,16 +6,13 @@ import {
   NavigationExtras
 } from '@angular/router';
 
-import {
-  AuthService,
-  RoutingService,
-  UserToken,
-  TranslateUrlOptions
-} from '@spartacus/core';
-
 import { of, Observable } from 'rxjs';
 
 import { AuthGuard } from './auth.guard';
+import { UserToken } from '../models/token-types.model';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { AuthService } from '../facade/auth.service';
+import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',

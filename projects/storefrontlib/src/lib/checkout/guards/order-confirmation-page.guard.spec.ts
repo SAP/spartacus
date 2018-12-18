@@ -1,39 +1,46 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
 import { CheckoutService } from '../facade';
 import { RoutingService } from '@spartacus/core';
+import { Order } from '@spartacus/core';
+
+class MockCheckoutService {
+  getOrderDetails(): Observable<Order> {
+    return of(null);
+  }
+}
 
 describe(`OrderConfirmationPageGuard`, () => {
   let routingService: RoutingService;
   let guard: OrderConfirmationPageGuard;
-  let mockCheckoutService: any;
+  let mockCheckoutService: MockCheckoutService;
 
   beforeEach(() => {
-    mockCheckoutService = {
-      orderDetails$: new BehaviorSubject(null)
-    };
     TestBed.configureTestingModule({
       providers: [
         OrderConfirmationPageGuard,
-        { provide: CheckoutService, useValue: mockCheckoutService },
         {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() }
-        }
+        },
+        { provide: CheckoutService, useClass: MockCheckoutService }
       ],
       imports: [RouterTestingModule]
     });
 
     routingService = TestBed.get(RoutingService);
     guard = TestBed.get(OrderConfirmationPageGuard);
+    mockCheckoutService = TestBed.get(CheckoutService);
+
+    spyOn(routingService, 'go').and.stub();
   });
 
   describe(`when there is NO order details present`, () => {
     it(`should return false and navigate to order history page`, done => {
-      mockCheckoutService.orderDetails$.next({});
+      spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
@@ -47,7 +54,9 @@ describe(`OrderConfirmationPageGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, done => {
-      mockCheckoutService.orderDetails$.next({ code: 'test order' });
+      spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(
+        of({ code: 'test order' })
+      );
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(true);
