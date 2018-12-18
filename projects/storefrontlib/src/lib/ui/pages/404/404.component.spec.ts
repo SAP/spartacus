@@ -3,6 +3,14 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PageNotFoundComponent } from './404.component';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('404Component', () => {
   let component: PageNotFoundComponent;
@@ -11,7 +19,7 @@ describe('404Component', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [PageNotFoundComponent]
+      declarations: [PageNotFoundComponent, MockTranslateUrlPipe]
     }).compileComponents();
   }));
 

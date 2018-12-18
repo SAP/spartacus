@@ -36,7 +36,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryYear,
     cardNumber
   }): Card {
-    const actions = [];
+    const actions: { name: string; event: string }[] = [];
     if (!defaultPayment) {
       actions.push({ name: 'Set as default', event: 'default' });
     }
@@ -52,22 +52,22 @@ export class PaymentMethodsComponent implements OnInit {
     return card;
   }
 
-  deletePaymentMethod(paymentMethod) {
+  deletePaymentMethod(paymentMethod: PaymentDetails): void {
     if (this.userId) {
       this.userService.deletePaymentMethod(this.userId, paymentMethod.id);
     }
     this.editCard = null;
   }
 
-  setEdit(paymentMethod) {
+  setEdit(paymentMethod: PaymentDetails): void {
     this.editCard = paymentMethod.id;
   }
 
-  cancelCard() {
+  cancelCard(): void {
     this.editCard = null;
   }
 
-  setDefaultPaymentMethod(paymentMethod) {
+  setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     if (this.userId) {
       this.userService.setPaymentMethodAsDefault(this.userId, paymentMethod.id);
     }

@@ -1,6 +1,6 @@
 <a
   *ngIf="(component.data$ | async) as data"
   role="link"
-  [routerLink]="[data.url]"
+  [routerLink]="{ url: data.url } | cxTranslateUrl"
   >{{ data.linkName }}</a
 >

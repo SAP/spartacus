@@ -5,7 +5,7 @@ import {
   TestRequest
 } from '@angular/common/http/testing';
 import { ClientAuthenticationTokenService } from './client-authentication-token.service';
-import { AuthConfig } from '@spartacus/core';
+import { AuthConfig } from '../../config/auth-config';
 import { ClientToken } from '../../models/token-types.model';
 
 const token: ClientToken = {

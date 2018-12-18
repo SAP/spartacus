@@ -6,7 +6,9 @@ describe('Delivery Countries Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as any;
+      const action = {} as
+        | fromActions.DeliveryCountriesAction
+        | fromActions.MiscsDataAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);

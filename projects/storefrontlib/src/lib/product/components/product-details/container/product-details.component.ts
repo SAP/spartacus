@@ -1,9 +1,9 @@
 import {
   Component,
   Input,
-  OnChanges,
   ViewChild,
-  ElementRef
+  ElementRef,
+  OnChanges
 } from '@angular/core';
 
 import { ProductService } from '@spartacus/core';
@@ -22,6 +22,7 @@ export class ProductDetailsComponent implements OnChanges {
 
   @Input()
   productCode: string;
+
   product$: Observable<any>;
 
   get outlets() {
@@ -42,7 +43,7 @@ export class ProductDetailsComponent implements OnChanges {
 
   constructor(protected productService: ProductService) {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.product$ = this.productService.get(this.productCode);
   }
 
