@@ -1,4 +1,4 @@
-<ng-container *ngIf="isAbsoluteUrl(url); else: isRelativeUrl">
+<ng-container *ngIf="isExternalUrl(); else: isLocalUrl">
   <a
     role="link"
     [href]="url"
@@ -11,7 +11,7 @@
     <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
   </a>
 </ng-container>
-<ng-template #isRelativeUrl>
+<ng-template #isLocalUrl>
   <a
     role="link"
     [routerLink]="routerUrl"

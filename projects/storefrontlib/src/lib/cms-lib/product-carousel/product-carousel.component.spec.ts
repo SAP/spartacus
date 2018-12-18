@@ -1,4 +1,4 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,6 +12,13 @@ import { CmsService } from '@spartacus/core';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { ProductCarouselComponent } from './product-carousel.component';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
 
@@ -60,7 +67,11 @@ describe('ProductCarouselComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, BootstrapModule],
-      declarations: [ProductCarouselComponent, PictureComponent],
+      declarations: [
+        ProductCarouselComponent,
+        PictureComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductService, useClass: MockProductService }

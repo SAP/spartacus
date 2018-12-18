@@ -24,23 +24,57 @@ describe('GenericLinkComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('isAbsoluteUrl', () => {
+  describe('isExternalUrl', () => {
     it('should return true when url starts with http:// or https://', () => {
-      expect(component.isAbsoluteUrl('https://example.com')).toBeTruthy();
-      expect(component.isAbsoluteUrl('http://example.com')).toBeTruthy();
-      expect(component.isAbsoluteUrl('http://')).toBeTruthy();
-      expect(component.isAbsoluteUrl('https://')).toBeTruthy();
+      component.url = 'https://example.com';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'http://example.com';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'http://';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'https://';
+      expect(component.isExternalUrl()).toBeTruthy();
     });
 
     it('should return false when url does not start with http:// or https://', () => {
-      expect(
-        component.isAbsoluteUrl('other-protocole://example.com')
-      ).toBeFalsy();
-      expect(component.isAbsoluteUrl('://example.com')).toBeFalsy();
-      expect(component.isAbsoluteUrl('example.com')).toBeFalsy();
-      expect(component.isAbsoluteUrl('./relative/url')).toBeFalsy();
-      expect(component.isAbsoluteUrl('/relative/url')).toBeFalsy();
-      expect(component.isAbsoluteUrl('relative/url')).toBeFalsy();
+      component.url = 'other-protocole://example.com';
+      expect(component.isExternalUrl()).toBeFalsy();
+
+      component.url = '://example.com';
+      expect(component.isExternalUrl()).toBeFalsy();
+
+      component.url = 'example.com';
+      expect(component.isExternalUrl()).toBeFalsy();
+
+      component.url = './local/url';
+      expect(component.isExternalUrl()).toBeFalsy();
+
+      component.url = '/local/url';
+      expect(component.isExternalUrl()).toBeFalsy();
+
+      component.url = 'local/url';
+      expect(component.isExternalUrl()).toBeFalsy();
+    });
+  });
+
+  describe('routerUrl', () => {
+    it('should return absolute url wrapped in array when url is string', () => {
+      component.url = 'local/url';
+      expect(component.routerUrl).toEqual(['/local/url']);
+
+      component.url = '/local/url';
+      expect(component.routerUrl).toEqual(['/local/url']);
+    });
+
+    it('should original url when url is array', () => {
+      component.url = ['array', 'of', 'url', 'segments'];
+      expect(component.routerUrl).toEqual(['array', 'of', 'url', 'segments']);
+
+      component.url = ['/array', 'of', 'url', 'segments'];
+      expect(component.routerUrl).toEqual(['/array', 'of', 'url', 'segments']);
     });
   });
 });
