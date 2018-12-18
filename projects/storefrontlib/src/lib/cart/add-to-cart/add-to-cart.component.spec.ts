@@ -35,7 +35,7 @@ class MockCartService {
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service;
+  let service: CartService;
   let modalInstance;
 
   beforeEach(async(() => {

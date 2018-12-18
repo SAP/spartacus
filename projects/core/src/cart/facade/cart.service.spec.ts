@@ -91,7 +91,7 @@ describe('CartService', () => {
     describe('when user is not an anonymous', () => {
       describe('and the cart is not created', () => {
         it('should load the cart', () => {
-          spyOn(service, 'isCartCreated').and.returnValue(false);
+          spyOn(service, 'isCreated').and.returnValue(false);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
@@ -106,7 +106,7 @@ describe('CartService', () => {
       });
       describe('and the cart is created', () => {
         it('should merge the cart', () => {
-          spyOn(service, 'isCartCreated').and.returnValue(true);
+          spyOn(service, 'isCreated').and.returnValue(true);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
@@ -246,7 +246,7 @@ describe('CartService', () => {
     });
 
     it('should be able to addCartEntry if cart does not exist', () => {
-      spyOn(service, 'isCartCreated').and.returnValue(false);
+      spyOn(service, 'isCreated').and.returnValue(false);
       store.dispatch(new fromCart.LoadCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -319,28 +319,28 @@ describe('CartService', () => {
 
   describe('isCartCreated', () => {
     it('should return false, when argument is empty object', () => {
-      expect(service.isCartCreated({})).toBe(false);
+      expect(service.isCreated({})).toBe(false);
     });
 
     it('should return true, when argument is an non-empty object', () => {
-      expect(service.isCartCreated({ guid: 'hash' })).toBe(true);
-      expect(service.isCartCreated({ totalItems: 0 })).toBe(true);
-      expect(service.isCartCreated({ totalItems: 99 })).toBe(true);
+      expect(service.isCreated({ guid: 'hash' })).toBe(true);
+      expect(service.isCreated({ totalItems: 0 })).toBe(true);
+      expect(service.isCreated({ totalItems: 99 })).toBe(true);
     });
   });
 
   describe('isCartEmpty', () => {
     it('should return true, when argument is an empty object', () => {
-      expect(service.isCartEmpty({})).toBe(true);
+      expect(service.isEmpty({})).toBe(true);
     });
 
     it('should return true, when totalItems property of argument is 0', () => {
-      expect(service.isCartEmpty({ totalItems: 0 })).toBe(true);
+      expect(service.isEmpty({ totalItems: 0 })).toBe(true);
     });
 
     it('should return false, when totalItems property of argument is greater than 0', () => {
-      expect(service.isCartEmpty({ totalItems: 1 })).toBe(false);
-      expect(service.isCartEmpty({ totalItems: 99 })).toBe(false);
+      expect(service.isEmpty({ totalItems: 1 })).toBe(false);
+      expect(service.isEmpty({ totalItems: 99 })).toBe(false);
     });
   });
 
@@ -378,7 +378,7 @@ describe('CartService', () => {
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
       store.dispatch(new fromCart.MergeCartSuccess());
-      let result;
+      let result: boolean;
       service
         .getCartMergeComplete()
         .subscribe(mergeComplete => (result = mergeComplete))

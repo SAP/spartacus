@@ -71,7 +71,7 @@ export class CartService {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (this.cartData.userId !== ANONYMOUS_USERID) {
-      if (!this.isCartCreated(this.cartData.cart)) {
+      if (!this.isCreated(this.cartData.cart)) {
         this.store.dispatch(
           new fromAction.LoadCart({
             userId: this.cartData.userId,
@@ -126,7 +126,7 @@ export class CartService {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    if (!this.isCartCreated(this.cartData.cart)) {
+    if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
@@ -189,11 +189,11 @@ export class CartService {
     );
   }
 
-  isCartCreated(cart: Cart): boolean {
+  isCreated(cart: Cart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isCartEmpty(cart: Cart): boolean {
+  isEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
   }
 }

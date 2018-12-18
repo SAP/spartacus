@@ -15,7 +15,7 @@ export class CartNotEmptyGuard implements CanActivate {
       skipWhile(loaded => !loaded),
       switchMap(() => this.cartService.getActive()),
       map(cart => {
-        if (this.cartService.isCartEmpty(cart)) {
+        if (this.cartService.isEmpty(cart)) {
           this.router.navigate(['']);
           return false;
         }
