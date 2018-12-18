@@ -1,8 +1,5 @@
-import * as fromAction from '../actions';
-
-export interface AddressVerificationState {
-  results: any;
-}
+import * as fromAction from '../actions/index';
+import { AddressVerificationState } from '../checkout-state';
 
 export const initialState: AddressVerificationState = {
   results: {}

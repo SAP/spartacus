@@ -6,9 +6,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
-import { CheckoutService } from '../../../../facade/checkout.service';
 import { PaymentFormComponent } from './payment-form.component';
-import { CardType, Address } from '@spartacus/core';
+import { CardType, Address, CheckoutService } from '@spartacus/core';
 
 const mockAddress: Address = {
   firstName: 'John',

@@ -1,5 +1,5 @@
 import * as fromReducer from './address-verification.reducer';
-import * as fromActions from '../actions/';
+import * as fromActions from '../actions/index';
 import { AddressValidation } from '@spartacus/core';
 
 describe('Address Verification Reducer', () => {

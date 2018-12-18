@@ -1,5 +1,5 @@
 import * as fromReducer from './card-types.reducer';
-import * as fromActions from '../actions/';
+import * as fromActions from '../actions/index';
 import { CardType } from '@spartacus/core';
 
 describe('Card Types Reducer', () => {

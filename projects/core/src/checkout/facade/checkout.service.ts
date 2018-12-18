@@ -6,16 +6,16 @@ import { filter } from 'rxjs/operators';
 
 import { Observable } from 'rxjs';
 
-import * as fromCheckoutStore from '../store/';
+import * as fromCheckoutStore from '../store/index';
 import {
   PaymentDetails,
   CardType,
   Order,
   DeliveryMode,
   AddressValidation
-} from '../../occ/occ-models';
-import { CheckoutAddress } from '../';
-import { CartDataService, ANONYMOUS_USERID } from '../../cart';
+} from '../../occ/occ-models/index';
+import { CheckoutAddress } from '../model/checkout-address.model';
+import { CartDataService, ANONYMOUS_USERID } from '../../cart/index';
 
 @Injectable()
 export class CheckoutService {

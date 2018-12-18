@@ -4,8 +4,14 @@ import { MultiStepCheckoutModule } from './components/multi-step-checkout/multi-
 import { CartComponentModule } from './../cart/cart.module';
 
 import { guards } from './guards/index';
+import { CheckoutModule } from '@spartacus/core';
 @NgModule({
-  imports: [CommonModule, MultiStepCheckoutModule, CartComponentModule],
+  imports: [
+    CommonModule,
+    MultiStepCheckoutModule,
+    CartComponentModule,
+    CheckoutModule
+  ],
   providers: [...guards]
 })
-export class CheckoutModule {}
+export class CheckoutComponentModule {}

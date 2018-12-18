@@ -1,17 +1,8 @@
-import * as fromAction from './../actions';
-import { Address, Order, DeliveryMode } from '@spartacus/core';
+import * as fromAction from './../actions/index';
+import { CheckoutStepsState } from '../checkout-state';
+import { Address, Order, DeliveryMode } from '../../../occ/occ-models/index';
 
-export interface CheckoutState {
-  address: Address;
-  deliveryMode: {
-    supported: { [code: string]: DeliveryMode };
-    selected: string;
-  };
-  paymentDetails: any;
-  orderDetails: Order;
-}
-
-export const initialState: CheckoutState = {
+export const initialState: CheckoutStepsState = {
   address: {},
   deliveryMode: {
     supported: {},
@@ -24,7 +15,7 @@ export const initialState: CheckoutState = {
 export function reducer(
   state = initialState,
   action: fromAction.CheckoutAction | fromAction.CheckoutClearMiscsData
-): CheckoutState {
+): CheckoutStepsState {
   switch (action.type) {
     case fromAction.ADD_DELIVERY_ADDRESS_SUCCESS:
     case fromAction.SET_DELIVERY_ADDRESS_SUCCESS: {
@@ -43,7 +34,7 @@ export function reducer(
       }
 
       const supported = supportedModes.reduce(
-        (modes: { [code: string]: any }, mode: any) => {
+        (modes: { [code: string]: DeliveryMode }, mode: DeliveryMode) => {
           return {
             ...modes,
             [mode.code]: mode
@@ -64,7 +55,7 @@ export function reducer(
     }
 
     case fromAction.SET_DELIVERY_MODE_SUCCESS: {
-      const selected: string = action.payload;
+      const selected = action.payload;
 
       return {
         ...state,
@@ -155,7 +146,10 @@ export function reducer(
   return state;
 }
 
-export const getDeliveryAddress = (state: CheckoutState) => state.address;
-export const getDeliveryMode = (state: CheckoutState) => state.deliveryMode;
-export const getPaymentDetails = (state: CheckoutState) => state.paymentDetails;
-export const getOrderDetails = (state: CheckoutState) => state.orderDetails;
+export const getDeliveryAddress = (state: CheckoutStepsState) => state.address;
+export const getDeliveryMode = (state: CheckoutStepsState) =>
+  state.deliveryMode as DeliveryMode;
+export const getPaymentDetails = (state: CheckoutStepsState) =>
+  state.paymentDetails;
+export const getOrderDetails = (state: CheckoutStepsState) =>
+  state.orderDetails;

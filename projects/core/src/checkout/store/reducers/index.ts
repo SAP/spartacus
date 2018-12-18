@@ -6,17 +6,12 @@ import {
   ActionReducer,
   MemoizedSelector
 } from '@ngrx/store';
+
 import * as fromCheckout from './checkout.reducer';
 import * as fromCardTypes from './card-types.reducer';
 import * as fromAddressVerification from './address-verification.reducer';
-
-import * as fromAction from '../actions';
-
-export interface CheckoutState {
-  steps: fromCheckout.CheckoutState;
-  cardTypes: fromCardTypes.CardTypesState;
-  addressVerification: fromAddressVerification.AddressVerificationState;
-}
+import * as fromAction from '../actions/index';
+import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
 
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
@@ -38,7 +33,7 @@ export const reducerProvider: Provider = {
 export const getCheckoutState: MemoizedSelector<
   any,
   CheckoutState
-> = createFeatureSelector<CheckoutState>('checkout');
+> = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
 
 export function clearCheckoutState(
   reducer: ActionReducer<any>

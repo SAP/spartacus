@@ -1,11 +1,15 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers';
+import * as fromFeature from './../reducers/index';
 import * as fromReducer from './../reducers/card-types.reducer';
-import { CardType } from '@spartacus/core';
+import { CheckoutState, CardTypesState } from '../checkout-state';
+import { CardType } from '../../../occ/occ-models/index';
 
-export const getCardTypesState = createSelector(
+export const getCardTypesState: MemoizedSelector<
+  any,
+  CardTypesState
+> = createSelector(
   fromFeature.getCheckoutState,
-  (state: fromFeature.CheckoutState) => state.cardTypes
+  (state: CheckoutState) => state.cardTypes
 );
 
 export const getCardTypesEntites: MemoizedSelector<

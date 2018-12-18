@@ -1,10 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
-import * as fromCheckout from '../store';
-import { CartDataService } from '@spartacus/core';
+import * as fromCheckout from '../store/index';
 import { CheckoutService } from './checkout.service';
-import { Address, PaymentDetails } from '@spartacus/core';
+import { CartDataService } from '../../cart/index';
+import { PaymentDetails } from '../../occ/occ-models/index';
+import { CheckoutAddress } from '../model/checkout-address.model';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
@@ -17,7 +18,7 @@ describe('CheckoutService', () => {
     id: 'mockPaymentDetails'
   };
 
-  const address: Address = {
+  const address: CheckoutAddress = {
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
@@ -236,18 +237,15 @@ describe('CheckoutService', () => {
   });
 
   it('should load address verification results', () => {
-    const testAddress: Address = {
-      id: 'testAddress1'
-    };
     cartData.userId = userId;
     cartData.cart = cart;
 
-    service.verifyAddress(testAddress);
+    service.verifyAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.VerifyAddress({
         userId: userId,
-        address: testAddress
+        address
       })
     );
   });

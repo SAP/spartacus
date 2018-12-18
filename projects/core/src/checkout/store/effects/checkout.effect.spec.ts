@@ -15,11 +15,11 @@ import {
   OccOrderService,
   GlobalMessageType,
   AddMessage,
-  OccCartService
+  OccCartService,
+  Address
 } from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
-import { Address } from '../../models/address-model';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

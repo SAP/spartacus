@@ -4,8 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
-import { CheckoutService } from '../facade';
-import { Order } from '@spartacus/core';
+import { Order, CheckoutService } from '@spartacus/core';
 
 class MockCheckoutService {
   getOrderDetails(): Observable<Order> {

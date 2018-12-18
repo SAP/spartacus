@@ -1,11 +1,15 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers';
+import * as fromFeature from './../reducers/index';
 import * as fromReducer from './../reducers/checkout.reducer';
-import { DeliveryMode } from '@spartacus/core';
+import { CheckoutState, CheckoutStepsState } from '../checkout-state';
+import { DeliveryMode } from '../../../occ/occ-models/index';
 
-export const getCheckoutStepsState = createSelector(
+export const getCheckoutStepsState: MemoizedSelector<
+  any,
+  CheckoutStepsState
+> = createSelector(
   fromFeature.getCheckoutState,
-  (state: fromFeature.CheckoutState) => state.steps
+  (state: CheckoutState) => state.steps
 );
 
 export const getDeliveryAddress: MemoizedSelector<any, any> = createSelector(

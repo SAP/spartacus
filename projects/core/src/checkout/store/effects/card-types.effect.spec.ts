@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
-import * as fromActions from './../actions';
+import * as fromActions from './../actions/index';
 import { OccMiscsService } from '@spartacus/core';
 import { provideMockActions } from '@ngrx/effects/testing';
 

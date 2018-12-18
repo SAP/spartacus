@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { OccUserService } from '@spartacus/core';
-import * as fromActions from './../actions';
+import * as fromActions from './../actions/index';
 import { AddressVerificationEffect } from './address-verification.effect';
 import { AddressValidation, Address } from '@spartacus/core';
 

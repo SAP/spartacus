@@ -1,5 +1,8 @@
 import { Action } from '@ngrx/store';
-import { AddressValidation, Address } from '@spartacus/core';
+import {
+  Address,
+  AddressValidation
+} from 'projects/core/src/occ/occ-models/index';
 
 export const VERIFY_ADDRESS = '[Checkout] Verify Address';
 export const VERIFY_ADDRESS_FAIL = '[Checkout] Verify Address Fail';

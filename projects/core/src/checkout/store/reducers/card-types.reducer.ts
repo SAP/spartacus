@@ -1,9 +1,6 @@
-import * as fromAction from '../actions';
-import { CardType } from '@spartacus/core';
-
-export interface CardTypesState {
-  entities: { [code: string]: CardType };
-}
+import * as fromAction from '../actions/index';
+import { CardTypesState } from '../checkout-state';
+import { CardType } from '../../../occ/occ-models/index';
 
 export const initialState: CardTypesState = {
   entities: {}

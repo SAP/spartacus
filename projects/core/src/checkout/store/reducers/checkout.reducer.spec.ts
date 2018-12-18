@@ -1,7 +1,11 @@
 import * as fromCheckout from './checkout.reducer';
-import * as fromActions from './../actions';
-import { Address } from '../../models/address-model';
-import { DeliveryModeList, PaymentDetails, Order } from '@spartacus/core';
+import * as fromActions from './../actions/index';
+import {
+  DeliveryModeList,
+  PaymentDetails,
+  Order,
+  Address
+} from '@spartacus/core';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {

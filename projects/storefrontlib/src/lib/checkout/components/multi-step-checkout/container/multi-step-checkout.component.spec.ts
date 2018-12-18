@@ -9,14 +9,14 @@ import {
   GlobalMessageService,
   Address,
   PaymentDetails,
-  Order
+  Order,
+  CheckoutService,
+  CheckoutAddress
 } from '@spartacus/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
-
-import { CheckoutService } from './../../../facade/checkout.service';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
@@ -46,7 +46,7 @@ class MockCheckoutService {
   }
 }
 
-const mockAddress: Address = {
+const mockAddress: CheckoutAddress = {
   id: 'mock address id',
   firstName: 'John',
   lastName: 'Doe',

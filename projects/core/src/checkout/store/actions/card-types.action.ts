@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { CardType } from '@spartacus/core';
+import { CardType } from 'projects/core/src/occ/occ-models/index';
 
 export const LOAD_CARD_TYPES = '[Checkout] Load Card Types';
 export const LOAD_CARD_TYPES_FAIL = '[Checkout] Load Card Fail';

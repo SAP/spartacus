@@ -5,16 +5,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducerToken, reducerProvider } from './reducers/index';
+import { metaReducers, reducerToken, reducerProvider } from './reducers/index';
 import { effects } from './effects/index';
-
-import { metaReducers } from './reducers/index';
+import { CHECKOUT_FEATURE } from './checkout-state';
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    StoreModule.forFeature('checkout', reducerToken, { metaReducers }),
+    StoreModule.forFeature(CHECKOUT_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects)
   ],
   providers: [reducerProvider]
