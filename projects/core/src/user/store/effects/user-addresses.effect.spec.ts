@@ -94,6 +94,7 @@ describe('User Addresses effect', () => {
     it('should update user address', () => {
       const action = new fromUserAddressesAction.UpdateUserAddress({
         userId: '123',
+        addressId: '123',
         address: {
           firstName: 'test'
         }

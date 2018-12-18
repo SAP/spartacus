@@ -13,7 +13,9 @@ import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
+import { Pipe, PipeTransform } from '@angular/core';
 import { RegisterComponent } from './register.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockTitlesList: Title[] = [
   {
@@ -25,6 +27,13 @@ const mockTitlesList: Title[] = [
     name: 'Mrs.'
   }
 ];
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -65,8 +74,8 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [RegisterComponent],
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      declarations: [RegisterComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },

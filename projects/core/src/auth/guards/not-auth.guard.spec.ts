@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
-import { RoutingService } from '@spartacus/core';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 import { of, Observable } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
 
 import { NotAuthGuard } from './not-auth.guard';
+import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -27,12 +28,17 @@ class AuthServiceStub {
 }
 
 class RoutingServiceStub {
-  go(_path: any[], _query?: object, _extras?: NavigationExtras) {}
+  go(
+    _path: any[] | TranslateUrlOptions,
+    _query?: object,
+    _extras?: NavigationExtras
+  ) {}
 }
 
 describe('NotAuthGuard', () => {
   let authGuard: NotAuthGuard;
   let authService: AuthServiceStub;
+  let routing: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,32 +51,58 @@ describe('NotAuthGuard', () => {
     });
     authService = TestBed.get(AuthService);
     authGuard = TestBed.get(NotAuthGuard);
+    routing = TestBed.get(RoutingService);
   });
 
-  it('should return false', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+  describe(', when user is authorised,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+    });
 
-    let result: boolean;
+    it('should return false', () => {
+      let result: boolean;
+      authGuard
+        .canActivate()
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-    authGuard
-      .canActivate()
-      .subscribe(value => (result = value))
-      .unsubscribe();
+      expect(result).toBe(false);
+    });
 
-    expect(result).toBe(false);
+    it('should redirect to homepage', () => {
+      spyOn(routing, 'go');
+      authGuard
+        .canActivate()
+        .subscribe()
+        .unsubscribe();
+      expect(routing.go).toHaveBeenCalledWith({ route: ['home'] });
+    });
   });
 
-  it('should return true', () => {
-    spyOn(authService, 'getUserToken').and.returnValue(
-      of({ access_token: undefined } as UserToken)
-    );
+  describe(', when user is NOT authorised,', () => {
+    beforeEach(() => {
+      spyOn(authService, 'getUserToken').and.returnValue(
+        of({ access_token: undefined } as UserToken)
+      );
+    });
 
-    let result: boolean;
-    authGuard
-      .canActivate()
-      .subscribe(value => (result = value))
-      .unsubscribe();
+    it('should return true', () => {
+      let result: boolean;
+      authGuard
+        .canActivate()
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-    expect(result).toBe(true);
+      expect(result).toBe(true);
+    });
+
+    it('should not redirect', () => {
+      spyOn(routing, 'go');
+      authGuard
+        .canActivate()
+        .subscribe()
+        .unsubscribe();
+      expect(routing.go).not.toHaveBeenCalled();
+    });
   });
 });

@@ -1,5 +1,7 @@
 export interface Page {
+  uuid?: string;
   pageId?: string;
+  catalogUuid?: string;
   name?: string;
   template?: string;
   loadTime?: number;

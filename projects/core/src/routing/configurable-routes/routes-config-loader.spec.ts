@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 import { ServerConfig } from '../../config';
-import { ConfigurableRoutesConfig } from './configurable-routes-config';
+import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
@@ -14,18 +14,16 @@ const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
   routesConfig: {
     translations: {
       default: {
-        page1: ['default-path1'],
-        page2: ['default-path2', 'default-path20'],
-        page3: ['default-path3']
+        page1: {
+          paths: ['default-path1'],
+          paramsMapping: { param1: 'mappedParam1' }
+        },
+        page2: { paths: ['default-path2', 'default-path20'] },
+        page3: { paths: ['default-path3'] }
       },
       en: {
-        page1: ['en-path1', 'en-path10'],
-        page2: ['en-path2']
-      }
-    },
-    parameterNamesMapping: {
-      page1: {
-        param1: 'otherParam1'
+        page1: { paths: ['en-path1', 'en-path10'] },
+        page2: { paths: ['en-path2'] }
       }
     }
   }
@@ -33,16 +31,15 @@ const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
 const mockFetchedRoutesConfig: RoutesConfig = {
   translations: {
     default: {
-      page1: ['fetched-default-path1']
+      page1: {
+        paths: ['fetched-default-path1'],
+        paramsMapping: { param1: 'fetched-mappedParam1' }
+      }
     },
     en: {
-      page1: ['fetched-en-path1', 'fetched-en-path10']
-    }
-  },
-  parameterNamesMapping: {
-    page1: {
-      param1: 'fetched-otherParam1',
-      param2: 'fetched-otherParam2'
+      page1: {
+        paths: ['fetched-en-path1', 'fetched-en-path10']
+      }
     }
   }
 };
@@ -71,7 +68,7 @@ describe('RoutesConfigLoader', () => {
   });
 
   describe('loadRoutesConfig', () => {
-    describe(', when shouldFetch is configured to true,', () => {
+    describe(', when fetch is configured to true,', () => {
       beforeEach(() => {
         configurableRoutesConfig.routesConfig.fetch = true;
       });
@@ -89,35 +86,39 @@ describe('RoutesConfigLoader', () => {
         expect(loader.routesConfig).toBeTruthy();
       });
 
-      it('should extend fetched routes config with static one and extend routes translations for languages with "default"', async () => {
+      // tslint:disable-next-line:max-line-length
+      it('should extend fetched routes config with static one and extend routes translations for languages with "default" translations', async () => {
         spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
         await loader.load();
-        expect(loader.routesConfig).toEqual(
-          jasmine.objectContaining({
-            translations: {
-              default: {
-                page1: ['fetched-default-path1'],
-                page2: ['default-path2', 'default-path20'],
-                page3: ['default-path3']
-              },
-              en: {
-                page1: ['fetched-en-path1', 'fetched-en-path10'],
-                page2: ['en-path2'],
-                page3: ['default-path3']
-              }
-            },
-            parameterNamesMapping: {
+        expect(loader.routesConfig).toEqual({
+          translations: {
+            default: {
               page1: {
-                param1: 'fetched-otherParam1',
-                param2: 'fetched-otherParam2'
-              }
+                paths: ['fetched-default-path1'],
+                paramsMapping: { param1: 'fetched-mappedParam1' }
+              },
+              page2: {
+                paths: ['default-path2', 'default-path20']
+              },
+              page3: { paths: ['default-path3'] }
+            },
+            en: {
+              page1: {
+                paths: ['fetched-en-path1', 'fetched-en-path10'],
+                paramsMapping: { param1: 'fetched-mappedParam1' }
+              },
+              page2: {
+                paths: ['en-path2']
+              },
+              page3: { paths: ['default-path3'] }
             }
-          })
-        );
+          },
+          fetch: true
+        });
       });
     });
 
-    describe(', when shouldFetch is configured to false,', () => {
+    describe(', when fetch is configured to false,', () => {
       beforeEach(() => {
         configurableRoutesConfig.routesConfig.fetch = false;
       });
@@ -141,19 +142,20 @@ describe('RoutesConfigLoader', () => {
           jasmine.objectContaining({
             translations: {
               default: {
-                page1: ['default-path1'],
-                page2: ['default-path2', 'default-path20'],
-                page3: ['default-path3']
+                page1: {
+                  paths: ['default-path1'],
+                  paramsMapping: { param1: 'mappedParam1' }
+                },
+                page2: { paths: ['default-path2', 'default-path20'] },
+                page3: { paths: ['default-path3'] }
               },
               en: {
-                page1: ['en-path1', 'en-path10'],
-                page2: ['en-path2'],
-                page3: ['default-path3']
-              }
-            },
-            parameterNamesMapping: {
-              page1: {
-                param1: 'otherParam1'
+                page1: {
+                  paths: ['en-path1', 'en-path10'],
+                  paramsMapping: { param1: 'mappedParam1' }
+                },
+                page2: { paths: ['en-path2'] },
+                page3: { paths: ['default-path3'] }
               }
             }
           })

@@ -1,16 +1,20 @@
+import {
+  Product,
+  ProductSearchPage,
+  Review,
+  Suggestion
+} from '../../occ/occ-models/occ.models';
+import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
+
 export const PRODUCT_FEATURE = 'product';
-import { Review, Suggestion, ProductSearchPage } from '../../occ/occ-models';
+export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
 
 export interface StateWithProduct {
-  [PRODUCT_FEATURE]: ProductState;
-}
-
-export interface ProductState {
-  entities: { [productCode: string]: any };
+  [PRODUCT_FEATURE]: ProductsState;
 }
 
 export interface ProductsState {
-  details: ProductState;
+  details: EntityLoaderState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
 }

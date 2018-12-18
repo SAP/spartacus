@@ -10,16 +10,27 @@ import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
 import { Page } from '../../model/page.model';
-import { PageType, CmsComponent } from '../../../occ/occ-models';
+import { PageType } from '../../../occ/occ-models';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers';
-import { PageContext } from '../../../routing';
+import { PageContext, RoutingService } from '../../../routing';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 
 export function mockDateNow(): number {
   return 1000000000000;
 }
+
+const mockRouterState = {
+  state: {
+    cmsRequired: true,
+    context: {}
+  }
+};
+
+const mockRoutingService = {
+  routerState$: of(mockRouterState)
+};
 
 describe('Page Effects', () => {
   let actions$: Observable<any>;
@@ -27,29 +38,80 @@ describe('Page Effects', () => {
   let defaultPageService: DefaultPageService;
   let effects: fromEffects.PageEffects;
 
-  const comps: CmsComponent[] = [
-    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-    { uid: 'comp3', typeCode: 'NavigationComponent' }
+  const cmsComponentData: any[] = [
+    {
+      uid: 'comp1',
+      typeCode: 'SimpleBannerComponent',
+      uuid: 'compUuid1'
+    },
+    {
+      uid: 'comp2',
+      typeCode: 'CMSLinkComponent',
+      uuid: 'compUuid2'
+    }
   ];
+
   const cmsPageData: any = {
+    uuid: 'mockPageUuid',
     uid: 'testPageId',
     name: 'testPage',
     template: 'testTemplate',
     contentSlots: {
       contentSlot: [
-        { components: { component: comps }, position: 'testPosition' }
+        {
+          slotId: 'mockContentSlotUid',
+          slotUuid: 'mockSlotUuid',
+          components: {
+            component: cmsComponentData
+          },
+          position: 'testPosition',
+          properties: {
+            smartedit: {
+              catalogVersionUuid: 'mockSlotCatalogUuid'
+            }
+          }
+        }
       ]
+    },
+    properties: {
+      smartedit: {
+        classes:
+          'smartedit-page-uid-homepage smartedit-catalog-version-uuid-mockPageCatalogUuid'
+      }
     }
   };
 
+  const comps: any[] = [
+    {
+      uid: 'comp1',
+      typeCode: 'SimpleBannerComponent',
+      uuid: 'compUuid1',
+      catalogUuid: undefined
+    },
+    {
+      uid: 'comp2',
+      typeCode: 'CMSLinkComponent',
+      uuid: 'compUuid2',
+      catalogUuid: undefined
+    }
+  ];
+
   const page: Page = {
+    uuid: 'mockPageUuid',
     loadTime: 1000000000000,
     name: 'testPage',
     pageId: 'testPageId',
     template: 'testTemplate',
     seen: new Array<string>(),
-    slots: { testPosition: comps }
+    catalogUuid: 'mockPageCatalogUuid',
+    slots: {
+      testPosition: {
+        uid: 'mockContentSlotUid',
+        uuid: 'mockSlotUuid',
+        catalogUuid: 'mockSlotCatalogUuid',
+        components: comps
+      }
+    }
   };
 
   beforeEach(() => {
@@ -61,6 +123,7 @@ describe('Page Effects', () => {
       ],
       providers: [
         OccCmsService,
+        { provide: RoutingService, useValue: mockRoutingService },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         DefaultPageService,
         fromEffects.PageEffects,
@@ -93,7 +156,9 @@ describe('Page Effects', () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(
+        cmsComponentData
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
@@ -115,7 +180,9 @@ describe('Page Effects', () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(
+        cmsComponentData
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
@@ -140,7 +207,9 @@ describe('Page Effects', () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(
+        cmsComponentData
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });

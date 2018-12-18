@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ActionsSubject } from '@ngrx/store';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../global-message/models/message.model';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   UserService,
   LOAD_USER_ADDRESSES_SUCCESS,
   ADD_USER_ADDRESS,
@@ -12,7 +12,8 @@ import {
   UPDATE_USER_ADDRESS,
   UPDATE_USER_ADDRESS_SUCCESS,
   UPDATE_USER_ADDRESS_FAIL,
-  DELETE_USER_ADDRESS_SUCCESS
+  DELETE_USER_ADDRESS_SUCCESS,
+  Address
 } from '@spartacus/core';
 
 @Component({
@@ -69,13 +70,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.isEditAddressFormOpen = false;
   }
 
-  addUserAddress(address) {
+  addUserAddress(address: Address) {
     if (this.userId) {
       this.userService.addUserAddress(this.userId, address);
     }
   }
 
-  updateUserAddress(addressId, address) {
+  updateUserAddress(addressId: string, address: Address) {
     if (this.userId) {
       this.userService.updateUserAddress(this.userId, addressId, address);
     }
