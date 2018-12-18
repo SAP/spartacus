@@ -71,24 +71,6 @@ nav {
       text-decoration: $cx-footer-nav-link-hover-decoration;
     }
   }
-  &__social {
-    @include media-breakpoint-down(sm) {
-      border-top: $cx-footer-nav-social-sm-border-top;
-      @include var-color('border-color', $cx-footer-sm-social-border-color);
-      margin: $cx-footer-nav-social-sm-trbl-margin;
-      padding: $cx-footer-nav-social-sm-trbl-padding;
-      text-align: $cx-footer-nav-social-sm-text-align;
-    }
-    @include media-breakpoint-down(xs) {
-      margin: $cx-footer-nav-social-xs-trbl-margin;
-    }
-  }
-  &__title--social {
-    text-transform: $cx-footer-nav-social-title-font-case;
-  }
-  &__list--social {
-    padding: $cx-footer-nav-social-list-trbl-padding;
-  }
   .notice {
     padding: $cx-footer-nav-notice-trbl-padding;
     text-align: $cx-footer-nav-notice-text-align;
