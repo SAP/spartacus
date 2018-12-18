@@ -1,18 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
+import { RoutingService } from '@spartacus/core';
 import { Cart, CartService } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 
-const MAIN_PAGE_ROUTE = [''];
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-const mockRouter = { navigate: () => {} };
+const mockRoutingService = { go: () => {} };
 
 class CartServiceStub {
   getActive(): Observable<Cart> {
@@ -28,7 +27,7 @@ class CartServiceStub {
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let router: Router;
+  let routingService: RoutingService;
   let cartService: CartServiceStub;
 
   beforeEach(() => {
@@ -36,8 +35,8 @@ describe('CartNotEmptyGuard', () => {
       providers: [
         CartNotEmptyGuard,
         {
-          provide: Router,
-          useValue: mockRouter
+          provide: RoutingService,
+          useValue: mockRoutingService
         },
         {
           provide: CartService,
@@ -48,13 +47,13 @@ describe('CartNotEmptyGuard', () => {
     });
 
     cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
-    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
     cartService = TestBed.get(CartService);
   });
 
   describe('canActivate:', () => {
     beforeEach(() => {
-      spyOn(router, 'navigate');
+      spyOn(routingService, 'go');
     });
 
     describe('when cart is NOT loaded', () => {
@@ -74,7 +73,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -97,7 +96,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -122,7 +121,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should NOT emit any value', () => {
@@ -154,7 +153,9 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(router.navigate).toHaveBeenCalledWith(MAIN_PAGE_ROUTE);
+          expect(routingService.go).toHaveBeenCalledWith({
+            route: ['home']
+          });
         });
 
         it('then returned observable should emit false', () => {
@@ -179,7 +180,9 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(router.navigate).toHaveBeenCalledWith(MAIN_PAGE_ROUTE);
+          expect(routingService.go).toHaveBeenCalledWith({
+            route: ['home']
+          });
         });
 
         it('then returned observable should emit false', () => {
@@ -205,7 +208,7 @@ describe('CartNotEmptyGuard', () => {
             .canActivate()
             .subscribe()
             .unsubscribe();
-          expect(router.navigate).not.toHaveBeenCalled();
+          expect(routingService.go).not.toHaveBeenCalled();
         });
 
         it('then returned observable should emit true', () => {

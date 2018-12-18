@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, Component, Input } from '@angular/core';
 import { CartService } from '@spartacus/core';
 
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +11,13 @@ import { of, BehaviorSubject } from 'rxjs';
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import {
+  DebugElement,
+  Pipe,
+  PipeTransform,
+  Component,
+  Input
+} from '@angular/core';
 
 class MockNgbActiveModal {
   dismiss() {}
@@ -40,6 +46,13 @@ class MockCartItemComponent {
   cartIsLoading = false;
 }
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
@@ -48,7 +61,11 @@ describe('AddedToCartDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, NgbModule, SpinnerModule],
-      declarations: [AddedToCartDialogComponent, MockCartItemComponent],
+      declarations: [
+        AddedToCartDialogComponent,
+        MockCartItemComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         {
           provide: NgbActiveModal,
