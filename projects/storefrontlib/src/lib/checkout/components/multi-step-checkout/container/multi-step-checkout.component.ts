@@ -50,7 +50,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart() {
+  private refreshCart(): void {
     this.cartService.loadDetails();
   }
 

@@ -50,12 +50,7 @@ export class CartEntryEffects {
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
       this.cartService
-        .updateEntry(
-          payload.userId,
-          payload.cartId,
-          payload.entry,
-          payload.qty
-        )
+        .updateEntry(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
             return new fromActions.UpdateEntrySuccess();

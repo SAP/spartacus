@@ -90,10 +90,7 @@ describe('CartItemListComponent', () => {
   it('should update entry', () => {
     const item = mockItems[0];
     component.updateEntry({ item, updatedQuantity: 5 });
-    expect(cartService.updateEntry).toHaveBeenCalledWith(
-      item.entryNumber,
-      5
-    );
+    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
   });
 
   it('should get potential promotions for product', () => {
