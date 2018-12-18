@@ -6,7 +6,7 @@ describe('Order Details Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromOrderDetailsReducer;
-      const action = {} as any;
+      const action = {} as fromOrderDetailsAction.OrderDetailsAction;
       const state = fromOrderDetailsReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
