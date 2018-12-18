@@ -7,44 +7,61 @@ import { LoginForm } from '../page-objects/login/login-form.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { browser } from 'protractor';
 
-fdescribe('Terms and Conditions', () => {
+describe('Path to Terms and Conditions', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
+  const USER_FULL_NAME = `${LoginHelper.DEFAULT_FIRST_NAME} ${
+    LoginHelper.DEFAULT_LAST_NAME
+  }`;
+  const PRODUCT_NAME = 'Alpha 350';
+  const PRODUCT_CODE = '1446509';
+
   beforeAll(async () => {
-    // Go to Home
     await home.navigateTo();
     await home.waitForReady();
   });
 
-  it('should navigate to the T&C Page correctly', async () => {
-    // Register a new user.
+  it('should register successfully', async () => {
     await LoginHelper.registerNewUser();
+    expect(await home.header.isLoggedIn()).toBeTruthy();
+    expect(await home.header.loginComponent.getText()).toContain(
+      USER_FULL_NAME
+    );
     await LoginHelper.logOutViaHeader();
+  });
 
+  it('should go to product page', async () => {
     const categoryDslr = await home.navigateViaSplashBanner();
     await categoryDslr.waitForReady();
 
-    // Go to product page.
-    const productDetailsPage = new ProductDetailsPage();
+    const productDetailsPage = await categoryDslr.openProduct(6);
     await productDetailsPage.waitForReady();
+    expect(await productDetailsPage.productTitle.getText()).toEqual(
+      PRODUCT_NAME
+    );
+    expect(await productDetailsPage.productCode.getText()).toContain(
+      PRODUCT_CODE
+    );
+  });
 
-    // Add-to-Cart.
+  it('should navigate through checkout to T&C Page', async () => {
+    const productDetailsPage = new ProductDetailsPage();
     await productDetailsPage.itemCounterUpButton.click();
     await productDetailsPage.addToCartButton.click();
+
     const atcModal = new AddedToCartModal();
     await atcModal.waitForReady();
+
     const item = atcModal.item;
     await E2EUtil.wait4VisibleElement(item);
     await atcModal.goToCheckoutButton.click();
 
-    // Log in. Go to checkout page.
     const form = new LoginForm();
     await form.waitForReady();
     await form.fillInForm(LoginHelper.userEmail, LoginHelper.userPassword);
     await form.submitLogin();
 
-    // Fill in the shipping address
     const shippingAddress = checkoutPage.shippingAddress;
     await shippingAddress.waitForReady();
     const addressForm = shippingAddress.addressForm;
@@ -52,22 +69,18 @@ fdescribe('Terms and Conditions', () => {
     await addressForm.fillIn();
     await addressForm.nextButton.click();
 
-    // Choose the delivery
     const deliveryForm = checkoutPage.deliveryForm;
     await deliveryForm.waitForReady();
     await deliveryForm.setDeliveryMethod();
     await deliveryForm.nextButton.click();
 
-    // Fill in the payment form
     const paymentMethod = checkoutPage.paymentMethod;
     await paymentMethod.waitForReady();
-
     const paymentForm = paymentMethod.paymentForm;
     await paymentForm.waitForReady();
     await paymentForm.fillIn();
     await paymentForm.nextButton.click();
 
-    // Open Terms and conditions
     const reviewForm = checkoutPage.reviewForm;
     await reviewForm.waitForReady();
     const termsAndConditionsPage = await checkoutPage.openTermsAndConditions();
