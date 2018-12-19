@@ -24,3 +24,11 @@ export const getAddressesLoading: MemoizedSelector<
   getAddressesState,
   fromUserAddressesReducer.getLoading
 );
+
+export const getAddressActionProcessingStatus: MemoizedSelector<
+  any,
+  boolean
+> = createSelector(
+  getAddressesState,
+  fromUserAddressesReducer.getActionProcessingStatus
+);

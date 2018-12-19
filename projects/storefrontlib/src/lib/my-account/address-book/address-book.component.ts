@@ -23,6 +23,7 @@ import {
 export class AddressBookComponent implements OnInit, OnDestroy {
   addresses$: Observable<any>;
   addressesLoading$: Observable<any>;
+  addressActionProcessing$: Observable<any>;
   userId: string;
   isAddAddressFormOpen: boolean;
   isEditAddressFormOpen: boolean;
@@ -37,7 +38,9 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService.getAddressesState();
+    this.addresses$ = this.userService.getAddresses();
+    this.addressesLoading$ = this.userService.getAddressesLoading();
+    this.addressActionProcessing$ = this.userService.getAddressActionProcessingStatus();
 
     this.userService.get().subscribe(data => {
       this.userId = data.uid;
@@ -90,7 +93,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
         case LOAD_USER_ADDRESSES_SUCCESS: {
           this.userService.getAddresses().subscribe(data => {
             this.hideAddAddressForm();
-            if (!data) {
+            if (data.length === 0) {
               this.showAddAddressForm();
             }
           });

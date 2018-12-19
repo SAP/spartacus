@@ -247,13 +247,6 @@ export class UserService {
   }
 
   /**
-   * Returns addresses state
-   */
-  getAddressesState(): Observable<fromStore.UserAddressesState> {
-    return this.store.pipe(select(fromStore.getAddressesState));
-  }
-
-  /**
    * Returns addresses
    */
   getAddresses(): Observable<Address[]> {
@@ -265,6 +258,13 @@ export class UserService {
    */
   getAddressesLoading(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getAddressesLoading));
+  }
+
+  /**
+   * Returns an action processing flag
+   */
+  getAddressActionProcessingStatus(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getAddressActionProcessingStatus));
   }
 
   /**
