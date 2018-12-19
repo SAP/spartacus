@@ -6,14 +6,15 @@ import { Observable, of } from 'rxjs';
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { RegionsEffects } from './regions.effect';
+import { RegionList } from '../../../occ/occ-models';
 
 class MockMiscsService {
-  loadRegions(_countryIsoCode: string): Observable<any> {
-    return;
+  loadRegions(_countryIsoCode: string): Observable<RegionList> {
+    return of();
   }
 }
 
-const mockRegionsList = {
+const mockRegionsList: RegionList = {
   regions: [
     {
       isocode: 'CA-ON',
