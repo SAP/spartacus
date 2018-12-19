@@ -7,13 +7,14 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { OccProductService } from './../../occ/product.service';
-import { ErrorModel, Review } from '../../../occ/occ-models/occ.models';
+import { ErrorModel } from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductReviewsEffects {
   @Effect()
   loadProductReviews$: Observable<
-    { productCode: string; list: Review[] } | ErrorModel
+    | productReviewsActions.LoadProductReviewsSuccess
+    | productReviewsActions.LoadProductReviewsFail
   > = this.actions$.pipe(
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),

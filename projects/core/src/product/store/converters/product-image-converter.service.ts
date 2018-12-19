@@ -16,7 +16,7 @@ export class ProductImageConverterService {
     }
   }
 
-  convertProduct(product: Product) {
+  convertProduct(product: Product): void {
     if (product.images) {
       product.images = this.populate(product.images);
     }

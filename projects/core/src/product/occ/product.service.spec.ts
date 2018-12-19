@@ -4,8 +4,8 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { ReviewList } from '../../occ';
 import { OccConfig } from '../../occ/config/occ-config';
+import { ReviewList } from '../../occ/occ-models/occ.models';
 
 import { OccProductService } from './product.service';
 

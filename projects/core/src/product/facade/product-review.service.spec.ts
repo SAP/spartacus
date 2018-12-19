@@ -55,12 +55,12 @@ describe('ReviewService', () => {
       );
       service
         .getByProductCode('testId')
-        .subscribe(() => {
-          expect(store.dispatch).toHaveBeenCalledWith(
-            new fromStore.LoadProductReviews('testId')
-          );
-        })
+        .subscribe()
         .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadProductReviews('testId')
+      );
     });
   });
 

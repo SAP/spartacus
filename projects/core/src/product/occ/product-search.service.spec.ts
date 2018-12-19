@@ -4,9 +4,12 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { ProductSearchPage, SuggestionList } from '../../occ';
 import { SearchConfig } from '../model/search-config';
 import { OccConfig } from '../../occ/config/occ-config';
+import {
+  ProductSearchPage,
+  SuggestionList
+} from '../../occ/occ-models/occ.models';
 
 import { OccProductSearchService } from './product-search.service';
 

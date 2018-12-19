@@ -42,7 +42,7 @@ class MockRoutingService {
 }
 
 describe('Product Effects', () => {
-  let actions$: Observable<Action>;
+  let actions$: Observable<fromActions.ProductAction>;
   let service: OccProductService;
   let effects: fromEffects.ProductEffects;
 

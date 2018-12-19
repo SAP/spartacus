@@ -8,18 +8,13 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import * as productsSearchActions from '../actions/product-search.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { OccProductSearchService } from '../../occ/product-search.service';
-import {
-  ErrorModel,
-  ProductSearchPage,
-  Suggestion
-} from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductsSearchEffects {
   @Effect()
   searchProducts$: Observable<
-    | { payload: ProductSearchPage; auxiliary?: boolean }
-    | { payload: ErrorModel; auxiliary?: boolean }
+    | productsSearchActions.SearchProductsSuccess
+    | productsSearchActions.SearchProductsFail
   > = this.actions$.pipe(
     ofType(productsSearchActions.SEARCH_PRODUCTS),
     switchMap((action: productsSearchActions.SearchProducts) => {
@@ -47,7 +42,8 @@ export class ProductsSearchEffects {
 
   @Effect()
   getProductSuggestions$: Observable<
-    { payload: Suggestion[] } | { payload: ErrorModel }
+    | productsSearchActions.GetProductSuggestionsSuccess
+    | productsSearchActions.GetProductSuggestionsFail
   > = this.actions$.pipe(
     ofType(productsSearchActions.GET_PRODUCT_SUGGESTIONS),
     map(

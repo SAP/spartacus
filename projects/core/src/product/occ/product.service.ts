@@ -68,12 +68,4 @@ export class OccProductService {
       .post(url, body.toString(), { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
-  /*
-  loadProductReferences(productCode: string) {
-    return this.http
-      .get(this.getProductEndpoint() + `/${productCode}/`, {
-        params: new HttpParams().set('fields', 'productReferences')
-      })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
-  }*/
 }
