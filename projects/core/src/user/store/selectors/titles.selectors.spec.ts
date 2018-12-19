@@ -5,6 +5,7 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { UserState, USER_FEATURE } from '../user-state';
+import { Title } from '../../../occ/occ-models';
 
 describe('Titles Selectors', () => {
   let store: Store<UserState>;
@@ -23,7 +24,7 @@ describe('Titles Selectors', () => {
 
   describe('getAllTitles', () => {
     it('should return all titles', () => {
-      const mockTitles = [
+      const mockTitles: Title[] = [
         {
           code: 'mr',
           name: 'Mr.'
@@ -34,7 +35,7 @@ describe('Titles Selectors', () => {
         }
       ];
 
-      let result;
+      let result: Title[];
       store
         .pipe(select(fromSelectors.getAllTitles))
         .subscribe(value => (result = value));
@@ -50,7 +51,7 @@ describe('Titles Selectors', () => {
   describe('titleSelectorFactory', () => {
     it('should return title', () => {
       const code = 'mr';
-      const mockTitles = [
+      const mockTitles: Title[] = [
         {
           code: 'mr',
           name: 'Mr.'
@@ -61,7 +62,7 @@ describe('Titles Selectors', () => {
         }
       ];
 
-      let result;
+      let result: Title;
 
       store
         .pipe(select(fromSelectors.titleSelectorFactory(code)))

@@ -11,12 +11,17 @@ describe('Cms Component Selectors', () => {
 
   const code = 'testCode';
   const product = {
-    code,
+    code: code,
     name: 'testProduct'
   };
 
   const entities = {
-    testCode: product
+    testCode: {
+      loading: false,
+      error: false,
+      success: true,
+      value: product
+    }
   };
 
   beforeEach(() => {
@@ -30,21 +35,6 @@ describe('Cms Component Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getProductEntities', () => {
-    it('should return products as entities', () => {
-      let result;
-
-      store
-        .pipe(select(fromSelectors.getProductState))
-        .subscribe(value => (result = value));
-      expect(result.entities).toEqual({});
-
-      store.dispatch(new fromActions.LoadProductSuccess(product));
-
-      expect(result.entities).toEqual(entities);
-    });
-  });
-
   describe('getSelectedProductsFactory', () => {
     it('should return product by code', () => {
       let result;
@@ -55,7 +45,7 @@ describe('Cms Component Selectors', () => {
 
       store.dispatch(new fromActions.LoadProductSuccess(product));
 
-      expect(result).toEqual([entities['testCode']]);
+      expect(result).toEqual([entities['testCode'].value]);
     });
   });
 
@@ -85,6 +75,52 @@ describe('Cms Component Selectors', () => {
 
       store.dispatch(new fromActions.LoadProductSuccess(product));
       expect(result).toEqual(product);
+    });
+  });
+
+  describe('getSelectedProductLoadingFactory', () => {
+    it('should return isLoading information', () => {
+      let result;
+
+      store
+        .pipe(select(fromSelectors.getSelectedProductLoadingFactory(code)))
+        .subscribe(value => (result = value));
+
+      store.dispatch(new fromActions.LoadProduct(product.code));
+      expect(result).toBeTruthy();
+
+      store.dispatch(new fromActions.LoadProductSuccess(product));
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getSelectedProductSuccessFactory', () => {
+    it('should return success information', () => {
+      let result;
+
+      store
+        .pipe(select(fromSelectors.getSelectedProductSuccessFactory(code)))
+        .subscribe(value => (result = value));
+
+      expect(result).toBeFalsy();
+
+      store.dispatch(new fromActions.LoadProductSuccess(product));
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe('getSelectedProductErrorFactory', () => {
+    it('should return error information', () => {
+      let result;
+
+      store
+        .pipe(select(fromSelectors.getSelectedProductErrorFactory(code)))
+        .subscribe(value => (result = value));
+
+      expect(result).toBeFalsy();
+
+      store.dispatch(new fromActions.LoadProductFail(code, undefined));
+      expect(result).toBeTruthy();
     });
   });
 });

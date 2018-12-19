@@ -8,10 +8,12 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from './../actions';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Country } from '../../../occ/occ-models/index';
+import { Country, CountryList } from '../../../occ/occ-models/index';
 
 class MockMiscsService {
-  loadDeliveryCountries() {}
+  loadDeliveryCountries(): Observable<CountryList> {
+    return of();
+  }
 }
 
 const mockCountries: Country[] = [
@@ -25,7 +27,7 @@ const mockCountries: Country[] = [
   }
 ];
 
-const mockCountriesList = {
+const mockCountriesList: CountryList = {
   countries: mockCountries
 };
 

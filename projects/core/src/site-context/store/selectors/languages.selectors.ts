@@ -42,6 +42,8 @@ export const getAllLanguages: MemoizedSelector<
 > = createSelector(
   getLanguagesEntities,
   entities => {
-    return Object.keys(entities).map(isocode => entities[isocode]);
+    return entities
+      ? Object.keys(entities).map(isocode => entities[isocode])
+      : null;
   }
 );
