@@ -1,7 +1,7 @@
 <ng-container
   *ngIf="
     !(isLoading$ | async) && (locations$ | async) as locations;
-    else: loading
+    else loading
   "
 >
   <div class="cx-store-finder-list-count container">

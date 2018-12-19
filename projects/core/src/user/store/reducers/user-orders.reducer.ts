@@ -1,6 +1,7 @@
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import * as fromAction from '../actions/index';
 import { UserOrdersState } from '../user-state';
+import { OrderHistoryList } from '../../../occ/occ-models';
 
 export const initialState: UserOrdersState = {
   orders: {
@@ -25,7 +26,7 @@ export function reducer(
       };
     }
     case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
-      const orders = action.payload;
+      const orders: OrderHistoryList = action.payload;
       return {
         ...state,
         orders,
