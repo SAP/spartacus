@@ -9,7 +9,8 @@ import {
   GlobalMessageService,
   Address,
   PaymentDetails,
-  Order
+  Order,
+  Cart
 } from '@spartacus/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -132,9 +133,11 @@ describe('MultiStepCheckoutComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      activeCart$: new BehaviorSubject({}),
-      getActive(): BehaviorSubject<{}> {
-        return this.activeCart$;
+      getActive(): BehaviorSubject<Cart> {
+        return new BehaviorSubject({
+          totalItems: 5141,
+          subTotal: { formattedValue: '11119' }
+        });
       },
       loadDetails: createSpy()
     };
@@ -370,12 +373,6 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should contain proper total value and total items', () => {
-    const mockCartData = {
-      totalItems: 5141,
-      subTotal: { formattedValue: 11119 }
-    };
-
-    mockCartService.getActive().next(mockCartData);
     fixture.detectChanges();
 
     const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))
