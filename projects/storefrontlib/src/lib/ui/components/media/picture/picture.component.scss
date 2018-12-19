@@ -1,11 +1,11 @@
 img {
-  transition: all var(--cx-transition-time);
+  transition: all var(--cx-g-transition-duration);
 
   max-width: 100%;
   max-height: 100%;
 
   transform: scale(var(--cx-zoom, 1));
   opacity: var(--cx-zoom, 1);
-  transition: all var(--cx-transition-time, 0.6s);
+  transition: all var(--cx-g-transition-duration, 0.6s);
   border-radius: var(--cx-border-radius);
 }

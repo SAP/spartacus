@@ -26,7 +26,7 @@ describe('User Addresses Selectors', () => {
 
   describe('getAddresses', () => {
     it('should return a user addresses', () => {
-      let result;
+      let result: Address[];
       store
         .pipe(select(fromSelectors.getAddresses))
         .subscribe(value => (result = value));
@@ -43,7 +43,7 @@ describe('User Addresses Selectors', () => {
 
   describe('getAddressLoading', () => {
     it('should return isLoading flag', () => {
-      let result;
+      let result: boolean;
       store
         .pipe(select(fromSelectors.getAddressesLoading))
         .subscribe(value => (result = value));
@@ -51,6 +51,21 @@ describe('User Addresses Selectors', () => {
       expect(result).toEqual(false);
 
       store.dispatch(new fromActions.LoadUserAddresses('userId'));
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getAddressProcessingStatus', () => {
+    it('should return isActionProcessing flag', () => {
+      let result;
+      store
+        .pipe(select(fromSelectors.getAddressActionProcessingStatus))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.DeleteUserAddress('addressId'));
 
       expect(result).toEqual(true);
     });
