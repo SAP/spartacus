@@ -69,6 +69,40 @@ describe('Find Stores Actions', () => {
     });
   });
 
+  describe('FindStoreById', () => {
+    it('should create FindStoreById action', () => {
+      const storeId = 'shop_los_angeles_1';
+      const payload = { storeId };
+      const action = new fromActions.FindStoreById(payload);
+
+      expect({
+        ...action
+      }).toEqual({ type: fromActions.FIND_STORE_BY_ID, payload });
+    });
+  });
+
+  describe('FindStoreByIdFail', () => {
+    it('should create FindStoreByIdFail action', () => {
+      const payload = { errorMessage: 'Error' };
+      const action = new fromActions.FindStoreByIdFail(payload);
+
+      expect({
+        ...action
+      }).toEqual({ type: fromActions.FIND_STORE_BY_ID_FAIL, payload });
+    });
+  });
+
+  describe('FindStoreByIdSuccess', () => {
+    it('should create FindStoreByIdSuccess action', () => {
+      const payload = { name: 'storeName' };
+      const action = new fromActions.FindStoreByIdSuccess(payload);
+
+      expect({
+        ...action
+      }).toEqual({ type: fromActions.FIND_STORE_BY_ID_SUCCESS, payload });
+    });
+  });
+
   describe('FindAllStoresByCountry', () => {
     it('should create FindAllStoresByCountry action', () => {
       const payload = { countryIsoCode: 'test' };
