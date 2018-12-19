@@ -236,7 +236,7 @@ export class UserService {
    * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address) {
+  addUserAddress(userId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
         userId: userId,
@@ -250,7 +250,7 @@ export class UserService {
    * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string) {
+  setAddressAsDefault(userId: string, addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
         userId: userId,
@@ -266,7 +266,7 @@ export class UserService {
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address) {
+  updateUserAddress(userId: string, addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
         userId: userId,
@@ -281,7 +281,7 @@ export class UserService {
    * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string) {
+  deleteUserAddress(userId: string, addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
         userId: userId,

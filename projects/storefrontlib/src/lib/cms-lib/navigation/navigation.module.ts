@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationService } from './navigation.service';
-import { ConfigModule } from '@spartacus/core';
+import { ConfigModule, UrlTranslationModule } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
@@ -18,7 +18,8 @@ import { CmsConfig } from '@spartacus/core';
       cmsComponents: {
         NavigationComponent: { selector: 'cx-navigation' }
       }
-    })
+    }),
+    UrlTranslationModule
   ],
   providers: [NavigationService],
   declarations: [NavigationComponent, NavigationUIComponent],

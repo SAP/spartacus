@@ -58,14 +58,17 @@
       <!-- searchbox results -->
       <ng-template #rt let-suggestion="result">
         <div
-          *ngIf="!suggestion.code; else: productView"
+          *ngIf="!suggestion.code; else productView"
           class="cx-search-box__dropdown-content"
         >
           {{ suggestion }}
         </div>
         <ng-template #productView>
           <div
-            [routerLink]="['/product/', suggestion.code]"
+            [routerLink]="
+              { route: [{ name: 'product', params: suggestion }] }
+                | cxTranslateUrl
+            "
             class="cx-search-box__dropdown-content-product"
           >
             <cx-picture

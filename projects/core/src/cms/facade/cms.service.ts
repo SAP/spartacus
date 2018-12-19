@@ -4,6 +4,7 @@ import * as fromStore from '../store';
 import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
+import { ContentSlotData } from '../model/content-slot.model';
 import { DefaultPageService } from '../occ/default-page.service';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
@@ -58,22 +59,10 @@ export class CmsService {
   }
 
   /**
-   * Given the position, get CMS components (with uuid, uid and typecode) inside the content slot
+   * Given the position, get the content slot data
    * @param position : content slot position
    */
-  getContentSlot(
-    position: string
-  ): Observable<{
-    uid: string;
-    uuid: string;
-    catalogUuid?: string;
-    components: {
-      uid: string;
-      typeCode: string;
-      uuid: string;
-      catalogUuid?: string;
-    }[];
-  }> {
+  getContentSlot(position: string): Observable<ContentSlotData> {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)

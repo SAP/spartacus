@@ -31,7 +31,7 @@
       </div>
       <!-- Image -->
       <div *ngIf="content.img" class="cx-card-body__img-container">
-        <img src="{{content.img}}" alt="" />
+        <img src="{{ content.img }}" alt="" />
       </div>
     </div>
     <!-- Edit Mode Actions -->
@@ -80,7 +80,7 @@
           >
           <a
             *ngSwitchDefault
-            href="{{action.link}}"
+            href="{{ action.link }}"
             class="card-link btn-link"
             >{{ action.name }}</a
           >
