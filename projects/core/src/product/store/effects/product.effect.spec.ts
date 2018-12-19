@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { StoreModule, Action } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
