@@ -5,7 +5,7 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { OccConfig } from '../../occ/config/occ-config';
-import { Review } from '../../occ/occ-models/occ.models';
+import { Product, ReviewList, Review } from '../../occ/occ-models/occ.models';
 
 const ENDPOINT_PRODUCT = 'products';
 
@@ -13,7 +13,7 @@ const ENDPOINT_PRODUCT = 'products';
 export class OccProductService {
   constructor(private http: HttpClient, private config: OccConfig) {}
 
-  protected getProductEndpoint() {
+  protected getProductEndpoint(): string {
     return (
       (this.config.server.baseUrl || '') +
       this.config.server.occPrefix +
@@ -23,7 +23,7 @@ export class OccProductService {
     );
   }
 
-  loadProduct(productCode: string): Observable<any> {
+  loadProduct(productCode: string): Observable<Product> {
     const params = new HttpParams({
       fromString:
         'fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
@@ -34,7 +34,10 @@ export class OccProductService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  loadProductReviews(productCode: string, maxCount?: number): Observable<any> {
+  loadProductReviews(
+    productCode: string,
+    maxCount?: number
+  ): Observable<ReviewList> {
     let url = this.getProductEndpoint() + `/${productCode}/reviews`;
     if (maxCount && maxCount > 0) {
       url += `?maxCount=${maxCount}`;
@@ -47,8 +50,8 @@ export class OccProductService {
 
   public postProductReview(
     productCode: String,
-    review: Review
-  ): Observable<any> {
+    review: any
+  ): Observable<Review> {
     const url = this.getProductEndpoint() + `/${productCode}/reviews`;
 
     const headers = new HttpHeaders({
@@ -65,12 +68,4 @@ export class OccProductService {
       .post(url, body.toString(), { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
-  /*
-  loadProductReferences(productCode: string) {
-    return this.http
-      .get(this.getProductEndpoint() + `/${productCode}/`, {
-        params: new HttpParams().set('fields', 'productReferences')
-      })
-      .pipe(catchError((error: any) => Observable.throw(error.json())));
-  }*/
 }

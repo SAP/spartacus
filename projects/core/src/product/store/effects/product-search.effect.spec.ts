@@ -1,16 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
 
-import { hot, cold } from 'jasmine-marbles';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 
+import { hot, cold } from 'jasmine-marbles';
+
+import * as fromActions from '../actions/product-search.action';
+import { ProductImageConverterService } from '../converters/product-image-converter.service';
+import { SearchConfig } from '../../model/search-config';
 import { OccProductSearchService } from '../../occ/product-search.service';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { SearchConfig } from '../../model/search-config';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
+import {
+  SuggestionList,
+  ProductSearchPage
+} from '../../../occ/occ-models/occ.models';
+
 import * as fromEffects from './product-search.effect';
-import * as fromActions from '../actions/product-search.action';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -20,13 +28,13 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 describe('ProductSearch Effects', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
   let service: OccProductSearchService;
   let effects: fromEffects.ProductsSearchEffects;
   let searchConfig: SearchConfig;
 
-  const searchResult: any = { products: [] };
-  const suggestions: any = { suggestions: [] };
+  const searchResult: ProductSearchPage = { products: [] };
+  const suggestions: SuggestionList = { suggestions: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
