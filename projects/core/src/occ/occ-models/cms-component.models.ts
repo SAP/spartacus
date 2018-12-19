@@ -32,3 +32,28 @@ export interface CmsParagraphComponent extends CmsComponent {
   typeCode?: string;
   uid?: string;
 }
+
+export interface CmsBannerComponentMedia {
+  altText?: string;
+  code?: string;
+  mime?: string;
+  url?: string;
+}
+
+export interface CmsResponsiveBannerComponentMedia {
+  desktop?: CmsBannerComponentMedia;
+  mobile?: CmsBannerComponentMedia;
+  tablet?: CmsBannerComponentMedia;
+  widescreen?: CmsBannerComponentMedia;
+}
+
+export interface CmsBannerComponent extends CmsComponent {
+  container?: string;
+  uid?: string;
+  media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  modifiedTime?: string;
+  name?: string;
+  typeCode?: string;
+  urlLink?: string;
+  external?: string;
+}
