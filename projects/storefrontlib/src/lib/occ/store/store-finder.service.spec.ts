@@ -22,6 +22,7 @@ const storeCountResponseBody = { CA: 50 };
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
+const storeId = 'test';
 
 export class MockOccModuleConfig {
   server = {
@@ -105,6 +106,21 @@ describe('OccStoreFinderService', () => {
     httpMock
       .expectOne({ method: 'GET', url: '/stores/count' })
       .flush(storeCountResponseBody);
+  });
+
+  describe('query by store id', () => {
+    it('should request stores by store id', () => {
+      service.findStoreById(storeId).subscribe(result => {
+        expect(result).toEqual(searchResults.stores[0]);
+      });
+
+      httpMock
+        .expectOne({
+          method: 'GET',
+          url: '/stores/' + storeId + '?fields=FULL'
+        })
+        .flush(searchResults.stores[0]);
+    });
   });
 
   describe('query by country', () => {

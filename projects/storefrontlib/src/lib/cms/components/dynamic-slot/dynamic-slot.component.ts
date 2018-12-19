@@ -8,7 +8,7 @@ import {
   ElementRef
 } from '@angular/core';
 
-import { CmsService } from '@spartacus/core';
+import { CmsService, ContentSlotData } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicSlotComponent implements OnInit, OnDestroy {
-  currentSlot$: Observable<any>;
+  currentSlot$: Observable<ContentSlotData>;
 
   @Input()
   position: string;
@@ -46,11 +46,7 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  private addSmartEditContract(slot: {
-    uid: string;
-    uuid: string;
-    catalogUuid?: string;
-  }): void {
+  private addSmartEditContract(slot: ContentSlotData): void {
     this.renderer.addClass(
       this.hostElement.nativeElement,
       'smartEditComponent'

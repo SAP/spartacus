@@ -15,6 +15,7 @@ describe('StoreFinderService', () => {
   const queryText = 'test';
   const countryIsoCode = 'CA';
   const regionIsoCode = 'CA-QC';
+  const storeId = 'shop_los_angeles_1';
   const geolocationWatchId = 1;
 
   const longitudeLatitude: LongitudeLatitude = {
@@ -108,6 +109,16 @@ describe('StoreFinderService', () => {
       expect(
         winRef.nativeWindow.navigator.geolocation.clearWatch
       ).toHaveBeenCalledWith(geolocationWatchId);
+    });
+  });
+
+  describe('View Store By Id', () => {
+    it('should dispatch a new FindStoreById action', () => {
+      service.viewStoreById(storeId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.FindStoreById({ storeId })
+      );
     });
   });
 

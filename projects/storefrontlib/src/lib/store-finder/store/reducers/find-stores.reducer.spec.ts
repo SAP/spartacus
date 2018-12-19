@@ -50,6 +50,21 @@ describe('Find Stores Reducer', () => {
     });
   });
 
+  describe('FIND_STORE_BY_ID_SUCCESS action', () => {
+    it('should populate results after loading', () => {
+      const results = { name: 'test' };
+      const { initialState } = fromReducers;
+      const loadAction = new fromActions.FindStoreById({ storeId: 'testId' });
+
+      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const resultAction = new fromActions.FindStoreByIdSuccess(results);
+      const state = fromReducers.reducer(loadingState, resultAction);
+
+      expect(state.findStoresEntities).toEqual(results);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
   describe('FIND_ALL_STORES_BY_COUNTRY_SUCCESS action', () => {
     it('should populate results after loading', () => {
       const results = { stores: [{ name: 'test' }] };
