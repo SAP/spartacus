@@ -39,6 +39,6 @@ nav {
   padding: var(--cx-padding, 32px 0);
   text-align: var(--cx-text-align, center);
   @include type();
-  color: var(--cx-color, var(--cx-dark));
-  background-color: var(--cx-background-color, var(--cx-inverse));
+  color: var(--cx-color, var(--cx-g-color-dark));
+  background-color: var(--cx-background-color, var(--cx-g-color-inverse));
 }
