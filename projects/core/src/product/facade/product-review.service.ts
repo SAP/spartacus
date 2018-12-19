@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
 import * as fromStore from '../store/index';
 import { Review } from '../../occ/occ-models';
 
@@ -25,7 +28,7 @@ export class ProductReviewService {
     this.store.dispatch(
       new fromStore.PostProductReview({
         productCode: productCode,
-        review: review
+        review
       })
     );
   }
