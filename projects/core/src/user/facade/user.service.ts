@@ -19,50 +19,6 @@ import * as fromStore from '../store/index';
 
 @Injectable()
 export class UserService {
-  readonly user$: Observable<User> = this.store.pipe(
-    select(fromStore.getDetails)
-  );
-
-  readonly orderDetails$: Observable<Order> = this.store.pipe(
-    select(fromStore.getOrderDetails)
-  );
-
-  readonly orderList$: Observable<any> = this.store.pipe(
-    select(fromStore.getOrders)
-  );
-  readonly orderListLoaded$: Observable<boolean> = this.store.pipe(
-    select(fromStore.getOrdersLoaded)
-  );
-
-  readonly paymentMethods$: Observable<PaymentDetails[]> = this.store.pipe(
-    select(fromStore.getPaymentMethods)
-  );
-  readonly paymentMethodsLoading$: Observable<boolean> = this.store.pipe(
-    select(fromStore.getPaymentMethodsLoading)
-  );
-
-  readonly addresses$: Observable<Address[]> = this.store.pipe(
-    select(fromStore.getAddresses)
-  );
-  readonly addressesLoading$: Observable<boolean> = this.store.pipe(
-    select(fromStore.getAddressesLoading)
-  );
-  readonly addressesState$: Observable<any> = this.store.pipe(
-    select(fromStore.getAddressesState)
-  );
-
-  readonly titles$: Observable<Title[]> = this.store.pipe(
-    select(fromStore.getAllTitles)
-  );
-
-  readonly allDeliveryCountries$: Observable<Country[]> = this.store.pipe(
-    select(fromStore.getAllDeliveryCountries)
-  );
-
-  readonly allRegions$: Observable<Region[]> = this.store.pipe(
-    select(fromStore.getAllRegions)
-  );
-
   constructor(private store: Store<fromStore.UserState>) {}
 
   /**
@@ -236,7 +192,7 @@ export class UserService {
    * @param userId a user ID
    * @param address a user address
    */
-  addUserAddress(userId: string, address) {
+  addUserAddress(userId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.AddUserAddress({
         userId: userId,
@@ -250,7 +206,7 @@ export class UserService {
    * @param userId a user ID
    * @param addressId a user address ID
    */
-  setAddressAsDefault(userId: string, addressId: string) {
+  setAddressAsDefault(userId: string, addressId: string): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
         userId: userId,
@@ -266,7 +222,7 @@ export class UserService {
    * @param addressId a user address ID
    * @param address a user address
    */
-  updateUserAddress(userId: string, addressId: string, address) {
+  updateUserAddress(userId: string, addressId: string, address: Address): void {
     this.store.dispatch(
       new fromStore.UpdateUserAddress({
         userId: userId,
@@ -281,7 +237,7 @@ export class UserService {
    * @param userId a user ID
    * @param addressId a user address ID
    */
-  deleteUserAddress(userId: string, addressId: string) {
+  deleteUserAddress(userId: string, addressId: string): void {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
         userId: userId,
@@ -302,6 +258,13 @@ export class UserService {
    */
   getAddressesLoading(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getAddressesLoading));
+  }
+
+  /**
+   * Returns an action processing flag
+   */
+  getAddressActionProcessingStatus(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getAddressActionProcessingStatus));
   }
 
   /**
