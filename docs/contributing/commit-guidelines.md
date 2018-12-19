@@ -18,14 +18,15 @@ We use git commit messages to generate the framework changelog. To that end, we 
 
 ## Commit Message Format
 
-The commit message consists of a header, a body, and optionally, a footer.
+The commit message consists of a header, a body, and optionally, a footer. Each line in the commit message has a maximum length of 100 characters.
 
+When you click `Squash and merge`, two text fields appear. The first is for entering the header, and the second is for entering the body and footer. The body and footer are separated by a blank line. The following is an example:
+
+![alt text](https://github.com/SAP/cloud-commerce-spartacus-storefront/tree/develop/docs/assets/images/Squash_and_merge_header.png "Commit message header")
 
 ### Header
 
-The commit header is a brief summary of the work done, with a maximum length of 100 characters. It is entered into its own, dedicated textfield that appears after you click `Squash and merge`. The following is an example:
-
-![alt text](https://github.com/SAP/cloud-commerce-spartacus-storefront/tree/develop/docs/assets/images/Squash_and_merge_header.png "Commit message header")
+The commit header is a brief summary of the work done.
 
 When you click `Squash and merge`, the header field is automatically populated. However, it does not match our commit guidelines format precisely. Modify it to fit the following format: 
 
@@ -36,9 +37,9 @@ When you click `Squash and merge`, the header field is automatically populated. 
 
 The `type` is mandatory, and must be one of the following:
 
-* `build`: for changes that affect the build system or external dependencies. Example scopes could include the following: `gulp`, `broccoli`, or `npm`.
+* `build`: for changes that affect the build system or external dependencies.
 
-* `ci`: for changes to our CI configuration files and scripts. Example scopes could include the following: `Travis`, `Circle`, `BrowserStack`, or `SauceLabs`.
+* `ci`: for changes to our CI configuration files and scripts.
 
 * `docs`: for changes to documentation only
 
@@ -52,9 +53,9 @@ The `type` is mandatory, and must be one of the following:
 
 * `style`: for changes that do not affect the meaning of the code, such as white-space, formatting, missing semi-colons, and so on
 
-* `test`: for adding missing tests or correcting existing tests.
+* `test`: for adding missing tests or to correct existing tests.
 
-In the changelog, we only present commits that are of type `feat` or `fix`.
+In the changelog, we only include commits that are of type `feat` or `fix`.
 
 #### Scope
 
@@ -81,28 +82,27 @@ The subject contains a succinct description of the change, and adheres to the fo
 At the end of the header, include the GitHub issue number in parentheses, preceded by a hashtag, as follows: `(#123)`. The changelog converts this to a link to the issue.
 
 
-### Body and Footer
-- Describe the problem you are fixing with this change. Whether your patch is a one-line bug fix or 5000 lines of a new feature, there must be an underlying problem that motivated you to do this work. Make the necessity of the fix clear to the reviewers, so they will continue reading.
+### Body
 
-- Describe the effect that this change has from a user's point of view. App crashes and lockups are pretty convincing, but not all bugs are that obvious; this information should be mentioned in the text. Even if the problem was spotted during code review, describe the impact you think it can have on users.
+The body is entered in the text field below the header field. Just as with the header, the body is written in the present, imperative tense.
 
-- Describe the technical details of what you changed. It is important to describe the change in a most understandable way so the reviewer is able to verify that the code is behaving as you intend it to.
+The following are some guidelines for writing the body:
+
+* Describe the problem you are fixing. Whether your patch is a one-line bug fix, or is 5000 lines of new code, there must be an underlying problem that motivated you to do this work. Make the necessity of the fix clear to the reviewers, so they will continue reading.
+
+* Describe the effect that this change has from a user's point of view. App crashes and lockups are pretty convincing, but not all bugs are that obvious; this information should be mentioned in the text. Even if the problem was spotted during code review, describe the impact you think it can have on users.
+
+* Describe the technical details of what you changed. It is important to describe the change as clearly as possible. This will help the reviewer to verify that the code is behaving as you intend it to.
 
 
 ### Footer
-The data section consists of name-value pairs
--   `Fixes: https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/(issueNumber)` if the change fixes a GitHub-reported bug.
--   `Closes: https://github.com/SAP/cloud-commerce-spartacus-storefront/pull/(pullRequestNumber)` if the change comes from a pull request. This is usually added by the Spartacus committer handling the pull request.
--   Further internal information is added by SAP developers if required.
-- A commit message might look like this:
 
-    ``` wiki
-    [FIX] sap.m.Popover: scrolling is removed after Popover is rerendered
-    
-    - this was caused by the special treatment in dealing with rerendering in Popover.
-    
-    - Now the normal invalidation is used and Popup.js takes care of the focus/blur event listener in onBefore/AfterRerendering
-    
-    Fixes: https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/1
-    ```
+The footer contains information about breaking changes, should there be any. If your issue contains a breaking change, start the footer with `BREAKING CHANGE:` followed by a space or an empty line, and then a description of the breaking change.
+
+The footer is also where you can automatically close your issue with a keyword. For information on the format, and a list of the available keywords, see [GitHub Help](https://help.github.com/articles/closing-issues-using-keywords/).
+
+
+### Reverting a Commit
+
+If your commit reverts a previous commit, begin the header with `revert:` and then include the header of the reverted commit. In the body, write "This reverts commit _hash_", where _hash_ is the SHA of the commit you are reverting.
 
