@@ -31,7 +31,7 @@ describe('Path to Terms and Conditions', () => {
     await LoginHelper.logOutViaHeader();
   });
 
-  it('should go to product page', async () => {
+  it('should go through category to product page', async () => {
     const categoryDslr = await home.navigateViaSplashBanner();
     await categoryDslr.waitForReady();
 
