@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
 import * as fromStore from '../store/index';
-import { Review } from '../../occ/occ-models';
+import { Review } from '../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductReviewService {
