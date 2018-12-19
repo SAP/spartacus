@@ -139,7 +139,7 @@
             *ngIf="
               (sameAsShippingAddress && shippingAddress$
                 | async) as shippingAddress;
-              else: billingAddressForm
+              else billingAddressForm
             "
           >
             <cx-card
