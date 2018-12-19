@@ -1,5 +1,5 @@
 @mixin var-color($property, $key) {
   $_color: theme-color($key);
   #{$property}: $_color;
-  #{$property}: var(--cx-#{$key});
+  #{$property}: var(--cx-g-color-#{$key});
 }

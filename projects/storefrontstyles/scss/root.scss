@@ -2,17 +2,15 @@
 
 :root {
   @each $color, $value in $theme-colors {
-    --cx-#{$color}: #{$value};
+    --cx-g-color-#{$color}: #{$value};
   }
 
-  --direction: #{$direction};
+  --cx-g-direction: #{$direction};
 
-  --cx-transition-time: 0.5s;
+  --cx-g-transition-duration: 0.5s;
+  --cx-g-animation-duration: 1s;
+
+  --cx-g-border-radius: 1em;
 
   --cx-border-style: solid;
-}
-
-* {
-  border-radius: var(--cx-border-radius);
-  outline: none;
 }
