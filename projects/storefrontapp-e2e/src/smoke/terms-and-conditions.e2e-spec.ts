@@ -7,7 +7,7 @@ import { LoginForm } from '../page-objects/login/login-form.po';
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { browser } from 'protractor';
 
-fdescribe('Path to Terms and Conditions', () => {
+describe('Path to Terms and Conditions', () => {
   const home: HomePage = new HomePage();
   const checkoutPage = new MultiStepCheckoutPage();
 
