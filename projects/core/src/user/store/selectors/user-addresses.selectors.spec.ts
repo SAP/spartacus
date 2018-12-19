@@ -55,4 +55,19 @@ describe('User Addresses Selectors', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getAddressProcessingStatus', () => {
+    it('should return isActionProcessing flag', () => {
+      let result;
+      store
+        .pipe(select(fromSelectors.getAddressActionProcessingStatus))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.DeleteUserAddress('addressId'));
+
+      expect(result).toEqual(true);
+    });
+  });
 });

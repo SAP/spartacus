@@ -255,6 +255,28 @@ describe('UserService', () => {
     expect(flag).toEqual(true);
   });
 
+  it('should be able to get Address action processing flag', () => {
+    const mockAddress = {
+      id: 'addressId'
+    };
+
+    store.dispatch(
+      new fromStore.AddUserAddress({
+        userId: 'testUserId',
+        address: mockAddress
+      })
+    );
+
+    let flag: boolean;
+    service
+      .getAddressActionProcessingStatus()
+      .subscribe(data => {
+        flag = data;
+      })
+      .unsubscribe();
+    expect(flag).toEqual(true);
+  });
+
   it('should be able to get titles data', () => {
     store.dispatch(
       new fromStore.LoadTitlesSuccess([
