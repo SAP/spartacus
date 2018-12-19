@@ -17,12 +17,14 @@ export function reducer(
   switch (action.type) {
     case fromStoreFinder.ON_HOLD:
     case fromStoreFinder.FIND_STORES:
+    case fromStoreFinder.FIND_STORE_BY_ID:
     case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY:
     case fromStoreFinder.FIND_ALL_STORES_BY_REGION: {
       return { ...state, isLoading: true };
     }
 
     case fromStoreFinder.FIND_STORES_SUCCESS:
+    case fromStoreFinder.FIND_STORE_BY_ID_SUCCESS:
     case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_SUCCESS:
     case fromStoreFinder.FIND_ALL_STORES_BY_REGION_SUCCESS: {
       const findStoresEntities = action.payload;
@@ -31,6 +33,7 @@ export function reducer(
     }
 
     case fromStoreFinder.FIND_STORES_FAIL:
+    case fromStoreFinder.FIND_STORE_BY_ID_FAIL:
     case fromStoreFinder.FIND_ALL_STORES_BY_COUNTRY_FAIL:
     case fromStoreFinder.FIND_ALL_STORES_BY_REGION_FAIL: {
       return { ...state, isLoading: false };
