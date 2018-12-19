@@ -12,7 +12,8 @@ import {
   UPDATE_USER_ADDRESS,
   UPDATE_USER_ADDRESS_SUCCESS,
   UPDATE_USER_ADDRESS_FAIL,
-  DELETE_USER_ADDRESS_SUCCESS
+  DELETE_USER_ADDRESS_SUCCESS,
+  Address
 } from '@spartacus/core';
 
 @Component({
@@ -71,13 +72,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.isEditAddressFormOpen = false;
   }
 
-  addUserAddress(address) {
+  addUserAddress(address: Address) {
     if (this.userId) {
       this.userService.addUserAddress(this.userId, address);
     }
   }
 
-  updateUserAddress(addressId, address) {
+  updateUserAddress(addressId: string, address: Address) {
     if (this.userId) {
       this.userService.updateUserAddress(this.userId, addressId, address);
     }

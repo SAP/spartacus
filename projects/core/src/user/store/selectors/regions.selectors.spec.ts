@@ -5,6 +5,7 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { UserState, USER_FEATURE } from '../user-state';
+import { Region } from '../../../occ/occ-models';
 
 describe('Regions Selectors', () => {
   let store: Store<UserState>;
@@ -23,7 +24,7 @@ describe('Regions Selectors', () => {
 
   describe('getAllRegions', () => {
     it('should return all regions', () => {
-      const mockRegions = [
+      const mockRegions: Region[] = [
         {
           isocode: 'CA-ON',
           name: 'Ontario'
@@ -34,7 +35,7 @@ describe('Regions Selectors', () => {
         }
       ];
 
-      let result;
+      let result: Region[];
       store
         .pipe(select(fromSelectors.getAllRegions))
         .subscribe(value => (result = value));

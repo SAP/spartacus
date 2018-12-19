@@ -26,7 +26,7 @@ describe('User Addresses Selectors', () => {
 
   describe('getAddresses', () => {
     it('should return a user addresses', () => {
-      let result;
+      let result: Address[];
       store
         .pipe(select(fromSelectors.getAddresses))
         .subscribe(value => (result = value));
@@ -43,7 +43,7 @@ describe('User Addresses Selectors', () => {
 
   describe('getAddressLoading', () => {
     it('should return isLoading flag', () => {
-      let result;
+      let result: boolean;
       store
         .pipe(select(fromSelectors.getAddressesLoading))
         .subscribe(value => (result = value));

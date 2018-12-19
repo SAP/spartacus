@@ -24,6 +24,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input()
   componentUid: string;
   @Input()
+  componentUuid: string;
+  @Input()
+  componentCatalogUuid: string;
+  @Input()
   componentCssClass: string;
   @Input()
   contextParameters: any;
@@ -67,6 +71,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         instance.onCmsComponentInit(this.componentUid, this.contextParameters);
       } else {
         this.cd.detectChanges();
+      }
+
+      if (this.cmsService.isLaunchInSmartEdit()) {
+        this.addSmartEditContract(this.cmpRef.location.nativeElement);
       }
     }
   }
@@ -115,6 +123,30 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       ],
       parent: this.injector
     });
+  }
+
+  private addSmartEditContract(element: Element) {
+    element.classList.add('smartEditComponent');
+    this.renderer.setAttribute(
+      element,
+      'data-smartedit-component-id',
+      this.componentUid
+    );
+    this.renderer.setAttribute(
+      element,
+      'data-smartedit-component-type',
+      this.componentType
+    );
+    this.renderer.setAttribute(
+      element,
+      'data-smartedit-catalog-version-uuid',
+      this.componentCatalogUuid
+    );
+    this.renderer.setAttribute(
+      element,
+      'data-smartedit-component-uuid',
+      this.componentUuid
+    );
   }
 
   ngOnDestroy() {

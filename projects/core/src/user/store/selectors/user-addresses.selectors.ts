@@ -3,6 +3,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import * as fromFeature from '../reducers/index';
 import * as fromUserAddressesReducer from '../reducers/user-addresses.reducer';
 import { UserAddressesState, UserState } from '../user-state';
+import { Address } from '../../../occ/occ-models';
 
 export const getAddressesState: MemoizedSelector<
   any,
@@ -12,7 +13,7 @@ export const getAddressesState: MemoizedSelector<
   (state: UserState) => state.addresses
 );
 
-export const getAddresses: MemoizedSelector<any, any> = createSelector(
+export const getAddresses: MemoizedSelector<any, Address[]> = createSelector(
   getAddressesState,
   fromUserAddressesReducer.getAddresses
 );

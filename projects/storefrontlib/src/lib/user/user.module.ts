@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginModule } from './components/login/login.module';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import { UserModule } from '@spartacus/core';
+import { UserModule, UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -15,7 +15,8 @@ import { UserModule } from '@spartacus/core';
     LoginModule,
     ReactiveFormsModule,
     RouterModule,
-    UserModule
+    UserModule,
+    UrlTranslationModule
   ],
   declarations: [RegisterComponent, ResetPasswordComponent],
   exports: [RegisterComponent, ResetPasswordComponent]

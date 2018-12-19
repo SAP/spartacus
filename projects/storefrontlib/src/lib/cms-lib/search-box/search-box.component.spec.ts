@@ -11,6 +11,14 @@ import { CmsService } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { ProductSearchService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('SearchBoxComponent in CmsLib', () => {
   let searchBoxComponent: SearchBoxComponent;
@@ -60,7 +68,11 @@ describe('SearchBoxComponent in CmsLib', () => {
         ReactiveFormsModule,
         RouterModule
       ],
-      declarations: [SearchBoxComponent, PictureComponent],
+      declarations: [
+        SearchBoxComponent,
+        PictureComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
