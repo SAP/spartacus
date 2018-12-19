@@ -4,7 +4,7 @@ import {
   DeliveryModeList,
   PaymentDetails,
   Order
-} from 'projects/core/src/occ/occ-models/index';
+} from '../../../occ/occ-models/index';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
