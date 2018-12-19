@@ -1,4 +1,4 @@
-<ng-container *ngIf="!(isLoading$ | async) && locations; else: loading">
+<ng-container *ngIf="!(isLoading$ | async) && locations; else loading">
   <ul class="stores-grid">
     <li
       *ngFor="let location of locations?.pointOfServices; let i = index"
