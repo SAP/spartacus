@@ -1,20 +1,22 @@
 import { TestBed } from '@angular/core/testing';
+
 import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
-import * as fromSelectors from './product.selectors';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
+import * as fromReducers from '../reducers';
+import { Product } from '../../../occ/occ-models/occ.models';
+
+import * as fromSelectors from './product.selectors';
 
 describe('Cms Component Selectors', () => {
   let store: Store<StateWithProduct>;
 
   const code = 'testCode';
-  const product = {
-    code: code,
+  const product: Product = {
+    code,
     name: 'testProduct'
   };
-
   const entities = {
     testCode: {
       loading: false,
@@ -37,8 +39,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductsFactory', () => {
     it('should return product by code', () => {
-      let result;
-
+      let result: Product[];
       store
         .pipe(select(fromSelectors.getSelectedProductsFactory(['testCode'])))
         .subscribe(value => (result = value));
@@ -51,8 +52,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getAllProductCodes', () => {
     it('should return product codes as an array', () => {
-      let result;
-
+      let result: string[];
       store
         .pipe(select(fromSelectors.getAllProductCodes))
         .subscribe(value => (result = value));
@@ -67,8 +67,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductFactory', () => {
     it('should return a single product by productCode', () => {
-      let result;
-
+      let result: Product;
       store
         .pipe(select(fromSelectors.getSelectedProductFactory(code)))
         .subscribe(value => (result = value));
@@ -80,7 +79,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductLoadingFactory', () => {
     it('should return isLoading information', () => {
-      let result;
+      let result: boolean;
 
       store
         .pipe(select(fromSelectors.getSelectedProductLoadingFactory(code)))
@@ -96,7 +95,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductSuccessFactory', () => {
     it('should return success information', () => {
-      let result;
+      let result: boolean;
 
       store
         .pipe(select(fromSelectors.getSelectedProductSuccessFactory(code)))
@@ -111,7 +110,7 @@ describe('Cms Component Selectors', () => {
 
   describe('getSelectedProductErrorFactory', () => {
     it('should return error information', () => {
-      let result;
+      let result: boolean;
 
       store
         .pipe(select(fromSelectors.getSelectedProductErrorFactory(code)))

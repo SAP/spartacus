@@ -1,4 +1,6 @@
+import { MonoTypeOperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+
 import { EntityLoadAction } from '../entity-loader/entity-loader.action';
 import { MonoTypeOperatorFunction } from 'rxjs';
 

@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
 import { StoreDataService, StoreFinderService } from '../../services/index';
@@ -15,10 +15,9 @@ import * as fromStore from '../../store';
 })
 export class StoreFinderStoreDescriptionComponent
   extends AbstractStoreItemComponent
-  implements OnInit, OnDestroy {
-  location: any;
+  implements OnInit {
+  location$: Observable<any>;
   isLoading$: Observable<any>;
-  ngUnsubscribe: Subscription;
 
   constructor(
     private store: Store<fromStore.StoresState>,
@@ -31,32 +30,12 @@ export class StoreFinderStoreDescriptionComponent
 
   ngOnInit() {
     this.requestStoresData();
-    this.ngUnsubscribe = this.store
-      .pipe(select(fromStore.getFindStoresEntities))
-      .subscribe(locations => {
-        const stores = locations.pointOfServices;
-        if (stores) {
-          this.location = stores.filter(
-            (store: any) => store.name === this.route.snapshot.params.store
-          )[0];
-        }
-      });
+    this.location$ = this.store.pipe(select(fromStore.getFindStoresEntities));
     this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
   }
 
   requestStoresData() {
-    const { region, country } = this.route.snapshot.params;
-    if (!country) {
-      return;
-    }
-    if (region) {
-      this.storeFinderService.viewAllStoresForRegion(country, region);
-      return;
-    }
-    this.storeFinderService.viewAllStoresForCountry(country);
-  }
-
-  ngOnDestroy() {
-    this.ngUnsubscribe.unsubscribe();
+    const storeId = this.route.snapshot.params.store;
+    this.storeFinderService.viewStoreById(storeId);
   }
 }
