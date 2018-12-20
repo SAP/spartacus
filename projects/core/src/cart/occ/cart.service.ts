@@ -113,7 +113,7 @@ export class OccCartService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public addCartEntry(
+  public addEntry(
     userId: string,
     cartId: string,
     productCode: string,
@@ -136,7 +136,7 @@ export class OccCartService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public updateCartEntry(
+  public updateEntry(
     userId: string,
     cartId: string,
     entryNumber: string,
@@ -163,7 +163,7 @@ export class OccCartService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public removeCartEntry(
+  public removeEntry(
     userId: string,
     cartId: string,
     entryNumber: string
