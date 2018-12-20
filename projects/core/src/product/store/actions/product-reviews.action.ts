@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Review, ErrorModel } from '../../../occ-models';
+
+import { Review, ErrorModel } from '../../../occ/occ-models';
 
 export const LOAD_PRODUCT_REVIEWS = '[Product] Load Product Reviews Data';
 export const LOAD_PRODUCT_REVIEWS_FAIL =
@@ -33,12 +34,12 @@ export class PostProductReview implements Action {
 
 export class PostProductReviewFail implements Action {
   readonly type = POST_PRODUCT_REVIEW_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: string) {}
 }
 
 export class PostProductReviewSuccess implements Action {
   readonly type = POST_PRODUCT_REVIEW_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: Review) {}
 }
 
 // action types

@@ -13,13 +13,14 @@ import { of, Observable } from 'rxjs';
 
 import { LanguageSelectorComponent } from './language-selector.component';
 
-const mockLanguages: any[] = [
+const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
 ];
+
 const mockActiveLang = 'ja';
 
 class MockLanguageService {
-  get(): Observable<Language[]> {
+  getAll(): Observable<Language[]> {
     return of(mockLanguages);
   }
   getActive(): Observable<string> {

@@ -14,7 +14,8 @@ import { Subscription, fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
+
+import { CmsService } from '@spartacus/core';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -62,7 +63,6 @@ export class ProductCarouselComponent extends AbstractCmsComponent
     this.setProductCodes();
     this.productCodes.forEach(code => {
       this.products[code] = this.productService.get(code);
-      this.productService.isProductLoaded(code).subscribe();
     });
     this.createGroups();
     super.fetchData();

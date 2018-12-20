@@ -3,10 +3,11 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigModule, Config } from '../../config/config.module';
-import {
-  ConfigurableRoutesConfig,
-  defaultConfigurableRoutesConfig
-} from './configurable-routes-config';
+import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
+import { defaultConfigurableRoutesConfig } from './config/default-configurable-routes-config';
+import { UrlParsingService } from './url-translation/url-parsing.service';
+import { RouteRecognizerService } from './url-translation/route-recognizer.service';
+import { UrlTranslationService } from './url-translation/url-translation.service';
 
 export function loadRoutesConfig(
   loader: RoutesConfigLoader
@@ -25,6 +26,9 @@ export function loadRoutesConfig(
   providers: [
     ConfigurableRoutesService,
     RoutesConfigLoader,
+    UrlTranslationService,
+    RouteRecognizerService,
+    UrlParsingService,
     {
       provide: APP_INITIALIZER,
       useFactory: loadRoutesConfig,

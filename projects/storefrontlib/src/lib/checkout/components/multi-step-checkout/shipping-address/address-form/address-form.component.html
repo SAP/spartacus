@@ -8,6 +8,7 @@
               <label aria-required="true">
                 <span class="label-content required">Title</span>
                 <ng-select
+                  formControlName="titleCode"
                   [searchable]="false"
                   [clearable]="false"
                   [items]="titles"
@@ -68,12 +69,14 @@
             />
           </label>
         </div>
-        <div class="form-group">
+        <div class="form-group" formGroupName="country">
           <ng-container *ngIf="(countries$ | async) as countries">
             <div *ngIf="countries.length !== 0">
               <label aria-required="true">
                 <span class="label-content required">Country</span>
                 <ng-select
+                  class="country-select"
+                  formControlName="isocode"
                   [searchable]="false"
                   [clearable]="false"
                   [items]="countries"
@@ -101,17 +104,22 @@
             </label>
           </div>
           <div class="form-group col-md-6">
-            <ng-container *ngIf="(regions$ | async) as regions">
+            <ng-container
+              *ngIf="(regions$ | async) as regions"
+              formGroupName="region"
+            >
               <div *ngIf="regions.length !== 0">
                 <label aria-required="true">
                   <span class="label-content required">State</span>
                   <ng-container *ngIf="regions[0].name">
                     <ng-select
+                      class="region-select"
+                      formControlName="isocode"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
                       bindLabel="name"
-                      bindValue="region"
+                      bindValue="isocode"
                       placeholder="Select One..."
                       (change)="regionSelected($event)"
                     >
@@ -119,6 +127,7 @@
                   </ng-container>
                   <ng-container *ngIf="!regions[0].name">
                     <ng-select
+                      class="region-select"
                       [searchable]="false"
                       [clearable]="false"
                       [items]="regions"
@@ -157,12 +166,13 @@
             />
           </label>
         </div>
-        <div class="form-group">
+        <div class="form-group" *ngIf="setAsDefaultField !== false">
           <div class="form-check">
             <label>
               <input
                 type="checkbox"
                 class="form-check-input"
+                formControlName="defaultAddress"
                 (change)="toggleDefaultAddress()"
               />
               <span class="form-check-label">Save as default</span>
@@ -172,7 +182,7 @@
         <div class="cx-address-form__btns row">
           <div class="col-sm-12 col-md-6 col-lg-6">
             <button class="btn btn-block btn-action" (click)="back()">
-              Change Address
+              {{ cancelBtnLabel || 'Change Address' }}
             </button>
           </div>
           <div class="col-sm-12 col-md-6 col-lg-6">
@@ -181,7 +191,7 @@
               [disabled]="address.invalid"
               (click)="verifyAddress()"
             >
-              Continue
+              {{ actionBtnLabel || 'Continue' }}
             </button>
           </div>
         </div>

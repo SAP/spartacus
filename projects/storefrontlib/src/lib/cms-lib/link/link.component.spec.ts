@@ -1,18 +1,31 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsLinkComponent, Component } from '@spartacus/core';
+import {
+  CmsLinkComponent,
+  Component,
+  TranslateUrlOptions
+} from '@spartacus/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
+const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSLinkComponent: { selector: 'LinkComponent' }
   }
 };
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions) {
+    return '/translated-path' + options.url;
+  }
+}
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
@@ -34,9 +47,9 @@ describe('LinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LinkComponent],
+      declarations: [LinkComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
+        { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
@@ -60,6 +73,6 @@ describe('LinkComponent', () => {
     const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain(componentData.url);
+    expect(element.href).toContain('/translated-path' + componentData.url);
   });
 });

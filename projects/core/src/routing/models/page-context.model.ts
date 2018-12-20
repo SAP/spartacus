@@ -1,4 +1,4 @@
-import { PageType } from '../../occ-models';
+import { PageType } from '../../occ/occ-models';
 
 export class PageContext {
   id: string;
