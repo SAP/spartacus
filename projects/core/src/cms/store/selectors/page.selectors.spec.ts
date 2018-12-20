@@ -21,7 +21,7 @@ describe('Cms PageData Selectors', () => {
     pageId: 'testPageId',
     name: 'testPage',
     seen: [],
-    slots: { left: components }
+    slots: { left: { components } }
   };
   const payload = { key: 'test', value: page };
 
@@ -102,7 +102,7 @@ describe('Cms PageData Selectors', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
       store.dispatch(new fromActions.UpdateLatestPageKey(payload.key));
 
-      expect(result).toEqual(components);
+      expect(result).toEqual({ components });
     });
   });
 });

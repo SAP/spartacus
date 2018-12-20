@@ -29,8 +29,8 @@ export function reducer(
         let samePage = true;
         for (const position of Object.keys(page.value.slots)) {
           if (
-            page.value.slots[position].length !==
-            existPage.slots[position].length
+            page.value.slots[position].components.length !==
+            existPage.slots[position].components.length
           ) {
             samePage = false;
             break;
