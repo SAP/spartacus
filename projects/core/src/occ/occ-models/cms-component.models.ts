@@ -32,3 +32,16 @@ export interface CmsParagraphComponent extends CmsComponent {
   typeCode?: string;
   uid?: string;
 }
+
+export interface CmsMiniCartComponent extends CmsComponent {
+  container?: string;
+  modifiedTime?: string;
+  name?: string;
+  shownProductCount?: string;
+  title?: string;
+  totalDisplay?: string;
+  typeCode?: string;
+  uid?: string;
+  // @ts-ignore
+  lightboxBannerComponent?: CmsBannerComponent;
+}
