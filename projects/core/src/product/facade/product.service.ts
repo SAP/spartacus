@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import * as fromStore from '../store/index';
 import { Product } from '../../occ/occ-models/occ.models';
-import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {

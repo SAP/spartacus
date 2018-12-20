@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
+
 import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
-import { OccProductSearchService } from '../../occ/product-search.service';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
+import { OccProductSearchService } from '../../occ/product-search.service';
 
 @Injectable()
 export class ProductsSearchEffects {
   @Effect()
-  searchProducts$: Observable<any> = this.actions$.pipe(
+  searchProducts$: Observable<
+    | productsSearchActions.SearchProductsSuccess
+    | productsSearchActions.SearchProductsFail
+  > = this.actions$.pipe(
     ofType(productsSearchActions.SEARCH_PRODUCTS),
     switchMap((action: productsSearchActions.SearchProducts) => {
       return this.occProductSearchService
@@ -37,7 +41,10 @@ export class ProductsSearchEffects {
   );
 
   @Effect()
-  getProductSuggestions$: Observable<any> = this.actions$.pipe(
+  getProductSuggestions$: Observable<
+    | productsSearchActions.GetProductSuggestionsSuccess
+    | productsSearchActions.GetProductSuggestionsFail
+  > = this.actions$.pipe(
     ofType(productsSearchActions.GET_PRODUCT_SUGGESTIONS),
     map(
       (action: productsSearchActions.GetProductSuggestions) => action.payload
