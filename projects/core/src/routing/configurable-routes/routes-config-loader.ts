@@ -28,7 +28,7 @@ export class RoutesConfigLoader {
     private readonly configurableRoutesConfig: ConfigurableRoutesConfig
   ) {}
 
-  async load(): Promise<any> {
+  async load(): Promise<void> {
     const shouldFetch = this.configurableRoutesConfig.routesConfig.fetch;
     const fetchedRoutesConfig = shouldFetch
       ? await this.fetch(this.endpoint)
