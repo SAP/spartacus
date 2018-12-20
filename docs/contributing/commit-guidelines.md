@@ -7,7 +7,7 @@ If you are on Windows, set the Git `core.autocrlf` configuration property to "fa
 
 When you are ready to merge your pull request, select GitHub's `Squash and merge` option, as shown in the following image:
 
-![alt text](https://github.com/SAP/cloud-commerce-spartacus-storefront/tree/develop/docs/assets/images/Squash_and_merge_button.png "Squash and merge button")
+![alt text](../assets/images/Squash_and_merge_button.png "Squash and merge button")
 
 For information on  `Squash and merge`, see [GitHub Help](https://help.github.com/articles/about-pull-request-merges/).
 
@@ -20,15 +20,33 @@ We use git commit messages to generate the framework changelog. To that end, we 
 
 The commit message consists of a header, a body, and optionally, a footer. Each line in the commit message has a maximum length of 100 characters.
 
-When you click `Squash and merge`, two text fields appear. The first is for entering the header, and the second is for entering the body and footer. The body and footer are separated by a blank line. The following is an example:
+When you click `Squash and merge`, two text fields appear. The first is for entering the header, and the second is for entering the body and footer, as shown in the following screenshot:
 
-![alt text](https://github.com/SAP/cloud-commerce-spartacus-storefront/tree/develop/docs/assets/images/Squash_and_merge_header.png "Commit message header")
+![alt text](../assets/images/Squash_merge_header_body_footer.png "Text fields for entering commit message")
+
+The following is an example of a header you might enter:
+
+```
+feat(@spartacus/core): introduce new facade signature and generic ngrx store state for fine-grained control of loading state (GH-123)
+```
+
+The following is an example of the corresponding body and footer. The footer begins with `BREAKING CHANGE`. Note that the body and footer are separated by a blank line:
+
+```
+The product, language and currency facades have been refactored. A generic reducer has been introduced for all enities that require fine-grained load, success and error state. 
+
+BREAKING CHANGE: 
+
+Product, language and currency facades have a new public interface.
+
+Closes GH-272
+```
 
 ### Header
 
 The commit header is a brief summary of the work done.
 
-When you click `Squash and merge`, the header field is automatically populated. However, it does not match our commit guidelines format precisely. Modify it to fit the following format: 
+When you click `Squash and merge`, the header field is automatically populated. However, it does not match our commit guidelines format precisely. Please modify it to fit the following format: 
 
 ```
  <type>(<scope>): <subject><issue number>
@@ -84,7 +102,7 @@ At the end of the header, include the GitHub issue number in parentheses, preced
 
 ### Body
 
-The body is entered in the text field below the header field. Just as with the header, the body is written in the present, imperative tense.
+The body is entered in the text field below the header field.
 
 The following are some guidelines for writing the body:
 
