@@ -32,3 +32,15 @@ export interface CmsParagraphComponent extends CmsComponent {
   typeCode?: string;
   uid?: string;
 }
+
+export interface CmsProductCarouselComponent extends CmsComponent {
+  title?: string;
+  productCodes?: string;
+  container?: string;
+  modifiedTime?: string;
+  name?: string;
+  popup?: string;
+  scroll?: string;
+  typeCode?: string;
+  uid?: string;
+}
