@@ -6,7 +6,6 @@ import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
 
 import * as actions from '../actions/index';
 import * as converters from '../converters/index';
-
 import { OccProductService } from '../../occ/product.service';
 
 @Injectable()
