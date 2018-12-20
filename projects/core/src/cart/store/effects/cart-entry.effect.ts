@@ -15,7 +15,7 @@ export class CartEntryEffects {
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
       this.cartService
-        .addCartEntry(
+        .addEntry(
           payload.userId,
           payload.cartId,
           payload.productCode,
@@ -34,7 +34,7 @@ export class CartEntryEffects {
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
       this.cartService
-        .removeCartEntry(payload.userId, payload.cartId, payload.entry)
+        .removeEntry(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
             return new fromActions.RemoveEntrySuccess();
@@ -50,12 +50,7 @@ export class CartEntryEffects {
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
       this.cartService
-        .updateCartEntry(
-          payload.userId,
-          payload.cartId,
-          payload.entry,
-          payload.qty
-        )
+        .updateEntry(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
             return new fromActions.UpdateEntrySuccess();

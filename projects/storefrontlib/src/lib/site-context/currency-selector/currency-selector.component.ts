@@ -21,7 +21,7 @@ export class CurrencySelectorComponent implements OnInit {
     this.activeCurrency$ = this.currencyService.getActive();
   }
 
-  setActiveCurrency(currency) {
+  setActiveCurrency(currency: string): void {
     this.currencyService.setActive(currency);
   }
 }
