@@ -2,7 +2,7 @@ import {
   RoutingModuleConfig,
   StorageSyncType
 } from '../../config/routing-module-config';
-import { ActionReducer, MetaReducer } from '@ngrx/store';
+import { ActionReducer, MetaReducer, Action } from '@ngrx/store';
 import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
 
 function storageConfig(config: RoutingModuleConfig): LocalStorageConfig {
@@ -26,10 +26,12 @@ function storageConfig(config: RoutingModuleConfig): LocalStorageConfig {
 
 export function getStorageSyncReducer(
   config: RoutingModuleConfig
-): MetaReducer<any> {
+): MetaReducer<any, Action> {
   const storage = storageConfig(config);
 
-  return function(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(
+    reducer: ActionReducer<any, Action>
+  ): ActionReducer<any, Action> {
     return localStorageSync(storage)(reducer);
   };
 }
