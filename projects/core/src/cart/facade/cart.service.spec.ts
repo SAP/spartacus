@@ -386,4 +386,16 @@ describe('CartService', () => {
       expect(result).toEqual(true);
     });
   });
+
+  describe('getActive', () => {
+    it('should return a loaded state', () => {
+      store.dispatch(new fromCart.CreateCartSuccess(cart));
+      let result: Cart;
+      service
+        .getActive()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(cart);
+    });
+  });
 });
