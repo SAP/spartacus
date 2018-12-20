@@ -87,7 +87,7 @@ describe('CmsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(mockContentSlot)
       );
-      let contentSlotReturned: { uid: string; typeCode: string }[];
+      let contentSlotReturned: ContentSlotData;
       service.getContentSlot('Section1').subscribe(value => {
         contentSlotReturned = value;
       });

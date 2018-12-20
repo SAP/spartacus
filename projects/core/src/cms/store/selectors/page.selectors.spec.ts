@@ -8,6 +8,7 @@ import * as fromSelectors from '../selectors/page.selectors';
 import { Page } from '../../model/page.model';
 import { CmsComponent } from '../../../occ/occ-models/index';
 import { StateWithCms } from '../cms-state';
+import { ContentSlotData } from '../../model/content-slot.model';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
@@ -91,7 +92,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('currentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      let result: CmsComponent[];
+      let result: ContentSlotData;
 
       store
         .pipe(select(fromSelectors.currentSlotSelectorFactory('left')))
