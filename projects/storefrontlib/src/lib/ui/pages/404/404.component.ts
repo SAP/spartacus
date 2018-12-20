@@ -8,18 +8,18 @@ import { pageNotFoundImgSrc } from '../../images/pageNotFound';
 })
 export class PageNotFoundComponent {
   pageNotFoundImgSrc = pageNotFoundImgSrc;
-  errorNav = [
+  errorNav: { label: string; routeName: string[] }[] = [
     {
-      link: '/',
-      label: 'Homepage'
+      label: 'Homepage',
+      routeName: ['home']
     },
     {
-      link: '/faq',
-      label: 'Frequently Asked Question'
+      label: 'Frequently Asked Question',
+      routeName: ['help']
     },
     {
-      link: '/cart',
-      label: 'Cart'
+      label: 'Cart',
+      routeName: ['cart']
     }
   ];
 }

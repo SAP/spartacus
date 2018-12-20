@@ -6,6 +6,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { SearchConfig } from '@spartacus/core';
 import { ProductSearchService } from '@spartacus/core';
@@ -31,6 +32,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   grid: any;
   model$: Observable<any>;
   searchConfig: SearchConfig = {};
+  categoryTitle: string;
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -80,7 +82,21 @@ export class ProductListComponent implements OnChanges, OnInit {
       mode: this.gridMode
     };
 
-    this.model$ = this.productSearchService.searchResults$;
+    this.model$ = this.productSearchService.getSearchResults().pipe(
+      tap(searchResult => {
+        if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
+          this.categoryTitle = searchResult.breadcrumbs[0].facetValueName;
+        } else if (!this.query.includes(':relevance:')) {
+          this.categoryTitle = this.query;
+        }
+        if (this.categoryTitle) {
+          this.categoryTitle =
+            searchResult.pagination.totalResults +
+            ' results for ' +
+            this.categoryTitle;
+        }
+      })
+    );
   }
 
   onFilter(query: string) {

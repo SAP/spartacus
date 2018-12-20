@@ -5,13 +5,18 @@ import {
   FormGroup,
   Validators
 } from '@angular/forms';
+
+import {
+  AuthService,
+  RoutingService,
+  Title,
+  UserService
+} from '@spartacus/core';
+
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
 
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
-import { UserService } from '../../facade/user.service';
 
 @Component({
   selector: 'cx-register',
@@ -19,7 +24,7 @@ import { UserService } from '../../facade/user.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  titles$: Observable<any>;
+  titles$: Observable<Title[]>;
   subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
@@ -46,7 +51,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userService.titles$.pipe(
+    this.titles$ = this.userService.getTitles().pipe(
       tap(titles => {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
@@ -54,11 +59,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.subscription = this.auth.userToken$
+    this.subscription = this.auth
+      .getUserToken()
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
-            return this.routing.redirectUrl$.pipe(take(1));
+            return this.routing.getRedirectUrl().pipe(take(1));
           }
           return of();
         })
@@ -75,8 +81,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
   }
 
-  submit() {
-    this.userService.registerUser(
+  submit(): void {
+    this.userService.register(
       this.userRegistrationForm.value.titleCode,
       this.userRegistrationForm.value.firstName,
       this.userRegistrationForm.value.lastName,
@@ -90,7 +96,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     }
   }
 
-  private matchPassword(ac: AbstractControl) {
+  private matchPassword(ac: AbstractControl): { NotEqual: boolean } {
     if (ac.get('password').value !== ac.get('passwordconf').value) {
       return { NotEqual: true };
     }

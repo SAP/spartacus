@@ -3,6 +3,15 @@ import { SearchConfig } from '../../models/search-config';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 
 describe('Find Stores Actions', () => {
+  describe('OnHold', () => {
+    it('should create OnHold action', () => {
+      const action = new fromActions.OnHold();
+      expect({ ...action }).toEqual({
+        type: fromActions.ON_HOLD
+      });
+    });
+  });
+
   describe('FindStores', () => {
     it('should create FindStores action', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
@@ -57,6 +66,40 @@ describe('Find Stores Actions', () => {
         type: fromActions.FIND_STORES_SUCCESS,
         payload
       });
+    });
+  });
+
+  describe('FindStoreById', () => {
+    it('should create FindStoreById action', () => {
+      const storeId = 'shop_los_angeles_1';
+      const payload = { storeId };
+      const action = new fromActions.FindStoreById(payload);
+
+      expect({
+        ...action
+      }).toEqual({ type: fromActions.FIND_STORE_BY_ID, payload });
+    });
+  });
+
+  describe('FindStoreByIdFail', () => {
+    it('should create FindStoreByIdFail action', () => {
+      const payload = { errorMessage: 'Error' };
+      const action = new fromActions.FindStoreByIdFail(payload);
+
+      expect({
+        ...action
+      }).toEqual({ type: fromActions.FIND_STORE_BY_ID_FAIL, payload });
+    });
+  });
+
+  describe('FindStoreByIdSuccess', () => {
+    it('should create FindStoreByIdSuccess action', () => {
+      const payload = { name: 'storeName' };
+      const action = new fromActions.FindStoreByIdSuccess(payload);
+
+      expect({
+        ...action
+      }).toEqual({ type: fromActions.FIND_STORE_BY_ID_SUCCESS, payload });
     });
   });
 

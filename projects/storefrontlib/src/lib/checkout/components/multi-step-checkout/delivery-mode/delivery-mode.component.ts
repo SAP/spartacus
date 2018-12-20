@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 
 import { CheckoutService } from '../../../facade/checkout.service';
+import { DeliveryMode } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -27,7 +28,7 @@ export class DeliveryModeComponent implements OnInit {
   @Output()
   backStep = new EventEmitter<any>();
 
-  supportedDeliveryModes$: Observable<any>;
+  supportedDeliveryModes$: Observable<DeliveryMode[]>;
   leave = false;
 
   mode: FormGroup = this.fb.group({
@@ -37,20 +38,22 @@ export class DeliveryModeComponent implements OnInit {
   constructor(private fb: FormBuilder, private service: CheckoutService) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.service.supportedDeliveryModes$.pipe(
-      takeWhile(() => !this.leave),
-      tap(supportedModes => {
-        if (Object.keys(supportedModes).length === 0) {
-          this.service.loadSupportedDeliveryModes();
-        } else {
-          if (this.selectedShippingMethod) {
-            this.mode.controls['deliveryModeId'].setValue(
-              this.selectedShippingMethod
-            );
+    this.supportedDeliveryModes$ = this.service
+      .getSupportedDeliveryModes()
+      .pipe(
+        takeWhile(() => !this.leave),
+        tap(supportedModes => {
+          if (Object.keys(supportedModes).length === 0) {
+            this.service.loadSupportedDeliveryModes();
+          } else {
+            if (this.selectedShippingMethod) {
+              this.mode.controls['deliveryModeId'].setValue(
+                this.selectedShippingMethod
+              );
+            }
           }
-        }
-      })
-    );
+        })
+      );
   }
 
   next() {
@@ -62,7 +65,7 @@ export class DeliveryModeComponent implements OnInit {
     this.backStep.emit();
   }
 
-  get deliveryModeInvalid() {
+  get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 }

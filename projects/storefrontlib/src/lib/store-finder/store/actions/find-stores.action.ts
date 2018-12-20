@@ -2,10 +2,15 @@ import { Action } from '@ngrx/store';
 import { SearchConfig } from '../../models/search-config';
 import { LongitudeLatitude } from '../../models/longitude-latitude';
 
+export const ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
 export const FIND_STORES_FAIL = '[StoreFinder] Find Stores Fail';
 export const FIND_STORES_SUCCESS = '[StoreFinder] Find Stores Success';
 
+export const FIND_STORE_BY_ID = '[StoreFinder] Find a Store by Id';
+export const FIND_STORE_BY_ID_FAIL = '[StoreFinder] Find a Store by Id Fail';
+export const FIND_STORE_BY_ID_SUCCESS =
+  '[StoreFinder] Find a Store by Id Success';
 export const FIND_ALL_STORES_BY_COUNTRY =
   '[StoreFinder] Find All Stores by Country';
 export const FIND_ALL_STORES_BY_COUNTRY_FAIL =
@@ -20,12 +25,18 @@ export const FIND_ALL_STORES_BY_REGION_FAIL =
 export const FIND_ALL_STORES_BY_REGION_SUCCESS =
   '[StoreFinder] Find All Stores by Region Success';
 
+export class OnHold implements Action {
+  readonly type = ON_HOLD;
+  constructor() {}
+}
+
 export class FindStores implements Action {
   readonly type = FIND_STORES;
   constructor(
     public payload: {
       queryText: string;
       longitudeLatitude?: LongitudeLatitude;
+      useMyLocation?: boolean;
       searchConfig?: SearchConfig;
     }
   ) {}
@@ -38,6 +49,21 @@ export class FindStoresFail implements Action {
 
 export class FindStoresSuccess implements Action {
   readonly type = FIND_STORES_SUCCESS;
+  constructor(public payload: any) {}
+}
+
+export class FindStoreById implements Action {
+  readonly type = FIND_STORE_BY_ID;
+  constructor(public payload: { storeId: string }) {}
+}
+
+export class FindStoreByIdFail implements Action {
+  readonly type = FIND_STORE_BY_ID_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class FindStoreByIdSuccess implements Action {
+  readonly type = FIND_STORE_BY_ID_SUCCESS;
   constructor(public payload: any) {}
 }
 
@@ -74,9 +100,13 @@ export class FindAllStoresByRegionSuccess implements Action {
 }
 
 export type FindStoresAction =
+  | OnHold
   | FindStores
   | FindStoresFail
   | FindStoresSuccess
+  | FindStoreById
+  | FindStoreByIdFail
+  | FindStoreByIdSuccess
   | FindAllStoresByCountry
   | FindAllStoresByCountryFail
   | FindAllStoresByCountrySuccess

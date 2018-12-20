@@ -1,7 +1,7 @@
 <div
   *ngIf="
     !(isLoading$ | async) && (locations$ | async) as locations;
-    else: loading
+    else loading
   "
 >
   <cx-store-finder-list [locations]="locations"></cx-store-finder-list>

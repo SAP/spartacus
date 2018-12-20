@@ -1,21 +1,30 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig, TranslateUrlOptions } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    SimpleResponsiveBannerComponent: 'ResponsiveBannerComponent'
+const UseCmsModuleConfig: CmsConfig = {
+  cmsComponents: {
+    SimpleResponsiveBannerComponent: { selector: 'ResponsiveBannerComponent' }
   },
   server: {
     baseUrl: 'https://localhost:9002'
   }
 };
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions): string {
+    return '/translated-path' + options.url;
+  }
+}
 
 describe('ResponsiveBannerComponent', () => {
   let responsiveBannerComponent: ResponsiveBannerComponent;
@@ -65,10 +74,14 @@ describe('ResponsiveBannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ResponsiveBannerComponent, GenericLinkComponent],
+      declarations: [
+        ResponsiveBannerComponent,
+        GenericLinkComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
   }));
@@ -91,7 +104,7 @@ describe('ResponsiveBannerComponent', () => {
     );
     expect(responsiveBannerComponent.component).toBe(componentData);
     expect(el.query(By.css('a')).nativeElement.href).toContain(
-      responsiveBannerComponent.component.urlLink
+      '/translated-path' + responsiveBannerComponent.component.urlLink
     );
     expect(el.query(By.css('img')).nativeElement.src).toContain(
       responsiveBannerComponent.component.media.desktop.url

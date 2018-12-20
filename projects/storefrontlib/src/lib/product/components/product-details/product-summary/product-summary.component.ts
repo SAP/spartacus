@@ -2,11 +2,13 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
-  ViewEncapsulation
+  ViewEncapsulation,
+  Output,
+  EventEmitter
 } from '@angular/core';
 
-import { ProductDetailOutlets } from '../../../product-outlets.model';
 import { ProductModuleConfig } from '../../../product-config';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',
@@ -18,9 +20,10 @@ import { ProductModuleConfig } from '../../../product-config';
 export class ProductSummaryComponent {
   static outlets = ProductDetailOutlets;
 
-  @Input()
-  product: any;
   itemCount = 1;
+
+  @Input() product: any;
+  @Output() openReview = new EventEmitter();
 
   get outlets() {
     return ProductSummaryComponent.outlets;
@@ -54,5 +57,9 @@ export class ProductSummaryComponent {
       (this.product.stock.stockLevel > 0 ||
         this.product.stock.stockLevelStatus === 'inStock')
     );
+  }
+
+  launchReview() {
+    this.openReview.emit();
   }
 }

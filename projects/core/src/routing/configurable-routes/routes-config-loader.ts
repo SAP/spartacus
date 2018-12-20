@@ -3,7 +3,7 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import { Injectable } from '@angular/core';
 import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../../config/utils/deep-merge';
-import { ConfigurableRoutesConfig } from './configurable-routes-config';
+import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { retry } from 'rxjs/operators';
 
 const ENDPOINT_ROUTES_CONFIG = 'routes-config';
@@ -28,7 +28,7 @@ export class RoutesConfigLoader {
     private readonly configurableRoutesConfig: ConfigurableRoutesConfig
   ) {}
 
-  async load(): Promise<any> {
+  async load(): Promise<void> {
     const shouldFetch = this.configurableRoutesConfig.routesConfig.fetch;
     const fetchedRoutesConfig = shouldFetch
       ? await this.fetch(this.endpoint)
@@ -62,7 +62,7 @@ export class RoutesConfigLoader {
 
     Object.keys(routesConfig.translations).forEach(languageCode => {
       const languageTranslations = routesConfig.translations[languageCode];
-      routesConfig.translations[languageCode] = Object.assign(
+      routesConfig.translations[languageCode] = deepMerge(
         {},
         defaultTranslations,
         languageTranslations

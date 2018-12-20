@@ -13,6 +13,15 @@ describe('Find Stores Reducer', () => {
     });
   });
 
+  describe('ON_HOLD action', () => {
+    it('should set isLoading flag to true', () => {
+      const { initialState } = fromReducers;
+      const action = new fromActions.OnHold();
+      const state = fromReducers.reducer(initialState, action);
+      expect(state.isLoading).toEqual(true);
+    });
+  });
+
   describe('FIND_STORES action', () => {
     it('should set isLoading flag to true', () => {
       const { initialState } = fromReducers;
@@ -34,6 +43,21 @@ describe('Find Stores Reducer', () => {
 
       const loadingState = fromReducers.reducer(initialState, loadAction);
       const resultAction = new fromActions.FindStoresSuccess(results);
+      const state = fromReducers.reducer(loadingState, resultAction);
+
+      expect(state.findStoresEntities).toEqual(results);
+      expect(state.isLoading).toEqual(false);
+    });
+  });
+
+  describe('FIND_STORE_BY_ID_SUCCESS action', () => {
+    it('should populate results after loading', () => {
+      const results = { name: 'test' };
+      const { initialState } = fromReducers;
+      const loadAction = new fromActions.FindStoreById({ storeId: 'testId' });
+
+      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const resultAction = new fromActions.FindStoreByIdSuccess(results);
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);

@@ -17,12 +17,11 @@ const router = {
   }
 };
 const mockRoutingService = {
-  routerState$: of(router)
+  getRouterState() {
+    return of(router);
+  }
 };
 describe('ProductGuard', () => {
-  let productGuard: ProductGuard;
-  let productService: ProductService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -32,18 +31,5 @@ describe('ProductGuard', () => {
         { provide: ProductService, useClass: MockProductService }
       ]
     });
-
-    productGuard = TestBed.get(ProductGuard);
-    productService = TestBed.get(ProductService);
-  });
-
-  it('should activate route when product is loaded', () => {
-    spyOn(productService, 'isProductLoaded').and.returnValue(of(true));
-    productGuard.canActivate().subscribe(result => expect(result).toBeTruthy);
-  });
-
-  it('should not activate route when product is not loaded', () => {
-    spyOn(productService, 'isProductLoaded').and.returnValue(of(false));
-    productGuard.canActivate().subscribe(result => expect(result).toBeFalsy);
   });
 });

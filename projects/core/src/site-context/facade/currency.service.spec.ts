@@ -1,22 +1,27 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { CurrencyService } from './currency.service';
-import { OccConfig } from '../../occ/config/occ-config';
+import { Currency } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { OccConfig } from '../../occ/config/occ-config';
 
-const mockCurrencies: any[] = [
+import { CurrencyService } from './currency.service';
+
+import { SiteContextModule } from '../site-context.module';
+
+const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
 ];
 
 const mockActiveCurr = 'USD';
 
 describe('CurrencyService', () => {
+  const mockSelect0 = createSpy('select').and.returnValue(() => of(undefined));
   const mockSelect1 = createSpy('select').and.returnValue(() =>
     of(mockCurrencies)
   );
@@ -28,17 +33,9 @@ describe('CurrencyService', () => {
   let store: Store<StateWithSiteContext>;
 
   beforeEach(() => {
-    spyOnProperty(ngrxStore, 'select').and.returnValues(
-      mockSelect1,
-      mockSelect2
-    );
-
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
-      providers: [
-        CurrencyService,
-        { provide: OccConfig, useValue: defaultOccConfig }
-      ]
+      imports: [SiteContextModule],
+      providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });
 
     store = TestBed.get(Store);
@@ -53,32 +50,34 @@ describe('CurrencyService', () => {
     }
   ));
 
-  it('should load currencies and set active currency when service is constructed', () => {
+  it('should not load currencies when service is constructed', () => {
+    expect(store.dispatch).toHaveBeenCalledTimes(0);
+  });
+
+  it('should be able to load currencies', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect0);
+    service.getAll().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(new fromStore.LoadCurrencies());
-    let activeCurr = sessionStorage.getItem('currency');
-    if (!activeCurr) {
-      activeCurr = defaultOccConfig.site.currency;
-    }
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.SetActiveCurrency(activeCurr)
-    );
   });
 
   it('should be able to get currencies', () => {
-    service.currencies$.subscribe(results => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+
+    service.getAll().subscribe(results => {
       expect(results).toEqual(mockCurrencies);
     });
   });
 
   it('should be able to get active currencies', () => {
-    service.activeCurrency$.subscribe(results => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+    service.getActive().subscribe(results => {
       expect(results).toEqual(mockActiveCurr);
     });
   });
 
-  describe('set activeCurrency(isocode)', () => {
+  describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
-      service.activeCurrency = 'USD';
+      service.setActive('USD');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SetActiveCurrency('USD')
       );

@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import createSpy = jasmine.createSpy;
 
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { NavigationService } from './navigation.service';
 
 const itemsData = {

@@ -5,11 +5,14 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/languages.selectors';
 import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
+import { Language } from '../../../occ/occ-models/occ.models';
 
 describe('Languages Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
-  const languages: any[] = [{ active: true, isocode: 'ja', name: 'Japanese' }];
+  const languages: Language[] = [
+    { active: true, isocode: 'ja', name: 'Japanese' }
+  ];
 
   const entities = {
     ja: languages[0]
@@ -34,7 +37,7 @@ describe('Languages Selectors', () => {
         .pipe(select(fromSelectors.getLanguagesEntities))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
 
@@ -66,7 +69,7 @@ describe('Languages Selectors', () => {
         .pipe(select(fromSelectors.getAllLanguages))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadLanguagesSuccess(languages));
 

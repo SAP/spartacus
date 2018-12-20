@@ -5,15 +5,21 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccCartService } from '../../../occ/cart/cart.service';
-import { OccConfig } from '@spartacus/core';
+import {
+  OccConfig,
+  DeliveryModeList,
+  PaymentDetails,
+  LoadUserPaymentMethods,
+  LoadUserAddresses,
+  ProductImageConverterService,
+  OccOrderService,
+  GlobalMessageType,
+  AddMessage,
+  OccCartService
+} from '@spartacus/core';
 import * as fromEffects from './checkout.effect';
 import * as fromActions from '../actions/checkout.action';
-import * as fromUserActions from '../../../user/store/actions';
-import * as fromGlobalMessageActions from '../../../global-message/store/actions';
-import { OccOrderService } from '../../../occ/order/order.service';
-import { ProductImageConverterService } from '@spartacus/core';
-import { GlobalMessageType } from '../../../global-message/models/message.model';
+import { Address } from '../../models/address-model';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -31,16 +37,18 @@ describe('Checkout effect', () => {
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
-  const address: any = {
+  const address: Address = {
     id: 'testAddressId',
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart'
+    line1: 'Toyosaki 2 create on cart',
+    town: 'Montreal',
+    postalCode: 'L6M1P9',
+    country: { isocode: 'CA' }
   };
-  const modes: any = {
-    mode1: 'mode1',
-    mode2: 'mode2'
+  const modes: DeliveryModeList = {
+    deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
   };
   const orderDetails = { entries: [] };
 
@@ -78,7 +86,7 @@ describe('Checkout effect', () => {
         address: address
       });
 
-      const completion1 = new fromUserActions.LoadUserAddresses(userId);
+      const completion1 = new LoadUserAddresses(userId);
       const completion2 = new fromActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
@@ -266,11 +274,11 @@ describe('Checkout effect', () => {
         postUrl: 'https://testurl'
       };
 
-      const paymentDetails = {
-        billTo_city: 'MainCity',
-        decision: 'ACCEPT',
-        billTo_country: 'US',
-        billTo_lastName: 'test'
+      const paymentDetails: PaymentDetails = {
+        accountHolderName: 'test',
+        billingAddress: {
+          line1: '123 Montreal'
+        }
       };
 
       const html =
@@ -311,7 +319,7 @@ describe('Checkout effect', () => {
         cartId: cartId,
         paymentDetails: mockPaymentDetails
       });
-      const completion1 = new fromUserActions.LoadUserPaymentMethods(userId);
+      const completion1 = new LoadUserPaymentMethods(userId);
       const completion2 = new fromActions.CreatePaymentDetailsSuccess(
         paymentDetails
       );
@@ -360,7 +368,7 @@ describe('Checkout effect', () => {
         cartId: cartId
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
-      const completion2 = new fromGlobalMessageActions.AddMessage({
+      const completion2 = new AddMessage({
         text: 'Order placed successfully',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION
       });

@@ -3,13 +3,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { BootstrapModule } from '../../../bootstrap.module';
 import { CmsModule } from '../../../cms/cms.module';
 import { OutletModule } from '../../../outlet/index';
 import { StylingModule } from '../../../styling/styling.module';
+import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
+import { CartSharedModule } from './../../../cart/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../../ui/components/components.module';
-import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
-import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
 
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
@@ -27,7 +26,6 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     CartSharedModule,
     CmsModule,
     AddToCartModule,
-    BootstrapModule,
     OutletModule,
     StylingModule
   ],

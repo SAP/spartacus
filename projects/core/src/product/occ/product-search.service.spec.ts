@@ -4,12 +4,18 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
+import { SearchConfig } from '../model/search-config';
+import { OccConfig } from '../../occ/config/occ-config';
+import {
+  ProductSearchPage,
+  SuggestionList
+} from '../../occ/occ-models/occ.models';
+
 import { OccProductSearchService } from './product-search.service';
-import { OccConfig, SearchConfig } from '@spartacus/core';
 
 const queryText = 'test';
-const searchResults = { products: [{ code: '123' }] };
-const suggestions = ['test'];
+const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
+const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
@@ -76,8 +82,8 @@ describe('OccProductSearchService', () => {
     it('should return suggestions for given term', () => {
       service
         .queryProductSuggestions(queryText, mockSearchConfig.pageSize)
-        .subscribe(result => {
-          expect(result).toEqual(suggestions);
+        .subscribe(suggestionList => {
+          expect(suggestionList).toEqual(suggestions);
         });
 
       const mockReq = httpMock.expectOne(req => {

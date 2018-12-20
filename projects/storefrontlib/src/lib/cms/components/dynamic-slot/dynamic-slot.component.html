@@ -1,6 +1,8 @@
 <ng-container *cxOutlet="position">
   <ng-container
-    *ngFor="let component of (currentSlot$ | async | slice: 0:limit)"
+    *ngFor="
+      let component of ((currentSlot$ | async)?.components | slice: 0:limit)
+    "
   >
     <ng-container *cxOutlet="component.typeCode">
       <!--
@@ -9,12 +11,14 @@
         It's currently only used in one test case.
         [attr.data-component-uid]="component.uid"
       -->
-      <ng-container *ngIf="componentClass; else: containerWrapper">
+      <ng-container *ngIf="componentClass; else containerWrapper">
         <!-- we only create a wrappimg div if we need to host a css class -->
         <div
           cxComponentWrapper
           [componentType]="component.typeCode"
           [componentUid]="component.uid"
+          [componentUuid]="component.uuid"
+          [componentCatalogUuid]="component.catalogUuid"
           [contextParameters]="contextParameters"
           [componentCssClass]="componentClass"
         ></div>
@@ -24,6 +28,8 @@
         cxComponentWrapper
         [componentType]="component.typeCode"
         [componentUid]="component.uid"
+        [componentUuid]="component.uuid"
+        [componentCatalogUuid]="component.catalogUuid"
         [contextParameters]="contextParameters"
       ></ng-template>
     </ng-container>

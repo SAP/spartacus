@@ -15,7 +15,7 @@
       [disabled]="true"
     ></cx-star-rating>
     <div class="count">({{ product?.numberOfReviews }})</div>
-    <a class="btn-link">Write a review</a>
+    <a class="btn-link" (click)="launchReview()">Write a review</a>
   </div>
 </ng-container>
 

@@ -1,4 +1,5 @@
 import * as fromLanguage from './languages.action';
+import { Language } from '../../../occ/occ-models/occ.models';
 
 describe('Languages Actions', () => {
   describe('LoadLanguages Actions', () => {
@@ -25,7 +26,7 @@ describe('Languages Actions', () => {
 
     describe('LoadLanguagesSuccess', () => {
       it('should create an action', () => {
-        const payload = [
+        const payload: Language[] = [
           {
             active: false,
             isocode: 'en',

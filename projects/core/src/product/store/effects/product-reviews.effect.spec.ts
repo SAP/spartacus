@@ -1,23 +1,27 @@
-import { OccProductService } from '../../occ/product.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { hot, cold } from 'jasmine-marbles';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
+
+import { hot, cold } from 'jasmine-marbles';
+
+import * as fromActions from '../actions/product-reviews.action';
+import * as fromEffects from '../effects/product-reviews.effect';
+import { OccProductService } from '../../occ/product.service';
+import { ReviewList } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
 
-import * as fromEffects from '../effects/product-reviews.effect';
-import * as fromActions from '../actions/product-reviews.action';
-import { provideMockActions } from '@ngrx/effects/testing';
-
-const reviewData = {
+const reviewData: ReviewList = {
   reviews: [
     {
-      id: 1,
+      id: '1',
       rating: 3
     },
     {
-      id: 2,
+      id: '2',
       rating: 5
     }
   ]
@@ -31,7 +35,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 describe('Product reviews effect', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
   let service: OccProductService;
   let effects: fromEffects.ProductReviewsEffects;
 

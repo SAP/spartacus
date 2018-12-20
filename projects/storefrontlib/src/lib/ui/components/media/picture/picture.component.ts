@@ -8,6 +8,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { missingProductImgSrc } from '../../../images/missingProduct';
+import { Image } from '@spartacus/core';
 
 const DEFAULT_FORMAT = 'product';
 const INITIALIZED_CLS = 'initialized';
@@ -30,7 +31,7 @@ export class PictureComponent implements OnChanges {
   @Output()
   loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
-  mainImage;
+  mainImage: string;
   missingProductImgSrc = missingProductImgSrc;
 
   constructor(private elRef: ElementRef, private cd: ChangeDetectorRef) {}
@@ -39,9 +40,11 @@ export class PictureComponent implements OnChanges {
     this.loadImage();
   }
 
-  loadImage() {
+  loadImage(): void {
     if (this.imageContainer) {
-      const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
+      const image: Image = this.imageContainer[
+        this.imageFormat || DEFAULT_FORMAT
+      ];
       if (image && image.url) {
         (<HTMLElement>this.elRef.nativeElement).classList.add(LOADING_CLS);
         this.mainImage = image.url;
