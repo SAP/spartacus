@@ -3,11 +3,11 @@
     <h3 class="cx-shipping-address__title d-none d-lg-block d-xl-block">
       Shipping Address
     </h3>
-    <ng-container *ngIf="!(isLoading$ | async); else: loading">
+    <ng-container *ngIf="!(isLoading$ | async); else loading">
       <ng-container
         *ngIf="
           existingAddresses?.length && !newAddressFormManuallyOpened;
-          else: newAddressForm
+          else newAddressForm
         "
       >
         <p class="cx-shipping-address__text">Select your Shipping Address</p>
@@ -27,7 +27,10 @@
             class="cx-shipping-address__card col-md-12 col-lg-6"
             *ngFor="let address of existingAddresses; let i = index"
           >
-            <div class="cx-shipping-address__card-inner">
+            <div
+              class="cx-shipping-address__card-inner"
+              (click)="addressSelected(address, i)"
+            >
               <cx-card
                 [border]="true"
                 [fitToContainer]="true"

@@ -3,11 +3,14 @@ import {
   OnInit,
   OnDestroy,
   Input,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  Renderer2,
+  ElementRef
 } from '@angular/core';
 
-import { CmsService } from '../../facade/cms.service';
+import { CmsService, ContentSlotData } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-dynamic-slot',
@@ -16,7 +19,7 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicSlotComponent implements OnInit, OnDestroy {
-  currentSlot$: Observable<any>;
+  currentSlot$: Observable<ContentSlotData>;
 
   @Input()
   position: string;
@@ -27,10 +30,47 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
   @Input()
   componentClass: string;
 
-  constructor(protected cmsService: CmsService) {}
+  constructor(
+    protected cmsService: CmsService,
+    protected renderer: Renderer2,
+    protected hostElement: ElementRef
+  ) {}
 
   ngOnInit() {
-    this.currentSlot$ = this.cmsService.getContentSlot(this.position);
+    this.currentSlot$ = this.cmsService.getContentSlot(this.position).pipe(
+      tap(slot => {
+        if (this.cmsService.isLaunchInSmartEdit()) {
+          this.addSmartEditContract(slot);
+        }
+      })
+    );
+  }
+
+  private addSmartEditContract(slot: ContentSlotData): void {
+    this.renderer.addClass(
+      this.hostElement.nativeElement,
+      'smartEditComponent'
+    );
+    this.renderer.setAttribute(
+      this.hostElement.nativeElement,
+      'data-smartedit-component-type',
+      'ContentSlot'
+    );
+    this.renderer.setAttribute(
+      this.hostElement.nativeElement,
+      'data-smartedit-component-id',
+      slot.uid
+    );
+    this.renderer.setAttribute(
+      this.hostElement.nativeElement,
+      'data-smartedit-catalog-version-uuid',
+      slot.catalogUuid
+    );
+    this.renderer.setAttribute(
+      this.hostElement.nativeElement,
+      'data-smartedit-component-uuid',
+      slot.uuid
+    );
   }
 
   ngOnDestroy() {}

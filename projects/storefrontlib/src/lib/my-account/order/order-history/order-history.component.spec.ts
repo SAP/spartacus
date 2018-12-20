@@ -1,3 +1,4 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
@@ -6,12 +7,12 @@ import {
   AuthService,
   RoutingService,
   UserToken,
+  UserService,
   OrderHistoryList
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { UserService } from '../../../user/facade/user.service';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
 import { OrderHistoryComponent } from './order-history.component';
@@ -23,18 +24,31 @@ const mockOrders: OrderHistoryList = {
       placed: new Date('2018-01-01'),
       statusDisplay: 'test',
       total: { formattedValue: '1' }
+    },
+    {
+      code: '2',
+      placed: new Date('2018-01-02'),
+      statusDisplay: 'test2',
+      total: { formattedValue: '2' }
     }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
 };
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
     return of({ userId: 'test' } as UserToken);
   }
 }
 class MockUserService {
+  go = jasmine.createSpy('go');
   getOrderHistoryList(): Observable<OrderHistoryList> {
     return of();
   }
@@ -55,11 +69,12 @@ describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
   let userService: MockUserService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PaginationAndSortingModule],
-      declarations: [OrderHistoryComponent],
+      declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
@@ -68,6 +83,7 @@ describe('OrderHistoryComponent', () => {
     }).compileComponents();
 
     userService = TestBed.get(UserService);
+    routingService = TestBed.get(RoutingService);
   }));
 
   beforeEach(() => {
@@ -123,10 +139,20 @@ describe('OrderHistoryComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(
-      fixture.debugElement.query(By.css('.cx-order-history__code a')).properties
-        .href
-    ).toEqual(`/my-account/orders/${mockOrders.orders[0].code}`);
+    const rows = fixture.debugElement.queryAll(
+      By.css('.cx-order-history__table tbody tr')
+    );
+    rows[1].triggerEventHandler('click', null);
+    fixture.whenStable().then(() => {
+      expect(routingService.go).toHaveBeenCalledWith({
+        route: [
+          {
+            name: 'orderDetails',
+            params: mockOrders.orders[1]
+          }
+        ]
+      });
+    });
   });
 
   it('should display No orders found page if no orders are found', () => {

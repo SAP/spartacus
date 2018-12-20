@@ -38,6 +38,10 @@ export class StoreFinderService {
     this.clearWatchGeolocation(new fromStore.ViewAllStores());
   }
 
+  viewStoreById(storeId: string) {
+    this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
+  }
+
   viewAllStoresForCountry(countryIsoCode: string) {
     this.clearWatchGeolocation(
       new fromStore.FindAllStoresByCountry({ countryIsoCode })

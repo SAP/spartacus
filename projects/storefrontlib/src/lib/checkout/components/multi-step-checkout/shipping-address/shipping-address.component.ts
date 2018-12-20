@@ -7,13 +7,15 @@ import {
   EventEmitter
 } from '@angular/core';
 
-import { RoutingService, Address } from '@spartacus/core';
+import {
+  RoutingService,
+  Address,
+  CartDataService,
+  UserService
+} from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -113,6 +115,6 @@ export class ShippingAddressComponent implements OnInit {
   }
 
   back() {
-    this.routingService.go(['/cart']);
+    this.routingService.go({ route: ['cart'] });
   }
 }

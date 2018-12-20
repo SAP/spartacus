@@ -7,11 +7,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  User,
+  UserService
+} from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
-
-import { UserService } from '../../facade/user.service';
 
 @Component({
   selector: 'cx-login',
@@ -77,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         child => child.GUARD_NAME === 'AuthGuard'
       )
     ) {
-      this.routing.go(['/login']);
+      this.routing.go({ route: ['login'] });
     }
   }
 

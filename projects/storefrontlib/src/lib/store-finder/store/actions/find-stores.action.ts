@@ -7,6 +7,10 @@ export const FIND_STORES = '[StoreFinder] Find Stores';
 export const FIND_STORES_FAIL = '[StoreFinder] Find Stores Fail';
 export const FIND_STORES_SUCCESS = '[StoreFinder] Find Stores Success';
 
+export const FIND_STORE_BY_ID = '[StoreFinder] Find a Store by Id';
+export const FIND_STORE_BY_ID_FAIL = '[StoreFinder] Find a Store by Id Fail';
+export const FIND_STORE_BY_ID_SUCCESS =
+  '[StoreFinder] Find a Store by Id Success';
 export const FIND_ALL_STORES_BY_COUNTRY =
   '[StoreFinder] Find All Stores by Country';
 export const FIND_ALL_STORES_BY_COUNTRY_FAIL =
@@ -48,6 +52,21 @@ export class FindStoresSuccess implements Action {
   constructor(public payload: any) {}
 }
 
+export class FindStoreById implements Action {
+  readonly type = FIND_STORE_BY_ID;
+  constructor(public payload: { storeId: string }) {}
+}
+
+export class FindStoreByIdFail implements Action {
+  readonly type = FIND_STORE_BY_ID_FAIL;
+  constructor(public payload: any) {}
+}
+
+export class FindStoreByIdSuccess implements Action {
+  readonly type = FIND_STORE_BY_ID_SUCCESS;
+  constructor(public payload: any) {}
+}
+
 export class FindAllStoresByCountry implements Action {
   readonly type = FIND_ALL_STORES_BY_COUNTRY;
   constructor(public payload: { countryIsoCode: string }) {}
@@ -85,6 +104,9 @@ export type FindStoresAction =
   | FindStores
   | FindStoresFail
   | FindStoresSuccess
+  | FindStoreById
+  | FindStoreByIdFail
+  | FindStoreByIdSuccess
   | FindAllStoresByCountry
   | FindAllStoresByCountryFail
   | FindAllStoresByCountrySuccess
