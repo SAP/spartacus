@@ -20,7 +20,7 @@ export class StylingDirective implements OnInit {
     const styleElement = this.renderer.createElement('link');
     styleElement.rel = 'stylesheet';
     styleElement.type = 'text/css';
-    styleElement.href = `styles/${path}.css`;
+    styleElement.href = `assets/css/${path}.css`;
 
     this.renderer.appendChild(this.el.nativeElement.parentNode, styleElement);
   }

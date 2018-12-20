@@ -28,7 +28,7 @@ if (!environment.production) {
       product: {
         styles: {
           summary: {
-            cssIncludePaths: ['summary/picture']
+            cssIncludePaths: ['test']
           }
         }
       }

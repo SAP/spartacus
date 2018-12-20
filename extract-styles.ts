@@ -13,17 +13,15 @@ interface StylePath {
 async function moveStylesToShellApp(directoryPath: string) {
   const files = readDirectory(directoryPath);
   const dirPath = createRecursiveDirectory(
-    path.join('projects', 'storefrontapp', 'src', 'styles')
+    path.join('projects', 'storefrontapp', 'src', 'assets', 'css')
   );
   for (const file of files) {
     const filePath = getStylePath(file);
-    const destDir = createRecursiveDirectory(
-      path.join(dirPath, filePath.componentFolder)
-    );
+    const destDir = createRecursiveDirectory(path.join(dirPath));
     const buffer = fs.readFileSync(filePath.path, { encoding: 'utf-8' });
 
     fs.writeFile(
-      buildDestinationPath(destDir, filePath.fileName),
+      buildDestinationPath(destDir, filePath.fileName.replace('%', '')),
       transpileSass(buffer),
       err => {
         if (err) {
@@ -114,5 +112,32 @@ function transpileSass(buffer: string): any {
   return css.css;
 }
 
+// const transform = (read: Stream, _write: fs.WriteStream) => {
+//   // write = fs.createWriteStream(write.path.toString().replace('scss', 'css'));
+//   read.pipe(compile);
+// };
+
+// const compile = through2((data, _encoding, callBack) => {
+//   callBack(null, new Buffer(transpileSass(data.toString())));
+// });
+
+// function test() {
+//   ncp.ncp.limit = 16;
+
+//   ncp.ncp(
+//     path.join('projects', 'storefrontapp', 'src', 'scss'),
+//     path.join('projects', 'storefrontapp', 'src', 'styles'),
+//     { transform },
+//     err => {
+//       if (err) {
+//         console.log(err);
+//         return console.error(err);
+//       }
+//       console.log('done');
+//     }
+//   );
+// }
+
 // This should be customizable to change the path for node_modules
 moveStylesToShellApp('./dist/storefrontlib/styles');
+moveStylesToShellApp('./projects/storefrontapp/src/scss');
