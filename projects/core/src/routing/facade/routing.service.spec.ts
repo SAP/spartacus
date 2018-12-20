@@ -5,9 +5,10 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
+import { RouterState } from '../store/reducers/router.reducer';
 
 describe('RoutingService', () => {
-  let store: Store<any>;
+  let store: Store<RouterState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -101,7 +102,7 @@ describe('RoutingService', () => {
       );
       spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
 
-      let redirectUrl;
+      let redirectUrl: string;
       service.getRedirectUrl().subscribe(url => (redirectUrl = url));
       expect(redirectUrl).toEqual('redirect_url');
     }
@@ -113,7 +114,7 @@ describe('RoutingService', () => {
       const mockRouterState = createSpy().and.returnValue(() => of({}));
       spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
 
-      let routerState;
+      let routerState: any;
       service.getRouterState().subscribe(state => (routerState = state));
       expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
       expect(routerState).toEqual({});
