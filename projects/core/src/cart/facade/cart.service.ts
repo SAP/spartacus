@@ -15,31 +15,31 @@ import { CartsState } from '../store/cart-state';
 export class CartService {
   private callback: Function;
 
-  readonly activeCart$: Observable<Cart> = this.store.pipe(
-    select(fromSelector.getActiveCart)
-  );
-
-  readonly entries$: Observable<OrderEntry[]> = this.store.pipe(
-    select(fromSelector.getEntries)
-  );
-
-  readonly cartMergeComplete$: Observable<boolean> = this.store.pipe(
-    select(fromSelector.getCartMergeComplete)
-  );
-
-  readonly loaded$: Observable<boolean> = this.store.pipe(
-    select(fromSelector.getLoaded)
-  );
-
   constructor(
     private store: Store<CartsState>,
     private cartData: CartDataService,
     private authService: AuthService
   ) {
-    this.initCart();
+    this.init();
   }
 
-  private initCart() {
+  getActive(): Observable<Cart> {
+    return this.store.pipe(select(fromSelector.getActiveCart));
+  }
+
+  getEntries(): Observable<OrderEntry[]> {
+    return this.store.pipe(select(fromSelector.getEntries));
+  }
+
+  getCartMergeComplete(): Observable<boolean> {
+    return this.store.pipe(select(fromSelector.getCartMergeComplete));
+  }
+
+  getLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromSelector.getLoaded));
+  }
+
+  protected init(): void {
     this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
@@ -53,13 +53,13 @@ export class CartService {
       .pipe(filter(userToken => this.cartData.userId !== userToken.userId))
       .subscribe(userToken => {
         this.setUserId(userToken);
-        this.loadOrMergeCart();
+        this.loadOrMerge();
       });
 
-    this.refreshCart();
+    this.refresh();
   }
 
-  private setUserId(userToken: UserToken): void {
+  protected setUserId(userToken: UserToken): void {
     if (Object.keys(userToken).length !== 0) {
       this.cartData.userId = userToken.userId;
     } else {
@@ -67,11 +67,11 @@ export class CartService {
     }
   }
 
-  private loadOrMergeCart(): void {
+  protected loadOrMerge(): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (this.cartData.userId !== ANONYMOUS_USERID) {
-      if (!this.isCartCreated(this.cartData.cart)) {
+      if (!this.isCreated(this.cartData.cart)) {
         this.store.dispatch(
           new fromAction.LoadCart({
             userId: this.cartData.userId,
@@ -89,7 +89,7 @@ export class CartService {
     }
   }
 
-  private refreshCart(): void {
+  protected refresh(): void {
     this.store.pipe(select(fromSelector.getRefresh)).subscribe(refresh => {
       if (refresh) {
         this.store.dispatch(
@@ -103,7 +103,7 @@ export class CartService {
     });
   }
 
-  loadCartDetails() {
+  loadDetails(): void {
     this.cartData.getDetails = true;
 
     if (this.cartData.userId !== ANONYMOUS_USERID) {
@@ -125,8 +125,8 @@ export class CartService {
     }
   }
 
-  addCartEntry(productCode: string, quantity: number) {
-    if (!this.isCartCreated(this.cartData.cart)) {
+  addEntry(productCode: string, quantity: number): void {
+    if (!this.isCreated(this.cartData.cart)) {
       this.store.dispatch(
         new fromAction.CreateCart({ userId: this.cartData.userId })
       );
@@ -152,7 +152,7 @@ export class CartService {
     }
   }
 
-  removeCartEntry(entry: OrderEntry) {
+  removeEntry(entry: OrderEntry): void {
     this.store.dispatch(
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
@@ -162,7 +162,7 @@ export class CartService {
     );
   }
 
-  updateCartEntry(entryNumber: string, quantity: number) {
+  updateEntry(entryNumber: string, quantity: number): void {
     if (+quantity > 0) {
       this.store.dispatch(
         new fromAction.UpdateEntry({
@@ -189,11 +189,11 @@ export class CartService {
     );
   }
 
-  isCartCreated(cart: Cart): boolean {
+  isCreated(cart: Cart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isCartEmpty(cart: Cart): boolean {
+  isEmpty(cart: Cart): boolean {
     return cart && !cart.totalItems;
   }
 }
