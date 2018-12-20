@@ -51,15 +51,19 @@ const mockComponentData: any = {
   }
 };
 
+class MockCartService {
+  getActive() {
+    return of(testCart);
+  }
+  getEntries() {
+    return of(testEntries);
+  }
+}
+
 class MockCmsService {
   getComponentData<T extends CmsComponent>(): Observable<T> {
     return of(mockComponentData);
   }
-}
-
-class MockCartService {
-  cart$ = of(testCart);
-  entries$ = of(testEntries);
 }
 
 describe('MiniCartComponent', () => {

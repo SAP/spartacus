@@ -15,11 +15,11 @@ export class CartPageLayoutComponent implements OnInit {
   constructor(protected cartService: CartService) {}
 
   ngOnInit() {
-    this.cartService.cartMergeComplete$.subscribe(isCartMergeComplete => {
+    this.cartService.getCartMergeComplete().subscribe(isCartMergeComplete => {
       if (isCartMergeComplete) {
-        this.cartService.loadCartDetails();
+        this.cartService.loadDetails();
       }
     });
-    this.cart$ = this.cartService.activeCart$;
+    this.cart$ = this.cartService.getActive();
   }
 }
