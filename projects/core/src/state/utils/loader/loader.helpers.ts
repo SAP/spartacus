@@ -1,7 +1,10 @@
 import { filter } from 'rxjs/operators';
 import { EntityLoadAction } from '../entity-loader/entity-loader.action';
+import { MonoTypeOperatorFunction } from 'rxjs';
 
-export function ofLoaderLoad(entityType: string) {
+export function ofLoaderLoad(
+  entityType: string
+): MonoTypeOperatorFunction<EntityLoadAction> {
   return filter(
     (action: EntityLoadAction) =>
       action.meta &&
@@ -11,7 +14,9 @@ export function ofLoaderLoad(entityType: string) {
   );
 }
 
-export function ofLoaderFail(entityType: string) {
+export function ofLoaderFail(
+  entityType: string
+): MonoTypeOperatorFunction<EntityLoadAction> {
   return filter(
     (action: EntityLoadAction) =>
       action.meta &&
@@ -21,7 +26,9 @@ export function ofLoaderFail(entityType: string) {
   );
 }
 
-export function ofLoaderSuccess(entityType: string) {
+export function ofLoaderSuccess(
+  entityType: string
+): MonoTypeOperatorFunction<EntityLoadAction> {
   return filter(
     (action: EntityLoadAction) =>
       action.meta &&
