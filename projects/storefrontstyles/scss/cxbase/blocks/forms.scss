@@ -98,8 +98,8 @@ input[type='radio'] {
 
     &:checked {
       font-style: normal;
-      border: var(--cx-primary, theme-color('primary'));
-      background-color: var(--cx-primary, theme-color('primary'));
+      border: var(--cx-g-color-primary, theme-color('primary'));
+      background-color: var(--cx-g-color-primary, theme-color('primary'));
 
       &::after {
         color: theme-color('inverse');
@@ -144,7 +144,7 @@ input[type='radio'] {
     top: 4px;
   }
   &:checked {
-    border-color: var(--cx-primary, theme-color('primary')) !important;
+    border-color: var(--cx-g-color-primary, theme-color('primary')) !important;
     background-color: theme-color('inverse');
 
     &::after {

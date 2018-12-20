@@ -6,10 +6,9 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '../../cart/facade/cart.service';
+import { CartService } from '@spartacus/core';
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { Cart, OrderEntry, CmsService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-mini-cart',
@@ -36,8 +35,8 @@ export class MiniCartComponent extends AbstractCmsComponent {
     this.showProductCount = +this.component.shownProductCount;
     this.banner = this.component.lightboxBannerComponent;
 
-    this.cart$ = this.cartService.activeCart$;
-    this.entries$ = this.cartService.entries$;
+    this.cart$ = this.cartService.getActive();
+    this.entries$ = this.cartService.getEntries();
 
     super.fetchData();
   }

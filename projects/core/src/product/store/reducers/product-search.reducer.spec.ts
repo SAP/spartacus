@@ -1,14 +1,15 @@
-import * as fromProductSearch from './product-search.reducer';
-import * as fromActions from '../actions/product-search.action';
-import { ProductList, Suggestion } from '../../../occ-models';
-import { SearchConfig } from '../../model/search-config';
 import { ProductsSearchState } from '../product-state';
+import * as fromActions from '../actions/product-search.action';
+import { SearchConfig } from '../../model/search-config';
+import { ProductList, Suggestion } from '../../../occ/occ-models';
+
+import * as fromProductSearch from './product-search.reducer';
 
 describe('Product Search Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromProductSearch;
-      const action = {} as any;
+      const action = {} as fromActions.ProductSearchAction;
       const state: ProductsSearchState = fromProductSearch.reducer(
         undefined,
         action

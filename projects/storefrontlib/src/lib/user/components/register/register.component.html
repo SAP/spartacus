@@ -151,8 +151,9 @@
                   <span class="form-check-label">
                     I am confirming that I have read and agreed with the
                     <a
-                      class="cx-section__registration-link"
-                      href="/terms-and-conditions"
+                      [routerLink]="
+                        { route: ['termsAndConditions'] } | cxTranslateUrl
+                      "
                       target="_blank"
                     >
                       Terms & Conditions
@@ -169,7 +170,9 @@
             >
               Register
             </button>
-            <a class="cx-section__login-link btn-link" routerLink="/login"
+            <a
+              class="cx-login-link btn-link"
+              [routerLink]="{ route: ['login'] } | cxTranslateUrl"
               >I already have an account. Sign In</a
             >
           </form>

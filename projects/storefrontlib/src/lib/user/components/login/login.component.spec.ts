@@ -1,17 +1,22 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
-import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  UserService,
+  User
+} from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { UserService } from '../../facade/user.service';
-
 import { LoginComponent } from './login.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockAuthService {
   login = createSpy();
@@ -21,7 +26,7 @@ class MockAuthService {
   }
 }
 class MockRoutingService {
-  go = createSpy();
+  go = createSpy('go');
 }
 class MockUserService {
   get(): Observable<User> {
@@ -58,6 +63,13 @@ class MockDynamicSlotComponent {
   position: string;
 }
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -68,7 +80,12 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginComponent, MockDynamicSlotComponent],
+      imports: [RouterTestingModule],
+      declarations: [
+        LoginComponent,
+        MockDynamicSlotComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         {
           provide: ActivatedRoute,
@@ -107,7 +124,9 @@ describe('LoginComponent', () => {
     component.logout();
     expect(component.isLogin).toEqual(false);
     expect(authService.logout).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith(['/login']);
+    expect(routingService.go).toHaveBeenCalledWith({
+      route: ['login']
+    });
   });
 
   it('should load user details when token exists', () => {
@@ -141,10 +160,15 @@ describe('LoginComponent', () => {
 
       component.ngOnInit();
       fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'Sign In / Register'
+      );
 
-      expect(
-        fixture.debugElement.query(By.css('a[routerLink="login"'))
-      ).not.toBeNull();
+      component.user$ = of(mockUserDetails);
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'Hi, First Last'
+      );
     });
   });
 });

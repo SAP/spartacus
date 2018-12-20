@@ -5,8 +5,7 @@ import createSpy = jasmine.createSpy;
 import { ProductListComponent } from './product-list.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import { ProductListItemComponent } from '../product-list-item/product-list-item.component';
-import { AddToCartComponent } from '../../../../cart/components/add-to-cart/add-to-cart.component';
+import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
 import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -24,6 +23,7 @@ import { FormsModule } from '@angular/forms';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
+import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
@@ -38,6 +38,22 @@ class MockProductSearchService {
 class MockActivatedRoute {
   snapshot = { queryParams: {} };
   setParams = params => (this.snapshot.queryParams = params);
+}
+
+@Component({
+  template: '',
+  selector: 'cx-product-list-item'
+})
+class MockProductListItemComponent {
+  @Input()
+  product;
+}
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -69,11 +85,12 @@ describe('ProductListComponent in product-list', () => {
         ProductListComponent,
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
-        ProductListItemComponent,
         AddToCartComponent,
         PictureComponent,
         ProductViewComponent,
-        StarRatingComponent
+        StarRatingComponent,
+        MockProductListItemComponent,
+        MockTranslateUrlPipe
       ]
     }).compileComponents();
   }));
