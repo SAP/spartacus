@@ -16,7 +16,7 @@ describe('Path to Terms and Conditions', () => {
   }`;
   const PRODUCT_NAME = 'Alpha 350';
   const PRODUCT_CODE = '1446509';
-  const expectedUrl = 'terms-and-conditions';
+  const EXPECTED_SLUG = 'terms-and-conditions';
 
   beforeAll(async () => {
     await home.navigateTo();
@@ -87,6 +87,6 @@ describe('Path to Terms and Conditions', () => {
     const termsAndConditionsPage = await checkoutPage.openTermsAndConditions();
     await termsAndConditionsPage.waitForReady();
 
-    expect(await browser.getCurrentUrl()).toContain(expectedUrl);
+    expect(await browser.getCurrentUrl()).toContain(EXPECTED_SLUG);
   });
 });
