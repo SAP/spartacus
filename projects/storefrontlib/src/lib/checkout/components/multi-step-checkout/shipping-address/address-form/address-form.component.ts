@@ -14,7 +14,6 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import {} from '@spartacus/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
