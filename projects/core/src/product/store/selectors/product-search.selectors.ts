@@ -1,16 +1,17 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { getProductsState } from './feature.selector';
-import * as fromProductSearch from '../reducers/product-search.reducer';
 import {
   ProductsSearchState,
   ProductsState,
   StateWithProduct
 } from '../product-state';
+import * as fromProductSearch from '../reducers/product-search.reducer';
 import {
   ProductSearchPage,
   Suggestion
 } from '../../../occ/occ-models/occ.models';
+
+import { getProductsState } from './feature.selector';
 
 export const getProductsSearchState: MemoizedSelector<
   StateWithProduct,
