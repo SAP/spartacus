@@ -1,11 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { of, Observable } from 'rxjs';
 
-import { CartService, CmsService } from '@spartacus/core';
+import { CartService, CmsService, TranslateUrlOptions } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, OrderEntry, CmsComponent } from '@spartacus/core';
+import { PipeTransform, Pipe } from '@angular/core';
+import { By } from '@angular/platform-browser';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions) {
+    return '/translated-path/' + options.route[0];
+  }
+}
 
 const testCart: Cart = {
   code: 'xxx',
@@ -40,15 +51,19 @@ const mockComponentData: any = {
   }
 };
 
+class MockCartService {
+  getActive() {
+    return of(testCart);
+  }
+  getEntries() {
+    return of(testEntries);
+  }
+}
+
 class MockCmsService {
   getComponentData<T extends CmsComponent>(): Observable<T> {
     return of(mockComponentData);
   }
-}
-
-class MockCartService {
-  cart$ = of(testCart);
-  entries$ = of(testEntries);
 }
 
 describe('MiniCartComponent', () => {
@@ -57,7 +72,8 @@ describe('MiniCartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MiniCartComponent],
+      imports: [RouterTestingModule],
+      declarations: [MiniCartComponent, MockTranslateUrlPipe],
       providers: [
         { provide: CmsService, useClass: MockCmsService },
         { provide: CartService, useClass: MockCartService }
@@ -87,9 +103,23 @@ describe('MiniCartComponent', () => {
     );
   });
 
-  describe('UI test', () => {
-    it('should contain a link to redirect to /cart', () => {
-      expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
+  describe('template', () => {
+    beforeEach(() => {
+      miniCartComponent.cart$ = of(testCart);
+      fixture.detectChanges();
+    });
+
+    it('should contain link to cart page', () => {
+      const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
+        .attributes.href.value;
+      expect(linkHref).toBe('/translated-path/cart');
+    });
+
+    it('should contain number of items in cart', () => {
+      const cartItemsNumber = fixture.debugElement.query(
+        By.css('.cx-mini-cart__count')
+      ).nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('1');
     });
   });
 });

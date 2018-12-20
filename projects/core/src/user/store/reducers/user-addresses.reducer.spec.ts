@@ -2,11 +2,15 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import * as fromUserAddressesReducer from './user-addresses.reducer';
 import { Address } from '../../../occ/occ-models/index';
 
+const mockAddress: Address = {
+  town: 'test town'
+};
+
 describe('User Addresses Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserAddressesReducer;
-      const action = {} as any;
+      const action = {} as fromUserAddressesAction.UserAddressesAction;
       const state = fromUserAddressesReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -51,7 +55,10 @@ describe('User Addresses Reducer', () => {
   describe('ADD_USER_ADDRESS action', () => {
     it('should set isActionProcessing flag to true', () => {
       const { initialState } = fromUserAddressesReducer;
-      const action = new fromUserAddressesAction.AddUserAddress({});
+      const action = new fromUserAddressesAction.AddUserAddress({
+        userId: '123',
+        address: mockAddress
+      });
       const state = fromUserAddressesReducer.reducer(initialState, action);
       expect(state.isActionProcessing).toEqual(true);
     });
@@ -60,7 +67,11 @@ describe('User Addresses Reducer', () => {
   describe('UPDATE_USER_ADDRESS action', () => {
     it('should set isActionProcessing flag to true', () => {
       const { initialState } = fromUserAddressesReducer;
-      const action = new fromUserAddressesAction.UpdateUserAddress({});
+      const action = new fromUserAddressesAction.UpdateUserAddress({
+        userId: '123',
+        addressId: '123',
+        address: mockAddress
+      });
       const state = fromUserAddressesReducer.reducer(initialState, action);
       expect(state.isActionProcessing).toEqual(true);
     });

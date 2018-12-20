@@ -1,17 +1,23 @@
 import { TestBed } from '@angular/core/testing';
+
 import { StoreModule, Store, select } from '@ngrx/store';
 
-import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
-import * as fromSelectors from './product-search.selectors';
-import { SearchConfig } from '../../model/search-config';
 import { PRODUCT_FEATURE, StateWithProduct } from '../product-state';
+import * as fromReducers from '../reducers';
+import { SearchConfig } from '../../model/search-config';
+import {
+  ProductSearchPage,
+  Suggestion
+} from '../../../occ/occ-models/occ.models';
+
+import * as fromSelectors from './product-search.selectors';
 
 describe('ProductSearch Selectors', () => {
   let store: Store<StateWithProduct>;
 
-  const searchResults = { products: [{ code: '123' }] };
-  const suggestions = [{ value: 'test' }];
+  const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
+  const suggestions: Suggestion[] = [{ value: 'test' }];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,7 +32,7 @@ describe('ProductSearch Selectors', () => {
 
   describe('getSearchResults', () => {
     it('should return the product search results', () => {
-      let result;
+      let result: ProductSearchPage;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
         .pipe(select(fromSelectors.getSearchResults))
@@ -48,7 +54,7 @@ describe('ProductSearch Selectors', () => {
 
   describe('getAuxSearchResults', () => {
     it('should return the auxiliary product search results', () => {
-      let result;
+      let result: ProductSearchPage;
       const searchConfig: SearchConfig = { pageSize: 10 };
       store
         .pipe(select(fromSelectors.getAuxSearchResults))
@@ -75,8 +81,7 @@ describe('ProductSearch Selectors', () => {
 
   describe('getProductSuggestions', () => {
     it('should return the product suggestions', () => {
-      let result;
-
+      let result: Suggestion[];
       store
         .pipe(select(fromSelectors.getProductSuggestions))
         .subscribe(value => (result = value));

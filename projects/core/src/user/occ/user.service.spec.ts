@@ -14,8 +14,8 @@ import {
 } from '../../occ/occ-models/index';
 import { OccConfig } from '../../occ/config/occ-config';
 
-const username: any = 'mockUsername';
-const password: any = '1234';
+const username = 'mockUsername';
+const password = '1234';
 
 const user: User = {
   customerId: username,
