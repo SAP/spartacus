@@ -3,14 +3,12 @@
 @import 'mixins';
 
 //cx-cart-item color variables
-$cx-cart-item-code-color: 'secondary' !default;
+
 $cx-cart-item-old-price-color: 'secondary' !default;
 $cx-cart-item-new-price-color: 'primary' !default;
 $cx-cart-item-promo-color: 'success' !default;
 $cx-cart-item-unavailable-color: 'danger' !default;
 $cx-cart-item-actions-color: 'text' !default;
-$cx-cart-item-name-color: 'text' !default;
-$cx-cart-item-name-color-hover: 'primary' !default;
 
 $cx-cart-item-image-container-padding-left: 0 !default;
 $cx-cart-item-image-container-padding-right: 0 !default;
@@ -20,10 +18,6 @@ $cx-cart-item-info-container-margin-right: 0 !default;
 
 $cx-cart-item-name-padding-left: 0 !default;
 $cx-cart-item-name-padding-right: 0 !default;
-
-$cx-cart-item-image-width: 100% !default;
-
-$cx-cart-item-code-padding: 0.625rem 0 !default;
 
 $cx-cart-item-property-label-padding-right: 1rem !default;
 $cx-cart-item-property-label-min-width: 5rem !default;
@@ -52,13 +46,13 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
 
 .cx-cart-item {
   &__image {
-    width: $cx-cart-item-image-width;
+    width: var(--cx-width, 100%);
   }
 
   &__info-container {
     @include media-breakpoint-down(sm) {
-      display: flex;
-      flex-direction: column;
+      display: var(--cx-display, flex);
+      flex-direction: var(--cx-flex-direction, column);
     }
   }
 
@@ -69,23 +63,22 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
     padding-right: $cx-cart-item-name-padding-right;
 
     &--link {
-      @include var-color('color', $cx-cart-item-name-color);
-      text-decoration: none;
-
+      color: var(--cx-color, var(--cx-g-color-text));
+      text-decoration: var(--cx-text-decoration, none);
       &:hover {
-        @include var-color('color', $cx-cart-item-name-color-hover);
+        color: var(--cx-color, var(--cx-g-color-primary));
       }
     }
   }
 
   &__code {
     @include type('7');
-    @include var-color('color', $cx-cart-item-code-color);
-    padding: $cx-cart-item-code-padding;
+    color: var(--cx-color, var(--cx-g-color-secondary));
+    padding: var(--cx-padding, 0.625rem 0);
   }
 
   &__property {
-    display: flex;
+    display: var(--cx-display, flex);
 
     &--label {
       @include type('8');
