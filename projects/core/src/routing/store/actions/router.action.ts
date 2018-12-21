@@ -11,7 +11,7 @@ export class Go implements Action {
   readonly type = GO;
   constructor(
     public payload: {
-      path: any[];
+      path: string[];
       query?: object;
       extras?: NavigationExtras;
     }

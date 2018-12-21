@@ -9,7 +9,9 @@ import { UrlParsingService } from './url-translation/url-parsing.service';
 import { RouteRecognizerService } from './url-translation/route-recognizer.service';
 import { UrlTranslationService } from './url-translation/url-translation.service';
 
-export function loadRoutesConfig(loader: RoutesConfigLoader) {
+export function loadRoutesConfig(
+  loader: RoutesConfigLoader
+): () => Promise<void> {
   const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }
