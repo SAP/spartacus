@@ -1,17 +1,34 @@
-<div class="cx-product-summary">
-  <div
-    class="cx-product-summary__price cx-product-summary__price"
-    aria-label="new item price"
-  >
+<ng-container *cxOutlet="outlets.TITLE">
+  <div class="name">{{ product?.name }}</div>
+  <div class="code">ID {{ product?.code }}</div>
+</ng-container>
+
+<ng-container *cxOutlet="outlets.IMAGES">
+  <div class="images"><ng-content></ng-content></div>
+</ng-container>
+
+<ng-container *cxOutlet="outlets.RATING">
+  <div class="rating">
+    <cx-star-rating
+      [rating]="product?.averageRating"
+      [disabled]="true"
+    ></cx-star-rating>
+    <div class="count">({{ product?.numberOfReviews }})</div>
+    <a class="btn-link" (click)="launchReview()">Write a review</a>
+  </div>
+</ng-container>
+
+<ng-container *cxOutlet="outlets.PRICE">
+  <div class="price" aria-label="new item price">
     {{ product?.price?.formattedValue }}
   </div>
+</ng-container>
 
-  <div class="cx-product-summary__description">
-    <p [innerHTML]="product?.summary"></p>
-  </div>
+<div class="description"><p [innerHTML]="product?.summary"></p></div>
 
-  <div class="cx-product-summary__variant">
-    <div class="cx-product-summary__variant-label">Qty:</div>
+<ng-container *cxOutlet="outlets.ADDTOCART">
+  <div class="quantity">
+    <label>Qty</label>
     <cx-item-counter
       isValueChangable="true"
       [min]="1"
@@ -22,16 +39,15 @@
       "
       (update)="updateCount($event)"
     ></cx-item-counter>
-    <span class="cx-product-summary__variant-info">
-      <span
-        *ngIf="
-          product?.stock?.stockLevel > 0 ||
-          product?.stock?.stockLevelStatus === 'inStock'
-        "
-      >
-        {{ product?.stock?.stockLevel }} in stock</span
-      >
-      <span *ngIf="product?.stock?.stockLevel == 0">Out of stock</span>
-    </span>
+    <span class="info">{{ stockInfo }}</span>
   </div>
-</div>
+  <cx-add-to-cart
+    *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
+    [quantity]="itemCount"
+    [productCode]="product?.code"
+  ></cx-add-to-cart>
+</ng-container>
+
+<ng-container *cxOutlet="outlets.SHARE">
+  <a href="#" class="share btn-link"> Share </a>
+</ng-container>

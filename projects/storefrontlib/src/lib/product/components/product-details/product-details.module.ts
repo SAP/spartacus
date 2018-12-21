@@ -10,11 +10,11 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
-import { BootstrapModule } from '../../../bootstrap.module';
+
 // guards
-import { CartSharedModule } from './../../../cart/components/cart-shared/cart-shared.module';
+import { CartSharedModule } from './../../../cart/cart-shared/cart-shared.module';
 import { ComponentsModule } from './../../../ui/components/components.module';
-import { AddToCartModule } from '../../../cart/components/add-to-cart/add-to-cart.module';
+import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
 import { OutletModule } from '../../../outlet/index';
 
 @NgModule({
@@ -27,7 +27,6 @@ import { OutletModule } from '../../../outlet/index';
     CartSharedModule,
     CmsModule,
     AddToCartModule,
-    BootstrapModule,
     OutletModule
   ],
   declarations: [

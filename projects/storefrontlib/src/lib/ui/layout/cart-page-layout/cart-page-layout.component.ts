@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '../../../cart/facade/cart.service';
+import { Cart, CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-page-layout',
@@ -10,16 +10,16 @@ import { CartService } from '../../../cart/facade/cart.service';
   styleUrls: ['./cart-page-layout.component.scss']
 })
 export class CartPageLayoutComponent implements OnInit {
-  cart$: Observable<any>;
+  cart$: Observable<Cart>;
 
   constructor(protected cartService: CartService) {}
 
   ngOnInit() {
-    this.cartService.cartMergeComplete$.subscribe(isCartMergeComplete => {
+    this.cartService.getCartMergeComplete().subscribe(isCartMergeComplete => {
       if (isCartMergeComplete) {
-        this.cartService.loadCartDetails();
+        this.cartService.loadDetails();
       }
     });
-    this.cart$ = this.cartService.activeCart$;
+    this.cart$ = this.cartService.getActive();
   }
 }

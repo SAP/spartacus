@@ -1,6 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
+
+import { OccConfig } from '../../../occ/config/occ-config';
+import { Product, ImageType } from '../../../occ/occ-models/occ.models';
+
 import { ProductImageConverterService } from './product-image-converter.service';
-import { OccConfig } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -12,34 +15,34 @@ const MockOccModuleConfig: OccConfig = {
 describe('ProductImageConverterService', () => {
   let service: ProductImageConverterService;
 
-  const product = {
+  const product: Product = {
     code: 'testCode',
     description: 'test',
     images: [
       {
         altText: 'Test alt text',
         format: 'product',
-        imageType: 'PRIMARY',
+        imageType: ImageType.PRIMARY,
         url: '/test1'
       },
       {
         altText: 'Test alt text',
         format: 'thumbnail',
-        imageType: 'PRIMARY',
+        imageType: ImageType.PRIMARY,
         url: '/test2'
       },
       {
         altText: 'Test alt text',
         format: 'product',
         galleryIndex: 0,
-        imageType: 'GALLERY',
+        imageType: ImageType.GALLERY,
         url: '/test3'
       },
       {
         altText: 'Test alt text',
         format: 'thumbnail',
         galleryIndex: 0,
-        imageType: 'GALLERY',
+        imageType: ImageType.GALLERY,
         url: '/test4'
       }
     ]

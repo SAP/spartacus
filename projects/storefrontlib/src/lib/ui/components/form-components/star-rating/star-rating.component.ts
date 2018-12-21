@@ -30,11 +30,11 @@ export class StarRatingComponent implements ControlValueAccessor {
   onChange = (_rating: number) => {};
   onTouched = () => {};
 
-  get value() {
+  get value(): number {
     return this.rating;
   }
 
-  setRating(rating: number) {
+  setRating(rating: number): void {
     if (!this.disabled) {
       this.writeValue(rating);
     }

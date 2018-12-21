@@ -5,15 +5,16 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors/currencies.selectors';
 import { StateWithSiteContext, SITE_CONTEXT_FEATURE } from '../state';
+import { Currency } from '../../../occ/occ-models';
 
 describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
-  const currencies: any[] = [
+  const currencies: Currency[] = [
     { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
   ];
 
-  const entities = {
+  const entities: { [key: string]: Currency } = {
     USD: currencies[0]
   };
 
@@ -30,13 +31,13 @@ describe('Currencies Selectors', () => {
 
   describe('getCurrenciesEntities', () => {
     it('should return currencies entities', () => {
-      let result;
+      let result: Currency;
 
       store
         .pipe(select(fromSelectors.getCurrenciesEntities))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(entities);
@@ -45,7 +46,7 @@ describe('Currencies Selectors', () => {
 
   describe('getActiveCurrency', () => {
     it('should return the active currency', () => {
-      let result;
+      let result: string;
 
       store
         .pipe(select(fromSelectors.getActiveCurrency))
@@ -60,13 +61,13 @@ describe('Currencies Selectors', () => {
 
   describe('getAllCurrencies', () => {
     it('should return all currencies', () => {
-      let result;
+      let result: Currency[];
 
       store
         .pipe(select(fromSelectors.getAllCurrencies))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(null);
 
       store.dispatch(new fromActions.LoadCurrenciesSuccess(currencies));
       expect(result).toEqual(currencies);

@@ -1,17 +1,20 @@
 <a
-  [routerLink]="['/product/', product.code]"
+  [routerLink]="
+    { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+  "
   class="cx-product-search-grid__image--container"
 >
   <cx-picture
     class="cx-product-search-grid__image"
     [imageContainer]="product.images?.PRIMARY"
     imageFormat="product"
-    [routerLink]="['/product/', product.code]"
     [imageAlt]="product.summary"
   ></cx-picture>
 </a>
 <a
-  [routerLink]="['/product/', product.code]"
+  [routerLink]="
+    { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+  "
   class="cx-product-search-grid__name"
   [innerHTML]="product.name"
   >{{ product.name }}</a

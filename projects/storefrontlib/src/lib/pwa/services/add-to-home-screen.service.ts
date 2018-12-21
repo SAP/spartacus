@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PWAModuleConfig } from '../pwa.module-config';
-import { GlobalMessageType } from './../../global-message/models/message.model';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AddToHomeScreenService {
@@ -10,7 +10,7 @@ export class AddToHomeScreenService {
 
   private canPrompt = new BehaviorSubject<boolean>(false);
 
-  canPrompt$ = this.canPrompt.asObservable();
+  canPrompt$: Observable<any> = this.canPrompt.asObservable();
 
   constructor(
     private config: PWAModuleConfig,
@@ -39,15 +39,15 @@ export class AddToHomeScreenService {
     });
   }
 
-  enableAddToHomeScreen() {
+  enableAddToHomeScreen(): void {
     this.canPrompt.next(true);
   }
 
-  disableAddToHomeScreen() {
+  disableAddToHomeScreen(): void {
     this.canPrompt.next(false);
   }
 
-  firePrompt() {
+  firePrompt(): void {
     if (this.deferredEvent) {
       this.deferredEvent.prompt();
     }

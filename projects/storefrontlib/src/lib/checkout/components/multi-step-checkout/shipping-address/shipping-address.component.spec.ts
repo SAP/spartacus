@@ -2,17 +2,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { RoutingService } from '@spartacus/core';
-
-import { BehaviorSubject } from 'rxjs';
-
+import {
+  RoutingService,
+  Address,
+  CartDataService,
+  UserService
+} from '@spartacus/core';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
-
-import { Address } from '../../../models/address-model';
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
-
 import { ShippingAddressComponent } from './shipping-address.component';
+
+class MockUserService {
+  getAddresses(): Observable<Address[]> {
+    return of([]);
+  }
+  getAddressesLoading(): Observable<boolean> {
+    return of();
+  }
+  loadAddresses(_userId: string): void {}
+}
 
 const mockAddress1: Address = {
   firstName: 'John',
@@ -69,16 +77,11 @@ describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockRouting: any;
-  let mockUserService: any;
+  let userService: UserService;
 
   beforeEach(async(() => {
-    mockUserService = {
-      addresses$: new BehaviorSubject([]),
-      addressesLoading$: new BehaviorSubject(null),
-      loadAddresses: createSpy()
-    };
     mockRouting = {
-      go: createSpy()
+      go: createSpy('go')
     };
     const mockCartDataService = {
       userId: 'testUser'
@@ -92,7 +95,7 @@ describe('ShippingAddressComponent', () => {
         MockSpinnerComponent
       ],
       providers: [
-        { provide: UserService, useValue: mockUserService },
+        { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useValue: mockRouting },
         { provide: CartDataService, useValue: mockCartDataService }
       ]
@@ -102,6 +105,7 @@ describe('ShippingAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ShippingAddressComponent);
     component = fixture.componentInstance;
+    userService = TestBed.get(UserService);
 
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component, 'addNewAddress').and.callThrough();
@@ -112,23 +116,29 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call ngOnInit to get existing address if they do not exist', done => {
-    mockUserService.addressesLoading$.next(false);
-    mockUserService.addresses$.next([]);
+    spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+    spyOn(userService, 'getAddresses').and.returnValue(of([]));
+    spyOn(userService, 'loadAddresses').and.stub();
+
     component.ngOnInit();
-    component.existingAddresses$.subscribe(() => {
-      expect(mockUserService.loadAddresses).toHaveBeenCalled();
-      done();
-    });
+    component.existingAddresses$
+      .subscribe(() => {
+        expect(userService.loadAddresses).toHaveBeenCalled();
+        done();
+      })
+      .unsubscribe();
   });
 
   it('should call ngOnInit to get existing address if they exist', () => {
-    mockUserService.addressesLoading$.next(false);
-    mockUserService.addresses$.next(mockAddresses);
+    spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+    spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
     component.ngOnInit();
-    let address;
-    component.existingAddresses$.subscribe(data => {
-      address = data;
-    });
+    let address: Address[];
+    component.existingAddresses$
+      .subscribe(data => {
+        address = data;
+      })
+      .unsubscribe();
     expect(address).toBe(mockAddresses);
     expect(component.cards.length).toEqual(2);
   });
@@ -145,7 +155,7 @@ describe('ShippingAddressComponent', () => {
       undefined
     ]);
     expect(card.actions).toEqual([
-      { name: jasmine.any(String), event: 'send' }
+      { name: 'Ship to this address', event: 'send' }
     ]);
   });
 
@@ -191,7 +201,9 @@ describe('ShippingAddressComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(mockRouting.go).toHaveBeenCalledWith(['/cart']);
+    expect(mockRouting.go).toHaveBeenCalledWith({
+      route: ['cart']
+    });
   });
 
   describe('UI continue button', () => {
@@ -201,24 +213,27 @@ describe('ShippingAddressComponent', () => {
         .find(el => el.nativeElement.innerText === 'Continue');
 
     it('should be disabled when no address is selected', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       component.selectedAddress = null;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
     });
 
     it('should be enabled when address is selected', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       component.selectedAddress = mockAddress1;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
 
     it('should call "next" function after being clicked', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       component.selectedAddress = mockAddress1;
       fixture.detectChanges();
       spyOn(component, 'next');
@@ -234,8 +249,9 @@ describe('ShippingAddressComponent', () => {
         .find(el => el.nativeElement.innerText === 'Back to cart');
 
     it('should call "back" function after being clicked', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       fixture.detectChanges();
       spyOn(component, 'back');
       getBackBtn().nativeElement.click();
@@ -247,22 +263,25 @@ describe('ShippingAddressComponent', () => {
     const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
     it('should represent all existng addresses', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       fixture.detectChanges();
       expect(getCards().length).toEqual(2);
     });
 
     it('should not display if there are no existng addresses', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next([]);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of([]));
+
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existng addresses are loading', () => {
-      mockUserService.addressesLoading$.next(true);
-      mockUserService.addresses$.next([]);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(true));
+      spyOn(userService, 'getAddresses').and.returnValue(of([]));
+
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
@@ -277,8 +296,8 @@ describe('ShippingAddressComponent', () => {
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -290,24 +309,27 @@ describe('ShippingAddressComponent', () => {
     });
 
     it('should render on init if there are no existing addresses', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next([]);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of([]));
+
       fixture.detectChanges();
 
       expect(getNewAddressForm()).toBeTruthy();
     });
 
     it('should not render on init if there are some existing addresses', () => {
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       fixture.detectChanges();
 
       expect(getNewAddressForm()).toBeFalsy();
     });
 
     it('should not render when existing addresses are loading', () => {
-      mockUserService.addressesLoading$.next(true);
-      mockUserService.addresses$.next([]);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(true));
+      spyOn(userService, 'getAddresses').and.returnValue(of([]));
+
       fixture.detectChanges();
 
       expect(getNewAddressForm()).toBeFalsy();
@@ -318,13 +340,17 @@ describe('ShippingAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      mockUserService.addressesLoading$.next(true);
-      mockUserService.addresses$.next([]);
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(true));
+      spyOn(userService, 'getAddresses').and.returnValue(of([]));
+
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
+    });
 
-      mockUserService.addressesLoading$.next(false);
-      mockUserService.addresses$.next(mockAddresses);
+    it('should NOT render when existing addresses are NOT loading', () => {
+      spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
+      spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
+
       fixture.detectChanges();
       expect(getSpinner()).toBeFalsy();
     });

@@ -11,6 +11,7 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
+import { PaymentDetailsPageModule } from './payment-details-page/payment-details-page.module';
 
 import { ContactPageModule } from './contact-page/contact-page.module';
 import { SalePageModule } from './sale-page/sale-page.module';
@@ -20,6 +21,7 @@ import { TermsConditionsPageModule } from './terms-conditions-page/terms-conditi
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
+import { AddressBookPageModule } from './address-book-page/address-book-page.module';
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
@@ -35,9 +37,11 @@ const pageModules = [
   MultiStepCheckoutPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
+  AddressBookPageModule,
   ProductPageModule,
   RegisterPageModule,
   LoginPageModule,
+  PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ContactPageModule,

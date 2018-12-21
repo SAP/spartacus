@@ -15,23 +15,21 @@ export class ProductDetailsPage extends AppPage {
   readonly productDetails: ElementFinder = this.page.element(
     by.tagName('cx-product-details')
   );
-  readonly productTitle: ElementFinder = this.productDetails.element(
-    by.css('.cx-product-details__item-name')
-  );
-  readonly productCode: ElementFinder = this.productDetails.element(
-    by.css('.cx-product-details__item-code')
-  );
   readonly addToCartComponent: ElementFinder = this.page.element(
     by.tagName('cx-add-to-cart')
   );
   readonly productSummaryComponent: ElementFinder = this.page.element(
     by.tagName('cx-product-summary')
   );
-  readonly tabs: ElementArrayFinder = this.page
-    .element(by.tagName('ngb-tabset'))
-    .all(by.css('li'));
+  readonly productTitle: ElementFinder = this.productSummaryComponent.element(
+    by.css('.name')
+  );
+  readonly productCode: ElementFinder = this.productDetails.element(
+    by.css('.code')
+  );
+
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
-    by.css('.cx-product-summary__price')
+    by.css('.price')
   );
   readonly outOfStockDiv: ElementFinder = this.productSummaryComponent.element(
     by.cssContainingText('span', 'Out of stock')
@@ -45,9 +43,12 @@ export class ProductDetailsPage extends AppPage {
   readonly itemCounterComponent: ElementFinder = this.productDetails.element(
     by.tagName('cx-item-counter')
   );
+
+  readonly tabs: ElementArrayFinder = this.page.all(by.css('.details > h3'));
   readonly tabContent: ElementFinder = this.productDetails.element(
-    by.css('.cx-product-details__tab-section')
+    by.css('.details .active .container')
   );
+
   readonly writeReviewForm: ElementFinder = this.productDetails.element(
     by.tagName('cx-product-reviews')
   );

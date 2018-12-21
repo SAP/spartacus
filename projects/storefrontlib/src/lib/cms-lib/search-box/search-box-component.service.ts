@@ -8,7 +8,7 @@ import {
   map,
   switchMap
 } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, CmsSearchBoxComponent } from '@spartacus/core';
 
 interface SearchBoxConfig {
   maxProducts: number;
@@ -30,8 +30,13 @@ export class SearchBoxComponentService {
 
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
 
+  queryParam$: Observable<string> = this.routingService
+    .getRouterState()
+    .pipe(map(routingData => routingData.state.params.query));
+
   constructor(
-    @Optional() protected componentData: CmsComponentData,
+    @Optional()
+    protected componentData: CmsComponentData<CmsSearchBoxComponent>,
     public searchService: ProductSearchService,
     protected routingService: RoutingService
   ) {
@@ -45,7 +50,7 @@ export class SearchBoxComponentService {
     }
   }
 
-  search = (text$: Observable<string>) =>
+  typeahead = (text$: Observable<string>): Observable<any[]> =>
     combineLatest(
       text$.pipe(
         debounceTime(300),
@@ -62,24 +67,28 @@ export class SearchBoxComponentService {
       })
     );
 
-  public launchSearchPage(query: string) {
-    this.routingService.go(['/search', query]);
+  public launchSearchPage(query: string): void {
+    this.routingService.go({
+      route: [{ name: 'search', params: { query } }]
+    });
   }
 
   private fetch(text: string, config: SearchBoxConfig): Observable<any[]> {
     this.executeSearch(text, config);
 
-    const sugg = this.searchService.searchSuggestions$.pipe(
-      map(res => res.map(suggestion => suggestion.value))
-    );
+    const suggestions = this.searchService
+      .getSearchSuggestions()
+      .pipe(map(res => res.map(suggestion => suggestion.value)));
 
-    const prod = this.searchService.auxSearchResults$.pipe(
-      map(res => res.products || [])
+    const products = this.searchService
+      .getAuxSearchResults()
+      .pipe(map(res => res.products || []));
+    return combineLatest(suggestions, products).pipe(
+      map(([a, b]) => [...a, ...b])
     );
-    return combineLatest(sugg, prod).pipe(map(([a, b]) => [...a, ...b]));
   }
 
-  private executeSearch(search: string, config: SearchBoxConfig) {
+  private executeSearch(search: string, config: SearchBoxConfig): void {
     if (config.displayProducts) {
       this.searchService.searchAuxiliary(search, {
         pageSize: config.maxProducts

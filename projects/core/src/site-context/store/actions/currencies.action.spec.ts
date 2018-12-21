@@ -1,4 +1,5 @@
 import * as fromCurrency from './currencies.action';
+import { Currency } from '../../../occ/occ-models/occ.models';
 
 describe('Currencies Actions', () => {
   describe('LoadCurrencies Actions', () => {
@@ -25,7 +26,7 @@ describe('Currencies Actions', () => {
 
     describe('LoadCurrenciesSuccess', () => {
       it('should create an action', () => {
-        const payload = [
+        const payload: Currency[] = [
           { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
         ];
         const action = new fromCurrency.LoadCurrenciesSuccess(payload);

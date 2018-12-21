@@ -1,7 +1,7 @@
 <ng-container
   *ngIf="
     !(isLoading$ | async) && (locations$ | async) as locations;
-    else: loading
+    else loading
   "
 >
   <div class="cx-store-finder-list-count container">
@@ -10,7 +10,14 @@
       class="cx-store-finder-list-count__country-set; else loading"
     >
       <a
-        [routerLink]="['/store-finder/country', country.isoCode]"
+        [routerLink]="
+          {
+            route: [
+              'storeFinder',
+              { name: 'listStores', params: { country: country.isoCode } }
+            ]
+          } | cxTranslateUrl
+        "
         class="btn-link"
       >
         <div class="cx-store-finder-list-count__country-title">
@@ -42,12 +49,20 @@
             class="cx-store-finder-list-count__directory-item"
           >
             <a
-              [routerLink]="[
-                '/store-finder/country',
-                country.isoCode,
-                'region',
-                region.isoCode
-              ]"
+              [routerLink]="
+                {
+                  route: [
+                    'storeFinder',
+                    {
+                      name: 'listStores',
+                      params: {
+                        country: country.isoCode,
+                        region: region.isoCode
+                      }
+                    }
+                  ]
+                } | cxTranslateUrl
+              "
               class="btn-link cx-store-finder-list-count__item-link"
             >
               {{ region.name }}</a
@@ -62,5 +77,5 @@
   </div>
 </ng-container>
 <ng-template #loading>
-  <div class="cx-store-finder-list__spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-store-finder-count__spinner"><cx-spinner></cx-spinner></div>
 </ng-template>

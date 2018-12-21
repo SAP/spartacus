@@ -1,5 +1,6 @@
 import * as fromReducer from './address-verification.reducer';
 import * as fromActions from '../actions/';
+import { AddressValidation } from '@spartacus/core';
 
 describe('Address Verification Reducer', () => {
   describe('undefined action', () => {
@@ -14,12 +15,15 @@ describe('Address Verification Reducer', () => {
 
   describe('VERIFY_ADDRESS_SUCCESS action', () => {
     it('should load the address verification results state entities', () => {
-      const addresses = ['address1', 'address2'];
+      const addressValidation: AddressValidation = {
+        decision: 'test address validation',
+        suggestedAddresses: [{ id: 'address1' }]
+      };
 
       const { initialState } = fromReducer;
-      const action = new fromActions.VerifyAddressSuccess(addresses);
+      const action = new fromActions.VerifyAddressSuccess(addressValidation);
       const state = fromReducer.reducer(initialState, action);
-      expect(state.results).toEqual(addresses);
+      expect(state.results).toEqual(addressValidation);
     });
   });
 

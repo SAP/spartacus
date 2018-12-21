@@ -6,7 +6,7 @@ import {
   ProductReviewService
 } from './facade/index';
 import { ProductStoreModule } from './store/product-store.module';
-import { ProductOccModule } from './occ/product-occ-module';
+import { ProductOccModule } from './occ/product-occ.module';
 
 @NgModule({
   imports: [ProductOccModule, ProductStoreModule],

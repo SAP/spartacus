@@ -4,53 +4,97 @@ import { Store, select } from '@ngrx/store';
 
 import { filter } from 'rxjs/operators';
 
+import { Observable } from 'rxjs';
+
 import * as fromCheckoutStore from '../store/';
 import {
+  Address,
+  PaymentDetails,
+  DeliveryMode,
+  CardType,
+  Order,
+  AddressValidation,
   CartDataService,
   ANONYMOUS_USERID
-} from '../../cart/facade/cart-data.service';
+} from '@spartacus/core';
 
 @Injectable()
 export class CheckoutService {
-  readonly supportedDeliveryModes$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getSupportedDeliveryModes)
-  );
-
-  readonly selectedDeliveryMode$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getSelectedDeliveryMode)
-  );
-
-  readonly selectedDeliveryModeCode$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getSelectedCode)
-  );
-
-  readonly cardTypes$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getAllCardTypes)
-  );
-
-  readonly deliveryAddress$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getDeliveryAddress)
-  );
-
-  readonly addressVerificationResults$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getAddressVerificationResults),
-    filter(results => Object.keys(results).length !== 0)
-  );
-
-  readonly paymentDetails$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getPaymentDetails)
-  );
-
-  readonly orderDetails$ = this.checkoutStore.pipe(
-    select(fromCheckoutStore.getOrderDetails)
-  );
-
   constructor(
     private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
     private cartData: CartDataService
   ) {}
 
-  createAndSetAddress(address) {
+  /**
+   * Get supported delivery modes
+   */
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getSupportedDeliveryModes)
+    );
+  }
+
+  /**
+   * Get selected delivery mode
+   */
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getSelectedDeliveryMode)
+    );
+  }
+
+  /**
+   * Get selected delivery mode code
+   */
+  getSelectedDeliveryModeCode(): Observable<any> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getSelectedCode));
+  }
+
+  /**
+   * Get card types
+   */
+  getCardTypes(): Observable<CardType[]> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getAllCardTypes));
+  }
+
+  /**
+   * Get delivery address
+   */
+  getDeliveryAddress(): Observable<Address> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getDeliveryAddress)
+    );
+  }
+
+  /**
+   * Get address verification results
+   */
+  getAddressVerificationResults(): Observable<AddressValidation> {
+    return this.checkoutStore.pipe(
+      select(fromCheckoutStore.getAddressVerificationResults),
+      filter(results => Object.keys(results).length !== 0)
+    );
+  }
+
+  /**
+   * Get payment details
+   */
+  getPaymentDetails(): Observable<PaymentDetails> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getPaymentDetails));
+  }
+
+  /**
+   * Get order details
+   */
+  getOrderDetails(): Observable<Order> {
+    return this.checkoutStore.pipe(select(fromCheckoutStore.getOrderDetails));
+  }
+
+  /**
+   * Create and set a delivery address using the address param
+   * @param address : the Address to be created and set
+   */
+  createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.AddDeliveryAddress({
@@ -62,7 +106,10 @@ export class CheckoutService {
     }
   }
 
-  loadSupportedDeliveryModes() {
+  /**
+   * Load supported delivery modes
+   */
+  loadSupportedDeliveryModes(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.LoadSupportedDeliveryModes({
@@ -73,7 +120,11 @@ export class CheckoutService {
     }
   }
 
-  setDeliveryMode(mode: any) {
+  /**
+   * Set delivery mode
+   * @param mode : The delivery mode to be set
+   */
+  setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryMode({
@@ -85,23 +136,33 @@ export class CheckoutService {
     }
   }
 
-  loadSupportedCardTypes() {
+  /**
+   * Load the supported card types
+   */
+  loadSupportedCardTypes(): void {
     this.checkoutStore.dispatch(new fromCheckoutStore.LoadCardTypes());
   }
 
-  createPaymentDetails(paymentInfo) {
+  /**
+   * Create payment details using the given paymentDetails param
+   * @param paymentDetails: the PaymentDetails to be created
+   */
+  createPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          paymentDetails: paymentInfo
+          paymentDetails
         })
       );
     }
   }
 
-  placeOrder() {
+  /**
+   * Places an order
+   */
+  placeOrder(): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.PlaceOrder({
@@ -112,18 +173,26 @@ export class CheckoutService {
     }
   }
 
-  verifyAddress(address) {
+  /**
+   * Verifies the address
+   * @param address : the address to be verified
+   */
+  verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({
           userId: this.cartData.userId,
-          address: address
+          address
         })
       );
     }
   }
 
-  setDeliveryAddress(address) {
+  /**
+   * Set delivery address
+   * @param address : The address to be set
+   */
+  setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryAddress({
@@ -135,7 +204,11 @@ export class CheckoutService {
     }
   }
 
-  setPaymentDetails(paymentDetails) {
+  /**
+   * Set payment details
+   * @param paymentDetails : the PaymentDetails to be set
+   */
+  setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetPaymentDetails({
@@ -147,17 +220,27 @@ export class CheckoutService {
     }
   }
 
-  clearAddressVerificationResults() {
+  /**
+   * Clear address verification results
+   */
+  clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearAddressVerificationResults()
     );
   }
 
-  clearCheckoutData() {
+  /**
+   * Clear checkout data
+   */
+  clearCheckoutData(): void {
     this.checkoutStore.dispatch(new fromCheckoutStore.ClearCheckoutData());
   }
 
-  clearCheckoutStep(stepNumber: number) {
+  /**
+   * Clear checkout step
+   * @param stepNumber : the step number to be cleared
+   */
+  clearCheckoutStep(stepNumber: number): void {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.ClearCheckoutStep(stepNumber)
     );

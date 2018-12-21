@@ -2,15 +2,16 @@ import { Injectable, Optional } from '@angular/core';
 import {
   ProductReviewService,
   ProductSearchService,
-  ProductService
+  ProductService,
+  UserService
 } from '@spartacus/core';
 import {
+  AuthService,
   CurrencyService,
   LanguageService,
   RoutingService
 } from '@spartacus/core';
-import { AuthService } from '../auth/facade/auth.service';
-import { CmsService } from '../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,8 @@ export class CxApiService {
     // product
     @Optional() public product: ProductService,
     @Optional() public productSearch: ProductSearchService,
-    @Optional() public productReview: ProductReviewService
+    @Optional() public productReview: ProductReviewService,
+    // user
+    @Optional() public user: UserService
   ) {}
 }

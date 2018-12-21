@@ -1,11 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
-
 import * as fromCheckout from '../store';
-import { CartDataService } from '../../cart/facade';
-
+import { CartDataService } from '@spartacus/core';
 import { CheckoutService } from './checkout.service';
+import { Address, PaymentDetails } from '@spartacus/core';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
@@ -14,11 +13,18 @@ describe('CheckoutService', () => {
   const userId = 'testUserId';
   const cart = { code: 'testCartId', guid: 'testGuid' };
 
-  const address: any = {
+  const paymentDetails: PaymentDetails = {
+    id: 'mockPaymentDetails'
+  };
+
+  const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart'
+    line1: 'Toyosaki 2 create on cart',
+    town: 'Montreal',
+    postalCode: 'L6M1P9',
+    country: { isocode: 'CA' }
   };
 
   beforeEach(() => {
@@ -52,7 +58,7 @@ describe('CheckoutService', () => {
     );
 
     let deliveryModes;
-    service.supportedDeliveryModes$.subscribe(data => {
+    service.getSupportedDeliveryModes().subscribe(data => {
       deliveryModes = data;
     });
     expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);
@@ -67,7 +73,7 @@ describe('CheckoutService', () => {
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
     let selectedMode;
-    service.selectedDeliveryMode$.subscribe(data => {
+    service.getSelectedDeliveryMode().subscribe(data => {
       selectedMode = data;
     });
     expect(selectedMode).toEqual({ code: 'mode1' });
@@ -82,7 +88,7 @@ describe('CheckoutService', () => {
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
     let selectedModeCode;
-    service.selectedDeliveryModeCode$.subscribe(data => {
+    service.getSelectedDeliveryModeCode().subscribe(data => {
       selectedModeCode = data;
     });
     expect(selectedModeCode).toEqual('mode1');
@@ -97,7 +103,7 @@ describe('CheckoutService', () => {
     );
 
     let cardTypes;
-    service.cardTypes$.subscribe(data => {
+    service.getCardTypes().subscribe(data => {
       cardTypes = data;
     });
     expect(cardTypes).toEqual([
@@ -107,15 +113,13 @@ describe('CheckoutService', () => {
   });
 
   it('should be able to get the delivery address', () => {
-    store.dispatch(
-      new fromCheckout.SetDeliveryAddressSuccess({ id: 'addressId' })
-    );
+    store.dispatch(new fromCheckout.SetDeliveryAddressSuccess(address));
 
     let deliveryAddress;
-    service.deliveryAddress$.subscribe(data => {
+    service.getDeliveryAddress().subscribe(data => {
       deliveryAddress = data;
     });
-    expect(deliveryAddress).toEqual({ id: 'addressId' });
+    expect(deliveryAddress).toEqual(address);
   });
 
   it('should be able to get the address verification result', () => {
@@ -124,29 +128,27 @@ describe('CheckoutService', () => {
     );
 
     let result;
-    service.addressVerificationResults$.subscribe(data => {
+    service.getAddressVerificationResults().subscribe(data => {
       result = data;
     });
     expect(result).toEqual({ decision: 'DECLINE' });
   });
 
   it('should be able to get the payment details', () => {
-    store.dispatch(
-      new fromCheckout.SetPaymentDetailsSuccess({ id: 'payment id' })
-    );
+    store.dispatch(new fromCheckout.SetPaymentDetailsSuccess(paymentDetails));
 
-    let paymentDetails;
-    service.paymentDetails$.subscribe(data => {
-      paymentDetails = data;
+    let tempPaymentDetails;
+    service.getPaymentDetails().subscribe(data => {
+      tempPaymentDetails = data;
     });
-    expect(paymentDetails).toEqual({ id: 'payment id' });
+    expect(tempPaymentDetails).toEqual(paymentDetails);
   });
 
   it('should be able to get the order details', () => {
     store.dispatch(new fromCheckout.PlaceOrderSuccess({ code: 'testOrder' }));
 
     let orderDetails;
-    service.orderDetails$.subscribe(data => {
+    service.getOrderDetails().subscribe(data => {
       orderDetails = data;
     });
     expect(orderDetails).toEqual({ code: 'testOrder' });
@@ -207,15 +209,14 @@ describe('CheckoutService', () => {
   it('should be able to create payment details', () => {
     cartData.userId = userId;
     cartData.cart = cart;
-    const paymentInfo = 'mockInfo';
 
-    service.createPaymentDetails(paymentInfo);
+    service.createPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.CreatePaymentDetails({
         userId: userId,
         cartId: cart.code,
-        paymentDetails: paymentInfo
+        paymentDetails
       })
     );
   });
@@ -235,15 +236,18 @@ describe('CheckoutService', () => {
   });
 
   it('should load address verification results', () => {
+    const testAddress: Address = {
+      id: 'testAddress1'
+    };
     cartData.userId = userId;
     cartData.cart = cart;
 
-    service.verifyAddress('mockAddress');
+    service.verifyAddress(testAddress);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.VerifyAddress({
         userId: userId,
-        address: 'mockAddress'
+        address: testAddress
       })
     );
   });
@@ -251,14 +255,13 @@ describe('CheckoutService', () => {
   it('should set delivery address', () => {
     cartData.userId = userId;
     cartData.cart = cart;
-
-    service.setDeliveryAddress('mockAddress');
+    service.setDeliveryAddress(address);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.SetDeliveryAddress({
         userId: userId,
         cartId: cartData.cart.code,
-        address: 'mockAddress'
+        address: address
       })
     );
   });
@@ -267,13 +270,13 @@ describe('CheckoutService', () => {
     cartData.userId = userId;
     cartData.cart = cart;
 
-    service.setPaymentDetails('mockPaymentDetails');
+    service.setPaymentDetails(paymentDetails);
 
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromCheckout.SetPaymentDetails({
         userId: userId,
         cartId: cartData.cart.code,
-        paymentDetails: 'mockPaymentDetails'
+        paymentDetails
       })
     );
   });
