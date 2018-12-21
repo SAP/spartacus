@@ -8,9 +8,9 @@ import { CartDetailsComponent } from './cart-details.component';
 import { Pipe, PipeTransform, Component, Input } from '@angular/core';
 
 class MockCartService {
-  removeCartEntry() {}
-  loadCartDetails() {}
-  updateCartEntry() {}
+  removeEntry() {}
+  loadDetails() {}
+  updateEntry() {}
 }
 
 const mockData = [
