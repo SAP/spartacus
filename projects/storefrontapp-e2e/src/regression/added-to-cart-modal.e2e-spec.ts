@@ -3,6 +3,7 @@ import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po'
 import { CartPage } from '../page-objects/cart/cart.po';
 import { HomePage } from '../page-objects/home.po';
 import { AutocompletePanel } from '../page-objects/cmslib/autocomplete-panel.po';
+import { E2EUtil } from '../e2e-util';
 
 describe('Added to cart modal', () => {
   let productDetails: ProductDetailsPage;
@@ -75,7 +76,7 @@ describe('Added to cart modal', () => {
     const autocompletePanel = new AutocompletePanel();
     await autocompletePanel.waitForReady();
 
-    // select product from the suggestion list, then add it to cart 2 times
+    // select product from the suggestion list, then add it to cart
     await autocompletePanel.selectProduct('DSC-W180');
 
     // wait until product details page is loaded
@@ -94,7 +95,13 @@ describe('Added to cart modal', () => {
     await addedToCartModal.viewCartButton.click();
     expect(await cart.page.getText()).toContain('Shopping Cart (ID ');
     await cart.deleteEntryByName('EF 100mm f/2.8L Macro IS USM');
+
+    // check that the cart has 1 item now
+    await E2EUtil.wait4TextInElement(cart.page, 'Cart total (1 items):');
+    expect(await cart.checkCartEntry('DSC-W180', 1, '$121.88', '$121.88'));
+
     await cart.deleteEntryByName('DSC-W180');
+    await E2EUtil.wait4TextInElement(cart.page, 'Your shopping cart is empty');
     expect(await cart.page.getText()).toContain('Your shopping cart is empty');
   });
 

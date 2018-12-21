@@ -111,9 +111,7 @@ describe('Cart interactions', () => {
     await cart.deleteEntryByName('PowerShot A480');
 
     // check that the cart has 1 item now
-    expect(
-      await E2EUtil.wait4TextInElement(cart.page, 'Cart total (1 items):')
-    );
+    await E2EUtil.wait4TextInElement(cart.page, 'Cart total (1 items):');
     expect(
       await cart.checkCartEntry(
         'Photosmart E317 Digital Camera',
