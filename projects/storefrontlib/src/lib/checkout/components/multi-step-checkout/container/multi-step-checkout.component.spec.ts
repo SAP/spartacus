@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -106,6 +106,13 @@ class MockOrderSummaryComponent {
   cart: any;
 }
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('MultiStepCheckoutComponent', () => {
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
@@ -158,7 +165,8 @@ describe('MultiStepCheckoutComponent', () => {
         MockPaymentMethodComponent,
         MockReviewSubmitComponent,
         MockShippingAddressComponent,
-        MockOrderSummaryComponent
+        MockOrderSummaryComponent,
+        MockTranslateUrlPipe
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
