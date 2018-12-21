@@ -18,13 +18,13 @@ export abstract class AbstractCmsComponent implements OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  onCmsComponentInit(uid: string, contextParameters?: any) {
+  onCmsComponentInit(uid: string, contextParameters?: any): void {
     this.uid = uid;
     this.contextParameters = contextParameters;
     this.initSubscription();
   }
 
-  protected initSubscription() {
+  protected initSubscription(): void {
     this.subscription = this.cmsService
       .getComponentData(this.uid)
       .subscribe(component => {
@@ -33,7 +33,7 @@ export abstract class AbstractCmsComponent implements OnDestroy {
       });
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     if (!this.cd['destroyed']) {
       this.cd.detectChanges();
     }
