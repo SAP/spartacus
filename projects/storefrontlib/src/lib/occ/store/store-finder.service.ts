@@ -34,7 +34,7 @@ export class OccStoreFinderService {
   }
 
   storesCount(): Observable<any> {
-    const storeCountUrl = this.getStoresEndpoint('count');
+    const storeCountUrl = this.getStoresEndpoint('storescounts');
 
     return this.http
       .get(storeCountUrl)
