@@ -20,7 +20,7 @@ class MockNavigationUIComponent {
   @Input()
   node;
 }
-fdescribe('FooterNavigationComponent', () => {
+describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let footer: DebugElement;
