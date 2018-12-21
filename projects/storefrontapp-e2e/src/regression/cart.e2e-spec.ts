@@ -111,7 +111,9 @@ describe('Cart interactions', () => {
     await cart.deleteEntryByName('PowerShot A480');
 
     // check that the cart has 1 item now
-    await E2EUtil.wait4TextInElement(cart.page, 'Cart total (1 items):');
+    expect(
+      await E2EUtil.wait4TextInElement(cart.page, 'Cart total (1 items):')
+    );
     expect(
       await cart.checkCartEntry(
         'Photosmart E317 Digital Camera',
@@ -227,12 +229,12 @@ describe('Cart interactions', () => {
       '1 item(s) added to your cart'
     );
     expect(await atcModal.totalCount.getText()).toContain('1 items');
-    expect(await home.header.miniCartButton.getText()).toContain('1');
 
     await atcModal.closeButton.click();
 
     const minicartIcon = home.header.miniCartButton;
     await E2EUtil.wait4VisibleElement(minicartIcon);
+    expect(await home.header.miniCartButton.getText()).toContain('1');
     await minicartIcon.click();
 
     // wait for cart page to show up

@@ -92,6 +92,7 @@ describe('Added to cart modal', () => {
 
     // empty cart
     await addedToCartModal.viewCartButton.click();
+    expect(await cart.page.getText()).toContain('Shopping Cart (ID ');
     await cart.deleteEntryByName('EF 100mm f/2.8L Macro IS USM');
     await cart.deleteEntryByName('DSC-W180');
     expect(await cart.page.getText()).toContain('Your shopping cart is empty');
