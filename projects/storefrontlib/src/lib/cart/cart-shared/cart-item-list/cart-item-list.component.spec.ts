@@ -10,9 +10,9 @@ import { CartItemListComponent } from './cart-item-list.component';
 import { Pipe, PipeTransform } from '@angular/core';
 
 class MockCartService {
-  removeCartEntry() {}
-  loadCartDetails() {}
-  updateCartEntry() {}
+  removeEntry() {}
+  loadDetails() {}
+  updateEntry() {}
 }
 
 const mockItems = [
@@ -68,8 +68,8 @@ describe('CartItemListComponent', () => {
     component = fixture.componentInstance;
     component.items = mockItems;
     component.potentialProductPromotions = mockPotentialProductPromotions;
-    spyOn(cartService, 'removeCartEntry').and.callThrough();
-    spyOn(cartService, 'updateCartEntry').and.callThrough();
+    spyOn(cartService, 'removeEntry').and.callThrough();
+    spyOn(cartService, 'updateEntry').and.callThrough();
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -83,17 +83,14 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
     component.removeEntry(item);
-    expect(cartService.removeCartEntry).toHaveBeenCalledWith(item);
+    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.product.code]).toBeUndefined();
   });
 
   it('should update entry', () => {
     const item = mockItems[0];
     component.updateEntry({ item, updatedQuantity: 5 });
-    expect(cartService.updateCartEntry).toHaveBeenCalledWith(
-      item.entryNumber,
-      5
-    );
+    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
   });
 
   it('should get potential promotions for product', () => {

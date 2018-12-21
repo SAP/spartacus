@@ -1,18 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CartService, UserService } from '@spartacus/core';
+import { CartService, UserService, Cart, OrderEntry } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { CheckoutService } from '../../../facade/checkout.service';
 import { ReviewSubmitComponent } from './review-submit.component';
 
-const mockCart = {
+const mockCart: Cart = {
   guid: 'test',
   code: 'test',
   totalItems: 123,
   subTotal: { formattedValue: '$999.98' },
-  potentialProductPromotions: ['promotion 1', 'promotion 2']
+  potentialProductPromotions: [
+    { description: 'Promotion 1' },
+    { description: 'Promotion 2' }
+  ]
 };
 
 const mockDeliveryAddress = {
@@ -38,7 +41,7 @@ const mockPaymentDetails = {
   cvn: '123'
 };
 
-const mockEntries = ['cart entry 1', 'cart entry 2'];
+const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -84,8 +87,12 @@ describe('ReviewSubmitComponent', () => {
     };
 
     mockCartService = {
-      activeCart$: new BehaviorSubject(null),
-      entries$: new BehaviorSubject(null)
+      getActive(): BehaviorSubject<Cart> {
+        return new BehaviorSubject(mockCart);
+      },
+      getEntries(): BehaviorSubject<OrderEntry[]> {
+        return new BehaviorSubject(mockEntries);
+      }
     };
 
     TestBed.configureTestingModule({
@@ -118,8 +125,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
-    mockCartService.activeCart$.next({});
-    mockCartService.entries$.next([]);
+    mockCartService.getActive().next({});
+    mockCartService.getEntries().next([]);
     spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
       of('mockMode')
     );
@@ -136,8 +143,8 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get delivery mode if it does not exists', done => {
-    mockCartService.activeCart$.next({});
-    mockCartService.entries$.next([]);
+    mockCartService.getActive().next({});
+    mockCartService.getEntries().next([]);
     spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
       of(null)
     );
@@ -191,8 +198,8 @@ describe('ReviewSubmitComponent', () => {
         .textContent;
 
     beforeEach(() => {
-      mockCartService.activeCart$.next(mockCart);
-      mockCartService.entries$.next([]);
+      mockCartService.getActive().next(mockCart);
+      mockCartService.getEntries().next([]);
       fixture.detectChanges();
     });
 
@@ -262,21 +269,24 @@ describe('ReviewSubmitComponent', () => {
       fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
-      mockCartService.activeCart$.next(mockCart);
-      mockCartService.entries$.next(mockEntries);
+      mockCartService.getActive().next(mockCart);
+      mockCartService.getEntries().next(mockEntries);
       fixture.detectChanges();
-      expect(getCartItemList().items).toEqual(['cart entry 1', 'cart entry 2']);
+      expect(getCartItemList().items).toEqual([
+        { entryNumber: 123 },
+        { entryNumber: 456 }
+      ]);
       expect(getCartItemList().isReadOnly).toBe(true);
     });
 
     it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
-      mockCartService.activeCart$.next(mockCart);
-      mockCartService.entries$.next(mockEntries);
+      mockCartService.getActive().next(mockCart);
+      mockCartService.getEntries().next(mockEntries);
 
       fixture.detectChanges();
       expect(getCartItemList().potentialProductPromotions).toEqual([
-        'promotion 1',
-        'promotion 2'
+        { description: 'Promotion 1' },
+        { description: 'Promotion 2' }
       ]);
     });
   });

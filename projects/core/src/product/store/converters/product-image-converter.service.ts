@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
+
 import { OccConfig } from '../../../occ/index';
+import { Product } from '../../../occ/occ-models/occ.models';
 
 @Injectable()
 export class ProductImageConverterService {
   constructor(protected config: OccConfig) {}
 
-  convertList(list: Array<any>) {
+  convertList(list: Array<Product>): void {
     if (!list) {
       return;
     }
@@ -14,7 +16,7 @@ export class ProductImageConverterService {
     }
   }
 
-  convertProduct(product) {
+  convertProduct(product: Product): void {
     if (product.images) {
       product.images = this.populate(product.images);
     }
