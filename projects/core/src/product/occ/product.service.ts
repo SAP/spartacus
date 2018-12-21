@@ -59,10 +59,10 @@ export class OccProductService {
     });
 
     const body = new URLSearchParams();
-    body.append('headline', review.title.value);
-    body.append('comment', review.comment.value);
-    body.append('rating', review.rating.value);
-    body.append('alias', review.reviewerName.value);
+    body.append('headline', review.headline);
+    body.append('comment', review.comment);
+    body.append('rating', review.rating.toString());
+    body.append('alias', review.alias);
 
     return this.http
       .post(url, body.toString(), { headers })

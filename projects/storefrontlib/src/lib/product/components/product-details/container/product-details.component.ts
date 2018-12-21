@@ -6,7 +6,7 @@ import {
   OnChanges
 } from '@angular/core';
 
-import { ProductService } from '@spartacus/core';
+import { ProductService, Product } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 
@@ -23,7 +23,7 @@ export class ProductDetailsComponent implements OnChanges {
   @Input()
   productCode: string;
 
-  product$: Observable<any>;
+  product$: Observable<Product>;
 
   get outlets() {
     return ProductDetailsComponent.outlets;
