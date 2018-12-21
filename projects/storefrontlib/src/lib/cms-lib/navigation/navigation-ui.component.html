@@ -1,13 +1,13 @@
 <div *ngIf="node" class="cx-navigation__item nav-item" ngbDropdown>
   <a
-    *ngIf="node.children && !node.title; else: nodeWithChildren"
+    *ngIf="node.children && !node.title; else nodeWithChildren"
     ngbDropdownToggle
   >
     Reorder
   </a>
   <ng-template #nodeWithChildren>
     <span
-      *ngIf="node.children; else: noChildren"
+      *ngIf="node.children; else noChildren"
       ngbDropdownToggle
       class="cx-navigation__link nav-link"
       role="link"

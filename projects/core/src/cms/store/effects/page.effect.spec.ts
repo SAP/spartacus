@@ -38,26 +38,19 @@ describe('Page Effects', () => {
   let defaultPageService: DefaultPageService;
   let effects: fromEffects.PageEffects;
 
-  const comps: any[] = [
+  const cmsComponentData: any[] = [
     {
       uid: 'comp1',
       typeCode: 'SimpleBannerComponent',
-      uuid: 'compUuid1',
-      catalogUuid: 'electronicsContentCatalog/Online'
+      uuid: 'compUuid1'
     },
     {
       uid: 'comp2',
       typeCode: 'CMSLinkComponent',
-      uuid: 'compUuid2',
-      catalogUuid: 'electronicsContentCatalog/Online'
-    },
-    {
-      uid: 'comp3',
-      typeCode: 'NavigationComponent',
-      uuid: 'compUuid3',
-      catalogUuid: 'electronicsContentCatalog/Online'
+      uuid: 'compUuid2'
     }
   ];
+
   const cmsPageData: any = {
     uuid: 'mockPageUuid',
     uid: 'testPageId',
@@ -68,12 +61,40 @@ describe('Page Effects', () => {
         {
           slotId: 'mockContentSlotUid',
           slotUuid: 'mockSlotUuid',
-          components: { component: comps },
-          position: 'testPosition'
+          components: {
+            component: cmsComponentData
+          },
+          position: 'testPosition',
+          properties: {
+            smartedit: {
+              catalogVersionUuid: 'mockSlotCatalogUuid'
+            }
+          }
         }
       ]
+    },
+    properties: {
+      smartedit: {
+        classes:
+          'smartedit-page-uid-homepage smartedit-catalog-version-uuid-mockPageCatalogUuid'
+      }
     }
   };
+
+  const comps: any[] = [
+    {
+      uid: 'comp1',
+      typeCode: 'SimpleBannerComponent',
+      uuid: 'compUuid1',
+      catalogUuid: undefined
+    },
+    {
+      uid: 'comp2',
+      typeCode: 'CMSLinkComponent',
+      uuid: 'compUuid2',
+      catalogUuid: undefined
+    }
+  ];
 
   const page: Page = {
     uuid: 'mockPageUuid',
@@ -82,12 +103,12 @@ describe('Page Effects', () => {
     pageId: 'testPageId',
     template: 'testTemplate',
     seen: new Array<string>(),
-    catalogUuid: 'electronicsContentCatalog/Online',
+    catalogUuid: 'mockPageCatalogUuid',
     slots: {
       testPosition: {
         uid: 'mockContentSlotUid',
         uuid: 'mockSlotUuid',
-        catalogUuid: 'electronicsContentCatalog/Online',
+        catalogUuid: 'mockSlotCatalogUuid',
         components: comps
       }
     }
@@ -135,7 +156,9 @@ describe('Page Effects', () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(
+        cmsComponentData
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
@@ -157,7 +180,9 @@ describe('Page Effects', () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(
+        cmsComponentData
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
@@ -182,7 +207,9 @@ describe('Page Effects', () => {
       const payload = { key: pageKey, value: page };
 
       const completion1 = new fromActions.LoadPageDataSuccess(payload);
-      const completion2 = new fromActions.GetComponentFromPage(comps);
+      const completion2 = new fromActions.GetComponentFromPage(
+        cmsComponentData
+      );
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', { b: completion1, c: completion2 });

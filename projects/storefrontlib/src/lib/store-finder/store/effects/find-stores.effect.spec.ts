@@ -31,6 +31,7 @@ describe('FindStores Effects', () => {
     latitude: 20.2
   };
 
+  const singleStoreResult = {};
   const searchResult: any = { stores: [] };
 
   beforeEach(() => {
@@ -50,6 +51,7 @@ describe('FindStores Effects', () => {
     searchConfig = { pageSize: 10 };
 
     spyOn(service, 'findStores').and.returnValue(of(searchResult));
+    spyOn(service, 'findStoreById').and.returnValue(of(singleStoreResult));
     spyOn(service, 'findStoresByCountry').and.returnValue(of(searchResult));
     spyOn(service, 'findStoresByRegion').and.returnValue(of(searchResult));
   });
@@ -66,6 +68,20 @@ describe('FindStores Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.findStores$).toBeObservable(expected);
+    });
+  });
+
+  describe('findStoreById$', () => {
+    it('should return searchResult from FindStoreByIdSuccess', () => {
+      const action = new fromActions.FindStoreById({ storeId: 'testId' });
+      const completion = new fromActions.FindStoreByIdSuccess(
+        singleStoreResult
+      );
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effects.findStoreById$).toBeObservable(expected);
     });
   });
 

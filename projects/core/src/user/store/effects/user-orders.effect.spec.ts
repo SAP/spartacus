@@ -8,11 +8,12 @@ import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { OccOrderService } from '../../occ/index';
+import { OrderHistoryList } from '../../../occ/occ-models';
 
-const mockUserOrders = {
+const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {},
-  sort: []
+  sorts: []
 };
 
 const MockOccModuleConfig: OccConfig = {

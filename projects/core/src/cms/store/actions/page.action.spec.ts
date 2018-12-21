@@ -34,7 +34,7 @@ describe('Cms Page Actions', () => {
           pageId: 'testPageId',
           name: 'testPage',
           seen: [],
-          slots: { left: [] }
+          slots: { left: {} }
         };
         const payload = { key: 'test', value: page };
         const action = new fromPage.LoadPageDataSuccess(payload);
