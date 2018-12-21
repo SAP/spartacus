@@ -1,4 +1,5 @@
 import { browser, ExpectedConditions as EC } from 'protractor';
+
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { LoginPage } from '../page-objects/login/login.po';
 
