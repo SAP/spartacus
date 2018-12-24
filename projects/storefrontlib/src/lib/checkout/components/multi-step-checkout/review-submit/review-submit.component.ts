@@ -8,9 +8,12 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../facade/checkout.service';
-import { Address } from '../../../models/address-model';
-import { CartService, UserService } from '@spartacus/core';
+import {
+  CheckoutService,
+  CheckoutAddress,
+  CartService,
+  UserService
+} from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -21,7 +24,7 @@ import { Card } from '../../../../ui/components/card/card.component';
 })
 export class ReviewSubmitComponent implements OnInit {
   @Input()
-  deliveryAddress: Address;
+  deliveryAddress: CheckoutAddress;
   @Input()
   shippingMethod: string;
   @Input()
@@ -39,8 +42,8 @@ export class ReviewSubmitComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cart$ = this.cartService.activeCart$;
-    this.entries$ = this.cartService.entries$;
+    this.cart$ = this.cartService.getActive();
+    this.entries$ = this.cartService.getEntries();
 
     this.deliveryMode$ = this.checkoutService.getSelectedDeliveryMode().pipe(
       tap(selected => {

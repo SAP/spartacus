@@ -3,8 +3,8 @@ import { CanActivate } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
-import { CheckoutService } from '../facade/checkout.service';
+
+import { RoutingService, CheckoutService } from '@spartacus/core';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {

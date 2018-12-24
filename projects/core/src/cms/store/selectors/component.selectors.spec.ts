@@ -46,7 +46,7 @@ describe('Cms Component Selectors', () => {
 
   describe('componentSelectorFactory', () => {
     it('should return component by uid', () => {
-      let result;
+      let result: CmsComponent;
 
       store
         .pipe(select(fromSelectors.componentSelectorFactory('comp1')))
