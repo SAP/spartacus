@@ -52,10 +52,10 @@ export class NavigationEntryItemEffects {
           })
         );
       } else if (data.ids.pageIds.idList.length > 0) {
-        // future work
+        // TODO: future work
         // dispatch action to load cms page one by one
       } else if (data.ids.mediaIds.idList.length > 0) {
-        // future work
+        // TODO: future work
         // send request to get list of media
       } else {
         return of(

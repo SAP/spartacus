@@ -30,7 +30,7 @@ const mockContentSlot: ContentSlotData = {
 };
 
 describe('CmsService', () => {
-  let store;
+  let store: any;
 
   const page: Page = {
     pageId: 'testPageId',
@@ -87,7 +87,7 @@ describe('CmsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(mockContentSlot)
       );
-      let contentSlotReturned: any;
+      let contentSlotReturned: ContentSlotData;
       service.getContentSlot('Section1').subscribe(value => {
         contentSlotReturned = value;
       });
@@ -130,7 +130,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
 
-      let result;
+      let result: Page;
       const subscription = service.getCurrentPage().subscribe(value => {
         result = value;
       });
