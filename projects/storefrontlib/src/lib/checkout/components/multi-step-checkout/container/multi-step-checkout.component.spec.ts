@@ -11,7 +11,8 @@ import {
   PaymentDetails,
   Order,
   CheckoutService,
-  CheckoutAddress
+  CheckoutAddress,
+  Cart
 } from '@spartacus/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -132,8 +133,13 @@ describe('MultiStepCheckoutComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      activeCart$: new BehaviorSubject({}),
-      loadCartDetails: createSpy()
+      getActive(): BehaviorSubject<Cart> {
+        return new BehaviorSubject({
+          totalItems: 5141,
+          subTotal: { formattedValue: '11119' }
+        });
+      },
+      loadDetails: createSpy()
     };
     mockCartDataService = {
       getDetails: false
@@ -180,10 +186,10 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call ngOnInit() before process steps', () => {
     const mockCartData = {};
-    mockCartService.activeCart$.next(mockCartData);
+    mockCartService.getActive().next(mockCartData);
     component.ngOnInit();
     expect(component.step).toEqual(1);
-    expect(mockCartService.loadCartDetails).toHaveBeenCalled();
+    expect(mockCartService.loadDetails).toHaveBeenCalled();
   });
 
   it('should call processSteps() to process step 1: set delivery address', () => {
@@ -367,12 +373,6 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should contain proper total value and total items', () => {
-    const mockCartData = {
-      totalItems: 5141,
-      subTotal: { formattedValue: 11119 }
-    };
-
-    mockCartService.activeCart$.next(mockCartData);
     fixture.detectChanges();
 
     const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))

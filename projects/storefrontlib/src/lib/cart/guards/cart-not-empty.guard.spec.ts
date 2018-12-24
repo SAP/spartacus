@@ -14,9 +14,13 @@ const CART_NOT_CREATED = Object.freeze({});
 const mockRoutingService = { go: () => {} };
 
 class CartServiceStub {
-  activeCart$: Observable<Cart>;
-  loaded$: Observable<boolean>;
-  isCartEmpty(_cart: any): boolean {
+  getActive(): Observable<Cart> {
+    return of();
+  }
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
+  isEmpty(_cart: any): boolean {
     return false;
   }
 }
@@ -54,12 +58,12 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is NOT loaded', () => {
       beforeEach(() => {
-        cartService.loaded$ = of(false);
+        spyOn(cartService, 'getLoaded').and.returnValue(of(false));
       });
 
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_CREATED);
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_NOT_CREATED));
         });
 
         it('then Router should NOT redirect', () => {
@@ -82,7 +86,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_EMPTY);
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_EMPTY));
         });
 
         it('then Router should NOT redirect', () => {
@@ -105,7 +109,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_EMPTY);
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_NOT_EMPTY));
         });
 
         it('then Router should NOT redirect', () => {
@@ -129,16 +133,16 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is loaded', () => {
       beforeEach(() => {
-        cartService.loaded$ = of(true);
+        spyOn(cartService, 'getLoaded').and.returnValue(of(true));
       });
 
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_CREATED);
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_NOT_CREATED));
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isCartEmpty').and.returnValue(of(true));
+          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           cartNotEmptyGuard
             .canActivate()
             .subscribe()
@@ -149,7 +153,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isCartEmpty').and.returnValue(of(true));
+          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
@@ -161,11 +165,11 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_EMPTY);
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_EMPTY));
         });
 
         it('then Router should redirect to main page', () => {
-          spyOn(cartService, 'isCartEmpty').and.returnValue(of(true));
+          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           cartNotEmptyGuard
             .canActivate()
             .subscribe()
@@ -176,7 +180,7 @@ describe('CartNotEmptyGuard', () => {
         });
 
         it('then returned observable should emit false', () => {
-          spyOn(cartService, 'isCartEmpty').and.returnValue(of(true));
+          spyOn(cartService, 'isEmpty').and.returnValue(of(true));
           let emittedValue: any = 'nothing was emitted';
           cartNotEmptyGuard
             .canActivate()
@@ -188,7 +192,7 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          cartService.activeCart$ = of(CART_NOT_EMPTY);
+          spyOn(cartService, 'getActive').and.returnValue(of(CART_NOT_EMPTY));
         });
 
         it('then Router should NOT redirect', () => {

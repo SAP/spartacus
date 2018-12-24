@@ -86,16 +86,16 @@ describe('CartService', () => {
     });
   });
 
-  const loadOrMergeCartMethod = 'loadOrMergeCart';
-  describe(loadOrMergeCartMethod, () => {
+  const loadOrMergeMethod = 'loadOrMerge';
+  describe(loadOrMergeMethod, () => {
     describe('when user is not an anonymous', () => {
       describe('and the cart is not created', () => {
         it('should load the cart', () => {
-          spyOn(service, 'isCartCreated').and.returnValue(false);
+          spyOn(service, 'isCreated').and.returnValue(false);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
-          service[loadOrMergeCartMethod]();
+          service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromCart.LoadCart({
               userId: cartData.userId,
@@ -106,11 +106,11 @@ describe('CartService', () => {
       });
       describe('and the cart is created', () => {
         it('should merge the cart', () => {
-          spyOn(service, 'isCartCreated').and.returnValue(true);
+          spyOn(service, 'isCreated').and.returnValue(true);
           spyOn(store, 'dispatch').and.stub();
           cartData.cart = cart;
 
-          service[loadOrMergeCartMethod]();
+          service[loadOrMergeMethod]();
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromCart.MergeCart({
               userId: cartData.userId,
@@ -122,15 +122,15 @@ describe('CartService', () => {
     });
   });
 
-  const refreshCartMethod = 'refreshCart';
-  describe(refreshCartMethod, () => {
+  const refreshMethod = 'refresh';
+  describe(refreshMethod, () => {
     describe('when refresh is true', () => {
       it('should load the cart', () => {
         store.dispatch(new fromCart.AddEntrySuccess('test'));
         cartData.cart = cart;
         spyOn(store, 'dispatch').and.stub();
 
-        service[refreshCartMethod]();
+        service[refreshMethod]();
         expect(store.dispatch).toHaveBeenCalledWith(
           new fromCart.LoadCart({
             userId: cartData.userId,
@@ -142,41 +142,41 @@ describe('CartService', () => {
     });
   });
 
-  const initCartMethod = 'initCart';
+  const initCartMethod = 'init';
   describe(initCartMethod, () => {
     describe(`when user's token and cart's user id are not equal`, () => {
-      it(`should call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
+      it(`should call '${setUserIdMethod}' and '${loadOrMergeMethod}' methods`, () => {
         spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
         store.dispatch(new fromCart.LoadCartSuccess(cart));
         store.dispatch(new fromCart.AddEntrySuccess('foo'));
         spyOn<any>(service, setUserIdMethod).and.stub();
-        spyOn<any>(service, loadOrMergeCartMethod).and.stub();
-        spyOn<any>(service, refreshCartMethod).and.stub();
+        spyOn<any>(service, loadOrMergeMethod).and.stub();
+        spyOn<any>(service, refreshMethod).and.stub();
 
         service[initCartMethod]();
         expect(cartData.cart).toEqual(cart);
         expect(service[setUserIdMethod]).toHaveBeenCalledWith(userToken);
-        expect(service[loadOrMergeCartMethod]).toHaveBeenCalled();
-        expect(service[refreshCartMethod]).toHaveBeenCalled();
+        expect(service[loadOrMergeMethod]).toHaveBeenCalled();
+        expect(service[refreshMethod]).toHaveBeenCalled();
       });
     });
 
     describe(`when user's token and cart's user id are equal`, () => {
-      it(`should not call '${setUserIdMethod}' and '${loadOrMergeCartMethod}' methods`, () => {
+      it(`should not call '${setUserIdMethod}' and '${loadOrMergeMethod}' methods`, () => {
         spyOn(authService, 'getUserToken').and.returnValue(of(userToken));
         cartData.userId = userToken.userId;
         store.dispatch(new fromCart.LoadCartSuccess(cart));
         store.dispatch(new fromCart.AddEntrySuccess('foo'));
 
         spyOn<any>(service, setUserIdMethod).and.stub();
-        spyOn<any>(service, loadOrMergeCartMethod).and.stub();
-        spyOn<any>(service, refreshCartMethod).and.stub();
+        spyOn<any>(service, loadOrMergeMethod).and.stub();
+        spyOn<any>(service, refreshMethod).and.stub();
 
         service[initCartMethod]();
         expect(cartData.cart).toEqual(cart);
         expect(service[setUserIdMethod]).not.toHaveBeenCalled();
-        expect(service[loadOrMergeCartMethod]).not.toHaveBeenCalled();
-        expect(service[refreshCartMethod]).toHaveBeenCalled();
+        expect(service[loadOrMergeMethod]).not.toHaveBeenCalled();
+        expect(service[refreshMethod]).toHaveBeenCalled();
       });
     });
   });
@@ -187,7 +187,7 @@ describe('CartService', () => {
       cartData.userId = userId;
       cartData.cart = cart;
 
-      service.loadCartDetails();
+      service.loadDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
@@ -204,7 +204,7 @@ describe('CartService', () => {
       cartData.userId = ANONYMOUS_USERID;
       cartData.cartId = cart.guid;
 
-      service.loadCartDetails();
+      service.loadDetails();
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.LoadCart({
@@ -219,7 +219,7 @@ describe('CartService', () => {
       spyOn(store, 'dispatch').and.stub();
       cartData.userId = ANONYMOUS_USERID;
 
-      service.loadCartDetails();
+      service.loadDetails();
 
       expect(store.dispatch).not.toHaveBeenCalled();
     });
@@ -233,7 +233,7 @@ describe('CartService', () => {
       cartData.cart = cart;
       cartData.cartId = cart.code;
 
-      service.addCartEntry(productCode, 2);
+      service.addEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.AddEntry({
@@ -246,13 +246,13 @@ describe('CartService', () => {
     });
 
     it('should be able to addCartEntry if cart does not exist', () => {
-      spyOn(service, 'isCartCreated').and.returnValue(false);
+      spyOn(service, 'isCreated').and.returnValue(false);
       store.dispatch(new fromCart.LoadCartSuccess(cart));
       spyOn(store, 'dispatch').and.callThrough();
 
       cartData.userId = userId;
       cartData.cart = {};
-      service.addCartEntry(productCode, 2);
+      service.addEntry(productCode, 2);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.CreateCart({
@@ -269,7 +269,7 @@ describe('CartService', () => {
       cartData.userId = userId;
       cartData.cart = cart;
       cartData.cartId = cart.code;
-      service.updateCartEntry('1', 1);
+      service.updateEntry('1', 1);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.UpdateEntry({
@@ -286,7 +286,7 @@ describe('CartService', () => {
       cartData.userId = userId;
       cartData.cart = cart;
       cartData.cartId = cart.code;
-      service.updateCartEntry('1', 0);
+      service.updateEntry('1', 0);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.RemoveEntry({
@@ -305,7 +305,7 @@ describe('CartService', () => {
       cartData.cart = cart;
       cartData.cartId = cart.code;
 
-      service.removeCartEntry(mockCartEntry);
+      service.removeEntry(mockCartEntry);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.RemoveEntry({
@@ -319,36 +319,39 @@ describe('CartService', () => {
 
   describe('isCartCreated', () => {
     it('should return false, when argument is empty object', () => {
-      expect(service.isCartCreated({})).toBe(false);
+      expect(service.isCreated({})).toBe(false);
     });
 
     it('should return true, when argument is an non-empty object', () => {
-      expect(service.isCartCreated({ guid: 'hash' })).toBe(true);
-      expect(service.isCartCreated({ totalItems: 0 })).toBe(true);
-      expect(service.isCartCreated({ totalItems: 99 })).toBe(true);
+      expect(service.isCreated({ guid: 'hash' })).toBe(true);
+      expect(service.isCreated({ totalItems: 0 })).toBe(true);
+      expect(service.isCreated({ totalItems: 99 })).toBe(true);
     });
   });
 
   describe('isCartEmpty', () => {
     it('should return true, when argument is an empty object', () => {
-      expect(service.isCartEmpty({})).toBe(true);
+      expect(service.isEmpty({})).toBe(true);
     });
 
     it('should return true, when totalItems property of argument is 0', () => {
-      expect(service.isCartEmpty({ totalItems: 0 })).toBe(true);
+      expect(service.isEmpty({ totalItems: 0 })).toBe(true);
     });
 
     it('should return false, when totalItems property of argument is greater than 0', () => {
-      expect(service.isCartEmpty({ totalItems: 1 })).toBe(false);
-      expect(service.isCartEmpty({ totalItems: 99 })).toBe(false);
+      expect(service.isEmpty({ totalItems: 1 })).toBe(false);
+      expect(service.isEmpty({ totalItems: 99 })).toBe(false);
     });
   });
 
   describe('getLoaded', () => {
     it('should return a loaded state', () => {
       store.dispatch(new fromCart.CreateCartSuccess(cart));
-      let result;
-      service.loaded$.subscribe(value => (result = value)).unsubscribe();
+      let result: boolean;
+      service
+        .getLoaded()
+        .subscribe(value => (result = value))
+        .unsubscribe();
       expect(result).toEqual(true);
     });
   });
@@ -363,7 +366,7 @@ describe('CartService', () => {
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
 
-      let result;
+      let result: OrderEntry;
       service
         .getEntry('code1')
         .subscribe(value => (result = value))
@@ -375,11 +378,24 @@ describe('CartService', () => {
   describe('getCartMergeComplete', () => {
     it('should return true when the merge is complete', () => {
       store.dispatch(new fromCart.MergeCartSuccess());
-      let result;
-      service.cartMergeComplete$
+      let result: boolean;
+      service
+        .getCartMergeComplete()
         .subscribe(mergeComplete => (result = mergeComplete))
         .unsubscribe();
       expect(result).toEqual(true);
+    });
+  });
+
+  describe('getActive', () => {
+    it('should return a loaded state', () => {
+      store.dispatch(new fromCart.CreateCartSuccess(cart));
+      let result: Cart;
+      service
+        .getActive()
+        .subscribe(value => (result = value))
+        .unsubscribe();
+      expect(result).toEqual(cart);
     });
   });
 });

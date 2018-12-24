@@ -45,8 +45,8 @@ describe('Cms Component Actions', () => {
   describe('GetComponentFromPage Action', () => {
     describe('Get Component from Page', () => {
       it('should create an action', () => {
-        const component1 = { uid: 'uid1' };
-        const component2 = { uid: 'uid2' };
+        const component1: CmsComponent = { uid: 'uid1' };
+        const component2: CmsComponent = { uid: 'uid2' };
         const action = new fromComponent.GetComponentFromPage([
           component1,
           component2
