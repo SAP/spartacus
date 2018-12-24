@@ -14,11 +14,11 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../../facade/checkout.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  UserService
+  UserService,
+  CheckoutService
 } from '@spartacus/core';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
