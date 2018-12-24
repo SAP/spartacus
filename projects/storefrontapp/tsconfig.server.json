@@ -10,10 +10,7 @@
       "@spartacus/storefront": ["../../dist/storefrontlib"]
     }
   },
-  "exclude": [
-    "test.ts",
-    "**/*.spec.ts"
-  ],
+  "exclude": ["test.ts", "**/*.spec.ts"],
   "angularCompilerOptions": {
     "entryModule": "src/app/app.server.module#AppServerModule"
   }
