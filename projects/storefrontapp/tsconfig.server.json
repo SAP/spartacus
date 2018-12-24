@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/app-server",
+    "baseUrl": ".",
+    "module": "commonjs",
+    "types": [],
+    "paths": {
+      "@spartacus/core": ["../../dist/core"],
+      "@spartacus/storefront": ["../../dist/storefrontlib"]
+    }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "entryModule": "src/app/app.server.module#AppServerModule"
+  }
+}
