@@ -4,9 +4,8 @@ import { By } from '@angular/platform-browser';
 import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-import { CheckoutService } from '../../facade';
 import { OrderConfirmationComponent } from './order-confirmation.component';
-import { Order } from '@spartacus/core';
+import { Order, CheckoutService } from '@spartacus/core';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
