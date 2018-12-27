@@ -25,11 +25,12 @@ const router = {
     cmsRequired: false
   }
 };
-const mockRoutingService = {
+class MockRoutingService {
   getRouterState() {
     return of(router);
   }
-};
+}
+
 describe('Navigation Entry Items Effects', () => {
   let actions$: Observable<any>;
   let service: OccCmsService;
@@ -70,7 +71,7 @@ describe('Navigation Entry Items Effects', () => {
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useValue: mockRoutingService }
+        { provide: RoutingService, useClass: MockRoutingService }
       ]
     });
 
