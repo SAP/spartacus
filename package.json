@@ -25,9 +25,8 @@
     "test": "ng test",
     "test:core:lib": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\"",
     "test:storefront:lib": "ng test storefrontlib --sourceMap --code-coverage",
-    "build:ssr": "ng run storefrontapp:server && npm run webpack:server",
-    "serve:ssr": "node dist/ssr/server",
-    "webpack:server": "webpack --config projects/ssr/webpack.server.config.js --progress --colors"
+    "build:ssr": "ng run storefrontapp:server && webpack --config projects/ssr/webpack.server.config.js --progress --colors",
+    "start:ssr": "node dist/ssr/server"
   },
   "private": false,
   "dependencies": {
