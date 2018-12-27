@@ -42,8 +42,8 @@ export interface CmsMiniCartComponent extends CmsComponent {
   totalDisplay?: string;
   typeCode?: string;
   uid?: string;
-  // @ts-ignore
-  lightboxBannerComponent?: CmsBannerComponent;
+  // TODO: Enable after merging banner refactor
+  // lightboxBannerComponent?: CmsBannerComponent;
 }
 
 // TODO: Upgrade model when Breadcrumbs will be finally used in project
