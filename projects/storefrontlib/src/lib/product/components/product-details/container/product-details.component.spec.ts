@@ -7,16 +7,19 @@ import {
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of, Observable } from 'rxjs';
-import { ProductService } from '@spartacus/core';
 
-import { ProductDetailsComponent } from './product-details.component';
+import { ProductService, Product } from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
 import { OutletDirective } from '../../../../outlet';
 
-const mockProduct = 'mockProduct';
+import { ProductDetailsComponent } from './product-details.component';
+
+const mockProduct: Product = { name: 'mockProduct' };
 
 class MockProductService {
-  get(): Observable<any> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 }
@@ -29,9 +32,9 @@ export class MockAddToCartComponent {
   @Input()
   iconOnly;
   @Input()
-  productCode;
+  productCode: string;
   @Input()
-  quantity;
+  quantity: number;
 }
 
 @Component({
@@ -40,9 +43,9 @@ export class MockAddToCartComponent {
 })
 class MockProductReviewsComponent {
   @Input()
-  product;
+  product: Product;
   @Input()
-  isWritingReview;
+  isWritingReview: boolean;
 }
 
 @Component({
@@ -51,7 +54,7 @@ class MockProductReviewsComponent {
 })
 export class MockProductImagesComponent {
   @Input()
-  product: any;
+  product: Product;
 }
 
 @Component({
@@ -88,7 +91,7 @@ export class MockDynamicSlotComponent {
 })
 export class MockProductAttributesComponent {
   @Input()
-  product: any;
+  product: Product;
 }
 
 describe('ProductDetailsComponent in product', () => {
@@ -132,18 +135,20 @@ describe('ProductDetailsComponent in product', () => {
   it('should call ngOnChanges()', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
-    productDetailsComponent.product$.subscribe(product =>
-      expect(product).toEqual(mockProduct)
-    );
+    let result: Product;
+    productDetailsComponent.product$.subscribe(product => (result = product));
+    expect(result).toEqual(mockProduct);
   });
 
   it('should go to reviews tab', () => {
     productDetailsComponent.productCode = '123456';
     productDetailsComponent.ngOnChanges();
+    let result: boolean;
     productDetailsComponent.product$.subscribe(() => {
       fixture.detectChanges();
       productDetailsComponent.openReview();
-      expect(productDetailsComponent.isWritingReview).toEqual(true);
+      result = productDetailsComponent.isWritingReview;
     });
+    expect(result).toEqual(true);
   });
 });
