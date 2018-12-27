@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
-import { WindowRef } from '@spartacus/core';
+import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +52,9 @@ export class RoutingService {
    */
   back(): void {
     const isLastPageInApp =
-      this.winRef.document.referrer.indexOf(this.winRef.nativeWindow.location.origin) > -1;
+      this.winRef.document.referrer.indexOf(
+        this.winRef.nativeWindow.location.origin
+      ) > -1;
     if (isLastPageInApp) {
       this.store.dispatch(new fromStore.Back());
       return;

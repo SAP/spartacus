@@ -12,6 +12,14 @@ export class WindowRef {
   }
 
   get nativeWindow(): Window {
-    return this.document.defaultView;
+    return typeof window !== 'undefined' ? window : undefined;
+  }
+
+  get sessionStorage(): Storage {
+    return this.nativeWindow ? this.nativeWindow.sessionStorage : undefined;
+  }
+
+  get localStorage(): Storage {
+    return this.nativeWindow ? this.nativeWindow.localStorage : undefined;
   }
 }
