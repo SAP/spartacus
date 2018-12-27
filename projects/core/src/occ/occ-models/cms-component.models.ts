@@ -45,3 +45,8 @@ export interface CmsMiniCartComponent extends CmsComponent {
   // @ts-ignore
   lightboxBannerComponent?: CmsBannerComponent;
 }
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsComponent {
+  container?: string;
+}

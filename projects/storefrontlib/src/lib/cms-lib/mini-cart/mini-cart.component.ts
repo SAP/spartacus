@@ -19,6 +19,6 @@ export class MiniCartComponent {
     protected component: CmsComponentData<CmsMiniCartComponent>,
     protected cartService: CartService
   ) {
-    this.cart$ = this.cartService.activeCart$;
+    this.cart$ = this.cartService.getActive();
   }
 }

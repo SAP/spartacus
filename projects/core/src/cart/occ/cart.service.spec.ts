@@ -230,7 +230,7 @@ describe('OccCartService', () => {
 
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
-      service.addCartEntry(userId, cartId, '147852', 5).subscribe(result => {
+      service.addEntry(userId, cartId, '147852', 5).subscribe(result => {
         expect(result).toEqual(cartModified);
       });
 
@@ -258,7 +258,7 @@ describe('OccCartService', () => {
 
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
-      service.updateCartEntry(userId, cartId, '12345', 5).subscribe(result => {
+      service.updateEntry(userId, cartId, '12345', 5).subscribe(result => {
         expect(result).toEqual(cartModified);
       });
 
@@ -286,7 +286,7 @@ describe('OccCartService', () => {
 
   describe('remove an entry from cart', () => {
     it('should remove entry from cart for given user id, cart id and entry number', () => {
-      service.removeCartEntry(userId, cartId, '147852').subscribe(result => {
+      service.removeEntry(userId, cartId, '147852').subscribe(result => {
         expect(result).toEqual(cartData);
       });
 

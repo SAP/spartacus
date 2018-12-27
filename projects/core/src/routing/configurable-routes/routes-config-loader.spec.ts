@@ -6,12 +6,16 @@ import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
 
-const mockHttpClient = {
-  get: () => new BehaviorSubject(null)
-};
-const mockServerConfig: ServerConfig = { server: { baseUrl: 'test-base-url' } };
-const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
-  routesConfig: {
+class MockHttpClient {
+  get = () => new BehaviorSubject(null);
+}
+
+class MockServerConfig {
+  server = { baseUrl: 'test-base-url' };
+}
+
+class MockConfigurableRoutesModuleConfig {
+  routesConfig: RoutesConfig = {
     translations: {
       default: {
         page1: {
@@ -26,8 +30,9 @@ const mockConfigurableRoutesModuleConfig: ConfigurableRoutesConfig = {
         page2: { paths: ['en-path2'] }
       }
     }
-  }
-};
+  };
+}
+
 const mockFetchedRoutesConfig: RoutesConfig = {
   translations: {
     default: {
@@ -46,31 +51,31 @@ const mockFetchedRoutesConfig: RoutesConfig = {
 
 describe('RoutesConfigLoader', () => {
   let loader: RoutesConfigLoader;
-  let http: HttpClient;
-  let configurableRoutesConfig: ConfigurableRoutesConfig;
+  let http: MockHttpClient;
+  let mockConfigurableRoutesConfig: MockConfigurableRoutesModuleConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         RoutesConfigLoader,
-        { provide: HttpClient, useValue: mockHttpClient },
-        { provide: ServerConfig, useValue: mockServerConfig },
+        { provide: HttpClient, useClass: MockHttpClient },
+        { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: ConfigurableRoutesConfig,
-          useValue: mockConfigurableRoutesModuleConfig
+          useClass: MockConfigurableRoutesModuleConfig
         }
       ]
     });
 
     loader = TestBed.get(RoutesConfigLoader);
     http = TestBed.get(HttpClient);
-    configurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
+    mockConfigurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
   });
 
   describe('loadRoutesConfig', () => {
     describe(', when fetch is configured to true,', () => {
       beforeEach(() => {
-        configurableRoutesConfig.routesConfig.fetch = true;
+        mockConfigurableRoutesConfig.routesConfig.fetch = true;
       });
 
       it('should fetch routes config from url', () => {
@@ -120,7 +125,7 @@ describe('RoutesConfigLoader', () => {
 
     describe(', when fetch is configured to false,', () => {
       beforeEach(() => {
-        configurableRoutesConfig.routesConfig.fetch = false;
+        mockConfigurableRoutesConfig.routesConfig.fetch = false;
       });
 
       it('should NOT fetch routes config', () => {
