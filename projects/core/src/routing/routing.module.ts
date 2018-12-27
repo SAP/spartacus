@@ -33,7 +33,10 @@ export function getMetaReducers(
   winRef: WindowRef
 ): MetaReducer<any, Action>[] {
   const metaReducers: MetaReducer<any, Action>[] = [];
-  if (winRef.nativeWindow && config.storageSyncType !== StorageSyncType.NO_STORAGE) {
+  if (
+    winRef.nativeWindow &&
+    config.storageSyncType !== StorageSyncType.NO_STORAGE
+  ) {
     const storageSyncReducer = getStorageSyncReducer(config, winRef);
     metaReducers.push(storageSyncReducer);
   }
