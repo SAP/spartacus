@@ -26,13 +26,15 @@ import { RoutingService } from './facade/routing.service';
 import { ROUTING_FEATURE } from './state';
 import { defaultConfig } from './config/default-config';
 import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
+import { WindowRef } from '../window/window-ref';
 
 export function getMetaReducers(
-  config: RoutingModuleConfig
+  config: RoutingModuleConfig,
+  winRef: WindowRef
 ): MetaReducer<any, Action>[] {
   const metaReducers: MetaReducer<any, Action>[] = [];
   if (config.storageSyncType !== StorageSyncType.NO_STORAGE) {
-    const storageSyncReducer = getStorageSyncReducer(config);
+    const storageSyncReducer = getStorageSyncReducer(config, winRef);
     metaReducers.push(storageSyncReducer);
   }
 
@@ -62,7 +64,7 @@ export function getMetaReducers(
     },
     {
       provide: META_REDUCERS,
-      deps: [RoutingModuleConfig],
+      deps: [RoutingModuleConfig, WindowRef],
       useFactory: getMetaReducers
     },
     { provide: RoutingModuleConfig, useExisting: Config }
