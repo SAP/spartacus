@@ -48,6 +48,7 @@
     "@ngrx/effects": "~7.0.0",
     "@ngrx/router-store": "~7.0.0",
     "@ngrx/store": "~7.0.0",
+    "@nguniversal/express-engine": "^7.0.2",
     "@nguniversal/module-map-ngfactory-loader": "^7.0.2",
     "@types/googlemaps": "^3.30.13",
     "bootstrap": "^4.1.3",
