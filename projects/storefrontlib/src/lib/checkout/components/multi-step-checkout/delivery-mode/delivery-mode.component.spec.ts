@@ -5,8 +5,7 @@ import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { DeliveryModeComponent } from './delivery-mode.component';
-import { CheckoutService } from '../../../facade/checkout.service';
-import { DeliveryMode } from '@spartacus/core';
+import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
 class MockCheckoutService {
   loadSupportedDeliveryModes = createSpy();

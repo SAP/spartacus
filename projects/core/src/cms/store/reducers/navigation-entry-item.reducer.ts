@@ -1,8 +1,9 @@
 import * as fromNavigationItem from '../actions/navigation-entry-item.action';
-import { NavigationItemState } from '../cms-state';
+import { NavigationItemState, NavigationNodes } from '../cms-state';
+import { NodeItem } from '../../model/node-item.model';
 
 export const initialState: NavigationItemState = {
-  nodes: {}
+  nodes: {} as NavigationNodes
 };
 
 export function reducer(
@@ -15,7 +16,7 @@ export function reducer(
         const components = action.payload.components;
         const nodeId = action.payload.nodeId;
 
-        const newItem = components.reduce(
+        const newItem: NodeItem = components.reduce(
           (compItems: { [uid_type: string]: any }, component: any) => {
             return {
               ...compItems,
@@ -27,7 +28,7 @@ export function reducer(
           }
         );
 
-        const nodes = {
+        const nodes: NavigationNodes = {
           ...state.nodes,
           [nodeId]: newItem
         };

@@ -10,8 +10,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap, takeWhile } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../facade/checkout.service';
-import { DeliveryMode } from '@spartacus/core';
+import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',

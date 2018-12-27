@@ -7,7 +7,7 @@ describe('Cms Page Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromPage;
-      const action = {} as any;
+      const action = {} as fromActions.PageAction;
       const state = fromPage.reducer(undefined, action);
 
       expect(state).toBe(initialState);
