@@ -8,6 +8,8 @@ export class WindowRef {
   readonly document: Document;
 
   constructor(@Inject(DOCUMENT) document) {
+    // it's a workaround to have document property properly typed
+    // see: https://github.com/angular/angular/issues/15640
     this.document = document;
   }
 
