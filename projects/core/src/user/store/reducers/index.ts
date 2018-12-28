@@ -1,4 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
+
 import {
   ActionReducerMap,
   MemoizedSelector,
@@ -7,20 +8,19 @@ import {
   createFeatureSelector
 } from '@ngrx/store';
 
-import * as fromUserDetailsReducer from './user-details.reducer';
-import * as fromUserAddresses from './user-addresses.reducer';
-import * as fromPaymentMethods from './payment-methods.reducer';
-import * as fromUserOrders from './user-orders.reducer';
-import * as fromTitlesReducer from './titles.reducer';
-import * as fromDeliveryCountries from './delivery-countries.reducer';
-import * as fromRegionsReducer from './regions.reducer';
-import * as fromOrderDetailsReducer from './order-details.reducer';
-import * as fromBillingCountriesReducer from './billing-countries.reducer';
-
-import * as fromAction from '../actions/index';
-
 import { UserState, USER_FEATURE } from '../user-state';
+import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
+
+import * as fromDeliveryCountries from './delivery-countries.reducer';
+import * as fromOrderDetailsReducer from './order-details.reducer';
+import * as fromPaymentMethods from './payment-methods.reducer';
+import * as fromRegionsReducer from './regions.reducer';
+import * as fromTitlesReducer from './titles.reducer';
+import * as fromUserAddresses from './user-addresses.reducer';
+import * as fromUserDetailsReducer from './user-details.reducer';
+import * as fromUserOrders from './user-orders.reducer';
+import * as fromBillingCountriesReducer from './billing-countries.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {

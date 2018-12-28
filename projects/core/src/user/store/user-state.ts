@@ -5,7 +5,7 @@ import {
   User,
   Region,
   Order
-} from '../../occ/occ-models';
+} from '../../occ/occ-models/occ.models';
 
 export const USER_FEATURE = 'user';
 

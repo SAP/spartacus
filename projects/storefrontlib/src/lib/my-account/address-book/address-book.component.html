@@ -21,9 +21,12 @@
             </div>
             <div
               class="row cx-address-deck"
-              *ngIf="!addresses.isLoading && !addresses.isActionProcessing"
+              *ngIf="
+                !(addressesLoading$ | async) &&
+                !(addressActionProcessing$ | async)
+              "
             >
-              <div *ngFor="let address of addresses.list" class="col-md-6">
+              <div *ngFor="let address of addresses" class="col-md-6">
                 <cx-address-card
                   (editEvent)="showEditAddressForm(address)"
                   [userId]="userId"
@@ -33,7 +36,10 @@
             </div>
             <div
               class="row"
-              *ngIf="addresses.isLoading || addresses.isActionProcessing"
+              *ngIf="
+                (addressesLoading$ | async) ||
+                (addressActionProcessing$ | async)
+              "
             >
               <div class="col-md-12 cx-address-deck__spinner">
                 <cx-spinner></cx-spinner>
@@ -50,7 +56,7 @@
             <cx-address-form
               actionBtnLabel="Add address"
               cancelBtnLabel="Back to address list"
-              [setAsDefaultField]="!(addresses.list === undefined)"
+              [setAsDefaultField]="!(addresses.length === 0)"
               (addAddress)="addUserAddress($event)"
               (backToAddress)="hideAddAddressForm()"
             ></cx-address-form>

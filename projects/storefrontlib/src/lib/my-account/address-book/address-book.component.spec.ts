@@ -3,11 +3,10 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of } from 'rxjs';
 import { AddressBookComponent } from './address-book.component';
-import { UserService } from '@spartacus/core';
+import { UserService, CheckoutService } from '@spartacus/core';
 import { AddressBookModule } from './address-book.module';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
-import { CheckoutService } from '../../checkout/facade';
 import { StoreModule } from '@ngrx/store';
 import { GlobalMessageService } from '@spartacus/core';
 
@@ -41,16 +40,19 @@ describe('AddressBookComponent', () => {
   let mockUserService;
   let el: DebugElement;
   let mockGlobalMessageService: any;
-  const addresses = new BehaviorSubject<any>({
-    isLoading: false,
-    isActionProcessing: false,
-    list: [mockAddress]
-  });
+  const addresses = new BehaviorSubject<any>([mockAddress]);
+  const isLoading = new BehaviorSubject<boolean>(false);
+  const isActionProcessing = new BehaviorSubject<boolean>(false);
   const user = new BehaviorSubject<any>({ uid: 'userId' });
 
   beforeEach(async(() => {
     mockUserService = {
-      addressesState$: addresses.asObservable(),
+      getAddresses: jasmine.createSpy().and.returnValue(addresses),
+      getAddressesLoading: jasmine.createSpy().and.returnValue(isLoading),
+      getAddressActionProcessingStatus: jasmine
+        .createSpy()
+        .and.returnValue(isActionProcessing),
+      get: jasmine.createSpy().and.returnValue(user),
       addUserAddress: jasmine.createSpy(),
       loadAddresses: jasmine.createSpy(),
       deleteUserAddress: jasmine.createSpy(),
@@ -59,7 +61,6 @@ describe('AddressBookComponent', () => {
       getDeliveryCountries: jasmine.createSpy().and.returnValue(of([])),
       getTitles: jasmine.createSpy().and.returnValue(of([])),
       getRegions: jasmine.createSpy().and.returnValue(of([])),
-      user$: user.asObservable(),
       loadTitles: jasmine.createSpy(),
       loadDeliveryCountries: jasmine.createSpy(),
       loadRegions: jasmine.createSpy()
@@ -104,39 +105,30 @@ describe('AddressBookComponent', () => {
 
   it('should show spinner if addresses are loading', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: true
-    });
+    isLoading.next(true);
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should show spinner if any action is processing', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      isActionProcessing: true
-    });
+    isActionProcessing.next(true);
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
   it('should show address cards after loading', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress, mockAddress]
-    });
+    isLoading.next(false);
+    isActionProcessing.next(false);
+    addresses.next([mockAddress, mockAddress]);
     fixture.detectChanges();
     expect(el.query(By.css('cx-address-card'))).toBeTruthy();
   });
 
   it('should address cards number to be equal with addresses count', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress, mockAddress]
-    });
+    addresses.next([mockAddress, mockAddress]);
     fixture.detectChanges();
 
     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(2);
@@ -144,10 +136,8 @@ describe('AddressBookComponent', () => {
 
   it('should show confirmation on delete', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(By.css('.cx-address-card__actions .delete')).nativeElement.click();
     fixture.detectChanges();
@@ -158,10 +148,8 @@ describe('AddressBookComponent', () => {
 
   it('should show adding address form', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(By.css('.btn-action')).nativeElement.click();
     fixture.detectChanges();
@@ -173,10 +161,8 @@ describe('AddressBookComponent', () => {
 
   it('should hide adding address form', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(By.css('.btn-action')).nativeElement.click();
     fixture.detectChanges();
@@ -189,10 +175,8 @@ describe('AddressBookComponent', () => {
 
   it('should show editing address form', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(By.css('.cx-address-card__actions .edit')).nativeElement.click();
     fixture.detectChanges();
@@ -204,10 +188,8 @@ describe('AddressBookComponent', () => {
 
   it('should hide editing address form', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(By.css('.cx-address-card__actions .edit')).nativeElement.click();
     fixture.detectChanges();
@@ -220,10 +202,8 @@ describe('AddressBookComponent', () => {
 
   it('should successfully set address as default', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(
       By.css('.cx-address-card__actions .set-default')
@@ -237,10 +217,8 @@ describe('AddressBookComponent', () => {
 
   it('should successfully delete address', () => {
     component.ngOnInit();
-    addresses.next({
-      isLoading: false,
-      list: [mockAddress]
-    });
+    isLoading.next(false);
+    addresses.next([mockAddress]);
     fixture.detectChanges();
     el.query(By.css('.cx-address-card__actions .delete')).nativeElement.click();
     fixture.detectChanges();

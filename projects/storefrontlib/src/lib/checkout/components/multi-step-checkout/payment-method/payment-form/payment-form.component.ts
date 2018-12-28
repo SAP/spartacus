@@ -10,11 +10,10 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable, combineLatest } from 'rxjs';
 import { tap, map, takeWhile } from 'rxjs/operators';
 
-import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 import { Card } from '../../../../../ui/components/card/card.component';
+import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
-import { CheckoutService } from '../../../../facade/checkout.service';
-import { UserService, Country } from '@spartacus/core';
+import { UserService, Country, CheckoutService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-form',

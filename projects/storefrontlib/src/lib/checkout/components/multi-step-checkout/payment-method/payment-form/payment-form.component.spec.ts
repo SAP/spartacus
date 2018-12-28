@@ -7,9 +7,14 @@ import { By } from '@angular/platform-browser';
 
 import createSpy = jasmine.createSpy;
 
-import { Address, Country, CardType, UserService } from '@spartacus/core';
+import {
+  Address,
+  Country,
+  CardType,
+  UserService,
+  CheckoutService
+} from '@spartacus/core';
 import { PaymentFormComponent } from './payment-form.component';
-import { CheckoutService } from '../../../../facade';
 
 const mockBillingCountries: Country[] = [
   {

@@ -5,14 +5,13 @@ import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Title, Country, Region } from '@spartacus/core';
+import { Title, Country, Region, CheckoutService } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
 import { UserService, GlobalMessageService } from '@spartacus/core';
-import { CheckoutService } from '../../../../facade';
 
 import { AddressFormComponent } from './address-form.component';
 import { AddressValidation } from '@spartacus/core';
