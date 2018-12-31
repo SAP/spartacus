@@ -326,7 +326,11 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call addPaymentInfo() with new created payment info', () => {
     component.deliveryAddress = mockAddress;
-    component.addPaymentInfo({ payment: mockPaymentDetails, newPayment: true });
+    component.addPaymentInfo({
+      payment: mockPaymentDetails,
+      newPayment: true,
+      billingAddress: null
+    });
     expect(mockCheckoutService.createPaymentDetails).toHaveBeenCalledWith(
       mockPaymentDetails
     );
@@ -336,7 +340,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
-      newPayment: false
+      newPayment: false,
+      billingAddress: null
     });
     expect(mockCheckoutService.createPaymentDetails).not.toHaveBeenCalledWith(
       mockPaymentDetails
@@ -351,7 +356,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
-      newPayment: false
+      newPayment: false,
+      billingAddress: null
     });
     expect(component.nextStep).toHaveBeenCalledWith(4);
     expect(mockCheckoutService.setPaymentDetails).not.toHaveBeenCalledWith(

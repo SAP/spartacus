@@ -246,11 +246,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   next() {
-    // this.addPaymentInfo.emit(this.payment.value);
     this.addPaymentInfo.emit({
-      payment: this.payment.value,
-      billingAddress: this.billingAddress.value,
-      useShippingAddress: this.sameAsShippingAddress
+      paymentDetails: this.payment.value,
+      billingAddress: this.sameAsShippingAddress
+        ? null
+        : this.billingAddress.value
     });
   }
 
