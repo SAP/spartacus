@@ -9,8 +9,13 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../../facade/checkout.service';
-import { Title, Country, Region, UserService } from '@spartacus/core';
+import {
+  Title,
+  Country,
+  Region,
+  UserService,
+  CheckoutService
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-billing-address-form',
@@ -19,14 +24,14 @@ import { Title, Country, Region, UserService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BillingAddressFormComponent implements OnInit, OnDestroy {
-  titles$: Observable<any>;
-  regions$: Observable<any>;
+  titles$: Observable<Title[]>;
+  regions$: Observable<Region[]>;
 
   @Input()
   billingAddress: FormGroup;
 
   @Input()
-  countries$: Observable<any>;
+  countries$: Observable<Country[]>;
 
   constructor(
     protected checkoutService: CheckoutService,

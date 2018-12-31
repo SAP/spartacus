@@ -7,13 +7,23 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable, combineLatest } from 'rxjs';
-import { tap, map, takeWhile } from 'rxjs/operators';
+import { Observable, combineLatest, Subscription } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
-import { UserService, Country, CheckoutService } from '@spartacus/core';
+import {
+  UserService,
+  Country,
+  CheckoutService,
+  Address,
+  CardType,
+  GlobalMessageService,
+  GlobalMessageType
+} from '@spartacus/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
 
 @Component({
   selector: 'cx-payment-form',
@@ -22,14 +32,16 @@ import { UserService, Country, CheckoutService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
-  private isAlive = true;
+  private checkboxSub: Subscription;
+  private addressVerifySub: Subscription;
+  suggestedAddressModalRef: NgbModalRef;
   months = [];
   years = [];
-
-  cardTypes$: Observable<any>;
-  countries$: Observable<any>;
-  shippingAddress$: Observable<any>;
   sameAsShippingAddress = false;
+
+  cardTypes$: Observable<CardType[]>;
+  countries$: Observable<Country[]>;
+  shippingAddress$: Observable<Address>;
 
   @Output()
   backToPayment = new EventEmitter<any>();
@@ -70,7 +82,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   constructor(
     protected checkoutService: CheckoutService,
     protected userService: UserService,
-    private fb: FormBuilder
+    protected globalMessageService: GlobalMessageService,
+    private fb: FormBuilder,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -95,10 +109,30 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
     this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
 
-    this.showSameAsShippingAddressCheckbox()
-      .pipe(takeWhile(() => this.isAlive))
-      .subscribe(boolean => {
-        this.sameAsShippingAddress = boolean;
+    this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
+      (shouldShowCheckbox: boolean) => {
+        // this operation makes sure the checkbox is not checked if not shown and vice versa
+        this.sameAsShippingAddress = shouldShowCheckbox;
+      }
+    );
+
+    // verify the new added address
+    this.addressVerifySub = this.checkoutService
+      .getAddressVerificationResults()
+      .subscribe((results: any) => {
+        if (results === 'FAIL') {
+          this.checkoutService.clearAddressVerificationResults();
+        } else if (results.decision === 'ACCEPT') {
+          this.next();
+        } else if (results.decision === 'REJECT') {
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'Invalid Address'
+          });
+          this.checkoutService.clearAddressVerificationResults();
+        } else if (results.decision === 'REVIEW') {
+          this.openSuggestedAddress(results);
+        }
       });
   }
 
@@ -160,7 +194,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  getAddressCardContent(address): Card {
+  getAddressCardContent(address: Address): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
@@ -178,8 +212,38 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     };
   }
 
+  openSuggestedAddress(results: any) {
+    if (!this.suggestedAddressModalRef) {
+      this.suggestedAddressModalRef = this.modalService.open(
+        SuggestedAddressDialogComponent,
+        { centered: true, size: 'lg' }
+      );
+      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.billingAddress.value;
+      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
+        results.suggestedAddresses;
+      this.suggestedAddressModalRef.result
+        .then(() => {
+          this.checkoutService.clearAddressVerificationResults();
+          this.suggestedAddressModalRef = null;
+        })
+        .catch(() => {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          this.checkoutService.clearAddressVerificationResults();
+          this.suggestedAddressModalRef = null;
+        });
+    }
+  }
+
   back() {
     this.backToPayment.emit();
+  }
+
+  verifyAddress() {
+    if (this.sameAsShippingAddress) {
+      this.next();
+    } else {
+      this.checkoutService.verifyAddress(this.billingAddress.value);
+    }
   }
 
   next() {
@@ -190,7 +254,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.isAlive = false;
+  ngOnDestroy() {
+    this.checkboxSub.unsubscribe();
+    this.addressVerifySub.unsubscribe();
   }
 }

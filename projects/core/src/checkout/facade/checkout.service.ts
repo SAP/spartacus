@@ -179,6 +179,7 @@ export class CheckoutService {
    * @param address : the address to be verified
    */
   verifyAddress(address: CheckoutAddress): void {
+    debugger; //tslint:disable-line
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({

@@ -186,11 +186,21 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   addPaymentInfo({ newPayment, payload }) {
+    console.log({
+      newPayment,
+      payload,
+      msg: 'before'
+    });
     if (newPayment) {
       payload.payment.billingAddress = payload.useShippingAddress
         ? this.deliveryAddress
         : payload.billingAddress;
       this.checkoutService.createPaymentDetails(payload.payment);
+      console.log({
+        newPayment,
+        payload,
+        msg: 'after'
+      });
       return;
     }
 

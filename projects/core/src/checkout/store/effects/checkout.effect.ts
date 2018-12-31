@@ -11,7 +11,11 @@ import { OccCartService } from '../../../cart/index';
 import { OccOrderService } from '../../../user/index';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
 import { ProductImageConverterService } from '../../../product/index';
-import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
+import {
+  OrderEntry,
+  PaymentDetails,
+  Address
+} from '../../../occ/occ-models/index';
 
 @Injectable()
 export class CheckoutEffects {
@@ -92,6 +96,7 @@ export class CheckoutEffects {
     ofType(fromActions.CREATE_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
+      debugger; // tslint:disable-line
       // get information for creating a subscription directly with payment provider
       return this.occCartService
         .getPaymentProviderSubInfo(payload.userId, payload.cartId)
@@ -264,28 +269,32 @@ export class CheckoutEffects {
   }
 
   private getParamsForPaymentProvider(
-    paymentDetails: PaymentDetails,
+    payload: {
+      billingAddress: Address;
+      payment: PaymentDetails;
+      useShippingAddress: boolean;
+    },
     parameters: { key; value }[],
     mappingLabels: any
   ) {
     const params = this.convertToMap(parameters);
     params[mappingLabels['hybris_account_holder_name']] =
-      paymentDetails.accountHolderName;
-    params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
-    params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
+      payload.payment.accountHolderName;
+    params[mappingLabels['hybris_card_type']] = payload.payment.cardType.code;
+    params[mappingLabels['hybris_card_number']] = payload.payment.cardNumber;
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
       // tslint:disable-next-line:max-line-length
       params[mappingLabels['hybris_card_expiry_date']] =
-        paymentDetails.expiryMonth +
+        payload.payment.expiryMonth +
         mappingLabels['hybris_separator_expiry_date'] +
-        paymentDetails.expiryYear;
+        payload.payment.expiryYear;
     } else {
       params[mappingLabels['hybris_card_expiration_month']] =
-        paymentDetails.expiryMonth;
+        payload.payment.expiryMonth;
       params[mappingLabels['hybris_card_expiration_year']] =
-        paymentDetails.expiryYear;
+        payload.payment.expiryYear;
     }
-    params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn;
+    params[mappingLabels['hybris_card_cvn']] = payload.payment.cvn;
     return params;
   }
 

@@ -7,7 +7,6 @@ import { CardModule } from '../../../../../ui/components/card/card.module';
 
 import { PaymentFormComponent } from './payment-form.component';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
-
 @NgModule({
   imports: [
     CommonModule,
