@@ -11,7 +11,7 @@ import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 
 @Injectable()
 export class ComponentMapperService {
-  missingComponents = [];
+  missingComponents: string[] = [];
 
   private loadedWebComponents: { [path: string]: any } = {};
 

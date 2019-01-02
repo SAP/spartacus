@@ -73,7 +73,9 @@ export function reducer(
     case fromNgrxRouter.ROUTER_NAVIGATION:
     case fromNgrxRouter.ROUTER_ERROR:
     case fromNgrxRouter.ROUTER_CANCEL: {
-      const currentUrl = action.payload.routerState.url;
+      const currentUrl = action.payload.routerState
+        ? action.payload.routerState.url
+        : '';
       let redirectUrl;
       if (
         currentUrl === '/login' ||
