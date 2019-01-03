@@ -104,7 +104,7 @@
             </button>
           </div>
           <div class="col-sm-12 col-md-6">
-            <button class="btn btn-block btn-primary" [disabled]="payment.invalid" (click)="next()">
+            <button class="btn btn-block btn-primary" [disabled]="isContinueButtonDisabled()" (click)="next()">
               Continue
             </button>
           </div>

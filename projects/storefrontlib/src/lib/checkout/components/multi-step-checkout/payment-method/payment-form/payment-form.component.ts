@@ -179,7 +179,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   /**
    * Check if the shipping address can also be a billing address
    *
-   * @returns {Observable<boolean>}
    * @memberof PaymentFormComponent
    */
   showSameAsShippingAddressCheckbox(): Observable<boolean> {
