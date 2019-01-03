@@ -20,6 +20,7 @@ exports.config = {
       ]
     }
   },
+  resultJsonOutputFile: 'protractor.log.json',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
