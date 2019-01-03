@@ -7,7 +7,7 @@ import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import * as fromAction from '../actions/billing-countries.action';
 
 @Injectable()
-export class BillingCountriesEffects {
+export class BillingCountriesEffect {
   @Effect()
   loadBillingCountries$: Observable<any> = this.actions$.pipe(
     ofType(fromAction.LOAD_BILLING_COUNTRIES),
