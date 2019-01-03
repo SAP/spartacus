@@ -34,7 +34,7 @@ export class NavigationComponent implements OnDestroy {
   constructor(
     protected cmsService: CmsService,
     private navigationService: NavigationService,
-    protected component: CmsComponentData<CmsNavigationComponent>
+    public component: CmsComponentData<CmsNavigationComponent>
   ) {
     this.componentDataSubscription = component.data$.subscribe(data => {
       this.done = false;
