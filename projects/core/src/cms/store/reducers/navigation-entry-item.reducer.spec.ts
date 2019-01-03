@@ -6,7 +6,7 @@ describe('Navigation Entry Item Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromComponent;
-      const action = {} as any;
+      const action = {} as fromActions.NavigationEntryItemAction;
       const state = fromComponent.reducer(undefined, action);
 
       expect(state).toBe(initialState);
