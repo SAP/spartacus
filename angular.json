@@ -148,7 +148,13 @@
           "options": {
             "outputPath": "dist/storefrontapp-server",
             "main": "projects/storefrontapp/src/main.server.ts",
-            "tsConfig": "projects/storefrontapp/tsconfig.server.json"
+            "tsConfig": "projects/storefrontapp/tsconfig.server.json",
+            "fileReplacements": [
+              {
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+              }
+            ]
           }
         }
       }
