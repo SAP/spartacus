@@ -122,11 +122,9 @@ describe('Cart interactions', () => {
     );
 
     await cart.deleteEntryByName('Photosmart E317 Digital Camera');
-
-    const cartPageText = await cart.page.getText();
-
     await E2EUtil.wait4TextInElement(cart.page, 'Your shopping cart is empty');
 
+    const cartPageText = await cart.page.getText();
     expect(cartPageText).toContain('Your shopping cart is empty');
     expect(cartPageText).toContain('Suggestions');
     expect(cartPageText).toContain(
