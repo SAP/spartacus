@@ -6,10 +6,12 @@ import { By } from '@angular/platform-browser';
 import { NavigationService } from '../navigation/navigation.service';
 import { CmsService } from '@spartacus/core';
 import { CategoryNavigationComponent } from './category-navigation.component';
+import { of } from 'rxjs';
+import { CmsComponentData } from '../../cms';
 
 @Component({
   template: '',
-  selector: 'cx-navigation'
+  selector: 'cx-navigation-ui'
 })
 class MockNavigationComponent {
   @Input()
@@ -18,10 +20,36 @@ class MockNavigationComponent {
   dropdownMode;
 }
 
+class MockCmsService {
+  getNavigationEntryItems() {
+    return of();
+  }
+}
+
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
+
+  const componentData = {
+    title: 'test',
+    children: [
+      {
+        title: 'Root 1',
+        url: '/',
+        children: []
+      },
+      {
+        title: 'Root 2',
+        url: '/test',
+        children: []
+      }
+    ]
+  };
+
+  const mockCmsComponentData = {
+    data$: of(componentData)
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,8 +57,9 @@ describe('CategoryNavigationComponent', () => {
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
         NavigationService,
-        { provide: CmsService, useValue: {} },
-        { provide: NavigationService, useValue: {} }
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: NavigationService, useValue: {} },
+        { provide: CmsComponentData, useValue: mockCmsComponentData }
       ]
     }).compileComponents();
   }));
@@ -38,21 +67,7 @@ describe('CategoryNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
-    component.node = {
-      title: 'test',
-      children: [
-        {
-          title: 'Root 1',
-          url: '/',
-          children: []
-        },
-        {
-          title: 'Root 2',
-          url: '/test',
-          children: []
-        }
-      ]
-    };
+    component.node$ = of(componentData);
     fixture.detectChanges();
   });
 
