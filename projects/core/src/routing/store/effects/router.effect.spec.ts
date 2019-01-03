@@ -10,9 +10,10 @@ import { Location } from '@angular/common';
 
 import * as fromEffects from './router.effect';
 import * as fromActions from '../actions/router.action';
+import { Action } from '@ngrx/store';
 
 describe('Router Effects', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
   let effects: fromEffects.RouterEffects;
   let router: Router;
   let location: Location;

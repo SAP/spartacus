@@ -102,6 +102,7 @@ describe('StoreFinderListItemComponent', () => {
     fixture = TestBed.createComponent(StoreFinderListItemComponent);
     component = fixture.componentInstance;
     component.location = sampleStore;
+    (component as any).current_date = new Date('2018-12-05'); // override current date to make tests predictable
     fixture.detectChanges();
   });
 
@@ -118,7 +119,7 @@ describe('StoreFinderListItemComponent', () => {
 
   it('should get opening time', () => {
     const openTime = component.getOpeningTime(sampleStore);
-    const day = new Date().getDay();
+    const day = component.current_date.getDay();
     switch (day) {
       case 0:
         expect(openTime.getHours()).toEqual(0);

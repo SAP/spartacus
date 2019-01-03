@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { Product } from '../../../occ/occ-models/occ.models';
+
 @Injectable()
 export class ProductReferenceConverterService {
-  convertProduct(product) {
+  convertProduct(product: Product): void {
     if (product.productReferences) {
       product.productReferences = this.populate(product.productReferences);
     }
