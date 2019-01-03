@@ -14,7 +14,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   CartService,
-  CartDataService
+  CartDataService,
+  PaymentDetails,
+  Address
 } from '@spartacus/core';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
@@ -185,18 +187,24 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  addPaymentInfo({ newPayment, payment, billingAddress }) {
-    debugger; // tslint:disable-line
+  addPaymentInfo({
+    newPayment,
+    payment,
+    billingAddress
+  }: {
+    newPayment: boolean;
+    payment: PaymentDetails;
+    billingAddress: Address;
+  }) {
     if (newPayment) {
       payment.billingAddress = billingAddress
         ? billingAddress
         : this.deliveryAddress;
-      console.log(payment);
       this.checkoutService.createPaymentDetails(payment);
       return;
     }
 
-    // if the selected paymetn is the same as the cart's one
+    // if the selected payment is the same as the cart's one
     if (this.paymentDetails && this.paymentDetails.id === payment.id) {
       this.nextStep(4);
       return;
