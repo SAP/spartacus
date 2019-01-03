@@ -7,10 +7,7 @@
             Cart total ({{ cart.deliveryItemsQuantity }} items):
             {{ cart.totalPrice?.formattedValue }}
           </div>
-          <div
-            class="cx-promotions"
-            *ngIf="cartHasPromotions(cart)"
-          >
+          <div class="cx-promotions" *ngIf="cartHasPromotions(cart)">
             <strong
               *ngFor="let promotion of getAllPromotionsForCart(cart)"
               [innerHTML]="promotion.description"
