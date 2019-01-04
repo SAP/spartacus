@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-
 import { of, Observable } from 'rxjs';
 import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
 
