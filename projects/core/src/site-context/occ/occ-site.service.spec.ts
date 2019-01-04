@@ -1,13 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
+  TestRequest
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
 
-const MockOccModuleConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -51,7 +52,7 @@ describe('OccSiteService', () => {
         expect(result).toEqual(languages);
       });
 
-      const mockReq = httpMock.expectOne({
+      const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
         url: '/languages'
       });
@@ -71,7 +72,7 @@ describe('OccSiteService', () => {
       service.loadCurrencies().subscribe(result => {
         expect(result).toEqual(currencies);
       });
-      const mockReq = httpMock.expectOne({
+      const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
         url: '/currencies'
       });

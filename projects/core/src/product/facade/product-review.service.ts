@@ -28,7 +28,7 @@ export class ProductReviewService {
     this.store.dispatch(
       new fromStore.PostProductReview({
         productCode: productCode,
-        review: review
+        review
       })
     );
   }
