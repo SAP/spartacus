@@ -10,38 +10,6 @@ $cx-cart-item-promo-color: 'success' !default;
 $cx-cart-item-unavailable-color: 'danger' !default;
 $cx-cart-item-actions-color: 'text' !default;
 
-$cx-cart-item-image-container-padding-left: 0 !default;
-$cx-cart-item-image-container-padding-right: 0 !default;
-
-$cx-cart-item-info-container-margin-left: 0 !default;
-$cx-cart-item-info-container-margin-right: 0 !default;
-
-$cx-cart-item-name-padding-left: 0 !default;
-$cx-cart-item-name-padding-right: 0 !default;
-
-$cx-cart-item-property-label-padding-right: 1rem !default;
-
-$cx-cart-item-price-old-padding-right: 1rem !default;
-
-$cx-cart-item-quantity-label-min-width: 5rem !default;
-
-$cx-cart-item-promo-padding-left: 0 !default;
-$cx-cart-item-promo-padding-right: 0 !default;
-$cx-cart-item-promo-padding-top: 0.75rem !default;
-$cx-cart-item-promo-padding-bottom: 0.75rem !default;
-$cx-cart-item-promo-margin-bottom: 0 !default;
-
-$cx-cart-item-total-label-min-width: 5rem !default;
-$cx-cart-item-total-value-padding-right: 0 !default;
-
-$cx-cart-item-availability-padding: 0.75rem 0 !default;
-$cx-cart-item-availability-margin-bottom: 0 !default;
-
-$cx-cart-item-actions-padding-right: 0 !default;
-$cx-cart-item-actions-padding-left-sm: 0 !default;
-
-$cx-cart-item-compact-label-min-width: 5rem !default;
-
 .cx-cart-item {
   &__image {
     width: var(--cx-width, 100%);
@@ -57,8 +25,8 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
   &__name {
     @include type('5');
     overflow-wrap: var(--cx-overflow-wrap, break-word);
-    padding-left: $cx-cart-item-name-padding-left;
-    padding-right: $cx-cart-item-name-padding-right;
+    padding-left: 0;
+    padding-right: 0;
 
     &--link {
       color: var(--cx-color, var(--cx-g-color-text));
@@ -81,7 +49,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
     &--label {
       @include type('8');
       overflow-wrap: var(--cx-overflow-wrap, break-word);
-      padding-right: $cx-cart-item-property-label-padding-right;
+      padding-right: 1rem;
 
       @include media-breakpoint-down(sm) {
         min-width: var(--cx-min-width, 5rem);
@@ -126,7 +94,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
     &--old {
       text-decoration: line-through;
       @include var-color('color', $cx-cart-item-old-price-color);
-      padding-right: $cx-cart-item-price-old-padding-right;
+      padding-right: 1rem;
     }
     &--new {
       @include var-color('color', $cx-cart-item-new-price-color);
@@ -147,7 +115,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: $cx-cart-item-quantity-label-min-width;
+        min-width: 5rem;
       }
     }
 
@@ -176,7 +144,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: $cx-cart-item-total-label-min-width;
+        min-width: 5rem;
       }
     }
 
@@ -184,7 +152,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
       @include type('5');
       font-weight: $font-weight-normal;
       overflow-wrap: var(--cx-overflow-wrap, break-word);
-      padding-right: $cx-cart-item-total-value-padding-right;
+      padding-right: 0;
 
       @include media-breakpoint-down(sm) {
         @include type('7');
@@ -195,29 +163,29 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
   &__promo {
     @include type('8');
     @include var-color('color', $cx-cart-item-promo-color);
-    padding-left: $cx-cart-item-promo-padding-left;
-    padding-right: $cx-cart-item-promo-padding-right;
-    padding-top: $cx-cart-item-promo-padding-top;
-    padding-bottom: $cx-cart-item-promo-padding-bottom;
-    margin-bottom: $cx-cart-item-promo-margin-bottom;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0;
   }
 
   &__availability {
     @include type('8');
     @include var-color('color', $cx-cart-item-unavailable-color);
-    padding: $cx-cart-item-availability-padding;
-    margin-bottom: $cx-cart-item-availability-margin-bottom;
+    padding: 0.75rem 0;
+    margin-bottom: 0;
   }
 
   &__actions {
     display: flex;
     justify-content: flex-end;
-    padding-right: $cx-cart-item-actions-padding-right;
+    padding-right: 0;
 
     @include media-breakpoint-down(sm) {
       display: flex;
       justify-content: flex-start;
-      padding-left: $cx-cart-item-actions-padding-left-sm;
+      padding-left: 0;
     }
 
     a {
@@ -236,20 +204,20 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
 
   .cx-cart-item {
     &__image-container {
-      padding-left: $cx-cart-item-image-container-padding-left;
-      padding-right: $cx-cart-item-image-container-padding-right;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     &__info-container {
       display: flex;
       flex-direction: column;
-      margin-left: $cx-cart-item-info-container-margin-left;
-      margin-right: $cx-cart-item-info-container-margin-right;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     &__property {
       &--label {
-        min-width: $cx-cart-item-compact-label-min-width;
+        min-width: 5rem;
       }
     }
 
@@ -261,7 +229,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
 
       &--label {
         @include type('8');
-        min-width: $cx-cart-item-compact-label-min-width;
+        min-width: 5rem;
       }
 
       &--value {
