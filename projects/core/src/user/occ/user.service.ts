@@ -136,7 +136,12 @@ export class OccUserService {
     });
 
     return this.http
-      .patch(url, { defaultPayment: true }, { headers })
+      .patch(
+        url,
+        // TODO: Remove billingAddress property
+        { billingAddress: { titleCode: 'mr' }, defaultPayment: true },
+        { headers }
+      )
       .pipe(catchError((error: any) => throwError(error)));
   }
 
