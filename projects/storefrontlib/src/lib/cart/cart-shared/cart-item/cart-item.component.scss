@@ -2,14 +2,6 @@
 @import 'functions';
 @import 'mixins';
 
-//cx-cart-item color variables
-
-$cx-cart-item-old-price-color: 'secondary' !default;
-$cx-cart-item-new-price-color: 'primary' !default;
-$cx-cart-item-promo-color: 'success' !default;
-$cx-cart-item-unavailable-color: 'danger' !default;
-$cx-cart-item-actions-color: 'text' !default;
-
 .cx-cart-item {
   &__image {
     width: var(--cx-width, 100%);
@@ -93,11 +85,11 @@ $cx-cart-item-actions-color: 'text' !default;
 
     &--old {
       text-decoration: line-through;
-      @include var-color('color', $cx-cart-item-old-price-color);
+      color: var(--cx-color, var(--cx-g-color-secondary));
       padding-right: 1rem;
     }
     &--new {
-      @include var-color('color', $cx-cart-item-new-price-color);
+      color: var(--cx-color, var(--cx-g-color-primary));
     }
   }
 
@@ -162,7 +154,7 @@ $cx-cart-item-actions-color: 'text' !default;
 
   &__promo {
     @include type('8');
-    @include var-color('color', $cx-cart-item-promo-color);
+    color: var(--cx-color, var(--cx-g-color-success));
     padding-left: 0;
     padding-right: 0;
     padding-top: 0.75rem;
@@ -172,7 +164,7 @@ $cx-cart-item-actions-color: 'text' !default;
 
   &__availability {
     @include type('8');
-    @include var-color('color', $cx-cart-item-unavailable-color);
+    color: var(--cx-color, var(--cx-g-color-danger));
     padding: 0.75rem 0;
     margin-bottom: 0;
   }
@@ -190,7 +182,7 @@ $cx-cart-item-actions-color: 'text' !default;
 
     a {
       @include type('8');
-      @include var-color('color', $cx-cart-item-actions-color);
+      color: var(--cx-color, var(--cx-g-color-text));
       text-decoration: underline;
     }
   }
