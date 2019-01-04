@@ -20,6 +20,7 @@ import createSpy = jasmine.createSpy;
 import { CheckoutService } from './../../../facade/checkout.service';
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
@@ -159,14 +160,15 @@ describe('MultiStepCheckoutComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
+        MockTranslateUrlPipe,
         MultiStepCheckoutComponent,
         MockDeliveryModeComponent,
         MockPaymentMethodComponent,
         MockReviewSubmitComponent,
         MockShippingAddressComponent,
-        MockOrderSummaryComponent,
-        MockTranslateUrlPipe
+        MockOrderSummaryComponent
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
