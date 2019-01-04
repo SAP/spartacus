@@ -29,20 +29,7 @@ $cx-billing-address-form-text-sm-padding-left: 1.5rem !default;
     display: flex;
     align-items: flex-end;
     padding-bottom: $cx-billing-address-form-body-padding-bottom;
-  }
 
-  &__text {
-    margin-bottom: $cx-billing-address-form-text-margin-bottom;
-  }
-
-  &__btns {
-    padding-bottom: 1rem;
-  }
-
-  // ***************************** MEDIA QUERIES *****************************
-  @include checkout-media-style();
-
-  &__body {
     &.row {
       @include media-breakpoint-down(md) {
         padding: $cx-billing-address-form-no-padding;
@@ -51,6 +38,8 @@ $cx-billing-address-form-text-sm-padding-left: 1.5rem !default;
   }
 
   &__text {
+    margin-bottom: $cx-billing-address-form-text-margin-bottom;
+
     @include media-breakpoint-down(md) {
       padding-left: $cx-billing-address-form-text-md-padding-left;
     }
@@ -60,12 +49,17 @@ $cx-billing-address-form-text-sm-padding-left: 1.5rem !default;
     }
   }
 
+  &__btns {
+    padding-bottom: 1rem;
+  }
+
   &__card {
     @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $cx-billing-address-form-card-background-color
-      );
+      @include var-color('background-color',
+      $cx-billing-address-form-card-background-color);
     }
   }
+
+  // ***************************** MEDIA QUERIES *****************************
+  @include checkout-media-style();
 }
