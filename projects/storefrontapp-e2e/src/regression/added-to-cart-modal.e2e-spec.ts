@@ -67,7 +67,7 @@ describe('Added to cart modal', () => {
   });
 
   it('adding different products to cart', async () => {
-    // uncomment this section after fixing cart resetting on each full page load
+    // uncomment this section after fixing cart resetting on each full page load (issue 787)
     // await home.navigateTo();
 
     // add another item to cart
