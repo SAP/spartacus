@@ -59,11 +59,14 @@ const mockAddress: CheckoutAddress = {
   postalCode: 'zip',
   country: { isocode: 'JP' }
 };
-const mockPaymentDetails = {
+const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
   cardNumber: '123456789',
-  cardType: 'Visa',
+  cardType: {
+    code: 'Visa',
+    name: 'Visa'
+  },
   expiryMonth: '01',
   expiryYear: '2022',
   cvn: '123'

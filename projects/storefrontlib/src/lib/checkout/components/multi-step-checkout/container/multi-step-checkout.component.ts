@@ -196,10 +196,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     payment: PaymentDetails;
     billingAddress: Address;
   }) {
+    payment.billingAddress = billingAddress
+      ? billingAddress
+      : this.deliveryAddress;
+
     if (newPayment) {
-      payment.billingAddress = billingAddress
-        ? billingAddress
-        : this.deliveryAddress;
       this.checkoutService.createPaymentDetails(payment);
       return;
     }
@@ -209,8 +210,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
       this.nextStep(4);
       return;
     }
+
     this.checkoutService.setPaymentDetails(payment);
-    return;
   }
 
   placeOrder() {

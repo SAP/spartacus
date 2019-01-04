@@ -159,6 +159,7 @@ describe('PaymentMethodComponent', () => {
     });
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
+      billingAddress: null,
       newPayment: true
     });
   });

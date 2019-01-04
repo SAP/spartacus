@@ -12,7 +12,8 @@ import {
   Address,
   CheckoutService,
   Country,
-  UserService
+  UserService,
+  GlobalMessageService
 } from '@spartacus/core';
 
 const mockBillingCountries: Country[] = [
@@ -85,6 +86,9 @@ class MockCheckoutService {
   getDeliveryAddress(): Observable<Address> {
     return of(null);
   }
+  getAddressVerificationResults(): Observable<string> {
+    return of();
+  }
 }
 
 class MockUserService {
@@ -94,11 +98,16 @@ class MockUserService {
   }
 }
 
+class MockGlobalMessageService {
+  add = createSpy();
+}
+
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
   let fixture: ComponentFixture<PaymentFormComponent>;
   let mockCheckoutService: MockCheckoutService;
   let mockUserService: MockUserService;
+  let mockGlobalMessageService: MockGlobalMessageService;
   let showSameAsShippingAddressCheckboxSpy: jasmine.Spy;
 
   let controls: {
@@ -109,6 +118,7 @@ describe('PaymentFormComponent', () => {
   beforeEach(async(() => {
     mockCheckoutService = new MockCheckoutService();
     mockUserService = new MockUserService();
+    mockGlobalMessageService = new MockGlobalMessageService();
 
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, NgSelectModule],
@@ -119,15 +129,14 @@ describe('PaymentFormComponent', () => {
       ],
       providers: [
         { provide: CheckoutService, useValue: mockCheckoutService },
-        { provide: UserService, useValue: mockUserService }
+        { provide: UserService, useValue: mockUserService },
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
     })
       .overrideComponent(PaymentFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }
       })
       .compileComponents();
-
-    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -210,9 +219,10 @@ describe('PaymentFormComponent', () => {
 
   it('should call next()', () => {
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith(
-      component.payment.value
-    );
+    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+      paymentDetails: component.payment.value,
+      billingAddress: null
+    });
   });
 
   it('should call back()', () => {
@@ -253,7 +263,7 @@ describe('PaymentFormComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.btn-primary'));
 
-    it('should call "next" function when being clicked and when form is valid', () => {
+    it('should call "next" function when being clicked and when form is valid - with billing address', () => {
       spyOn(mockCheckoutService, 'getCardTypes').and.returnValue(
         of(mockCardTypes)
       );

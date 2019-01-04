@@ -254,7 +254,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.checkboxSub.unsubscribe();
-    this.addressVerifySub.unsubscribe();
+    if (this.checkboxSub) {
+      this.checkboxSub.unsubscribe();
+    }
+    if (this.addressVerifySub) {
+      this.addressVerifySub.unsubscribe();
+    }
   }
 }
