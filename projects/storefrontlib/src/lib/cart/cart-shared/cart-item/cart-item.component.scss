@@ -17,8 +17,7 @@
   &__name {
     @include type('5');
     overflow-wrap: var(--cx-overflow-wrap, break-word);
-    padding-left: 0;
-    padding-right: 0;
+    padding: var(--cx-padding, 0);
 
     &--link {
       color: var(--cx-color, var(--cx-g-color-text));
@@ -57,7 +56,7 @@
   &__price {
     display: var(--cx-display, flex);
     justify-content: var(--cx-justify-content, center);
-    justify-content: var(--cx-align-items, center);
+    align-items: var(--cx-align-items, center);
     @include type('5');
     font-weight: $font-weight-normal;
 
@@ -84,9 +83,9 @@
     }
 
     &--old {
-      text-decoration: line-through;
+      text-decoration: var(--cx-text-decoration, line-through);
       color: var(--cx-color, var(--cx-g-color-secondary));
-      padding-right: 1rem;
+      padding: var(--cx-padding, 0 1rem 0 0);
     }
     &--new {
       color: var(--cx-color, var(--cx-g-color-primary));
@@ -94,12 +93,12 @@
   }
 
   &__quantity {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, center);
+    align-items: var(--cx-align-items, center);
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+      justify-content: var(--cx-justify-content, flex-start);
     }
 
     &--label {
@@ -107,13 +106,13 @@
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: 5rem;
+        min-width: var(--cx-min-width, 5rem);
       }
     }
 
     &--value {
       @include type('5');
-      font-weight: $font-weight-normal;
+      font-weight: var(--cx-g-font-weight-normal, 400);
       overflow-wrap: var(--cx-overflow-wrap, break-word);
 
       @include media-breakpoint-down(sm) {
@@ -123,12 +122,12 @@
   }
 
   &__total {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, flex-end);
+    align-items: var(--cx-align-items, center);
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+      justify-content: var(--cx-justify-content, flex-start);
     }
 
     &--label {
@@ -136,7 +135,7 @@
 
       @include media-breakpoint-down(sm) {
         @include type('8');
-        min-width: 5rem;
+        min-width: var(--cx-min-width, 5rem);
       }
     }
 
@@ -144,7 +143,7 @@
       @include type('5');
       font-weight: $font-weight-normal;
       overflow-wrap: var(--cx-overflow-wrap, break-word);
-      padding-right: 0;
+      padding: var(--cx-padding, 0);
 
       @include media-breakpoint-down(sm) {
         @include type('7');
@@ -155,29 +154,26 @@
   &__promo {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-success));
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    margin-bottom: 0;
+    padding: var(--cx-padding, 0.75rem 0);
+    margin: var(--cx-margin, 0);
   }
 
   &__availability {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-danger));
-    padding: 0.75rem 0;
-    margin-bottom: 0;
+    padding: var(--cx-padding, 0.75rem 0);
+    margin: var(--cx-margin, 0);
   }
 
   &__actions {
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 0;
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, flex-end);
+    padding: var(--cx-padding, 0);
 
     @include media-breakpoint-down(sm) {
-      display: flex;
-      justify-content: flex-start;
-      padding-left: 0;
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, flex-start);
+      padding: var(--cx-padding, 0);
     }
 
     a {
@@ -191,25 +187,23 @@
 // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
 .cx-cart-item--compact {
-  display: flex;
-  flex-direction: row;
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, row);
 
   .cx-cart-item {
     &__image-container {
-      padding-left: 0;
-      padding-right: 0;
+      padding: var(--cx-padding, 0);
     }
 
     &__info-container {
-      display: flex;
-      flex-direction: column;
-      margin-left: 0;
-      margin-right: 0;
+      display: var(--cx-display, flex);
+      flex-direction: var(--cx-flex-direction, column);
+      margin: var(--cx-margin, 0);
     }
 
     &__property {
       &--label {
-        min-width: 5rem;
+        min-width: var(--cx-min-width, 5rem);
       }
     }
 
@@ -217,11 +211,11 @@
     &__quantity,
     &__total,
     &__actions {
-      justify-content: flex-start;
+      justify-content: var(--cx-justify-content, flex-start);
 
       &--label {
         @include type('8');
-        min-width: 5rem;
+        min-width: var(--cx-min-width, 5rem);
       }
 
       &--value {
@@ -230,7 +224,7 @@
     }
 
     &__actions {
-      padding-left: 0;
+      padding: var(--cx-padding, 0);
     }
   }
 }
