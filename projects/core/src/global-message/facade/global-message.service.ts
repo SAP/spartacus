@@ -8,6 +8,7 @@ import {
   GlobalMessage,
   GlobalMessageType
 } from '../models/global-message.model';
+import { StateWithGlobalMessage } from '../store/index';
 
 @Injectable()
 export class GlobalMessageService {
@@ -18,7 +19,7 @@ export class GlobalMessageService {
     filter(data => data !== undefined)
   );
 
-  constructor(private store: Store<fromStore.GlobalMessageState>) {}
+  constructor(private store: Store<StateWithGlobalMessage>) {}
 
   /**
    * Get all global messages
