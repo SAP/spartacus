@@ -8,7 +8,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
-import { ProductService, Product } from '@spartacus/core';
+import { ProductService, Product, WindowRef } from '@spartacus/core';
 
 import { Subscription, fromEvent, Observable } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -31,6 +31,8 @@ export class ProductCarouselComponent extends AbstractCmsComponent
 
   resize$: Subscription;
 
+  private window: Window;
+
   @ViewChild('carousel')
   carousel: NgbCarousel;
 
@@ -40,15 +42,19 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   constructor(
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    private productService: ProductService
+    private productService: ProductService,
+    winRef: WindowRef
   ) {
     super(cmsService, cd);
+    this.window = winRef.nativeWindow;
   }
 
   ngOnInit() {
-    this.resize$ = fromEvent(window, 'resize')
-      .pipe(debounceTime(300))
-      .subscribe(() => this.createGroups());
+    if (this.window) {
+      this.resize$ = fromEvent(this.window, 'resize')
+        .pipe(debounceTime(300))
+        .subscribe(() => this.createGroups());
+    }
   }
 
   prev(): void {
@@ -84,7 +90,7 @@ export class ProductCarouselComponent extends AbstractCmsComponent
   protected getItemsPerPage(): number {
     const smallScreenMaxWidth = 576;
     const tabletScreenMaxWidth = 768;
-    const { innerWidth } = window;
+    const innerWidth = this.window ? window.innerWidth : tabletScreenMaxWidth;
     let itemsPerPage: number;
     if (innerWidth < smallScreenMaxWidth) {
       itemsPerPage = 1;
