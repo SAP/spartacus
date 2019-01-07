@@ -45,3 +45,8 @@ addons:
     organization: sap
     token:
       secure: I2+ah2XiEbJ6MwWG51B0Vqpsv7KhnqMJzhoPTun6iPxlMXVqIJm1bCRkutOtlVJ+65UDj20H6ld0Tc9LOEz3Uvjk/ZSmHIA/7esC1kRcOu62VE8k/Y+nH8epI3dBr70Yymn9V27kqBNTMs+i2qC8z/+2cd0DBrAPtRQXcPedd4kw41kdeFBzmI/ng1uOhadLF2U63s+krkfLSoaBcCkksll3KsnDe/ItJN1Hu7oZ5UQUxcbP8LHDHBIm3YuMDh9WLWvp9zypglS5as8GC55Zi8dDFlqXrcVcKa5niN8Q/UOByBDy1JiM6kJbc/mjbpjdQMAoCz9YjkPhd181hbz0rocxqPmbEszwPVNadRbz3mUjTz/us+3ekrw3/i4DhuzmGlV2kRkbXIquegecivNnWMP8JyZDRerR8onSKS+YMmEI1t7tOLWHCJ4ImkfMWGVbT8t27ZWO2bhDu+N0JxyPuMRSVPRXvhEAqIbts8OdeITxQiWcSdI2Q/Fsfsft7uUBJhhU8S+c6Gs0LuCikG4WfchjCUxK5kFQqEAqLX+BUJbQxw6J2S+geoAzxWhQrs+O/GzXDzuez8Z3Ou8hk2w/l+VSJ2MuiJq/jlcSmVkYUUtKhvPfq/fcLtp9Lt9dUCw/8Es9jbvtg/0i2iyajkF/9PRc6UzhcYu/sk8xopNK4bQ=
+  artifacts:
+    paths:
+      - protractor.log.json
+    target_paths:
+      - /$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/$TRAVIS_COMMIT/

@@ -8,6 +8,8 @@ import { ReviewSubmitModule } from './review-submit/review-submit.module';
 
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
+import { RouterModule } from '@angular/router';
+import { UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -17,7 +19,9 @@ import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
     ShippingAddressModule,
     DeliveryModeModule,
     PaymentMethodModule,
-    ReviewSubmitModule
+    ReviewSubmitModule,
+    RouterModule,
+    UrlTranslationModule
   ],
   declarations: [MultiStepCheckoutComponent],
   exports: [MultiStepCheckoutComponent]
