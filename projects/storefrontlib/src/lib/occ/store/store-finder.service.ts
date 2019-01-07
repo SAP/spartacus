@@ -70,12 +70,12 @@ export class OccStoreFinderService {
     const url = this.getStoresEndpoint();
     let params: HttpParams = new HttpParams({
       fromString:
-        '&fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
+        'fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
         'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email), features),' +
         'pagination(DEFAULT),' +
         'sorts(DEFAULT)'
     });
-    console.log(searchConfig);
+
     if (longitudeLatitude) {
       params = params.set('longitude', String(longitudeLatitude.longitude));
       params = params.set('latitude', String(longitudeLatitude.latitude));
@@ -92,7 +92,7 @@ export class OccStoreFinderService {
       params = params.set('sort', searchConfig.sort);
     }
 
-    return this.http.get<StoreFinderSearchPage>(url, { params: params }).pipe(
+    return this.http.get<StoreFinderSearchPage>(url, { params }).pipe(
       catchError((error: any) => {
         if (error.json) {
           return throwError(error.json());
