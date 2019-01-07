@@ -1,36 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { SearchConfig } from '../../store-finder/models/search-config';
 import { LongitudeLatitude } from '../../store-finder/models/longitude-latitude';
 
 import { OccConfig, StoreFinderSearchPage } from '@spartacus/core';
-import { OccE2eConfigurationService } from '../e2e/e2e-configuration-service';
 
 const STORES_ENDPOINT = 'stores';
-const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';
 
 @Injectable()
 export class OccStoreFinderService {
-  constructor(
-    private http: HttpClient,
-    private occModuleConfig: OccConfig,
-    private e2eConfigService: OccE2eConfigurationService
-  ) {}
+  constructor(private http: HttpClient, private occModuleConfig: OccConfig) {}
 
   findStores(
     query: string,
     searchConfig: SearchConfig,
     longitudeLatitude?: LongitudeLatitude
   ): Observable<any> {
-    return this.e2eConfigService.getConfiguration(STORES_DISPLAYED).pipe(
-      mergeMap(result => {
-        searchConfig = { ...searchConfig, pageSize: result };
-        return this.callOccFindStores(query, searchConfig, longitudeLatitude);
-      })
-    );
+    return this.callOccFindStores(query, searchConfig, longitudeLatitude);
   }
 
   storesCount(): Observable<any> {
@@ -75,7 +64,7 @@ export class OccStoreFinderService {
 
   protected callOccFindStores(
     query: string,
-    searchConfig: SearchConfig,
+    searchConfig: SearchConfig = {},
     longitudeLatitude?: LongitudeLatitude
   ): Observable<StoreFinderSearchPage> {
     const url = this.getStoresEndpoint();
@@ -86,6 +75,7 @@ export class OccStoreFinderService {
         'pagination(DEFAULT),' +
         'sorts(DEFAULT)'
     });
+    console.log(searchConfig);
     if (longitudeLatitude) {
       params = params.set('longitude', String(longitudeLatitude.longitude));
       params = params.set('latitude', String(longitudeLatitude.latitude));
@@ -93,18 +83,23 @@ export class OccStoreFinderService {
       params = params.set('query', query);
     }
     if (searchConfig.pageSize) {
-      params = params.set('pageSize', searchConfig.pageSize.toString());
+      params = params.set('pageSize', String(searchConfig.pageSize));
     }
     if (searchConfig.currentPage) {
-      params = params.set('currentPage', searchConfig.currentPage.toString());
+      params = params.set('currentPage', String(searchConfig.currentPage));
     }
     if (searchConfig.sort) {
       params = params.set('sort', searchConfig.sort);
     }
 
-    return this.http
-      .get<StoreFinderSearchPage>(url, { params: params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get<StoreFinderSearchPage>(url, { params: params }).pipe(
+      catchError((error: any) => {
+        if (error.json) {
+          return throwError(error.json());
+        }
+        return throwError(error);
+      })
+    );
   }
 
   protected getStoresEndpoint(url?: string) {
