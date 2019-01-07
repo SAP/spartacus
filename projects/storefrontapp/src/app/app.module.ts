@@ -28,7 +28,7 @@ if (!environment.production) {
       product: {
         styles: {
           summary: {
-            cssIncludePaths: ['test']
+            cssIncludePaths: ['product-summary_alt']
           }
         }
       }

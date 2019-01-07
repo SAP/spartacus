@@ -22,7 +22,6 @@
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json",
-              "projects/storefrontapp/src/loader.js",
               "projects/storefrontapp/src/webApplicationInjector.js"
             ],
             "styles": ["projects/storefrontapp/src/styles.scss"],
@@ -30,7 +29,10 @@
               "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "ngswConfigPath": "projects/storefrontlib/src/lib/pwa/ngsw-config.json",
-            "scripts": ["projects/storefrontapp/src/loader.js"]
+            "scripts": [
+              "projects/storefrontapp/src/loader.js",
+              "projects/storefrontapp/src/customLoader.js"
+            ]
           },
           "configurations": {
             "production": {
