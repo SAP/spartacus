@@ -1,25 +1,23 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-.cx-cart-item {
-  &__image {
+.item {
+  .image {
     width: var(--cx-width, 100%);
   }
 
-  &__info-container {
+  .info-container {
     @include media-breakpoint-down(sm) {
       display: var(--cx-display, flex);
       flex-direction: var(--cx-flex-direction, column);
     }
   }
 
-  &__name {
+  .name {
     @include type('5');
     overflow-wrap: var(--cx-overflow-wrap, break-word);
     padding: var(--cx-padding, 0);
 
-    &--link {
+    .link {
       color: var(--cx-color, var(--cx-g-color-text));
       text-decoration: var(--cx-text-decoration, none);
       &:hover {
@@ -28,32 +26,36 @@
     }
   }
 
-  &__code {
+  .code {
     @include type('7');
     color: var(--cx-color, var(--cx-g-color-secondary));
     padding: var(--cx-padding, 0.625rem 0);
   }
 
-  &__property {
+  .property {
     display: var(--cx-display, flex);
+  }
 
-    &--label {
-      @include type('8');
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-      padding-right: 1rem;
+  .label {
+    @include type('8');
+    overflow-wrap: var(--cx-overflow-wrap, break-word);
+    padding-right: 1rem;
 
-      @include media-breakpoint-down(sm) {
-        min-width: var(--cx-min-width, 5rem);
-      }
-    }
-
-    &--value {
-      @include type('7');
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
+    @include media-breakpoint-down(sm) {
+      min-width: var(--cx-min-width, 5rem);
     }
   }
 
-  &__price {
+  .value {
+    @include type('7');
+    overflow-wrap: var(--cx-overflow-wrap, break-word);
+
+    @include media-breakpoint-down(sm) {
+      @include type('7');
+    }
+  }
+
+  .price {
     display: var(--cx-display, flex);
     justify-content: var(--cx-justify-content, center);
     align-items: var(--cx-align-items, center);
@@ -64,35 +66,17 @@
       justify-content: var(--cx-justify-content, flex-start);
     }
 
-    &--label {
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-      @include media-breakpoint-down(sm) {
-        @include type('8');
-        min-width: var(--cx-min-width, 5rem);
-      }
-    }
-
-    &--value {
-      @include type('5');
-      font-weight: $font-weight-normal;
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-
-      @include media-breakpoint-down(sm) {
-        @include type('7');
-      }
-    }
-
-    &--old {
+    .old {
       text-decoration: var(--cx-text-decoration, line-through);
       color: var(--cx-color, var(--cx-g-color-secondary));
       padding: var(--cx-padding, 0 1rem 0 0);
     }
-    &--new {
+    .new {
       color: var(--cx-color, var(--cx-g-color-primary));
     }
   }
 
-  &__quantity {
+  .quantity {
     display: var(--cx-display, flex);
     justify-content: var(--cx-justify-content, center);
     align-items: var(--cx-align-items, center);
@@ -100,28 +84,9 @@
     @include media-breakpoint-down(sm) {
       justify-content: var(--cx-justify-content, flex-start);
     }
-
-    &--label {
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-
-      @include media-breakpoint-down(sm) {
-        @include type('8');
-        min-width: var(--cx-min-width, 5rem);
-      }
-    }
-
-    &--value {
-      @include type('5');
-      font-weight: var(--cx-g-font-weight-normal, 400);
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-
-      @include media-breakpoint-down(sm) {
-        @include type('7');
-      }
-    }
   }
 
-  &__total {
+  .total {
     display: var(--cx-display, flex);
     justify-content: var(--cx-justify-content, flex-end);
     align-items: var(--cx-align-items, center);
@@ -129,43 +94,23 @@
     @include media-breakpoint-down(sm) {
       justify-content: var(--cx-justify-content, flex-start);
     }
-
-    &--label {
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-
-      @include media-breakpoint-down(sm) {
-        @include type('8');
-        min-width: var(--cx-min-width, 5rem);
-      }
-    }
-
-    &--value {
-      @include type('5');
-      font-weight: $font-weight-normal;
-      overflow-wrap: var(--cx-overflow-wrap, break-word);
-      padding: var(--cx-padding, 0);
-
-      @include media-breakpoint-down(sm) {
-        @include type('7');
-      }
-    }
   }
 
-  &__promo {
+  .promo {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-success));
     padding: var(--cx-padding, 0.75rem 0);
     margin: var(--cx-margin, 0);
   }
 
-  &__availability {
+  .availability {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-danger));
     padding: var(--cx-padding, 0.75rem 0);
     margin: var(--cx-margin, 0);
   }
 
-  &__actions {
+  .actions {
     display: var(--cx-display, flex);
     justify-content: var(--cx-justify-content, flex-end);
     padding: var(--cx-padding, 0);
@@ -186,44 +131,38 @@
 
 // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
-.cx-cart-item--compact {
+.item-compact {
   display: var(--cx-display, flex);
   flex-direction: var(--cx-flex-direction, row);
 
-  .cx-cart-item {
-    &__image-container {
+  .item {
+    .image-container {
       padding: var(--cx-padding, 0);
     }
 
-    &__info-container {
+    .info-container {
       display: var(--cx-display, flex);
       flex-direction: var(--cx-flex-direction, column);
       margin: var(--cx-margin, 0);
     }
 
-    &__property {
-      &--label {
-        min-width: var(--cx-min-width, 5rem);
-      }
-    }
-
-    &__price,
-    &__quantity,
-    &__total,
-    &__actions {
+    .price,
+    .quantity,
+    .total,
+    .actions {
       justify-content: var(--cx-justify-content, flex-start);
 
-      &--label {
+      .label {
         @include type('8');
         min-width: var(--cx-min-width, 5rem);
       }
 
-      &--value {
+      .value {
         @include type('7');
       }
     }
 
-    &__actions {
+    .actions {
       padding: var(--cx-padding, 0);
     }
   }
