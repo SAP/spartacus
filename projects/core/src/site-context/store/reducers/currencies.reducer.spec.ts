@@ -1,12 +1,13 @@
 import * as fromCurrencies from './currencies.reducer';
 import * as fromActions from '../actions/currencies.action';
 import { Currency } from '../../../occ/occ-models/occ.models';
+import { CurrenciesAction } from '../actions/currencies.action';
 
 describe('Currencies Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromCurrencies;
-      const action = {} as any;
+      const action = {} as CurrenciesAction;
       const state = fromCurrencies.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -19,7 +20,7 @@ describe('Currencies Reducer', () => {
         { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
       ];
 
-      const entities = {
+      const entities: { [key: string]: Currency } = {
         USD: currencies[0]
       };
 

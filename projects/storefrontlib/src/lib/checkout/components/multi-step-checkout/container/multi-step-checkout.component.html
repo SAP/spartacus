@@ -106,7 +106,13 @@
                 />
                 <span class="form-check-label">
                   I confirm that I have read and agree with the
-                  <a href="#">Terms & Conditions</a>
+                  <a
+                    [routerLink]="
+                      { route: ['termsAndConditions'] } | cxTranslateUrl
+                    "
+                    class="cx-multi-step-checkout__tc-link"
+                    >Terms & Conditions</a
+                  >
                 </span>
               </label>
             </div>

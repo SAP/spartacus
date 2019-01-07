@@ -10,7 +10,9 @@ describe('get store Sync reducer', () => {
       storageSyncType: StorageSyncType.SESSION_STORAGE
     };
 
-    const result = getStorageSyncReducer(config);
+    const winRef: any = {};
+
+    const result = getStorageSyncReducer(config, winRef);
 
     expect(result).toEqual(jasmine.any(Function));
   });

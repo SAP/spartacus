@@ -5,19 +5,17 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {
+  CheckoutAddress,
+  CheckoutService,
   RoutingService,
   GlobalMessageService,
   GlobalMessageType,
   CartService,
-  CartDataService,
-  Address
+  CartDataService
 } from '@spartacus/core';
-
-import { CheckoutService } from '../../../facade/checkout.service';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
 
@@ -31,7 +29,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
   done = false;
 
-  deliveryAddress: Address;
+  deliveryAddress: CheckoutAddress;
   paymentDetails: any;
   shippingMethod: string;
   subscriptions: Subscription[] = [];
@@ -50,15 +48,15 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart() {
-    this.cartService.loadCartDetails();
+  private refreshCart(): void {
+    this.cartService.loadDetails();
   }
 
   ngOnInit() {
     if (!this.cartDataService.getDetails) {
-      this.cartService.loadCartDetails();
+      this.cartService.loadDetails();
     }
-    this.cart$ = this.cartService.activeCart$;
+    this.cart$ = this.cartService.getActive();
     this.processSteps();
   }
 
