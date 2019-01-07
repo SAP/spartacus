@@ -210,7 +210,9 @@ export class CheckoutEffects {
     private occOrderService: OccOrderService,
     private productImageConverter: ProductImageConverterService
   ) {
-    this.domparser = new DOMParser();
+    if (typeof DOMParser !== 'undefined') {
+      this.domparser = new DOMParser();
+    }
   }
 
   private getPaymentSopResponseParams(
