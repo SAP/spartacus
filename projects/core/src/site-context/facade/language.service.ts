@@ -4,12 +4,20 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store/index';
 import { filter, tap } from 'rxjs/operators';
 import { Language } from '../../occ/occ-models';
+import { WindowRef } from '../../window/window-ref';
 /**
  * Facade that provides easy access to language state, actions and selectors.
  */
 @Injectable()
 export class LanguageService {
-  constructor(private store: Store<fromStore.StateWithSiteContext>) {}
+  private sessionStorage: Storage;
+
+  constructor(
+    private store: Store<fromStore.StateWithSiteContext>,
+    winRef: WindowRef
+  ) {
+    this.sessionStorage = winRef.sessionStorage;
+  }
 
   /**
    * Represents all the languages supported by the current store.
@@ -47,8 +55,8 @@ export class LanguageService {
    * default session language of the store.
    */
   initialize(defaultLanguage: string) {
-    if (sessionStorage && !!sessionStorage.getItem('language')) {
-      this.setActive(sessionStorage.getItem('language'));
+    if (this.sessionStorage && !!this.sessionStorage.getItem('language')) {
+      this.setActive(this.sessionStorage.getItem('language'));
     } else {
       this.setActive(defaultLanguage);
     }
