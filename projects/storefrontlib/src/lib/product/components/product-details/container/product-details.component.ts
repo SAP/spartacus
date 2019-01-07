@@ -6,7 +6,7 @@ import {
   OnChanges
 } from '@angular/core';
 
-import { ProductService, Product } from '@spartacus/core';
+import { ProductService, Product, WindowRef } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 
@@ -34,14 +34,17 @@ export class ProductDetailsComponent implements OnChanges {
 
   @ViewChild('descriptionHeader')
   set initial(ref: ElementRef) {
-    if (ref) {
+    if (ref && ref.nativeElement) {
       ref.nativeElement.click();
     }
   }
 
   @ViewChild('reviewHeader') reviewHeader: ElementRef;
 
-  constructor(protected productService: ProductService) {}
+  constructor(
+    protected productService: ProductService,
+    protected winRef: WindowRef
+  ) {}
 
   ngOnChanges(): void {
     this.product$ = this.productService.get(this.productCode);
@@ -70,17 +73,22 @@ export class ProductDetailsComponent implements OnChanges {
   }
 
   private isElementOutViewport(el) {
+    if (!this.winRef.nativeWindow) {
+      return false;
+    }
     const rect = el.getBoundingClientRect();
     return (
       rect.bottom < 0 ||
       rect.right < 0 ||
-      rect.left > window.innerWidth ||
-      rect.top > window.innerHeight
+      rect.left > this.winRef.nativeWindow.innerWidth ||
+      rect.top > this.winRef.nativeWindow.innerHeight
     );
   }
 
   openReview() {
-    this.reviewHeader.nativeElement.click();
+    if (this.reviewHeader.nativeElement) {
+      this.reviewHeader.nativeElement.click();
+    }
     this.isWritingReview = true;
   }
 }

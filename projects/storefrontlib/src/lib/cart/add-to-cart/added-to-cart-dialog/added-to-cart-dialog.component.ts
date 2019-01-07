@@ -38,10 +38,16 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   ngAfterViewChecked() {
     if (this.finishedLoading) {
       this.finishedLoading = false;
-      const elementToFocus = this.dialog.nativeElement.querySelector(
-        `[ngbAutofocus]`
-      ) as HTMLElement;
-      elementToFocus.focus();
+
+      const elementToFocus = this.dialog.nativeElement
+        ? (this.dialog.nativeElement.querySelector(
+            `[ngbAutofocus]`
+          ) as HTMLElement)
+        : undefined;
+
+      if (elementToFocus) {
+        elementToFocus.focus();
+      }
     }
   }
 }
