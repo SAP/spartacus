@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -20,6 +20,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
@@ -106,6 +107,13 @@ class MockOrderSummaryComponent {
   cart: any;
 }
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('MultiStepCheckoutComponent', () => {
   let component: MultiStepCheckoutComponent;
   let fixture: ComponentFixture<MultiStepCheckoutComponent>;
@@ -152,7 +160,9 @@ describe('MultiStepCheckoutComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
+        MockTranslateUrlPipe,
         MultiStepCheckoutComponent,
         MockDeliveryModeComponent,
         MockPaymentMethodComponent,
