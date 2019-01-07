@@ -1,14 +1,8 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import {
-  ActionReducerMap,
-  MemoizedSelector,
-  MetaReducer,
-  ActionReducer,
-  createFeatureSelector
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
-import { UserState, USER_FEATURE } from '../user-state';
+import { UserState } from '../user-state';
 import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
 
@@ -42,11 +36,6 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };
-
-export const getUserState: MemoizedSelector<
-  any,
-  UserState
-> = createFeatureSelector<UserState>(USER_FEATURE);
 
 export function clearUserState(
   reducer: ActionReducer<any>

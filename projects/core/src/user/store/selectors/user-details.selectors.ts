@@ -1,19 +1,19 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers/index';
 import * as fromUserDetailsReducer from '../reducers/user-details.reducer';
-import { UserDetailsState, UserState } from '../user-state';
+import { UserDetailsState, UserState, StateWithUser } from '../user-state';
 import { User } from '../../../occ/occ-models/index';
+import { getUserState } from './feature.selector';
 
 export const getDetailsState: MemoizedSelector<
-  any,
+  StateWithUser,
   UserDetailsState
 > = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.account
 );
 
-export const getDetails: MemoizedSelector<any, User> = createSelector(
+export const getDetails: MemoizedSelector<StateWithUser, User> = createSelector(
   getDetailsState,
   fromUserDetailsReducer.getDetails
 );

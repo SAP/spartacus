@@ -1,20 +1,20 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { UserAddressesState, UserState } from '../user-state';
-import * as fromFeature from '../reducers/index';
+import { UserAddressesState, UserState, StateWithUser } from '../user-state';
 import * as fromUserAddressesReducer from '../reducers/user-addresses.reducer';
-import { Address } from '../../../occ/occ-models/occ.models';
+import { Address } from '../../../occ/occ-models/index';
+import { getUserState } from './feature.selector';
 
 export const getAddressesState: MemoizedSelector<
-  UserState,
+  StateWithUser,
   UserAddressesState
 > = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.addresses
 );
 
 export const getAddresses: MemoizedSelector<
-  UserState,
+  StateWithUser,
   Address[]
 > = createSelector(
   getAddressesState,
@@ -22,7 +22,7 @@ export const getAddresses: MemoizedSelector<
 );
 
 export const getAddressesLoading: MemoizedSelector<
-  UserState,
+  StateWithUser,
   boolean
 > = createSelector(
   getAddressesState,
@@ -30,7 +30,7 @@ export const getAddressesLoading: MemoizedSelector<
 );
 
 export const getAddressActionProcessingStatus: MemoizedSelector<
-  any,
+  StateWithUser,
   boolean
 > = createSelector(
   getAddressesState,

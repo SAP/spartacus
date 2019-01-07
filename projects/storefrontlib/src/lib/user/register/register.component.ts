@@ -16,7 +16,7 @@ import {
 import { Observable, Subscription, of } from 'rxjs';
 import { take, tap, switchMap } from 'rxjs/operators';
 
-import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
+import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-register',
