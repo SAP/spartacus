@@ -1,103 +1,44 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-$cx-footer-background-color: 'dark' !default;
-$cx-footer-notice-color: 'dark' !default;
-$cx-footer-notice-background-color: 'inverse' !default;
-$cx-footer-sm-social-border-color: 'inverse' !default;
-$cx-footer-xs-container-border-color: 'dark' !default;
-
-.cx-footer-navigation {
-  //footer variables
-  $cx-footer-nav-trbl-padding: 34px 0 0 0 !default;
-  $cx-footer-nav-md-trbl-margin: 0 0 47px 0 !default;
-  $cx-footer-nav-xs-container-border-top: 1px solid !default;
-  $cx-footer-nav-xs-container-trbl-padding: 0 0 24px 0 !default;
-  $cx-footer-nav-title-font-case: capitalize !default;
-  $cx-footer-nav-title-trbl-margin: 0 0 12px 0 !default;
-  $cx-footer-nav-title-xs-text-align: center !default;
-  $cx-footer-nav-list-trbl-padding: 0 !default;
-  $cx-footer-nav-list-xs-text-align: center !default;
-  $cx-footer-nav-link-trbl-padding: 0 !default;
-  $cx-footer-nav-link-hover-decoration: none !default;
-  $cx-footer-nav-social-sm-border-top: 1px solid !default;
-  $cx-footer-nav-social-sm-trbl-margin: 24px 0 45px 0 !default;
-  $cx-footer-nav-social-sm-trbl-padding: 30px 0 0 0 !default;
-  $cx-footer-nav-social-sm-text-align: center !default;
-  $cx-footer-nav-social-xs-trbl-margin: 0 !default;
-  $cx-footer-nav-social-title-font-case: capitalize !default;
-  $cx-footer-nav-social-list-trbl-padding: 0 !default;
-  $cx-footer-nav-social-item-trbl-margin: 0 ($spacer * 0.25) ($spacer * 0.25) 0 !default;
-  $cx-footer-nav-notice-trbl-padding: 33px 0 32px 0 !default;
-  $cx-footer-nav-notice-text-align: center !default;
-
-  //footer styles
-  padding: $cx-footer-nav-trbl-padding;
+nav {
+  padding: var(--cx-padding, 34px 0 0);
 
   @include media-breakpoint-up(md) {
-    margin: $cx-footer-nav-md-trbl-margin;
+    margin: var(--cx-margin, 0 0 47px);
   }
-  &__container {
-    @include media-breakpoint-down(xs) {
-      border-top: $cx-footer-nav-xs-container-border-top;
-      @include var-color('border-color', $cx-footer-xs-container-border-color);
-      padding: $cx-footer-nav-xs-container-trbl-padding;
 
-      &:first-of-type {
-        border-top: none;
-      }
-    }
-  }
-  &__title {
+  h1 {
     @include type('5');
-    margin: $cx-footer-nav-title-trbl-margin;
-    text-transform: $cx-footer-nav-title-font-case;
+    margin: var(--cx-margin, 0 0 12px);
+    text-transform: var(--cx-text-transform, capitalize);
 
     @include media-breakpoint-down(xs) {
-      text-align: $cx-footer-nav-title-xs-text-align;
+      text-align: var(--cx-text-align, center);
     }
   }
-  &__list {
-    padding: $cx-footer-nav-list-trbl-padding;
+  ul {
+    padding: var(--cx-padding, 0);
 
     @include media-breakpoint-down(xs) {
-      text-align: $cx-footer-nav-list-xs-text-align;
+      text-align: var(--cx-text-align, center);
+      padding: var(--cx-padding, 0 0 24px);
     }
   }
-  &__item {
+  li {
     @include list-unstyled();
   }
-  &__link {
-    padding: $cx-footer-nav-link-trbl-padding;
+  a {
+    padding: var(--cx-padding, 0);
     @include type();
     &:hover {
-      text-decoration: $cx-footer-nav-link-hover-decoration;
+      text-decoration: var(--cx-text-decoration, none);
     }
   }
-  &__social {
-    @include media-breakpoint-down(sm) {
-      border-top: $cx-footer-nav-social-sm-border-top;
-      @include var-color('border-color', $cx-footer-sm-social-border-color);
-      margin: $cx-footer-nav-social-sm-trbl-margin;
-      padding: $cx-footer-nav-social-sm-trbl-padding;
-      text-align: $cx-footer-nav-social-sm-text-align;
-    }
-    @include media-breakpoint-down(xs) {
-      margin: $cx-footer-nav-social-xs-trbl-margin;
-    }
-  }
-  &__title--social {
-    text-transform: $cx-footer-nav-social-title-font-case;
-  }
-  &__list--social {
-    padding: $cx-footer-nav-social-list-trbl-padding;
-  }
-  &__notice {
-    padding: $cx-footer-nav-notice-trbl-padding;
-    text-align: $cx-footer-nav-notice-text-align;
-    @include type();
-    @include var-color('color', $cx-footer-notice-color);
-    @include var-color('background-color', $cx-footer-notice-background-color);
-  }
+}
+.notice {
+  padding: var(--cx-padding, 32px 0);
+  text-align: var(--cx-text-align, center);
+  @include type();
+  color: var(--cx-color, var(--cx-g-color-dark));
+  background-color: var(--cx-background-color, var(--cx-g-color-inverse));
 }
