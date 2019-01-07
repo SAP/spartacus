@@ -7,7 +7,3 @@ export interface StateWithGlobalMessage {
 export interface GlobalMessageState {
   entities: { [productCode: string]: any };
 }
-
-export interface GlobalMessagesState {
-  globalMessages: GlobalMessageState;
-}
