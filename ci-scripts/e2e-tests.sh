@@ -9,5 +9,5 @@ echo "Building SPA app"
 yarn build
 echo "-----"
 echo "Running end to end tests"
-yarn e2e:ci
+yarn e2e:ci --suite=smoke
 echo "-----"
