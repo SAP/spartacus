@@ -74,7 +74,7 @@ export class AddressBookPage extends AppPage {
   }
 
   async deleteAddress() {
-    await this.deleteAddressBtn.get(1).click();
+    await this.deleteAddressBtn.get(0).click();
     await this.deleteAddressConfirmationBtn.click();
     await this.waitForReady();
   }
