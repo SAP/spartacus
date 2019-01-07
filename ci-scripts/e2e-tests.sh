@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -e
 set -o pipefail
+
 SUITE='smoke'
 
 if [ ! -z $1 ]; then
@@ -12,11 +13,8 @@ if [ ! -z $1 ]; then
     fi
 fi
 
-echo "Building SPA core lib"
+echo "Building Spartacus libraries"
 yarn build:core:lib
-echo "-----"
-echo "Building SPA app"
-yarn build
 echo "-----"
 echo "Running end to end tests. Suite: $SUITE"
 yarn e2e:ci --suite=$SUITE
