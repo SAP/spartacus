@@ -4,8 +4,8 @@ import { StoresState } from '../store/store-finder-state';
 
 import * as fromStore from '../store/index';
 import { LongitudeLatitude, StoreFinderSearchConfig } from '../model';
-import { WindowRef } from '../services';
 import { Observable } from 'rxjs';
+import { WindowRef } from '../../window';
 
 @Injectable()
 export class StoreFinderService {

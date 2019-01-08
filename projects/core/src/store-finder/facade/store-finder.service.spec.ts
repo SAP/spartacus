@@ -5,8 +5,8 @@ import { StoresState } from '../store/store-finder-state';
 import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
-import { WindowRef } from '../services/window-ref';
 import { LongitudeLatitude } from '../model/longitude-latitude';
+import { WindowRef } from '../../window';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -24,7 +24,7 @@ describe('StoreFinderService', () => {
     latitude: 20.2
   };
 
-  const MockWindowRef: WindowRef = {
+  const MockWindowRef = {
     nativeWindow: {
       navigator: {
         geolocation: {

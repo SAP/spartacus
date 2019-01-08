@@ -4,11 +4,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import {
-  WindowRef,
-  StoreFinderService,
-  getStoreFinderReducers
-} from '@spartacus/core';
+import { StoreFinderService, getStoreFinderReducers } from '@spartacus/core';
 
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -32,7 +28,7 @@ describe('StoreFinderStoresCountComponent', () => {
         RouterTestingModule
       ],
       declarations: [StoreFinderStoresCountComponent, MockTranslateUrlPipe],
-      providers: [StoreFinderService, WindowRef]
+      providers: [StoreFinderService]
     }).compileComponents();
   }));
 
