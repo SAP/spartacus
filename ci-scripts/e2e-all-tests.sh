@@ -17,7 +17,7 @@ echo "Triggering custom Spa build with token $TOKEN"
 
 body='{
     "request": {
-        "message": "Override the commit message: this is an api request",
+    "message": "Spartacus nightly build (all e2e tests)",
         "branch":"develop",
         "config": {
             "jobs": {
