@@ -17,6 +17,19 @@ export class SmartEditService {
   ) {
     this.getCmsTicket();
     this.addPageContract();
+
+    // rerender components and slots after editing
+    (window as any).smartedit = (window as any).smartedit || {};
+    (window as any).smartedit.renderComponent = (
+      componentId,
+      componentType,
+      parentId
+    ) => {
+      return this.renderComponent(componentId, componentType, parentId);
+    };
+
+    // reprocess page
+    (window as any).smartedit.reprocessPage = this.reprocessPage;
   }
 
   get cmsTicketId(): string {
@@ -55,5 +68,26 @@ export class SmartEditService {
         );
       }
     });
+  }
+
+  renderComponent(
+    componentId: string,
+    componentType?: string,
+    parentId?: string
+  ): boolean {
+    if (componentId) {
+      // without parentId, it is slot
+      if (!parentId) {
+        this.cmsService.refreshLatestPage();
+      } else if (componentType) {
+        this.cmsService.refreshComponent(componentId);
+      }
+    }
+
+    return true;
+  }
+
+  reprocessPage() {
+    // TODO: reprocess page API
   }
 }
