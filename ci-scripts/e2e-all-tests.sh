@@ -2,16 +2,15 @@
 set -e
 set -o pipefail
 
+TOKEN=$TRAVIS_TOKEN
+
 if [ ! -z $1 ]; then
     if [ $1 == '-h' ]; then
-        echo "Usage: $0 [travis_token]"
+        echo "Usage: $0 [travis_token. default:$TRAVIS_TOKEN]"
         exit 1
     else
         TOKEN=$1
     fi
-else
-    echo "No Travis token specified. Aborting"
-    exit 1
 fi
 
 echo "Triggering custom Spa build with token $TOKEN"
@@ -33,8 +32,6 @@ body='{
                     "name": "Unit tests/Sonar scan" },
                     { "script": "./ci-scripts/e2e-tests.sh all",
                     "name": "End to end tests" }
-                    
-                    
                 ]
             }
         }
