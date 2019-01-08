@@ -7,12 +7,14 @@ import { By } from '@angular/platform-browser';
 
 import { StoreFinderListComponent } from './store-finder-list.component';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { StoreDataService } from '../../../services';
-import { GoogleMapRendererService } from '../../../services/google-map-renderer.service';
 import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
 
-import * as fromReducers from '../../../store';
-import * as fromServices from '../../../services';
+import {
+  getStoreFinderReducers,
+  StoreDataService,
+  GoogleMapRendererService,
+  StoresState
+} from '@spartacus/core';
 
 const location = {};
 const stores = [location];
@@ -36,7 +38,7 @@ class GoogleMapRendererServiceMock {
 describe('StoreFinderDisplayListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
-  let store: Store<fromReducers.StoresState>;
+  let store: Store<StoresState>;
   let storeMapComponent: StoreFinderMapComponent;
   let storeDataService: StoreDataService;
   let googleMapRendererService: GoogleMapRendererService;
@@ -48,13 +50,12 @@ describe('StoreFinderDisplayListComponent', () => {
         HttpClientTestingModule,
         SpinnerModule,
         StoreModule.forRoot({
-          stores: combineReducers(fromReducers.reducers)
+          stores: combineReducers(getStoreFinderReducers)
         })
       ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderListComponent, StoreFinderMapComponent],
       providers: [
-        ...fromServices.services,
         {
           provide: GoogleMapRendererService,
           useClass: GoogleMapRendererServiceMock

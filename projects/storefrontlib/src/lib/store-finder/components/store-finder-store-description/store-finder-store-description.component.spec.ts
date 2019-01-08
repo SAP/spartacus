@@ -6,12 +6,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { StoreFinderService, StoreDataService } from '../../services';
-import { SpinnerComponent } from '../../../ui';
-import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
-import * as fromReducers from '../../store';
+import { SpinnerComponent } from '../../../ui';
+
 import { PipeTransform, Pipe } from '@angular/core';
+import {
+  getStoreFinderReducers,
+  GoogleMapRendererService,
+  StoreFinderService,
+  StoreDataService
+} from '@spartacus/core';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -40,6 +44,8 @@ class StoreDataServiceMock {
 
 class StoreFinderServiceMock {
   viewStoreById() {}
+  getFindStoresEntities() {}
+  getStoresLoading() {}
 }
 
 describe('StoreFinderStoreDescriptionComponent', () => {
@@ -65,7 +71,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
       imports: [
         RouterTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.reducers)
+        StoreModule.forFeature('stores', getStoreFinderReducers)
       ],
       declarations: [
         StoreFinderStoreDescriptionComponent,

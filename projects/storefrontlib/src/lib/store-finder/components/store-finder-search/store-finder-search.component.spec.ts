@@ -5,8 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
-import * as fromStore from '../../store';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, getStoreFinderReducers } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 
 const query = 'address';
@@ -37,7 +36,7 @@ describe('StoreFinderSearchComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromStore.reducers)
+        StoreModule.forFeature('stores', getStoreFinderReducers)
       ],
       declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [

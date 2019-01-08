@@ -4,20 +4,18 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
-import { StoreFinderService } from '../../services/store-finder.service';
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
-import * as fromReducers from '../../store';
+import {
+  getStoreFinderReducers,
+  StoreFinderService,
+  RoutingService
+} from '@spartacus/core';
 import { Pipe, PipeTransform, Component, Input } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { of, Observable } from 'rxjs';
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
-
-class StoreFinderServiceMock {
-  viewAllStoresForCountry(_countryIso: string) {}
-  viewAllStoresForRegion(_countryIso: string, _regionIso: string) {}
-}
 
 @Component({
   selector: 'cx-store-finder-list-item',
@@ -38,6 +36,13 @@ const mockActivatedRoute = {
   }
 };
 
+const mockStoreFinderService = {
+  viewAllStoresForCountry: jasmine.createSpy(),
+  viewAllStoresForRegion: jasmine.createSpy(),
+  getStoresLoading: jasmine.createSpy(),
+  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable))
+};
+
 @Pipe({
   name: 'cxTranslateUrl'
 })
@@ -56,7 +61,6 @@ describe('StoreFinderGridComponent', () => {
   it('should create with country routing parameter', () => {
     mockActivatedRoute.snapshot.params = { country: countryIsoCode };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForCountry');
 
     createComponent();
 
@@ -72,7 +76,6 @@ describe('StoreFinderGridComponent', () => {
       region: regionIsoCode
     };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForRegion');
 
     createComponent();
 
@@ -85,7 +88,6 @@ describe('StoreFinderGridComponent', () => {
       region: regionIsoCode
     };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForRegion');
     createComponent();
 
     component.viewStore(location);
@@ -114,7 +116,6 @@ describe('StoreFinderGridComponent', () => {
       country: countryIsoCode
     };
     configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForCountry');
     createComponent();
 
     component.viewStore(location);
@@ -137,7 +138,7 @@ describe('StoreFinderGridComponent', () => {
     const bed = TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.reducers),
+        StoreModule.forFeature('stores', getStoreFinderReducers),
         RouterTestingModule,
         SpinnerModule
       ],
@@ -147,7 +148,7 @@ describe('StoreFinderGridComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: StoreFinderService, useClass: StoreFinderServiceMock },
+        { provide: StoreFinderService, useValue: mockStoreFinderService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: RoutingService, useValue: mockRoutingService }
       ]
