@@ -70,7 +70,7 @@ export class SmartEditService {
     });
   }
 
-  renderComponent(
+  protected renderComponent(
     componentId: string,
     componentType?: string,
     parentId?: string
@@ -87,7 +87,7 @@ export class SmartEditService {
     return true;
   }
 
-  reprocessPage() {
+  protected reprocessPage() {
     // TODO: reprocess page API
   }
 }
