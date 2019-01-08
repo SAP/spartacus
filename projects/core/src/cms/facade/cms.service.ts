@@ -104,7 +104,7 @@ export class CmsService {
   }
 
   /**
-   * Refresh cms componnet's content
+   * Refresh cms component's content
    * @param uid : component uid
    */
   refreshComponent(uid: string) {
