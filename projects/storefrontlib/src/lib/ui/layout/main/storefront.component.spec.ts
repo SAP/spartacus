@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -9,22 +9,22 @@ import { StorefrontComponent } from './storefront.component';
   selector: 'cx-header',
   template: ''
 })
-class MockHeaderComponent {}
+class MockHeaderComponent { }
 
 @Component({
   selector: 'cx-global-message',
   template: ''
 })
-class MockGlobalMessagerComponent {}
+class MockGlobalMessagerComponent { }
 
 @Component({
   selector: 'cx-footer',
   template: ''
 })
-class MockFooterComponent {}
+class MockFooterComponent { }
 
 class MockConfigurableRoutesService {
-  changeLanguage() {}
+  changeLanguage() { }
 }
 
 describe('StorefrontComponent', () => {
@@ -40,6 +40,7 @@ describe('StorefrontComponent', () => {
         MockGlobalMessagerComponent,
         MockFooterComponent
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {
           provide: ConfigurableRoutesService,

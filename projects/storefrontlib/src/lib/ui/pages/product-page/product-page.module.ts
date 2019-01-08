@@ -13,7 +13,7 @@ const routes: ConfigurableRoutes = [
     path: null,
     canActivate: [ProductGuard, CmsPageGuards],
     component: ProductPageComponent,
-    data: { cxPath: 'product' }
+    data: { cxPath: 'product', breadcrumb: '/ Product' }
   },
   {
     path:

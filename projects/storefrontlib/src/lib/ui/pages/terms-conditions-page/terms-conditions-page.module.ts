@@ -10,7 +10,10 @@ const routes: Routes = [
   {
     path: 'terms-and-conditions',
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'termsAndConditions' },
+    data: {
+      pageLabel: 'termsAndConditions',
+      breadcrumb: '/ Terms And Conditions'
+    },
     component: TermsConditionsPageComponent
   }
 ];

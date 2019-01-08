@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'cart',
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'cartPage' },
+    data: { pageLabel: 'cartPage', breadcrumb: '/ Cart' },
     component: CartPageComponent
   }
 ];

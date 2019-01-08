@@ -17,43 +17,43 @@ const routes: Routes = [
   {
     path: 'store-finder',
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage' },
+    data: { pageLabel: 'storefinderPage', breadcrumb: '/ Store Finder' },
     component: StoreFinderPageComponent,
     children: [
       {
         path: 'find-stores',
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', breadcrumb: '/ Find Stores' },
         component: StoreFinderSearchResultComponent
       },
       {
         path: 'view-all-stores',
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', breadcrumb: '/ View All Stores' },
         component: StoreFinderStoresCountComponent
       },
       {
         path: 'country/:country/region/:region',
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', breadcrumb: '/ Country' },
         component: StoreFinderGridComponent
       },
       {
         path: 'country/:country',
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', breadcrumb: '/ Country' },
         component: StoreFinderGridComponent
       },
       {
         path: 'country/:country/region/:region/:store',
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', breadcrumb: '/ Country' },
         component: StoreFinderStoreDescriptionComponent
       },
       {
         path: 'country/:country/:store',
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', breadcrumb: '/ Country' },
         component: StoreFinderStoreDescriptionComponent
       }
     ]

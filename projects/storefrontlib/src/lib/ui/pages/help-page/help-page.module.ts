@@ -14,7 +14,7 @@ const routes: Routes = [
     // TODO:
     // When 'help page' is implemented in CMS backend,
     // then 'faq' pageLabel should be changed to adequate one
-    data: { pageLabel: 'faq' },
+    data: { pageLabel: 'faq', breadcrumb: '/ Help' },
 
     component: HelpPageComponent
   }

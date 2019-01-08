@@ -14,6 +14,7 @@ import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
 import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 import { PwaModule } from './../../../pwa/pwa.module';
+import { BreadcrumbModule } from '../../../cms-lib';
 @NgModule({
   imports: [
     CommonModule,
@@ -25,7 +26,8 @@ import { PwaModule } from './../../../pwa/pwa.module';
     HeaderModule,
     UiFrameworkModule,
     OutletRefModule,
-    PwaModule
+    PwaModule,
+    BreadcrumbModule
   ],
   declarations: [StorefrontComponent, FooterComponent],
   exports: [StorefrontComponent]

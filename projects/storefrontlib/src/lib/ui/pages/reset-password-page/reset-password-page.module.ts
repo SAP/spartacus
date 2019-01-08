@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'reset-password',
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'login' },
+    data: { pageLabel: 'login', breadcrumb: '/ Reset Password' },
     component: ResetPasswordPageComponent
   }
 ];

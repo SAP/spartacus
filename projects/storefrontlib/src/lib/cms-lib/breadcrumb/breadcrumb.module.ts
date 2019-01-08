@@ -18,5 +18,6 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
   declarations: [BreadcrumbComponent],
   entryComponents: [BreadcrumbComponent],
   exports: [BreadcrumbComponent]
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BreadcrumbModule {}

@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'register',
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'login' },
+    data: { pageLabel: 'login', breadcrumb: '/ Register' },
     component: RegisterPageComponent
   }
 ];

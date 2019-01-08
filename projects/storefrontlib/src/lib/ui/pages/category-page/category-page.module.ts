@@ -41,12 +41,14 @@ const routes: Routes = [
   {
     path: 'category/:categoryCode/:title',
     canActivate: [CmsPageGuards],
-    component: CategoryPageComponent
+    component: CategoryPageComponent,
+    data: { breadcrumb: '/ Categories' }
   },
   {
     path: 'Brands/:brandName/c/:brandCode',
     canActivate: [CmsPageGuards],
-    component: CategoryPageComponent
+    component: CategoryPageComponent,
+    data: { breadcrumb: '/ Brands' }
   }
 ];
 

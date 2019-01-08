@@ -12,7 +12,10 @@ const routes: Routes = [
   {
     path: 'checkout',
     canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
-    data: { pageLabel: 'multiStepCheckoutSummaryPage' },
+    data: {
+      pageLabel: 'multiStepCheckoutSummaryPage',
+      breadcrumb: '/ Checkout'
+    },
     component: MultiStepCheckoutPageComponent
   }
 ];

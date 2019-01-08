@@ -12,7 +12,7 @@ const routes: Routes = [
     path: 'my-account/orders',
     canActivate: [AuthGuard, CmsPageGuards],
     component: OrderHistoryPageComponent,
-    data: { pageLabel: 'orders' }
+    data: { pageLabel: 'orders', breadcrumb: '/ My-Account / Orders' }
   }
 ];
 

@@ -12,7 +12,10 @@ const routes: Routes = [
   {
     path: 'orderConfirmation',
     canActivate: [AuthGuard, CmsPageGuards, OrderConfirmationPageGuard],
-    data: { pageLabel: 'orderConfirmationPage' },
+    data: {
+      pageLabel: 'orderConfirmationPage',
+      breadcrumb: '/ Order Confirmation'
+    },
     component: OrderConfirmationPageComponent
   }
 ];

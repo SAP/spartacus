@@ -9,7 +9,7 @@ const routes: Routes = [
   {
     path: 'reset-new-password/:token',
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'homepage' },
+    data: { pageLabel: 'homepage', breadcrumb: '/ Reset Password' },
     component: ResetNewPasswordComponent
   }
 ];

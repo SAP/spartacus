@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'my-account/payment-details',
     canActivate: [AuthGuard, CmsPageGuards],
-    data: { pageLabel: 'payment-details' },
+    data: { pageLabel: 'payment-details', breadcrumb: '/ Payment Details' },
     component: PaymentDetailsPageComponent
   }
 ];
