@@ -4,6 +4,10 @@ export interface StateWithGlobalMessage {
   [GLOBAL_MESSAGE_FEATURE]: GlobalMessageState;
 }
 
+export interface GlobalMessageEntities {
+  [messageType: string]: string[];
+}
+
 export interface GlobalMessageState {
-  entities: { [productCode: string]: any };
+  entities: GlobalMessageEntities;
 }
