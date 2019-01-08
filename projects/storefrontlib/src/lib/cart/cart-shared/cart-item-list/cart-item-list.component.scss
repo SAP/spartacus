@@ -1,89 +1,60 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-//cx-cart-item-list color variables
-$cx-cart-item-list-header-color: 'secondary' !default;
-$cx-cart-item-list-header-border-color: 'light' !default;
-$cx-cart-item-list-row-border-color: 'light' !default;
-
-//cx-cart-item-list variables
-$cx-cart-item-list-header-margin: 0 !default;
-$cx-cart-item-list-header-padding: 1.125rem 0 !default;
-$cx-cart-item-list-header-border-bottom: 1px solid !default;
-$cx-cart-item-list-header-desc-padding-left: 0 !default;
-$cx-cart-item-list-header-desc-padding-right: 0 !default;
-$cx-cart-item-list-header-price-padding-left: 0 !default;
-$cx-cart-item-list-header-total-padding-right: 0 !default;
-$cx-cart-item-list-header-padding-md: 1.125rem 2.5rem !default;
-
-$cx-cart-item-list-row-padding: 1.25rem 0 !default;
-$cx-cart-item-list-row-border-bottom: 1px solid !default;
-
-$cx-cart-item-list-item-padding-md: 0 2.5rem !default;
-$cx-cart-item-list-item-padding-sm: 0 0 0 1rem !default;
 
 .cx-cart-item-list {
   &__header {
     @include type('8');
-    margin: $cx-cart-item-list-header-margin;
-    padding: $cx-cart-item-list-header-padding;
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    @include var-color('color', $cx-cart-item-list-header-color);
-
-    border-bottom: $cx-cart-item-list-header-border-bottom;
-    @include var-color(
-      'border-bottom-color',
-      $cx-cart-item-list-header-border-color
-    );
+    margin: var(--cx-margin, 0);
+    padding: var(--cx-padding, 1.125rem 0);
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, center);
+    text-transform: var(--cx-text-transform, uppercase);
+    color: var(--cx-color, var(--cx-g-color-secondary));
+    border-width: var(--cx-border-width, 0 0 1px 0);
+    border-style: var(--cx-border-style, solid);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
 
     &--desc {
-      text-align: left;
-      padding-left: $cx-cart-item-list-header-desc-padding-left;
-      padding-right: $cx-cart-item-list-header-desc-padding-right;
+      text-align: var(--cx-text-align, left);
+      padding: var(--cx-padding, 0);
     }
 
     &--price,
     &--qty {
-      text-align: center;
+      text-align: var(--cx-text-align, center);
 
       @include media-breakpoint-down(md) {
-        text-align: left;
+        text-align: var(--cx-text-align, left);
       }
     }
 
     &--total {
-      text-align: right;
-      padding-right: $cx-cart-item-list-header-total-padding-right;
+      text-align: var(--cx-text-align, right);
+      padding: var(--cx-padding, 0);
     }
   }
 
   &__row {
-    padding: $cx-cart-item-list-row-padding;
-    border-bottom: $cx-cart-item-list-row-border-bottom;
-    @include var-color(
-      'border-bottom-color',
-      $cx-cart-item-list-row-border-color
-    );
+    padding: var(--cx-padding, 1.25rem 0);
+    border-width: var(--cx-border-width, 0 0 1px 0);
+    border-style: var(--cx-border-style, solid);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
   }
 
   // ------------------------------------ MEDIA QUERIES ------------------------------------
 
   @include media-breakpoint-down(md) {
     .cx-cart-item-list__header {
-      padding: $cx-cart-item-list-header-padding-md;
+      padding: var(--cx-padding, 1.125rem 2.5rem);
     }
 
     .cx-cart-item-list__item {
-      padding: $cx-cart-item-list-item-padding-md;
+      padding: var(--cx-padding, 0 2.5rem);
     }
   }
 
   @include media-breakpoint-down(sm) {
     .cx-cart-item-list__item {
-      padding: $cx-cart-item-list-item-padding-sm;
+      padding: var(--cx-padding, 0 0 0 1rem);
     }
   }
 }
