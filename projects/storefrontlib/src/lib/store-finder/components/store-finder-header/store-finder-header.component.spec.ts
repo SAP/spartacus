@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
-import { WindowRef } from '../../services/window-ref';
+import { WindowRef } from '@spartacus/core';
 import { Component } from '@angular/core';
 
 @Component({

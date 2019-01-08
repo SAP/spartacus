@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import { StoreFinderService } from '../../services/store-finder.service';
+import { StoreFinderService } from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
-
-import * as fromStore from '../../store';
-
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
@@ -18,7 +14,6 @@ export class StoreFinderGridComponent implements OnInit {
   isLoading$: Observable<any>;
 
   constructor(
-    private store: Store<fromStore.StoresState>,
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
     private routingService: RoutingService
@@ -26,7 +21,7 @@ export class StoreFinderGridComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.params.country) {
-      this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+      this.isLoading$ = this.storeFinderService.getStoresLoading();
       if (this.route.snapshot.params.region) {
         this.storeFinderService.viewAllStoresForRegion(
           this.route.snapshot.params.country,
@@ -39,17 +34,12 @@ export class StoreFinderGridComponent implements OnInit {
       }
     }
 
-    this.store
-      .pipe(select(fromStore.getFindStoresEntities))
-      .subscribe(locations => {
-        if (
-          locations.pointOfServices &&
-          locations.pointOfServices.length === 1
-        ) {
-          this.viewStore(locations.pointOfServices[0]);
-        }
-        this.locations = locations;
-      });
+    this.storeFinderService.getFindStoresEntities().subscribe(locations => {
+      if (locations.pointOfServices && locations.pointOfServices.length === 1) {
+        this.viewStore(locations.pointOfServices[0]);
+      }
+      this.locations = locations;
+    });
   }
 
   viewStore(location: any): void {

@@ -15,3 +15,4 @@ export * from './src/auth/index';
 export * from './src/global-message/index';
 export * from './src/cms/index';
 export * from './src/smart-edit/index';
+export * from './src/store-finder/index';
