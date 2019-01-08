@@ -15,8 +15,8 @@
   justify-content: flex-start;
 
   cx-picture {
-    width: var(--cx-width, 6vmax);
-    height: var(--cx-width, 6vmax);
+    width: var(--cx-width, 75px);
+    height: var(--cx-width, 75px);
     transition: all var(--cx-g-transition-duration);
 
     &:not(.active) {
