@@ -21,7 +21,22 @@ body='{
         "message": "Override the commit message: this is an api request",
         "branch":"develop",
         "config": {
-            "script": "./ci-scripts/e2e-tests.sh all"
+            "jobs": {
+                "include": [{
+                        "stage": "Validation",
+                        "script": "./ci-scripts/validate.sh",
+                    "name": "Validation" },
+                    { "script": "./ci-scripts/lint.sh",
+                    "name": "Lint" },
+                    { "stage": "Unit tests",
+                        "script": "./ci-scripts/unit-tests-sonar.sh",
+                    "name": "Unit tests/Sonar scan" },
+                    { "script": "./ci-scripts/e2e-tests.sh all",
+                    "name": "End to end tests" }
+                    
+                    
+                ]
+            }
         }
     }
 }'
