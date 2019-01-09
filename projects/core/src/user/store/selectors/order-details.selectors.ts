@@ -1,6 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromOrderDetailsReducer from '../reducers/order-details.reducer';
 import { OrderDetailsState, UserState, StateWithUser } from '../user-state';
 import { Order } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
@@ -18,5 +17,5 @@ export const getOrderDetails: MemoizedSelector<
   Order
 > = createSelector(
   getOrderState,
-  fromOrderDetailsReducer.getOrderDetails
+  (state: OrderDetailsState) => state.order
 );

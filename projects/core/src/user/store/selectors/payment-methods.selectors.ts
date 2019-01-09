@@ -1,6 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromUserPaymentMethodsReducer from '../reducers/payment-methods.reducer';
 import {
   UserPaymentMethodsState,
   UserState,
@@ -22,7 +21,7 @@ export const getPaymentMethods: MemoizedSelector<
   PaymentDetails[]
 > = createSelector(
   getPaymentMethodsState,
-  fromUserPaymentMethodsReducer.getPaymentMethods
+  (state: UserPaymentMethodsState) => state.list
 );
 
 export const getPaymentMethodsLoading: MemoizedSelector<
@@ -30,5 +29,5 @@ export const getPaymentMethodsLoading: MemoizedSelector<
   boolean
 > = createSelector(
   getPaymentMethodsState,
-  fromUserPaymentMethodsReducer.getLoading
+  (state: UserPaymentMethodsState) => state.isLoading
 );

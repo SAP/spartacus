@@ -1,6 +1,5 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
-import * as fromReducer from './../reducers/titles.reducer';
 import { UserState, TitlesState, StateWithUser } from '../user-state';
 import { Title } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
@@ -15,10 +14,10 @@ export const getTitlesState: MemoizedSelector<
 
 export const getTitlesEntites: MemoizedSelector<
   StateWithUser,
-  { [code: string]: any }
+  Title
 > = createSelector(
   getTitlesState,
-  fromReducer.getTitlesEntites
+  (state: TitlesState) => state.entities
 );
 
 export const getAllTitles: MemoizedSelector<

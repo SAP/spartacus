@@ -1,5 +1,4 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromReducer from './../reducers/delivery-countries.reducer';
 import {
   UserState,
   DeliveryCountriesState,
@@ -18,10 +17,10 @@ export const getDeliveryCountriesState: MemoizedSelector<
 
 export const getDeliveryCountriesEntites: MemoizedSelector<
   StateWithUser,
-  { [isocode: string]: any }
+  Country
 > = createSelector(
   getDeliveryCountriesState,
-  fromReducer.getDeliveryCountriesEntites
+  (state: DeliveryCountriesState) => state.entities
 );
 
 export const getAllDeliveryCountries: MemoizedSelector<

@@ -1,6 +1,5 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
-import * as fromReducer from '../reducers/regions.reducer';
 import { UserState, RegionsState, StateWithUser } from '../user-state';
 import { Region } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
@@ -18,5 +17,5 @@ export const getAllRegions: MemoizedSelector<
   Region[]
 > = createSelector(
   getRegionsState,
-  fromReducer.getRegionsEntities
+  (state: RegionsState) => state.entities
 );
