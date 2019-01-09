@@ -8,6 +8,8 @@ class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of();
   }
+  refreshLatestPage() {}
+  refreshComponent() {}
 }
 class MockRoutingService {
   getRouterState(): Observable<any> {
@@ -113,6 +115,21 @@ describe('SmartEditService', () => {
           'smartedit-catalog-version-uuid-testPageCatalogUuid'
         )
       ).toBeTruthy();
+    });
+  });
+
+  describe('should render cms components', () => {
+    it('should render a slot', () => {
+      spyOn(cmsService, 'refreshLatestPage').and.stub();
+      service['renderComponent']('test-slot');
+      expect(cmsService.refreshLatestPage).toHaveBeenCalled();
+    });
+    it('should render a component', () => {
+      spyOn(cmsService, 'refreshComponent').and.stub();
+      service['renderComponent']('test-component', 'banner', 'test-slot');
+      expect(cmsService.refreshComponent).toHaveBeenCalledWith(
+        'test-component'
+      );
     });
   });
 });

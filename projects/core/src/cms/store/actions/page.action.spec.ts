@@ -70,4 +70,15 @@ describe('Cms Page Actions', () => {
       });
     });
   });
+
+  describe('RefreshLatestPage Action', () => {
+    describe('Refresh Latest Page', () => {
+      it('should create an action', () => {
+        const action = new fromPage.RefreshLatestPage();
+        expect({ ...action }).toEqual({
+          type: fromPage.REFRESH_LATEST_PAGE
+        });
+      });
+    });
+  });
 });
