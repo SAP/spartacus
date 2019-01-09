@@ -55,10 +55,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.step = 1;
     this.done = false;
-    console.log('CHECKOUT EXPORTED NAV BAR');
     this.navs = this.initializeCheckoutNavBar();
-    console.log('INIT');
-    console.log(this.navs);
     if (!this.cartDataService.getDetails) {
       this.cartService.loadDetails();
     }
