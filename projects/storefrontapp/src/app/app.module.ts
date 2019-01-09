@@ -12,7 +12,7 @@ if (!environment.production) {
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     StorefrontModule.withConfig({
       production: environment.production,
       server: {
