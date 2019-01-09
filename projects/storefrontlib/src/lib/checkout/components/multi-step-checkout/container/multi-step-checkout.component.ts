@@ -17,7 +17,7 @@ import {
   CartDataService
 } from '@spartacus/core';
 
-import { checkoutNavBar } from './checkout-navigation-bar';
+import { CheckoutNavBarItem } from './checkout-navigation-bar';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -26,8 +26,8 @@ import { checkoutNavBar } from './checkout-navigation-bar';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
-  step = 1;
-  done = false;
+  step: number;
+  done: boolean;
 
   deliveryAddress: CheckoutAddress;
   paymentDetails: any;
@@ -37,7 +37,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   cart$: Observable<any>;
   tAndCToggler = false;
 
-  navs = checkoutNavBar;
+  navs: CheckoutNavBarItem[];
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -53,6 +53,12 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.step = 1;
+    this.done = false;
+    console.log('CHECKOUT EXPORTED NAV BAR');
+    this.navs = this.initializeCheckoutNavBar();
+    console.log('INIT');
+    console.log(this.navs);
     if (!this.cartDataService.getDetails) {
       this.cartService.loadDetails();
     }
@@ -209,10 +215,60 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = !this.tAndCToggler;
   }
 
+  initializeCheckoutNavBar(): CheckoutNavBarItem[] {
+    return [
+      {
+        id: 1,
+        label: '1. Shipping Address',
+        status: {
+          disabled: false,
+          completed: false,
+          active: true
+        },
+        progressBar: true
+      },
+      {
+        id: 2,
+        label: '2. Shipping Method',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 3,
+        label: '3. Payment',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 4,
+        label: '4. Review',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      }
+    ];
+  }
+
+  clearCheckoutNavBar() {
+    this.navs = [];
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     if (!this.done) {
       this.checkoutService.clearCheckoutData();
     }
+    this.clearCheckoutNavBar();
   }
 }
