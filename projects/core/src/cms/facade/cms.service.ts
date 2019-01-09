@@ -97,6 +97,21 @@ export class CmsService {
   }
 
   /**
+   * Refresh the content of the latest cms page
+   */
+  refreshLatestPage() {
+    this.store.dispatch(new fromStore.RefreshLatestPage());
+  }
+
+  /**
+   * Refresh cms component's content
+   * @param uid : component uid
+   */
+  refreshComponent(uid: string) {
+    this.store.dispatch(new fromStore.RefreshComponent(uid));
+  }
+
+  /**
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */
