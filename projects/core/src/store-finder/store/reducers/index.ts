@@ -7,8 +7,9 @@ import {
 
 import * as fromFindStores from './find-stores.reducer';
 import * as fromViewAllStores from './view-all-stores.reducer';
-import { StoresState, STORE_FINDER_FEATURE } from '../store-finder-state';
+
 import { InjectionToken, Provider } from '@angular/core';
+import { StoresState } from '../store-finder-state';
 
 export function getStoreFinderReducers(): ActionReducerMap<StoresState> {
   return {
@@ -29,6 +30,6 @@ export const storeFinderReducerProvider: Provider = {
 export const getStoreFinderState: MemoizedSelector<
   any,
   StoresState
-> = createFeatureSelector<StoresState>(STORE_FINDER_FEATURE);
+> = createFeatureSelector<StoresState>('stores');
 
 export const storeFinderMetaReducers: MetaReducer<any>[] = [];
