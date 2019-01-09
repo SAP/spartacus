@@ -7,7 +7,7 @@ describe('Product details', () => {
   const PRODUCT_NAME = 'Battery Video Light';
   let productDetailsPage: ProductDetailsPage;
   let header: Header;
-  beforeEach(async () => {
+  beforeAll(async () => {
     productDetailsPage = new ProductDetailsPage();
     header = new Header();
     await productDetailsPage.navigateTo('266685');
@@ -71,15 +71,12 @@ describe('Product details', () => {
 
     expect(await productDetailsPage.reviews.count()).toBe(5);
     expect(await productDetailsPage.writeReviewBtn).toBeTruthy();
-    await productDetailsPage.writeReviewBtn.click();
-    expect(await productDetailsPage.writeReviewForm).toBeTruthy();
     expect(await productDetailsPage.rating).toBeTruthy();
   });
 
   it('should contain correct review form', async () => {
-    await productDetailsPage.tabs.get(2).click();
-
     await productDetailsPage.writeReviewBtn.click();
+    expect(await productDetailsPage.writeReviewForm).toBeTruthy();
     expect(
       await productDetailsPage.reviewSubmitBtn.getAttribute('disabled')
     ).toBeTruthy();
