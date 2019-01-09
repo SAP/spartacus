@@ -34,7 +34,7 @@ export class ProductDetailsComponent implements OnChanges {
 
   @ViewChild('descriptionHeader')
   set initial(ref: ElementRef) {
-    if (ref && ref.nativeElement) {
+    if (ref) {
       ref.nativeElement.click();
     }
   }
