@@ -1,11 +1,4 @@
-@import 'theme';
-@import 'functions';
-@import 'mixins';
-
-$cx-footer-background-color: 'dark' !default;
-$cx-footer-color: 'inverse' !default;
-
-.cx-footer {
-  @include var-color('background-color', $cx-footer-background-color);
-  @include var-color('color', $cx-footer-color);
+footer {
+  background-color: var(--cx-background-color, var(--cx-g-color-dark));
+  color: var(--cx-color, var(--cx-g-color-inverse));
 }

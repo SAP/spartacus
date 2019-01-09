@@ -4,7 +4,6 @@ import { StoreModule } from '@ngrx/store';
 
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import { WindowRef } from '../../services/window-ref';
 import { StoreFinderService } from '../../services';
 
 import * as fromReducers from '../../store';
@@ -30,7 +29,7 @@ describe('StoreFinderStoresCountComponent', () => {
         RouterTestingModule
       ],
       declarations: [StoreFinderStoresCountComponent, MockTranslateUrlPipe],
-      providers: [StoreFinderService, WindowRef]
+      providers: [StoreFinderService]
     }).compileComponents();
   }));
 
