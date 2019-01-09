@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from './../actions/cart.action';
-import { CartDataService } from '../../facade/cart-data.service';
+import { ANONYMOUS_USERID, CartDataService } from '../../facade/cart-data.service';
 import { OccCartService } from '../../../occ/cart/cart.service';
 
 @Injectable()
@@ -19,6 +19,8 @@ export class CartEffects {
     ofType(fromActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
     map((action: any) => action.payload),
     mergeMap(payload => {
+      const sessionCart = JSON.parse(sessionStorage.getItem('cartPayload'));
+
       if (payload === undefined || payload.userId === undefined) {
         payload = {
           userId: this.cartData.userId,
@@ -27,9 +29,14 @@ export class CartEffects {
         };
       }
 
-      if (this.isMissingData(payload)) {
+      if (this.isMissingData(payload) && !sessionCart) {
         return of(new fromActions.LoadCartFail({}));
       }
+
+      payload = {
+        ...payload,
+        ...sessionCart
+      };
 
       return this.occCartService
         .loadCart(payload.userId, payload.cartId, payload.details)
@@ -56,11 +63,19 @@ export class CartEffects {
         .createCart(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
           switchMap((cart: any) => {
+            if (cart) {
+              sessionStorage.setItem('cartPayload', JSON.stringify({
+                userId: payload.userId,
+                cartId: payload.userId === ANONYMOUS_USERID ? cart.guid : cart.code
+              }));
+            }
+
             if (cart.entries) {
               for (const entry of cart.entries) {
                 this.productImageConverter.convertProduct(entry.product);
               }
             }
+
             if (payload.toMergeCartGuid) {
               return [
                 new fromActions.CreateCartSuccess(cart),

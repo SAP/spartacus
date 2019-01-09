@@ -61,8 +61,7 @@ describe('Added to cart modal', () => {
     expect(await addedToCartModal.totalCount.getText()).toContain('5 items');
   });
 
-  // TODO enable this test after fixing cart resetting on each full page load
-  xit('adding different products to cart', async () => {
+  it('adding different products to cart', async () => {
     // add 2 items to cart
     await productDetails.navigateTo(productId);
     await productDetails.itemCounterUpButton.click();
