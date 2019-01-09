@@ -1,0 +1,21 @@
+/**
+  * We use the hamburgers from https://github.com/jonsuh/hamburgers
+  * In order to allow for custom hamburgers, we use the `cx-hamburger`
+  * selector. This selector extends the hamburger selectors provided 
+  * by the lib. In order to easily switch the hamburger type, we introduce the 
+  * `$hamburger-type`, that can be set to the types provided by the library. 
+  */
+$hamburger-type: squeeze !default;
+
+$hamburger-types: ($hamburger-type);
+
+$hamburger-layer-color: theme-color('inverse') !default;
+$hamburger-layer-width: 26px !default;
+$hamburger-layer-height: 3px !default;
+$hamburger-layer-spacing: 4px !default;
+$hamburger-layer-border-radius: 0 !default;
+@import '~hamburgers/_sass/hamburgers/hamburgers';
+
+.cx-hamburger {
+  @extend .hamburger, .hamburger--#{$hamburger-type} !optional;
+}
