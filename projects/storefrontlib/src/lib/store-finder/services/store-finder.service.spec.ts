@@ -4,8 +4,8 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
-import { WindowRef } from './window-ref';
 import { LongitudeLatitude } from '../models/longitude-latitude';
+import { WindowRef } from '@spartacus/core';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -23,7 +23,7 @@ describe('StoreFinderService', () => {
     latitude: 20.2
   };
 
-  const MockWindowRef: WindowRef = {
+  const MockWindowRef = {
     nativeWindow: {
       navigator: {
         geolocation: {

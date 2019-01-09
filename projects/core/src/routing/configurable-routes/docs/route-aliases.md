@@ -11,7 +11,7 @@ ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
-                product: 
+                product: {
                     paths: [
                         ':campaignName/product/:productCode',
                         'product/:productCode'
@@ -32,7 +32,7 @@ ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
-                product: 
+                product: {
                     paths: [
                         ':campaignName/product/:productCode',
                         'product/:productCode'
@@ -40,7 +40,7 @@ ConfigModule.withConfig({
                 }
             },
             en: {
-                product: 
+                product: {
                     paths: [
                         ':campaignName/p/:productCode', /* this will be used when `campaignName` param is given */
                         'p/:productCode' /* this will be used otherwise */
@@ -114,7 +114,7 @@ ConfigModule.withConfig({
     routesConfig: {
         translations: {
             default: {
-                product: 
+                product: {
                     paths: [
                         ':campaignName/product/:productCode',
                         'product/:productCode'
@@ -122,7 +122,7 @@ ConfigModule.withConfig({
                 }
             },
             en: {
-                product: 
+                product: {
                     paths: [
                         /* WRONG: */
 
