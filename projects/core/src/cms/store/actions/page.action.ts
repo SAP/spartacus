@@ -5,6 +5,7 @@ import { PageContext } from '../../../routing/index';
 export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
 export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
+export const REFRESH_LATEST_PAGE = '[Cms] Refresh latest page';
 export const UPDATE_LATEST_PAGE_KEY = '[Cms] Update latest page key';
 export const CLEAN_PAGE_STATE = '[Cms] Clean Page State;';
 
@@ -23,6 +24,10 @@ export class LoadPageDataSuccess implements Action {
   constructor(public payload: { key: string; value: Page }) {}
 }
 
+export class RefreshLatestPage implements Action {
+  readonly type = REFRESH_LATEST_PAGE;
+}
+
 export class UpdateLatestPageKey implements Action {
   readonly type = UPDATE_LATEST_PAGE_KEY;
   constructor(public payload: string) {}
@@ -38,5 +43,6 @@ export type PageAction =
   | LoadPageData
   | LoadPageDataFail
   | LoadPageDataSuccess
+  | RefreshLatestPage
   | UpdateLatestPageKey
   | CleanPageState;
