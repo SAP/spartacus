@@ -75,7 +75,6 @@ export function reducer(
     }
 
     case fromAction.REMOVE_ENTRY:
-    case fromAction.UPDATE_ENTRY:
     case fromAction.ADD_ENTRY:
     case fromAction.LOAD_CART:
     case fromAction.CREATE_CART:

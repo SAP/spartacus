@@ -1,13 +1,10 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   OnInit,
-  Output,
-  Renderer2,
-  ViewChild
+  Output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -25,9 +22,6 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
-  @ViewChild('input')
-  private input: ElementRef;
-
   value = 0;
   @Input()
   step = 1;
@@ -51,7 +45,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.writeValue(this.min || 0);
   }
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   onTouch = () => {};
   onModelChange = (_rating: number) => {};
@@ -64,17 +58,14 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         ? this.min
         : incomingValue;
 
-    if (!this.async) {
-      this.writeValue(newValue);
-    }
-
+    this.updateValue(newValue);
     this.update.emit(newValue);
     /* We use the value from the input, however, this value
       is not the correct value that should be displayed. The correct value to display
       is this.value, which the parent updates if the async call succeed. If the call
       fails, then the input will need to display this.value, and not what the user
       recently typed in */
-    this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
+    // this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
   }
 
   hasError(): boolean {
@@ -92,13 +83,13 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       event.preventDefault();
       event.stopPropagation();
     }
-    this.onTouch();
   }
 
   onInput(event): void {
     const { value } = event.target;
     if (value) {
-      this.value = Number(value);
+      console.log(value, this.value);
+      this.manualChange(Number(value));
     }
   }
 
@@ -123,15 +114,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         : this.value < this.max || !this.max
         ? this.value + this.step
         : 1;
-    if (this.value < this.max || !this.max) {
-      if (!this.async) {
-        // If the async flag is true, then the parent component is responsible for updating the form
-        this.writeValue(updatedQuantity);
-      }
-      // Additionally, we emit a change event, so that users may optionally do something on change
-      this.update.emit(updatedQuantity);
-    }
-    this.onTouch();
+    this.updateValue(updatedQuantity);
   }
 
   decrement(): void {
@@ -141,13 +124,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         : this.value > this.min || !this.min
         ? this.value - this.step
         : 1;
-    if (!this.async) {
-      // If the async flag is true, then the parent component is responsible for updating the form
-      this.writeValue(updatedQuantity);
-    }
-    // Additionally, we emit a change event, so that users may optionally do something on change
-    this.update.emit(updatedQuantity);
-    this.onTouch();
+    this.updateValue(updatedQuantity);
   }
 
   // ControlValueAccessor interface
@@ -163,5 +140,15 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   writeValue(value: number): void {
     this.value = value || this.min || 0;
     this.onModelChange(this.value);
+  }
+
+  updateValue(updatedQuantity) {
+    if (!this.async) {
+      // If the async flag is true, then the parent component is responsible for updating the form
+      this.writeValue(updatedQuantity);
+    }
+    // Additionally, we emit a change event, so that users may optionally do something on change
+    this.update.emit(updatedQuantity);
+    this.onTouch();
   }
 }
