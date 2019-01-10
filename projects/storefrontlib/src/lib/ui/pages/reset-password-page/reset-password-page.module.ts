@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { ResetPasswordPageComponent } from './reset-password-page.component';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
@@ -9,10 +9,14 @@ import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: 'reset-password',
+    path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'login', breadcrumb: '/ Reset Password' },
-    component: ResetPasswordPageComponent
+    component: ResetPasswordPageComponent,
+    data: {
+      pageLabel: 'login',
+      cxPath: 'forgotPassword',
+      breadcrumb: '/ Reset Password'
+    }
   }
 ];
 

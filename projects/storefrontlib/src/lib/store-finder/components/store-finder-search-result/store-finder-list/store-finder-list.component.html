@@ -5,7 +5,7 @@
         <ol class="cx-store-finder-list__list">
           <li
             *ngFor="let location of locations?.stores; let i = index"
-            id="{{'item-' + i}}"
+            id="{{ 'item-' + i }}"
             [ngClass]="{
               'cx-store-finder-list__selected-store-item': selectedStore === i
             }"
@@ -46,7 +46,7 @@
               <ol class="cx-store-finder-list__list">
                 <li
                   *ngFor="let location of locations?.stores; let i = index"
-                  id="{{'item-' + i}}"
+                  id="{{ 'item-' + i }}"
                   [ngClass]="{
                     'cx-store-finder-list__selected-store-item':
                       selectedStore === i

@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BreadcrumbComponent } from './breadcrumb.component';
 import { ConfigModule } from '@spartacus/core';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
+import { CmsConfig } from '@spartacus/core';
+import { CMSComponentDataImpl } from '../../cms/components/cms-component-data-impl';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    ConfigModule.withConfig(<CmsModuleConfig>{
+    ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         BreadcrumbComponent: { selector: 'cx-breadcrumb' }
       }
@@ -17,7 +18,8 @@ import { CmsModuleConfig } from '../../cms/cms-module-config';
   ],
   declarations: [BreadcrumbComponent],
   entryComponents: [BreadcrumbComponent],
-  exports: [BreadcrumbComponent]
-  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  providers: [CMSComponentDataImpl],
+  exports: [BreadcrumbComponent],
+
 })
-export class BreadcrumbModule {}
+export class BreadcrumbModule { }

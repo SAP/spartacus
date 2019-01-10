@@ -3,7 +3,7 @@
     <li
       *ngFor="let location of locations?.pointOfServices; let i = index"
       (click)="viewStore(location)"
-      id="{{'item-' + i}}"
+      id="{{ 'item-' + i }}"
     >
       <cx-store-finder-list-item
         [location]="location"

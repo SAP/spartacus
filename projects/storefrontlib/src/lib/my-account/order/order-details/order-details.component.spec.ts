@@ -1,24 +1,22 @@
 import { Component, Input, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import {
+  RoutingService,
+  Cart,
+  PromotionResult,
+  AuthService,
+  UserToken,
+  Order,
+  UserService
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import createSpy = jasmine.createSpy;
-
 import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { UserService } from '../../../user/facade/user.service';
 import { CardModule } from '../../../ui/components/card/card.module';
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ userId: 'test' } as UserToken);
-  }
-}
-
-const mockOrder = {
+const mockOrder: Order = {
   code: '1',
   statusDisplay: 'Shipped',
   deliveryAddress: {
@@ -60,13 +58,27 @@ const mockOrder = {
   }
 };
 
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
+
+class MockUserService {
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+  loadOrderDetails(_userId: string, _orderCode: string): void {}
+  clearOrderDetails(): void {}
+}
+
 @Component({
   selector: 'cx-order-summary',
   template: ''
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Component({
@@ -81,7 +93,7 @@ class MockCartItemListComponent {
   @Input()
   items = [];
   @Input()
-  potentialProductPromotions: any[] = [];
+  potentialProductPromotions: PromotionResult[] = [];
   @Input()
   cartIsLoading = false;
 }
@@ -89,31 +101,28 @@ class MockCartItemListComponent {
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
   let fixture: ComponentFixture<OrderDetailsComponent>;
-  let mockRoutingService: any;
-  let mockUserService: any;
+  let userService: UserService;
+  let mockRoutingService: RoutingService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = {
-      routerState$: of({
-        state: {
-          params: {
-            orderCode: '1'
+    mockRoutingService = <RoutingService>{
+      getRouterState() {
+        return of({
+          state: {
+            params: {
+              orderCode: '1'
+            }
           }
-        }
-      })
-    };
-    mockUserService = {
-      orderDetails$: of(mockOrder),
-      loadOrderDetails: createSpy(),
-      clearOrderDetails: createSpy()
+        });
+      }
     };
 
     TestBed.configureTestingModule({
       imports: [CardModule],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
+        { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService }
       ],
       declarations: [
@@ -127,6 +136,7 @@ describe('OrderDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailsComponent);
     el = fixture.debugElement;
+    userService = TestBed.get(UserService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -137,13 +147,17 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should initialize ', () => {
+    spyOn(userService, 'loadOrderDetails').and.stub();
+
     fixture.detectChanges();
-    let order;
-    component.order$.subscribe(value => {
-      order = value;
-    });
+    let order: Order;
+    component.order$
+      .subscribe(value => {
+        order = value;
+      })
+      .unsubscribe();
     expect(order).toEqual(mockOrder);
-    expect(mockUserService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
+    expect(userService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
   });
 
   it('should order details info bar be not null', () => {
@@ -153,7 +167,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display correct order ID', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__detail:first-of-type .cx-order-details__value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.code);
@@ -161,7 +175,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display correct order status', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__detail:last-of-type .cx-order-details__value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
@@ -169,13 +183,15 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display order summary', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('cx-order-summary'));
+    const element: DebugElement = el.query(By.css('cx-order-summary'));
     expect(element).not.toBeNull();
   });
 
   it('should order details display "ship to" data', () => {
     fixture.detectChanges();
-    const element = el.query(By.css('.cx-card-body__label-container'));
+    const element: DebugElement = el.query(
+      By.css('.cx-card-body__label-container')
+    );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
         mockOrder.deliveryAddress.lastName &&
@@ -188,7 +204,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "bill to" data', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__account-summary.row > div:nth-child(2)')
     );
     expect(element.nativeElement.textContent).toContain(
@@ -203,7 +219,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "payment" data', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__account-summary.row > div:nth-child(3)')
     );
     expect(element.nativeElement.textContent).toContain(
@@ -217,7 +233,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "shipping" data', () => {
     fixture.detectChanges();
-    const element = el.query(
+    const element: DebugElement = el.query(
       By.css('.cx-order-details__account-summary.row > div:nth-child(4)')
     );
     expect(element.nativeElement.textContent).toContain(

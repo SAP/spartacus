@@ -7,10 +7,18 @@ import { of } from 'rxjs';
 import { SearchBoxComponent } from './search-box.component';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { BootstrapModule } from '../../bootstrap.module';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { ProductSearchService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('SearchBoxComponent in CmsLib', () => {
   let searchBoxComponent: SearchBoxComponent;
@@ -37,11 +45,11 @@ describe('SearchBoxComponent in CmsLib', () => {
     getComponentData: () => of(mockSearchBoxComponentData)
   };
 
-  const mockKeyEvent1 = {
+  const mockKeyEvent1 = <KeyboardEvent>{
     key: 'Enter'
   };
 
-  const mockKeyEvent2 = {
+  const mockKeyEvent2 = <KeyboardEvent>{
     key: 'Enter123'
   };
 
@@ -60,7 +68,11 @@ describe('SearchBoxComponent in CmsLib', () => {
         ReactiveFormsModule,
         RouterModule
       ],
-      declarations: [SearchBoxComponent, PictureComponent],
+      declarations: [
+        SearchBoxComponent,
+        PictureComponent,
+        MockTranslateUrlPipe
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {

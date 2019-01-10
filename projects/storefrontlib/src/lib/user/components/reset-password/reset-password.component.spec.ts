@@ -1,9 +1,16 @@
-import { DebugElement } from '@angular/core';
+import { DebugElement, PipeTransform, Pipe } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { ResetPasswordComponent } from './reset-password.component';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
@@ -15,7 +22,7 @@ describe('ResetPasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetPasswordComponent]
+      declarations: [ResetPasswordComponent, MockTranslateUrlPipe]
     }).compileComponents();
   }));
 

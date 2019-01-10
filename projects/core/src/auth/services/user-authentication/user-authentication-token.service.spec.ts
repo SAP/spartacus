@@ -1,17 +1,18 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  TestRequest
 } from '@angular/common/http/testing';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { UserAuthenticationTokenService } from './user-authentication-token.service';
-import { AuthConfig } from '@spartacus/core';
+import { AuthConfig } from '../../config/auth-config';
 
 import { UserToken } from '../../models/token-types.model';
 
-const username: any = 'mockUsername';
-const password: any = '1234';
+const username = 'mockUsername';
+const password = '1234';
 const refreshToken = '5678';
 
 const token: UserToken = {
@@ -24,18 +25,18 @@ const token: UserToken = {
 };
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-const MockAuthConfig = {
-  server: {
+class MockAuthConfig extends AuthConfig {
+  server = {
     baseUrl: '',
     occPrefix: ''
-  },
+  };
 
-  authentication: {
+  authentication = {
     client_id: '',
     client_secret: '',
     userToken: {}
-  }
-};
+  };
+}
 
 describe('UserAuthenticationTokenService', () => {
   let service: UserAuthenticationTokenService;
@@ -46,7 +47,7 @@ describe('UserAuthenticationTokenService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: AuthConfig, useValue: MockAuthConfig }
+        { provide: AuthConfig, useClass: MockAuthConfig }
       ]
     });
 
@@ -102,7 +103,7 @@ describe('UserAuthenticationTokenService', () => {
         }
       );
 
-      const mockReq = httpMock.expectOne(req => {
+      const mockReq: TestRequest = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === mockOauthEndpoint;
       });
 

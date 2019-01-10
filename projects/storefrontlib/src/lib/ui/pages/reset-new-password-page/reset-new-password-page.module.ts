@@ -7,10 +7,14 @@ import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: 'reset-new-password/:token',
+    path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'homepage', breadcrumb: '/ Reset Password' },
-    component: ResetNewPasswordComponent
+    component: ResetNewPasswordComponent,
+    data: {
+      pageLabel: 'homepage',
+      cxPath: 'resetPassword',
+      breadcrumb: '/ Reset Password'
+    }
   }
 ];
 @NgModule({

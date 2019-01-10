@@ -1,6 +1,8 @@
 <ng-container *cxOutlet="position">
   <ng-container
-    *ngFor="let component of (currentSlot$ | async | slice: 0:limit)"
+    *ngFor="
+      let component of ((currentSlot$ | async)?.components | slice: 0:limit)
+    "
   >
     <ng-container *cxOutlet="component.typeCode">
       <!--
@@ -15,6 +17,8 @@
           cxComponentWrapper
           [componentType]="component.typeCode"
           [componentUid]="component.uid"
+          [componentUuid]="component.uuid"
+          [componentCatalogUuid]="component.catalogUuid"
           [contextParameters]="contextParameters"
           [componentCssClass]="componentClass"
         ></div>
@@ -24,6 +28,8 @@
         cxComponentWrapper
         [componentType]="component.typeCode"
         [componentUid]="component.uid"
+        [componentUuid]="component.uuid"
+        [componentCatalogUuid]="component.catalogUuid"
         [contextParameters]="contextParameters"
       ></ng-template>
     </ng-container>

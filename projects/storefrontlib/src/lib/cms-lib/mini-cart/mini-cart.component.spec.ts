@@ -1,61 +1,71 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-import { CartService } from '../../cart/facade/cart.service';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CartService, TranslateUrlOptions, Component } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Cart } from '@spartacus/core';
+import { PipeTransform, Pipe } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { CmsComponentData } from '../../cms';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions) {
+    return '/translated-path/' + options.route[0];
+  }
+}
+
+const testCart: Cart = {
+  code: 'xxx',
+  guid: 'xxx',
+  totalItems: 0,
+  deliveryItemsQuantity: 1,
+  totalPrice: {
+    currencyIso: 'USD',
+    value: 10.0
+  },
+  totalPriceWithTax: {
+    currencyIso: 'USD',
+    value: 10.0
+  }
+};
+
+const mockComponentData: any = {
+  uid: '001',
+  typeCode: 'MiniCartComponent',
+  modifiedTime: '2017-12-21T18:15:15+0000',
+  shownProductCount: '3',
+  lightboxBannerComponent: {
+    uid: 'banner',
+    typeCode: 'SimpleBannerComponent'
+  }
+};
+
+class MockCartService {
+  getActive() {
+    return of(testCart);
+  }
+}
+
+const MockCmsComponentData = <CmsComponentData<Component>>{
+  data$: of(mockComponentData)
+};
 
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
-  const mockComponentData = {
-    uid: '001',
-    typeCode: 'MiniCartComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
-    shownProductCount: '3',
-    lightboxBannerComponent: {
-      uid: 'banner',
-      typeCode: 'SimpleBannerComponent'
-    }
-  };
-
-  const MockCmsService = {
-    getComponentData: () => of(mockComponentData)
-  };
-
-  const testCart: any = {
-    code: 'xxx',
-    guid: 'xxx',
-    total_items: 0,
-    deliveryItemsQuantity: '1',
-    total_price: {
-      currency_iso: 'USD',
-      value: 10.0
-    },
-    total_price_with_tax: {
-      currency_iso: 'USD',
-      value: 10.0
-    }
-  };
-
-  const testEntries: any = [
-    { '1234': { entryNumber: 0, product: { code: '1234' } } }
-  ];
-
-  const MockCartService = {
-    cart$: of(testCart),
-    entries$: of(testEntries)
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MiniCartComponent],
+      imports: [RouterTestingModule],
+      declarations: [MiniCartComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CartService, useValue: MockCartService }
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
+        { provide: CartService, useClass: MockCartService }
       ]
     }).compileComponents();
   }));
@@ -69,22 +79,23 @@ describe('MiniCartComponent', () => {
     expect(miniCartComponent).toBeTruthy();
   });
 
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(miniCartComponent.component).toBeNull();
-    miniCartComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(miniCartComponent.component).toBe(mockComponentData);
+  describe('template', () => {
+    beforeEach(() => {
+      miniCartComponent.cart$ = of(testCart);
+      fixture.detectChanges();
+    });
 
-    expect(miniCartComponent.banner).toBe(
-      mockComponentData.lightboxBannerComponent
-    );
-    expect(miniCartComponent.showProductCount).toEqual(
-      +mockComponentData.shownProductCount
-    );
-  });
+    it('should contain link to cart page', () => {
+      const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
+        .attributes.href.value;
+      expect(linkHref).toBe('/translated-path/cart');
+    });
 
-  describe('UI test', () => {
-    it('should contain a link to redirect to /cart', () => {
-      expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
+    it('should contain number of items in cart', () => {
+      const cartItemsNumber = fixture.debugElement.query(
+        By.css('.cx-mini-cart__count')
+      ).nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('1');
     });
   });
 });

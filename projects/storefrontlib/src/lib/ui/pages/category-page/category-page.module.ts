@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { CategoryPageLayoutModule } from '../../layout/category-page-layout/category-page-layout.module';
@@ -10,45 +10,43 @@ import { CategoryPageComponent } from './category-page.component';
 
 const routes: Routes = [
   {
-    path: 'search/:query',
+    path: null,
     canActivate: [CmsPageGuards],
     component: CategoryPageComponent,
-    data: { pageLabel: 'search' }
+    data: { pageLabel: 'search', cxPath: 'search', breadcrumb: '/ Search' }
   },
-
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: CategoryPageComponent,
+    data: { cxPath: 'category', breadcrumb: '/ Categories' }
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: CategoryPageComponent,
+    data: { cxPath: 'brand', breadcrumb: '/ Brands' }
+  },
   // redirect OLD links
   {
-    path: 'Open-Catalogue/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    path: 'Open-Catalogue/:title/c/:categoryCode',
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
   {
-    path: 'Open-Catalogue/:category1/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
   {
-    path: 'Open-Catalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
+    path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   },
   {
-    path: 'OpenCatalogue/:category1/:category2/:categoryTitle/c/:categoryCode',
-    redirectTo: '/category/:categoryCode/:categoryTitle'
-  },
-  {
-    path: 'category/:categoryCode',
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent
-  },
-  {
-    path: 'category/:categoryCode/:title',
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent,
-    data: { breadcrumb: '/ Categories' }
-  },
-  {
-    path: 'Brands/:brandName/c/:brandCode',
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent,
-    data: { breadcrumb: '/ Brands' }
+    path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
+    redirectTo: null,
+    data: { cxRedirectTo: 'category' }
   }
 ];
 

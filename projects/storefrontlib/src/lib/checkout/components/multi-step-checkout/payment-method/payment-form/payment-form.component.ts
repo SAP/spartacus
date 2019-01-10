@@ -9,7 +9,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../../facade/checkout.service';
+import { CheckoutService } from '@spartacus/core';
 import { Card } from '../../../../../ui/components/card/card.component';
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
 
@@ -54,14 +54,14 @@ export class PaymentFormComponent implements OnInit {
   ngOnInit() {
     this.expMonthAndYear();
 
-    this.cardTypes$ = this.checkoutService.cardTypes$.pipe(
+    this.cardTypes$ = this.checkoutService.getCardTypes().pipe(
       tap(cardTypes => {
         if (Object.keys(cardTypes).length === 0) {
           this.checkoutService.loadSupportedCardTypes();
         }
       })
     );
-    this.shippingAddress$ = this.checkoutService.deliveryAddress$;
+    this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
   }
 
   expMonthAndYear() {

@@ -7,7 +7,16 @@ import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { GlobalMessageService } from '@spartacus/core';
+import { PipeTransform, Pipe } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 import { LoginFormComponent } from './login-form.component';
 
@@ -19,9 +28,11 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  redirectUrl$ = of('/test');
   go = createSpy();
   clearRedirectUrl = createSpy();
+  getRedirectUrl() {
+    return of('/test');
+  }
 }
 
 class MockGlobalMessageService {
@@ -37,8 +48,8 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [LoginFormComponent],
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      declarations: [LoginFormComponent, MockTranslateUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },

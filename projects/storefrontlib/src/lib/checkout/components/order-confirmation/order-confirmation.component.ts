@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { CheckoutService } from '../../facade/checkout.service';
+import { CheckoutService } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
@@ -21,7 +21,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
   constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.orderDetails$;
+    this.order$ = this.checkoutService.getOrderDetails();
   }
 
   ngOnDestroy() {

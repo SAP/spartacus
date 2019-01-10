@@ -1,16 +1,19 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { StoreModule, Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
+
 import { of } from 'rxjs';
 
 import * as fromStore from '../store';
+import { Review } from '../../occ/occ-models';
 
 import { ProductReviewService } from './product-review.service';
 
 describe('ReviewService', () => {
   let service: ProductReviewService;
   let store: Store<fromStore.ProductsState>;
-  const mockReview = { code: 'testId' };
+  const mockReview: Review = { id: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,33 +40,37 @@ describe('ReviewService', () => {
   describe('getByProductCode(productCode)', () => {
     it('should be able to get product reviews if reviews exist', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockReview)
+        of([mockReview])
       );
+      let result: Review[];
       service.getByProductCode('testId').subscribe(reviews => {
-        expect(reviews).toBe(mockReview);
+        result = reviews;
       });
+      expect(result).toEqual([mockReview]);
     });
 
     it('should be able to load product reviews if reviews not exist', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(undefined)
       );
-      service.getByProductCode('testId').subscribe(() => {
-        expect(store.dispatch).toHaveBeenCalledWith(
-          new fromStore.LoadProductReviews('testId')
-        );
-      });
+      service
+        .getByProductCode('testId')
+        .subscribe()
+        .unsubscribe();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadProductReviews('testId')
+      );
     });
   });
 
   describe('add(productCode, review)', () => {
     it('should be able to add review for product', () => {
-      service.add('testId', 'test review');
+      const productCode = 'testId';
+      const review: Review = { id: '123', comment: 'test review' };
+      service.add(productCode, review);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.PostProductReview({
-          productCode: 'testId',
-          review: 'test review'
-        })
+        new fromStore.PostProductReview({ productCode, review })
       );
     });
   });

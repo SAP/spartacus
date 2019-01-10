@@ -1,11 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AuthService, RoutingService } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserService,
+  OrderHistoryList,
+  Order
+} from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
-
-import { UserService } from '../../../user/facade/user.service';
 
 @Component({
   selector: 'cx-order-history',
@@ -19,7 +23,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     private userSerivce: UserService
   ) {}
 
-  orders$: Observable<any>;
+  orders$: Observable<OrderHistoryList>;
   isLoaded$: Observable<boolean>;
   subscription: Subscription;
 
@@ -39,7 +43,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.orders$ = this.userSerivce.orderList$.pipe(
+    this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
       tap((orders: any) => {
         if (
           orders.orders &&
@@ -54,7 +58,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.isLoaded$ = this.userSerivce.orderListLoaded$;
+    this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
   }
 
   ngOnDestroy() {
@@ -63,8 +67,8 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     }
   }
 
-  changeSortCode(sortCode: string) {
-    const event = {
+  changeSortCode(sortCode: string): void {
+    const event: { sortCode: string; currentPage: number } = {
       sortCode,
       currentPage: 0
     };
@@ -72,19 +76,21 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.fetchOrders(event);
   }
 
-  pageChange(page: number) {
-    const event = {
+  pageChange(page: number): void {
+    const event: { sortCode: string; currentPage: number } = {
       sortCode: this.sortType,
       currentPage: page
     };
     this.fetchOrders(event);
   }
 
-  goToOrderDetail(order) {
-    this.routing.go(['my-account/orders/', order.code]);
+  goToOrderDetail(order: Order): void {
+    this.routing.go({
+      route: [{ name: 'orderDetails', params: order }]
+    });
   }
 
-  private fetchOrders(event: { sortCode: string; currentPage: number }) {
+  private fetchOrders(event: { sortCode: string; currentPage: number }): void {
     this.userSerivce.loadOrderList(
       this.user_id,
       this.PAGE_SIZE,

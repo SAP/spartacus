@@ -6,7 +6,7 @@ import {
   StoreRouterConnectingModule,
   RouterStateSerializer
 } from '@ngrx/router-store';
-import { StoreModule, MetaReducer, META_REDUCERS } from '@ngrx/store';
+import { StoreModule, MetaReducer, META_REDUCERS, Action } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { getStorageSyncReducer } from './store/reducers';
 import {
@@ -29,8 +29,8 @@ import { ConfigurableRoutesModule } from './configurable-routes/configurable-rou
 
 export function getMetaReducers(
   config: RoutingModuleConfig
-): MetaReducer<any>[] {
-  const metaReducers: MetaReducer<any>[] = [];
+): MetaReducer<any, Action>[] {
+  const metaReducers: MetaReducer<any, Action>[] = [];
   if (config.storageSyncType !== StorageSyncType.NO_STORAGE) {
     const storageSyncReducer = getStorageSyncReducer(config);
     metaReducers.push(storageSyncReducer);
@@ -42,7 +42,10 @@ export function getMetaReducers(
 @NgModule({
   imports: [
     ConfigurableRoutesModule,
-    RouterModule.forRoot([], { scrollPositionRestoration: 'enabled' }),
+    RouterModule.forRoot([], {
+      scrollPositionRestoration: 'enabled',
+      anchorScrolling: 'enabled'
+    }),
     StoreModule.forFeature(ROUTING_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
     StoreRouterConnectingModule.forRoot({

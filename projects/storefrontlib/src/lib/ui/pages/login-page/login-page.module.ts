@@ -7,10 +7,10 @@ import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: 'login',
+    path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'login', breadcrumb: '/ Login' },
-    component: LoginPageComponent
+    component: LoginPageComponent,
+    data: { pageLabel: 'login', cxPath: 'login', breadcrumb: '/ Login' }
   }
 ];
 @NgModule({

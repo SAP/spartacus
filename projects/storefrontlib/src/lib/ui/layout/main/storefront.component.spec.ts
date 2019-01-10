@@ -1,7 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { ConfigurableRoutesService } from '@spartacus/core';
 import { StorefrontComponent } from './storefront.component';
 
@@ -9,26 +8,28 @@ import { StorefrontComponent } from './storefront.component';
   selector: 'cx-header',
   template: ''
 })
-class MockHeaderComponent { }
+class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-global-message',
   template: ''
 })
-class MockGlobalMessagerComponent { }
+class MockGlobalMessagerComponent {}
 
 @Component({
   selector: 'cx-footer',
   template: ''
 })
-class MockFooterComponent { }
+class MockFooterComponent {}
 
 class MockConfigurableRoutesService {
-  changeLanguage() { }
+  init() {}
+  translateRouterConfig() {}
 }
 
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
+  let configurableRoutesService: ConfigurableRoutesService;
   let fixture: ComponentFixture<StorefrontComponent>;
 
   beforeEach(async(() => {
@@ -48,6 +49,8 @@ describe('StorefrontComponent', () => {
         }
       ]
     }).compileComponents();
+
+    configurableRoutesService = TestBed.get(ConfigurableRoutesService);
   }));
 
   beforeEach(() => {
@@ -58,5 +61,15 @@ describe('StorefrontComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should set current language for routes', () => {
+      spyOn(configurableRoutesService, 'translateRouterConfig');
+      component.ngOnInit();
+      expect(
+        configurableRoutesService.translateRouterConfig
+      ).toHaveBeenCalled();
+    });
   });
 });

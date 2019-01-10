@@ -1,6 +1,6 @@
-import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
-
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import { Component, OnInit } from '@angular/core';
+import { CmsBreadcrumbsComponent } from '@spartacus/core';
+import { BreadCrumb } from './breadcrumb';
 import {
   Router,
   ActivatedRoute,
@@ -8,27 +8,23 @@ import {
   PRIMARY_OUTLET
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { BreadCrumb } from './breadcrumb';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CMSComponentDataImpl } from '../../cms/components/cms-component-data-impl';
 
 @Component({
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
-export class BreadcrumbComponent extends AbstractCmsComponent
-  implements OnInit {
-  public breadcrumbs: BreadCrumb[];
+export class BreadcrumbComponent implements OnInit {
+  public breadcrumbs: CmsBreadcrumbsComponent[];
+
   constructor(
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
+    public component: CMSComponentDataImpl<CmsBreadcrumbsComponent>,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-    super(cmsService, cd);
-  }
+  ) { }
   ngOnInit() {
-    const breadcrumb: BreadCrumb = {
+    const breadcrumb: CmsBreadcrumbsComponent = {
       label: 'Home',
       url: ''
     };
@@ -46,8 +42,8 @@ export class BreadcrumbComponent extends AbstractCmsComponent
   private getBreadcrumbs(
     route: ActivatedRoute,
     url: string = '',
-    breadcrumbs: BreadCrumb[] = []
-  ): BreadCrumb[] {
+    breadcrumbs: CmsBreadcrumbsComponent[] = []
+  ): CmsBreadcrumbsComponent[] {
     const ROUTE_DATA_BREADCRUMB = 'breadcrumb';
     // get the child routes
     const children: ActivatedRoute[] = route.children;

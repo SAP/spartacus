@@ -1,28 +1,22 @@
-<nav class="cx-footer-navigation">
+<nav>
   <div class="container">
     <div class="row">
       <div
-        class="col-xs-12 col-sm-4 col-md-3"
-        *ngFor="let child of node.children"
+        class="col-xs-12 col-sm-4 col-md-3 navigation-elements"
+        *ngFor="let child of node?.children"
       >
-        <div class="cx-footer-navigation__container">
-          <h1 class="cx-footer-navigation__title">{{ child.title }}</h1>
-          <ul class="cx-footer-navigation__list">
-            <li
-              class="cx-footer-navigation__item"
-              *ngFor="let link of child.children"
+        <h1>{{ child.title }}</h1>
+        <ul>
+          <li *ngFor="let link of child.children">
+            <a
+              [href]="link.url"
+              [target]="link.target === true ? 'blank' : 'self'"
+              >{{ link.title }}</a
             >
-              <a
-                class="cx-footer-navigation__link"
-                [href]="link.url"
-                [target]="link.target === true ? 'blank' : 'self'"
-                >{{ link.title }}</a
-              >
-            </li>
-          </ul>
-        </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 </nav>
-<div class="cx-footer-navigation__notice">{{ component?.notice }}</div>
+<div class="notice">{{ component?.notice }}</div>

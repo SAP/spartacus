@@ -9,10 +9,10 @@ import * as fromEffects from './languages.effect';
 import * as fromActions from '../actions/languages.action';
 import { OccModule } from '../../../occ/occ.module';
 import { ConfigModule } from '../../../config/config.module';
-import { Language } from '../../../occ-models/occ.models';
+import { Language } from '../../../occ/occ-models/occ.models';
 
 describe('Languages Effects', () => {
-  let actions$: Observable<any>;
+  let actions$: Observable<fromActions.LanguagesAction>;
   let service: OccSiteService;
   let effects: fromEffects.LanguagesEffects;
 
