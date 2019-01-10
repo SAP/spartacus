@@ -5,6 +5,9 @@
 }
 
 header {
+  max-width: var(--cx-max-width, 1150px);
+  margin: auto;
+
   display: flex;
   flex-wrap: wrap;
 
