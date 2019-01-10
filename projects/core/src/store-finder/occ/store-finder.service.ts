@@ -3,12 +3,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-import { StoreFinderSearchConfig } from '../../store-finder/model/search-config';
-import { LongitudeLatitude } from '../../store-finder/model/longitude-latitude';
+import { StoreFinderSearchConfig, LongitudeLatitude } from './../model';
 
 import { OccConfig } from '../../occ/config/occ-config';
 import { OccE2eConfigurationService } from '../occ/e2e/e2e-configuration-service';
-import { StoreFinderSearchPage } from '../../occ';
+import { StoreFinderSearchPage } from '../../occ/occ-models';
 
 const STORES_ENDPOINT = 'stores';
 const STORES_DISPLAYED = 'e2egoogleservices.storesdisplayed';

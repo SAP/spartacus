@@ -1,7 +1,7 @@
 /// <reference types="@types/googlemaps" />
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { Injectable } from '@angular/core';
-import { OccE2eConfigurationService } from '../occ';
+import { OccE2eConfigurationService } from '../occ/index';
 import { StoreDataService } from '../facade/store-data.service';
 
 const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
