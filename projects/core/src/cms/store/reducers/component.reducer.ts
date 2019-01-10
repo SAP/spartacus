@@ -25,23 +25,32 @@ export function reducer<T extends CmsComponent>(
 
     case fromComponent.GET_COMPONENET_FROM_PAGE: {
       const components: T[] = action.payload;
-      const entities = components
-        .filter(comp => state.entities[comp.uid] == null)
-        .reduce(
-          (compEntities: { [uid: string]: any }, component: T) => {
-            return {
-              ...compEntities,
-              [component.uid]: component
-            };
-          },
-          {
-            ...state.entities
-          }
-        );
+      const entities = components.reduce(
+        (compEntities: { [uid: string]: any }, component: T) => {
+          return {
+            ...compEntities,
+            [component.uid]: component
+          };
+        },
+        {
+          ...state.entities
+        }
+      );
 
       return {
         ...state,
         entities
+      };
+    }
+
+    case fromComponent.REFRESH_COMPONENT: {
+      const uid: string = action.payload;
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [uid]: undefined
+        }
       };
     }
 
