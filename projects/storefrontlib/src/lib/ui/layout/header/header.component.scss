@@ -17,13 +17,13 @@ header {
   }
 }
 
-.site-context,
-.links {
+.SiteContext,
+.SiteLinks {
   flex: 50%;
 }
 
 // a small line separator in the UI to separate out some of the controls
-.links:after {
+.SiteLinks:after {
   border-top: 1px solid var(--cx-border-color, var(--cx-g-color-secondary));
   content: '';
   position: absolute;
@@ -33,10 +33,10 @@ header {
   margin-top: 5px;
 }
 
-.logo {
+.SiteLogo {
   --cx-width: 100px;
 }
 
-.navigation-bar {
+.NavigationBar {
   flex: 100%;
 }

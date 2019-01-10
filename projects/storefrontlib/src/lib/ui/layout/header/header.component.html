@@ -1,5 +1,5 @@
 <header>
-  <div class="site-context">
+  <div class="SiteContext">
     <!-- 
   TODO: to be replaced by CMS content
   https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/351
@@ -12,17 +12,12 @@
   TODO: to be replaced by CMS content
   https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/353
 -->
-  <cx-tertiary-bar class="links"></cx-tertiary-bar>
-
-  <cx-dynamic-slot class="logo" position="SiteLogo"></cx-dynamic-slot>
-
+  <cx-tertiary-bar class="SiteLinks"></cx-tertiary-bar>
+  <cx-dynamic-slot position="SiteLogo"></cx-dynamic-slot>
   <cx-dynamic-slot position="SearchBox"></cx-dynamic-slot>
   <cx-dynamic-slot position="StoreFinder"></cx-dynamic-slot>
   <cx-login></cx-login>
   <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
 
-  <cx-dynamic-slot
-    position="NavigationBar"
-    class="navigation-bar"
-  ></cx-dynamic-slot>
+  <cx-dynamic-slot position="NavigationBar"></cx-dynamic-slot>
 </header>
