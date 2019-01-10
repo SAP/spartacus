@@ -1,60 +1,58 @@
 @import 'theme';
 
-.cx-cart-item-list {
-  &__header {
-    @include type('8');
-    margin: var(--cx-margin, 0);
-    padding: var(--cx-padding, 1.125rem 0);
-    display: var(--cx-display, flex);
-    align-items: var(--cx-align-items, center);
-    text-transform: var(--cx-text-transform, uppercase);
-    color: var(--cx-color, var(--cx-g-color-secondary));
-    border-width: var(--cx-border-width, 0 0 1px 0);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
+.header {
+  @include type('8');
+  margin: var(--cx-margin, 0);
+  padding: var(--cx-padding, 1.125rem 0);
+  display: var(--cx-display, flex);
+  align-items: var(--cx-align-items, center);
+  text-transform: var(--cx-text-transform, uppercase);
+  color: var(--cx-color, var(--cx-g-color-secondary));
+  border-width: var(--cx-border-width, 0 0 1px 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
 
-    &--desc {
+  .desc {
+    text-align: var(--cx-text-align, left);
+    padding: var(--cx-padding, 0);
+  }
+
+  .price,
+  .qty {
+    text-align: var(--cx-text-align, center);
+
+    @include media-breakpoint-down(md) {
       text-align: var(--cx-text-align, left);
-      padding: var(--cx-padding, 0);
-    }
-
-    &--price,
-    &--qty {
-      text-align: var(--cx-text-align, center);
-
-      @include media-breakpoint-down(md) {
-        text-align: var(--cx-text-align, left);
-      }
-    }
-
-    &--total {
-      text-align: var(--cx-text-align, right);
-      padding: var(--cx-padding, 0);
     }
   }
 
-  &__row {
-    padding: var(--cx-padding, 1.25rem 0);
-    border-width: var(--cx-border-width, 0 0 1px 0);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
+  .total {
+    text-align: var(--cx-text-align, right);
+    padding: var(--cx-padding, 0);
+  }
+}
+
+.item-row {
+  padding: var(--cx-padding, 1.25rem 0);
+  border-width: var(--cx-border-width, 0 0 1px 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
+
+// ------------------------------------ MEDIA QUERIES ------------------------------------
+
+@include media-breakpoint-down(md) {
+  .header {
+    padding: var(--cx-padding, 1.125rem 2.5rem);
   }
 
-  // ------------------------------------ MEDIA QUERIES ------------------------------------
-
-  @include media-breakpoint-down(md) {
-    .cx-cart-item-list__header {
-      padding: var(--cx-padding, 1.125rem 2.5rem);
-    }
-
-    .cx-cart-item-list__item {
-      padding: var(--cx-padding, 0 2.5rem);
-    }
+  .list-item {
+    padding: var(--cx-padding, 0 2.5rem);
   }
+}
 
-  @include media-breakpoint-down(sm) {
-    .cx-cart-item-list__item {
-      padding: var(--cx-padding, 0 0 0 1rem);
-    }
+@include media-breakpoint-down(sm) {
+  .list-item {
+    padding: var(--cx-padding, 0 0 0 1rem);
   }
 }
