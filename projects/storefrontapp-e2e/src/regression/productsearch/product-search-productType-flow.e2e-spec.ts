@@ -3,7 +3,7 @@ import { SearchResultsPage } from '../../page-objects/search-results.po';
 import { E2EUtil } from '../../e2e-util';
 import { AddedToCartModal } from '../../page-objects/cmslib/added-to-cart-modal.po';
 
-fdescribe('Product search', () => {
+describe('Product search', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
   let addedToCartModal: AddedToCartModal;

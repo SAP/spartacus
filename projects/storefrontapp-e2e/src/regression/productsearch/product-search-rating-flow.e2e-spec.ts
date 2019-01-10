@@ -4,7 +4,7 @@ import { E2EUtil } from '../../e2e-util';
 import { ProductDetailsPage } from '../../page-objects/product-details.po';
 import { browser, ExpectedConditions as EC } from 'protractor';
 
-fdescribe('Product search', () => {
+describe('Product search', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
   let productDetails: ProductDetailsPage;

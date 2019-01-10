@@ -4,7 +4,7 @@ import { E2EUtil } from '../../e2e-util';
 import { AddedToCartModal } from '../../page-objects/cmslib/added-to-cart-modal.po';
 import { browser, ExpectedConditions as EC } from 'protractor';
 
-fdescribe('Product search', () => {
+describe('Product search', () => {
   let home: HomePage;
   let searchResults: SearchResultsPage;
   let addedToCartModal: AddedToCartModal;
