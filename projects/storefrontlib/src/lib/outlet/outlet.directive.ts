@@ -3,10 +3,13 @@ import {
   Input,
   TemplateRef,
   ViewContainerRef,
-  OnInit
+  OnInit,
+  Renderer2
 } from '@angular/core';
-import { OutletService } from './outlet.service';
+
+import { OutletStyleService } from './outlet-style.service';
 import { OutletPosition } from './outlet.model';
+import { OutletService } from './outlet.service';
 
 @Directive({
   selector: '[cxOutlet]'
@@ -24,21 +27,43 @@ export class OutletDirective implements OnInit {
   constructor(
     private vcr: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private outletService: OutletService
+    private outletService: OutletService,
+    private outletStyleService: OutletStyleService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
-    this.renderTemplate(OutletPosition.BEFORE);
-    this.renderTemplate(OutletPosition.REPLACE, true);
-    this.renderTemplate(OutletPosition.AFTER);
+    const nodes = [];
+    nodes.push(...this.renderTemplate(OutletPosition.BEFORE));
+    nodes.push(...this.renderTemplate(OutletPosition.REPLACE, true));
+    nodes.push(...this.renderTemplate(OutletPosition.AFTER));
+
+    this.renderStyleLink(nodes);
   }
 
-  private renderTemplate(position: OutletPosition, replace = false): void {
+  private renderTemplate(position: OutletPosition, replace = false): any[] {
+    const nodes = [];
     const template = this.outletService.get(this.cxOutlet, position);
     if (template || replace) {
-      this.vcr.createEmbeddedView(template || this.templateRef, {
+      const ref = this.vcr.createEmbeddedView(template || this.templateRef, {
         $implicit: this.context
       });
+      nodes.push(...ref.rootNodes);
+    }
+    return nodes;
+  }
+
+  private renderStyleLink(nodes: any[]) {
+    const element = this.outletStyleService.get(this.cxOutlet);
+
+    if (element) {
+      let el = nodes.find(node => node instanceof HTMLElement);
+
+      if (el.shadowRoot) {
+        el = el.shadowRoot;
+      }
+      element.nativeElement.rel = 'stylesheet';
+      this.renderer.appendChild(el, element.nativeElement);
     }
   }
 
