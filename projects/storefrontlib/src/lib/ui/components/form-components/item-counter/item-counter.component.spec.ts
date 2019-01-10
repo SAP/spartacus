@@ -139,8 +139,8 @@ describe('ItemCounterComponent', () => {
     expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
   });
 
-  it('should not display input when isValueChangable is not passed', () => {
-    itemCounterComponent.isValueChangable = false;
+  it('should not display input when isValueChangeable is not passed', () => {
+    itemCounterComponent.isValueChangeable = false;
     fixture.detectChanges();
 
     expect(
@@ -151,8 +151,8 @@ describe('ItemCounterComponent', () => {
     ).toBeTruthy();
   });
 
-  it('should display input when isValueChangable is passed', () => {
-    itemCounterComponent.isValueChangable = true;
+  it('should display input when isValueChangeable is passed', () => {
+    itemCounterComponent.isValueChangeable = true;
     fixture.detectChanges();
 
     expect(

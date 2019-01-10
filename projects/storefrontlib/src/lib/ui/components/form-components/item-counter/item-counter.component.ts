@@ -1,13 +1,13 @@
 import {
   Component,
-  OnInit,
+  ElementRef,
   EventEmitter,
   forwardRef,
   Input,
+  OnInit,
   Output,
-  ViewChild,
-  ElementRef,
-  Renderer2
+  Renderer2,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -40,7 +40,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   @Input()
   cartIsLoading = false;
   @Input()
-  isValueChangable = false;
+  isValueChangeable = false;
 
   @Output()
   update = new EventEmitter<any>();
@@ -78,13 +78,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   hasError(): boolean {
-    if (this.value < this.min) {
-      return true;
-    }
-    if (this.value > this.max) {
-      return true;
-    }
-    return false;
+    return this.value < this.min || this.value > this.max;
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -123,7 +117,12 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   increment(): void {
-    const updatedQuantity = this.value + this.step;
+    const updatedQuantity =
+      this.value < this.min || !this.min
+        ? this.min
+        : this.value < this.max || !this.max
+        ? this.value + this.step
+        : 1;
     if (this.value < this.max || !this.max) {
       if (!this.async) {
         // If the async flag is true, then the parent component is responsible for updating the form
@@ -136,15 +135,18 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   decrement(): void {
-    const updatedQuantity = this.value - this.step;
-    if (this.value > this.min || !this.min) {
-      if (!this.async) {
-        // If the async flag is true, then the parent component is responsible for updating the form
-        this.writeValue(updatedQuantity);
-      }
-      // Additionally, we emit a change event, so that users may optionally do something on change
-      this.update.emit(updatedQuantity);
+    const updatedQuantity =
+      this.value > this.max || !this.max
+        ? this.max
+        : this.value > this.min || !this.min
+        ? this.value - this.step
+        : 1;
+    if (!this.async) {
+      // If the async flag is true, then the parent component is responsible for updating the form
+      this.writeValue(updatedQuantity);
     }
+    // Additionally, we emit a change event, so that users may optionally do something on change
+    this.update.emit(updatedQuantity);
     this.onTouch();
   }
 
