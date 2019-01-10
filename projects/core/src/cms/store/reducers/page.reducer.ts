@@ -60,6 +60,18 @@ export function reducer(
       };
     }
 
+    case fromPageData.REFRESH_LATEST_PAGE: {
+      const entities = {
+        ...state.entities,
+        [state.latestPageKey]: null
+      };
+
+      return {
+        ...state,
+        entities
+      };
+    }
+
     case fromPageData.CLEAN_PAGE_STATE: {
       return initialState;
     }
