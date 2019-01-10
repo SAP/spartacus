@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-currency-selector',
   templateUrl: './currency-selector.component.html',
-  styleUrls: ['./currency-selector.component.scss'],
+  styleUrls: ['../selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CurrencySelectorComponent implements OnInit {
