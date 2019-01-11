@@ -3,15 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { of, Observable } from 'rxjs';
 
-import { CartService } from '../../../cart/facade';
+import { CartService } from '@spartacus/core';
 
 import { CartPageLayoutComponent } from './cart-page-layout.component';
+import { Cart } from '@spartacus/core';
 
 class MockCartService {
-  activeCart$: Observable<any>;
-  cartMergeComplete$: Observable<boolean>;
-  removeCartEntry() {}
-  loadCartDetails() {}
+  getActive(): Observable<Cart> {
+    return of();
+  }
+  getCartMergeComplete(): Observable<Boolean> {
+    return of();
+  }
+  removeEntry() {}
+  loadDetails() {}
 }
 
 @Component({
@@ -57,13 +62,13 @@ describe('CartPageLayoutComponent', () => {
   });
 
   it('should call ngOnInit', () => {
-    service.cartMergeComplete$ = of(true);
-    spyOn(service, 'loadCartDetails').and.stub();
-    service.activeCart$ = of('mockCart');
+    spyOn(service, 'getActive').and.returnValue(of('mockCart'));
+    spyOn(service, 'getCartMergeComplete').and.returnValue(of(true));
+    spyOn(service, 'loadDetails').and.stub();
 
     component.ngOnInit();
 
-    expect(service.loadCartDetails).toHaveBeenCalled();
+    expect(service.loadDetails).toHaveBeenCalled();
     let result;
     component.cart$
       .subscribe(cart => {

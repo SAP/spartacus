@@ -1,39 +1,45 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import createSpy = jasmine.createSpy;
 
 import { DeliveryModeComponent } from './delivery-mode.component';
-import { CheckoutService } from '../../../facade/checkout.service';
+import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
+class MockCheckoutService {
+  loadSupportedDeliveryModes = createSpy();
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
+    return of();
+  }
+}
 const mockDeliveryMode1 = {
   code: 'standard-gross',
   name: 'Standard Delivery',
   deliveryCost: { formattedValue: '$10.00' }
 };
+
 const mockDeliveryMode2 = {
   code: 'premium-gross',
   name: 'Premium Delivery',
   deliveryCost: { formattedValue: '$20.00' }
 };
+
 const mockSupportedDeliveryModes = [mockDeliveryMode1, mockDeliveryMode2];
 
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
-  let mockCheckoutService: any;
+  let mockCheckoutService: MockCheckoutService;
 
   beforeEach(async(() => {
-    mockCheckoutService = {
-      supportedDeliveryModes$: new BehaviorSubject([]),
-      loadSupportedDeliveryModes: createSpy()
-    };
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [DeliveryModeComponent],
-      providers: [{ provide: CheckoutService, useValue: mockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
     }).compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -49,7 +55,9 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should call ngOnInit to get supported shipping modes if they do not exist', done => {
-    mockCheckoutService.supportedDeliveryModes$.next([]);
+    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
+      of([])
+    );
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
       expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
@@ -58,8 +66,8 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should call ngOnInit to get supported shipping modes if they exist', () => {
-    mockCheckoutService.supportedDeliveryModes$.next(
-      mockSupportedDeliveryModes
+    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
+      of(mockSupportedDeliveryModes)
     );
     component.ngOnInit();
     let deliveryModes;
@@ -72,8 +80,8 @@ describe('DeliveryModeComponent', () => {
   it('should call ngOnInit to set shipping mode if user selected it before', done => {
     const mockSelectedShippingMethod = 'shipping method set in cart';
     component.selectedShippingMethod = mockSelectedShippingMethod;
-    mockCheckoutService.supportedDeliveryModes$.next(
-      mockSupportedDeliveryModes
+    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
+      of(mockSupportedDeliveryModes)
     );
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
@@ -85,11 +93,13 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should stop supportedDeliveryModes subscription when leave this component even they do not exist', () => {
+    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
+      of([])
+    );
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe();
     component.leave = true;
     // subscription is end
-    mockCheckoutService.supportedDeliveryModes$.next([]);
     expect(mockCheckoutService.loadSupportedDeliveryModes.calls.count()).toBe(
       1
     );

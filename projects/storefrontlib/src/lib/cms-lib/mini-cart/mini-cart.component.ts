@@ -1,14 +1,10 @@
-import {
-  Component,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '../../cart/facade/cart.service';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CartService, CmsMiniCartComponent } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
+import { CmsComponentData } from './../../cms/components/cms-component-data';
 
 @Component({
   selector: 'cx-mini-cart',
@@ -16,28 +12,13 @@ import { CmsService } from '../../cms/facade/cms.service';
   styleUrls: ['./mini-cart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MiniCartComponent extends AbstractCmsComponent {
-  cart$: Observable<any>;
-  entries$: Observable<any>;
-
-  showProductCount: number;
-  banner: any;
+export class MiniCartComponent {
+  cart$: Observable<Cart>;
 
   constructor(
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
+    protected component: CmsComponentData<CmsMiniCartComponent>,
     protected cartService: CartService
   ) {
-    super(cmsService, cd);
-  }
-
-  protected fetchData() {
-    this.showProductCount = +this.component.shownProductCount;
-    this.banner = this.component.lightboxBannerComponent;
-
-    this.cart$ = this.cartService.activeCart$;
-    this.entries$ = this.cartService.entries$;
-
-    super.fetchData();
+    this.cart$ = this.cartService.getActive();
   }
 }

@@ -2,39 +2,39 @@ import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap, tap } from 'rxjs/operators';
+import { map, catchError, exhaustMap, tap } from 'rxjs/operators';
 
 import { OccSiteService } from '../../occ/occ-site.service';
-import * as currenciesActions from '../actions/currencies.action';
+import * as actions from '../actions/currencies.action';
+import { WindowRef } from '../../../window/window-ref';
 
 @Injectable()
 export class CurrenciesEffects {
   @Effect()
   loadCurrencies$: Observable<any> = this.actions$.pipe(
-    ofType(currenciesActions.LOAD_CURRENCIES),
-    switchMap(() => {
+    ofType(actions.LOAD_CURRENCIES),
+    exhaustMap(() => {
       return this.occSiteService.loadCurrencies().pipe(
-        map(
-          data => new currenciesActions.LoadCurrenciesSuccess(data.currencies)
-        ),
-        catchError(error => of(new currenciesActions.LoadCurrenciesFail(error)))
+        map(data => new actions.LoadCurrenciesSuccess(data.currencies)),
+        catchError(error => of(new actions.LoadCurrenciesFail(error)))
       );
     })
   );
 
   @Effect()
   activateCurrency$: Observable<any> = this.actions$.pipe(
-    ofType(currenciesActions.SET_ACTIVE_CURRENCY),
-    tap((action: currenciesActions.SetActiveCurrency) => {
-      if (sessionStorage) {
-        sessionStorage.setItem('currency', action.payload);
+    ofType(actions.SET_ACTIVE_CURRENCY),
+    tap((action: actions.SetActiveCurrency) => {
+      if (this.winRef.sessionStorage) {
+        this.winRef.sessionStorage.setItem('currency', action.payload);
       }
     }),
-    map(() => new currenciesActions.CurrencyChange())
+    map(() => new actions.CurrencyChange())
   );
 
   constructor(
     private actions$: Actions,
-    private occSiteService: OccSiteService
+    private occSiteService: OccSiteService,
+    private winRef: WindowRef
   ) {}
 }

@@ -4,31 +4,34 @@ import { StoreModule, Store, combineReducers } from '@ngrx/store';
 import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
-import { WindowRef } from './window-ref';
 import { LongitudeLatitude } from '../models/longitude-latitude';
+import { WindowRef } from '@spartacus/core';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
   let store: Store<fromStore.StoresState>;
+  let winRef: WindowRef;
 
   const queryText = 'test';
   const countryIsoCode = 'CA';
   const regionIsoCode = 'CA-QC';
+  const storeId = 'shop_los_angeles_1';
+  const geolocationWatchId = 1;
 
   const longitudeLatitude: LongitudeLatitude = {
     longitude: 10.1,
     latitude: 20.2
   };
 
-  const MockWindowRef: WindowRef = {
+  const MockWindowRef = {
     nativeWindow: {
       navigator: {
         geolocation: {
-          getCurrentPosition: callback => {
-            callback({
-              coords: longitudeLatitude
-            });
-          }
+          watchPosition: callback => {
+            callback({ coords: longitudeLatitude });
+            return geolocationWatchId;
+          },
+          clearWatch: () => {}
         }
       }
     }
@@ -49,8 +52,17 @@ describe('StoreFinderService', () => {
 
     service = TestBed.get(StoreFinderService);
     store = TestBed.get(Store);
+    winRef = TestBed.get(WindowRef);
 
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(
+      winRef.nativeWindow.navigator.geolocation,
+      'watchPosition'
+    ).and.callThrough();
+    spyOn(
+      winRef.nativeWindow.navigator.geolocation,
+      'clearWatch'
+    ).and.callThrough();
   });
 
   it('should inject StoreFinderService', inject(
@@ -80,6 +92,32 @@ describe('StoreFinderService', () => {
           queryText,
           longitudeLatitude
         })
+      );
+      expect(
+        winRef.nativeWindow.navigator.geolocation.watchPosition
+      ).toHaveBeenCalled();
+    });
+  });
+
+  describe('Find Stores Twice with My Location', () => {
+    it('should clear watch geolocation', () => {
+      service.findStores(queryText, true);
+      service.findStores(queryText, false);
+      expect(
+        winRef.nativeWindow.navigator.geolocation.watchPosition
+      ).toHaveBeenCalled();
+      expect(
+        winRef.nativeWindow.navigator.geolocation.clearWatch
+      ).toHaveBeenCalledWith(geolocationWatchId);
+    });
+  });
+
+  describe('View Store By Id', () => {
+    it('should dispatch a new FindStoreById action', () => {
+      service.viewStoreById(storeId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.FindStoreById({ storeId })
       );
     });
   });

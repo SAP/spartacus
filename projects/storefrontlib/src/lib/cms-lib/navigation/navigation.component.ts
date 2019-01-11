@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 
 import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-navigation',
@@ -27,7 +27,7 @@ export class NavigationComponent extends AbstractCmsComponent
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: any;
 
   constructor(
     protected cmsService: CmsService,
@@ -37,7 +37,7 @@ export class NavigationComponent extends AbstractCmsComponent
     super(cmsService, cd);
   }
 
-  protected fetchData() {
+  protected fetchData(): void {
     if (!this.component) {
       return;
     }

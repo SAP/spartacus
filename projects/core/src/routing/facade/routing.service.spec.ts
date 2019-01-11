@@ -1,35 +1,42 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { RoutingService } from './routing.service';
 import * as fromStore from '../store';
 import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
+import { RouterState } from '../store/reducers/router.reducer';
+import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 
 describe('RoutingService', () => {
-  let store;
+  let store: Store<RouterState>;
+  let service: RoutingService;
+  let urlTranslator: UrlTranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
-      providers: [RoutingService]
+      providers: [
+        RoutingService,
+        { provide: UrlTranslationService, useValue: { translate: () => {} } }
+      ]
     });
 
     store = TestBed.get(Store);
+    service = TestBed.get(RoutingService);
+    urlTranslator = TestBed.get(UrlTranslationService);
     spyOn(store, 'dispatch');
   });
 
-  it('should be created', inject(
-    [RoutingService],
-    (service: RoutingService) => {
-      expect(service).toBeTruthy();
-    }
-  ));
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
 
-  it('should dispatch navigation action', inject(
-    [RoutingService],
-    (service: RoutingService) => {
+  describe('go', () => {
+    it('should dispatch navigation action with non-translated path when first argument is an array', () => {
+      spyOn(urlTranslator, 'translate');
       service.go(['/search', 'query']);
+      expect(urlTranslator.translate).not.toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
           path: ['/search', 'query'],
@@ -37,20 +44,35 @@ describe('RoutingService', () => {
           extras: undefined
         })
       );
-    }
-  ));
+    });
 
-  it('should dispatch back action', inject(
-    [RoutingService],
-    (service: RoutingService) => {
+    it('should dispatch navigation action with translated path when first argument is an object', () => {
+      spyOn(urlTranslator, 'translate').and.returnValue([
+        '',
+        'translated',
+        'path'
+      ]);
+      service.go({ route: ['testRoute'] });
+      expect(urlTranslator.translate).toHaveBeenCalledWith({
+        route: ['testRoute']
+      });
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.Go({
+          path: ['', 'translated', 'path'],
+          query: undefined,
+          extras: undefined
+        })
+      );
+    });
+  });
+
+  describe('back', () => {
+    it('should dispatch back action', () => {
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Back());
-    }
-  ));
+    });
 
-  it('should go to homepage on back action when referer is not from the app', inject(
-    [RoutingService],
-    (service: RoutingService) => {
+    it('should go to homepage on back action when referer is not from the app', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
@@ -62,61 +84,52 @@ describe('RoutingService', () => {
           extras: undefined
         })
       );
-    }
-  ));
+    });
+  });
 
-  it('should dispatch forward action', inject(
-    [RoutingService],
-    (service: RoutingService) => {
+  describe('forward', () => {
+    it('should dispatch forward action', () => {
       service.forward();
       expect(store.dispatch).toHaveBeenCalledWith(new fromStore.Forward());
-    }
-  ));
+    });
+  });
 
-  it('should dispatch clear redirect url action', inject(
-    [RoutingService],
-    (service: RoutingService) => {
+  describe('clearRedirectUrl', () => {
+    it('should dispatch clear redirect url action', () => {
       service.clearRedirectUrl();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.ClearRedirectUrl()
       );
-    }
-  ));
+    });
+  });
 
-  it('should dispatch save redirect url action', inject(
-    [RoutingService],
-    (service: RoutingService) => {
+  describe('saveRedirectUrl', () => {
+    it('should dispatch save redirect url action', () => {
       service.saveRedirectUrl('testUrl');
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SaveRedirectUrl('testUrl')
       );
-    }
-  ));
+    });
+  });
 
-  it('should expose the redirectUrl', inject(
-    [RoutingService],
-    (service: RoutingService) => {
-      const mockRedirectUrl = createSpy().and.returnValue(() =>
-        of('redirect_url')
-      );
-      spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
+  it('should expose the redirectUrl', () => {
+    const mockRedirectUrl = createSpy().and.returnValue(() =>
+      of('redirect_url')
+    );
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRedirectUrl);
 
-      let redirectUrl;
-      service.getRedirectUrl().subscribe(url => (redirectUrl = url));
-      expect(redirectUrl).toEqual('redirect_url');
-    }
-  ));
+    let redirectUrl: string;
+    service.getRedirectUrl().subscribe(url => (redirectUrl = url));
+    expect(redirectUrl).toEqual('redirect_url');
+  });
 
-  it('should expose whole router state', inject(
-    [RoutingService],
-    (service: RoutingService) => {
-      const mockRouterState = createSpy().and.returnValue(() => of({}));
-      spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+  it('should expose whole router state', () => {
+    const mockRouterState = createSpy().and.returnValue(() => of({}));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
 
-      let routerState;
-      service.getRouterState().subscribe(state => (routerState = state));
-      expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
-      expect(routerState).toEqual({});
-    }
-  ));
+    let routerState: any;
+    service.getRouterState().subscribe(state => (routerState = state));
+    expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
+    expect(routerState).toEqual({});
+  });
 });

@@ -41,6 +41,15 @@ export class OccStoreFinderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
+  findStoreById(storeId: string): Observable<any> {
+    const storeDetailsUrl = this.getStoresEndpoint(storeId);
+    const params = { fields: 'FULL' };
+
+    return this.http
+      .get(storeDetailsUrl, { params })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
   findStoresByCountry(countryIsoCode: string): Observable<any> {
     const storesByCountryUrl = this.getStoresEndpoint(
       'country/' + countryIsoCode

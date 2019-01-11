@@ -4,12 +4,19 @@ import { StoreModule } from '@ngrx/store';
 
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import { WindowRef } from '../../services/window-ref';
 import { StoreFinderService } from '../../services';
 
 import * as fromReducers from '../../store';
+import { Pipe, PipeTransform } from '@angular/core';
 
-describe('StoreFinderListCountComponent', () => {
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
+describe('StoreFinderStoresCountComponent', () => {
   let component: StoreFinderStoresCountComponent;
   let fixture: ComponentFixture<StoreFinderStoresCountComponent>;
 
@@ -21,8 +28,8 @@ describe('StoreFinderListCountComponent', () => {
         StoreModule.forFeature('stores', fromReducers.reducers),
         RouterTestingModule
       ],
-      declarations: [StoreFinderStoresCountComponent],
-      providers: [StoreFinderService, WindowRef]
+      declarations: [StoreFinderStoresCountComponent, MockTranslateUrlPipe],
+      providers: [StoreFinderService]
     }).compileComponents();
   }));
 

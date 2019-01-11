@@ -82,7 +82,7 @@ export class ProductListComponent implements OnChanges, OnInit {
       mode: this.gridMode
     };
 
-    this.model$ = this.productSearchService.searchResults$.pipe(
+    this.model$ = this.productSearchService.getSearchResults().pipe(
       tap(searchResult => {
         if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
           this.categoryTitle = searchResult.breadcrumbs[0].facetValueName;

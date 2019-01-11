@@ -7,11 +7,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { AuthService, RoutingService, UserToken, User } from '@spartacus/core';
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  User,
+  UserService
+} from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
-
-import { UserService } from '../../facade/user.service';
 
 @Component({
   selector: 'cx-login',
@@ -48,14 +52,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.user$ = this.userService.user$;
+    this.user$ = this.userService.get();
 
     this.subscription = this.auth
       .getUserToken()
       .subscribe((token: UserToken) => {
         if (token && token.access_token && !this.isLogin) {
           this.isLogin = true;
-          this.userService.loadUserDetails(token.userId);
+          this.userService.load(token.userId);
           this.auth.login();
         } else if (token && !token.access_token && this.isLogin) {
           this.isLogin = false;
@@ -77,7 +81,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         child => child.GUARD_NAME === 'AuthGuard'
       )
     ) {
-      this.routing.go(['/login']);
+      this.routing.go({ route: ['login'] });
     }
   }
 

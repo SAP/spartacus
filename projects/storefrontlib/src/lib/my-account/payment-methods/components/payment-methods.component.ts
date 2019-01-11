@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+
+import { PaymentDetails } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { Card } from '../../../ui/components/card/card.component';
-import { UserService } from './../../../user/facade/user.service';
+import { UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-payment-methods',
@@ -9,7 +12,7 @@ import { UserService } from './../../../user/facade/user.service';
   styleUrls: ['./payment-methods.component.scss']
 })
 export class PaymentMethodsComponent implements OnInit {
-  paymentMethods$: Observable<any>;
+  paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
   userId: string;
@@ -17,10 +20,10 @@ export class PaymentMethodsComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.paymentMethods$ = this.userService.paymentMethods$;
+    this.paymentMethods$ = this.userService.getPaymentMethods();
     this.editCard = null;
-    this.loading$ = this.userService.paymentMethodsLoading$;
-    this.userService.user$.subscribe(data => {
+    this.loading$ = this.userService.getPaymentMethodsLoading();
+    this.userService.get().subscribe(data => {
       this.userId = data.uid;
       this.userService.loadPaymentMethods(this.userId);
     });
@@ -33,7 +36,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryYear,
     cardNumber
   }): Card {
-    const actions = [];
+    const actions: { name: string; event: string }[] = [];
     if (!defaultPayment) {
       actions.push({ name: 'Set as default', event: 'default' });
     }
@@ -49,22 +52,22 @@ export class PaymentMethodsComponent implements OnInit {
     return card;
   }
 
-  deletePaymentMethod(paymentMethod) {
+  deletePaymentMethod(paymentMethod: PaymentDetails): void {
     if (this.userId) {
-      this.userService.deleteUserPaymentMethod(this.userId, paymentMethod.id);
+      this.userService.deletePaymentMethod(this.userId, paymentMethod.id);
     }
     this.editCard = null;
   }
 
-  setEdit(paymentMethod) {
+  setEdit(paymentMethod: PaymentDetails): void {
     this.editCard = paymentMethod.id;
   }
 
-  cancelCard() {
+  cancelCard(): void {
     this.editCard = null;
   }
 
-  setDefaultPaymentMethod(paymentMethod) {
+  setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     if (this.userId) {
       this.userService.setPaymentMethodAsDefault(this.userId, paymentMethod.id);
     }

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { PWAModuleConfig } from '../pwa.module-config';
-import { GlobalMessageType } from './../../global-message/models/message.model';
-import { GlobalMessageService } from '../../global-message/facade/global-message.service';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  WindowRef
+} from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { Observable } from 'rxjs';
 
@@ -15,7 +18,8 @@ export class AddToHomeScreenService {
 
   constructor(
     private config: PWAModuleConfig,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private winRef: WindowRef
   ) {
     if (this.config.pwa.addToHomeScreen) {
       this.init();
@@ -23,21 +27,26 @@ export class AddToHomeScreenService {
   }
 
   init() {
-    window.addEventListener('beforeinstallprompt', event => {
-      event.preventDefault();
-      this.deferredEvent = event;
-      this.enableAddToHomeScreen();
-    });
+    if (this.winRef.nativeWindow) {
+      this.winRef.nativeWindow.addEventListener(
+        'beforeinstallprompt',
+        event => {
+          event.preventDefault();
+          this.deferredEvent = event;
+          this.enableAddToHomeScreen();
+        }
+      );
 
-    window.addEventListener('appinstalled', () => {
-      this.globalMessageService.add({
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        text: 'SAP Storefront was added to your home screen'
+      this.winRef.nativeWindow.addEventListener('appinstalled', () => {
+        this.globalMessageService.add({
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          text: 'SAP Storefront was added to your home screen'
+        });
+
+        this.disableAddToHomeScreen();
+        this.deferredEvent = null;
       });
-
-      this.disableAddToHomeScreen();
-      this.deferredEvent = null;
-    });
+    }
   }
 
   enableAddToHomeScreen(): void {

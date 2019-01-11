@@ -5,18 +5,17 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-
-import { RoutingService } from '@spartacus/core';
-
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-import { CheckoutService } from '../../../facade/checkout.service';
-import { Address } from '../../../models/address-model';
-import { CartDataService } from '../../../../cart/facade/cart-data.service';
-import { CartService } from '../../../../cart/facade/cart.service';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from './../../../../global-message/models/message.model';
+import {
+  CheckoutAddress,
+  CheckoutService,
+  RoutingService,
+  GlobalMessageService,
+  GlobalMessageType,
+  CartService,
+  CartDataService
+} from '@spartacus/core';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
 
@@ -30,7 +29,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
   done = false;
 
-  deliveryAddress: Address;
+  deliveryAddress: CheckoutAddress;
   paymentDetails: any;
   shippingMethod: string;
   subscriptions: Subscription[] = [];
@@ -49,22 +48,23 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart() {
-    this.cartService.loadCartDetails();
+  private refreshCart(): void {
+    this.cartService.loadDetails();
   }
 
   ngOnInit() {
     if (!this.cartDataService.getDetails) {
-      this.cartService.loadCartDetails();
+      this.cartService.loadDetails();
     }
-    this.cart$ = this.cartService.activeCart$;
+    this.cart$ = this.cartService.getActive();
     this.processSteps();
   }
 
   processSteps() {
     // step1: set delivery address
     this.subscriptions.push(
-      this.checkoutService.deliveryAddress$
+      this.checkoutService
+        .getDeliveryAddress()
         .pipe(
           filter(
             deliveryAddress =>
@@ -81,7 +81,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step2: select delivery mode
     this.subscriptions.push(
-      this.checkoutService.selectedDeliveryModeCode$
+      this.checkoutService
+        .getSelectedDeliveryModeCode()
         .pipe(filter(selected => selected !== '' && this.step === 2))
         .subscribe(selectedMode => {
           this.nextStep(3);
@@ -93,7 +94,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step3: set payment information
     this.subscriptions.push(
-      this.checkoutService.paymentDetails$
+      this.checkoutService
+        .getPaymentDetails()
         .pipe(
           filter(
             paymentInfo =>
@@ -121,14 +123,15 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step4: place order
     this.subscriptions.push(
-      this.checkoutService.orderDetails$
+      this.checkoutService
+        .getOrderDetails()
         .pipe(
           filter(order => Object.keys(order).length !== 0 && this.step === 4)
         )
         .subscribe(() => {
           // checkout steps are done
           this.done = true;
-          this.routingService.go(['orderConfirmation']);
+          this.routingService.go({ route: ['orderConfirmation'] });
         })
     );
   }

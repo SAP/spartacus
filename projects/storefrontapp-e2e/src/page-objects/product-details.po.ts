@@ -27,9 +27,6 @@ export class ProductDetailsPage extends AppPage {
   readonly productCode: ElementFinder = this.productDetails.element(
     by.css('.code')
   );
-  readonly tabs: ElementArrayFinder = this.page
-    .element(by.tagName('ngb-tabset'))
-    .all(by.css('li'));
 
   readonly productPrice: ElementFinder = this.productSummaryComponent.element(
     by.css('.price')
@@ -46,9 +43,12 @@ export class ProductDetailsPage extends AppPage {
   readonly itemCounterComponent: ElementFinder = this.productDetails.element(
     by.tagName('cx-item-counter')
   );
+
+  readonly tabs: ElementArrayFinder = this.page.all(by.css('.details > h3'));
   readonly tabContent: ElementFinder = this.productDetails.element(
-    by.css('.cx-product-details__tab-section')
+    by.css('.details .active .container')
   );
+
   readonly writeReviewForm: ElementFinder = this.productDetails.element(
     by.tagName('cx-product-reviews')
   );
@@ -80,6 +80,11 @@ export class ProductDetailsPage extends AppPage {
 
   async navigateTo(productId: string) {
     await browser.get('/product/' + productId);
+    await this.waitForReady();
+  }
+
+  async navigateToByAlias(productId: string, name: string) {
+    await browser.get(`product/${name}/${productId}`);
     await this.waitForReady();
   }
 

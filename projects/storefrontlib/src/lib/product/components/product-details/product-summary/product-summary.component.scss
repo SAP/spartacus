@@ -23,7 +23,7 @@
 
 .code {
   @include type('7');
-  color: var(--cx-color, var(--cx-secondary));
+  color: var(--cx-color, var(--cx-g-color-secondary));
 }
 
 .rating {
@@ -52,7 +52,7 @@
   .info {
     @include type('7');
     margin: var(--cx-margin, 0 15px 0 15px);
-    color: var(--cx-color, var(--cx-secondary));
+    color: var(--cx-color, var(--cx-g-color-secondary));
   }
 }
 

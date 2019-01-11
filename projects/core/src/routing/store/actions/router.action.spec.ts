@@ -3,7 +3,7 @@ import * as fromRouter from './router.action';
 describe('Router Actions', () => {
   describe('Go Action', () => {
     it('should create an action', () => {
-      const payload = {
+      const payload: { path: string[] } = {
         path: ['test']
       };
       const action = new fromRouter.Go(payload);
