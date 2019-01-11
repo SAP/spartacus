@@ -47,7 +47,7 @@ export class CartEntryEffects {
   @Effect()
   updateEntry$: Observable<any> = this.actions$.pipe(
     ofType(fromActions.UPDATE_ENTRY),
-    debounceTime(200),
+    debounceTime(300),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
       this.cartService

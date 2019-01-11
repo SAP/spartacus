@@ -1,10 +1,12 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -22,6 +24,9 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
+  @ViewChild('counter')
+  private input: ElementRef;
+
   value = 0;
   @Input()
   step = 1;
@@ -50,22 +55,20 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onTouch = () => {};
   onModelChange = (_rating: number) => {};
 
-  manualChange(incomingValue): void {
-    const newValue =
-      incomingValue > this.max
-        ? this.max
-        : incomingValue < this.min
-        ? this.min
-        : incomingValue;
+  verifyRange(incomingValue): number {
+    return incomingValue < this.min || !this.min ? this.min : incomingValue;
+  }
 
+  manualChange(newValue): void {
+    newValue = this.verifyRange(newValue);
+    console.log('new val', newValue);
     this.updateValue(newValue);
-    this.update.emit(newValue);
     /* We use the value from the input, however, this value
       is not the correct value that should be displayed. The correct value to display
       is this.value, which the parent updates if the async call succeed. If the call
       fails, then the input will need to display this.value, and not what the user
       recently typed in */
-    // this.renderer.setProperty(this.input.nativeElement, 'value', this.value);
+    this.input.nativeElement.value = newValue;
   }
 
   hasError(): boolean {
@@ -87,8 +90,9 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   onInput(event): void {
     const { value } = event.target;
+    console.log(value, this.value);
     if (value) {
-      console.log(value, this.value);
+      console.log('ok');
       this.manualChange(Number(value));
     }
   }
@@ -113,7 +117,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         ? this.min
         : this.value < this.max || !this.max
         ? this.value + this.step
-        : 1;
+        : this.max;
     this.updateValue(updatedQuantity);
   }
 
@@ -123,7 +127,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
         ? this.max
         : this.value > this.min || !this.min
         ? this.value - this.step
-        : 1;
+        : this.min;
     this.updateValue(updatedQuantity);
   }
 
