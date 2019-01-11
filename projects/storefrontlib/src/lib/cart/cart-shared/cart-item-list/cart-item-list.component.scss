@@ -1,6 +1,6 @@
 @import 'theme';
 
-.header {
+.cx-item-list-header {
   @include type('8');
   margin: var(--cx-margin, 0);
   padding: var(--cx-padding, 1.125rem 0);
@@ -13,13 +13,13 @@
   border-color: var(--cx-border-color, var(--cx-g-color-light));
 }
 
-.desc {
+.cx-item-list-desc {
   text-align: var(--cx-text-align, left);
   padding: var(--cx-padding, 0);
 }
 
-.price,
-.qty {
+.cx-item-list-price,
+.cx-item-list-qty {
   text-align: var(--cx-text-align, center);
 
   @include media-breakpoint-down(md) {
@@ -27,12 +27,12 @@
   }
 }
 
-.total {
+.cx-item-list-total {
   text-align: var(--cx-text-align, right);
   padding: var(--cx-padding, 0);
 }
 
-.item-row {
+.cx-item-list-row {
   padding: var(--cx-padding, 1.25rem 0);
   border-width: var(--cx-border-width, 0 0 1px 0);
   border-style: var(--cx-border-style, solid);
@@ -42,17 +42,17 @@
 // ------------------------------------ MEDIA QUERIES ------------------------------------
 
 @include media-breakpoint-down(md) {
-  .header {
+  .cx-item-list-header {
     padding: var(--cx-padding, 1.125rem 2.5rem);
   }
 
-  .list-items {
+  .cx-item-list-items {
     padding: var(--cx-padding, 0 2.5rem);
   }
 }
 
 @include media-breakpoint-down(sm) {
-  .list-items {
+  .cx-item-list-items {
     padding: var(--cx-padding, 0 0 0 1rem);
   }
 }
