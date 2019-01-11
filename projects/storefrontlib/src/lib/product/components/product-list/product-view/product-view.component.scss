@@ -2,142 +2,98 @@
 @import 'functions';
 @import 'mixins';
 
-$cx-product-search-layout-border-radius: 4px !default;
-$cx-product-search-layout-border: 1px solid !default;
-$cx-product-search-layout-border-color: 'light' !default;
-$cx-product-search-layout-height: 48px !default;
-$cx-product-search-layout-background-color: 'secondary' !default;
-$cx-product-search-layout-color: 'inverse' !default;
-$cx-product-search-layout-trbl-margin: 0 0 0 30px !default;
-
-$cx-product-search-layout-span-height: 20px !default;
-$cx-product-search-layout-span-width: 20px !default;
-$cx-product-search-layout-span-hover-background-color: 'primary' !default;
-
-$cx-product-search-layout-grid-trbl-padding: 13px 18px 13px 18px !default;
-$cx-product-search-layout-grid-mobile-trbl-padding: 13px 12px 13px 12px !default;
-
-$cx-product-search-layout-grid-span-before-background-color: 'inverse' !default;
-$cx-product-search-layout-grid-span-before-height: 2px !default;
-$cx-product-search-layout-grid-span-before-width: 100% !default;
-$cx-product-search-layout-grid-span-before-top: 50% !default;
-$cx-product-search-layout-grid-span-before-left: 0 !default;
-$cx-product-search-layout-grid-span-before-trbl-margin: -1px 0 0 0 !default;
-
-$cx-product-search-dropdown-trbl-padding: 0 35px 0 0 !default;
-
-$cx-product-search-layout-list-trbl-padding: 13px 18px 13px 18px !default;
-$cx-product-search-layout-list-mobile-trbl-padding: 13px 12px 13px 12px !default;
-$cx-product-search-layout-list-span-color: 'secondary' !default;
-$cx-product-search-layout-list-span-hover-color: 'primary' !default;
-
-$cx-product-search-layout-list-before-font-size: 25px !default;
-$cx-product-search-layout-list-before-bottom: 12px !default;
-
-.cx-product-search__layout {
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  border-radius: $cx-product-search-layout-border-radius;
-  border: $cx-product-search-layout-border;
-  @include var-color('border-color', $cx-product-search-layout-border-color);
-  max-height: $cx-product-search-layout-height;
+.cx-product-layout {
+  position: var(--cx-position, relative);
+  display: var(--cx-display, inline-block);
+  overflow: var(--cx-overflow, hidden);
+  border-radius: var(--cx-border-radius, 4px);
+  border-width: var(--cx-border-width, 1px);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  max-height: var(--cx-max-height, 48px);
 
   span {
-    position: relative;
-    display: inline-block;
-    width: $cx-product-search-layout-span-width;
-    height: $cx-product-search-layout-span-height;
-    overflow: hidden;
+    position: var(--cx-position, relative);
+    display: var(--cx-display, inline-block);
+    overflow: var(--cx-overflow, hidden);
+    width: var(--cx-width, 20px);
+    height: var(--cx-height, 20px);
+  }
+}
+
+.cx-product-grid {
+  display: var(--cx-display, inline-block);
+  padding: var(--cx-padding, 13px 18px 13px 18px);
+  color: var(--cx-g-color-light);
+
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 13px 12px 13px 12px);
   }
 
-  &--grid {
-    display: inline-block;
-    padding: $cx-product-search-layout-grid-trbl-padding;
-    @include var-color('border-color', $cx-product-search-layout-border-color);
+  span {
+    color: var(--cx-g-color-inverse);
+    background-color: var(--cx-g-color-secondary);
 
-    @include media-breakpoint-down(sm) {
-      padding: $cx-product-search-layout-grid-mobile-trbl-padding;
+    &:hover {
+      background: var(--cx-g-color-primary);
     }
 
-    span {
-      @include var-color('color', $cx-product-search-layout-color);
-      @include var-color(
-        'background',
-        $cx-product-search-layout-background-color
-      );
+    &:before {
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+      -o-transform: rotate(90deg);
+      transform: rotate(90deg);
+      content: '';
+      position: var(--cx-position, absolute);
+      width: var(--cx-width, 100%);
+      height: var(--cx-height, 2px);
+      top: var(--cx-top, 50%);
+      left: var(--cx-left, 0);
+      margin: var(--cx-margin, -1px 0 0 0);
+      background-color: var(--cx-g-color-inverse);
+    }
 
-      &:hover {
-        @include var-color(
-          'background',
-          $cx-product-search-layout-span-hover-background-color
-        );
-      }
+    &:after {
+      -webkit-transform: rotate(0deg);
+      -moz-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      -o-transform: rotate(0deg);
+      transform: rotate(0deg);
+      content: '';
+      position: var(--cx-position, absolute);
 
-      &:before {
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        transform: rotate(90deg);
-        content: '';
-        position: absolute;
-        height: $cx-product-search-layout-grid-span-before-height;
-        width: $cx-product-search-layout-grid-span-before-width;
-        top: $cx-product-search-layout-grid-span-before-top;
-        left: $cx-product-search-layout-grid-span-before-left;
-        margin: $cx-product-search-layout-grid-span-before-trbl-margin;
-        @include var-color(
-          'background-color',
-          $cx-product-search-layout-grid-span-before-background-color
-        );
-      }
-
-      &:after {
-        -webkit-transform: rotate(0deg);
-        -moz-transform: rotate(0deg);
-        -ms-transform: rotate(0deg);
-        -o-transform: rotate(0deg);
-        transform: rotate(0deg);
-        content: '';
-        position: absolute;
-        height: $cx-product-search-layout-grid-span-before-height;
-        width: $cx-product-search-layout-grid-span-before-width;
-        top: $cx-product-search-layout-grid-span-before-top;
-        left: $cx-product-search-layout-grid-span-before-left;
-        margin: $cx-product-search-layout-grid-span-before-trbl-margin;
-        @include var-color(
-          'background-color',
-          $cx-product-search-layout-grid-span-before-background-color
-        );
-      }
+      position: var(--cx-position, absolute);
+      width: var(--cx-width, 100%);
+      height: var(--cx-height, 2px);
+      top: var(--cx-top, 50%);
+      left: var(--cx-left, 0);
+      margin: var(--cx-margin, -1px 0 0 0);
+      background-color: var(--cx-g-color-inverse);
     }
   }
+}
 
-  &--list {
-    display: inline-block;
-    padding: $cx-product-search-layout-list-trbl-padding;
+.cx-product-list {
+  display: var(--cx-display, inline-block);
+  padding: var(--cx-padding, 13px 18px 13px 18px);
 
-    @include media-breakpoint-down(sm) {
-      padding: $cx-product-search-layout-list-mobile-trbl-padding;
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 13px 12px 13px 12px);
+  }
+
+  span {
+    color: var(--cx-g-color-secondary);
+
+    &:hover {
+      color: var(--cx-g-color-primary);
     }
 
-    span {
-      @include var-color('color', $cx-product-search-layout-list-span-color);
-
-      &:hover {
-        @include var-color(
-          'color',
-          $cx-product-search-layout-list-span-hover-color
-        );
-      }
-
-      &:before {
-        content: '\2630';
-        font-size: $cx-product-search-layout-list-before-font-size;
-        bottom: $cx-product-search-layout-list-before-bottom;
-        position: relative;
-      }
+    &:before {
+      content: '\2630';
+      font-size: var(--cx-font-size, 25px);
+      bottom: var(--cx-bottom, 12px);
+      position: var(--cx-position, relative);
     }
   }
 }
