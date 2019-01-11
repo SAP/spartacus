@@ -2,25 +2,22 @@
 @import 'functions';
 @import 'mixins';
 
+$space: 8px;
+
 :host {
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
-  .cx-hamburger {
-    display: none;
-  }
 }
 
 header {
   max-width: var(--cx-max-width, 1140px);
   margin: auto;
-  padding: 0 10px;
 
   display: flex;
   flex-wrap: wrap;
 
-  justify-content: space-between;
-  * {
+  > * {
     align-self: center;
   }
 }
@@ -28,10 +25,30 @@ header {
 .SiteContext,
 .SiteLinks {
   flex: 50%;
-  padding: 8px 0;
+  padding: $space 0;
+}
+
+.SiteLogo {
+  --cx-width: 95px;
+}
+
+.SearchBox {
+  margin: $space auto;
+}
+
+.NavigationBar {
+  flex: 100%;
 }
 
 @include media-breakpoint-up(lg) {
+  header {
+    padding: 0 $space;
+  }
+
+  .cx-hamburger {
+    display: none;
+  }
+
   // a small line separator in the UI to separate out some of the controls
   .SiteLinks {
     text-align: right;
@@ -43,73 +60,63 @@ header {
 
       right: 0;
       left: 0;
-      margin-top: 7px;
+      margin-top: $space;
     }
   }
 }
 
-.SiteLogo {
-  --cx-width: 95px;
-}
-
-.SearchBox {
-  margin: 8px 0;
-}
-
-.NavigationBar {
-  flex: 100%;
-  order: 2;
-}
-
-:host {
-  @include media-breakpoint-down(md) {
-    .cx-hamburger {
-      display: block;
-    }
-
-    &:not(.mobile-nav) {
-      .NavigationBar,
-      .SiteContext,
-      .SiteLinks,
-      .SiteLogin {
-        display: none;
-      }
-    }
-
+@include media-breakpoint-down(md) {
+  :host:not(.mobile-nav) {
+    .NavigationBar,
     .SiteContext,
     .SiteLinks,
     .SiteLogin {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-background)
-      );
-      color: var(--cx-color, var(--cx-g-color-text));
-      padding: 0 1rem;
+      display: none;
     }
+  }
 
-    .SiteLogin,
-    .NavigationBar {
-      order: 1;
-      flex: 100%;
-    }
+  .cx-hamburger {
+    display: block;
+    margin-left: $space;
+  }
 
-    .SiteContext,
-    .SiteLinks {
-      flex: 100%;
-      order: 2;
-    }
+  .MiniCart {
+    margin-right: $space;
+  }
 
-    .SiteContext {
-      > * {
-        display: inline-block;
-        margin-top: 10px;
-        margin-right: 5px;
+  .SiteContext,
+  .SiteLinks,
+  .SiteLogin {
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
+    color: var(--cx-color, var(--cx-g-color-text));
+    padding: 0 $space * 2;
+  }
 
-        &:not(:first-child) {
-          padding-left: 15px;
-          border-left: 1px solid
-            var(--cx-border-color, var(--cx-g-color-secondary));
-        }
+  .SiteLogin {
+    padding: $space $space * 2;
+  }
+  .SiteLogin,
+  .NavigationBar {
+    order: 1;
+    flex: 100%;
+  }
+
+  .SiteContext,
+  .SiteLinks {
+    flex: 100%;
+    order: 2;
+  }
+
+  .SiteContext {
+    > * {
+      display: inline-block;
+      margin-top: $space;
+      margin-right: $space;
+
+      &:not(:first-child) {
+        padding-left: $space * 2;
+        border-left: 1px solid
+          var(--cx-border-color, var(--cx-g-color-secondary));
       }
     }
   }
