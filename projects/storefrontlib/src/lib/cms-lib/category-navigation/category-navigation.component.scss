@@ -4,29 +4,12 @@
 @import '~bootstrap/scss/nav';
 @import '~bootstrap/scss/dropdown';
 
-//this hack here for now, until we decide how we go about keyboard navigation
-// .dropdown:hover>.dropdown-menu,
-// .dropdown:focus>.dropdown-menu {
-//   display: block;
-// }
-
-//navigation color variables
-$cx-navigation-list-background-color: 'inverse' !default;
-
-//navigation variables
-$cx-navigation-list-trbl-padding: 1rem 0 !default;
-
-.cx-navigation {
-  &__list {
-    display: flex;
-    justify-content: space-between;
-    padding: $cx-navigation-list-trbl-padding;
-    @include media-breakpoint-down(md) {
-      flex-direction: column;
-      @include var-color(
-        'background-color',
-        $cx-navigation-list-background-color
-      );
-    }
+:host {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--cx-padding, 1rem 0);
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
   }
 }
