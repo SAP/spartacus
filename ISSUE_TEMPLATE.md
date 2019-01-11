@@ -10,18 +10,18 @@ Note: For the bug to be accepted, it must be reproducible using the latest relea
 - Device: <!-- Your device, version -->
 - Other environment details: <!-- Version of Angular for example -->
 
-## Expected Results
-<!-- Describe what the desired behavior should be. -->
-
-## Observed Results
-
-<!--  Describe the behavior you observed, pointing exactly why it's not working as intended. Screenshots appreciated -->
-
 ## Steps to Reproduce
 <!--
 Please provide the steps to reproduce and if possible a *MINIMAL DEMO* of the problem via
 https://stackblitz.com or with a screenshot if it's more accurate.
  -->
+
+## Observed Results
+
+<!--  Describe the behavior you observed, pointing exactly why it's not working as intended. Screenshots appreciated -->
+
+## Expected Results
+<!-- Describe what the desired behavior should be. -->
 
 ## Repository Used
 <!-- If possible, share a repository link where this problem occurs -->

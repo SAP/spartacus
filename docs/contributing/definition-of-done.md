@@ -68,7 +68,8 @@ When you run these commands, Chrome opens, and you can see the progress of the t
 
 ## End-To-End Tests are Passing
 
-When applicable, end-to-end tests are written for the positive test scenarios. 
+When applicable, end-to-end tests are written to ensure that your new/updated feature is foolproof. Basic ui end-to-end test should be written at a minimum. You may also write User-flow ui end-to-end tests if you see fit but it's optional. 
+All these newly written end-to-end tests will be reviewed, updated and/or re-used.
 
 All the end-to-end tests are passing. 
 
@@ -77,6 +78,11 @@ Run the following command to perform end-to-end tests:
 ```
 yarn e2e
 ```
+
+Tip on which end-to-end tests to write: The objective of these tests is to make sure your feature works. So for eg, if you are implementing a simple login screen with 2 buttons (Login, Cancel), you would want to write these tests:
+- Login with valid credentials
+- Attempt to login with invalid credentials
+- Fill in the input fields, then click on the Cancel button
 
 Note: E2E tests can currently only be run with SAP. We're working on exposing E2E tests to contributors.
 
