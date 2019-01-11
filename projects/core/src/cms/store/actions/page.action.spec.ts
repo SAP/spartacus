@@ -34,7 +34,7 @@ describe('Cms Page Actions', () => {
           pageId: 'testPageId',
           name: 'testPage',
           seen: [],
-          slots: { left: [] }
+          slots: { left: {} }
         };
         const payload = { key: 'test', value: page };
         const action = new fromPage.LoadPageDataSuccess(payload);
@@ -66,6 +66,17 @@ describe('Cms Page Actions', () => {
         const action = new fromPage.CleanPageState();
         expect({ ...action }).toEqual({
           type: fromPage.CLEAN_PAGE_STATE
+        });
+      });
+    });
+  });
+
+  describe('RefreshLatestPage Action', () => {
+    describe('Refresh Latest Page', () => {
+      it('should create an action', () => {
+        const action = new fromPage.RefreshLatestPage();
+        expect({ ...action }).toEqual({
+          type: fromPage.REFRESH_LATEST_PAGE
         });
       });
     });

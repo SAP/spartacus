@@ -1,3 +1,5 @@
+import { ContentSlotData } from './content-slot.model';
+
 export interface Page {
   uuid?: string;
   pageId?: string;
@@ -6,5 +8,5 @@ export interface Page {
   template?: string;
   loadTime?: number;
   seen?: Array<string>;
-  slots: { [key: string]: any };
+  slots: { [key: string]: ContentSlotData };
 }

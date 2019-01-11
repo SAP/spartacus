@@ -6,14 +6,18 @@ import {
   RoutingService,
   UserToken,
   Title,
-  UserService
+  UserService,
+  GlobalMessageService,
+  GlobalMessageType
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
+import { Pipe, PipeTransform } from '@angular/core';
 import { RegisterComponent } from './register.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockTitlesList: Title[] = [
   {
@@ -25,6 +29,13 @@ const mockTitlesList: Title[] = [
     name: 'Mrs.'
   }
 ];
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
 
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -55,6 +66,10 @@ class MockUserService {
   ): void {}
 }
 
+class MockGlobalMessageService {
+  remove() {}
+}
+
 describe('RegisterComponent', () => {
   let controls;
   let component: RegisterComponent;
@@ -62,15 +77,17 @@ describe('RegisterComponent', () => {
 
   let routingService: MockRoutingService;
   let userService: MockUserService;
+  let globalMessageService: MockGlobalMessageService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
-      declarations: [RegisterComponent],
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      declarations: [RegisterComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: AuthService, useClass: MockAuthService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService }
       ]
     }).compileComponents();
   }));
@@ -79,6 +96,7 @@ describe('RegisterComponent', () => {
     fixture = TestBed.createComponent(RegisterComponent);
     routingService = TestBed.get(RoutingService);
     userService = TestBed.get(UserService);
+    globalMessageService = TestBed.get(GlobalMessageService);
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -116,6 +134,14 @@ describe('RegisterComponent', () => {
           done();
         })
         .unsubscribe();
+    });
+
+    it('should remove error messages', () => {
+      spyOn(globalMessageService, 'remove').and.callThrough();
+      component.ngOnInit();
+      expect(globalMessageService.remove).toHaveBeenCalledWith(
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
 
     it('should go to redirect url after registration', () => {

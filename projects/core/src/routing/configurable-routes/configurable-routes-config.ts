@@ -4,6 +4,6 @@ export abstract class ConfigurableRoutesConfig {
   routesConfig?: RoutesConfig;
 }
 
-export const defaultConfigurableRoutesConfig = {
+export const defaultConfigurableRoutesConfig: ConfigurableRoutesConfig = {
   routesConfig: defaultRoutesConfig
 };

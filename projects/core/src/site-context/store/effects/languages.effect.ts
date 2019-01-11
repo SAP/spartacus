@@ -6,6 +6,7 @@ import { map, catchError, tap, exhaustMap } from 'rxjs/operators';
 
 import { OccSiteService } from '../../occ/occ-site.service';
 import * as actions from '../actions/languages.action';
+import { WindowRef } from '../../../window/window-ref';
 
 @Injectable()
 export class LanguagesEffects {
@@ -24,8 +25,8 @@ export class LanguagesEffects {
   activateLanguage$: Observable<any> = this.actions$.pipe(
     ofType(actions.SET_ACTIVE_LANGUAGE),
     tap((action: actions.SetActiveLanguage) => {
-      if (sessionStorage) {
-        sessionStorage.setItem('language', action.payload);
+      if (this.winRef.sessionStorage) {
+        this.winRef.sessionStorage.setItem('language', action.payload);
       }
     }),
     map(() => new actions.LanguageChange())
@@ -33,6 +34,7 @@ export class LanguagesEffects {
 
   constructor(
     private actions$: Actions,
-    private occSiteService: OccSiteService
+    private occSiteService: OccSiteService,
+    private winRef: WindowRef
   ) {}
 }

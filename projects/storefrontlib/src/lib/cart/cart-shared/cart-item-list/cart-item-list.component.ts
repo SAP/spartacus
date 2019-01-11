@@ -43,12 +43,12 @@ export class CartItemListComponent implements OnInit {
   }
 
   removeEntry(item) {
-    this.cartService.removeCartEntry(item);
+    this.cartService.removeEntry(item);
     delete this.form.controls[item.product.code];
   }
 
   updateEntry({ item, updatedQuantity }) {
-    this.cartService.updateCartEntry(item.entryNumber, updatedQuantity);
+    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
   getPotentialProductPromotionsForItem(item) {

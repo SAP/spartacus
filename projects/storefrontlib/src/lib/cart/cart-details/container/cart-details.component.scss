@@ -1,20 +1,11 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// cx-cart-details color variables
-$cx-cart-details-checkbox-label-color: 'text' !default;
-$cx-cart-details-checkbox-link-color: 'text' !default;
-$cx-cart-details-promotions-color: 'success' !default;
-
-.cx-cart-details {
-  &__cart-total {
-    @include type('4');
-    margin: 0 0 1rem 0;
-  }
-  &__promotions {
-    @include var-color('color', $cx-cart-details-promotions-color);
-    @include type('7');
-    padding: 0.5rem 0;
-  }
+.cx-total {
+  @include type('4');
+  margin: var(--cx-margin, 0 0 1rem);
+}
+.cx-promotions {
+  @include type('7');
+  color: var(--cx-color, var(--cx-g-color-success));
+  padding: var(--cx-padding, 0.5rem 0);
 }

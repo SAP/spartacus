@@ -14,7 +14,7 @@ export function reducer(
 ): UserAddressesState {
   switch (action.type) {
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS: {
-      const list: Address[] = action.payload;
+      const list: Address[] = action.payload || initialState.list;
       return {
         ...state,
         list,
@@ -52,3 +52,5 @@ export function reducer(
 
 export const getAddresses = (state: UserAddressesState) => state.list;
 export const getLoading = (state: UserAddressesState) => state.isLoading;
+export const getActionProcessingStatus = (state: UserAddressesState) =>
+  state.isActionProcessing;

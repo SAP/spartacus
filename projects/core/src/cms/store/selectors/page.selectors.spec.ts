@@ -8,6 +8,7 @@ import * as fromSelectors from '../selectors/page.selectors';
 import { Page } from '../../model/page.model';
 import { CmsComponent } from '../../../occ/occ-models/index';
 import { StateWithCms } from '../cms-state';
+import { ContentSlotData } from '../../model/content-slot.model';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
@@ -21,7 +22,7 @@ describe('Cms PageData Selectors', () => {
     pageId: 'testPageId',
     name: 'testPage',
     seen: [],
-    slots: { left: components }
+    slots: { left: { components } }
   };
   const payload = { key: 'test', value: page };
 
@@ -42,7 +43,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageEntities', () => {
     it('should return pages as entities', () => {
-      let result;
+      let result: { [key: string]: Page };
 
       store
         .pipe(select(fromSelectors.getPageEntities))
@@ -58,7 +59,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getLatestPageKey', () => {
     it('should return the latest page key', () => {
-      let result;
+      let result: string;
 
       store
         .pipe(select(fromSelectors.getLatestPageKey))
@@ -74,7 +75,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getLatestPage', () => {
     it('should return the latest page', () => {
-      let result;
+      let result: Page;
 
       store
         .pipe(select(fromSelectors.getLatestPage))
@@ -91,7 +92,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('currentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      let result;
+      let result: ContentSlotData;
 
       store
         .pipe(select(fromSelectors.currentSlotSelectorFactory('left')))
@@ -102,7 +103,7 @@ describe('Cms PageData Selectors', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
       store.dispatch(new fromActions.UpdateLatestPageKey(payload.key));
 
-      expect(result).toEqual(components);
+      expect(result).toEqual({ components });
     });
   });
 });

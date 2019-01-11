@@ -1,11 +1,9 @@
-import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
-import { CheckoutService } from '../facade';
-import { Order } from '@spartacus/core';
+import { Order, RoutingService, CheckoutService } from '@spartacus/core';
 
 class MockCheckoutService {
   getOrderDetails(): Observable<Order> {
@@ -14,7 +12,7 @@ class MockCheckoutService {
 }
 
 describe(`OrderConfirmationPageGuard`, () => {
-  let router: Router;
+  let routingService: RoutingService;
   let guard: OrderConfirmationPageGuard;
   let mockCheckoutService: MockCheckoutService;
 
@@ -22,25 +20,29 @@ describe(`OrderConfirmationPageGuard`, () => {
     TestBed.configureTestingModule({
       providers: [
         OrderConfirmationPageGuard,
+        {
+          provide: RoutingService,
+          useValue: { go: jasmine.createSpy() }
+        },
         { provide: CheckoutService, useClass: MockCheckoutService }
       ],
       imports: [RouterTestingModule]
     });
 
-    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
     guard = TestBed.get(OrderConfirmationPageGuard);
     mockCheckoutService = TestBed.get(CheckoutService);
-
-    spyOn(router, 'navigate').and.stub();
   });
 
   describe(`when there is NO order details present`, () => {
-    it(`should return false and navigate to 'my-account/orders'`, done => {
+    it(`should return false and navigate to order history page`, done => {
       spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
-        expect(router.navigate).toHaveBeenCalledWith(['/my-account/orders']);
+        expect(routingService.go).toHaveBeenCalledWith({
+          route: ['orders']
+        });
         done();
       });
     });
@@ -54,7 +56,7 @@ describe(`OrderConfirmationPageGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(true);
-        expect(router.navigate).not.toHaveBeenCalled();
+        expect(routingService.go).not.toHaveBeenCalled();
         done();
       });
     });

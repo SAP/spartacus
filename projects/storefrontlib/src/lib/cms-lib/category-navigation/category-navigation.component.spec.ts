@@ -5,18 +5,17 @@ import { By } from '@angular/platform-browser';
 
 import { NavigationService } from '../navigation/navigation.service';
 import { CmsService } from '@spartacus/core';
-import { NavigationComponent } from '..';
 import { CategoryNavigationComponent } from './category-navigation.component';
 
 @Component({
-  selector: 'cx-navigation-ui',
-  template: ''
+  template: '',
+  selector: 'cx-navigation'
 })
-class MockNavigationUIComponent {
-  @Input()
-  dropdownMode = 'list';
+class MockNavigationComponent {
   @Input()
   node;
+  @Input()
+  dropdownMode;
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -27,11 +26,7 @@ describe('CategoryNavigationComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        CategoryNavigationComponent,
-        NavigationComponent,
-        MockNavigationUIComponent
-      ],
+      declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
         NavigationService,
         { provide: CmsService, useValue: {} },

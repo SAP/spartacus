@@ -17,6 +17,19 @@ export class SmartEditService {
   ) {
     this.getCmsTicket();
     this.addPageContract();
+
+    // rerender components and slots after editing
+    (window as any).smartedit = (window as any).smartedit || {};
+    (window as any).smartedit.renderComponent = (
+      componentId,
+      componentType,
+      parentId
+    ) => {
+      return this.renderComponent(componentId, componentType, parentId);
+    };
+
+    // reprocess page
+    (window as any).smartedit.reprocessPage = this.reprocessPage;
   }
 
   get cmsTicketId(): string {
@@ -32,13 +45,16 @@ export class SmartEditService {
       .subscribe(([, routerState]) => {
         if (routerState.state && !this._cmsTicketId) {
           this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+          if (this._cmsTicketId) {
+            this.cmsService.launchInSmartEdit = true;
+          }
         }
       });
   }
 
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
-      if (cmsPage && this._cmsTicketId !== undefined) {
+      if (cmsPage && this._cmsTicketId) {
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)
@@ -52,5 +68,26 @@ export class SmartEditService {
         );
       }
     });
+  }
+
+  protected renderComponent(
+    componentId: string,
+    componentType?: string,
+    parentId?: string
+  ): boolean {
+    if (componentId) {
+      // without parentId, it is slot
+      if (!parentId) {
+        this.cmsService.refreshLatestPage();
+      } else if (componentType) {
+        this.cmsService.refreshComponent(componentId);
+      }
+    }
+
+    return true;
+  }
+
+  protected reprocessPage() {
+    // TODO: reprocess page API
   }
 }

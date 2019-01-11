@@ -4,6 +4,7 @@ import * as fromStore from '../store';
 import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
+import { ContentSlotData } from '../model/content-slot.model';
 import { DefaultPageService } from '../occ/default-page.service';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
@@ -12,10 +13,26 @@ import { CmsComponent } from '../../occ/occ-models/cms-component.models';
   providedIn: 'root'
 })
 export class CmsService {
+  private _launchInSmartEdit = false;
+
   constructor(
     private store: Store<StateWithCms>,
     private defaultPageService: DefaultPageService
   ) {}
+
+  /**
+   * Set _launchInSmartEdit value
+   */
+  set launchInSmartEdit(value) {
+    this._launchInSmartEdit = value;
+  }
+
+  /**
+   * Whether the app launched in smart edit
+   */
+  isLaunchInSmartEdit(): boolean {
+    return this._launchInSmartEdit;
+  }
 
   /**
    * Get current CMS page data
@@ -42,12 +59,10 @@ export class CmsService {
   }
 
   /**
-   * Given the position, get CMS components (with uid and typecode) inside the content slot
+   * Given the position, get the content slot data
    * @param position : content slot position
    */
-  getContentSlot(
-    position: string
-  ): Observable<{ uid: string; typeCode: string }[]> {
+  getContentSlot(position: string): Observable<ContentSlotData> {
     return this.store.pipe(
       select(fromStore.currentSlotSelectorFactory(position)),
       filter(Boolean)
@@ -69,13 +84,31 @@ export class CmsService {
    * @param rootUid : the uid of the root navigation node
    * @param itemList : list of items (with id and type)
    */
-  loadNavigationItems(rootUid: string, itemList: any[]) {
+  loadNavigationItems(
+    rootUid: string,
+    itemList: { id: string; superType: string }[]
+  ) {
     this.store.dispatch(
       new fromStore.LoadNavigationItems({
         nodeId: rootUid,
         items: itemList
       })
     );
+  }
+
+  /**
+   * Refresh the content of the latest cms page
+   */
+  refreshLatestPage() {
+    this.store.dispatch(new fromStore.RefreshLatestPage());
+  }
+
+  /**
+   * Refresh cms component's content
+   * @param uid : component uid
+   */
+  refreshComponent(uid: string) {
+    this.store.dispatch(new fromStore.RefreshComponent(uid));
   }
 
   /**

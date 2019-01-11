@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import * as fromStore from '../store/index';
 import { Product } from '../../occ/occ-models/occ.models';
-import { map, tap } from 'rxjs/operators';
 
 @Injectable()
 export class ProductService {
@@ -32,12 +34,27 @@ export class ProductService {
     );
   }
 
+  /**
+   * Returns boolean observable for product's loading state
+   */
   isLoading(productCode: string): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getSelectedProductLoadingFactory(productCode))
     );
   }
 
+  /**
+   * Returns boolean observable for product's load success state
+   */
+  isSuccess(productCode: string): Observable<boolean> {
+    return this.store.pipe(
+      select(fromStore.getSelectedProductSuccessFactory(productCode))
+    );
+  }
+
+  /**
+   * Returns boolean observable for product's load error state
+   */
   hasError(productCode: string): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getSelectedProductErrorFactory(productCode))
