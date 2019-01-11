@@ -69,4 +69,16 @@ describe('Cms Component Actions', () => {
       });
     });
   });
+
+  describe('RefreshComponent Action', () => {
+    describe('Refresh Component', () => {
+      it('should create an action', () => {
+        const action = new fromComponent.RefreshComponent('uid');
+        expect({ ...action }).toEqual({
+          type: fromComponent.REFRESH_COMPONENT,
+          payload: 'uid'
+        });
+      });
+    });
+  });
 });
