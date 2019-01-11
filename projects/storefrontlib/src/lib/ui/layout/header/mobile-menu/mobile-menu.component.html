@@ -1,10 +1,10 @@
 <div class="cx-mobile-menu">
   <div class="cx-mobile-menu__control">
     <button
-      class="hamburger hamburger--squeeze"
+      class="cx-hamburger"
       type="button"
       (click)="toggleMenu()"
-      [ngClass]="{ 'is-active': showMenu }"
+      [class.is-active]="showMenu"
       [attr.aria-expanded]="showMenu"
       aria-label="Menu"
       aria-controls="header-account-container, header-categories-container, header-locale-container"
