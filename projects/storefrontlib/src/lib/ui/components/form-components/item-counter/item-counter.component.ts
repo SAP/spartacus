@@ -25,7 +25,7 @@ const COUNTER_CONTROL_ACCESSOR = {
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   @ViewChild('input')
-  private input: ElementRef;
+  public input: ElementRef;
 
   value = 0;
   @Input()

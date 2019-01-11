@@ -105,6 +105,7 @@ describe('ItemCounterComponent', () => {
 
   it('should call increment() with value less than max', () => {
     itemCounterComponent.value = 1;
+    itemCounterComponent.min = 1;
     itemCounterComponent.max = 2;
     itemCounterComponent.increment();
 
@@ -114,29 +115,32 @@ describe('ItemCounterComponent', () => {
 
   it('should call increment() with value greater than max', () => {
     itemCounterComponent.value = 3;
+    itemCounterComponent.min = 1;
     itemCounterComponent.max = 2;
     itemCounterComponent.increment();
 
-    expect(itemCounterComponent.value).toEqual(3);
-    expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
+    expect(itemCounterComponent.value).toEqual(2);
+    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
   });
 
   it('should call decrement() with value greater than min', () => {
     itemCounterComponent.value = 3;
     itemCounterComponent.min = 2;
+    itemCounterComponent.max = 5;
     itemCounterComponent.decrement();
 
     expect(itemCounterComponent.value).toEqual(2);
     expect(itemCounterComponent.update.emit).toHaveBeenCalled();
   });
 
-  it('should call decrement() with value less than max', () => {
+  it('should call decrement() with value less than min', () => {
     itemCounterComponent.value = 1;
     itemCounterComponent.min = 2;
+    itemCounterComponent.max = 5;
     itemCounterComponent.decrement();
 
-    expect(itemCounterComponent.value).toEqual(1);
-    expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
+    expect(itemCounterComponent.value).toEqual(2);
+    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
   });
 
   it('should not display input when isValueChangeable is not passed', () => {
