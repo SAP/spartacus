@@ -1,9 +1,15 @@
 @import 'mixins';
 
-$triangleSize: 10px;
-:host {
+$caretSize: 10px;
+
+.selector {
+  &:not(.enabled) {
+    display: none;
+  }
+
   position: relative;
 
+  margin-right: 10px;
   &::after {
     content: '';
 
@@ -11,10 +17,10 @@ $triangleSize: 10px;
     border-top: 0;
     border-left: 0;
 
-    width: $triangleSize;
-    height: $triangleSize;
-    right: $triangleSize / 2;
-    top: $triangleSize / 2;
+    width: $caretSize;
+    height: $caretSize;
+    right: $caretSize / 2;
+    top: $caretSize / 2;
 
     position: absolute;
     display: block;
@@ -37,7 +43,7 @@ select {
   -moz-appearance: none;
   appearance: none;
 
-  padding-right: $triangleSize * 2;
+  padding-right: $caretSize * 2;
 
   outline: none;
 

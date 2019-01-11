@@ -1,8 +1,11 @@
-<ng-container *ngIf="(languages$ | async) as languages">
+<span
+  *ngIf="(languages$ | async) as languages"
+  class="selector"
+  [class.enabled]="languages.length > 1"
+>
   <label for="languageSelector">Language</label>
   <select
     (change)="setActiveLanguage($event.target.value)"
-    [disabled]="!languages.length"
     id="languageSelector"
   >
     <option
@@ -12,4 +15,4 @@
       >{{ item.nativeName }}</option
     >
   </select>
-</ng-container>
+</span>

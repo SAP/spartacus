@@ -1,5 +1,9 @@
-<ng-container *ngIf="(currencies$ | async) as currencies">
-  <label for="currenceySelector">Language</label>
+<span
+  *ngIf="(currencies$ | async) as currencies"
+  class="selector"
+  [class.enabled]="currencies.length > 1"
+>
+  <label for="currenceySelector">Currency</label>
   <select
     (change)="setActiveCurrency($event.target.value)"
     [disabled]="!currencies.length"
@@ -12,4 +16,4 @@
       >{{ item.symbol }} {{ item.isocode }}</option
     >
   </select>
-</ng-container>
+</span>
