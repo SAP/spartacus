@@ -11,9 +11,10 @@ import {
 } from '../models/global-message.model';
 import { GlobalMessageService } from './global-message.service';
 
-const mockMessages = new Map<GlobalMessageType, string[]>();
-mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
-mockMessages.set(GlobalMessageType.MSG_TYPE_ERROR, ['Error']);
+const mockMessages = {
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
+  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
+};
 
 describe('GlobalMessageService', () => {
   const mockSelect = createSpy('select').and.returnValue(() =>

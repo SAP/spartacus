@@ -64,4 +64,21 @@ describe('Cms Component Reducer', () => {
       expect(newState).toEqual(initialState);
     });
   });
+
+  describe('REFRESH_COMPONENT action', () => {
+    it('should reset component content', () => {
+      const component: CmsComponent = {
+        uid: 'comp1',
+        typeCode: 'SimpleBannerComponent'
+      };
+
+      const { initialState } = fromComponent;
+      const action = new fromActions.LoadComponentSuccess(component);
+      fromComponent.reducer(initialState, action);
+      const refreshAction = new fromActions.RefreshComponent('comp1');
+      const state = fromComponent.reducer(initialState, refreshAction);
+
+      expect(state.entities['comp1']).toEqual(undefined);
+    });
+  });
 });

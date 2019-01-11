@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+// import { CmsComponent } from '../../../occ/occ-models';
 
 export const LOAD_NAVIGATION_ITEMS = '[Cms] Load NavigationEntry items';
 export const LOAD_NAVIGATION_ITEMS_FAIL =
@@ -18,7 +19,7 @@ export class LoadNavigationItemsFail implements Action {
 
 export class LoadNavigationItemsSuccess implements Action {
   readonly type = LOAD_NAVIGATION_ITEMS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: { nodeId: string; components: any[] }) {}
 }
 
 // action types
