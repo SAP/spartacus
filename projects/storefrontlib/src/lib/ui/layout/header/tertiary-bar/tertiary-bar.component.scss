@@ -2,7 +2,6 @@
 @import 'mixins';
 
 nav {
-  text-align: var(--cx-align, right);
   a {
     color: var(--cx-color, var(--cx-color-inverse));
     @include type('7');
