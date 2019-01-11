@@ -54,16 +54,16 @@ export class OutletDirective implements OnInit {
   }
 
   private renderStyleLink(nodes: any[]) {
-    const element = this.outletStyleService.get(this.cxOutlet);
+    const styleElement = this.outletStyleService.get(this.cxOutlet);
 
-    if (element) {
-      let el = nodes.find(node => node instanceof HTMLElement);
+    if (styleElement) {
+      let parentElement = nodes.find(node => node instanceof HTMLElement);
 
-      if (el.shadowRoot) {
-        el = el.shadowRoot;
+      if (parentElement.shadowRoot) {
+        parentElement = parentElement.shadowRoot;
       }
-      element.nativeElement.rel = 'stylesheet';
-      this.renderer.appendChild(el, element.nativeElement);
+      styleElement.nativeElement.rel = 'stylesheet';
+      this.renderer.appendChild(parentElement, styleElement.nativeElement);
     }
   }
 
