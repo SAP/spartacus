@@ -11,7 +11,7 @@ import { BootstrapModule } from '../../bootstrap.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { ProductCarouselComponent } from './product-carousel.component';
-import { CmsComponentData } from '../../cms';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Pipe({
   name: 'cxTranslateUrl'
