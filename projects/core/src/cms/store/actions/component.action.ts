@@ -4,6 +4,7 @@ import { CmsComponent } from '../../../occ/occ-models/index';
 export const LOAD_COMPONENT = '[Cms] Load Component';
 export const LOAD_COMPONENT_FAIL = '[Cms] Load Component Fail';
 export const LOAD_COMPONENT_SUCCESS = '[Cms] Load Component Success';
+export const REFRESH_COMPONENT = '[Cms] Refresh Component';
 export const GET_COMPONENET_FROM_PAGE = '[Cms] Get Component from Page';
 export const CLEAN_COMPONENT_STATE = '[Cms] Clean Component State';
 
@@ -22,6 +23,11 @@ export class LoadComponentSuccess<T extends CmsComponent> implements Action {
   constructor(public payload: T) {}
 }
 
+export class RefreshComponent implements Action {
+  readonly type = REFRESH_COMPONENT;
+  constructor(public payload: string) {}
+}
+
 export class GetComponentFromPage<T extends CmsComponent> implements Action {
   readonly type = GET_COMPONENET_FROM_PAGE;
   constructor(public payload: T[]) {}
@@ -37,5 +43,6 @@ export type ComponentAction<T extends CmsComponent> =
   | LoadComponent
   | LoadComponentFail
   | LoadComponentSuccess<T>
+  | RefreshComponent
   | GetComponentFromPage<T>
   | CleanComponentState;

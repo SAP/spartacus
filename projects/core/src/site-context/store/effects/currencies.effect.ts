@@ -6,6 +6,7 @@ import { map, catchError, exhaustMap, tap } from 'rxjs/operators';
 
 import { OccSiteService } from '../../occ/occ-site.service';
 import * as actions from '../actions/currencies.action';
+import { WindowRef } from '../../../window/window-ref';
 
 @Injectable()
 export class CurrenciesEffects {
@@ -24,8 +25,8 @@ export class CurrenciesEffects {
   activateCurrency$: Observable<any> = this.actions$.pipe(
     ofType(actions.SET_ACTIVE_CURRENCY),
     tap((action: actions.SetActiveCurrency) => {
-      if (sessionStorage) {
-        sessionStorage.setItem('currency', action.payload);
+      if (this.winRef.sessionStorage) {
+        this.winRef.sessionStorage.setItem('currency', action.payload);
       }
     }),
     map(() => new actions.CurrencyChange())
@@ -33,6 +34,7 @@ export class CurrenciesEffects {
 
   constructor(
     private actions$: Actions,
-    private occSiteService: OccSiteService
+    private occSiteService: OccSiteService,
+    private winRef: WindowRef
   ) {}
 }
