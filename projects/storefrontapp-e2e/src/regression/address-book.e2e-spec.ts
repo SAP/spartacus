@@ -47,11 +47,12 @@ describe('Address management page', () => {
     expect(addressBookPage.addressCards.get(0).getText()).toContain('Default');
   });
 
-  it('should be able to delete address', async () => {
+  it('should be able to delete default address, the remaining address becomes default', async () => {
     await addressBookPage.waitForReady();
     expect(addressBookPage.addressCards.count()).toEqual(2);
     await addressBookPage.deleteAddress();
     expect(addressBookPage.addressCards.count()).toEqual(1);
+    expect(addressBookPage.addressCards.get(0).getText()).toContain('Default');
   });
 
   it('should logout user', async () => {

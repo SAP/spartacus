@@ -9,7 +9,8 @@ import {
 import {
   ProductService,
   Product,
-  CmsProductCarouselComponent
+  CmsProductCarouselComponent,
+  WindowRef
 } from '@spartacus/core';
 
 import { Subscription, fromEvent, Observable } from 'rxjs';
@@ -30,19 +31,25 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
 
   resize$: Subscription;
 
+  private window: Window;
+
   @ViewChild('carousel')
   carousel: NgbCarousel;
 
   constructor(
     public component: CmsComponentData<CmsProductCarouselComponent>,
-    private productService: ProductService
-  ) {}
+    private productService: ProductService,
+    winRef: WindowRef
+  ) {
+    this.window = winRef.nativeWindow;
+  }
 
   ngOnInit() {
-    this.subscribeToData();
-    this.resize$ = fromEvent(window, 'resize')
-      .pipe(debounceTime(300))
-      .subscribe(() => this.createGroups());
+    if (this.window) {
+      this.resize$ = fromEvent(this.window, 'resize')
+        .pipe(debounceTime(300))
+        .subscribe(() => this.createGroups());
+    }
   }
 
   prev(): void {
@@ -69,7 +76,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
   protected getItemsPerPage(): number {
     const smallScreenMaxWidth = 576;
     const tabletScreenMaxWidth = 768;
-    const { innerWidth } = window;
+    const innerWidth = this.window ? window.innerWidth : tabletScreenMaxWidth;
     let itemsPerPage: number;
     if (innerWidth < smallScreenMaxWidth) {
       itemsPerPage = 1;
