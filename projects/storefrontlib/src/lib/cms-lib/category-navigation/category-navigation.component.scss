@@ -9,6 +9,7 @@
   justify-content: space-between;
   padding: var(--cx-padding, 1rem 0);
   @include media-breakpoint-down(md) {
+    padding: var(--cx-padding, 0);
     flex-direction: column;
     background-color: var(--cx-background-color, var(--cx-g-color-inverse));
   }

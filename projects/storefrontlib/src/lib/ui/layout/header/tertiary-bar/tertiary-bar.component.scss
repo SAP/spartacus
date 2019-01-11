@@ -4,7 +4,11 @@
 nav {
   a {
     color: var(--cx-color, var(--cx-color-inverse));
-    @include type('7');
-    padding: var(--cx-padding, 5px 10px);
+    padding: var(--cx-padding, 0 20px 0 0);
+
+    @include media-breakpoint-down(md) {
+      display: block;
+      margin: 10px 0;
+    }
   }
 }
