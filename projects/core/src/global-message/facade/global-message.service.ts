@@ -8,22 +8,21 @@ import {
   GlobalMessage,
   GlobalMessageType
 } from '../models/global-message.model';
+import { StateWithGlobalMessage, GlobalMessageEntities } from '../store/index';
 
 @Injectable()
 export class GlobalMessageService {
-  readonly messages$: Observable<
-    Map<GlobalMessageType, string[]>
-  > = this.store.pipe(
+  readonly messages$: Observable<GlobalMessageEntities> = this.store.pipe(
     select(fromStore.getGlobalMessageEntities),
     filter(data => data !== undefined)
   );
 
-  constructor(private store: Store<fromStore.GlobalMessageState>) {}
+  constructor(private store: Store<StateWithGlobalMessage>) {}
 
   /**
    * Get all global messages
    */
-  get(): Observable<Map<GlobalMessageType, string[]>> {
+  get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
       select(fromStore.getGlobalMessageEntities),
       filter(data => data !== undefined)
