@@ -115,4 +115,27 @@ describe('Cms Page Reducer', () => {
       expect(state.latestPageKey).toEqual(payload);
     });
   });
+
+  describe('REFRESH_LATEST_PAGE action', () => {
+    it('should reset latest page', () => {
+      const page: Page = {
+        pageId: 'testPageId',
+        name: 'testPage',
+        seen: [],
+        slots: { left: null }
+      };
+      const payload = { key: 'test', value: page };
+
+      const { initialState } = fromPage;
+      const state = {
+        ...initialState,
+        [payload.key]: payload.value,
+        latestPageKey: 'test'
+      };
+      const refreshAction = new fromActions.RefreshLatestPage();
+      const newState = fromPage.reducer(state, refreshAction);
+
+      expect(newState.entities['test']).toEqual(null);
+    });
+  });
 });

@@ -142,6 +142,20 @@
             ],
             "exclude": ["**/node_modules/**"]
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/storefrontapp-server",
+            "main": "projects/storefrontapp/src/main.server.ts",
+            "tsConfig": "projects/storefrontapp/tsconfig.server.json",
+            "fileReplacements": [
+              {
+                "replace": "projects/storefrontapp/src/environments/environment.ts",
+                "with": "projects/storefrontapp/src/environments/environment.prod.ts"
+              }
+            ]
+          }
         }
       }
     },
