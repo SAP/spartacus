@@ -1,4 +1,16 @@
 <header>
+  <button
+    class="cx-hamburger hamburger hamburger--squeeze"
+    type="button"
+    (click)="toggleMenu()"
+    [ngClass]="{ 'is-active': showMenu }"
+    [attr.aria-expanded]="showMenu"
+    aria-label="Menu"
+    aria-controls="header-account-container, header-categories-container, header-locale-container"
+  >
+    <span class="hamburger-box"> <span class="hamburger-inner"></span> </span>
+  </button>
+
   <div class="SiteContext">
     <!-- 
   TODO: to be replaced by CMS content
@@ -16,8 +28,7 @@
   <cx-dynamic-slot position="SiteLogo"></cx-dynamic-slot>
   <cx-dynamic-slot position="SearchBox"></cx-dynamic-slot>
   <cx-dynamic-slot position="StoreFinder"></cx-dynamic-slot>
-  <cx-login></cx-login>
+  <cx-login class="SiteLogin"></cx-login>
   <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
-
   <cx-dynamic-slot position="NavigationBar"></cx-dynamic-slot>
 </header>

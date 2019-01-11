@@ -1,11 +1,19 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
 :host {
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
+
+  .cx-hamburger {
+    display: none;
+  }
 }
 
 header {
-  max-width: var(--cx-max-width, 1150px);
+  max-width: var(--cx-max-width, 1130px);
   margin: auto;
 
   display: flex;
@@ -20,17 +28,24 @@ header {
 .SiteContext,
 .SiteLinks {
   flex: 50%;
+  padding: 7px 0 15px;
 }
 
-// a small line separator in the UI to separate out some of the controls
-.SiteLinks:after {
-  border-top: 1px solid var(--cx-border-color, var(--cx-g-color-secondary));
-  content: '';
-  position: absolute;
+@include media-breakpoint-up(lg) {
+  // a small line separator in the UI to separate out some of the controls
+  .SiteLinks {
+    text-align: right;
 
-  right: 0;
-  left: 0;
-  margin-top: 5px;
+    &:after {
+      border-top: 1px solid var(--cx-border-color, var(--cx-g-color-secondary));
+      content: '';
+      position: absolute;
+
+      right: 0;
+      left: 0;
+      margin-top: 7px;
+    }
+  }
 }
 
 .SiteLogo {
@@ -39,4 +54,34 @@ header {
 
 .NavigationBar {
   flex: 100%;
+  order: 2;
+}
+
+:host {
+  @include media-breakpoint-down(md) {
+    .cx-hamburger {
+      display: block;
+    }
+
+    &:not(.mobile-nav) {
+      .NavigationBar,
+      .SiteContext,
+      .SiteLinks,
+      .SiteLogin {
+        // display: none;
+      }
+    }
+
+    .SiteLogin,
+    .NavigationBar {
+      order: 1;
+      flex: 100%;
+    }
+
+    .SiteContext,
+    .SiteLinks {
+      flex: 100%;
+      order: 2;
+    }
+  }
 }
