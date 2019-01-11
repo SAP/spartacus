@@ -6,7 +6,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 class MockEvent {
   code: string;
+
   preventDefault() {}
+
   stopPropagation() {}
 }
 
@@ -33,6 +35,7 @@ describe('ItemCounterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemCounterComponent);
     itemCounterComponent = fixture.componentInstance;
+    itemCounterComponent.input = { nativeElement: { value: '' } };
 
     keyBoardEvent = TestBed.get(KeyboardEvent);
     focusEvent = TestBed.get(FocusEvent);
@@ -40,6 +43,10 @@ describe('ItemCounterComponent', () => {
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'hasError').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
+    spyOn(itemCounterComponent, 'updateValue').and.callThrough();
+    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
+    spyOn(itemCounterComponent, 'isOutOfRange').and.callThrough();
+    spyOn(itemCounterComponent, 'manualChange').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
     spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
     spyOn(keyBoardEvent, 'stopPropagation').and.callThrough();
@@ -172,5 +179,55 @@ describe('ItemCounterComponent', () => {
     itemCounterComponent.min = 1;
     itemCounterComponent.max = 5;
     expect(itemCounterComponent.hasError()).toBeTruthy();
+  });
+
+  it('should adjust value in range', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    expect(itemCounterComponent.adjustValueInRange(7)).toEqual(5);
+    expect(itemCounterComponent.adjustValueInRange(0)).toEqual(1);
+    expect(itemCounterComponent.adjustValueInRange(3)).toEqual(3);
+  });
+
+  it('should verify is value out of range', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    expect(itemCounterComponent.isOutOfRange(7)).toBeTruthy();
+    expect(itemCounterComponent.isOutOfRange(0)).toBeTruthy();
+    expect(itemCounterComponent.isOutOfRange(3)).toBeFalsy();
+  });
+
+  it('should try set manual change with wrong value', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    itemCounterComponent.manualChange(7);
+    expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(7);
+    expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(7);
+    expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(5);
+  });
+
+  it('should try set manual change with correct value', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    itemCounterComponent.manualChange(3);
+    expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(3);
+    expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(3);
+    expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(3);
+  });
+
+  it('should set value on input', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    const inputEvent = { target: { value: '3' } };
+    itemCounterComponent.onInput(inputEvent);
+    expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(3);
+  });
+
+  it('should not set value on input', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+    const inputEvent = { target: {} };
+    itemCounterComponent.onInput(inputEvent);
+    expect(itemCounterComponent.manualChange).not.toHaveBeenCalled();
   });
 });
