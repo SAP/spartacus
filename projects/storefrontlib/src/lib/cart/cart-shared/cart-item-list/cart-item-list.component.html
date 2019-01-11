@@ -9,7 +9,7 @@
 
 <div [formGroup]="form">
   <div class="item-row" *ngFor="let item of items">
-    <div class="list-item">
+    <div class="list-items">
       <cx-cart-item
         [parent]="form.controls[item.product.code]"
         [item]="item"

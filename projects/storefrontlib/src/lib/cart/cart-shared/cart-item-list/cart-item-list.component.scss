@@ -11,25 +11,25 @@
   border-width: var(--cx-border-width, 0 0 1px 0);
   border-style: var(--cx-border-style, solid);
   border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
 
-  .desc {
+.desc {
+  text-align: var(--cx-text-align, left);
+  padding: var(--cx-padding, 0);
+}
+
+.price,
+.qty {
+  text-align: var(--cx-text-align, center);
+
+  @include media-breakpoint-down(md) {
     text-align: var(--cx-text-align, left);
-    padding: var(--cx-padding, 0);
   }
+}
 
-  .price,
-  .qty {
-    text-align: var(--cx-text-align, center);
-
-    @include media-breakpoint-down(md) {
-      text-align: var(--cx-text-align, left);
-    }
-  }
-
-  .total {
-    text-align: var(--cx-text-align, right);
-    padding: var(--cx-padding, 0);
-  }
+.total {
+  text-align: var(--cx-text-align, right);
+  padding: var(--cx-padding, 0);
 }
 
 .item-row {
@@ -46,13 +46,13 @@
     padding: var(--cx-padding, 1.125rem 2.5rem);
   }
 
-  .list-item {
+  .list-items {
     padding: var(--cx-padding, 0 2.5rem);
   }
 }
 
 @include media-breakpoint-down(sm) {
-  .list-item {
+  .list-items {
     padding: var(--cx-padding, 0 0 0 1rem);
   }
 }
