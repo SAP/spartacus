@@ -30,6 +30,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
   productCodes: Array<string>;
 
   resize$: Subscription;
+  dataSubscription$: Subscription;
 
   private window: Window;
 
@@ -46,6 +47,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     if (this.window) {
+      this.subscribeToData();
       this.resize$ = fromEvent(this.window, 'resize')
         .pipe(debounceTime(300))
         .subscribe(() => this.createGroups());
@@ -62,14 +64,16 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
 
   protected createGroups(): void {
     const groups: Array<string[]> = [];
-    this.productCodes.forEach(product => {
-      const lastGroup: string[] = groups[groups.length - 1];
-      if (lastGroup && lastGroup.length < this.getItemsPerPage()) {
-        lastGroup.push(product);
-      } else {
-        groups.push([product]);
-      }
-    });
+    if (this.productCodes) {
+      this.productCodes.forEach(product => {
+        const lastGroup: string[] = groups[groups.length - 1];
+        if (lastGroup && lastGroup.length < this.getItemsPerPage()) {
+          lastGroup.push(product);
+        } else {
+          groups.push([product]);
+        }
+      });
+    }
     this.productGroups = groups;
   }
 
@@ -92,7 +96,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
   }
 
   protected subscribeToData(): void {
-    this.component.data$.subscribe(data => {
+    this.dataSubscription$ = this.component.data$.subscribe(data => {
       this.productCodes = data.productCodes.split(' ');
       this.productCodes.forEach(code => {
         this.products[code] = this.productService.get(code);
@@ -102,6 +106,9 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy() {
+    if (this.dataSubscription$) {
+      this.dataSubscription$.unsubscribe();
+    }
     if (this.resize$) {
       this.resize$.unsubscribe();
     }
