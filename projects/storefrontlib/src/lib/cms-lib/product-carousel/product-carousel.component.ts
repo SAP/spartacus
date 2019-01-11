@@ -54,15 +54,15 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
     }
   }
 
-  prev(): void {
+  prev() {
     this.carousel.prev();
   }
 
-  next(): void {
+  next() {
     this.carousel.next();
   }
 
-  protected createGroups(): void {
+  protected createGroups() {
     const groups: Array<string[]> = [];
     if (this.productCodes) {
       this.productCodes.forEach(product => {
@@ -95,7 +95,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
     return itemsPerPage;
   }
 
-  protected subscribeToData(): void {
+  protected subscribeToData() {
     this.dataSubscription$ = this.component.data$.subscribe(data => {
       this.productCodes = data.productCodes.split(' ');
       this.productCodes.forEach(code => {
