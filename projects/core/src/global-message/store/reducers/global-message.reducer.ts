@@ -76,5 +76,3 @@ export function reducer(
 
   return state;
 }
-
-export const getEntities = (state: GlobalMessageState) => state.entities;

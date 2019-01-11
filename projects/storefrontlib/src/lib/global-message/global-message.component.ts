@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  GlobalMessageEntities
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-global-message',
@@ -9,7 +13,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
   styleUrls: ['./global-message.component.scss']
 })
 export class GlobalMessageComponent implements OnInit {
-  messages$: Observable<Map<GlobalMessageType, string[]>>;
+  messages$: Observable<GlobalMessageEntities>;
   messageType: typeof GlobalMessageType = GlobalMessageType;
 
   constructor(protected globalMessageService: GlobalMessageService) {}

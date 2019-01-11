@@ -2,6 +2,11 @@
 @import '../../mixins';
 @import '~bootstrap/scss/buttons';
 
+button {
+  &:focus {
+    outline: none;
+  }
+}
 //buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
 .btn {
   text-transform: $btn-text-transform;
