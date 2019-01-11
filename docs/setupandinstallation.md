@@ -44,7 +44,7 @@ In the following procedure, we create a new Angular application with the name `m
 
 1. Generate a new Angular application using the Angular CLI, as follows:
    ```
-   $ ng new {mystore} --style=scss
+   $ ng new {mystore} --style=scss --routing=true
    ```
 2. Access the newly created directory:
    ```
