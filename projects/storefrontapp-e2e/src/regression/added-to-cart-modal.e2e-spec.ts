@@ -1,15 +1,23 @@
 import { ProductDetailsPage } from '../page-objects/product-details.po';
 import { AddedToCartModal } from '../page-objects/cmslib/added-to-cart-modal.po';
+import { CartPage } from '../page-objects/cart/cart.po';
+import { HomePage } from '../page-objects/home.po';
+import { AutocompletePanel } from '../page-objects/cmslib/autocomplete-panel.po';
+import { E2EUtil } from '../e2e-util';
 
 describe('Added to cart modal', () => {
   let productDetails: ProductDetailsPage;
   let addedToCartModal: AddedToCartModal;
+  let cart: CartPage;
+  let home: HomePage;
   const productId = '3595723';
   const productId2 = '3325048';
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     productDetails = new ProductDetailsPage();
     addedToCartModal = new AddedToCartModal();
+    cart = new CartPage();
+    home = new HomePage();
   });
 
   it('basic modal behavior', async () => {
@@ -41,13 +49,6 @@ describe('Added to cart modal', () => {
   });
 
   it('adding same product twice to cart', async () => {
-    // add 2 items to cart
-    await productDetails.navigateTo(productId);
-    await productDetails.itemCounterUpButton.click();
-    await productDetails.addToCart();
-    await addedToCartModal.waitForReady();
-    await addedToCartModal.closeButton.click();
-
     // add next 3 items of the same product to cart
     await productDetails.itemCounterUpButton.click();
     await productDetails.addToCart();
@@ -59,20 +60,28 @@ describe('Added to cart modal', () => {
     // quantity is correctly updated
     expect(await addedToCartModal.itemQuantity.getText()).toEqual('5');
     expect(await addedToCartModal.totalCount.getText()).toContain('5 items');
+
+    // closing modal works
+    await addedToCartModal.closeButton.click();
+    expect(addedToCartModal.modal.isPresent()).toBe(false);
   });
 
-  // TODO enable this test after fixing cart resetting on each full page load
-  xit('adding different products to cart', async () => {
-    // add 2 items to cart
-    await productDetails.navigateTo(productId);
-    await productDetails.itemCounterUpButton.click();
-    await productDetails.addToCart();
+  it('adding different products to cart', async () => {
+    // uncomment this section after fixing cart resetting on each full page load (issue 787)
+    // await home.navigateTo();
 
     // add another item to cart
-    await productDetails.navigateTo(productId2);
+    await home.header.performSearch(productId2, true);
+
+    const autocompletePanel = new AutocompletePanel();
+    await autocompletePanel.waitForReady();
+
+    // select product from the suggestion list, then add it to cart
+    await autocompletePanel.selectProduct('DSC-W180');
+
+    // wait until product details page is loaded
     await productDetails.waitForReady();
     await productDetails.addToCart();
-
     await addedToCartModal.waitForReady();
 
     expect(await addedToCartModal.modalTitle.getText()).toEqual(
@@ -80,7 +89,20 @@ describe('Added to cart modal', () => {
     );
     // quantity is correctly updated
     expect(await addedToCartModal.itemQuantity.getText()).toEqual('1');
-    expect(await addedToCartModal.totalCount.getText()).toContain('3 items');
+    expect(await addedToCartModal.totalCount.getText()).toContain('6 items');
+
+    // empty cart
+    await addedToCartModal.viewCartButton.click();
+    expect(await cart.page.getText()).toContain('Shopping Cart (ID ');
+    await cart.deleteEntryByName('EF 100mm f/2.8L Macro IS USM');
+
+    // check that the cart has 1 item now
+    await E2EUtil.wait4TextInElement(cart.page, 'Cart total (1 items):');
+    expect(await cart.checkCartEntry('DSC-W180', 1, '$121.88', '$121.88'));
+
+    await cart.deleteEntryByName('DSC-W180');
+    await E2EUtil.wait4TextInElement(cart.page, 'Your shopping cart is empty');
+    expect(await cart.page.getText()).toContain('Your shopping cart is empty');
   });
 
   it('refreshing page should not show modal', async () => {

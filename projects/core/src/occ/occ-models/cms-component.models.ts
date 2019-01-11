@@ -57,3 +57,32 @@ export interface CmsBannerComponent extends CmsComponent {
   urlLink?: string;
   external?: string;
 }
+
+export interface CmsProductCarouselComponent extends CmsComponent {
+  title?: string;
+  productCodes?: string;
+  container?: string;
+  modifiedTime?: string;
+  name?: string;
+  popup?: string;
+  scroll?: string;
+  typeCode?: string;
+  uid?: string;
+}
+
+export interface CmsMiniCartComponent extends CmsComponent {
+  container?: string;
+  modifiedTime?: string;
+  name?: string;
+  shownProductCount?: string;
+  title?: string;
+  totalDisplay?: string;
+  typeCode?: string;
+  uid?: string;
+  lightboxBannerComponent?: CmsBannerComponent;
+}
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsComponent {
+  container?: string;
+}
