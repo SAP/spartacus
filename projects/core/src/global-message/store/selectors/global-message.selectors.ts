@@ -1,11 +1,15 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromGlobalMessage from './../reducers/global-message.reducer';
 import { getGlobalMessageState } from './feature.selector';
+import {
+  StateWithGlobalMessage,
+  GlobalMessageState,
+  GlobalMessageEntities
+} from '../global-message-state';
 
 export const getGlobalMessageEntities: MemoizedSelector<
-  any,
-  any
+  StateWithGlobalMessage,
+  GlobalMessageEntities
 > = createSelector(
   getGlobalMessageState,
-  fromGlobalMessage.getEntities
+  (state: GlobalMessageState) => state.entities
 );

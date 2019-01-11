@@ -4,11 +4,11 @@ import createSpy = jasmine.createSpy;
 import { GlobalMessageComponent } from './global-message.component';
 import { GlobalMessageType, GlobalMessageService } from '@spartacus/core';
 
-const mockMessages = new Map<GlobalMessageType, string[]>();
-mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
-mockMessages.set(GlobalMessageType.MSG_TYPE_CONFIRMATION, ['Confirmation']);
-mockMessages.set(GlobalMessageType.MSG_TYPE_INFO, ['Info']);
-mockMessages.set(GlobalMessageType.MSG_TYPE_ERROR, ['Error']);
+const mockMessages = {
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
+  [GlobalMessageType.MSG_TYPE_INFO]: ['Info'],
+  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
+};
 
 class MockMessageService {
   remove = createSpy();
@@ -44,9 +44,7 @@ describe('GlobalMessageComponent', () => {
   it('should not have duplicate messages per message type', () => {
     globalMessageComponent.ngOnInit();
     globalMessageComponent.messages$.subscribe(messages => {
-      expect(messages.get(GlobalMessageType.MSG_TYPE_CONFIRMATION).length).toBe(
-        1
-      );
+      expect(messages[GlobalMessageType.MSG_TYPE_CONFIRMATION].length).toBe(1);
     });
   });
 
