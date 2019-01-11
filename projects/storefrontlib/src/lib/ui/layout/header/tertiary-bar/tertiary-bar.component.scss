@@ -4,7 +4,9 @@
 nav {
   a {
     color: var(--cx-color, var(--cx-color-inverse));
-    padding: var(--cx-padding, 0 20px 0 0);
+    &:not(:last-child) {
+      padding: var(--cx-padding, 0 20px 0 0);
+    }
 
     @include media-breakpoint-down(md) {
       display: block;
