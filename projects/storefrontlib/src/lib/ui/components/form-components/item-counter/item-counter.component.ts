@@ -24,7 +24,7 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
-  @ViewChild('counter')
+  @ViewChild('input')
   private input: ElementRef;
 
   value = 0;
@@ -46,6 +46,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   focus: boolean;
 
+  outOfRange = false;
+
   ngOnInit() {
     this.writeValue(this.min || 0);
   }
@@ -55,13 +57,17 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onTouch = () => {};
   onModelChange = (_rating: number) => {};
 
-  verifyRange(incomingValue): number {
-    return incomingValue < this.min || !this.min ? this.min : incomingValue;
+  adjustValueInRange(incomingValue): number {
+    return incomingValue < this.min || !this.min
+      ? this.min
+      : incomingValue > this.max || !this.max
+      ? this.max
+      : incomingValue;
   }
 
   manualChange(newValue): void {
-    newValue = this.verifyRange(newValue);
-    console.log('new val', newValue);
+    this.outOfRange = this.isOutOfRange(newValue);
+    newValue = this.adjustValueInRange(newValue);
     this.updateValue(newValue);
     /* We use the value from the input, however, this value
       is not the correct value that should be displayed. The correct value to display
@@ -73,6 +79,14 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   hasError(): boolean {
     return this.value < this.min || this.value > this.max;
+  }
+
+  isOutOfRange(value: number): boolean {
+    return value < this.min || value > this.max;
+  }
+
+  isMaxOrMinValue(): boolean {
+    return this.value === this.max || this.value === this.min;
   }
 
   onKeyDown(event: KeyboardEvent): void {
@@ -90,9 +104,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   onInput(event): void {
     const { value } = event.target;
-    console.log(value, this.value);
     if (value) {
-      console.log('ok');
       this.manualChange(Number(value));
     }
   }
@@ -112,6 +124,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   increment(): void {
+    this.outOfRange = false;
     const updatedQuantity =
       this.value < this.min || !this.min
         ? this.min
@@ -122,6 +135,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   decrement(): void {
+    this.outOfRange = false;
     const updatedQuantity =
       this.value > this.max || !this.max
         ? this.max
