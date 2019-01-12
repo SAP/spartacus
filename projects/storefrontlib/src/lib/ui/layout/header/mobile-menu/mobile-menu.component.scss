@@ -2,14 +2,6 @@
 @import 'functions';
 @import 'mixins';
 
-//https://github.com/jonsuh/hamburgers
-$hamburger-types: (squeeze);
-$hamburger-layer-color: theme-color('inverse');
-$hamburger-layer-width: 26px !default;
-$hamburger-layer-height: 3px !default;
-$hamburger-layer-spacing: 4px !default;
-@import '~hamburgers/_sass/hamburgers/hamburgers';
-
 //mobile-menu color variables
 $cx-mobile-menu-background-color: 'background' !default;
 $cx-mobile-menu-color: 'inverse' !default;
