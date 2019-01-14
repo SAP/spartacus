@@ -2,7 +2,7 @@
 <ng-container
   *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
 >
-  <div class="cx-carousel">
+  <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
     <button
       class="previous"
       (click)="prev(carousel.max)"

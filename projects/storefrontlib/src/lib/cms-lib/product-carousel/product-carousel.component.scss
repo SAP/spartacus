@@ -62,7 +62,6 @@ button {
         flex-direction: column;
         text-align: center;
         justify-content: space-between;
-        flex: 0 0 25%;
 
         color: var(--cx-color, var(--cx-g-color-text));
         cx-picture {
@@ -99,6 +98,16 @@ button {
         }
       }
     }
+  }
+
+  &.size-1 .product {
+    flex: 0 0 100%;
+  }
+  &.size-2 .product {
+    flex: 0 0 50%;
+  }
+  &.size-4 .product {
+    flex: 0 0 25%;
   }
 
   .previous,
