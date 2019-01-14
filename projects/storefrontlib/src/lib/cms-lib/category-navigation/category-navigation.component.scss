@@ -15,12 +15,14 @@ $cx-navigation-list-background-color: 'inverse' !default;
 
 //navigation variables
 $cx-navigation-list-trbl-padding: 1rem 0 !default;
+$cx-navigation-list-min-height: 63.38px !default;
 
 .cx-navigation {
   &__list {
     display: flex;
     justify-content: space-between;
     padding: $cx-navigation-list-trbl-padding;
+    min-height: $cx-navigation-list-min-height;
     @include media-breakpoint-down(md) {
       flex-direction: column;
       @include var-color(
