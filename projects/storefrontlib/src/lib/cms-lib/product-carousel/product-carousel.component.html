@@ -4,7 +4,11 @@
   *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
   class="cx-carousel"
 >
-  <button class="previous" (click)="prev(carousel.max)"></button>
+  <button
+    class="previous"
+    (click)="prev(carousel.max)"
+    [disabled]="activeItem === 0"
+  ></button>
 
   <div class="groups">
     <ng-container *ngFor="let unused of carousel.products; let i = index">
@@ -36,5 +40,9 @@
     </ng-container>
   </div>
 
-  <button class="next" (click)="next(carousel.max)"></button>
+  <button
+    class="next"
+    (click)="next(carousel.max)"
+    [disabled]="activeItem > carousel.products.length - carousel.max"
+  ></button>
 </div>

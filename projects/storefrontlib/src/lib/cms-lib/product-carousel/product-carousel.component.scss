@@ -13,6 +13,19 @@
   }
 }
 
+button {
+  &:not(:disabled) {
+    cursor: pointer;
+    &:hover {
+      color: var(--cx-g-color-secondary);
+    }
+  }
+  &:focus {
+    outline: none;
+  }
+  color: var(--cx-g-color-light);
+}
+
 h3 {
   @include type('2');
   font-weight: bold;
@@ -51,6 +64,9 @@ h3 {
     border: none;
     &:not(:disabled):hover {
       color: var(--cx-color, var(--cx-g-color-primary));
+    }
+    &:disabled {
+      opacity: 0.5;
     }
 
     &:after {
