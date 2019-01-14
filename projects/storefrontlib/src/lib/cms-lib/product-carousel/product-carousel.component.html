@@ -17,7 +17,7 @@
               let product$ of (carousel.products | slice: i:i + carousel.max)
             "
           >
-            <div
+            <a
               *ngIf="(product$ | async) as product"
               class="product"
               [class.active]="i === activeItem"
@@ -34,7 +34,7 @@
 
               <h4>{{ product.name }}</h4>
               <div class="price">{{ product.price?.formattedValue }}</div>
-            </div>
+            </a>
           </ng-container>
         </div>
       </ng-container>
