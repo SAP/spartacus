@@ -96,6 +96,23 @@ h3 {
   }
 }
 
+.indicators {
+  display: flex;
+  justify-content: center;
+  button {
+    border-radius: 15px;
+    width: 15px;
+    height: 15px;
+    border: none;
+    padding: 0;
+    margin: 10px;
+    &[disabled] {
+      color: var(--cx-background-color, var(--cx-g-color-primary));
+    }
+    background-color: currentColor;
+  }
+}
+
 .product {
   display: flex;
   flex-direction: column;

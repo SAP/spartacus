@@ -92,10 +92,14 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   prev(max) {
-    this.activeItem = this.activeItem - max;
+    this.setActiveItem(this.activeItem - max);
   }
 
   next(max) {
-    this.activeItem = this.activeItem + max;
+    this.setActiveItem(this.activeItem + max);
+  }
+
+  setActiveItem(active: number) {
+    this.activeItem = active;
   }
 }

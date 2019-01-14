@@ -1,48 +1,58 @@
 <h3 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h3>
-
-<div
+<ng-container
   *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
-  class="cx-carousel"
 >
-  <button
-    class="previous"
-    (click)="prev(carousel.max)"
-    [disabled]="activeItem === 0"
-  ></button>
+  <div class="cx-carousel">
+    <button
+      class="previous"
+      (click)="prev(carousel.max)"
+      [disabled]="activeItem === 0"
+    ></button>
 
-  <div class="groups">
-    <ng-container *ngFor="let unused of carousel.products; let i = index">
-      <div class="group" *ngIf="i % carousel.max === 0">
-        <ng-container
-          *ngFor="
-            let product$ of (carousel.products | slice: i:i + carousel.max)
-          "
-        >
-          <div
-            *ngIf="(product$ | async) as product"
-            class="product"
-            [class.active]="i === activeItem"
-            [routerLink]="
-              { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+    <div class="groups">
+      <ng-container *ngFor="let unused of carousel.products; let i = index">
+        <div class="group" *ngIf="i % carousel.max === 0">
+          <ng-container
+            *ngFor="
+              let product$ of (carousel.products | slice: i:i + carousel.max)
             "
           >
-            <cx-picture
-              [imageContainer]="product.images?.PRIMARY"
-              imageFormat="product"
+            <div
+              *ngIf="(product$ | async) as product"
+              class="product"
+              [class.active]="i === activeItem"
+              [routerLink]="
+                { route: [{ name: 'product', params: product }] }
+                  | cxTranslateUrl
+              "
             >
-            </cx-picture>
+              <cx-picture
+                [imageContainer]="product.images?.PRIMARY"
+                imageFormat="product"
+              >
+              </cx-picture>
 
-            <h4>{{ product.name }} - {{ i }} - {{ activeItem }}</h4>
-            <div class="price">{{ product.price?.formattedValue }}</div>
-          </div>
-        </ng-container>
-      </div>
-    </ng-container>
+              <h4>{{ product.name }} - {{ i }} - {{ activeItem }}</h4>
+              <div class="price">{{ product.price?.formattedValue }}</div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+    <button
+      class="next"
+      (click)="next(carousel.max)"
+      [disabled]="activeItem > carousel.products.length - carousel.max"
+    ></button>
   </div>
 
-  <button
-    class="next"
-    (click)="next(carousel.max)"
-    [disabled]="activeItem > carousel.products.length - carousel.max"
-  ></button>
-</div>
+  <div class="indicators">
+    <ng-container *ngFor="let unused of carousel.products; let i = index">
+      <button
+        *ngIf="i % carousel.max === 0"
+        (click)="setActiveItem(i)"
+        [disabled]="i === activeItem"
+      ></button>
+    </ng-container></div
+></ng-container>
