@@ -1,6 +1,4 @@
-<div class="cx-carousel__header" *ngIf="(component.data$ | async) as component">
-  {{ component?.title }}
-</div>
+<h4 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h4>
 <div class="cx-carousel__container">
   <ng-container *ngIf="productGroups">
     <ngb-carousel

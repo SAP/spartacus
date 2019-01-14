@@ -7,19 +7,18 @@ $cx-product-carousel-arrow-color: 'secondary' !default;
 $cx-product-carousel-indicators-color: 'light' !default;
 $cx-product-carousel-indicators-color-active: 'primary' !default;
 
-.cx-carousel {
-  &__header {
-    @include type('2');
-    font-weight: bold;
-    text-align: center;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    @include media-breakpoint-up(xl) {
-      margin-bottom: 4rem;
-      margin-top: 4rem;
-    }
+h4 {
+  @include type('2');
+  font-weight: bold;
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  @include media-breakpoint-up(xl) {
+    margin-bottom: 4rem;
+    margin-top: 4rem;
   }
-
+}
+.cx-carousel {
   &__container {
     position: relative;
     margin-bottom: 3rem;
