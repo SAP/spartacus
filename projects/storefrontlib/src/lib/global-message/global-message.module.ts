@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { GlobalMessageModule } from '@spartacus/core';
-import { GlobalMessageComponent } from './components/global-message.component';
+import { GlobalMessageComponent } from './global-message.component';
 import { HttpErrorInterceptor } from './http-interceptors/http-error.interceptor';
 
 @NgModule({
