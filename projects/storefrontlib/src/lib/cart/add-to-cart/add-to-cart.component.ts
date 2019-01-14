@@ -40,7 +40,7 @@ export class AddToCartComponent implements OnInit {
 
   ngOnInit() {
     if (this.productCode) {
-      this.loaded$ = this.cartService.loaded$;
+      this.loaded$ = this.cartService.getLoaded();
       this.cartEntry$ = this.cartService.getEntry(this.productCode);
     }
   }
@@ -50,7 +50,7 @@ export class AddToCartComponent implements OnInit {
       return;
     }
     this.openModal();
-    this.cartService.addCartEntry(this.productCode, this.quantity);
+    this.cartService.addEntry(this.productCode, this.quantity);
   }
 
   private openModal() {
@@ -59,7 +59,7 @@ export class AddToCartComponent implements OnInit {
       size: 'lg'
     }).componentInstance;
     this.modalInstance.entry$ = this.cartEntry$;
-    this.modalInstance.cart$ = this.cartService.activeCart$;
+    this.modalInstance.cart$ = this.cartService.getActive();
     this.modalInstance.loaded$ = this.loaded$;
     this.modalInstance.quantity = this.quantity;
   }

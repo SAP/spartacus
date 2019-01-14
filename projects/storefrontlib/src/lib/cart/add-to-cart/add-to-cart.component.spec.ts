@@ -10,12 +10,12 @@ import { CartDataService, CartService } from '@spartacus/core';
 import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
-import { AddToCartModule } from './add-to-cart.module';
+import { Cart } from '@spartacus/core';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
 class MockCartService {
-  addCartEntry(_productCode: string, _quantity: number): void {
+  addEntry(_productCode: string, _quantity: number): void {
     mockCartEntry.push({
       '1234': { entryNumber: 0, product: { code: productCode } }
     });
@@ -23,26 +23,33 @@ class MockCartService {
   getEntry(_productCode: string): Observable<any> {
     return of();
   }
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
+  getActive(): Observable<Cart> {
+    return of();
+  }
 }
 
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service;
+  let service: CartService;
   let modalInstance;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        AddToCartModule,
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
         NgbModule
       ],
+      declarations: [AddToCartComponent],
       providers: [
         CartDataService,
-        { provide: CartService, useClass: MockCartService }
+        { provide: CartService, useClass: MockCartService },
+        { provide: NgbModal, useValue: { open: () => {} } }
       ]
     }).compileComponents();
   }));
@@ -52,9 +59,9 @@ describe('AddToCartComponent', () => {
     addToCartComponent = fixture.componentInstance;
     service = TestBed.get(CartService);
     addToCartComponent.productCode = productCode;
-    modalInstance = fixture.debugElement.injector.get<NgbModal>(NgbModal);
-    spyOn(modalInstance, 'open').and.callThrough();
+    modalInstance = TestBed.get(NgbModal);
 
+    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     fixture.detectChanges();
   });
 
@@ -71,13 +78,13 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call addToCart()', () => {
-    spyOn(service, 'addCartEntry').and.callThrough();
+    spyOn(service, 'addEntry').and.callThrough();
 
     addToCartComponent.addToCart();
     addToCartComponent.cartEntry$.subscribe();
 
     expect(modalInstance.open).toHaveBeenCalled();
-    expect(service.addCartEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
   });
 
   // UI test will be added after replacing Material

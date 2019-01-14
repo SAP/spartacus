@@ -4,11 +4,13 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
 import * as ngrxStore from '@ngrx/store';
-import * as fromActions from '../store/actions/page.action';
+import * as fromActions from '../store/actions';
 import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
 import { Page } from '../model/page.model';
+import { ContentSlotData } from '../model/content-slot.model';
+
 import { DefaultPageService } from '../occ/default-page.service';
 import { CmsConfig } from '../config/cms-config';
 import { PageType } from '../../occ/occ-models/occ.models';
@@ -19,14 +21,16 @@ const MockCmsModuleConfig: CmsConfig = {
   }
 };
 
-const mockContentSlot: { uid: string; typeCode: string }[] = [
-  { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-  { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-  { uid: 'comp3', typeCode: 'NavigationComponent' }
-];
+const mockContentSlot: ContentSlotData = {
+  components: [
+    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
+    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
+    { uid: 'comp3', typeCode: 'NavigationComponent' }
+  ]
+};
 
 describe('CmsService', () => {
-  let store;
+  let store: any;
 
   const page: Page = {
     pageId: 'testPageId',
@@ -83,7 +87,7 @@ describe('CmsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(mockContentSlot)
       );
-      let contentSlotReturned: any;
+      let contentSlotReturned: ContentSlotData;
       service.getContentSlot('Section1').subscribe(value => {
         contentSlotReturned = value;
       });
@@ -126,13 +130,33 @@ describe('CmsService', () => {
     (service: CmsService) => {
       store.dispatch(new fromActions.LoadPageDataSuccess(payload));
 
-      let result;
+      let result: Page;
       const subscription = service.getCurrentPage().subscribe(value => {
         result = value;
       });
       subscription.unsubscribe();
 
       expect(result).toEqual(page);
+    }
+  ));
+
+  it('should be able to refresh the latest cms page', inject(
+    [CmsService],
+    (service: CmsService) => {
+      service.refreshLatestPage();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromActions.RefreshLatestPage()
+      );
+    }
+  ));
+
+  it('should be able to refresh the cms component by uid', inject(
+    [CmsService],
+    (service: CmsService) => {
+      service.refreshComponent('test_uid');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromActions.RefreshComponent('test_uid')
+      );
     }
   ));
 

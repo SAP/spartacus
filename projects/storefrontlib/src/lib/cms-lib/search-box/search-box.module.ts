@@ -11,7 +11,8 @@ import {
   ConfigModule,
   ProductModule,
   ProductSearchService,
-  RoutingService
+  RoutingService,
+  UrlTranslationModule
 } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
@@ -39,7 +40,8 @@ import { CmsConfig } from '@spartacus/core';
           ]
         }
       }
-    })
+    }),
+    UrlTranslationModule
   ],
   declarations: [SearchBoxComponent],
   entryComponents: [SearchBoxComponent],

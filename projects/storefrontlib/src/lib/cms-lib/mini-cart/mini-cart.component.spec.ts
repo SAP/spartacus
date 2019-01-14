@@ -1,11 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
-import { CartService, CmsService } from '@spartacus/core';
+import { CartService, TranslateUrlOptions, Component } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
-import { Cart, OrderEntry, CmsComponent } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Cart } from '@spartacus/core';
+import { PipeTransform, Pipe } from '@angular/core';
+import { By } from '@angular/platform-browser';
+import { CmsComponentData } from '../../cms';
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions) {
+    return '/translated-path/' + options.route[0];
+  }
+}
 
 const testCart: Cart = {
   code: 'xxx',
@@ -22,13 +34,6 @@ const testCart: Cart = {
   }
 };
 
-const orderEntry: OrderEntry = {
-  entryNumber: 0,
-  product: { code: '1234' }
-};
-
-const testEntries: { [id: string]: OrderEntry }[] = [{ '1234': orderEntry }];
-
 const mockComponentData: any = {
   uid: '001',
   typeCode: 'MiniCartComponent',
@@ -40,16 +45,15 @@ const mockComponentData: any = {
   }
 };
 
-class MockCmsService {
-  getComponentData<T extends CmsComponent>(): Observable<T> {
-    return of(mockComponentData);
+class MockCartService {
+  getActive() {
+    return of(testCart);
   }
 }
 
-class MockCartService {
-  cart$ = of(testCart);
-  entries$ = of(testEntries);
-}
+const MockCmsComponentData = <CmsComponentData<Component>>{
+  data$: of(mockComponentData)
+};
 
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
@@ -57,9 +61,10 @@ describe('MiniCartComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MiniCartComponent],
+      imports: [RouterTestingModule],
+      declarations: [MiniCartComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CartService, useClass: MockCartService }
       ]
     }).compileComponents();
@@ -74,22 +79,23 @@ describe('MiniCartComponent', () => {
     expect(miniCartComponent).toBeTruthy();
   });
 
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(miniCartComponent.component).toBeNull();
-    miniCartComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(miniCartComponent.component).toBe(mockComponentData);
+  describe('template', () => {
+    beforeEach(() => {
+      miniCartComponent.cart$ = of(testCart);
+      fixture.detectChanges();
+    });
 
-    expect(miniCartComponent.banner).toBe(
-      mockComponentData.lightboxBannerComponent
-    );
-    expect(miniCartComponent.showProductCount).toEqual(
-      +mockComponentData.shownProductCount
-    );
-  });
+    it('should contain link to cart page', () => {
+      const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
+        .attributes.href.value;
+      expect(linkHref).toBe('/translated-path/cart');
+    });
 
-  describe('UI test', () => {
-    it('should contain a link to redirect to /cart', () => {
-      expect(fixture.debugElement.query(By.css('button[routerLink="/cart"]')));
+    it('should contain number of items in cart', () => {
+      const cartItemsNumber = fixture.debugElement.query(
+        By.css('.cx-mini-cart__count')
+      ).nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('1');
     });
   });
 });

@@ -1,3 +1,12 @@
+import {
+  Address,
+  PaymentDetails,
+  OrderHistoryList,
+  User,
+  Region,
+  Order
+} from '../../occ/occ-models/occ.models';
+
 export const USER_FEATURE = 'user';
 
 export interface StateWithUser {
@@ -20,16 +29,16 @@ export interface UserState {
 }
 
 export interface OrderDetailsState {
-  order: any;
+  order: Order;
 }
 
 export interface UserPaymentMethodsState {
-  list: any;
+  list: PaymentDetails[];
   isLoading: boolean;
 }
 
 export interface RegionsState {
-  entities: any;
+  entities: Region[];
 }
 
 export interface TitlesState {
@@ -37,17 +46,17 @@ export interface TitlesState {
 }
 
 export interface UserAddressesState {
-  list: any[];
+  list: Address[];
   isLoading: boolean;
   isActionProcessing: boolean;
 }
 
 export interface UserDetailsState {
-  details: any;
+  details: User;
 }
 
 export interface UserOrdersState {
-  orders: any;
+  orders: OrderHistoryList;
   loading: boolean;
   loaded: boolean;
 }

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-
 import { LongitudeLatitude } from '../models/longitude-latitude';
-import { WindowRef } from './window-ref';
-
 import * as fromStore from '../store';
+import { WindowRef } from '@spartacus/core';
 
 @Injectable()
 export class StoreFinderService {
@@ -36,6 +34,10 @@ export class StoreFinderService {
 
   viewAllStores() {
     this.clearWatchGeolocation(new fromStore.ViewAllStores());
+  }
+
+  viewStoreById(storeId: string) {
+    this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
   }
 
   viewAllStoresForCountry(countryIsoCode: string) {

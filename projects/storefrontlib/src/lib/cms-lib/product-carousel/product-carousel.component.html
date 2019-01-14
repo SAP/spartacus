@@ -1,4 +1,6 @@
-<div class="cx-carousel__header">{{ component?.title }}</div>
+<div class="cx-carousel__header" *ngIf="(component.data$ | async) as component">
+  {{ component?.title }}
+</div>
 <div class="cx-carousel__container">
   <ng-container *ngIf="productGroups">
     <ngb-carousel
@@ -16,7 +18,10 @@
           <ng-container *ngIf="(products[productCode] | async) as product">
             <div
               class="cx-carousel__product"
-              [routerLink]="['/product/', product.code]"
+              [routerLink]="
+                { route: [{ name: 'product', params: product }] }
+                  | cxTranslateUrl
+              "
             >
               <cx-picture
                 [imageContainer]="product.images?.PRIMARY"

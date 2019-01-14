@@ -1,0 +1,58 @@
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
+import { GlobalMessageComponent } from './global-message.component';
+import { GlobalMessageType, GlobalMessageService } from '@spartacus/core';
+
+const mockMessages = {
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
+  [GlobalMessageType.MSG_TYPE_INFO]: ['Info'],
+  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
+};
+
+class MockMessageService {
+  remove = createSpy();
+  get() {
+    return of(mockMessages);
+  }
+}
+describe('GlobalMessageComponent', () => {
+  let globalMessageComponent: GlobalMessageComponent;
+  let fixture: ComponentFixture<GlobalMessageComponent>;
+  let messageService: GlobalMessageService;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [GlobalMessageComponent],
+      providers: [
+        { provide: GlobalMessageService, useClass: MockMessageService }
+      ]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(GlobalMessageComponent);
+    globalMessageComponent = fixture.componentInstance;
+
+    messageService = TestBed.get(GlobalMessageService);
+  });
+
+  it('should create', () => {
+    expect(globalMessageComponent).toBeTruthy();
+  });
+
+  it('should not have duplicate messages per message type', () => {
+    globalMessageComponent.ngOnInit();
+    globalMessageComponent.messages$.subscribe(messages => {
+      expect(messages[GlobalMessageType.MSG_TYPE_CONFIRMATION].length).toBe(1);
+    });
+  });
+
+  it('should be able to remove messages', () => {
+    globalMessageComponent.clear(GlobalMessageType.MSG_TYPE_CONFIRMATION, 0);
+    expect(messageService.remove).toHaveBeenCalledWith(
+      GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      0
+    );
+  });
+});

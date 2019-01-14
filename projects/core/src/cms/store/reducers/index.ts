@@ -1,5 +1,10 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+import {
+  ActionReducer,
+  ActionReducerMap,
+  MetaReducer,
+  Action
+} from '@ngrx/store';
 
 import * as fromPage from './page.reducer';
 import * as fromComponent from './component.reducer';
@@ -23,7 +28,9 @@ export const reducerProvider: Provider = {
   useFactory: getReducers
 };
 
-export function clearCmsState(reducer: ActionReducer<any>): ActionReducer<any> {
+export function clearCmsState(
+  reducer: ActionReducer<any, Action>
+): ActionReducer<any, Action> {
   return function(state, action) {
     if (
       action.type === '[Site-context] Language Change' ||

@@ -1,16 +1,20 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
+
 import { of } from 'rxjs';
 
 import * as fromStore from '../store/index';
+import { ProductsState } from '../store/index';
+import { Product } from '../../occ/occ-models/occ.models';
 
 import { ProductService } from './product.service';
 
 describe('ProductService', () => {
-  let store;
+  let store: Store<ProductsState>;
   let service: ProductService;
-  const mockProduct = { code: 'testId' };
+  const mockProduct: Product = { code: 'testId' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,9 +44,14 @@ describe('ProductService', () => {
           value: mockProduct
         })
       );
-      service.get('testId').subscribe(product => {
-        expect(product).toBe(mockProduct);
-      });
+      let result: Product;
+      service
+        .get('testId')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toBe(mockProduct);
     });
   });
 
@@ -53,7 +62,7 @@ describe('ProductService', () => {
           loading: true
         })
       );
-      let isLoading;
+      let isLoading: boolean;
       service.isLoading('testId').subscribe(value => {
         isLoading = value;
       });
@@ -68,7 +77,7 @@ describe('ProductService', () => {
           error: true
         })
       );
-      let hasError;
+      let hasError: boolean;
       service.hasError('testId').subscribe(value => {
         hasError = value;
       });
@@ -83,7 +92,7 @@ describe('ProductService', () => {
           success: true
         })
       );
-      let isSuccess;
+      let isSuccess: boolean;
       service.isSuccess('testId').subscribe(value => {
         isSuccess = value;
       });
@@ -108,27 +117,42 @@ describe('ProductService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: mockProduct })
       );
-      service.get('existingProduct').subscribe(result => {
-        expect(result).toBeTruthy();
-      });
+      let result: Product;
+      service
+        .get('existingProduct')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toBeTruthy();
     });
 
     it('should be false that the product is loaded when an empty object is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: {} })
       );
-      service.get('emptyObjectProduct').subscribe(result => {
-        expect(result).toEqual({});
-      });
+      let result: Product;
+      service
+        .get('emptyObjectProduct')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toEqual({});
     });
 
     it('should be false that the product is loaded when undefined is returned by the store', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({ value: undefined })
       );
-      service.get('undefinedProduct').subscribe(result => {
-        expect(result).toBeFalsy();
-      });
+      let result: Product;
+      service
+        .get('undefinedProduct')
+        .subscribe(product => {
+          result = product;
+        })
+        .unsubscribe();
+      expect(result).toBeFalsy();
     });
   });
 });

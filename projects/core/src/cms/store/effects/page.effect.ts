@@ -17,6 +17,7 @@ import { OccCmsService } from '../../occ/occ-cms.service';
 import { DefaultPageService } from '../../occ/default-page.service';
 
 import { Page } from '../../model/page.model';
+import { ContentSlotData } from '../../model/content-slot.model';
 
 import { RoutingService, PageContext } from '../../../routing/index';
 import { PageType, CMSPage } from '../../../occ/occ-models/index';
@@ -27,6 +28,7 @@ export class PageEffects {
   loadPage$: Observable<any> = this.actions$.pipe(
     ofType(
       pageActions.LOAD_PAGEDATA,
+      pageActions.REFRESH_LATEST_PAGE,
       '[Site-context] Language Change',
       '[Auth] Logout',
       '[Auth] Login'
@@ -102,7 +104,8 @@ export class PageEffects {
         uuid: slot.slotUuid,
         catalogUuid: this.getCatalogUuid(slot),
         components: []
-      };
+      } as ContentSlotData;
+
       if (
         slot.components.component &&
         Array.isArray(slot.components.component)
@@ -143,15 +146,24 @@ export class PageEffects {
   }
 
   private getCatalogUuid(cmsItem: any): string {
-    if (cmsItem.properties) {
-      return cmsItem.properties.smartedit.catalogVersionUuid;
-    } else {
-      // due to smartedit bug: CMSX-8181, for page and slot, we have to hard-coded the catalogUUID.
-      return 'electronicsContentCatalog/Online';
+    if (cmsItem.properties && cmsItem.properties.smartedit) {
+      const smartEditProp = cmsItem.properties.smartedit;
+      if (smartEditProp.catalogVersionUuid) {
+        return smartEditProp.catalogVersionUuid;
+      } else if (smartEditProp.classes) {
+        let catalogUuid: string;
+        const seClass = smartEditProp.classes.split(' ');
+        seClass.forEach(item => {
+          if (item.indexOf('smartedit-catalog-version-uuid') > -1) {
+            catalogUuid = item.substr('smartedit-catalog-version-uuid-'.length);
+          }
+        });
+        return catalogUuid;
+      }
     }
   }
 
-  private getComponents(pageData: CMSPage) {
+  private getComponents(pageData: CMSPage): any[] {
     const components = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {

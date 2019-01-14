@@ -1,7 +1,11 @@
 <div [ngClass]="compact ? 'cx-cart-item--compact row' : 'cx-cart-item row'">
   <!-- Item Image -->
   <div class="col-2 cx-cart-item__image-container">
-    <a [routerLink]="['/product', item.product.code]">
+    <a
+      [routerLink]="
+        { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
+      "
+    >
       <cx-picture
         [imageContainer]="item.product.images?.PRIMARY"
         imageFormat="thumbnail"
@@ -19,7 +23,10 @@
         <div *ngIf="item.product.name" class="cx-cart-item__name">
           <a
             class="cx-cart-item__name--link"
-            [routerLink]="['/product', item.product.code]"
+            [routerLink]="
+              { route: [{ name: 'product', params: item.product }] }
+                | cxTranslateUrl
+            "
             >{{ item.product.name }}</a
           >
         </div>
