@@ -89,6 +89,10 @@ h3 {
   cx-picture {
     height: var(--cx-height, 20vmin);
   }
+  opacity: 0;
+  &.active {
+    opacity: 1;
+  }
 
   h4 {
     overflow: hidden;

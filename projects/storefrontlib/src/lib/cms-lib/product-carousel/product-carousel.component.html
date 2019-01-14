@@ -4,17 +4,20 @@
   *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
   class="cx-carousel"
 >
-  <div class="previous" (click)="prev()"></div>
+  <button class="previous" (click)="prev(carousel.max)"></button>
 
   <div class="groups">
     <ng-container *ngFor="let unused of carousel.products; let i = index">
-      <div class="group" *ngIf="i % carousel.products.length === 0">
+      <div class="group" *ngIf="i % carousel.max === 0">
         <ng-container
-          *ngFor="let product$ of (carousel.products | slice: i:carousel.max)"
+          *ngFor="
+            let product$ of (carousel.products | slice: i:i + carousel.max)
+          "
         >
           <div
             *ngIf="(product$ | async) as product"
             class="product"
+            [class.active]="i === activeItem"
             [routerLink]="
               { route: [{ name: 'product', params: product }] } | cxTranslateUrl
             "
@@ -25,7 +28,7 @@
             >
             </cx-picture>
 
-            <h4>{{ product.name }}</h4>
+            <h4>{{ product.name }} - {{ i }} - {{ activeItem }}</h4>
             <div class="price">{{ product.price?.formattedValue }}</div>
           </div>
         </ng-container>
@@ -33,5 +36,5 @@
     </ng-container>
   </div>
 
-  <div class="next" (click)="next()"></div>
+  <button class="next" (click)="next(carousel.max)"></button>
 </div>

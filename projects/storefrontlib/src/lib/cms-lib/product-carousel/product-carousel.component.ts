@@ -25,6 +25,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 const MAX_WIDTH = 360;
 const MAX_ITEM_SIZE = 4;
 
+const SPEED = 250;
+
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
@@ -34,6 +36,7 @@ const MAX_ITEM_SIZE = 4;
 export class ProductCarouselComponent implements OnInit {
   items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
+  activeItem = 0;
 
   private window: Window;
 
@@ -88,7 +91,11 @@ export class ProductCarouselComponent implements OnInit {
     );
   }
 
-  prev() {}
+  prev(max) {
+    this.activeItem = this.activeItem - max;
+  }
 
-  next() {}
+  next(max) {
+    this.activeItem = this.activeItem + max;
+  }
 }
