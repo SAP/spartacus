@@ -3,7 +3,8 @@ import {
   ChangeDetectionStrategy,
   OnDestroy,
   ViewChild,
-  OnInit
+  OnInit,
+  ElementRef
 } from '@angular/core';
 
 import {
@@ -14,7 +15,7 @@ import {
 } from '@spartacus/core';
 
 import { Subscription, fromEvent, Observable } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, map } from 'rxjs/operators';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
@@ -25,6 +26,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent implements OnDestroy, OnInit {
+  itemSize$: Observable<number>;
+
   productGroups: Array<string[]>;
   products: { [key: string]: Observable<Product> } = {};
   productCodes: Array<string>;
@@ -40,7 +43,8 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
   constructor(
     public component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService,
-    winRef: WindowRef
+    private winRef: WindowRef,
+    private el: ElementRef
   ) {
     this.window = winRef.nativeWindow;
   }
@@ -52,6 +56,27 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
         .pipe(debounceTime(300))
         .subscribe(() => this.createGroups());
     }
+
+    this.setItemSize();
+  }
+
+  /**
+   * The number of items shown in the carousel can be calculated
+   * the standard implemenattions uses the element size to calculate
+   * the items that fit in the carousel.
+   * This method is called in `ngOnInit`.
+   */
+  protected setItemSize(): void {
+    const MAX_WIDTH = 360;
+    this.itemSize$ = fromEvent(this.winRef.nativeWindow, 'resize').pipe(
+      map(() => (this.el.nativeElement as HTMLElement).clientWidth),
+      // avoid to much calls
+      debounceTime(100),
+      map((innerWidth: any) => {
+        const itemsPerPage = Math.round(innerWidth / MAX_WIDTH);
+        return itemsPerPage > 2 ? 4 : itemsPerPage;
+      })
+    );
   }
 
   prev() {
