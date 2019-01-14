@@ -69,7 +69,7 @@ describe('MobileMenuComponent', () => {
   describe('UI tests', () => {
     it('should contain the hamburger', () => {
       expect(
-        fixture.debugElement.query(By.css('button.hamburger'))
+        fixture.debugElement.query(By.css('button.cx-hamburger'))
       ).not.toBeNull();
     });
 
