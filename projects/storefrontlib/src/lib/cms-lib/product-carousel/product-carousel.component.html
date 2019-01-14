@@ -51,7 +51,7 @@
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <button
         *ngIf="i % carousel.max === 0"
-        (click)="setActiveItem(i)"
+        (click)="setActiveItem(i, carousel.max)"
         [disabled]="i === activeItem"
       ></button>
     </ng-container></div

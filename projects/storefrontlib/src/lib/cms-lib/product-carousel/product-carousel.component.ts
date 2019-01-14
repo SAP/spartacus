@@ -2,7 +2,8 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -44,7 +45,8 @@ export class ProductCarouselComponent implements OnInit {
     public component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService,
     winRef: WindowRef,
-    private el: ElementRef
+    private el: ElementRef,
+    private cd: ChangeDetectorRef
   ) {
     this.window = winRef.nativeWindow;
   }
@@ -92,14 +94,20 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   prev(max) {
-    this.setActiveItem(this.activeItem - max);
+    this.setActiveItem(this.activeItem - max, max);
   }
 
   next(max) {
-    this.setActiveItem(this.activeItem + max);
+    this.setActiveItem(this.activeItem + max, max);
   }
 
-  setActiveItem(active: number) {
-    this.activeItem = active;
+  setActiveItem(newActive: number, max: number) {
+    this.activeItem = -1;
+    // we wait a little with setting the new active
+    // to make a better animation
+    setTimeout(() => {
+      this.activeItem = newActive;
+      this.cd.markForCheck();
+    }, (max - 1) * SPEED);
   }
 }
