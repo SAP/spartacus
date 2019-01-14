@@ -64,11 +64,7 @@ export class OccStoreFinderService {
 
   protected callOccFindStores(
     query: string,
-<<<<<<< HEAD:projects/core/src/store-finder/occ/store-finder.service.ts
     searchConfig: StoreFinderSearchConfig,
-=======
-    searchConfig: SearchConfig = {},
->>>>>>> a0c9fb3dc8f40e88559e502c752f769e7c238959:projects/storefrontlib/src/lib/occ/store/store-finder.service.ts
     longitudeLatitude?: LongitudeLatitude
   ): Observable<StoreFinderSearchPage> {
     const url = this.getStoresEndpoint();
