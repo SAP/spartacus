@@ -13,14 +13,13 @@
   }
 
   > h3 {
-    @include type('2');
+    @include type('3');
     font-weight: bold;
     text-align: center;
     margin-top: 2rem;
     margin-bottom: 1rem;
     @include media-breakpoint-up(xl) {
-      margin-bottom: 4rem;
-      margin-top: 4rem;
+      margin-bottom: 3rem;
     }
   }
 }
