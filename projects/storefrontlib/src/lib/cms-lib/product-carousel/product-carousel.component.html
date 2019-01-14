@@ -1,40 +1,31 @@
 <h4 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h4>
 <div class="cx-carousel__container">
   <ng-container *ngIf="productGroups">
-    <ngb-carousel
-      #carousel
-      [wrap]="true"
-      [showNavigationArrows]="false"
-      [showNavigationIndicators]="true"
-      class="cx-carousel__slide"
-    >
-      <ng-template ngbSlide *ngFor="let group of productGroups">
-        <div
-          class="cx-carousel__product-container"
-          *ngFor="let productCode of group"
-        >
-          <ng-container *ngIf="(products[productCode] | async) as product">
-            <div
-              class="cx-carousel__product"
-              [routerLink]="
-                { route: [{ name: 'product', params: product }] }
-                  | cxTranslateUrl
-              "
+    <div *ngFor="let group of productGroups">
+      <div
+        class="cx-carousel__product-container"
+        *ngFor="let productCode of group"
+      >
+        <ng-container *ngIf="(products[productCode] | async) as product">
+          <div
+            class="cx-carousel__product"
+            [routerLink]="
+              { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+            "
+          >
+            <cx-picture
+              [imageContainer]="product.images?.PRIMARY"
+              imageFormat="product"
             >
-              <cx-picture
-                [imageContainer]="product.images?.PRIMARY"
-                imageFormat="product"
-              >
-              </cx-picture>
-            </div>
-            <div class="cx-carousel__product-name">{{ product.name }}</div>
-            <div class="cx-carousel__product-price">
-              {{ product.price?.formattedValue }}
-            </div>
-          </ng-container>
-        </div>
-      </ng-template>
-    </ngb-carousel>
+            </cx-picture>
+          </div>
+          <div class="cx-carousel__product-name">{{ product.name }}</div>
+          <div class="cx-carousel__product-price">
+            {{ product.price?.formattedValue }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
   </ng-container>
   <svg
     xmlns="http://www.w3.org/2000/svg"
