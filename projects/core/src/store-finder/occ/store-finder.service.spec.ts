@@ -8,7 +8,6 @@ import { OccStoreFinderService } from './store-finder.service';
 import { OccConfig } from '@spartacus/core';
 import { StoreFinderSearchConfig } from '../../store-finder/model/search-config';
 import { LongitudeLatitude } from '../../store-finder/model/longitude-latitude';
-import { OccE2eConfigurationService } from '../occ/e2e/e2e-configuration-service';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
@@ -45,7 +44,6 @@ describe('OccStoreFinderService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
-        OccE2eConfigurationService,
         { provide: OccConfig, useClass: MockOccModuleConfig }
       ]
     });
@@ -70,11 +68,13 @@ describe('OccStoreFinderService', () => {
       const mockReq = httpMock.expectOne({
         method: 'GET',
         url:
-          '/e2econfigurationwebservices/e2econfiguration/e2egoogleservices.storesdisplayed'
+          '/stores?fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL))' +
+          ',geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email),%20features)' +
+          ',pagination(DEFAULT),sorts(DEFAULT)&query=test&pageSize=5'
       });
 
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('text');
+      expect(mockReq.request.responseType).toEqual('json');
     });
   });
 
@@ -90,11 +90,13 @@ describe('OccStoreFinderService', () => {
       const mockReq = httpMock.expectOne({
         method: 'GET',
         url:
-          '/e2econfigurationwebservices/e2econfiguration/e2egoogleservices.storesdisplayed'
+          '/stores?fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL))' +
+          ',geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email),%20features)' +
+          ',pagination(DEFAULT),sorts(DEFAULT)&longitude=10.1&latitude=20.2&pageSize=5'
       });
 
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('text');
+      expect(mockReq.request.responseType).toEqual('json');
     });
   });
 
