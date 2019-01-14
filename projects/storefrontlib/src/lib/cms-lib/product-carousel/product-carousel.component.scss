@@ -32,4 +32,37 @@ h4 {
     flex: auto;
     position: relative;
   }
+  .previous,
+  .next {
+    background-color: transparent;
+    border: none;
+    &:not(:disabled):hover {
+      color: var(--cx-color, var(--cx-g-color-primary));
+    }
+
+    &:after {
+      content: '';
+      border-style: solid;
+      border-color: currentColor;
+      border-width: var(--cx-border-width, 4px);
+      width: 15px;
+      height: 15px;
+      display: block;
+      border-top: 0;
+    }
+  }
+
+  .previous {
+    &:after {
+      border-right: 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  .next {
+    &:after {
+      border-left: 0;
+      transform: rotate(-45deg);
+    }
+  }
 }
