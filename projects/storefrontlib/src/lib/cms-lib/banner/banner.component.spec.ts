@@ -4,9 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
-import { CmsConfig } from '@spartacus/core';
-import { CmsService } from '@spartacus/core';
+import { CmsConfig, Component } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -45,8 +45,10 @@ describe('BannerComponent', () => {
     urlLink: '/logo'
   };
 
-  const MockCmsService = {
-    getComponentData: () => of(componentData)
+  const MockCmsComponentData = <CmsComponentData<Component>>{
+    data$: of(componentData),
+    uid: 'test',
+    contextParameters: null
   };
 
   beforeEach(async(() => {
@@ -58,7 +60,7 @@ describe('BannerComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CmsConfig, useValue: UseCmsModuleConfig }
       ]
     }).compileComponents();
@@ -75,11 +77,9 @@ describe('BannerComponent', () => {
   });
 
   it('should contain image source', () => {
-    expect(bannerComponent.component).toBeNull();
-    bannerComponent.onCmsComponentInit(componentData.uid);
-    expect(bannerComponent.component).toBe(componentData);
+    fixture.detectChanges();
     expect(el.query(By.css('img')).nativeElement.src).toContain(
-      bannerComponent.component.media.url
+      componentData.media.url
     );
   });
 });

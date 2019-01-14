@@ -23,7 +23,7 @@ describe('Directive: OnlyNumber', () => {
   });
 
   it('should create an instance', () => {
-    const directive = new OnlyNumberDirective(inputEl);
+    const directive = new OnlyNumberDirective(inputEl, null);
     expect(directive).toBeTruthy();
   });
 
