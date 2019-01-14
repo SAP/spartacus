@@ -1,16 +1,11 @@
 import { ActivatedRoute } from '@angular/router';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
-import {
-  getStoreFinderReducers,
-  StoreFinderService,
-  RoutingService
-} from '@spartacus/core';
+import { StoreFinderService, RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform, Component, Input } from '@angular/core';
 import { of, Observable } from 'rxjs';
 
@@ -136,12 +131,7 @@ describe('StoreFinderGridComponent', () => {
 
   function configureTestBed(): void {
     const bed = TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', getStoreFinderReducers),
-        RouterTestingModule,
-        SpinnerModule
-      ],
+      imports: [RouterTestingModule, SpinnerModule],
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,

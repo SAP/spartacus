@@ -6,7 +6,7 @@ import * as fromStore from '../store';
 
 import { StoreFinderService } from './store-finder.service';
 import { LongitudeLatitude } from '../model/longitude-latitude';
-import { WindowRef } from '../../window';
+import { WindowRef } from '../../window/window-ref';
 
 describe('StoreFinderService', () => {
   let service: StoreFinderService;
@@ -42,7 +42,7 @@ describe('StoreFinderService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({
-          store: combineReducers(fromStore.getStoreFinderReducers)
+          store: combineReducers(fromStore.getReducers)
         })
       ],
       providers: [

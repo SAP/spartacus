@@ -1,16 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { StoreFinderSearchResultComponent } from './store-finder-search-result.component';
 
-import {
-  getStoreFinderReducers,
-  StoreFinderService,
-  StoresState
-} from '@spartacus/core';
+import { StoreFinderService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
 class ActivatedRouteMock {
@@ -33,23 +28,17 @@ const mockStoreFinderService = {
 describe('StoreFinderListComponent', () => {
   let component: StoreFinderSearchResultComponent;
   let fixture: ComponentFixture<StoreFinderSearchResultComponent>;
-  let store: Store<StoresState>;
   let storeFinderService: StoreFinderService;
   let activatedRoute: ActivatedRouteMock;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', getStoreFinderReducers)
-      ],
+      imports: [RouterTestingModule],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderSearchResultComponent],
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },
-        { provide: ActivatedRoute, useClass: ActivatedRouteMock },
-        Store
+        { provide: ActivatedRoute, useClass: ActivatedRouteMock }
       ]
     }).compileComponents();
   }));
@@ -57,11 +46,8 @@ describe('StoreFinderListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderSearchResultComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
     storeFinderService = TestBed.get(StoreFinderService);
     activatedRoute = TestBed.get(ActivatedRoute);
-
-    spyOn(store, 'dispatch');
 
     fixture.detectChanges();
   });

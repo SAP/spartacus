@@ -10,7 +10,7 @@ import { StoreFinderService } from '@spartacus/core';
 })
 export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   constructor(private storeFinderService: StoreFinderService) {}
 

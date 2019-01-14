@@ -1,5 +1,4 @@
 import { ActivatedRoute } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -11,7 +10,6 @@ import { SpinnerComponent } from '../../../ui';
 
 import { PipeTransform, Pipe } from '@angular/core';
 import {
-  getStoreFinderReducers,
   GoogleMapRendererService,
   StoreFinderService,
   StoreDataService
@@ -68,11 +66,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   function configureTestBed() {
     const bed = TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', getStoreFinderReducers)
-      ],
+      imports: [RouterTestingModule],
       declarations: [
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,

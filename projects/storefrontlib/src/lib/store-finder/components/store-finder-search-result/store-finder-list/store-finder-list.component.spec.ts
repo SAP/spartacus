@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { combineReducers, Store, StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
@@ -9,12 +8,7 @@ import { StoreFinderListComponent } from './store-finder-list.component';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
 
-import {
-  getStoreFinderReducers,
-  StoreDataService,
-  GoogleMapRendererService,
-  StoresState
-} from '@spartacus/core';
+import { StoreDataService, GoogleMapRendererService } from '@spartacus/core';
 
 const location = {};
 const stores = [location];
@@ -38,21 +32,13 @@ class GoogleMapRendererServiceMock {
 describe('StoreFinderDisplayListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
-  let store: Store<StoresState>;
   let storeMapComponent: StoreFinderMapComponent;
   let storeDataService: StoreDataService;
   let googleMapRendererService: GoogleMapRendererService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
-        SpinnerModule,
-        StoreModule.forRoot({
-          stores: combineReducers(getStoreFinderReducers)
-        })
-      ],
+      imports: [RouterTestingModule, HttpClientTestingModule, SpinnerModule],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderListComponent, StoreFinderMapComponent],
       providers: [
@@ -68,11 +54,9 @@ describe('StoreFinderDisplayListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
-    store = TestBed.get(Store);
     storeDataService = TestBed.get(StoreDataService);
     googleMapRendererService = TestBed.get(GoogleMapRendererService);
 
-    spyOn(store, 'dispatch');
     spyOn(storeDataService, 'getStoreLatitude');
     spyOn(storeDataService, 'getStoreLongitude');
     spyOn(googleMapRendererService, 'centerMap');

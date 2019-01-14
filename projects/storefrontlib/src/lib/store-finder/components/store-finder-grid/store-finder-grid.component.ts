@@ -11,7 +11,7 @@ import { RoutingService } from '@spartacus/core';
 })
 export class StoreFinderGridComponent implements OnInit {
   locations: any;
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private storeFinderService: StoreFinderService,

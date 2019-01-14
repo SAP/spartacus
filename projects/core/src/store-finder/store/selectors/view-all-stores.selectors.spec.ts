@@ -15,7 +15,7 @@ describe('ViewAllStores Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.getStoreFinderReducers())
+        StoreModule.forFeature('stores', fromReducers.getReducers())
       ]
     });
     store = TestBed.get(Store);
