@@ -71,6 +71,7 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
         {
           name: 'storeDescription',
           params: {
+            region: '',
             country: this.route.snapshot.params.country,
             store: location.name
           }

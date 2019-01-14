@@ -121,6 +121,7 @@ describe('StoreFinderGridComponent', () => {
         {
           name: 'storeDescription',
           params: {
+            region: '',
             country: countryIsoCode,
             store: location.name
           }
