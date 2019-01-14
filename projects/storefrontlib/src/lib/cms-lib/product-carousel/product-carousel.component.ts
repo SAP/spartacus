@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 
 import { Subscription, fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
@@ -82,7 +82,9 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
       map((innerWidth: any) => {
         const itemsPerPage = Math.round(innerWidth / MAX_WIDTH);
         return itemsPerPage > 2 ? MAX_ITEM_SIZE : itemsPerPage;
-      })
+      }),
+      // only emit new size when the size changed
+      distinctUntilChanged()
     );
   }
 
