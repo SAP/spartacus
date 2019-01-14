@@ -14,10 +14,13 @@ import {
   WindowRef
 } from '@spartacus/core';
 
-import { Subscription, fromEvent, Observable } from 'rxjs';
+import { Subscription, fromEvent, Observable, of } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+
+const MAX_WIDTH = 360;
+const MAX_ITEM_SIZE = 4;
 
 @Component({
   selector: 'cx-product-carousel',
@@ -67,14 +70,18 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
    * This method is called in `ngOnInit`.
    */
   protected setItemSize(): void {
-    const MAX_WIDTH = 360;
-    this.itemSize$ = fromEvent(this.winRef.nativeWindow, 'resize').pipe(
+    if (!this.window) {
+      this.itemSize$ = of(MAX_ITEM_SIZE);
+      return;
+    }
+
+    this.itemSize$ = fromEvent(this.window, 'resize').pipe(
       map(() => (this.el.nativeElement as HTMLElement).clientWidth),
       // avoid to much calls
       debounceTime(100),
       map((innerWidth: any) => {
         const itemsPerPage = Math.round(innerWidth / MAX_WIDTH);
-        return itemsPerPage > 2 ? 4 : itemsPerPage;
+        return itemsPerPage > 2 ? MAX_ITEM_SIZE : itemsPerPage;
       })
     );
   }
