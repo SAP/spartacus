@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  storafront-poc-ssr-front:
+    build:
+      context: .
+      target: ssr-front
+    ports:
+      - "80:80"
+    restart: unless-stopped
+  storafront-poc-ssr-back:
+    build:
+      context: .
+      target: ssr-back
+    ports:
+      - "4200:4200"
+    restart: unless-stopped
