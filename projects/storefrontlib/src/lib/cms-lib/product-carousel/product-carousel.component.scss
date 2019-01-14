@@ -11,6 +11,18 @@
   @include media-breakpoint-down(md) {
     padding: 1rem;
   }
+
+  > h3 {
+    @include type('2');
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    @include media-breakpoint-up(xl) {
+      margin-bottom: 4rem;
+      margin-top: 4rem;
+    }
+  }
 }
 
 button {
@@ -24,18 +36,6 @@ button {
     outline: none;
   }
   color: var(--cx-g-color-light);
-}
-
-h3 {
-  @include type('2');
-  font-weight: bold;
-  text-align: center;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  @include media-breakpoint-up(xl) {
-    margin-bottom: 4rem;
-    margin-top: 4rem;
-  }
 }
 
 .cx-carousel {
@@ -56,8 +56,32 @@ h3 {
         //  of the parent size is based on contetn
         position: absolute;
       }
+
+      .product {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+        flex: 0 0 25%;
+        cx-picture {
+          height: var(--cx-height, 20vmin);
+        }
+        opacity: 0;
+        &.active {
+          opacity: 1;
+        }
+
+        h4 {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 0.8rem;
+          font-weight: bold;
+        }
+      }
     }
   }
+
   .previous,
   .next {
     background-color: transparent;
@@ -110,28 +134,5 @@ h3 {
       color: var(--cx-background-color, var(--cx-g-color-primary));
     }
     background-color: currentColor;
-  }
-}
-
-.product {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: space-between;
-  flex: 0 0 25%;
-  cx-picture {
-    height: var(--cx-height, 20vmin);
-  }
-  opacity: 0;
-  &.active {
-    opacity: 1;
-  }
-
-  h4 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 0.8rem;
-    font-weight: bold;
   }
 }
