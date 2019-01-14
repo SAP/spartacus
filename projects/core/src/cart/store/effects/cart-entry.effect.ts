@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, catchError, mergeMap, debounceTime } from 'rxjs/operators';
+import {
+  catchError,
+  debounceTime,
+  map,
+  mergeMap,
+  switchMap
+} from 'rxjs/operators';
 
 import * as fromActions from './../actions';
 
@@ -49,7 +55,7 @@ export class CartEntryEffects {
     ofType(fromActions.UPDATE_ENTRY),
     debounceTime(300),
     map((action: fromActions.AddEntry) => action.payload),
-    mergeMap(payload =>
+    switchMap(payload =>
       this.cartService
         .updateEntry(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
