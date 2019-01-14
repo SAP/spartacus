@@ -15,7 +15,12 @@ import {
 } from '@spartacus/core';
 
 import { Subscription, fromEvent, Observable, of } from 'rxjs';
-import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators';
+import {
+  debounceTime,
+  map,
+  distinctUntilChanged,
+  startWith
+} from 'rxjs/operators';
 import { NgbCarousel } from '@ng-bootstrap/ng-bootstrap';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
@@ -47,7 +52,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
   constructor(
     public component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService,
-    private winRef: WindowRef,
+    winRef: WindowRef,
     private el: ElementRef
   ) {
     this.window = winRef.nativeWindow;
@@ -62,6 +67,7 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
     }
 
     this.setItemSize();
+    this.setItems();
   }
 
   /**
@@ -87,9 +93,9 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
       this.itemSize$ = of(MAX_ITEM_SIZE);
       return;
     }
-
     this.itemSize$ = fromEvent(this.window, 'resize').pipe(
       map(() => (this.el.nativeElement as HTMLElement).clientWidth),
+      startWith((this.el.nativeElement as HTMLElement).clientWidth),
       // avoid to much calls
       debounceTime(100),
       map((innerWidth: any) => {
