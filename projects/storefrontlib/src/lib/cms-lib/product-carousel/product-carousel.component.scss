@@ -82,12 +82,16 @@ button {
         }
 
         h4 {
-          font-size: 0.8rem;
+          font-size: 0.9rem;
           height: 40px;
           font-weight: bold;
+          margin-top: 5px;
         }
-        .price {
-          font-weight: bold;
+        &:hover {
+          text-decoration: none;
+          h4 {
+            color: var(--cx-color, var(--cx-g-color-primary));
+          }
         }
       }
     }
