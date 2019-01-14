@@ -164,4 +164,8 @@ button {
     background-color: currentColor;
     transition: var(--cx-transition-duration, 0.6s) all;
   }
+
+  @include media-breakpoint-only(xs) {
+    display: none;
+  }
 }
