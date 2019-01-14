@@ -1,12 +1,16 @@
 <h4 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h4>
-<div class="cx-carousel__container">
-  <ng-container *ngIf="productGroups">
-    <div *ngFor="let group of productGroups">
+
+<div
+  *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
+  class="cx-carousel__container"
+>
+  <ng-container *ngFor="let unused of carousel.products; let i = index">
+    <div *ngIf="i % carousel.products.length === 0">
       <div
         class="cx-carousel__product-container"
-        *ngFor="let productCode of group"
+        *ngFor="let product$ of (carousel.products | slice: i:carousel.max)"
       >
-        <ng-container *ngIf="(products[productCode] | async) as product">
+        <ng-container *ngIf="(product$ | async) as product">
           <div
             class="cx-carousel__product"
             [routerLink]="
