@@ -29,6 +29,7 @@ const MAX_ITEM_SIZE = 4;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent implements OnDestroy, OnInit {
+  items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
 
   productGroups: Array<string[]>;
@@ -61,6 +62,18 @@ export class ProductCarouselComponent implements OnDestroy, OnInit {
     }
 
     this.setItemSize();
+  }
+
+  /**
+   * Maps the item codes from CMS component to an array of `Product` observables.
+   */
+  protected setItems() {
+    this.items$ = this.component.data$.pipe(
+      map(data => {
+        const productCodes = data.productCodes.split(' ');
+        return productCodes.map(code => this.productService.get(code));
+      })
+    );
   }
 
   /**
