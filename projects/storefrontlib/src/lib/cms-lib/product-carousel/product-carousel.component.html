@@ -2,49 +2,56 @@
 
 <div
   *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
-  class="cx-carousel__container"
+  class="cx-carousel"
 >
-  <ng-container *ngFor="let unused of carousel.products; let i = index">
-    <div *ngIf="i % carousel.products.length === 0">
-      <div
-        class="cx-carousel__product-container"
-        *ngFor="let product$ of (carousel.products | slice: i:carousel.max)"
-      >
-        <ng-container *ngIf="(product$ | async) as product">
-          <div
-            class="cx-carousel__product"
-            [routerLink]="
-              { route: [{ name: 'product', params: product }] } | cxTranslateUrl
-            "
-          >
-            <cx-picture
-              [imageContainer]="product.images?.PRIMARY"
-              imageFormat="product"
-            >
-            </cx-picture>
-          </div>
-          <div class="cx-carousel__product-name">{{ product.name }}</div>
-          <div class="cx-carousel__product-price">
-            {{ product.price?.formattedValue }}
-          </div>
-        </ng-container>
-      </div>
-    </div>
-  </ng-container>
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 17.875 26"
-    class="cx-carousel__arrow cx-carousel__arrow--prev"
+    class="previous"
     (click)="prev()"
   >
     <path
       d="M17.658,12.567,3.25.108A.4.4,0,0,0,2.925,0a.563.563,0,0,0-.433.217L.108,3.033A.4.4,0,0,0,0,3.358c0,.108.108.325.217.325L11.05,13,.217,22.208A.563.563,0,0,0,0,22.642a.651.651,0,0,0,.108.433l2.383,2.817c.108,0,.217.108.433.108h0a.4.4,0,0,0,.325-.108L17.658,13.433A.563.563,0,0,0,17.875,13,.821.821,0,0,0,17.658,12.567Z"
     />
   </svg>
+
+  <div class="groups">
+    <ng-container *ngFor="let unused of carousel.products; let i = index">
+      <div class="group" *ngIf="i % carousel.products.length === 0">
+        <ng-container>
+          <div
+            class="product"
+            *ngFor="let product$ of (carousel.products | slice: i:carousel.max)"
+          >
+            <ng-container *ngIf="(product$ | async) as product">
+              <div
+                class="product"
+                [routerLink]="
+                  { route: [{ name: 'product', params: product }] }
+                    | cxTranslateUrl
+                "
+              >
+                <cx-picture
+                  [imageContainer]="product.images?.PRIMARY"
+                  imageFormat="product"
+                >
+                </cx-picture>
+              </div>
+              <div class="cx-carousel__product-name">{{ product.name }}</div>
+              <div class="cx-carousel__product-price">
+                {{ product.price?.formattedValue }}
+              </div>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 17.875 26"
-    class="cx-carousel__arrow cx-carousel__arrow--next"
+    class="next"
     (click)="next()"
   >
     <path

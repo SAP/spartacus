@@ -2,12 +2,17 @@
 @import 'functions';
 @import 'mixins';
 
-$cx-product-carousel-arrow-color: 'secondary' !default;
-$cx-product-carousel-indicators-color: 'light' !default;
-$cx-product-carousel-indicators-color-active: 'primary' !default;
 :host {
-  display: block;
+  flex: 100%;
+  --cx-speed: 0.5;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-down(md) {
+    padding: 1rem;
+  }
 }
+
 h4 {
   @include type('2');
   font-weight: bold;
@@ -21,61 +26,10 @@ h4 {
 }
 
 .cx-carousel {
-  &__container {
+  display: flex;
+  justify-content: space-between;
+  .groups {
+    flex: auto;
     position: relative;
-    margin-bottom: 3rem;
-  }
-
-  &__slide {
-    padding-bottom: 3rem;
-  }
-
-  &__product-container {
-    display: inline-block;
-    text-align: center;
-    @include media-breakpoint-down(sm) {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-
-  &__product {
-    height: 100%;
-    align-self: center;
-    width: 100%;
-    @include media-breakpoint-up(md) {
-      margin: 0 10px 10px 0;
-      width: 265px;
-      padding: 10px;
-    }
-  }
-
-  &__product-name {
-    @include type('5');
-    margin-right: auto;
-    margin-left: auto;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  &__product-price {
-    @include type('3');
-    font-weight: normal;
-    text-align: center;
-  }
-
-  &__arrow {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: calc(50% - 50px);
-    cursor: pointer;
-    @include var-color('fill', $cx-product-carousel-arrow-color);
-    &--prev {
-      transform: rotate(180deg);
-    }
-    &--next {
-      right: 0;
-    }
   }
 }
