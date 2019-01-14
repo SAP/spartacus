@@ -41,7 +41,6 @@ describe('ItemCounterComponent', () => {
     focusEvent = TestBed.get(FocusEvent);
 
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
-    spyOn(itemCounterComponent, 'hasError').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
     spyOn(itemCounterComponent, 'updateValue').and.callThrough();
     spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
@@ -172,13 +171,6 @@ describe('ItemCounterComponent', () => {
     expect(
       fixture.debugElement.query(By.css('div.cx-item-counter__value'))
     ).toBeFalsy();
-  });
-
-  it('should contain error when value is not in correct range', () => {
-    itemCounterComponent.value = 61;
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-    expect(itemCounterComponent.hasError()).toBeTruthy();
   });
 
   it('should adjust value in range', () => {

@@ -24,7 +24,7 @@ const COUNTER_CONTROL_ACCESSOR = {
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
 export class ItemCounterComponent implements OnInit, ControlValueAccessor {
-  @ViewChild('input')
+  @ViewChild('itemCounterInput')
   public input: ElementRef;
 
   value = 0;
@@ -57,7 +57,12 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onTouch = () => {};
   onModelChange = (_rating: number) => {};
 
-  adjustValueInRange(incomingValue): number {
+  /**
+   * If value is too small it will be set to min, if is too big it will be set to max.
+   * @param incomingValue : number
+   * @returns adjustedValue : number
+   */
+  adjustValueInRange(incomingValue: number): number {
     return incomingValue < this.min || !this.min
       ? this.min
       : incomingValue > this.max || !this.max
@@ -65,7 +70,11 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       : incomingValue;
   }
 
-  manualChange(newValue): void {
+  /**
+   * Function set 'outOfRange' flag and adjust value in range. Then update model value + refresh input
+   * @param newValue : number
+   */
+  manualChange(newValue: number): void {
     this.outOfRange = this.isOutOfRange(newValue);
     newValue = this.adjustValueInRange(newValue);
     this.updateValue(newValue);
@@ -77,14 +86,19 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.input.nativeElement.value = newValue;
   }
 
-  hasError(): boolean {
-    return this.value < this.min || this.value > this.max;
-  }
-
+  /**
+   * Verify value for decision about displaying error about range
+   * @param value : number
+   * @returns flag : boolean
+   */
   isOutOfRange(value: number): boolean {
     return value < this.min || value > this.max;
   }
 
+  /**
+   * Verify value for decision about displaying info about range
+   * @returns flag : boolean
+   */
   isMaxOrMinValue(): boolean {
     return this.value === this.max || this.value === this.min;
   }
@@ -123,26 +137,18 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.onTouch();
   }
 
+  /**
+   * Verify value that it can be incremented, if yes it does that.
+   */
   increment(): void {
-    this.outOfRange = false;
-    const updatedQuantity =
-      this.value < this.min || !this.min
-        ? this.min
-        : this.value < this.max || !this.max
-        ? this.value + this.step
-        : this.max;
-    this.updateValue(updatedQuantity);
+    this.manualChange(this.value + this.step);
   }
 
+  /**
+   * Verify value that it can be decremented, if yes it does that.
+   */
   decrement(): void {
-    this.outOfRange = false;
-    const updatedQuantity =
-      this.value > this.max || !this.max
-        ? this.max
-        : this.value > this.min || !this.min
-        ? this.value - this.step
-        : this.min;
-    this.updateValue(updatedQuantity);
+    this.manualChange(this.value - this.step);
   }
 
   // ControlValueAccessor interface
@@ -160,6 +166,9 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.onModelChange(this.value);
   }
 
+  /**
+   * Set up new value for input and emit event outside
+   */
   updateValue(updatedQuantity) {
     if (!this.async) {
       // If the async flag is true, then the parent component is responsible for updating the form

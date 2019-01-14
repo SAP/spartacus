@@ -4,6 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
   catchError,
   debounceTime,
+  distinctUntilChanged,
   map,
   mergeMap,
   switchMap
@@ -54,6 +55,7 @@ export class CartEntryEffects {
   updateEntry$: Observable<any> = this.actions$.pipe(
     ofType(fromActions.UPDATE_ENTRY),
     debounceTime(300),
+    distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
     map((action: fromActions.AddEntry) => action.payload),
     switchMap(payload =>
       this.cartService
