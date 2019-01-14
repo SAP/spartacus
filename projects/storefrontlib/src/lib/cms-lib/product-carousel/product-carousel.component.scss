@@ -13,7 +13,7 @@
   }
 }
 
-h4 {
+h3 {
   @include type('2');
   font-weight: bold;
   text-align: center;
@@ -31,6 +31,19 @@ h4 {
   .groups {
     flex: auto;
     position: relative;
+
+    .group {
+      width: 100%;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+
+      &:not(:last-child) {
+        // we keep the last group non-absolute, so the height
+        //  of the parent size is based on contetn
+        position: absolute;
+      }
+    }
   }
   .previous,
   .next {
@@ -64,5 +77,24 @@ h4 {
       border-left: 0;
       transform: rotate(-45deg);
     }
+  }
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+  flex: 0 0 25%;
+  cx-picture {
+    height: var(--cx-height, 20vmin);
+  }
+
+  h4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8rem;
+    font-weight: bold;
   }
 }

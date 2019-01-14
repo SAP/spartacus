@@ -1,4 +1,4 @@
-<h4 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h4>
+<h3 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h3>
 
 <div
   *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
@@ -9,30 +9,24 @@
   <div class="groups">
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <div class="group" *ngIf="i % carousel.products.length === 0">
-        <ng-container>
+        <ng-container
+          *ngFor="let product$ of (carousel.products | slice: i:carousel.max)"
+        >
           <div
+            *ngIf="(product$ | async) as product"
             class="product"
-            *ngFor="let product$ of (carousel.products | slice: i:carousel.max)"
+            [routerLink]="
+              { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+            "
           >
-            <ng-container *ngIf="(product$ | async) as product">
-              <div
-                class="product"
-                [routerLink]="
-                  { route: [{ name: 'product', params: product }] }
-                    | cxTranslateUrl
-                "
-              >
-                <cx-picture
-                  [imageContainer]="product.images?.PRIMARY"
-                  imageFormat="product"
-                >
-                </cx-picture>
-              </div>
-              <div class="cx-carousel__product-name">{{ product.name }}</div>
-              <div class="cx-carousel__product-price">
-                {{ product.price?.formattedValue }}
-              </div>
-            </ng-container>
+            <cx-picture
+              [imageContainer]="product.images?.PRIMARY"
+              imageFormat="product"
+            >
+            </cx-picture>
+
+            <h4>{{ product.name }}</h4>
+            <div class="price">{{ product.price?.formattedValue }}</div>
           </div>
         </ng-container>
       </div>
