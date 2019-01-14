@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { StoreFinderService } from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
@@ -9,9 +9,10 @@ import { RoutingService } from '@spartacus/core';
   templateUrl: './store-finder-grid.component.html',
   styleUrls: ['./store-finder-grid.component.scss']
 })
-export class StoreFinderGridComponent implements OnInit {
+export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations: any;
   isLoading$: Observable<boolean>;
+  locationsSub: Subscription;
 
   constructor(
     private storeFinderService: StoreFinderService,
@@ -34,12 +35,17 @@ export class StoreFinderGridComponent implements OnInit {
       }
     }
 
-    this.storeFinderService.getFindStoresEntities().subscribe(locations => {
-      if (locations.pointOfServices && locations.pointOfServices.length === 1) {
-        this.viewStore(locations.pointOfServices[0]);
-      }
-      this.locations = locations;
-    });
+    this.locationsSub = this.storeFinderService
+      .getFindStoresEntities()
+      .subscribe(locations => {
+        if (
+          locations.pointOfServices &&
+          locations.pointOfServices.length === 1
+        ) {
+          this.viewStore(locations.pointOfServices[0]);
+        }
+        this.locations = locations;
+      });
   }
 
   viewStore(location: any): void {
@@ -71,5 +77,11 @@ export class StoreFinderGridComponent implements OnInit {
         }
       ]
     });
+  }
+
+  ngOnDestroy() {
+    if (this.locationsSub) {
+      this.locationsSub.unsubscribe();
+    }
   }
 }
