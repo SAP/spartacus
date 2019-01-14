@@ -12,7 +12,7 @@ Before carrying out the procedures below, please ensure the following front end 
 
 Your Angular development environment should include the following:
 
-- Angular cli v7.1.4
+- Angular cli v7.2.1
 - node.js >= 10.14.1
 - yarn >= 1.9.4
 
@@ -44,7 +44,7 @@ In the following procedure, we create a new Angular application with the name `m
 
 1. Generate a new Angular application using the Angular CLI, as follows:
    ```
-   $ ng new {mystore} --style=scss
+   $ ng new {mystore} --style=scss --routing=true
    ```
 2. Access the newly created directory:
    ```
@@ -58,8 +58,8 @@ The dependencies in this procedure are required by the Spartacus storefront.
 1. Add the following dependencies to the `dependencies` section of `{mystore}/package.json`:
 
    ```
-   "@angular/pwa": "^0.11.3",
-   "@angular/service-worker": "~7.1.0",
+   "@angular/pwa": "^0.12.0",
+   "@angular/service-worker": "~7.2.0",
    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
    "@ng-select/ng-select": "^2.13.2",
    "@ngrx/effects": "~7.0.0",
