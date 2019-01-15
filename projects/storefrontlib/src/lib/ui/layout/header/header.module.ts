@@ -12,7 +12,7 @@ import { UrlTranslationModule } from '@spartacus/core';
 import { LanguageSelectorModule } from '../../../site-context/language-selector/language-selector.module';
 import { CurrencySelectorModule } from '../../../site-context/currency-selector/currency-selector.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
+import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
 
 @NgModule({
   imports: [
@@ -31,7 +31,7 @@ import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: HardcodedSiteLinks,
+      useClass: HardcodedSiteContext,
       multi: true
     }
   ]
