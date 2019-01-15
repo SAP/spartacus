@@ -1,13 +1,11 @@
 import { getStorageSyncReducer } from './store-sync.reducer';
-import {
-  RoutingModuleConfig,
-  StorageSyncType
-} from '../../config/routing-module-config';
+import { StateConfig, StorageSyncType } from '../config/state-config';
+
 
 describe('get store Sync reducer', () => {
   it('should return a proper localStorageSync function', () => {
-    const config: RoutingModuleConfig = {
-      storageSyncType: StorageSyncType.SESSION_STORAGE
+    const config: StateConfig = {
+      state: { storageSync: { type: StorageSyncType.SESSION_STORAGE }  }
     };
 
     const winRef: any = {};

@@ -1,31 +1,47 @@
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { deepMerge } from '../../config/utils/deep-merge';
+import { StateConfig } from '../config/state-config';
 
 const INIT_ACTION = '@ngrx/store/init';
 const CX_KEY = makeStateKey<string>('cx-state');
 
 export function getTransferStateReducer(
   transferState: TransferState,
-  platformId
+  platformId,
+  config: StateConfig
 ) {
-  if (isPlatformBrowser(platformId)) {
-    return getBrowserTransferStateReducer(transferState);
-  } else if (isPlatformServer(platformId)) {
-    return getServerTransferStateReducer(transferState);
-  } else {
-    return reducer => reducer;
+
+  if (config.state.ssrTransfer && config.state.ssrTransfer.keys) {
+    if (isPlatformBrowser(platformId)) {
+      return getBrowserTransferStateReducer(transferState, config.state.ssrTransfer.keys);
+    } else if (isPlatformServer(platformId)) {
+      return getServerTransferStateReducer(transferState, config.state.ssrTransfer.keys);
+    }
   }
+
+  return undefined;
 }
 
-function getServerTransferStateReducer(transferState: TransferState) {
+export function getStateSlice(state: any, keys: any[]): any {
+  return keys.reduce((acc, key) => {
+    if (typeof key === 'object') {
+      const stateKey = Object.keys(key)[0];
+      acc[stateKey] = getStateSlice(state[stateKey], key[stateKey]);
+    } else {
+      acc[key] = state[key];
+    }
+    return acc;
+  }, {});
+}
+
+function getServerTransferStateReducer(transferState: TransferState, keys: any[]) {
   return function(reducer) {
     return function(state, action: any) {
       const newState = reducer(state, action);
 
       if (newState) {
-        const { siteContext, product, cms } = newState;
-        transferState.set(CX_KEY, { siteContext, product, cms });
+        transferState.set(CX_KEY, getStateSlice(state, keys));
         console.log('set state');
       }
 
@@ -34,12 +50,13 @@ function getServerTransferStateReducer(transferState: TransferState) {
   };
 }
 
-function getBrowserTransferStateReducer(transferState: TransferState) {
+function getBrowserTransferStateReducer(transferState: TransferState, keys: any[]) {
   return function(reducer) {
     return function(state, action: any) {
       if (action.type === INIT_ACTION && transferState.hasKey(CX_KEY)) {
         console.log('get state - before', state);
-        state = deepMerge({}, state, transferState.get(CX_KEY, {}));
+        const transferedState = getStateSlice(transferState.get(CX_KEY, {}), keys);
+        state = deepMerge({}, state, transferedState);
         console.log('get state - after', state);
       }
       return reducer(state, action);

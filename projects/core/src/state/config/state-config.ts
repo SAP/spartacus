@@ -11,7 +11,7 @@ export abstract class StateConfig {
       keys?: any[]
     };
     ssrTransfer?: {
-      keys?: object
+      keys?: any[]
     }
   };
 }
