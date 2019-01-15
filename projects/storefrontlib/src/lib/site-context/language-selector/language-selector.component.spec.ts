@@ -1,4 +1,4 @@
-import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -45,11 +45,7 @@ describe('LanguageSelectorComponent', () => {
         },
         { provide: OccConfig, useValue: defaultOccConfig }
       ]
-    })
-      .overrideComponent(LanguageSelectorComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -62,11 +62,7 @@ describe('PaymentFormComponent', () => {
       imports: [ReactiveFormsModule, NgSelectModule],
       declarations: [PaymentFormComponent, MockCardComponent],
       providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
-    })
-      .overrideComponent(PaymentFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
-      })
-      .compileComponents();
+    }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);
   }));

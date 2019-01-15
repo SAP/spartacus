@@ -1,4 +1,4 @@
-import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -39,11 +39,7 @@ describe('CurrencySelectorComponent', () => {
         },
         { provide: OccConfig, useValue: defaultOccConfig }
       ]
-    })
-      .overrideComponent(CurrencySelectorComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
