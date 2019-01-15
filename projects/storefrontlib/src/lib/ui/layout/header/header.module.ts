@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { SiteContextModule } from './../../../site-context/site-context.module';
 import { HeaderComponent } from './header.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
-import { TertiaryBarComponent } from './tertiary-bar/tertiary-bar.component';
 import { LoginModule } from '../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { PwaModule } from '../../../pwa/pwa.module';
@@ -27,12 +26,7 @@ import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
     PwaModule,
     UrlTranslationModule
   ],
-  declarations: [
-    HeaderComponent,
-    HeaderSkipperComponent,
-    TertiaryBarComponent,
-    MobileMenuComponent
-  ],
+  declarations: [HeaderComponent, HeaderSkipperComponent, MobileMenuComponent],
   exports: [HeaderComponent],
   providers: [
     {
