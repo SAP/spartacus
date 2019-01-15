@@ -24,19 +24,6 @@
   }
 }
 
-button {
-  &:focus {
-    outline: none;
-  }
-  color: var(--cx-g-color-light);
-  &:not(:disabled) {
-    cursor: pointer;
-    &:hover {
-      color: var(--cx-g-color-secondary);
-    }
-  }
-}
-
 .cx-carousel {
   display: flex;
   justify-content: space-between;
@@ -130,6 +117,19 @@ button {
 
   @include media-breakpoint-only(xs) {
     display: none;
+  }
+}
+
+button {
+  &:focus {
+    outline: none;
+  }
+  color: var(--cx-g-color-light);
+  &:not(:disabled) {
+    cursor: pointer;
+    &:hover {
+      color: var(--cx-g-color-secondary);
+    }
   }
 }
 
