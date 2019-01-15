@@ -12,7 +12,7 @@
 }
 
 .cx-product-image-container {
-  display: var(--cx-display, block);
+  display: block;
   text-align: center;
 }
 
@@ -23,7 +23,7 @@
 .cx-product-name {
   @include type('5');
   text-align: left;
-  display: var(--cx-display, block);
+  display: block;
   margin: var(--cx-margin, 0 0 3px 0);
   color: var(--cx-g-color-dark);
   text-decoration: none;
@@ -36,7 +36,7 @@
 .cx-product-price {
   @include type('3');
   text-align: left;
-  display: var(--cx-display, inline-block);
+  display: inline-block;
   margin: var(--cx-margin, 0 0 25px 0);
 
   &.old {
