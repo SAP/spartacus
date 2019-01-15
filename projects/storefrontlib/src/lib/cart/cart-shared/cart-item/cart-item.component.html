@@ -1,6 +1,6 @@
-<div [ngClass]="compact ? 'item-compact row' : 'item row'">
+<div [ngClass]="compact ? 'row' : 'row'">
   <!-- Item Image -->
-  <div class="col-2 image-container">
+  <div class="col-2">
     <a
       [routerLink]="
         { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
@@ -13,13 +13,10 @@
     </a>
   </div>
   <!-- Item Information -->
-  <div class="info col-10">
-    <div class="info-container row ">
+  <div class="cx-info col-10">
+    <div class="cx-info-container row ">
       <!-- Item Description -->
-      <div
-        class="description"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'"
-      >
+      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
         <div *ngIf="item.product.name" class="name">
           <a
             class="link"
@@ -36,42 +33,46 @@
         <!-- Variants -->
         <div
           *ngFor="let variant of item.product.variantOptionQualifiers"
-          class="property"
+          class="cx-property"
         >
-          <div class="label">{{ variant.name }}</div>
-          <div class="value">{{ variant.value }}</div>
+          <div class="cx-label">{{ variant.name }}</div>
+          <div class="cx-value">{{ variant.value }}</div>
         </div>
       </div>
       <!-- Item Price -->
       <div
         *ngIf="item.basePrice"
-        class="price"
+        class="cx-price"
         [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
       >
         <div
-          class="label"
+          class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
           Item
         </div>
-        <div *ngIf="item.basePrice" class="value">
+        <div *ngIf="item.basePrice" class="cx-value">
           {{ item.basePrice?.formattedValue }}
         </div>
       </div>
       <!-- Item Quantity -->
       <div
         *ngIf="item.quantity"
-        class="quantity"
+        class="cx-quantity"
         [ngClass]="compact ? '' : ' col-3'"
       >
         <div
-          class="label"
+          class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
           Qty
         </div>
         <div *ngIf="isReadOnly" class="value">{{ item.quantity }}</div>
-        <div *ngIf="!isReadOnly && parent" class="value" [formGroup]="parent">
+        <div
+          *ngIf="!isReadOnly && parent"
+          class="cx-value"
+          [formGroup]="parent"
+        >
           <cx-item-counter
             isValueChangable="true"
             [step]="1"
@@ -87,30 +88,30 @@
       <!-- Total -->
       <div
         *ngIf="item.totalPrice"
-        class="total"
+        class="cx-total"
         [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
       >
         <div
-          class="label"
+          class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
           Total
         </div>
-        <div class="value">{{ item.totalPrice.formattedValue }}</div>
+        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
       </div>
     </div>
     <!-- Availability -->
-    <div *ngIf="isProductOutOfStock(item)" class="availability col-12">
+    <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
       {{ item.product.stock?.stockLevelStatus }}
     </div>
     <!-- Promotion -->
     <div
-      class="promo col-12"
+      class="cx-promo col-12"
       *ngFor="let promotion of potentialProductPromotions"
       [innerHTML]="promotion.description"
     ></div>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="actions col-12 ">
+    <div *ngIf="!isReadOnly" class="cx-actions col-12 ">
       <a [routerLink]="" (click)="removeItem()">Remove</a>
     </div>
   </div>
