@@ -38,12 +38,6 @@ class MockLoginComponent {}
 })
 class MockMobileMenuComponent {}
 
-@Component({
-  selector: 'cx-tertiary-bar',
-  template: ''
-})
-export class MockTertiaryBarComponent {}
-
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
@@ -58,8 +52,7 @@ describe('HeaderComponent', () => {
         MockCurrencySelectorComponent,
         MockLoginComponent,
         MockMobileMenuComponent,
-        HeaderSkipperComponent,
-        MockTertiaryBarComponent
+        HeaderSkipperComponent
       ]
     }).compileComponents();
   }));
@@ -97,12 +90,6 @@ describe('HeaderComponent', () => {
             'div.cx-content__slot:not(#cx-mobile-menu) cx-currency-selector'
           )
         )
-      ).not.toBeNull();
-    });
-
-    it('should contain the tertiary-bar component', () => {
-      expect(
-        fixture.debugElement.query(By.css('cx-tertiary-bar'))
       ).not.toBeNull();
     });
 
