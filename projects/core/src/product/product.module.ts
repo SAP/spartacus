@@ -12,7 +12,7 @@ import { PRODUCT_FEATURE } from './store/product-state';
 import { ConfigModule } from '../config/config.module';
 
 const productSsrTransferConfig: StateConfig = {
-  state: { ssrTransfer: { keys: [PRODUCT_FEATURE] } }
+  state: { ssrTransfer: { keys: { [PRODUCT_FEATURE]: true } } }
 };
 
 @NgModule({

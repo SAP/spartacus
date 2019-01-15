@@ -23,19 +23,19 @@ export function getTransferStateReducer(
   return undefined;
 }
 
-export function getStateSlice(state: any, keys: any[]): any {
-  return keys.reduce((acc, key) => {
-    if (typeof key === 'object') {
-      const stateKey = Object.keys(key)[0];
-      acc[stateKey] = getStateSlice(state[stateKey], key[stateKey]);
-    } else {
+export function getStateSlice(state: any, keys: object): any {
+  return Object.keys(keys).reduce((acc, key) => {
+    const keyValue = keys[key];
+    if (typeof keyValue === 'object') {
+      acc[key] = getStateSlice(state[key], keyValue);
+    } else if (keyValue) {
       acc[key] = state[key];
     }
     return acc;
   }, {});
 }
 
-function getServerTransferStateReducer(transferState: TransferState, keys: any[]) {
+function getServerTransferStateReducer(transferState: TransferState, keys: object) {
   return function(reducer) {
     return function(state, action: any) {
       const newState = reducer(state, action);
@@ -50,7 +50,7 @@ function getServerTransferStateReducer(transferState: TransferState, keys: any[]
   };
 }
 
-function getBrowserTransferStateReducer(transferState: TransferState, keys: any[]) {
+function getBrowserTransferStateReducer(transferState: TransferState, keys: any) {
   return function(reducer) {
     return function(state, action: any) {
       if (action.type === INIT_ACTION && transferState.hasKey(CX_KEY)) {
