@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnDestroy {
   private subscription: Subscription;
 
-  @HostBinding('class.mobile-nav') showMenu: boolean = false;
+  @HostBinding('class.mobile-nav') showMenu = false;
 
   constructor(private router: Router) {}
 
