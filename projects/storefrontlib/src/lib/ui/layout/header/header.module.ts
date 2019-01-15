@@ -12,6 +12,8 @@ import { PwaModule } from '../../../pwa/pwa.module';
 import { UrlTranslationModule } from '@spartacus/core';
 import { LanguageSelectorModule } from '../../../site-context/language-selector/language-selector.module';
 import { CurrencySelectorModule } from '../../../site-context/currency-selector/currency-selector.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
 
 @NgModule({
   imports: [
@@ -31,6 +33,13 @@ import { CurrencySelectorModule } from '../../../site-context/currency-selector/
     TertiaryBarComponent,
     MobileMenuComponent
   ],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HardcodedSiteLinks,
+      multi: true
+    }
+  ]
 })
 export class HeaderModule {}
