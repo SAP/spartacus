@@ -18,7 +18,7 @@ https://stackblitz.com or with a screenshot if it's more accurate.
 
 ## Observed Results
 
-<!--  Describe the behavior you observed, pointing exactly why it's not working as intended. Screenshots appreciated -->
+<!--  Describe the behavior you observed, pointing out exactly why it's not working as intended. Screenshots appreciated -->
 
 ## Expected Results
 <!-- Describe what the desired behavior should be. -->

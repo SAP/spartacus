@@ -95,14 +95,21 @@ New code must always be covered by unit tests.
 
 ### End-To-End Tests
 
-New ui-oriented feature must always be covered by basic ui end-to-end tests. These tests should have `e2e-spec.ts` at the end of their names for the actual tests, and `po.ts` for the page objects. If you decide to write a user-flow end-to-end test, then add the word `flow` to the test's name. And if you have more than one user-flow test, separate them into individual files, so they can be run in parallel and group them in a sub-directory with the appropriate name (look at the product search end-to-end tests as reference).
+New, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`, and for page objects, the file names should end with `po.ts`. 
 
-To know if your end-to-end test belongs to the smoke or regression folder, ask yourself these questions:
-- Is the functionality we’re testing fragile? (For eg, product search)
-    If yes, then it belongs to the smoke folder
-- Is it a very critical user flow? (For eg, checkout)
-    If yes, then it belongs to the smoke folder
-- Otherwise, it belongs to the regression folder
+If you decide to write an end-to-end test based on user-flow, add the word `flow` to the test's name. If you have more than one user-flow test, separate them into individual files, so they can be run in parallel. We also recommend grouping the tests in a sub-directory with a relevant name. For reference, have a look at the end-to-end tests for product search.
+
+To know if your end-to-end test belongs to the `smoke` folder or the `regression` folder, ask yourself the following questions:
+
+* Is the functionality fragile?
+
+    If yes, the test belongs in the `smoke` folder. A good example of fragile functionality is the product search.
+
+* Is the user-flow critical?
+
+    If yes, the test belongs in the `smoke` folder. A good example of a critical user-flow are the steps to complete the checkout.
+
+If you answered "no" to these questions, then the test belongs in the `regression` folder.
 
 ### Reduce Module Dependencies
 
