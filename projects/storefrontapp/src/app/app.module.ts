@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -13,6 +13,7 @@ if (!environment.production) {
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
+    BrowserTransferStateModule,
     StorefrontModule.withConfig({
       production: environment.production,
       server: {
