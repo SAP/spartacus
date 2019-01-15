@@ -21,5 +21,8 @@
   },
   "peerDependencies": {
     "bootstrap": "^4.1.3"
+  },
+  "dependencies": {
+    "hamburgers": "^1.1.3"
   }
 }
