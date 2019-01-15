@@ -10,7 +10,9 @@ import {
   AuthService,
   RoutingService,
   Title,
-  UserService
+  UserService,
+  GlobalMessageService,
+  GlobalMessageType
 } from '@spartacus/core';
 
 import { Observable, Subscription, of } from 'rxjs';
@@ -47,6 +49,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private routing: RoutingService,
     private userService: UserService,
+    private globalMessageService: GlobalMessageService,
     private fb: FormBuilder
   ) {}
 
@@ -64,6 +67,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .pipe(
         switchMap(data => {
           if (data && data.access_token) {
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             return this.routing.getRedirectUrl().pipe(take(1));
           }
           return of();
