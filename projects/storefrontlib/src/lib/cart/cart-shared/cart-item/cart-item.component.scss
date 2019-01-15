@@ -44,6 +44,7 @@
 .cx-value {
   @include type('5');
   overflow-wrap: var(--cx-overflow-wrap, break-word);
+  font-weight: var(--cx-g-font-weight-normal, 400);
 
   @include media-breakpoint-down(sm) {
     @include type('7');
@@ -125,39 +126,37 @@
 
 // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
-.item-compact {
+.cx-compact {
   display: var(--cx-display, flex);
   flex-direction: var(--cx-flex-direction, row);
 
-  .item {
-    .image-container {
-      padding: var(--cx-padding, 0);
+  .cx-image-container {
+    padding: var(--cx-padding, 0);
+  }
+
+  .cx-info-container {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, column);
+    margin: var(--cx-margin, 0);
+  }
+
+  .cx-price,
+  .cx-quantity,
+  .cx-total,
+  .cx-actions {
+    justify-content: var(--cx-justify-content, flex-start);
+
+    .cx-label {
+      @include type('8');
+      min-width: var(--cx-min-width, 5rem);
     }
 
-    .info-container {
-      display: var(--cx-display, flex);
-      flex-direction: var(--cx-flex-direction, column);
-      margin: var(--cx-margin, 0);
+    .cx-value {
+      @include type('7');
     }
+  }
 
-    .price,
-    .quantity,
-    .total,
-    .actions {
-      justify-content: var(--cx-justify-content, flex-start);
-
-      .label {
-        @include type('8');
-        min-width: var(--cx-min-width, 5rem);
-      }
-
-      .value {
-        @include type('7');
-      }
-    }
-
-    .actions {
-      padding: var(--cx-padding, 0);
-    }
+  .cx-actions {
+    padding: var(--cx-padding, 0);
   }
 }

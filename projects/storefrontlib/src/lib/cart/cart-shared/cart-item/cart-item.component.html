@@ -1,6 +1,6 @@
-<div [ngClass]="compact ? 'row' : 'row'">
+<div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
-  <div class="col-2">
+  <div class="col-2 cx-image-container">
     <a
       [routerLink]="
         { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
@@ -17,9 +17,9 @@
     <div class="cx-info-container row ">
       <!-- Item Description -->
       <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
-        <div *ngIf="item.product.name" class="name">
+        <div *ngIf="item.product.name" class="cx-name">
           <a
-            class="link"
+            class="cx-link"
             [routerLink]="
               { route: [{ name: 'product', params: item.product }] }
                 | cxTranslateUrl
@@ -27,7 +27,7 @@
             >{{ item.product.name }}</a
           >
         </div>
-        <div *ngIf="item.product.code" class="code">
+        <div *ngIf="item.product.code" class="cx-code">
           ID {{ item.product.code }}
         </div>
         <!-- Variants -->
@@ -67,7 +67,7 @@
         >
           Qty
         </div>
-        <div *ngIf="isReadOnly" class="value">{{ item.quantity }}</div>
+        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
         <div
           *ngIf="!isReadOnly && parent"
           class="cx-value"
