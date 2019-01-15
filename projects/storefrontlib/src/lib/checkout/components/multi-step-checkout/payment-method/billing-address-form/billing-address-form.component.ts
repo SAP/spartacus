@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   ChangeDetectionStrategy,
   Input
 } from '@angular/core';
@@ -9,13 +8,7 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import {
-  Title,
-  Country,
-  Region,
-  UserService,
-  CheckoutService
-} from '@spartacus/core';
+import { Title, Country, Region, UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-billing-address-form',
@@ -23,7 +16,7 @@ import {
   styleUrls: ['./billing-address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BillingAddressFormComponent implements OnInit, OnDestroy {
+export class BillingAddressFormComponent implements OnInit {
   titles$: Observable<Title[]>;
   regions$: Observable<Region[]>;
 
@@ -33,10 +26,7 @@ export class BillingAddressFormComponent implements OnInit, OnDestroy {
   @Input()
   countries$: Observable<Country[]>;
 
-  constructor(
-    protected checkoutService: CheckoutService,
-    protected userService: UserService
-  ) {}
+  constructor(protected userService: UserService) {}
 
   ngOnInit() {
     // Fetching titles
@@ -82,9 +72,5 @@ export class BillingAddressFormComponent implements OnInit, OnDestroy {
     this.billingAddress['controls'].region['controls'].isocode.setValue(
       region.isocode
     );
-  }
-
-  ngOnDestroy() {
-    this.checkoutService.clearAddressVerificationResults();
   }
 }
