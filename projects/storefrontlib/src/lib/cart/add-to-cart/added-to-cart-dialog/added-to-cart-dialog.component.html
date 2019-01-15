@@ -24,7 +24,8 @@
           <cx-cart-item
             [item]="entry"
             [compact]="true"
-            [isReadOnly]="true"
+            [isReadOnly]="false"
+            [parent]="form.controls[entry.product.code]"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
