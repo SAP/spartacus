@@ -1,10 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnDestroy,
-  ViewChild,
-  OnInit
-} from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit } from '@angular/core';
 
 import {
   ProductService,
@@ -21,8 +15,7 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
-  styleUrls: ['./product-carousel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-carousel.component.scss']
 })
 export class ProductCarouselComponent implements OnDestroy, OnInit {
   productGroups: Array<string[]>;

@@ -1,10 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Input,
-  OnDestroy
-} from '@angular/core';
+import { Component, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { takeWhile } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
@@ -15,8 +9,7 @@ import { CmsService } from '@spartacus/core';
 @Component({
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent extends AbstractCmsComponent
   implements OnDestroy {

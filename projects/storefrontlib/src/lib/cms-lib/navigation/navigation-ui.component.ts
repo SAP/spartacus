@@ -1,10 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
-  styleUrls: ['./navigation-ui.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./navigation-ui.component.scss']
 })
 export class NavigationUIComponent {
   @Input()
