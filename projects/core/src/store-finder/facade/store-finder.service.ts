@@ -3,7 +3,8 @@ import { Store, Action, select } from '@ngrx/store';
 import { StoresState } from '../store/store-finder-state';
 
 import * as fromStore from '../store/index';
-import { LongitudeLatitude, StoreFinderSearchConfig } from '../model';
+import { StoreFinderSearchConfig } from './../model/search-config';
+import { LongitudeLatitude } from './../model/longitude-latitude';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
 

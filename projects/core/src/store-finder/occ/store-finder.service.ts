@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { StoreFinderSearchConfig, LongitudeLatitude } from './../model';
+import { StoreFinderSearchConfig, LongitudeLatitude } from './../model/index';
 
 import { OccConfig } from '../../occ/config/occ-config';
 import { StoreFinderSearchPage } from '../../occ/occ-models';

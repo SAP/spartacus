@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import {
   StoreFinderSearchConfig,
@@ -20,7 +20,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations$: Observable<any>;
   isLoading$: Observable<any>;
   geolocation: LongitudeLatitude;
-  ngUnsubscribe: Subscription;
+  subscription: Subscription;
   searchConfig: StoreFinderSearchConfig = {
     currentPage: 0
   };
@@ -30,13 +30,24 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe(params => this.initialize(params));
+  ngOnInit() {
+    this.subscription = this.route.queryParams.subscribe(params => {
+      this.searchQuery = this.parseParameters(params);
+      this.storeFinderService.findStores(
+        this.searchQuery.queryText,
+        this.searchQuery.useMyLocation
+      );
+    });
+
+    this.isLoading$ = this.storeFinderService.getStoresLoading();
+    this.locations$ = this.storeFinderService
+      .getFindStoresEntities()
+      .pipe(tap(data => (this.geolocation = data.geolocation)));
   }
 
-  ngOnDestroy(): void {
-    if (this.ngUnsubscribe) {
-      this.ngUnsubscribe.unsubscribe();
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
@@ -47,20 +58,6 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
       this.geolocation,
       this.searchConfig
     );
-  }
-
-  private initialize(params: Params) {
-    this.searchQuery = this.parseParameters(params);
-    this.storeFinderService.findStores(
-      this.searchQuery.queryText,
-      this.searchQuery.useMyLocation
-    );
-
-    this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService.getFindStoresEntities();
-    this.ngUnsubscribe = this.locations$
-      .pipe(map(data => data.geolocation))
-      .subscribe(geoData => (this.geolocation = geoData));
   }
 
   private parseParameters(queryParams: {

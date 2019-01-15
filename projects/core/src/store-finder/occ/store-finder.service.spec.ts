@@ -6,8 +6,8 @@ import {
 
 import { OccStoreFinderService } from './store-finder.service';
 import { OccConfig } from '@spartacus/core';
-import { StoreFinderSearchConfig } from '../../store-finder/model/search-config';
-import { LongitudeLatitude } from '../../store-finder/model/longitude-latitude';
+import { StoreFinderSearchConfig } from '../model/search-config';
+import { LongitudeLatitude } from '../model/longitude-latitude';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };
