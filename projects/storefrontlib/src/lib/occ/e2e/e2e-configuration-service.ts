@@ -15,9 +15,14 @@ export class OccE2eConfigurationService {
   getConfiguration(configurationKey: string): Observable<any> {
     const url = this.getConfigurationEndpoint() + '/' + configurationKey;
 
-    return this.http
-      .get(url, { responseType: 'text' })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.get(url, { responseType: 'text' }).pipe(
+      catchError((error: any) => {
+        if (error.json) {
+          return throwError(error.json());
+        }
+        return throwError(error);
+      })
+    );
   }
 
   protected getConfigurationEndpoint() {
