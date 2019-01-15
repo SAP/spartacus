@@ -1,5 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
@@ -50,22 +50,10 @@ describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
   let storeFinderService: StoreFinderService;
+  let route: ActivatedRoute;
 
-  it('should call storeFinderService with store id', () => {
-    mockActivatedRoute.snapshot.params = {
-      store: storeId
-    };
-    configureTestBed();
-    spyOn(storeFinderService, 'viewStoreById');
-
-    createComponent();
-
-    expect(component).toBeTruthy();
-    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(storeId);
-  });
-
-  function configureTestBed() {
-    const bed = TestBed.configureTestingModule({
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [
         StoreFinderStoreDescriptionComponent,
@@ -81,14 +69,25 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
       ]
-    });
-    bed.compileComponents();
-    storeFinderService = bed.get(StoreFinderService);
-  }
+    }).compileComponents();
+  }));
 
-  function createComponent() {
+  beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoreDescriptionComponent);
     component = fixture.componentInstance;
+    route = TestBed.get(ActivatedRoute);
+    storeFinderService = TestBed.get(StoreFinderService);
+
+    spyOn(storeFinderService, 'viewStoreById');
+  });
+
+  it('should call storeFinderService with store id', () => {
+    route.snapshot.params = {
+      store: storeId
+    };
     fixture.detectChanges();
-  }
+
+    expect(component).toBeTruthy();
+    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(storeId);
+  });
 });
