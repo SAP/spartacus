@@ -14,7 +14,7 @@ export class StoreFinderService {
   ) {}
 
   findStores(queryText: string, useMyLocation?: boolean) {
-    if (useMyLocation) {
+    if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new fromStore.OnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
         (pos: Position) => {
