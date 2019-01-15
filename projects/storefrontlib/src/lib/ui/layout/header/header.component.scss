@@ -26,6 +26,9 @@ $cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
   @include var-color('background-color', $cx-header-background-color);
   @include var-color('color', $cx-header-color);
 }
+.SiteLinks {
+  --cx-padding: 0 10px;
+}
 
 .cx-header {
   position: relative;
