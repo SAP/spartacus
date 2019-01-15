@@ -71,7 +71,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   /**
-   * Function set 'outOfRange' flag and adjust value in range. Then update model value + refresh input
+   * Function set 'outOfRange' flag and adjust value in range. Then update model value and refresh input
    * @param newValue : number
    */
   manualChange(newValue: number): void {
