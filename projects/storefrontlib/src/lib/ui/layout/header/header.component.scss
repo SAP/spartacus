@@ -26,6 +26,8 @@ header {
 .SiteLinks {
   flex: 50%;
   padding: $space 0;
+  font-size: 0.75rem;
+  color: var(--cx-color, var(--cx-g-color-light));
 }
 
 .SiteLogo {
