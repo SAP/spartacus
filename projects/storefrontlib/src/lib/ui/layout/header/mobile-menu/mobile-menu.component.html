@@ -20,11 +20,10 @@
         position="NavigationBar"
         class="d-block d-lg-none"
       ></cx-dynamic-slot>
-      <div class="cx-mobile-menu__locale">
-        <cx-language-selector></cx-language-selector>
-        <cx-currency-selector></cx-currency-selector>
-      </div>
-      <!-- temporary solution -->
+      <div class="cx-mobile-menu__locale"></div>
+
+      <cx-dynamic-slot position="SiteContext"></cx-dynamic-slot>
+
       <cx-add-to-home-screen-btn>
         <div>
           <button class="btn btn-primary" id="add-to-home-screen">
