@@ -1,7 +1,4 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/modal';
 
 .cx-added-to-cart-dialog {
   &__header {
@@ -90,54 +87,42 @@
 
 // -------------------------------- OVERWRITING BOOTSTRAP STYLING FOR MODAL --------------------------------
 
-$modal-header-border-bottom: none;
-$modal-body-padding-bottom: 0;
-$modal-content-border-radius: 0;
-$modal-content-border: none !important;
-$modal-max-width: 768px !important;
-$modal-min-width: 768px !important;
-
 .modal {
   &-header {
-    border-bottom: $modal-header-border-bottom;
+    border-bottom: none;
   }
 
   &-body {
-    padding-bottom: $modal-body-padding-bottom;
+    padding-bottom: 0;
   }
 
   &-content {
-    border-radius: $modal-content-border-radius;
-    border: $modal-content-border;
+    border-radius: 0;
+    border: none !important;
   }
 }
 
 .modal-xxl .modal-lg {
-  max-width: $modal-max-width;
-  min-width: $modal-min-width;
+  max-width: 768px !important;
+  min-width: 768px !important;
 }
 
 // ------------------------------ OVERWRITING BOOTSTRAP MEDIA QUERIES FOR MODAL ----------------------------
-$modal-max-width-md: 768px !important;
-$modal-min-width-md: 768px !important;
-$modal-max-width-sm: 100% !important;
-$modal-min-width-sm: 100% !important;
-$modal-dialog-margin-sm: 0 !important;
 
 @include media-breakpoint-up(md) {
   .modal-lg {
-    max-width: $modal-max-width-md;
-    min-width: $modal-min-width-md;
+    max-width: 768px !important;
+    min-width: 768px !important;
   }
 }
 
 @include media-breakpoint-down(sm) {
   .modal-lg {
-    min-width: $modal-max-width-sm;
-    max-width: $modal-min-width-sm;
+    min-width: 100% !important;
+    max-width: 100% !important;
   }
 
   .modal-dialog {
-    margin: $modal-dialog-margin-sm;
+    margin: 0 !important;
   }
 }
