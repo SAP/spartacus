@@ -9,8 +9,6 @@ import { LoginModule } from '../../../user/components/login/login.module';
 import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
 import { PwaModule } from '../../../pwa/pwa.module';
 import { UrlTranslationModule } from '@spartacus/core';
-import { LanguageSelectorModule } from '../../../site-context/language-selector/language-selector.module';
-import { CurrencySelectorModule } from '../../../site-context/currency-selector/currency-selector.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
 
@@ -18,8 +16,6 @@ import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
   imports: [
     CommonModule,
     SiteContextModule,
-    LanguageSelectorModule,
-    CurrencySelectorModule,
     CmsModule,
     LoginModule,
     RouterModule,
