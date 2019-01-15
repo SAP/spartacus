@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[cxOnlyNumber]'
@@ -10,7 +10,7 @@ export class OnlyNumberDirective {
    * Class constructor
    * @param hostElement
    */
-  constructor(private hostElement: ElementRef) {}
+  constructor(private hostElement: ElementRef, private renderer: Renderer2) {}
 
   /**
    * Event handler for host's change event
@@ -104,7 +104,11 @@ export class OnlyNumberDirective {
   validateValue(value: string): void {
     value = value.replace(/[^0-9]+/g, '');
     value = value.replace(/^0+/, '');
-    this.hostElement.nativeElement['value'] = value || 0;
+    this.renderer.setProperty(
+      this.hostElement.nativeElement,
+      'value',
+      value || 0
+    );
   }
 
   /**
