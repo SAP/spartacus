@@ -29,7 +29,6 @@ export function getStorageSyncReducer(
   config: StateConfig,
   winRef: WindowRef
 ): MetaReducer<any, Action> {
-
   if (
     !winRef.nativeWindow ||
     !config.state.storageSync ||

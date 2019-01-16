@@ -11,9 +11,12 @@ import { SITE_CONTEXT_FEATURE } from './state';
 import { ConfigModule } from '../../config/config.module';
 import { StateConfig } from '../../state/config/state-config';
 
-const siteContextSsrTransferConfig: StateConfig = {
-  state: { ssrTransfer: { keys: { [SITE_CONTEXT_FEATURE]: true } } }
-};
+export function siteContextStoreConfigFactory(): StateConfig {
+  const config = {
+    state: { ssrTransfer: { keys: { [SITE_CONTEXT_FEATURE]: true } } }
+  };
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -21,7 +24,7 @@ const siteContextSsrTransferConfig: StateConfig = {
     HttpClientModule,
     StoreModule.forFeature(SITE_CONTEXT_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(siteContextSsrTransferConfig)
+    ConfigModule.withConfigFactory(siteContextStoreConfigFactory)
   ],
   providers: [reducerProvider]
 })

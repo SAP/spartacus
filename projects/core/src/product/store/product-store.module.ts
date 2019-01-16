@@ -14,9 +14,12 @@ import { ProductOccModule } from '../occ/product-occ.module';
 import { ConfigModule } from '../../config/config.module';
 import { StateConfig } from '../../state/config/state-config';
 
-const productSsrTransferConfig: StateConfig = {
-  state: { ssrTransfer: { keys: { [PRODUCT_FEATURE]: true } } }
-};
+export function productStoreConfigFactory(): StateConfig {
+  const config = {
+    state: { ssrTransfer: { keys: { [PRODUCT_FEATURE]: true } } }
+  };
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -26,7 +29,7 @@ const productSsrTransferConfig: StateConfig = {
     ProductConverterModule,
     StoreModule.forFeature(PRODUCT_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(productSsrTransferConfig)
+    ConfigModule.withConfigFactory(productStoreConfigFactory)
   ],
   providers: [reducerProvider]
 })

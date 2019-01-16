@@ -11,13 +11,16 @@ import { StateModule } from '../../state/state.module';
 import { StateConfig } from '../../state/config/state-config';
 import { ConfigModule } from '../../config/config.module';
 
-const authStorageSyncConfig: StateConfig = {
-  state: {
-    storageSync: {
-      keys: [{ auth: ['userToken', 'clientToken'] }]
+export function authStoreConfigFactory(): StateConfig {
+  const config = {
+    state: {
+      storageSync: {
+        keys: [{ [AUTH_FEATURE]: ['userToken', 'clientToken'] }]
+      }
     }
-  }
-};
+  };
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -26,7 +29,7 @@ const authStorageSyncConfig: StateConfig = {
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(authStorageSyncConfig)
+    ConfigModule.withConfigFactory(authStoreConfigFactory)
   ],
   providers: [reducerProvider]
 })

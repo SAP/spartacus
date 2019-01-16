@@ -19,8 +19,6 @@ import { RoutingService } from './facade/routing.service';
 import { ROUTING_FEATURE } from './state';
 import { ConfigurableRoutesModule } from './configurable-routes/configurable-routes.module';
 
-
-
 @NgModule({
   imports: [
     ConfigurableRoutesModule,

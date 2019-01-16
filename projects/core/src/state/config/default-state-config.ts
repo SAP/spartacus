@@ -1,6 +1,5 @@
 import { StateConfig, StorageSyncType } from './state-config';
 
-
 export const defaultStateConfig: StateConfig = {
   state: {
     storageSync: {

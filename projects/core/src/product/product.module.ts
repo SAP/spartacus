@@ -9,10 +9,7 @@ import { ProductStoreModule } from './store/product-store.module';
 import { ProductOccModule } from './occ/product-occ.module';
 
 @NgModule({
-  imports: [
-    ProductOccModule,
-    ProductStoreModule
-  ],
+  imports: [ProductOccModule, ProductStoreModule],
   providers: [ProductService, ProductSearchService, ProductReviewService]
 })
 export class ProductModule {}

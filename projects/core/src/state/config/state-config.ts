@@ -7,11 +7,11 @@ export enum StorageSyncType {
 export abstract class StateConfig {
   state?: {
     storageSync?: {
-      type?: StorageSyncType,
-      keys?: any[]
+      type?: StorageSyncType;
+      keys?: any[];
     };
     ssrTransfer?: {
-      keys?: object
-    }
+      keys?: object;
+    };
   };
 }

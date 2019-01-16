@@ -11,12 +11,18 @@ export function getTransferStateReducer(
   platformId,
   config: StateConfig
 ) {
-
+  console.log('sadsa', config.state.ssrTransfer.keys);
   if (config.state.ssrTransfer && config.state.ssrTransfer.keys) {
     if (isPlatformBrowser(platformId)) {
-      return getBrowserTransferStateReducer(transferState, config.state.ssrTransfer.keys);
+      return getBrowserTransferStateReducer(
+        transferState,
+        config.state.ssrTransfer.keys
+      );
     } else if (isPlatformServer(platformId)) {
-      return getServerTransferStateReducer(transferState, config.state.ssrTransfer.keys);
+      return getServerTransferStateReducer(
+        transferState,
+        config.state.ssrTransfer.keys
+      );
     }
   }
 
@@ -35,7 +41,10 @@ export function getStateSlice(state: any, keys: object): any {
   }, {});
 }
 
-function getServerTransferStateReducer(transferState: TransferState, keys: object) {
+function getServerTransferStateReducer(
+  transferState: TransferState,
+  keys: object
+) {
   return function(reducer) {
     return function(state, action: any) {
       const newState = reducer(state, action);
@@ -50,12 +59,18 @@ function getServerTransferStateReducer(transferState: TransferState, keys: objec
   };
 }
 
-function getBrowserTransferStateReducer(transferState: TransferState, keys: any) {
+function getBrowserTransferStateReducer(
+  transferState: TransferState,
+  keys: any
+) {
   return function(reducer) {
     return function(state, action: any) {
       if (action.type === INIT_ACTION && transferState.hasKey(CX_KEY)) {
         console.log('get state - before', state);
-        const transferedState = getStateSlice(transferState.get(CX_KEY, {}), keys);
+        const transferedState = getStateSlice(
+          transferState.get(CX_KEY, {}),
+          keys
+        );
         state = deepMerge({}, state, transferedState);
         console.log('get state - after', state);
       }

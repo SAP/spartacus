@@ -67,5 +67,4 @@ fdescribe('getStateSlice', () => {
 
     expect(result).toEqual(expedted);
   });
-
 });

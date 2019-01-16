@@ -15,9 +15,13 @@ import { StateModule } from '../../state/state.module';
 import { StateConfig } from '../../state/config/state-config';
 import { ConfigModule } from '../../config/config.module';
 
-const cmsSsrTransferConfig: StateConfig = {
-  state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } }
-};
+export function cmsStoreConfigFactory(ala, ma, kota): StateConfig {
+  const config = {
+    state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } }
+  };
+  console.log(ala, ma, kota);
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -27,7 +31,7 @@ const cmsSsrTransferConfig: StateConfig = {
     StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfig(cmsSsrTransferConfig)
+    ConfigModule.withConfigFactory(cmsStoreConfigFactory)
   ],
   providers: [reducerProvider]
 })
