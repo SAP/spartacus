@@ -1,24 +1,19 @@
-<div class="cx-currency-selector">
-  <label class="cx-currency-selector__label" for="currencySelector"
-    >Currency</label
+<ng-container
+  *ngIf="
+    (currencies$ | async)?.length > 1 && (currencies$ | async) as currencies
+  "
+>
+  <label for="currenceySelector">Currency</label>
+  <select
+    (change)="setActiveCurrency($event.target.value)"
+    [disabled]="!currencies.length"
+    id="currenceySelector"
   >
-  <ng-container *ngIf="(currencies$ | async) as currencies">
-    <i class="cx-currency-selector__arrow-down"></i>
-    <select
-      class="cx-currency-selector__control form-control"
-      name=""
-      id="currencySelector"
-      (change)="setActiveCurrency($event.target.value)"
-      [disabled]="!currencies.length"
+    <option
+      *ngFor="let item of currencies"
+      value="{{ item.isocode }}"
+      [selected]="(activeCurrency$ | async) === item.isocode"
+      >{{ item.symbol }} {{ item.isocode }}</option
     >
-      <option
-        class="cx-currency-selector__option"
-        *ngFor="let item of currencies"
-        [selected]="(activeCurrency$ | async) === item.isocode"
-        [value]="item.isocode"
-      >
-        {{ item.symbol }} {{ item.isocode }}</option
-      >
-    </select>
-  </ng-container>
-</div>
+  </select>
+</ng-container>
