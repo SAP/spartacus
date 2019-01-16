@@ -11,9 +11,7 @@ nav {
   padding: var(--cx-padding, 1rem 0);
 
   cx-navigation {
-    border: solid 1px red;
     &:not(:first-child) {
-      border: solid 1px blue;
       margin-left: 10px;
     }
   }
