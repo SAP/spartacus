@@ -105,9 +105,6 @@ button {
   color: var(--cx-g-color-light);
   &:not(:disabled) {
     cursor: pointer;
-    &:hover {
-      color: var(--cx-g-color-secondary);
-    }
   }
 }
 
@@ -126,6 +123,9 @@ button {
     transition: var(--cx-transition-duration, 0.6s) all;
     &[disabled] {
       color: var(--cx-background-color, var(--cx-g-color-primary));
+    }
+    &:not(:disabled):hover {
+      color: var(--cx-g-color-secondary);
     }
   }
 
