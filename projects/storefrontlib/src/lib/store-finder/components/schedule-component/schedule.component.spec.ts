@@ -3,7 +3,7 @@ import { SimpleChange } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { ScheduleComponent } from './schedule.component';
-import { StoreDataService } from '../../services';
+import { StoreDataService } from '@spartacus/core';
 
 const WEEK_DAYS_NUMBER = 7;
 
