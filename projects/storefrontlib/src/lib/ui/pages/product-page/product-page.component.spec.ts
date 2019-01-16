@@ -49,12 +49,16 @@ describe('ProductPageComponent in pages', () => {
       of({ state: { params: { productCode: 'mockProductCode' } } })
     );
     fixture.detectChanges();
-    expect(component.productCode).toEqual('mockProductCode');
+    component.productCode$
+      .subscribe(code => {
+        expect(code).toEqual('mockProductCode');
+      })
+      .unsubscribe();
   });
 
   describe('product details page layout', () => {
     const getProductDetailsLayout = () =>
-      fixture.debugElement.query(By.css('cx-product-details-page-layout'));
+      fixture.debugElement.query(By.css('cx-product-details'));
 
     it('should be rendered when "productCode" is defined', () => {
       spyOn(routingService, 'getRouterState').and.returnValue(

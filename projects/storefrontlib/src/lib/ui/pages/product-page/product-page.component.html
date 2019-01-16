@@ -1,3 +1,3 @@
-<cx-page-template *ngIf="productCode">
+<cx-page-template *ngIf="(productCode$ | async) as productCode">
   <cx-product-details [productCode]="productCode"></cx-product-details>
 </cx-page-template>
