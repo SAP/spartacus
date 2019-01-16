@@ -1,0 +1,15 @@
+.LandingPage2Template {
+  cx-dynamic-slot {
+    &.Section2A,
+    &.Section2B {
+      flex: 0 0 50%;
+      > * {
+        flex: 0 0 50%;
+      }
+    }
+
+    &.Section4 {
+      flex-wrap: nowrap;
+    }
+  }
+}

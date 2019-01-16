@@ -1,0 +1,10 @@
+cx-page-template {
+  display: flex;
+  flex-wrap: wrap;
+  cx-dynamic-slot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 0 0 100%;
+  }
+}
