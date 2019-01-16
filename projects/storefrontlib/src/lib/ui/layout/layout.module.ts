@@ -7,7 +7,6 @@ import { MainModule } from './main/main.module';
 import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
 import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-details-page-layout.module';
-import { AddressBookPageLayoutModule } from './address-book-page-layout/address-book-page-layout.module';
 import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-history-page-layout.module';
 
 import { ProductListPageLayoutModule } from './product-list-page-layout/product-list-page-layout.module';
@@ -21,7 +20,6 @@ const layoutModules = [
   MultiStepCheckoutPageLayoutModule,
   OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
-  AddressBookPageLayoutModule,
   StoreFinderPageLayoutModule,
   OutletRefModule
 ];

@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { AddressBookPageLayoutModule } from '../../layout/address-book-page-layout/address-book-page-layout.module';
+import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { AddressBookPageComponent } from './address-book-page.component';
 import { AuthGuard } from '@spartacus/core';
+import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { AddressBookModule } from '../../../../my-account/address-book/address-book.module';
 
 const routes: Routes = [
   {
@@ -20,8 +21,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    AddressBookPageLayoutModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PageTemplateModule,
+    AddressBookModule
   ],
   declarations: [AddressBookPageComponent],
   exports: [AddressBookPageComponent]

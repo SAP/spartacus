@@ -41,6 +41,5 @@ export * from './pages/product-page/product-page.module';
 export * from './pages/register-page/register-page.module';
 export * from './pages/login-page/login-page.module';
 export * from './pages/store-finder-page/store-finder-page.module';
-export * from './pages/payment-details-page/payment-details-page.module';
 
 export * from './layout/main/main.module';
