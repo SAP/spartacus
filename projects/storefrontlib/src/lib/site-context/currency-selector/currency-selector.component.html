@@ -1,7 +1,7 @@
-<span
-  *ngIf="(currencies$ | async) as currencies"
-  class="selector"
-  [class.enabled]="currencies.length > 1"
+<ng-container
+  *ngIf="
+    (currencies$ | async)?.length > 1 && (currencies$ | async) as currencies
+  "
 >
   <label for="currenceySelector">Currency</label>
   <select
@@ -16,4 +16,4 @@
       >{{ item.symbol }} {{ item.isocode }}</option
     >
   </select>
-</span>
+</ng-container>

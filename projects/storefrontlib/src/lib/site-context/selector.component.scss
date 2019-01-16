@@ -1,32 +1,29 @@
 @import 'mixins';
 
 $caretSize: 7px;
+:host {
+  &.selector {
+    position: relative;
 
-.selector {
-  &:not(.enabled) {
-    display: none;
-  }
+    margin-right: 10px;
+    &::after {
+      content: '';
 
-  position: relative;
+      border: solid 2px currentColor;
+      border-top: 0;
+      border-left: 0;
 
-  margin-right: 10px;
-  &::after {
-    content: '';
+      width: $caretSize;
+      height: $caretSize;
+      right: $caretSize / 2;
+      top: $caretSize / 2;
 
-    border: solid 2px currentColor;
-    border-top: 0;
-    border-left: 0;
+      position: absolute;
+      display: block;
+      z-index: 0;
 
-    width: $caretSize;
-    height: $caretSize;
-    right: $caretSize / 2;
-    top: $caretSize / 2;
-
-    position: absolute;
-    display: block;
-    z-index: 0;
-
-    transform: rotate(45deg);
+      transform: rotate(45deg);
+    }
   }
 }
 
