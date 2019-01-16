@@ -8,6 +8,18 @@ $space: 8px;
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
+
+  @include media-breakpoint-up(lg) {
+    &:before {
+      border-top: var(--cx-border-top, 1px solid currentColor);
+      content: '';
+      position: absolute;
+
+      right: 0;
+      left: 0;
+      margin-top: 30px;
+    }
+  }
 }
 .SiteLinks {
   --cx-padding: 0 10px;
@@ -54,19 +66,8 @@ header {
     display: none;
   }
 
-  // a small line separator in the UI to separate out some of the controls
   .SiteLinks {
     text-align: right;
-
-    &:after {
-      border-top: var(--cx-border-top, 1px solid currentColor);
-      content: '';
-      position: absolute;
-
-      right: 0;
-      left: 0;
-      margin-top: $space;
-    }
   }
 }
 
