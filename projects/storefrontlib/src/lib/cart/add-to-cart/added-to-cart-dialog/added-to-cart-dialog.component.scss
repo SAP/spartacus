@@ -70,20 +70,3 @@
     margin: var(--cx-margin, 0 0 0.625rem 0);
   }
 }
-
-.cx-dialog-more-container {
-  background-color: var(--cx-background-color, var(--cx-g-color-background));
-  justify-content: var(--cx-justify-content, center);
-  padding: var(--cx-padding, 1.5rem 4.375rem 2.25rem 4.375rem);
-
-  h2 {
-    padding: var(--cx-padding, 0 0 2.25rem 0);
-    text-align: var(--cx-text-align, center);
-  }
-}
-
-.cx-dialog-btn {
-  display: var(--cx-display, flex);
-  justify-content: var(--cx-justify-content, center);
-  margin: var(--cx-margin, 4.375rem auto);
-}
