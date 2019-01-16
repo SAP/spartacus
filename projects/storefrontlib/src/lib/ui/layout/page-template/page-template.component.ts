@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-template',
@@ -54,8 +54,12 @@ export class PageTemplateComponent implements OnInit {
   ngOnInit() {
     return this.cms
       .getCurrentPage()
-      .pipe(map((page: Page) => page.template))
-      .subscribe(templateName => (this.hostClass = templateName));
+      .pipe(
+        filter(Boolean),
+        map((page: Page) => page.template)
+      )
+      .subscribe(templateName => (this.hostClass = templateName))
+      .unsubscribe();
   }
 
   get page$(): Observable<Page> {
@@ -74,6 +78,8 @@ export class PageTemplateComponent implements OnInit {
           this.templates[page.template] &&
           this.templates[page.template].slots
         ) {
+          console.warn('Template found for', page.template);
+          console.log('The content provides the following slots', page.slots);
           return this.templates[page.template].slots;
         } else {
           console.warn('no template found for', page.template);

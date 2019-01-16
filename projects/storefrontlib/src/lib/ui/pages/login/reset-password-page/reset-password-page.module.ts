@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ResetPasswordPageComponent } from './reset-password-page.component';
-import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { ResetPasswordPageLayoutModule } from '../../layout/reset-password-page-layout/reset-password-page-layout.module';
+import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { NotAuthGuard } from '@spartacus/core';
+import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { UserComponentModule } from '../../../../user';
 
 const routes: Routes = [
   {
@@ -19,8 +20,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    ResetPasswordPageLayoutModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PageTemplateModule,
+    UserComponentModule
   ],
   declarations: [ResetPasswordPageComponent],
   exports: [ResetPasswordPageComponent]

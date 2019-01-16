@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { StoreFinderPageComponent } from './store-finder-page.component';
-import { StoreFinderPageLayoutModule } from '../../layout/store-finder-page-layout/store-finder-page-layout.module';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderSearchResultComponent } from '../../../store-finder/components/store-finder-search-result/store-finder-search-result.component';
 // tslint:disable-next-line:max-line-length
@@ -13,7 +12,7 @@ import { StoreFinderGridComponent } from '../../../store-finder/components/store
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
 import { PageTemplateModule } from '../../layout/page-template/page-template.module';
-import { OutletRefDirective, OutletRefModule } from '../../../outlet';
+import { OutletRefModule } from '../../../outlet';
 import { StoreFinderModule } from '../../../store-finder';
 
 const routes: Routes = [
@@ -61,7 +60,6 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    StoreFinderPageLayoutModule,
     PageTemplateModule,
     OutletRefModule,
     StoreFinderModule

@@ -4,10 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RegisterPageComponent } from './register-page.component';
 
-import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { NotAuthGuard } from '@spartacus/core';
-import { PageTemplateModule } from '../../layout/page-template/page-template.module';
-import { UserComponentModule } from '../../../user';
+import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { UserComponentModule } from '../../../../user';
 
 const routes: Routes = [
   {

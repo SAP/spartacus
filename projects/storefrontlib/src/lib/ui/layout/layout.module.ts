@@ -9,8 +9,6 @@ import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-lay
 import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-details-page-layout.module';
 import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-history-page-layout.module';
 
-import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
-
 const layoutModules = [
   PageTemplateModule,
 
@@ -18,7 +16,6 @@ const layoutModules = [
   MultiStepCheckoutPageLayoutModule,
   OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
-  StoreFinderPageLayoutModule,
   OutletRefModule
 ];
 
