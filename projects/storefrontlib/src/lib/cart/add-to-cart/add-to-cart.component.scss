@@ -1,3 +1,6 @@
-.entry-quantity {
-  display: none; // TODO: Discuss with UX, as it used to be in material design
+.cx-entry-quantity {
+  display: var(--cx-display, none);
+  // TODO: Discuss with UX, as it used to be in material design
+  // Seems unneeded, not in mockups, wires or accelerator
+  // ask Devs if removing doesn't impact anything
 }
