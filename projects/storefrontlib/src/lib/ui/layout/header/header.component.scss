@@ -68,15 +68,6 @@ header {
 }
 
 @include media-breakpoint-down(md) {
-  :host:not(.mobile-nav) {
-    .NavigationBar,
-    .SiteContext,
-    .SiteLinks,
-    .SiteLogin {
-      display: none;
-    }
-  }
-
   .cx-hamburger {
     display: block;
     margin-left: $space;
@@ -120,6 +111,15 @@ header {
         border-left: 1px solid
           var(--cx-border-color, var(--cx-g-color-secondary));
       }
+    }
+  }
+
+  :host:not(.mobile-nav) {
+    .NavigationBar,
+    .SiteContext,
+    .SiteLinks,
+    .SiteLogin {
+      display: none;
     }
   }
 }
