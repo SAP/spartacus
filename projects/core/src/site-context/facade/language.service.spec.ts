@@ -11,6 +11,8 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { SiteContextModule } from '../site-context.module';
 import { Language } from '../../occ/occ-models/occ.models';
+import { ConfigModule } from '@spartacus/core';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
@@ -31,7 +33,11 @@ describe('LanguageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SiteContextModule],
+      imports: [
+        SiteContextModule,
+        ConfigModule.forRoot(),
+        BrowserTransferStateModule
+      ],
       providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });
 

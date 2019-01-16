@@ -13,6 +13,8 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { CurrencyService } from './currency.service';
 
 import { SiteContextModule } from '../site-context.module';
+import { ConfigModule } from '@spartacus/core';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
 
 const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -34,7 +36,11 @@ describe('CurrencyService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SiteContextModule],
+      imports: [
+        SiteContextModule,
+        ConfigModule.forRoot(),
+        BrowserTransferStateModule
+      ],
       providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });
 
@@ -77,9 +83,18 @@ describe('CurrencyService', () => {
 
   describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
-      service.setActive('USD');
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      service.setActive('EUR');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.SetActiveCurrency('USD')
+        new fromStore.SetActiveCurrency('EUR')
+      );
+    });
+
+    it('should not dispatch action if isocode is currenyly actuve', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
+      service.setActive(mockActiveCurr);
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        new fromStore.SetActiveCurrency(mockActiveCurr)
       );
     });
   });

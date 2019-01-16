@@ -56,6 +56,7 @@ export class CurrencyService {
         take(1)
       )
       .subscribe(activeCurrency => {
+        console.log(activeCurrency, isocode);
         if (activeCurrency !== isocode) {
           this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
         }
