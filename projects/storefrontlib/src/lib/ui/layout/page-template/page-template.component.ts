@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, first } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-template',
@@ -26,6 +26,12 @@ export class PageTemplateComponent implements OnInit {
     },
     CartPageTemplate: {
       slots: ['BottomContentSlot']
+    },
+    ProductListPageTemplate: {
+      slots: []
+    },
+    CategoryPageTemplate: {
+      slots: ['Section4', 'Section1', 'Section2', 'Section3']
     }
   };
 

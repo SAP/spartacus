@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { CategoryPageLayoutModule } from '../../layout/category-page-layout/category-page-layout.module';
 import { ProductListPageLayoutModule } from '../../layout/product-list-page-layout/product-list-page-layout.module';
 
 import { CategoryPageComponent } from './category-page.component';
+import { PageTemplateModule } from '../../layout/page-template/page-template.module';
+import { ProductListModule } from '../../../product';
 
 const routes: Routes = [
   {
@@ -53,9 +54,10 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    CategoryPageLayoutModule,
     ProductListPageLayoutModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PageTemplateModule,
+    ProductListModule
   ],
   declarations: [CategoryPageComponent],
   exports: [CategoryPageComponent]

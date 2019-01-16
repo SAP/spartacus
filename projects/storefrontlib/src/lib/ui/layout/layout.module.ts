@@ -4,7 +4,6 @@ import { OutletRefModule } from '../../outlet/index';
 
 import { PageTemplateModule } from './page-template/page-template.module';
 
-import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
@@ -25,7 +24,6 @@ const layoutModules = [
   PageTemplateModule,
 
   OrderHistoryPageLayoutModule,
-  CategoryPageLayoutModule,
   ProductListPageLayoutModule,
   MultiStepCheckoutPageLayoutModule,
   OrderDetailsPageLayoutModule,
