@@ -32,6 +32,9 @@ export class PageTemplateComponent implements OnInit {
     },
     CategoryPageTemplate: {
       slots: ['Section4', 'Section1', 'Section2', 'Section3']
+    },
+    LoginPageTemplate: {
+      slots: ['LeftContentSlot', 'RightContentSlot']
     }
   };
 
@@ -44,6 +47,10 @@ export class PageTemplateComponent implements OnInit {
       .getCurrentPage()
       .pipe(map((page: Page) => page.template))
       .subscribe(templateName => (this.hostClass = templateName));
+  }
+
+  get page$(): Observable<Page> {
+    return this.cms.getCurrentPage();
   }
 
   get templateName(): Observable<string> {

@@ -15,7 +15,6 @@ export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
 export * from './layout/order-details-page-layout/order-details-page-layout.component';
 export * from './layout/order-history-page-layout/order-history-page-layout.component';
-export * from './layout/login-page-layout/login-page-layout.component';
 export * from './layout/store-finder-page-layout/store-finder-page-layout.component';
 export * from './layout/sale-page-layout/sale-page-layout.component';
 export * from './layout/help-page-layout/help-page-layout.component';

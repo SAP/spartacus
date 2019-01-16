@@ -1,9 +1,10 @@
 import { RouterModule, Routes } from '@angular/router';
 import { CmsPageGuards } from './../../../cms/guards/cms-page.guard';
 import { NgModule } from '@angular/core';
-import { LoginPageLayoutModule } from './../../layout/login-page-layout/login-page-layout.module';
 import { LoginPageComponent } from './login-page.component';
-import { NotAuthGuard } from '@spartacus/core';
+import { NotAuthGuard, UrlTranslationModule } from '@spartacus/core';
+import { PageTemplateModule } from '../../layout/page-template/page-template.module';
+import { LoginModule } from '../../../user';
 
 const routes: Routes = [
   {
@@ -14,7 +15,12 @@ const routes: Routes = [
   }
 ];
 @NgModule({
-  imports: [LoginPageLayoutModule, RouterModule.forChild(routes)],
+  imports: [
+    RouterModule.forChild(routes),
+    UrlTranslationModule,
+    PageTemplateModule,
+    LoginModule
+  ],
   declarations: [LoginPageComponent],
   exports: [LoginPageComponent]
 })
