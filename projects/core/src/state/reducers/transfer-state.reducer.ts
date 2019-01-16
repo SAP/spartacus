@@ -49,8 +49,7 @@ function getServerTransferStateReducer(
       const newState = reducer(state, action);
 
       if (newState) {
-        transferState.set(CX_KEY, getStateSlice(state, keys));
-        console.log('set state');
+        transferState.set(CX_KEY, getStateSlice(newState, keys));
       }
 
       return newState;
