@@ -60,7 +60,10 @@ export class ConfigModule {
     };
   }
 
-  static withConfigFactory(configFactory: Function, deps?: any[]): ModuleWithProviders {
+  static withConfigFactory(
+    configFactory: Function,
+    deps?: any[]
+  ): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
       providers: [provideConfigFactory(configFactory, deps)]
