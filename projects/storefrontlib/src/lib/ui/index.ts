@@ -8,7 +8,6 @@ export * from './components/pagination-and-sorting/pagination-and-sorting.module
 export * from './components/spinner/spinner.component';
 export * from './pages/pages.module';
 export * from './layout/footer/footer.component';
-export * from './layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
 export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';

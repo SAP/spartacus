@@ -44,6 +44,9 @@ export class PageTemplateComponent implements OnInit {
     },
     StoreFinderPageTemplate: {
       slots: ['MiddleContent', 'SideContent']
+    },
+    MultiStepCheckoutSummaryPageTemplate: {
+      slots: ['SideContent']
     }
   };
 
