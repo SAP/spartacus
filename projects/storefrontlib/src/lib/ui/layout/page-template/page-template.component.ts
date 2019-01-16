@@ -43,7 +43,7 @@ export class PageTemplateComponent implements OnInit {
       slots: ['BodyContent']
     },
     StoreFinderPageTemplate: {
-      slots: ['StoreFinder', 'MiddleContent', 'SideContent']
+      slots: ['MiddleContent', 'SideContent']
     }
   };
 

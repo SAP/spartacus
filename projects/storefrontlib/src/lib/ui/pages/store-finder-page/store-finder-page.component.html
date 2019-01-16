@@ -1,10 +1,8 @@
 <cx-page-template>
+  <cx-store-finder-header></cx-store-finder-header>
+
   <!-- we use the outlets temporarily as longs as 
     we haven't used the jps includes  -->
-  <ng-template cxOutletRef="StoreFinder">
-    <cx-store-finder-header></cx-store-finder-header>
-  </ng-template>
-
   <ng-template cxOutletRef="MiddleContent">
     <router-outlet></router-outlet>
   </ng-template>
