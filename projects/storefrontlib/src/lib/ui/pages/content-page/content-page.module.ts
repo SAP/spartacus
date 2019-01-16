@@ -11,10 +11,22 @@ const routes: Routes = [
     canActivate: [CmsPageGuards],
     component: PageTemplateComponent,
     data: { pageLabel: 'faq', cxPath: 'help' }
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: PageTemplateComponent,
+    data: { pageLabel: 'sale', cxPath: 'sale' } // TODO set a proper pageLabel when it's available in CMS
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: PageTemplateComponent,
+    data: { pageLabel: 'contact', cxPath: 'contact' } // TODO set a proper pageLabel when it's available in CMS
   }
 ];
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(routes)]
 })
-export class HelpPageModule {}
+export class ContentPageModule {}

@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { OutletRefModule } from '../../outlet/index';
 
 import { PageTemplateModule } from './page-template/page-template.module';
-
-import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 import { MainModule } from './main/main.module';
 import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
@@ -13,7 +11,6 @@ import { AddressBookPageLayoutModule } from './address-book-page-layout/address-
 import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-history-page-layout.module';
 import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/payment-details-page-layout.module';
 import { ProductListPageLayoutModule } from './product-list-page-layout/product-list-page-layout.module';
-import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 
@@ -28,8 +25,6 @@ const layoutModules = [
   AddressBookPageLayoutModule,
   PaymentDetailsPageLayoutModule,
   StoreFinderPageLayoutModule,
-  SalePageLayoutModule,
-  ContactPageLayoutModule,
   OutletRefModule,
   TermsConditionsLayoutModule
 ];
