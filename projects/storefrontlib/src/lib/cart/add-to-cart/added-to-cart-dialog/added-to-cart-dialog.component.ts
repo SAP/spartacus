@@ -45,13 +45,17 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
       }
     });
     this.entry$.subscribe(entry => {
-      const { code } = entry.product;
-      if (!this.form.controls[code]) {
-        this.form.setControl(code, this.createEntryFormGroup(entry));
-      } else {
-        const entryForm = this.form.controls[code] as FormGroup;
-        entryForm.controls.quantity.setValue(entry.quantity);
+      if (entry) {
+        const { code } = entry.product;
+        if (!this.form.controls[code]) {
+          this.form.setControl(code, this.createEntryFormGroup(entry));
+        } else {
+          const entryForm = this.form.controls[code] as FormGroup;
+          entryForm.controls.quantity.setValue(entry.quantity);
+        }
+        this.form.markAsPristine();
       }
+
     });
   }
 
@@ -68,6 +72,7 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   removeEntry(item) {
     this.cartService.removeEntry(item);
     delete this.form.controls[item.product.code];
+    this.activeModal.dismiss('Removed');
   }
 
   updateEntry({ item, updatedQuantity }) {

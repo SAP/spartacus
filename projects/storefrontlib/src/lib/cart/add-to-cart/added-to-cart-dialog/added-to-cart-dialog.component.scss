@@ -104,6 +104,13 @@ $cx-added-to-cart-dialog-more-container-h2-text-align: center !default;
     .btn-primary {
       margin-bottom: $cx-added-to-cart-dialog-actions-btn-primary-margin-bottom;
     }
+
+    a {
+      .disabled {
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+    }
   }
 
   &__more-container {
