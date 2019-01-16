@@ -38,6 +38,9 @@ export class PageTemplateComponent implements OnInit {
     },
     LoginPageTemplate: {
       slots: ['LeftContentSlot', 'RightContentSlot']
+    },
+    AccountPageTemplate: {
+      slots: ['BodyContent']
     }
   };
 
@@ -75,16 +78,5 @@ export class PageTemplateComponent implements OnInit {
         }
       })
     );
-
-    // return this.templateName.pipe(
-    //   map(templateName => {
-    //     const template = this.templates[templateName];
-    //     if (!template) {
-    //       console.warn('no template found for', templateName);
-    //       return;
-    //     }
-    //     return template.slots;
-    //   })
-    // );
   }
 }

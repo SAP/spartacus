@@ -9,7 +9,7 @@ import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-lay
 import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-details-page-layout.module';
 import { AddressBookPageLayoutModule } from './address-book-page-layout/address-book-page-layout.module';
 import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-history-page-layout.module';
-import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/payment-details-page-layout.module';
+
 import { ProductListPageLayoutModule } from './product-list-page-layout/product-list-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 
@@ -22,7 +22,6 @@ const layoutModules = [
   OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
   AddressBookPageLayoutModule,
-  PaymentDetailsPageLayoutModule,
   StoreFinderPageLayoutModule,
   OutletRefModule
 ];
