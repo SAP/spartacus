@@ -28,8 +28,11 @@ import { CategoryPageModule } from './category-page/category-page.module';
 
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
+import { PageTemplateModule } from '../layout/page-template/page-template.module';
 
 const pageModules = [
+  PageTemplateModule,
+
   OrderHistoryPageModule,
   HomePageModule,
   CategoryPageModule,
