@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../store/index';
-import { filter, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { Language } from '../../occ/occ-models';
 import { WindowRef } from '../../window/window-ref';
 /**
@@ -46,7 +46,16 @@ export class LanguageService {
    * Sets the active language.
    */
   setActive(isocode: string) {
-    this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
+    return this.store
+      .pipe(
+        select(fromStore.getActiveLanguage),
+        take(1)
+      )
+      .subscribe(activeLanguage => {
+        if (activeLanguage !== isocode) {
+          this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
+        }
+      });
   }
 
   /**
