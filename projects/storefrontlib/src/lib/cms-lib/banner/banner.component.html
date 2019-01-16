@@ -1,12 +1,12 @@
 <cx-generic-link
-  *ngIf="hasImage()"
-  [url]="{ url: component.urlLink } | cxTranslateUrl"
-  [target]="getTarget()"
+  *ngIf="(hasImage() | async) && (component.data$ | async) as data"
+  [url]="{ url: data.urlLink } | cxTranslateUrl"
+  [target]="getTarget() | async"
 >
   <img
-    [title]="getAltText()"
-    [alt]="getAltText()"
-    [src]="getBaseUrl() + getImageUrl()"
+    [title]="getAltText() | async"
+    [alt]="getAltText() | async"
+    [src]="getImageAbsoluteUrl() | async"
     alt=""
   />
 </cx-generic-link>

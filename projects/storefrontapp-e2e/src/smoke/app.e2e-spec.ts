@@ -1,6 +1,6 @@
 import { HomePage } from '../page-objects/home.po';
 
-describe('App basics', () => {
+fdescribe('App basics', () => {
   let home: HomePage;
 
   beforeEach(async () => {
