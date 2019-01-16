@@ -1,6 +1,8 @@
-<cx-navigation
-  *ngFor="let child of node?.children"
-  ngbDropdown
-  [node]="child"
-  dropdownMode="column"
-></cx-navigation>
+<nav>
+  <cx-navigation
+    *ngFor="let child of node?.children"
+    ngbDropdown
+    [node]="child"
+    dropdownMode="column"
+  ></cx-navigation>
+</nav>

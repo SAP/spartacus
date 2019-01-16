@@ -4,10 +4,19 @@
 @import '~bootstrap/scss/nav';
 @import '~bootstrap/scss/dropdown';
 
-:host {
+nav {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   padding: var(--cx-padding, 1rem 0);
+
+  cx-navigation {
+    border: solid 1px red;
+    &:not(:first-child) {
+      border: solid 1px blue;
+      margin-left: 10px;
+    }
+  }
   @include media-breakpoint-down(md) {
     padding: var(--cx-padding, 0);
     flex-direction: column;
