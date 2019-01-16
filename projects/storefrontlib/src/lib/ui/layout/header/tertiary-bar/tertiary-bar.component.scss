@@ -3,7 +3,7 @@
 
 nav {
   a {
-    color: var(--cx-color, var(--cx-color-inverse));
+    color: var(--cx-color, currentColor);
     &:not(:last-child) {
       padding: var(--cx-padding, 0 20px 0 0);
     }
