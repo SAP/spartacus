@@ -1,9 +1,3 @@
-<div class="cx-page">
-  <section class="cx-page__section">
-    <ng-container *ngIf="productCode">
-      <cx-product-details-page-layout
-        [productCode]="productCode"
-      ></cx-product-details-page-layout>
-    </ng-container>
-  </section>
-</div>
+<cx-page-template *ngIf="productCode">
+  <cx-product-details [productCode]="productCode"></cx-product-details>
+</cx-page-template>

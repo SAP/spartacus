@@ -4,8 +4,10 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ProductGuard } from '../../../product/guards/product.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { ProductDetailsPageLayoutModule } from '../../layout/product-details-page-layout/product-details-page-layout.module';
 import { ProductPageComponent } from './product-page.component';
+
+import { ProductDetailsModule } from '../../../product';
+import { PageTemplateModule } from '../../layout/page-template/page-template.module';
 
 const routes: Routes = [
   {
@@ -26,7 +28,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ProductDetailsPageLayoutModule
+    PageTemplateModule,
+    ProductDetailsModule
   ],
   declarations: [ProductPageComponent],
   exports: [ProductPageComponent]
