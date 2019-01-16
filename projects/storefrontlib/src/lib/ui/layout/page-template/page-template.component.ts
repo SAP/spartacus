@@ -73,13 +73,15 @@ export class PageTemplateComponent implements OnInit {
   get slots(): Observable<any> {
     return this.page$.pipe(
       map((page: Page) => {
+        if (!page) {
+          return;
+        }
         if (
-          page &&
           this.templates[page.template] &&
           this.templates[page.template].slots
         ) {
-          console.warn('Template found for', page.template);
-          console.log('The content provides the following slots', page.slots);
+          // console.warn('Template found for', page.template);
+          // console.log('The content provides the following slots', page.slots);
           return this.templates[page.template].slots;
         } else {
           console.warn('no template found for', page.template);
