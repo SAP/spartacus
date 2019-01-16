@@ -55,7 +55,6 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
         }
         this.form.markAsPristine();
       }
-
     });
   }
 

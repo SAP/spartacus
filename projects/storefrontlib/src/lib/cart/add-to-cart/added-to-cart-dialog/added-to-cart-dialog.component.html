@@ -60,7 +60,9 @@
               [class.disabled]="form.dirty"
               [routerLink]="{ route: ['checkout'] } | cxTranslateUrl"
               class="btn btn-secondary"
-              (click)="!form.dirty && activeModal.dismiss('Proceed To Checkout click')"
+              (click)="
+                !form.dirty && activeModal.dismiss('Proceed To Checkout click')
+              "
               >proceed to checkout</a
             >
           </div>
