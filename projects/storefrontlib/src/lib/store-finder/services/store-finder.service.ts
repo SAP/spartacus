@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-
 import { LongitudeLatitude } from '../models/longitude-latitude';
-import { WindowRef } from './window-ref';
-
 import * as fromStore from '../store';
+import { WindowRef } from '@spartacus/core';
 
 @Injectable()
 export class StoreFinderService {
@@ -16,7 +14,7 @@ export class StoreFinderService {
   ) {}
 
   findStores(queryText: string, useMyLocation?: boolean) {
-    if (useMyLocation) {
+    if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new fromStore.OnHold());
       this.geolocationWatchId = this.winRef.nativeWindow.navigator.geolocation.watchPosition(
         (pos: Position) => {

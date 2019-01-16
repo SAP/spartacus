@@ -83,6 +83,11 @@ export class ProductDetailsPage extends AppPage {
     await this.waitForReady();
   }
 
+  async navigateToByAlias(productId: string, name: string) {
+    await browser.get(`product/${name}/${productId}`);
+    await this.waitForReady();
+  }
+
   async waitForReady() {
     await E2EUtil.wait4VisibleElement(this.page);
   }

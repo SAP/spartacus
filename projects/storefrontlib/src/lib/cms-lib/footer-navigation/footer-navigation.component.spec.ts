@@ -3,8 +3,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement, Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { NavigationService } from '../navigation/navigation.service';
 import { CmsService } from '@spartacus/core';
+
+import { NavigationService } from '../navigation/navigation.service';
+
 import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import { of } from 'rxjs';
@@ -83,41 +85,32 @@ describe('FooterNavigationComponent', () => {
   describe('UI tests', () => {
     beforeAll(() => {
       footer = fixture.debugElement;
-      column = footer.query(By.css('.cx-footer-navigation__container'));
+      column = footer.query(By.css('.container'));
     });
 
     it('should display the column title', () => {
-      const titleElement: HTMLElement = column.query(
-        By.css('.cx-footer-navigation__title')
-      ).nativeElement;
+      const titleElement: HTMLElement = column.query(By.css('h1'))
+        .nativeElement;
 
       expect(titleElement.textContent).toEqual('Test 1');
     });
 
     it('should display the correct number of links', () => {
-      const list: HTMLElement = column.query(
-        By.css('.cx-footer-navigation__list')
-      ).nativeElement;
+      const list: HTMLElement = column.query(By.css('ul')).nativeElement;
 
       expect(list.childElementCount).toBe(2);
     });
 
     it('should display link title with correct url', () => {
-      const link: HTMLElement = column.query(
-        By.css('.cx-footer-navigation__link')
-      ).nativeElement;
+      const link: HTMLElement = column.query(By.css('a')).nativeElement;
 
       expect(link.textContent).toEqual(mockLinks[0].title);
       expect(link.getAttribute('href')).toEqual(mockLinks[0].url);
     });
 
     it('should have the correct target', () => {
-      const link1: HTMLElement = column.queryAll(
-        By.css('.cx-footer-navigation__link')
-      )[0].nativeElement;
-      const link2: HTMLElement = column.queryAll(
-        By.css('.cx-footer-navigation__link')
-      )[1].nativeElement;
+      const link1: HTMLElement = column.queryAll(By.css('a'))[0].nativeElement;
+      const link2: HTMLElement = column.queryAll(By.css('a'))[1].nativeElement;
 
       expect(link1.getAttribute('target')).toEqual('blank');
       expect(link2.getAttribute('target')).toEqual('self');
