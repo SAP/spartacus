@@ -1,0 +1,9 @@
+@import '../placeholders';
+
+.StoreFinderPageTemplate {
+  @extend %pageBody !optional;
+  padding-top: 2rem;
+  cx-dynamic-slot {
+    display: block;
+  }
+}

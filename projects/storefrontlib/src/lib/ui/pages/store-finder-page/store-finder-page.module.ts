@@ -12,6 +12,9 @@ import { StoreFinderStoresCountComponent } from '../../../store-finder/component
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
+import { PageTemplateModule } from '../../layout/page-template/page-template.module';
+import { OutletRefDirective, OutletRefModule } from '../../../outlet';
+import { StoreFinderModule } from '../../../store-finder';
 
 const routes: Routes = [
   {
@@ -58,7 +61,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    StoreFinderPageLayoutModule
+    StoreFinderPageLayoutModule,
+    PageTemplateModule,
+    OutletRefModule,
+    StoreFinderModule
   ],
   declarations: [StoreFinderPageComponent],
   exports: [StoreFinderPageComponent]

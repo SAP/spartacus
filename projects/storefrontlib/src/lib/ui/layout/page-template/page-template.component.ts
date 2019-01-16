@@ -41,6 +41,9 @@ export class PageTemplateComponent implements OnInit {
     },
     AccountPageTemplate: {
       slots: ['BodyContent']
+    },
+    StoreFinderPageTemplate: {
+      slots: ['StoreFinder', 'MiddleContent', 'SideContent']
     }
   };
 
