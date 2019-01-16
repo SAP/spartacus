@@ -12,6 +12,12 @@ import { CMS_FEATURE } from './cms-state';
 import { metaReducers } from './reducers/index';
 import { CmsOccModule } from '../occ/cms-occ.module';
 import { StateModule } from '../../state/state.module';
+import { StateConfig } from '../../state/config/state-config';
+import { ConfigModule } from '../../config/config.module';
+
+const cmsSsrTransferConfig: StateConfig = {
+  state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } }
+};
 
 @NgModule({
   imports: [
@@ -20,7 +26,8 @@ import { StateModule } from '../../state/state.module';
     CmsOccModule,
     StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfig(cmsSsrTransferConfig)
   ],
   providers: [reducerProvider]
 })
