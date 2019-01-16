@@ -1,0 +1,12 @@
+@import '../placeholders';
+
+.ContentPage1Template {
+  @extend %pageBody !optional;
+  padding-top: 2rem;
+  cx-dynamic-slot {
+    &.Section2A,
+    &.Section2B {
+      display: block;
+    }
+  }
+}

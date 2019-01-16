@@ -1,4 +1,7 @@
 .LandingPage2Template {
+  display: flex;
+  flex-wrap: wrap;
+
   cx-dynamic-slot {
     &.Section2A,
     &.Section2B {

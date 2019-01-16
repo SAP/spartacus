@@ -1,7 +1,6 @@
 cx-page-template {
-  display: flex;
-  flex-wrap: wrap;
   display: block;
+
   cx-dynamic-slot {
     display: flex;
     flex-wrap: wrap;

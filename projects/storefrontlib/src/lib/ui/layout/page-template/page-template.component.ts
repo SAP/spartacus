@@ -64,6 +64,7 @@ export class PageTemplateComponent implements OnInit {
     return this.page$.pipe(
       map((page: Page) => {
         if (
+          page &&
           this.templates[page.template] &&
           this.templates[page.template].slots
         ) {
