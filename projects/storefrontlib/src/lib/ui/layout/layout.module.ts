@@ -12,7 +12,6 @@ import { OrderHistoryPageLayoutModule } from './order-history-page-layout/order-
 import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/payment-details-page-layout.module';
 import { ProductListPageLayoutModule } from './product-list-page-layout/product-list-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
-import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 
 const layoutModules = [
   PageTemplateModule,
@@ -25,8 +24,7 @@ const layoutModules = [
   AddressBookPageLayoutModule,
   PaymentDetailsPageLayoutModule,
   StoreFinderPageLayoutModule,
-  OutletRefModule,
-  TermsConditionsLayoutModule
+  OutletRefModule
 ];
 
 @NgModule({

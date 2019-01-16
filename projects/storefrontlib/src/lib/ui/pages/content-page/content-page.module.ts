@@ -23,6 +23,12 @@ const routes: Routes = [
     canActivate: [CmsPageGuards],
     component: PageTemplateComponent,
     data: { pageLabel: 'contact', cxPath: 'contact' } // TODO set a proper pageLabel when it's available in CMS
+  },
+  {
+    path: null,
+    canActivate: [CmsPageGuards],
+    component: PageTemplateComponent,
+    data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
   }
 ];
 

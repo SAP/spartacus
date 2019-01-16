@@ -15,7 +15,6 @@ import { StoreFinderPageModule } from './store-finder-page/store-finder-page.mod
 import { PaymentDetailsPageModule } from './payment-details-page/payment-details-page.module';
 
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
-import { TermsConditionsPageModule } from './terms-conditions-page/terms-conditions-page.module';
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
@@ -47,7 +46,6 @@ const pageModules = [
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
-  TermsConditionsPageModule,
   // new pages should be added above this line
   PageNotFoundModule
 ];
