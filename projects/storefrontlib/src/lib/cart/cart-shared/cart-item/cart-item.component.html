@@ -122,7 +122,10 @@
     ></div>
     <!-- Actions -->
     <div *ngIf="!isReadOnly" class="cx-cart-item__actions col-12 ">
-      <a [routerLink]="" (click)="!cartIsLoading && removeItem()" [class.disabled]="cartIsLoading"
+      <a
+        [routerLink]=""
+        (click)="!cartIsLoading && removeItem()"
+        [class.disabled]="cartIsLoading"
         >Remove</a
       >
     </div>
