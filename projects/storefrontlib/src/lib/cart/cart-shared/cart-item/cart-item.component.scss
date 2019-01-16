@@ -14,6 +14,7 @@ $cx-cart-item-name-color-hover: 'primary' !default;
 
 $cx-cart-item-image-container-padding-left: 0 !default;
 $cx-cart-item-image-container-padding-right: 0 !default;
+$cx-cart-item-image-container-padding-right: 0 !default;
 
 $cx-cart-item-info-container-margin-left: 0 !default;
 $cx-cart-item-info-container-margin-right: 0 !default;
@@ -139,6 +140,7 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
       @include var-color('color', $cx-cart-item-old-price-color);
       padding-right: $cx-cart-item-price-old-padding-right;
     }
+
     &--new {
       @include var-color('color', $cx-cart-item-new-price-color);
     }
@@ -235,6 +237,10 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
       @include type('8');
       @include var-color('color', $cx-cart-item-actions-color);
       text-decoration: underline;
+
+      &.disabled {
+        color: grey;
+      }
     }
   }
 }
@@ -278,10 +284,14 @@ $cx-cart-item-compact-label-min-width: 5rem !default;
       &--value {
         @include type('7');
       }
-    }
 
-    &__actions {
       padding-left: 0;
+
+      a {
+        &.disabled {
+          color: grey;
+        }
+      }
     }
   }
 }

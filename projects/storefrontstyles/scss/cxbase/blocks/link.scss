@@ -6,4 +6,9 @@ a {
   &:hover {
     @include var-color('color', 'primary');
   }
+
+  &.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+  }
 }
