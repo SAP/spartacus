@@ -1,80 +1,175 @@
 @import 'theme';
 @import 'functions';
 @import 'mixins';
-@import '~bootstrap/scss/carousel';
 
-$cx-product-carousel-arrow-color: 'secondary' !default;
-$cx-product-carousel-indicators-color: 'light' !default;
-$cx-product-carousel-indicators-color-active: 'primary' !default;
+:host {
+  flex: 100%;
+  --cx-speed: 0.5;
+  display: flex;
+  flex-direction: column;
 
-.cx-carousel {
-  &__header {
-    @include type('2');
+  @include media-breakpoint-down(md) {
+    padding: 1rem;
+  }
+
+  > h3 {
+    @include type('3');
     font-weight: bold;
     text-align: center;
     margin-top: 2rem;
     margin-bottom: 1rem;
     @include media-breakpoint-up(xl) {
-      margin-bottom: 4rem;
-      margin-top: 4rem;
+      margin-bottom: 3rem;
     }
   }
+}
 
-  &__container {
+.cx-carousel {
+  display: flex;
+  justify-content: space-between;
+
+  // the size of carousel items depends on the number of items per slide
+  &.size-1 .product {
+    flex: 0 0 100%;
+  }
+  &.size-2 .product {
+    flex: 0 0 50%;
+  }
+  &.size-4 .product {
+    flex: 0 0 25%;
+  }
+
+  .groups {
+    flex: auto;
     position: relative;
-    margin-bottom: 3rem;
-  }
 
-  &__slide {
-    padding-bottom: 3rem;
-  }
-
-  &__product-container {
-    display: inline-block;
-    text-align: center;
-    @include media-breakpoint-down(sm) {
+    .group {
+      transition: var(--cx-transition-duration, 0.6s) all;
+      width: 100%;
       display: flex;
-      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+
+      &:not(:last-child) {
+        // we keep the last group non-absolute, so the height
+        //  of the parent size is based on contetn
+        position: absolute;
+      }
+
+      .product {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        color: var(--cx-color, var(--cx-g-color-text));
+        cx-picture {
+          height: var(--cx-height, 20vmin);
+        }
+        opacity: 0;
+        z-index: -1;
+        &.active {
+          opacity: 1;
+          z-index: 1;
+        }
+
+        transition: var(--cx-transition-duration, 0.6s) all;
+        // we add a transition delay so that items are nicely animated in a sequence
+        @for $i from 1 through 4 {
+          &:nth-child(#{$i}) {
+            transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
+          }
+        }
+
+        h4 {
+          font-size: 0.9rem;
+          height: 30px;
+          font-weight: bold;
+          margin-top: 5px;
+        }
+        &:hover {
+          text-decoration: none;
+          h4 {
+            color: var(--cx-color, var(--cx-g-color-primary));
+          }
+        }
+      }
     }
   }
+}
 
-  &__product {
-    height: 100%;
-    align-self: center;
-    width: 100%;
-    @include media-breakpoint-up(md) {
-      margin: 0 10px 10px 0;
-      width: 265px;
-      padding: 10px;
-    }
+button {
+  &:focus {
+    outline: none;
   }
-
-  &__product-name {
-    @include type('5');
-    margin-right: auto;
-    margin-left: auto;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  &__product-price {
-    @include type('3');
-    font-weight: normal;
-    text-align: center;
-  }
-
-  &__arrow {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: calc(50% - 50px);
+  color: var(--cx-g-color-light);
+  &:not(:disabled) {
     cursor: pointer;
-    @include var-color('fill', $cx-product-carousel-arrow-color);
-    &--prev {
-      transform: rotate(180deg);
+  }
+}
+
+.indicators {
+  display: flex;
+  justify-content: center;
+
+  button {
+    border-radius: 15px;
+    width: 15px;
+    height: 15px;
+    border: none;
+    padding: 0;
+    margin: 10px;
+    background-color: currentColor;
+    transition: var(--cx-transition-duration, 0.6s) all;
+    &[disabled] {
+      color: var(--cx-background-color, var(--cx-g-color-primary));
     }
-    &--next {
-      right: 0;
+    &:not(:disabled):hover {
+      color: var(--cx-g-color-secondary);
     }
+  }
+
+  @include media-breakpoint-only(xs) {
+    display: none;
+  }
+}
+
+%buttonCaret {
+  background-color: transparent;
+  border: none;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &:not(:disabled):hover {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+
+  &:after {
+    content: '';
+    border-style: solid;
+    border-color: currentColor;
+    border-width: var(--cx-border-width, 4px);
+    width: 15px;
+    height: 15px;
+    display: block;
+    border-top: 0;
+  }
+}
+
+.previous {
+  @extend %buttonCaret;
+  &:after {
+    border-right: 0;
+    transform: rotate(45deg);
+  }
+}
+
+.next {
+  @extend %buttonCaret;
+  &:after {
+    border-left: 0;
+    transform: rotate(-45deg);
   }
 }
