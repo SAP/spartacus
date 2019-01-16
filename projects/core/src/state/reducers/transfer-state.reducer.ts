@@ -11,7 +11,6 @@ export function getTransferStateReducer(
   platformId,
   config: StateConfig
 ) {
-  console.log('sadsa', config.state.ssrTransfer.keys);
   if (config.state.ssrTransfer && config.state.ssrTransfer.keys) {
     if (isPlatformBrowser(platformId)) {
       return getBrowserTransferStateReducer(

@@ -15,11 +15,10 @@ import { StateModule } from '../../state/state.module';
 import { StateConfig } from '../../state/config/state-config';
 import { ConfigModule } from '../../config/config.module';
 
-export function cmsStoreConfigFactory(ala, ma, kota): StateConfig {
+export function cmsStoreConfigFactory(): StateConfig {
   const config = {
     state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } }
   };
-  console.log(ala, ma, kota);
   return config;
 }
 
