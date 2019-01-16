@@ -8,6 +8,16 @@ import { effects } from './effects/index';
 import { metaReducers } from './reducers/index';
 import { AUTH_FEATURE } from './auth-state';
 import { StateModule } from '../../state/state.module';
+import { StateConfig } from '../../state/config/state-config';
+import { ConfigModule } from '../../config/config.module';
+
+const authStorageSyncConfig: StateConfig = {
+  state: {
+    storageSync: {
+      keys: [{ auth: ['userToken', 'clientToken'] }]
+    }
+  }
+};
 
 @NgModule({
   imports: [
@@ -15,7 +25,8 @@ import { StateModule } from '../../state/state.module';
     HttpClientModule,
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfig(authStorageSyncConfig)
   ],
   providers: [reducerProvider]
 })
