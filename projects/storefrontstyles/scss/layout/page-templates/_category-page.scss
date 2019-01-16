@@ -1,10 +1,9 @@
 @import '../placeholders';
 
-.ProductListPageTemplate,
-.SearchResultsListPageTemplate,
-.CategoryPageTemplate {
-  display: block;
-}
+// .ProductListPageTemplate,
+// .SearchResultsListPageTemplate,
+// .CategoryPageTemplate {
+// }
 
 .CategoryPageTemplate {
   @extend %pageBody !optional;
