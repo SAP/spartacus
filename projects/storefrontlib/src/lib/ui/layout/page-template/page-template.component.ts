@@ -21,6 +21,9 @@ export class PageTemplateComponent implements OnInit {
         'Section5'
       ]
     },
+    ContentPage1Template: {
+      slots: ['Section2A', 'Section2B']
+    },
     ProductDetailsPageTemplate: {
       slots: ['TopHeaderSlot', 'BottomHeaderSlot', 'PlaceholderContentSlot']
     },
@@ -57,16 +60,30 @@ export class PageTemplateComponent implements OnInit {
     return this.cms.getCurrentPage().pipe(map((page: Page) => page.template));
   }
 
-  get slots(): Observable<string> {
-    return this.templateName.pipe(
-      map(templateName => {
-        const template = this.templates[templateName];
-        if (!template) {
-          console.warn('no template found for', templateName);
-          return;
+  get slots(): Observable<any> {
+    return this.page$.pipe(
+      map((page: Page) => {
+        if (
+          this.templates[page.template] &&
+          this.templates[page.template].slots
+        ) {
+          return this.templates[page.template].slots;
+        } else {
+          console.warn('no template found for', page.template);
+          console.log('The content provides the following slots', page.slots);
         }
-        return template.slots;
       })
     );
+
+    // return this.templateName.pipe(
+    //   map(templateName => {
+    //     const template = this.templates[templateName];
+    //     if (!template) {
+    //       console.warn('no template found for', templateName);
+    //       return;
+    //     }
+    //     return template.slots;
+    //   })
+    // );
   }
 }

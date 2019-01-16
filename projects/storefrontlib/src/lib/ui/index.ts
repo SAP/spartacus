@@ -17,7 +17,6 @@ export * from './layout/order-details-page-layout/order-details-page-layout.comp
 export * from './layout/order-history-page-layout/order-history-page-layout.component';
 export * from './layout/store-finder-page-layout/store-finder-page-layout.component';
 export * from './layout/sale-page-layout/sale-page-layout.component';
-export * from './layout/help-page-layout/help-page-layout.component';
 export * from './layout/contact-page-layout/contact-page-layout.component';
 export * from './layout/payment-details-page-layout/payment-details-page-layout.component';
 export * from './components/media/picture/picture.component';

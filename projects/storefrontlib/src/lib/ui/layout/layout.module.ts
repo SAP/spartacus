@@ -5,7 +5,6 @@ import { OutletRefModule } from '../../outlet/index';
 import { PageTemplateModule } from './page-template/page-template.module';
 
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
-import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { MainModule } from './main/main.module';
 import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
@@ -30,7 +29,6 @@ const layoutModules = [
   PaymentDetailsPageLayoutModule,
   StoreFinderPageLayoutModule,
   SalePageLayoutModule,
-  HelpPageLayoutModule,
   ContactPageLayoutModule,
   OutletRefModule,
   TermsConditionsLayoutModule
