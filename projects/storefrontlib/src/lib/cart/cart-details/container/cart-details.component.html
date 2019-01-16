@@ -3,14 +3,11 @@
     <ng-container *ngIf="(entries$ | async) as entries">
       <div class="row">
         <div class="col-md-12 col-lg-9">
-          <div class="cx-cart-details__cart-total">
+          <div class="cx-total">
             Cart total ({{ cart.deliveryItemsQuantity }} items):
             {{ cart.totalPrice?.formattedValue }}
           </div>
-          <div
-            class="cx-cart-details__promotions"
-            *ngIf="cartHasPromotions(cart)"
-          >
+          <div class="cx-promotions" *ngIf="cartHasPromotions(cart)">
             <strong
               *ngFor="let promotion of getAllPromotionsForCart(cart)"
               [innerHTML]="promotion.description"
