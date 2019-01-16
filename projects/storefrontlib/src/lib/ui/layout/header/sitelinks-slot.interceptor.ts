@@ -37,10 +37,10 @@ export class HardcodedSiteLinks implements HttpInterceptor {
         components: {
           component: [
             {
-              uid: 'sale',
+              uid: 'storefinder',
               typeCode: 'CMSLinkComponent',
-              linkName: 'Sale',
-              url: 'sale'
+              linkName: 'Find a store',
+              url: 'store-finder'
             },
             {
               uid: 'contact',
