@@ -12,7 +12,8 @@ import {
 } from '../cart-state';
 import {
   loaderSuccessSelector,
-  loaderValueSelector
+  loaderValueSelector,
+  loaderLoadingSelector
 } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from 'projects/core/src/state';
 
@@ -61,7 +62,10 @@ export const getRefresh: MemoizedSelector<
 
 export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
   getActiveCartState,
-  state => loaderSuccessSelector(state)
+  state =>
+    loaderSuccessSelector(state) &&
+    !loaderLoadingSelector(state) &&
+    !loaderValueSelector(state).refresh
 );
 
 export const getCartMergeComplete: MemoizedSelector<
