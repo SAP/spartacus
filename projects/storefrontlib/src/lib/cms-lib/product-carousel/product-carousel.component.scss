@@ -98,9 +98,23 @@
   }
 }
 
+button {
+  &:focus {
+    outline: none;
+  }
+  color: var(--cx-g-color-light);
+  &:not(:disabled) {
+    cursor: pointer;
+    &:hover {
+      color: var(--cx-g-color-secondary);
+    }
+  }
+}
+
 .indicators {
   display: flex;
   justify-content: center;
+
   button {
     border-radius: 15px;
     width: 15px;
@@ -117,19 +131,6 @@
 
   @include media-breakpoint-only(xs) {
     display: none;
-  }
-}
-
-button {
-  &:focus {
-    outline: none;
-  }
-  color: var(--cx-g-color-light);
-  &:not(:disabled) {
-    cursor: pointer;
-    &:hover {
-      color: var(--cx-g-color-secondary);
-    }
   }
 }
 
