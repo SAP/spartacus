@@ -26,6 +26,9 @@
             [compact]="true"
             [isReadOnly]="false"
             [parent]="form.controls[entry.product.code]"
+            (remove)="removeEntry($event)"
+            [cartIsLoading]="!(cartLoaded$ | async)"
+            (update)="updateEntry($event)"
           ></cx-cart-item>
         </div>
         <!-- Separator -->

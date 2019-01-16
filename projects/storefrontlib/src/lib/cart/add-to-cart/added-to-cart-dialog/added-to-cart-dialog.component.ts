@@ -28,6 +28,8 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
 
   form: FormGroup = this.fb.group({});
 
+  cartLoaded$;
+
   constructor(
     public activeModal: NgbActiveModal,
     protected cartService: CartService,
@@ -35,6 +37,7 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   ) {}
 
   ngOnInit() {
+    this.cartLoaded$ = this.cartService.getLoaded();
     this.loaded$.subscribe(res => {
       if (this.previousLoadedState !== res) {
         this.finishedLoading = this.previousLoadedState === false;
@@ -60,6 +63,15 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
       ) as HTMLElement;
       elementToFocus.focus();
     }
+  }
+
+  removeEntry(item) {
+    this.cartService.removeEntry(item);
+    delete this.form.controls[item.product.code];
+  }
+
+  updateEntry({ item, updatedQuantity }) {
+    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
   private createEntryFormGroup(entry) {
