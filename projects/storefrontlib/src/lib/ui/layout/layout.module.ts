@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 
 import { OutletRefModule } from '../../outlet/index';
 
+import { PageTemplateModule } from './page-template/page-template.module';
+
 import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
@@ -23,6 +25,7 @@ import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-fi
 import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 
 const layoutModules = [
+  PageTemplateModule,
   LandingPageLayoutModule,
   OrderHistoryPageLayoutModule,
   CartPageLayoutModule,
