@@ -4,7 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import * as fromStore from '../store';
 import * as ngrxStore from '@ngrx/store';
-import * as fromActions from '../store/actions/page.action';
+import * as fromActions from '../store/actions';
 import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
@@ -137,6 +137,26 @@ describe('CmsService', () => {
       subscription.unsubscribe();
 
       expect(result).toEqual(page);
+    }
+  ));
+
+  it('should be able to refresh the latest cms page', inject(
+    [CmsService],
+    (service: CmsService) => {
+      service.refreshLatestPage();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromActions.RefreshLatestPage()
+      );
+    }
+  ));
+
+  it('should be able to refresh the cms component by uid', inject(
+    [CmsService],
+    (service: CmsService) => {
+      service.refreshComponent('test_uid');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromActions.RefreshComponent('test_uid')
+      );
     }
   ));
 
