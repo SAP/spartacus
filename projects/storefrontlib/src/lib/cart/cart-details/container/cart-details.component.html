@@ -1,5 +1,15 @@
 <ng-container *ngIf="(cart$ | async) as cart">
-  <div class="cx-cart-details container">
+  <header *ngIf="cart.totalItems">
+    <h1>Shopping Cart (ID {{ cart?.code }})</h1>
+  </header>
+
+  <cx-dynamic-slot
+    *ngIf="!cart.totalItems; else cartDetails"
+    class="empty-cart-message"
+    position="EmptyCartMiddleContent"
+  ></cx-dynamic-slot>
+
+  <ng-template #cartDetails>
     <ng-container *ngIf="(entries$ | async) as entries">
       <div class="row">
         <div class="col-md-12 col-lg-9">
@@ -34,5 +44,5 @@
         </div>
       </div>
     </ng-container>
-  </div>
+  </ng-template>
 </ng-container>

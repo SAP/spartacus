@@ -6,6 +6,8 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { CartPageLayoutModule } from '../../layout/cart-page-layout/cart-page-layout.module';
 
 import { CartPageComponent } from './cart-page.component';
+import { PageTemplateModule } from '../../layout/page-template/page-template.module';
+import { CartComponentModule } from '../../../cart';
 
 const routes: Routes = [
   {
@@ -17,7 +19,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [CommonModule, CartPageLayoutModule, RouterModule.forChild(routes)],
+  imports: [
+    CommonModule,
+    CartPageLayoutModule,
+    RouterModule.forChild(routes),
+    PageTemplateModule,
+    CartComponentModule
+  ],
   declarations: [CartPageComponent],
   exports: [CartPageComponent]
 })

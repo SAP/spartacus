@@ -1,0 +1,11 @@
+%cx-container {
+  @include make-container();
+  @include make-container-max-widths();
+  padding-left: 0;
+  padding-right: 0;
+}
+
+%pageBody {
+  @extend %cx-container !optional;
+  display: block;
+}

@@ -23,6 +23,9 @@ export class PageTemplateComponent implements OnInit {
     },
     ProductDetailsPageTemplate: {
       slots: ['TopHeaderSlot', 'BottomHeaderSlot', 'PlaceholderContentSlot']
+    },
+    CartPageTemplate: {
+      slots: ['BottomContentSlot']
     }
   };
 
@@ -33,10 +36,7 @@ export class PageTemplateComponent implements OnInit {
   ngOnInit() {
     return this.cms
       .getCurrentPage()
-      .pipe(
-        first(Boolean),
-        map((page: Page) => page.template)
-      )
+      .pipe(map((page: Page) => page.template))
       .subscribe(templateName => (this.hostClass = templateName));
   }
 
