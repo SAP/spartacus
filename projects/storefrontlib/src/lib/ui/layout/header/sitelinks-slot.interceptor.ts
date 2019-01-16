@@ -52,7 +52,7 @@ export class HardcodedSiteLinks implements HttpInterceptor {
               uid: 'help',
               typeCode: 'CMSLinkComponent',
               linkName: 'Help',
-              url: '/help'
+              url: '/faq'
             }
           ]
         }

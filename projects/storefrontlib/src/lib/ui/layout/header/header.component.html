@@ -1,34 +1,25 @@
 <header class="cx-header">
-  <div class="cx-content__slot d-flex align-items-center">
+  <header>
+    <button
+      class="cx-hamburger"
+      type="button"
+      (click)="toggleMenu()"
+      [class.is-active]="showMenu"
+      [attr.aria-expanded]="showMenu"
+      aria-label="Menu"
+      aria-controls="header-account-container, header-categories-container, header-locale-container"
+    >
+      <span class="hamburger-box"> <span class="hamburger-inner"></span> </span>
+    </button>
     <cx-header-skipper></cx-header-skipper>
 
     <cx-dynamic-slot position="SiteContext"></cx-dynamic-slot>
-
-    <cx-dynamic-slot
-      position="SiteLinks"
-      class="ml-auto SiteLinks"
-    ></cx-dynamic-slot>
-  </div>
-
-  <div class="cx-content__slot d-flex align-items-center">
-    <cx-dynamic-slot
-      class="cx-header__logo"
-      position="SiteLogo"
-    ></cx-dynamic-slot>
-    <cx-dynamic-slot position="SearchBox" class="ml-auto"></cx-dynamic-slot>
-    <cx-dynamic-slot position="StoreFinder" class="ml-auto"></cx-dynamic-slot>
-    <cx-login class="ml-auto d-none d-lg-block"></cx-login>
+    <cx-dynamic-slot position="SiteLinks"></cx-dynamic-slot>
+    <cx-dynamic-slot position="SiteLogo"></cx-dynamic-slot>
+    <cx-dynamic-slot position="SearchBox"></cx-dynamic-slot>
+    <cx-dynamic-slot position="StoreFinder"></cx-dynamic-slot>
+    <cx-login class="SiteLogin"></cx-login>
     <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
-  </div>
-
-  <div class="cx-content__slot">
-    <cx-dynamic-slot
-      position="NavigationBar"
-      class="d-none d-lg-block"
-    ></cx-dynamic-slot>
-  </div>
-
-  <div class="cx-content__slot" id="cx-mobile-menu">
-    <cx-mobile-menu></cx-mobile-menu>
-  </div>
+    <cx-dynamic-slot position="NavigationBar"></cx-dynamic-slot>
+  </header>
 </header>

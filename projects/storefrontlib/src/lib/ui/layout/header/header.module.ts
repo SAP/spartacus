@@ -6,11 +6,12 @@ import { SiteContextModule } from './../../../site-context/site-context.module';
 import { HeaderComponent } from './header.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { LoginModule } from '../../../user/components/login/login.module';
-import { MobileMenuComponent } from './mobile-menu/mobile-menu.component';
+
 import { PwaModule } from '../../../pwa/pwa.module';
 import { UrlTranslationModule } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
+import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
 
 @NgModule({
   imports: [
@@ -22,12 +23,17 @@ import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
     PwaModule,
     UrlTranslationModule
   ],
-  declarations: [HeaderComponent, HeaderSkipperComponent, MobileMenuComponent],
+  declarations: [HeaderComponent, HeaderSkipperComponent],
   exports: [HeaderComponent],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HardcodedSiteContext,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HardcodedSiteLinks,
       multi: true
     }
   ]
