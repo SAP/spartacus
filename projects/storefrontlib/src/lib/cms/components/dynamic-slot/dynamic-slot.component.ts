@@ -37,6 +37,8 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.renderer.addClass(this.hostElement.nativeElement, this.position);
+
     this.currentSlot$ = this.cmsService.getContentSlot(this.position).pipe(
       tap(slot => {
         if (this.cmsService.isLaunchInSmartEdit()) {
