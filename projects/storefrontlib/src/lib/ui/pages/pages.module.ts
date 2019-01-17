@@ -18,7 +18,7 @@ import { StoreFinderPageModule } from './store-finder-page/store-finder-page.mod
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
 
 // ContentPage: my Account Pages
-import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
+import { OrderHistoryPageModule } from './order/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
 import { AddressBookPageModule } from './myaccount/address-book-page/address-book-page.module';
 

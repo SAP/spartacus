@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 
-import { OrderHistoryPageLayoutModule } from '../../layout/order-history-page-layout/order-history-page-layout.module';
 import { OrderHistoryPageComponent } from './order-history-page.component';
 import { AuthGuard } from '@spartacus/core';
+import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { OrderHistoryModule } from '../../../../my-account/order/order-history/order-history.module';
+import { OutletRefModule } from '../../../../outlet';
 
 const routes: Routes = [
   {
@@ -20,7 +22,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    OrderHistoryPageLayoutModule
+    PageTemplateModule,
+    OrderHistoryModule,
+    OutletRefModule
   ],
   declarations: [OrderHistoryPageComponent],
   exports: [OrderHistoryPageComponent]
