@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ProductGuard } from '../../../product/guards/product.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ProductPageComponent } from './product-page.component';
 
@@ -12,7 +11,7 @@ import { PageTemplateModule } from '../../layout/page-template/page-template.mod
 const routes: Routes = [
   {
     path: null,
-    canActivate: [ProductGuard, CmsPageGuards],
+    canActivate: [CmsPageGuards],
     component: ProductPageComponent,
     data: { cxPath: 'product' }
   },
