@@ -6,7 +6,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { ComponentsModule } from './../../ui/components/components.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
-import { UrlTranslationModule } from '@spartacus/core';
+import { UrlTranslationModule, CheckoutModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -21,6 +21,11 @@ import { UrlTranslationModule } from '@spartacus/core';
     OrderSummaryComponent,
     CartItemListComponent
   ],
-  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent]
+  exports: [
+    CartItemComponent,
+    CartItemListComponent,
+    OrderSummaryComponent,
+    CheckoutModule
+  ]
 })
 export class CartSharedModule {}
