@@ -30,7 +30,8 @@ export class LanguageService implements SiteContext<Language> {
         if (!languages) {
           this.store.dispatch(new fromStore.LoadLanguages());
         }
-      })
+      }),
+      filter(Boolean)
     );
   }
 

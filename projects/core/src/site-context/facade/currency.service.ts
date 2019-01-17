@@ -34,7 +34,8 @@ export class CurrencyService implements SiteContext<Currency> {
         if (!currencies) {
           this.store.dispatch(new fromStore.LoadCurrencies());
         }
-      })
+      }),
+      filter(Boolean)
     );
   }
 
