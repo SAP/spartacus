@@ -24,3 +24,4 @@ export * from './link/link.module';
 export * from './search-box/search-box.module';
 export * from './breadcrumb/breadcrumb.module';
 export * from './banner/banner.module';
+export * from './site-context-selector/site-context-selector.module';
