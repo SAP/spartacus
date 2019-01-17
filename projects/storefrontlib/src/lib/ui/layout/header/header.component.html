@@ -1,30 +1,35 @@
-<header class="cx-header">
-  <div class="cx-content__slot d-flex align-items-center">
-    <cx-header-skipper></cx-header-skipper>
-    <cx-language-selector class="d-none d-lg-block"></cx-language-selector>
-    <cx-currency-selector class="d-none d-lg-block"></cx-currency-selector>
-    <cx-tertiary-bar class="ml-auto"></cx-tertiary-bar>
+<header>
+  <button
+    class="cx-hamburger"
+    type="button"
+    (click)="toggleMenu()"
+    [ngClass]="{ 'is-active': showMenu }"
+    [attr.aria-expanded]="showMenu"
+    aria-label="Menu"
+    aria-controls="header-account-container, header-categories-container, header-locale-container"
+  >
+    <span class="hamburger-box"> <span class="hamburger-inner"></span> </span>
+  </button>
+  <cx-header-skipper></cx-header-skipper>
+
+  <div class="SiteContext">
+    <!-- 
+  TODO: to be replaced by CMS content
+  https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/351
+-->
+    <cx-language-selector></cx-language-selector>
+    <cx-currency-selector></cx-currency-selector>
   </div>
 
-  <div class="cx-content__slot d-flex align-items-center">
-    <cx-dynamic-slot
-      class="cx-header__logo"
-      position="SiteLogo"
-    ></cx-dynamic-slot>
-    <cx-dynamic-slot position="SearchBox" class="ml-auto"></cx-dynamic-slot>
-    <cx-dynamic-slot position="StoreFinder" class="ml-auto"></cx-dynamic-slot>
-    <cx-login class="ml-auto d-none d-lg-block"></cx-login>
-    <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
-  </div>
-
-  <div class="cx-content__slot">
-    <cx-dynamic-slot
-      position="NavigationBar"
-      class="d-none d-lg-block"
-    ></cx-dynamic-slot>
-  </div>
-
-  <div class="cx-content__slot" id="cx-mobile-menu">
-    <cx-mobile-menu></cx-mobile-menu>
-  </div>
+  <!-- 
+  TODO: to be replaced by CMS content
+  https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/353
+-->
+  <cx-tertiary-bar class="SiteLinks"></cx-tertiary-bar>
+  <cx-dynamic-slot position="SiteLogo"></cx-dynamic-slot>
+  <cx-dynamic-slot position="SearchBox"></cx-dynamic-slot>
+  <cx-dynamic-slot position="StoreFinder"></cx-dynamic-slot>
+  <cx-login class="SiteLogin"></cx-login>
+  <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
+  <cx-dynamic-slot position="NavigationBar"></cx-dynamic-slot>
 </header>

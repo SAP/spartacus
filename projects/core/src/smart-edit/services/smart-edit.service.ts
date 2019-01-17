@@ -4,6 +4,7 @@ import { takeWhile } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +14,27 @@ export class SmartEditService {
 
   constructor(
     private cmsService: CmsService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    winRef: WindowRef
   ) {
     this.getCmsTicket();
     this.addPageContract();
 
-    // rerender components and slots after editing
-    (window as any).smartedit = (window as any).smartedit || {};
-    (window as any).smartedit.renderComponent = (
-      componentId,
-      componentType,
-      parentId
-    ) => {
-      return this.renderComponent(componentId, componentType, parentId);
-    };
+    if (winRef.nativeWindow) {
+      const window = winRef.nativeWindow as any;
+      // rerender components and slots after editing
+      window.smartedit = window.smartedit || {};
+      window.smartedit.renderComponent = (
+        componentId,
+        componentType,
+        parentId
+      ) => {
+        return this.renderComponent(componentId, componentType, parentId);
+      };
 
-    // reprocess page
-    (window as any).smartedit.reprocessPage = this.reprocessPage;
+      // reprocess page
+      window.smartedit.reprocessPage = this.reprocessPage;
+    }
   }
 
   get cmsTicketId(): string {
