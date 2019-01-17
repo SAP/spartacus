@@ -1,11 +1,15 @@
-import { makeStateKey, TransferState } from '@angular/platform-browser';
+import {
+  makeStateKey,
+  StateKey,
+  TransferState
+} from '@angular/platform-browser';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig } from '../config/state-config';
 import { getStateSlice } from '../utils/get-state-slice';
 
-const INIT_ACTION = '@ngrx/store/init';
-export const CX_KEY = makeStateKey<string>('cx-state');
+export const INIT_ACTION = '@ngrx/store/init';
+export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
 export function getTransferStateReducer(
   platformId,
