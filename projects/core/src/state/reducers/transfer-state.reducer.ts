@@ -7,11 +7,17 @@ const INIT_ACTION = '@ngrx/store/init';
 const CX_KEY = makeStateKey<string>('cx-state');
 
 export function getTransferStateReducer(
-  transferState: TransferState,
   platformId,
-  config: StateConfig
+  transferState?: TransferState,
+  config?: StateConfig
 ) {
-  if (config.state.ssrTransfer && config.state.ssrTransfer.keys) {
+  if (
+    transferState &&
+    config &&
+    config.state &&
+    config.state.ssrTransfer &&
+    config.state.ssrTransfer.keys
+  ) {
     if (isPlatformBrowser(platformId)) {
       return getBrowserTransferStateReducer(
         transferState,

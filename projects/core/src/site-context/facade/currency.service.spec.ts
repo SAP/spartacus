@@ -3,18 +3,13 @@ import { Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
-
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
 import { Currency } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { OccConfig } from '../../occ/config/occ-config';
-
 import { CurrencyService } from './currency.service';
-
 import { SiteContextModule } from '../site-context.module';
-import { ConfigModule } from '@spartacus/core';
-import { BrowserTransferStateModule } from '@angular/platform-browser';
 
 const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -37,9 +32,7 @@ describe('CurrencyService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        SiteContextModule,
-        ConfigModule.forRoot(),
-        BrowserTransferStateModule
+        SiteContextModule
       ],
       providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });

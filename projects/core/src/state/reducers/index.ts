@@ -1,4 +1,4 @@
-import { PLATFORM_ID, Provider } from '@angular/core';
+import { Optional, PLATFORM_ID, Provider } from '@angular/core';
 import { getStorageSyncReducer } from './store-sync.reducer';
 import { Config } from '../../config/config.module';
 import { WindowRef } from '../../window/window-ref';
@@ -13,13 +13,13 @@ export const stateMetaReducers: Provider[] = [
   {
     provide: META_REDUCER,
     useFactory: getStorageSyncReducer,
-    deps: [Config, WindowRef],
+    deps: [WindowRef, [new Optional(), Config]],
     multi: true
   },
   {
     provide: META_REDUCER,
     useFactory: getTransferStateReducer,
-    deps: [TransferState, PLATFORM_ID, Config],
+    deps: [PLATFORM_ID, [new Optional(), TransferState], [new Optional(), Config]],
     multi: true
   }
 ];

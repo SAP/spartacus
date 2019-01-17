@@ -26,11 +26,13 @@ function storageConfig(
 }
 
 export function getStorageSyncReducer(
-  config: StateConfig,
-  winRef: WindowRef
+  winRef: WindowRef,
+  config?: StateConfig
 ): MetaReducer<any, Action> {
   if (
     !winRef.nativeWindow ||
+    !config ||
+    !config.state ||
     !config.state.storageSync ||
     config.state.storageSync.type === StorageSyncType.NO_STORAGE ||
     !config.state.storageSync.keys

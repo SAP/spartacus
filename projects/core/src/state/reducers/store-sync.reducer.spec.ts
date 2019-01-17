@@ -11,7 +11,7 @@ describe('get store Sync reducer', () => {
 
     const winRef: any = { nativeWindow: {} };
 
-    const result = getStorageSyncReducer(config, winRef);
+    const result = getStorageSyncReducer(winRef, config);
 
     expect(result).toEqual(jasmine.any(Function));
   });
@@ -25,7 +25,7 @@ describe('get store Sync reducer', () => {
 
     const winRef: any = {};
 
-    const result = getStorageSyncReducer(config, winRef);
+    const result = getStorageSyncReducer(winRef, config);
 
     expect(result).toEqual(undefined);
   });
@@ -37,7 +37,7 @@ describe('get store Sync reducer', () => {
 
     const winRef: any = { nativeWindow: {} };
 
-    const result = getStorageSyncReducer(config, winRef);
+    const result = getStorageSyncReducer(winRef, config);
 
     expect(result).toEqual(undefined);
   });
@@ -49,7 +49,7 @@ describe('get store Sync reducer', () => {
 
     const winRef: any = { nativeWindow: {} };
 
-    const result = getStorageSyncReducer(config, winRef);
+    const result = getStorageSyncReducer(winRef, config);
 
     expect(result).toEqual(undefined);
   });
