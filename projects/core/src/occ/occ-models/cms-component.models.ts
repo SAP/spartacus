@@ -13,7 +13,7 @@ export interface CmsLinkComponent extends CmsComponent {
 }
 
 export interface CmsSiteContextSelectorComponent extends CmsComponent {
-  context: string;
+  context?: string;
 }
 
 export interface CmsSearchBoxComponent extends CmsComponent {
@@ -34,7 +34,6 @@ export interface CmsParagraphComponent extends CmsComponent {
   name?: string;
   title?: string;
   typeCode?: string;
-  uid?: string;
 }
 
 export interface CmsBannerComponentMedia {
