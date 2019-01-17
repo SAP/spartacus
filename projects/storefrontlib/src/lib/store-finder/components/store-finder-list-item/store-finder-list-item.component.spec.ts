@@ -1,13 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
 import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
-import * as fromReducers from '../../store';
-import * as fromServices from '../../services/index';
+import { StoreDataService, StoreFinderService } from '@spartacus/core';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
@@ -86,15 +84,9 @@ describe('StoreFinderListItemComponent', () => {
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        NgbTabsetModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.reducers)
-      ],
+      imports: [CommonModule, ReactiveFormsModule, NgbTabsetModule],
       declarations: [StoreFinderListItemComponent],
-      providers: [fromServices.services]
+      providers: [StoreFinderService, StoreDataService]
     }).compileComponents();
   }));
 

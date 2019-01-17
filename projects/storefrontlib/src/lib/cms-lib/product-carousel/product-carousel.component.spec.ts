@@ -3,15 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ProductService, Product, CmsComponent } from '@spartacus/core';
+import { ProductService, Product, Component } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { BootstrapModule } from '../../bootstrap.module';
-import { CmsService } from '@spartacus/core';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { ProductCarouselComponent } from './product-carousel.component';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -36,18 +35,16 @@ const mockComponentData: any = {
 };
 
 const mockProduct: Product = {
-  code: 'C001',
+  code: '111111',
   name: 'Camera',
   price: {
     formattedValue: '$100.00'
   }
 };
 
-class MockCmsService {
-  getComponentData<T extends CmsComponent>(): Observable<T> {
-    return of(mockComponentData);
-  }
-}
+const MockCmsComponentData = <CmsComponentData<Component>>{
+  data$: of(mockComponentData)
+};
 
 class MockProductService {
   get(): Observable<any> {
@@ -66,14 +63,14 @@ describe('ProductCarouselComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, BootstrapModule],
+      imports: [RouterTestingModule],
       declarations: [
         ProductCarouselComponent,
         PictureComponent,
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: ProductService, useClass: MockProductService }
       ]
     }).compileComponents();
@@ -81,7 +78,6 @@ describe('ProductCarouselComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
-    fixture.detectChanges();
     productCarouselComponent = fixture.componentInstance;
     fixture.detectChanges();
     el = fixture.debugElement;
@@ -91,26 +87,33 @@ describe('ProductCarouselComponent', () => {
     expect(productCarouselComponent).toBeTruthy();
   });
 
-  it('should have empty productCodes', () => {
-    expect(productCarouselComponent.productCodes).toBeFalsy();
+  it('should have products', () => {
+    expect(productCarouselComponent.items$);
+
+    let products$: Observable<Product>[];
+    productCarouselComponent.items$
+      .subscribe(productData$ => {
+        products$ = productData$;
+      })
+      .unsubscribe();
+    expect(products$.length).toBe(productCodeArray.length);
   });
 
-  it('should have productCodes', () => {
-    expect(productCarouselComponent.component).toBeNull();
-    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(productCarouselComponent.productCodes).toEqual(productCodeArray);
-  });
+  it('should have product data', () => {
+    expect(productCarouselComponent.items$);
 
-  it('should have 1 group', () => {
-    spyOn<any>(productCarouselComponent, 'getItemsPerPage').and.returnValue(4);
-    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(productCarouselComponent.productGroups.length).toBe(1);
+    let product: Product;
+    productCarouselComponent.items$
+      .subscribe(productData$ => {
+        productData$[0].subscribe(data => (product = data)).unsubscribe();
+      })
+      .unsubscribe();
+    expect(product).toBe(mockProduct);
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    productCarouselComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(
-      el.query(By.css('.cx-carousel__header')).nativeElement.textContent
-    ).toEqual(productCarouselComponent.component.title);
+    expect(el.query(By.css('h3')).nativeElement.textContent).toContain(
+      mockComponentData.title
+    );
   });
 });
