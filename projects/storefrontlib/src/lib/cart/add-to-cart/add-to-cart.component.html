@@ -4,8 +4,5 @@
   [disabled]="quantity <= 0"
   (click)="addToCart()"
 >
-  <span *ngIf="(cartEntry$ | async) as entry" class="cx-entry-quantity">{{
-    entry.quantity
-  }}</span>
   Add to cart
 </button>
