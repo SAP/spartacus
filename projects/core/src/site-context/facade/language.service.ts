@@ -5,11 +5,12 @@ import * as fromStore from '../store/index';
 import { filter, tap } from 'rxjs/operators';
 import { Language } from '../../occ/occ-models';
 import { WindowRef } from '../../window/window-ref';
+import { SiteContext } from './site-context.interface';
 /**
  * Facade that provides easy access to language state, actions and selectors.
  */
 @Injectable()
-export class LanguageService {
+export class LanguageService implements SiteContext<Language> {
   private sessionStorage: Storage;
 
   constructor(
