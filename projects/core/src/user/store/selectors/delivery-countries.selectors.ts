@@ -2,7 +2,8 @@ import { MemoizedSelector, createSelector } from '@ngrx/store';
 import {
   UserState,
   DeliveryCountriesState,
-  StateWithUser
+  StateWithUser,
+  DeliveryCountryEntities
 } from '../user-state';
 import { Country } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
@@ -17,7 +18,7 @@ export const getDeliveryCountriesState: MemoizedSelector<
 
 export const getDeliveryCountriesEntites: MemoizedSelector<
   StateWithUser,
-  Country
+  DeliveryCountryEntities
 > = createSelector(
   getDeliveryCountriesState,
   (state: DeliveryCountriesState) => state.entities

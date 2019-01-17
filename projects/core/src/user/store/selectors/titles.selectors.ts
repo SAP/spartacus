@@ -1,6 +1,11 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
-import { UserState, TitlesState, StateWithUser } from '../user-state';
+import {
+  UserState,
+  TitlesState,
+  StateWithUser,
+  TitleEntities
+} from '../user-state';
 import { Title } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';
 
@@ -14,7 +19,7 @@ export const getTitlesState: MemoizedSelector<
 
 export const getTitlesEntites: MemoizedSelector<
   StateWithUser,
-  Title
+  TitleEntities
 > = createSelector(
   getTitlesState,
   (state: TitlesState) => state.entities
