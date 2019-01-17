@@ -2,33 +2,33 @@
 
 $caretSize: 7px;
 :host {
-  &.selector {
-    position: relative;
-
-    margin-right: 10px;
-    &::after {
-      content: '';
-
-      border: solid 2px currentColor;
-      border-top: 0;
-      border-left: 0;
-
-      width: $caretSize;
-      height: $caretSize;
-      right: $caretSize / 2;
-      top: $caretSize / 2;
-
-      position: absolute;
-      display: block;
-      z-index: 0;
-
-      transform: rotate(45deg);
-    }
-  }
+  position: relative;
+  margin-right: 10px;
 }
 
 label {
-  @include sr-only();
+  display: inline;
+  span {
+    @include sr-only();
+  }
+  &::after {
+    content: '';
+
+    border: solid 2px currentColor;
+    border-top: 0;
+    border-left: 0;
+
+    width: $caretSize;
+    height: $caretSize;
+    right: $caretSize / 2;
+    top: $caretSize / 2;
+
+    position: absolute;
+    display: block;
+    z-index: 0;
+
+    transform: rotate(45deg);
+  }
 }
 
 select {
