@@ -14,7 +14,8 @@ import { of, Observable } from 'rxjs';
 import { LanguageSelectorComponent } from './language-selector.component';
 
 const mockLanguages: Language[] = [
-  { active: true, isocode: 'ja', name: 'Japanese' }
+  { active: true, isocode: 'ja', name: 'Japanese' },
+  { active: true, isocode: 'EUR', name: 'Euro' }
 ];
 
 const mockActiveLang = 'ja';
@@ -98,12 +99,20 @@ describe('LanguageSelectorComponent', () => {
     expect(label.nativeElement.textContent).toEqual('Language');
   });
 
-  it('should contain disabled dropdown when languages list is empty', () => {
+  it('should not be available when language list is empty', () => {
     component.languages$ = of([]);
     fixture.detectChanges();
 
     const selectBox = el.query(By.css('select'));
-    expect(selectBox.nativeElement.disabled).toBeTruthy();
+    expect(selectBox).toBeFalsy();
+  });
+
+  it('should not be available when there is one language', () => {
+    component.languages$ = of([mockLanguages[0]]);
+    fixture.detectChanges();
+
+    const selectBox = el.query(By.css('select'));
+    expect(selectBox).toBeFalsy();
   });
 
   it('should contain enabled dropdown when languages list is NOT empty', () => {
