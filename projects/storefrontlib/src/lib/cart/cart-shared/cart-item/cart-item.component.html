@@ -121,13 +121,15 @@
       [innerHTML]="promotion.description"
     ></div>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="cx-cart-item__actions col-12 ">
-      <a
-        [routerLink]=""
-        (click)="!cartIsLoading && removeItem()"
+    <div *ngIf="!isReadOnly" class="cx-cart-item__actions col-12">
+      <button
+        class="link"
         [class.disabled]="cartIsLoading"
-        >Remove</a
+        [disabled]="cartIsLoading"
+        (click)="removeItem()"
       >
+        Remove
+      </button>
     </div>
   </div>
 </div>

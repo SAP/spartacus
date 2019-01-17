@@ -12,6 +12,14 @@ class MockEvent {
   stopPropagation() {}
 }
 
+const testData = [
+  { incomingValue: 0, adjustedValue: 1, isOutOfRange: true },
+  { incomingValue: 1, adjustedValue: 1, isOutOfRange: false },
+  { incomingValue: 2, adjustedValue: 2, isOutOfRange: false },
+  { incomingValue: 5, adjustedValue: 5, isOutOfRange: false },
+  { incomingValue: 6, adjustedValue: 5, isOutOfRange: true }
+];
+
 describe('ItemCounterComponent', () => {
   let itemCounterComponent: ItemCounterComponent;
   let fixture: ComponentFixture<ItemCounterComponent>;
@@ -109,44 +117,47 @@ describe('ItemCounterComponent', () => {
     expect(focusEvent.stopPropagation).toHaveBeenCalled();
   });
 
-  it('should call increment() with value less than max', () => {
-    itemCounterComponent.value = 1;
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 2;
-    itemCounterComponent.increment();
+  describe('increment()', () => {
+    it('should increment value when it is less than max', () => {
+      itemCounterComponent.value = 1;
+      itemCounterComponent.min = 1;
+      itemCounterComponent.max = 2;
+      itemCounterComponent.increment();
 
-    expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
+
+    it('should set value to max when it is greater than max', () => {
+      itemCounterComponent.value = 3;
+      itemCounterComponent.min = 1;
+      itemCounterComponent.max = 2;
+      itemCounterComponent.increment();
+
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
   });
 
-  it('should call increment() with value greater than max', () => {
-    itemCounterComponent.value = 3;
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 2;
-    itemCounterComponent.increment();
+  describe('decrement()', () => {
+    it('should decrement value when it is greater than min', () => {
+      itemCounterComponent.value = 3;
+      itemCounterComponent.min = 2;
+      itemCounterComponent.max = 5;
+      itemCounterComponent.decrement();
 
-    expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
-  });
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
+    it('should set value to min when it is less than min', () => {
+      itemCounterComponent.value = 1;
+      itemCounterComponent.min = 2;
+      itemCounterComponent.max = 5;
+      itemCounterComponent.decrement();
 
-  it('should call decrement() with value greater than min', () => {
-    itemCounterComponent.value = 3;
-    itemCounterComponent.min = 2;
-    itemCounterComponent.max = 5;
-    itemCounterComponent.decrement();
-
-    expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
-  });
-
-  it('should call decrement() with value less than min', () => {
-    itemCounterComponent.value = 1;
-    itemCounterComponent.min = 2;
-    itemCounterComponent.max = 5;
-    itemCounterComponent.decrement();
-
-    expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
   });
 
   it('should not display input when isValueChangeable is not passed', () => {
@@ -176,50 +187,58 @@ describe('ItemCounterComponent', () => {
   it('should adjust value in range', () => {
     itemCounterComponent.min = 1;
     itemCounterComponent.max = 5;
-    expect(itemCounterComponent.adjustValueInRange(7)).toEqual(5);
-    expect(itemCounterComponent.adjustValueInRange(0)).toEqual(1);
-    expect(itemCounterComponent.adjustValueInRange(3)).toEqual(3);
+
+    testData.forEach(({ incomingValue, adjustedValue }) => {
+      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
+        adjustedValue
+      );
+    });
   });
 
   it('should verify is value out of range', () => {
     itemCounterComponent.min = 1;
     itemCounterComponent.max = 5;
-    expect(itemCounterComponent.isOutOfRange(7)).toBeTruthy();
-    expect(itemCounterComponent.isOutOfRange(0)).toBeTruthy();
-    expect(itemCounterComponent.isOutOfRange(3)).toBeFalsy();
+
+    testData.forEach(({ incomingValue, isOutOfRange }) => {
+      expect(itemCounterComponent.isOutOfRange(incomingValue)).toBe(
+        isOutOfRange
+      );
+    });
   });
 
-  it('should try set manual change with wrong value', () => {
+  it('should try set manual change with value', () => {
     itemCounterComponent.min = 1;
     itemCounterComponent.max = 5;
-    itemCounterComponent.manualChange(7);
-    expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(7);
-    expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(7);
-    expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(5);
+
+    testData.forEach(({ incomingValue, adjustedValue }) => {
+      itemCounterComponent.manualChange(incomingValue);
+      expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(
+        incomingValue
+      );
+      expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(
+        incomingValue
+      );
+      expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(
+        adjustedValue
+      );
+    });
   });
 
-  it('should try set manual change with correct value', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-    itemCounterComponent.manualChange(3);
-    expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(3);
-    expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(3);
-    expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(3);
-  });
+  describe('onInput()', () => {
+    it('should call manualChange with value', () => {
+      itemCounterComponent.min = 1;
+      itemCounterComponent.max = 5;
+      const inputEvent = { target: { value: '3' } };
+      itemCounterComponent.onInput(inputEvent);
+      expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(3);
+    });
 
-  it('should set value on input', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-    const inputEvent = { target: { value: '3' } };
-    itemCounterComponent.onInput(inputEvent);
-    expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(3);
-  });
-
-  it('should not set value on input', () => {
-    itemCounterComponent.min = 1;
-    itemCounterComponent.max = 5;
-    const inputEvent = { target: {} };
-    itemCounterComponent.onInput(inputEvent);
-    expect(itemCounterComponent.manualChange).not.toHaveBeenCalled();
+    it('should not call manualChange', () => {
+      itemCounterComponent.min = 1;
+      itemCounterComponent.max = 5;
+      const inputEvent = { target: {} };
+      itemCounterComponent.onInput(inputEvent);
+      expect(itemCounterComponent.manualChange).not.toHaveBeenCalled();
+    });
   });
 });

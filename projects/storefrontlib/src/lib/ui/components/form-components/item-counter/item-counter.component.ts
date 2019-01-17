@@ -46,7 +46,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   focus: boolean;
 
-  outOfRange = false;
+  isValueOutOfRange = false;
 
   ngOnInit() {
     this.writeValue(this.min || 0);
@@ -59,8 +59,6 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   /**
    * If value is too small it will be set to min, if is too big it will be set to max.
-   * @param incomingValue : number
-   * @returns adjustedValue : number
    */
   adjustValueInRange(incomingValue: number): number {
     return incomingValue < this.min || !this.min
@@ -71,11 +69,10 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   /**
-   * Function set 'outOfRange' flag and adjust value in range. Then update model value and refresh input
-   * @param newValue : number
+   * Function set 'isValueOutOfRange' flag and adjust value in range. Then update model value and refresh input
    */
-  manualChange(newValue: number): void {
-    this.outOfRange = this.isOutOfRange(newValue);
+  manualChange(newValue: number) {
+    this.isValueOutOfRange = this.isOutOfRange(newValue);
     newValue = this.adjustValueInRange(newValue);
     this.updateValue(newValue);
     /* We use the value from the input, however, this value
@@ -88,8 +85,6 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   /**
    * Verify value for decision about displaying error about range
-   * @param value : number
-   * @returns flag : boolean
    */
   isOutOfRange(value: number): boolean {
     return value < this.min || value > this.max;
@@ -97,13 +92,12 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   /**
    * Verify value for decision about displaying info about range
-   * @returns flag : boolean
    */
   isMaxOrMinValue(): boolean {
     return this.value === this.max || this.value === this.min;
   }
 
-  onKeyDown(event: KeyboardEvent): void {
+  onKeyDown(event: KeyboardEvent) {
     const handlers = {
       ArrowDown: () => this.decrement(),
       ArrowUp: () => this.increment()
@@ -116,21 +110,21 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onInput(event): void {
+  onInput(event) {
     const { value } = event.target;
     if (value) {
       this.manualChange(Number(value));
     }
   }
 
-  onBlur(event: FocusEvent): void {
+  onBlur(event: FocusEvent) {
     this.focus = false;
     event.preventDefault();
     event.stopPropagation();
     this.onTouch();
   }
 
-  onFocus(event: FocusEvent): void {
+  onFocus(event: FocusEvent) {
     this.focus = true;
     event.preventDefault();
     event.stopPropagation();
@@ -140,28 +134,28 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   /**
    * Verify value that it can be incremented, if yes it does that.
    */
-  increment(): void {
+  increment() {
     this.manualChange(this.value + this.step);
   }
 
   /**
    * Verify value that it can be decremented, if yes it does that.
    */
-  decrement(): void {
+  decrement() {
     this.manualChange(this.value - this.step);
   }
 
   // ControlValueAccessor interface
 
-  registerOnTouched(fn): void {
+  registerOnTouched(fn) {
     this.onTouch = fn;
   }
 
-  registerOnChange(fn): void {
+  registerOnChange(fn) {
     this.onModelChange = fn;
   }
 
-  writeValue(value: number): void {
+  writeValue(value: number) {
     this.value = value || this.min || 0;
     this.onModelChange(this.value);
   }
