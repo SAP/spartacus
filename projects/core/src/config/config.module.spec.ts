@@ -1,7 +1,7 @@
 import { Config, ConfigModule, provideConfig } from './config.module';
 import { TestBed } from '@angular/core/testing';
 
-describe('ConfigModule', () => {
+fdescribe('ConfigModule', () => {
   it('forRoot should provide a configuration', () => {
     TestBed.configureTestingModule({
       imports: [ConfigModule.forRoot()]
@@ -82,6 +82,29 @@ describe('ConfigModule', () => {
     expect(config).toEqual(
       jasmine.objectContaining({
         test1: 'test1'
+      })
+    );
+  });
+
+  it('should allow to provide config with ConfigModule.withConfigFactory', () => {
+    const configFactory = () => ({
+      test1: 'test config',
+      test2: 'a' + 'b',
+      test3: 3 * 5
+    });
+    TestBed.configureTestingModule({
+      imports: [
+        ConfigModule.withConfigFactory(configFactory),
+        ConfigModule.forRoot()
+      ]
+    });
+
+    const config = TestBed.get(Config);
+    expect(config).toEqual(
+      jasmine.objectContaining({
+        test1: 'test config',
+        test2: 'ab',
+        test3: 15
       })
     );
   });
