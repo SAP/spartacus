@@ -7,7 +7,6 @@ import {
   CmsSiteContextSelectorComponent,
   LanguageService,
   CurrencyService,
-  Language,
   Component
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
@@ -29,11 +28,12 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   let serviceSpy: any;
   let el: DebugElement;
 
-  const mockLanguages: Language[] = [
+  const mockLanguages = [
     { active: true, isocode: 'ja', name: 'Japanese', nativeName: 'Japanese' },
-    { active: true, isocode: 'eur', name: 'Euro', nativeName: 'Euro' }
+    { active: true, isocode: 'en', name: 'English', nativeName: 'English' }
   ];
-  const mockActiveLang = 'eur';
+
+  const mockActiveLang = 'en';
 
   const MockLanguageService = {
     active: mockActiveLang,
@@ -89,9 +89,8 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    serviceSpy = fixture.debugElement.injector.get(LanguageService) as any;
-
     fixture.detectChanges();
+    serviceSpy = fixture.debugElement.injector.get(LanguageService) as any;
   });
 
   it('should be created', () => {
@@ -120,6 +119,4 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     const select = <HTMLSelectElement>selectBox.nativeElement;
     expect(select.options.length).toEqual(mockLanguages.length);
   });
-
-  // it('should not contain a select when item list is empty', () => {});
 });
