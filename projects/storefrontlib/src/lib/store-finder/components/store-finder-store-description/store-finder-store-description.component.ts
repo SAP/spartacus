@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { StoreDataService, StoreFinderService } from '../../services/index';
-
-import * as fromStore from '../../store';
+import { StoreDataService, StoreFinderService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-store-description',
@@ -20,7 +17,6 @@ export class StoreFinderStoreDescriptionComponent
   isLoading$: Observable<any>;
 
   constructor(
-    private store: Store<fromStore.StoresState>,
     protected storeDataService: StoreDataService,
     protected storeFinderService: StoreFinderService,
     private route: ActivatedRoute
@@ -30,8 +26,8 @@ export class StoreFinderStoreDescriptionComponent
 
   ngOnInit() {
     this.requestStoresData();
-    this.location$ = this.store.pipe(select(fromStore.getFindStoresEntities));
-    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+    this.location$ = this.storeFinderService.getFindStoresEntities();
+    this.isLoading$ = this.storeFinderService.getStoresLoading();
   }
 
   requestStoresData() {

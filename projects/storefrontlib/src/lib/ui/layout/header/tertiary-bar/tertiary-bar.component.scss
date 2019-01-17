@@ -1,17 +1,17 @@
 @import 'theme';
-@import 'functions';
 @import 'mixins';
-@import '~bootstrap/scss/nav';
 
-$cx-tertiary-link-color: 'inverse' !default;
+nav {
+  a {
+    color: var(--cx-color, currentColor);
+    &:not(:last-child) {
+      padding: var(--cx-padding, 0 20px 0 0);
+    }
 
-.cx-tertiary-bar {
-  @include media-breakpoint-down(md) {
-    @include sr-only();
-  }
-
-  &__link {
-    @include var-color('color', $cx-tertiary-link-color);
-    @include type('7');
+    @include media-breakpoint-down(md) {
+      display: block;
+      margin: 10px 0;
+      padding: var(--cx-padding, 0);
+    }
   }
 }
