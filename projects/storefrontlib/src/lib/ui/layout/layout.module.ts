@@ -5,11 +5,8 @@ import { OutletRefModule } from '../../outlet/index';
 import { PageTemplateModule } from './page-template/page-template.module';
 import { MainModule } from './main/main.module';
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
-import { OrderDetailsPageLayoutModule } from './order-details-page-layout/order-details-page-layout.module';
-
 const layoutModules = [
   PageTemplateModule,
-  OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
   OutletRefModule
 ];

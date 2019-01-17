@@ -11,7 +11,6 @@ export * from './layout/footer/footer.component';
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
 export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
-export * from './layout/order-details-page-layout/order-details-page-layout.component';
 
 export * from './components/media/picture/picture.component';
 export * from './components/form-components/star-rating/star-rating.component';
@@ -24,7 +23,7 @@ export * from './pages/multi-step-checkout-page/multi-step-checkout-page.compone
 export * from './pages/cart-page/cart-page.component';
 export * from './pages/order-confirmation-page/order-confirmation-page.component';
 export * from './pages/order/order-history-page/order-history-page.component';
-export * from './pages/order-details-page/order-details-page.component';
+export * from './pages/order/order-details-page/order-details-page.component';
 export * from './pages/login/login-page/login-page.component';
 export * from './pages/login/register-page/register-page.module';
 export * from './pages/login/login-page/login-page.module';
@@ -34,7 +33,6 @@ export * from './pages/404/404.module';
 export * from './pages/cart-page/cart-page.module';
 export * from './pages/category-page/category-page.module';
 export * from './pages/multi-step-checkout-page/multi-step-checkout-page.module';
-export * from './pages/order-details-page/order-details-page.module';
 export * from './pages/product-page/product-page.module';
 export * from './pages/store-finder-page/store-finder-page.module';
 

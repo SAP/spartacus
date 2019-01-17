@@ -19,7 +19,7 @@ import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payme
 
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order/order-history-page/order-history-page.module';
-import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
+import { OrderDetailsPageModule } from './order/order-details-page/order-details-page.module';
 import { AddressBookPageModule } from './myaccount/address-book-page/address-book-page.module';
 
 // CategoryPage

@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
-import { OrderDetailsPageLayoutModule } from '../../layout/order-details-page-layout/order-details-page-layout.module';
 import { OrderDetailsPageComponent } from './order-details-page.component';
-import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { AuthGuard } from '@spartacus/core';
+import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { OrderDetailsModule } from 'projects/storefrontlib/src/lib/my-account/order/order-details/order-details.module';
+import { OutletRefModule } from 'projects/storefrontlib/src/lib/outlet';
 
 const routes: Routes = [
   {
@@ -19,8 +21,10 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    OrderDetailsPageLayoutModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PageTemplateModule,
+    OutletRefModule,
+    OrderDetailsModule
   ],
   declarations: [OrderDetailsPageComponent],
   exports: [OrderDetailsPageComponent]
