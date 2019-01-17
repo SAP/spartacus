@@ -6,7 +6,7 @@ import { NavigationService } from '../navigation/navigation.service';
 import { CmsService } from '@spartacus/core';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import { of } from 'rxjs';
-import { CmsComponentData } from '../../cms';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Component({
   template: '',

@@ -100,6 +100,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
   });
 
   it('should able to get navigation entry item data even if they are not exist', () => {
+    navigationComponent.node$.subscribe();
     expect(mockNavigationService.getNavigationEntryItems).toHaveBeenCalledWith(
       componentData.navigationNode,
       true,
@@ -122,6 +123,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
     };
 
     spyOn(cmsService, 'getNavigationEntryItems').and.returnValue(of(itemsData));
+    navigationComponent.node$.subscribe();
     componentData$.next(componentData);
     expect(mockNavigationService.createNode).toHaveBeenCalledWith(
       componentData.navigationNode,
