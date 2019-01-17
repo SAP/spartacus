@@ -15,10 +15,6 @@ export interface StateWithUser {
   [USER_FEATURE]: UserState;
 }
 
-export interface DeliveryCountriesState {
-  entities: Country;
-}
-
 export interface UserState {
   account: UserDetailsState;
   addresses: UserAddressesState;
@@ -43,8 +39,20 @@ export interface RegionsState {
   entities: Region[];
 }
 
+export interface DeliveryCountryEntities {
+  [key: string]: Country;
+}
+
+export interface DeliveryCountriesState {
+  entities: DeliveryCountryEntities;
+}
+
+export interface TitleEntities {
+  [key: string]: Title;
+}
+
 export interface TitlesState {
-  entities: Title;
+  entities: TitleEntities;
 }
 
 export interface UserAddressesState {
