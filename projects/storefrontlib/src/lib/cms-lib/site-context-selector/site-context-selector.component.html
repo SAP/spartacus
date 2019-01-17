@@ -1,0 +1,21 @@
+<ng-container
+  *ngIf="
+    (items$ | async)?.length > 1 && {
+      items: items$ | async,
+      context: context$ | async
+    } as siteContext
+  "
+>
+  <label [for]="'selector-' + siteContext.context">{{ label$ | async }}</label>
+  <select
+    (change)="setActive($event.target.value)"
+    [id]="'selector-' + siteContext.context"
+  >
+    <option
+      *ngFor="let item of siteContext.items"
+      value="{{ item.isocode }}"
+      [selected]="(activeItem$ | async) === item.isocode"
+      >{{ getOptionText(item, siteContext.context) }}</option
+    >
+  </select>
+</ng-container>

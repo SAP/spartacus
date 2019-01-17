@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ConfigModule, UrlTranslationModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  UrlTranslationModule,
+  SiteContextModule
+} from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
@@ -17,7 +21,8 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
         }
       }
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
+    SiteContextModule
   ],
   declarations: [SiteContextSelectorComponent],
   exports: [SiteContextSelectorComponent],
