@@ -9,7 +9,10 @@ import {
   CurrencyService,
   Component
 } from '@spartacus/core';
-import { SiteContextSelectorComponent } from './site-context-selector.component';
+import {
+  SiteContextSelectorComponent,
+  ContextSelectorServiceMap
+} from './site-context-selector.component';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
@@ -79,6 +82,13 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
+        },
+        {
+          provide: ContextSelectorServiceMap,
+          useValue: {
+            LANGUAGE: LanguageService,
+            CURRENCY: CurrencyService
+          }
         }
       ]
     }).compileComponents();

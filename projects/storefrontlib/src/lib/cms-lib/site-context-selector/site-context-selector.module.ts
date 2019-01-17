@@ -5,10 +5,15 @@ import { RouterModule } from '@angular/router';
 import {
   ConfigModule,
   UrlTranslationModule,
-  SiteContextModule
+  SiteContextModule,
+  LanguageService,
+  CurrencyService
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
-import { SiteContextSelectorComponent } from './site-context-selector.component';
+import {
+  SiteContextSelectorComponent,
+  ContextSelectorServiceMap
+} from './site-context-selector.component';
 
 @NgModule({
   imports: [
@@ -23,6 +28,16 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     }),
     UrlTranslationModule,
     SiteContextModule
+  ],
+  providers: [
+    LanguageService,
+    {
+      provide: ContextSelectorServiceMap,
+      useValue: {
+        LANGUAGE: LanguageService,
+        CURRENCY: CurrencyService
+      }
+    }
   ],
   declarations: [SiteContextSelectorComponent],
   exports: [SiteContextSelectorComponent],

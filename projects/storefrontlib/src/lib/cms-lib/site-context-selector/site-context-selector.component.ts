@@ -1,13 +1,18 @@
-import { Component, Injector, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  InjectionToken,
+  Inject,
+  Injector
+} from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, filter, switchMap, take } from 'rxjs/operators';
-import {
-  CmsSiteContextSelectorComponent,
-  SiteContext,
-  LanguageService,
-  CurrencyService
-} from '@spartacus/core';
+import { CmsSiteContextSelectorComponent, SiteContext } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+
+export const ContextSelectorServiceMap = new InjectionToken(
+  'ContextSelectorMap'
+);
 
 const LANGUAGE = 'LANGUAGE';
 const CURRENCY = 'CURRENCY';
@@ -23,6 +28,7 @@ export class SiteContextSelectorComponent {
 
   constructor(
     public component: CmsComponentData<CmsSiteContextSelectorComponent>,
+    @Inject(ContextSelectorServiceMap) private contextServiceMap,
     private injector: Injector
   ) {}
 
@@ -65,12 +71,7 @@ export class SiteContextSelectorComponent {
    * based on the given context.
    */
   protected getService(context: string) {
-    if (context === LANGUAGE) {
-      return this.injector.get(LanguageService);
-    }
-    if (context === CURRENCY) {
-      return this.injector.get(CurrencyService);
-    }
+    return this.injector.get(this.contextServiceMap[context]);
   }
 
   protected getOptionText(item: any, context?: string) {
