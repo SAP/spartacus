@@ -16,6 +16,7 @@ import { StateConfig } from '../../state/config/state-config';
 import { ConfigModule } from '../../config/config.module';
 
 export function cmsStoreConfigFactory(): StateConfig {
+  // if we want to reuse CMS_FEATURE const in config, we have to use factory instead of plain object
   const config = {
     state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } }
   };

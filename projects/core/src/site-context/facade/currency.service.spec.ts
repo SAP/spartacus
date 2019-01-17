@@ -31,9 +31,7 @@ describe('CurrencyService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        SiteContextModule
-      ],
+      imports: [SiteContextModule],
       providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
     });
 

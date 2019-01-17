@@ -27,9 +27,7 @@ describe('AuthService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        AuthStoreModule
-      ],
+      imports: [AuthStoreModule],
       providers: [
         AuthService,
         {

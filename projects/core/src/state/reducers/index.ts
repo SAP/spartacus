@@ -19,7 +19,11 @@ export const stateMetaReducers: Provider[] = [
   {
     provide: META_REDUCER,
     useFactory: getTransferStateReducer,
-    deps: [PLATFORM_ID, [new Optional(), TransferState], [new Optional(), Config]],
+    deps: [
+      PLATFORM_ID,
+      [new Optional(), TransferState],
+      [new Optional(), Config]
+    ],
     multi: true
   }
 ];

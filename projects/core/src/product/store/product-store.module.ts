@@ -15,6 +15,7 @@ import { ConfigModule } from '../../config/config.module';
 import { StateConfig } from '../../state/config/state-config';
 
 export function productStoreConfigFactory(): StateConfig {
+  // if we want to reuse PRODUCT_FEATURE const in config, we have to use factory instead of plain object
   const config = {
     state: { ssrTransfer: { keys: { [PRODUCT_FEATURE]: true } } }
   };

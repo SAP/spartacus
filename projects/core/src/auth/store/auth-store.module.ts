@@ -12,6 +12,7 @@ import { StateConfig } from '../../state/config/state-config';
 import { ConfigModule } from '../../config/config.module';
 
 export function authStoreConfigFactory(): StateConfig {
+  // if we want to reuse AUTH_FEATURE const in config, we have to use factory instead of plain object
   const config = {
     state: {
       storageSync: {
