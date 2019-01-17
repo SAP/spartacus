@@ -63,13 +63,11 @@ export function getBrowserTransferStateReducer(
   return function(reducer) {
     return function(state, action: any) {
       if (action.type === INIT_ACTION && transferState.hasKey(CX_KEY)) {
-        console.log('get state - before', state);
         const transferedState = getStateSlice(
           transferState.get(CX_KEY, {}),
           keys
         );
         state = deepMerge({}, state, transferedState);
-        console.log('get state - after', state);
       }
       return reducer(state, action);
     };
