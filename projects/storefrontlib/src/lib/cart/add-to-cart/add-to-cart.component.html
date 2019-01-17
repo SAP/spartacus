@@ -1,7 +1,7 @@
 <button
   class="btn btn-primary btn-block"
   type="button"
-  [disabled]="quantity <= 0 || quantity >= maxQuantity"
+  [disabled]="quantity <= 0 || quantity > maxQuantity"
   (click)="addToCart()"
 >
   <span *ngIf="(cartEntry$ | async) as entry" class="entry-quantity">{{
