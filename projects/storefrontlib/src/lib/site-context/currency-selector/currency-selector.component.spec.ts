@@ -7,7 +7,8 @@ import { CurrencyService, defaultOccConfig, OccConfig } from '@spartacus/core';
 import { CurrencySelectorComponent } from './currency-selector.component';
 
 const mockCurrencies: any[] = [
-  { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+  { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
+  { active: false, isocode: 'YPY', name: 'YPY', symbol: '¥' }
 ];
 const mockActiveCurr = 'USD';
 
@@ -84,12 +85,20 @@ describe('CurrencySelectorComponent', () => {
     expect(label.nativeElement.textContent).toEqual('Currency');
   });
 
-  it('should contain disabled dropdown when currencies list is empty', () => {
+  it('should not be available when currency list is empty', () => {
     component.currencies$ = of([]);
     fixture.detectChanges();
 
     const selectBox = el.query(By.css('select'));
-    expect(selectBox.nativeElement.disabled).toBeTruthy();
+    expect(selectBox).toBeFalsy();
+  });
+
+  it('should not be available when there is one currency', () => {
+    component.currencies$ = of([mockCurrencies[0]]);
+    fixture.detectChanges();
+
+    const selectBox = el.query(By.css('select'));
+    expect(selectBox).toBeFalsy();
   });
 
   it('should contain enabled dropdown when currencies list is NOT empty', () => {
