@@ -1,11 +1,4 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-// cx-order-summary color variables
-$cx-order-summary-background-color: 'background' !default;
-$cx-order-summary-promotions-color: 'success' !default;
-$cx-order-summary-total-savings-color: 'success' !default;
 
 .cx-order-summary {
   padding: 1rem;
@@ -20,7 +13,7 @@ $cx-order-summary-total-savings-color: 'success' !default;
     padding: 0;
   }
   &__promotions {
-    @include var-color('color', $cx-order-summary-promotions-color);
+    color: var(--cx-color, var(--cx-g-color-success));
     @include type('7');
     padding: 0.5rem 0;
   }
@@ -30,7 +23,7 @@ $cx-order-summary-total-savings-color: 'success' !default;
     flex-wrap: wrap;
   }
   &__total-savings {
-    @include var-color('color', $cx-order-summary-total-savings-color);
+    color: var(--cx-color, var(--cx-g-color-success));
   }
   &__total-final {
     font-weight: bold;
