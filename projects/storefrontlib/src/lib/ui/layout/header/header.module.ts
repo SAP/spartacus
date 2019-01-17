@@ -2,7 +2,6 @@ import { RouterModule } from '@angular/router';
 import { CmsModule } from './../../../cms/cms.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SiteContextModule } from './../../../site-context/site-context.module';
 import { HeaderComponent } from './header.component';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { LoginModule } from '../../../user/components/login/login.module';
@@ -16,7 +15,6 @@ import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
 @NgModule({
   imports: [
     CommonModule,
-    SiteContextModule,
     CmsModule,
     LoginModule,
     RouterModule,
