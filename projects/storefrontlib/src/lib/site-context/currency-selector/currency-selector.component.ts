@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { CurrencyService, Currency } from '@spartacus/core';
 
@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-currency-selector',
   templateUrl: './currency-selector.component.html',
-  styleUrls: ['./currency-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['../selector.component.scss'],
+  host: { class: 'selector' }
 })
 export class CurrencySelectorComponent implements OnInit {
   currencies$: Observable<Currency[]>;
