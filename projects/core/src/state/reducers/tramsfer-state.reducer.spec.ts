@@ -1,54 +1,109 @@
-import { getStateSlice } from './transfer-state.reducer';
+import { StateConfig } from '@spartacus/core';
+import {
+  CX_KEY,
+  getBrowserTransferStateReducer,
+  getServerTransferStateReducer,
+  getTransferStateReducer
+} from './transfer-state.reducer';
 
-describe('getStateSlice', () => {
-  it('should get state slice from top branches', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' } },
-      auth: 'authconfig'
-    };
+describe('TransferStateReducer', () => {
+  describe('getTransferStateReducer', () => {
+    it('should return undefined without proper configuration', () => {
+      const reducer = getTransferStateReducer('browser', null, null);
+      expect(reducer).toBe(undefined);
+    });
 
-    const keys = { products: true, cms: true };
+    it('should return reducer for proper configuration', () => {
+      const reducer = getTransferStateReducer(
+        'browser',
+        {} as any,
+        {
+          state: {
+            ssrTransfer: {
+              keys: {}
+            }
+          }
+        } as StateConfig
+      );
 
-    const result = getStateSlice(state, keys);
-
-    const expedted = { products: state.products, cms: state.cms };
-
-    expect(result).toEqual(expedted);
+      expect(reducer).toEqual(jasmine.any(Function));
+    });
   });
 
-  it('should get state slice from branches 2 levels deep', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig'
-    };
+  describe('getServerTransferStateReducer', () => {
+    let transferStateMock, subReducer, metaReducer, reducer;
 
-    const keys = { products: true, cms: { pages: true } };
+    beforeEach(() => {
+      transferStateMock = {
+        set: jasmine.createSpy()
+      } as any;
+      subReducer = (state, action) => (action.payload ? action.payload : state);
+      metaReducer = getServerTransferStateReducer(transferStateMock, {
+        test: true
+      });
+      reducer = metaReducer(subReducer);
+    });
 
-    const result = getStateSlice(state, keys);
+    it('should set transfer state for an action', () => {
+      reducer({}, {});
+      expect(transferStateMock.set).toHaveBeenCalled();
+    });
 
-    const expedted = {
-      products: state.products,
-      cms: { pages: state.cms.pages }
-    };
+    it('should take into account keys configuration', () => {
+      const samplePayload = { test: 'test' };
+      reducer({}, { payload: samplePayload });
+      expect(transferStateMock.set).toHaveBeenCalledWith(CX_KEY, samplePayload);
+    });
 
-    expect(result).toEqual(expedted);
+    it('should take into account keys configuration and not include unrelated state', () => {
+      const samplePayload = { test2: 'test' };
+      reducer({}, { payload: samplePayload });
+      expect(transferStateMock.set).toHaveBeenCalledWith(CX_KEY, {});
+    });
+
+    it('should call the sub reducer and returns proper state', () => {
+      const samplePayload = { test: 'test' };
+      const state = reducer({}, { payload: samplePayload });
+      expect(state).toEqual(samplePayload);
+    });
   });
 
-  it('should get state slice from branches 3 levels deep', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig'
-    };
+  describe('getBrowserTransferStateReducer', () => {
+    let transferStateMock, subReducer, metaReducer, reducer, serverState;
 
-    const keys = { cms: { pages: { page1: true } } };
+    beforeEach(() => {
+      serverState = { test: 'state' };
+      transferStateMock = {
+        get: jasmine.createSpy().and.returnValue(serverState),
+        hasKey: jasmine.createSpy().and.returnValue(true)
+      } as any;
+      subReducer = (state, action) => (action.payload ? action.payload : state);
+      metaReducer = getBrowserTransferStateReducer(transferStateMock, {
+        test: true
+      });
+      reducer = metaReducer(subReducer);
+    });
 
-    const result = getStateSlice(state, keys);
+    it('should get transfer state for initial action', () => {
+      reducer({}, { type: '@ngrx/store/init' });
+      expect(transferStateMock.get).toHaveBeenCalledWith(CX_KEY, {});
+    });
 
-    const expedted = { cms: { pages: { page1: state.cms.pages.page1 } } };
+    it('should not get transfer state for not initial action', () => {
+      reducer({}, { type: 'some action' });
+      reducer({}, {});
+      expect(transferStateMock.get).not.toHaveBeenCalled();
+    });
 
-    expect(result).toEqual(expedted);
+    it('should merge transfer state with the state', () => {
+      const state = reducer({}, { type: '@ngrx/store/init' });
+      expect(state).toEqual(serverState);
+    });
+
+    it('should call the sub reducer and returns proper state', () => {
+      const samplePayload = { test: 'test' };
+      const state = reducer({}, { payload: samplePayload });
+      expect(state).toEqual(samplePayload);
+    });
   });
 });

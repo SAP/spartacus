@@ -27,3 +27,4 @@ export const stateMetaReducers: Provider[] = [
     multi: true
   }
 ];
+export { getStateSlice } from '../utils/get-state-slice';

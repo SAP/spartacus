@@ -2,9 +2,10 @@ import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { StateConfig } from '../config/state-config';
+import { getStateSlice } from '../utils/get-state-slice';
 
 const INIT_ACTION = '@ngrx/store/init';
-const CX_KEY = makeStateKey<string>('cx-state');
+export const CX_KEY = makeStateKey<string>('cx-state');
 
 export function getTransferStateReducer(
   platformId,
@@ -34,19 +35,7 @@ export function getTransferStateReducer(
   return undefined;
 }
 
-export function getStateSlice(state: any, keys: object): any {
-  return Object.keys(keys).reduce((acc, key) => {
-    const keyValue = keys[key];
-    if (typeof keyValue === 'object') {
-      acc[key] = getStateSlice(state[key], keyValue);
-    } else if (keyValue) {
-      acc[key] = state[key];
-    }
-    return acc;
-  }, {});
-}
-
-function getServerTransferStateReducer(
+export function getServerTransferStateReducer(
   transferState: TransferState,
   keys: object
 ) {
@@ -63,7 +52,7 @@ function getServerTransferStateReducer(
   };
 }
 
-function getBrowserTransferStateReducer(
+export function getBrowserTransferStateReducer(
   transferState: TransferState,
   keys: any
 ) {
