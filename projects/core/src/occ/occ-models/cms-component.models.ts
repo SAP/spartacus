@@ -33,6 +33,31 @@ export interface CmsParagraphComponent extends CmsComponent {
   uid?: string;
 }
 
+export interface CmsBannerComponentMedia {
+  altText?: string;
+  code?: string;
+  mime?: string;
+  url?: string;
+}
+
+export interface CmsResponsiveBannerComponentMedia {
+  desktop?: CmsBannerComponentMedia;
+  mobile?: CmsBannerComponentMedia;
+  tablet?: CmsBannerComponentMedia;
+  widescreen?: CmsBannerComponentMedia;
+}
+
+export interface CmsBannerComponent extends CmsComponent {
+  container?: string;
+  uid?: string;
+  media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  modifiedTime?: string;
+  name?: string;
+  typeCode?: string;
+  urlLink?: string;
+  external?: string;
+}
+
 export interface CmsProductCarouselComponent extends CmsComponent {
   title?: string;
   productCodes?: string;
@@ -54,8 +79,7 @@ export interface CmsMiniCartComponent extends CmsComponent {
   totalDisplay?: string;
   typeCode?: string;
   uid?: string;
-  // TODO: Enable after merging banner refactor
-  // lightboxBannerComponent?: CmsBannerComponent;
+  lightboxBannerComponent?: CmsBannerComponent;
 }
 
 // TODO: Upgrade model when Breadcrumbs will be finally used in project

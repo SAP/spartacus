@@ -1,24 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
-import { StoreFinderService } from '../../services/store-finder.service';
+import { StoreFinderService } from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
-
-import * as fromStore from '../../store';
-
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
   styleUrls: ['./store-finder-grid.component.scss']
 })
-export class StoreFinderGridComponent implements OnInit {
+export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations: any;
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
+  locationsSub: Subscription;
 
   constructor(
-    private store: Store<fromStore.StoresState>,
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
     private routingService: RoutingService
@@ -26,7 +22,7 @@ export class StoreFinderGridComponent implements OnInit {
 
   ngOnInit() {
     if (this.route.snapshot.params.country) {
-      this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+      this.isLoading$ = this.storeFinderService.getStoresLoading();
       if (this.route.snapshot.params.region) {
         this.storeFinderService.viewAllStoresForRegion(
           this.route.snapshot.params.country,
@@ -39,8 +35,8 @@ export class StoreFinderGridComponent implements OnInit {
       }
     }
 
-    this.store
-      .pipe(select(fromStore.getFindStoresEntities))
+    this.locationsSub = this.storeFinderService
+      .getFindStoresEntities()
       .subscribe(locations => {
         if (
           locations.pointOfServices &&
@@ -75,11 +71,18 @@ export class StoreFinderGridComponent implements OnInit {
         {
           name: 'storeDescription',
           params: {
+            region: '',
             country: this.route.snapshot.params.country,
             store: location.name
           }
         }
       ]
     });
+  }
+
+  ngOnDestroy() {
+    if (this.locationsSub) {
+      this.locationsSub.unsubscribe();
+    }
   }
 }
