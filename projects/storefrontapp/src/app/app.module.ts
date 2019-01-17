@@ -12,7 +12,7 @@ if (!environment.production) {
 
 @NgModule({
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
     StorefrontModule.withConfig({
       production: environment.production,
       server: {
@@ -21,6 +21,15 @@ if (!environment.production) {
       pwa: {
         enabled: true,
         addToHomeScreen: true
+      },
+      routesConfig: {
+        translations: {
+          default: {
+            product: {
+              paths: ['product/:productCode', 'product/:name/:productCode']
+            }
+          }
+        }
       }
     }),
     ...devImports
