@@ -91,17 +91,17 @@ describe('ProductFacetNavigationComponent in product-list', () => {
       component.searchResult.facets = [];
       fixture.detectChanges();
 
-      const facetGroups = element.queryAll(By.css('.cx-search-facet-group'));
+      const facetGroups = element.queryAll(By.css('.cx-facet-group'));
       expect(facetGroups.length).toEqual(0);
     });
 
     it(`should show correct number of facet groups`, () => {
-      const facetGroups = element.queryAll(By.css('.cx-search-facet-group'));
+      const facetGroups = element.queryAll(By.css('.cx-facet-group'));
       expect(facetGroups.length).toEqual(3);
     });
 
     it(`should show correct title`, () => {
-      const facetTitle = element.query(By.css('.cx-search-facet-header'))
+      const facetTitle = element.query(By.css('.cx-facet-header'))
         .nativeElement;
       expect(facetTitle.textContent).toContain(
         component.searchResult.facets[0].name
@@ -110,10 +110,10 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
     it(`should toggle facet after clicking the title`, () => {
       const facetTitleLink = element.query(
-        By.css('.cx-search-facet-header__link')
+        By.css('.cx-facet-header-link')
       );
       const facetCollapsableList = element.query(
-        By.css('.cx-search-facet-header + .collapse')
+        By.css('.cx-facet-header + .collapse')
       );
 
       expect(facetCollapsableList.nativeElement.className).toContain('show');
