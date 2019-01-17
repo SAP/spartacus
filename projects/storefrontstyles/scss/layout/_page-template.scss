@@ -5,6 +5,9 @@ cx-page-template {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    flex: 0 0 100%;
+    flex: 1 1 var(--cx-flex-basis, 100%);
+    > * {
+      flex: 1 1 var(--cx-flex-basis, 100%);
+    }
   }
 }
