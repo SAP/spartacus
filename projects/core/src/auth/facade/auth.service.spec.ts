@@ -1,17 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store } from '@ngrx/store';
-
 import * as fromAuthStore from '../store';
 import { ClientToken, UserToken } from '../models/token-types.model';
-
 import { AuthService } from './auth.service';
 import { AuthState } from '../store/auth-state';
 import { AuthStoreModule } from '../store/auth-store.module';
 import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
 import { ClientAuthenticationTokenService } from '../services/client-authentication/client-authentication-token.service';
-import { ConfigModule } from '@spartacus/core';
-import { BrowserTransferStateModule } from '@angular/platform-browser';
 
 class MockUserAuthenticationTokenService {}
 
@@ -33,9 +28,7 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        AuthStoreModule,
-        ConfigModule.forRoot(),
-        BrowserTransferStateModule
+        AuthStoreModule
       ],
       providers: [
         AuthService,
