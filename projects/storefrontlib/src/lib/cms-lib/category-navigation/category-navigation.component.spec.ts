@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement, Component, Input } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 import { NavigationService } from '../navigation/navigation.service';
 import { CmsService } from '@spartacus/core';
@@ -81,14 +80,13 @@ describe('CategoryNavigationComponent', () => {
     });
 
     it('should use semantic nav element', () => {
-      const navElem = nav.query(By.css('.cx-navigation')).nativeElement;
-      expect(navElem.nodeName).toBe('NAV');
+      const navElem: HTMLElement = nav.nativeElement;
+      expect(navElem.firstElementChild.tagName).toBe('NAV');
     });
 
     it('should display correct number of submenus', () => {
-      const list: HTMLElement = nav.query(By.css('.cx-navigation__list'))
-        .nativeElement;
-      expect(list.childElementCount).toBe(2);
+      const navElem: HTMLElement = nav.nativeElement;
+      expect(navElem.firstElementChild.childElementCount).toBe(2);
     });
   });
 });

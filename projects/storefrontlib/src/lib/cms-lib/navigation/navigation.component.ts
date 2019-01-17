@@ -26,10 +26,8 @@ export class NavigationComponent implements OnDestroy {
 
   done = false;
 
-  @Input()
-  dropdownMode = 'list';
-  @Input()
-  node: any;
+  @Input() dropdownMode = 'list';
+  @Input() node: any;
 
   constructor(
     protected cmsService: CmsService,

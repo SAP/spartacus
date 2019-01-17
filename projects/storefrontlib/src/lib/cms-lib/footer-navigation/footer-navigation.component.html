@@ -1,4 +1,4 @@
-<nav class="cx-footer-navigation" *ngIf="(node$ | async) as node">
+<nav *ngIf="(node$ | async) as node">
   <div class="container">
     <div class="row">
       <div
@@ -20,7 +20,7 @@
   </div>
 </nav>
 <div
-  class="cx-footer-navigation__notice"
+  class="notice"
   *ngIf="(component.data$ | async) as data"
 >
   {{ data.notice }}

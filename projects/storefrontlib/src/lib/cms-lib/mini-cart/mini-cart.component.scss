@@ -36,15 +36,11 @@ $cx-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
     align-items: center;
     justify-content: space-between;
     border-radius: $cx-mini-cart-button-border-radius;
-    margin-right: 1rem;
+
     @include media-breakpoint-down(sm) {
       flex-direction: column;
       height: $cx-mini-cart-button-md-height;
       padding: $cx-mini-cart-button-md-trbl-padding;
-      margin-right: 1.5rem;
-    }
-    @include media-breakpoint-up(lg) {
-      margin-right: 0;
     }
   }
   &__icon {
