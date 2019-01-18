@@ -55,6 +55,9 @@
 // $cx-search-facet-modal-footer-btn-width: 50% !default;
 
 .cx-search-facet {
+  @include media-breakpoint-down(md) {
+    display: var(--cx-display, none);
+  }
 }
 
 .cx-facet-list {
