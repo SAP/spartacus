@@ -6,6 +6,11 @@ exports.config = {
   allScriptsTimeout: 20000,
   specs: ['./src/**/*.e2e-spec.ts'],
   SELENIUM_PROMISE_MANAGER: false,
+  suites: {
+    smoke: './src/smoke/*.e2e-spec.ts',
+    regression: './src/regression/*.e2e-spec.ts',
+    all: './src/**/*.e2e-spec.ts'
+  },
   capabilities: {
     browserName: 'chrome',
     acceptInsecureCerts: true,
