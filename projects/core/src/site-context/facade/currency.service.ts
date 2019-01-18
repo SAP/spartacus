@@ -8,12 +8,13 @@ import * as fromStore from '../store/index';
 import { filter, tap } from 'rxjs/operators';
 import { Currency } from '../../occ/occ-models';
 import { WindowRef } from '../../window/window-ref';
+import { SiteContext } from './site-context.interface';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
  */
 @Injectable()
-export class CurrencyService {
+export class CurrencyService implements SiteContext<Currency> {
   private sessionStorage: Storage;
 
   constructor(
@@ -33,7 +34,8 @@ export class CurrencyService {
         if (!currencies) {
           this.store.dispatch(new fromStore.LoadCurrencies());
         }
-      })
+      }),
+      filter(Boolean)
     );
   }
 
