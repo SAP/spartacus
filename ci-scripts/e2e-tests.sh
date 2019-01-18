@@ -15,8 +15,6 @@ fi
 
 echo "Building Spartacus libraries"
 yarn build:core:lib
-echo "-----"
 echo "Running end to end tests. Suite: $SUITE"
 yarn e2e:ci --suite=$SUITE
 echo "-----"
-
