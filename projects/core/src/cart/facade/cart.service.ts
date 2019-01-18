@@ -10,13 +10,13 @@ import { AuthService, UserToken } from '../../auth/index';
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
-import { CartsState } from '../store/cart-state';
+import { StateWithCart } from '../store/cart-state';
 @Injectable()
 export class CartService {
   private callback: Function;
 
   constructor(
-    private store: Store<CartsState>,
+    private store: Store<StateWithCart>,
     private cartData: CartDataService,
     private authService: AuthService
   ) {
@@ -24,7 +24,7 @@ export class CartService {
   }
 
   getActive(): Observable<Cart> {
-    return this.store.pipe(select(fromSelector.getActiveCart));
+    return this.store.pipe(select(fromSelector.getCartContent));
   }
 
   getEntries(): Observable<OrderEntry[]> {
@@ -40,7 +40,7 @@ export class CartService {
   }
 
   protected init(): void {
-    this.store.pipe(select(fromSelector.getActiveCart)).subscribe(cart => {
+    this.store.pipe(select(fromSelector.getCartContent)).subscribe(cart => {
       this.cartData.cart = cart;
       if (this.callback) {
         this.callback();
