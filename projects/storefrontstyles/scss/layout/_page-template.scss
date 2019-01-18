@@ -10,4 +10,9 @@ cx-page-template {
       flex: 1 1 var(--cx-flex-basis, 100%);
     }
   }
+
+  &.footer {
+    background-color: var(--cx-background-color, var(--cx-g-color-dark));
+    color: var(--cx-color, var(--cx-g-color-inverse));
+  }
 }
