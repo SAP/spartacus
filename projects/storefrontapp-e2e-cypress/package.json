@@ -1,0 +1,13 @@
+{
+  "name": "storefrontapp-e2e-cypress",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Marcin Lasak",
+  "license": "MIT",
+  "scripts": {
+    "test": "cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^3.1.4"
+  }
+}
