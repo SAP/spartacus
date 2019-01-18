@@ -117,30 +117,43 @@
         <!-- BILLING -->
         <div class="cx-payment-form__billing">
           <div class="cx-payment-form__billing-address">Billing address</div>
-          <div class="form-group">
-            <div class="form-check">
-              <label>
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  [checked]="sameAsShippingAddress"
-                  (change)="setSameAsShippingAddress()"
-                />
-                <span class="form-check-label">Same as shipping address</span>
-              </label>
+
+          <!-- SAME AS SHIPPING CHECKBOX -->
+          <ng-container *ngIf="(showSameAsShippingAddressCheckbox() | async)">
+            <div class="form-group">
+              <div class="form-check">
+                <label>
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [checked]="sameAsShippingAddress"
+                    (change)="toggleSameAsShippingAddress()"
+                  />
+                  <span class="form-check-label">Same as shipping address</span>
+                </label>
+              </div>
             </div>
-          </div>
+          </ng-container>
+
           <!-- BILLING INFO COMPONENT -->
-          <div
+          <ng-container
             *ngIf="
               (sameAsShippingAddress && shippingAddress$
-                | async) as shippingAddress
+                | async) as shippingAddress;
+              else billingAddressForm
             "
           >
             <cx-card
               [content]="getAddressCardContent(shippingAddress)"
             ></cx-card>
-          </div>
+          </ng-container>
+
+          <ng-template #billingAddressForm>
+            <cx-billing-address-form
+              [billingAddress]="billingAddress"
+              [countries$]="countries$"
+            ></cx-billing-address-form>
+          </ng-template>
         </div>
 
         <!-- BUTTON SECTION -->
@@ -153,7 +166,7 @@
           <div class="col-sm-12 col-md-6">
             <button
               class="btn btn-block btn-primary"
-              [disabled]="payment.invalid"
+              [disabled]="isContinueButtonDisabled()"
               (click)="next()"
             >
               Continue
