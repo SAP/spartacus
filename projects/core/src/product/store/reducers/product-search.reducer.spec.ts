@@ -19,24 +19,6 @@ describe('Product Search Reducer', () => {
     });
   });
 
-  describe('SEARCH_PRODUCTS action', () => {
-    it('should set loading to true', () => {
-      const mockSearchConfig: SearchConfig = { pageSize: 10 };
-
-      const { initialState } = fromProductSearch;
-      const action = new fromActions.SearchProducts({
-        queryText: 'test',
-        searchConfig: mockSearchConfig
-      });
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        initialState,
-        action
-      );
-
-      expect(state.loading).toEqual(true);
-    });
-  });
-
   describe('SEARCH_PRODUCTS_SUCCESS action', () => {
     it('should populate search results after loading', () => {
       const mockSearchConfig: SearchConfig = { pageSize: 10 };
@@ -54,7 +36,6 @@ describe('Product Search Reducer', () => {
         resultAction
       );
 
-      expect(state.loading).toEqual(false);
       expect(state.results).toEqual(results);
     });
 
@@ -77,20 +58,7 @@ describe('Product Search Reducer', () => {
         resultAction
       );
 
-      expect(state.loading).toEqual(false);
       expect(state.auxResults).toEqual(results);
-    });
-
-    it('should return the previous state if not loading', () => {
-      const { initialState } = fromProductSearch;
-      const previousState = { ...initialState, loading: false };
-      const action = new fromActions.SearchProductsSuccess({});
-      const state: ProductsSearchState = fromProductSearch.reducer(
-        previousState,
-        action
-      );
-
-      expect(state).toEqual(initialState);
     });
   });
 
