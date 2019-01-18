@@ -1,58 +1,4 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-// $cx-search-facet-trbl-padding: 0 !default;
-
-// $cx-search-facet-list-trbl-margin: 0 0 32px 0 !default;
-
-// $cx-search-facet-mobile-btn-trbl-margin: 0 0 20px 0 !default;
-
-// $cx-search-facet-filter-header-trbl-margin: 0 0 20px 0 !default;
-// $cx-search-facet-filter-header-trbl-padding: 0 0 10px 0 !default;
-
-// $cx-search-facet-filter-header-mobile-trbl-margin: 0 20px 0px 0 !default;
-
-// $cx-search-facet-filter-trbl-margin: 0 0 40px 0 !default;
-// $cx-search-facet-filter-color: 'light' !default;
-// $cx-search-facet-filter-sm-trbl-margin: 0 0 0 0 !default;
-
-// $cx-search-facet-filter-pill-trbl-padding: 10px 10px 10px 13px !default;
-// $cx-search-facet-filter-pill-trbl-margin: 10px 10px 5px 0 !default;
-// $cx-search-facet-filter-pill-border-radius: 4px !default;
-
-// $cx-search-facet-filter-pill-button-trbl-margin: 0 0 0 10px;
-
-// $cx-search-facet-header-border: 1px solid !default;
-// $cx-search-facet-header-border-color: 'light' !default;
-// $cx-search-facet-header-color: 'text' !default;
-// $cx-search-facet-header-trbl-padding: 0 0 10px 0 !default;
-// $cx-search-facet-header-trbl-margin: 0 0 17px 0 !default;
-// $cx-search-facet-header-link-font-size: 25px !default;
-// $cx-search-facet-header-link-top: 10px !default;
-// $cx-search-facet-header-link-icon-height: 2px !default;
-
-// $cx-search-facet-header-icon-color: 'secondary' !default;
-
-// $cx-search-facet-label-color: 'secondary' !default;
-// $cx-search-facet-label-selected-color: 'primary' !default;
-// $cx-search-facet-label-margin: 0 !default;
-
-// $cx-search-facet-label-wrapper-trbl-padding: 0 0 0 0 !default;
-// $cx-search-facet-label-wrapper-trbl-margin: 0 0 15px 0 !default;
-
-// $cx-search-facet-checkbox-trbl-margin: 0 10px 0 0 !default;
-// $cx-search-facet-checkbox-transition: 0.3s !default;
-// $cx-search-facet-checkbox-rectangular-size: 22px !default;
-// $cx-search-facet-checkbox-background-color__hover: 'light' !default;
-
-// $cx-search-facet-item-link-trbl-margin: 0 0 16px 0 !default;
-
-// $cx-search-facet-modal-height: 100vh !default;
-
-// $cx-search-facet-modal-label-trbl-margin: 0 0 27px 0 !default;
-// $cx-search-facet-modal-footer-trbl-margin: 0 0 0 20px !default;
-// $cx-search-facet-modal-footer-btn-width: 50% !default;
 
 .cx-search-facet {
   @include media-breakpoint-down(md) {
@@ -93,17 +39,6 @@
   .cx-facet-toggle-btn {
     cursor: pointer;
   }
-
-  // &__item--link {
-  //   @include type('');
-  //   margin: var(--cx-margin, 0 0 16px 0);
-  // }
-
-  // &__item--show-more {
-  //   &:after {
-  //     content: '\003e';
-  //   }
-  // }
 }
 
 .cx-facet-checkbox {
@@ -223,14 +158,4 @@
     font-weight: $font-weight-semi;
     margin: var(--cx-margin, 0 0 27px 0);
   }
-
-  // &__modal--footer {
-  //   .btn {
-  //     width: var(--cx-width, 50%);
-
-  //     &:last-child {
-  //       margin: var(--cx-margin, 0 0 0 20px);
-  //     }
-  //   }
-  // }
 }
