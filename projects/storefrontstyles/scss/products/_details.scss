@@ -20,7 +20,7 @@ $useTabsOnPDP: false !default;
   }
 
   > div {
-    background: var(--cx-background-color, var(--cx--g-color-background));
+    background: var(--cx-background-color, var(--cx-g-color-background));
     &:not(.active) {
       display: none;
     }
@@ -154,10 +154,10 @@ $useTabsOnPDP: false !default;
     font-weight: normal;
     font-size: 0.9em;
     cursor: pointer;
+    margin: 10px 15px;
     &:hover {
       text-decoration: underline;
     }
-    margin: 10px 15px;
   }
   > div {
     order: 4;
