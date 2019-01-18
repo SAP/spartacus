@@ -89,3 +89,29 @@ export interface CmsMiniCartComponent extends CmsComponent {
 export interface CmsBreadcrumbsComponent extends CmsComponent {
   container?: string;
 }
+
+export interface CmsNavigationNode {
+  uid?: string;
+  title?: string;
+  children?: Array<CmsNavigationNode>;
+  entries?: Array<CmsNavigationEntry>;
+}
+
+export interface CmsNavigationEntry {
+  itemId?: string;
+  itemSuperType?: string;
+  itemType?: string;
+}
+
+export interface CmsNavigationComponent extends CmsComponent {
+  uid?: string;
+  container?: string;
+  modifiedTime?: string;
+  name?: string;
+  styleClass?: string;
+  typeCode?: string;
+  wrapAfter?: string;
+  notice?: string;
+  showLanguageCurrency?: string;
+  navigationNode?: CmsNavigationNode;
+}
