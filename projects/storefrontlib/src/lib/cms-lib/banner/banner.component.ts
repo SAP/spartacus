@@ -1,11 +1,13 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService, CmsConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  CmsBannerComponent,
+  CmsBannerComponentMedia
+} from '@spartacus/core';
+import { CmsComponentData } from './../../cms/components/cms-component-data';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-banner',
@@ -13,33 +15,53 @@ import { CmsService, CmsConfig } from '@spartacus/core';
   styleUrls: ['./banner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BannerComponent extends AbstractCmsComponent {
+export class BannerComponent {
+  static hasMedia(data) {
+    return !!data.media;
+  }
+
   constructor(
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
+    public component: CmsComponentData<CmsBannerComponent>,
     protected config: CmsConfig
-  ) {
-    super(cmsService, cd);
+  ) {}
+
+  hasImage(): Observable<boolean> {
+    return this.component.data$.pipe(map(BannerComponent.hasMedia));
   }
 
-  hasImage(): boolean {
-    return !!this.component && !!this.component && !!this.component.media;
+  getImageUrl(): Observable<string> {
+    return this.component.data$.pipe(
+      map(data =>
+        BannerComponent.hasMedia(data)
+          ? (<CmsBannerComponentMedia>data.media).url
+          : ''
+      )
+    );
   }
 
-  public getImageUrl(): string {
-    return this.hasImage() ? this.component.media.url : '';
+  getTarget(): Observable<string> {
+    return this.component.data$.pipe(
+      map(data => {
+        return !data.external || data.external === 'false' ? '_self' : '_blank';
+      })
+    );
   }
 
-  // TODO: implement target
-  public getTarget(): string {
-    return '_self';
+  getAltText(): Observable<string> {
+    return this.component.data$.pipe(
+      map(data =>
+        BannerComponent.hasMedia(data)
+          ? (<CmsBannerComponentMedia>data.media).altText
+          : ''
+      )
+    );
   }
 
-  getAltText(): string {
-    return this.hasImage() ? this.component.media.altText : '';
-  }
-
-  public getBaseUrl(): string {
+  getBaseUrl(): string {
     return this.config.server.baseUrl || '';
+  }
+
+  getImageAbsoluteUrl(): Observable<string> {
+    return this.getImageUrl().pipe(map(url => this.getBaseUrl() + url));
   }
 }

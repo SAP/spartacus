@@ -1,11 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
-import * as fromStore from '../../store';
 import { RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -33,12 +31,7 @@ describe('StoreFinderSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        ReactiveFormsModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromStore.reducers)
-      ],
+      imports: [RouterTestingModule, ReactiveFormsModule],
       declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [
         {

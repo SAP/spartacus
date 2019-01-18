@@ -2,7 +2,7 @@ import { Component, Input, ViewChild, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
-import { StoreDataService } from '../../../services/store-data.service';
+import { StoreDataService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-list',
