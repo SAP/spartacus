@@ -3,23 +3,28 @@ import {
   OnInit,
   AfterViewChecked,
   ElementRef,
-  ViewChild
+  ViewChild,
+  OnDestroy
 } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
   styleUrls: ['./added-to-cart-dialog.component.scss']
 })
-export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
+export class AddedToCartDialogComponent
+  implements OnInit, AfterViewChecked, OnDestroy {
   entry$: Observable<any>;
   cart$: Observable<any>;
   loaded$: Observable<boolean>;
+
   quantity = 0;
-  previousLoadedState;
-  finishedLoading;
+  previousLoaded: boolean;
+  finishedLoading: boolean;
+
+  subscription: Subscription;
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
@@ -27,10 +32,10 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   constructor(public activeModal: NgbActiveModal) {}
 
   ngOnInit() {
-    this.loaded$.subscribe(res => {
-      if (this.previousLoadedState !== res) {
-        this.finishedLoading = this.previousLoadedState === false;
-        this.previousLoadedState = res;
+    this.subscription = this.loaded$.subscribe(loaded => {
+      if (this.previousLoaded !== loaded) {
+        this.finishedLoading = this.previousLoaded === false;
+        this.previousLoaded = loaded;
       }
     });
   }
@@ -41,7 +46,15 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
       const elementToFocus = this.dialog.nativeElement.querySelector(
         `[ngbAutofocus]`
       ) as HTMLElement;
-      elementToFocus.focus();
+      if (elementToFocus) {
+        elementToFocus.focus();
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }
