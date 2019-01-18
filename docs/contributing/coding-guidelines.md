@@ -93,6 +93,24 @@ Try to keep modules as small as possible. In most cases, one module has only one
 
 New code must always be covered by unit tests.
 
+### End-To-End Tests
+
+New, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`, and for page objects, the file names should end with `po.ts`. 
+
+If you decide to write an end-to-end test based on user-flow, add the word `flow` to the test's name. If you have more than one user-flow test, separate them into individual files, so they can be run in parallel. We also recommend grouping the tests in a sub-directory with a relevant name. For reference, have a look at the end-to-end tests for product search.
+
+To know if your end-to-end test belongs to the `smoke` folder or the `regression` folder, ask yourself the following questions:
+
+* Is the functionality fragile?
+
+    If yes, the test belongs in the `smoke` folder. A good example of fragile functionality is the product search.
+
+* Is the user-flow critical?
+
+    If yes, the test belongs in the `smoke` folder. A good example of a critical user-flow are the steps to complete the checkout.
+
+If you answered "no" to these questions, then the test belongs in the `regression` folder.
+
 ### Reduce Module Dependencies
 
 Always try to reduce module dependencies.

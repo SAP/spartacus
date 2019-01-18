@@ -8,7 +8,7 @@ import {
   Output,
   EventEmitter
 } from '@angular/core';
-import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
+import { GoogleMapRendererService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-map',
