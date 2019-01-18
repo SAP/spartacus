@@ -1,3 +1,4 @@
+export * from './facade/site-context.interface';
 export * from './facade/language.service';
 export * from './facade/currency.service';
 export * from './site-context.module';

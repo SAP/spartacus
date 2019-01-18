@@ -9,6 +9,8 @@ import { NavigationService } from '../navigation/navigation.service';
 
 import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
+import { of } from 'rxjs';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -39,6 +41,10 @@ describe('FooterNavigationComponent', () => {
     }
   ];
 
+  const mockCmsComponentData = {
+    data$: of()
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -50,7 +56,8 @@ describe('FooterNavigationComponent', () => {
       providers: [
         NavigationService,
         { provide: CmsService, useValue: {} },
-        { provide: NavigationService, useValue: {} }
+        { provide: NavigationService, useValue: {} },
+        { provide: CmsComponentData, useValue: mockCmsComponentData }
       ]
     }).compileComponents();
   }));
@@ -58,7 +65,7 @@ describe('FooterNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
-    component.node = {
+    component.node$ = of({
       children: [
         {
           title: 'Test 1',
@@ -66,7 +73,7 @@ describe('FooterNavigationComponent', () => {
           children: mockLinks
         }
       ]
-    };
+    });
 
     fixture.detectChanges();
   });
