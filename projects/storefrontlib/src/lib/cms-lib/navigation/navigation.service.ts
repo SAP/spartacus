@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CmsService } from '@spartacus/core';
+import { NavigationNode } from './navigation-node.model';
 
 @Injectable()
 export class NavigationService {
@@ -40,7 +41,7 @@ export class NavigationService {
    * @param nodeData
    * @param items
    */
-  public createNode(nodeData: any, items: any): any {
+  public createNode(nodeData: any, items: any): NavigationNode {
     const node = {};
 
     node['title'] = nodeData.title;
