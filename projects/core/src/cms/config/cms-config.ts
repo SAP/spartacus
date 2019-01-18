@@ -3,6 +3,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { AuthConfig } from '../../auth/config/auth-config';
 
 export type CmsComponentId =
+  | 'SiteContextSelectorComponent'
   | 'CMSLinkComponent'
   | 'SimpleResponsiveBannerComponent'
   | 'SimpleBannerComponent'

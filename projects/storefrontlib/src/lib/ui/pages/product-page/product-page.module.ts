@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-
-import { ProductGuard } from '../../../product/guards/product.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ProductDetailsPageLayoutModule } from '../../layout/product-details-page-layout/product-details-page-layout.module';
 import { ProductPageComponent } from './product-page.component';
@@ -10,7 +8,7 @@ import { ProductPageComponent } from './product-page.component';
 const routes: Routes = [
   {
     path: null,
-    canActivate: [ProductGuard, CmsPageGuards],
+    canActivate: [CmsPageGuards],
     component: ProductPageComponent,
     data: { cxPath: 'product' }
   },

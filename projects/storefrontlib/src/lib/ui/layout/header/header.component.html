@@ -1,9 +1,9 @@
-<header>
+<header class="cx-header">
   <button
     class="cx-hamburger"
     type="button"
     (click)="toggleMenu()"
-    [ngClass]="{ 'is-active': showMenu }"
+    [class.is-active]="showMenu"
     [attr.aria-expanded]="showMenu"
     aria-label="Menu"
     aria-controls="header-account-container, header-categories-container, header-locale-container"
@@ -12,23 +12,10 @@
   </button>
   <cx-header-skipper></cx-header-skipper>
 
-  <div class="SiteContext">
-    <!-- 
-  TODO: to be replaced by CMS content
-  https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/351
--->
-    <cx-language-selector></cx-language-selector>
-    <cx-currency-selector></cx-currency-selector>
-  </div>
-
-  <!-- 
-  TODO: to be replaced by CMS content
-  https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/353
--->
-  <cx-tertiary-bar class="SiteLinks"></cx-tertiary-bar>
+  <cx-dynamic-slot position="SiteContext"></cx-dynamic-slot>
+  <cx-dynamic-slot position="SiteLinks"></cx-dynamic-slot>
   <cx-dynamic-slot position="SiteLogo"></cx-dynamic-slot>
   <cx-dynamic-slot position="SearchBox"></cx-dynamic-slot>
-  <cx-dynamic-slot position="StoreFinder"></cx-dynamic-slot>
   <cx-login class="SiteLogin"></cx-login>
   <cx-dynamic-slot position="MiniCart"></cx-dynamic-slot>
   <cx-dynamic-slot position="NavigationBar"></cx-dynamic-slot>
