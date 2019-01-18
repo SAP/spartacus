@@ -1,7 +1,8 @@
+dist: trusty
 language: node_js
 node_js:
   - 10.14.1
-dist: trusty
+cache: yarn
 git:
   depth: false
 branches:
@@ -13,11 +14,9 @@ branches:
     - "/^release\\/.*$/"
 jobs:
   include:
-    - stage: 'Validation'
-      script: './ci-scripts/validate.sh'
-      name: 'Validation'
-    - script: './ci-scripts/lint.sh'
-      name: 'Lint'
+    - stage: 'Validation/lint'
+      script: './ci-scripts/validate-lint.sh'
+      name: 'Validation/lint'
     - stage: 'Unit tests'
       script: './ci-scripts/unit-tests-sonar.sh'
       name: 'Unit tests/Sonar scan'
