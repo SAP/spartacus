@@ -1,18 +1,12 @@
-import {
-  Injectable,
-  Optional,
-  Injector,
-  Inject,
-  InjectionToken
-} from '@angular/core';
+import { Injectable, Optional, Injector, Type } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { CmsSiteContextSelectorComponent, SiteContext } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, filter, switchMap, take } from 'rxjs/operators';
 
-export const ContextSelectorServiceMap = new InjectionToken(
-  'ContextSelectorMap'
-);
+export abstract class ContextSelectorServiceMap {
+  [context: string]: Type<SiteContext<any>>;
+}
 
 const LANGUAGE = 'LANGUAGE';
 const CURRENCY = 'CURRENCY';
@@ -27,7 +21,7 @@ export class SiteContextComponentService {
   constructor(
     @Optional()
     protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
-    @Inject(ContextSelectorServiceMap) private contextServiceMap,
+    private contextServiceMap: ContextSelectorServiceMap,
     protected injector: Injector
   ) {}
 
@@ -79,7 +73,7 @@ export class SiteContextComponentService {
   }
 
   protected getService(context: string) {
-    return this.injector.get(this.contextServiceMap[context]);
+    return this.injector.get<SiteContext<any>>(this.contextServiceMap[context]);
   }
 
   protected getOptionLabel(item: any, context?: string) {
