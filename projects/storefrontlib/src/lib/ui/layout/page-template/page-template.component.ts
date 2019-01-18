@@ -1,15 +1,27 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ChangeDetectionStrategy,
+  ElementRef,
+  Renderer2
+} from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, filter, take } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-template',
-  templateUrl: './page-template.component.html'
+  templateUrl: './page-template.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageTemplateComponent implements OnInit {
+  @Input() section;
   // config, to be defined in a config or value provider
   templates = {
+    footer: {
+      slots: ['Footer']
+    },
     LandingPage2Template: {
       slots: [
         'Section1',
@@ -47,33 +59,63 @@ export class PageTemplateComponent implements OnInit {
     },
     MultiStepCheckoutSummaryPageTemplate: {
       slots: ['SideContent']
+    },
+    OrderConfirmationPageTemplate: {
+      slots: ['SideContent', 'BodyContent']
     }
   };
 
-  @HostBinding('class') hostClass: string;
-
-  constructor(private cms: CmsService) {}
+  constructor(
+    private cms: CmsService,
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit() {
-    return this.templateName
-      .pipe(take(1))
-      .subscribe(templateName => (this.hostClass = templateName));
+    if (this.section) {
+      this.cssClass = this.section;
+    }
   }
 
-  get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
+  set cssClass(cl) {
+    this.renderer.addClass(this.el.nativeElement, cl);
   }
 
-  get templateName(): Observable<string> {
+  get slots$(): Observable<any[]> {
+    if (this.section) {
+      return this.sectionSlots$;
+    } else {
+      return this.mainSlots$;
+    }
+  }
+
+  get templateName$(): Observable<string> {
     return this.page$.pipe(map((page: Page) => page.template));
   }
 
-  get slots(): Observable<any> {
+  get sectionSlots$(): Observable<any[]> {
     return this.page$.pipe(
       map((page: Page) => {
-        if (!page) {
-          return;
+        if (
+          this.templates[page.template] &&
+          this.templates[page.template][this.section] &&
+          this.templates[page.template][this.section].slots
+        ) {
+          return this.templates[page.template][this.section].slots;
+        } else {
+          return this.templates[this.section].slots;
         }
+      })
+    );
+  }
+
+  protected get mainSlots$(): Observable<any[]> {
+    return this.page$.pipe(
+      map((page: Page) => {
+        console.log('set page template', page.template);
+        // this.hostClass = page.template;
+        this.cssClass = page.template;
+        // this.cd.detectChanges();
         if (
           this.templates[page.template] &&
           this.templates[page.template].slots
@@ -87,5 +129,9 @@ export class PageTemplateComponent implements OnInit {
         }
       })
     );
+  }
+
+  get page$(): Observable<Page> {
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 }
