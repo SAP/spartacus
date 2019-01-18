@@ -1,7 +1,7 @@
 import {
   AuthConfig,
   OccConfig,
-  RoutingModuleConfig,
+  StateConfig,
   ConfigurableRoutesConfig,
   CmsConfig
 } from '@spartacus/core';
@@ -11,6 +11,6 @@ export interface StorefrontModuleConfig
   extends AuthConfig,
     CmsConfig,
     OccConfig,
-    RoutingModuleConfig,
+    StateConfig,
     PWAModuleConfig,
     ConfigurableRoutesConfig {}
