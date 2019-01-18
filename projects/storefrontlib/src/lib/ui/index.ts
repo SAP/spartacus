@@ -8,7 +8,7 @@ export * from './components/pagination-and-sorting/pagination-and-sorting.module
 export * from './components/spinner/spinner.component';
 export * from './pages/pages.module';
 export * from './layout/footer/footer.component';
-export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
+
 export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
 
@@ -21,7 +21,7 @@ export * from './pages/product-page/product-page.component';
 export * from './pages/store-finder-page/store-finder-page.component';
 export * from './pages/multi-step-checkout-page/multi-step-checkout-page.component';
 export * from './pages/cart-page/cart-page.component';
-export * from './pages/order-confirmation-page/order-confirmation-page.component';
+export * from './pages/order/order-confirmation-page/order-confirmation-page.component';
 export * from './pages/order/order-history-page/order-history-page.component';
 export * from './pages/order/order-details-page/order-details-page.component';
 export * from './pages/login/login-page/login-page.component';

@@ -6,7 +6,9 @@ import { map } from 'rxjs/operators';
 
 import { RoutingService, CheckoutService } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class OrderConfirmationPageGuard implements CanActivate {
   constructor(
     private checkoutService: CheckoutService,

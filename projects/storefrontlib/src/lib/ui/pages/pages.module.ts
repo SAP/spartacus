@@ -6,7 +6,7 @@ import { ContentPageModule } from './content-page/content-page.module';
 import { HomePageModule } from './home-page/home-page.module';
 import { PageNotFoundModule } from './404/404.module';
 import { CartPageModule } from './cart-page/cart-page.module';
-import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
+
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
 
 import { LoginPageModule } from './login/login-page/login-page.module';
@@ -17,9 +17,12 @@ import { ResetPasswordPageModule } from './login/reset-password-page/reset-passw
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
 
-// ContentPage: my Account Pages
+// order ContentPages
 import { OrderHistoryPageModule } from './order/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order/order-details-page/order-details-page.module';
+import { OrderConfirmationPageModule } from './order/order-confirmation-page/order-confirmation-page.module';
+
+// account ContentPages
 import { AddressBookPageModule } from './myaccount/address-book-page/address-book-page.module';
 
 // CategoryPage
@@ -33,21 +36,24 @@ const pageModules = [
   PageTemplateModule,
   ContentPageModule,
 
-  OrderHistoryPageModule,
   HomePageModule,
   CategoryPageModule,
+  ProductPageModule,
   CartPageModule,
   MultiStepCheckoutPageModule,
+
+  OrderHistoryPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
-  AddressBookPageModule,
-  ProductPageModule,
-  RegisterPageModule,
+
   LoginPageModule,
-  PaymentDetailsPageModule,
+  RegisterPageModule,
   ResetPasswordPageModule,
-  StoreFinderPageModule,
   ResetNewPasswordPageModule,
+
+  AddressBookPageModule,
+  PaymentDetailsPageModule,
+  StoreFinderPageModule,
   // new pages should be added above this line
   PageNotFoundModule
 ];
