@@ -6,6 +6,7 @@ import { PaymentFormModule } from './payment-form/payment-form.module';
 import { CardModule } from '../../../../ui/components/card/card.module';
 import { PaymentMethodComponent } from './payment-method.component';
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
+import { UserService } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { SpinnerModule } from './../../../../ui/components/spinner/spinner.modul
     CardModule,
     SpinnerModule
   ],
+  providers: [UserService],
   declarations: [PaymentMethodComponent],
   entryComponents: [PaymentMethodComponent],
   exports: [PaymentMethodComponent]
