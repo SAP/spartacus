@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-template',
@@ -55,22 +55,17 @@ export class PageTemplateComponent implements OnInit {
   constructor(private cms: CmsService) {}
 
   ngOnInit() {
-    return this.cms
-      .getCurrentPage()
-      .pipe(
-        filter(Boolean),
-        map((page: Page) => page.template)
-      )
-      .subscribe(templateName => (this.hostClass = templateName))
-      .unsubscribe();
+    return this.templateName
+      .pipe(take(1))
+      .subscribe(templateName => (this.hostClass = templateName));
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage();
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
   get templateName(): Observable<string> {
-    return this.cms.getCurrentPage().pipe(map((page: Page) => page.template));
+    return this.page$.pipe(map((page: Page) => page.template));
   }
 
   get slots(): Observable<any> {
