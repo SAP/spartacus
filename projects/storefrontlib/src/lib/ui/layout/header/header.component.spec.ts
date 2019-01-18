@@ -38,12 +38,6 @@ class MockLoginComponent {}
 })
 class MockMobileMenuComponent {}
 
-@Component({
-  selector: 'cx-tertiary-bar',
-  template: ''
-})
-export class MockTertiaryBarComponent {}
-
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
@@ -58,8 +52,7 @@ describe('HeaderComponent', () => {
         MockCurrencySelectorComponent,
         MockLoginComponent,
         MockMobileMenuComponent,
-        HeaderSkipperComponent,
-        MockTertiaryBarComponent
+        HeaderSkipperComponent
       ]
     }).compileComponents();
   }));
@@ -82,42 +75,8 @@ describe('HeaderComponent', () => {
       ).not.toBeNull();
     });
 
-    it('should contain the Site Context Selectors', () => {
-      expect(
-        fixture.debugElement.query(
-          By.css(
-            'div.cx-content__slot:not(#cx-mobile-menu) cx-language-selector'
-          )
-        )
-      ).not.toBeNull();
-
-      expect(
-        fixture.debugElement.query(
-          By.css(
-            'div.cx-content__slot:not(#cx-mobile-menu) cx-currency-selector'
-          )
-        )
-      ).not.toBeNull();
-    });
-
-    it('should contain the tertiary-bar component', () => {
-      expect(
-        fixture.debugElement.query(By.css('cx-tertiary-bar'))
-      ).not.toBeNull();
-    });
-
     it('should contain the login status component', () => {
-      expect(
-        fixture.debugElement.query(
-          By.css('div.cx-content__slot:not(#cx-mobile-menu) cx-login')
-        )
-      ).not.toBeNull();
-    });
-
-    it('should contain the mobile menu component', () => {
-      expect(
-        fixture.debugElement.query(By.css('cx-mobile-menu'))
-      ).not.toBeNull();
+      expect(fixture.debugElement.query(By.css('cx-login'))).not.toBeNull();
     });
 
     describe('Dynamic slots', () => {
@@ -148,9 +107,7 @@ describe('HeaderComponent', () => {
       it('should contain the navigation bar', () => {
         expect(
           fixture.debugElement.query(
-            By.css(
-              'div.cx-content__slot:not(#cx-mobile-menu) cx-dynamic-slot[position="NavigationBar"]'
-            )
+            By.css('cx-dynamic-slot[position="NavigationBar"]')
           )
         ).not.toBeNull();
       });
