@@ -10,7 +10,6 @@ export * from './lib/global-message/index';
 export * from './lib/my-account/index';
 export * from './lib/occ/index';
 export * from './lib/product/index';
-export * from './lib/site-context/index';
 export * from './lib/store-finder/index';
 export * from './lib/ui/index';
 export * from './lib/user/index';
