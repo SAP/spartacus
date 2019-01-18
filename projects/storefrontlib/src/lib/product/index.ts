@@ -15,5 +15,4 @@ export * from './components/product-list/product-grid-item/product-grid-item.com
 export * from './components/product-list/container/product-list.component';
 export * from './components/product-list/product-facet-navigation/product-facet-navigation.component';
 // guard and services
-export * from './guards/product.guard';
 export * from './product-outlets.model';
