@@ -4,8 +4,6 @@
   @include type('8');
   margin: var(--cx-margin, 0);
   padding: var(--cx-padding, 1.125rem 0);
-  display: var(--cx-display, flex);
-  align-items: var(--cx-align-items, center);
   text-transform: var(--cx-text-transform, uppercase);
   color: var(--cx-color, var(--cx-g-color-secondary));
   border-width: var(--cx-border-width, 0 0 1px 0);
