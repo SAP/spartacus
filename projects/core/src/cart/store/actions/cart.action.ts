@@ -1,4 +1,10 @@
 import { Action } from '@ngrx/store';
+import {
+  LoaderLoadAction,
+  LoaderFailAction,
+  LoaderSuccessAction
+} from '../../../state/utils/loader/loader.action';
+import { CART_DATA } from '../cart-state';
 
 export const CREATE_CART = '[Cart] Create Cart';
 export const CREATE_CART_FAIL = '[Cart] Create Cart Fail';
@@ -11,36 +17,48 @@ export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 export const MERGE_CART = '[Cart] Merge Cart';
 export const MERGE_CART_SUCCESS = '[Cart] Merge Cart Success';
 
-export class CreateCart implements Action {
+export class CreateCart extends LoaderLoadAction {
   readonly type = CREATE_CART;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class CreateCartFail implements Action {
+export class CreateCartFail extends LoaderFailAction {
   readonly type = CREATE_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
 }
 
-export class CreateCartSuccess implements Action {
+export class CreateCartSuccess extends LoaderSuccessAction {
   readonly type = CREATE_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class LoadCart implements Action {
+export class LoadCart extends LoaderLoadAction {
   readonly type = LOAD_CART;
   constructor(
     public payload: { userId: string; cartId: string; details?: boolean }
-  ) {}
+  ) {
+    super(CART_DATA);
+  }
 }
 
-export class LoadCartFail implements Action {
+export class LoadCartFail extends LoaderFailAction {
   readonly type = LOAD_CART_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
 }
 
-export class LoadCartSuccess implements Action {
+export class LoadCartSuccess extends LoaderSuccessAction {
   readonly type = LOAD_CART_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
 export class MergeCart implements Action {

@@ -5,10 +5,10 @@ import { Cart, OrderEntry } from '@spartacus/core';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
 import * as fromActions from './../actions';
-import { CartsState } from '../cart-state';
+import { StateWithCart } from '../cart-state';
 
 describe('Cart selectors', () => {
-  let store: Store<CartsState>;
+  let store: Store<StateWithCart>;
 
   const testCart: Cart = {
     code: 'xxx',
@@ -51,11 +51,11 @@ describe('Cart selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getActiveCart', () => {
-    it('should return the active cart from the state', () => {
+  describe('getActiveCartContent', () => {
+    it('should return the cart content from the state', () => {
       let result: Cart;
       store
-        .pipe(select(fromSelectors.getActiveCart))
+        .pipe(select(fromSelectors.getCartContent))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
