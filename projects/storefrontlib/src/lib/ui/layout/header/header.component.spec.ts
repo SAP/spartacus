@@ -38,12 +38,6 @@ class MockLoginComponent {}
 })
 class MockMobileMenuComponent {}
 
-@Component({
-  selector: 'cx-tertiary-bar',
-  template: ''
-})
-export class MockTertiaryBarComponent {}
-
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
@@ -58,8 +52,7 @@ describe('HeaderComponent', () => {
         MockCurrencySelectorComponent,
         MockLoginComponent,
         MockMobileMenuComponent,
-        HeaderSkipperComponent,
-        MockTertiaryBarComponent
+        HeaderSkipperComponent
       ]
     }).compileComponents();
   }));

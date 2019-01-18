@@ -1,0 +1,11 @@
+<label *ngIf="(items$ | async)?.length > 1 && (items$ | async) as items">
+  <span>{{ label$ | async }}</span>
+  <select (change)="active = $event.target.value">
+    <option
+      *ngFor="let item of items"
+      value="{{ item.isocode }}"
+      [selected]="(activeItem$ | async) === item.isocode"
+      >{{ item.label }}</option
+    >
+  </select>
+</label>
