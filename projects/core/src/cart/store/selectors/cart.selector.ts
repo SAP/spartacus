@@ -15,7 +15,7 @@ import {
   loaderValueSelector,
   loaderLoadingSelector
 } from '../../../state/utils/loader/loader.selectors';
-import { LoaderState } from 'projects/core/src/state';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;
