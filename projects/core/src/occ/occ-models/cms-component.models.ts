@@ -12,6 +12,10 @@ export interface CmsLinkComponent extends CmsComponent {
   target?: boolean;
 }
 
+export interface CmsSiteContextSelectorComponent extends CmsComponent {
+  context?: string;
+}
+
 export interface CmsSearchBoxComponent extends CmsComponent {
   container?: boolean;
   maxSuggestions?: number;
@@ -30,7 +34,6 @@ export interface CmsParagraphComponent extends CmsComponent {
   name?: string;
   title?: string;
   typeCode?: string;
-  uid?: string;
 }
 
 export interface CmsBannerComponentMedia {
