@@ -1,4 +1,4 @@
-<nav>
+<nav *ngIf="(node$ | async) as node">
   <div class="container">
     <div class="row">
       <div
@@ -19,4 +19,6 @@
     </div>
   </div>
 </nav>
-<div class="notice">{{ component?.notice }}</div>
+<div class="notice" *ngIf="(component.data$ | async) as data">
+  {{ data.notice }}
+</div>
