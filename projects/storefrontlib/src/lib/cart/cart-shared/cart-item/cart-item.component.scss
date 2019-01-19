@@ -1,287 +1,162 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-//cx-cart-item color variables
-$cx-cart-item-code-color: 'secondary' !default;
-$cx-cart-item-old-price-color: 'secondary' !default;
-$cx-cart-item-new-price-color: 'primary' !default;
-$cx-cart-item-promo-color: 'success' !default;
-$cx-cart-item-unavailable-color: 'danger' !default;
-$cx-cart-item-actions-color: 'text' !default;
-$cx-cart-item-name-color: 'text' !default;
-$cx-cart-item-name-color-hover: 'primary' !default;
-
-$cx-cart-item-image-container-padding-left: 0 !default;
-$cx-cart-item-image-container-padding-right: 0 !default;
-
-$cx-cart-item-info-container-margin-left: 0 !default;
-$cx-cart-item-info-container-margin-right: 0 !default;
-
-$cx-cart-item-name-padding-left: 0 !default;
-$cx-cart-item-name-padding-right: 0 !default;
-
-$cx-cart-item-image-width: 100% !default;
-
-$cx-cart-item-code-padding: 0.625rem 0 !default;
-
-$cx-cart-item-property-label-padding-right: 1rem !default;
-$cx-cart-item-property-label-min-width: 5rem !default;
-
-$cx-cart-item-price-label-min-width: 5rem !default;
-$cx-cart-item-price-old-padding-right: 1rem !default;
-
-$cx-cart-item-quantity-label-min-width: 5rem !default;
-
-$cx-cart-item-promo-padding-left: 0 !default;
-$cx-cart-item-promo-padding-right: 0 !default;
-$cx-cart-item-promo-padding-top: 0.75rem !default;
-$cx-cart-item-promo-padding-bottom: 0.75rem !default;
-$cx-cart-item-promo-margin-bottom: 0 !default;
-
-$cx-cart-item-total-label-min-width: 5rem !default;
-$cx-cart-item-total-value-padding-right: 0 !default;
-
-$cx-cart-item-availability-padding: 0.75rem 0 !default;
-$cx-cart-item-availability-margin-bottom: 0 !default;
-
-$cx-cart-item-actions-padding-right: 0 !default;
-$cx-cart-item-actions-padding-left-sm: 0 !default;
-
-$cx-cart-item-compact-label-min-width: 5rem !default;
-
-.cx-cart-item {
-  &__image {
-    width: $cx-cart-item-image-width;
+.cx-info-container {
+  @include media-breakpoint-down(sm) {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, column);
   }
+}
 
-  &__info-container {
-    @include media-breakpoint-down(sm) {
-      display: flex;
-      flex-direction: column;
+.cx-name {
+  @include type('5');
+  overflow-wrap: var(--cx-overflow-wrap, break-word);
+  padding: var(--cx-padding, 0);
+
+  .cx-link {
+    color: var(--cx-color, var(--cx-g-color-text));
+    text-decoration: var(--cx-text-decoration, none);
+    &:hover {
+      color: var(--cx-color, var(--cx-g-color-primary));
     }
   }
+}
 
-  &__name {
-    @include type('5');
-    overflow-wrap: break-word;
-    padding-left: $cx-cart-item-name-padding-left;
-    padding-right: $cx-cart-item-name-padding-right;
+.cx-code {
+  @include type('7');
+  color: var(--cx-color, var(--cx-g-color-secondary));
+  padding: var(--cx-padding, 0.625rem 0);
+}
 
-    &--link {
-      @include var-color('color', $cx-cart-item-name-color);
-      text-decoration: none;
+.cx-property {
+  display: var(--cx-display, flex);
+}
 
-      &:hover {
-        @include var-color('color', $cx-cart-item-name-color-hover);
-      }
-    }
+.cx-label {
+  @include type('8');
+  overflow-wrap: var(--cx-overflow-wrap, break-word);
+  padding-right: 1rem;
+
+  @include media-breakpoint-down(sm) {
+    min-width: var(--cx-min-width, 5rem);
   }
+}
 
-  &__code {
+.cx-value {
+  @include type('5');
+  overflow-wrap: var(--cx-overflow-wrap, break-word);
+  font-weight: var(--cx-g-font-weight-normal, 400);
+
+  @include media-breakpoint-down(sm) {
     @include type('7');
-    @include var-color('color', $cx-cart-item-code-color);
-    padding: $cx-cart-item-code-padding;
+  }
+}
+
+.cx-price {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
+  align-items: var(--cx-align-items, center);
+  @include type('5');
+  font-weight: $font-weight-normal;
+
+  @include media-breakpoint-down(sm) {
+    justify-content: var(--cx-justify-content, flex-start);
   }
 
-  &__property {
-    display: flex;
+  .cx-old {
+    text-decoration: var(--cx-text-decoration, line-through);
+    color: var(--cx-color, var(--cx-g-color-secondary));
+    padding: var(--cx-padding, 0 1rem 0 0);
+  }
+  .cx-new {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+}
 
-    &--label {
-      @include type('8');
-      overflow-wrap: break-word;
-      padding-right: $cx-cart-item-property-label-padding-right;
+.cx-quantity {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
+  align-items: var(--cx-align-items, center);
 
-      @include media-breakpoint-down(sm) {
-        min-width: $cx-cart-item-property-label-min-width;
-      }
-    }
+  @include media-breakpoint-down(sm) {
+    justify-content: var(--cx-justify-content, flex-start);
+  }
+}
 
-    &--value {
-      @include type('7');
-      overflow-wrap: break-word;
-    }
+.cx-total {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-end);
+  align-items: var(--cx-align-items, center);
+
+  @include media-breakpoint-down(sm) {
+    justify-content: var(--cx-justify-content, flex-start);
+  }
+}
+
+.cx-promo {
+  @include type('8');
+  color: var(--cx-color, var(--cx-g-color-success));
+  padding: var(--cx-padding, 0.75rem 0);
+  margin: var(--cx-margin, 0);
+}
+
+.cx-availability {
+  @include type('8');
+  color: var(--cx-color, var(--cx-g-color-danger));
+  padding: var(--cx-padding, 0.75rem 0);
+  margin: var(--cx-margin, 0);
+}
+
+.cx-actions {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-end);
+  padding: var(--cx-padding, 0);
+
+  @include media-breakpoint-down(sm) {
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, flex-start);
+    padding: var(--cx-padding, 0);
   }
 
-  &__price {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @include type('5');
-    font-weight: $font-weight-normal;
-
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-
-    &--label {
-      overflow-wrap: break-word;
-
-      @include media-breakpoint-down(sm) {
-        @include type('8');
-        min-width: $cx-cart-item-price-label-min-width;
-      }
-    }
-
-    &--value {
-      @include type('5');
-      font-weight: $font-weight-normal;
-      overflow-wrap: break-word;
-
-      @include media-breakpoint-down(sm) {
-        @include type('7');
-      }
-    }
-
-    &--old {
-      text-decoration: line-through;
-      @include var-color('color', $cx-cart-item-old-price-color);
-      padding-right: $cx-cart-item-price-old-padding-right;
-    }
-    &--new {
-      @include var-color('color', $cx-cart-item-new-price-color);
-    }
-  }
-
-  &__quantity {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-
-    &--label {
-      overflow-wrap: break-word;
-
-      @include media-breakpoint-down(sm) {
-        @include type('8');
-        min-width: $cx-cart-item-quantity-label-min-width;
-      }
-    }
-
-    &--value {
-      @include type('5');
-      font-weight: $font-weight-normal;
-      overflow-wrap: break-word;
-
-      @include media-breakpoint-down(sm) {
-        @include type('7');
-      }
-    }
-  }
-
-  &__total {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-
-    &--label {
-      overflow-wrap: break-word;
-
-      @include media-breakpoint-down(sm) {
-        @include type('8');
-        min-width: $cx-cart-item-total-label-min-width;
-      }
-    }
-
-    &--value {
-      @include type('5');
-      font-weight: $font-weight-normal;
-      overflow-wrap: break-word;
-      padding-right: $cx-cart-item-total-value-padding-right;
-
-      @include media-breakpoint-down(sm) {
-        @include type('7');
-      }
-    }
-  }
-
-  &__promo {
+  a {
     @include type('8');
-    @include var-color('color', $cx-cart-item-promo-color);
-    padding-left: $cx-cart-item-promo-padding-left;
-    padding-right: $cx-cart-item-promo-padding-right;
-    padding-top: $cx-cart-item-promo-padding-top;
-    padding-bottom: $cx-cart-item-promo-padding-bottom;
-    margin-bottom: $cx-cart-item-promo-margin-bottom;
-  }
-
-  &__availability {
-    @include type('8');
-    @include var-color('color', $cx-cart-item-unavailable-color);
-    padding: $cx-cart-item-availability-padding;
-    margin-bottom: $cx-cart-item-availability-margin-bottom;
-  }
-
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    padding-right: $cx-cart-item-actions-padding-right;
-
-    @include media-breakpoint-down(sm) {
-      display: flex;
-      justify-content: flex-start;
-      padding-left: $cx-cart-item-actions-padding-left-sm;
-    }
-
-    a {
-      @include type('8');
-      @include var-color('color', $cx-cart-item-actions-color);
-      text-decoration: underline;
-    }
+    color: var(--cx-color, var(--cx-g-color-text));
+    text-decoration: underline;
   }
 }
 
 // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
-.cx-cart-item--compact {
-  display: flex;
-  flex-direction: row;
+.cx-compact {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, row);
 
-  .cx-cart-item {
-    &__image-container {
-      padding-left: $cx-cart-item-image-container-padding-left;
-      padding-right: $cx-cart-item-image-container-padding-right;
+  .cx-image-container {
+    padding: var(--cx-padding, 0);
+  }
+
+  .cx-info-container {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, column);
+    margin: var(--cx-margin, 0);
+  }
+
+  .cx-price,
+  .cx-quantity,
+  .cx-total,
+  .cx-actions {
+    justify-content: var(--cx-justify-content, flex-start);
+
+    .cx-label {
+      @include type('8');
+      min-width: var(--cx-min-width, 5rem);
     }
 
-    &__info-container {
-      display: flex;
-      flex-direction: column;
-      margin-left: $cx-cart-item-info-container-margin-left;
-      margin-right: $cx-cart-item-info-container-margin-right;
+    .cx-value {
+      @include type('7');
     }
+  }
 
-    &__property {
-      &--label {
-        min-width: $cx-cart-item-compact-label-min-width;
-      }
-    }
-
-    &__price,
-    &__quantity,
-    &__total,
-    &__actions {
-      justify-content: flex-start;
-
-      &--label {
-        @include type('8');
-        min-width: $cx-cart-item-compact-label-min-width;
-      }
-
-      &--value {
-        @include type('7');
-      }
-    }
-
-    &__actions {
-      padding-left: 0;
-    }
+  .cx-actions {
+    padding: var(--cx-padding, 0);
   }
 }

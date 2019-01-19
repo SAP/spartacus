@@ -1,17 +1,14 @@
-import {
-  RoutingModuleConfig,
-  StorageSyncType
-} from '../../config/routing-module-config';
 import { ActionReducer, MetaReducer, Action } from '@ngrx/store';
 import { localStorageSync, LocalStorageConfig } from 'ngrx-store-localstorage';
-import { WindowRef } from '../../../window/window-ref';
+import { WindowRef } from '../../window/window-ref';
+import { StateConfig, StorageSyncType } from '../config/state-config';
 
 function storageConfig(
-  config: RoutingModuleConfig,
+  config: StateConfig,
   winRef: WindowRef
 ): LocalStorageConfig {
   let storage;
-  switch (config.storageSyncType) {
+  switch (config.state.storageSync.type) {
     case StorageSyncType.LOCAL_STORAGE: {
       storage = winRef.localStorage;
       break;
@@ -22,16 +19,27 @@ function storageConfig(
     }
   }
   return {
-    keys: [{ auth: ['userToken', 'clientToken'] }],
+    keys: config.state.storageSync.keys,
     rehydrate: true,
     storage: storage ? storage : winRef.sessionStorage
   };
 }
 
 export function getStorageSyncReducer(
-  config: RoutingModuleConfig,
-  winRef: WindowRef
+  winRef: WindowRef,
+  config?: StateConfig
 ): MetaReducer<any, Action> {
+  if (
+    !winRef.nativeWindow ||
+    !config ||
+    !config.state ||
+    !config.state.storageSync ||
+    config.state.storageSync.type === StorageSyncType.NO_STORAGE ||
+    !config.state.storageSync.keys
+  ) {
+    return undefined;
+  }
+
   const storage = storageConfig(config, winRef);
 
   return function(
