@@ -1,84 +1,166 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { NgModule, Component } from '@angular/core';
-import { CmsService, Page } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { PageTemplateComponent } from './page-layout.component';
-import { PageTemplateModule } from './page-layout.module';
+import { CmsService, CmsConfig, Page, ContentSlotData } from '@spartacus/core';
+import { of, Observable, empty } from 'rxjs';
+import { PageLayoutModule } from './page-layout.module';
+import { UrlTranslationService } from 'projects/core/src/routing/configurable-routes/url-translation/url-translation.service';
+import { By } from '@angular/platform-browser';
+
+const slots = {
+  Section1: {
+    uid: 'Section1',
+    components: []
+  }
+};
 
 @Component({
-  selector: 'cx-test',
+  selector: 'cx-page-template-test',
   template: `
-    <cx-page-template></cx-page-template>
+    <cx-page-layout>
+      <div class="content">content projection</div>
+    </cx-page-layout>
   `
 })
-export class TestComponent {}
+export class PageLayoutComponent {}
+
+@Component({
+  selector: 'cx-footer-test',
+  template: `
+    <cx-page-layout section="header"> </cx-page-layout>
+  `
+})
+export class HeaderLayoutComponent {}
 
 @NgModule({
-  imports: [PageTemplateModule],
-  declarations: [TestComponent],
-  entryComponents: [TestComponent],
-  exports: [TestComponent]
+  imports: [PageLayoutModule],
+  declarations: [PageLayoutComponent, HeaderLayoutComponent]
 })
 export class TestModule {}
 
 class MockCmsService {
-  getContentSlot(): Observable<Page> {
+  getCurrentPage(): Observable<Page> {
     return of({
       uid: 'page_uid',
-      template: 'pageTemplateUid',
+      template: 'LandingPage2Template',
       slots: {
-        slotA: {
+        Section1: {
           uid: 'Section1'
+        },
+        Section2A: {
+          uid: 'Section1'
+        },
+        LogoSlot: {
+          uid: 'LogoSlot'
         }
       }
     });
   }
+
+  getContentSlot(position): Observable<ContentSlotData> {
+    if (slots[position]) {
+      return of();
+    } else {
+      return empty();
+    }
+  }
 }
 
-fdescribe('DynamicSlotComponent', () => {
-  let pagetTemplateComponent: PageTemplateComponent;
-  let fixture: ComponentFixture<PageTemplateComponent>;
-  let cmsService: CmsService;
+const MockCmsModuleConfig: CmsConfig = {
+  layoutSlots: {
+    header: {
+      slots: ['LogoSlot']
+    },
+    LandingPage2Template: {
+      slots: ['Section1', 'Section2A']
+    }
+  }
+};
+
+describe('PageLayoutComponent', () => {
+  let pageLayoutComponent: PageLayoutComponent;
+  let fixture: ComponentFixture<PageLayoutComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [TestModule],
-      declarations: [PageTemplateComponent],
+      declarations: [],
       providers: [
         {
           provide: CmsService,
           useClass: MockCmsService
-        }
+        },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
+        { provide: UrlTranslationService, useValue: { translate: () => {} } }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageTemplateComponent);
-    pagetTemplateComponent = fixture.componentInstance;
+    fixture = TestBed.createComponent(PageLayoutComponent);
+    pageLayoutComponent = fixture.componentInstance;
     fixture.detectChanges();
-
-    cmsService = TestBed.get(CmsService);
   });
 
   it('should be created', () => {
-    expect(pagetTemplateComponent).toBeTruthy();
+    expect(pageLayoutComponent).toBeTruthy();
   });
 
-  it('should render page template slots', () => {
-    const native = fixture.debugElement.nativeElement;
+  it('should render two slots based on layout configuration', () => {
+    const native = fixture.debugElement;
+    const elements = native.queryAll(By.css('cx-dynamic-slot'));
+    expect(elements.length).toBe(2);
   });
 
-  //   it('should not add smart edit slot contract if app not launch in smart edit', () => {
-  //     spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
+  it('should render slot position as class name on page layout', () => {
+    const native = fixture.debugElement;
+    const elements = native.queryAll(By.css('cx-dynamic-slot'));
+    expect((elements[0].nativeElement as HTMLElement).classList).toContain(
+      'Section1'
+    );
+  });
 
-  //     fixture = TestBed.createComponent(DynamicSlotComponent);
-  //     pagetTemplateComponent = fixture.componentInstance;
-  //     pagetTemplateComponent.position = 'left';
-  //     fixture.detectChanges();
+  it('should project content in page layout', () => {
+    const native = fixture.debugElement;
+    const compEl = native.query(By.css('div.content'));
+    expect((compEl.nativeNode as HTMLElement).innerText).toContain(
+      'content projection'
+    );
+  });
+});
 
-  //     const native = fixture.debugElement.nativeElement;
-  //     expect(native.classList.contains('smartEditComponent')).toBeFalsy();
-  //     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
-  //   });
+describe('SectionLayoutComponent', () => {
+  let sectionLayoutComponent: HeaderLayoutComponent;
+  let fixture: ComponentFixture<HeaderLayoutComponent>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [TestModule],
+      declarations: [],
+      providers: [
+        {
+          provide: CmsService,
+          useClass: MockCmsService
+        },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
+        { provide: UrlTranslationService, useValue: { translate: () => {} } }
+      ]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HeaderLayoutComponent);
+    sectionLayoutComponent = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should be created', () => {
+    expect(sectionLayoutComponent).toBeTruthy();
+  });
+
+  it('should render header section with logo slot', () => {
+    const native = fixture.debugElement;
+    const elements = native.queryAll(By.css('cx-dynamic-slot'));
+    const logoSlot: HTMLElement = elements[0].nativeElement;
+    expect(logoSlot.classList).toContain('LogoSlot');
+  });
 });

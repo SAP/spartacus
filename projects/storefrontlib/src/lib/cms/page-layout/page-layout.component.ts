@@ -28,24 +28,12 @@ export class PageLayoutComponent implements OnInit {
   }
 
   get slots$(): Observable<any[]> {
-    return this.mainSlots$;
-  }
-
-  get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
-  }
-
-  get templateName$(): Observable<string> {
-    return this.page$.pipe(map((page: Page) => page.template));
-  }
-
-  protected get mainSlots$(): Observable<any[]> {
     return this.page$.pipe(
       map((page: Page) => {
         if (!this.section) {
           this.cssClass = page.template;
         }
-        const pageSlots = this.getSlots(page.template);
+        const pageSlots = this.getSlotConfiguration(page.template);
         if (pageSlots) {
           return pageSlots.slots;
         } else {
@@ -56,7 +44,15 @@ export class PageLayoutComponent implements OnInit {
     );
   }
 
-  protected getSlots(templateUid: string): SlotGroup {
+  get page$(): Observable<Page> {
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
+  }
+
+  get templateName$(): Observable<string> {
+    return this.page$.pipe(map((page: Page) => page.template));
+  }
+
+  protected getSlotConfiguration(templateUid: string): SlotGroup {
     if (this.section) {
       return this.config.layoutSlots[templateUid] &&
         this.config.layoutSlots[templateUid][this.section] &&
