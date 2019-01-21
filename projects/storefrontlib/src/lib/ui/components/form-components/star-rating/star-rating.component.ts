@@ -1,16 +1,11 @@
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  forwardRef
-} from '@angular/core';
+import { Component, Input, forwardRef } from '@angular/core';
 
 @Component({
   selector: 'cx-star-rating',
   templateUrl: './star-rating.component.html',
   styleUrls: ['./star-rating.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
