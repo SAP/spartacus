@@ -1,6 +1,6 @@
-<div [ngClass]="compact ? 'cx-cart-item--compact row' : 'cx-cart-item row'">
+<div [ngClass]="compact ? 'cx-compact row' : 'row'">
   <!-- Item Image -->
-  <div class="col-2 cx-cart-item__image-container">
+  <div class="col-2 cx-image-container">
     <a
       [routerLink]="
         { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
@@ -13,16 +13,13 @@
     </a>
   </div>
   <!-- Item Information -->
-  <div class="cx-cart-item__info col-10">
-    <div class="cx-cart-item__info-container row ">
+  <div class="cx-info col-10">
+    <div class="cx-info-container row ">
       <!-- Item Description -->
-      <div
-        class="cx-cart-item__description"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'"
-      >
-        <div *ngIf="item.product.name" class="cx-cart-item__name">
+      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+        <div *ngIf="item.product.name" class="cx-name">
           <a
-            class="cx-cart-item__name--link"
+            class="cx-link"
             [routerLink]="
               { route: [{ name: 'product', params: item.product }] }
                 | cxTranslateUrl
@@ -30,54 +27,52 @@
             >{{ item.product.name }}</a
           >
         </div>
-        <div *ngIf="item.product.code" class="cx-cart-item__code">
+        <div *ngIf="item.product.code" class="cx-code">
           ID {{ item.product.code }}
         </div>
         <!-- Variants -->
         <div
           *ngFor="let variant of item.product.variantOptionQualifiers"
-          class="cx-cart-item__property"
+          class="cx-property"
         >
-          <div class="cx-cart-item__property--label">{{ variant.name }}</div>
-          <div class="cx-cart-item__property--value">{{ variant.value }}</div>
+          <div class="cx-label">{{ variant.name }}</div>
+          <div class="cx-value">{{ variant.value }}</div>
         </div>
       </div>
       <!-- Item Price -->
       <div
         *ngIf="item.basePrice"
-        class="cx-cart-item__price"
+        class="cx-price"
         [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
       >
         <div
-          class="cx-cart-item__price--label"
+          class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
           Item
         </div>
-        <div *ngIf="item.basePrice" class="cx-cart-item__price--value">
+        <div *ngIf="item.basePrice" class="cx-value">
           {{ item.basePrice?.formattedValue }}
         </div>
       </div>
       <!-- Item Quantity -->
       <div
         *ngIf="item.quantity"
-        class="cx-cart-item__quantity"
+        class="cx-quantity"
         [ngClass]="compact ? '' : ' col-3'"
       >
         <div
-          class="cx-cart-item__quantity--label"
+          class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
           placement="left"
           ngbTooltip="The quantity represents the total number of this item in your cart."
         >
           Qty
         </div>
-        <div *ngIf="isReadOnly" class="cx-cart-item__quantity--value">
-          {{ item.quantity }}
-        </div>
+        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
         <div
           *ngIf="!isReadOnly && parent"
-          class="cx-cart-item__quantity--value"
+          class="cx-value"
           [formGroup]="parent"
         >
           <cx-item-counter
@@ -95,35 +90,30 @@
       <!-- Total -->
       <div
         *ngIf="item.totalPrice"
-        class="cx-cart-item__total"
+        class="cx-total"
         [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
       >
         <div
-          class="cx-cart-item__total--label"
+          class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
           Total
         </div>
-        <div class="cx-cart-item__total--value">
-          {{ item.totalPrice.formattedValue }}
-        </div>
+        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
       </div>
     </div>
     <!-- Availability -->
-    <div
-      *ngIf="isProductOutOfStock(item)"
-      class="cx-cart-item__availability col-12"
-    >
+    <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
       {{ item.product.stock?.stockLevelStatus }}
     </div>
     <!-- Promotion -->
     <div
-      class="cx-cart-item__promo col-12"
+      class="cx-promo col-12"
       *ngFor="let promotion of potentialProductPromotions"
       [innerHTML]="promotion.description"
     ></div>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="cx-cart-item__actions col-12 ">
+    <div *ngIf="!isReadOnly" class="cx-actions col-12 ">
       <a [routerLink]="" (click)="removeItem()">Remove</a>
     </div>
   </div>

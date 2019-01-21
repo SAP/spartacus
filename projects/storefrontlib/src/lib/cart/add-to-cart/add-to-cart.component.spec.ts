@@ -79,6 +79,7 @@ describe('AddToCartComponent', () => {
 
   it('should call addToCart()', () => {
     spyOn(service, 'addEntry').and.callThrough();
+    addToCartComponent.quantity = 1;
 
     addToCartComponent.addToCart();
     addToCartComponent.cartEntry$.subscribe();

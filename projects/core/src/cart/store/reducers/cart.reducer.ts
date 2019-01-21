@@ -6,7 +6,6 @@ export const initialState: CartState = {
   content: {},
   entries: {},
   refresh: false,
-  loaded: false,
   cartMergeComplete: false
 };
 
@@ -21,12 +20,14 @@ export function reducer(
         cartMergeComplete: false
       };
     }
+
     case fromAction.MERGE_CART_SUCCESS: {
       return {
         ...state,
         cartMergeComplete: true
       };
     }
+
     case fromAction.LOAD_CART_SUCCESS:
     case fromAction.CREATE_CART_SUCCESS: {
       const content = { ...action.payload };
@@ -60,8 +61,7 @@ export function reducer(
         ...state,
         content,
         entries,
-        refresh: false,
-        loaded: true
+        refresh: false
       };
     }
 
@@ -73,16 +73,6 @@ export function reducer(
         refresh: true
       };
     }
-
-    case fromAction.REMOVE_ENTRY:
-    case fromAction.UPDATE_ENTRY:
-    case fromAction.ADD_ENTRY:
-    case fromAction.LOAD_CART:
-    case fromAction.CREATE_CART:
-      return {
-        ...state,
-        loaded: false
-      };
   }
 
   return state;
