@@ -1,11 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {
-  CmsService,
-  Page,
-  CmsConfig,
-  SlotGroup,
-  SlotList
-} from '@spartacus/core';
+import { Component, Input, Renderer2, ElementRef, OnInit } from '@angular/core';
+import { CmsService, Page, CmsConfig, SlotGroup } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
@@ -13,10 +7,25 @@ import { map, filter } from 'rxjs/operators';
   selector: 'cx-page-template',
   templateUrl: './page-template.component.html'
 })
-export class PageTemplateComponent {
+export class PageTemplateComponent implements OnInit {
   @Input() section;
 
-  constructor(private cms: CmsService, private config: CmsConfig) {}
+  constructor(
+    private cms: CmsService,
+    private config: CmsConfig,
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
+
+  ngOnInit() {
+    if (this.section) {
+      this.cssClass = this.section;
+    }
+  }
+
+  set cssClass(cl) {
+    this.renderer.addClass(this.el.nativeElement, cl);
+  }
 
   get slots$(): Observable<any[]> {
     return this.mainSlots$;
@@ -32,8 +41,10 @@ export class PageTemplateComponent {
   protected get mainSlots$(): Observable<any[]> {
     return this.page$.pipe(
       map((page: Page) => {
+        if (!this.section) {
+          this.cssClass = page.template;
+        }
         const pageSlots = this.getSlots(page.template);
-        console.log(pageSlots);
         if (pageSlots) {
           return pageSlots.slots;
         } else {
