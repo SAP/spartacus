@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-page-template',
+  selector: 'cx-page-layout',
   templateUrl: './page-layout.component.html'
 })
-export class PageTemplateComponent implements OnInit {
+export class PageLayoutComponent implements OnInit {
   @Input() section;
 
   constructor(
@@ -31,11 +31,12 @@ export class PageTemplateComponent implements OnInit {
     return this.mainSlots$;
   }
 
+  get page$(): Observable<Page> {
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
+  }
+
   get templateName$(): Observable<string> {
-    return this.page$.pipe(
-      filter(Boolean),
-      map((page: Page) => page.template)
-    );
+    return this.page$.pipe(map((page: Page) => page.template));
   }
 
   protected get mainSlots$(): Observable<any[]> {
@@ -53,10 +54,6 @@ export class PageTemplateComponent implements OnInit {
         }
       })
     );
-  }
-
-  get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
   protected getSlots(templateUid: string): SlotGroup {

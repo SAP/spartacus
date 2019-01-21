@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageTemplateComponent } from './page-layout.component';
+import { PageLayoutComponent } from './page-layout.component';
 import { CmsModule } from '../cms.module';
 
 @NgModule({
   imports: [CommonModule, CmsModule],
-  declarations: [PageTemplateComponent],
-  exports: [PageTemplateComponent]
+  declarations: [PageLayoutComponent],
+  exports: [PageLayoutComponent]
 })
-export class PageTemplateModule {}
+export class PageLayoutModule {}
