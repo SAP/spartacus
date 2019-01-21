@@ -11,8 +11,10 @@ By the Angular's design, the `changeDetection` value is also implicitly inherite
 
 ## OnPush used in Spartacus
 
-In Spartacus, the root component `<cx-storefront>` has the `changeDetection` option configured to `OnPush`. But all descendant components don't have `changeDetection` option configured so they just inherit the `OnPush` value from the root component.
+In Spartacus, the root component `<cx-storefront>` has the `changeDetection` option configured to `OnPush`. But all descendant components don't have `changeDetection` option configured so they just inherit the `OnPush` value from the root component. 
+
+But when Spartacus' components are used individually in some custom parent component, then they will just inherit the `changeDetection` option of their custom parent component.
 
 ## Custom change detection strategy
 
-It's recommended to use `OnPush` for Spartacus' components, but it can be also customized. When individual Spartacus' components are used in a custom parent component, they will just inherit the `changeDetection` option of the parent component.
+We believe the `OnPush` strategy is the right strategy for commerce storefronts, however, customers could configure an alternative strategy per individual (group of) components or by replacing the storefront module entirely.
