@@ -9,8 +9,10 @@ By default, each Angular component re-renders after any asynchronous event happe
 
 By the Angular's design, the `changeDetection` value is also implicitly inherited by all descendant components in the tree.
 
-## OnPush change detection strategy in Spartacus
+## OnPush used in Spartacus
 
-In Spartacus, the root component `<cx-storefront>` has the `changeDetection` option configured to `OnPush` and all descendant components don't have `changeDetection` option configured so they just inherit the `OnPush` value.
+In Spartacus, the root component `<cx-storefront>` has the `changeDetection` option configured to `OnPush`. But all descendant components don't have `changeDetection` option configured so they just inherit the `OnPush` value from the root component.
 
-But when Spartacus' components are used exclusively (not via the root component `<cx-storefront>`), then they will just inherit the `changeDetection` option of their custom host component.
+## Custom change detection strategy
+
+It's recommended to use `OnPush` for Spartacus' components, but it can be also customized. When individual Spartacus' components are used in a custom parent component, they will just inherit the `changeDetection` option of the parent component.
