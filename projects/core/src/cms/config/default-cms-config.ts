@@ -7,5 +7,10 @@ export const defaultCmsModuleConfig: CmsConfig = {
   },
   cmsComponents: {
     CMSTabParagraphComponent: { selector: 'cx-paragraph' }
+  },
+  pageTemplates: {
+    ExamplePageTemplate: {
+      slots: ['Section1', 'Section2']
+    }
   }
 };

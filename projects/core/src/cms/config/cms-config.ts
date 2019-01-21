@@ -27,6 +27,14 @@ export type CMSComponentConfig = {
   }
 };
 
+export type PageTemplates = 'LandingPage2Template' | string;
+
+export type PageTemplateConfig = {
+  [CMSComponent in PageTemplates]?: {
+    slots: string[];
+  }
+};
+
 export abstract class CmsConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
@@ -39,4 +47,6 @@ export abstract class CmsConfig extends OccConfig implements AuthConfig {
   };
 
   cmsComponents?: CMSComponentConfig;
+
+  pageTemplates?: PageTemplateConfig;
 }
