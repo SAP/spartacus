@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { switchMap, map, filter, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -10,8 +10,7 @@ import { NavigationNode } from './navigation-node.model';
 @Component({
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
   @Input() dropdownMode = 'list';
