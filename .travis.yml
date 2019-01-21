@@ -12,7 +12,7 @@ branches:
     - "/^feature\\/.*$/"
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
-script: build.sh
+script: ./build.sh
 deploy:
   provider: pages
   skip_cleanup: true
