@@ -1,71 +1,47 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Input,
-  OnDestroy
-} from '@angular/core';
-import { takeWhile } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
+import { Component, Input } from '@angular/core';
+import { switchMap, map, filter, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
 import { NavigationService } from './navigation.service';
-import { CmsService } from '@spartacus/core';
+import { CmsService, CmsNavigationComponent } from '@spartacus/core';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent extends AbstractCmsComponent
-  implements OnDestroy {
-  itemSubscription: Subscription;
+export class NavigationComponent {
+  @Input() dropdownMode = 'list';
+  @Input() node: any;
 
-  done = false;
-
-  @Input()
-  dropdownMode = 'list';
-  @Input()
-  node: any;
+  node$: Observable<NavigationNode>;
 
   constructor(
     protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    public component: CmsComponentData<CmsNavigationComponent>
   ) {
-    super(cmsService, cd);
-  }
-
-  protected fetchData(): void {
-    if (!this.component) {
-      return;
-    }
-    const navigation = this.component.navigationNode
-      ? this.component.navigationNode
-      : this.component;
-
-    this.itemSubscription = this.cmsService
-      .getNavigationEntryItems(navigation.uid)
-      .pipe(takeWhile(() => !this.done))
-      .subscribe(items => {
-        if (items === undefined) {
-          this.navigationService.getNavigationEntryItems(navigation, true, []);
-        } else {
-          this.done = true;
-          this.node = this.navigationService.createNode(navigation, items);
-          if (!this.cd['destroyed']) {
-            this.cd.detectChanges();
-          }
+    this.node$ = this.component.data$.pipe(
+      switchMap(data => {
+        if (data) {
+          const navigation = data.navigationNode ? data.navigationNode : data;
+          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+            tap(items => {
+              if (items === undefined) {
+                this.navigationService.getNavigationEntryItems(
+                  navigation,
+                  true,
+                  []
+                );
+              }
+            }),
+            filter(items => items !== undefined),
+            map(items => this.navigationService.createNode(navigation, items))
+          );
         }
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.itemSubscription) {
-      this.done = true;
-      this.itemSubscription.unsubscribe();
-    }
-    super.ngOnDestroy();
+      })
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
 import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { DebugElement, ChangeDetectionStrategy } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('ProductFacetNavigationComponent in product-list', () => {
@@ -48,13 +48,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
     TestBed.configureTestingModule({
       imports: [NgbCollapseModule, NgbModalModule],
       declarations: [ProductFacetNavigationComponent]
-    })
-      .overrideComponent(ProductFacetNavigationComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default
-        }
-      })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
