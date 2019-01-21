@@ -1,16 +1,10 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
-  styleUrls: ['./suggested-addresses-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./suggested-addresses-dialog.component.scss']
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) {}

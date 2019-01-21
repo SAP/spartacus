@@ -1,17 +1,10 @@
-import {
-  Component,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { SortModel } from '@spartacus/core';
 
 @Component({
   selector: 'cx-sorting',
   templateUrl: './sorting.component.html',
-  styleUrls: ['./sorting.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./sorting.component.scss']
 })
 export class SortingComponent {
   @Input()
