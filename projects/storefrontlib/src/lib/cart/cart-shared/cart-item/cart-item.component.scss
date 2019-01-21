@@ -125,8 +125,6 @@
   }
 }
 
-}
-
 // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
 .cx-compact {
@@ -159,7 +157,6 @@
     }
 
     padding: var(--cx-padding, 0);
-
 
     button.link {
       @include type('8');
