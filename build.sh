@@ -2,13 +2,9 @@
 set -e
 set -o pipefail
 
-echo "Updating dependencies"
-yarn
-echo "-----"
+SONAR=$1
+
 ./ci-scripts/validate-lint.sh
-echo "-----"
-./ci-scripts/unit-tests.sh
-echo "-----"
-./ci-scripts/unit-tests-sonar.sh
-echo "-----"
+./ci-scripts/unit-tests-sonar.sh $SONAR
 ./ci-scripts/e2e-tests.sh
+./ci-scripts/build-for-deploy.sh
