@@ -55,9 +55,11 @@ class MockCmsService {
       }
     });
   }
-
   getContentSlot(position): Observable<ContentSlotData> {
     return of(slots[position]);
+  }
+  isLaunchInSmartEdit(): boolean {
+    return false;
   }
 }
 
