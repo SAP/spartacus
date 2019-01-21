@@ -4,8 +4,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from './../../occ/default-page.service';
+import { OccCmsService } from '../../occ';
+import { DefaultPageService } from '../../services';
 import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';

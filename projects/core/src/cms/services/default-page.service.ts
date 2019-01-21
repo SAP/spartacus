@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CmsConfig } from '../config/cms-config';
-import { PageType } from '../../occ/occ-models/index';
+import { PageType } from '../../occ';
 
 @Injectable()
 export class DefaultPageService {

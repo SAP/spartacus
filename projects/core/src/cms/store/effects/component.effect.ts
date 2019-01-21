@@ -12,8 +12,8 @@ import {
 } from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../occ/occ-cms.service';
-import { RoutingService } from '../../../routing/index';
+import { OccCmsService } from '../../occ';
+import { RoutingService } from '../../../routing';
 
 @Injectable()
 export class ComponentEffects {

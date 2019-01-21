@@ -4,9 +4,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { PageType } from '../../../occ/occ-models/index';
-import { RoutingService } from '../../../routing/index';
-import { OccCmsService } from '../../occ/occ-cms.service';
+import { PageType } from '../../../occ';
+import { RoutingService } from '../../../routing';
+import { OccCmsService } from '../../occ';
 import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
