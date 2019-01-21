@@ -51,6 +51,7 @@ $cx-item-counter-action-trbl-margin: 0 !default;
     max-height: $cx-item-counter-action-height;
     min-width: $cx-item-counter-action-width;
     border: none;
+    cursor: pointer;
     @include var-color('color', $cx-item-counter-action-color);
     @include var-color(
       'background-color',
@@ -59,9 +60,14 @@ $cx-item-counter-action-trbl-margin: 0 !default;
     @include type('3');
     margin: $cx-item-counter-action-trbl-margin;
 
+    &:hover {
+      color: $primary;
+    }
+
     &:disabled {
       @include var-color('color', $cx-item-counter-action-disabled-color);
       opacity: 1;
+      cursor: not-allowed;
     }
   }
 }

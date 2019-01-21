@@ -18,12 +18,17 @@ export interface StateWithUser {
 export interface UserState {
   account: UserDetailsState;
   addresses: UserAddressesState;
+  billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: UserPaymentMethodsState;
   orders: UserOrdersState;
   order: OrderDetailsState;
   titles: TitlesState;
   regions: RegionsState;
+}
+
+export interface BillingCountriesState {
+  entities: { [isocode: string]: any };
 }
 
 export interface OrderDetailsState {

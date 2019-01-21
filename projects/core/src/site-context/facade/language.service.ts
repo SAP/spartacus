@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import * as fromStore from '../store/index';
-import { filter, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { Language } from '../../occ/occ-models';
 import { WindowRef } from '../../window/window-ref';
+import { SiteContext } from './site-context.interface';
 /**
  * Facade that provides easy access to language state, actions and selectors.
  */
 @Injectable()
-export class LanguageService {
+export class LanguageService implements SiteContext<Language> {
   private sessionStorage: Storage;
 
   constructor(
@@ -29,7 +30,8 @@ export class LanguageService {
         if (!languages) {
           this.store.dispatch(new fromStore.LoadLanguages());
         }
-      })
+      }),
+      filter(Boolean)
     );
   }
 
@@ -46,7 +48,16 @@ export class LanguageService {
    * Sets the active language.
    */
   setActive(isocode: string) {
-    this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
+    return this.store
+      .pipe(
+        select(fromStore.getActiveLanguage),
+        take(1)
+      )
+      .subscribe(activeLanguage => {
+        if (activeLanguage !== isocode) {
+          this.store.dispatch(new fromStore.SetActiveLanguage(isocode));
+        }
+      });
   }
 
   /**
