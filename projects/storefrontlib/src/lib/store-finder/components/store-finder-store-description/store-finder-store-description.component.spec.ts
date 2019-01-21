@@ -1,17 +1,19 @@
 import { ActivatedRoute } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
 import { ScheduleComponent } from '../schedule-component/schedule.component';
 import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
-import { StoreFinderService, StoreDataService } from '../../services';
-import { SpinnerComponent } from '../../../ui';
-import { GoogleMapRendererService } from '../../services/google-map-renderer.service';
 
-import * as fromReducers from '../../store';
+import { SpinnerComponent } from '../../../ui';
+
 import { PipeTransform, Pipe } from '@angular/core';
+import {
+  GoogleMapRendererService,
+  StoreFinderService,
+  StoreDataService
+} from '@spartacus/core';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -40,33 +42,19 @@ class StoreDataServiceMock {
 
 class StoreFinderServiceMock {
   viewStoreById() {}
+  getFindStoresEntities() {}
+  getStoresLoading() {}
 }
 
 describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
   let storeFinderService: StoreFinderService;
+  let route: ActivatedRoute;
 
-  it('should call storeFinderService with store id', () => {
-    mockActivatedRoute.snapshot.params = {
-      store: storeId
-    };
-    configureTestBed();
-    spyOn(storeFinderService, 'viewStoreById');
-
-    createComponent();
-
-    expect(component).toBeTruthy();
-    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(storeId);
-  });
-
-  function configureTestBed() {
-    const bed = TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.reducers)
-      ],
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [
         StoreFinderStoreDescriptionComponent,
         ScheduleComponent,
@@ -81,14 +69,25 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
         { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
       ]
-    });
-    bed.compileComponents();
-    storeFinderService = bed.get(StoreFinderService);
-  }
+    }).compileComponents();
+  }));
 
-  function createComponent() {
+  beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderStoreDescriptionComponent);
     component = fixture.componentInstance;
+    route = TestBed.get(ActivatedRoute);
+    storeFinderService = TestBed.get(StoreFinderService);
+
+    spyOn(storeFinderService, 'viewStoreById');
+  });
+
+  it('should call storeFinderService with store id', () => {
+    route.snapshot.params = {
+      store: storeId
+    };
     fixture.detectChanges();
-  }
+
+    expect(component).toBeTruthy();
+    expect(storeFinderService.viewStoreById).toHaveBeenCalledWith(storeId);
+  });
 });

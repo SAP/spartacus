@@ -60,11 +60,14 @@ const mockAddress: CheckoutAddress = {
   postalCode: 'zip',
   country: { isocode: 'JP' }
 };
-const mockPaymentDetails = {
+const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
   cardNumber: '123456789',
-  cardType: 'Visa',
+  cardType: {
+    code: 'Visa',
+    name: 'Visa'
+  },
   expiryMonth: '01',
   expiryYear: '2022',
   cvn: '123'
@@ -335,7 +338,11 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call addPaymentInfo() with new created payment info', () => {
     component.deliveryAddress = mockAddress;
-    component.addPaymentInfo({ payment: mockPaymentDetails, newPayment: true });
+    component.addPaymentInfo({
+      payment: mockPaymentDetails,
+      newPayment: true,
+      billingAddress: null
+    });
     expect(mockCheckoutService.createPaymentDetails).toHaveBeenCalledWith(
       mockPaymentDetails
     );
@@ -345,7 +352,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
-      newPayment: false
+      newPayment: false,
+      billingAddress: null
     });
     expect(mockCheckoutService.createPaymentDetails).not.toHaveBeenCalledWith(
       mockPaymentDetails
@@ -360,7 +368,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
-      newPayment: false
+      newPayment: false,
+      billingAddress: null
     });
     expect(component.nextStep).toHaveBeenCalledWith(4);
     expect(mockCheckoutService.setPaymentDetails).not.toHaveBeenCalledWith(

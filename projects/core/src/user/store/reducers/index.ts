@@ -20,11 +20,13 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromUserAddresses from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrders from './user-orders.reducer';
+import * as fromBillingCountriesReducer from './billing-countries.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: fromUserDetailsReducer.reducer,
     addresses: fromUserAddresses.reducer,
+    billingCountries: fromBillingCountriesReducer.reducer,
     payments: fromPaymentMethods.reducer,
     orders: fromUserOrders.reducer,
     order: fromOrderDetailsReducer.reducer,
