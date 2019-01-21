@@ -27,7 +27,7 @@ export type CMSComponentConfig = {
   }
 };
 
-export type layoutSections =
+export type LayoutSections =
   | 'header'
   | 'footer'
   | 'LandingPage2Template'
@@ -38,7 +38,7 @@ export type SlotGroup = {
 };
 
 export type LayoutSlotConfig = {
-  [section in layoutSections]: SlotGroup | LayoutSlotConfig
+  [section in LayoutSections]: SlotGroup | LayoutSlotConfig
 };
 
 export abstract class CmsConfig extends OccConfig implements AuthConfig {

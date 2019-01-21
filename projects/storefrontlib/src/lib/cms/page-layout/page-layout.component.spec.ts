@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { NgModule, Component } from '@angular/core';
 import { CmsService, CmsConfig, Page, ContentSlotData } from '@spartacus/core';
-import { of, Observable, empty } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { PageLayoutModule } from './page-layout.module';
 import { UrlTranslationService } from 'projects/core/src/routing/configurable-routes/url-translation/url-translation.service';
 import { By } from '@angular/platform-browser';
@@ -57,11 +57,7 @@ class MockCmsService {
   }
 
   getContentSlot(position): Observable<ContentSlotData> {
-    if (slots[position]) {
-      return of();
-    } else {
-      return empty();
-    }
+    return of(slots[position]);
   }
 }
 
