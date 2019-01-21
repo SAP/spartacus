@@ -26,8 +26,8 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
-  step: number;
-  done: boolean;
+  step = 1;
+  done = false;
 
   deliveryAddress: CheckoutAddress;
   paymentDetails: any;
@@ -37,7 +37,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   cart$: Observable<any>;
   tAndCToggler = false;
 
-  navs: CheckoutNavBarItem[];
+  navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -53,9 +53,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.step = 1;
-    this.done = false;
-    this.navs = this.initializeCheckoutNavBar();
     if (!this.cartDataService.getDetails) {
       this.cartService.loadDetails();
     }
