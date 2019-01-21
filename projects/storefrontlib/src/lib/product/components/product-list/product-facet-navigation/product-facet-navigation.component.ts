@@ -1,19 +1,11 @@
-import {
-  Component,
-  Input,
-  Output,
-  OnInit,
-  EventEmitter,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
-  styleUrls: ['./product-facet-navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-facet-navigation.component.scss']
 })
 export class ProductFacetNavigationComponent implements OnInit {
   @Input()
