@@ -5,7 +5,7 @@ import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-template',
-  templateUrl: './page-template.component.html'
+  templateUrl: './page-layout.component.html'
 })
 export class PageTemplateComponent implements OnInit {
   @Input() section;
