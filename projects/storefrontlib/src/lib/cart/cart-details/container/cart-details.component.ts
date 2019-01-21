@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',
-  styleUrls: ['./cart-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./cart-details.component.scss']
 })
 export class CartDetailsComponent implements OnInit {
   cart$;

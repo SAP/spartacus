@@ -45,9 +45,10 @@
     *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
     [quantity]="itemCount"
     [productCode]="product?.code"
+    [maxQuantity]="product.stock.stockLevel"
   ></cx-add-to-cart>
 </ng-container>
 
 <ng-container *cxOutlet="outlets.SHARE">
-  <a href="#" class="share btn-link"> Share </a>
+  <div><a href="#" class="share btn-link"> Share </a></div>
 </ng-container>

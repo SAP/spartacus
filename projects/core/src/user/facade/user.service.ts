@@ -18,7 +18,7 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.UserState>) {}
+  constructor(private store: Store<fromStore.StateWithUser>) {}
 
   /**
    * Returns a user
@@ -315,5 +315,19 @@ export class UserService {
    */
   getRegions(): Observable<Region[]> {
     return this.store.pipe(select(fromStore.getAllRegions));
+  }
+
+  /**
+   * Returns all billing countries
+   */
+  getAllBillingCountries(): Observable<Country[]> {
+    return this.store.pipe(select(fromStore.getAllBillingCountries));
+  }
+
+  /**
+   * Retrieves billing countries
+   */
+  loadBillingCountries() {
+    return this.store.dispatch(new fromStore.LoadBillingCountries());
   }
 }

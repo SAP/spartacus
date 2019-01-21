@@ -5,12 +5,12 @@ import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import { Address } from '../../../occ/occ-models/index';
-import { UserState, USER_FEATURE } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
 
 describe('User Addresses Selectors', () => {
-  let store: Store<UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
