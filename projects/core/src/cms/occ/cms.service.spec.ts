@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccCmsService } from '..';
+import { OccCmsService } from './cms.service';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
 import { CmsComponent, CMSPage, PageType } from '../../occ';
