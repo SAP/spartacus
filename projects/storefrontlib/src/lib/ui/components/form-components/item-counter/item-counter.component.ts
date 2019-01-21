@@ -105,6 +105,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     const { value } = event.target;
     if (value) {
       this.value = Number(value);
+      this.update.emit(this.value);
     }
   }
 

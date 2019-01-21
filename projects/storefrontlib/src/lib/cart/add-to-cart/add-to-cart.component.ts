@@ -22,7 +22,10 @@ export class AddToCartComponent implements OnInit {
   @Input()
   productCode;
   @Input()
-  quantity = 1;
+  quantity;
+
+  @Input()
+  maxQuantity;
 
   cartEntry$: Observable<any>;
   loaded$: Observable<boolean>;

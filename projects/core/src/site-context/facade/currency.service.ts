@@ -5,7 +5,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
-import { filter, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { Currency } from '../../occ/occ-models';
 import { WindowRef } from '../../window/window-ref';
 import { SiteContext } from './site-context.interface';
@@ -52,7 +52,16 @@ export class CurrencyService implements SiteContext<Currency> {
    * Sets the active language.
    */
   setActive(isocode: string) {
-    this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+    return this.store
+      .pipe(
+        select(fromStore.getActiveCurrency),
+        take(1)
+      )
+      .subscribe(activeCurrency => {
+        if (activeCurrency !== isocode) {
+          this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+        }
+      });
   }
 
   /**
