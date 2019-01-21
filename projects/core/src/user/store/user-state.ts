@@ -4,17 +4,15 @@ import {
   OrderHistoryList,
   User,
   Region,
-  Order
-} from '../../occ/occ-models/occ.models';
+  Order,
+  Country,
+  Title
+} from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
-}
-
-export interface DeliveryCountriesState {
-  entities: { [isocode: string]: any };
 }
 
 export interface UserState {
@@ -27,10 +25,6 @@ export interface UserState {
   order: OrderDetailsState;
   titles: TitlesState;
   regions: RegionsState;
-}
-
-export interface BillingCountriesState {
-  entities: { [isocode: string]: any };
 }
 
 export interface OrderDetailsState {
@@ -46,8 +40,28 @@ export interface RegionsState {
   entities: Region[];
 }
 
+export interface BillingCountryEntities {
+  [key: string]: Country;
+}
+
+export interface BillingCountriesState {
+  entities: BillingCountryEntities;
+}
+
+export interface DeliveryCountryEntities {
+  [key: string]: Country;
+}
+
+export interface DeliveryCountriesState {
+  entities: DeliveryCountryEntities;
+}
+
+export interface TitleEntities {
+  [key: string]: Title;
+}
+
 export interface TitlesState {
-  entities: { [code: string]: any };
+  entities: TitleEntities;
 }
 
 export interface UserAddressesState {

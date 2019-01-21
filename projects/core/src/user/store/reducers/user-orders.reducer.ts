@@ -49,7 +49,3 @@ export function reducer(
 
   return state;
 }
-
-export const getOrders = (state: UserOrdersState) => state.orders;
-export const getOrdersLoaded = (state: UserOrdersState) => state.loaded;
-export const getOrdersLoading = (state: UserOrdersState) => state.loading;

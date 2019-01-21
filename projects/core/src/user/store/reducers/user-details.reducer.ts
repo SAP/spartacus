@@ -22,5 +22,3 @@ export function reducer(
   }
   return state;
 }
-
-export const getDetails = (state: UserDetailsState) => state.details;
