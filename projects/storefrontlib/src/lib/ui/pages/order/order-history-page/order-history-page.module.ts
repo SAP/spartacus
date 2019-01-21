@@ -5,7 +5,7 @@ import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 
 import { OrderHistoryPageComponent } from './order-history-page.component';
 import { AuthGuard } from '@spartacus/core';
-import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { PageLayoutModule } from '../../../../cms/page-layout/page-layout.module';
 import { OrderHistoryModule } from '../../../../my-account/order/order-history/order-history.module';
 import { OutletRefModule } from '../../../../outlet';
 
@@ -22,7 +22,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     OrderHistoryModule,
     OutletRefModule
   ],

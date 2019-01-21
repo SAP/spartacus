@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-
 import { CartPageComponent } from './cart-page.component';
-import { PageTemplateModule } from '../../layout/page-template/page-template.module';
 import { CartComponentModule } from '../../../cart';
 
 const routes: Routes = [
@@ -21,7 +19,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     CartComponentModule
   ],
   declarations: [CartPageComponent],

@@ -6,7 +6,7 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { ProductPageComponent } from './product-page.component';
 
 import { ProductDetailsModule } from '../../../product';
-import { PageTemplateModule } from '../../layout/page-template/page-template.module';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 
 const routes: Routes = [
   {
@@ -27,7 +27,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     ProductDetailsModule
   ],
   declarations: [ProductPageComponent],

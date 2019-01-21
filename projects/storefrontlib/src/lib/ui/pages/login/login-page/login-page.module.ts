@@ -3,7 +3,8 @@ import { CmsPageGuards } from './../../../../cms/guards/cms-page.guard';
 import { NgModule } from '@angular/core';
 import { LoginPageComponent } from './login-page.component';
 import { NotAuthGuard, UrlTranslationModule } from '@spartacus/core';
-import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+
+import { PageLayoutModule } from '../../../../cms/page-layout/page-layout.module';
 import { LoginModule } from '../../../../user';
 
 const routes: Routes = [
@@ -18,7 +19,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     UrlTranslationModule,
-    PageTemplateModule,
+    PageLayoutModule,
     LoginModule
   ],
   declarations: [LoginPageComponent],

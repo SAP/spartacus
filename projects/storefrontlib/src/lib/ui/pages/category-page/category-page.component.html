@@ -1,4 +1,4 @@
-<cx-page-template>
+<cx-page-layout>
   <cx-product-list
     *ngIf="(template$ | async) !== 'CategoryPageTemplate'"
     [gridMode]="gridMode$ | async"
@@ -7,4 +7,4 @@
     [brandCode]="brandCode | async"
   >
   </cx-product-list>
-</cx-page-template>
+</cx-page-layout>

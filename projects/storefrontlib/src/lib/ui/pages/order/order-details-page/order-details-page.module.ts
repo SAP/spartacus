@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrderDetailsPageComponent } from './order-details-page.component';
 import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { AuthGuard } from '@spartacus/core';
-import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { PageLayoutModule } from '../../../../cms/page-layout/page-layout.module';
 import { OrderDetailsModule } from 'projects/storefrontlib/src/lib/my-account/order/order-details/order-details.module';
 import { OutletRefModule } from 'projects/storefrontlib/src/lib/outlet';
 
@@ -22,7 +22,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     OutletRefModule,
     OrderDetailsModule
   ],

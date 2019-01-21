@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PaymentDetailsPageComponent } from './payment-details-page.component';
 import { AuthGuard } from '@spartacus/core';
 import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
-import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { PageLayoutModule } from '../../../../cms/page-layout/page-layout.module';
 import { PaymentMethodsModule } from '../../../../my-account/payment-methods/payment-methods.module';
 
 const routes: Routes = [
@@ -21,7 +21,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     PaymentMethodsModule
   ],
   declarations: [PaymentDetailsPageComponent],

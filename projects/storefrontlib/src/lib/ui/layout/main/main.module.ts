@@ -13,7 +13,6 @@ import { HeaderModule } from './../header/header.module';
 import { FooterComponent } from '../footer/footer.component';
 import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 import { PwaModule } from './../../../pwa/pwa.module';
-import { PageTemplateModule } from '../page-template/page-template.module';
 import { OutletModule } from '../../../outlet';
 @NgModule({
   imports: [
@@ -26,7 +25,6 @@ import { OutletModule } from '../../../outlet';
     UiFrameworkModule,
     OutletModule,
     OutletRefModule,
-    PageTemplateModule,
     PwaModule
   ],
   declarations: [StorefrontComponent, FooterComponent],

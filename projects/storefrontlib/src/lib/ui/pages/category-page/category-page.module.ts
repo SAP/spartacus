@@ -5,8 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { CategoryPageComponent } from './category-page.component';
-import { PageTemplateModule } from '../../layout/page-template/page-template.module';
+
 import { ProductListModule } from '../../../product';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 
 const routes: Routes = [
   {
@@ -54,7 +55,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     ProductListModule
   ],
   declarations: [CategoryPageComponent],

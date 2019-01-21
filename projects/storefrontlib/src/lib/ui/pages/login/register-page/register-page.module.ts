@@ -6,7 +6,7 @@ import { RegisterPageComponent } from './register-page.component';
 
 import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { NotAuthGuard } from '@spartacus/core';
-import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { PageLayoutModule } from '../../../../cms/page-layout/page-layout.module';
 import { UserComponentModule } from '../../../../user';
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     UserComponentModule
   ],
   declarations: [RegisterPageComponent],

@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../../../cms/guards/cms-page.guard';
 import { AddressBookPageComponent } from './address-book-page.component';
 import { AuthGuard } from '@spartacus/core';
-import { PageTemplateModule } from '../../../layout/page-template/page-template.module';
+import { PageLayoutModule } from '../../../../cms/page-layout/page-layout.module';
 import { AddressBookModule } from '../../../../my-account/address-book/address-book.module';
 
 const routes: Routes = [
@@ -22,7 +22,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    PageTemplateModule,
+    PageLayoutModule,
     AddressBookModule
   ],
   declarations: [AddressBookPageComponent],
