@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
-
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
 import { LanguageService } from './language.service';

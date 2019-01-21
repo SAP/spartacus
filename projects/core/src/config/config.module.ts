@@ -25,6 +25,18 @@ export function provideConfig(config: any = {}): Provider {
   return { provide: ConfigChunk, useValue: config, multi: true };
 }
 
+export function provideConfigFactory(
+  configFactory: Function,
+  deps?: any[]
+): Provider {
+  return {
+    provide: ConfigChunk,
+    useFactory: configFactory,
+    multi: true,
+    deps: deps
+  };
+}
+
 export function configurationFactory(
   configChunks: any[],
   configValidators: ConfigValidator[]
@@ -41,10 +53,20 @@ export function configurationFactory(
   declarations: []
 })
 export class ConfigModule {
-  static withConfig(config: any): ModuleWithProviders {
+  static withConfig(config: object): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
       providers: [provideConfig(config)]
+    };
+  }
+
+  static withConfigFactory(
+    configFactory: Function,
+    deps?: any[]
+  ): ModuleWithProviders {
+    return {
+      ngModule: ConfigModule,
+      providers: [provideConfigFactory(configFactory, deps)]
     };
   }
 
