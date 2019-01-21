@@ -1,13 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 const COUNTER_CONTROL_ACCESSOR = {
@@ -52,10 +43,13 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     this.writeValue(this.min || 0);
   }
 
-  constructor() {}
+  constructor() {
+  }
 
-  onTouch = () => {};
-  onModelChange = (_rating: number) => {};
+  onTouch = () => {
+  };
+  onModelChange = (_rating: number) => {
+  };
 
   /**
    * If value is too small it will be set to min, if is too big it will be set to max.
@@ -64,8 +58,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     return incomingValue < this.min || !this.min
       ? this.min
       : incomingValue > this.max || !this.max
-      ? this.max
-      : incomingValue;
+        ? this.max
+        : incomingValue;
   }
 
   /**

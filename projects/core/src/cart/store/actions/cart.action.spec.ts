@@ -1,5 +1,11 @@
 import { Cart } from '../../../occ/occ-models/index';
 import * as fromCart from './../actions/cart.action';
+import { CART_DATA } from '../cart-state';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
 
 const cart: Cart = {
   code: 'xxx',
@@ -23,7 +29,8 @@ describe('Cart Actions', () => {
         const action = new fromCart.CreateCart(userId);
         expect({ ...action }).toEqual({
           type: fromCart.CREATE_CART,
-          payload: userId
+          payload: userId,
+          meta: loadMeta(CART_DATA)
         });
       });
     });
@@ -35,7 +42,8 @@ describe('Cart Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCart.CREATE_CART_FAIL,
-          payload: error
+          payload: error,
+          meta: failMeta(CART_DATA, error)
         });
       });
     });
@@ -45,7 +53,8 @@ describe('Cart Actions', () => {
         const action = new fromCart.CreateCartSuccess(cart);
         expect({ ...action }).toEqual({
           type: fromCart.CREATE_CART_SUCCESS,
-          payload: cart
+          payload: cart,
+          meta: successMeta(CART_DATA)
         });
       });
     });
@@ -62,7 +71,8 @@ describe('Cart Actions', () => {
         });
         expect({ ...action }).toEqual({
           type: fromCart.LOAD_CART,
-          payload: { userId: userId, cartId: cartId }
+          payload: { userId: userId, cartId: cartId },
+          meta: loadMeta(CART_DATA)
         });
       });
     });
@@ -74,7 +84,8 @@ describe('Cart Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCart.LOAD_CART_FAIL,
-          payload: error
+          payload: error,
+          meta: failMeta(CART_DATA, error)
         });
       });
     });
@@ -84,7 +95,8 @@ describe('Cart Actions', () => {
         const action = new fromCart.LoadCartSuccess(cart);
         expect({ ...action }).toEqual({
           type: fromCart.LOAD_CART_SUCCESS,
-          payload: cart
+          payload: cart,
+          meta: successMeta(CART_DATA)
         });
       });
     });
