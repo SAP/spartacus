@@ -1,24 +1,48 @@
-import { async } from '@angular/core/testing';
+import { async, TestBed, ComponentFixture } from '@angular/core/testing';
+import { Component } from '@angular/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
+import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
 import { AddToHomeScreenComponent } from './add-to-home-screen.component';
 
-class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {}
+@Component({
+  selector: 'cx-add-to-home',
+  template: 'test-add-to-home'
+})
+class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
+  constructor(protected addToHomeScreenService: AddToHomeScreenService) {
+    super(addToHomeScreenService);
+  }
+}
+
+class MockAddToHomeScreenService {
+  firePrompt = createSpy();
+  canPrompt$ = of(true);
+}
 
 describe('AddToHomeScreenComponent', () => {
   let component: AddToHomeScreenComponent;
-  let mockAddToHomeScreenService: any;
+  let fixture: ComponentFixture<ExampleAddToHomeScreenComponent>;
+  let mockAddToHomeScreenService: MockAddToHomeScreenService;
 
   beforeEach(async(() => {
-    mockAddToHomeScreenService = {
-      firePrompt: createSpy(),
-      canPrompt$: of(true)
-    };
+    TestBed.configureTestingModule({
+      declarations: [ExampleAddToHomeScreenComponent],
+      providers: [
+        {
+          provide: AddToHomeScreenService,
+          useClass: MockAddToHomeScreenService
+        }
+      ]
+    }).compileComponents();
+
+    mockAddToHomeScreenService = TestBed.get(AddToHomeScreenService);
   }));
 
   beforeEach(() => {
-    component = new ExampleAddToHomeScreenComponent(mockAddToHomeScreenService);
+    fixture = TestBed.createComponent(ExampleAddToHomeScreenComponent);
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {
