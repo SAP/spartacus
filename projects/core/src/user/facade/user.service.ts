@@ -18,7 +18,7 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.UserState>) {}
+  constructor(private store: Store<fromStore.StateWithUser>) {}
 
   /**
    * Returns a user
