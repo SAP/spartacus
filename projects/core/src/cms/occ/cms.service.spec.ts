@@ -4,11 +4,11 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccCmsService } from './occ-cms.service';
+import { OccCmsService } from './cms.service';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
-import { CmsComponent, CMSPage, PageType } from '../../occ/occ-models/index';
-import { PageContext } from '../../routing/index';
+import { CmsComponent, CMSPage, PageType } from '../../occ';
+import { PageContext } from '../../routing';
 
 const comps: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },

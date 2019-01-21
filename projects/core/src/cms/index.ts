@@ -3,7 +3,7 @@ export * from './model/page.model';
 export * from './model/node-item.model';
 export * from './model/content-slot.model';
 export * from './occ/index';
-export * from './occ/cms-occ.module';
+export * from './services';
 
 export * from './store/cms-state';
 export * from './store/actions/index';
