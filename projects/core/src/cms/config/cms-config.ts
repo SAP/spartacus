@@ -27,12 +27,18 @@ export type CMSComponentConfig = {
   }
 };
 
-export type PageTemplates = 'LandingPage2Template' | string;
+export type layoutSections =
+  | 'header'
+  | 'footer'
+  | 'LandingPage2Template'
+  | string;
 
-export type PageTemplateConfig = {
-  [CMSComponent in PageTemplates]?: {
-    slots: string[];
-  }
+export type SlotGroup = {
+  slots?: string[];
+};
+
+export type LayoutSlotConfig = {
+  [section in layoutSections]: SlotGroup | LayoutSlotConfig
 };
 
 export abstract class CmsConfig extends OccConfig implements AuthConfig {
@@ -48,5 +54,5 @@ export abstract class CmsConfig extends OccConfig implements AuthConfig {
 
   cmsComponents?: CMSComponentConfig;
 
-  pageTemplates?: PageTemplateConfig;
+  layoutSlots?: LayoutSlotConfig;
 }

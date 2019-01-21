@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
-import { CmsService, Page, CmsConfig } from '@spartacus/core';
+import { Component, Input } from '@angular/core';
+import {
+  CmsService,
+  Page,
+  CmsConfig,
+  SlotGroup,
+  SlotList
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
@@ -8,6 +14,8 @@ import { map, filter } from 'rxjs/operators';
   templateUrl: './page-template.component.html'
 })
 export class PageTemplateComponent {
+  @Input() section;
+
   constructor(private cms: CmsService, private config: CmsConfig) {}
 
   get slots$(): Observable<any[]> {
@@ -15,15 +23,19 @@ export class PageTemplateComponent {
   }
 
   get templateName$(): Observable<string> {
-    return this.page$.pipe(map((page: Page) => page.template));
+    return this.page$.pipe(
+      filter(Boolean),
+      map((page: Page) => page.template)
+    );
   }
 
   protected get mainSlots$(): Observable<any[]> {
     return this.page$.pipe(
       map((page: Page) => {
         const pageSlots = this.getSlots(page.template);
+        console.log(pageSlots);
         if (pageSlots) {
-          return this.config.pageTemplates[page.template].slots;
+          return pageSlots.slots;
         } else {
           console.warn('no template found for', page.template);
           console.log('The content provides the following slots', page.slots);
@@ -36,14 +48,21 @@ export class PageTemplateComponent {
     return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
-  protected getSlots(templateUid: string): string[] {
-    if (
-      !!this.config.pageTemplates[templateUid] &&
-      !!this.config.pageTemplates[templateUid].slots
-    ) {
-      return this.config.pageTemplates[templateUid].slots;
+  protected getSlots(templateUid: string): SlotGroup {
+    if (this.section) {
+      return this.config.layoutSlots[templateUid] &&
+        this.config.layoutSlots[templateUid][this.section] &&
+        this.config.layoutSlots[templateUid][this.section].slots
+        ? this.config.layoutSlots[templateUid][this.section]
+        : this.config.layoutSlots[this.section];
     } else {
-      return null;
+      if (
+        this.config.layoutSlots[templateUid] &&
+        this.config.layoutSlots[templateUid].slots
+      ) {
+        return this.config.layoutSlots[templateUid];
+      }
     }
+    return null;
   }
 }

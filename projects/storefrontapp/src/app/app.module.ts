@@ -35,7 +35,7 @@ if (!environment.production) {
           }
         }
       },
-      pageTemplates: {
+      layoutSlots: {
         LandingPage2Template: {
           slots: [
             'Section1',
