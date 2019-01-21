@@ -27,10 +27,6 @@ export interface UserState {
   regions: RegionsState;
 }
 
-export interface BillingCountriesState {
-  entities: { [isocode: string]: any };
-}
-
 export interface OrderDetailsState {
   order: Order;
 }
@@ -42,6 +38,14 @@ export interface UserPaymentMethodsState {
 
 export interface RegionsState {
   entities: Region[];
+}
+
+export interface BillingCountryEntities {
+  [key: string]: Country;
+}
+
+export interface BillingCountriesState {
+  entities: BillingCountryEntities;
 }
 
 export interface DeliveryCountryEntities {
