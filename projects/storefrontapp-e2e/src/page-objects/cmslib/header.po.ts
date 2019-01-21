@@ -60,4 +60,18 @@ export class Header {
       .element(by.css('.cx-login-status__greet'))
       .isPresent();
   }
+
+  async selectCategory(categoryName: string) {
+    await this.header
+      .all(by.cssContainingText('.cx-navigation__link', categoryName))
+      .first()
+      .click();
+  }
+
+  async selectChildCategory(categoryName: string) {
+    await this.header
+      .all(by.cssContainingText('.cx-navigation__child-link', categoryName))
+      .first()
+      .click();
+  }
 }

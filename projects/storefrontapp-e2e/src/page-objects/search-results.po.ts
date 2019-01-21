@@ -46,6 +46,10 @@ export class SearchResultsPage extends AppPage {
     by.css('.page-item:nth-child(4) .page-link')
   );
 
+  readonly paginationLastPageBtn: ElementFinder = this.pagination.element(
+    by.css('.page-item:nth-child(6) .page-link')
+  );
+
   readonly viewModeSwitcher: ElementFinder = element(
     by.css('cx-product-view > div > div')
   );
@@ -54,8 +58,12 @@ export class SearchResultsPage extends AppPage {
     by.css('.cx-search-facet-checkbox')
   );
 
-  readonly clearFacets: ElementFinder = this.page.element(
+  readonly clearSpecificFacets: ElementArrayFinder = this.page.all(
     by.css('.cx-search-facet-filter__pill .close')
+  );
+
+  readonly showMoreLessStoresButton: ElementFinder = this.page.element(
+    by.css('.cx-search-facet-list__toggle-button')
   );
 
   readonly sortingSelect: ElementFinder = this.page.element(
@@ -102,6 +110,13 @@ export class SearchResultsPage extends AppPage {
     await E2EUtil.selectNgSelectOptionByText(this.sortingSelect, value);
   }
 
+  async selectProductByName(productName: string) {
+    await this.page
+      .all(by.cssContainingText('.cx-product-search-list__name', productName))
+      .first()
+      .click();
+  }
+
   getProductQuantitySpan(product: ElementFinder): ElementFinder {
     return product.element(
       by.css('span[class="entry-quantity ng-star-inserted"]')
@@ -118,5 +133,9 @@ export class SearchResultsPage extends AppPage {
 
   getSingleFilterFacet(id: number) {
     return this.facets.get(id);
+  }
+
+  getSingleFacetToClear(id: number) {
+    return this.clearSpecificFacets.get(id);
   }
 }
