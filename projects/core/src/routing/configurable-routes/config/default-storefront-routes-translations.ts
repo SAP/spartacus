@@ -45,6 +45,9 @@ export const defaultStorefrontRoutesTranslations: {
       paths: ['my-account/orders/:orderCode'],
       paramsMapping: { orderCode: 'code' }
     },
+    addressBook: {
+      paths: ['my-account/address-book']
+    },
     pageNotFound: { paths: ['**'] }
   },
 
