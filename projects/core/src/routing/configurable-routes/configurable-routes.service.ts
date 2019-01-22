@@ -59,16 +59,11 @@ export class ConfigurableRoutesService {
    *          More than one wildcard Route is a sign of bad config, so redundant copies are removed.
    */
   private moveWildcardRouteToEnd(routes: Routes): Routes {
+    const firstWildcardRoute = routes.find(route => route.path === '**');
     const nonWildcardRoutes = routes.filter(route => route.path !== '**');
-    const firstWildcardRouteIndex = routes.findIndex(
-      route => route.path === '**'
-    );
-
-    if (firstWildcardRouteIndex !== -1) {
-      const wildcardRoute = routes[firstWildcardRouteIndex];
-      return nonWildcardRoutes.concat([wildcardRoute]);
-    }
-    return nonWildcardRoutes;
+    return firstWildcardRoute
+      ? nonWildcardRoutes.concat([firstWildcardRoute])
+      : nonWildcardRoutes;
   }
 
   getNestedRoutesTranslations(
