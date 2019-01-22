@@ -39,5 +39,6 @@ export interface StorefrontRoutesTranslations {
   sale?: StorefrontRouteTranslation;
   orders?: StorefrontRouteTranslation;
   orderDetails?: StorefrontRouteTranslation;
+  addressBook?: StorefrontRouteTranslation;
   pageNotFound?: StorefrontRouteTranslation;
 }
