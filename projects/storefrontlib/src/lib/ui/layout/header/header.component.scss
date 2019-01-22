@@ -88,7 +88,10 @@ header {
     color: var(--cx-color, var(--cx-g-color-text));
     padding: 0 $space * 2;
   }
-
+  .SiteLinks {
+    --cx-display: block;
+    --cx-padding: 4px 0;
+  }
   .SiteLogin {
     padding: $space $space * 2;
   }
@@ -102,20 +105,6 @@ header {
   .SiteLinks {
     flex: 100%;
     order: 2;
-  }
-
-  .SiteContext {
-    > * {
-      display: inline-block;
-      margin-top: $space;
-      margin-right: $space;
-
-      &:not(:first-child) {
-        padding-left: $space * 2;
-        border-left: 1px solid
-          var(--cx-border-color, var(--cx-g-color-secondary));
-      }
-    }
   }
 
   :host:not(.mobile-nav) {

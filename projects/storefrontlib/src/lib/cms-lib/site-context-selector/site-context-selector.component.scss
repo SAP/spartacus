@@ -1,9 +1,24 @@
+@import 'theme';
+@import 'functions';
 @import 'mixins';
 
+$space: 8px;
 $caretSize: 7px;
 :host {
   position: relative;
-  margin-right: 10px;
+  margin: var(--cx-margin, 8px);
+
+  @include media-breakpoint-down(md) {
+    display: inline-block;
+
+    &:first-child {
+      margin-left: 0;
+    }
+    &:not(:first-child) {
+      padding-left: 16px;
+      border-left: 1px solid var(--cx-border-color, var(--cx-g-color-secondary));
+    }
+  }
 }
 
 label {
