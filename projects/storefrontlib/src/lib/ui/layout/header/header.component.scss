@@ -88,6 +88,11 @@ header {
   .SiteLogin {
     padding: $space $space * 2;
   }
+
+  .SearchBox {
+    margin: 0 0 0 auto;
+  }
+
   .SiteLogin,
   .NavigationBar {
     order: 1;
