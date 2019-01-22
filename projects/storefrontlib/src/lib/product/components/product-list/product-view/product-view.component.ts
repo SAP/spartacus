@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  ChangeDetectionStrategy,
-  EventEmitter
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 export enum ViewModes {
   Grid = 'grid',
@@ -14,8 +8,7 @@ export enum ViewModes {
 @Component({
   selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
-  styleUrls: ['./product-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-view.component.scss']
 })
 export class ProductViewComponent {
   @Input()

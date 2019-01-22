@@ -1,4 +1,3 @@
-import { AppPage } from './app.po';
 import {
   browser,
   ElementFinder,
@@ -6,7 +5,10 @@ import {
   by,
   element
 } from 'protractor';
+
 import { E2EUtil } from '../e2e-util';
+
+import { AppPage } from './app.po';
 
 export class SearchResultsPage extends AppPage {
   readonly YPAGE = 'cx-category-page';
@@ -25,7 +27,7 @@ export class SearchResultsPage extends AppPage {
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
 
   readonly pagination: ElementFinder = this.page.element(
-    by.tagName('cx-pagination')
+    by.css('cx-pagination:first-of-type')
   );
 
   readonly paginationNextPageBtn: ElementFinder = this.pagination.element(
@@ -44,16 +46,24 @@ export class SearchResultsPage extends AppPage {
     by.css('.page-item:nth-child(4) .page-link')
   );
 
+  readonly paginationLastPageBtn: ElementFinder = this.pagination.element(
+    by.css('.page-item:nth-child(6) .page-link')
+  );
+
   readonly viewModeSwitcher: ElementFinder = element(
-    by.css('.cx-product-search__sorting--top cx-product-view > div > div')
+    by.css('cx-product-view > div > div')
   );
 
   readonly facets: ElementArrayFinder = this.page.all(
     by.css('.cx-search-facet-checkbox')
   );
 
-  readonly clearFacets: ElementFinder = this.page.element(
+  readonly clearSpecificFacets: ElementArrayFinder = this.page.all(
     by.css('.cx-search-facet-filter__pill .close')
+  );
+
+  readonly showMoreLessStoresButton: ElementFinder = this.page.element(
+    by.css('.cx-search-facet-list__toggle-button')
   );
 
   readonly sortingSelect: ElementFinder = this.page.element(
@@ -100,6 +110,13 @@ export class SearchResultsPage extends AppPage {
     await E2EUtil.selectNgSelectOptionByText(this.sortingSelect, value);
   }
 
+  async selectProductByName(productName: string) {
+    await this.page
+      .all(by.cssContainingText('.cx-product-search-list__name', productName))
+      .first()
+      .click();
+  }
+
   getProductQuantitySpan(product: ElementFinder): ElementFinder {
     return product.element(
       by.css('span[class="entry-quantity ng-star-inserted"]')
@@ -116,5 +133,9 @@ export class SearchResultsPage extends AppPage {
 
   getSingleFilterFacet(id: number) {
     return this.facets.get(id);
+  }
+
+  getSingleFacetToClear(id: number) {
+    return this.clearSpecificFacets.get(id);
   }
 }

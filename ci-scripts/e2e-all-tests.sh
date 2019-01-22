@@ -22,11 +22,9 @@ body='{
         "config": {
             "jobs": {
                 "include": [{
-                        "stage": "Validation",
-                        "script": "./ci-scripts/validate.sh",
-                    "name": "Validation" },
-                    { "script": "./ci-scripts/lint.sh",
-                    "name": "Lint" },
+                        "stage": "Validation/Lint",
+                        "script": "./ci-scripts/validate-lint.sh",
+                    "name": "Validation/Lint" },
                     { "stage": "Unit tests",
                         "script": "./ci-scripts/unit-tests-sonar.sh",
                     "name": "Unit tests/Sonar scan" },

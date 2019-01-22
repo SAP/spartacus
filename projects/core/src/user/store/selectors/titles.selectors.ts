@@ -1,41 +1,42 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers/index';
-import * as fromReducer from './../reducers/titles.reducer';
-import { UserState, TitlesState } from '../user-state';
+
+import {
+  UserState,
+  TitlesState,
+  StateWithUser,
+  TitleEntities
+} from '../user-state';
 import { Title } from '../../../occ/occ-models/index';
+import { getUserState } from './feature.selector';
 
 export const getTitlesState: MemoizedSelector<
-  any,
+  StateWithUser,
   TitlesState
 > = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.titles
 );
 
 export const getTitlesEntites: MemoizedSelector<
-  any,
-  { [code: string]: any }
+  StateWithUser,
+  TitleEntities
 > = createSelector(
   getTitlesState,
-  fromReducer.getTitlesEntites
+  (state: TitlesState) => state.entities
 );
 
-export const getAllTitles: MemoizedSelector<any, Title[]> = createSelector(
+export const getAllTitles: MemoizedSelector<
+  StateWithUser,
+  Title[]
+> = createSelector(
   getTitlesEntites,
-  entites => {
-    return Object.keys(entites).map(code => entites[code]);
-  }
+  entites => Object.keys(entites).map(code => entites[code])
 );
 
-export const titleSelectorFactory = (code): MemoizedSelector<any, Title> => {
-  return createSelector(
+export const titleSelectorFactory = (
+  code: string
+): MemoizedSelector<StateWithUser, Title> =>
+  createSelector(
     getTitlesEntites,
-    entities => {
-      if (Object.keys(entities).length !== 0) {
-        return entities[code];
-      } else {
-        return null;
-      }
-    }
+    entities => (Object.keys(entities).length !== 0 ? entities[code] : null)
   );
-};
