@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { CxApiService } from './cx-api.service';
 
-import { AuthService } from '../auth';
-import { CmsService } from '../cms';
-import { RoutingService } from '../routing';
-import { LanguageService, CurrencyService } from '../site-context';
+import { CxApiService } from './cx-api.service';
+import { AuthService } from '../auth/index';
+import { CmsService } from '../cms/index';
+import { RoutingService } from '../routing/index';
+import { LanguageService, CurrencyService } from '../site-context/index';
 import {
   ProductService,
   ProductSearchService,
   ProductReviewService
-} from '../product';
+} from '../product/index';
 
 class MockAuthService {}
 class MockCmsService {}

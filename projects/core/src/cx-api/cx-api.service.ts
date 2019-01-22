@@ -1,14 +1,15 @@
 import { Optional } from '@angular/core';
-import { AuthService } from '../auth';
-import { CmsService } from '../cms';
-import { RoutingService } from '../routing';
-import { LanguageService, CurrencyService } from '../site-context';
+
+import { AuthService } from '../auth/index';
+import { CmsService } from '../cms/index';
+import { RoutingService } from '../routing/index';
+import { LanguageService, CurrencyService } from '../site-context/index';
 import {
   ProductService,
   ProductSearchService,
   ProductReviewService
-} from '../product';
-import { UserService } from '../user';
+} from '../product/index';
+import { UserService } from '../user/index';
 
 export class CxApiService {
   constructor(
