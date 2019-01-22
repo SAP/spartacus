@@ -13,7 +13,6 @@ import { StorefrontModuleConfig } from './storefront-config';
 
 import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
-import { CxApiModule } from './cx-api/cx-api.module';
 import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 
@@ -28,7 +27,6 @@ import { UiModule, UiFrameworkModule } from './ui/index';
     UiModule,
     UiFrameworkModule,
     ConfigModule.forRoot(),
-    CxApiModule,
     SmartEditModule
   ],
   exports: [UiModule],
