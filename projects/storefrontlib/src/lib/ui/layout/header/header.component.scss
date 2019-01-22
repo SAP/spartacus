@@ -58,16 +58,28 @@ header {
 }
 
 @include media-breakpoint-up(lg) {
-  header {
-    padding: 0 $space;
-  }
-
   .cx-hamburger {
     display: none;
   }
 
   .SiteLinks {
     text-align: right;
+  }
+}
+
+header {
+  padding: 0 1.5rem;
+}
+
+@include media-breakpoint-down(md) {
+  header {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+@include media-breakpoint-only(xs) {
+  header {
+    padding: 0;
   }
 }
 
