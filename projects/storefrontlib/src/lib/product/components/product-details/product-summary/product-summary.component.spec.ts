@@ -1,8 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
-import { AddToCartModule } from '../../../../cart/add-to-cart/add-to-cart.module';
+import { Component, Input } from '@angular/core';
+import {
+  OutletDirective,
+  OutletService
+} from 'projects/storefrontlib/src/lib/outlet';
 import { FormComponentsModule } from './../../../../ui/components/form-components/form-components.module';
-import { OutletDirective } from '../../../../outlet';
+
+@Component({
+  selector: 'cx-add-to-cart',
+  template: '<button>add to cart</button>'
+})
+export class MockAddToCartComponent {
+  @Input() productCode: string;
+  @Input() quantity: number;
+  @Input() maxQuantity: number;
+}
 
 describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
@@ -10,8 +23,13 @@ describe('ProductSummaryComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddToCartModule, FormComponentsModule],
-      declarations: [ProductSummaryComponent, OutletDirective]
+      imports: [FormComponentsModule],
+      declarations: [
+        ProductSummaryComponent,
+        MockAddToCartComponent,
+        OutletDirective
+      ],
+      providers: [OutletService]
     }).compileComponents();
   }));
 
