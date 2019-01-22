@@ -6,4 +6,10 @@ a {
   &:hover {
     @include var-color('color', 'primary');
   }
+
+  &.disabled {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    opacity: 0.8;
+  }
 }
