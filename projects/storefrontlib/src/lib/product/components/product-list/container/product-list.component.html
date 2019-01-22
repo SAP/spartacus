@@ -15,10 +15,10 @@
             ></cx-product-facet-navigation>
           </div>
           <div class="col-12 col-lg-9">
-            <div class="cx-product-search__sorting--top">
+            <div class="cx-sorting top">
               <div class="row">
                 <div class="col-12 col-lg-4 mr-auto">
-                  <div class="form-group cx-product-search__dropdown">
+                  <div class="form-group cx-sort-dropdown">
                     <cx-sorting
                       [sortOptions]="model.sorts"
                       (sortListEvent)="sortList($event)"
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-auto">
                   <div
-                    class="cx-product-search__pagination"
+                    class="cx-pagination"
                     aria-label="product search pagination"
                   >
                     <cx-pagination
@@ -51,7 +51,7 @@
                 </div>
               </div>
             </div>
-            <div class="cx-product-search__item--container">
+            <div class="cx-product-container">
               <div *ngIf="grid.mode === 'grid'" class="row">
                 <cx-product-grid-item
                   *ngFor="let product of model?.products"
@@ -68,10 +68,10 @@
                 ></cx-product-list-item>
               </ng-template>
             </div>
-            <div class="cx-product-search__sorting--bottom">
+            <div class="cx-sorting bottom">
               <div class="row">
                 <div class="col-12 col-lg-4 mr-auto">
-                  <div class="form-group cx-product-search__dropdown">
+                  <div class="form-group cx-sort-dropdown">
                     <cx-sorting
                       [sortOptions]="model.sorts"
                       (sortListEvent)="sortList($event)"
@@ -81,7 +81,7 @@
                   </div>
                 </div>
                 <div class="col-auto" aria-label="product search pagination">
-                  <div class="cx-product-search__pagination">
+                  <div class="cx-pagination">
                     <cx-pagination
                       [pagination]="model.pagination"
                       (viewPageEvent)="viewPage($event)"
