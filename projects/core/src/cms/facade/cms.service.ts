@@ -5,7 +5,7 @@ import { filter, tap, map, take } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
 import { ContentSlotData } from '../model/content-slot.model';
-import { DefaultPageService } from '../occ/default-page.service';
+import { DefaultPageService } from '../services/default-page.service';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
 
