@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { CartService } from '@spartacus/core';
@@ -15,7 +15,6 @@ import {
   Component,
   DebugElement,
   Input,
-  NO_ERRORS_SCHEMA,
   Pipe,
   PipeTransform
 } from '@angular/core';
@@ -60,6 +59,8 @@ class MockCartItemComponent {
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  parent: FormGroup;
 }
 
 @Pipe({
@@ -89,7 +90,6 @@ describe('AddedToCartDialogComponent', () => {
         MockCartItemComponent,
         MockTranslateUrlPipe
       ],
-      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: NgbActiveModal,
