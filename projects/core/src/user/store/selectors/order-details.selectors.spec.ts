@@ -3,10 +3,10 @@ import { Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import { UserState, USER_FEATURE } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 describe('Order Details Selectors', () => {
-  let store: Store<UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

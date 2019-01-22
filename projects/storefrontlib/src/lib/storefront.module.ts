@@ -6,14 +6,14 @@ import {
   provideConfig,
   RoutingModule,
   StateModule,
-  SmartEditModule
+  SmartEditModule,
+  CxApiModule
 } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
 
 import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
-import { CxApiModule } from './cx-api/cx-api.module';
 import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 
