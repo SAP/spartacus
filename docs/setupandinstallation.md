@@ -29,9 +29,11 @@ Note: The latest release of SAP Commerce Cloud is recommended.
 In the following procedure, we create a new Angular application with the name `mystore`.
 
 1. Generate a new Angular application using the Angular CLI, as follows:
+
    ```
    $ ng new mystore --style=scss
    ```
+
 
 2. When prompted if you would like add Angular routing, enter `y` for yes.
 

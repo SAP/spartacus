@@ -1,11 +1,13 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 import { BannerComponent } from './banner.component';
+import { CmsResponsiveBannerComponentMedia } from '@spartacus/core';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-responsive-banner',
   templateUrl: './responsive-banner.component.html',
-  styleUrls: ['./responsive-banner.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./responsive-banner.component.scss']
 })
 export class ResponsiveBannerComponent extends BannerComponent {
   // TODO: move to a more generic location
@@ -17,32 +19,33 @@ export class ResponsiveBannerComponent extends BannerComponent {
     { code: 'widescreen', width: 1200 }
   ];
 
-  getImageUrl(): string {
-    return this.hasImage() ? this.getImage().url : '';
-  }
-
   getClass(): string {
-    return 'responsive-banner ' + this.uid;
+    return 'responsive-banner ' + this.component.uid;
   }
 
-  private getImage(): any {
-    return this.component.media['desktop'];
+  getImageUrl(): Observable<string> {
+    return this.component.data$.pipe(
+      map(data =>
+        BannerComponent.hasMedia(data)
+          ? (<CmsResponsiveBannerComponentMedia>data.media).desktop.url
+          : ''
+      )
+    );
   }
 
-  getResponsiveSrcset(): string {
-    let srcset = '';
-    for (const format of this.formats) {
-      srcset += this.getImageSrcSet(format.code, format.width + 'w');
-    }
-    return srcset;
-  }
-
-  private getImageSrcSet(format: string, width: string): string {
-    let src = '';
-    const image = this.component.media[format];
-    if (image) {
-      src += this.getBaseUrl() + image.url + ' ' + width + ', ';
-    }
-    return src;
+  getResponsiveSrcSet(): Observable<string> {
+    return this.component.data$.pipe(
+      map(data => {
+        return this.formats.reduce((srcset, format) => {
+          if (typeof data.media[format.code] !== 'undefined') {
+            return (srcset += `${this.getBaseUrl()}${
+              data.media[format.code].url
+            } ${format.width}w, `);
+          } else {
+            return srcset;
+          }
+        }, '');
+      })
+    );
   }
 }

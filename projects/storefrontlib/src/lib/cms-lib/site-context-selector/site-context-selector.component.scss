@@ -1,0 +1,49 @@
+@import 'mixins';
+
+$caretSize: 7px;
+:host {
+  position: relative;
+  margin-right: 10px;
+}
+
+label {
+  display: inline;
+  span {
+    @include sr-only();
+  }
+  &::after {
+    content: '';
+
+    border: solid 2px currentColor;
+    border-top: 0;
+    border-left: 0;
+
+    width: $caretSize;
+    height: $caretSize;
+    right: $caretSize / 2;
+    top: $caretSize / 2;
+
+    position: absolute;
+    display: block;
+    z-index: 0;
+
+    transform: rotate(45deg);
+  }
+}
+
+select {
+  color: inherit;
+  background-color: transparent;
+  border: 0;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  padding-right: $caretSize * 2;
+
+  outline: none;
+
+  position: relative;
+  z-index: 1;
+}

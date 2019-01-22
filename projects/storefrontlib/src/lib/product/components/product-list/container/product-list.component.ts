@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -14,8 +8,7 @@ import { ProductSearchService } from '@spartacus/core';
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnChanges, OnInit {
   @Input()

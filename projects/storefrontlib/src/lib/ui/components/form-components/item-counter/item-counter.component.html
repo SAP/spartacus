@@ -13,32 +13,41 @@
       type="button"
       class="cx-item-counter__action"
       (click)="decrement()"
-      [disabled]="cartIsLoading || value === min"
+      [disabled]="cartIsLoading || value <= min"
     >
       -
     </button>
     <input
+      #itemCounterInput
       class="cx-item-counter__value"
       type="text"
       name="value"
       cxOnlyNumber
       (input)="onInput($event)"
       [value]="value"
-      *ngIf="isValueChangable"
+      [disabled]="cartIsLoading"
+      *ngIf="isValueChangeable"
     />
-    <div class="cx-item-counter__value" *ngIf="!isValueChangable">
+    <div class="cx-item-counter__value" *ngIf="!isValueChangeable">
       {{ value }}
     </div>
     <button
       type="button"
       class="cx-item-counter__action"
       (click)="increment()"
-      [disabled]="cartIsLoading || value === max"
+      [disabled]="cartIsLoading || value >= max"
     >
       +
     </button>
   </div>
-  <div class="cx-item-counter__error" *ngIf="hasError()">
+  <div
+    *ngIf="isValueOutOfRange || isMaxOrMinValue()"
+    class="cx-item-counter__tip"
+    [ngClass]="{
+      info: !isValueOutOfRange && isMaxOrMinValue(),
+      error: isValueOutOfRange
+    }"
+  >
     Must be between {{ min }} - {{ max }}
   </div>
 </div>

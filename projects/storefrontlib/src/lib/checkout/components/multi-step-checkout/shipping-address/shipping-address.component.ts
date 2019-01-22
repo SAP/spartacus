@@ -1,11 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  Output,
-  Input,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 import {
   RoutingService,
@@ -21,8 +14,7 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
-  styleUrls: ['./shipping-address.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./shipping-address.component.scss']
 })
 export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;

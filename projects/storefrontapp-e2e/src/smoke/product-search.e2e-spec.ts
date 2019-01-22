@@ -78,7 +78,7 @@ describe('Product search', () => {
     });
 
     it('should be able to clear active facet', async () => {
-      await searchResults.clearFacets.click();
+      await searchResults.getSingleFacetToClear(0).click();
 
       const text = await searchResults.getHeaderText();
       expect(text).toContain('144 results for camera');

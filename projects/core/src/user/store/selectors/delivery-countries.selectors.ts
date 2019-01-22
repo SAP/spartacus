@@ -1,46 +1,41 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers/index';
-import * as fromReducer from './../reducers/delivery-countries.reducer';
-import { UserState, DeliveryCountriesState } from '../user-state';
+import {
+  UserState,
+  DeliveryCountriesState,
+  StateWithUser,
+  DeliveryCountryEntities
+} from '../user-state';
 import { Country } from '../../../occ/occ-models/index';
+import { getUserState } from './feature.selector';
 
 export const getDeliveryCountriesState: MemoizedSelector<
-  any,
+  StateWithUser,
   DeliveryCountriesState
 > = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.countries
 );
 
 export const getDeliveryCountriesEntites: MemoizedSelector<
-  any,
-  any
+  StateWithUser,
+  DeliveryCountryEntities
 > = createSelector(
   getDeliveryCountriesState,
-  fromReducer.getDeliveryCountriesEntites
+  (state: DeliveryCountriesState) => state.entities
 );
 
 export const getAllDeliveryCountries: MemoizedSelector<
-  any,
+  StateWithUser,
   Country[]
 > = createSelector(
   getDeliveryCountriesEntites,
-  entites => {
-    return Object.keys(entites).map(isocode => entites[isocode]);
-  }
+  entites => Object.keys(entites).map(isocode => entites[isocode])
 );
 
 export const countrySelectorFactory = (
-  isocode
-): MemoizedSelector<any, Country> => {
-  return createSelector(
+  isocode: string
+): MemoizedSelector<StateWithUser, Country> =>
+  createSelector(
     getDeliveryCountriesEntites,
-    entities => {
-      if (Object.keys(entities).length !== 0) {
-        return entities[isocode];
-      } else {
-        return null;
-      }
-    }
+    entities => (Object.keys(entities).length !== 0 ? entities[isocode] : null)
   );
-};
