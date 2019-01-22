@@ -63,6 +63,3 @@ export function reducer(
   }
   return state;
 }
-
-export const getPaymentMethods = (state: UserPaymentMethodsState) => state.list;
-export const getLoading = (state: UserPaymentMethodsState) => state.isLoading;

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
+import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-reset-password',
