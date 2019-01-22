@@ -25,11 +25,11 @@
   text-align: left;
   display: block;
   margin: var(--cx-margin, 0 0 3px 0);
-  color: var(--cx-g-color-dark);
+  color: var(--cx-color, var(--cx-g-color-dark));
   text-decoration: none;
 
   &:hover {
-    color: var(--cx-g-color-primary);
+    color: var(--cx-color, var(--cx-g-color-primary));
   }
 }
 
@@ -40,12 +40,12 @@
   margin: var(--cx-margin, 0 0 25px 0);
 
   &.old {
-    color: var(--cx-g-color-secondary);
+    color: var(--cx-color, var(--cx-g-color-secondary));
     text-decoration: var(--cx-text-decoration, line-through);
   }
 
   &.new {
     margin: var(--cx-margin, 0 0 0 5px);
-    color: var(--cx-g-color-primary);
+    color: var(--cx-color, var(--cx-g-color-primary));
   }
 }
