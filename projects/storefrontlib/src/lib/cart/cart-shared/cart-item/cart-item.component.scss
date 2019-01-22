@@ -15,6 +15,7 @@
   .cx-link {
     color: var(--cx-color, var(--cx-g-color-text));
     text-decoration: var(--cx-text-decoration, none);
+
     &:hover {
       color: var(--cx-color, var(--cx-g-color-primary));
     }
@@ -67,6 +68,7 @@
     color: var(--cx-color, var(--cx-g-color-secondary));
     padding: var(--cx-padding, 0 1rem 0 0);
   }
+
   .cx-new {
     color: var(--cx-color, var(--cx-g-color-primary));
   }
@@ -117,10 +119,9 @@
     padding: var(--cx-padding, 0);
   }
 
-  a {
+  button.link {
     @include type('8');
     color: var(--cx-color, var(--cx-g-color-text));
-    text-decoration: underline;
   }
 }
 
@@ -154,9 +155,12 @@
     .cx-value {
       @include type('7');
     }
-  }
 
-  .cx-actions {
     padding: var(--cx-padding, 0);
+
+    button.link {
+      @include type('8');
+      color: var(--cx-color, var(--cx-g-color-text));
+    }
   }
 }

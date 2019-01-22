@@ -14,7 +14,6 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's change event
-   * @param e
    */
   @HostListener('change')
   onChange() {
@@ -23,7 +22,6 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's change event
-   * @param e
    */
   @HostListener('input')
   onInput() {
@@ -53,7 +51,7 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's keydown event
-   * @param event
+   * @param e
    */
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent): void {
