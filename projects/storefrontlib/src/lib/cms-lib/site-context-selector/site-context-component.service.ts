@@ -9,7 +9,6 @@ export abstract class ContextSelectorServiceMap {
 }
 
 const LANGUAGE = 'LANGUAGE';
-const CURRENCY = 'CURRENCY';
 
 const LABELS = {
   LANGUAGE: 'Language',
@@ -80,9 +79,6 @@ export class SiteContextComponentService {
     switch (context) {
       case LANGUAGE:
         return item.nativeName;
-        break;
-      case CURRENCY:
-        return item.symbol + ' ' + item.isocode;
         break;
       default:
         return item.isocode;
