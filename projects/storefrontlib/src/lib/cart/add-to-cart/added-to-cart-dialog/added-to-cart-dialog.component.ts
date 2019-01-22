@@ -1,13 +1,15 @@
 import {
-  Component,
-  OnInit,
   AfterViewChecked,
+  Component,
   ElementRef,
-  ViewChild,
-  OnDestroy
+  OnDestroy,
+  OnInit,
+  ViewChild
 } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
+import { CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -24,20 +26,45 @@ export class AddedToCartDialogComponent
   previousLoaded: boolean;
   finishedLoading: boolean;
 
-  subscription: Subscription;
+  subscriptions = new Subscription();
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
 
-  constructor(public activeModal: NgbActiveModal) {}
+  form: FormGroup = this.fb.group({});
+
+  cartLoaded$;
+
+  constructor(
+    public activeModal: NgbActiveModal,
+    protected cartService: CartService,
+    protected fb: FormBuilder
+  ) {}
 
   ngOnInit() {
-    this.subscription = this.loaded$.subscribe(loaded => {
-      if (this.previousLoaded !== loaded) {
-        this.finishedLoading = this.previousLoaded === false;
-        this.previousLoaded = loaded;
-      }
-    });
+    this.cartLoaded$ = this.cartService.getLoaded();
+    this.subscriptions.add(
+      this.loaded$.subscribe(res => {
+        if (this.previousLoaded !== res) {
+          this.finishedLoading = this.previousLoaded === false;
+          this.previousLoaded = res;
+        }
+      })
+    );
+    this.subscriptions.add(
+      this.entry$.subscribe(entry => {
+        if (entry) {
+          const { code } = entry.product;
+          if (!this.form.controls[code]) {
+            this.form.setControl(code, this.createEntryFormGroup(entry));
+          } else {
+            const entryForm = this.form.controls[code] as FormGroup;
+            entryForm.controls.quantity.setValue(entry.quantity);
+          }
+          this.form.markAsPristine();
+        }
+      })
+    );
   }
 
   ngAfterViewChecked() {
@@ -52,9 +79,24 @@ export class AddedToCartDialogComponent
     }
   }
 
+  removeEntry(item) {
+    this.cartService.removeEntry(item);
+    delete this.form.controls[item.product.code];
+    this.activeModal.dismiss('Removed');
+  }
+
+  updateEntry({ item, updatedQuantity }) {
+    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
+  }
+
+  private createEntryFormGroup(entry) {
+    return this.fb.group({
+      entryNumber: entry.entryNumber,
+      quantity: entry.quantity
+    });
+  }
+
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 }
