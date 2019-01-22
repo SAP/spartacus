@@ -43,7 +43,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   isValueChangable = false;
 
   @Output()
-  update = new EventEmitter<any>();
+  update = new EventEmitter<number>();
 
   focus: boolean;
 
@@ -56,7 +56,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onTouch = () => {};
   onModelChange = (_rating: number) => {};
 
-  manualChange(incomingValue): void {
+  manualChange(incomingValue: number): void {
     const newValue =
       incomingValue > this.max
         ? this.max
