@@ -188,6 +188,15 @@ class MockOrderSummaryComponent {
   cart;
 }
 
+@Component({
+  selector: 'cx-dynamic-slot',
+  template: 'dynamic-slot.component'
+})
+export class MockDynamicSlotComponent {
+  @Input()
+  position: string;
+}
+
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
@@ -199,6 +208,7 @@ describe('CartDetailsComponent', () => {
         CartDetailsComponent,
         MockCartItemListComponent,
         MockOrderSummaryComponent,
+        MockDynamicSlotComponent,
         MockTranslateUrlPipe
       ],
       providers: [
