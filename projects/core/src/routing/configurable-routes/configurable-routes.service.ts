@@ -61,7 +61,7 @@ export class ConfigurableRoutesService {
   private moveWildcardRouteToEnd(routes: Routes): Routes {
     const firstWildcardRoute = routes.find(route => route.path === '**');
     return firstWildcardRoute
-      ? routes.filter(route => route.path !== '**').concat([firstWildcardRoute])
+      ? routes.filter(route => route.path !== '**').concat(firstWildcardRoute)
       : routes;
   }
 
