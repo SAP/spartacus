@@ -10,10 +10,10 @@ import { AddressBookModule } from '../../../../my-account/address-book/address-b
 
 const routes: Routes = [
   {
-    path: 'my-account/address-book',
+    path: null,
     canActivate: [AuthGuard, CmsPageGuards],
     // @TODO: Change page label to dedicated when will be ready on backend side.
-    data: { pageLabel: 'orders' },
+    data: { pageLabel: 'orders', cxPath: 'addressBook' },
     component: AddressBookPageComponent
   }
 ];

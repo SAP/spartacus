@@ -3,7 +3,7 @@
   <ng-container *ngIf="(loaded$ | async); else loading">
     <div class="cx-added-to-cart-dialog__header modal-header">
       <div class="cx-added-to-cart-dialog__title modal-title">
-        {{ quantity }} item(s) added to your cart
+        Item(s) added to your cart
       </div>
       <button
         type="button"
@@ -24,7 +24,11 @@
           <cx-cart-item
             [item]="entry"
             [compact]="true"
-            [isReadOnly]="true"
+            [isReadOnly]="false"
+            [parent]="form.controls[entry.product.code]"
+            [cartIsLoading]="!(cartLoaded$ | async)"
+            (remove)="removeEntry($event)"
+            (update)="updateEntry($event)"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
@@ -45,16 +49,20 @@
           <!-- Actions -->
           <div class="cx-added-to-cart-dialog__actions">
             <a
+              [class.disabled]="form.dirty"
               [routerLink]="{ route: ['cart'] } | cxTranslateUrl"
               class="btn btn-primary"
               ngbAutoFocus
-              (click)="activeModal.dismiss('Cross click')"
+              (click)="!form.dirty && activeModal.dismiss('View Cart click')"
               >view cart</a
             >
             <a
+              [class.disabled]="form.dirty"
               [routerLink]="{ route: ['checkout'] } | cxTranslateUrl"
               class="btn btn-secondary"
-              (click)="activeModal.dismiss('Cross click')"
+              (click)="
+                !form.dirty && activeModal.dismiss('Proceed To Checkout click')
+              "
               >proceed to checkout</a
             >
           </div>

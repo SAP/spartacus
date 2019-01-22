@@ -2,11 +2,13 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UrlTranslationModule, CheckoutModule } from '@spartacus/core';
+
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { ComponentsModule } from './../../ui/components/components.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
-import { UrlTranslationModule, CheckoutModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -14,7 +16,8 @@ import { UrlTranslationModule, CheckoutModule } from '@spartacus/core';
     RouterModule,
     ReactiveFormsModule,
     ComponentsModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    NgbModule
   ],
   declarations: [
     CartItemComponent,
