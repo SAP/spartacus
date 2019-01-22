@@ -1,4 +1,4 @@
-import { Optional } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
 import { AuthService } from '../auth/index';
 import { CmsService } from '../cms/index';
@@ -11,6 +11,9 @@ import {
 } from '../product/index';
 import { UserService } from '../user/index';
 
+@Injectable({
+  providedIn: 'root'
+})
 export class CxApiService {
   constructor(
     @Optional() public auth: AuthService,
