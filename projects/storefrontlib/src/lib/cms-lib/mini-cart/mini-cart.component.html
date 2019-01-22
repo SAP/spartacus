@@ -16,11 +16,8 @@
   </svg>
 
   <span
-    [attr.aria-label]="
-      'My cart. ' +
-      cart?.deliveryItemsQuantity +
-      ' items currently in your cart.'
-    "
-    >{{ cart?.deliveryItemsQuantity || 0 }}</span
+    *ngIf="cart.deliveryItemsQuantity || '0' as qty"
+    [attr.aria-label]="'My cart. ' + qty + ' items currently in your cart.'"
+    >{{ qty }}</span
   >
 </a>
