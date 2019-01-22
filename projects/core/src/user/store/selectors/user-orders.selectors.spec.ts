@@ -4,7 +4,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { UserState, USER_FEATURE, UserOrdersState } from '../user-state';
+import { StateWithUser, USER_FEATURE, UserOrdersState } from '../user-state';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
 
 const mockUserOrders: OrderHistoryList = {
@@ -17,7 +17,7 @@ const mockUserOrders: OrderHistoryList = {
 };
 
 describe('User Orders Selectors', () => {
-  let store: Store<UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
