@@ -13,14 +13,27 @@ export class StoreDataService {
     6: 'Sat'
   };
 
+  /**
+   * Returns store latitude
+   * @param location store location
+   */
   getStoreLatitude(location: any): number {
     return location.geoPoint.latitude;
   }
 
+  /**
+   * Returns store longitude
+   * @param location store location
+   */
   getStoreLongitude(location: any): number {
     return location.geoPoint.longitude;
   }
 
+  /**
+   * Returns store closing time
+   * @param location store location
+   * @param date date to compare
+   */
   getStoreClosingTime(location: any, date: Date): Date {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result: Date = null;
@@ -38,6 +51,11 @@ export class StoreDataService {
     return result;
   }
 
+  /**
+   * Returns store opening time
+   * @param location store location
+   * @param date date to compare
+   */
   getStoreOpeningTime(location: any, date: Date): Date {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result: Date = null;
@@ -55,6 +73,11 @@ export class StoreDataService {
     return result;
   }
 
+  /**
+   * Returns information about store open status
+   * @param location store location
+   * @param date date to compare
+   */
   isStoreOpen(location: any, date: Date): boolean {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result = false;

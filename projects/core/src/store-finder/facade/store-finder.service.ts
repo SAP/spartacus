@@ -14,22 +14,40 @@ export class StoreFinderService {
 
   constructor(private store: Store<StoresState>, private winRef: WindowRef) {}
 
-  getStoresLoading(): Observable<any> {
+  /**
+   * Returns boolean observable for store's loading state
+   */
+  getStoresLoading(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getStoresLoading));
   }
 
+  /**
+   * Returns observable for store's entities
+   */
   getFindStoresEntities(): Observable<any> {
     return this.store.pipe(select(fromStore.getFindStoresEntities));
   }
 
-  getViewAllStoresLoading(): Observable<any> {
+  /**
+   * Returns boolean observable for view all store's loading state
+   */
+  getViewAllStoresLoading(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getViewAllStoresLoading));
   }
 
+  /**
+   * Returns observable for view all store's entities
+   */
   getViewAllStoresEntities(): Observable<any> {
     return this.store.pipe(select(fromStore.getViewAllStoresEntities));
   }
 
+  /**
+   * Store finding action functionality
+   * @param queryText text query
+   * @param longitudeLatitude longitude and latitude coordinates
+   * @param searchConfig search configuration
+   */
   findStoresAction(
     queryText: string,
     longitudeLatitude: LongitudeLatitude,
@@ -44,6 +62,46 @@ export class StoreFinderService {
     );
   }
 
+  /**
+   * View all stores
+   */
+  viewAllStores() {
+    this.clearWatchGeolocation(new fromStore.ViewAllStores());
+  }
+
+  /**
+   * View all stores by id
+   * @param storeId store id
+   */
+  viewStoreById(storeId: string) {
+    this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
+  }
+
+  /**
+   * View all stores for specified country
+   * @param countryIsoCode country ISO code
+   */
+  viewAllStoresForCountry(countryIsoCode: string) {
+    this.clearWatchGeolocation(
+      new fromStore.FindAllStoresByCountry({ countryIsoCode })
+    );
+  }
+
+  /**
+   * View all stores for specified region
+   * @param regionIsoCode region ISO code
+   */
+  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
+    this.clearWatchGeolocation(
+      new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
+    );
+  }
+
+  /**
+   * Find all stores
+   * @param queryText text query
+   * @param useMyLocation use current location
+   */
   findStores(queryText: string, useMyLocation?: boolean) {
     if (useMyLocation && this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new fromStore.OnHold());
@@ -61,26 +119,6 @@ export class StoreFinderService {
     } else {
       this.clearWatchGeolocation(new fromStore.FindStores({ queryText }));
     }
-  }
-
-  viewAllStores() {
-    this.clearWatchGeolocation(new fromStore.ViewAllStores());
-  }
-
-  viewStoreById(storeId: string) {
-    this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
-  }
-
-  viewAllStoresForCountry(countryIsoCode: string) {
-    this.clearWatchGeolocation(
-      new fromStore.FindAllStoresByCountry({ countryIsoCode })
-    );
-  }
-
-  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
-    this.clearWatchGeolocation(
-      new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
-    );
   }
 
   private clearWatchGeolocation(callbackAction: Action) {
