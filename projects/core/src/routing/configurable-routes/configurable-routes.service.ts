@@ -40,9 +40,28 @@ export class ConfigurableRoutesService {
       this.currentLanguageCode = languageCode;
     }
 
-    this.router.resetConfig(
-      this.translateRoutes(this.router.config, this.currentRoutesTranslations)
+    const translatedRoutes = this.translateRoutes(
+      this.router.config,
+      this.currentRoutesTranslations
     );
+    this.moveWildcardRouteToEnd(translatedRoutes);
+
+    this.router.resetConfig(translatedRoutes);
+  }
+
+  /**
+   * Move the Route with double asterisk (**) to the end of the list.
+   *
+   * Reason: When some custom Routes are injected after Spartacus' ones,
+   *          then the Spartacus' wildcard Route needs being moved to the end -
+   *          even after custom Routes - to make custom Routes discoverable.
+   */
+  private moveWildcardRouteToEnd(routes: Routes) {
+    const wildcardRouteIndex = routes.findIndex(route => route.path === '**');
+    if (wildcardRouteIndex !== -1) {
+      const wildcardRoute = routes.splice(wildcardRouteIndex, 1);
+      routes.push(wildcardRoute[0]);
+    }
   }
 
   getNestedRoutesTranslations(
