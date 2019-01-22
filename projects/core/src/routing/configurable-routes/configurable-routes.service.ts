@@ -60,10 +60,9 @@ export class ConfigurableRoutesService {
    */
   private moveWildcardRouteToEnd(routes: Routes): Routes {
     const firstWildcardRoute = routes.find(route => route.path === '**');
-    const nonWildcardRoutes = routes.filter(route => route.path !== '**');
     return firstWildcardRoute
-      ? nonWildcardRoutes.concat([firstWildcardRoute])
-      : nonWildcardRoutes;
+      ? routes.filter(route => route.path !== '**').concat([firstWildcardRoute])
+      : routes;
   }
 
   getNestedRoutesTranslations(
