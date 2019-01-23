@@ -1,7 +1,7 @@
 import * as fromNavigationItem from '../actions/navigation-entry-item.action';
 import { NodeItem } from '../../model/node-item.model';
 
-export const initialState: NodeItem = {};
+export const initialState: NodeItem = undefined;
 
 export function reducer(
   state = initialState,
