@@ -8,67 +8,27 @@ $cx-multi-step-checkout-media-background-color: 'background' !default;
 $cx-multi-step-checkout-nav-list-media-border-color: 'light' !default;
 $cx-multi-step-checkout-media-border-color: 'light' !default;
 
-// cx-multi-step-checkout variables
-$cx-multi-step-checkout-padding: 2.5rem 0 !default;
-$cx-multi-step-checkout-no-padding: 0 !default;
-$cx-multi-step-checkout-no-margin: 0 !default;
-$cx-multi-step-checkout-no-margin-bottom: 0 !default;
-
-$cx-multi-step-checkout-nav-margin-bottom: 0 !default;
-
-$cx-multi-step-checkout-nav-item-padding: 0 0 1.375rem 0 !default;
-$cx-multi-step-checkout-nav-item-before-padding: 0 0.5rem !default;
-
-$cx-multi-step-checkout-nav-list-padding: 0 !default;
-$cx-multi-step-checkout-nav-list-margin-bottom: 0 !default;
-$cx-multi-step-checkout-nav-list-media-line-height: 4.75rem !default;
-$cx-multi-step-checkout-nav-list-media-border-top: 1px solid !default;
-$cx-multi-step-checkout-nav-list-media-md-padding: 3.5rem !default;
-$cx-multi-step-checkout-nav-list-media-sm-padding: 1.375rem !default;
-
-$cx-multi-step-checkout-nav-link-cursor: pointer !default;
-$cx-multi-step-checkout-nav-link-disabled-cursor: not-allowed !default;
-
-$cx-multi-step-checkout-progressbar-border-bottom: 5px solid !default;
-
-$cx-multi-step-checkout-place-order-padding: 0 1rem !default;
-$cx-multi-step-checkout-place-order-form-check-input-size: 1.375rem !default;
-$cx-multi-step-checkout-place-order-btn-margin-top: 1.25rem !default;
-
-// Media Queries
-$cx-multi-step-checkout-media-border: 1px solid;
-$cx-multi-step-checkout-media-margin-bottom: 2.375rem !default;
-$cx-multi-step-checkout-media-col-md-7-padding: 4.375rem !default;
-$cx-multi-step-checkout-media-col-sm-7-padding: 1.375rem !default;
-$cx-multi-step-checkout-media-col-md-12-padding: 0 4.375rem 1.875rem 4.375rem !default;
-$cx-multi-step-checkout-media-col-sm-12-padding: 0 2.25rem 1.25rem 2.25rem !default;
-$cx-multi-step-checkout-btn-padding-bottom: 1rem !default;
-$cx-multi-step-checkout-btn-md-padding: 0 3.5rem 1.25rem 0 !default;
-$cx-multi-step-checkout-btn-sm-padding: 1.25rem !default;
-$cx-multi-step-checkout-btns-margin-bottom: 1rem !default;
-$cx-multi-step-checkout-btns-padding: 0 !default;
-
 .cx-multi-step-checkout {
-  padding: $cx-multi-step-checkout-padding;
+  padding: 2.5rem 0;
 
   &__nav {
     @include type('4', 'semi');
-    margin-bottom: $cx-multi-step-checkout-nav-margin-bottom;
+    margin-bottom: 0;
 
     &-list {
       display: flex;
       flex-direction: row;
       list-style: none;
-      padding: $cx-multi-step-checkout-nav-list-padding;
-      margin-bottom: $cx-multi-step-checkout-nav-list-margin-bottom;
+      padding: 0;
+      margin-bottom: 0;
     }
 
     &-item {
       color: theme-color('text');
-      padding: $cx-multi-step-checkout-nav-item-padding;
+      padding: 0 0 1.375rem 0;
 
       &.progressbar {
-        border-bottom: $cx-multi-step-checkout-progressbar-border-bottom;
+        border-bottom: 5px solid;
         @include var-color(
           'border-bottom-color',
           $cx-multi-step-checkout-progress-bar-color
@@ -76,13 +36,13 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
       }
 
       &::before {
-        padding: $cx-multi-step-checkout-nav-item-before-padding;
+        padding: 0 0.5rem;
         content: '>';
       }
 
       &:first-child::before {
         content: '';
-        padding: $cx-multi-step-checkout-no-padding;
+        padding: 0;
       }
 
       &.is-disabled {
@@ -92,11 +52,11 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
 
     &-link,
     &-link:hover {
-      cursor: $cx-multi-step-checkout-nav-link-cursor;
+      cursor: pointer;
 
       &.is-disabled {
         color: theme-color('light');
-        cursor: $cx-multi-step-checkout-nav-link-disabled-cursor;
+        cursor: not-allowed;
       }
 
       &.is-active {
@@ -107,7 +67,7 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
     &--media {
       @include media-breakpoint-down(md) {
         &:last-child {
-          border-bottom: $cx-multi-step-checkout-media-border;
+          border-bottom: 1px solid;
           @include var-color(
             'border-color',
             $cx-multi-step-checkout-media-border-color
@@ -122,14 +82,14 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
       text-transform: uppercase;
       justify-content: space-between;
       align-items: center;
-      line-height: $cx-multi-step-checkout-nav-list-media-line-height;
+      line-height: 4.75rem;
       min-width: 100%;
-      border-top: $cx-multi-step-checkout-nav-list-media-border-top;
+      border-top: 1px solid;
       @include var-color(
         'border-color',
         $cx-multi-step-checkout-nav-list-media-border-color
       );
-      margin-bottom: $cx-multi-step-checkout-no-margin;
+      margin-bottom: 0;
 
       button {
         text-transform: uppercase;
@@ -138,54 +98,54 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
 
       @include media-breakpoint-down(md) {
         display: flex;
-        padding-left: $cx-multi-step-checkout-nav-list-media-md-padding;
-        padding-right: $cx-multi-step-checkout-nav-list-media-md-padding;
+        padding-left: 3.5rem;
+        padding-right: 3.5rem;
       }
 
       @include media-breakpoint-down(sm) {
-        padding-left: $cx-multi-step-checkout-nav-list-media-sm-padding;
-        padding-right: $cx-multi-step-checkout-nav-list-media-sm-padding;
+        padding-left: 1.375rem;
+        padding-right: 1.375rem;
       }
     }
   }
 
   &__place-order {
-    padding: $cx-multi-step-checkout-place-order-padding;
+    padding: 0 1rem;
 
     &-form {
       display: flex;
       .form-check-input {
-        min-height: $cx-multi-step-checkout-place-order-form-check-input-size;
-        min-width: $cx-multi-step-checkout-place-order-form-check-input-size;
+        min-height: 1.375rem;
+        min-width: 1.375rem;
       }
     }
 
     button {
-      margin-top: $cx-multi-step-checkout-place-order-btn-margin-top;
+      margin-top: 1.25rem;
     }
   }
 
   // ***************************** MEDIA QUERIES *****************************
 
   @include media-breakpoint-down(md) {
-    margin: $cx-multi-step-checkout-no-margin;
+    margin: 0;
   }
 
   &.container {
     @include media-breakpoint-down(md) {
       max-width: 100%;
-      padding: $cx-multi-step-checkout-no-padding;
+      padding: 0;
     }
   }
 
   .col-md-7 {
     @include media-breakpoint-down(md) {
-      padding-right: $cx-multi-step-checkout-media-col-md-7-padding;
+      padding-right: 4.375rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding-right: $cx-multi-step-checkout-media-col-sm-7-padding;
-      padding-left: $cx-multi-step-checkout-media-col-sm-7-padding;
+      padding-right: 1.375rem;
+      padding-left: 1.375rem;
     }
   }
 
@@ -206,7 +166,7 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
 // Mixin imported in the other multi-step-checkout components
 @mixin checkout-media-style() {
   @include media-breakpoint-down(md) {
-    margin-bottom: $cx-multi-step-checkout-media-margin-bottom;
+    margin-bottom: 2.375rem;
     @include var-color(
       'background-color',
       $cx-multi-step-checkout-media-background-color
@@ -215,38 +175,38 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
 
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: $cx-multi-step-checkout-media-col-md-12-padding;
+      padding: 0 4.375rem 1.875rem 4.375rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding: $cx-multi-step-checkout-media-col-sm-12-padding;
+      padding: 0 2.25rem 1.25rem 2.25rem;
     }
   }
 
   &.container {
     @include media-breakpoint-down(md) {
       max-width: 100%;
-      margin-bottom: $cx-multi-step-checkout-no-margin-bottom;
+      margin-bottom: 0;
     }
   }
 
   &__btn {
-    padding-bottom: $cx-multi-step-checkout-btn-padding-bottom;
+    padding-bottom: 1rem;
     @include media-breakpoint-down(md) {
-      padding: $cx-multi-step-checkout-btn-md-padding;
+      padding: 0 3.5rem 1.25rem 0;
     }
     @include media-breakpoint-down(sm) {
-      padding: $cx-multi-step-checkout-btn-sm-padding;
+      padding: 1.25rem;
     }
   }
 
   &__btns {
     @include media-breakpoint-down(md) {
-      padding: $cx-multi-step-checkout-btns-padding;
+      padding: 0;
     }
     .btn-action {
       @include media-breakpoint-down(sm) {
-        margin-bottom: $cx-multi-step-checkout-btns-margin-bottom;
+        margin-bottom: 1rem;
       }
     }
   }
