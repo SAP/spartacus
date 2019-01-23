@@ -1,27 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { LandingPageLayoutModule } from '../../layout/landing-page-layout/landing-page-layout.module';
-import { HomePageComponent } from './home-page.component';
+
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+import { PageLayoutComponent } from '../../../cms/page-layout/page-layout.component';
 
 const routes: Routes = [
   {
     path: null,
     canActivate: [CmsPageGuards],
-    component: HomePageComponent,
+    component: PageLayoutComponent,
     data: { pageLabel: 'homepage', cxPath: 'home' }
   }
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    LandingPageLayoutModule,
-    RouterModule.forChild(routes)
-  ],
-  declarations: [HomePageComponent],
-  exports: [HomePageComponent]
+  imports: [RouterModule.forChild(routes), PageLayoutModule]
 })
 export class HomePageModule {}
