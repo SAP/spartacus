@@ -28,6 +28,10 @@ import { CategoryPageModule } from './category-page/category-page.module';
 
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
+import { RouterModule } from '@angular/router';
+import { CmsPageGuards } from '../../cms';
+import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
+import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 
 const pageModules = [
   OrderHistoryPageModule,
@@ -54,7 +58,18 @@ const pageModules = [
 ];
 
 @NgModule({
-  imports: [CommonModule, ...pageModules],
-  exports: [...pageModules]
+  imports: [
+    CommonModule,
+    ...pageModules,
+    PageLayoutModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'homepage', cxPath: 'home' }
+      }
+    ])
+  ]
 })
 export class PagesModule {}
