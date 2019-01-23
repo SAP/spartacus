@@ -30,5 +30,5 @@ export interface PageState {
 export interface CmsState {
   page: PageState;
   component: ComponentState;
-  navigation: EntityLoaderState<NodeItem>;
+  navigation: EntityLoaderState<NavigationNodes>;
 }
