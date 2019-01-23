@@ -21,6 +21,7 @@ import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
+import { ConfigModule } from '@spartacus/core';
 
 const layoutModules = [
   LandingPageLayoutModule,
@@ -45,7 +46,25 @@ const layoutModules = [
 ];
 
 @NgModule({
-  imports: [MainModule, ...layoutModules],
+  imports: [
+    MainModule,
+    ...layoutModules,
+    ConfigModule.withConfig({
+      layoutSlots: {
+        LandingPage2Template: {
+          slots: [
+            'Section1',
+            'Section2A',
+            'Section2B',
+            'Section2C',
+            'Section3',
+            'Section4',
+            'Section5'
+          ]
+        }
+      }
+    })
+  ],
   exports: [MainModule, ...layoutModules]
 })
 export class LayoutModule {}
