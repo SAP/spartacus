@@ -10,14 +10,14 @@ import * as fromPage from './page.reducer';
 import * as fromComponent from './component.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
 import { NAVIGATION_DETAIL_ENTITY, CmsState } from '../cms-state';
-import { NavigationNodes } from '../cms-state';
+import { NodeItem } from '../../model/node-item.model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
     page: fromPage.reducer,
     component: fromComponent.reducer,
-    navigation: entityLoaderReducer<NavigationNodes>(
+    navigation: entityLoaderReducer<NodeItem>(
       NAVIGATION_DETAIL_ENTITY,
       fromNavigation.reducer
     )

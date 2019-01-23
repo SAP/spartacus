@@ -17,10 +17,6 @@ export interface NavigationNodes {
   [nodeId: string]: NodeItem;
 }
 
-export interface NavigationItemState {
-  nodes: NavigationNodes;
-}
-
 export interface PageState {
   entities: { [context: string]: Page };
   count: number;
@@ -30,5 +26,5 @@ export interface PageState {
 export interface CmsState {
   page: PageState;
   component: ComponentState;
-  navigation: EntityLoaderState<NavigationNodes>;
+  navigation: EntityLoaderState<NodeItem>;
 }

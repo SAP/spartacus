@@ -1,13 +1,12 @@
 import * as fromNavigationItem from '../actions/navigation-entry-item.action';
 import { NodeItem } from '../../model/node-item.model';
-import { NavigationNodes } from '../cms-state';
 
-export const initialState: NavigationNodes = {};
+export const initialState: NodeItem = {};
 
 export function reducer(
   state = initialState,
   action: fromNavigationItem.NavigationEntryItemAction
-): NavigationNodes {
+): NodeItem {
   switch (action.type) {
     case fromNavigationItem.LOAD_NAVIGATION_ITEMS_SUCCESS: {
       if (action.payload.components) {
@@ -27,7 +26,7 @@ export function reducer(
 
         return {
           ...state,
-          items: newItem
+          ...newItem
         };
       }
     }
