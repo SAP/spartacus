@@ -29,8 +29,7 @@ export class NavigationComponent {
           const navigation = data.navigationNode ? data.navigationNode : data;
           return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
             tap(items => {
-              console.log('items: ', items);
-              if (items === undefined || Object.keys(items).length === 0) {
+              if (items === undefined) {
                 this.navigationService.getNavigationEntryItems(
                   navigation,
                   true,
