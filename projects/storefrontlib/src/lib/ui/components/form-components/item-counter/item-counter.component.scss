@@ -27,14 +27,23 @@ $cx-item-counter-action-trbl-margin: 0 !default;
   border-radius: $cx-item-counter-border-radius;
   border: $cx-item-counter-border;
   @include var-color('border-color', $cx-item-counter-border-color);
+
   &__wrapper {
     display: inline-flex;
     flex-direction: column;
   }
-  &__error {
-    color: #ed3939;
-    font-size: 13px;
+
+  &__tip {
+    &.error {
+      color: #ed3939;
+      font-size: 13px;
+    }
+
+    &.info {
+      font-size: 13px;
+    }
   }
+
   &__value {
     border: none;
     text-align: center;
@@ -47,6 +56,7 @@ $cx-item-counter-action-trbl-margin: 0 !default;
     min-width: $cx-item-counter-value-width;
     max-width: $cx-item-counter-value-max-width;
   }
+
   &__action {
     max-height: $cx-item-counter-action-height;
     min-width: $cx-item-counter-action-width;
