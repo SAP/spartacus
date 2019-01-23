@@ -1,9 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { LoaderState } from 'projects/core/src/state';
-
 import { UserOrdersState, UserState, StateWithUser } from '../user-state';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
   loaderLoadingSelector
