@@ -5,7 +5,7 @@ import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import { User } from '../../../occ/occ-models/index';
-import { UserState, USER_FEATURE } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
@@ -16,7 +16,7 @@ const mockUserDetails: User = {
 };
 
 describe('User Details Selectors', () => {
-  let store: Store<UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

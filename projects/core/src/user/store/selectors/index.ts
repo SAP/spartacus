@@ -6,4 +6,5 @@ export * from './titles.selectors';
 export * from './delivery-countries.selectors';
 export * from './regions.selectors';
 export * from './order-details.selectors';
+export * from './feature.selector';
 export * from './billing-countries.selectors';

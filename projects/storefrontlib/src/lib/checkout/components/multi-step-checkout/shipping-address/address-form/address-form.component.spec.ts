@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -97,11 +96,7 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
-    })
-      .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
-      })
-      .compileComponents();
+    }).compileComponents();
 
     userService = TestBed.get(UserService);
     mockCheckoutService = TestBed.get(CheckoutService);

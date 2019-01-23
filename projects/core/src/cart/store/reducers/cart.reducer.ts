@@ -6,6 +6,7 @@ export const initialState: CartState = {
   content: {},
   entries: {},
   refresh: false,
+  loaded: false,
   cartMergeComplete: false
 };
 
@@ -61,7 +62,8 @@ export function reducer(
         ...state,
         content,
         entries,
-        refresh: false
+        refresh: false,
+        loaded: true
       };
     }
 
@@ -73,6 +75,15 @@ export function reducer(
         refresh: true
       };
     }
+
+    case fromAction.REMOVE_ENTRY:
+    case fromAction.ADD_ENTRY:
+    case fromAction.LOAD_CART:
+    case fromAction.CREATE_CART:
+      return {
+        ...state,
+        loaded: false
+      };
   }
 
   return state;
