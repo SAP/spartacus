@@ -1,11 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  Output,
-  Input,
-  EventEmitter
-} from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 import {
   RoutingService,
@@ -15,14 +8,13 @@ import {
 } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
-  styleUrls: ['./shipping-address.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./shipping-address.component.scss']
 })
 export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
@@ -47,7 +39,7 @@ export class ShippingAddressComponent implements OnInit {
 
     this.existingAddresses$ = this.userService.getAddresses().pipe(
       tap(addresses => {
-        if (this.cards.length === 0) {
+        if (this.cards.length === 0 && addresses) {
           addresses.forEach(address => {
             const card = this.getCardContent(address);
             if (
@@ -58,7 +50,8 @@ export class ShippingAddressComponent implements OnInit {
             }
           });
         }
-      })
+      }),
+      filter(Boolean)
     );
   }
 

@@ -14,7 +14,7 @@ import {
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from '../../occ/default-page.service';
+import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../model/page.model';
 import { ContentSlotData } from '../../model/content-slot.model';
@@ -28,6 +28,7 @@ export class PageEffects {
   loadPage$: Observable<any> = this.actions$.pipe(
     ofType(
       pageActions.LOAD_PAGEDATA,
+      pageActions.REFRESH_LATEST_PAGE,
       '[Site-context] Language Change',
       '[Auth] Logout',
       '[Auth] Login'
@@ -162,7 +163,7 @@ export class PageEffects {
     }
   }
 
-  private getComponents(pageData: CMSPage) {
+  private getComponents(pageData: CMSPage): any[] {
     const components = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {

@@ -4,8 +4,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy,
-  ChangeDetectionStrategy
+  OnDestroy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
@@ -14,11 +13,11 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../../facade/checkout.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  UserService
+  UserService,
+  CheckoutService
 } from '@spartacus/core';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
@@ -27,8 +26,7 @@ import { Address } from '@spartacus/core';
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./address-form.component.scss']
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;

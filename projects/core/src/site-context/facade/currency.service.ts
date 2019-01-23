@@ -5,15 +5,24 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import * as fromStore from '../store/index';
-import { filter, tap } from 'rxjs/operators';
+import { filter, take, tap } from 'rxjs/operators';
 import { Currency } from '../../occ/occ-models';
+import { WindowRef } from '../../window/window-ref';
+import { SiteContext } from './site-context.interface';
 
 /**
  * Facade that provides easy access to curreny state, actions and selectors.
  */
 @Injectable()
-export class CurrencyService {
-  constructor(private store: Store<fromStore.StateWithSiteContext>) {}
+export class CurrencyService implements SiteContext<Currency> {
+  private sessionStorage: Storage;
+
+  constructor(
+    private store: Store<fromStore.StateWithSiteContext>,
+    winRef: WindowRef
+  ) {
+    this.sessionStorage = winRef.sessionStorage;
+  }
 
   /**
    * Represents all the currencies supported by the current store.
@@ -25,7 +34,8 @@ export class CurrencyService {
         if (!currencies) {
           this.store.dispatch(new fromStore.LoadCurrencies());
         }
-      })
+      }),
+      filter(Boolean)
     );
   }
 
@@ -42,7 +52,16 @@ export class CurrencyService {
    * Sets the active language.
    */
   setActive(isocode: string) {
-    this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+    return this.store
+      .pipe(
+        select(fromStore.getActiveCurrency),
+        take(1)
+      )
+      .subscribe(activeCurrency => {
+        if (activeCurrency !== isocode) {
+          this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+        }
+      });
   }
 
   /**
@@ -51,8 +70,8 @@ export class CurrencyService {
    * default session currency of the store.
    */
   initialize(defaultCurrency: string) {
-    if (sessionStorage && !!sessionStorage.getItem('currency')) {
-      this.setActive(sessionStorage.getItem('currency'));
+    if (this.sessionStorage && !!this.sessionStorage.getItem('currency')) {
+      this.setActive(this.sessionStorage.getItem('currency'));
     } else {
       this.setActive(defaultCurrency);
     }

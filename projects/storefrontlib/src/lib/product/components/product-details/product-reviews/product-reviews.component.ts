@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -8,18 +7,19 @@ import {
   Output
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { ProductReviewService, Review, Product } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
-import { ProductReviewService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
-  styleUrls: ['./product-reviews.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-reviews.component.scss']
 })
 export class ProductReviewsComponent implements OnChanges, OnInit {
   @Input()
-  product: any;
+  product: Product;
   @Input()
   get isWritingReview() {
     return this._isWritingReview;
@@ -35,10 +35,10 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
 
   // TODO: configurable
   initialMaxListItems = 5;
-  maxListItems;
+  maxListItems: number;
   reviewForm: FormGroup;
 
-  reviews$: Observable<any>;
+  reviews$: Observable<Review[]>;
 
   constructor(
     protected reviewService: ProductReviewService,
@@ -57,23 +57,31 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     this.resetReviewForm();
   }
 
-  initiateWriteReview() {
+  initiateWriteReview(): void {
     this.isWritingReview = true;
   }
 
-  cancelWriteReview() {
+  cancelWriteReview(): void {
     this.isWritingReview = false;
     this.resetReviewForm();
   }
 
-  submitReview() {
-    this.reviewService.add(this.product.code, this.reviewForm.controls);
+  submitReview(): void {
+    const reviewFormControls = this.reviewForm.controls;
+    const review: Review = {
+      headline: reviewFormControls.title.value,
+      comment: reviewFormControls.comment.value,
+      rating: reviewFormControls.rating.value,
+      alias: reviewFormControls.reviewerName.value
+    };
+
+    this.reviewService.add(this.product.code, review);
 
     this.isWritingReview = false;
     this.resetReviewForm();
   }
 
-  private resetReviewForm() {
+  private resetReviewForm(): void {
     this.reviewForm = this.fb.group({
       title: ['', Validators.required],
       comment: ['', Validators.required],

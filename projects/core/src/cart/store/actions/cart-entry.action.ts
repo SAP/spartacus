@@ -1,4 +1,9 @@
-import { Action } from '@ngrx/store';
+import {
+  LoaderLoadAction,
+  LoaderFailAction,
+  LoaderSuccessAction
+} from '../../../state/utils/loader/loader.action';
+import { CART_DATA } from '../cart-state';
 
 export const ADD_ENTRY = '[Cart-entry] Add Entry';
 export const ADD_ENTRY_SUCCESS = '[Cart-entry] Add Entry Success';
@@ -12,49 +17,67 @@ export const UPDATE_ENTRY = '[Cart-entry] Update Entry';
 export const UPDATE_ENTRY_SUCCESS = '[Cart-entry] Update Entry Success';
 export const UPDATE_ENTRY_FAIL = '[Cart-entry] Update Entry Fail';
 
-export class AddEntry implements Action {
+export class AddEntry extends LoaderLoadAction {
   readonly type = ADD_ENTRY;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class AddEntrySuccess implements Action {
+export class AddEntrySuccess extends LoaderSuccessAction {
   readonly type = ADD_ENTRY_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class AddEntryFail implements Action {
+export class AddEntryFail extends LoaderFailAction {
   readonly type = ADD_ENTRY_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
 }
 
-export class RemoveEntry implements Action {
+export class RemoveEntry extends LoaderLoadAction {
   readonly type = REMOVE_ENTRY;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class RemoveEntrySuccess implements Action {
+export class RemoveEntrySuccess extends LoaderSuccessAction {
   readonly type = REMOVE_ENTRY_SUCCESS;
-  constructor() {}
+  constructor() {
+    super(CART_DATA);
+  }
 }
 
-export class RemoveEntryFail implements Action {
+export class RemoveEntryFail extends LoaderFailAction {
   readonly type = REMOVE_ENTRY_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
 }
 
-export class UpdateEntry implements Action {
+export class UpdateEntry extends LoaderLoadAction {
   readonly type = UPDATE_ENTRY;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA);
+  }
 }
 
-export class UpdateEntrySuccess implements Action {
+export class UpdateEntrySuccess extends LoaderSuccessAction {
   readonly type = UPDATE_ENTRY_SUCCESS;
-  constructor() {}
+  constructor() {
+    super(CART_DATA);
+  }
 }
 
-export class UpdateEntryFail implements Action {
+export class UpdateEntryFail extends LoaderFailAction {
   readonly type = UPDATE_ENTRY_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(CART_DATA, payload);
+  }
 }
 
 export type CartEntryAction =

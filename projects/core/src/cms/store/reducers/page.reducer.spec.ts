@@ -7,7 +7,7 @@ describe('Cms Page Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromPage;
-      const action = {} as any;
+      const action = {} as fromActions.PageAction;
       const state = fromPage.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -113,6 +113,29 @@ describe('Cms Page Reducer', () => {
       const state = fromPage.reducer(initialState, action);
 
       expect(state.latestPageKey).toEqual(payload);
+    });
+  });
+
+  describe('REFRESH_LATEST_PAGE action', () => {
+    it('should reset latest page', () => {
+      const page: Page = {
+        pageId: 'testPageId',
+        name: 'testPage',
+        seen: [],
+        slots: { left: null }
+      };
+      const payload = { key: 'test', value: page };
+
+      const { initialState } = fromPage;
+      const state = {
+        ...initialState,
+        [payload.key]: payload.value,
+        latestPageKey: 'test'
+      };
+      const refreshAction = new fromActions.RefreshLatestPage();
+      const newState = fromPage.reducer(state, refreshAction);
+
+      expect(newState.entities['test']).toEqual(null);
     });
   });
 });

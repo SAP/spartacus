@@ -1,18 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Title, Country, Region } from '@spartacus/core';
+import { Title, Country, Region, CheckoutService } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
 import { UserService, GlobalMessageService } from '@spartacus/core';
-import { CheckoutService } from '../../../../facade';
 
 import { AddressFormComponent } from './address-form.component';
 import { AddressValidation } from '@spartacus/core';
@@ -98,11 +96,7 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
-    })
-      .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
-      })
-      .compileComponents();
+    }).compileComponents();
 
     userService = TestBed.get(UserService);
     mockCheckoutService = TestBed.get(CheckoutService);

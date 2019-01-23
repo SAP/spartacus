@@ -2,7 +2,8 @@
   <ng-container *ngIf="(cart$ | async) as cart">
     <header class="cx-page__header">
       <h1 class="cx-page__title d-none d-lg-block d-xl-block">
-        Checkout {{ cart.totalItems }} items
+        Checkout {{ cart.totalItems }}
+        {{ cart.totalItems > 1 ? 'items' : 'item' }}
       </h1>
     </header>
 
@@ -106,7 +107,13 @@
                 />
                 <span class="form-check-label">
                   I confirm that I have read and agree with the
-                  <a href="#">Terms & Conditions</a>
+                  <a
+                    [routerLink]="
+                      { route: ['termsAndConditions'] } | cxTranslateUrl
+                    "
+                    class="cx-multi-step-checkout__tc-link"
+                    >Terms & Conditions</a
+                  >
                 </span>
               </label>
             </div>

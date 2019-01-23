@@ -45,8 +45,8 @@ describe('Cms Component Actions', () => {
   describe('GetComponentFromPage Action', () => {
     describe('Get Component from Page', () => {
       it('should create an action', () => {
-        const component1 = { uid: 'uid1' };
-        const component2 = { uid: 'uid2' };
+        const component1: CmsComponent = { uid: 'uid1' };
+        const component2: CmsComponent = { uid: 'uid2' };
         const action = new fromComponent.GetComponentFromPage([
           component1,
           component2
@@ -65,6 +65,18 @@ describe('Cms Component Actions', () => {
         const action = new fromComponent.CleanComponentState();
         expect({ ...action }).toEqual({
           type: fromComponent.CLEAN_COMPONENT_STATE
+        });
+      });
+    });
+  });
+
+  describe('RefreshComponent Action', () => {
+    describe('Refresh Component', () => {
+      it('should create an action', () => {
+        const action = new fromComponent.RefreshComponent('uid');
+        expect({ ...action }).toEqual({
+          type: fromComponent.REFRESH_COMPONENT,
+          payload: 'uid'
         });
       });
     });

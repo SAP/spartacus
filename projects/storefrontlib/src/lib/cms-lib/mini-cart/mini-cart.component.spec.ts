@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
-import { CartService, CmsService, TranslateUrlOptions } from '@spartacus/core';
+import { CartService, TranslateUrlOptions, Component } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart, OrderEntry, CmsComponent } from '@spartacus/core';
+import { Cart } from '@spartacus/core';
 import { PipeTransform, Pipe } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { CmsComponentData } from '../../cms';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -33,13 +34,6 @@ const testCart: Cart = {
   }
 };
 
-const orderEntry: OrderEntry = {
-  entryNumber: 0,
-  product: { code: '1234' }
-};
-
-const testEntries: { [id: string]: OrderEntry }[] = [{ '1234': orderEntry }];
-
 const mockComponentData: any = {
   uid: '001',
   typeCode: 'MiniCartComponent',
@@ -55,16 +49,11 @@ class MockCartService {
   getActive() {
     return of(testCart);
   }
-  getEntries() {
-    return of(testEntries);
-  }
 }
 
-class MockCmsService {
-  getComponentData<T extends CmsComponent>(): Observable<T> {
-    return of(mockComponentData);
-  }
-}
+const MockCmsComponentData = <CmsComponentData<Component>>{
+  data$: of(mockComponentData)
+};
 
 describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
@@ -75,7 +64,7 @@ describe('MiniCartComponent', () => {
       imports: [RouterTestingModule],
       declarations: [MiniCartComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CartService, useClass: MockCartService }
       ]
     }).compileComponents();
@@ -88,19 +77,6 @@ describe('MiniCartComponent', () => {
 
   it('should be created', () => {
     expect(miniCartComponent).toBeTruthy();
-  });
-
-  it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(miniCartComponent.component).toBeNull();
-    miniCartComponent.onCmsComponentInit(mockComponentData.uid);
-    expect(miniCartComponent.component).toBe(mockComponentData);
-
-    expect(miniCartComponent.banner).toBe(
-      mockComponentData.lightboxBannerComponent
-    );
-    expect(miniCartComponent.showProductCount).toEqual(
-      +mockComponentData.shownProductCount
-    );
   });
 
   describe('template', () => {

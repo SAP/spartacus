@@ -4,6 +4,7 @@ import { takeWhile } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,27 @@ export class SmartEditService {
 
   constructor(
     private cmsService: CmsService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    winRef: WindowRef
   ) {
     this.getCmsTicket();
     this.addPageContract();
+
+    if (winRef.nativeWindow) {
+      const window = winRef.nativeWindow as any;
+      // rerender components and slots after editing
+      window.smartedit = window.smartedit || {};
+      window.smartedit.renderComponent = (
+        componentId,
+        componentType,
+        parentId
+      ) => {
+        return this.renderComponent(componentId, componentType, parentId);
+      };
+
+      // reprocess page
+      window.smartedit.reprocessPage = this.reprocessPage;
+    }
   }
 
   get cmsTicketId(): string {
@@ -55,5 +73,26 @@ export class SmartEditService {
         );
       }
     });
+  }
+
+  protected renderComponent(
+    componentId: string,
+    componentType?: string,
+    parentId?: string
+  ): boolean {
+    if (componentId) {
+      // without parentId, it is slot
+      if (!parentId) {
+        this.cmsService.refreshLatestPage();
+      } else if (componentType) {
+        this.cmsService.refreshComponent(componentId);
+      }
+    }
+
+    return true;
+  }
+
+  protected reprocessPage() {
+    // TODO: reprocess page API
   }
 }
