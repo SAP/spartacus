@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // ContentPage
-import { HomePageModule } from './home-page/home-page.module';
 import { PageNotFoundModule } from './404/404.module';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
@@ -35,7 +34,6 @@ import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 
 const pageModules = [
   OrderHistoryPageModule,
-  HomePageModule,
   CategoryPageModule,
   CartPageModule,
   MultiStepCheckoutPageModule,
