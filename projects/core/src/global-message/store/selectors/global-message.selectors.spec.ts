@@ -38,7 +38,7 @@ describe('Global Messages selectors', () => {
   });
 
   describe('getGlobalMessagesActiveState', () => {
-    it('should return the global Message active state', () => {
+    it('Should return the global Message active state', () => {
       let result: any;
       store
         .pipe(select(fromSelectors.getGlobalMessageState))
@@ -48,7 +48,7 @@ describe('Global Messages selectors', () => {
   });
 
   describe('getGlobalMessagesEntities', () => {
-    it('should return the list of global messages', () => {
+    it('Should return the list of global messages', () => {
       let result: any;
 
       store

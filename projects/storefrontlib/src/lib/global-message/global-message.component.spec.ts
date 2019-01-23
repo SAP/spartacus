@@ -16,10 +16,11 @@ class MockMessageService {
     return of(mockMessages);
   }
 }
+
 describe('GlobalMessageComponent', () => {
   let globalMessageComponent: GlobalMessageComponent;
-  let fixture: ComponentFixture<GlobalMessageComponent>;
   let messageService: GlobalMessageService;
+  let fixture: ComponentFixture<GlobalMessageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -37,18 +38,18 @@ describe('GlobalMessageComponent', () => {
     messageService = TestBed.get(GlobalMessageService);
   });
 
-  it('should create', () => {
+  it('Should create Global message component', () => {
     expect(globalMessageComponent).toBeTruthy();
   });
 
-  it('should not have duplicate messages per message type', () => {
+  it('Should not have duplicate messages per message type', () => {
     globalMessageComponent.ngOnInit();
     globalMessageComponent.messages$.subscribe(messages => {
       expect(messages[GlobalMessageType.MSG_TYPE_CONFIRMATION].length).toBe(1);
     });
   });
 
-  it('should be able to remove messages', () => {
+  it('Should be able to remove messages', () => {
     globalMessageComponent.clear(GlobalMessageType.MSG_TYPE_CONFIRMATION, 0);
     expect(messageService.remove).toHaveBeenCalledWith(
       GlobalMessageType.MSG_TYPE_CONFIRMATION,

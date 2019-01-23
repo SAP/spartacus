@@ -17,11 +17,11 @@ describe('Cart reducer', () => {
   });
 
   describe('ADD_MESSAGE action', () => {
-    it('should add message to the list of messages', () => {
+    it('Should add message to the list of messages', () => {
       const { initialState } = fromGlobalMessage;
 
       const mockMessage: GlobalMessage = {
-        text: 'test',
+        text: 'Test message',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION
       };
 
@@ -34,10 +34,10 @@ describe('Cart reducer', () => {
   });
 
   describe('REMOVE_MESSAGE action', () => {
-    it('should remove the message from the state with an index', () => {
+    it('Should remove the message from the state by index', () => {
       const initialState = {
         entities: {
-          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test']
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Test message']
         }
       };
 
@@ -55,7 +55,7 @@ describe('Cart reducer', () => {
   });
 
   describe('REMOVE_MESSAGES_BY_TYPE action', () => {
-    it('should remove messages by type from the state', () => {
+    it('Should remove messages by type from the state', () => {
       const initialState = {
         entities: {
           [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test', 'test2'],

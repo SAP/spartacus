@@ -42,23 +42,23 @@ describe('GlobalMessageService', () => {
     service = TestBed.get(GlobalMessageService);
   });
 
-  it('should GlobalMessageService is injected', inject(
+  it('Should GlobalMessageService be injected', inject(
     [GlobalMessageService],
     (globalMessageService: GlobalMessageService) => {
       expect(globalMessageService).toBeTruthy();
     }
   ));
 
-  it('should be able to get all messages', () => {
+  it('Should be able to get all messages', () => {
     service.get().subscribe(results => {
       expect(results).toEqual(mockMessages);
     });
   });
 
-  it('should be able to add a message', () => {
+  it('Should be able to add a message', () => {
     const message: GlobalMessage = {
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'test message'
+      text: 'Test error message'
     };
 
     service.add(message);
@@ -67,7 +67,7 @@ describe('GlobalMessageService', () => {
     );
   });
 
-  it('should be able to remove a message', () => {
+  it('Should be able to remove a message', () => {
     service.remove(GlobalMessageType.MSG_TYPE_ERROR, 0);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.RemoveMessage({
