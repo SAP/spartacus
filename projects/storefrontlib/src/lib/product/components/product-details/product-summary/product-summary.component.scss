@@ -5,7 +5,7 @@
   grid-column-gap: var(--cx-grid-column-gap, 30px);
 
   @include media-breakpoint-up(lg) {
-    grid-template-columns: var(--cx-grid-template-columns, repeat(2, 1fr));
+    grid-template-columns: var(--cx-grid-template-columns, 50% auto);
     grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
   }
 }

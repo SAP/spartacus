@@ -7,7 +7,6 @@ import { ProductService, Product, Component } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { BootstrapModule } from '../../bootstrap.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { ProductCarouselComponent } from './product-carousel.component';
@@ -36,7 +35,7 @@ const mockComponentData: any = {
 };
 
 const mockProduct: Product = {
-  code: 'C001',
+  code: '111111',
   name: 'Camera',
   price: {
     formattedValue: '$100.00'
@@ -64,7 +63,7 @@ describe('ProductCarouselComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, BootstrapModule],
+      imports: [RouterTestingModule],
       declarations: [
         ProductCarouselComponent,
         PictureComponent,
@@ -88,18 +87,33 @@ describe('ProductCarouselComponent', () => {
     expect(productCarouselComponent).toBeTruthy();
   });
 
-  it('should have productCodes', () => {
-    expect(productCarouselComponent.productCodes).toEqual(productCodeArray);
+  it('should have products', () => {
+    expect(productCarouselComponent.items$);
+
+    let products$: Observable<Product>[];
+    productCarouselComponent.items$
+      .subscribe(productData$ => {
+        products$ = productData$;
+      })
+      .unsubscribe();
+    expect(products$.length).toBe(productCodeArray.length);
   });
 
-  it('should have 1 group', () => {
-    spyOn<any>(productCarouselComponent, 'getItemsPerPage').and.returnValue(4);
-    expect(productCarouselComponent.productGroups.length).toBe(1);
+  it('should have product data', () => {
+    expect(productCarouselComponent.items$);
+
+    let product: Product;
+    productCarouselComponent.items$
+      .subscribe(productData$ => {
+        productData$[0].subscribe(data => (product = data)).unsubscribe();
+      })
+      .unsubscribe();
+    expect(product).toBe(mockProduct);
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(
-      el.query(By.css('.cx-carousel__header')).nativeElement.textContent
-    ).toContain(mockComponentData.title);
+    expect(el.query(By.css('h3')).nativeElement.textContent).toContain(
+      mockComponentData.title
+    );
   });
 });

@@ -1,37 +1,29 @@
 @import 'mixins';
 
-$cx-product-details-table-width: 100% !default;
-$cx-product-details-table-row-border-color: 'light' !default;
-$cx-product-details-table-row-border: 1px solid !default;
-$cx-product-details-table-td-trbl-padding: 12px 0 12px 0 !default;
-$cx-product-details-table-td-width: 50% !default;
-$cx-product-details-table-td-trbl-margin: 0 0 30px 0 !default;
-$cx-product-details-table-head-trbl-margin: 0 0 18px 0 !default;
-$cx-product-details-table-list-trbl-padding: 0 0 0 0 !default;
+$cx-product-details-table-row-border: 1px solid var(--cx-g-color-light);
 
-.cx-product-details-tab-table {
-  width: $cx-product-details-table-width;
-  margin: $cx-product-details-table-td-trbl-margin;
-  &--head {
+table {
+  width: var(--cx-width, 100%);
+  margin: var(--cx-margin, 0 0 30px 0);
+  th {
     h3 {
-      margin: $cx-product-details-table-head-trbl-margin;
+      margin: var(--cx-margin, 0 0 18px 0);
     }
   }
-  &--tr {
-    border-top: $cx-product-details-table-row-border;
-    border-bottom: $cx-product-details-table-row-border;
-    @include var-color(
-      'border-color',
-      $cx-product-details-table-row-border-color
+  tr {
+    border-top: var(--cx-border-top, $cx-product-details-table-row-border);
+    border-bottom: var(
+      --cx-border-bottom,
+      $cx-product-details-table-row-border
     );
   }
-  &--td {
-    padding: $cx-product-details-table-td-trbl-padding;
-    vertical-align: top;
-    width: $cx-product-details-table-td-width;
+  td {
+    padding: var(--cx-padding, 12px 0 12px 0);
+    vertical-align: var(--cx-vertical-align, top);
+    width: var(--cx-width, 50%);
   }
-  &--list {
-    list-style: none;
-    padding: $cx-product-details-table-list-trbl-padding;
+  ul {
+    list-style: var(--cx-list-style, none);
+    padding: var(--cx-padding, 0 0 0 0);
   }
 }

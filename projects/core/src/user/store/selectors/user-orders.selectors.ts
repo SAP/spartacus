@@ -1,26 +1,29 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import * as fromFeature from '../reducers/index';
-import * as fromUserOrdersReducer from '../reducers/user-orders.reducer';
+
 import { OrderHistoryList } from '../../../occ/occ-models/index';
-import { UserOrdersState, UserState } from '../user-state';
+import { UserOrdersState, UserState, StateWithUser } from '../user-state';
+import { getUserState } from './feature.selector';
 
 export const getOrdersState: MemoizedSelector<
-  any,
+  StateWithUser,
   UserOrdersState
 > = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.orders
 );
 
 export const getOrders: MemoizedSelector<
-  any,
+  StateWithUser,
   OrderHistoryList
 > = createSelector(
   getOrdersState,
-  fromUserOrdersReducer.getOrders
+  (state: UserOrdersState) => state.orders
 );
 
-export const getOrdersLoaded: MemoizedSelector<any, boolean> = createSelector(
+export const getOrdersLoaded: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
   getOrdersState,
-  fromUserOrdersReducer.getOrdersLoaded
+  (state: UserOrdersState) => state.loaded
 );

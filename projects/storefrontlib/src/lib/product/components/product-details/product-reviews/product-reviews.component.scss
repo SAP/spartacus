@@ -4,15 +4,11 @@
 
 $gutterSize: 15px;
 
-:host {
-  --cx-border-color: var(--cx-g-color-light);
-}
-
 .header {
   display: flex;
   flex-wrap: wrap;
-  border-bottom: var(--cx-border-width) var(--cx-border-style)
-    var(--cx-border-color);
+
+  border-bottom: var(--cx-border-bottom, 1px solid var(--cx-g-color-light));
 
   padding: var(--cx-padding, 0 $gutterSize $gutterSize);
   margin: var(--cx-margin, 0 -#{$gutterSize} 40px -#{$gutterSize});

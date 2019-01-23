@@ -3,6 +3,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { AuthConfig } from '../../auth/config/auth-config';
 
 export type CmsComponentId =
+  | 'SiteContextSelectorComponent'
   | 'CMSLinkComponent'
   | 'SimpleResponsiveBannerComponent'
   | 'SimpleBannerComponent'
@@ -26,6 +27,20 @@ export type CMSComponentConfig = {
   }
 };
 
+export type LayoutSections =
+  | 'header'
+  | 'footer'
+  | 'LandingPage2Template'
+  | string;
+
+export type SlotGroup = {
+  slots?: string[];
+};
+
+export type LayoutSlotConfig = {
+  [section in LayoutSections]: SlotGroup | LayoutSlotConfig
+};
+
 export abstract class CmsConfig extends OccConfig implements AuthConfig {
   authentication?: {
     client_id?: string;
@@ -38,4 +53,6 @@ export abstract class CmsConfig extends OccConfig implements AuthConfig {
   };
 
   cmsComponents?: CMSComponentConfig;
+
+  layoutSlots?: LayoutSlotConfig;
 }
