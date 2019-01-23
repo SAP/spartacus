@@ -20,7 +20,7 @@ export class LoadNavigationItems extends EntityLoadAction {
 
 export class LoadNavigationItemsFail extends EntityFailAction {
   readonly type = LOAD_NAVIGATION_ITEMS_FAIL;
-  constructor(public nodeId: string, public payload: any) {
+  constructor(nodeId: string, public payload: any) {
     super(NAVIGATION_DETAIL_ENTITY, nodeId, payload);
   }
 }
