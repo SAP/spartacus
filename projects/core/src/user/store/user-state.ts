@@ -1,3 +1,4 @@
+import { LoaderState } from '../../state';
 import {
   Address,
   PaymentDetails,
@@ -21,7 +22,7 @@ export interface UserState {
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: UserPaymentMethodsState;
-  orders: UserOrdersState;
+  orders: LoaderState<UserOrdersState>;
   order: OrderDetailsState;
   titles: TitlesState;
   regions: RegionsState;
@@ -76,6 +77,4 @@ export interface UserDetailsState {
 
 export interface UserOrdersState {
   orders: OrderHistoryList;
-  loading: boolean;
-  loaded: boolean;
 }
