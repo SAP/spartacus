@@ -1,10 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cx-product-attributes',
   templateUrl: './product-attributes.component.html',
-  styleUrls: ['./product-attributes.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-attributes.component.scss']
 })
 export class ProductAttributesComponent {
   @Input()

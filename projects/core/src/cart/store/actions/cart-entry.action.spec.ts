@@ -1,4 +1,10 @@
 import * as fromCartEntry from './../actions/cart-entry.action';
+import { CART_DATA } from '../cart-state';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
 
 const userId = 'xxx@xxx.xxx';
 const cartId = 'testCartId';
@@ -18,7 +24,8 @@ describe('Cart-entry Actions', () => {
         const action = new fromCartEntry.AddEntry(payload);
         expect({ ...action }).toEqual({
           type: fromCartEntry.ADD_ENTRY,
-          payload: payload
+          payload: payload,
+          meta: loadMeta(CART_DATA)
         });
       });
     });
@@ -30,7 +37,8 @@ describe('Cart-entry Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCartEntry.ADD_ENTRY_FAIL,
-          payload: error
+          payload: error,
+          meta: failMeta(CART_DATA, error)
         });
       });
     });
@@ -40,7 +48,8 @@ describe('Cart-entry Actions', () => {
         const action = new fromCartEntry.AddEntrySuccess({});
         expect({ ...action }).toEqual({
           type: fromCartEntry.ADD_ENTRY_SUCCESS,
-          payload: {}
+          payload: {},
+          meta: successMeta(CART_DATA)
         });
       });
     });
@@ -53,7 +62,8 @@ describe('Cart-entry Actions', () => {
         const action = new fromCartEntry.RemoveEntry(payload);
         expect({ ...action }).toEqual({
           type: fromCartEntry.REMOVE_ENTRY,
-          payload: payload
+          payload: payload,
+          meta: loadMeta(CART_DATA)
         });
       });
     });
@@ -65,7 +75,8 @@ describe('Cart-entry Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCartEntry.REMOVE_ENTRY_FAIL,
-          payload: error
+          payload: error,
+          meta: failMeta(CART_DATA, error)
         });
       });
     });
@@ -74,7 +85,8 @@ describe('Cart-entry Actions', () => {
       it('should create the action', () => {
         const action = new fromCartEntry.RemoveEntrySuccess();
         expect({ ...action }).toEqual({
-          type: fromCartEntry.REMOVE_ENTRY_SUCCESS
+          type: fromCartEntry.REMOVE_ENTRY_SUCCESS,
+          meta: successMeta(CART_DATA)
         });
       });
     });
@@ -92,7 +104,8 @@ describe('Cart-entry Actions', () => {
         const action = new fromCartEntry.UpdateEntry(payload);
         expect({ ...action }).toEqual({
           type: fromCartEntry.UPDATE_ENTRY,
-          payload: payload
+          payload: payload,
+          meta: loadMeta(CART_DATA)
         });
       });
     });
@@ -104,7 +117,8 @@ describe('Cart-entry Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCartEntry.UPDATE_ENTRY_FAIL,
-          payload: error
+          payload: error,
+          meta: failMeta(CART_DATA, error)
         });
       });
     });
@@ -113,7 +127,8 @@ describe('Cart-entry Actions', () => {
       it('should create the action', () => {
         const action = new fromCartEntry.UpdateEntrySuccess();
         expect({ ...action }).toEqual({
-          type: fromCartEntry.UPDATE_ENTRY_SUCCESS
+          type: fromCartEntry.UPDATE_ENTRY_SUCCESS,
+          meta: successMeta(CART_DATA)
         });
       });
     });

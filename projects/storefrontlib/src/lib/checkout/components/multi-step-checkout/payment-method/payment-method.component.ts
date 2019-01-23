@@ -1,11 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  OnInit,
-  Output,
-  EventEmitter,
-  Input
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 import { PaymentDetails } from '@spartacus/core';
 
@@ -21,8 +14,7 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
-  styleUrls: ['./payment-method.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./payment-method.component.scss']
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
@@ -105,8 +97,12 @@ export class PaymentMethodComponent implements OnInit {
     });
   }
 
-  addNewPaymentMethod(paymentDetails) {
-    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: true });
+  addNewPaymentMethod({ paymentDetails, billingAddress }) {
+    this.addPaymentInfo.emit({
+      payment: paymentDetails,
+      billingAddress,
+      newPayment: true
+    });
   }
 
   showNewPaymentForm() {

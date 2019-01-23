@@ -5,8 +5,7 @@ import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
-  auxResults: {},
-  loading: false
+  auxResults: {}
 };
 
 export function reducer(
@@ -14,26 +13,13 @@ export function reducer(
   action: fromProductsSearch.ProductSearchAction
 ): ProductsSearchState {
   switch (action.type) {
-    case fromProductsSearch.SEARCH_PRODUCTS: {
-      return {
-        ...state,
-        loading: true
-      };
-    }
-
     case fromProductsSearch.SEARCH_PRODUCTS_SUCCESS: {
       const results = action.payload;
-
-      if (state.loading) {
-        const res = action.auxiliary ? { auxResults: results } : { results };
-        return {
-          ...state,
-          ...res,
-          loading: false
-        };
-      } else {
-        return state;
-      }
+      const res = action.auxiliary ? { auxResults: results } : { results };
+      return {
+        ...state,
+        ...res
+      };
     }
 
     case fromProductsSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS: {
@@ -58,8 +44,6 @@ export const getSearchResults = (
 export const getAuxSearchResults = (
   state: ProductsSearchState
 ): ProductSearchPage => state.auxResults;
-export const getSearchResultsLoading = (state: ProductsSearchState): boolean =>
-  state.loading;
 export const getProductSuggestions = (
   state: ProductsSearchState
 ): Suggestion[] => state.suggestions;

@@ -1,7 +1,8 @@
+dist: trusty
 language: node_js
 node_js:
   - 10.14.1
-dist: trusty
+cache: yarn
 git:
   depth: false
 branches:
@@ -11,28 +12,14 @@ branches:
     - "/^feature\\/.*$/"
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
-jobs:
-  include:
-    - stage: 'Validation'
-      script: './ci-scripts/validate.sh'
-      name: 'Validation'
-    - script: './ci-scripts/lint.sh'
-      name: 'Lint'
-    - stage: 'Unit tests'
-      script: './ci-scripts/unit-tests-sonar.sh'
-      name: 'Unit tests/Sonar scan'
-    - script: './ci-scripts/e2e-tests.sh'
-      name: 'End to end tests'
-    - stage: deploy
-      script: './ci-scripts/build-deploy.sh'
-      name: 'Deploy to github pages'
-      deploy:
-        provider: pages
-        skip_cleanup: true
-        github_token: $GITHUB_TOKEN
-        local_dir: dist/storefrontapp
-        on:
-          branch: develop
+script: ./build.sh
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/storefrontapp
+  on:
+    branch: develop
 notifications:
   slack:
     secure: D/c2tdqrGpf5I8CJ/rnrhYeNG1Gk/mEu7B1bI49IpC9CSsHzDeS624+9IoI6XLBjp3RfgffxTI4s2AWJcEAxhs+jSd6HaRYw44BZQJ1zyVhtZHTjm5uouqOCPaX4JTs9mPGAlqC2qnLxnbOr63uNgKghrPmsAGiFh68eqbP5+4CKx2HpqkqdlaxzR/By35wZxW1HmVMbY1yG1J+dO8vh1dpohYyB3ktDwA8K75BGPXDGCY3Uyly2rmH3AqTSsgnBXw5wJfXWAXAAeHYVS914K6Pf3FBSPWP3738Rra3SA4juxHWJlQEnoFNN4jiiXHt61uuOMYlKBjdvXy0oOTgRAaio/hkePrFZP5izQVg4+izh9bOP914N4Ia3fC42cgilNXA+NT0+vRsy9gQG30hzc8FMvjM8VstQniSbuE2qtZ/Bk8FJ8ItpdKaxNN4Ram9rCW5tzc/7qlaGnjIx4RIMWwuWHe8S5lwmV6zjoYzzOSE0Pq/v5tN3rx9YubrAhugoY+78hqh6AhCV0iWzoBhsTTxYYlSvPicf1vN9l1j/3b2yOoimliPx5Pt/74vgYLnCivrQCZS4E4MDkPlz1L8ubqibznVkcy3vrkEC9HzJSWUVXusHj/asSnaeF16b0KS4p/EoLw8k4nRPCOH4ippHly4uCPpbhEh0djaC3YgvobI=
