@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { LoginModule } from './components/login/login.module';
-import { RegisterComponent } from './components/register/register.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { LoginModule } from './login/login.module';
+import { RegisterComponent } from './register/register.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({

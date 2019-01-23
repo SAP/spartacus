@@ -9,9 +9,9 @@ import { PaymentDetailsPageLayoutModule } from '../../layout/payment-details-pag
 
 const routes: Routes = [
   {
-    path: 'my-account/payment-details',
+    path: null,
     canActivate: [AuthGuard, CmsPageGuards],
-    data: { pageLabel: 'payment-details', breadcrumb: '/ Payment Details' },
+    data: { pageLabel: 'payment-details', cxPath: 'paymentManagement', breadcrumb: '/ Payment Details' },
     component: PaymentDetailsPageComponent
   }
 ];

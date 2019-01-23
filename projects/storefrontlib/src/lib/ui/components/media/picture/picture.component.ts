@@ -5,7 +5,8 @@ import {
   ElementRef,
   ChangeDetectorRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  Renderer2
 } from '@angular/core';
 import { missingProductImgSrc } from '../../../images/missingProduct';
 import { Image } from '@spartacus/core';
@@ -34,7 +35,11 @@ export class PictureComponent implements OnChanges {
   mainImage: string;
   missingProductImgSrc = missingProductImgSrc;
 
-  constructor(private elRef: ElementRef, private cd: ChangeDetectorRef) {}
+  constructor(
+    private elRef: ElementRef,
+    private cd: ChangeDetectorRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnChanges() {
     this.loadImage();
@@ -46,7 +51,10 @@ export class PictureComponent implements OnChanges {
         this.imageFormat || DEFAULT_FORMAT
       ];
       if (image && image.url) {
-        (<HTMLElement>this.elRef.nativeElement).classList.add(LOADING_CLS);
+        this.renderer.addClass(
+          <HTMLElement>this.elRef.nativeElement,
+          LOADING_CLS
+        );
         this.mainImage = image.url;
         this.cd.detectChanges();
       }
@@ -54,8 +62,14 @@ export class PictureComponent implements OnChanges {
   }
 
   loadHandler() {
-    (<HTMLElement>this.elRef.nativeElement).classList.add(INITIALIZED_CLS);
-    (<HTMLElement>this.elRef.nativeElement).classList.remove(LOADING_CLS);
+    this.renderer.addClass(
+      <HTMLElement>this.elRef.nativeElement,
+      INITIALIZED_CLS
+    );
+    this.renderer.removeClass(
+      <HTMLElement>this.elRef.nativeElement,
+      LOADING_CLS
+    );
     this.loaded.emit(this.elRef.nativeElement);
   }
 

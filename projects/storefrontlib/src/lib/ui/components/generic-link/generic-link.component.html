@@ -3,10 +3,10 @@
     role="link"
     [href]="url"
     [target]="target"
-    [class]="class"
-    [id]="id"
+    [class]="class ? class : ''"
+    [id]="id ? id : ''"
     [style]="style"
-    [title]="title"
+    [title]="title ? title : ''"
   >
     <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
   </a>
@@ -16,10 +16,10 @@
     role="link"
     [routerLink]="routerUrl"
     [target]="target"
-    [class]="class"
-    [id]="id"
+    [class]="class ? class : ''"
+    [id]="id ? id : ''"
     [style]="style"
-    [title]="title"
+    [title]="title ? title : ''"
   >
     <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
   </a>

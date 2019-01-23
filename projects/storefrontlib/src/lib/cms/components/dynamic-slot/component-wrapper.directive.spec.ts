@@ -3,12 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CmsComponentData } from '../cms-component-data';
-import { CxApiService } from '../../../cx-api/cx-api.service';
 import {
   CmsComponent,
   CmsService,
   ComponentMapperService,
-  CmsConfig
+  CmsConfig,
+  CxApiService
 } from '@spartacus/core';
 
 const testText = 'test text';

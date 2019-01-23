@@ -1,14 +1,8 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import {
-  ActionReducerMap,
-  MemoizedSelector,
-  MetaReducer,
-  ActionReducer,
-  createFeatureSelector
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
-import { UserState, USER_FEATURE } from '../user-state';
+import { UserState } from '../user-state';
 import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
 
@@ -20,11 +14,13 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromUserAddresses from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrders from './user-orders.reducer';
+import * as fromBillingCountriesReducer from './billing-countries.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: fromUserDetailsReducer.reducer,
     addresses: fromUserAddresses.reducer,
+    billingCountries: fromBillingCountriesReducer.reducer,
     payments: fromPaymentMethods.reducer,
     orders: fromUserOrders.reducer,
     order: fromOrderDetailsReducer.reducer,
@@ -42,11 +38,6 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers
 };
-
-export const getUserState: MemoizedSelector<
-  any,
-  UserState
-> = createFeatureSelector<UserState>(USER_FEATURE);
 
 export function clearUserState(
   reducer: ActionReducer<any>

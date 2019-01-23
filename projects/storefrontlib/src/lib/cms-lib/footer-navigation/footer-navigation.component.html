@@ -1,4 +1,4 @@
-<nav>
+<nav *ngIf="(node$ | async) as node">
   <div class="container">
     <div class="row">
       <div
@@ -8,10 +8,10 @@
         <h1>{{ child.title }}</h1>
         <ul>
           <li *ngFor="let link of child.children">
-            <a
-              [href]="link.url"
+            <cx-generic-link
+              [url]="{ url: link.url } | cxTranslateUrl"
               [target]="link.target === true ? 'blank' : 'self'"
-              >{{ link.title }}</a
+              >{{ link.title }}</cx-generic-link
             >
           </li>
         </ul>
@@ -19,4 +19,6 @@
     </div>
   </div>
 </nav>
-<div class="notice">{{ component?.notice }}</div>
+<div class="notice" *ngIf="(component.data$ | async) as data">
+  {{ data.notice }}
+</div>

@@ -1,30 +1,33 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import * as fromFeature from '../reducers/index';
-import * as fromUserPaymentMethodsReducer from '../reducers/payment-methods.reducer';
-import { UserPaymentMethodsState, UserState } from '../user-state';
+import {
+  UserPaymentMethodsState,
+  UserState,
+  StateWithUser
+} from '../user-state';
 import { PaymentDetails } from '../../../occ/occ-models/index';
+import { getUserState } from './feature.selector';
 
 export const getPaymentMethodsState: MemoizedSelector<
-  any,
+  StateWithUser,
   UserPaymentMethodsState
 > = createSelector(
-  fromFeature.getUserState,
+  getUserState,
   (state: UserState) => state.payments
 );
 
 export const getPaymentMethods: MemoizedSelector<
-  any,
+  StateWithUser,
   PaymentDetails[]
 > = createSelector(
   getPaymentMethodsState,
-  fromUserPaymentMethodsReducer.getPaymentMethods
+  (state: UserPaymentMethodsState) => state.list
 );
 
 export const getPaymentMethodsLoading: MemoizedSelector<
-  any,
+  StateWithUser,
   boolean
 > = createSelector(
   getPaymentMethodsState,
-  fromUserPaymentMethodsReducer.getLoading
+  (state: UserPaymentMethodsState) => state.isLoading
 );
