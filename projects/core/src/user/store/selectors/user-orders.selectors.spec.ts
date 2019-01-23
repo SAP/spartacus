@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
+import { StateWithUser, USER_FEATURE, UserOrdersState } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { StateWithUser, USER_FEATURE, UserOrdersState } from '../user-state';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
@@ -30,6 +32,28 @@ describe('User Orders Selectors', () => {
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
+
+  describe('getOrdersLoaderState', () => {
+    it('should return a loading state', () => {
+      let result: LoaderState<UserOrdersState>;
+      store
+        .pipe(select(fromSelectors.getOrdersLoaderState))
+        .subscribe(value => (result = value));
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: {
+          orders: {
+            orders: [],
+            pagination: {},
+            sorts: []
+          }
+        }
+      });
+    });
+  });
+
   describe('getOrderState', () => {
     it('should return the Order state from the store', () => {
       let result: UserOrdersState;
@@ -41,9 +65,7 @@ describe('User Orders Selectors', () => {
           orders: [],
           pagination: {},
           sorts: []
-        },
-        loading: false,
-        loaded: false
+        }
       });
     });
   });

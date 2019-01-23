@@ -11,6 +11,7 @@ import {
 } from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';
+export const USER_ORDERS = '[User] User Orders';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
