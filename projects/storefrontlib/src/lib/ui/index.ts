@@ -40,7 +40,6 @@ export * from './pages/order-details-page/order-details-page.component';
 export * from './pages/login-page/login-page.component';
 export * from './pages/404/404.component';
 export * from './pages/order-history-page/order-history-page.module';
-export * from './pages/home-page/home-page.module';
 export * from './pages/404/404.module';
 export * from './pages/cart-page/cart-page.module';
 export * from './pages/category-page/category-page.module';
