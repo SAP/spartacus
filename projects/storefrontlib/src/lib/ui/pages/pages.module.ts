@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // ContentPage
+import { HomePageModule } from './home-page/home-page.module';
 import { PageNotFoundModule } from './404/404.module';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
@@ -27,13 +28,10 @@ import { CategoryPageModule } from './category-page/category-page.module';
 
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
-import { RouterModule } from '@angular/router';
-import { CmsPageGuards } from '../../cms';
-import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
-import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 
 const pageModules = [
   OrderHistoryPageModule,
+  HomePageModule,
   CategoryPageModule,
   CartPageModule,
   MultiStepCheckoutPageModule,
@@ -56,19 +54,7 @@ const pageModules = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild([
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'homepage', cxPath: 'home' }
-      }
-    ]),
-    PageLayoutModule,
-    ...pageModules
-  ],
+  imports: [CommonModule, ...pageModules],
   exports: [...pageModules]
 })
 export class PagesModule {}
