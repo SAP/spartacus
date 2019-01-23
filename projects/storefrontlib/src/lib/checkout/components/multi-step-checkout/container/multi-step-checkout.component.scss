@@ -1,12 +1,4 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-// cx-multi-step-checkout color variables
-$cx-multi-step-checkout-progress-bar-color: 'primary' !default;
-$cx-multi-step-checkout-media-background-color: 'background' !default;
-$cx-multi-step-checkout-nav-list-media-border-color: 'light' !default;
-$cx-multi-step-checkout-media-border-color: 'light' !default;
 
 .cx-multi-step-checkout {
   padding: 2.5rem 0;
@@ -29,10 +21,7 @@ $cx-multi-step-checkout-media-border-color: 'light' !default;
 
       &.progressbar {
         border-bottom: 5px solid;
-        @include var-color(
-          'border-bottom-color',
-          $cx-multi-step-checkout-progress-bar-color
-        );
+        border-color: var(--cx-border-color, var(--cx-g-color-primary));
       }
 
       &::before {
@@ -68,10 +57,7 @@ $cx-multi-step-checkout-media-border-color: 'light' !default;
       @include media-breakpoint-down(md) {
         &:last-child {
           border-bottom: 1px solid;
-          @include var-color(
-            'border-color',
-            $cx-multi-step-checkout-media-border-color
-          );
+          border-color: var(--cx-border-color, var(--cx-g-color-light));
         }
       }
     }
@@ -85,10 +71,7 @@ $cx-multi-step-checkout-media-border-color: 'light' !default;
       line-height: 4.75rem;
       min-width: 100%;
       border-top: 1px solid;
-      @include var-color(
-        'border-color',
-        $cx-multi-step-checkout-nav-list-media-border-color
-      );
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
       margin-bottom: 0;
 
       button {
@@ -153,9 +136,9 @@ $cx-multi-step-checkout-media-border-color: 'light' !default;
     &-list--media {
       &.is-active {
         @include media-breakpoint-down(md) {
-          @include var-color(
-            'background-color',
-            $cx-multi-step-checkout-media-background-color
+          background-color: var(
+            --cx-background-color,
+            var(--cx-g-color-background)
           );
         }
       }
@@ -167,10 +150,7 @@ $cx-multi-step-checkout-media-border-color: 'light' !default;
 @mixin checkout-media-style() {
   @include media-breakpoint-down(md) {
     margin-bottom: 2.375rem;
-    @include var-color(
-      'background-color',
-      $cx-multi-step-checkout-media-background-color
-    );
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
   }
 
   .col-md-12 {
