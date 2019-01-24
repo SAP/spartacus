@@ -13,9 +13,7 @@ type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 export class ConfigurableRoutesService {
   constructor(private config: ServerConfig, private injector: Injector) {}
 
-  private readonly DEFAULT_LANGUAGE_CODE = 'default';
-
-  private currentLanguageCode: string = this.DEFAULT_LANGUAGE_CODE;
+  private readonly currentLanguageCode = 'en'; // TODO: hardcoded! should be removed when more languages are supported by localized routes
 
   private allRoutesTranslations: RoutesConfig['translations'];
 
@@ -25,26 +23,18 @@ export class ConfigurableRoutesService {
     ] as RoutesTranslations;
   }
 
+  /**
+   * Initializes service with given translations and translates all existing Routes in the Router.
+   */
   init(allRoutesTranslations: RoutesConfig['translations']) {
     // check if not already initialized:
     if (!this.allRoutesTranslations) {
       this.allRoutesTranslations = allRoutesTranslations;
-      this.translateRouterConfig('en');
+      this.translateRouterConfig();
     }
   }
 
-  private translateRouterConfig(languageCode: string) {
-    if (this.allRoutesTranslations[languageCode] === undefined) {
-      this.warn(
-        `There are no translations in routes config for language code '${languageCode}'.`,
-        `The default routes translations will be used instead: `,
-        this.allRoutesTranslations.default
-      );
-      this.currentLanguageCode = this.DEFAULT_LANGUAGE_CODE;
-    } else {
-      this.currentLanguageCode = languageCode;
-    }
-
+  private translateRouterConfig() {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
 
@@ -73,6 +63,10 @@ export class ConfigurableRoutesService {
       : routes;
   }
 
+  /**
+   * Returns the list of routes translations for given list of nested routes
+   * using given object of routes translations.
+   */
   getNestedRoutesTranslations(
     nestedRouteNames: string[],
     routesTranslations: RoutesTranslations = this.currentRoutesTranslations

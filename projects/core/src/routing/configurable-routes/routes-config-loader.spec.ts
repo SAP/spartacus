@@ -5,6 +5,7 @@ import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
+import { ConfigurableRoutesService } from './configurable-routes.service';
 
 class MockHttpClient {
   get = () => new BehaviorSubject(null);
@@ -53,6 +54,7 @@ describe('RoutesConfigLoader', () => {
   let loader: RoutesConfigLoader;
   let http: MockHttpClient;
   let mockConfigurableRoutesConfig: MockConfigurableRoutesModuleConfig;
+  let configurableRoutesService: ConfigurableRoutesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,11 +65,16 @@ describe('RoutesConfigLoader', () => {
         {
           provide: ConfigurableRoutesConfig,
           useClass: MockConfigurableRoutesModuleConfig
+        },
+        {
+          provide: ConfigurableRoutesService,
+          useValue: { init: jasmine.createSpy() }
         }
       ]
     });
 
     loader = TestBed.get(RoutesConfigLoader);
+    configurableRoutesService = TestBed.get(ConfigurableRoutesService);
     http = TestBed.get(HttpClient);
     mockConfigurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
   });
@@ -121,6 +128,13 @@ describe('RoutesConfigLoader', () => {
           fetch: true
         });
       });
+
+      it('should init service', async () => {
+        spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
+        expect(loader.routesConfig).toBeFalsy();
+        await loader.load();
+        expect(configurableRoutesService.init).toHaveBeenCalled();
+      });
     });
 
     describe(', when fetch is configured to false,', () => {
@@ -165,6 +179,13 @@ describe('RoutesConfigLoader', () => {
             }
           })
         );
+      });
+
+      it('should init service', async () => {
+        spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
+        expect(loader.routesConfig).toBeFalsy();
+        await loader.load();
+        expect(configurableRoutesService.init).toHaveBeenCalled();
       });
     });
   });
