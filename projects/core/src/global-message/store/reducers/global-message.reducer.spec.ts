@@ -4,12 +4,13 @@ import {
   GlobalMessage,
   GlobalMessageType
 } from '../../models/global-message.model';
+import { GlobalMessageState, GlobalMessageAction } from '..';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromGlobalMessage;
-      const action = {} as any;
+      const action = {} as GlobalMessageAction;
       const state = fromGlobalMessage.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -35,7 +36,7 @@ describe('Cart reducer', () => {
 
   describe('REMOVE_MESSAGE action', () => {
     it('Should remove the message from the state by index', () => {
-      const initialState = {
+      const initialState: GlobalMessageState = {
         entities: {
           [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Test message']
         }
@@ -56,7 +57,7 @@ describe('Cart reducer', () => {
 
   describe('REMOVE_MESSAGES_BY_TYPE action', () => {
     it('Should remove messages by type from the state', () => {
-      const initialState = {
+      const initialState: GlobalMessageState = {
         entities: {
           [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test', 'test2'],
           [GlobalMessageType.MSG_TYPE_ERROR]: ['test']

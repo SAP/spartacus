@@ -11,7 +11,9 @@ import {
 } from '../../models/global-message.model';
 import {
   GLOBAL_MESSAGE_FEATURE,
-  StateWithGlobalMessage
+  StateWithGlobalMessage,
+  GlobalMessageState,
+  GlobalMessageEntities
 } from '../global-message-state';
 
 describe('Global Messages selectors', () => {
@@ -39,7 +41,7 @@ describe('Global Messages selectors', () => {
 
   describe('getGlobalMessagesActiveState', () => {
     it('Should return the global Message active state', () => {
-      let result: any;
+      let result: GlobalMessageState;
       store
         .pipe(select(fromSelectors.getGlobalMessageState))
         .subscribe(value => (result = value));
@@ -49,7 +51,7 @@ describe('Global Messages selectors', () => {
 
   describe('getGlobalMessagesEntities', () => {
     it('Should return the list of global messages', () => {
-      let result: any;
+      let result: GlobalMessageEntities;
 
       store
         .pipe(select(fromSelectors.getGlobalMessageEntities))
