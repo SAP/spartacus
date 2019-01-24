@@ -28,7 +28,7 @@ import { CategoryPageModule } from './category-page/category-page.module';
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
-import { CmsPageGuards } from '../../cms';
+import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 
