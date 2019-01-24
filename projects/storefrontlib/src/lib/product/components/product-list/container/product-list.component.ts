@@ -55,6 +55,22 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (this.query) {
       this.search(this.query, options);
     }
+
+    this.model$ = this.productSearchService.getSearchResults(this.query).pipe(
+      tap(searchResult => {
+        if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
+          this.categoryTitle = searchResult.breadcrumbs[0].facetValueName;
+        } else if (!this.query.includes(':relevance:')) {
+          this.categoryTitle = this.query;
+        }
+        if (this.categoryTitle) {
+          this.categoryTitle =
+            searchResult.pagination.totalResults +
+            ' results for ' +
+            this.categoryTitle;
+        }
+      })
+    );
   }
 
   createOptionsByUrlParams(): SearchConfig {
@@ -81,22 +97,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.grid = {
       mode: this.gridMode
     };
-
-    this.model$ = this.productSearchService.getSearchResults().pipe(
-      tap(searchResult => {
-        if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
-          this.categoryTitle = searchResult.breadcrumbs[0].facetValueName;
-        } else if (!this.query.includes(':relevance:')) {
-          this.categoryTitle = this.query;
-        }
-        if (this.categoryTitle) {
-          this.categoryTitle =
-            searchResult.pagination.totalResults +
-            ' results for ' +
-            this.categoryTitle;
-        }
-      })
-    );
   }
 
   onFilter(query: string) {

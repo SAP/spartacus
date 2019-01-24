@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
 import * as fromStore from '../store/index';
@@ -32,10 +32,15 @@ export class ProductSearchService {
     );
   }
 
-  getSearchResults(): Observable<ProductSearchPage> {
+  getSearchResults(query?: string): Observable<ProductSearchPage> {
     return this.store.pipe(
       select(fromStore.getSearchResults),
-      filter(results => Object.keys(results).length > 0)
+      tap(searchResult => {
+        if (Object.keys(searchResult).length === 0 && query) {
+          this.search(query);
+        }
+      }),
+      filter(searchResult => Object.keys(searchResult).length > 0)
     );
   }
 

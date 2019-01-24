@@ -30,7 +30,6 @@ export class PageEffects {
       pageActions.LOAD_PAGEDATA,
       pageActions.REFRESH_LATEST_PAGE,
       '[Site-context] Language Change',
-      '[Site-context] Currency Change',
       '[Auth] Logout',
       '[Auth] Login'
     ),
