@@ -225,14 +225,16 @@ describe('OccCmsService', () => {
         return req.method === 'POST' && req.url === endpoint + '/components';
       });
 
-      expect(mockReq.request.body).toEqual(ids);
-      expect(mockReq.request.params.get('productCode')).toEqual('123');
-      expect(mockReq.request.params.get('fields')).toEqual('FULL');
-      expect(mockReq.request.params.get('currentPage')).toEqual('0');
-      expect(mockReq.request.params.get('pageSize')).toEqual('5');
+      const request: HttpRequest<any> = mockReq.request;
+      expect(request.body).toEqual(ids);
+      expect(request.params.get('productCode')).toEqual('123');
+      expect(request.params.get('fields')).toEqual('FULL');
+      expect(request.params.get('currentPage')).toEqual('0');
+      expect(request.params.get('pageSize')).toEqual('5');
+
+      expect(request.responseType).toEqual('json');
 
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(listComponents);
     });
   });
