@@ -5,6 +5,7 @@ import { StoresState } from '../store/store-finder-state';
 import * as fromStore from '../store/index';
 import { StoreFinderSearchConfig } from './../model/search-config';
 import { LongitudeLatitude } from './../model/longitude-latitude';
+import { StoreEntities } from '../model/store-entities';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
 
@@ -24,7 +25,7 @@ export class StoreFinderService {
   /**
    * Returns observable for store's entities
    */
-  getFindStoresEntities(): Observable<any> {
+  getFindStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(select(fromStore.getFindStoresEntities));
   }
 
@@ -38,7 +39,7 @@ export class StoreFinderService {
   /**
    * Returns observable for view all store's entities
    */
-  getViewAllStoresEntities(): Observable<any> {
+  getViewAllStoresEntities(): Observable<StoreEntities> {
     return this.store.pipe(select(fromStore.getViewAllStoresEntities));
   }
 

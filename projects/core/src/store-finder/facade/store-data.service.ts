@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Location } from '../model';
 
 @Injectable()
 export class StoreDataService {
@@ -17,7 +18,7 @@ export class StoreDataService {
    * Returns store latitude
    * @param location store location
    */
-  getStoreLatitude(location: any): number {
+  getStoreLatitude(location: Location): number {
     return location.geoPoint.latitude;
   }
 
@@ -25,7 +26,7 @@ export class StoreDataService {
    * Returns store longitude
    * @param location store location
    */
-  getStoreLongitude(location: any): number {
+  getStoreLongitude(location: Location): number {
     return location.geoPoint.longitude;
   }
 
@@ -34,7 +35,7 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  getStoreClosingTime(location: any, date: Date): Date {
+  getStoreClosingTime(location: Location, date: Date): Date {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result: Date = null;
 
@@ -56,7 +57,7 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  getStoreOpeningTime(location: any, date: Date): Date {
+  getStoreOpeningTime(location: Location, date: Date): Date {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result: Date = null;
 
@@ -78,7 +79,7 @@ export class StoreDataService {
    * @param location store location
    * @param date date to compare
    */
-  isStoreOpen(location: any, date: Date): boolean {
+  isStoreOpen(location: Location, date: Date): boolean {
     const requestedDaySchedule = this.getSchedule(location, date);
     let result = false;
 
@@ -99,7 +100,7 @@ export class StoreDataService {
    *
    * @returns payload describing the store's schedule for the given day.
    */
-  private getSchedule(location: any, date: Date): any {
+  private getSchedule(location: Location, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
     return location.openingHours.weekDayOpeningList.find(
       weekDayOpeningListItem => weekDayOpeningListItem.weekDay === weekday
