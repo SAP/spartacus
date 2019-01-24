@@ -7,17 +7,17 @@ export class AddedToCartModal extends AppPage {
     by.tagName('cx-added-to-cart-dialog')
   );
   readonly modalTitle: ElementFinder = this.modal.element(
-    by.css('.cx-added-to-cart-dialog__title')
+    by.css('.cx-dialog-title')
   );
   readonly loader: ElementFinder = this.modal.element(by.tagName('cx-spinner'));
   readonly closeButton: ElementFinder = this.modal.element(
     by.css('[aria-label="Close"]')
   );
   readonly itemContainer: ElementFinder = this.modal.element(
-    by.css('.cx-added-to-cart-dialog__item-container')
+    by.css('.cx-dialog-item')
   );
   readonly actionButtons: ElementFinder = this.modal.element(
-    by.css('.cx-added-to-cart-dialog__actions')
+    by.css('.cx-dialog-buttons')
   );
   readonly viewCartButton: ElementFinder = this.actionButtons.element(
     by.css('.btn-primary')
@@ -26,7 +26,7 @@ export class AddedToCartModal extends AppPage {
     by.css('.btn-secondary')
   );
   readonly total: ElementFinder = this.modal.element(
-    by.css('.cx-added-to-cart-dialog__total')
+    by.css('.cx-dialog-total')
   );
   readonly totalCount: ElementFinder = this.total.element(
     by.css('div:first-of-type')
