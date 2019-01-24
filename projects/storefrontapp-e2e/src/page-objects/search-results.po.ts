@@ -49,11 +49,11 @@ export class SearchResultsPage extends AppPage {
   );
 
   readonly facets: ElementArrayFinder = this.page.all(
-    by.css('.cx-search-facet-checkbox')
+    by.css('.cx-facet-checkbox')
   );
 
   readonly clearFacets: ElementFinder = this.page.element(
-    by.css('.cx-search-facet-filter__pill .close')
+    by.css('.cx-facet-filter-pill .close')
   );
 
   readonly sortingSelect: ElementFinder = this.page.element(
