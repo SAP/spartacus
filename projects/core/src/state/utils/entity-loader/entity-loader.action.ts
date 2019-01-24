@@ -4,7 +4,7 @@ import {
   loadMeta,
   successMeta
 } from '../loader/loader.action';
-import { EntityMeta } from '../entity/entity.action';
+import { entityMeta, EntityMeta } from '../entity/entity.action';
 import { Action } from '@ngrx/store';
 
 export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
@@ -24,7 +24,7 @@ export function entityLoadMeta(
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
-    entityId: id
+    ...entityMeta(entityType, id)
   };
 }
 
@@ -35,7 +35,7 @@ export function entityFailMeta(
 ): EntityLoaderMeta {
   return {
     ...failMeta(entityType, error),
-    entityId: id
+    ...entityMeta(entityType, id)
   };
 }
 
@@ -45,7 +45,7 @@ export function entitySuccessMeta(
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
-    entityId: id
+    ...entityMeta(entityType, id)
   };
 }
 
