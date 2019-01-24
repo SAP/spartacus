@@ -31,7 +31,8 @@ describe('User Addresses Selectors', () => {
       let result: LoaderState<UserAddressesState>;
       store
         .pipe(select(fromSelectors.getAddressesLoaderState))
-        .subscribe(value => (result = value));
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({
         loading: false,
@@ -79,7 +80,7 @@ describe('User Addresses Selectors', () => {
 
   describe('getAddressProcessingStatus', () => {
     it('should return isActionProcessing flag', () => {
-      let result;
+      let result: boolean;
       store
         .pipe(select(fromSelectors.getAddressActionProcessingStatus))
         .subscribe(value => (result = value));

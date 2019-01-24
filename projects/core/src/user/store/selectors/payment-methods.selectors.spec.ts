@@ -38,7 +38,8 @@ describe('User Payment Methods Selectors', () => {
       let result: LoaderState<UserPaymentMethodsState>;
       store
         .pipe(select(fromSelectors.getPaymentMethodsLoaderState))
-        .subscribe(value => (result = value));
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({
         loading: false,
@@ -56,7 +57,8 @@ describe('User Payment Methods Selectors', () => {
       let result: UserPaymentMethodsState;
       store
         .pipe(select(fromSelectors.getPaymentMethodsState))
-        .subscribe(value => (result = value));
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({
         list: []
