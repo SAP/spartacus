@@ -6,7 +6,7 @@ import { CartService } from '@spartacus/core';
 
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
@@ -18,6 +18,7 @@ import {
   Pipe,
   PipeTransform
 } from '@angular/core';
+import { OrderEntry } from '@spartacus/core';
 
 class MockNgbActiveModal {
   dismiss() {}
@@ -52,7 +53,7 @@ class MockCartItemComponent {
   @Input()
   compact = false;
   @Input()
-  item;
+  item: Observable<OrderEntry>;
   @Input()
   potentialProductPromotions: any[];
   @Input()

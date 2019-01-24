@@ -10,7 +10,7 @@ import { CartDataService, CartService } from '@spartacus/core';
 import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
-import { Cart } from '@spartacus/core';
+import { Cart, OrderEntry } from '@spartacus/core';
 
 const productCode = '1234';
 const mockCartEntry: any = [];
@@ -20,7 +20,7 @@ class MockCartService {
       '1234': { entryNumber: 0, product: { code: productCode } }
     });
   }
-  getEntry(_productCode: string): Observable<any> {
+  getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
   getLoaded(): Observable<boolean> {

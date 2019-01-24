@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CartService } from '@spartacus/core';
+import { CartService, Cart, OrderEntry } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-cart-details',
@@ -8,9 +10,9 @@ import { CartService } from '@spartacus/core';
   styleUrls: ['./cart-details.component.scss']
 })
 export class CartDetailsComponent implements OnInit {
-  cart$;
-  entries$;
-  cartLoaded$;
+  cart$: Observable<Cart>;
+  entries$: Observable<OrderEntry[]>;
+  cartLoaded$: Observable<boolean>;
 
   constructor(protected cartService: CartService) {}
 

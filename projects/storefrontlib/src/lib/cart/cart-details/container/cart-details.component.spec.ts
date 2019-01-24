@@ -1,11 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CartDataService } from '@spartacus/core';
-import { CartService } from '@spartacus/core';
+import {
+  CartDataService,
+  CartService,
+  Cart,
+  OrderEntry
+} from '@spartacus/core';
 
 import { CartDetailsComponent } from './cart-details.component';
 import { Pipe, PipeTransform, Component, Input } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 class MockCartService {
   removeEntry() {}
@@ -173,11 +179,11 @@ class MockTranslateUrlPipe implements PipeTransform {
 })
 class MockCartItemListComponent {
   @Input()
-  items;
+  items: Observable<OrderEntry[]>;
   @Input()
-  potentialProductPromotions;
+  potentialProductPromotions: any[] = [];
   @Input()
-  cartIsLoading;
+  cartIsLoading: Observable<boolean>;
 }
 @Component({
   template: '',
@@ -185,7 +191,7 @@ class MockCartItemListComponent {
 })
 class MockOrderSummaryComponent {
   @Input()
-  cart;
+  cart: Observable<Cart>;
 }
 
 describe('CartDetailsComponent', () => {
