@@ -69,7 +69,7 @@ export class CartPage extends AppPage {
 
   async deleteEntryByName(productName) {
     const product = this.cartEntryByProductName(productName);
-    await product.element(by.css('.cx-actions a')).click();
+    await product.element(by.css('.cx-actions button')).click();
   }
 
   async checkCartEntry(

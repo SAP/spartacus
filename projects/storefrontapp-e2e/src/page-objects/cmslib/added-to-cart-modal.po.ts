@@ -42,7 +42,7 @@ export class AddedToCartModal extends AppPage {
     by.css('.cx-price .cx-value')
   );
   readonly itemQuantity: ElementFinder = this.item.element(
-    by.css('.cx-quantity .cx-value')
+    by.css('.cx-quantity .cx-item-counter__value')
   );
   readonly itemTotalPrice: ElementFinder = this.item.element(
     by.css('.cx-total .cx-value')
