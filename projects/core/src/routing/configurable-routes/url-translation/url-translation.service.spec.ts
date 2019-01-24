@@ -115,30 +115,6 @@ describe('UrlTranslationService', () => {
       });
     });
 
-    describe(`, when options 'url' property is empty string,`, () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = { url: '' };
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
     describe(`, when options 'url' property is null,`, () => {
       let options: TranslateUrlOptions;
       beforeEach(() => {
@@ -191,7 +167,7 @@ describe('UrlTranslationService', () => {
       let options: TranslateUrlOptions;
       beforeEach(() => {
         spyOn(console, 'warn');
-        options = { url: '' };
+        options = { route: null };
       });
 
       it(`should console.warn in non-production environment`, () => {
@@ -232,6 +208,17 @@ describe('UrlTranslationService', () => {
 
       it(`should return the root url`, () => {
         expect(service.translate(options)).toEqual(['/']);
+      });
+    });
+
+    describe(`, when options 'url' property is empty string,`, () => {
+      it('should try to recognize nested routes names in given url', () => {
+        spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
+          null
+        );
+        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue(null);
+        service.translate({ url: '' });
+        expect(routeRecognizer.recognizeByDefaultUrl).toHaveBeenCalledWith('');
       });
     });
 
