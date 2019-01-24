@@ -18,7 +18,9 @@ export class RoutesConfigLoader {
   }
 
   get endpoint(): string {
-    return 'http://localhost:3000/routes-config';
+    return (
+      (this.serverConfig.server.baseUrl || '') + '/' + ENDPOINT_ROUTES_CONFIG
+    );
   }
 
   constructor(
