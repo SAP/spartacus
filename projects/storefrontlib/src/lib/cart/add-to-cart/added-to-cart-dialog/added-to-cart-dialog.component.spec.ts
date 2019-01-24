@@ -1,33 +1,48 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { CartService } from '@spartacus/core';
 
-import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { of, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import {
-  DebugElement,
-  Pipe,
-  PipeTransform,
   Component,
-  Input
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform
 } from '@angular/core';
 
 class MockNgbActiveModal {
   dismiss() {}
+
   close() {}
 }
 
 class MockCartService {
+  getLoaded() {}
+
   updateEntry(_entryNumber, _updatedQuantity) {}
+
   removeEntry(_entry) {}
 }
+
+const mockItems = [
+  {
+    quantity: 1,
+    entryNumber: 1,
+    id: 111,
+    product: {
+      code: 'CODE1111'
+    }
+  }
+];
 
 @Component({
   selector: 'cx-cart-item',
@@ -44,6 +59,8 @@ class MockCartItemComponent {
   isReadOnly = false;
   @Input()
   cartIsLoading = false;
+  @Input()
+  parent: FormGroup;
 }
 
 @Pipe({
@@ -57,10 +74,17 @@ describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
+  let cartService: CartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, RouterTestingModule, NgbModule, SpinnerModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        NgbModule,
+        SpinnerModule
+      ],
       declarations: [
         AddedToCartDialogComponent,
         MockCartItemComponent,
@@ -83,6 +107,11 @@ describe('AddedToCartDialogComponent', () => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    component.entry$ = of(mockItems[0]);
+    cartService = TestBed.get(CartService);
+    spyOn(cartService, 'removeEntry').and.callThrough();
+    spyOn(cartService, 'updateEntry').and.callThrough();
+    spyOn(component.activeModal, 'dismiss').and.callThrough();
   });
 
   it('should create', () => {
@@ -99,13 +128,6 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should handle focus of elements', () => {
-    component.entry$ = of({
-      id: 111,
-      product: {
-        code: 'CODE1111'
-      }
-    });
-
     const loaded$ = new BehaviorSubject<boolean>(false);
     component.loaded$ = loaded$.asObservable();
 
@@ -118,33 +140,20 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should display quantity', () => {
-    component.quantity = 10;
     component.loaded$ = of(true);
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('10 item(s) added to your cart');
+    ).toEqual('Item(s) added to your cart');
   });
 
   it('should display cart item', () => {
-    component.entry$ = of({
-      id: 111,
-      product: {
-        code: 'CODE1111'
-      }
-    });
     component.loaded$ = of(true);
     fixture.detectChanges();
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
   });
 
   it('should display cart total', () => {
-    component.entry$ = of({
-      id: 111,
-      product: {
-        code: 'CODE1111'
-      }
-    });
     component.cart$ = of({
       deliveryItemsQuantity: 1,
       totalPrice: {
@@ -156,5 +165,22 @@ describe('AddedToCartDialogComponent', () => {
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
     expect(cartTotalEl.children[0].textContent).toEqual('Cart total (1 items)');
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
+  });
+
+  it('should remove entry', () => {
+    component.loaded$ = of(true);
+    component.ngOnInit();
+    const item = mockItems[0];
+    expect(component.form.controls[item.product.code]).toBeDefined();
+    component.removeEntry(item);
+    expect(cartService.removeEntry).toHaveBeenCalledWith(item);
+    expect(component.form.controls[item.product.code]).toBeUndefined();
+    expect(component.activeModal.dismiss).toHaveBeenCalledWith('Removed');
+  });
+
+  it('should update entry', () => {
+    const item = mockItems[0];
+    component.updateEntry({ item, updatedQuantity: 5 });
+    expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
   });
 });

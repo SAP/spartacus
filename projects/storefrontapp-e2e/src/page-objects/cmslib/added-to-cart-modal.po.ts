@@ -37,17 +37,15 @@ export class AddedToCartModal extends AppPage {
   readonly item: ElementFinder = this.itemContainer.element(
     by.tagName('cx-cart-item')
   );
-  readonly itemName: ElementFinder = this.item.element(
-    by.css('.cx-cart-item__name--link')
-  );
+  readonly itemName: ElementFinder = this.item.element(by.css('.cx-link'));
   readonly itemPrice: ElementFinder = this.item.element(
-    by.css('.cx-cart-item__price--value')
+    by.css('.cx-price .cx-value')
   );
   readonly itemQuantity: ElementFinder = this.item.element(
-    by.css('.cx-cart-item__quantity--value')
+    by.css('.cx-quantity .cx-value')
   );
   readonly itemTotalPrice: ElementFinder = this.item.element(
-    by.css('.cx-cart-item__total--value')
+    by.css('.cx-total .cx-value')
   );
 
   async waitForReady() {

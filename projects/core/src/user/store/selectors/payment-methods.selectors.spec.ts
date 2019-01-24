@@ -5,14 +5,14 @@ import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
 import { PaymentDetailsList } from '../../../occ/occ-models/index';
-import { UserState, USER_FEATURE } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserPaymentMethods: PaymentDetailsList = {
   payments: [{ id: 'payment1' }, { id: 'payment2' }]
 };
 
 describe('User Payment Methods Selectors', () => {
-  let store: Store<UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

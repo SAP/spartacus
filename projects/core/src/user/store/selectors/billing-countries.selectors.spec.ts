@@ -5,10 +5,10 @@ import * as fromActions from '../actions/billing-countries.action';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/billing-countries.selectors';
 import { Country } from '../../../occ/occ-models/index';
-import { UserState, USER_FEATURE } from '../user-state';
+import { USER_FEATURE, StateWithUser } from '../user-state';
 
 describe('Billing Countries Selectors', () => {
-  let store: Store<UserState>;
+  let store: Store<StateWithUser>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

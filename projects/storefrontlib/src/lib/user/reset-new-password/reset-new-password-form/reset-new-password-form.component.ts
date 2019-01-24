@@ -6,7 +6,7 @@ import {
   AbstractControl
 } from '@angular/forms';
 
-import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
+import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-reset-new-password-form',

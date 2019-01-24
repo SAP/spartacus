@@ -30,7 +30,7 @@
   <div class="quantity">
     <label>Qty</label>
     <cx-item-counter
-      isValueChangable="true"
+      isValueChangeable="true"
       [min]="1"
       [max]="product.stock.stockLevel"
       *ngIf="
@@ -45,6 +45,7 @@
     *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
     [quantity]="itemCount"
     [productCode]="product?.code"
+    [maxQuantity]="product.stock.stockLevel"
   ></cx-add-to-cart>
 </ng-container>
 

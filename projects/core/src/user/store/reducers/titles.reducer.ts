@@ -37,5 +37,3 @@ export function reducer(
 
   return state;
 }
-
-export const getTitlesEntites = (state: TitlesState) => state.entities;

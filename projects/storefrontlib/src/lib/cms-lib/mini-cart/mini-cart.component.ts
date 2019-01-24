@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -9,8 +9,7 @@ import { CmsComponentData } from './../../cms/components/cms-component-data';
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
-  styleUrls: ['./mini-cart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./mini-cart.component.scss']
 })
 export class MiniCartComponent {
   cart$: Observable<Cart>;

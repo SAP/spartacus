@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { BootstrapModule } from '../../../bootstrap.module';
-import { CmsModule } from './../../../cms/cms.module';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginComponent } from './login.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import { CmsModule } from '../../cms/cms.module';
+import { BootstrapModule } from '../../bootstrap.module';
 
 @NgModule({
   imports: [
