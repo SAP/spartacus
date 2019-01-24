@@ -1,29 +1,41 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers/index';
-import * as fromReducer from './../reducers/checkout.reducer';
+
 import { CheckoutState, CheckoutStepsState } from '../checkout-state';
-import { DeliveryMode } from '../../../occ/occ-models/index';
+import * as fromReducer from './../reducers/checkout.reducer';
+import * as fromFeature from './../reducers/index';
+import {
+  DeliveryMode,
+  Address,
+  Order,
+  PaymentDetails
+} from '../../../occ/occ-models/index';
 
 export const getCheckoutStepsState: MemoizedSelector<
-  any,
+  CheckoutState,
   CheckoutStepsState
 > = createSelector(
   fromFeature.getCheckoutState,
   (state: CheckoutState) => state.steps
 );
 
-export const getDeliveryAddress: MemoizedSelector<any, any> = createSelector(
+export const getDeliveryAddress: MemoizedSelector<
+  CheckoutState,
+  Address
+> = createSelector(
   getCheckoutStepsState,
   fromReducer.getDeliveryAddress
 );
 
-export const getDeliveryMode: MemoizedSelector<any, any> = createSelector(
+export const getDeliveryMode: MemoizedSelector<
+  CheckoutState,
+  any
+> = createSelector(
   getCheckoutStepsState,
   fromReducer.getDeliveryMode
 );
 
 export const getSupportedDeliveryModes: MemoizedSelector<
-  any,
+  CheckoutState,
   DeliveryMode[]
 > = createSelector(
   getDeliveryMode,
@@ -34,7 +46,10 @@ export const getSupportedDeliveryModes: MemoizedSelector<
   }
 );
 
-export const getSelectedCode: MemoizedSelector<any, any> = createSelector(
+export const getSelectedCode: MemoizedSelector<
+  CheckoutState,
+  string
+> = createSelector(
   getDeliveryMode,
   deliveryMode => {
     return deliveryMode.selected;
@@ -42,7 +57,7 @@ export const getSelectedCode: MemoizedSelector<any, any> = createSelector(
 );
 
 export const getSelectedDeliveryMode: MemoizedSelector<
-  any,
+  CheckoutState,
   any
 > = createSelector(
   getDeliveryMode,
@@ -56,14 +71,17 @@ export const getSelectedDeliveryMode: MemoizedSelector<
   }
 );
 
-export const getPaymentDetails: MemoizedSelector<any, any> = createSelector(
+export const getPaymentDetails: MemoizedSelector<
+  CheckoutState,
+  PaymentDetails
+> = createSelector(
   getCheckoutStepsState,
   fromReducer.getPaymentDetails
 );
 
 export const getCheckoutOrderDetails: MemoizedSelector<
-  any,
-  any
+  CheckoutState,
+  Order
 > = createSelector(
   getCheckoutStepsState,
   fromReducer.getOrderDetails

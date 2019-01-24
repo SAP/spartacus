@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   CartService,
@@ -11,7 +12,6 @@ import {
   PaymentDetails,
   Order,
   CheckoutService,
-  CheckoutAddress,
   Cart
 } from '@spartacus/core';
 
@@ -20,7 +20,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
@@ -31,7 +30,7 @@ class MockCheckoutService {
   setPaymentDetails = createSpy();
   placeOrder = createSpy();
 
-  getSelectedDeliveryModeCode(): Observable<any> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return of('');
   }
 
@@ -48,7 +47,7 @@ class MockCheckoutService {
   }
 }
 
-const mockAddress: CheckoutAddress = {
+const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
   lastName: 'Doe',
@@ -79,7 +78,7 @@ const mockOrderDetails = { id: '1234' };
 @Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
-  selectedShippingMethod;
+  selectedShippingMethod: string;
 }
 
 @Component({ selector: 'cx-payment-method', template: '' })
@@ -91,9 +90,9 @@ class MockPaymentMethodComponent {
 @Component({ selector: 'cx-review-submit', template: '' })
 class MockReviewSubmitComponent {
   @Input()
-  deliveryAddress;
+  deliveryAddress: Address;
   @Input()
-  shippingMethod;
+  shippingMethod: string;
   @Input()
   paymentDetails;
 }

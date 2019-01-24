@@ -2,20 +2,19 @@ import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Observable } from 'rxjs';
-
 import * as fromCheckoutStore from '../store/index';
+import { CartDataService, ANONYMOUS_USERID } from '../../cart/index';
 import {
   PaymentDetails,
   CardType,
   Order,
   DeliveryMode,
-  AddressValidation
+  AddressValidation,
+  Address
 } from '../../occ/occ-models/index';
-import { CheckoutAddress } from '../model/checkout-address.model';
-import { CartDataService, ANONYMOUS_USERID } from '../../cart/index';
 
 @Injectable()
 export class CheckoutService {
@@ -59,7 +58,7 @@ export class CheckoutService {
   /**
    * Get delivery address
    */
-  getDeliveryAddress(): Observable<CheckoutAddress> {
+  getDeliveryAddress(): Observable<Address> {
     return this.checkoutStore.pipe(
       select(fromCheckoutStore.getDeliveryAddress)
     );
@@ -95,7 +94,7 @@ export class CheckoutService {
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
-  createAndSetAddress(address: CheckoutAddress): void {
+  createAndSetAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.AddDeliveryAddress({
@@ -178,7 +177,7 @@ export class CheckoutService {
    * Verifies the address
    * @param address : the address to be verified
    */
-  verifyAddress(address: CheckoutAddress): void {
+  verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({
@@ -193,7 +192,7 @@ export class CheckoutService {
    * Set delivery address
    * @param address : The address to be set
    */
-  setDeliveryAddress(address: CheckoutAddress): void {
+  setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.SetDeliveryAddress({

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
+import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
-import { PaymentDetails, Order } from '../../../occ/occ-models/index';
-import { CheckoutAddress } from '../../model/checkout-address.model';
+import { PaymentDetails, Order, Address } from '../../../occ/occ-models/index';
 
 describe('Checkout Selectors', () => {
   let store: Store<CheckoutState>;
@@ -25,7 +25,7 @@ describe('Checkout Selectors', () => {
 
   describe('getDeliveryAddress', () => {
     it('should return the cart delivery address', () => {
-      const address: CheckoutAddress = {
+      const address: Address = {
         id: 'testAddressId',
         firstName: 'John',
         lastName: 'Doe',

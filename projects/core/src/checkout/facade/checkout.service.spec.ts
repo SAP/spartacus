@@ -1,11 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
+
 import * as fromCheckout from '../store/index';
-import { CheckoutService } from './checkout.service';
 import { CartDataService } from '../../cart/index';
-import { PaymentDetails } from '../../occ/occ-models/index';
-import { CheckoutAddress } from '../model/checkout-address.model';
+import {
+  PaymentDetails,
+  DeliveryMode,
+  Address
+} from '../../occ/occ-models/index';
+
+import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
@@ -18,7 +23,7 @@ describe('CheckoutService', () => {
     id: 'mockPaymentDetails'
   };
 
-  const address: CheckoutAddress = {
+  const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
@@ -58,10 +63,13 @@ describe('CheckoutService', () => {
       })
     );
 
-    let deliveryModes;
-    service.getSupportedDeliveryModes().subscribe(data => {
-      deliveryModes = data;
-    });
+    let deliveryModes: DeliveryMode[];
+    service
+      .getSupportedDeliveryModes()
+      .subscribe(data => {
+        deliveryModes = data;
+      })
+      .unsubscribe();
     expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);
   });
 
@@ -73,7 +81,7 @@ describe('CheckoutService', () => {
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
-    let selectedMode;
+    let selectedMode: DeliveryMode;
     service.getSelectedDeliveryMode().subscribe(data => {
       selectedMode = data;
     });

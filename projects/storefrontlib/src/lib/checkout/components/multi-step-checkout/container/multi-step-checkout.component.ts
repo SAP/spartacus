@@ -1,8 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+
 import {
-  CheckoutAddress,
   CheckoutService,
   RoutingService,
   GlobalMessageService,
@@ -10,8 +8,12 @@ import {
   CartService,
   CartDataService,
   PaymentDetails,
-  Address
+  Address,
+  Cart
 } from '@spartacus/core';
+
+import { Subscription, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { checkoutNavBar } from './checkout-navigation-bar';
 
@@ -24,12 +26,12 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
   done = false;
 
-  deliveryAddress: CheckoutAddress;
-  paymentDetails: any;
+  deliveryAddress: Address;
+  paymentDetails: PaymentDetails;
   shippingMethod: string;
   subscriptions: Subscription[] = [];
 
-  cart$: Observable<any>;
+  cart$: Observable<Cart>;
   tAndCToggler = false;
 
   navs = checkoutNavBar;
@@ -55,7 +57,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.processSteps();
   }
 
-  processSteps() {
+  processSteps(): void {
     // step1: set delivery address
     this.subscriptions.push(
       this.checkoutService
@@ -131,7 +133,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     );
   }
 
-  setStep(backStep) {
+  setStep(backStep: number): void {
     this.nextStep(backStep);
   }
 
@@ -156,7 +158,13 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = false;
   }
 
-  addAddress({ newAddress, address }) {
+  addAddress({
+    newAddress,
+    address
+  }: {
+    newAddress: boolean;
+    address: Address;
+  }): void {
     if (newAddress) {
       this.checkoutService.createAndSetAddress(address);
       return;
@@ -170,7 +178,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  setDeliveryMode({ deliveryModeId }) {
+  setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
     // if the selected shipping method is the same as the cart's one
     if (this.shippingMethod && this.shippingMethod === deliveryModeId) {
       this.nextStep(3);
@@ -207,15 +215,15 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.checkoutService.setPaymentDetails(payment);
   }
 
-  placeOrder() {
+  placeOrder(): void {
     this.checkoutService.placeOrder();
   }
 
-  toggleTAndC() {
+  toggleTAndC(): void {
     this.tAndCToggler = !this.tAndCToggler;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     if (!this.done) {
       this.checkoutService.clearCheckoutData();

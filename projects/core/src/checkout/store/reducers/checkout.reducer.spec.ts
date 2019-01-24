@@ -1,11 +1,13 @@
-import * as fromCheckout from './checkout.reducer';
-import * as fromActions from './../actions/index';
 import {
   DeliveryModeList,
   PaymentDetails,
   Order,
   Address
 } from '@spartacus/core';
+
+import * as fromActions from './../actions/index';
+
+import * as fromCheckout from './checkout.reducer';
 
 describe('Checkout reducer', () => {
   describe('undefined action', () => {
@@ -118,7 +120,7 @@ describe('Checkout reducer', () => {
 
       const action = new fromActions.CreatePaymentDetailsFail(errorPayload);
       const state = fromCheckout.reducer(initialState, action);
-      expect(state.paymentDetails).toEqual(errorPayload);
+      expect(state.paymentDetails as any).toEqual(errorPayload);
     });
   });
 
