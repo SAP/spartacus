@@ -97,17 +97,15 @@ describe('ProductGridItemComponent in product-list', () => {
 
   it('should display product name', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-grid__name'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-name')
+        .textContent
     ).toContain(component.product.name);
   });
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-grid__price'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-price')
+        .textContent
     ).toContain(component.product.price.formattedValue);
   });
 
