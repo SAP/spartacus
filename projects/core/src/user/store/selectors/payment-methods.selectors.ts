@@ -6,14 +6,28 @@ import {
   StateWithUser
 } from '../user-state';
 import { PaymentDetails } from '../../../occ/occ-models/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import {
+  loaderValueSelector,
+  loaderLoadingSelector
+} from '../../../state/utils/loader/loader.selectors';
+
 import { getUserState } from './feature.selector';
+
+export const getPaymentMethodsLoaderState: MemoizedSelector<
+  StateWithUser,
+  LoaderState<UserPaymentMethodsState>
+> = createSelector(
+  getUserState,
+  (state: UserState) => state.payments
+);
 
 export const getPaymentMethodsState: MemoizedSelector<
   StateWithUser,
   UserPaymentMethodsState
 > = createSelector(
-  getUserState,
-  (state: UserState) => state.payments
+  getPaymentMethodsLoaderState,
+  (state: LoaderState<UserPaymentMethodsState>) => loaderValueSelector(state)
 );
 
 export const getPaymentMethods: MemoizedSelector<
@@ -28,6 +42,6 @@ export const getPaymentMethodsLoading: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(
-  getPaymentMethodsState,
-  (state: UserPaymentMethodsState) => state.isLoading
+  getPaymentMethodsLoaderState,
+  (state: LoaderState<UserPaymentMethodsState>) => loaderLoadingSelector(state)
 );

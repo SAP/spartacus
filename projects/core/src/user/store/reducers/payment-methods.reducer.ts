@@ -1,10 +1,9 @@
-import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 import { UserPaymentMethodsState } from '../user-state';
+import * as fromPaymentMethodsAction from '../actions/payment-methods.action';
 import { PaymentDetails } from '../../../occ/occ-models/index';
 
 export const initialState: UserPaymentMethodsState = {
-  list: [],
-  isLoading: false
+  list: []
 };
 
 export function reducer(
@@ -18,36 +17,31 @@ export function reducer(
       if (list !== undefined) {
         return {
           ...state,
-          list,
-          isLoading: false
+          list
         };
       } else {
         return {
-          ...state,
-          isLoading: false
+          ...state
         };
       }
     }
 
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_FAIL: {
       return {
-        ...state,
-        isLoading: false
+        ...state
       };
     }
 
     case fromPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS: {
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     }
 
     case fromPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD:
     case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD: {
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     }
 
@@ -56,8 +50,7 @@ export function reducer(
     case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_FAIL:
     case fromPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_SUCCESS: {
       return {
-        ...state,
-        isLoading: false
+        ...state
       };
     }
   }

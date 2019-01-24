@@ -11,6 +11,7 @@ import {
 } from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';
+export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 
 export interface StateWithUser {
@@ -22,7 +23,7 @@ export interface UserState {
   addresses: UserAddressesState;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
-  payments: UserPaymentMethodsState;
+  payments: LoaderState<UserPaymentMethodsState>;
   orders: LoaderState<UserOrdersState>;
   order: OrderDetailsState;
   titles: TitlesState;
@@ -35,7 +36,6 @@ export interface OrderDetailsState {
 
 export interface UserPaymentMethodsState {
   list: PaymentDetails[];
-  isLoading: boolean;
 }
 
 export interface RegionsState {

@@ -1,11 +1,18 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
+import {
+  StateWithUser,
+  USER_FEATURE,
+  UserPaymentMethodsState
+} from '../user-state';
 import { PaymentDetailsList } from '../../../occ/occ-models/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { PaymentDetails } from '../../../occ/occ-models/occ.models';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 const mockUserPaymentMethods: PaymentDetailsList = {
   payments: [{ id: 'payment1' }, { id: 'payment2' }]
@@ -26,9 +33,40 @@ describe('User Payment Methods Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
+  describe('getPaymentMethodsLoaderState', () => {
+    it('should return a user payment methods loader', () => {
+      let result: LoaderState<UserPaymentMethodsState>;
+      store
+        .pipe(select(fromSelectors.getPaymentMethodsLoaderState))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: {
+          list: []
+        }
+      });
+    });
+  });
+
+  describe('getPaymentMethodsState', () => {
+    it('should return a user payment methods state', () => {
+      let result: UserPaymentMethodsState;
+      store
+        .pipe(select(fromSelectors.getPaymentMethodsState))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({
+        list: []
+      });
+    });
+  });
+
   describe('getPaymentMethods', () => {
     it('should return a user payment methods', () => {
-      let result;
+      let result: PaymentDetails[];
       store
         .pipe(select(fromSelectors.getPaymentMethods))
         .subscribe(value => (result = value));
@@ -47,10 +85,7 @@ describe('User Payment Methods Selectors', () => {
 
   describe('getPaymentMethodsLoading', () => {
     it('should return isLoading flag', () => {
-      // reset loading state
-      store.dispatch(new fromActions.LoadUserPaymentMethodsFail({}));
-
-      let result;
+      let result: boolean;
       store
         .pipe(select(fromSelectors.getPaymentMethodsLoading))
         .subscribe(value => (result = value));

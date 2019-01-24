@@ -9,6 +9,12 @@ import * as fromSelectors from '../selectors/index';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 
+const emptyOrder: OrderHistoryList = {
+  orders: [],
+  pagination: {},
+  sorts: []
+};
+
 const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {
@@ -38,17 +44,15 @@ describe('User Orders Selectors', () => {
       let result: LoaderState<UserOrdersState>;
       store
         .pipe(select(fromSelectors.getOrdersLoaderState))
-        .subscribe(value => (result = value));
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
       expect(result).toEqual({
         loading: false,
         error: false,
         success: false,
         value: {
-          orders: {
-            orders: [],
-            pagination: {},
-            sorts: []
-          }
+          orders: emptyOrder
         }
       });
     });
@@ -59,13 +63,11 @@ describe('User Orders Selectors', () => {
       let result: UserOrdersState;
       store
         .pipe(select(fromSelectors.getOrdersState))
-        .subscribe(value => (result = value));
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
       expect(result).toEqual({
-        orders: {
-          orders: [],
-          pagination: {},
-          sorts: []
-        }
+        orders: emptyOrder
       });
     });
   });
@@ -76,11 +78,8 @@ describe('User Orders Selectors', () => {
       store
         .pipe(select(fromSelectors.getOrders))
         .subscribe(value => (result = value));
-      expect(result).toEqual({
-        orders: [],
-        pagination: {},
-        sorts: []
-      });
+
+      expect(result).toEqual(emptyOrder);
 
       store.dispatch(new fromActions.LoadUserOrdersSuccess(mockUserOrders));
       expect(result).toEqual(mockUserOrders);

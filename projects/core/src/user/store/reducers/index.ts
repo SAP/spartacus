@@ -2,7 +2,13 @@ import { InjectionToken, Provider } from '@angular/core';
 
 import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
-import { UserState, UserOrdersState, USER_ORDERS } from '../user-state';
+import {
+  UserState,
+  UserOrdersState,
+  USER_ORDERS,
+  UserPaymentMethodsState,
+  USER_PAYMENT_METHODS
+} from '../user-state';
 import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
@@ -22,7 +28,10 @@ export function getReducers(): ActionReducerMap<UserState> {
     account: fromUserDetailsReducer.reducer,
     addresses: fromUserAddresses.reducer,
     billingCountries: fromBillingCountriesReducer.reducer,
-    payments: fromPaymentMethods.reducer,
+    payments: loaderReducer<UserPaymentMethodsState>(
+      USER_PAYMENT_METHODS,
+      fromPaymentMethods.reducer
+    ),
     orders: loaderReducer<UserOrdersState>(USER_ORDERS, fromUserOrders.reducer),
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,
