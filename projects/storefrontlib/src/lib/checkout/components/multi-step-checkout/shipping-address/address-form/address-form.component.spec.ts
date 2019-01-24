@@ -106,6 +106,7 @@ describe('AddressFormComponent', () => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     controls = component.address.controls;
+    component.showTitleCode = true;
 
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
@@ -177,7 +178,7 @@ describe('AddressFormComponent', () => {
       .unsubscribe();
 
     expect(countries).toBe(mockCountries);
-    expect(titles).toBe(mockTitles);
+    expect(titles).toEqual([{ code: '', name: 'None' }, ...mockTitles]);
     expect(regions).toBe(mockRegions);
   });
 
@@ -232,7 +233,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call verfiyAddress()', () => {
+  it('should call verifyAddress()', () => {
     component.verifyAddress();
     expect(mockCheckoutService.verifyAddress).toHaveBeenCalled();
   });
