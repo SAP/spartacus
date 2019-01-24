@@ -1,5 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ConfigurableRoutesService } from '@spartacus/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'cx-storefront',
@@ -7,10 +6,4 @@ import { ConfigurableRoutesService } from '@spartacus/core';
   styleUrls: ['./storefront.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StorefrontComponent implements OnInit {
-  constructor(private configurableRoutesService: ConfigurableRoutesService) {}
-
-  ngOnInit() {
-    this.configurableRoutesService.translateRouterConfig('en');
-  }
-}
+export class StorefrontComponent {}

@@ -1,52 +1,60 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { ServerConfig } from '../../config/server-config/server-config';
-import { RoutesConfigLoader } from './routes-config-loader';
-import { RoutesTranslations, RouteTranslation } from './routes-config';
+import {
+  RoutesTranslations,
+  RouteTranslation,
+  RoutesConfig
+} from './routes-config';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
 @Injectable()
 export class ConfigurableRoutesService {
-  constructor(
-    private readonly config: ServerConfig,
-    private readonly router: Router,
-    private readonly loader: RoutesConfigLoader
-  ) {}
+  constructor(private config: ServerConfig, private injector: Injector) {}
 
   private readonly DEFAULT_LANGUAGE_CODE = 'default';
 
   private currentLanguageCode: string = this.DEFAULT_LANGUAGE_CODE;
 
-  private get routesTranslations() {
-    return this.loader.routesConfig.translations;
-  }
+  private allRoutesTranslations: RoutesConfig['translations'];
 
   private get currentRoutesTranslations(): RoutesTranslations {
-    return this.routesTranslations[
+    return this.allRoutesTranslations[
       this.currentLanguageCode
     ] as RoutesTranslations;
   }
 
-  translateRouterConfig(languageCode: string) {
-    if (this.routesTranslations[languageCode] === undefined) {
+  init(allRoutesTranslations: RoutesConfig['translations']) {
+    // check if not already initialized:
+    if (!this.allRoutesTranslations) {
+      this.allRoutesTranslations = allRoutesTranslations;
+      this.translateRouterConfig('en');
+    }
+  }
+
+  private translateRouterConfig(languageCode: string) {
+    if (this.allRoutesTranslations[languageCode] === undefined) {
       this.warn(
         `There are no translations in routes config for language code '${languageCode}'.`,
         `The default routes translations will be used instead: `,
-        this.routesTranslations.default
+        this.allRoutesTranslations.default
       );
       this.currentLanguageCode = this.DEFAULT_LANGUAGE_CODE;
     } else {
       this.currentLanguageCode = languageCode;
     }
 
+    // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
+    const router = this.injector.get(Router);
+
     let translatedRoutes = this.translateRoutes(
-      this.router.config,
+      router.config,
       this.currentRoutesTranslations
     );
     translatedRoutes = this.moveWildcardRouteToEnd(translatedRoutes);
 
-    this.router.resetConfig(translatedRoutes);
+    router.resetConfig(translatedRoutes);
   }
 
   /**
