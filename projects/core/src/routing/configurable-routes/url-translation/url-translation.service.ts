@@ -47,11 +47,11 @@ export class UrlTranslationService {
       return false;
     }
 
-    const urlDefined = options.url || options.url === '';
-    const routeDefined = Array.isArray(options.route);
+    const urlDefined = Boolean(options.url) || options.url === '';
+    const routeDefined = Boolean(options.route);
     if (!urlDefined && !routeDefined) {
       this.warn(
-        `Incorrect options for translating url. Options must have 'url' or 'route' property. Options: `,
+        `Incorrect options for translating url. Options must have 'url' string or 'route' array property. Options: `,
         options
       );
       return false;
@@ -87,6 +87,15 @@ export class UrlTranslationService {
   private validateOptionsRoute(
     nestedRoutes: TranslateUrlOptionsRoute[]
   ): boolean {
+    if (!Array.isArray(nestedRoutes)) {
+      this.warn(
+        `Incorrect options for translating url.`,
+        `'route' property should be an array. Route: `,
+        nestedRoutes
+      );
+      return false;
+    }
+
     const length = nestedRoutes.length;
     if (!length) {
       this.warn(
