@@ -28,7 +28,7 @@ export class UrlTranslationService {
       return this.ROOT_URL;
     }
 
-    if (options.url) {
+    if (typeof options.url === 'string') {
       const recognizedRoute = this.routeRecognizer.recognizeByDefaultUrl(
         options.url
       );
@@ -46,34 +46,37 @@ export class UrlTranslationService {
       );
       return false;
     }
-    if (!options.url && !options.route) {
+
+    const urlDefined = Boolean(options.url) || options.url === '';
+    const routeDefined = Boolean(options.route);
+    if (!urlDefined && !routeDefined) {
       this.warn(
-        `Incorrect options for translating url. Options must have 'url' or 'route' property. Options: `,
+        `Incorrect options for translating url. Options must have 'url' string or 'route' array property. Options: `,
         options
       );
       return false;
     }
-    if (options.url && options.route) {
+    if (urlDefined && routeDefined) {
       this.warn(
         `Incorrect options for translating url. Options cannot have both 'url' and 'route' property. Options: `,
         options
       );
       return false;
     }
-    if (options.url) {
+    if (urlDefined) {
       return this.validateOptionsUrl(options.url);
     }
-    if (options.route) {
+    if (routeDefined) {
       return this.validateOptionsRoute(options.route);
     }
     return true;
   }
 
   private validateOptionsUrl(url: string): boolean {
-    if (!url || typeof url !== 'string') {
+    if (typeof url !== 'string') {
       this.warn(
         `Incorrect options for translating url.`,
-        `'url' property should be a non-empty string. Url: `,
+        `'url' property should be a string. Url: `,
         url
       );
       return false;
@@ -84,6 +87,15 @@ export class UrlTranslationService {
   private validateOptionsRoute(
     nestedRoutes: TranslateUrlOptionsRoute[]
   ): boolean {
+    if (!Array.isArray(nestedRoutes)) {
+      this.warn(
+        `Incorrect options for translating url.`,
+        `'route' property should be an array. Route: `,
+        nestedRoutes
+      );
+      return false;
+    }
+
     const length = nestedRoutes.length;
     if (!length) {
       this.warn(

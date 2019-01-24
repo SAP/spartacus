@@ -12,16 +12,17 @@ Before carrying out the procedures below, please ensure the following front end 
 
 Your Angular development environment should include the following:
 
-- node.js >= 10.14.1
+- node.js >= 8.9.0
 - yarn >= 1.9.4
 
 ## Back end Requirements
 
 The Spartacus JavaScript Storefront uses SAP Commerce Cloud for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-To install SAP Commerce Cloud, refer to the [installation instructions](back_end_installation) appropriate to your version.
+To install SAP Commerce Cloud, refer to the 1808 [installation instructions](../../back_end_installation).
 
 Note: The latest release of SAP Commerce Cloud is recommended.
+
 
 # Cloning the Sources
 
@@ -103,7 +104,7 @@ $ yarn start:prod
 
 In both development mode and production mode, the Spartacus storefront has default values for all of its configurations. However, you may need to override these values.
 
-To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example:
+To configure the storfront, use the `withConfig` method on the StorefrontModule. The following is an example:
 
 ```
 @NgModule({
