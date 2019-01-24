@@ -9,7 +9,10 @@ describe('Entity reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const action = {} as any;
-      const state = entityReducer(testSubReducer)(undefined, action);
+      const state = entityReducer('testType', testSubReducer)(
+        undefined,
+        action
+      );
 
       expect(state).toEqual(initialEntityState);
     });
@@ -17,8 +20,13 @@ describe('Entity reducer', () => {
 
   describe('entity action', () => {
     it('should use targeted reducer', () => {
-      const action = { meta: { entityId: 'testId' } } as EntityAction;
-      const state = entityReducer(testSubReducer)(undefined, action);
+      const action = {
+        meta: { entity: { id: 'testId', type: 'testType' } }
+      } as EntityAction;
+      const state = entityReducer('testType', testSubReducer)(
+        undefined,
+        action
+      );
       const expectedState = {
         entities: {
           testId: 'test'

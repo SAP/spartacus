@@ -10,7 +10,7 @@ Perform the following steps to set up your back end:
 
    2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
 
-   3. Add this [build.gradle](docs/back_end_installation/1808/build.gradle) file to your `b2c_for_spartacus` recipe folder.
+   3. Add this [build.gradle](build.gradle) file to your `b2c_for_spartacus` recipe folder.
 
    4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, initialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
 
