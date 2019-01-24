@@ -20,7 +20,7 @@ Your Angular development environment should include the following:
 
 The Spartacus JavaScript Storefront uses SAP Commerce Cloud for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-To install SAP Commerce Cloud, refer to the [installation instructions](docs/back_end_installation) appropriate to your version.
+To install SAP Commerce Cloud, refer to the [installation instructions](back_end_installation) appropriate to your version.
 
 Note: The latest release of SAP Commerce Cloud is recommended.
 

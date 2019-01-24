@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { GlobalMessageComponentModule } from '../../../global-message/global-message.module';
 import { CmsModule } from '../../../cms/cms.module';
-import { LoginModule } from '../../../user/components/login/login.module';
+import { LoginModule } from '../../../user/login/login.module';
 
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 
