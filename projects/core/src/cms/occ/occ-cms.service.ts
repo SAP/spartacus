@@ -5,7 +5,12 @@ import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
 import { PageContext } from '../../routing/index';
-import { CMSPage, PageType, CmsComponent } from '../../occ/occ-models/index';
+import {
+  CMSPage,
+  PageType,
+  CmsComponent,
+  CmsComponentList
+} from '../../occ/occ-models/index';
 
 @Injectable()
 export class OccCmsService {
@@ -13,7 +18,7 @@ export class OccCmsService {
 
   constructor(private http: HttpClient, private config: CmsConfig) {}
 
-  protected getBaseEndPoint() {
+  protected getBaseEndPoint(): string {
     return (
       (this.config.server.baseUrl || '') +
       this.config.server.occPrefix +
@@ -67,7 +72,7 @@ export class OccCmsService {
     currentPage?: number,
     pageSize?: number,
     sort?: string
-  ): Observable<any> {
+  ): Observable<CmsComponentList> {
     let strParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       strParams === ''
@@ -82,7 +87,7 @@ export class OccCmsService {
     }
 
     return this.http
-      .post(this.getBaseEndPoint() + `/components`, idList, {
+      .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
           fromString: strParams

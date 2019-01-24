@@ -2,6 +2,11 @@ import { Component } from './occ.models';
 
 export type CmsComponent = Component;
 
+export interface CmsComponentList {
+  component: CmsComponent[];
+  pagination: any;
+}
+
 export interface CmsLinkComponent extends CmsComponent {
   url?: string;
   container?: boolean;

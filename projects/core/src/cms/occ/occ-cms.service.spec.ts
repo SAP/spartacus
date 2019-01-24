@@ -7,14 +7,23 @@ import {
 import { OccCmsService } from './occ-cms.service';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
-import { CmsComponent, CMSPage, PageType } from '../../occ/occ-models/index';
+import {
+  CmsComponent,
+  CMSPage,
+  PageType,
+  CmsComponentList
+} from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
+import { HttpRequest } from '@angular/common/http';
 
 const comps: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }
 ];
+
+const component: CmsComponent = comps[1];
+
 const cmsPageData: CMSPage = {
   uid: 'testPageId',
   name: 'testPage',
@@ -25,11 +34,8 @@ const cmsPageData: CMSPage = {
     ]
   }
 };
-const component: CmsComponent = {
-  uid: 'comp1',
-  typeCode: 'SimpleBannerComponent'
-};
-const listComponents: any = {
+
+const listComponents: CmsComponentList = {
   component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
   pagination: { count: 10 }
 };
@@ -46,6 +52,7 @@ const MockCmsModuleConfig: CmsConfig = {
     currency: ''
   }
 };
+
 const endpoint = '/cms';
 
 describe('OccCmsService', () => {
