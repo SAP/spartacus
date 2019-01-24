@@ -1,20 +1,10 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { GlobalMessageComponent } from './global-message.component';
 import { GlobalMessageType, GlobalMessageService } from '@spartacus/core';
 
-const mockMessages = {
-  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
-  [GlobalMessageType.MSG_TYPE_INFO]: ['Info'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
-};
-
 class MockMessageService {
   remove = createSpy();
-  get() {
-    return of(mockMessages);
-  }
 }
 
 describe('GlobalMessageComponent', () => {
