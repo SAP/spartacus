@@ -64,6 +64,8 @@
         <div
           class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          placement="left"
+          ngbTooltip="The quantity represents the total number of this item in your cart."
         >
           Qty
         </div>
@@ -74,7 +76,7 @@
           [formGroup]="parent"
         >
           <cx-item-counter
-            isValueChangable="true"
+            isValueChangeable="true"
             [step]="1"
             [min]="1"
             [max]="item.product.stock?.stockLevel || 1000"
@@ -111,8 +113,15 @@
       [innerHTML]="promotion.description"
     ></div>
     <!-- Actions -->
-    <div *ngIf="!isReadOnly" class="cx-actions col-12 ">
-      <a [routerLink]="" (click)="removeItem()">Remove</a>
+    <div *ngIf="!isReadOnly" class="cx-actions col-12">
+      <button
+        class="link"
+        [class.disabled]="cartIsLoading"
+        [disabled]="cartIsLoading"
+        (click)="removeItem()"
+      >
+        Remove
+      </button>
     </div>
   </div>
 </div>

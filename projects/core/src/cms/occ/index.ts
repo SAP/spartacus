@@ -1,3 +1,3 @@
 export * from './occ-cms.service';
-export * from './component-mapper.service';
-export * from './default-page.service';
+export * from '../services/component-mapper.service';
+export * from '../services/default-page.service';

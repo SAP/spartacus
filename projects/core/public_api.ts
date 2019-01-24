@@ -17,3 +17,4 @@ export * from './src/cms/index';
 export * from './src/smart-edit/index';
 export * from './src/store-finder/index';
 export * from './src/window/index';
+export * from './src/cx-api/index';
