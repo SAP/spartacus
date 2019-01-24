@@ -2,10 +2,10 @@
   [routerLink]="
     { route: [{ name: 'product', params: product }] } | cxTranslateUrl
   "
-  class="cx-product-search-grid__image--container"
+  class="cx-product-image-container"
 >
   <cx-picture
-    class="cx-product-search-grid__image"
+    class="cx-product-image"
     [imageContainer]="product.images?.PRIMARY"
     imageFormat="product"
     [imageAlt]="product.summary"
@@ -15,19 +15,19 @@
   [routerLink]="
     { route: [{ name: 'product', params: product }] } | cxTranslateUrl
   "
-  class="cx-product-search-grid__name"
+  class="cx-product-name"
   [innerHTML]="product.name"
   >{{ product.name }}</a
 >
 
-<div class="cx-product-search-grid__rating">
+<div class="cx-product-rating">
   <cx-star-rating
     [rating]="product?.averageRating"
     [disabled]="true"
   ></cx-star-rating>
 </div>
-<div class="cx-product-search-grid__price--container">
-  <div class="cx-product-search-grid__price" aria-label="Product price">
+<div class="cx-product-price-container">
+  <div class="cx-product-price" aria-label="Product price">
     {{ product.price.formattedValue }}
   </div>
 </div>

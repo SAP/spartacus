@@ -1,17 +1,15 @@
 import { Injectable, Optional } from '@angular/core';
+
+import { AuthService } from '../auth/index';
+import { CmsService } from '../cms/index';
+import { RoutingService } from '../routing/index';
+import { LanguageService, CurrencyService } from '../site-context/index';
 import {
-  ProductReviewService,
-  ProductSearchService,
   ProductService,
-  UserService
-} from '@spartacus/core';
-import {
-  AuthService,
-  CurrencyService,
-  LanguageService,
-  RoutingService
-} from '@spartacus/core';
-import { CmsService } from '@spartacus/core';
+  ProductSearchService,
+  ProductReviewService
+} from '../product/index';
+import { UserService } from '../user/index';
 
 @Injectable({
   providedIn: 'root'
