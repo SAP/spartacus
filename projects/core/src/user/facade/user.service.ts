@@ -15,7 +15,7 @@ import {
   Region,
   OrderHistoryList
 } from '../../occ/occ-models/index';
-import { UserRegisterFormData } from '@spartacus/core';
+import { UserRegisterFormData } from '../model/user.model';
 
 @Injectable()
 export class UserService {

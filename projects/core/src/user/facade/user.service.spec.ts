@@ -17,7 +17,7 @@ import {
 import * as fromStore from '../store/index';
 import { UserService } from './user.service';
 import { USER_FEATURE } from '../store/user-state';
-import { UserRegisterFormData } from '@spartacus/core';
+import { UserRegisterFormData } from '../model/user.model';
 
 describe('UserService', () => {
   let service: UserService;
