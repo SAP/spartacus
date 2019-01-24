@@ -8,7 +8,6 @@ describe('User Register Actions', () => {
         firstName: '',
         lastName: '',
         password: '',
-        titleCode: '',
         uid: ''
       };
 
