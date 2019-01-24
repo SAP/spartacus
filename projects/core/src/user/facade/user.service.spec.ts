@@ -17,6 +17,7 @@ import {
 import * as fromStore from '../store/index';
 import { UserService } from './user.service';
 import { USER_FEATURE } from '../store/user-state';
+import { UserRegisterFormData } from '@spartacus/core';
 
 describe('UserService', () => {
   let service: UserService;
@@ -66,15 +67,15 @@ describe('UserService', () => {
   });
 
   it('should be able to register user', () => {
-    service.register('title', 'firstname', 'lastname', 'email', 'password');
+    const submitFormData: UserRegisterFormData = {
+      firstName: 'firstName',
+      lastName: 'lastName',
+      uid: 'uid',
+      password: 'password'
+    };
+    service.register(submitFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RegisterUser({
-        firstName: 'firstname',
-        lastName: 'lastname',
-        password: 'password',
-        titleCode: 'title',
-        uid: 'email'
-      })
+      new fromStore.RegisterUser(submitFormData)
     );
   });
 
