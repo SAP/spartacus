@@ -49,8 +49,3 @@ export function reducer(
 
   return state;
 }
-
-export const getAddresses = (state: UserAddressesState) => state.list;
-export const getLoading = (state: UserAddressesState) => state.isLoading;
-export const getActionProcessingStatus = (state: UserAddressesState) =>
-  state.isActionProcessing;

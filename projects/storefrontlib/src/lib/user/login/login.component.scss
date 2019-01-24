@@ -1,0 +1,101 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/dropdown';
+
+//login color variables
+$cx-login-status-greet-color: 'inverse' !default;
+$cx-login-status-md-greet-color: 'text' !default;
+$cx-login-status-toggle-color: 'inverse' !default;
+$cx-login-status-toggle-hover-color: 'primary' !default;
+$cx-login-status-md-toggle-color: 'text' !default;
+$cx-login-status-md-menu-background-color: 'transparent' !default;
+$cx-login-status-item-color: 'text' !default;
+$cx-login-status-item-hover-color: 'primary' !default;
+$cx-login-status-item-hover-background-color: 'transparent' !default;
+
+//login variables
+$cx-login-greet-trbl-padding: 0 !default;
+$cx-login-greet-trbl-md-padding: 0.75rem 1.5rem 0 1.5rem !default;
+$cx-login-toggle-trbl-padding: 0 0.5rem 1rem 0 !default;
+$cx-login-toggle-trbl-md-padding: 0 1.5rem 0.75rem 1.5rem !default;
+$cx-login-menu-border-radius: 0 !default;
+$cx-login-menu-trbl-padding: 0 !default;
+$cx-login-menu-md-position: relative !default;
+$cx-login-menu-md-width: 100% !default;
+$cx-login-menu-md-border: 0 none !default;
+$cx-login-menu-md-border-radius: 0 !default;
+$cx-login-menu-md-trbl-padding: 0 0 0.75rem 0 !default;
+$cx-login-item-trbl-padding: 0.75rem 1.5rem !default;
+$cx-login-item-trbl-md-padding: 0.45rem 1.5rem !default;
+$cx-login-item-border-bottom: 1px solid theme-color('background') !default;
+$cx-login-item-last-child: none !default;
+$cx-login-item-text-decoration: none !default;
+
+.cx-login-status {
+  &__greet {
+    @include var-color('color', $cx-login-status-greet-color);
+    font-weight: $font-weight-bold;
+    padding: $cx-login-greet-trbl-padding;
+    @include type('7');
+    @include media-breakpoint-down(md) {
+      @include var-color('color', $cx-login-status-md-greet-color);
+      padding: $cx-login-greet-trbl-md-padding;
+      @include type();
+    }
+    margin-bottom: 0;
+  }
+  &__toggle {
+    @include var-color('color', $cx-login-status-toggle-color);
+    padding: $cx-login-toggle-trbl-padding;
+    &:hover {
+      @include var-color('color', $cx-login-status-toggle-hover-color);
+    }
+    @include media-breakpoint-down(md) {
+      display: flex;
+      justify-content: space-between;
+      @include var-color('color', $cx-login-status-md-toggle-color);
+      padding: $cx-login-toggle-trbl-md-padding;
+      &::after {
+        margin-right: 20px;
+      }
+    }
+  }
+  &__menu {
+    border-radius: $cx-login-menu-border-radius;
+    padding: $cx-login-menu-trbl-padding;
+    @include media-breakpoint-down(md) {
+      position: $cx-login-menu-md-position;
+      width: $cx-login-menu-md-width;
+      border: $cx-login-menu-md-border;
+      border-radius: $cx-login-menu-md-border-radius;
+      @include var-color(
+        'background-color',
+        $cx-login-status-md-menu-background-color
+      );
+      padding: $cx-login-menu-md-trbl-padding;
+      top: 0 !important;
+    }
+  }
+  &__item {
+    padding: $cx-login-item-trbl-padding;
+    border-bottom: $cx-login-item-border-bottom;
+    @include var-color('color', $cx-login-status-item-color);
+    @include type('7');
+    &:hover {
+      @include var-color('color', $cx-login-status-item-hover-color);
+      @include var-color(
+        'background-color',
+        $cx-login-status-item-hover-background-color
+      );
+      text-decoration: $cx-login-item-text-decoration;
+    }
+    &:last-child {
+      border-bottom: $cx-login-item-last-child;
+    }
+    @include media-breakpoint-down(md) {
+      padding: $cx-login-item-trbl-md-padding;
+    }
+  }
+}

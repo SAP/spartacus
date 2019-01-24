@@ -1,10 +1,15 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import { UserState, BillingCountriesState } from '../user-state';
-import * as fromReducer from '../reducers/billing-countries.reducer';
-import { getUserState } from '../reducers/index';
+import {
+  UserState,
+  BillingCountriesState,
+  StateWithUser,
+  BillingCountryEntities
+} from '../user-state';
+import { getUserState } from './feature.selector';
+import { Country } from '../../../occ/occ-models/occ.models';
 
 export const getBillingCountriesState: MemoizedSelector<
-  any,
+  StateWithUser,
   BillingCountriesState
 > = createSelector(
   getUserState,
@@ -12,16 +17,16 @@ export const getBillingCountriesState: MemoizedSelector<
 );
 
 export const getBillingCountriesEntites: MemoizedSelector<
-  any,
-  any
+  StateWithUser,
+  BillingCountryEntities
 > = createSelector(
   getBillingCountriesState,
-  fromReducer.getBillingCountriesEntites
+  (state: BillingCountriesState) => state.entities
 );
 
 export const getAllBillingCountries: MemoizedSelector<
-  any,
-  any
+  StateWithUser,
+  Country[]
 > = createSelector(
   getBillingCountriesEntites,
   entites => Object.keys(entites).map(isocode => entites[isocode])

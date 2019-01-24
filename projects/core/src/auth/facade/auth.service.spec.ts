@@ -1,10 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store } from '@ngrx/store';
-
 import * as fromAuthStore from '../store';
 import { ClientToken, UserToken } from '../models/token-types.model';
-
 import { AuthService } from './auth.service';
 import { AuthState } from '../store/auth-state';
 import { AuthStoreModule } from '../store/auth-store.module';
