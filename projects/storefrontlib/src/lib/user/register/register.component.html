@@ -8,19 +8,6 @@
         <div class="cx-section">
           <h1 class="cx-section__title">Create an account</h1>
           <form [formGroup]="userRegistrationForm">
-            <div class="form-group">
-              <label>
-                <span class="label-content">Title</span>
-                <select formControlName="titleCode" class="form-control">
-                  <option selected disabled>Select Title</option>
-                  <option
-                    *ngFor="let title of (titles$ | async)"
-                    [value]="title.code"
-                    >{{ title.name }}</option
-                  >
-                </select>
-              </label>
-            </div>
 
             <div class="form-group">
               <label>

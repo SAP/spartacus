@@ -11,7 +11,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import {
   GlobalMessageService,
@@ -45,6 +45,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @Input()
   setAsDefaultField: boolean;
 
+  @Input()
+  showTitleCode: boolean;
+
   @Output()
   addAddress = new EventEmitter<any>();
 
@@ -56,7 +59,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
-    titleCode: [null, Validators.required],
+    titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -96,6 +99,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
+      }),
+      map(titles => {
+        const noneTitle = { code: '', name: 'None' };
+        return [noneTitle, ...titles];
       })
     );
 

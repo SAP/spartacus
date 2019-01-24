@@ -9,14 +9,14 @@ import {
 import {
   AuthService,
   RoutingService,
-  Title,
   UserService,
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
+  UserRegisterFormData
 } from '@spartacus/core';
 
-import { Observable, Subscription, of } from 'rxjs';
-import { take, tap, switchMap } from 'rxjs/operators';
+import { Subscription, of } from 'rxjs';
+import { take, switchMap } from 'rxjs/operators';
 
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
@@ -26,11 +26,9 @@ import { CustomFormValidators } from '../../ui/validators/custom-form-validators
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  titles$: Observable<Title[]>;
   subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
-      titleCode: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
@@ -54,14 +52,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userService.getTitles().pipe(
-      tap(titles => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      })
-    );
-
     this.subscription = this.auth
       .getUserToken()
       .pipe(
@@ -86,13 +76,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.userService.register(
-      this.userRegistrationForm.value.titleCode,
-      this.userRegistrationForm.value.firstName,
-      this.userRegistrationForm.value.lastName,
-      this.userRegistrationForm.value.email,
-      this.userRegistrationForm.value.password
-    );
+    const submitFormData: UserRegisterFormData = {
+      firstName: this.userRegistrationForm.value.firstName,
+      lastName: this.userRegistrationForm.value.lastName,
+      uid: this.userRegistrationForm.value.email,
+      password: this.userRegistrationForm.value.password
+    };
+    this.userService.register(submitFormData);
   }
   ngOnDestroy() {
     if (this.subscription) {
