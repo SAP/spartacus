@@ -1,5 +1,12 @@
 import { Action } from '@ngrx/store';
+
+import { USER_ADDRESSES } from '../user-state';
 import { Address } from '../../../occ/occ-models/index';
+import {
+  LoaderLoadAction,
+  LoaderFailAction,
+  LoaderSuccessAction
+} from '../../../state/utils/loader/loader.action';
 
 export const LOAD_USER_ADDRESSES = '[User] Load User Addresses';
 export const LOAD_USER_ADDRESSES_FAIL = '[User] Load User Addresses Fail';
@@ -17,19 +24,25 @@ export const DELETE_USER_ADDRESS = '[User] Delete User Address';
 export const DELETE_USER_ADDRESS_FAIL = '[User] Delete User Address Fail';
 export const DELETE_USER_ADDRESS_SUCCESS = '[User] Delete User Address Success';
 
-export class LoadUserAddresses implements Action {
+export class LoadUserAddresses extends LoaderLoadAction {
   readonly type = LOAD_USER_ADDRESSES;
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+    super(USER_ADDRESSES);
+  }
 }
 
-export class LoadUserAddressesFail implements Action {
+export class LoadUserAddressesFail extends LoaderFailAction {
   readonly type = LOAD_USER_ADDRESSES_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES, payload);
+  }
 }
 
-export class LoadUserAddressesSuccess implements Action {
+export class LoadUserAddressesSuccess extends LoaderSuccessAction {
   readonly type = LOAD_USER_ADDRESSES_SUCCESS;
-  constructor(public payload: Address[]) {}
+  constructor(public payload: Address[]) {
+    super(USER_ADDRESSES);
+  }
 }
 
 // Adding address actions

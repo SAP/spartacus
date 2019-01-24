@@ -7,7 +7,9 @@ import {
   UserOrdersState,
   USER_ORDERS,
   UserPaymentMethodsState,
-  USER_PAYMENT_METHODS
+  USER_PAYMENT_METHODS,
+  USER_ADDRESSES,
+  UserAddressesState
 } from '../user-state';
 import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
@@ -26,7 +28,10 @@ import * as fromUserOrders from './user-orders.reducer';
 export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: fromUserDetailsReducer.reducer,
-    addresses: fromUserAddresses.reducer,
+    addresses: loaderReducer<UserAddressesState>(
+      USER_ADDRESSES,
+      fromUserAddresses.reducer
+    ),
     billingCountries: fromBillingCountriesReducer.reducer,
     payments: loaderReducer<UserPaymentMethodsState>(
       USER_PAYMENT_METHODS,

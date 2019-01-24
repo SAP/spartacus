@@ -1,6 +1,7 @@
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import * as fromUserAddressesReducer from './user-addresses.reducer';
 import { Address } from '../../../occ/occ-models/index';
+
+import * as fromUserAddressesReducer from './user-addresses.reducer';
 
 const mockAddress: Address = {
   town: 'test town'
@@ -35,20 +36,20 @@ describe('User Addresses Reducer', () => {
   });
 
   describe('LOAD_USER_ADDRESSES_FAIL action', () => {
-    it('should set isLoading flag to false', () => {
+    it('should return the initial state', () => {
       const { initialState } = fromUserAddressesReducer;
       const action = new fromUserAddressesAction.LoadUserAddressesFail({});
       const state = fromUserAddressesReducer.reducer(initialState, action);
-      expect(state.isLoading).toEqual(false);
+      expect(state).toEqual(initialState);
     });
   });
 
   describe('LOAD_USER_ADDRESSES action', () => {
-    it('should set isLoading flag to true', () => {
+    it('should return the initial state', () => {
       const { initialState } = fromUserAddressesReducer;
       const action = new fromUserAddressesAction.LoadUserAddresses('userId');
       const state = fromUserAddressesReducer.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
+      expect(state).toEqual(initialState);
     });
   });
 

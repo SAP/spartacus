@@ -1,10 +1,9 @@
-import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { UserAddressesState } from '../user-state';
+import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { Address } from '../../../occ/occ-models/index';
 
 export const initialState: UserAddressesState = {
   list: [],
-  isLoading: false,
   isActionProcessing: false
 };
 
@@ -18,22 +17,19 @@ export function reducer(
       return {
         ...state,
         list,
-        isLoading: false,
         isActionProcessing: false
       };
     }
 
     case fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL: {
       return {
-        ...state,
-        isLoading: false
+        ...state
       };
     }
 
     case fromUserAddressesAction.LOAD_USER_ADDRESSES: {
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     }
 

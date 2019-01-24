@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
+import { StateWithUser, USER_FEATURE, UserAddressesState } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import { Address } from '../../../occ/occ-models/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 const mockUserAddresses: Address[] = [{ id: 'address1' }, { id: 'address2' }];
 
@@ -22,6 +24,25 @@ describe('User Addresses Selectors', () => {
 
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
+  });
+
+  describe('getAddressesLoaderState', () => {
+    it('should return a user addresses loader state', () => {
+      let result: LoaderState<UserAddressesState>;
+      store
+        .pipe(select(fromSelectors.getAddressesLoaderState))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: {
+          list: [],
+          isActionProcessing: false
+        }
+      });
+    });
   });
 
   describe('getAddresses', () => {

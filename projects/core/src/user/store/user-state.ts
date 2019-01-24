@@ -13,6 +13,7 @@ import {
 export const USER_FEATURE = 'user';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
+export const USER_ADDRESSES = '[User] User Addresses';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -20,7 +21,7 @@ export interface StateWithUser {
 
 export interface UserState {
   account: UserDetailsState;
-  addresses: UserAddressesState;
+  addresses: LoaderState<UserAddressesState>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: LoaderState<UserPaymentMethodsState>;
@@ -68,7 +69,6 @@ export interface TitlesState {
 
 export interface UserAddressesState {
   list: Address[];
-  isLoading: boolean;
   isActionProcessing: boolean;
 }
 

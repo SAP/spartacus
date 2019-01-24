@@ -1,5 +1,12 @@
-import * as fromUserAddressesAction from './user-addresses.action';
+import { USER_ADDRESSES } from '../user-state';
 import { Address } from '../../../occ/occ-models/index';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
+
+import * as fromUserAddressesAction from './user-addresses.action';
 
 const userId = '123';
 
@@ -10,7 +17,8 @@ describe('User Addresses Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES,
-        payload: userId
+        payload: userId,
+        meta: loadMeta(USER_ADDRESSES)
       });
     });
   });
@@ -22,7 +30,8 @@ describe('User Addresses Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL,
-        payload: error
+        payload: error,
+        meta: failMeta(USER_ADDRESSES, error)
       });
     });
   });
@@ -40,7 +49,8 @@ describe('User Addresses Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserAddressesAction.LOAD_USER_ADDRESSES_SUCCESS,
-        payload: mockUserAddresses
+        payload: mockUserAddresses,
+        meta: successMeta(USER_ADDRESSES)
       });
     });
   });
