@@ -10,7 +10,11 @@ export const defaultCmsModuleConfig: CmsConfig = {
   },
   layoutSlots: {
     header: {
-      slots: ['Section1', 'Section2']
+      slots: ['SiteLogo', 'SiteContext'],
+      xs: ['SiteContext', 'SiteLogo']
+    },
+    footer: {
+      slots: ['Footer']
     },
     ExamplePageTemplate: {
       slots: ['Section1', 'Section2'],

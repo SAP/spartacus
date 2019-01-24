@@ -35,6 +35,10 @@ export type LayoutSections =
 
 export type SlotGroup = {
   slots?: string[];
+  lg?: string[];
+  md?: string[];
+  sm?: string[];
+  xs?: string[];
 };
 
 export type LayoutSlotConfig = {
