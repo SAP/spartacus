@@ -82,7 +82,7 @@ export class SearchResultsPage extends AppPage {
     this.productListItems
       .filter(el =>
         el
-          .element(by.css('a.cx-product-search-list__name'))
+          .element(by.css('a.cx-product-name'))
           .getText()
           .then(text => text === productName)
       )
