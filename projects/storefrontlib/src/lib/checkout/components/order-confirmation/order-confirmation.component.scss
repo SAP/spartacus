@@ -1,203 +1,127 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// cx-order-confirmation color variables
-$cx-order-confirmation-create-account-background-color: 'background' !default;
-$cx-order-confirmation-create-account-border-color: 'light' !default;
-$cx-order-confirmation-review-summary-background-color: 'background' !default;
-$cx-order-confirmation-review-summary-background-color-md: 'inverse' !default;
-$cx-order-confirmation-review-summary-border-color: 'light' !default;
-$cx-order-confirmation-review-summary-card-border-color: 'light' !default;
-$cx-order-confirmation-order-items-border-color: 'light' !default;
-$cx-order-confirmation-review-summary-card-background-color: 'inverse' !default;
+.cx-order-confirmation__create-account {
+  background-color: var(--cx-background-color, var(--cx-g-background));
+  padding: var(--cx-padding, 2.5rem 0 3.75rem 0);
+  border-width: var(--cx-border-width, 1px 0 1px 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
 
-// cx-order-confirmation variables
-
-$cx-order-confirmation-message-align: center !default;
-$cx-order-confirmation-message-padding: 2.5rem !default;
-$cx-order-confirmation-message-font-weight: $font-weight-normal !default;
-$cx-order-confirmation-message-print-font-size: $small-font-size !default;
-$cx-order-confirmation-message-print-font-weight: $font-weight-bold !default;
-
-$cx-order-confirmation-create-account-border: 1px solid !default;
-$cx-order-confirmation-create-account-padding: 2.5rem 0 3.75rem 0 !default;
-$cx-order-confirmation-create-account-container-padding: 0 !default;
-$cx-order-confirmation-create-account-container-margin: 0 auto !default;
-$cx-order-confirmation-create-account-container-md-padding: 0 6.25rem !default;
-$cx-order-confirmation-create-account-container-sm-padding: 0 1.25rem !default;
-$cx-order-confirmation-create-account-container-xs-padding: 0 1.25rem !default;
-
-$cx-order-confirmation-btns-padding-top: 0.875rem !default;
-
-$cx-order-confirmation-review-summary-border: 1px solid !default;
-$cx-order-confirmation-review-summary-container-padding: 0 !default;
-$cx-order-confirmation-review-summary-container-md-padding: 0 1.25rem !default;
-$cx-order-confirmation-review-summary-container-sm-padding: 1.25rem !default;
-$cx-order-confirmation-review-summary-card-border: 1px solid !default;
-$cx-order-confirmation-review-summary-card-margin: 0.625rem 0 !default;
-
-$cx-order-confirmation-order-items-border: 1px solid !default;
-$cx-order-confirmation-order-items-padding: 1.375rem 0 !default;
-$cx-order-confirmation-order-items-header-margin: 0 !default;
-$cx-order-confirmation-order-items-container-padding: 0 !default;
-$cx-order-confirmation-order-items-container-md-padding: 0 2.5rem !default;
-$cx-order-confirmation-order-items-container-sm-padding: 0 1.25rem !default;
-
-$cx-order-confirmation-order-summary-padding-right: 0 !default;
-$cx-order-confirmation-order-summary-container-md-padding-right: 1.625rem !default;
-$cx-order-confirmation-order-summary-container-sm-padding: 0 !default;
-
-.cx-order-confirmation {
-  &__message {
-    text-align: $cx-order-confirmation-message-align;
-    padding: $cx-order-confirmation-message-padding;
-
-    h2 {
-      font-weight: $cx-order-confirmation-message-font-weight;
-    }
-
-    .btn-link {
-      font-size: $cx-order-confirmation-message-print-font-size;
-      font-weight: $cx-order-confirmation-message-print-font-weight;
-      text-transform: uppercase;
-    }
-  }
-
-  &__create-account {
-    @include var-color(
-      'background-color',
-      $cx-order-confirmation-create-account-background-color
-    );
-    padding: $cx-order-confirmation-create-account-padding;
-    border-top: $cx-order-confirmation-create-account-border;
-    @include var-color(
-      'border-top-color',
-      $cx-order-confirmation-create-account-border-color
-    );
-    border-bottom: $cx-order-confirmation-create-account-border;
-    @include var-color(
-      'border-bottom-color',
-      $cx-order-confirmation-create-account-border-color
-    );
-
-    .container {
-      margin: $cx-order-confirmation-create-account-container-margin;
-      padding: $cx-order-confirmation-create-account-container-padding;
-      @include media-breakpoint-down(md) {
-        max-width: 100%;
-        min-width: 100%;
-        padding: $cx-order-confirmation-create-account-container-md-padding;
-      }
-      @include media-breakpoint-down(sm) {
-        padding: $cx-order-confirmation-create-account-container-sm-padding;
-      }
-      @include media-breakpoint-down(xs) {
-        padding: $cx-order-confirmation-create-account-container-xs-padding;
-      }
-    }
-  }
-
-  &__btns {
-    padding-top: $cx-order-confirmation-btns-padding-top;
-  }
-
-  &__review-summary {
-    @include var-color(
-      'background-color',
-      $cx-order-confirmation-review-summary-background-color
-    );
-    border-bottom: $cx-order-confirmation-review-summary-border;
-    @include var-color(
-      'border-bottom-color',
-      $cx-order-confirmation-review-summary-border-color
-    );
-
+  .container {
+    margin: var(--cx-margin, 0 auto);
+    padding: var(--cx-padding, 0);
     @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $cx-order-confirmation-review-summary-background-color-md
-      );
+      max-width: var(--cx-max-width, 100%);
+      min-width: var(--cx-min-width, 100%);
+      padding: var(--cx-padding, 0 6.25rem);
     }
-
-    &-card {
-      @include media-breakpoint-down(sm) {
-        @include var-color(
-          'background-color',
-          $cx-order-confirmation-review-summary-card-background-color
-        );
-        border: $cx-order-confirmation-review-summary-card-border;
-        @include var-color(
-          'border-color',
-          $cx-order-confirmation-review-summary-card-border-color
-        );
-        margin: $cx-order-confirmation-review-summary-card-margin;
-      }
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 0 1.25rem);
     }
+    @include media-breakpoint-down(xs) {
+      padding: var(--cx-padding, 0 1.25rem);
+    }
+  }
+}
 
-    .container {
-      padding: $cx-order-confirmation-review-summary-container-padding;
-      @include media-breakpoint-down(md) {
-        max-width: 100%;
-        min-width: 100%;
-        padding: $cx-order-confirmation-review-summary-container-md-padding;
-      }
-      @include media-breakpoint-down(sm) {
-        padding: $cx-order-confirmation-review-summary-container-sm-padding;
-      }
+.cx-order-confirmation-message {
+  text-align: var(--cx-text-align, center);
+  padding: var(--cx-padding, 2.5rem);
+
+  h2 {
+    font-weight: $font-weight-normal;
+  }
+
+  .btn-link {
+    font-size: $small-font-size;
+    font-weight: $font-weight-bold;
+    text-transform: var(--cx-text-transform, uppercase);
+  }
+}
+
+.cx-order-review-summary {
+  background-color: var(--cx-background-color, var(--cx-g-color-background));
+  border-width: var(--cx-border-width, 0 0 1px 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+  }
+
+  .summary-card {
+    @include media-breakpoint-down(sm) {
+      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+      border-width: var(--cx-border-width, 1px);
+      border-style: var(--cx-border-style, solid);
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
+      margin: var(--cx-margin, 0.625rem 0);
     }
   }
 
-  &__order-items {
-    &-header {
-      @include type('4');
-      padding: $cx-order-confirmation-order-items-padding;
-      margin: $cx-order-confirmation-order-items-header-margin;
-      border-bottom: $cx-order-confirmation-order-items-border;
-      @include var-color(
-        'border-bottom-color',
-        $cx-order-confirmation-order-items-border-color
-      );
-      @include media-breakpoint-down(md) {
-        max-width: 100%;
-        min-width: 100%;
-        padding-left: 2.5rem;
-      }
-      @include media-breakpoint-down(sm) {
-        max-width: 100%;
-        min-width: 100%;
-        padding-left: 1rem;
-      }
+  .container {
+    padding: var(--cx-padding, 0);
+    @include media-breakpoint-down(md) {
+      max-width: var(--cx-max-width, 100%);
+      min-width: var(--cx-min-width, 100%);
+      padding: var(--cx-padding, 0 1.25rem);
     }
-
-    &.container {
-      @include media-breakpoint-down(md) {
-        max-width: 100%;
-        min-width: 100%;
-        padding: 0;
-        // padding: $cx-order-confirmation-order-items-container-md-padding;
-      }
-      @include media-breakpoint-down(sm) {
-        max-width: 100%;
-        min-width: 100%;
-        padding: 0;
-        // padding: $cx-order-confirmation-order-items-container-sm-padding;
-      }
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 1.25rem);
     }
   }
+}
 
-  &__order-summary {
-    padding-right: $cx-order-confirmation-order-summary-padding-right;
-    &.container {
-      @include media-breakpoint-down(md) {
-        max-width: 100%;
-        min-width: 100%;
-        padding-right: $cx-order-confirmation-order-summary-container-md-padding-right;
-      }
+.cx-order-confirmation-btns {
+  padding-top: var(--cx-padding, 0.875rem);
+}
 
-      @include media-breakpoint-down(sm) {
-        padding: $cx-order-confirmation-order-summary-container-sm-padding;
-      }
+.cx-order-items {
+  &.container {
+    @include media-breakpoint-down(md) {
+      max-width: var(--cx-max-width, 100%);
+      min-width: var(--cx-min-width, 100%);
+      padding: var(--cx-padding, 0);
+    }
+    @include media-breakpoint-down(sm) {
+      max-width: var(--cx-max-width, 100%);
+      min-width: var(--cx-min-width, 100%);
+      padding: var(--cx-padding, 0);
+    }
+  }
+}
+
+.cx-order-items-header {
+  @include type('4');
+  padding: var(--cx-padding, 1.375rem 0);
+  margin: var(--cx-margin, 0);
+  border-width: var(--cx-border-width, 0 0 1px 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  @include media-breakpoint-down(md) {
+    max-width: var(--cx-max-width, 100%);
+    min-width: var(--cx-min-width, 100%);
+    padding-left: var(--cx-padding, 2.5rem);
+  }
+  @include media-breakpoint-down(sm) {
+    max-width: var(--cx-max-width, 100%);
+    min-width: var(--cx-min-width, 100%);
+    padding-left: var(--cx-padding, 1rem);
+  }
+}
+
+.cx-order-summary {
+  padding-right: var(--cx-padding, 0);
+
+  &.container {
+    @include media-breakpoint-down(md) {
+      max-width: var(--cx-max-width, 100%);
+      min-width: var(--cx-min-width, 100%);
+      padding-right: var(--cx-padding, 1.625rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 0);
     }
   }
 }
