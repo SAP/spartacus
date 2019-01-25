@@ -28,23 +28,23 @@ export class OccCmsService {
   }
 
   loadPageData(pageContext: PageContext, fields?: string): Observable<CMSPage> {
-    let strParams = 'pageType=' + pageContext.type;
+    let httpStringParams = 'pageType=' + pageContext.type;
 
     if (pageContext.type === PageType.CONTENT_PAGE) {
-      strParams = strParams + '&pageLabelOrId=' + pageContext.id;
+      httpStringParams = httpStringParams + '&pageLabelOrId=' + pageContext.id;
     } else {
-      strParams = strParams + '&code=' + pageContext.id;
+      httpStringParams = httpStringParams + '&code=' + pageContext.id;
     }
 
     if (fields !== undefined) {
-      strParams = strParams + '&fields=' + fields;
+      httpStringParams = httpStringParams + '&fields=' + fields;
     }
 
     return this.http
       .get(this.getBaseEndPoint() + `/pages`, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: strParams
+          fromString: httpStringParams
         })
       })
       .pipe(catchError((error: any) => throwError(error.json())));
@@ -73,53 +73,53 @@ export class OccCmsService {
     pageSize?: number,
     sort?: string
   ): Observable<CmsComponentList> {
-    let strParams = this.getRequestParams(pageContext, fields);
+    let requestParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
-      strParams === ''
-        ? (strParams = strParams + 'currentPage=' + currentPage)
-        : (strParams = strParams + '&currentPage=' + currentPage);
+      requestParams === ''
+        ? (requestParams = requestParams + 'currentPage=' + currentPage)
+        : (requestParams = requestParams + '&currentPage=' + currentPage);
     }
     if (pageSize !== undefined) {
-      strParams = strParams + '&pageSize=' + pageSize;
+      requestParams = requestParams + '&pageSize=' + pageSize;
     }
     if (sort !== undefined) {
-      strParams = strParams + '&sort=' + sort;
+      requestParams = requestParams + '&sort=' + sort;
     }
 
     return this.http
       .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: strParams
+          fromString: requestParams
         })
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string): string {
-    let strParams = '';
+    let requestParams = '';
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
-        strParams = 'productCode=' + pageContext.id;
+        requestParams = 'productCode=' + pageContext.id;
         break;
       }
       case PageType.CATEGORY_PAGE: {
-        strParams = 'categoryCode=' + pageContext.id;
+        requestParams = 'categoryCode=' + pageContext.id;
         break;
       }
       case PageType.CATALOG_PAGE: {
-        strParams = 'catalogCode=' + pageContext.id;
+        requestParams = 'catalogCode=' + pageContext.id;
         break;
       }
     }
 
     if (fields !== undefined) {
-      strParams === ''
-        ? (strParams = strParams + 'fields=' + fields)
-        : (strParams = strParams + '&fields=' + fields);
+      requestParams === ''
+        ? (requestParams = requestParams + 'fields=' + fields)
+        : (requestParams = requestParams + '&fields=' + fields);
     }
 
-    return strParams;
+    return requestParams;
   }
 
   get baseUrl(): string {

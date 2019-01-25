@@ -16,13 +16,13 @@ import {
 import { PageContext } from '../../routing/index';
 import { HttpRequest } from '@angular/common/http';
 
-const comps: CmsComponent[] = [
+const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' }
 ];
 
-const component: CmsComponent = comps[1];
+const component: CmsComponent = components[1];
 
 const cmsPageData: CMSPage = {
   uid: 'testPageId',
@@ -30,12 +30,12 @@ const cmsPageData: CMSPage = {
   template: 'testTemplate',
   contentSlots: {
     contentSlot: [
-      { components: { component: comps }, position: 'testPosition' }
+      { components: { component: components }, position: 'testPosition' }
     ]
   }
 };
 
-const listComponents: CmsComponentList = {
+const componentList: CmsComponentList = {
   component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
   pagination: { count: 10 }
 };
@@ -87,18 +87,18 @@ describe('OccCmsService', () => {
         expect(result).toEqual(component);
       });
 
-      const mockHttpRequest = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return (
           req.method === 'GET' && req.url === endpoint + '/components/comp1'
         );
       });
 
-      expect(mockHttpRequest.request.params.get('productCode')).toEqual(
+      expect(testRequest.request.params.get('productCode')).toEqual(
         'testProductCode'
       );
-      expect(mockHttpRequest.cancelled).toBeFalsy();
-      expect(mockHttpRequest.request.responseType).toEqual('json');
-      mockHttpRequest.flush(component);
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(component);
     });
 
     it('Should get cms component data with parameter fields', () => {
@@ -111,16 +111,16 @@ describe('OccCmsService', () => {
         expect(result).toEqual(component);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return (
           req.method === 'GET' && req.url === endpoint + '/components/comp1'
         );
       });
-      expect(mockReq.request.params.get('fields')).toEqual('FULL');
+      expect(testRequest.request.params.get('fields')).toEqual('FULL');
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(component);
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(component);
     });
   });
 
@@ -135,15 +135,17 @@ describe('OccCmsService', () => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/pages';
       });
 
-      expect(mockReq.request.params.get('pageLabelOrId')).toEqual('testPagId');
+      expect(testRequest.request.params.get('pageLabelOrId')).toEqual(
+        'testPagId'
+      );
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cmsPageData);
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(cmsPageData);
     });
 
     it('Should get cms content page data with parameter fields', () => {
@@ -156,16 +158,18 @@ describe('OccCmsService', () => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/pages';
       });
 
-      expect(mockReq.request.params.get('pageLabelOrId')).toEqual('testPagId');
-      expect(mockReq.request.params.get('fields')).toEqual('BASIC');
+      expect(testRequest.request.params.get('pageLabelOrId')).toEqual(
+        'testPagId'
+      );
+      expect(testRequest.request.params.get('fields')).toEqual('BASIC');
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cmsPageData);
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(cmsPageData);
     });
 
     it('should get cms product page data', () => {
@@ -177,14 +181,14 @@ describe('OccCmsService', () => {
         expect(result).toEqual(cmsPageData);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/pages';
       });
-      expect(mockReq.request.params.get('code')).toEqual('123');
+      expect(testRequest.request.params.get('code')).toEqual('123');
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cmsPageData);
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(cmsPageData);
     });
   });
 
@@ -197,19 +201,19 @@ describe('OccCmsService', () => {
       };
 
       service.loadListComponents(ids, context).subscribe(result => {
-        expect(result).toEqual(listComponents);
+        expect(result).toEqual(componentList);
       });
 
-      const mockReq = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === endpoint + '/components';
       });
 
-      expect(mockReq.request.body).toEqual(ids);
-      expect(mockReq.request.params.get('productCode')).toEqual('123');
+      expect(testRequest.request.body).toEqual(ids);
+      expect(testRequest.request.params.get('productCode')).toEqual('123');
 
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(listComponents);
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(componentList);
     });
 
     it('Should get a list of cms component data with pagination parameters', () => {
@@ -222,14 +226,14 @@ describe('OccCmsService', () => {
       service
         .loadListComponents(ids, context, 'FULL', 0, 5)
         .subscribe(result => {
-          expect(result).toEqual(listComponents);
+          expect(result).toEqual(componentList);
         });
 
-      const mockReq = httpMock.expectOne(req => {
+      const testRequest = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === endpoint + '/components';
       });
 
-      const request: HttpRequest<any> = mockReq.request;
+      const request: HttpRequest<any> = testRequest.request;
       expect(request.body).toEqual(ids);
       expect(request.params.get('productCode')).toEqual('123');
       expect(request.params.get('fields')).toEqual('FULL');
@@ -238,8 +242,8 @@ describe('OccCmsService', () => {
 
       expect(request.responseType).toEqual('json');
 
-      expect(mockReq.cancelled).toBeFalsy();
-      mockReq.flush(listComponents);
+      expect(testRequest.cancelled).toBeFalsy();
+      testRequest.flush(componentList);
     });
   });
 });
