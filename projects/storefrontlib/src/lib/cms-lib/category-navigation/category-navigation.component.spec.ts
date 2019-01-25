@@ -7,6 +7,7 @@ import { CmsService } from '@spartacus/core';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   template: '',
@@ -14,9 +15,9 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 })
 class MockNavigationComponent {
   @Input()
-  node;
+  node: NavigationNode;
   @Input()
-  dropdownMode;
+  dropdownMode: string;
 }
 
 class MockCmsService {

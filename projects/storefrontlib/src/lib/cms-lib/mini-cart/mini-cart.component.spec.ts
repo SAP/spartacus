@@ -1,11 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
-import { CartService, TranslateUrlOptions, Component } from '@spartacus/core';
+import {
+  CartService,
+  TranslateUrlOptions,
+  Component,
+  Cart
+} from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart } from '@spartacus/core';
 import { PipeTransform, Pipe } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CmsComponentData } from '../../cms';

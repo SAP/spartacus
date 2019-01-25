@@ -8,6 +8,7 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
 import { CmsService } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from './navigation-node.model';
 
 class MockCmsService {
   getComponentData() {
@@ -31,7 +32,7 @@ class MockNavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }
 
 describe('CmsNavigationComponent in CmsLib', () => {

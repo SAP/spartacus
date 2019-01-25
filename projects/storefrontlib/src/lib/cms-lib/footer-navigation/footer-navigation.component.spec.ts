@@ -17,6 +17,7 @@ import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -26,7 +27,7 @@ class MockNavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }
 
 @Component({
