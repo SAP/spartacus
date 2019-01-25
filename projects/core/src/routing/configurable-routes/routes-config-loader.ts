@@ -5,7 +5,6 @@ import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { retry } from 'rxjs/operators';
-import { ConfigurableRoutesService } from './configurable-routes.service';
 
 const ENDPOINT_ROUTES_CONFIG = 'routes-config';
 
@@ -26,8 +25,7 @@ export class RoutesConfigLoader {
   constructor(
     private readonly http: HttpClient,
     private readonly serverConfig: ServerConfig,
-    private readonly configurableRoutesConfig: ConfigurableRoutesConfig,
-    private readonly configurableRoutesService: ConfigurableRoutesService
+    private readonly configurableRoutesConfig: ConfigurableRoutesConfig
   ) {}
 
   async load(): Promise<void> {
@@ -36,7 +34,6 @@ export class RoutesConfigLoader {
       ? await this.fetch(this.endpoint)
       : null;
     this._routesConfig = this.extendStaticWith(fetchedRoutesConfig);
-    this.configurableRoutesService.init(this._routesConfig.translations);
   }
 
   private fetch(url: string): Promise<any> {
@@ -45,7 +42,7 @@ export class RoutesConfigLoader {
       .pipe(retry(2))
       .toPromise()
       .catch(() => {
-        throw new Error(`Could not get routes configutation from url ${url}!`);
+        throw new Error(`Could not get routes configuration from url ${url}!`);
       });
   }
 

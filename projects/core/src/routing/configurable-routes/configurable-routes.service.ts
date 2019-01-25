@@ -6,12 +6,17 @@ import {
   RouteTranslation,
   RoutesConfig
 } from './routes-config';
+import { RoutesConfigLoader } from './routes-config-loader';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
 @Injectable()
 export class ConfigurableRoutesService {
-  constructor(private config: ServerConfig, private injector: Injector) {}
+  constructor(
+    private config: ServerConfig,
+    private injector: Injector,
+    private routesConfigLoader: RoutesConfigLoader
+  ) {}
 
   private readonly currentLanguageCode = 'en'; // TODO: hardcoded! should be removed when more languages are supported by localized routes
 
@@ -23,13 +28,16 @@ export class ConfigurableRoutesService {
     ] as RoutesTranslations;
   }
 
+  private initCalled = false; // guard not to call init() more than once
+
   /**
    * Initializes service with given translations and translates all existing Routes in the Router.
    */
-  init(allRoutesTranslations: RoutesConfig['translations']) {
-    // check if not already initialized:
-    if (!this.allRoutesTranslations) {
-      this.allRoutesTranslations = allRoutesTranslations;
+  async init(): Promise<void> {
+    if (!this.initCalled) {
+      this.initCalled = true;
+      await this.routesConfigLoader.load();
+      this.allRoutesTranslations = this.routesConfigLoader.routesConfig.translations;
       this.translateRouterConfig();
     }
   }

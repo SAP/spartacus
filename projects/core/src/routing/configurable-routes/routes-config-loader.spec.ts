@@ -54,7 +54,6 @@ describe('RoutesConfigLoader', () => {
   let loader: RoutesConfigLoader;
   let http: MockHttpClient;
   let mockConfigurableRoutesConfig: MockConfigurableRoutesModuleConfig;
-  let configurableRoutesService: ConfigurableRoutesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,7 +73,6 @@ describe('RoutesConfigLoader', () => {
     });
 
     loader = TestBed.get(RoutesConfigLoader);
-    configurableRoutesService = TestBed.get(ConfigurableRoutesService);
     http = TestBed.get(HttpClient);
     mockConfigurableRoutesConfig = TestBed.get(ConfigurableRoutesConfig);
   });
@@ -128,13 +126,6 @@ describe('RoutesConfigLoader', () => {
           fetch: true
         });
       });
-
-      it('should init service', async () => {
-        spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
-        expect(loader.routesConfig).toBeFalsy();
-        await loader.load();
-        expect(configurableRoutesService.init).toHaveBeenCalled();
-      });
     });
 
     describe(', when fetch is configured to false,', () => {
@@ -179,13 +170,6 @@ describe('RoutesConfigLoader', () => {
             }
           })
         );
-      });
-
-      it('should init service', async () => {
-        spyOn(http, 'get').and.returnValue(of(mockFetchedRoutesConfig));
-        expect(loader.routesConfig).toBeFalsy();
-        await loader.load();
-        expect(configurableRoutesService.init).toHaveBeenCalled();
       });
     });
   });
