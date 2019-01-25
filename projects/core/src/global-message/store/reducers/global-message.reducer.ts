@@ -1,5 +1,8 @@
 import { GlobalMessageAction } from '../actions/global-message.actions';
-import { GlobalMessage } from '../../models/global-message.model';
+import {
+  GlobalMessage,
+  GlobalMessageType
+} from '../../models/global-message.model';
 import * as fromAction from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
 
@@ -41,8 +44,8 @@ export function reducer(
     }
 
     case fromAction.REMOVE_MESSAGE: {
-      const msgType = action.payload.type;
-      const msgIndex = action.payload.index;
+      const msgType: GlobalMessageType = action.payload.type;
+      const msgIndex: number = action.payload.index;
       if (
         Object.keys(state.entities).length === 0 ||
         !state.entities[msgType]
