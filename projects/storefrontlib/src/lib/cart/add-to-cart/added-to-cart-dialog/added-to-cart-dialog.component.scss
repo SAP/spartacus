@@ -1,182 +1,72 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/modal';
 
-//cx-added-to-cart-dialog color variables
-$cx-added-to-cart-dialog-border-color: 'light' !default;
-$cx-added-to-cart-dialog-more-container-background-color: 'background' !default;
+.cx-dialog-header {
+  padding: var(--cx-padding, 2rem 1.75rem 0.85rem);
+  border-width: var(--cx-border-width, 0);
+}
 
-//cx-added-to-cart-dialog variables
-$cx-added-to-cart-dialog-header-padding-left: 2rem !default;
+.cx-dialog-title {
+  @include type('3');
+}
 
-$cx-added-to-cart-dialog-body-padding-sm: 0 !default;
-
-$cx-added-to-cart-dialog-info-container-margin: 0 !default;
-$cx-added-to-cart-dialog-info-container-padding: 0 0.875rem 2.875rem 0.875rem !default;
-$cx-added-to-cart-dialog-info-container-padding-sm: 0 !default;
-$cx-added-to-cart-dialog-info-container-max-width: 100% !default;
-$cx-added-to-cart-dialog-item-container-padding-sm: 2rem !default;
-
-$cx-added-to-cart-dialog-separator-border-top: 1px solid !default;
-
-$cx-added-to-cart-dialog-total-container-padding-left: 2.5rem !default;
-$cx-added-to-cart-dialog-total-container-border-left: 1px solid !default;
-$cx-added-to-cart-dialog-total-container-border-left-sm: none !default;
-$cx-added-to-cart-dialog-total-container-padding-sm: 1.875rem !default;
-$cx-added-to-cart-dialog-total-padding-bottom: 1.25rem !default;
-
-$cx-added-to-cart-dialog-actions-btn-primary-margin-bottom: 0.625rem !default;
-
-$cx-added-to-cart-dialog-more-container-padding: 1.5rem 4.375rem 2.25rem
-  4.375rem !default;
-$cx-added-to-cart-dialog-more-container-h2-padding-bottom: 2.25rem !default;
-$cx-added-to-cart-dialog-more-container-h2-text-align: center !default;
-
-.cx-added-to-cart-dialog {
-  &__header {
-    padding-left: $cx-added-to-cart-dialog-header-padding-left;
-  }
-
-  &__title {
-    @include type('3');
-  }
-
-  &__body {
-    @include media-breakpoint-down(sm) {
-      padding: $cx-added-to-cart-dialog-body-padding-sm;
-    }
-  }
-
-  &__info-container {
-    margin: $cx-added-to-cart-dialog-info-container-margin;
-    display: flex;
-    padding: $cx-added-to-cart-dialog-info-container-padding;
-    max-width: $cx-added-to-cart-dialog-info-container-max-width;
-
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
-      padding: $cx-added-to-cart-dialog-info-container-padding-sm;
-    }
-  }
-
-  &__item-container {
-    @include media-breakpoint-down(sm) {
-      padding: $cx-added-to-cart-dialog-item-container-padding-sm;
-    }
-  }
-
-  &__separator {
-    border-top: $cx-added-to-cart-dialog-separator-border-top;
-    @include var-color(
-      'border-top-color',
-      $cx-added-to-cart-dialog-border-color
-    );
-  }
-
-  &__total-container {
-    display: flex;
-    flex-direction: column;
-    padding-left: $cx-added-to-cart-dialog-total-container-padding-left;
-    border-left: $cx-added-to-cart-dialog-total-container-border-left;
-    @include var-color(
-      'border-left-color',
-      $cx-added-to-cart-dialog-border-color
-    );
-
-    @include media-breakpoint-down(sm) {
-      border-left: $cx-added-to-cart-dialog-total-container-border-left-sm;
-      padding: $cx-added-to-cart-dialog-total-container-padding-sm;
-    }
-  }
-
-  &__total {
-    @include type('4');
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: $cx-added-to-cart-dialog-total-padding-bottom;
-  }
-
-  &__actions {
-    display: flex;
-    flex-direction: column;
-
-    .btn-primary {
-      margin-bottom: $cx-added-to-cart-dialog-actions-btn-primary-margin-bottom;
-    }
-  }
-
-  &__more-container {
-    @include var-color(
-      'background-color',
-      $cx-added-to-cart-dialog-more-container-background-color
-    );
-    justify-content: center;
-    padding: $cx-added-to-cart-dialog-more-container-padding;
-
-    h2 {
-      padding-bottom: $cx-added-to-cart-dialog-more-container-h2-padding-bottom;
-      text-align: $cx-added-to-cart-dialog-more-container-h2-text-align;
-    }
-  }
-
-  &__btn {
-    display: flex;
-    justify-content: center;
-    margin: 4.375rem auto;
+.cx-dialog-body {
+  padding: var(--cx-padding, 1rem 1rem 0 1rem);
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 0);
   }
 }
 
-// -------------------------------- OVERWRITING BOOTSTRAP STYLING FOR MODAL --------------------------------
+.cx-dialog-row {
+  margin: var(--cx-margin, 0);
+  display: var(--cx-display, flex);
+  padding: var(--cx-padding, 0 0.875rem 2.875rem);
+  max-width: var(--cx-max-width, 100%);
+  flex-wrap: var(--cx-flex-wrap, wrap);
 
-$modal-header-border-bottom: none;
-$modal-body-padding-bottom: 0;
-$modal-content-border-radius: 0;
-$modal-content-border: none !important;
-$modal-max-width: 768px !important;
-$modal-min-width: 768px !important;
-
-.modal {
-  &-header {
-    border-bottom: $modal-header-border-bottom;
-  }
-
-  &-body {
-    padding-bottom: $modal-body-padding-bottom;
-  }
-
-  &-content {
-    border-radius: $modal-content-border-radius;
-    border: $modal-content-border;
+  @include media-breakpoint-down(sm) {
+    flex-direction: var(--cx-flex-direction, column);
+    padding: var(--cx-padding, 0);
   }
 }
 
-.modal-xxl .modal-lg {
-  max-width: $modal-max-width;
-  min-width: $modal-min-width;
-}
-
-// ------------------------------ OVERWRITING BOOTSTRAP MEDIA QUERIES FOR MODAL ----------------------------
-$modal-max-width-md: 768px !important;
-$modal-min-width-md: 768px !important;
-$modal-max-width-sm: 100% !important;
-$modal-min-width-sm: 100% !important;
-$modal-dialog-margin-sm: 0 !important;
-
-@include media-breakpoint-up(md) {
-  .modal-lg {
-    max-width: $modal-max-width-md;
-    min-width: $modal-min-width-md;
+.cx-dialog-item {
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 2rem);
   }
 }
 
-@include media-breakpoint-down(sm) {
-  .modal-lg {
-    min-width: $modal-max-width-sm;
-    max-width: $modal-min-width-sm;
-  }
+.cx-dialog-separator {
+  border-width: var(--cx-border-width, 1px 0 0 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
 
-  .modal-dialog {
-    margin: $modal-dialog-margin-sm;
+.cx-dialog-actions {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
+  padding: var(--cx-padding, 0 1rem 0 2.5rem);
+  border-width: var(--cx-border-width, 0 0 0 1px);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+
+  @include media-breakpoint-down(sm) {
+    border-width: var(--cx-border-width, 0);
+    padding: var(--cx-padding, 1.875rem);
+  }
+}
+
+.cx-dialog-total {
+  @include type('4');
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, space-between);
+  padding: var(--cx-padding, 0 0 1.25rem 0);
+}
+
+.cx-dialog-buttons {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
+
+  .btn-primary {
+    margin: var(--cx-margin, 0 0 0.625rem 0);
   }
 }
