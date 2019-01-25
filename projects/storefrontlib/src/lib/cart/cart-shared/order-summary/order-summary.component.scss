@@ -7,11 +7,11 @@
 }
 
 .cx-summary-label {
-  text-align: var(--cx-text-align, left);
+  text-align: var(--cx-text-align, start);
   padding: var(--cx-padding, 0);
 }
 .cx-summary-amount {
-  text-align: var(--cx-text-align, right);
+  text-align: var(--cx-text-align, end);
   padding: var(--cx-padding, 0);
 }
 .cx-summary-promotions {
