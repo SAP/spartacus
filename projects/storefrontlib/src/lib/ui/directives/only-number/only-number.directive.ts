@@ -33,7 +33,7 @@ export class OnlyNumberDirective {
    * @param e
    */
   @HostListener('paste', ['$event'])
-  onPaste(e) {
+  onPaste(e: ClipboardEvent) {
     const value = e.clipboardData.getData('text/plain');
     this.validateValue(value);
     e.preventDefault();
@@ -113,7 +113,7 @@ export class OnlyNumberDirective {
    * Get key's name
    * @param e
    */
-  getName(e): string {
+  getName(e: KeyboardEvent): string {
     if (e.key) {
       return e.key;
     } else {

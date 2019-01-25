@@ -13,7 +13,7 @@ export class MultiStepCheckoutPage extends AppPage {
   );
 
   readonly orderSummary: ElementFinder = this.page.element(
-    by.css('.cx-order-summary__amount')
+    by.css('.cx-summary-amount')
   );
 
   readonly agreeToTermsCheckbox: ElementFinder = this.page.element(
