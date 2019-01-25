@@ -60,20 +60,15 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   });
 
   billingAddress: FormGroup = this.fb.group({
-    titleCode: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
-    region: this.fb.group({
-      isocode: ['', Validators.required]
-    }),
     country: this.fb.group({
       isocode: ['', Validators.required]
     }),
-    postalCode: ['', Validators.required],
-    phone: ''
+    postalCode: ['', Validators.required]
   });
 
   infoIconImgSrc = infoIconImgSrc;
