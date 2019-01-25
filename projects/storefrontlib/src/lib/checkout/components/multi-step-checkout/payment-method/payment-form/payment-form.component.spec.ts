@@ -26,11 +26,9 @@ const mockBillingCountries: Country[] = [
 const mockBillingAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
-  titleCode: 'mr',
   line1: 'Green Street',
   line2: '420',
   town: 'Montreal',
-  region: { isocode: 'CA-QC' },
   postalCode: 'H3A',
   country: { isocode: 'CA' }
 };
@@ -291,9 +289,6 @@ describe('PaymentFormComponent', () => {
       controls.payment['cvn'].setValue('test cvn');
 
       // set values for billing address form
-      controls.billingAddress['titleCode'].setValue(
-        mockBillingAddress.titleCode
-      );
       controls.billingAddress['firstName'].setValue(
         mockBillingAddress.firstName
       );
@@ -301,9 +296,6 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
       controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
       controls.billingAddress['town'].setValue(mockBillingAddress.town);
-      controls.billingAddress.region['controls'].isocode.setValue(
-        mockBillingAddress.region
-      );
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
       );
@@ -380,10 +372,6 @@ describe('PaymentFormComponent', () => {
 
       // set values for billing address form
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['titleCode'].setValue(
-        mockBillingAddress.titleCode
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['firstName'].setValue(
         mockBillingAddress.firstName
       );
@@ -395,10 +383,6 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['town'].setValue(mockBillingAddress.town);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.region['controls'].isocode.setValue(
-        mockBillingAddress.region
-      );
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
