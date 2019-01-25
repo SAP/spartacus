@@ -229,8 +229,8 @@ describe('OccCmsService', () => {
         return req.method === 'POST' && req.url === endpoint + '/components';
       });
 
-      const request: HttpRequest<CmsComponentList> = mockReq.request;
-      expect(request.body).toEqual(listComponents);
+      const request: HttpRequest<any> = mockReq.request;
+      expect(request.body).toEqual(ids);
       expect(request.params.get('productCode')).toEqual('123');
       expect(request.params.get('fields')).toEqual('FULL');
       expect(request.params.get('currentPage')).toEqual('0');
