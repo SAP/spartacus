@@ -5,7 +5,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import * as fromActions from './../actions';
 import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
-import { map, catchError, mergeMap } from 'rxjs/operators';
+import { map, catchError, exhaustMap } from 'rxjs/operators';
 import { ClientToken } from './../../models/token-types.model';
 import { ClientTokenAction } from '../actions/client-token.action';
 
@@ -14,7 +14,7 @@ export class ClientTokenEffect {
   @Effect()
   loadClientToken$: Observable<ClientTokenAction> = this.actions$.pipe(
     ofType(fromActions.LOAD_CLIENT_TOKEN),
-    mergeMap(() => {
+    exhaustMap(() => {
       return this.clientAuthenticationTokenService
         .loadClientAuthenticationToken()
         .pipe(
