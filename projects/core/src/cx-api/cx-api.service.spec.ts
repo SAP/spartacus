@@ -1,16 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { CxApiService } from './cx-api.service';
 
+import { CxApiService } from './cx-api.service';
+import { AuthService } from '../auth/index';
+import { CmsService } from '../cms/index';
+import { RoutingService } from '../routing/index';
+import { LanguageService, CurrencyService } from '../site-context/index';
 import {
-  ProductReviewService,
-  ProductSearchService,
   ProductService,
-  RoutingService,
-  LanguageService,
-  CurrencyService,
-  AuthService
-} from '@spartacus/core';
-import { CmsService } from '@spartacus/core';
+  ProductSearchService,
+  ProductReviewService
+} from '../product/index';
 
 class MockAuthService {}
 class MockCmsService {}

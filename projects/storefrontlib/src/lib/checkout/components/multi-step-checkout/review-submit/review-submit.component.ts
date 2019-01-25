@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  OnInit
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -14,7 +19,8 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
-  styleUrls: ['./review-submit.component.scss']
+  styleUrls: ['./review-submit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
   @Input()

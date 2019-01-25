@@ -18,11 +18,11 @@ export class GlobalMessageComponent implements OnInit {
 
   constructor(protected globalMessageService: GlobalMessageService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.messages$ = this.globalMessageService.get();
   }
 
-  clear(type: GlobalMessageType, index: number) {
+  clear(type: GlobalMessageType, index: number): void {
     this.globalMessageService.remove(type, index);
   }
 }
