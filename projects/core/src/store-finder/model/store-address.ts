@@ -1,4 +1,4 @@
-export class StoreAddress {
+export interface StoreAddress {
   id?: string;
   defaultAddress: boolean;
   formattedAddress: string;

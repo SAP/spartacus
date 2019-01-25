@@ -1,4 +1,4 @@
-export class OpeningHours {
+export interface OpeningHours {
   weekDay: string;
   closed: boolean;
   openingTime?: {

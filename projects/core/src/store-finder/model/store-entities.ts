@@ -1,5 +1,5 @@
 import { Location } from './location';
 
-export class StoreEntities {
+export interface StoreEntities {
   pointOfServices?: Array<Location>;
 }
