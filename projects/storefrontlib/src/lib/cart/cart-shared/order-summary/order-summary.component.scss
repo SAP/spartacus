@@ -1,38 +1,32 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// cx-order-summary color variables
-$cx-order-summary-background-color: 'background' !default;
-$cx-order-summary-promotions-color: 'success' !default;
-$cx-order-summary-total-savings-color: 'success' !default;
+:host {
+  display: block;
+  padding: var(--cx-padding, 1rem);
+  margin: var(--cx-margin, 0 0 1.5rem 0);
+}
 
-.cx-order-summary {
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-
-  &__label {
-    text-align: left;
-    padding: 0;
-  }
-  &__amount {
-    text-align: right;
-    padding: 0;
-  }
-  &__promotions {
-    @include var-color('color', $cx-order-summary-promotions-color);
-    @include type('7');
-    padding: 0.5rem 0;
-  }
-  &__row {
-    padding: 0.5rem 0;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  &__total-savings {
-    @include var-color('color', $cx-order-summary-total-savings-color);
-  }
-  &__total-final {
-    font-weight: bold;
-  }
+.cx-summary-label {
+  text-align: var(--cx-text-align, start);
+  padding: var(--cx-padding, 0);
+}
+.cx-summary-amount {
+  text-align: var(--cx-text-align, end);
+  padding: var(--cx-padding, 0);
+}
+.cx-summary-promotions {
+  @include type('7');
+  color: var(--cx-color, var(--cx-g-color-success));
+  padding: var(--cx-padding, 0.5rem 0);
+}
+.cx-summary-row {
+  padding: var(--cx-padding, 0.5rem 0);
+  display: var(--cx-display, flex);
+  flex-wrap: var(--cx-flex-wrap, wrap);
+}
+.cx-summary-savings {
+  color: var(--cx-color, var(--cx-g-color-success));
+}
+.cx-summary-total {
+  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
 }

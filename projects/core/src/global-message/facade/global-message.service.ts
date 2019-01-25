@@ -3,20 +3,21 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import * as fromStore from '../store/index';
 import {
   GlobalMessage,
   GlobalMessageType
 } from '../models/global-message.model';
-import { StateWithGlobalMessage, GlobalMessageEntities } from '../store/index';
+import {
+  GlobalMessageEntities,
+  StateWithGlobalMessage,
+  getGlobalMessageEntities,
+  AddMessage,
+  RemoveMessage,
+  RemoveMessagesByType
+} from '../store/index';
 
 @Injectable()
 export class GlobalMessageService {
-  readonly messages$: Observable<GlobalMessageEntities> = this.store.pipe(
-    select(fromStore.getGlobalMessageEntities),
-    filter(data => data !== undefined)
-  );
-
   constructor(private store: Store<StateWithGlobalMessage>) {}
 
   /**
@@ -24,7 +25,7 @@ export class GlobalMessageService {
    */
   get(): Observable<GlobalMessageEntities> {
     return this.store.pipe(
-      select(fromStore.getGlobalMessageEntities),
+      select(getGlobalMessageEntities),
       filter(data => data !== undefined)
     );
   }
@@ -33,8 +34,8 @@ export class GlobalMessageService {
    * Add one message into store
    * @param message: GlobalMessage object
    */
-  add(message: GlobalMessage) {
-    this.store.dispatch(new fromStore.AddMessage(message));
+  add(message: GlobalMessage): void {
+    this.store.dispatch(new AddMessage(message));
   }
 
   /**
@@ -43,16 +44,16 @@ export class GlobalMessageService {
    * @param index:optional. Without it, messages will be removed by type; otherwise,
    * message will be removed from list by index.
    */
-  remove(type: GlobalMessageType, index?: number) {
+  remove(type: GlobalMessageType, index?: number): void {
     if (index !== undefined) {
       this.store.dispatch(
-        new fromStore.RemoveMessage({
+        new RemoveMessage({
           type: type,
           index: index
         })
       );
     } else {
-      this.store.dispatch(new fromStore.RemoveMessagesByType(type));
+      this.store.dispatch(new RemoveMessagesByType(type));
     }
   }
 }
