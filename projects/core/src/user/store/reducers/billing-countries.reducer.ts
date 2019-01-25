@@ -39,6 +39,3 @@ export function reducer(
 
   return state;
 }
-
-export const getBillingCountriesEntites = (state: BillingCountriesState) =>
-  state.entities;
