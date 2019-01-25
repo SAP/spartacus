@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { SearchConfig } from '@spartacus/core';
 import { ProductSearchService } from '@spartacus/core';
@@ -52,25 +52,10 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (!this.query && queryParams.query) {
       this.query = queryParams.query;
     }
+
     if (this.query) {
       this.search(this.query, options);
     }
-
-    this.model$ = this.productSearchService.getSearchResults(this.query).pipe(
-      tap(searchResult => {
-        if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
-          this.categoryTitle = searchResult.breadcrumbs[0].facetValueName;
-        } else if (!this.query.includes(':relevance:')) {
-          this.categoryTitle = this.query;
-        }
-        if (this.categoryTitle) {
-          this.categoryTitle =
-            searchResult.pagination.totalResults +
-            ' results for ' +
-            this.categoryTitle;
-        }
-      })
-    );
   }
 
   createOptionsByUrlParams(): SearchConfig {
@@ -90,6 +75,7 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (this.brandCode) {
       options.brandCode = this.brandCode;
     }
+
     return options;
   }
 
@@ -97,6 +83,28 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.grid = {
       mode: this.gridMode
     };
+
+    this.model$ = this.productSearchService.getSearchResults().pipe(
+      tap(searchResult => {
+        if (Object.keys(searchResult).length === 0 && this.query) {
+          this.search(this.query);
+        }
+      }),
+      filter(searchResult => Object.keys(searchResult).length > 0),
+      tap(searchResult => {
+        if (searchResult.breadcrumbs && searchResult.breadcrumbs.length > 0) {
+          this.categoryTitle = searchResult.breadcrumbs[0].facetValueName;
+        } else if (!this.query.includes(':relevance:')) {
+          this.categoryTitle = this.query;
+        }
+        if (this.categoryTitle) {
+          this.categoryTitle =
+            searchResult.pagination.totalResults +
+            ' results for ' +
+            this.categoryTitle;
+        }
+      })
+    );
   }
 
   onFilter(query: string) {
