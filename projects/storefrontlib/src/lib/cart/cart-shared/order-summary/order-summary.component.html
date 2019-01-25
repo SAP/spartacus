@@ -1,44 +1,42 @@
-<div class="cx-order-summary">
-  <h4>Order Summary</h4>
+<h4>Order Summary</h4>
 
-  <div class="cx-order-summary__partials" *ngIf="cart">
-    <div class="cx-order-summary__row">
-      <div class="col-6 cx-order-summary__label">Subtotal:</div>
-      <div class="col-6 cx-order-summary__amount">
-        {{ cart.totalPrice?.formattedValue }}
-      </div>
-    </div>
-    <div class="cx-order-summary__row">
-      <div class="col-6 cx-order-summary__label">Estimated shipping:</div>
-      <!-- TODO: Implement shipping price -->
-      <div class="col-6 cx-order-summary__amount">Free</div>
-    </div>
-    <div class="cx-order-summary__row cx-order-summary__total-savings">
-      <div class="col-6 cx-order-summary__label">Discount:</div>
-      <div class="col-6 cx-order-summary__amount">
-        {{ cart.totalDiscounts?.formattedValue }}
-      </div>
-    </div>
-    <div class="cx-order-summary__row">
-      <div class="col-6 cx-order-summary__label">Sales Tax:</div>
-      <div class="col-6 cx-order-summary__amount">
-        {{ cart.totalTax?.formattedValue }}
-      </div>
-    </div>
-    <div class="cx-order-summary__row cx-order-summary__total-final">
-      <div class="col-6 cx-order-summary__label">Total:</div>
-      <div class="col-6 cx-order-summary__amount">
-        {{ cart.totalPriceWithTax?.formattedValue }}
-      </div>
+<div class="cx-summary-partials" *ngIf="cart">
+  <div class="cx-summary-row">
+    <div class="col-6 cx-summary-label">Subtotal:</div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalPrice?.formattedValue }}
     </div>
   </div>
-
-  <div
-    class="cx-order-summary__promotions"
-    *ngIf="cart.appliedOrderPromotions?.length > 0"
-  >
-    <strong *ngFor="let promotion of cart.appliedOrderPromotions">
-      {{ promotion.description }}
-    </strong>
+  <div class="cx-summary-row">
+    <div class="col-6 cx-summary-label">Estimated shipping:</div>
+    <!-- TODO: Implement shipping price -->
+    <div class="col-6 cx-summary-amount">Free</div>
   </div>
+  <div class="cx-summary-row cx-summary-savings">
+    <div class="col-6 cx-summary-label">Discount:</div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalDiscounts?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-summary-row">
+    <div class="col-6 cx-summary-label">Sales Tax:</div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalTax?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-summary-row cx-summary-total">
+    <div class="col-6 cx-summary-label">Total:</div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalPriceWithTax?.formattedValue }}
+    </div>
+  </div>
+</div>
+
+<div
+  class="cx-summary-promotions"
+  *ngIf="cart.appliedOrderPromotions?.length > 0"
+>
+  <strong *ngFor="let promotion of cart.appliedOrderPromotions">
+    {{ promotion.description }}
+  </strong>
 </div>

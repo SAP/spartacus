@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { BannerComponent } from './banner.component';
 import { CmsResponsiveBannerComponentMedia } from '@spartacus/core';
 import { map } from 'rxjs/operators';
@@ -7,7 +7,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-responsive-banner',
   templateUrl: './responsive-banner.component.html',
-  styleUrls: ['./responsive-banner.component.scss']
+  styleUrls: ['./responsive-banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResponsiveBannerComponent extends BannerComponent {
   // TODO: move to a more generic location
