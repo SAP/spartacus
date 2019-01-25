@@ -27,7 +27,10 @@ export class CartEffects {
       const loadCartParams = {
         userId: (payload && payload.userId) || this.cartData.userId,
         cartId: (payload && payload.cartId) || this.cartData.cartId,
-        details: (payload && payload.details) || this.cartData.getDetails
+        details:
+          payload && payload.details !== undefined
+            ? payload.details
+            : this.cartData.getDetails
       };
 
       if (this.isMissingData(loadCartParams)) {
