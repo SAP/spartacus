@@ -18,13 +18,11 @@ export class CartEffects {
     ofType(fromActions.LOAD_CART, LANGUAGE_CHANGE, CURRENCY_CHANGE),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      if (payload === undefined || payload.userId === undefined) {
-        payload = {
-          userId: this.cartData.userId,
-          cartId: this.cartData.cartId,
-          details: this.cartData.getDetails ? true : undefined
-        };
-      }
+      payload = {
+        userId: (payload && payload.userId) || this.cartData.userId,
+        cartId: (payload && payload.cartId) || this.cartData.cartId,
+        details: (payload && payload.details) || this.cartData.getDetails
+      };
 
       if (this.isMissingData(payload)) {
         return of(new fromActions.LoadCartFail({}));
@@ -95,7 +93,9 @@ export class CartEffects {
     private productImageConverter: ProductImageConverterService,
     private occCartService: OccCartService,
     private cartData: CartDataService
-  ) {}
+  ) {
+    this.cartData.getDetails = true;
+  }
 
   private isMissingData(payload) {
     return payload.userId === undefined || payload.cartId === undefined;
