@@ -54,8 +54,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   constructor() {}
 
-  onTouch = () => {};
-  onModelChange = (_rating: number) => {};
+  onTouch: Function = () => {};
+  onModelChange: Function = (_rating: number) => {};
 
   /**
    * If value is too small it will be set to min, if is too big it will be set to max.
@@ -110,8 +110,8 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onInput(event) {
-    const { value } = event.target;
+  onInput(event: Event) {
+    const { value } = event.target as any;
     if (value) {
       this.manualChange(Number(value));
     }
@@ -147,11 +147,11 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
 
   // ControlValueAccessor interface
 
-  registerOnTouched(fn) {
+  registerOnTouched(fn: Function) {
     this.onTouch = fn;
   }
 
-  registerOnChange(fn) {
+  registerOnChange(fn: Function) {
     this.onModelChange = fn;
   }
 
@@ -163,7 +163,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   /**
    * Set up new value for input and emit event outside
    */
-  updateValue(updatedQuantity) {
+  updateValue(updatedQuantity: number) {
     if (!this.async) {
       // If the async flag is true, then the parent component is responsible for updating the form
       this.writeValue(updatedQuantity);
