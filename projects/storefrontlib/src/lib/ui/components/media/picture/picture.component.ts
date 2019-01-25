@@ -24,11 +24,11 @@ export class PictureComponent implements OnChanges {
   @Input()
   imageContainer;
   @Input()
-  imageFormat;
+  imageFormat: string;
   @Input()
-  imagePosition;
+  imagePosition: string;
   @Input()
-  imageAlt;
+  imageAlt: string;
   @Output()
   loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
