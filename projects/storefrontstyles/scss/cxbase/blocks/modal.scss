@@ -2,7 +2,6 @@
 @import '~bootstrap/scss/modal';
 @import '~bootstrap/scss/close';
 
-$modal-header-padding: 30px 27px 15px 27px !important;
 $modal-content-border-radius: 0;
 $modal-dialog-margin-sm: 0 !important;
 $modal-max-width: 768px !important;
@@ -21,6 +20,7 @@ $modal-min-width-sm: 100% !important;
   }
   &-content {
     border-radius: $modal-content-border-radius;
+    border: none;
   }
   .close {
     font-size: 38px;
@@ -49,6 +49,11 @@ $modal-min-width-sm: 100% !important;
     min-width: $modal-max-width-sm;
     max-width: $modal-min-width-sm;
   }
+
+  .modal-dialog {
+    margin: $modal-dialog-margin-sm;
+  }
+
   .modal-dialog-centered {
     margin: $modal-dialog-margin-sm;
     height: 100%;

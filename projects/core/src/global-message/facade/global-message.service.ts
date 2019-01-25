@@ -34,7 +34,7 @@ export class GlobalMessageService {
    * Add one message into store
    * @param message: GlobalMessage object
    */
-  add(message: GlobalMessage) {
+  add(message: GlobalMessage): void {
     this.store.dispatch(new AddMessage(message));
   }
 
@@ -44,7 +44,7 @@ export class GlobalMessageService {
    * @param index:optional. Without it, messages will be removed by type; otherwise,
    * message will be removed from list by index.
    */
-  remove(type: GlobalMessageType, index?: number) {
+  remove(type: GlobalMessageType, index?: number): void {
     if (index !== undefined) {
       this.store.dispatch(
         new RemoveMessage({
