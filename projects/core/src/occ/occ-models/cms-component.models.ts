@@ -35,6 +35,7 @@ export interface CmsSearchBoxComponent extends CmsComponent {
 export interface CmsParagraphComponent extends CmsComponent {
   content?: string;
   container?: string;
+  modifiedTime?: string;
   title?: string;
 }
 
@@ -81,6 +82,7 @@ export interface CmsBreadcrumbsComponent extends CmsComponent {
 }
 
 export interface CmsNavigationNode {
+  uid?: string;
   title?: string;
   children?: Array<CmsNavigationNode>;
   entries?: Array<CmsNavigationEntry>;
