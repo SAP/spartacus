@@ -1,12 +1,14 @@
-import * as fromReducer from './card-types.reducer';
-import * as fromActions from '../actions/index';
 import { CardType } from '@spartacus/core';
+
+import * as fromActions from '../actions/index';
+
+import * as fromReducer from './card-types.reducer';
 
 describe('Card Types Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as any;
+      const action = {} as fromActions.CardTypesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);

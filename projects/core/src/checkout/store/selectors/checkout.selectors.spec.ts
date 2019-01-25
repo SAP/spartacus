@@ -6,7 +6,13 @@ import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { PaymentDetails, Order, Address } from '../../../occ/occ-models/index';
+import {
+  PaymentDetails,
+  Order,
+  Address,
+  DeliveryModeList,
+  DeliveryMode
+} from '../../../occ/occ-models/index';
 
 describe('Checkout Selectors', () => {
   let store: Store<CheckoutState>;
@@ -36,7 +42,7 @@ describe('Checkout Selectors', () => {
         country: { isocode: 'CA' }
       };
 
-      let result;
+      let result: Address;
       store
         .pipe(select(fromSelectors.getDeliveryAddress))
         .subscribe(value => (result = value));
@@ -51,7 +57,7 @@ describe('Checkout Selectors', () => {
 
   describe('getDeliveryMode', () => {
     it('should return the cart delivery mode', () => {
-      const modes: any = {
+      const modes: DeliveryModeList = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 
@@ -83,11 +89,11 @@ describe('Checkout Selectors', () => {
 
   describe('getSupportedDeliveryModes', () => {
     it('should return all supported cart delivery modes', () => {
-      const modes: any = {
+      const modes: DeliveryModeList = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 
-      let result;
+      let result: DeliveryMode[];
       store
         .pipe(select(fromSelectors.getSupportedDeliveryModes))
         .subscribe(value => (result = value));
@@ -102,11 +108,11 @@ describe('Checkout Selectors', () => {
 
   describe('getSelectedDeliveryMode', () => {
     it('should return selected cart delivery mode', () => {
-      const modes: any = {
+      const modes: DeliveryModeList = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 
-      let result;
+      let result: DeliveryMode;
       store
         .pipe(select(fromSelectors.getSelectedDeliveryMode))
         .subscribe(value => (result = value));
@@ -122,11 +128,11 @@ describe('Checkout Selectors', () => {
 
   describe('getSelectedCode', () => {
     it('should return selected delivery mode code', () => {
-      const modes: any = {
+      const modes: DeliveryModeList = {
         deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
       };
 
-      let result;
+      let result: string;
       store
         .pipe(select(fromSelectors.getSelectedCode))
         .subscribe(value => (result = value));
@@ -142,7 +148,7 @@ describe('Checkout Selectors', () => {
 
   describe('getPaymentDetails', () => {
     it('should return payment details', () => {
-      let result;
+      let result: PaymentDetails;
       const paymentDetails: PaymentDetails = {
         id: 'mockPaymentDetails'
       };
@@ -163,7 +169,7 @@ describe('Checkout Selectors', () => {
 
   describe('getOrderDetails', () => {
     it('should return order details', () => {
-      let result;
+      let result: Order;
       const orderDetails: Order = {
         code: 'testOrder123'
       };

@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
 
-import * as fromActions from '../actions/index';
-import * as fromUserActions from '../../../user/store/actions/index';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
+import * as fromActions from '../actions/index';
 import { OccCartService } from '../../../cart/index';
-import { OccOrderService } from '../../../user/index';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
 import { ProductImageConverterService } from '../../../product/index';
+import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
+import * as fromUserActions from '../../../user/store/actions/index';
 
 @Injectable()
 export class CheckoutEffects {
   @Effect()
-  addDeliveryAddress$: Observable<any> = this.actions$.pipe(
+  addDeliveryAddress$: Observable<
+    | fromUserActions.LoadUserAddresses
+    | fromActions.SetDeliveryAddress
+    | fromActions.AddDeliveryAddressFail
+  > = this.actions$.pipe(
     ofType(fromActions.ADD_DELIVERY_ADDRESS),
     map((action: fromActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
@@ -40,7 +44,9 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  setDeliveryAddress$: Observable<any> = this.actions$.pipe(
+  setDeliveryAddress$: Observable<
+    fromActions.SetDeliveryAddressSuccess | fromActions.SetDeliveryAddressFail
+  > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -54,7 +60,10 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  loadSupportedDeliveryModes$: Observable<any> = this.actions$.pipe(
+  loadSupportedDeliveryModes$: Observable<
+    | fromActions.LoadSupportedDeliveryModesSuccess
+    | fromActions.LoadSupportedDeliveryModesFail
+  > = this.actions$.pipe(
     ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -72,7 +81,9 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  setDeliveryMode$: Observable<any> = this.actions$.pipe(
+  setDeliveryMode$: Observable<
+    fromActions.SetDeliveryModeSuccess | fromActions.SetDeliveryModeFail
+  > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -88,7 +99,11 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  createPaymentDetails$: Observable<any> = this.actions$.pipe(
+  createPaymentDetails$: Observable<
+    | fromUserActions.LoadUserPaymentMethods
+    | fromActions.CreatePaymentDetailsSuccess
+    | fromActions.CreatePaymentDetailsFail
+  > = this.actions$.pipe(
     ofType(fromActions.CREATE_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -156,7 +171,9 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  setPaymentDetails$: Observable<any> = this.actions$.pipe(
+  setPaymentDetails$: Observable<
+    fromActions.SetPaymentDetailsSuccess | fromActions.SetPaymentDetailsFail
+  > = this.actions$.pipe(
     ofType(fromActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
@@ -177,7 +194,9 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  placeOrder$: Observable<any> = this.actions$.pipe(
+  placeOrder$: Observable<
+    fromActions.PlaceOrderSuccess | AddMessage | fromActions.PlaceOrderFail
+  > = this.actions$.pipe(
     ofType(fromActions.PLACE_ORDER),
     map((action: any) => action.payload),
     mergeMap(payload => {

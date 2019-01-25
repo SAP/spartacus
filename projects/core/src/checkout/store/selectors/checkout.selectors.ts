@@ -28,7 +28,10 @@ export const getDeliveryAddress: MemoizedSelector<
 
 export const getDeliveryMode: MemoizedSelector<
   CheckoutState,
-  any
+  {
+    supported: { [code: string]: DeliveryMode };
+    selected: string;
+  }
 > = createSelector(
   getCheckoutStepsState,
   fromReducer.getDeliveryMode
@@ -58,7 +61,7 @@ export const getSelectedCode: MemoizedSelector<
 
 export const getSelectedDeliveryMode: MemoizedSelector<
   CheckoutState,
-  any
+  DeliveryMode
 > = createSelector(
   getDeliveryMode,
   deliveryMode => {

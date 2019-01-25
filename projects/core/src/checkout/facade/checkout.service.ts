@@ -44,7 +44,7 @@ export class CheckoutService {
   /**
    * Get selected delivery mode code
    */
-  getSelectedDeliveryModeCode(): Observable<any> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return this.checkoutStore.pipe(select(fromCheckoutStore.getSelectedCode));
   }
 
@@ -67,7 +67,7 @@ export class CheckoutService {
   /**
    * Get address verification results
    */
-  getAddressVerificationResults(): Observable<AddressValidation> {
+  getAddressVerificationResults(): Observable<AddressValidation | string> {
     return this.checkoutStore.pipe(
       select(fromCheckoutStore.getAddressVerificationResults),
       filter(results => Object.keys(results).length !== 0)

@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-import { hot, cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Action } from '@ngrx/store';
 
 import {
   OccConfig,
@@ -16,10 +15,17 @@ import {
   GlobalMessageType,
   AddMessage,
   OccCartService,
-  Address
+  Address,
+  Order
 } from '@spartacus/core';
-import * as fromEffects from './checkout.effect';
+
+import { Observable, of } from 'rxjs';
+
+import { hot, cold } from 'jasmine-marbles';
+
 import * as fromActions from '../actions/checkout.action';
+
+import * as fromEffects from './checkout.effect';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -32,7 +38,7 @@ describe('Checkout effect', () => {
   let cartService: OccCartService;
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
   let productImageConverter: ProductImageConverterService;
 
   const userId = 'testUserId';
@@ -50,7 +56,7 @@ describe('Checkout effect', () => {
   const modes: DeliveryModeList = {
     deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
   };
-  const orderDetails = { entries: [] };
+  const orderDetails: Order = { entries: [] };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -153,7 +159,7 @@ describe('Checkout effect', () => {
 
   describe('createPaymentDetails$', () => {
     it('should create payment details for cart', () => {
-      const mockPaymentDetails = {
+      const mockPaymentDetails: PaymentDetails = {
         accountHolderName: 'test test',
         cardNumber: '4111111111111111',
         cardType: {
@@ -333,18 +339,19 @@ describe('Checkout effect', () => {
 
   describe('setPaymentDetails$', () => {
     it('should set payment details', () => {
-      const paymentDetails = {
+      const paymentDetails: PaymentDetails = {
         id: '123',
-        billTo_city: 'MainCity',
-        decision: 'ACCEPT',
-        billTo_country: 'US',
-        billTo_lastName: 'test'
+        billingAddress: {
+          town: 'MainCity',
+          country: { isocode: 'US' },
+          lastName: 'test'
+        }
       };
 
       const action = new fromActions.SetPaymentDetails({
         userId: userId,
         cartId: cartId,
-        paymentDetails: paymentDetails
+        paymentDetails
       });
       const completion = new fromActions.SetPaymentDetailsSuccess(
         paymentDetails

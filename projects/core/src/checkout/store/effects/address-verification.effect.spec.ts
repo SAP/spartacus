@@ -1,11 +1,18 @@
 import { TestBed } from '@angular/core/testing';
+
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { Action } from '@ngrx/store';
+
 import { OccUserService } from '@spartacus/core';
-import * as fromActions from './../actions/index';
-import { AddressVerificationEffect } from './address-verification.effect';
 import { AddressValidation, Address } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+
+import { cold, hot } from 'jasmine-marbles';
+
+import * as fromActions from './../actions/index';
+
+import { AddressVerificationEffect } from './address-verification.effect';
 
 const addressValidation: AddressValidation = {
   decision: 'test address validation',
@@ -13,13 +20,13 @@ const addressValidation: AddressValidation = {
 };
 
 class MockUserService {
-  verifyAddress(_userId, _address) {}
+  verifyAddress(_userId: string, _address: Address) {}
 }
 
 describe('Address Verification effect', () => {
   let effect: AddressVerificationEffect;
   let service: OccUserService;
-  let actions$: Observable<any>;
+  let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
