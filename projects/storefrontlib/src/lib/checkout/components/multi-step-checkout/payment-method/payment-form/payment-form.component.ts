@@ -3,6 +3,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -26,7 +27,8 @@ import { SuggestedAddressDialogComponent } from '../../shipping-address/address-
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss']
+  styleUrls: ['./payment-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
   private checkboxSub: Subscription;
