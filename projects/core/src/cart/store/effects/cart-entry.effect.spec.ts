@@ -2,8 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { TestScheduler } from 'rxjs/testing';
 
 import { OccCartService } from '../../occ/cart.service';
 import * as fromEffects from './cart-entry.effect';
@@ -22,6 +24,7 @@ describe('Cart effect', () => {
   let entryEffects: fromEffects.CartEntryEffects;
   let actions$: Observable<any>;
 
+  const scheduler = new TestScheduler((a, b) => expect(a).toEqual(b));
   const userId = 'testUserId';
   const cartId = 'testCartId';
 
@@ -81,18 +84,22 @@ describe('Cart effect', () => {
 
   describe('updateEntry$', () => {
     it('should update an entry', () => {
-      const action = new fromActions.UpdateEntry({
-        userId: userId,
-        cartId: cartId,
-        entry: 'testEntryNumber',
-        qty: 1
+      scheduler.run(helpers => {
+        const action = new fromActions.UpdateEntry({
+          userId: userId,
+          cartId: cartId,
+          entry: 'testEntryNumber',
+          qty: 1
+        });
+        const completion = new fromActions.UpdateEntrySuccess();
+
+        actions$ = helpers.hot('-a-a-a', { a: action });
+        helpers
+          .expectObservable(
+            entryEffects.updateEntry$.pipe(debounceTime(-300, scheduler))
+          )
+          .toBe('-----b', { b: completion });
       });
-      const completion = new fromActions.UpdateEntrySuccess();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(entryEffects.updateEntry$).toBeObservable(expected);
     });
   });
 });

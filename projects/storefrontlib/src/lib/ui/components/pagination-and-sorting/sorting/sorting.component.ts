@@ -21,7 +21,7 @@ export class SortingComponent {
   @Input()
   placeholder: string;
   @Input()
-  sortLabels: any;
+  sortLabels: { [code: string]: string };
 
   @Output()
   sortListEvent: EventEmitter<string>;

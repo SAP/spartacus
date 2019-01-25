@@ -9,11 +9,11 @@ import { EntityLoaderAction } from './entity-loader.action';
  * single state reducer to support multiple entities with generic loading flags
  */
 export function entityLoaderReducer<T>(
-  loadActionType: string,
+  entityType: string,
   reducer?: (state: T, action: LoaderAction) => T
 ): (
   state: EntityLoaderState<T>,
   action: EntityLoaderAction
 ) => EntityLoaderState<T> {
-  return entityReducer(loaderReducer(loadActionType, reducer));
+  return entityReducer(entityType, loaderReducer(entityType, reducer));
 }
