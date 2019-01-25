@@ -1,9 +1,8 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-storefront',
   templateUrl: './storefront.component.html',
-  styleUrls: ['./storefront.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./storefront.component.scss']
 })
 export class StorefrontComponent {}

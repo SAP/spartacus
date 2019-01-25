@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'cx-terms-conditions-page',
   templateUrl: './terms-conditions-page.component.html',
-  styleUrls: ['./terms-conditions-page.component.scss']
+  styleUrls: ['./terms-conditions-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TermsConditionsPageComponent implements OnInit {
   constructor() {}
