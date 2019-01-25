@@ -19,7 +19,7 @@ export class CartPage extends AppPage {
     by.tagName('cx-order-summary')
   );
   readonly orderSummaryAmount: ElementFinder = this.page.element(
-    by.css('.cx-order-summary__total-final .cx-order-summary__amount')
+    by.css('.cx-summary-total .cx-summary-amount')
   );
 
   readonly itemCounterComponent: ElementArrayFinder = this.page.all(
@@ -116,9 +116,7 @@ export class CartPage extends AppPage {
   }
 
   async getSummaryTotalValue(): Promise<string> {
-    return await this.page
-      .element(by.css('.cx-order-summary__amount'))
-      .getText();
+    return await this.page.element(by.css('.cx-summary-amount')).getText();
   }
 
   async checkCartSummary(subtotal: string, discount: string, total: string) {
