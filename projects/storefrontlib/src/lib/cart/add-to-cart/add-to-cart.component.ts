@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +16,8 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
-  styleUrls: ['./add-to-cart.component.scss']
+  styleUrls: ['./add-to-cart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddToCartComponent implements OnInit {
   modalInstance;
