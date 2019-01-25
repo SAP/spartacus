@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Subscription, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {
@@ -18,7 +24,8 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
 @Component({
   selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
-  styleUrls: ['./multi-step-checkout.component.scss']
+  styleUrls: ['./multi-step-checkout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;

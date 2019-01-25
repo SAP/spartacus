@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListItemComponent } from './product-list-item.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -81,7 +87,11 @@ describe('ProductListItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockTranslateUrlPipe
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(ProductListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
