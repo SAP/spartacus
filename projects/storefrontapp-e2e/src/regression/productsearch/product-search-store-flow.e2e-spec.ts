@@ -78,8 +78,8 @@ describe('Product search', () => {
     );
     await searchResults.clickAddToCartButton4Product(product2);
     await addedToCartModal.waitForReady();
-    expect(await addedToCartModal.modalTitle.getText()).toEqual(
-      '1 item(s) added to your cart'
+    expect(await addedToCartModal.itemQuantity.getAttribute('value')).toEqual(
+      '1'
     );
     await addedToCartModal.closeButton.click();
     expect(addedToCartModal.modal.isPresent()).toBe(false);

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { OutletRefModule } from '../../outlet/index';
+import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
 
 import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
@@ -46,6 +47,7 @@ const layoutModules = [
   HelpPageLayoutModule,
   ContactPageLayoutModule,
   OutletRefModule,
+  StyleRefModule,
   TermsConditionsLayoutModule
 ];
 

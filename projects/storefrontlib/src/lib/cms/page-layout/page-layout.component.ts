@@ -32,6 +32,10 @@ export class PageLayoutComponent implements OnInit {
     return this.pageLayoutService.getSlots(this.section);
   }
 
+  get templateName$() {
+    return this.pageLayoutService.page$.pipe(page => page.template);
+  }
+
   set styleClass(cls: string) {
     this.renderer.addClass(this.el.nativeElement, cls);
   }
