@@ -34,6 +34,10 @@ export class PageLayoutService {
     return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
+  get templateName$(): Observable<string> {
+    return this.page$.pipe(map((page: Page) => page.template));
+  }
+
   /**
    * load slots from the layout configuration. The breakpoint is used
    * to load a specific configuration for the given breakpoint. If there's
