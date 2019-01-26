@@ -11,14 +11,17 @@ export const defaultCmsModuleConfig: CmsConfig = {
   layoutSlots: {
     header: {
       slots: ['SiteLogo', 'SiteContext'],
-      xs: ['SiteContext', 'SiteLogo']
+      md: ['SiteContext', 'SiteLogo']
     },
     footer: {
       slots: ['Footer']
     },
-    ExamplePageTemplate: {
+    LandingPage2Template: {
       slots: ['Section1', 'Section2'],
-      header: ['Section1']
+      header: {
+        slots: ['SiteLogo', 'SiteContext'],
+        md: ['SiteContext', 'SiteLogo']
+      }
     }
   }
 };
