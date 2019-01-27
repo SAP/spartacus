@@ -172,8 +172,8 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 * [Definition of Done](docs/contributing/definition-of-done.md)
 * [Coding Guidelines](docs/contributing/coding-guidelines.md)
-* [Commit Guidelines](docs/commit-guidelines.md)
-* [Development Tools for Spartacus](dev-tools.md)
+* [Commit Guidelines](docs/contributing/commit-guidelines.md)
+* [Development Tools for Spartacus](docs/contributing/dev-tools.md)
 
 ### Contribution Process
 
