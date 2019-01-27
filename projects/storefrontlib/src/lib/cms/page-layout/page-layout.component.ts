@@ -33,7 +33,7 @@ export class PageLayoutComponent implements OnInit {
   }
 
   get templateName$() {
-    return this.pageLayoutService.page$.pipe(page => page.template);
+    return this.pageLayoutService.templateName$;
   }
 
   set styleClass(cls: string) {
