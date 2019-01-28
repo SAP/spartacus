@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { StateWithAuth } from '../store/auth-state';
@@ -94,20 +94,20 @@ export class AuthService {
    * the backend will not be performed, unless the refresh argument is used and is true.
    * @param refresh Optional. Default is false. If true, this will force a query to the backend to get a new token.
    */
-  getClientToken(refresh = false): Observable<ClientToken> {
+  getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
       select(getClientTokenState),
-      tap((state: LoaderState<ClientToken>) => {
-        if (!state.loading) {
-          if (!state.success || refresh) {
+      filter((state: LoaderState<ClientToken>) => {
+        if (this.isTokenLoaded(state)) {
+          return true;
+        } else {
+          if (!state.loading) {
             this.store.dispatch(new LoadClientToken());
           }
+          return false;
         }
       }),
-      filter(
-        (state: LoaderState<ClientToken>) =>
-          (state.success || state.error) && !state.loading
-      ),
+      take(1),
       map((state: LoaderState<ClientToken>) => state.value)
     );
   }
@@ -116,6 +116,17 @@ export class AuthService {
    * Refreshes the client token
    */
   refreshClientToken(): Observable<ClientToken> {
-    return this.getClientToken(true);
+    this.store.dispatch(new LoadClientToken());
+
+    return this.store.pipe(
+      select(getClientTokenState),
+      filter((state: LoaderState<ClientToken>) => this.isTokenLoaded(state)),
+      take(1),
+      map((state: LoaderState<ClientToken>) => state.value)
+    );
+  }
+
+  protected isTokenLoaded(state: LoaderState<ClientToken>): boolean {
+    return (state.success || state.error) && !state.loading;
   }
 }
