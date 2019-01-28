@@ -156,9 +156,7 @@ describe('Cart interactions', () => {
     await E2EUtil.wait4VisibleElement(item);
 
     // check item has been added to cart
-    expect(await atcModal.modalTitle.getText()).toEqual(
-      '1 item(s) added to your cart'
-    );
+    expect(await atcModal.itemQuantity.getAttribute('value')).toEqual('1');
     expect(await atcModal.totalCount.getText()).toContain('1 items');
     expect(await home.header.miniCartButton.getText()).toContain('1');
     await atcModal.closeButton.click();
@@ -179,9 +177,8 @@ describe('Cart interactions', () => {
     await atcModal.waitForReady();
 
     // check item has been added to cart
-    expect(await atcModal.modalTitle.getText()).toEqual(
-      '1 item(s) added to your cart'
-    );
+    expect(await atcModal.itemQuantity.getAttribute('value')).toEqual('1');
+
     expect(await atcModal.totalCount.getText()).toContain('1 items');
     expect(await home.header.miniCartButton.getText()).toContain('1');
 
@@ -221,9 +218,8 @@ describe('Cart interactions', () => {
     await E2EUtil.wait4VisibleElement(item);
 
     // check item has been added to cart
-    expect(await atcModal.modalTitle.getText()).toEqual(
-      '1 item(s) added to your cart'
-    );
+    expect(await atcModal.itemQuantity.getAttribute('value')).toEqual('1');
+
     expect(await atcModal.totalCount.getText()).toContain('1 items');
 
     await atcModal.closeButton.click();
