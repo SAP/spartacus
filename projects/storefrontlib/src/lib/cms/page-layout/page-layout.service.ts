@@ -78,44 +78,27 @@ export class PageLayoutService {
    */
   protected getResponsiveSlotConfig(
     layoutSlotConfig: LayoutSlotConfig,
-    breakpoint: BREAKPOINT
+    breakpoint?: BREAKPOINT
   ): string[] {
+    let config = <string[]>(layoutSlotConfig.slots || layoutSlotConfig.xs);
+
+    // fallback to default slot config
     if (!breakpoint) {
-      return <string[]>(layoutSlotConfig.slots || layoutSlotConfig.xs);
+      return config;
     }
+    // we have a config for the specific breakpoint
     if (layoutSlotConfig[breakpoint]) {
       return <string[]>layoutSlotConfig[breakpoint];
     }
-    let config = <string[]>layoutSlotConfig.slots;
 
-    if (
-      this.breakpointService.isDown(BREAKPOINT.xs) &&
-      layoutSlotConfig[BREAKPOINT.xs]
-    ) {
-      config = <string[]>layoutSlotConfig[BREAKPOINT.xs];
-    }
+    // find closest config
+    const all = this.breakpointService.breakpoints;
 
-    if (
-      this.breakpointService.isUp(BREAKPOINT.xs) &&
-      this.breakpointService.isDown(BREAKPOINT.sm) &&
-      layoutSlotConfig[BREAKPOINT.sm]
-    ) {
-      config = <string[]>layoutSlotConfig[BREAKPOINT.sm];
+    for (const br of all.splice(0, all.indexOf(breakpoint) + 1)) {
+      if (layoutSlotConfig[br]) {
+        config = <string[]>layoutSlotConfig[br];
+      }
     }
-    if (
-      this.breakpointService.isUp(BREAKPOINT.sm) &&
-      this.breakpointService.isDown(BREAKPOINT.md) &&
-      layoutSlotConfig[BREAKPOINT.md]
-    ) {
-      config = <string[]>layoutSlotConfig[BREAKPOINT.md];
-    }
-    if (
-      this.breakpointService.isUp(BREAKPOINT.md) &&
-      layoutSlotConfig[BREAKPOINT.lg]
-    ) {
-      config = <string[]>layoutSlotConfig[BREAKPOINT.lg];
-    }
-
     return config;
   }
 

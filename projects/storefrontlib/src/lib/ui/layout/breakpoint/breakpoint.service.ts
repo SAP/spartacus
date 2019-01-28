@@ -22,29 +22,28 @@ export class BreakpointService {
     );
   }
 
-  isUp(breakpoint: BREAKPOINT, windowWidth?: number): boolean {
-    if (!windowWidth) {
-      windowWidth = this.window.innerWidth;
-    }
-    return this.window.innerWidth >= this.getSize(breakpoint);
+  get breakpoints(): BREAKPOINT[] {
+    return [
+      BREAKPOINT.xs,
+      BREAKPOINT.sm,
+      BREAKPOINT.md,
+      BREAKPOINT.lg,
+      BREAKPOINT.xl
+    ];
   }
 
-  isDown(breakpoint: BREAKPOINT, windowWidth?: number): boolean {
+  getClosest(windowWidth?: number) {
     if (!windowWidth) {
       windowWidth = this.window.innerWidth;
     }
-    return windowWidth <= this.getSize(breakpoint);
+    return this.breakpoints
+      .reverse()
+      .find(br => windowWidth >= this.getSize(br));
   }
 
   protected getBreakpoint(windowWidth: number) {
-    const breakpointSize = [
-      BREAKPOINT.lg,
-      BREAKPOINT.md,
-      BREAKPOINT.sm,
-      BREAKPOINT.xs
-    ].find(br => this.isUp(br, windowWidth));
-
-    return BREAKPOINT[breakpointSize || BREAKPOINT.lg];
+    const breakpoint = this.getClosest(windowWidth);
+    return BREAKPOINT[breakpoint || BREAKPOINT.lg];
   }
 
   protected getSize(breakpoint: BREAKPOINT): number {

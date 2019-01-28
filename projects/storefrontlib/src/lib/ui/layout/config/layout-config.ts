@@ -2,7 +2,8 @@ export enum BREAKPOINT {
   xs = 'xs',
   sm = 'sm',
   md = 'md',
-  lg = 'lg'
+  lg = 'lg',
+  xl = 'xl'
 }
 
 export abstract class LayoutConfig {
