@@ -68,6 +68,7 @@ export class CartService {
   }
 
   protected loadOrMerge(): void {
+    this.cartData.getDetails = true;
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
     if (this.cartData.userId !== ANONYMOUS_USERID) {

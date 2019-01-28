@@ -4,7 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnDestroy
+  OnDestroy,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
@@ -26,7 +27,8 @@ import { Address } from '@spartacus/core';
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  styleUrls: ['./address-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<any>;

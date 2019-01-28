@@ -228,7 +228,7 @@ describe('ItemCounterComponent', () => {
     it('should call manualChange with value', () => {
       itemCounterComponent.min = 1;
       itemCounterComponent.max = 5;
-      const inputEvent = { target: { value: '3' } };
+      const inputEvent = { target: { value: '3' } } as any;
       itemCounterComponent.onInput(inputEvent);
       expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(3);
     });
@@ -236,7 +236,7 @@ describe('ItemCounterComponent', () => {
     it('should not call manualChange', () => {
       itemCounterComponent.min = 1;
       itemCounterComponent.max = 5;
-      const inputEvent = { target: {} };
+      const inputEvent = { target: {} } as any;
       itemCounterComponent.onInput(inputEvent);
       expect(itemCounterComponent.manualChange).not.toHaveBeenCalled();
     });
