@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
-import { tap, filter, map, take } from 'rxjs/operators';
+import { tap, filter, map } from 'rxjs/operators';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { StateWithAuth } from '../store/auth-state';
