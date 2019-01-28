@@ -123,8 +123,7 @@ describe('RoutesConfigLoader', () => {
               },
               page3: { paths: ['default-path3'] }
             }
-          },
-          fetch: true
+          }
         });
       });
     });
