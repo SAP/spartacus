@@ -11,7 +11,10 @@ import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
 export class OccSiteService {
   constructor(private http: HttpClient, private config: OccConfig) {}
 
-  protected getBaseEndPoint() {
+  protected getBaseEndPoint(): string {
+    if (!this.config || !this.config.server) {
+      return '';
+    }
     return (
       (this.config.server.baseUrl || '') +
       this.config.server.occPrefix +
