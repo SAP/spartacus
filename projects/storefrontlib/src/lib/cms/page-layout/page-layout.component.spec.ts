@@ -110,7 +110,7 @@ fdescribe('PageLayoutComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageLayoutComponent);
+    fixture = TestBed.createComponent(MockPageTemplateComponent);
     pageLayoutComponent = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -126,18 +126,19 @@ fdescribe('PageLayoutComponent', () => {
   });
 
   it('should render page template as class name on page layout', () => {
-    const debugElement = fixture.debugElement;
-    console.log((debugElement.nativeElement as HTMLElement).classList);
-    expect((debugElement.nativeElement as HTMLElement).classList).toContain(
+    const pageLayoutElement = fixture.debugElement.query(
+      By.css('cx-page-layout')
+    );
+    expect(pageLayoutElement.nativeElement.classList).toContain(
       'LandingPage2Template'
     );
   });
 
-  // it('should correctly project the content', () => {
-  //   expect(
-  //     fixture.debugElement.query(By.css('.content')).nativeElement.innerHTML
-  //   ).toContain('content projection');
-  // });
+  it('should correctly project the content', () => {
+    expect(
+      fixture.debugElement.query(By.css('.content')).nativeElement.innerHTML
+    ).toContain('content projection');
+  });
 });
 
 fdescribe('SectionLayoutComponent', () => {
@@ -167,14 +168,9 @@ fdescribe('SectionLayoutComponent', () => {
   });
 
   it('should render section as class name on page layout', () => {
-    const debugElement = fixture.debugElement;
-    console.log((debugElement.nativeElement as HTMLElement).classList);
-
-    expect((debugElement.nativeElement as HTMLElement).classList).toContain(
-      'header'
+    const pageLayoutElement = fixture.debugElement.query(
+      By.css('cx-page-layout')
     );
-    expect((debugElement.nativeElement as HTMLElement).classList).toContain(
-      'LandingPage2Template'
-    );
+    expect(pageLayoutElement.nativeElement.classList).toContain('header');
   });
 });
