@@ -1,0 +1,169 @@
+def config = {
+    localProperties {
+        property 'recaptcha.publickey', ''
+        property 'recaptcha.privatekey', ''
+        property 'googleApiKey', ''
+        property 'apiregistryservices.events.exporting', 'false'
+        property 'csrf.allowed.url.patterns', '/[^/]+(/[^?]*)+(sop/response)$,/[^/]+(/[^?]*)+(merchant_callback)$,/[^/]+(/[^?]*)+(hop/response)$,/[^/]+(/[^?]*)+(language)$,/[^/]+(/[^?]*)+(currency)$,/(events)$'
+
+    }
+
+    extensions {
+        extName 'adaptivesearchsolr'
+        extName 'adaptivesearchbackoffice'
+        extName 'adaptivesearchsamplesaddon'
+        extName 'adaptivesearchwebservices'
+        extName 'commerceservicesbackoffice'
+        extName 'solrfacetsearchbackoffice'
+        extName 'solrserver'
+
+        extName 'yacceleratorbackoffice'
+        extName 'yacceleratorinitialdata'
+        extName 'yacceleratorfulfilmentprocess'
+        extName 'yacceleratorstorefront'
+        extName 'ycommercewebservices'
+        extName 'ycommercewebservicestest'
+
+        extName 'electronicsstore'
+        extName 'apparelstore'
+
+        extName 'captchaaddon'
+        extName 'acceleratorwebservicesaddon'
+        extName 'commerceorgsamplesaddon'
+        extName 'orderselfserviceaddon'
+
+        extName 'rulebuilderbackoffice'
+        extName 'couponbackoffice'
+        extName 'droolsruleengineservices'
+        extName 'couponfacades'
+        extName 'couponservices'
+        extName 'promotionenginesamplesaddon'
+
+        extName 'assistedservicestorefront'
+        extName 'assistedservicewebservices'
+        extName 'assistedserviceyprofileaddon'
+        extName 'assistedservicecustomerinterestsaddon'
+        extName 'assistedservicepromotionaddon'
+
+        extName 'customerticketingaddon'
+        extName 'customersupportbackoffice'
+
+        extName 'profiletagaddon'
+        extName 'profileservices'
+        extName 'yaasconfigurationbackoffice'
+
+        extName 'textfieldconfiguratortemplatebackoffice'
+        extName 'textfieldconfiguratortemplateaddon'
+
+//        extName 'cmswebservices'
+//        extName 'smarteditwebservices'
+//        extName 'cmssmarteditwebservices'
+        extName 'permissionswebservices'
+        extName 'smarteditaddon'
+        extName 'cmssmartedit'
+        extName 'cmsbackoffice'
+        extName 'cmsoccaddon'
+
+        extName 'consignmenttrackingaddon'
+        extName 'consignmenttrackingmock'
+        extName 'consignmenttrackingbackoffice'
+
+        extName 'notificationaddon'
+        extName 'customerinterestsaddon'
+        extName 'stocknotificationaddon'
+        extName 'configurablebundleaddon'
+
+//        extName 'previewpersonalizationweb'
+//        extName 'personalizationcmsweb'
+//        extName 'personalizationsmartedit'
+//        extName 'personalizationpromotionssmartedit'
+//        extName 'personalizationsampledataaddon'
+//        extName 'personalizationpromotionssampledataaddon'
+//        extName 'personalizationyprofile'
+//        extName 'personalizationpromotions'
+//        extName 'personalizationpromotionsweb'
+//        extName 'personalizationservicesbackoffice'
+//        extName 'personalizationpromotionsbackoffice'
+//        extName 'personalizationcmsbackoffice'
+//        extName 'personalizationintegrationbackoffice'
+//        extName 'personalizationsearchbackoffice'
+//        extName 'personalizationsearchsmartedit'
+//        extName 'personalizationsearchweb'
+//        extName 'personalizationsearchsamplesaddon'
+//        extName 'personalizationyprofilesampledataaddon'
+//        extName 'personalizationaddon'
+
+
+        extName 'pcmbackofficesamplesaddon'
+
+
+        extName 'xyformsbackoffice'
+        extName 'xyformsstorefrontcommons'
+        extName 'xyformssamples'
+        extName 'xyformsweb'
+        extName 'platformbackoffice'
+        extName 'orbeonweb'
+        extName 'consignmenttrackingoccaddon'
+        extName 'customerinterestsoccaddon'
+        extName 'notificationoccaddon'
+        extName 'stocknotificationoccaddon'
+
+        extName 'kymaintegrationbackoffice'
+        extName 'kymaintegrationsampledata'
+
+        /* integration-apis */
+        extName 'outboundservices'
+        extName 'odata2webservices'
+        extName 'odata2webservicesfeaturetests'
+        extName 'integrationbackoffice'
+
+//        extName 'merchandisingaddon'
+//        extName 'merchandisingcmswebservices'
+//        extName 'merchandisingsmartedit'
+//        extName 'merchandisingservices'
+//        extName 'merchandisingservicesbackoffice'
+//        extName 'merchandisingstorefrontsampledataaddon'
+    }
+}
+
+task setup {
+    doLast {
+        apply plugin: 'installer-platform-plugin'
+        apply plugin: 'installer-addon-plugin'
+        def pl = platform(config)
+        pl.setup()
+
+        pl.project.addons {
+            names "captchaaddon,commerceorgsamplesaddon,promotionenginesamplesaddon,assistedservicestorefront,assistedservicecustomerinterestsaddon,assistedserviceyprofileaddon,assistedservicepromotionaddon,customerticketingaddon,textfieldconfiguratortemplateaddon,smarteditaddon,consignmenttrackingaddon,notificationaddon,customerinterestsaddon,stocknotificationaddon,orderselfserviceaddon,adaptivesearchsamplesaddon,configurablebundleaddon," +
+                    "pcmbackofficesamplesaddon,xyformssamples,xyformsstorefrontcommons,profiletagaddon"
+            template "yacceleratorstorefront"
+            storeFronts "yacceleratorstorefront"
+            platform pl
+        }
+
+        pl.project.addons {
+            names "acceleratorwebservicesaddon,consignmenttrackingoccaddon,customerinterestsoccaddon,notificationoccaddon,stocknotificationoccaddon,cmsoccaddon"
+            template "ycommercewebservices"
+            storeFronts "ycommercewebservices"
+            platform pl
+        }
+    }
+}
+
+task initialize {
+    doLast {
+        apply plugin: 'installer-platform-plugin'
+        def pl = platform(config)
+        pl.build()
+        pl.initialize()
+    }
+}
+
+
+task start {
+    doLast {
+        apply plugin: 'installer-platform-plugin'
+        def pl = platform(config)
+        pl.start()
+    }
+}

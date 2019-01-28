@@ -1,11 +1,12 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
-import { CartsState } from './../cart-state';
-import { reducer as rootReducer } from './cart.reducer';
+import { CartsState, CartState, CART_DATA } from './../cart-state';
+import { reducer as cartReducer } from './cart.reducer';
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<CartsState> {
   return {
-    active: rootReducer
+    active: loaderReducer<CartState>(CART_DATA, cartReducer)
   };
 }
 

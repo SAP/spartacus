@@ -106,7 +106,7 @@ describe('OccStoreFinderService', () => {
     });
 
     httpMock
-      .expectOne({ method: 'GET', url: '/stores/count' })
+      .expectOne({ method: 'GET', url: '/stores/storescounts' })
       .flush(storeCountResponseBody);
   });
 

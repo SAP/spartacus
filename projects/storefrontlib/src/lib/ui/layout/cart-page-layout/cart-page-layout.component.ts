@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 
 import { Cart, CartService } from '@spartacus/core';
 
@@ -9,17 +10,28 @@ import { Cart, CartService } from '@spartacus/core';
   templateUrl: './cart-page-layout.component.html',
   styleUrls: ['./cart-page-layout.component.scss']
 })
-export class CartPageLayoutComponent implements OnInit {
+export class CartPageLayoutComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
+  subscription: Subscription;
 
   constructor(protected cartService: CartService) {}
 
   ngOnInit() {
-    this.cartService.getCartMergeComplete().subscribe(isCartMergeComplete => {
-      if (isCartMergeComplete) {
+    this.subscription = this.cartService
+      .getCartMergeComplete()
+      .pipe(
+        filter(isCartMergeComplete => isCartMergeComplete),
+        take(1)
+      )
+      .subscribe(() => {
         this.cartService.loadDetails();
-      }
-    });
+      });
     this.cart$ = this.cartService.getActive();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -62,7 +62,7 @@ describe('EntityLoader Actions', () => {
             type: TEST_ENTITY_TYPE,
             load: true
           },
-          entityId: TEST_ENTITY_ID
+          entity: { id: TEST_ENTITY_ID, type: TEST_ENTITY_TYPE }
         });
       });
     });
@@ -75,7 +75,7 @@ describe('EntityLoader Actions', () => {
             type: TEST_ENTITY_TYPE,
             error: 'error'
           },
-          entityId: TEST_ENTITY_ID
+          entity: { id: TEST_ENTITY_ID, type: TEST_ENTITY_TYPE }
         });
       });
     });
@@ -87,7 +87,7 @@ describe('EntityLoader Actions', () => {
           loader: {
             type: TEST_ENTITY_TYPE
           },
-          entityId: TEST_ENTITY_ID
+          entity: { id: TEST_ENTITY_ID, type: TEST_ENTITY_TYPE }
         });
       });
     });

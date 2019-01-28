@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { ResetNewPasswordModule } from '../../../user/components/reset-new-password/reset-new-password.module';
+import { ResetNewPasswordModule } from '../../../user/reset-new-password/reset-new-password.module';
 import { ResetNewPasswordLayoutComponent } from './reset-new-password-layout.component';
 
 @NgModule({
