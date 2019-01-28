@@ -41,9 +41,10 @@ export class BreakpointService {
     if (!windowWidth) {
       windowWidth = this.window.innerWidth;
     }
-    return this.breakpoints
-      .reverse()
-      .find(br => windowWidth >= this.getSize(br));
+
+    return windowWidth < this.getSize(BREAKPOINT.xs)
+      ? BREAKPOINT.xs
+      : this.breakpoints.reverse().find(br => windowWidth >= this.getSize(br));
   }
 
   protected getSize(breakpoint: BREAKPOINT): number {
