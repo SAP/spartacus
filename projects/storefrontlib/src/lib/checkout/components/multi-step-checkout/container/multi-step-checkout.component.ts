@@ -275,7 +275,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     ];
   }
 
-  clearCheckoutNavBar() {
+  clearCheckoutNavBar(): void {
     this.navs = [];
   }
 
