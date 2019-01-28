@@ -1,8 +1,8 @@
-import { StorefrontRoutesTranslations } from './storefront-routes-translations';
+import { RoutesTranslations } from '../routes-config';
 
 export const defaultStorefrontRoutesTranslations: {
-  default?: StorefrontRoutesTranslations;
-  [languageCode: string]: StorefrontRoutesTranslations;
+  default?: RoutesTranslations;
+  [languageCode: string]: RoutesTranslations;
 } = {
   default: {
     home: { paths: ['', 'cx-preview'] },
@@ -50,5 +50,7 @@ export const defaultStorefrontRoutesTranslations: {
     pageNotFound: { paths: ['**'] }
   },
 
+  // 'en' should remain here until we support localized routes for all languages
+  // Currently we use hardcoded 'en' key that extends all 'default' translations in runtime
   en: {} as any
 };
