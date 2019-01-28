@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
@@ -90,26 +90,24 @@ export class AuthService {
   }
 
   /**
-   * Loads a new client token
+   * Returns a client token provided the the backend.  If a client token is present in the store, a roundtrip to
+   * the backend will not be performed, unless the refresh argument is used and is true.
+   * @param refresh Optional. Default is false. If true, this will force a query to the backend to get a new token.
    */
-  loadClientToken(): void {
-    this.store.dispatch(new LoadClientToken());
-  }
-
-  /**
-   * Returns the client token
-   */
-  getClientToken(): Observable<ClientToken> {
+  getClientToken(refresh = false): Observable<ClientToken> {
     return this.store.pipe(
       select(getClientTokenState),
       tap((state: LoaderState<ClientToken>) => {
-        if (!state.success && !state.loading) {
-          this.loadClientToken();
+        if (!state.loading) {
+          if (!state.success || refresh) {
+            this.store.dispatch(new LoadClientToken());
+          }
         }
       }),
-      filter((state: LoaderState<ClientToken>) => {
-        return (state.success || state.error) && !state.loading;
-      }),
+      filter(
+        (state: LoaderState<ClientToken>) =>
+          (state.success || state.error) && !state.loading
+      ),
       map((state: LoaderState<ClientToken>) => state.value)
     );
   }
@@ -118,7 +116,6 @@ export class AuthService {
    * Refreshes the client token
    */
   refreshClientToken(): Observable<ClientToken> {
-    // Todo
-    return of({} as ClientToken);
+    return this.getClientToken(true);
   }
 }
