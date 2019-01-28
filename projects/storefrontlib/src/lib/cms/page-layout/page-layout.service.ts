@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { switchMap, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { CmsService, CmsConfig, Page, LayoutSlotConfig } from '@spartacus/core';
+import { CmsService, Page } from '@spartacus/core';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
-import { BREAKPOINT } from '../../ui/layout/config/layout-config';
+import {
+  BREAKPOINT,
+  LayoutConfig,
+  LayoutSlotConfig
+} from '../../ui/layout/config/layout-config';
 
 @Injectable()
 export class PageLayoutService {
   constructor(
     private cms: CmsService,
-    private config: CmsConfig,
+    private config: LayoutConfig,
     private breakpointService: BreakpointService
   ) {}
 
@@ -86,6 +90,7 @@ export class PageLayoutService {
     if (!breakpoint) {
       return config;
     }
+
     // we have a config for the specific breakpoint
     if (layoutSlotConfig[breakpoint]) {
       return <string[]>layoutSlotConfig[breakpoint];
