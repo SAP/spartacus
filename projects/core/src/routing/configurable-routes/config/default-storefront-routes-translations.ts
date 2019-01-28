@@ -23,19 +23,6 @@ export const defaultStorefrontRoutesTranslations: {
       paramsMapping: { categoryCode: 'code' }
     },
     brand: { paths: ['Brands/:brandName/c/:brandCode'] },
-    storeFinder: {
-      paths: ['store-finder'],
-      children: {
-        searchResults: { paths: ['find-stores'] },
-        allStores: { paths: ['view-all-stores'] },
-        listStores: {
-          paths: ['country/:country/region/:region', 'country/:country']
-        },
-        storeDescription: {
-          paths: ['country/:country/region/:region/:store']
-        }
-      }
-    },
     termsAndConditions: { paths: ['terms-and-conditions'] },
     contact: { paths: ['contact'] },
     help: { paths: ['faq'] },

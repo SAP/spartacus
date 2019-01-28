@@ -12,6 +12,8 @@ import { StoreFinderStoresCountComponent } from '../../../store-finder/component
 import { StoreFinderGridComponent } from '../../../store-finder/components/store-finder-grid/store-finder-grid.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/components/store-finder-store-description/store-finder-store-description.component';
+import { StorefrontConfigurableRoutesConfig } from '../../../storefront-configurable-routes-config';
+import { ConfigModule } from '@spartacus/core';
 
 const routes: Routes = [
   {
@@ -54,10 +56,33 @@ const routes: Routes = [
   }
 ];
 
+const defaultRoutesConfig: StorefrontConfigurableRoutesConfig = {
+  routesConfig: {
+    translations: {
+      default: {
+        storeFinder: {
+          paths: ['store-finder'],
+          children: {
+            searchResults: { paths: ['find-stores'] },
+            allStores: { paths: ['view-all-stores'] },
+            listStores: {
+              paths: ['country/:country/region/:region', 'country/:country']
+            },
+            storeDescription: {
+              paths: ['country/:country/region/:region/:store']
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    ConfigModule.withConfig(defaultRoutesConfig),
     StoreFinderPageLayoutModule
   ],
   declarations: [StoreFinderPageComponent],
