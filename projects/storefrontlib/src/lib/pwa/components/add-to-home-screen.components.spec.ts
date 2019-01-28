@@ -1,6 +1,6 @@
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { Component } from '@angular/core';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { AddToHomeScreenService } from '../services/add-to-home-screen.service';
@@ -18,7 +18,7 @@ class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
 
 class MockAddToHomeScreenService {
   firePrompt = createSpy();
-  canPrompt$ = of(true);
+  canPrompt$: Observable<boolean> = of(true);
 }
 
 describe('AddToHomeScreenComponent', () => {
@@ -51,7 +51,7 @@ describe('AddToHomeScreenComponent', () => {
 
   it('should be able to get canPrompt', () => {
     component.ngOnInit();
-    let canPrompt;
+    let canPrompt: boolean;
     component.canPrompt$.subscribe(value => (canPrompt = value));
     expect(canPrompt).toBeTruthy();
   });
