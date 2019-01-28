@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { CartService } from '@spartacus/core';
+import { CartService, OrderEntry, PromotionResult } from '@spartacus/core';
 
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -18,27 +18,27 @@ import {
   Pipe,
   PipeTransform
 } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
 
 class MockNgbActiveModal {
-  dismiss() {}
+  dismiss(): void {}
 
-  close() {}
+  close(): void {}
 }
 
 class MockCartService {
-  getLoaded() {}
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
 
-  updateEntry(_entryNumber, _updatedQuantity) {}
+  updateEntry(_entryNumber: string, _updatedQuantity: number): void {}
 
-  removeEntry(_entry) {}
+  removeEntry(_entry: OrderEntry): void {}
 }
 
-const mockItems = [
+const mockOrderEntry: OrderEntry[] = [
   {
     quantity: 1,
     entryNumber: 1,
-    id: 111,
     product: {
       code: 'CODE1111'
     }
@@ -55,7 +55,7 @@ class MockCartItemComponent {
   @Input()
   item: Observable<OrderEntry>;
   @Input()
-  potentialProductPromotions: any[];
+  potentialProductPromotions: PromotionResult[];
   @Input()
   isReadOnly = false;
   @Input()
@@ -68,7 +68,7 @@ class MockCartItemComponent {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -108,7 +108,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    component.entry$ = of(mockItems[0]);
+    component.entry$ = of(mockOrderEntry[0]);
     cartService = TestBed.get(CartService);
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
@@ -171,7 +171,7 @@ describe('AddedToCartDialogComponent', () => {
   it('should remove entry', () => {
     component.loaded$ = of(true);
     component.ngOnInit();
-    const item = mockItems[0];
+    const item = mockOrderEntry[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
     component.removeEntry(item);
     expect(cartService.removeEntry).toHaveBeenCalledWith(item);
@@ -180,7 +180,7 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should update entry', () => {
-    const item = mockItems[0];
+    const item = mockOrderEntry[0];
     component.updateEntry({ item, updatedQuantity: 5 });
     expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
   });

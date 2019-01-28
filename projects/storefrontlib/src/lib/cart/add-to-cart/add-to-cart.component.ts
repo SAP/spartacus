@@ -20,7 +20,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddToCartComponent implements OnInit {
-  modalInstance;
+  modalInstance: any;
 
   @Input()
   iconOnly;

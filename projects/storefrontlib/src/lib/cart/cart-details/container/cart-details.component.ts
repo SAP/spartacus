@@ -23,13 +23,13 @@ export class CartDetailsComponent implements OnInit {
     this.cartLoaded$ = this.cartService.getLoaded();
   }
 
-  getAllPromotionsForCart(cart) {
+  getAllPromotionsForCart(cart: Cart): Cart[] {
     const potentialPromotions = cart.potentialOrderPromotions || [];
     const appliedPromotions = cart.appliedOrderPromotions || [];
     return [...potentialPromotions, ...appliedPromotions];
   }
 
-  cartHasPromotions(cart) {
+  cartHasPromotions(cart: Cart): boolean {
     const hasPotentialPromotions =
       cart.potentialOrderPromotions && cart.potentialOrderPromotions.length > 0;
     const hasAppliedPromotions =

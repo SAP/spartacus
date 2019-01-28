@@ -78,17 +78,17 @@ export class AddedToCartDialogComponent
     }
   }
 
-  removeEntry(item) {
+  removeEntry(item): void {
     this.cartService.removeEntry(item);
     delete this.form.controls[item.product.code];
     this.activeModal.dismiss('Removed');
   }
 
-  updateEntry({ item, updatedQuantity }) {
+  updateEntry({ item, updatedQuantity }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  private createEntryFormGroup(entry) {
+  private createEntryFormGroup(entry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity

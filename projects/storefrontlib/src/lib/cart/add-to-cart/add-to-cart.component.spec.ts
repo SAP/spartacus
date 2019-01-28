@@ -13,13 +13,8 @@ import { AddToCartComponent } from './add-to-cart.component';
 import { Cart, OrderEntry } from '@spartacus/core';
 
 const productCode = '1234';
-const mockCartEntry: any = [];
 class MockCartService {
-  addEntry(_productCode: string, _quantity: number): void {
-    mockCartEntry.push({
-      '1234': { entryNumber: 0, product: { code: productCode } }
-    });
-  }
+  addEntry(_productCode: string, _quantity: number): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
@@ -70,9 +65,10 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
+    const mockCartEntry: OrderEntry = { entryNumber: 7 };
     spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.ngOnInit();
-    let result;
+    let result: OrderEntry;
     addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
     expect(result).toEqual(mockCartEntry);
   });
