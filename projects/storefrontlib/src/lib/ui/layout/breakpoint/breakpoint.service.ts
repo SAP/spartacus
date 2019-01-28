@@ -32,18 +32,18 @@ export class BreakpointService {
     ];
   }
 
-  getClosest(windowWidth?: number) {
+  protected getBreakpoint(windowWidth: number) {
+    const breakpoint = this.getClosest(windowWidth);
+    return BREAKPOINT[breakpoint || BREAKPOINT.lg];
+  }
+
+  protected getClosest(windowWidth?: number): BREAKPOINT {
     if (!windowWidth) {
       windowWidth = this.window.innerWidth;
     }
     return this.breakpoints
       .reverse()
       .find(br => windowWidth >= this.getSize(br));
-  }
-
-  protected getBreakpoint(windowWidth: number) {
-    const breakpoint = this.getClosest(windowWidth);
-    return BREAKPOINT[breakpoint || BREAKPOINT.lg];
   }
 
   protected getSize(breakpoint: BREAKPOINT): number {
