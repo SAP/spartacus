@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../facade/auth.service';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
@@ -30,6 +30,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.getClientToken(request).pipe(
+      take(1), // Debug
       switchMap((token: AuthenticationToken) => {
         if (token && request.url.indexOf(this.baseReqString) > -1) {
           request = request.clone({

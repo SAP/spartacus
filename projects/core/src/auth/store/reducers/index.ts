@@ -1,5 +1,11 @@
 import { InjectionToken, Provider } from '@angular/core';
 
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+
+import { CLIENT_TOKEN_DATA } from '../auth-state';
+
+import { ClientToken } from '../../models/token-types.model';
+
 import {
   ActionReducer,
   ActionReducerMap,
@@ -8,14 +14,13 @@ import {
 } from '@ngrx/store';
 
 import * as fromUserTokenReducer from './user-token.reducer';
-import * as fromClientTokenReducer from './client-token.reducer';
 import { AuthState } from '../auth-state';
 import { LOGOUT } from '../actions/login-logout.action';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
     userToken: fromUserTokenReducer.reducer,
-    clientToken: fromClientTokenReducer.reducer
+    clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA)
   };
 }
 

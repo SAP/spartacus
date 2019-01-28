@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { tap, filter, map, take } from 'rxjs/operators';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { ClientTokenState, StateWithAuth } from '../store/auth-state';
+import { StateWithAuth } from '../store/auth-state';
 import { LoadClientToken } from '../store/actions/client-token.action';
 import { Login, Logout } from '../store/actions/login-logout.action';
 import {
@@ -16,12 +16,23 @@ import {
 } from '../store/actions/user-token.action';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
+import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private store: Store<StateWithAuth>) {}
+  // Debug
+  clientTokenState: Observable<LoaderState<ClientToken>>;
+
+  constructor(private store: Store<StateWithAuth>) {
+    // Debug
+    this.clientTokenState = this.store.pipe(select(getClientTokenState));
+    // Debug
+    this.clientTokenState.subscribe(value => {
+      console.log('clientTokenState value emitted: ', value);
+    });
+  }
 
   /**
    * Loads a new user token
@@ -91,15 +102,15 @@ export class AuthService {
   getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
       select(getClientTokenState),
-      tap((state: ClientTokenState) => {
-        if (!state.loading && Object.keys(state.token).length === 0) {
+      tap((state: LoaderState<ClientToken>) => {
+        if (!state.success && !state.loading) {
           this.loadClientToken();
         }
       }),
-      filter(
-        (state: ClientTokenState) => Object.keys(state.token).length !== 0
-      ),
-      map((state: ClientTokenState) => state.token)
+      filter((state: LoaderState<ClientToken>) => {
+        return (state.success || state.error) && !state.loading;
+      }),
+      map((state: LoaderState<ClientToken>) => state.value)
     );
   }
 
@@ -107,16 +118,7 @@ export class AuthService {
    * Refreshes the client token
    */
   refreshClientToken(): Observable<ClientToken> {
-    return this.store.pipe(
-      select(getClientTokenState),
-      tap((state: ClientTokenState) => {
-        const token = state.token;
-        if (token.access_token && !state.loading) {
-          this.loadClientToken();
-        }
-      }),
-      filter((state: ClientTokenState) => state.loaded),
-      map((state: ClientTokenState) => state.token)
-    );
+    // Todo
+    return of({} as ClientToken);
   }
 }
