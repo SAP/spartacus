@@ -3,6 +3,7 @@ import {
   OnInit,
   OnDestroy,
   Input,
+  ChangeDetectionStrategy,
   Renderer2,
   ElementRef
 } from '@angular/core';
@@ -14,7 +15,8 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-dynamic-slot',
   templateUrl: './dynamic-slot.component.html',
-  styleUrls: ['./dynamic-slot.component.scss']
+  styleUrls: ['./dynamic-slot.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicSlotComponent implements OnInit, OnDestroy {
   currentSlot$: Observable<ContentSlotData>;

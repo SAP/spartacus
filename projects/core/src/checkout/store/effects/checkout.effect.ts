@@ -315,7 +315,9 @@ export class CheckoutEffects {
     params[mappingLabels['hybris_billTo_lastname']] =
       paymentDetails.billingAddress.lastName;
     params[mappingLabels['hybris_billTo_street1']] =
-      paymentDetails.billingAddress.line1;
+      paymentDetails.billingAddress.line1 +
+      ' ' +
+      paymentDetails.billingAddress.line2;
     params[mappingLabels['hybris_billTo_city']] =
       paymentDetails.billingAddress.town;
     params[mappingLabels['hybris_billTo_postalcode']] =

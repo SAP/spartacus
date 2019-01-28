@@ -169,7 +169,6 @@ describe('Checkout effect', () => {
         expiryYear: '2019',
         cvn: '123',
         billingAddress: {
-          titleCode: 'mr',
           firstName: 'test',
           lastName: 'test',
           line1: 'line1',
@@ -178,9 +177,6 @@ describe('Checkout effect', () => {
           town: 'MainCity',
           country: {
             isocode: 'US'
-          },
-          region: {
-            isocode: 'US-FL'
           }
         }
       };

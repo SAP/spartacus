@@ -3,6 +3,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
+  ChangeDetectionStrategy,
   OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -33,7 +34,8 @@ type yearType = { id: number; name: number };
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss']
+  styleUrls: ['./payment-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
   private checkboxSub: Subscription;
@@ -65,20 +67,15 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   });
 
   billingAddress: FormGroup = this.fb.group({
-    titleCode: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
-    region: this.fb.group({
-      isocode: ['', Validators.required]
-    }),
     country: this.fb.group({
       isocode: ['', Validators.required]
     }),
-    postalCode: ['', Validators.required],
-    phone: ''
+    postalCode: ['', Validators.required]
   });
 
   infoIconImgSrc = infoIconImgSrc;

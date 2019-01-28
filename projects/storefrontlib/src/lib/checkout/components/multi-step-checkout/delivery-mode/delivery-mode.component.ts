@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit
+} from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { DeliveryMode, CheckoutService } from '@spartacus/core';
@@ -9,7 +16,8 @@ import { tap, takeWhile } from 'rxjs/operators';
 @Component({
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
-  styleUrls: ['./delivery-mode.component.scss']
+  styleUrls: ['./delivery-mode.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeliveryModeComponent implements OnInit {
   @Input()

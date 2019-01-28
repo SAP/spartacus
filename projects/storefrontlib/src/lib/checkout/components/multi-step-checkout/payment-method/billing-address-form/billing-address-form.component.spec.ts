@@ -1,31 +1,32 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormGroup,
+  FormControl
+} from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { UserService, Title, Region } from '@spartacus/core';
-
-import { Observable, of } from 'rxjs';
+import { Country } from '@spartacus/core';
 
 import { BillingAddressFormComponent } from './billing-address-form.component';
-
-class MockUserService {
-  getTitles(): Observable<Title[]> {
-    return of();
-  }
-  loadTitles(): void {}
-  getRegions(): Observable<Region[]> {
-    return of();
-  }
-  loadRegions(_countryIsoCode: string): void {}
-}
 
 describe('BillingAddressFormComponent', () => {
   let component: BillingAddressFormComponent;
   let fixture: ComponentFixture<BillingAddressFormComponent>;
+
+  const mockInputBillingAddress = new FormGroup({
+    country: new FormGroup({
+      isocode: new FormControl()
+    })
+  });
+  const mockCountry: Country = {
+    isocode: 'CA'
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,8 +37,7 @@ describe('BillingAddressFormComponent', () => {
         RouterModule,
         NgSelectModule
       ],
-      declarations: [BillingAddressFormComponent],
-      providers: [{ provide: UserService, useClass: MockUserService }]
+      declarations: [BillingAddressFormComponent]
     })
       .overrideComponent(BillingAddressFormComponent, {
         set: { changeDetection: ChangeDetectionStrategy.Default }
@@ -52,5 +52,14 @@ describe('BillingAddressFormComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should set country isocode after countrySelected was called', () => {
+    component.billingAddress = mockInputBillingAddress;
+    const countryField =
+      component.billingAddress['controls'].country['controls'].isocode;
+
+    component.countrySelected(mockCountry);
+    expect(countryField.value).toContain(mockCountry.isocode);
   });
 });

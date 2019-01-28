@@ -1,8 +1,8 @@
 import { StoreDataService } from '.';
 import { TestBed } from '@angular/core/testing';
+import { Location } from '../model';
 
-const location = {
-  formattedDistance: '0 km',
+const location: Location = {
   geoPoint: {
     latitude: 35.528984,
     longitude: 139.700168

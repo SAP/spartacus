@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  Output,
+  EventEmitter,
+  Input
+} from '@angular/core';
 
 import { PaymentDetails, Address } from '@spartacus/core';
 import { CartDataService } from '@spartacus/core';
@@ -14,7 +21,8 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
-  styleUrls: ['./payment-method.component.scss']
+  styleUrls: ['./payment-method.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
