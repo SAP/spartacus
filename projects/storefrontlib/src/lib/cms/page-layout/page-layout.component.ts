@@ -25,7 +25,6 @@ export class PageLayoutComponent implements OnInit {
 
   ngOnInit() {
     if (this.section) {
-      console.log('section', this.section);
       this.styleClass = this.section;
     }
   }
@@ -38,7 +37,6 @@ export class PageLayoutComponent implements OnInit {
     return this.pageLayoutService.templateName$.pipe(
       // intercept the observable to keep a clean DOM tree
       tap(name => {
-        console.log('tap', name);
         this.styleClass = name;
       })
     );
