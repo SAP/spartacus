@@ -12,6 +12,11 @@ import * as fromCardTypes from './card-types.reducer';
 import * as fromAddressVerification from './address-verification.reducer';
 import * as fromAction from '../actions/index';
 import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
+import {
+  CURRENCY_CHANGE,
+  LANGUAGE_CHANGE
+} from '../../../site-context/store/actions/index';
+import { LOGOUT } from '../../../auth/store/actions/index';
 
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
@@ -39,14 +44,20 @@ export function clearCheckoutState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
   return function(state, action) {
-    if (action.type === '[Site-context] Language Change') {
-      action = new fromAction.CheckoutClearMiscsData();
-    } else if (action.type === '[Site-context] Currency Change') {
-      action = new fromAction.ClearSupportedDeliveryModes();
-    } else if (action.type === '[Auth] Logout') {
-      action = new fromAction.ClearCheckoutData();
+    switch (action.type) {
+      case LANGUAGE_CHANGE: {
+        action = new fromAction.CheckoutClearMiscsData();
+        break;
+      }
+      case CURRENCY_CHANGE: {
+        action = new fromAction.ClearSupportedDeliveryModes();
+        break;
+      }
+      case LOGOUT: {
+        action = new fromAction.ClearCheckoutData();
+        break;
+      }
     }
-
     return reducer(state, action);
   };
 }

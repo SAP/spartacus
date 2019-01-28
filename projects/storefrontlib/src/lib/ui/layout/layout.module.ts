@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { OutletRefModule } from '../../outlet/index';
+import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
 
 import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
@@ -21,6 +22,11 @@ import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
+import { BreakpointService } from './breakpoint/breakpoint.service';
+import { ConfigModule, Config } from '@spartacus/core';
+
+import { defaultLayoutConfig } from './config/default-layout-config';
+import { LayoutConfig } from './config/layout-config';
 
 const layoutModules = [
   LandingPageLayoutModule,
@@ -41,11 +47,20 @@ const layoutModules = [
   HelpPageLayoutModule,
   ContactPageLayoutModule,
   OutletRefModule,
+  StyleRefModule,
   TermsConditionsLayoutModule
 ];
 
 @NgModule({
-  imports: [MainModule, ...layoutModules],
+  imports: [
+    MainModule,
+    ...layoutModules,
+    ConfigModule.withConfig(defaultLayoutConfig)
+  ],
+  providers: [
+    { provide: LayoutConfig, useExisting: Config },
+    BreakpointService
+  ],
   exports: [MainModule, ...layoutModules]
 })
 export class LayoutModule {}

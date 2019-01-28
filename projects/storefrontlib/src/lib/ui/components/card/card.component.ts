@@ -14,7 +14,7 @@ export interface Card {
   header?: string;
   title?: string;
   textBold?: string;
-  text?: Array<any>;
+  text?: Array<string>;
   img?: string;
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;

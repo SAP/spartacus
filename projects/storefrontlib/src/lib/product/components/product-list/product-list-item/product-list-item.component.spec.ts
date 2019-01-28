@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductListItemComponent } from './product-list-item.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Component, Input, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -81,7 +87,11 @@ describe('ProductListItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockTranslateUrlPipe
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(ProductListItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -99,25 +109,22 @@ describe('ProductListItemComponent in product-list', () => {
 
   it('should display product name', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-list__name'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-name')
+        .textContent
     ).toContain(component.product.name);
   });
 
   it('should display product summary', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-list__summary'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-summary')
+        .textContent
     ).toContain(component.product.summary);
   });
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-list__price'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-price')
+        .textContent
     ).toContain(component.product.price.formattedValue);
   });
 

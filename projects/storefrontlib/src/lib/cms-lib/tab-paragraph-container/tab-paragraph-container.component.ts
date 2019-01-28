@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 // import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
-  styleUrls: ['./tab-paragraph-container.component.scss']
+  styleUrls: ['./tab-paragraph-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabParagraphContainerComponent {
   // extends AbstractProductComponent {
