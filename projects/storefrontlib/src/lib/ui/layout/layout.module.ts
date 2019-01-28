@@ -22,7 +22,11 @@ import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
-import { ConfigModule } from '@spartacus/core';
+import { BreakpointService } from './breakpoint/breakpoint.service';
+import { ConfigModule, Config } from '@spartacus/core';
+
+import { defaultLayoutConfig } from './config/default-layout-config';
+import { LayoutConfig } from './config/layout-config';
 
 const layoutModules = [
   LandingPageLayoutModule,
@@ -51,21 +55,11 @@ const layoutModules = [
   imports: [
     MainModule,
     ...layoutModules,
-    ConfigModule.withConfig({
-      layoutSlots: {
-        LandingPage2Template: {
-          slots: [
-            'Section1',
-            'Section2A',
-            'Section2B',
-            'Section2C',
-            'Section3',
-            'Section4',
-            'Section5'
-          ]
-        }
-      }
-    })
+    ConfigModule.withConfig(defaultLayoutConfig)
+  ],
+  providers: [
+    { provide: LayoutConfig, useExisting: Config },
+    BreakpointService
   ],
   exports: [MainModule, ...layoutModules]
 })
