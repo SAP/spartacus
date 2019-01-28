@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { PageLayoutService } from './page-layout.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-layout',
@@ -33,7 +34,10 @@ export class PageLayoutComponent implements OnInit {
   }
 
   get templateName$() {
-    return this.pageLayoutService.templateName$;
+    return this.pageLayoutService.templateName$.pipe(
+      // intercept the observable to keep a clean DOM tree
+      tap(name => (this.styleClass = name))
+    );
   }
 
   set styleClass(cls: string) {

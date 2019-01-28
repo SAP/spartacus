@@ -55,6 +55,21 @@ const layoutModules = [
   imports: [
     MainModule,
     ...layoutModules,
+    ConfigModule.withConfig({
+      layoutSlots: {
+        LandingPage2Template: {
+          slots: [
+            'Section1',
+            'Section2A',
+            'Section2B',
+            'Section2C',
+            'Section3',
+            'Section4',
+            'Section5'
+          ]
+        }
+      }
+    }),
     ConfigModule.withConfig(defaultLayoutConfig)
   ],
   providers: [

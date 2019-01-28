@@ -15,13 +15,6 @@ export const defaultCmsModuleConfig: CmsConfig = {
     },
     footer: {
       slots: ['Footer']
-    },
-    LandingPage2Template: {
-      slots: ['Section1', 'Section2'],
-      header: {
-        slots: ['SiteLogo', 'SiteContext'],
-        md: ['SiteContext', 'SiteLogo']
-      }
     }
   }
 };
