@@ -71,7 +71,7 @@ const mockPaymentDetails: PaymentDetails = {
   expiryYear: '2022',
   cvn: '123'
 };
-const mockDeliveryAddresses = ['address1', 'address2'];
+const mockDeliveryAddresses: string[] = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
@@ -84,7 +84,7 @@ class MockDeliveryModeComponent {
 @Component({ selector: 'cx-payment-method', template: '' })
 class MockPaymentMethodComponent {
   @Input()
-  selectedPayment;
+  selectedPayment: PaymentDetails;
 }
 
 @Component({ selector: 'cx-review-submit', template: '' })
@@ -94,26 +94,26 @@ class MockReviewSubmitComponent {
   @Input()
   shippingMethod: string;
   @Input()
-  paymentDetails;
+  paymentDetails: PaymentDetails;
 }
 
 @Component({ selector: 'cx-shipping-address', template: '' })
 class MockShippingAddressComponent {
   @Input()
-  selectedAddress;
+  selectedAddress: Address;
 }
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('MultiStepCheckoutComponent', () => {
@@ -314,9 +314,9 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setDeliveryMode()', () => {
-    const deliveryMode: any = {
+    const deliveryMode = {
       deliveryModeId: 'testId'
-    };
+    } as any;
     component.setDeliveryMode(deliveryMode);
     expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalledWith(
       deliveryMode.deliveryModeId
@@ -324,9 +324,9 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
-    const deliveryMode: any = {
+    const deliveryMode = {
       deliveryModeId: 'testId'
-    };
+    } as any;
     component.shippingMethod = 'testId';
     component.setDeliveryMode(deliveryMode);
 

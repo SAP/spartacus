@@ -1,18 +1,26 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BillingAddressFormComponent } from './billing-address-form.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+
 import { NgSelectModule } from '@ng-select/ng-select';
-import { UserService } from '@spartacus/core';
+
+import { UserService, Title, Region } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+
+import { BillingAddressFormComponent } from './billing-address-form.component';
 
 class MockUserService {
-  getTitles() {}
-  loadTitles() {}
-  getRegions() {}
-  loadRegions(_countryIsoCode: string) {}
+  getTitles(): Observable<Title[]> {
+    return of();
+  }
+  loadTitles(): void {}
+  getRegions(): Observable<Region[]> {
+    return of();
+  }
+  loadRegions(_countryIsoCode: string): void {}
 }
 
 describe('BillingAddressFormComponent', () => {

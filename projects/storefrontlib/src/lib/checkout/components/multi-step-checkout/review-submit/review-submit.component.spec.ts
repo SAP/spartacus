@@ -15,7 +15,7 @@ import {
   Country
 } from '@spartacus/core';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
@@ -84,7 +84,7 @@ class MockCardComponent {
 
 class MockCheckoutService {
   loadSupportedDeliveryModes = createSpy();
-  getSelectedDeliveryMode() {
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return of();
   }
 }
@@ -192,7 +192,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getShippingMethodCard(deliveryMode) to get shipping method card data', () => {
-    const selectedMode = {
+    const selectedMode: DeliveryMode = {
       code: 'standard-gross',
       description: 'Standard Delivery description'
     };

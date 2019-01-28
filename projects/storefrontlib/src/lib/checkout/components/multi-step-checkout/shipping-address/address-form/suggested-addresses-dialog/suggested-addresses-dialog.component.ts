@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { Address } from '@spartacus/core';
 
 @Component({
   selector: 'cx-suggested-addresses-dialog',
@@ -10,11 +13,11 @@ export class SuggestedAddressDialogComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) {}
 
   @Input()
-  suggestedAddresses: any[];
+  suggestedAddresses: Address[];
   @Input()
-  enteredAddress: any;
+  enteredAddress: Address;
 
-  selectedAddress: any;
+  selectedAddress: Address;
 
   ngOnInit(): void {
     this.selectedAddress = this.suggestedAddresses.length

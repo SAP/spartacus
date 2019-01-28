@@ -196,7 +196,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     newPayment: boolean;
     payment: PaymentDetails;
     billingAddress: Address;
-  }) {
+  }): void {
     payment.billingAddress = billingAddress
       ? billingAddress
       : this.deliveryAddress;

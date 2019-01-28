@@ -5,10 +5,11 @@ import {
   Input
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 import { Title, Country, Region, UserService } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-billing-address-form',
@@ -57,18 +58,18 @@ export class BillingAddressFormComponent implements OnInit {
     );
   }
 
-  titleSelected(title: Title) {
+  titleSelected(title: Title): void {
     this.billingAddress['controls'].titleCode.setValue(title.code);
   }
 
-  countrySelected(country: Country) {
+  countrySelected(country: Country): void {
     this.billingAddress['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
     this.userService.loadRegions(country.isocode);
   }
 
-  regionSelected(region: Region) {
+  regionSelected(region: Region): void {
     this.billingAddress['controls'].region['controls'].isocode.setValue(
       region.isocode
     );

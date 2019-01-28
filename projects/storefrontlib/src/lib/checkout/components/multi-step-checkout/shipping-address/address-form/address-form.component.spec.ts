@@ -5,15 +5,14 @@ import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { Title, Country, Region, CheckoutService } from '@spartacus/core';
+import { UserService, GlobalMessageService } from '@spartacus/core';
+import { AddressValidation } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { UserService, GlobalMessageService } from '@spartacus/core';
-
 import { AddressFormComponent } from './address-form.component';
-import { AddressValidation } from '@spartacus/core';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -186,7 +185,9 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
-    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'ACCEPT'
+    };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
     );
@@ -203,7 +204,9 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
-    const mockAddressVerificationResult = { decision: 'REJECT' };
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REJECT'
+    };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
     );
@@ -220,7 +223,9 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
-    const mockAddressVerificationResult = { decision: 'REVIEW' };
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REVIEW'
+    };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
     );
