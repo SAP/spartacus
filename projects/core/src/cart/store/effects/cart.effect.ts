@@ -110,9 +110,7 @@ export class CartEffects {
     private productImageConverter: ProductImageConverterService,
     private occCartService: OccCartService,
     private cartData: CartDataService
-  ) {
-    this.cartData.getDetails = true;
-  }
+  ) {}
 
   private isMissingData(payload) {
     return payload.userId === undefined || payload.cartId === undefined;
