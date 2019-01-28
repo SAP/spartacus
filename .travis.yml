@@ -12,7 +12,7 @@ branches:
     - "/^feature\\/.*$/"
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
-script: ./build.sh
+script: ./build.sh sonar
 deploy:
   provider: pages
   skip_cleanup: true
