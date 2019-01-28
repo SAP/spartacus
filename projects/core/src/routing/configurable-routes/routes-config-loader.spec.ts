@@ -32,6 +32,7 @@ class MockConfigurableRoutesModuleConfig {
       }
     }
   };
+  fetchRoutesConfig: Boolean = false;
 }
 
 const mockFetchedRoutesConfig: RoutesConfig = {
@@ -80,7 +81,7 @@ describe('RoutesConfigLoader', () => {
   describe('loadRoutesConfig', () => {
     describe(', when fetch is configured to true,', () => {
       beforeEach(() => {
-        mockConfigurableRoutesConfig.routesConfig.fetch = true;
+        mockConfigurableRoutesConfig.fetchRoutesConfig = true;
       });
 
       it('should fetch routes config from url', () => {
@@ -130,7 +131,7 @@ describe('RoutesConfigLoader', () => {
 
     describe(', when fetch is configured to false,', () => {
       beforeEach(() => {
-        mockConfigurableRoutesConfig.routesConfig.fetch = false;
+        mockConfigurableRoutesConfig.fetchRoutesConfig = false;
       });
 
       it('should NOT fetch routes config', () => {

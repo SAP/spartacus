@@ -3,7 +3,6 @@ export interface RoutesConfig {
     default?: RoutesTranslations;
     [languageCode: string]: RoutesTranslations;
   };
-  fetch?: boolean;
 }
 
 export interface RoutesTranslations {

@@ -3,7 +3,7 @@ import { defaultStorefrontRoutesTranslations } from './default-storefront-routes
 
 export const defaultConfigurableRoutesConfig: ConfigurableRoutesConfig = {
   routesConfig: {
-    translations: defaultStorefrontRoutesTranslations,
-    fetch: false
-  }
+    translations: defaultStorefrontRoutesTranslations
+  },
+  fetchRoutesConfig: false
 };

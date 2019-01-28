@@ -29,7 +29,7 @@ export class RoutesConfigLoader {
   ) {}
 
   async load(): Promise<void> {
-    const shouldFetch = this.configurableRoutesConfig.routesConfig.fetch;
+    const shouldFetch = this.configurableRoutesConfig.fetchRoutesConfig;
     const fetchedRoutesConfig = shouldFetch
       ? await this.fetch(this.endpoint)
       : null;

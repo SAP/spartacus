@@ -4,22 +4,20 @@
 
 # Loading configuration from backend
 
-When `fetch` is set to `true` in `routesConfig`, app will wait with bootstraping until translations of routes are succesfully fetched from backend's URL `<baseUrl>/routes-config` (**NOTE**: this endpoint is not available in the backend yet). Example:
+When the config contains `fetchRoutesConfig` set to `true`, the app will wait with bootstrapping until translations of routes are successfully fetched from backend's URL `<baseUrl>/routes-config` (**NOTE**: this endpoint is not available in the backend yet). Example:
 
 ```typescript
 ConfigModule.withConfig({
     server: {
         baseUrl: '<base-server-url>'
     },
-    routesConfig: {
-        fetch: true // will fetch translations from '<base-server-url>/routes-config'
-    }
+    fetchRoutesConfig: true // will fetch translations from '<base-server-url>/routes-config'
 })
 ```
 
 ## Extending static translations
 
-When `routesConfig` contains statically defined `translations` and also `fetch` set to `true`, then the  static routes translations will be extended by the fetched ones (the same as static translations extend the predefined ones). For example:
+When the config contains both `routesConfig` with statically defined `translations` and `fetchRoutesConfig` set to `true`, then the the static routes translations will be extended by the fetched ones (the same as static translations extend the predefined ones). For example:
 
 JSON returned by `<base-server-url>/routes-config` will have the *highest priority*:
 
@@ -41,14 +39,14 @@ ConfigModule.withConfig({
         baseUrl: '<base-server-url>'
     },
     routesConfig: { 
-        fetch: true,
         translations: {
             default: {
                 product: { paths: ['p/:product-code'] },
                 category: { paths: ['c/:categoryCode'] }
             }
         }
-    }
+    },
+    fetchRoutesConfig: true,
 })
 ```
 
