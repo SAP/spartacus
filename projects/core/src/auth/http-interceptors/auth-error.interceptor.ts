@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { AuthService } from '../facade/auth.service';
@@ -63,7 +63,7 @@ export class AuthErrorInterceptor implements HttpInterceptor {
                   errResponse.error.error === 'invalid_token'
                 ) {
                   this.userErrorHandlingService.handleExpiredRefreshToken();
-                  return;
+                  return of();
                 }
               }
               break;
