@@ -99,7 +99,7 @@ export class MockPageLayoutService {
 })
 export class TestModule {}
 
-fdescribe('PageLayoutComponent', () => {
+describe('PageLayoutComponent', () => {
   let pageLayoutComponent: MockPageTemplateComponent;
   let fixture: ComponentFixture<MockPageTemplateComponent>;
 
@@ -141,7 +141,7 @@ fdescribe('PageLayoutComponent', () => {
   });
 });
 
-fdescribe('SectionLayoutComponent', () => {
+describe('SectionLayoutComponent', () => {
   let sectionLayoutComponent: MockHeaderComponent;
   let fixture: ComponentFixture<MockHeaderComponent>;
 
