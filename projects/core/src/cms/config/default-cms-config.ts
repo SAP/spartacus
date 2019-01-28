@@ -7,14 +7,5 @@ export const defaultCmsModuleConfig: CmsConfig = {
   },
   cmsComponents: {
     CMSTabParagraphComponent: { selector: 'cx-paragraph' }
-  },
-  layoutSlots: {
-    header: {
-      slots: ['SiteLogo', 'SiteContext'],
-      md: ['SiteContext', 'SiteLogo']
-    },
-    footer: {
-      slots: ['Footer']
-    }
   }
 };
