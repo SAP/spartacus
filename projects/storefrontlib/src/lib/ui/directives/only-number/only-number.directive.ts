@@ -14,7 +14,6 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's change event
-   * @param e
    */
   @HostListener('change')
   onChange() {
@@ -23,7 +22,6 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's change event
-   * @param e
    */
   @HostListener('input')
   onInput() {
@@ -35,7 +33,7 @@ export class OnlyNumberDirective {
    * @param e
    */
   @HostListener('paste', ['$event'])
-  onPaste(e) {
+  onPaste(e: ClipboardEvent) {
     const value = e.clipboardData.getData('text/plain');
     this.validateValue(value);
     e.preventDefault();
@@ -53,7 +51,7 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's keydown event
-   * @param event
+   * @param e
    */
   @HostListener('keydown', ['$event'])
   onKeyDown(e: KeyboardEvent): void {
@@ -115,7 +113,7 @@ export class OnlyNumberDirective {
    * Get key's name
    * @param e
    */
-  getName(e): string {
+  getName(e: KeyboardEvent): string {
     if (e.key) {
       return e.key;
     } else {

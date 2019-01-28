@@ -9,13 +9,21 @@ export const initialEntityState: EntityState<any> = { entities: {} };
  *
  * Utilizes entityId meta field to target entity by id in actions
  */
-export function entityReducer<T>(reducer: (state: T, action: Action) => T) {
+export function entityReducer<T>(
+  entityType: string,
+  reducer: (state: T, action: Action) => T
+) {
   return (
     state: EntityState<T> = initialEntityState,
     action: EntityAction
   ): EntityState<T> => {
-    if (action.meta && action.meta.entityId) {
-      const id = action.meta.entityId;
+    if (
+      action.meta &&
+      action.meta.entity &&
+      action.meta.entity.type === entityType &&
+      action.meta.entity.id
+    ) {
+      const id = action.meta.entity.id;
       return {
         ...state,
         entities: {

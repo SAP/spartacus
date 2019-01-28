@@ -25,5 +25,3 @@ export function reducer(
   }
   return state;
 }
-
-export const getOrderDetails = (state: OrderDetailsState) => state.order;
