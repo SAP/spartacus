@@ -5,6 +5,7 @@ import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
+import { ConfigurableRoutesService } from './configurable-routes.service';
 
 class MockHttpClient {
   get = () => new BehaviorSubject(null);
@@ -63,6 +64,10 @@ describe('RoutesConfigLoader', () => {
         {
           provide: ConfigurableRoutesConfig,
           useClass: MockConfigurableRoutesModuleConfig
+        },
+        {
+          provide: ConfigurableRoutesService,
+          useValue: { init: jasmine.createSpy() }
         }
       ]
     });

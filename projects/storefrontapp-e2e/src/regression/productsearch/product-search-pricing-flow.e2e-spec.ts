@@ -63,8 +63,8 @@ describe('Product search', () => {
     const product1 = await searchResults.productByNameInResults('DSC-WX1');
     await searchResults.clickAddToCartButton4Product(product1);
     await addedToCartModal.waitForReady();
-    expect(await addedToCartModal.modalTitle.getText()).toEqual(
-      '1 item(s) added to your cart'
+    expect(await addedToCartModal.itemQuantity.getAttribute('value')).toEqual(
+      '1'
     );
   });
 });

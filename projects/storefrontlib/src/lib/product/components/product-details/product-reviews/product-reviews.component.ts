@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -15,7 +16,8 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
-  styleUrls: ['./product-reviews.component.scss']
+  styleUrls: ['./product-reviews.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReviewsComponent implements OnChanges, OnInit {
   @Input()

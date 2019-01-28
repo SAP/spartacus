@@ -14,7 +14,7 @@ export class AddToHomeScreenService {
 
   private canPrompt = new BehaviorSubject<boolean>(false);
 
-  canPrompt$: Observable<any> = this.canPrompt.asObservable();
+  canPrompt$: Observable<boolean> = this.canPrompt.asObservable();
 
   constructor(
     private config: PWAModuleConfig,
