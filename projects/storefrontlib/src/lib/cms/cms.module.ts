@@ -17,6 +17,7 @@ import { components } from './components/index';
 import { guards } from './guards/index';
 
 import { OutletModule } from '../outlet/outlet.module';
+import { OutletDirective } from '../outlet/outlet.directive';
 
 @NgModule({
   imports: [
@@ -28,6 +29,6 @@ import { OutletModule } from '../outlet/outlet.module';
   ],
   providers: [...guards, { provide: CmsConfig, useExisting: Config }],
   declarations: [...components],
-  exports: [...components]
+  exports: [...components, OutletDirective]
 })
 export class CmsModule {}

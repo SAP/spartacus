@@ -14,10 +14,12 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   CartService,
-  CartDataService
+  CartDataService,
+  PaymentDetails,
+  Address
 } from '@spartacus/core';
 
-import { checkoutNavBar } from './checkout-navigation-bar';
+import { CheckoutNavBarItem } from './checkout-navigation-bar';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -37,7 +39,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   cart$: Observable<any>;
   tAndCToggler = false;
 
-  navs = checkoutNavBar;
+  navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -185,20 +187,31 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  addPaymentInfo({ newPayment, payment }) {
+  addPaymentInfo({
+    newPayment,
+    payment,
+    billingAddress
+  }: {
+    newPayment: boolean;
+    payment: PaymentDetails;
+    billingAddress: Address;
+  }) {
+    payment.billingAddress = billingAddress
+      ? billingAddress
+      : this.deliveryAddress;
+
     if (newPayment) {
-      payment.billingAddress = this.deliveryAddress;
       this.checkoutService.createPaymentDetails(payment);
       return;
     }
 
-    // if the selected paymetn is the same as the cart's one
+    // if the selected payment is the same as the cart's one
     if (this.paymentDetails && this.paymentDetails.id === payment.id) {
       this.nextStep(4);
       return;
     }
+
     this.checkoutService.setPaymentDetails(payment);
-    return;
   }
 
   placeOrder() {
@@ -209,10 +222,60 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = !this.tAndCToggler;
   }
 
+  initializeCheckoutNavBar(): CheckoutNavBarItem[] {
+    return [
+      {
+        id: 1,
+        label: '1. Shipping Address',
+        status: {
+          disabled: false,
+          completed: false,
+          active: true
+        },
+        progressBar: true
+      },
+      {
+        id: 2,
+        label: '2. Shipping Method',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 3,
+        label: '3. Payment',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 4,
+        label: '4. Review',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      }
+    ];
+  }
+
+  clearCheckoutNavBar() {
+    this.navs = [];
+  }
+
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
     if (!this.done) {
       this.checkoutService.clearCheckoutData();
     }
+    this.clearCheckoutNavBar();
   }
 }

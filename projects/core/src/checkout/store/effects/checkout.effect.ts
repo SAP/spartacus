@@ -276,7 +276,6 @@ export class CheckoutEffects {
     params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
     params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
-      // tslint:disable-next-line:max-line-length
       params[mappingLabels['hybris_card_expiry_date']] =
         paymentDetails.expiryMonth +
         mappingLabels['hybris_separator_expiry_date'] +
@@ -288,6 +287,22 @@ export class CheckoutEffects {
         paymentDetails.expiryYear;
     }
     params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn;
+
+    // billing address
+    params[mappingLabels['hybris_billTo_country']] =
+      paymentDetails.billingAddress.country.isocode;
+    params[mappingLabels['hybris_billTo_firstname']] =
+      paymentDetails.billingAddress.firstName;
+    params[mappingLabels['hybris_billTo_lastname']] =
+      paymentDetails.billingAddress.lastName;
+    params[mappingLabels['hybris_billTo_street1']] =
+      paymentDetails.billingAddress.line1 +
+      ' ' +
+      paymentDetails.billingAddress.line2;
+    params[mappingLabels['hybris_billTo_city']] =
+      paymentDetails.billingAddress.town;
+    params[mappingLabels['hybris_billTo_postalcode']] =
+      paymentDetails.billingAddress.postalCode;
     return params;
   }
 
