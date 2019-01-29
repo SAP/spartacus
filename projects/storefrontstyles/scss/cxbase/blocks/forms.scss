@@ -201,6 +201,24 @@ input[type='radio'] {
   }
 }
 
+.toggle-on,
+.toggle-off {
+  color: theme-color('inverse');
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  @include type('5', 'bold');
+}
+
+.toggle-on {
+  display: none;
+  left: 30%;
+}
+
+.toggle-off {
+  right: -7%;
+}
+
 input:checked + .form-toggle__switch {
   .toggle-on {
     display: block;
@@ -221,24 +239,6 @@ input[role='switch']:checked + .form-toggle__switch {
   &:focus + .form-toggle__switch {
     box-shadow: 0 0 1px theme-color('info');
   }
-}
-
-.toggle-on,
-.toggle-off {
-  color: theme-color('inverse');
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  @include type('5', 'bold');
-}
-
-.toggle-on {
-  display: none;
-  left: 30%;
-}
-
-.toggle-off {
-  right: -7%;
 }
 
 .form-message {
