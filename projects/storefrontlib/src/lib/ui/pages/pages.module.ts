@@ -12,11 +12,7 @@ import { ResetPasswordPageModule } from './reset-password-page/reset-password-pa
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { PaymentDetailsPageModule } from './payment-details-page/payment-details-page.module';
 
-import { ContactPageModule } from './contact-page/contact-page.module';
-import { SalePageModule } from './sale-page/sale-page.module';
-import { HelpPageModule } from './help-page/help-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
-import { TermsConditionsPageModule } from './terms-conditions-page/terms-conditions-page.module';
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
@@ -46,11 +42,7 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ContactPageModule,
-  SalePageModule,
-  HelpPageModule,
   ResetNewPasswordPageModule,
-  TermsConditionsPageModule,
   // new pages should be added above this line
   PageNotFoundModule
 ];
@@ -66,6 +58,18 @@ const pageModules = [
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'homepage', cxPath: 'home' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'faq', cxPath: 'help' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
       }
     ])
   ]
