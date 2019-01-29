@@ -1,5 +1,6 @@
 %CartPageTemplate {
-  max-width: 1140px;
+  max-width: var(--cx-max-width, 1140px);
+  padding: var(--cx-padding, 0 1.5rem);
   margin: auto;
   &:not(.empty) {
     .EmptyCartMiddleContent {
