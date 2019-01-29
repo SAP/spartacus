@@ -1,34 +1,29 @@
-<ng-container
-  *ngIf="(cmsPage$ | async)?.template === 'ProductListPageTemplate'"
->
-  <cx-product-list-page-layout
-    [gridMode]="'list'"
-    [categoryCode]="categoryCode"
-    [brandCode]="brandCode"
-  ></cx-product-list-page-layout>
-</ng-container>
+<cx-page-layout>
+  <ng-template cxOutletRef="SearchResultsListSlot">
+    <!-- 
+      TODO: as long as we haven't created the `CMSProductListComponent` and `ProductRefinementComponent` 
+      we render the hard-coded version in `SearchResultsListSlot`. 
+    -->
+    <cx-product-list
+      [gridMode]="gridMode$ | async"
+      [query]="query$ | async"
+      [categoryCode]="categoryCode$ | async"
+      [brandCode]="brandCode$ | async"
+    >
+    </cx-product-list>
+  </ng-template>
 
-<ng-container
-  *ngIf="(cmsPage$ | async)?.template === 'ProductGridPageTemplate'"
->
-  <cx-product-list-page-layout
-    [gridMode]="'grid'"
-    [categoryCode]="categoryCode"
-    [brandCode]="brandCode"
-  ></cx-product-list-page-layout>
-</ng-container>
-
-<ng-container *ngIf="(cmsPage$ | async)?.template === 'CategoryPageTemplate'">
-  <cx-category-page-layout
-    [categoryCode]="categoryCode"
-  ></cx-category-page-layout>
-</ng-container>
-
-<ng-container
-  *ngIf="(cmsPage$ | async)?.template === 'SearchResultsListPageTemplate'"
->
-  <cx-product-list-page-layout
-    [gridMode]="'list'"
-    [query]="query"
-  ></cx-product-list-page-layout>
-</ng-container>
+  <ng-template cxOutletRef="ProductListSlot">
+    <!-- 
+      TODO: as long as we haven't created the `CMSProductListComponent` and `ProductRefinementComponent` 
+      we render the hard-coded version in `ProductListSlot`. 
+    -->
+    <cx-product-list
+      [gridMode]="gridMode$ | async"
+      [query]="query$ | async"
+      [categoryCode]="categoryCode$ | async"
+      [brandCode]="brandCode$ | async"
+    >
+    </cx-product-list>
+  </ng-template>
+</cx-page-layout>
