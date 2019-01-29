@@ -21,11 +21,21 @@ export function addCustomLocators(by: ProtractorBy) {
     const using = opt_parentElement || document;
     return using.querySelectorAll(`[formcontrolname=${formControlName}]`);
   });
+
+  by.addLocator('pageLayout', function(
+    template,
+    opt_parentElement,
+    _opt_rootSelector
+  ) {
+    const using = opt_parentElement || document;
+    return using.querySelectorAll(`cx-page-layout.${template}`);
+  });
 }
 
 declare module 'protractor/built/locators' {
   export interface ProtractorBy {
     dynamicSlot(slot: string, tagName: string): Locator;
     formControlName(name: string): Locator;
+    pageLayout(template: string): Locator;
   }
 }
