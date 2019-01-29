@@ -20,7 +20,6 @@ import { ProductListPageLayoutModule } from './product-list-page-layout/product-
 import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
-import { TermsConditionsLayoutModule } from './terms-conditions-layout/terms-conditions-layout.module';
 import { BreakpointService } from './breakpoint/breakpoint.service';
 import { ConfigModule, Config } from '@spartacus/core';
 
@@ -45,8 +44,7 @@ const layoutModules = [
   SalePageLayoutModule,
   ContactPageLayoutModule,
   OutletRefModule,
-  StyleRefModule,
-  TermsConditionsLayoutModule
+  StyleRefModule
 ];
 
 @NgModule({
