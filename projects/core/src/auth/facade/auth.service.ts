@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { StateWithAuth } from '../store/auth-state';
@@ -97,7 +97,7 @@ export class AuthService {
     return this.store.pipe(
       select(getClientTokenState),
       filter((state: LoaderState<ClientToken>) => {
-        if (this.isTokenLoaded(state)) {
+        if (this.isClientTokenLoaded(state)) {
           return true;
         } else {
           if (!state.loading) {
@@ -106,7 +106,6 @@ export class AuthService {
           return false;
         }
       }),
-      take(1),
       map((state: LoaderState<ClientToken>) => state.value)
     );
   }
@@ -120,13 +119,14 @@ export class AuthService {
 
     return this.store.pipe(
       select(getClientTokenState),
-      filter((state: LoaderState<ClientToken>) => this.isTokenLoaded(state)),
-      take(1),
+      filter((state: LoaderState<ClientToken>) =>
+        this.isClientTokenLoaded(state)
+      ),
       map((state: LoaderState<ClientToken>) => state.value)
     );
   }
 
-  protected isTokenLoaded(state: LoaderState<ClientToken>): boolean {
+  protected isClientTokenLoaded(state: LoaderState<ClientToken>): boolean {
     return (state.success || state.error) && !state.loading;
   }
 }
