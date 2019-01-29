@@ -3,9 +3,11 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { AddressBookPageLayoutModule } from '../../layout/address-book-page-layout/address-book-page-layout.module';
+
 import { AddressBookPageComponent } from './address-book-page.component';
 import { AuthGuard } from '@spartacus/core';
+import { PageLayoutModule } from '../../../cms';
+import { AddressBookModule } from '../../../my-account/address-book/address-book.module';
 
 const routes: Routes = [
   {
@@ -19,8 +21,9 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    AddressBookPageLayoutModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    PageLayoutModule,
+    AddressBookModule
   ],
   declarations: [AddressBookPageComponent],
   exports: [AddressBookPageComponent]

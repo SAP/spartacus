@@ -47,6 +47,9 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Tabs',
         'PlaceholderContentSlot'
       ]
+    },
+    AccountPageTemplate: {
+      slots: ['SideContent', 'BodyContent']
     }
   }
 };
