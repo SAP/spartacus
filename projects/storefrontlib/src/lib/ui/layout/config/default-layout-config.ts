@@ -19,6 +19,9 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Section5'
       ]
     },
+    ContentPage1Template: {
+      slots: ['Section2A', 'Section2B']
+    },
     CategoryPageTemplate: {
       slots: ['Section1', 'Section2', 'Section3']
     },
