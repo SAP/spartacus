@@ -25,16 +25,14 @@ describe('Added to cart modal', () => {
     await productDetails.itemCounterUpButton.click();
     await productDetails.addToCart();
     await addedToCartModal.waitForReady();
-    // correct number of items are added to cart
-    expect(await addedToCartModal.modalTitle.getText()).toEqual(
-      '2 item(s) added to your cart'
-    );
     // good product is added to cart
     expect(await addedToCartModal.itemName.getText()).toEqual(
       await productDetails.productTitle.getText()
     );
     // quantity is set correctly
-    expect(await addedToCartModal.itemQuantity.getText()).toEqual('2');
+    expect(await addedToCartModal.itemQuantity.getAttribute('value')).toEqual(
+      '2'
+    );
     expect(await addedToCartModal.totalCount.getText()).toContain('2 items');
     // actin buttons links correctly
     expect(
@@ -54,11 +52,10 @@ describe('Added to cart modal', () => {
     await productDetails.addToCart();
     await addedToCartModal.waitForReady();
 
-    expect(await addedToCartModal.modalTitle.getText()).toEqual(
-      '3 item(s) added to your cart'
-    );
     // quantity is correctly updated
-    expect(await addedToCartModal.itemQuantity.getText()).toEqual('5');
+    expect(await addedToCartModal.itemQuantity.getAttribute('value')).toEqual(
+      '5'
+    );
     expect(await addedToCartModal.totalCount.getText()).toContain('5 items');
 
     // closing modal works
@@ -84,11 +81,10 @@ describe('Added to cart modal', () => {
     await productDetails.addToCart();
     await addedToCartModal.waitForReady();
 
-    expect(await addedToCartModal.modalTitle.getText()).toEqual(
-      '1 item(s) added to your cart'
-    );
     // quantity is correctly updated
-    expect(await addedToCartModal.itemQuantity.getText()).toEqual('1');
+    expect(await addedToCartModal.itemQuantity.getAttribute('value')).toEqual(
+      '1'
+    );
     expect(await addedToCartModal.totalCount.getText()).toContain('6 items');
 
     // empty cart
@@ -133,7 +129,7 @@ describe('Added to cart modal', () => {
       await addedToCartModal.itemPrice.getText()
     );
     const quantity = parseInt(
-      (await addedToCartModal.itemQuantity.getText()).trim(),
+      (await addedToCartModal.itemQuantity.getAttribute('value')).trim(),
       10
     );
     const totalPrice = extractPriceFromText(

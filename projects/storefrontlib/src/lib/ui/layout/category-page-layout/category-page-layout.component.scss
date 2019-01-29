@@ -1,19 +1,14 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-:host {
-  border: solid 1px blue;
-}
-.cx-category-page-layout {
-  &__bottom-products {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-areas: '..';
-    grid-gap: 10px;
-    width: 100%;
-    @include media-breakpoint-up(lg) {
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-areas: '...';
-    }
+
+.cx-category-page-bottom-products {
+  display: var(--cx-display, grid);
+  grid-template-columns: var(--cx-grid-template-columns, repeat(2, 1fr));
+  grid-template-areas: var(--cx-grid-template-areas, '..');
+  grid-gap: var(--cx-grid-gap, 10px);
+  width: var(--cx-width, 100%);
+
+  @include media-breakpoint-up(lg) {
+    grid-template-columns: var(--cx-grid-template-columns, repeat(3, 1fr));
+    grid-template-areas: var(--cx-grid-template-areas, '...');
   }
 }

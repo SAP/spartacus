@@ -1,0 +1,15 @@
+@import './page-templates/common-template';
+@import './page-templates/landing-page-2';
+@import './page-templates/product-detail';
+
+cx-page-layout {
+  @extend %cx-page-layout !optional;
+}
+
+.LandingPage2Template {
+  @extend %LandingPage2Template !optional;
+}
+
+.ProductDetailsPageTemplate {
+  @extend %ProductDetailsPageTemplate !optional;
+}
