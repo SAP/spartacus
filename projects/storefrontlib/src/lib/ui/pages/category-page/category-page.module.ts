@@ -5,9 +5,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
 import { CategoryPageComponent } from './category-page.component';
-import { PageLayoutModule } from '../../../cms';
-import { ProductListModule } from '../../../product';
-import { OutletRefModule } from '../../../outlet';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+import { ProductListModule } from '../../../product/components/product-list/product-list.module';
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 
 const routes: Routes = [
   {
