@@ -14,6 +14,7 @@ const routes: Routes = [
     path: null,
     canActivate: [AuthGuard, CmsPageGuards],
     data: { pageLabel: 'address-book', cxPath: 'addressBook' },
+    // after implementing the JSP include, we can use the standard `PageLayoutComponent`
     component: AddressBookPageComponent
   }
 ];
@@ -23,6 +24,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     PageLayoutModule,
+    // As long as we do not have a JSP inlcude component (#1079) and
+    // a specific CMS implementation for the adddress book, we stick to this hardcoded
+    // `AddressBookModule` module.
     AddressBookModule
   ],
   declarations: [AddressBookPageComponent],
