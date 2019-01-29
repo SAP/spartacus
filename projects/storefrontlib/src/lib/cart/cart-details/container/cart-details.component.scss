@@ -1,5 +1,7 @@
 @import 'theme';
-
+:host {
+  padding: var(--cx-padding, 2.5rem 0);
+}
 .cx-total {
   @include type('4');
   margin: var(--cx-margin, 0 0 1rem);
