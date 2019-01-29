@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { CartService } from '@spartacus/core';
+import { CartService, OrderEntry, PromotionResult } from '@spartacus/core';
 
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, of, Observable } from 'rxjs';
 
 import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
 
@@ -20,24 +20,25 @@ import {
 } from '@angular/core';
 
 class MockNgbActiveModal {
-  dismiss() {}
+  dismiss(): void {}
 
-  close() {}
+  close(): void {}
 }
 
 class MockCartService {
-  getLoaded() {}
+  getLoaded(): Observable<boolean> {
+    return of();
+  }
 
-  updateEntry(_entryNumber, _updatedQuantity) {}
+  updateEntry(_entryNumber: string, _updatedQuantity: number): void {}
 
-  removeEntry(_entry) {}
+  removeEntry(_entry: OrderEntry): void {}
 }
 
-const mockItems = [
+const mockOrderEntry: OrderEntry[] = [
   {
     quantity: 1,
     entryNumber: 1,
-    id: 111,
     product: {
       code: 'CODE1111'
     }
@@ -52,9 +53,9 @@ class MockCartItemComponent {
   @Input()
   compact = false;
   @Input()
-  item;
+  item: Observable<OrderEntry>;
   @Input()
-  potentialProductPromotions: any[];
+  potentialProductPromotions: PromotionResult[];
   @Input()
   isReadOnly = false;
   @Input()
@@ -67,7 +68,7 @@ class MockCartItemComponent {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -107,7 +108,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    component.entry$ = of(mockItems[0]);
+    component.entry$ = of(mockOrderEntry[0]);
     cartService = TestBed.get(CartService);
     spyOn(cartService, 'removeEntry').and.callThrough();
     spyOn(cartService, 'updateEntry').and.callThrough();
@@ -122,9 +123,7 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(false);
     fixture.detectChanges();
     expect(
-      el
-        .query(By.css('.cx-added-to-cart-dialog__title'))
-        .nativeElement.textContent.trim()
+      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
     ).toEqual('Updating cart...');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
@@ -145,9 +144,7 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(true);
     fixture.detectChanges();
     expect(
-      el
-        .query(By.css('.cx-added-to-cart-dialog__title'))
-        .nativeElement.textContent.trim()
+      el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
     ).toEqual('Item(s) added to your cart');
   });
 
@@ -166,8 +163,7 @@ describe('AddedToCartDialogComponent', () => {
     });
     component.loaded$ = of(true);
     fixture.detectChanges();
-    const cartTotalEl = el.query(By.css('.cx-added-to-cart-dialog__total'))
-      .nativeElement;
+    const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
     expect(cartTotalEl.children[0].textContent).toEqual('Cart total (1 items)');
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
@@ -175,7 +171,7 @@ describe('AddedToCartDialogComponent', () => {
   it('should remove entry', () => {
     component.loaded$ = of(true);
     component.ngOnInit();
-    const item = mockItems[0];
+    const item = mockOrderEntry[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
     component.removeEntry(item);
     expect(cartService.removeEntry).toHaveBeenCalledWith(item);
@@ -184,7 +180,7 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should update entry', () => {
-    const item = mockItems[0];
+    const item = mockOrderEntry[0];
     component.updateEntry({ item, updatedQuantity: 5 });
     expect(cartService.updateEntry).toHaveBeenCalledWith(item.entryNumber, 5);
   });

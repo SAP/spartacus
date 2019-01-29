@@ -1,7 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Input, Component, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Input,
+  Component,
+  Pipe,
+  PipeTransform
+} from '@angular/core';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -80,7 +86,11 @@ describe('ProductGridItemComponent in product-list', () => {
         MockStarRatingComponent,
         MockTranslateUrlPipe
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(ProductGridItemComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -97,17 +107,15 @@ describe('ProductGridItemComponent in product-list', () => {
 
   it('should display product name', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-grid__name'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-name')
+        .textContent
     ).toContain(component.product.name);
   });
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector(
-        '.cx-product-search-grid__price'
-      ).textContent
+      fixture.debugElement.nativeElement.querySelector('.cx-product-price')
+        .textContent
     ).toContain(component.product.price.formattedValue);
   });
 

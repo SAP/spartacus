@@ -9,10 +9,10 @@ import { UrlParsingService } from './url-translation/url-parsing.service';
 import { RouteRecognizerService } from './url-translation/route-recognizer.service';
 import { UrlTranslationService } from './url-translation/url-translation.service';
 
-export function loadRoutesConfig(
-  loader: RoutesConfigLoader
+export function initConfigurableRoutes(
+  service: ConfigurableRoutesService
 ): () => Promise<void> {
-  const result = () => loader.load(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
+  const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }
 
@@ -31,8 +31,8 @@ export function loadRoutesConfig(
     UrlParsingService,
     {
       provide: APP_INITIALIZER,
-      useFactory: loadRoutesConfig,
-      deps: [RoutesConfigLoader],
+      useFactory: initConfigurableRoutes,
+      deps: [ConfigurableRoutesService],
       multi: true
     },
     { provide: ConfigurableRoutesConfig, useExisting: Config }

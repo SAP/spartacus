@@ -16,7 +16,6 @@ describe('StarRatingComponent in product', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StarRatingComponent);
     starRatingComponent = fixture.componentInstance;
-    // spyOn(starRatingComponent, 'getStar').and.callThrough();
   });
 
   it('should be created', () => {

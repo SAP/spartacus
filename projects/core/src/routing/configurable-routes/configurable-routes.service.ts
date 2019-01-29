@@ -1,50 +1,80 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { ServerConfig } from '../../config/server-config/server-config';
+import {
+  RoutesTranslations,
+  RouteTranslation,
+  RoutesConfig
+} from './routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
-import { RoutesTranslations, RouteTranslation } from './routes-config';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
 @Injectable()
 export class ConfigurableRoutesService {
   constructor(
-    private readonly config: ServerConfig,
-    private readonly router: Router,
-    private readonly loader: RoutesConfigLoader
+    private config: ServerConfig,
+    private injector: Injector,
+    private routesConfigLoader: RoutesConfigLoader
   ) {}
 
-  private readonly DEFAULT_LANGUAGE_CODE = 'default';
+  private readonly currentLanguageCode = 'en'; // TODO: hardcoded! should be removed when more languages are supported by localized routes
 
-  private currentLanguageCode: string = this.DEFAULT_LANGUAGE_CODE;
-
-  private get routesTranslations() {
-    return this.loader.routesConfig.translations;
-  }
+  private allRoutesTranslations: RoutesConfig['translations'];
 
   private get currentRoutesTranslations(): RoutesTranslations {
-    return this.routesTranslations[
+    return this.allRoutesTranslations[
       this.currentLanguageCode
     ] as RoutesTranslations;
   }
 
-  translateRouterConfig(languageCode: string) {
-    if (this.routesTranslations[languageCode] === undefined) {
-      this.warn(
-        `There are no translations in routes config for language code '${languageCode}'.`,
-        `The default routes translations will be used instead: `,
-        this.routesTranslations.default
-      );
-      this.currentLanguageCode = this.DEFAULT_LANGUAGE_CODE;
-    } else {
-      this.currentLanguageCode = languageCode;
-    }
+  private initCalled = false; // guard not to call init() more than once
 
-    this.router.resetConfig(
-      this.translateRoutes(this.router.config, this.currentRoutesTranslations)
-    );
+  /**
+   * Initializes service with given translations and translates all existing Routes in the Router.
+   */
+  async init(): Promise<void> {
+    if (!this.initCalled) {
+      this.initCalled = true;
+      await this.routesConfigLoader.load();
+      this.allRoutesTranslations = this.routesConfigLoader.routesConfig.translations;
+      this.translateRouterConfig();
+    }
   }
 
+  private translateRouterConfig() {
+    // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
+    const router = this.injector.get(Router);
+
+    let translatedRoutes = this.translateRoutes(
+      router.config,
+      this.currentRoutesTranslations
+    );
+    translatedRoutes = this.moveWildcardRouteToEnd(translatedRoutes);
+
+    router.resetConfig(translatedRoutes);
+  }
+
+  /**
+   * Move the Route with double asterisk (**) to the end of the list.
+   * If there are more Routes with **, only the first will be left and other removed.
+   *
+   * Reason: When some custom Routes are injected after Spartacus' ones,
+   *          then the Spartacus' wildcard Route needs being moved to the end -
+   *          even after custom Routes - to make custom Routes discoverable.
+   *          More than one wildcard Route is a sign of bad config, so redundant copies are removed.
+   */
+  private moveWildcardRouteToEnd(routes: Routes): Routes {
+    const firstWildcardRoute = routes.find(route => route.path === '**');
+    return firstWildcardRoute
+      ? routes.filter(route => route.path !== '**').concat(firstWildcardRoute)
+      : routes;
+  }
+
+  /**
+   * Returns the list of routes translations for given list of nested routes
+   * using given object of routes translations.
+   */
   getNestedRoutesTranslations(
     nestedRouteNames: string[],
     routesTranslations: RoutesTranslations = this.currentRoutesTranslations
