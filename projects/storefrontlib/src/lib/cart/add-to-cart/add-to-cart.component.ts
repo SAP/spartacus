@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 
-import { CartService } from '@spartacus/core';
+import { CartService, OrderEntry } from '@spartacus/core';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
@@ -20,20 +20,20 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddToCartComponent implements OnInit {
-  modalInstance;
+  modalInstance: any;
 
   @Input()
   iconOnly;
 
   @Input()
-  productCode;
+  productCode: string;
   @Input()
-  quantity;
+  quantity: number;
 
   @Input()
-  maxQuantity;
+  maxQuantity: number;
 
-  cartEntry$: Observable<any>;
+  cartEntry$: Observable<OrderEntry>;
   loaded$: Observable<boolean>;
 
   constructor(
