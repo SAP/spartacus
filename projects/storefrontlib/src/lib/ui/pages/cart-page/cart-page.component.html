@@ -1,1 +1,8 @@
-<cx-cart-page-layout></cx-cart-page-layout>
+<cx-page-layout
+  *ngIf="(cart$ | async) as cart"
+  [class.empty]="!cart.totalItems"
+>
+  <ng-container *ngIf="cart.totalItems > 0">
+    <cx-cart-details></cx-cart-details>
+  </ng-container>
+</cx-page-layout>

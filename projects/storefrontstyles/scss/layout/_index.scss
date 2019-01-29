@@ -1,5 +1,6 @@
 @import './page-templates/common-template';
 @import './page-templates/landing-page-2';
+@import './page-templates/cart-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -7,4 +8,8 @@ cx-page-layout {
 
 .LandingPage2Template {
   @extend %LandingPage2Template !optional;
+}
+
+.CartPageTemplate {
+  @extend %CartPageTemplate !optional;
 }

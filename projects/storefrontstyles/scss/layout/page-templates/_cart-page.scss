@@ -1,0 +1,10 @@
+%CartPageTemplate {
+  max-width: 1140px;
+  margin: auto;
+  padding: 1.5rem;
+  &:not(.empty) {
+    .EmptyCartMiddleContent {
+      display: none;
+    }
+  }
+}

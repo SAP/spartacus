@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { OutletRefModule } from '../../outlet/index';
 import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
 
-import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
 import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
@@ -31,7 +30,6 @@ import { LayoutConfig } from './config/layout-config';
 const layoutModules = [
   LandingPageLayoutModule,
   OrderHistoryPageLayoutModule,
-  CartPageLayoutModule,
   CategoryPageLayoutModule,
   ProductListPageLayoutModule,
   MultiStepCheckoutPageLayoutModule,

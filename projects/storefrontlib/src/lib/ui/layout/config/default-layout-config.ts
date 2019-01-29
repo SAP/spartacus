@@ -18,6 +18,13 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Section4',
         'Section5'
       ]
+    },
+    CartPageTemplate: {
+      slots: [
+        'CenterLeftContentSlot',
+        'EmptyCartMiddleContent',
+        'CenterRightContentSlot'
+      ]
     }
   }
 };
