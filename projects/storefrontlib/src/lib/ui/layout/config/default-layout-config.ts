@@ -47,6 +47,13 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Tabs',
         'PlaceholderContentSlot'
       ]
+    },
+    CartPageTemplate: {
+      slots: [
+        'CenterLeftContentSlot',
+        'EmptyCartMiddleContent',
+        'CenterRightContentSlot'
+      ]
     }
   }
 };
