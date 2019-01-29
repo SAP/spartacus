@@ -6,7 +6,6 @@ import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
 import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
 import { ContactPageLayoutModule } from './contact-page-layout/contact-page-layout.module';
-import { HelpPageLayoutModule } from './help-page-layout/help-page-layout.module';
 import { LandingPageLayoutModule } from './landing-page-layout/landing-page-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
 import { MainModule } from './main/main.module';
@@ -44,7 +43,6 @@ const layoutModules = [
   LoginPageLayoutModule,
   StoreFinderPageLayoutModule,
   SalePageLayoutModule,
-  HelpPageLayoutModule,
   ContactPageLayoutModule,
   OutletRefModule,
   StyleRefModule,
