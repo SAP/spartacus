@@ -48,6 +48,13 @@ export const defaultLayoutConfig: LayoutConfig = {
         'PlaceholderContentSlot'
       ]
     },
+    CartPageTemplate: {
+      slots: [
+        'CenterLeftContentSlot',
+        'EmptyCartMiddleContent',
+        'CenterRightContentSlot'
+      ]
+    },
     AccountPageTemplate: {
       slots: ['SideContent', 'BodyContent']
     }

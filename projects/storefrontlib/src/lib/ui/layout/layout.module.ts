@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { OutletRefModule } from '../../outlet/index';
 import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
 
-import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
 import { MainModule } from './main/main.module';
 import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
@@ -21,7 +20,6 @@ import { LayoutConfig } from './config/layout-config';
 
 const layoutModules = [
   OrderHistoryPageLayoutModule,
-  CartPageLayoutModule,
   MultiStepCheckoutPageLayoutModule,
   OrderDetailsPageLayoutModule,
   OrderConfirmationPageLayoutModule,
