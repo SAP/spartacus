@@ -8,12 +8,12 @@ import { Observable } from 'rxjs';
   templateUrl: './product-page.component.html'
 })
 export class ProductPageComponent implements OnInit {
-  productCode: Observable<string>;
+  productCode$: Observable<string>;
 
   constructor(private routingService: RoutingService) {}
 
   ngOnInit() {
-    this.productCode = this.routingService
+    this.productCode$ = this.routingService
       .getRouterState()
       .pipe(map(state => state.state.params['productCode']));
   }
