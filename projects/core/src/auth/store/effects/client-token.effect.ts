@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import * as fromActions from './../actions';
-import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
+import { Observable, of } from 'rxjs';
 import { map, catchError, exhaustMap } from 'rxjs/operators';
-import { ClientToken } from './../../models/token-types.model';
+
+import * as fromActions from './../actions';
 import { ClientTokenAction } from '../actions/client-token.action';
+import { ClientToken } from './../../models/token-types.model';
+import { ClientAuthenticationTokenService } from './../../services/client-authentication/client-authentication-token.service';
 
 @Injectable()
 export class ClientTokenEffect {

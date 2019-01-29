@@ -8,13 +8,14 @@ import {
 
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+
+import { AuthConfig } from '../config/auth-config';
 import { AuthService } from '../facade/auth.service';
 import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
-import { AuthConfig } from '../config/auth-config';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {

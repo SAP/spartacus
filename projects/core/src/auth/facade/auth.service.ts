@@ -5,6 +5,8 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { StateWithAuth } from '../store/auth-state';
 import { LoadClientToken } from '../store/actions/client-token.action';
@@ -16,23 +18,12 @@ import {
 } from '../store/actions/user-token.action';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // Debug
-  clientTokenState: Observable<LoaderState<ClientToken>>;
-
-  constructor(private store: Store<StateWithAuth>) {
-    // Debug
-    this.clientTokenState = this.store.pipe(select(getClientTokenState));
-    // Debug
-    this.clientTokenState.subscribe(value => {
-      console.log('clientTokenState value emitted: ', value);
-    });
-  }
+  constructor(private store: Store<StateWithAuth>) {}
 
   /**
    * Loads a new user token

@@ -1,11 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
-
-import { CLIENT_TOKEN_DATA } from '../auth-state';
-
-import { ClientToken } from '../../models/token-types.model';
-
 import {
   ActionReducer,
   ActionReducerMap,
@@ -13,9 +7,13 @@ import {
   Action
 } from '@ngrx/store';
 
-import * as fromUserTokenReducer from './user-token.reducer';
+import { CLIENT_TOKEN_DATA } from '../auth-state';
 import { AuthState } from '../auth-state';
 import { LOGOUT } from '../actions/login-logout.action';
+import { ClientToken } from '../../models/token-types.model';
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+
+import * as fromUserTokenReducer from './user-token.reducer';
 
 export function getReducers(): ActionReducerMap<AuthState> {
   return {

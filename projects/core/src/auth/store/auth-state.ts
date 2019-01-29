@@ -12,12 +12,6 @@ export interface AuthState {
   clientToken: LoaderState<ClientToken>;
 }
 
-export interface ClientTokenState {
-  token: ClientToken;
-  loading: boolean;
-  loaded: boolean;
-}
-
 export interface UserTokenState {
   token: UserToken;
 }

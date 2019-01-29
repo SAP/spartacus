@@ -1,11 +1,12 @@
-import * as fromAuthActions from './';
+import { CLIENT_TOKEN_DATA } from '../auth-state';
+import { ClientToken } from './../../models/token-types.model';
 import {
   loadMeta,
   failMeta,
   successMeta
 } from '../../../state/utils/loader/loader.action';
-import { CLIENT_TOKEN_DATA } from '../auth-state';
-import { ClientToken } from './../../models/token-types.model';
+
+import * as fromAuthActions from './';
 
 const clientToken: ClientToken = {
   access_token: 'xxx',
