@@ -18,7 +18,6 @@ import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/pa
 import { ProductDetailsPageLayoutModule } from './product-details-page-layout/product-details-page-layout.module';
 import { ProductListPageLayoutModule } from './product-list-page-layout/product-list-page-layout.module';
 import { RegisterLayoutModule } from './register-layout/register-layout.module';
-import { SalePageLayoutModule } from './sale-page-layout/sale-page-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 import { BreakpointService } from './breakpoint/breakpoint.service';
 import { ConfigModule, Config } from '@spartacus/core';
@@ -41,7 +40,6 @@ const layoutModules = [
   RegisterLayoutModule,
   LoginPageLayoutModule,
   StoreFinderPageLayoutModule,
-  SalePageLayoutModule,
   ContactPageLayoutModule,
   OutletRefModule,
   StyleRefModule
