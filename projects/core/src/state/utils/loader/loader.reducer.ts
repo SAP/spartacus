@@ -55,9 +55,12 @@ export function loaderReducer<T>(
       }
     }
 
-    return {
-      ...state,
-      value: reducer ? reducer(state.value, action) : state.value
-    };
+    if (reducer) {
+      const newValue = reducer(state.value, action);
+      if (newValue !== state.value) {
+        return { ...state, value: newValue };
+      }
+    }
+    return state;
   };
 }
