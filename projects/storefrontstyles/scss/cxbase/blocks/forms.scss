@@ -56,6 +56,17 @@ input[type='radio'] {
   margin-left: -1.25rem;
 }
 
+label {
+  display: block;
+  .label-content {
+    display: block;
+    margin-bottom: $label-margin-bottom;
+    &.bold {
+      font-weight: $font-weight-semi;
+    }
+  }
+}
+
 .form-check {
   margin-bottom: 18px;
 
@@ -190,6 +201,16 @@ input[type='radio'] {
   }
 }
 
+input:checked + .form-toggle__switch {
+  .toggle-on {
+    display: block;
+  }
+
+  .toggle-off {
+    display: none;
+  }
+}
+
 input[role='switch']:checked + .form-toggle__switch {
   background-color: theme-color('primary');
   &:before {
@@ -220,27 +241,6 @@ input[role='switch']:checked + .form-toggle__switch {
   right: -7%;
 }
 
-input:checked + .form-toggle__switch {
-  .toggle-on {
-    display: block;
-  }
-
-  .toggle-off {
-    display: none;
-  }
-}
-
-label {
-  display: block;
-  .label-content {
-    display: block;
-    margin-bottom: $label-margin-bottom;
-    &.bold {
-      font-weight: $font-weight-semi;
-    }
-  }
-}
-
 .form-message {
   font-size: $small-font-size;
   &--danger {
@@ -248,8 +248,8 @@ label {
   }
 }
 
-.ng-select.ng-select-single,
-.ng-select {
+.ng-select,
+.ng-select.ng-select-single {
   .ng-dropdown-panel {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {

@@ -55,6 +55,17 @@ $cx-search-facet-modal-footer-trbl-margin: 0 0 0 20px !default;
 $cx-search-facet-modal-footer-btn-width: 50% !default;
 
 .cx-search-facet {
+  &-checkbox {
+    position: relative;
+    margin: $cx-search-facet-checkbox-trbl-margin;
+    min-width: $cx-search-facet-checkbox-rectangular-size;
+    transition: $cx-search-facet-checkbox-transition;
+
+    &:checked + .cx-search-facet-list__label-text {
+      @include var-color('color', $cx-search-facet-label-selected-color);
+    }
+  }
+
   &-list {
     padding: $cx-search-facet-trbl-padding;
     list-style: none;
@@ -101,17 +112,6 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
       &:after {
         content: '\003e';
       }
-    }
-  }
-
-  &-checkbox {
-    position: relative;
-    margin: $cx-search-facet-checkbox-trbl-margin;
-    min-width: $cx-search-facet-checkbox-rectangular-size;
-    transition: $cx-search-facet-checkbox-transition;
-
-    &:checked + .cx-search-facet-list__label-text {
-      @include var-color('color', $cx-search-facet-label-selected-color);
     }
   }
 
