@@ -1,4 +1,11 @@
 @import 'theme';
+:host {
+  padding: var(--cx-padding, 1.5rem 0);
+  display: block;
+}
+.empty {
+  display: none;
+}
 
 .cx-total {
   @include type('4');
