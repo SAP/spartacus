@@ -22,6 +22,20 @@ export const defaultLayoutConfig: LayoutConfig = {
     ContentPage1Template: {
       slots: ['Section2A', 'Section2B']
     },
+    CategoryPageTemplate: {
+      slots: ['Section1', 'Section2', 'Section3']
+    },
+    ProductListPageTemplate: {
+      slots: ['ProductListSlot', 'ProductLeftRefinements']
+    },
+    SearchResultsListPageTemplate: {
+      slots: [
+        'Section2',
+        'SearchResultsListSlot',
+        'ProductLeftRefinements',
+        'Section4'
+      ]
+    },
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
@@ -32,6 +46,13 @@ export const defaultLayoutConfig: LayoutConfig = {
         'CrossSelling',
         'Tabs',
         'PlaceholderContentSlot'
+      ]
+    },
+    CartPageTemplate: {
+      slots: [
+        'CenterLeftContentSlot',
+        'EmptyCartMiddleContent',
+        'CenterRightContentSlot'
       ]
     }
   }
