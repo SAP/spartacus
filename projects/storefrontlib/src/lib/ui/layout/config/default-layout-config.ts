@@ -18,6 +18,20 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Section4',
         'Section5'
       ]
+    },
+    CategoryPageTemplate: {
+      slots: ['Section1', 'Section2', 'Section3']
+    },
+    ProductListPageTemplate: {
+      slots: ['ProductListSlot', 'ProductLeftRefinements']
+    },
+    SearchResultsListPageTemplate: {
+      slots: [
+        'Section2',
+        'SearchResultsListSlot',
+        'ProductLeftRefinements',
+        'Section4'
+      ]
     }
   }
 };
