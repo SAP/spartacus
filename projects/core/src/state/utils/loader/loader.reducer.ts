@@ -26,7 +26,7 @@ export function loaderReducer<T>(
     if (
       action.meta &&
       action.meta.loader &&
-      action.meta.loader.type === loadActionType
+      action.meta.entityType === loadActionType
     ) {
       const entity = action.meta.loader;
 
