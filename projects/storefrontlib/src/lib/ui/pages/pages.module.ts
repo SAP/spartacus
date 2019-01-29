@@ -12,8 +12,6 @@ import { ResetPasswordPageModule } from './reset-password-page/reset-password-pa
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { PaymentDetailsPageModule } from './payment-details-page/payment-details-page.module';
 
-import { ContactPageModule } from './contact-page/contact-page.module';
-
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
@@ -44,7 +42,6 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ContactPageModule,
   ResetNewPasswordPageModule,
   // new pages should be added above this line
   PageNotFoundModule
@@ -73,12 +70,6 @@ const pageModules = [
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'homepage', cxPath: 'sale' } // TODO set a proper pageLabel when it's available in CMS
       }
     ])
   ]
