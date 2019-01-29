@@ -87,15 +87,15 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
       justify-content: flex-start;
       cursor: pointer;
 
+      &-text {
+        line-height: $cx-search-facet-checkbox-rectangular-size;
+      }
+
       &:hover .cx-search-facet-checkbox:not(:checked) {
         @include var-color(
           'background-color',
           $cx-search-facet-checkbox-background-color__hover
         );
-      }
-
-      &-text {
-        line-height: $cx-search-facet-checkbox-rectangular-size;
       }
     }
 
