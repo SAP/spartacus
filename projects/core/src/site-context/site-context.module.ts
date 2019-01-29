@@ -1,11 +1,14 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
 
-import { SiteContextOccModule } from './occ/site-context-occ.module';
-import { SiteContextStoreModule } from './store/site-context-store.module';
-import { LanguageService } from './facade/language.service';
-import { CurrencyService } from './facade/currency.service';
 import { OccConfig } from '../occ/index';
 import { StateModule } from '../state/index';
+
+import { interceptors } from './occ';
+
+import { CurrencyService } from './facade/currency.service';
+import { LanguageService } from './facade/language.service';
+import { SiteContextOccModule } from './occ/site-context-occ.module';
+import { SiteContextStoreModule } from './store/site-context-store.module';
 
 export function inititializeContext(
   config: OccConfig,
@@ -32,4 +35,11 @@ export function inititializeContext(
     }
   ]
 })
-export class SiteContextModule {}
+export class SiteContextModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SiteContextModule,
+      providers: [...interceptors]
+    };
+  }
+}
