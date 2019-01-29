@@ -1,5 +1,11 @@
 import * as fromAction from './navigation-entry-item.action';
 import { CmsComponent } from '../../../occ/occ-models/index';
+import { NAVIGATION_DETAIL_ENTITY } from '../cms-state';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta
+} from '../../../state/utils/entity-loader/entity-loader.action';
 
 describe('Navigation Entry Item Actions', () => {
   describe('LoadNavigationItems Actions', () => {
@@ -13,7 +19,8 @@ describe('Navigation Entry Item Actions', () => {
         const action = new fromAction.LoadNavigationItems(payload);
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_NAVIGATION_ITEMS,
-          payload: payload
+          payload,
+          meta: entityLoadMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId)
         });
       });
     });
@@ -21,11 +28,13 @@ describe('Navigation Entry Item Actions', () => {
     describe('LoadNavigationItemsFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromAction.LoadNavigationItemsFail(payload);
+        const nodeId = 'test_uid';
+        const action = new fromAction.LoadNavigationItemsFail(nodeId, payload);
 
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_NAVIGATION_ITEMS_FAIL,
-          payload
+          payload,
+          meta: entityFailMeta(NAVIGATION_DETAIL_ENTITY, nodeId, payload)
         });
       });
     });
@@ -43,7 +52,8 @@ describe('Navigation Entry Item Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_NAVIGATION_ITEMS_SUCCESS,
-          payload
+          payload,
+          meta: entitySuccessMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId)
         });
       });
     });
