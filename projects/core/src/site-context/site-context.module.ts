@@ -3,10 +3,9 @@ import { NgModule, APP_INITIALIZER, ModuleWithProviders } from '@angular/core';
 import { OccConfig } from '../occ/index';
 import { StateModule } from '../state/index';
 
-import { interceptors } from './occ';
-
 import { CurrencyService } from './facade/currency.service';
 import { LanguageService } from './facade/language.service';
+import { interceptors } from './occ/index';
 import { SiteContextOccModule } from './occ/site-context-occ.module';
 import { SiteContextStoreModule } from './store/site-context-store.module';
 

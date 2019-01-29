@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 
-import { interceptors } from './http-interceptors';
+import { interceptors } from './http-interceptors/index';
 
 @NgModule({})
 export class SmartEditModule {
