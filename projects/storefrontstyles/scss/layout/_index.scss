@@ -1,5 +1,6 @@
 @import './page-templates/common-template';
 @import './page-templates/landing-page-2';
+@import './page-templates/content-page-1';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -7,4 +8,8 @@ cx-page-layout {
 
 .LandingPage2Template {
   @extend %LandingPage2Template !optional;
+}
+
+.ContentPage1Template {
+  @extend %ContentPage1Template !optional;
 }

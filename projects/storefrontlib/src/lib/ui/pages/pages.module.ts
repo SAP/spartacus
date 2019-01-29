@@ -14,7 +14,7 @@ import { PaymentDetailsPageModule } from './payment-details-page/payment-details
 
 import { ContactPageModule } from './contact-page/contact-page.module';
 import { SalePageModule } from './sale-page/sale-page.module';
-import { HelpPageModule } from './help-page/help-page.module';
+
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 import { TermsConditionsPageModule } from './terms-conditions-page/terms-conditions-page.module';
 // ContentPage: my Account Pages
@@ -48,7 +48,6 @@ const pageModules = [
   StoreFinderPageModule,
   ContactPageModule,
   SalePageModule,
-  HelpPageModule,
   ResetNewPasswordPageModule,
   TermsConditionsPageModule,
   // new pages should be added above this line
@@ -66,6 +65,12 @@ const pageModules = [
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'homepage', cxPath: 'home' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'faq', cxPath: 'help' }
       }
     ])
   ]
