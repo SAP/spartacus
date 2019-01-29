@@ -1,5 +1,4 @@
 <ng-container *ngIf="(cart$ | async) as cart">
-  <!-- <div class="cx-cart-details container"> -->
   <h1>Shopping Cart (ID {{ cart?.code }})</h1>
   <ng-container *ngIf="(entries$ | async) as entries">
     <div class="row">
@@ -35,5 +34,4 @@
       </div>
     </div>
   </ng-container>
-  <!-- </div> -->
 </ng-container>
