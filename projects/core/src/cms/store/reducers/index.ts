@@ -7,14 +7,14 @@ import {
 } from '@ngrx/store';
 
 import * as fromPage from './page.reducer';
-import * as fromComponent from './component.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
-import { CmsState } from '../cms-state';
+import { CmsState, COMPONENT_ENTITY } from '../cms-state';
+import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
     page: fromPage.reducer,
-    component: fromComponent.reducer,
+    component: entityLoaderReducer(COMPONENT_ENTITY),
     navigation: fromNavigation.reducer
   };
 }

@@ -2,6 +2,7 @@ import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 
 export const CMS_FEATURE = 'cms';
+export const COMPONENT_ENTITY = 'COMPONENT Entity';
 
 export interface StateWithCms {
   [CMS_FEATURE]: CmsState;
