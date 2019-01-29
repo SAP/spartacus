@@ -21,6 +21,18 @@ export const defaultLayoutConfig: LayoutConfig = {
     },
     ContentPage1Template: {
       slots: ['Section2A', 'Section2B']
+    },
+    ProductDetailsPageTemplate: {
+      slots: [
+        'TopHeaderSlot',
+        'BottomHeaderSlot',
+        'VariantSelectorSlot',
+        'AddToCart',
+        'UpSelling',
+        'CrossSelling',
+        'Tabs',
+        'PlaceholderContentSlot'
+      ]
     }
   }
 };
