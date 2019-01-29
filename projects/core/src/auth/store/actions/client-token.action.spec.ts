@@ -14,7 +14,7 @@ const clientToken: ClientToken = {
   scope: 'xxx'
 };
 
-fdescribe('Client Token Actions', () => {
+describe('Client Token Actions', () => {
   describe('LoadClientToken', () => {
     it('should create the action', () => {
       const action = new fromAuthActions.LoadClientToken();
