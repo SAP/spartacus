@@ -19,7 +19,7 @@ describe('Navigation Entry Item Actions', () => {
         const action = new fromAction.LoadNavigationItems(payload);
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_NAVIGATION_ITEMS,
-          payload: payload,
+          payload,
           meta: entityLoadMeta(NAVIGATION_DETAIL_ENTITY, payload.nodeId)
         });
       });

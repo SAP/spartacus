@@ -3,6 +3,7 @@ import { CmsState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 import { NodeItem } from '../../model/node-item.model';
 import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
 
@@ -15,8 +16,8 @@ export const getNavigationEntryItemState: MemoizedSelector<
 );
 
 export const getSelectedNavigationEntryItemState = (
-  nodeId
-): MemoizedSelector<StateWithCms, any> => {
+  nodeId: string
+): MemoizedSelector<StateWithCms, LoaderState<NodeItem>> => {
   return createSelector(
     getNavigationEntryItemState,
     nodes => entityStateSelector(nodes, nodeId)
@@ -24,8 +25,8 @@ export const getSelectedNavigationEntryItemState = (
 };
 
 export const itemsSelectorFactory = (
-  nodeId
-): MemoizedSelector<StateWithCms, any> => {
+  nodeId: string
+): MemoizedSelector<StateWithCms, NodeItem> => {
   return createSelector(
     getSelectedNavigationEntryItemState(nodeId),
     itemState => loaderValueSelector(itemState)
