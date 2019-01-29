@@ -14,15 +14,15 @@ export class CategoryPageComponent {
     protected cmsService: CmsService
   ) {}
 
-  get categoryCode(): Observable<string> {
+  get categoryCode$(): Observable<string> {
     return this.activeRoute.params.pipe(map(params => params['categoryCode']));
   }
 
-  get brandCode(): Observable<string> {
+  get brandCode$(): Observable<string> {
     return this.activeRoute.params.pipe(map(params => params['brandCode']));
   }
 
-  get query(): Observable<string> {
+  get query$(): Observable<string> {
     return this.activeRoute.params.pipe(map(params => params['query']));
   }
 
