@@ -10,6 +10,8 @@ import { ProductListModule } from '../../../product/components/product-list/prod
 import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 
 const routes: Routes = [
+  // the search page is actually a conent page in the backend, but as longs as we haven't
+  // converted our search list and refinement components, we keep them here.
   {
     path: null,
     canActivate: [CmsPageGuards],
