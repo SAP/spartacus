@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ConfigurableRoutesService } from '@spartacus/core';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
@@ -22,14 +21,8 @@ class MockGlobalMessagerComponent {}
 })
 class MockFooterComponent {}
 
-class MockConfigurableRoutesService {
-  init() {}
-  translateRouterConfig() {}
-}
-
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
-  let configurableRoutesService: ConfigurableRoutesService;
   let fixture: ComponentFixture<StorefrontComponent>;
 
   beforeEach(async(() => {
@@ -40,16 +33,8 @@ describe('StorefrontComponent', () => {
         MockHeaderComponent,
         MockGlobalMessagerComponent,
         MockFooterComponent
-      ],
-      providers: [
-        {
-          provide: ConfigurableRoutesService,
-          useClass: MockConfigurableRoutesService
-        }
       ]
     }).compileComponents();
-
-    configurableRoutesService = TestBed.get(ConfigurableRoutesService);
   }));
 
   beforeEach(() => {
@@ -60,15 +45,5 @@ describe('StorefrontComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    it('should set current language for routes', () => {
-      spyOn(configurableRoutesService, 'translateRouterConfig');
-      component.ngOnInit();
-      expect(
-        configurableRoutesService.translateRouterConfig
-      ).toHaveBeenCalled();
-    });
   });
 });
