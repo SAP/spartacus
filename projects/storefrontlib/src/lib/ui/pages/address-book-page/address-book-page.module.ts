@@ -11,8 +11,7 @@ const routes: Routes = [
   {
     path: null,
     canActivate: [AuthGuard, CmsPageGuards],
-    // @TODO: Change page label to dedicated when will be ready on backend side.
-    data: { pageLabel: 'orders', cxPath: 'addressBook' },
+    data: { pageLabel: 'address-book', cxPath: 'addressBook' },
     component: AddressBookPageComponent
   }
 ];
