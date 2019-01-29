@@ -60,10 +60,6 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
     margin: $cx-search-facet-checkbox-trbl-margin;
     min-width: $cx-search-facet-checkbox-rectangular-size;
     transition: $cx-search-facet-checkbox-transition;
-
-    &:checked + .cx-search-facet-list__label-text {
-      @include var-color('color', $cx-search-facet-label-selected-color);
-    }
   }
 
   &-list {
@@ -112,6 +108,12 @@ $cx-search-facet-modal-footer-btn-width: 50% !default;
       &:after {
         content: '\003e';
       }
+    }
+  }
+
+  &-checkbox {
+    &:checked + .cx-search-facet-list__label-text {
+      @include var-color('color', $cx-search-facet-label-selected-color);
     }
   }
 
