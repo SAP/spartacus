@@ -32,6 +32,18 @@ export const defaultLayoutConfig: LayoutConfig = {
         'ProductLeftRefinements',
         'Section4'
       ]
+    },
+    ProductDetailsPageTemplate: {
+      slots: [
+        'TopHeaderSlot',
+        'BottomHeaderSlot',
+        'VariantSelectorSlot',
+        'AddToCart',
+        'UpSelling',
+        'CrossSelling',
+        'Tabs',
+        'PlaceholderContentSlot'
+      ]
     }
   }
 };
