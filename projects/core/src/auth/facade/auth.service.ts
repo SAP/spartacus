@@ -5,7 +5,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
 import { StateWithAuth } from '../store/auth-state';

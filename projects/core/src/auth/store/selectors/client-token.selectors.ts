@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 import { AuthState, StateWithAuth } from '../auth-state';
 import { ClientToken } from '../../models/token-types.model';
