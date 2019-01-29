@@ -5,7 +5,8 @@
   "author": "Marcin Lasak",
   "license": "MIT",
   "scripts": {
-    "test": "cypress open"
+    "test": "cypress open",
+    "test:ci": "cypress run"
   },
   "devDependencies": {
     "cypress": "^3.1.4"

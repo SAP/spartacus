@@ -4,7 +4,7 @@ context('Big happy path', () => {
   let userEmail;
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.visit('http://localhost:4200');
+    cy.visit('/');
   });
 
   it('should register successfully', () => {
@@ -47,7 +47,7 @@ context('Big happy path', () => {
   it('should add product to cart and got to checkout', () => {
     cy.get('.cx-item-counter > :nth-child(3)').click();
     cy.get('cx-add-to-cart > .btn').click();
-    cy.get('.cx-cart-item__name--link').should('contain', 'Alpha 350');
+    cy.get('.cx-name .cx-link').should('contain', 'Alpha 350');
     cy.get('.btn-secondary').click();
     cy.get(':nth-child(1) > label > .form-control').type(userEmail);
     cy.get(':nth-child(2) > label > .form-control').type('Password123.');
@@ -56,12 +56,12 @@ context('Big happy path', () => {
 
   it('should fill in address form', () => {
     cy.get('.cx-shipping-address__title').should('contain', 'Shipping Address');
-    cy.get(':nth-child(1) > .cx-order-summary__amount').should(
-      'contain',
-      '$2,623.08'
-    );
+    cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
+      .first()
+      .find('.cx-summary-amount')
+      .should('contain', '$2,623.08');
     cy.get(
-      ':nth-child(1) > div[_ngcontent-c54=""] > label > .ng-select > .ng-select-container'
+      'cx-address-form .form-group:nth-child(1) .ng-select-container'
     ).click();
 
     cy.get('.ng-dropdown-panel-items')
@@ -104,18 +104,19 @@ context('Big happy path', () => {
 
   it('should fill in payment form', () => {
     cy.get('.cx-payment-method__title').should('contain', 'Payment');
-    cy.get('.cx-order-summary__total-final > .cx-order-summary__amount').should(
-      'contain',
-      '$2,635.07'
-    );
+    cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+      .find('.cx-summary-amount')
+      .should('contain', '$2,635.07');
     cy.get('label > .ng-select > .ng-select-container').click();
     cy.get('.ng-dropdown-panel-items')
       .contains('Visa')
       .click();
-    cy.get('div.ng-untouched > :nth-child(2) > label > .form-control').type(
-      'Winston Rumfoord'
+    cy.get(
+      'cx-payment-form .form-control[formcontrolname="accountHolderName"]'
+    ).type('Winston Rumfoord');
+    cy.get('cx-payment-form .form-control[formcontrolname="cardNumber"]').type(
+      '4111111111111111'
     );
-    cy.get(':nth-child(3) > label > .form-control').type('4111111111111111');
     cy.get('.col-md-5 > .ng-select > .ng-select-container').click();
     cy.get('.ng-dropdown-panel-items')
       .contains('07')
@@ -142,10 +143,9 @@ context('Big happy path', () => {
     cy.get(
       ':nth-child(2) > .cx-review__summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > .card__label--bold'
     ).should('contain', 'standard-gross');
-    cy.get('.cx-order-summary__total-final > .cx-order-summary__amount').should(
-      'contain',
-      '$2,635.07'
-    );
+    cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+      .find('.cx-summary-amount')
+      .should('contain', '$2,635.07');
     cy.get('.form-check-input').click();
     cy.get('.cx-multi-step-checkout__place-order > .btn-primary').click();
     cy.get('.cx-page__title').should('contain', 'Confirmation of Order');
@@ -165,8 +165,8 @@ context('Big happy path', () => {
     cy.get(
       ':nth-child(2) > .cx-order-confirmation__review-summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > :nth-child(2) > .card__label'
     ).should('contain', 'Chrono-Synclastic Infundibulum');
-    cy.get('.cx-cart-item__code').should('contain', '1446509');
-    cy.get('.cx-order-summary__total-final > .cx-order-summary__amount').should(
+    cy.get('.cx-code').should('contain', '1446509');
+    cy.get('cx-order-summary .cx-summary-amount').should(
       'contain',
       '$2,635.07'
     );
@@ -174,7 +174,7 @@ context('Big happy path', () => {
 
   it('should be able to check order in order history', () => {
     cy.get('cx-login span').click();
-    cy.get(':nth-child(5) > .cx-navigation__child-link').click();
+    cy.get('.cx-navigation__child-item:nth-of-type(5)').click();
     cy.get('h3').should('contain', 'Order history');
     cy.get('.cx-order-history__total > .cx-order-history__value').should(
       'contain',
