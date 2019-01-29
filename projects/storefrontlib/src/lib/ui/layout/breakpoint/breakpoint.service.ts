@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { fromEvent, Observable } from 'rxjs';
+import { fromEvent, Observable, of } from 'rxjs';
 import {
   debounceTime,
   startWith,
@@ -14,6 +14,9 @@ export class BreakpointService {
   constructor(private winRef: WindowRef, private config: LayoutConfig) {}
 
   get breakpoint$(): Observable<BREAKPOINT> {
+    if (!this.window) {
+      return of(BREAKPOINT.xs);
+    }
     return fromEvent(this.window, 'resize').pipe(
       debounceTime(300),
       startWith({ target: this.window }),

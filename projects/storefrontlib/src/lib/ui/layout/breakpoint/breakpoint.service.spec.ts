@@ -48,15 +48,4 @@ describe('BreakpointService', () => {
       ]);
     }
   ));
-
-  it('should be BREAKPOINT.md', inject(
-    [BreakpointService],
-    (service: BreakpointService) => {
-      service.breakpoint$
-        .subscribe(br => {
-          expect(br).toEqual(BREAKPOINT.md);
-        })
-        .unsubscribe();
-    }
-  ));
 });
