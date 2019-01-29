@@ -10,8 +10,6 @@ export * from './pages/pages.module';
 export * from './layout/footer/footer.component';
 export * from './layout/cart-page-layout/cart-page-layout.component';
 export * from './layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
-export * from './layout/product-list-page-layout/product-list-page-layout.component';
-export * from './layout/category-page-layout/category-page-layout.component';
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
 export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
