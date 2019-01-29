@@ -3,7 +3,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { StoreDataService } from '../facade/store-data.service';
 import { StoreFinderConfig } from '../config/store-finder-config';
-import { defaultStoreFinderConfig } from '../config/default-store-finder-config';
+import { defaultStoreFinderConfig as config } from '../config/default-store-finder-config';
 
 const MAP_DOM_ELEMENT_INNER_HTML = 'map dom element inner html';
 
@@ -63,7 +63,7 @@ describe('GoogleMapRendererService', () => {
         },
         {
           provide: StoreFinderConfig,
-          useValue: defaultStoreFinderConfig
+          useValue: config
         }
       ]
     });
@@ -85,8 +85,8 @@ describe('GoogleMapRendererService', () => {
 
     // then
     expect(externalJsFileLoaderMock.load).toHaveBeenCalledWith(
-      defaultStoreFinderConfig.googleMaps.apiUrl,
-      Object({ key: defaultStoreFinderConfig.googleMaps.apiKey }),
+      config.googleMaps.apiUrl,
+      Object({ key: config.googleMaps.apiKey }),
       jasmine.any(Function)
     );
     expect(storeDataServiceMock.getStoreLatitude).toHaveBeenCalled();
