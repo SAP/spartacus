@@ -5,7 +5,6 @@ import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
 
 import { CartPageLayoutModule } from './cart-page-layout/cart-page-layout.module';
 import { CategoryPageLayoutModule } from './category-page-layout/category-page-layout.module';
-import { LandingPageLayoutModule } from './landing-page-layout/landing-page-layout.module';
 import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.module';
 import { MainModule } from './main/main.module';
 import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
@@ -25,7 +24,6 @@ import { defaultLayoutConfig } from './config/default-layout-config';
 import { LayoutConfig } from './config/layout-config';
 
 const layoutModules = [
-  LandingPageLayoutModule,
   OrderHistoryPageLayoutModule,
   CartPageLayoutModule,
   CategoryPageLayoutModule,
