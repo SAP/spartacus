@@ -5,7 +5,6 @@
       we render the hard-coded version in `SearchResultsListSlot`. 
     -->
     <cx-product-list
-      *ngIf="(template$ | async) !== 'CategoryPageTemplate'"
       [gridMode]="gridMode$ | async"
       [query]="query | async"
       [categoryCode]="categoryCode | async"
@@ -20,7 +19,6 @@
       we render the hard-coded version in `ProductListSlot`. 
     -->
     <cx-product-list
-      *ngIf="(template$ | async) !== 'CategoryPageTemplate'"
       [gridMode]="gridMode$ | async"
       [query]="query | async"
       [categoryCode]="categoryCode | async"
