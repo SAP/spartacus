@@ -14,7 +14,6 @@ export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
 export * from './layout/login-page-layout/login-page-layout.component';
 export * from './layout/store-finder-page-layout/store-finder-page-layout.component';
-export * from './layout/payment-details-page-layout/payment-details-page-layout.component';
 export * from './components/media/picture/picture.component';
 export * from './components/form-components/star-rating/star-rating.component';
 export * from './components/form-components/item-counter/item-counter.component';
@@ -35,6 +34,5 @@ export * from './pages/product-page/product-page.module';
 export * from './pages/register-page/register-page.module';
 export * from './pages/login-page/login-page.module';
 export * from './pages/store-finder-page/store-finder-page.module';
-export * from './pages/payment-details-page/payment-details-page.module';
 
 export * from './layout/main/main.module';

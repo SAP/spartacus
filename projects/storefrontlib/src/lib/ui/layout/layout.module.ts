@@ -7,7 +7,6 @@ import { LoginPageLayoutModule } from './login-page-layout/login-page-layout.mod
 import { MainModule } from './main/main.module';
 import { MultiStepCheckoutPageLayoutModule } from './multi-step-checkout-page-layout/multi-step-checkout-page-layout.module';
 import { OrderConfirmationPageLayoutModule } from './order-confirmation-page-layout/order-confirmation-page-layout.module';
-import { PaymentDetailsPageLayoutModule } from './payment-details-page-layout/payment-details-page-layout.module';
 import { RegisterLayoutModule } from './register-layout/register-layout.module';
 import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 import { BreakpointService } from './breakpoint/breakpoint.service';
@@ -19,7 +18,6 @@ import { LayoutConfig } from './config/layout-config';
 const layoutModules = [
   MultiStepCheckoutPageLayoutModule,
   OrderConfirmationPageLayoutModule,
-  PaymentDetailsPageLayoutModule,
   RegisterLayoutModule,
   LoginPageLayoutModule,
   StoreFinderPageLayoutModule,
