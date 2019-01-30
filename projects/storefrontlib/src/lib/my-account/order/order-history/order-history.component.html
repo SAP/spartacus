@@ -1,5 +1,5 @@
 <ng-container *ngIf="(orders$ | async) as orders">
-  <div class="cx-order-history">
+  <div class="cx-order-history container">
     <!-- HEADER -->
     <div class="cx-order-history__header"><h3>Order history</h3></div>
 
@@ -7,7 +7,7 @@
     <div class="cx-order-history__body">
       <ng-container *ngIf="orders.pagination.totalResults > 0; else noOrder">
         <!-- Select Form and Pagination Top -->
-        <div class="cx-order-history__form-pagination--top">
+        <div class="cx-order-history__form-pagination--top row">
           <div
             class="cx-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
@@ -94,7 +94,7 @@
           </tbody>
         </table>
         <!-- Select Form and Pagination Bottom -->
-        <div class="cx-order-history__form-pagination--bottom">
+        <div class="cx-order-history__form-pagination--bottom row">
           <div
             class="cx-order-history__form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
@@ -117,7 +117,7 @@
 
       <!-- NO ORDER CONTAINER -->
       <ng-template #noOrder>
-        <div class="cx-order-history__no-order" *ngIf="(isLoaded$ | async)">
+        <div class="cx-order-history__no-order row" *ngIf="(isLoaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>We have no order records for this account.</div>
             <a
