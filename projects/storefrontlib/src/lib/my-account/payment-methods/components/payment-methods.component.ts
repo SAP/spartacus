@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { PaymentDetails } from '@spartacus/core';
-
-import { Observable } from 'rxjs';
-import { Card } from '../../../ui/components/card/card.component';
 import { UserService } from '@spartacus/core';
+
+import { Observable, Subscription } from 'rxjs';
+
+import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
   styleUrls: ['./payment-methods.component.scss']
 })
-export class PaymentMethodsComponent implements OnInit {
+export class PaymentMethodsComponent implements OnInit, OnDestroy {
   paymentMethods$: Observable<PaymentDetails[]>;
   editCard: string;
   loading$: Observable<boolean>;
   userId: string;
+
+  userServiceSub: Subscription;
 
   constructor(private userService: UserService) {}
 
@@ -23,7 +26,7 @@ export class PaymentMethodsComponent implements OnInit {
     this.paymentMethods$ = this.userService.getPaymentMethods();
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
-    this.userService.get().subscribe(data => {
+    this.userServiceSub = this.userService.get().subscribe(data => {
       this.userId = data.uid;
       this.userService.loadPaymentMethods(this.userId);
     });
@@ -35,7 +38,7 @@ export class PaymentMethodsComponent implements OnInit {
     expiryMonth,
     expiryYear,
     cardNumber
-  }): Card {
+  }: PaymentDetails): Card {
     const actions: { name: string; event: string }[] = [];
     if (!defaultPayment) {
       actions.push({ name: 'Set as default', event: 'default' });
@@ -71,5 +74,9 @@ export class PaymentMethodsComponent implements OnInit {
     if (this.userId) {
       this.userService.setPaymentMethodAsDefault(this.userId, paymentMethod.id);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.userServiceSub.unsubscribe();
   }
 }
