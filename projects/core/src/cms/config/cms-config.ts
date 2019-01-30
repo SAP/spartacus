@@ -2,7 +2,7 @@ import { StaticProvider } from '@angular/core';
 import { OccConfig } from '../../occ/config/occ-config';
 import { AuthConfig } from '../../auth/config/auth-config';
 
-export type CmsComponentId =
+export type StandardCmsComponentId =
   | 'SiteContextSelectorComponent'
   | 'CMSLinkComponent'
   | 'SimpleResponsiveBannerComponent'
@@ -17,8 +17,16 @@ export type CmsComponentId =
   | 'ProductCarouselComponent'
   | 'SearchBoxComponent'
   | 'ProductReferencesComponent'
-  | 'CMSTabParagraphComponent'
+  | 'CMSTabParagraphComponent';
+
+export type JSPIncludeCmsComponentUid = string;
+
+export type CmsComponentId =
+  | StandardCmsComponentId
+  | JSPIncludeCmsComponentUid
   | string;
+
+export const JSP_INCLUDE_COMPONENT_TYPE = 'JspIncludeComponent';
 
 export type CMSComponentConfig = {
   [CMSComponent in CmsComponentId]?: {
