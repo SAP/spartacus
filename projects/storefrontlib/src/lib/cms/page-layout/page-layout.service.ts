@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, empty } from 'rxjs';
+import { Observable, empty, of } from 'rxjs';
 import {
   switchMap,
   distinctUntilChanged,
@@ -75,9 +75,8 @@ export class PageLayoutService {
 
   get pageTitle$(): Observable<string> {
     return this.showTitle().pipe(
-      tap(v => console.log('showTitle', v)),
       switchMap(show =>
-        show ? this.page$.pipe(map((page: Page) => page.title)) : empty()
+        show ? this.page$.pipe(map((page: Page) => page.title)) : of(null)
       )
     );
   }
