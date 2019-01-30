@@ -1,14 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
+
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import {
-  StoreFinderSearchConfig,
+  StoreFinderService,
+  SearchConfig,
   StoreFinderSearchQuery,
-  LongitudeLatitude,
-  StoreFinderService
+  LongitudeLatitude
 } from '@spartacus/core';
+
 @Component({
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
@@ -21,7 +23,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   isLoading$: Observable<any>;
   geolocation: LongitudeLatitude;
   subscription: Subscription;
-  searchConfig: StoreFinderSearchConfig = {
+  searchConfig: SearchConfig = {
     currentPage: 0
   };
 
@@ -31,18 +33,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.route.queryParams.subscribe(params => {
-      this.searchQuery = this.parseParameters(params);
-      this.storeFinderService.findStores(
-        this.searchQuery.queryText,
-        this.searchQuery.useMyLocation
-      );
-    });
-
-    this.isLoading$ = this.storeFinderService.getStoresLoading();
-    this.locations$ = this.storeFinderService
-      .getFindStoresEntities()
-      .pipe(tap(data => (this.geolocation = data.geolocation)));
+    this.route.queryParams.subscribe(params => this.initialize(params));
   }
 
   ngOnDestroy() {
@@ -58,6 +49,21 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
       this.geolocation,
       this.searchConfig
     );
+  }
+
+  private initialize(params: Params) {
+    this.searchQuery = this.parseParameters(params);
+    this.storeFinderService.findStoresAction(
+      this.searchQuery.queryText,
+      this.geolocation,
+      this.searchConfig
+    );
+
+    this.isLoading$ = this.storeFinderService.getStoresLoading();
+    this.locations$ = this.storeFinderService.getFindStoresEntities();
+    this.subscription = this.locations$
+      .pipe(map(data => data.geolocation))
+      .subscribe(geoData => (this.geolocation = geoData));
   }
 
   private parseParameters(queryParams: {

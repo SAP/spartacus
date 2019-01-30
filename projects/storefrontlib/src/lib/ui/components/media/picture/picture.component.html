@@ -13,5 +13,9 @@
     [alt]="imageAlt"
   />
 
-  <img *ngIf="!imageContainer" [src]="missingProductImgSrc" />
+  <img
+    *ngIf="!imageContainer"
+    [src]="missingProductImgSrc"
+    [alt]="missingProductImageAlt"
+  />
 </picture>
