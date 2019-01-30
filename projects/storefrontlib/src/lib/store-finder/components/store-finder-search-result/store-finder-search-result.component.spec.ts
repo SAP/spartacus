@@ -17,9 +17,9 @@ class ActivatedRouteMock {
     }
   };
 }
+const queryText = 'query-text';
 
 const mockStoreFinderService = {
-  findStores: jasmine.createSpy(),
   getStoresLoading: jasmine.createSpy(),
   getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   findStoresAction: jasmine.createSpy().and.returnValue(of({}))
@@ -57,15 +57,10 @@ describe('StoreFinderListComponent', () => {
   });
 
   it('should find stores with query text', () => {
-    // given component is called with quuery-text params
-    const queryText = 'query-text';
     activatedRoute.paramsSubscriptionHandler({ query: queryText });
 
     // then verify storefinder
-    expect(storeFinderService.findStores).toHaveBeenCalledWith(
-      queryText,
-      false
-    );
+    expect(storeFinderService.findStoresAction).toHaveBeenCalled();
   });
 
   it('should find stores with my geolocation', () => {
@@ -75,7 +70,7 @@ describe('StoreFinderListComponent', () => {
     });
 
     // then verify storefinder
-    expect(storeFinderService.findStores).toHaveBeenCalledWith('', true);
+    expect(storeFinderService.findStoresAction).toHaveBeenCalled();
   });
 
   it('should change pages', () => {
