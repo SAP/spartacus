@@ -1,15 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
+
 import {
   CartService,
   UserService,
   Cart,
   OrderEntry,
-  CheckoutService
+  CheckoutService,
+  PaymentDetails,
+  Address,
+  PromotionResult,
+  DeliveryMode,
+  Country
 } from '@spartacus/core';
-import { BehaviorSubject, of } from 'rxjs';
+
+import { BehaviorSubject, of, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
+
+import { Item } from '../../../../cart';
+import { Card } from '../../../../ui/components/card/card.component';
+
 import { ReviewSubmitComponent } from './review-submit.component';
 
 const mockCart: Cart = {
@@ -23,7 +35,7 @@ const mockCart: Cart = {
   ]
 };
 
-const mockDeliveryAddress = {
+const mockDeliveryAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',
@@ -37,10 +49,10 @@ const mockDeliveryAddress = {
 
 const mockShippingMethod = 'standard-gross';
 
-const mockPaymentDetails = {
+const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
   cardNumber: '123456789',
-  cardType: 'Visa',
+  cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '01',
   expiryYear: '2022',
   cvn: '123'
@@ -54,11 +66,11 @@ const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 })
 class MockCartItemListComponent {
   @Input()
-  items;
+  items: Item[];
   @Input()
-  isReadOnly;
+  isReadOnly: boolean;
   @Input()
-  potentialProductPromotions;
+  potentialProductPromotions: PromotionResult[];
 }
 
 @Component({
@@ -67,12 +79,12 @@ class MockCartItemListComponent {
 })
 class MockCardComponent {
   @Input()
-  content;
+  content: Card;
 }
 
 class MockCheckoutService {
   loadSupportedDeliveryModes = createSpy();
-  getSelectedDeliveryMode() {
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return of();
   }
 }
@@ -138,13 +150,13 @@ describe('ReviewSubmitComponent', () => {
     mockUserService.getCountry.and.returnValue(of('mockCountryName'));
 
     component.ngOnInit();
-    let mode;
+    let mode: DeliveryMode;
     component.deliveryMode$.subscribe(data => (mode = data));
-    expect(mode).toEqual('mockMode');
+    expect(mode as any).toEqual('mockMode');
 
-    let countryName;
+    let countryName: Country;
     component.countryName$.subscribe(data => (countryName = data));
-    expect(countryName).toEqual('mockCountryName');
+    expect(countryName as any).toEqual('mockCountryName');
   });
 
   it('should call ngOnInit to get delivery mode if it does not exists', done => {
@@ -180,7 +192,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getShippingMethodCard(deliveryMode) to get shipping method card data', () => {
-    const selectedMode = {
+    const selectedMode: DeliveryMode = {
       code: 'standard-gross',
       description: 'Standard Delivery description'
     };

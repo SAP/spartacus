@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
+
 import { of, Observable } from 'rxjs';
 
-import { RoutingService, CmsService, Page } from '@spartacus/core';
+import { CmsService, Page } from '../../cms';
+import { RoutingService } from '../../routing';
+
 import { SmartEditService } from './smart-edit.service';
 
 class MockCmsService {

@@ -1,28 +1,34 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
+
+import { Order, CheckoutService, Cart } from '@spartacus/core';
+
 import { of, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
+import { Item } from '../../../cart';
+import { Card } from '../../../ui/components/card/card.component';
+
 import { OrderConfirmationComponent } from './order-confirmation.component';
-import { Order, CheckoutService } from '@spartacus/core';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
   @Input()
-  items: any;
+  items: Item[];
   @Input()
-  isReadOnly: any;
+  isReadOnly: boolean;
 }
 @Component({ selector: 'cx-card', template: '' })
-class MockCartComponent {
+class MockCardComponent {
   @Input()
-  content: any;
+  content: Card;
 }
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
@@ -56,7 +62,7 @@ describe('OrderConfirmationComponent', () => {
       declarations: [
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
-        MockCartComponent,
+        MockCardComponent,
         MockOrderSummaryComponent,
         MockAddtoHomeScreenBannerComponent
       ],

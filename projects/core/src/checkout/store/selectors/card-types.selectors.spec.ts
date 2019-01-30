@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
+import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
+import { CardType } from '../../../occ/occ-models/occ.models';
 
 describe('Card Types Selectors', () => {
   let store: Store<CheckoutState>;
@@ -23,7 +25,7 @@ describe('Card Types Selectors', () => {
 
   describe('getAllCardTypes', () => {
     it('should return all card types', () => {
-      const cardTypes = [
+      const cardTypes: CardType[] = [
         {
           code: 'amex',
           name: 'American Express'
@@ -34,7 +36,7 @@ describe('Card Types Selectors', () => {
         }
       ];
 
-      let result;
+      let result: CardType[];
       store
         .pipe(select(fromSelectors.getAllCardTypes))
         .subscribe(value => (result = value));

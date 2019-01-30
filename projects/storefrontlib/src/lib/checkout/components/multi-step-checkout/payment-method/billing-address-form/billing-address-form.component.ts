@@ -1,8 +1,9 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
 
 import { Country } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-billing-address-form',
@@ -17,7 +18,7 @@ export class BillingAddressFormComponent {
   @Input()
   countries$: Observable<Country[]>;
 
-  countrySelected(country: Country) {
+  countrySelected(country: Country): void {
     this.billingAddress['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
