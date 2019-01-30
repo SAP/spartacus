@@ -8,14 +8,18 @@ import {
 
 import * as fromPage from './page.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
-import { CmsState, COMPONENT_ENTITY } from '../cms-state';
+import { COMPONENT_ENTITY, NAVIGATION_DETAIL_ENTITY, CmsState } from '../cms-state';
+import { NodeItem } from '../../model/node-item.model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
     page: fromPage.reducer,
-    component: entityLoaderReducer(COMPONENT_ENTITY),
-    navigation: fromNavigation.reducer
+    component:  entityLoaderReducer(COMPONENT_ENTITY),
+    navigation: entityLoaderReducer<NodeItem>(
+      NAVIGATION_DETAIL_ENTITY,
+      fromNavigation.reducer
+    )
   };
 }
 
