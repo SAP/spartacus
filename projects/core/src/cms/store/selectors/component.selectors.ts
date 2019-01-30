@@ -2,10 +2,13 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { CmsState, ComponentState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
-import { loaderValueSelector} from '../../../state/utils/loader/loader.selectors';
+import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
 
 export const getComponentEntitiesSelector = (state: ComponentState) =>
-  state.entities;
+  Object.keys(state.entities).reduce((acc, cur) => {
+    acc[cur] = state.entities[cur].value;
+    return acc;
+  }, {});
 
 export const getComponentState: MemoizedSelector<
   StateWithCms,
@@ -28,7 +31,7 @@ export const componentStateSelectorFactory = (
 ): MemoizedSelector<StateWithCms, any> => {
   return createSelector(
     getComponentState,
-    entities =>  entityStateSelector(entities, uid)
+    entities => entityStateSelector(entities, uid)
   );
 };
 

@@ -1,15 +1,25 @@
 import * as fromComponent from './component.action';
 import { CmsComponent } from '../../../occ/occ-models/index';
+import { COMPONENT_ENTITY } from '../cms-state';
 
 describe('Cms Component Actions', () => {
+  const test_uid = 'test_uid';
+
   describe('LoadComponent Actions', () => {
     describe('LoadComponent', () => {
       it('should create an action', () => {
-        const payload = 'test_uid';
+        const payload = test_uid;
         const action = new fromComponent.LoadComponent(payload);
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT,
-          payload: payload
+          payload: payload,
+          meta: {
+            entityId: test_uid,
+            entityType: COMPONENT_ENTITY,
+            loader: {
+              load: true
+            }
+          }
         });
       });
     });
@@ -17,11 +27,20 @@ describe('Cms Component Actions', () => {
     describe('LoadComponentFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromComponent.LoadComponentFail(payload);
+        const action = new fromComponent.LoadComponentFail(test_uid, payload);
 
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_FAIL,
-          payload
+          payload,
+          meta: {
+            entityId: test_uid,
+            entityType: COMPONENT_ENTITY,
+            loader: {
+              error: {
+                message: 'Load Error'
+              }
+            }
+          }
         });
       });
     });
@@ -36,7 +55,12 @@ describe('Cms Component Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_SUCCESS,
-          payload: component
+          payload: component,
+          meta: {
+            entityId: 'comp1',
+            entityType: COMPONENT_ENTITY,
+            loader: {}
+          }
         });
       });
     });
@@ -53,7 +77,12 @@ describe('Cms Component Actions', () => {
         ]);
         expect({ ...action }).toEqual({
           type: fromComponent.GET_COMPONENET_FROM_PAGE,
-          payload: [component1, component2]
+          payload: [component1, component2],
+          meta: {
+            entityId: ['uid1', 'uid2'],
+            entityType: COMPONENT_ENTITY,
+            loader: {}
+          }
         });
       });
     });

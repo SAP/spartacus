@@ -21,7 +21,7 @@ describe('Entity reducer', () => {
   describe('entity action', () => {
     it('should use targeted reducer', () => {
       const action = {
-        meta: { entity: { id: 'testId', type: 'testType' } }
+        meta: { entityId: 'testId', entityType: 'testType' }
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
