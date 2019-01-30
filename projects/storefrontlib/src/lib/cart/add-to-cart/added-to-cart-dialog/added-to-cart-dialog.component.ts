@@ -2,13 +2,13 @@ import {
   AfterViewChecked,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CartService, Cart, OrderEntry } from '@spartacus/core';
 
 @Component({
@@ -16,8 +16,7 @@ import { CartService, Cart, OrderEntry } from '@spartacus/core';
   templateUrl: './added-to-cart-dialog.component.html',
   styleUrls: ['./added-to-cart-dialog.component.scss']
 })
-export class AddedToCartDialogComponent
-  implements OnInit, AfterViewChecked, OnDestroy {
+export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
@@ -26,8 +25,6 @@ export class AddedToCartDialogComponent
   quantity = 0;
   previousLoaded: boolean;
   finishedLoading: boolean;
-
-  subscriptions = new Subscription();
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
@@ -41,17 +38,17 @@ export class AddedToCartDialogComponent
   ) {}
 
   ngOnInit() {
-    this.cartLoaded$ = this.cartService.getLoaded();
-    this.subscriptions.add(
-      this.loaded$.subscribe(res => {
+    this.loaded$ = this.loaded$.pipe(
+      tap(res => {
         if (this.previousLoaded !== res) {
           this.finishedLoading = this.previousLoaded === false;
           this.previousLoaded = res;
         }
       })
     );
-    this.subscriptions.add(
-      this.entry$.subscribe(entry => {
+
+    this.entry$ = this.entry$.pipe(
+      tap(entry => {
         if (entry) {
           const { code } = entry.product;
           if (!this.form.controls[code]) {
@@ -93,9 +90,5 @@ export class AddedToCartDialogComponent
       entryNumber: entry.entryNumber,
       quantity: entry.quantity
     });
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 }
