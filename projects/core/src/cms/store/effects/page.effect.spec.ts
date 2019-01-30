@@ -56,6 +56,7 @@ describe('Page Effects', () => {
     uid: 'testPageId',
     name: 'testPage',
     template: 'testTemplate',
+    title: 'testPageTitle',
     contentSlots: {
       contentSlot: [
         {
