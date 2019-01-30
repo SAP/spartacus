@@ -102,6 +102,7 @@ describe('Page Effects', () => {
     name: 'testPage',
     pageId: 'testPageId',
     template: 'testTemplate',
+    title: 'testPageTitle',
     seen: new Array<string>(),
     catalogUuid: 'mockPageCatalogUuid',
     slots: {
