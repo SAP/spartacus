@@ -19,6 +19,6 @@
     </div>
   </div>
 </nav>
-<div class="notice" *ngIf="(component.data$ | async) as data">
+<div class="notice" *ngIf="(getComponentData() | async) as data">
   {{ data.notice }}
 </div>

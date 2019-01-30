@@ -1,10 +1,17 @@
-import { Injectable } from '@angular/core';
-import { CmsService } from '@spartacus/core';
+import { Injectable, Optional } from '@angular/core';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+
+import { CmsNavigationComponent, CmsService } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Injectable()
 export class NavigationService {
-  constructor(private cmsService: CmsService) {}
+  constructor(
+    protected cmsService: CmsService,
+    @Optional()
+    protected componentData: CmsComponentData<CmsNavigationComponent>
+  ) {}
 
   /**
    * Get all navigation entry items' type and id. Dispatch action to load all these items
@@ -75,5 +82,28 @@ export class NavigationService {
       children.push(childNode);
     }
     return children;
+  }
+
+  getComponentData() {
+    return this.componentData.data$;
+  }
+
+  getNodes() {
+    return this.getComponentData().pipe(
+      switchMap(data => {
+        if (data) {
+          const navigation = data.navigationNode ? data.navigationNode : data;
+          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+            tap(items => {
+              if (items === undefined) {
+                this.getNavigationEntryItems(navigation, true, []);
+              }
+            }),
+            filter(items => items !== undefined),
+            map(items => this.createNode(navigation, items))
+          );
+        }
+      })
+    );
   }
 }
