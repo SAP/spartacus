@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, empty, of } from 'rxjs';
-import {
-  switchMap,
-  distinctUntilChanged,
-  filter,
-  map,
-  tap
-} from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { CmsService, Page } from '@spartacus/core';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
 import {

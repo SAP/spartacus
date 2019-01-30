@@ -7,8 +7,7 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { PageLayoutService } from './page-layout.service';
-import { tap, map, switchMap } from 'rxjs/operators';
-import { empty } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-page-layout',
