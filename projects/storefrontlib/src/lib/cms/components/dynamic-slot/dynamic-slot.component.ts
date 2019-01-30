@@ -11,7 +11,7 @@ import {
 import {
   CmsService,
   ContentSlotData,
-  JSP_INCLUDE_COMPONENT_TYPE
+  JSP_INCLUDE_CMS_COMPONENT_TYPE
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -87,7 +87,7 @@ export class DynamicSlotComponent implements OnInit {
    * as a component type and thanks to that we map it with the implementation of Angular (or web) component..
    */
   getComponentType(originalComponentType: string, uid: string): string {
-    return originalComponentType === JSP_INCLUDE_COMPONENT_TYPE
+    return originalComponentType === JSP_INCLUDE_CMS_COMPONENT_TYPE
       ? uid
       : originalComponentType;
   }

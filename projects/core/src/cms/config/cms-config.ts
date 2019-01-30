@@ -26,7 +26,7 @@ export type CmsComponentId =
   | JSPIncludeCmsComponentUid
   | string;
 
-export const JSP_INCLUDE_COMPONENT_TYPE = 'JspIncludeComponent';
+export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 
 export type CMSComponentConfig = {
   [CMSComponent in CmsComponentId]?: {
