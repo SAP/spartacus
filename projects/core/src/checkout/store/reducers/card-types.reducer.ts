@@ -1,5 +1,5 @@
-import * as fromAction from '../actions/index';
 import { CardTypesState } from '../checkout-state';
+import * as fromAction from '../actions/index';
 import { CardType } from '../../../occ/occ-models/index';
 
 export const initialState: CardTypesState = {
@@ -14,7 +14,7 @@ export function reducer(
     case fromAction.LOAD_CARD_TYPES_SUCCESS: {
       const cardTypes: CardType[] = action.payload;
       const entities = cardTypes.reduce(
-        (cardTypesEntities: { [code: string]: any }, name: CardType) => {
+        (cardTypesEntities: { [code: string]: CardType }, name: CardType) => {
           return {
             ...cardTypesEntities,
             [name.code]: name
