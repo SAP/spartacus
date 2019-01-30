@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CmsService } from '@spartacus/core';
@@ -6,7 +6,8 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-category-page',
-  templateUrl: './category-page.component.html'
+  templateUrl: './category-page.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryPageComponent {
   constructor(
@@ -26,8 +27,12 @@ export class CategoryPageComponent {
     return this.activeRoute.params.pipe(map(params => params['query']));
   }
 
-  get template$(): Observable<string> {
-    return this.cmsService.getCurrentPage().pipe(map(page => page.template));
+  private get template$(): Observable<string> {
+    return this.cmsService.getCurrentPage().pipe(
+      map(page => {
+        return page.template;
+      })
+    );
   }
 
   get gridMode$(): Observable<string> {
