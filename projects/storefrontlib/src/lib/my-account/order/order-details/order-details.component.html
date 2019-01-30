@@ -1,6 +1,6 @@
 <ng-container *ngIf="(order$ | async) as order">
-  <div class="cx-order-details container">
-    <div class="cx-order-details__order-header row">
+  <div class="cx-order-details">
+    <div class="cx-order-details__order-header">
       <div class="cx-order-details__detail col-sm-12 col-md-4">
         <div class="cx-order-details__label">Order #</div>
         <div class="cx-order-details__value">{{ order?.code }}</div>
@@ -17,7 +17,7 @@
 
     <div
       *ngFor="let consignment of order.consignments"
-      class="cx-order-details__list row"
+      class="cx-order-details__list"
     >
       <div class="cx-order-details__list-header col-12">
         <div class="cx-order-details__status">{{ consignment?.status }}</div>
@@ -36,7 +36,7 @@
 
     <div
       *ngIf="order.unconsignedEntries?.length"
-      class="cx-order-details__list row"
+      class="cx-order-details__list"
     >
       <div class="cx-order-details__list-header col-12">
         <div class="cx-order-details__status">In process...</div>
@@ -57,7 +57,7 @@
       </div>
     </div>
 
-    <div class="cx-order-details__account-summary row">
+    <div class="cx-order-details__account-summary">
       <div
         *ngIf="order.deliveryAddress"
         class="cx-order-details__account-summary-card col-sm-12 col-md-4"
