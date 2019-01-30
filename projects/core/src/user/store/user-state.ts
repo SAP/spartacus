@@ -24,8 +24,8 @@ export interface UserState {
   addresses: LoaderState<UserAddressesState>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
-  payments: LoaderState<UserPaymentMethodsState>;
-  orders: LoaderState<UserOrdersState>;
+  payments: LoaderState<PaymentDetails[]>;
+  orders: LoaderState<OrderHistoryList>;
   order: OrderDetailsState;
   titles: TitlesState;
   regions: RegionsState;
@@ -33,10 +33,6 @@ export interface UserState {
 
 export interface OrderDetailsState {
   order: Order;
-}
-
-export interface UserPaymentMethodsState {
-  list: PaymentDetails[];
 }
 
 export interface RegionsState {
@@ -74,8 +70,4 @@ export interface UserAddressesState {
 
 export interface UserDetailsState {
   details: User;
-}
-
-export interface UserOrdersState {
-  orders: OrderHistoryList;
 }

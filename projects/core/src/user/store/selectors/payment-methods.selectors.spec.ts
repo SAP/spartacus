@@ -5,11 +5,7 @@ import { Store, StoreModule, select } from '@ngrx/store';
 import * as fromActions from '../actions';
 import * as fromReducers from '../reducers';
 import * as fromSelectors from '../selectors';
-import {
-  StateWithUser,
-  USER_FEATURE,
-  UserPaymentMethodsState
-} from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 import { PaymentDetailsList } from '../../../occ/occ-models/index';
 import { PaymentDetails } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -35,7 +31,7 @@ describe('User Payment Methods Selectors', () => {
 
   describe('getPaymentMethodsLoaderState', () => {
     it('should return a user payment methods loader', () => {
-      let result: LoaderState<UserPaymentMethodsState>;
+      let result: LoaderState<PaymentDetails[]>;
       store
         .pipe(select(fromSelectors.getPaymentMethodsLoaderState))
         .subscribe(value => (result = value))
@@ -45,24 +41,20 @@ describe('User Payment Methods Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: {
-          list: []
-        }
+        value: undefined
       });
     });
   });
 
   describe('getPaymentMethodsState', () => {
     it('should return a user payment methods state', () => {
-      let result: UserPaymentMethodsState;
+      let result: PaymentDetails[];
       store
         .pipe(select(fromSelectors.getPaymentMethodsState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual({
-        list: []
-      });
+      expect(result).toEqual(undefined);
     });
   });
 
@@ -73,7 +65,7 @@ describe('User Payment Methods Selectors', () => {
         .pipe(select(fromSelectors.getPaymentMethods))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual([]);
+      expect(result).toEqual(undefined);
 
       store.dispatch(
         new fromActions.LoadUserPaymentMethodsSuccess(

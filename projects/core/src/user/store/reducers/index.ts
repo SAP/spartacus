@@ -4,15 +4,17 @@ import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import {
   UserState,
-  UserOrdersState,
   USER_ORDERS,
-  UserPaymentMethodsState,
   USER_PAYMENT_METHODS,
   USER_ADDRESSES,
   UserAddressesState
 } from '../user-state';
 import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
+import {
+  PaymentDetails,
+  OrderHistoryList
+} from '../../../occ/occ-models/occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
@@ -32,8 +34,11 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromUserAddresses.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
-    payments: loaderReducer<UserPaymentMethodsState>(USER_PAYMENT_METHODS),
-    orders: loaderReducer<UserOrdersState>(USER_ORDERS, fromUserOrders.reducer),
+    payments: loaderReducer<PaymentDetails[]>(USER_PAYMENT_METHODS),
+    orders: loaderReducer<OrderHistoryList>(
+      USER_ORDERS,
+      fromUserOrders.reducer
+    ),
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,

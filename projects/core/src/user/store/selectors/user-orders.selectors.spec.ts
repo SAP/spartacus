@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import { StateWithUser, USER_FEATURE, UserOrdersState } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
@@ -41,7 +41,7 @@ describe('User Orders Selectors', () => {
 
   describe('getOrdersLoaderState', () => {
     it('should return a loading state', () => {
-      let result: LoaderState<UserOrdersState>;
+      let result: LoaderState<OrderHistoryList>;
       store
         .pipe(select(fromSelectors.getOrdersLoaderState))
         .subscribe(value => (result = value))
@@ -51,24 +51,20 @@ describe('User Orders Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: {
-          orders: emptyOrder
-        }
+        value: emptyOrder
       });
     });
   });
 
   describe('getOrderState', () => {
     it('should return the Order state from the store', () => {
-      let result: UserOrdersState;
+      let result: OrderHistoryList;
       store
         .pipe(select(fromSelectors.getOrdersState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      expect(result).toEqual({
-        orders: emptyOrder
-      });
+      expect(result).toEqual(emptyOrder);
     });
   });
 
