@@ -20,7 +20,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   const componentData: CmsParagraphComponent = {
     uid: '001',
     typeCode: 'CMSParagraphComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
+    modifiedtime: new Date('2017-12-21T18:15:15+0000'),
     name: 'TestCMSParagraphComponent',
     container: 'false',
     title: 'Paragraph',

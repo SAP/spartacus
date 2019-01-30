@@ -40,7 +40,7 @@ describe('ResponsiveBannerComponent', () => {
   const componentData: CmsBannerComponent = {
     uid: 'ElectronicsHompageSplashBannerComponent',
     typeCode: 'SimpleResponsiveBannerComponent',
-    modifiedTime: '2018-01-04T15:25:06+0000',
+    modifiedtime: new Date('2018-01-04T15:25:06+0000'),
     name: 'Electronics Homepage Splash Banner Component',
     container: 'false',
     media: {

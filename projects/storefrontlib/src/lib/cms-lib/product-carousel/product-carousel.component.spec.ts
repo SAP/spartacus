@@ -29,7 +29,7 @@ const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
 const mockComponentData: CmsProductCarouselComponent = {
   uid: '001',
   typeCode: 'ProductCarouselComponent',
-  modifiedTime: '2017-12-21T18:15:15+0000',
+  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
   popup: 'false',
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
