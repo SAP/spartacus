@@ -9,7 +9,7 @@ import {
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
-import { CartService } from '@spartacus/core';
+import { CartService, Cart, OrderEntry } from '@spartacus/core';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -18,9 +18,10 @@ import { CartService } from '@spartacus/core';
 })
 export class AddedToCartDialogComponent
   implements OnInit, AfterViewChecked, OnDestroy {
-  entry$: Observable<any>;
-  cart$: Observable<any>;
+  entry$: Observable<OrderEntry>;
+  cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
+  cartLoaded$: Observable<boolean>;
 
   quantity = 0;
   previousLoaded: boolean;
@@ -32,8 +33,6 @@ export class AddedToCartDialogComponent
   dialog: ElementRef;
 
   form: FormGroup = this.fb.group({});
-
-  cartLoaded$;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -79,17 +78,17 @@ export class AddedToCartDialogComponent
     }
   }
 
-  removeEntry(item) {
+  removeEntry(item): void {
     this.cartService.removeEntry(item);
     delete this.form.controls[item.product.code];
     this.activeModal.dismiss('Removed');
   }
 
-  updateEntry({ item, updatedQuantity }) {
+  updateEntry({ item, updatedQuantity }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  private createEntryFormGroup(entry) {
+  private createEntryFormGroup(entry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity

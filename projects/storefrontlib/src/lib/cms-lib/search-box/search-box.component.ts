@@ -1,4 +1,10 @@
-import { Component, Input, ViewEncapsulation, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  OnInit,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -7,7 +13,8 @@ import { SearchBoxComponentService } from './search-box-component.service';
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchBoxComponent implements OnInit {
   searchBoxControl: FormControl = new FormControl();

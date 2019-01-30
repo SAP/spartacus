@@ -9,7 +9,6 @@ import { OccStoreFinderService } from '../../occ/store-finder.service';
 import { OccConfig } from '@spartacus/core';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { LongitudeLatitude } from '../../model/longitude-latitude';
-import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
 
 import * as fromEffects from './find-stores.effect';
 import * as fromActions from '../actions/find-stores.action';
@@ -39,7 +38,6 @@ describe('FindStores Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
-        OccE2eConfigurationService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$)
