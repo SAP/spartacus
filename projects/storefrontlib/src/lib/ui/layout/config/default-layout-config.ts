@@ -18,6 +18,42 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Section4',
         'Section5'
       ]
+    },
+    ContentPage1Template: {
+      slots: ['Section2A', 'Section2B']
+    },
+    CategoryPageTemplate: {
+      slots: ['Section1', 'Section2', 'Section3']
+    },
+    ProductListPageTemplate: {
+      slots: ['ProductListSlot', 'ProductLeftRefinements']
+    },
+    SearchResultsListPageTemplate: {
+      slots: [
+        'Section2',
+        'SearchResultsListSlot',
+        'ProductLeftRefinements',
+        'Section4'
+      ]
+    },
+    ProductDetailsPageTemplate: {
+      slots: [
+        'TopHeaderSlot',
+        'BottomHeaderSlot',
+        'VariantSelectorSlot',
+        'AddToCart',
+        'UpSelling',
+        'CrossSelling',
+        'Tabs',
+        'PlaceholderContentSlot'
+      ]
+    },
+    CartPageTemplate: {
+      slots: [
+        'CenterLeftContentSlot',
+        'EmptyCartMiddleContent',
+        'CenterRightContentSlot'
+      ]
     }
   }
 };
