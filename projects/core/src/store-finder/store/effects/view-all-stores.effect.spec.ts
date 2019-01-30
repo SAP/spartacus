@@ -7,7 +7,6 @@ import { Observable, of } from 'rxjs';
 
 import { OccStoreFinderService } from '../../occ/store-finder.service';
 import { OccConfig } from '@spartacus/core';
-import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
 
 import * as fromEffects from './view-all-stores.effect';
 import * as fromActions from '../actions/view-all-stores.action';
@@ -31,7 +30,6 @@ describe('ViewAllStores Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
-        OccE2eConfigurationService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
         provideMockActions(() => actions$)

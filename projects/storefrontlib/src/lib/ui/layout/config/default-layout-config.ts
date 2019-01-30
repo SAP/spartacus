@@ -54,6 +54,9 @@ export const defaultLayoutConfig: LayoutConfig = {
         'EmptyCartMiddleContent',
         'CenterRightContentSlot'
       ]
+    },
+    AccountPageTemplate: {
+      slots: ['SideContent', 'BodyContent']
     }
   }
 };
