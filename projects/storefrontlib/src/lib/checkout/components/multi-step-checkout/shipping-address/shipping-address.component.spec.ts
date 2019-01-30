@@ -8,8 +8,13 @@ import {
   CartDataService,
   UserService
 } from '@spartacus/core';
+
 import { of, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
+
+import { Card } from '../../../../ui/components/card/card.component';
+
 import { ShippingAddressComponent } from './shipping-address.component';
 
 class MockUserService {
@@ -46,7 +51,7 @@ const mockAddress2: Address = {
   country: { isocode: 'JP' }
 };
 
-const mockAddresses = [mockAddress1, mockAddress2];
+const mockAddresses: Address[] = [mockAddress1, mockAddress2];
 
 @Component({
   selector: 'cx-address-form',
@@ -66,11 +71,11 @@ class MockSpinnerComponent {}
 })
 class MockCardComponent {
   @Input()
-  border;
+  border: boolean;
   @Input()
-  content;
+  content: Card;
   @Input()
-  fitToContainer;
+  fitToContainer: boolean;
 }
 
 describe('ShippingAddressComponent', () => {
@@ -160,9 +165,9 @@ describe('ShippingAddressComponent', () => {
   });
 
   it('should call addressSelected(address, index)', () => {
-    const card1 = { title: 'test card 1' };
-    const card2 = { title: 'test card 2' };
-    const card3 = { title: 'test card 3' };
+    const card1: Card = { title: 'test card 1' };
+    const card2: Card = { title: 'test card 2' };
+    const card3: Card = { title: 'test card 3' };
     component.cards.push(card1, card2, card3);
     component.addressSelected(mockAddress1, 1);
 

@@ -7,14 +7,22 @@ import {
   ExternalJsFileLoader
 } from './service/index';
 import { StoreFinderOccModule } from './occ/store-finder-occ.module';
+import { ConfigModule } from '../config';
+import { defaultStoreFinderConfig } from './config/default-store-finder-config';
+import { StoreFinderConfig } from './config/store-finder-config';
 
 @NgModule({
-  imports: [StoreFinderStoreModule, StoreFinderOccModule],
+  imports: [
+    ConfigModule.withConfig(defaultStoreFinderConfig),
+    StoreFinderStoreModule,
+    StoreFinderOccModule
+  ],
   providers: [
     StoreFinderService,
     StoreDataService,
     GoogleMapRendererService,
-    ExternalJsFileLoader
+    ExternalJsFileLoader,
+    { provide: StoreFinderConfig, useValue: defaultStoreFinderConfig }
   ]
 })
 export class StoreFinderCoreModule {}

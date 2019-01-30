@@ -97,9 +97,8 @@ describe('MiniCartComponent', () => {
     });
 
     it('should contain number of items in cart', () => {
-      const cartItemsNumber = fixture.debugElement.query(
-        By.css('.cx-mini-cart__count')
-      ).nativeElement.innerText;
+      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
+        .nativeElement.innerText;
       expect(cartItemsNumber).toEqual('1');
     });
   });
