@@ -8,7 +8,10 @@ import {
   EventEmitter,
   Renderer2
 } from '@angular/core';
-import { missingProductImgSrc } from '../../../images/missingProduct';
+import {
+  missingProductImgSrc,
+  missingProductImageAlt
+} from '../../../images/missingProduct';
 import { Image } from '@spartacus/core';
 
 const DEFAULT_FORMAT = 'product';
@@ -29,11 +32,13 @@ export class PictureComponent implements OnChanges {
   imagePosition: string;
   @Input()
   imageAlt: string;
+
   @Output()
   loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   mainImage: string;
   missingProductImgSrc = missingProductImgSrc;
+  missingProductImageAlt = missingProductImageAlt;
 
   constructor(
     private elRef: ElementRef,

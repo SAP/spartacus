@@ -46,7 +46,12 @@ export class NavigationEntryItemEffects {
                     })
                 ),
                 catchError(error =>
-                  of(new navigationItemActions.LoadNavigationItemsFail(error))
+                  of(
+                    new navigationItemActions.LoadNavigationItemsFail(
+                      data.nodeId,
+                      error
+                    )
+                  )
                 )
               );
           })
@@ -60,6 +65,7 @@ export class NavigationEntryItemEffects {
       } else {
         return of(
           new navigationItemActions.LoadNavigationItemsFail(
+            data.nodeId,
             'navigation nodes are empty'
           )
         );
