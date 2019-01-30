@@ -2,7 +2,7 @@ import { StaticProvider } from '@angular/core';
 import { OccConfig } from '../../occ/config/occ-config';
 import { AuthConfig } from '../../auth/config/auth-config';
 
-export interface StandardCmsComponentsMapping {
+export interface StandardCmsComponentConfig {
   SiteContextSelectorComponent?: CmsComponentMapping;
   CMSLinkComponent?: CmsComponentMapping;
   SimpleResponsiveBannerComponent?: CmsComponentMapping;
@@ -20,7 +20,7 @@ export interface StandardCmsComponentsMapping {
   CMSTabParagraphComponent?: CmsComponentMapping;
 }
 
-export interface JspIncludeCmsComponentsMapping {
+export interface JspIncludeCmsComponentConfig {
   AccountAddressBookComponent?: CmsComponentMapping;
 }
 
@@ -32,8 +32,8 @@ export interface CmsComponentMapping {
 }
 
 export interface CMSComponentConfig
-  extends StandardCmsComponentsMapping,
-    JspIncludeCmsComponentsMapping {
+  extends StandardCmsComponentConfig,
+    JspIncludeCmsComponentConfig {
   [_: string]: CmsComponentMapping;
 }
 
