@@ -74,7 +74,6 @@ const pageModules = [
         path: null,
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
-        // after implementing the JSP include, we can use the standard `PageLayoutComponent`
         component: PageLayoutComponent
       }
     ])
