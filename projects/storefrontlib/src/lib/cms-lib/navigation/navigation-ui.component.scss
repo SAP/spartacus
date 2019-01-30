@@ -96,7 +96,7 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
       }
       &[aria-expanded='true'] {
         &::after {
-          transform: rotate(135deg);
+          transform: rotate(-45deg);
         }
       }
 
