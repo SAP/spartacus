@@ -1,4 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
+
 import {
   ActionReducerMap,
   createFeatureSelector,
@@ -7,11 +8,17 @@ import {
   MemoizedSelector
 } from '@ngrx/store';
 
-import * as fromCheckout from './checkout.reducer';
-import * as fromCardTypes from './card-types.reducer';
-import * as fromAddressVerification from './address-verification.reducer';
-import * as fromAction from '../actions/index';
 import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
+import * as fromAction from '../actions/index';
+import { LOGOUT } from '../../../auth/store/actions/index';
+import {
+  CURRENCY_CHANGE,
+  LANGUAGE_CHANGE
+} from '../../../site-context/store/actions/index';
+
+import * as fromAddressVerification from './address-verification.reducer';
+import * as fromCardTypes from './card-types.reducer';
+import * as fromCheckout from './checkout.reducer';
 
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
@@ -36,19 +43,25 @@ export const getCheckoutState: MemoizedSelector<
 > = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
 
 export function clearCheckoutState(
-  reducer: ActionReducer<any>
-): ActionReducer<any> {
+  reducer: ActionReducer<CheckoutState>
+): ActionReducer<CheckoutState> {
   return function(state, action) {
-    if (action.type === '[Site-context] Language Change') {
-      action = new fromAction.CheckoutClearMiscsData();
-    } else if (action.type === '[Site-context] Currency Change') {
-      action = new fromAction.ClearSupportedDeliveryModes();
-    } else if (action.type === '[Auth] Logout') {
-      action = new fromAction.ClearCheckoutData();
+    switch (action.type) {
+      case LANGUAGE_CHANGE: {
+        action = new fromAction.CheckoutClearMiscsData();
+        break;
+      }
+      case CURRENCY_CHANGE: {
+        action = new fromAction.ClearSupportedDeliveryModes();
+        break;
+      }
+      case LOGOUT: {
+        action = new fromAction.ClearCheckoutData();
+        break;
+      }
     }
-
     return reducer(state, action);
   };
 }
 
-export const metaReducers: MetaReducer<any>[] = [clearCheckoutState];
+export const metaReducers: MetaReducer<CheckoutState>[] = [clearCheckoutState];
