@@ -7,10 +7,11 @@ import {
   OnInit
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { tap, takeWhile } from 'rxjs/operators';
 
 import { DeliveryMode, CheckoutService } from '@spartacus/core';
+
+import { Observable } from 'rxjs';
+import { tap, takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -55,11 +56,11 @@ export class DeliveryModeComponent implements OnInit {
       );
   }
 
-  next() {
+  next(): void {
     this.selectMode.emit(this.mode.value);
   }
 
-  back() {
+  back(): void {
     this.leave = true;
     this.backStep.emit();
   }

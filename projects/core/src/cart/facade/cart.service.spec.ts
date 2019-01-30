@@ -2,9 +2,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
-import { AuthService, Cart, OrderEntry, UserToken } from '@spartacus/core';
-
 import { of, Observable } from 'rxjs';
+
+import { UserToken, AuthService } from '../../auth';
+import { OrderEntry, Cart } from '../../occ';
 import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
 

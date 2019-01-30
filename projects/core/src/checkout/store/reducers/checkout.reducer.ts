@@ -1,5 +1,5 @@
-import * as fromAction from './../actions/index';
 import { CheckoutStepsState } from '../checkout-state';
+import * as fromAction from './../actions/index';
 import { Address, Order, DeliveryMode } from '../../../occ/occ-models/index';
 
 export const initialState: CheckoutStepsState = {
@@ -148,7 +148,7 @@ export function reducer(
 
 export const getDeliveryAddress = (state: CheckoutStepsState) => state.address;
 export const getDeliveryMode = (state: CheckoutStepsState) =>
-  state.deliveryMode as DeliveryMode;
+  state.deliveryMode;
 export const getPaymentDetails = (state: CheckoutStepsState) =>
   state.paymentDetails;
 export const getOrderDetails = (state: CheckoutStepsState) =>
