@@ -20,26 +20,6 @@ $cx-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
     @include var-color('border-color', $cx-card-border-color);
   }
 
-  &--fit-to-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-
-    & .cx-card-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-  }
-
-  &--delete-mode {
-    @include var-color(
-      'background-color',
-      $cx-card-delete-mode-background-color
-    );
-  }
-
   &-body {
     &__delete {
       padding: $cx-card-body-delete-padding;
@@ -65,5 +45,25 @@ $cx-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
         padding: $cx-card-body-actions-container-card-link-padding;
       }
     }
+  }
+
+  &--fit-to-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & .cx-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  &--delete-mode {
+    @include var-color(
+      'background-color',
+      $cx-card-delete-mode-background-color
+    );
   }
 }
