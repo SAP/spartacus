@@ -1,6 +1,5 @@
-import { CardType } from '@spartacus/core';
-
 import * as fromActions from '../actions/index';
+import { CardType } from '../../../occ';
 
 import * as fromReducer from './card-types.reducer';
 

@@ -3,14 +3,13 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 
-import { OccUserService } from '@spartacus/core';
-import { AddressValidation, Address } from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
 
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from './../actions/index';
+import { AddressValidation, Address } from '../../../occ';
+import { OccUserService } from '../../../user';
 
 import { AddressVerificationEffect } from './address-verification.effect';
 

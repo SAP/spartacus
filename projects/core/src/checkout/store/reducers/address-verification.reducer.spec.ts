@@ -1,6 +1,5 @@
-import { AddressValidation } from '@spartacus/core';
-
 import * as fromActions from '../actions/index';
+import { AddressValidation } from '../../../occ';
 
 import * as fromReducer from './address-verification.reducer';
 

@@ -4,26 +4,26 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 
-import {
-  OccConfig,
-  DeliveryModeList,
-  PaymentDetails,
-  LoadUserPaymentMethods,
-  LoadUserAddresses,
-  ProductImageConverterService,
-  OccOrderService,
-  GlobalMessageType,
-  AddMessage,
-  OccCartService,
-  Address,
-  Order
-} from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
+import { OccCartService } from '../../../cart';
+import { AddMessage, GlobalMessageType } from '../../../global-message';
+import {
+  OccConfig,
+  DeliveryModeList,
+  PaymentDetails,
+  Address,
+  Order
+} from '../../../occ';
+import { ProductImageConverterService } from '../../../product';
+import {
+  OccOrderService,
+  LoadUserPaymentMethods,
+  LoadUserAddresses
+} from '../../../user';
 
 import * as fromEffects from './checkout.effect';
 
