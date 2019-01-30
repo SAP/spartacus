@@ -1,6 +1,7 @@
 import * as fromComponent from './navigation-entry-item.reducer';
 import * as fromActions from '../actions/navigation-entry-item.action';
 import { CmsComponent } from '../../../occ/occ-models/index';
+import { NavigationNodes } from '../cms-state';
 
 describe('Navigation Entry Item Reducer', () => {
   describe('undefined action', () => {
@@ -22,7 +23,7 @@ describe('Navigation Entry Item Reducer', () => {
 
       const mockPayload = { nodeId: 'testId', components: mockComponents };
 
-      const mockNodes: any = {
+      const mockNodes: NavigationNodes = {
         testId: {
           comp1_AbstractCMSComponent: {
             uid: 'comp1',
@@ -38,7 +39,7 @@ describe('Navigation Entry Item Reducer', () => {
       const { initialState } = fromComponent;
       const action = new fromActions.LoadNavigationItemsSuccess(mockPayload);
       const state = fromComponent.reducer(initialState, action);
-      expect(state.nodes).toEqual(mockNodes);
+      expect(state).toEqual(mockNodes['testId']);
     });
   });
 });
