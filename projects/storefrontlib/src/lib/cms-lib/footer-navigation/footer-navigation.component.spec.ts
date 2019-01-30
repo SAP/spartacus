@@ -2,14 +2,18 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   DebugElement,
-  Component,
   Input,
   Pipe,
-  PipeTransform
+  PipeTransform,
+  Component
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { CmsService } from '@spartacus/core';
+import {
+  CmsService,
+  Component as SpaComponent,
+  TranslateUrlOptions
+} from '@spartacus/core';
 
 import { NavigationService } from '../navigation/navigation.service';
 
@@ -36,14 +40,14 @@ class MockNavigationUIComponent {
 })
 class MockGenericLinkComponent {
   @Input()
-  url;
+  url: string | any[];
   @Input()
-  target;
+  target: string;
 }
 
 @Pipe({ name: 'cxTranslateUrl' })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options) {
+  transform(options: TranslateUrlOptions): string | string[] {
     return '/translated-path' + options.url;
   }
 }
@@ -54,7 +58,7 @@ describe('FooterNavigationComponent', () => {
   let footer: DebugElement;
   let column: DebugElement;
 
-  const mockLinks = [
+  const mockLinks: NavigationNode[] = [
     {
       title: 'Test child 1',
       url: '/test1',
@@ -67,7 +71,7 @@ describe('FooterNavigationComponent', () => {
     }
   ];
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of()
   };
 

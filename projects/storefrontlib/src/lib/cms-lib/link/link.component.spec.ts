@@ -7,7 +7,7 @@ import { LinkComponent } from './link.component';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
   CmsLinkComponent,
-  Component,
+  Component as SpaComponent,
   TranslateUrlOptions,
   CmsConfig
 } from '@spartacus/core';
@@ -22,7 +22,7 @@ const UseCmsModuleConfig: CmsConfig = {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions) {
+  transform(options: TranslateUrlOptions): string | string[] {
     return '/translated-path' + options.url;
   }
 }
@@ -40,7 +40,7 @@ describe('LinkComponent', () => {
     url: '/store-finder'
   };
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData)
   };
 

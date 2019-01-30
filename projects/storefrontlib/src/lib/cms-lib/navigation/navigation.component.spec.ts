@@ -1,20 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
+import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of, BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
-import { CmsService } from '@spartacus/core';
+import {
+  CmsService,
+  CmsNavigationComponent,
+  Component as SpaComponent
+} from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
 
 class MockCmsService {
-  getComponentData() {
+  getComponentData(): Observable<any> {
     return of(null);
   }
-  getNavigationEntryItems() {
+  getNavigationEntryItems(): Observable<any> {
     return of(undefined);
   }
 }
@@ -40,7 +44,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
   let fixture: ComponentFixture<NavigationComponent>;
   let cmsService: CmsService;
 
-  const componentData = {
+  const componentData: CmsNavigationComponent = {
     uid: 'MockNavigationComponent',
     typeCode: 'NavigationComponent',
     navigationNode: {
@@ -72,7 +76,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
 
   const componentData$ = new BehaviorSubject(componentData);
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: componentData$.asObservable()
   };
 
