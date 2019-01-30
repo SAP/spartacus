@@ -8,8 +8,11 @@ import {
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { SearchConfig } from '@spartacus/core';
-import { ProductSearchService } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  SearchConfig
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list',
@@ -33,8 +36,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   model$: Observable<any>;
   searchConfig: SearchConfig = {};
   categoryTitle: string;
-
-  options;
+  options: SearchConfig;
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -100,7 +102,7 @@ export class ProductListComponent implements OnChanges, OnInit {
     );
   }
 
-  getCategoryTitle(data): string {
+  protected getCategoryTitle(data: ProductSearchPage): string {
     if (data.breadcrumbs && data.breadcrumbs.length > 0) {
       this.categoryTitle = data.breadcrumbs[0].facetValueName;
     } else if (!this.query.includes(':relevance:')) {
