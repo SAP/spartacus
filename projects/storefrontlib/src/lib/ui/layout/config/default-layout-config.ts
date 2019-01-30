@@ -9,6 +9,7 @@ export const defaultLayoutConfig: LayoutConfig = {
   },
   layoutSlots: {
     LandingPage2Template: {
+      // showTitle: true,
       slots: [
         'Section1',
         'Section2A',
@@ -17,7 +18,11 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Section3',
         'Section4',
         'Section5'
-      ]
+      ],
+      md: {
+        // slots: ['Section5'],
+        showTitle: true
+      }
     },
     ContentPage1Template: {
       slots: ['Section2A', 'Section2B']

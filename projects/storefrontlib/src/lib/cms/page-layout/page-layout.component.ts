@@ -7,7 +7,8 @@ import {
   ChangeDetectionStrategy
 } from '@angular/core';
 import { PageLayoutService } from './page-layout.service';
-import { tap } from 'rxjs/operators';
+import { tap, map, switchMap } from 'rxjs/operators';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'cx-page-layout',
@@ -31,6 +32,10 @@ export class PageLayoutComponent implements OnInit {
 
   get slots$() {
     return this.pageLayoutService.getSlots(this.section);
+  }
+
+  get pageTitle$() {
+    return this.pageLayoutService.pageTitle$;
   }
 
   get templateName$() {
