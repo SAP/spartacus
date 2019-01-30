@@ -14,9 +14,9 @@ import { PaymentDetailsPageModule } from './payment-details-page/payment-details
 
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 // ContentPage: my Account Pages
-import { AddressBookPageModule } from './address-book-page/address-book-page.module';
 import { OrderHistoryPageModule } from './myaccount/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
+import { AddressBookPageModule } from './myaccount/address-book-page/address-book-page.module';
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
