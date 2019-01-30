@@ -19,11 +19,11 @@ export type StandardCmsComponentId =
   | 'ProductReferencesComponent'
   | 'CMSTabParagraphComponent';
 
-export type JSPIncludeCmsComponentUid = string;
+export type JspIncludeCmsComponentUid = string;
 
 export type CmsComponentId =
   | StandardCmsComponentId
-  | JSPIncludeCmsComponentUid
+  | JspIncludeCmsComponentUid
   | string;
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
