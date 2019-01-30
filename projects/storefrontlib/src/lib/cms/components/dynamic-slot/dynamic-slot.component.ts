@@ -22,7 +22,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DynamicSlotComponent implements OnInit, OnDestroy {
+export class DynamicSlotComponent implements OnInit {
   currentSlot$: Observable<ContentSlotData>;
 
   @Input()
@@ -91,6 +91,4 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
       ? uid
       : originalComponentType;
   }
-
-  ngOnDestroy() {}
 }
