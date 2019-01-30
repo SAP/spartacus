@@ -21,18 +21,6 @@ export function reducer(
       };
     }
 
-    case fromUserAddressesAction.LOAD_USER_ADDRESSES_FAIL: {
-      return {
-        ...state
-      };
-    }
-
-    case fromUserAddressesAction.LOAD_USER_ADDRESSES: {
-      return {
-        ...state
-      };
-    }
-
     case fromUserAddressesAction.UPDATE_USER_ADDRESS:
     case fromUserAddressesAction.DELETE_USER_ADDRESS:
     case fromUserAddressesAction.ADD_USER_ADDRESS: {

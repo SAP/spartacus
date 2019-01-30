@@ -35,24 +35,6 @@ describe('User Addresses Reducer', () => {
     });
   });
 
-  describe('LOAD_USER_ADDRESSES_FAIL action', () => {
-    it('should return the initial state', () => {
-      const { initialState } = fromUserAddressesReducer;
-      const action = new fromUserAddressesAction.LoadUserAddressesFail({});
-      const state = fromUserAddressesReducer.reducer(initialState, action);
-      expect(state).toEqual(initialState);
-    });
-  });
-
-  describe('LOAD_USER_ADDRESSES action', () => {
-    it('should return the initial state', () => {
-      const { initialState } = fromUserAddressesReducer;
-      const action = new fromUserAddressesAction.LoadUserAddresses('userId');
-      const state = fromUserAddressesReducer.reducer(initialState, action);
-      expect(state).toEqual(initialState);
-    });
-  });
-
   describe('ADD_USER_ADDRESS action', () => {
     it('should set isActionProcessing flag to true', () => {
       const { initialState } = fromUserAddressesReducer;

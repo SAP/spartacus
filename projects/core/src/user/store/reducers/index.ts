@@ -18,7 +18,6 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
-import * as fromPaymentMethods from './payment-methods.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromTitlesReducer from './titles.reducer';
 import * as fromUserAddresses from './user-addresses.reducer';
@@ -33,10 +32,7 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromUserAddresses.reducer
     ),
     billingCountries: fromBillingCountriesReducer.reducer,
-    payments: loaderReducer<UserPaymentMethodsState>(
-      USER_PAYMENT_METHODS,
-      fromPaymentMethods.reducer
-    ),
+    payments: loaderReducer<UserPaymentMethodsState>(USER_PAYMENT_METHODS),
     orders: loaderReducer<UserOrdersState>(USER_ORDERS, fromUserOrders.reducer),
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,

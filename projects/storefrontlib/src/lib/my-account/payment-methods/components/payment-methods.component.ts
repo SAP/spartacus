@@ -77,6 +77,8 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userServiceSub.unsubscribe();
+    if (this.userServiceSub) {
+      this.userServiceSub.unsubscribe();
+    }
   }
 }
