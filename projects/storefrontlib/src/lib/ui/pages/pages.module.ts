@@ -16,7 +16,7 @@ import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-
 // ContentPage: my Account Pages
 import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
-import { AddressBookPageModule } from './address-book-page/address-book-page.module';
+import { AddressBookPageModule } from './myaccount/address-book-page/address-book-page.module';
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';

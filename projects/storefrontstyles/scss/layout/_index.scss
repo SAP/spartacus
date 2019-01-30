@@ -3,6 +3,7 @@
 @import './page-templates/content-page-1';
 @import './page-templates/category-page';
 @import './page-templates/product-detail';
+@import './page-templates/cart-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -22,4 +23,8 @@ cx-page-layout {
 
 .ProductDetailsPageTemplate {
   @extend %ProductDetailsPageTemplate !optional;
+}
+
+.CartPageTemplate {
+  @extend %CartPageTemplate !optional;
 }
