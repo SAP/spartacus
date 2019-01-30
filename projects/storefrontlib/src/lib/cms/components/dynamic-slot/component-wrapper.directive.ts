@@ -57,13 +57,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private launchComponent() {
-    const componentCode: string =
-      this.componentType === 'JspIncludeComponent'
-        ? this.componentUid
-        : this.componentType;
-
     const factory = this.componentMapper.getComponentFactoryByCode(
-      componentCode
+      this.componentType
     );
 
     if (factory) {
@@ -78,8 +73,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);
       }
-    } else {
-      console.log('not found', this.componentType, this.componentUid);
     }
   }
 
