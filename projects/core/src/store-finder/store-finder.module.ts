@@ -9,6 +9,7 @@ import {
 import { StoreFinderOccModule } from './occ/store-finder-occ.module';
 import { ConfigModule } from '../config';
 import { defaultStoreFinderConfig } from './config/default-store-finder-config';
+import { StoreFinderConfig } from './config/store-finder-config';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { defaultStoreFinderConfig } from './config/default-store-finder-config';
     StoreFinderService,
     StoreDataService,
     GoogleMapRendererService,
-    ExternalJsFileLoader
+    ExternalJsFileLoader,
+    { provide: StoreFinderConfig, useValue: defaultStoreFinderConfig }
   ]
 })
 export class StoreFinderCoreModule {}
