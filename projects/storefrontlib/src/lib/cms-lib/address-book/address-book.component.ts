@@ -22,7 +22,7 @@ import {
   styleUrls: ['./address-book.component.scss']
 })
 export class AddressBookComponent implements OnInit, OnDestroy {
-  // addresses$: Observable<any>;
+  addresses$: Observable<any>;
   addressesLoading$: Observable<any>;
   addressActionProcessing$: Observable<any>;
   userId: string;
