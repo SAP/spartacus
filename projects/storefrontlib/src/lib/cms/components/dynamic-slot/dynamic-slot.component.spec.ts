@@ -83,4 +83,18 @@ describe('DynamicSlotComponent', () => {
     expect(native.classList.contains('smartEditComponent')).toBeFalsy();
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
   });
+
+  describe('getComponentType', () => {
+    it('should return component uid when original component type is "JspIncludeComponent"', () => {
+      expect(
+        dynamicSlotComponent.getComponentType('JspIncludeComponent', 'testUid')
+      ).toBe('testUid');
+    });
+
+    it('should return original component type when it is NOT "JspIncludeComponent"', () => {
+      expect(
+        dynamicSlotComponent.getComponentType('testComponentType', 'testUid')
+      ).toBe('testComponentType');
+    });
+  });
 });
