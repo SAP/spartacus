@@ -22,7 +22,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations$: Observable<any>;
   isLoading$: Observable<any>;
   geolocation: LongitudeLatitude;
-  ngUnsubscribe: Subscription;
+  subscription: Subscription;
   searchConfig: SearchConfig = {
     currentPage: 0
   };
@@ -32,13 +32,13 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.route.queryParams.subscribe(params => this.initialize(params));
   }
 
-  ngOnDestroy(): void {
-    if (this.ngUnsubscribe) {
-      this.ngUnsubscribe.unsubscribe();
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
@@ -61,7 +61,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
 
     this.isLoading$ = this.storeFinderService.getStoresLoading();
     this.locations$ = this.storeFinderService.getFindStoresEntities();
-    this.ngUnsubscribe = this.locations$
+    this.subscription = this.locations$
       .pipe(map(data => data.geolocation))
       .subscribe(geoData => (this.geolocation = geoData));
   }
