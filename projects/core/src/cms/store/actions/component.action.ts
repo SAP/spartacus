@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { CmsComponent } from '../../../occ/occ-models/index';
 import {
   EntityFailAction,
@@ -10,9 +9,7 @@ import { COMPONENT_ENTITY } from '../cms-state';
 export const LOAD_COMPONENT = '[Cms] Load Component';
 export const LOAD_COMPONENT_FAIL = '[Cms] Load Component Fail';
 export const LOAD_COMPONENT_SUCCESS = '[Cms] Load Component Success';
-export const REFRESH_COMPONENT = '[Cms] Refresh Component';
 export const GET_COMPONENET_FROM_PAGE = '[Cms] Get Component from Page';
-export const CLEAN_COMPONENT_STATE = '[Cms] Clean Component State';
 
 export class LoadComponent extends EntityLoadAction {
   readonly type = LOAD_COMPONENT;
@@ -37,11 +34,6 @@ export class LoadComponentSuccess<
   }
 }
 
-export class RefreshComponent implements Action {
-  readonly type = REFRESH_COMPONENT;
-  constructor(public payload: string) {}
-}
-
 export class GetComponentFromPage<
   T extends CmsComponent
 > extends EntitySuccessAction {
@@ -51,16 +43,9 @@ export class GetComponentFromPage<
   }
 }
 
-export class CleanComponentState implements Action {
-  readonly type = CLEAN_COMPONENT_STATE;
-  constructor() {}
-}
-
 // action types
 export type ComponentAction<T extends CmsComponent> =
   | LoadComponent
   | LoadComponentFail
   | LoadComponentSuccess<T>
-  | RefreshComponent
-  | GetComponentFromPage<T>
-  | CleanComponentState;
+  | GetComponentFromPage<T>;

@@ -46,14 +46,18 @@ export class CmsService {
    * @param uid : CMS componet uid
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
-    const selector = fromStore.componentSelectorFactory(uid);
     return this.store.pipe(
-      select(selector),
-      tap(componentData => {
-        if (componentData === undefined) {
+      select(fromStore.componentStateSelectorFactory(uid)),
+      tap(componentState => {
+        const attemptedLoad =
+          componentState.loading ||
+          componentState.success ||
+          componentState.error;
+        if (!attemptedLoad) {
           this.store.dispatch(new fromStore.LoadComponent(uid));
         }
       }),
+      map(productState => productState.value),
       filter(Boolean)
     );
   }
@@ -108,7 +112,7 @@ export class CmsService {
    * @param uid : component uid
    */
   refreshComponent(uid: string) {
-    this.store.dispatch(new fromStore.RefreshComponent(uid));
+    this.store.dispatch(new fromStore.LoadComponent(uid));
   }
 
   /**

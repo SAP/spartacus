@@ -25,7 +25,8 @@ export function entityReducer<T>(
       action.meta.entityId
     ) {
       ids = [].concat(action.meta.entityId);
-      partitionPayload = Array.isArray(action.meta.entityId) && Array.isArray(action.payload);
+      partitionPayload =
+        Array.isArray(action.meta.entityId) && Array.isArray(action.payload);
     } else {
       ids = Object.keys(state.entities);
     }
@@ -34,7 +35,9 @@ export function entityReducer<T>(
 
     for (let i = 0; i < ids.length; i++) {
       const id = ids[i];
-      const subAction = partitionPayload ? { ...action, payload: action.payload[i] } : action;
+      const subAction = partitionPayload
+        ? { ...action, payload: action.payload[i] }
+        : action;
       const newState = reducer(state.entities[id], subAction);
       if (newState) {
         entityUpdates[id] = newState;
