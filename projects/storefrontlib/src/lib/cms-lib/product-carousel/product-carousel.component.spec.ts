@@ -3,7 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ProductService, Product, Component } from '@spartacus/core';
+import {
+  ProductService,
+  Product,
+  Component,
+  CmsProductCarouselComponent
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -16,21 +21,20 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
 
-const mockComponentData: any = {
+const mockComponentData: CmsProductCarouselComponent = {
   uid: '001',
   typeCode: 'ProductCarouselComponent',
-  modifiedTime: '2017-12-21T18:15:15+0000',
+  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
   popup: 'false',
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
   name: 'Mock Product Carousel',
-  type: 'Product Carousel',
   container: 'false'
 };
 
@@ -47,7 +51,7 @@ const MockCmsComponentData = <CmsComponentData<Component>>{
 };
 
 class MockProductService {
-  get(): Observable<any> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 
