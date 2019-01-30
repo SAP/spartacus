@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Cart } from '@spartacus/core';
 
 import { Cart } from '@spartacus/core';
 
