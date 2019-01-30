@@ -2,38 +2,40 @@ import { StaticProvider } from '@angular/core';
 import { OccConfig } from '../../occ/config/occ-config';
 import { AuthConfig } from '../../auth/config/auth-config';
 
-export type StandardCmsComponentId =
-  | 'SiteContextSelectorComponent'
-  | 'CMSLinkComponent'
-  | 'SimpleResponsiveBannerComponent'
-  | 'SimpleBannerComponent'
-  | 'CMSParagraphComponent'
-  | 'BreadcrumbComponent'
-  | 'NavigationComponent'
-  | 'FooterNavigationComponent'
-  | 'CategoryNavigationComponent'
-  | 'ProductAddToCartComponent'
-  | 'MiniCartComponent'
-  | 'ProductCarouselComponent'
-  | 'SearchBoxComponent'
-  | 'ProductReferencesComponent'
-  | 'CMSTabParagraphComponent';
+export interface StandardCmsComponentsMapping {
+  SiteContextSelectorComponent?: CmsComponentMapping;
+  CMSLinkComponent?: CmsComponentMapping;
+  SimpleResponsiveBannerComponent?: CmsComponentMapping;
+  SimpleBannerComponent?: CmsComponentMapping;
+  CMSParagraphComponent?: CmsComponentMapping;
+  BreadcrumbComponent?: CmsComponentMapping;
+  NavigationComponent?: CmsComponentMapping;
+  FooterNavigationComponent?: CmsComponentMapping;
+  CategoryNavigationComponent?: CmsComponentMapping;
+  ProductAddToCartComponent?: CmsComponentMapping;
+  MiniCartComponent?: CmsComponentMapping;
+  ProductCarouselComponent?: CmsComponentMapping;
+  SearchBoxComponent?: CmsComponentMapping;
+  ProductReferencesComponent?: CmsComponentMapping;
+  CMSTabParagraphComponent?: CmsComponentMapping;
+}
 
-export type JspIncludeCmsComponentUid = string;
-
-export type CmsComponentId =
-  | StandardCmsComponentId
-  | JspIncludeCmsComponentUid
-  | string;
+export interface JspIncludeCmsComponentsMapping {
+  AccountAddressBookComponent?: CmsComponentMapping;
+}
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 
-export type CMSComponentConfig = {
-  [CMSComponent in CmsComponentId]?: {
-    selector?: string;
-    providers?: StaticProvider[];
-  }
-};
+export interface CmsComponentMapping {
+  selector?: string;
+  providers?: StaticProvider[];
+}
+
+export interface CMSComponentConfig
+  extends StandardCmsComponentsMapping,
+    JspIncludeCmsComponentsMapping {
+  [_: string]: CmsComponentMapping;
+}
 
 export abstract class CmsConfig extends OccConfig implements AuthConfig {
   authentication?: {
