@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   CartService,
@@ -11,7 +12,6 @@ import {
   PaymentDetails,
   Order,
   CheckoutService,
-  CheckoutAddress,
   Cart
 } from '@spartacus/core';
 
@@ -20,7 +20,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
@@ -31,7 +30,7 @@ class MockCheckoutService {
   setPaymentDetails = createSpy();
   placeOrder = createSpy();
 
-  getSelectedDeliveryModeCode(): Observable<any> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return of('');
   }
 
@@ -48,7 +47,7 @@ class MockCheckoutService {
   }
 }
 
-const mockAddress: CheckoutAddress = {
+const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
   lastName: 'Doe',
@@ -72,49 +71,49 @@ const mockPaymentDetails: PaymentDetails = {
   expiryYear: '2022',
   cvn: '123'
 };
-const mockDeliveryAddresses = ['address1', 'address2'];
+const mockDeliveryAddresses: string[] = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
 @Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
-  selectedShippingMethod;
+  selectedShippingMethod: string;
 }
 
 @Component({ selector: 'cx-payment-method', template: '' })
 class MockPaymentMethodComponent {
   @Input()
-  selectedPayment;
+  selectedPayment: PaymentDetails;
 }
 
 @Component({ selector: 'cx-review-submit', template: '' })
 class MockReviewSubmitComponent {
   @Input()
-  deliveryAddress;
+  deliveryAddress: Address;
   @Input()
-  shippingMethod;
+  shippingMethod: string;
   @Input()
-  paymentDetails;
+  paymentDetails: PaymentDetails;
 }
 
 @Component({ selector: 'cx-shipping-address', template: '' })
 class MockShippingAddressComponent {
   @Input()
-  selectedAddress;
+  selectedAddress: Address;
 }
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('MultiStepCheckoutComponent', () => {
@@ -314,9 +313,9 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setDeliveryMode()', () => {
-    const deliveryMode: any = {
+    const deliveryMode = {
       deliveryModeId: 'testId'
-    };
+    } as any;
     component.setDeliveryMode(deliveryMode);
     expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalledWith(
       deliveryMode.deliveryModeId
@@ -324,9 +323,9 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
-    const deliveryMode: any = {
+    const deliveryMode = {
       deliveryModeId: 'testId'
-    };
+    } as any;
     component.shippingMethod = 'testId';
     component.setDeliveryMode(deliveryMode);
 
