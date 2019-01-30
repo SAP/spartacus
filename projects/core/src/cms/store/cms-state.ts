@@ -4,15 +4,13 @@ import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader
 
 export const CMS_FEATURE = 'cms';
 export const NAVIGATION_DETAIL_ENTITY = '[Cms] Navigation Entity';
-export const COMPONENT_ENTITY = 'COMPONENT Entity';
+export const COMPONENT_ENTITY = '[Cms[ Component Entity';
 
 export interface StateWithCms {
   [CMS_FEATURE]: CmsState;
 }
 
-export interface ComponentState {
-  entities: { [id: string]: any };
-}
+export type ComponentState = EntityLoaderState<any>;
 
 export interface NavigationNodes {
   [nodeId: string]: NodeItem;

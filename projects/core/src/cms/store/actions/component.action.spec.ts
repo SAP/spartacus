@@ -1,6 +1,11 @@
 import * as fromComponent from './component.action';
 import { CmsComponent } from '../../../occ/occ-models/index';
 import { COMPONENT_ENTITY } from '../cms-state';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta
+} from '../../../state/utils/entity-loader/entity-loader.action';
 
 describe('Cms Component Actions', () => {
   const test_uid = 'test_uid';
@@ -13,13 +18,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT,
           payload: payload,
-          meta: {
-            entityId: test_uid,
-            entityType: COMPONENT_ENTITY,
-            loader: {
-              load: true
-            }
-          }
+          meta: entityLoadMeta(COMPONENT_ENTITY, test_uid)
         });
       });
     });
@@ -32,15 +31,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_FAIL,
           payload,
-          meta: {
-            entityId: test_uid,
-            entityType: COMPONENT_ENTITY,
-            loader: {
-              error: {
-                message: 'Load Error'
-              }
-            }
-          }
+          meta: entityFailMeta(COMPONENT_ENTITY, test_uid, payload)
         });
       });
     });
@@ -56,11 +47,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_SUCCESS,
           payload: component,
-          meta: {
-            entityId: 'comp1',
-            entityType: COMPONENT_ENTITY,
-            loader: {}
-          }
+          meta: entitySuccessMeta(COMPONENT_ENTITY, 'comp1')
         });
       });
     });
@@ -78,34 +65,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: fromComponent.GET_COMPONENET_FROM_PAGE,
           payload: [component1, component2],
-          meta: {
-            entityId: ['uid1', 'uid2'],
-            entityType: COMPONENT_ENTITY,
-            loader: {}
-          }
-        });
-      });
-    });
-  });
-
-  describe('CleanComponentState Action', () => {
-    describe('Clean Component State', () => {
-      it('should create an action', () => {
-        const action = new fromComponent.CleanComponentState();
-        expect({ ...action }).toEqual({
-          type: fromComponent.CLEAN_COMPONENT_STATE
-        });
-      });
-    });
-  });
-
-  describe('RefreshComponent Action', () => {
-    describe('Refresh Component', () => {
-      it('should create an action', () => {
-        const action = new fromComponent.RefreshComponent('uid');
-        expect({ ...action }).toEqual({
-          type: fromComponent.REFRESH_COMPONENT,
-          payload: 'uid'
+          meta: entitySuccessMeta(COMPONENT_ENTITY, ['uid1', 'uid2'])
         });
       });
     });

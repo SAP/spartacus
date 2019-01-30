@@ -3,7 +3,7 @@ import { CmsState, ComponentState, StateWithCms } from '../cms-state';
 import { getCmsState } from './feature.selectors';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
-import { LoaderState } from '@spartacus/core';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 export const getComponentEntitiesSelector = (state: ComponentState) =>
   Object.keys(state.entities).reduce((acc, cur) => {
