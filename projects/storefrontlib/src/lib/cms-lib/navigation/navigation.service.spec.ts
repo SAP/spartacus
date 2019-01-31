@@ -67,13 +67,13 @@ describe('NavigationService', () => {
   beforeEach(() => {
     mockCmsService = {
       loadNavigationItems: createSpy(),
-      getComponentData: createSpy().and.returnValue(of(null)),
-      getNavigationEntryItems: createSpy().and.returnValue(of(undefined))
+      getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),
+      getComponentData: createSpy().and.returnValue(of(componentData))
     };
-
     TestBed.configureTestingModule({
       providers: [
         NavigationService,
+        // { provide: NavigationService, useValue: mockNavigationService },
         { provide: CmsService, useValue: mockCmsService },
         { provide: CmsComponentData, useValue: componentDataMock }
       ]
@@ -121,24 +121,32 @@ describe('NavigationService', () => {
     });
   });
 
-  it('should able to get navigation entry item data even if they are not exist', () => {
-    navigationService.getNodes().subscribe();
-    expect(navigationService.getNavigationEntryItems).toHaveBeenCalledWith(
-      componentData.navigationNode,
-      true,
-      []
+  it('should return component data stream', () => {
+    return expect(navigationService.getComponentData()).toBe(
+      componentDataMock.data$
     );
   });
 
-  it('should able to create node data from the existing entry items', () => {
-    spyOn(mockCmsService, 'getNavigationEntryItems').and.returnValue(
-      of(itemsData)
+  it('should able to get navigation entry item data even if they are not exist', () => {
+    spyOn(navigationService, 'getComponentData').and.returnValue(
+      componentData$
     );
+    spyOn(navigationService, 'getNavigationEntryItems').and.callThrough();
+    spyOn(navigationService, 'createNode').and.callThrough();
     navigationService.getNodes().subscribe();
-    componentData$.next(componentData);
-    expect(navigationService.createNode).toHaveBeenCalledWith(
+
+    expect(navigationService.getComponentData).toHaveBeenCalled();
+    expect(mockCmsService.getNavigationEntryItems).toHaveBeenCalledWith(
+      componentData.navigationNode.uid
+    );
+    expect(navigationService.getNavigationEntryItems).toHaveBeenCalledWith(
       componentData.navigationNode,
+      true,
       itemsData
     );
+    // expect(navigationService.createNode).toHaveBeenCalledWith(
+    //   componentData.navigationNode,
+    //   itemsData
+    // );
   });
 });
