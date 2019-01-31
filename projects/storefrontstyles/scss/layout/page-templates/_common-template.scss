@@ -1,6 +1,13 @@
 %cx-page-layout {
   display: block;
 
+  > header {
+    background-color: var(--cx-g-color-background);
+    text-align: center;
+    padding-bottom: 25px;
+    padding-top: 25px;
+  }
+
   cx-dynamic-slot {
     display: flex;
     flex-wrap: wrap;
