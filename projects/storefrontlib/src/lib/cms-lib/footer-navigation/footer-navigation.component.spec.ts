@@ -8,15 +8,12 @@ import {
   PipeTransform
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
-import { CmsService } from '@spartacus/core';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import { NavigationService } from '../navigation/navigation.service';
-
 import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
-import { of } from 'rxjs';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -70,6 +67,11 @@ describe('FooterNavigationComponent', () => {
     data$: of()
   };
 
+  const mockNavigationService = {
+    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getComponentData: createSpy().and.returnValue(of(null))
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -81,10 +83,7 @@ describe('FooterNavigationComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        NavigationService,
-        { provide: CmsService, useValue: {} },
-        { provide: NavigationService, useValue: {} },
-        { provide: CmsComponentData, useValue: mockCmsComponentData }
+        { provide: NavigationService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));
