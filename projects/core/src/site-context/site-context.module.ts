@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Type } from '@angular/core';
 
 import { SiteContextOccModule } from './occ/site-context-occ.module';
 import { SiteContextStoreModule } from './store/site-context-store.module';
@@ -6,6 +6,14 @@ import { LanguageService } from './facade/language.service';
 import { CurrencyService } from './facade/currency.service';
 import { OccConfig } from '../occ/index';
 import { StateModule } from '../state/index';
+import { SiteContext } from './facade/site-context.interface';
+
+export abstract class ContextServiceMap {
+  [context: string]: Type<SiteContext<any>>;
+}
+
+export const LANGUAGE_CONTEXT_ID = 'language';
+export const CURRENCY_CONTEXT_ID = 'currency';
 
 export function inititializeContext(
   config: OccConfig,
@@ -24,6 +32,13 @@ export function inititializeContext(
   providers: [
     LanguageService,
     CurrencyService,
+    {
+      provide: ContextServiceMap,
+      useValue: {
+        [LANGUAGE_CONTEXT_ID]: LanguageService,
+        [CURRENCY_CONTEXT_ID]: CurrencyService
+      }
+    },
     {
       provide: APP_INITIALIZER,
       useFactory: inititializeContext,

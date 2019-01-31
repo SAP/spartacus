@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CURRENCY_CONTEXT_ID, LANGUAGE_CONTEXT_ID } from '@spartacus/core';
 
 @Injectable()
 export class HardcodedSiteContext implements HttpInterceptor {
@@ -39,12 +40,12 @@ export class HardcodedSiteContext implements HttpInterceptor {
             {
               uid: 'LanguageComponent',
               typeCode: 'SiteContextSelectorComponent',
-              context: 'LANGUAGE'
+              context: LANGUAGE_CONTEXT_ID
             },
             {
               uid: 'CurrencyComponent',
               typeCode: 'SiteContextSelectorComponent',
-              context: 'CURRENCY'
+              context: CURRENCY_CONTEXT_ID
             }
           ]
         }

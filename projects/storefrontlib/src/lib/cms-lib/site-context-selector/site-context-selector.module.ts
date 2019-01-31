@@ -6,15 +6,13 @@ import {
   ConfigModule,
   UrlTranslationModule,
   SiteContextModule,
-  LanguageService,
-  CurrencyService
+  ContextServiceMap
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import {
-  SiteContextComponentService,
-  ContextSelectorServiceMap
+  SiteContextComponentService
 } from './site-context-component.service';
 
 @NgModule({
@@ -29,7 +27,7 @@ import {
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
-              deps: [CmsComponentData, ContextSelectorServiceMap, Injector]
+              deps: [CmsComponentData, ContextServiceMap, Injector]
             }
           ]
         }
@@ -39,14 +37,7 @@ import {
     SiteContextModule
   ],
   providers: [
-    SiteContextComponentService,
-    {
-      provide: ContextSelectorServiceMap,
-      useValue: {
-        LANGUAGE: LanguageService,
-        CURRENCY: CurrencyService
-      }
-    }
+    SiteContextComponentService
   ],
   declarations: [SiteContextSelectorComponent],
   exports: [SiteContextSelectorComponent],
