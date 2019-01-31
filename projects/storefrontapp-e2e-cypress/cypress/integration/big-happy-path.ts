@@ -1,57 +1,44 @@
-/// <reference types="Cypress" />
+import { user, cart, product } from './../sample-data/big-happy-path';
 
 context('Big happy path', () => {
-  let userEmail;
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
   });
 
   it('should register successfully', () => {
-    // Go to login page
-    cy.get('.SiteLogin > a').click();
-    // Go to register page
-    cy.get(':nth-child(2) > .btn').click();
-    // open title select
-    cy.get(':nth-child(1) > label > .form-control').select('mr');
-    cy.get(':nth-child(2) > label > .form-control').type('Winston');
-    cy.get(':nth-child(3) > label > .form-control').type('Rumfoord');
-    const testUserId = Date.now() - 1535535333333;
-    userEmail = `user${testUserId}@ydev.hybris.com`;
-    cy.get(':nth-child(4) > label > .form-control').type(userEmail);
-    cy.get(':nth-child(5) > label > .form-control').type('Password123.');
-    cy.get(':nth-child(6) > label > .form-control').type('Password123.');
-    cy.get(':nth-child(8) > .form-check > label > .ng-untouched').check();
-    cy.get('form.ng-dirty > .btn').click();
-    cy.get('.cx-login-status__greet').should('contain', 'Winston Rumfoord');
-    // log out
-    cy.get('cx-login span').click();
-    cy.get(':nth-child(10) > .cx-navigation__child-link').click();
-    cy.get('.cx-login-status__greet').should('not.contain', 'Winston Rumfoord');
+    cy.getByText(/Sign in \/ Register/i).click();
+    cy.getByText('Register').click();
+    cy.register(user);
+    cy.get('.cx-login-status__greet').should('contain', user.fullName);
+    cy.selectUserMenuOption('Sign out');
+    cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
   });
 
   it('should go to product page from category page', () => {
-    cy.get(
-      '.Section1 > :nth-child(1) > cx-generic-link.link > .link > .responsive-banner > img'
-    ).click();
-    cy.get(
-      ':nth-child(6) > cx-generic-link.link > .link > .responsive-banner > img'
-    ).click();
-    cy.get('cx-product-summary.container > .name').should(
-      'contain',
-      'Alpha 350'
-    );
-    cy.get('.code').should('contain', '1446509');
+    // click big banner
+    cy.get('.Section1 cx-responsive-banner')
+      .first()
+      .find('img')
+      .click();
+    // click small banner number 6 (would be good if label or alt text would be available)
+    cy.get('.Section2 cx-responsive-banner:nth-of-type(6) img').click();
+    cy.get('cx-product-summary').within(() => {
+      cy.get('.name').should('contain', product.name);
+      cy.get('.code').should('contain', product.code);
+    });
   });
 
   it('should add product to cart and got to checkout', () => {
-    cy.get('.cx-item-counter > :nth-child(3)').click();
-    cy.get('cx-add-to-cart > .btn').click();
-    cy.get('.cx-name .cx-link').should('contain', 'Alpha 350');
-    cy.get('.btn-secondary').click();
-    cy.get(':nth-child(1) > label > .form-control').type(userEmail);
-    cy.get(':nth-child(2) > label > .form-control').type('Password123.');
-    cy.get('form.ng-dirty > .btn').click();
+    cy.get('.cx-item-counter')
+      .getByText('+')
+      .click();
+    cy.get('cx-add-to-cart button').click();
+    cy.get('cx-added-to-cart-dialog').within(() => {
+      cy.get('.cx-name .cx-link').should('contain', product.name);
+      cy.getByText(/proceed to checkout/i).click();
+    });
+    cy.login(user.email, user.password);
   });
 
   it('should fill in address form', () => {
@@ -60,35 +47,8 @@ context('Big happy path', () => {
       .first()
       .find('.cx-summary-amount')
       .should('contain', '$2,623.08');
-    cy.get(
-      'cx-address-form .form-group:nth-child(1) .ng-select-container'
-    ).click();
 
-    cy.get('.ng-dropdown-panel-items')
-      .contains('Mr.')
-      .click();
-    cy.get(':nth-child(2) > label > .form-control').type('Winstoon');
-    cy.get(':nth-child(3) > label > .form-control')
-      .first()
-      .type('Rumfoord');
-    cy.get(':nth-child(4) > label > .form-control').type(
-      'Chrono-Synclastic Infundibulum'
-    );
-    cy.get(':nth-child(5) > label > .form-control').type('Betelgeuse');
-    cy.get('.country-select > .ng-select-container').click();
-    cy.get('.ng-dropdown-panel-items')
-      .contains('United States')
-      .click();
-    cy.get(':nth-child(1) > label > .form-control').type('Tralfamadore');
-    cy.get('.region-select > .ng-select-container').click();
-    cy.get('.ng-dropdown-panel-items')
-      .contains('Connecticut')
-      .click();
-    cy.get(':nth-child(7) > :nth-child(3) > label > .form-control').type(
-      '06247'
-    );
-    cy.get(':nth-child(8) > label > .form-control').type('555 555 555');
-    cy.get(':nth-child(2) > .btn').click();
+    cy.fillShippingAddress(user);
   });
 
   it('should choose delivery', () => {
@@ -96,91 +56,73 @@ context('Big happy path', () => {
       'contain',
       'Shipping Method'
     );
-    cy.get(
-      ':nth-child(1) > .cx-delivery-mode-form__label > .cx-delivery-mode-form__label--shipping-mode'
-    ).click();
-    cy.get(':nth-child(2) > .btn').click();
+    cy.get('#deliveryMode-standard-gross').check();
+    cy.get('button.btn-primary').click();
   });
 
   it('should fill in payment form', () => {
     cy.get('.cx-payment-method__title').should('contain', 'Payment');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
       .find('.cx-summary-amount')
-      .should('contain', '$2,635.07');
-    cy.get('label > .ng-select > .ng-select-container').click();
-    cy.get('.ng-dropdown-panel-items')
-      .contains('Visa')
-      .click();
-    cy.get(
-      'cx-payment-form .form-control[formcontrolname="accountHolderName"]'
-    ).type('Winston Rumfoord');
-    cy.get('cx-payment-form .form-control[formcontrolname="cardNumber"]').type(
-      '4111111111111111'
-    );
-    cy.get('.col-md-5 > .ng-select > .ng-select-container').click();
-    cy.get('.ng-dropdown-panel-items')
-      .contains('07')
-      .click();
-    cy.get('.col-md-7 > .ng-select > .ng-select-container').click();
-    cy.get('.ng-dropdown-panel-items')
-      .contains('2020')
-      .click();
-    cy.get('#cVVNumber').type('123');
-    cy.get(':nth-child(2) > .btn').click();
+      .should('contain', cart.total);
+
+    cy.fillPaymentDetails(user);
   });
 
   it('should review and place order', () => {
     cy.get('.cx-review__title').should('contain', 'Review');
-    cy.get(
-      ':nth-child(1) > .cx-review__summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > .card__label--bold'
-    ).should('contain', 'Winstoon Rumfoord');
-    cy.get(
-      ':nth-child(1) > .cx-review__summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > :nth-child(2) > .card__label'
-    ).should('contain', 'Chrono-Synclastic Infundibulum');
-    cy.get(
-      ':nth-child(1) > .cx-review__summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > :nth-child(3) > .card__label'
-    ).should('contain', 'Betelgeuse');
-    cy.get(
-      ':nth-child(2) > .cx-review__summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > .card__label--bold'
-    ).should('contain', 'standard-gross');
-    cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
-      .find('.cx-summary-amount')
-      .should('contain', '$2,635.07');
-    cy.get('.form-check-input').click();
-    cy.get('.cx-multi-step-checkout__place-order > .btn-primary').click();
+    cy.get('cx-review-submit .cx-review__summary-card__address').within(() => {
+      cy.getByText(user.fullName);
+      cy.getByText(user.address.line1);
+      cy.getByText(user.address.line2);
+    });
+    cy.get('cx-review-submit .cx-review__summary-card__shipping-method').within(
+      () => {
+        cy.getByText('standard-gross');
+      }
+    );
+    cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
+      'contain',
+      cart.total
+    );
+
+    cy.get('.form-check-input').check();
+    cy.get('.cx-multi-step-checkout__place-order button.btn-primary').click();
+  });
+
+  it('should display summary page', () => {
     cy.get('.cx-page__title').should('contain', 'Confirmation of Order');
     cy.get('h2').should('contain', 'Thank you for your order!');
-    cy.get(
-      ':nth-child(1) > .cx-order-confirmation__review-summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > .card__label--bold'
-    ).should('contain', 'Winstoon Rumfoord');
-    cy.get(
-      ':nth-child(1) > .cx-order-confirmation__review-summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > :nth-child(2) > .card__label'
-    ).should('contain', 'Chrono-Synclastic Infundibulum');
-    cy.get(
-      ':nth-child(3) > .cx-order-confirmation__review-summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > .card__label--bold'
-    ).should('contain', 'Standard Delivery');
-    cy.get(
-      ':nth-child(2) > .cx-order-confirmation__review-summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > .card__label--bold'
-    ).should('contain', 'Winstoon Rumfoord');
-    cy.get(
-      ':nth-child(2) > .cx-order-confirmation__review-summary-card > cx-card > .cx-card > .card-body > .cx-card-body__container > .cx-card-body__label-container > :nth-child(2) > .card__label'
-    ).should('contain', 'Chrono-Synclastic Infundibulum');
-    cy.get('.cx-code').should('contain', '1446509');
-    cy.get('cx-order-summary .cx-summary-amount').should(
-      'contain',
-      '$2,635.07'
-    );
+    cy.get('.cx-order-confirmation__review-summary .row').within(() => {
+      cy.get(
+        '.col-lg-3:nth-child(1) .cx-order-confirmation__review-summary-card'
+      ).within(() => {
+        cy.contains(user.fullName);
+        cy.contains(user.address.line1);
+      });
+      cy.get(
+        '.col-lg-3:nth-child(2) .cx-order-confirmation__review-summary-card'
+      ).within(() => {
+        cy.contains(user.fullName);
+        cy.contains(user.address.line1);
+      });
+      cy.get(
+        '.col-lg-3:nth-child(3) .cx-order-confirmation__review-summary-card'
+      ).within(() => {
+        cy.contains('Standard Delivery');
+      });
+    });
+    cy.get('cx-cart-item .cx-code').should('contain', product.code);
+    cy.get('cx-order-summary .cx-summary-amount').should('contain', cart.total);
   });
 
   it('should be able to check order in order history', () => {
-    cy.get('cx-login span').click();
-    cy.get('.cx-navigation__child-item:nth-of-type(5)').click();
-    cy.get('h3').should('contain', 'Order history');
-    cy.get('.cx-order-history__total > .cx-order-history__value').should(
-      'contain',
-      '$2,635.07'
-    );
-    cy.get('cx-login span').click();
-    cy.get(':nth-child(10) > .cx-navigation__child-link').click();
+    cy.selectUserMenuOption('Order History');
+    cy.get('cx-order-history h3').should('contain', 'Order history');
+    cy.get('.cx-order-history__table tr')
+      .first()
+      .find('.cx-order-history__total .cx-order-history__value')
+      .should('contain', cart.total);
+    cy.selectUserMenuOption('Sign Out');
   });
 });
