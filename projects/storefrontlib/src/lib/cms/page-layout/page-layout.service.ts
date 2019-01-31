@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { switchMap, distinctUntilChanged, map } from 'rxjs/operators';
 import { CmsService, Page } from '@spartacus/core';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
 import {
@@ -18,22 +18,17 @@ export class PageLayoutService {
     private breakpointService: BreakpointService
   ) {}
 
-  // we track warn messages on missing layout configs
-  //  to not polute the console log
+  // we print warn messages on missing layout configs
+  // only once to not polute the console log
   private warnLogMessages = {};
 
   getSlots(section?: string): Observable<string[]> {
     return this.breakpointService.breakpoint$.pipe(
       switchMap(breakpoint =>
         this.page$.pipe(
-          map(page => {
-            return this.getSlotConfig(
-              page.template,
-              'slots',
-              section,
-              breakpoint
-            );
-          }),
+          map(page =>
+            this.getSlotConfig(page.template, 'slots', section, breakpoint)
+          ),
           map(config => config.slots)
         )
       ),
@@ -61,16 +56,13 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean)
-      // tap(v => console.log(v))
-    );
+    return this.cms.getCurrentPage();
   }
 
   get pageTitle$(): Observable<string> {
     return this.showTitle().pipe(
       switchMap(show =>
-        show ? this.page$.pipe(map((page: Page) => page.title)) : of(null)
+        show ? this.page$.pipe(map((page: Page) => page.title)) : of()
       )
     );
   }
@@ -94,21 +86,12 @@ export class PageLayoutService {
     const pageTemplateConfig = this.config.layoutSlots[templateUid];
 
     if (section) {
-      // if there's no section config on the page layout
-      // we fall back to the global section config
-      const sectionConfig = pageTemplateConfig[section]
-        ? pageTemplateConfig[section]
-        : this.config.layoutSlots[section];
-      if (sectionConfig) {
-        return this.getResponsiveSlotConfig(
-          <LayoutSlotConfig>sectionConfig,
-          configAttribute,
-          breakpoint
-        );
-      }
-      // if (!sectionConfig) {
-      //   return this.noConfigFound(templateUid, section);
-      // }
+      return this.getSlotConfigForSection(
+        templateUid,
+        configAttribute,
+        section,
+        breakpoint
+      );
     }
 
     if (!pageTemplateConfig) {
@@ -119,6 +102,34 @@ export class PageLayoutService {
         configAttribute,
         breakpoint
       );
+    }
+  }
+
+  protected getSlotConfigForSection(
+    templateUid: string,
+    configAttribute: string,
+    section?: string,
+    breakpoint?: BREAKPOINT
+  ): SlotConfig {
+    const pageTemplateConfig = this.config.layoutSlots[templateUid];
+    // if there's no section config on the page layout
+    // we fall back to the global section config
+    const sectionConfig = pageTemplateConfig[section]
+      ? pageTemplateConfig[section]
+      : this.config.layoutSlots[section];
+
+    const responsiveConfig = this.getResponsiveSlotConfig(
+      <LayoutSlotConfig>sectionConfig,
+      configAttribute,
+      breakpoint
+    );
+
+    if (responsiveConfig.hasOwnProperty(configAttribute)) {
+      return responsiveConfig;
+    } else if (pageTemplateConfig[section].hasOwnProperty(configAttribute)) {
+      return pageTemplateConfig[section];
+    } else if (this.config.layoutSlots[section]) {
+      return <SlotConfig>this.config.layoutSlots[section];
     }
   }
 
