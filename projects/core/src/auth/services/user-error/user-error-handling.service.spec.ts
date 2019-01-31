@@ -6,9 +6,9 @@ import { Observable, of } from 'rxjs';
 
 import { AuthService } from '../../facade/auth.service';
 import { UserToken } from '../../models/token-types.model';
+import { RoutingService } from '../../../routing/facade/routing.service';
 
 import { UserErrorHandlingService } from './user-error-handling.service';
-import { RoutingService } from '@spartacus/core';
 
 class MockHttpHandler extends HttpHandler {
   handle(_req: HttpRequest<any>): Observable<HttpEvent<any>> {

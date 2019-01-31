@@ -1,3 +1,3 @@
 export interface NodeItem {
-  items: { [id_type: string]: any };
+  [id_type: string]: any;
 }

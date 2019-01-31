@@ -4,10 +4,11 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccStoreFinderService } from './store-finder.service';
-import { OccConfig } from '@spartacus/core';
-import { StoreFinderSearchConfig } from '../model/search-config';
+import { OccConfig } from '../../occ';
 import { LongitudeLatitude } from '../model/longitude-latitude';
+import { StoreFinderSearchConfig } from '../model/search-config';
+
+import { OccStoreFinderService } from './store-finder.service';
 
 const queryText = 'test';
 const searchResults = { stores: [{ name: 'test' }] };

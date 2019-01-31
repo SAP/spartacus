@@ -18,15 +18,13 @@ describe('Navigation Entry Items Selectors', () => {
   const mockPayload = { nodeId: 'testId', components: mockComponents };
 
   const mockResult = {
-    testId: {
-      comp1_AbstractCMSComponent: {
-        uid: 'comp1',
-        typeCode: 'SimpleBannerComponent1'
-      },
-      comp2_AbstractCMSComponent: {
-        uid: 'comp2',
-        typeCode: 'SimpleBannerComponent2'
-      }
+    comp1_AbstractCMSComponent: {
+      uid: 'comp1',
+      typeCode: 'SimpleBannerComponent1'
+    },
+    comp2_AbstractCMSComponent: {
+      uid: 'comp2',
+      typeCode: 'SimpleBannerComponent2'
     }
   };
 
@@ -41,24 +39,26 @@ describe('Navigation Entry Items Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getNavigationEntryItems', () => {
-    it('should return components', () => {
+  describe('getSelectedNavigationEntryItemState', () => {
+    it('should return selected node', () => {
       let result;
 
       store
-        .pipe(select(fromSelectors.getNavigationEntryItems))
+        .pipe(
+          select(fromSelectors.getSelectedNavigationEntryItemState('testId'))
+        )
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});
 
       store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));
 
-      expect(result).toEqual(mockResult);
+      expect(result.value).toEqual(mockResult);
     });
   });
 
   describe('itemsSelectorFactory', () => {
-    it('should return components by uid', () => {
+    it('should return components by node uid', () => {
       let result;
 
       store
@@ -67,7 +67,7 @@ describe('Navigation Entry Items Selectors', () => {
 
       store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));
 
-      expect(result).toEqual(mockResult.testId);
+      expect(result).toEqual(mockResult);
     });
   });
 });
