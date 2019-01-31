@@ -51,6 +51,17 @@ const componentData = {
   }
 };
 
+const mappedComponentData = [
+  {
+    superType: 'AbstractCMSComponent',
+    id: 'MockLink001'
+  },
+  {
+    superType: 'AbstractCMSComponent',
+    id: 'MockLink002'
+  }
+];
+
 const componentDataMock = { data$: of({}) };
 const componentData$ = new BehaviorSubject(componentData);
 
@@ -73,7 +84,6 @@ describe('NavigationService', () => {
     TestBed.configureTestingModule({
       providers: [
         NavigationService,
-        // { provide: NavigationService, useValue: mockNavigationService },
         { provide: CmsService, useValue: mockCmsService },
         { provide: CmsComponentData, useValue: componentDataMock }
       ]
@@ -97,16 +107,7 @@ describe('NavigationService', () => {
       );
       expect(mockCmsService.loadNavigationItems).toHaveBeenCalledWith(
         'MockNavigationNode001',
-        [
-          {
-            superType: 'AbstractCMSComponent',
-            id: 'MockLink001'
-          },
-          {
-            superType: 'AbstractCMSComponent',
-            id: 'MockLink002'
-          }
-        ]
+        mappedComponentData
       );
     });
   });
@@ -131,7 +132,9 @@ describe('NavigationService', () => {
     spyOn(navigationService, 'getComponentData').and.returnValue(
       componentData$
     );
-    spyOn(navigationService, 'getNavigationEntryItems').and.callThrough();
+    spyOn(navigationService, 'getNavigationEntryItems').and.returnValue(
+      undefined
+    );
     spyOn(navigationService, 'createNode').and.callThrough();
     navigationService.getNodes().subscribe();
 
@@ -142,11 +145,28 @@ describe('NavigationService', () => {
     expect(navigationService.getNavigationEntryItems).toHaveBeenCalledWith(
       componentData.navigationNode,
       true,
+      []
+    );
+    expect(navigationService.createNode).not.toHaveBeenCalled();
+  });
+
+  it('should able to create node data from the existing entry items', () => {
+    spyOn(navigationService, 'getComponentData').and.returnValue(
+      componentData$
+    );
+    mockCmsService.getNavigationEntryItems.and.returnValue(of(itemsData));
+    spyOn(navigationService, 'getNavigationEntryItems').and.callThrough();
+    spyOn(navigationService, 'createNode').and.callThrough();
+    navigationService.getNodes().subscribe();
+
+    expect(navigationService.getComponentData).toHaveBeenCalled();
+    expect(mockCmsService.getNavigationEntryItems).toHaveBeenCalledWith(
+      componentData.navigationNode.uid
+    );
+    expect(navigationService.getNavigationEntryItems).not.toHaveBeenCalled();
+    expect(navigationService.createNode).toHaveBeenCalledWith(
+      componentData.navigationNode,
       itemsData
     );
-    // expect(navigationService.createNode).toHaveBeenCalledWith(
-    //   componentData.navigationNode,
-    //   itemsData
-    // );
   });
 });
