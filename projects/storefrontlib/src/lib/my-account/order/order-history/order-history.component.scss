@@ -66,132 +66,122 @@ $cx-order-history-no-order-padding-right-sm: 1.25rem !default;
 
 .cx-order-history {
   .table {
-    padding: $cx-order-history-table-padding;
-    margin-bottom: $cx-order-history-table-margin-bottom;
-
-    border-bottom: $cx-order-history-table-border-bottom;
-    @include var-color(
-      'border-bottom-color',
-      $cx-order-history-table-border-bottom-color
-    );
-
-    border-top: $cx-order-history-table-border-top;
-    @include var-color(
-      'border-top-color',
-      $cx-order-history-table-border-top-color
-    );
+    padding: var(--cx-paddding, 1.5rem 0 1.125rem 0);
+    margin-bottom: var(--cx-margin, 0);
+    border-width: var(--cx-border-width, 1px 0 1px 0);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    border-style: var(--cx-border-style, solid);
   }
 
   tr {
-    width: $cx-order-history-tr-width;
+    width: var(--cx-width, 100%);
 
     @include media-breakpoint-down(sm) {
-      border-top: $cx-order-history-tr-border-top-sm;
-      @include var-color(
-        'border-top-color',
-        $cx-order-history-tr-border-top-color-sm
-      );
+      border-width: var(--cx-border-width, 1px 0 0 0);
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
+      border-style: var(--cx-border-style, solid);
+
       &:first-child {
-        border-top: $cx-order-history-tr-first-child-border-top-sm;
-        padding-top: $cx-order-history-tr-first-child-padding-top-sm;
+        border-width: var(--cx-border-width, 0);
+        padding: var(--cx-padding, 1.25rem 0 0 0);
       }
     }
   }
 
   th {
-    padding: $cx-order-history-th-padding;
-    text-align: left;
+    padding: var(--cx-padding, 1.5rem 0 1.125rem 0);
+    text-align: var(--cx-text-align, left);
 
     &:last-child {
-      text-align: right;
+      text-align: var(--cx-text-align, right);
     }
   }
 
   td {
-    width: $cx-order-history-td-width;
-    padding: $cx-order-history-td-padding;
+    width: var(--cx-width, 25%);
+    padding: var(--cx-padding, 1.625rem 0);
 
     @include media-breakpoint-up(md) {
-      text-align: left;
+      text-align: var(--cx-text-align, left);
 
       &:last-child {
-        text-align: right;
+        text-align: var(--cx-text-align, right);
       }
     }
 
     @include media-breakpoint-down(sm) {
-      width: $cx-order-history-td-width-sm;
-      display: flex;
-      border: $cx-order-history-td-border-sm;
-      padding: $cx-order-history-td-padding-sm;
+      width: var(--cx-width, 100%);
+      display: var(--cx-display, flex);
+      border-width: var(--cx-border-width, 0);
+      padding: var(--cx-padding, 0 1.25rem);
 
       &:first-child {
-        padding-top: $cx-order-history-td-first-child-padding-top-sm;
+        padding-top: var(--cx-padding, 1.25rem);
       }
 
       &:last-child {
-        padding-bottom: $cx-order-history-td-last-child-padding-bottom-sm;
+        padding-bottom: var(--cx-padding, 1.25rem);
       }
     }
   }
 
   &__header {
-    padding: $cx-order-history-header-padding;
-    @include var-color('color', $cx-order-history-header-color);
+    padding: var(--cx-padding, 40px 0 0 0);
+    color: var(--cx-color, var(--cx-g-color-text));
 
     @include media-breakpoint-down(sm) {
-      padding: $cx-order-history-header-padding-sm;
+      padding: var(cx-padding, 40px 20px 0 20px);
     }
   }
 
   &__thead {
     &--mobile {
       @include media-breakpoint-down(sm) {
-        display: none;
+        display: var(--cx-display, none);
       }
     }
   }
 
   &__code {
-    text-decoration: underline;
+    text-decoration: var(--cx-text-decoration, underline);
   }
 
   &__placed {
-    text-align: center;
+    text-align: var(--cx-text-align, center);
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: var(--cx-text-align, left);
     }
   }
 
   &__status {
-    text-align: center;
+    text-align: var(--cx-text-align, center);
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: var(--cx-text-align, left);
     }
   }
 
   &__total {
-    text-align: right;
+    text-align: var(--cx-text-align, right);
 
     @include media-breakpoint-down(sm) {
-      text-align: left;
+      text-align: var(--cx-text-align, left);
     }
   }
 
   &__label {
-    text-transform: uppercase;
-    @include var-color('color', $cx-order-history-label-color);
+    text-transform: var(--cx-text-transform, uppercase);
+    color: var(--cx-color, var(--cx-g-color-secondary));
 
     @include media-breakpoint-down(sm) {
       @include type('8');
-      min-width: $cx-order-history-label-min-width-sm;
+      min-width: var(--cx-min-width, 110px);
     }
   }
 
   &__value {
-    @include var-color('color', $cx-order-history-value-color);
+    color: var(--cx-color, var(--cx-g-color-text));
 
     @include media-breakpoint-down(sm) {
       @include type('5');
@@ -200,68 +190,64 @@ $cx-order-history-no-order-padding-right-sm: 1.25rem !default;
   }
 
   &__form-group {
-    padding-left: $cx-order-history-form-group-padding-left;
-    padding-right: $cx-order-history-form-group-padding-right;
-    margin-bottom: $cx-order-history-form-group-margin-bottom;
+    padding: var(--cx-padding, 0);
+    margin-bottom: var(--cx-margin, 0);
 
     @include media-breakpoint-down(sm) {
-      padding-left: $cx-order-history-form-group-padding-sm;
-      padding-right: $cx-order-history-form-group-padding-sm;
-      padding-top: $cx-order-history-form-group-padding-sm;
-      padding-bottom: $cx-order-history-form-group-padding-sm;
+      padding: var(--cx-padding, 1.25rem);
     }
   }
 
   &__form-pagination {
     &--top {
-      display: flex;
-      justify-content: space-between;
-      padding: $cx-order-history-form-pagination-top-padding;
-      margin: $cx-order-history-form-pagination-top-margin;
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-between);
+      padding: var(--cx-padding, 1rem 0);
+      margin: var(--cx-margin, 0);
 
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
-        padding-top: $cx-order-history-form-pagination-top-padding-top-sm;
+        flex-direction: var(--cx-flex-direction, column);
+        padding-top: var(--cx-padding, 0);
       }
     }
 
     &--bottom {
-      display: flex;
-      justify-content: space-between;
-      padding: $cx-order-history-form-pagination-bottom-padding;
-      margin: $cx-order-history-form-pagination-bottom-margin;
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-between);
+      padding: var(--cx-padding, 2rem 0 1rem 0);
+      margin: var(--cx-margin, 0);
 
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
-        padding-top: $cx-order-history-form-pagination-bottom-padding-top-sm;
+        flex-direction: var(--cx-flex-direction, column);
+        padding-top: var(--cx-padding, 0);
       }
     }
   }
 
   &__pagination {
     @include media-breakpoint-down(sm) {
-      margin: $cx-order-history-pagination-margin-sm;
+      margin: var(--cx-margin, 0 auto);
     }
   }
 
   &__no-order {
     @include type('5');
     font-weight: $font-weight-normal;
-    min-height: $cx-order-history-no-order-min-height;
+    min-height: var(--cx-min-height, 415px);
 
     @include media-breakpoint-down(sm) {
-      min-height: $cx-order-history-no-order-min-height-sm;
-      padding-left: $cx-order-history-no-order-padding-left-sm;
-      padding-right: $cx-order-history-no-order-padding-right-sm;
+      min-height: var(--cx-min-height, 474px);
+      padding-left: var(--cx-padding, 1.25rem);
+      padding-right: var(--cx-padding, 1.25rem);
     }
 
     .btn {
-      margin: $cx-order-history-no-order-btn-margin;
+      margin: var(--cx-margin, 1.25rem 0);
     }
   }
 
   @include media-breakpoint-down(sm) {
-    max-width: $cx-order-history-max-width-sm;
-    padding: $cx-order-history-padding-sm;
+    max-width: var(--cx-max-width, 100%);
+    padding: var(--cx-padding, 0);
   }
 }
