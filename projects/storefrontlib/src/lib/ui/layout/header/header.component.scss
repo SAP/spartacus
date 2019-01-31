@@ -2,27 +2,12 @@
 @import 'functions';
 @import 'mixins';
 
-$space: 8px;
+$space: 0.5rem;
 
 :host {
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
-
-  @include media-breakpoint-up(lg) {
-    &:before {
-      border-top: var(--cx-border-top, 1px solid currentColor);
-      content: '';
-      position: absolute;
-
-      right: 0;
-      left: 0;
-      margin-top: 30px;
-    }
-  }
-}
-.SiteLinks {
-  --cx-padding: 0 10px;
 }
 
 header {
@@ -39,10 +24,13 @@ header {
 
 .SiteContext,
 .SiteLinks {
-  flex: 50%;
   padding: $space 0;
   font-size: 0.75rem;
   color: var(--cx-color, var(--cx-g-color-light));
+}
+
+.SiteLinks {
+  --cx-display: block;
 }
 
 .SiteLogo {
@@ -57,28 +45,33 @@ header {
   flex: 100%;
 }
 
-@include media-breakpoint-up(lg) {
-  header {
-    padding: 0 $space;
-  }
+.cx-hamburger {
+  display: block;
+}
 
-  .cx-hamburger {
-    display: none;
-  }
-
-  .SiteLinks {
-    text-align: right;
+@include media-breakpoint-only(xs) {
+  .SearchBox {
+    margin: 0 0 0 auto;
   }
 }
 
+// non-desktop
 @include media-breakpoint-down(md) {
-  .cx-hamburger {
-    display: block;
-    margin-left: $space;
+  .SiteLogin,
+  .NavigationBar,
+  .SiteContext,
+  .SiteLinks {
+    flex: 100%;
   }
 
-  .MiniCart {
-    margin-right: $space;
+  .SiteLogin,
+  .NavigationBar {
+    order: 1;
+  }
+
+  .SiteContext,
+  .SiteLinks {
+    order: 2;
   }
 
   .SiteContext,
@@ -86,36 +79,15 @@ header {
   .SiteLogin {
     background-color: var(--cx-background-color, var(--cx-g-color-background));
     color: var(--cx-color, var(--cx-g-color-text));
-    padding: 0 $space * 2;
-  }
-
-  .SiteLogin {
-    padding: $space $space * 2;
-  }
-  .SiteLogin,
-  .NavigationBar {
-    order: 1;
-    flex: 100%;
-  }
-
-  .SiteContext,
-  .SiteLinks {
-    flex: 100%;
-    order: 2;
+    --cx-padding: #{$space / 2} 0;
   }
 
   .SiteContext {
-    > * {
-      display: inline-block;
-      margin-top: $space;
-      margin-right: $space;
+    padding: $space $space * 2 $space / 2;
+  }
 
-      &:not(:first-child) {
-        padding-left: $space * 2;
-        border-left: 1px solid
-          var(--cx-border-color, var(--cx-g-color-secondary));
-      }
-    }
+  .SiteLinks {
+    padding: $space / 2 $space * 2 $space;
   }
 
   :host:not(.mobile-nav) {
@@ -125,5 +97,42 @@ header {
     .SiteLogin {
       display: none;
     }
+  }
+}
+
+// desktop
+@include media-breakpoint-up(lg) {
+  :host {
+    &:before {
+      border-top: var(--cx-border-top, 1px solid currentColor);
+      content: '';
+      position: absolute;
+
+      right: 0;
+      left: 0;
+      margin-top: 30px;
+    }
+  }
+
+  header {
+    padding: 0 $space * 2;
+  }
+  .cx-hamburger {
+    display: none;
+  }
+
+  .SiteContext,
+  .SiteLinks {
+    flex: 50%;
+  }
+
+  .SiteLinks {
+    text-align: right;
+    --cx-padding: 0 #{$space};
+    --cx-display: inline;
+  }
+
+  .SiteLogin {
+    padding: $space $space * 2;
   }
 }

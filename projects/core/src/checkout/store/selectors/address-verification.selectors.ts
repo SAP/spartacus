@@ -1,10 +1,12 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers/index';
-import * as fromReducer from './../reducers/address-verification.reducer';
+
 import { CheckoutState, AddressVerificationState } from '../checkout-state';
+import * as fromReducer from './../reducers/address-verification.reducer';
+import * as fromFeature from './../reducers/index';
+import { AddressValidation } from '../../../occ/occ-models/occ.models';
 
 export const getAddressVerificationResultsState: MemoizedSelector<
-  any,
+  CheckoutState,
   AddressVerificationState
 > = createSelector(
   fromFeature.getCheckoutState,
@@ -12,8 +14,8 @@ export const getAddressVerificationResultsState: MemoizedSelector<
 );
 
 export const getAddressVerificationResults: MemoizedSelector<
-  any,
-  any
+  CheckoutState,
+  string | AddressValidation
 > = createSelector(
   getAddressVerificationResultsState,
   fromReducer.getAddressVerificationResults

@@ -5,7 +5,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 import {
   ProductSearchService,
   ProductSearchPage,
-  Suggestion
+  Suggestion,
+  Component as SpaComponent
 } from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -38,7 +39,9 @@ const routingServiceMock = {
     return of(mockRouterState);
   }
 };
-const componentDataMock = { data$: of({}) };
+const componentDataMock = <CmsComponentData<SpaComponent>>{
+  data$: of({})
+};
 
 describe('SearchBoxComponentService', () => {
   beforeEach(() => {
