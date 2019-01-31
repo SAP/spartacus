@@ -9,7 +9,7 @@ export interface LoaderMeta {
   loader: {
     load?: boolean;
     error?: any;
-    success?: any;
+    success?: boolean;
   };
 }
 

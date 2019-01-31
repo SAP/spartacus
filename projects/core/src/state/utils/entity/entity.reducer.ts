@@ -17,7 +17,7 @@ export function entityReducer<T>(
     state: EntityState<T> = initialEntityState,
     action: EntityAction
   ): EntityState<T> => {
-    let ids;
+    let ids: string[];
     let partitionPayload = false;
     if (
       action.meta &&

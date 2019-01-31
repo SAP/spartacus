@@ -28,7 +28,7 @@ export const getComponentEntities: MemoizedSelector<
 );
 
 export const componentStateSelectorFactory = (
-  uid
+  uid: string
 ): MemoizedSelector<StateWithCms, LoaderState<any>> => {
   return createSelector(
     getComponentState,
@@ -37,7 +37,7 @@ export const componentStateSelectorFactory = (
 };
 
 export const componentSelectorFactory = (
-  uid
+  uid: string
 ): MemoizedSelector<StateWithCms, any> => {
   return createSelector(
     componentStateSelectorFactory(uid),
