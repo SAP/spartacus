@@ -1,29 +1,36 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import * as fromFeatureSelector from './feature.selector';
-import * as fromStoreFinderReducer from '../reducers/view-all-stores.reducer';
-import { StoresState, ViewAllStoresState } from '../store-finder-state';
+import {
+  StoresState,
+  StateWithStoreFinder,
+  ViewAllStoresState
+} from '../store-finder-state';
+import { getStoreFinderState } from './feature.selector';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import {
+  loaderLoadingSelector,
+  loaderValueSelector
+} from '../../../state/utils/loader/loader.selectors';
 
 export const getViewAllStoresState: MemoizedSelector<
-  StoresState,
-  ViewAllStoresState
+  StateWithStoreFinder,
+  LoaderState<ViewAllStoresState>
 > = createSelector(
-  fromFeatureSelector.getStoreFinderState,
-  (state: StoresState) => state.viewAllStores
+  getStoreFinderState,
+  (storesState: StoresState) => storesState.viewAllStores
 );
 
 export const getViewAllStoresEntities: MemoizedSelector<
-  any,
+  StateWithStoreFinder,
   any
 > = createSelector(
   getViewAllStoresState,
-  fromStoreFinderReducer.getViewAllStoresEntities
+  state => loaderValueSelector(state)
 );
 
 export const getViewAllStoresLoading: MemoizedSelector<
-  any,
-  any
+  StateWithStoreFinder,
+  boolean
 > = createSelector(
   getViewAllStoresState,
-  fromStoreFinderReducer.getViewAllStoresLoading
+  state => loaderLoadingSelector(state)
 );

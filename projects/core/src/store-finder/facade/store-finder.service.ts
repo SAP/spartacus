@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, Action, select } from '@ngrx/store';
-import { StoresState } from '../store/store-finder-state';
+import { StateWithStoreFinder } from '../store/store-finder-state';
 
 import * as fromStore from '../store/index';
 import { StoreFinderSearchConfig } from './../model/search-config';
@@ -13,7 +13,10 @@ import { WindowRef } from '../../window/window-ref';
 export class StoreFinderService {
   private geolocationWatchId: number = null;
 
-  constructor(private store: Store<StoresState>, private winRef: WindowRef) {}
+  constructor(
+    private store: Store<StateWithStoreFinder>,
+    private winRef: WindowRef
+  ) {}
 
   /**
    * Returns boolean observable for store's loading state
