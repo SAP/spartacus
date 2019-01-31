@@ -7,8 +7,8 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import {
   CheckoutService,
@@ -17,12 +17,19 @@ import {
   Country,
   UserService,
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
+  AddressValidation
 } from '@spartacus/core';
-import { Card } from '../../../../../ui/components/card/card.component';
-import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
+
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
+import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
+import { Card } from '../../../../../ui/components/card/card.component'; // tslint:disable-line
+
+type monthType = { id: number; name: string };
+type yearType = { id: number; name: number };
 
 @Component({
   selector: 'cx-payment-form',
@@ -34,8 +41,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   private checkboxSub: Subscription;
   private addressVerifySub: Subscription;
   suggestedAddressModalRef: NgbModalRef;
-  months = [];
-  years = [];
+  months: monthType[] = [];
+  years: yearType[] = [];
 
   cardTypes$: Observable<CardType[]>;
   shippingAddress$: Observable<Address>;
@@ -113,7 +120,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     // verify the new added address
     this.addressVerifySub = this.checkoutService
       .getAddressVerificationResults()
-      .subscribe((results: any) => {
+      .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
@@ -130,7 +137,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  expMonthAndYear() {
+  expMonthAndYear(): void {
     const year = new Date().getFullYear();
     for (let i = 0; i < 10; i++) {
       this.years.push({ id: i + 1, name: year + i });
@@ -144,23 +151,24 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleDefaultPaymentMethod() {
+  toggleDefaultPaymentMethod(): void {
     this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
   }
 
-  paymentSelected(card) {
+  // TODO:#530
+  paymentSelected(card): void {
     this.payment['controls'].cardType['controls'].code.setValue(card.code);
   }
 
-  monthSelected(month) {
+  monthSelected(month: monthType): void {
     this.payment['controls'].expiryMonth.setValue(month.name);
   }
 
-  yearSelected(year) {
+  yearSelected(year: yearType): void {
     this.payment['controls'].expiryYear.setValue(year.name);
   }
 
-  toggleSameAsShippingAddress() {
+  toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }
 
@@ -205,7 +213,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     };
   }
 
-  openSuggestedAddress(results: any) {
+  openSuggestedAddress(results: AddressValidation): void {
     if (!this.suggestedAddressModalRef) {
       this.suggestedAddressModalRef = this.modalService.open(
         SuggestedAddressDialogComponent,
@@ -227,11 +235,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  back() {
+  back(): void {
     this.backToPayment.emit();
   }
 
-  verifyAddress() {
+  verifyAddress(): void {
     if (this.sameAsShippingAddress) {
       this.next();
     } else {
@@ -239,7 +247,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  next() {
+  next(): void {
     this.addPaymentInfo.emit({
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress

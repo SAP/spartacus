@@ -5,19 +5,19 @@ import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateUrlOptions } from '@spartacus/core';
 import { DebugElement, ElementRef } from '@angular/core';
-
+import { NavigationNode } from '../navigation/navigation-node.model';
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string {
+  transform(options: TranslateUrlOptions): string | string[] {
     return '/translated-path' + options.url;
   }
 }
 
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
-  let navigationComponent: any;
+  let navigationComponent: NavigationUIComponent;
   let element: DebugElement;
 
   beforeEach(async () => {
@@ -84,7 +84,7 @@ describe('Navigation UI Component', () => {
         element.query(By.css('.cx-navigation__child-list')).children[0];
       const getFirstDropdownLink = () =>
         element.query(By.css('.cx-navigation__child-list a'));
-      const mockData: any = {
+      const mockData: NavigationNode = {
         title: 'Test title',
         children: [
           {
@@ -122,7 +122,7 @@ describe('Navigation UI Component', () => {
         element.query(By.css('.cx-navigation__child-list')).children[0];
       const getSublinks = (): DebugElement[] =>
         element.queryAll(By.css('a:not(.cx-navigation__child-link)'));
-      const mockData: any = {
+      const mockData: NavigationNode = {
         title: 'Test title',
         children: [
           {
@@ -165,7 +165,7 @@ describe('Navigation UI Component', () => {
     it('should render in column layout if dropdownMode equals column', () => {
       const getFirstDropdownItem = (): DebugElement =>
         element.query(By.css('.cx-navigation__child-column'));
-      const mockData: any = {
+      const mockData: NavigationNode = {
         title: 'Test title',
         children: [
           {

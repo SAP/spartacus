@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/address-verification.action';
-import { AddressValidation, Address } from '@spartacus/core';
+import { AddressValidation, Address } from '../../../occ';
 
 describe('Address Verification Actions', () => {
   describe('VerifyAddress', () => {

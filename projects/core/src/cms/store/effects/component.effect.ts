@@ -17,6 +17,12 @@ import { RoutingService } from '../../../routing/index';
 
 @Injectable()
 export class ComponentEffects {
+  constructor(
+    private actions$: Actions,
+    private occCmsService: OccCmsService,
+    private routingService: RoutingService
+  ) {}
+
   @Effect()
   loadComponent$: Observable<any> = this.actions$.pipe(
     ofType(componentActions.LOAD_COMPONENT),
@@ -37,10 +43,4 @@ export class ComponentEffects {
       );
     })
   );
-
-  constructor(
-    private actions$: Actions,
-    private occCmsService: OccCmsService,
-    private routingService: RoutingService
-  ) {}
 }

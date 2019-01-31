@@ -2,7 +2,9 @@ import {
   CardType,
   Address,
   DeliveryMode,
-  Order
+  Order,
+  PaymentDetails,
+  AddressValidation
 } from '../../occ/occ-models/index';
 
 export const CHECKOUT_FEATURE = 'checkout';
@@ -12,7 +14,7 @@ export interface StateWithCheckout {
 }
 
 export interface AddressVerificationState {
-  results: any;
+  results: AddressValidation | string;
 }
 
 export interface CardTypesState {
@@ -25,7 +27,7 @@ export interface CheckoutStepsState {
     supported: { [code: string]: DeliveryMode };
     selected: string;
   };
-  paymentDetails: any;
+  paymentDetails: PaymentDetails;
   orderDetails: Order;
 }
 
