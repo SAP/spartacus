@@ -4,8 +4,7 @@ import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
-import { CmsConfig } from '@spartacus/core';
-import { CmsParagraphComponent, Component } from '@spartacus/core';
+import { CmsParagraphComponent, Component, CmsConfig } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -21,7 +20,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   const componentData: CmsParagraphComponent = {
     uid: '001',
     typeCode: 'CMSParagraphComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
+    modifiedtime: new Date('2017-12-21T18:15:15+0000'),
     name: 'TestCMSParagraphComponent',
     container: 'false',
     title: 'Paragraph',

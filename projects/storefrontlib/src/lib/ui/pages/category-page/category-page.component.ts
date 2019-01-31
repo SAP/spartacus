@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CmsService } from '@spartacus/core';
 import { map } from 'rxjs/operators';
+import { PageLayoutService } from '../../../cms/page-layout/page-layout.service';
 
 @Component({
   selector: 'cx-category-page',
@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 export class CategoryPageComponent {
   constructor(
     protected activeRoute: ActivatedRoute,
-    protected cmsService: CmsService
+    protected pageLayoutService: PageLayoutService
   ) {}
 
   get categoryCode$(): Observable<string> {
@@ -27,7 +27,7 @@ export class CategoryPageComponent {
   }
 
   get template$(): Observable<string> {
-    return this.cmsService.getCurrentPage().pipe(map(page => page.template));
+    return this.pageLayoutService.templateName$;
   }
 
   get gridMode$(): Observable<string> {
