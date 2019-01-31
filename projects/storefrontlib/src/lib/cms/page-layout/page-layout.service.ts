@@ -21,6 +21,11 @@ export class PageLayoutService {
   //  to not polute the console log
   private warnLogMessages = {};
 
+  // TODO:
+  // distinctUntilChanged is not enough here, probably because
+  // we use the startWith operator in the breakpoint service which
+  // doesn't seem to work well with distinctUntilChanged, see
+  // https://github.com/ReactiveX/rxjs/issues/4030
   getSlots(section?: string): Observable<string[]> {
     return this.breakpointService.breakpoint$.pipe(
       switchMap(breakpoint =>
@@ -39,7 +44,10 @@ export class PageLayoutService {
   }
 
   get templateName$(): Observable<string> {
-    return this.page$.pipe(map((page: Page) => page.template));
+    return this.page$.pipe(
+      filter(page => !!page.template),
+      map((page: Page) => page.template)
+    );
   }
 
   /**

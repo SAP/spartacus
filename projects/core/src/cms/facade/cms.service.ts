@@ -38,10 +38,7 @@ export class CmsService {
    * Get current CMS page data
    */
   getCurrentPage(): Observable<Page> {
-    return this.store.pipe(
-      select(fromStore.getLatestPage),
-      filter(Boolean)
-    );
+    return this.store.pipe(select(fromStore.getLatestPage));
   }
 
   /**
