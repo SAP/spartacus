@@ -3,6 +3,8 @@ import createSpy = jasmine.createSpy;
 
 import { CmsService } from '@spartacus/core';
 import { NavigationService } from './navigation.service';
+import { CmsComponentData } from '@spartacus/storefront';
+import { BehaviorSubject, of } from 'rxjs';
 
 const itemsData = {
   MockLink001_AbstractCMSComponent: {
@@ -49,6 +51,9 @@ const componentData = {
   }
 };
 
+const componentDataMock = { data$: of({}) };
+const componentData$ = new BehaviorSubject(componentData);
+
 const resultNode = {
   children: [
     { title: 'test link 1', url: '/testLink1', target: false },
@@ -61,13 +66,16 @@ describe('NavigationService', () => {
 
   beforeEach(() => {
     mockCmsService = {
-      loadNavigationItems: createSpy()
+      loadNavigationItems: createSpy(),
+      getComponentData: createSpy().and.returnValue(of(null)),
+      getNavigationEntryItems: createSpy().and.returnValue(of(undefined))
     };
 
     TestBed.configureTestingModule({
       providers: [
         NavigationService,
-        { provide: CmsService, useValue: mockCmsService }
+        { provide: CmsService, useValue: mockCmsService },
+        { provide: CmsComponentData, useValue: componentDataMock }
       ]
     });
 
@@ -111,5 +119,26 @@ describe('NavigationService', () => {
       );
       expect(node['children']).toEqual(resultNode.children);
     });
+  });
+
+  it('should able to get navigation entry item data even if they are not exist', () => {
+    navigationService.getNodes().subscribe();
+    expect(navigationService.getNavigationEntryItems).toHaveBeenCalledWith(
+      componentData.navigationNode,
+      true,
+      []
+    );
+  });
+
+  it('should able to create node data from the existing entry items', () => {
+    spyOn(mockCmsService, 'getNavigationEntryItems').and.returnValue(
+      of(itemsData)
+    );
+    navigationService.getNodes().subscribe();
+    componentData$.next(componentData);
+    expect(navigationService.createNode).toHaveBeenCalledWith(
+      componentData.navigationNode,
+      itemsData
+    );
   });
 });
