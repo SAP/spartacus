@@ -161,7 +161,7 @@ export class PageLayoutService {
     // find closest config
     const all = this.breakpointService.breakpoints;
 
-    for (const br of all.splice(0, all.indexOf(breakpoint) + 1)) {
+    for (const br of all.splice(0, all.indexOf(breakpoint))) {
       if (
         layoutSlotConfig[br] &&
         layoutSlotConfig[br].hasOwnProperty(configAttribute)
