@@ -1,11 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
-import { CartService, TranslateUrlOptions, Component } from '@spartacus/core';
+import {
+  CartService,
+  TranslateUrlOptions,
+  Component as SpaComponent,
+  Cart,
+  CmsMiniCartComponent
+} from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart } from '@spartacus/core';
 import { PipeTransform, Pipe } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CmsComponentData } from '../../cms';
@@ -14,7 +19,7 @@ import { CmsComponentData } from '../../cms';
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions) {
+  transform(options: TranslateUrlOptions): string | string[] {
     return '/translated-path/' + options.route[0];
   }
 }
@@ -34,10 +39,10 @@ const testCart: Cart = {
   }
 };
 
-const mockComponentData: any = {
+const mockComponentData: CmsMiniCartComponent = {
   uid: '001',
   typeCode: 'MiniCartComponent',
-  modifiedTime: '2017-12-21T18:15:15+0000',
+  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
   shownProductCount: '3',
   lightboxBannerComponent: {
     uid: 'banner',
@@ -46,12 +51,12 @@ const mockComponentData: any = {
 };
 
 class MockCartService {
-  getActive() {
+  getActive(): Observable<Cart> {
     return of(testCart);
   }
 }
 
-const MockCmsComponentData = <CmsComponentData<Component>>{
+const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
   data$: of(mockComponentData)
 };
 
@@ -92,9 +97,8 @@ describe('MiniCartComponent', () => {
     });
 
     it('should contain number of items in cart', () => {
-      const cartItemsNumber = fixture.debugElement.query(
-        By.css('.cx-mini-cart__count')
-      ).nativeElement.innerText;
+      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
+        .nativeElement.innerText;
       expect(cartItemsNumber).toEqual('1');
     });
   });

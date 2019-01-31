@@ -42,7 +42,7 @@ export class RoutesConfigLoader {
       .pipe(retry(2))
       .toPromise()
       .catch(() => {
-        throw new Error(`Could not get routes configutation from url ${url}!`);
+        throw new Error(`Could not get routes configuration from url ${url}!`);
       });
   }
 
