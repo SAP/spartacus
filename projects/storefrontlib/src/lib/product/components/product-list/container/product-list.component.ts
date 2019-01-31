@@ -3,7 +3,8 @@ import {
   Input,
   OnInit,
   OnChanges,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  SimpleChanges
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
@@ -43,7 +44,7 @@ export class ProductListComponent implements OnChanges, OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     const { queryParams } = this.activatedRoute.snapshot;
     this.options = this.createOptionsByUrlParams();
 
@@ -57,8 +58,13 @@ export class ProductListComponent implements OnChanges, OnInit {
       this.query = queryParams.query;
     }
 
-    if (this.query) {
-      this.search(this.query, this.options);
+    if (
+      !changes.gridMode &&
+      (changes['query'] || changes['categoryCode'] || changes['brandCode'])
+    ) {
+      if (this.query) {
+        this.search(this.query, this.options);
+      }
     }
   }
 
