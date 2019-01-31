@@ -15,6 +15,7 @@ import {
   DELETE_USER_ADDRESS_SUCCESS,
   Address
 } from '@spartacus/core';
+import { AddressBookComponentService } from './address-book.component.service';
 
 @Component({
   selector: 'cx-address-book',
@@ -22,70 +23,67 @@ import {
   styleUrls: ['./address-book.component.scss']
 })
 export class AddressBookComponent implements OnInit, OnDestroy {
-  addresses$: Observable<any>;
-  addressesLoading$: Observable<any>;
-  addressActionProcessing$: Observable<any>;
-  userId: string;
-  isAddAddressFormOpen: boolean;
-  isEditAddressFormOpen: boolean;
-  activeAddress: Object;
+  addresses$: Observable<Address[]>;
+  addressesLoading$: Observable<boolean>;
+  addressActionProcessing$: Observable<boolean>;
+  userId$: Observable<string>;
+  isAddAddressFormOpen$: Observable<boolean>;
+  isEditAddressFormOpen$: Observable<boolean>;
+  isAnyFormOpen$: Observable<boolean>;
+
+  activeAddress: Address;
 
   subscription = new Subscription();
 
   constructor(
+    public service: AddressBookComponentService,
     private userService: UserService,
     private messagesService: GlobalMessageService,
     private actions: ActionsSubject
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService.getAddresses();
-    this.addressesLoading$ = this.userService.getAddressesLoading();
-    this.addressActionProcessing$ = this.userService.getAddressActionProcessingStatus();
+    this.addresses$ = this.service.getAddresses();
+    this.addressesLoading$ = this.service.getAddressesLoading();
+    this.addressActionProcessing$ = this.service.getAddressActionProcessing();
+    this.userId$ = this.service.getUserId();
+    this.isAddAddressFormOpen$ = this.service.getIsAddAddressFormOpen();
+    this.isEditAddressFormOpen$ = this.service.getIsEditAddressFormOpen();
+    this.isAnyFormOpen$ = this.service.getIsAnyFormOpen();
 
-    this.userService.get().subscribe(data => {
-      this.userId = data.uid;
-      this.userService.loadAddresses(this.userId);
-    });
+    this.service.loadAddresses();
 
     this.subscription = this.handleActionEvents();
   }
 
+  addNewAddress() {
+    this.service.showAddAddressForm();
+  }
+
+  // todo: delete those
+
   showAddAddressForm() {
-    this.isAddAddressFormOpen = true;
+    this.service.showAddAddressForm();
   }
 
   hideAddAddressForm() {
-    this.isAddAddressFormOpen = false;
+    this.service.hideAddAddressForm();
   }
 
-  showEditAddressForm(address) {
-    // @TODO: Since we don't get titleCode from API we need to mock it for edit.
-    this.activeAddress = {
-      ...address,
-      titleCode: 'mr'
-    };
-    this.isEditAddressFormOpen = true;
+  showEditAddressForm() {
+    this.service.showEditAddressForm();
   }
 
   hideEditAddressForm() {
-    this.isEditAddressFormOpen = false;
+    this.service.hideEditAddressForm();
   }
 
   addUserAddress(address: Address) {
-    if (this.userId) {
-      this.userService.addUserAddress(this.userId, address);
-    }
+    this.service.addUserAddress(address);
   }
 
   updateUserAddress(addressId: string, address: Address) {
-    if (this.userId) {
-      this.userService.updateUserAddress(this.userId, addressId, address);
-    }
-  }
-
-  checkIfAnyFormOpen() {
-    return this.isAddAddressFormOpen || this.isEditAddressFormOpen;
+    this.service.updateUserAddress(addressId, address);
   }
 
   handleActionEvents() {
@@ -93,60 +91,67 @@ export class AddressBookComponent implements OnInit, OnDestroy {
       switch (action.type) {
         case LOAD_USER_ADDRESSES_SUCCESS: {
           this.userService.getAddresses().subscribe(data => {
-            this.hideAddAddressForm();
+            this.service.hideAddAddressForm();
             if (data.length === 0) {
-              this.showAddAddressForm();
+              this.service.showAddAddressForm();
             }
           });
           break;
         }
 
         case ADD_USER_ADDRESS: {
-          this.hideAddAddressForm();
+          // todo: move hide function to submit button
+
+          this.service.hideAddAddressForm();
           break;
         }
 
         case ADD_USER_ADDRESS_SUCCESS: {
-          this.messagesService.add({
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            text: 'New address was added successfully!'
-          });
-          this.hideAddAddressForm();
-          this.userService.loadAddresses(this.userId);
+          // todo: move message handling to effect
+
+          // this.messagesService.add({
+          //   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          //   text: 'New address was added successfully!'
+          // });
+          this.service.hideAddAddressForm();
+
+          // todo: move reload to effect
+
+          // this.userService.loadAddresses('');
           break;
         }
 
         case ADD_USER_ADDRESS_FAIL: {
-          this.showAddAddressForm();
+          this.service.showAddAddressForm();
           break;
         }
 
         case UPDATE_USER_ADDRESS: {
-          this.hideEditAddressForm();
+          this.service.hideEditAddressForm();
           break;
         }
 
         case UPDATE_USER_ADDRESS_SUCCESS: {
-          this.messagesService.add({
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            text: 'Address updated successfully!'
-          });
-          this.hideEditAddressForm();
-          this.userService.loadAddresses(this.userId);
+          // this.messagesService.add({
+          //   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          //   text: 'Address updated successfully!'
+          // });
+          this.service.hideEditAddressForm();
+          // this.userService.loadAddresses('');
           break;
         }
 
         case UPDATE_USER_ADDRESS_FAIL: {
-          this.showEditAddressForm(this.activeAddress);
+          this.service.showEditAddressForm();
           break;
         }
 
         case DELETE_USER_ADDRESS_SUCCESS: {
-          this.messagesService.add({
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            text: 'Address deleted successfully!'
-          });
-          this.userService.loadAddresses(this.userId);
+          // this.messagesService.add({
+          //   type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          //   text: 'Address deleted successfully!'
+          // });
+          // this.userService.loadAddresses('');
           break;
         }
       }

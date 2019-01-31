@@ -5,7 +5,7 @@
   <section class="cx-page__section container">
     <div class="row" *ngIf="(addresses$ | async) as addresses">
       <div class="col-md-12">
-        <div class="cx-section" *ngIf="!checkIfAnyFormOpen()">
+        <div class="cx-section" *ngIf="(isAnyFormOpen$ | async)">
           <h1 class="cx-section__title">Address Book</h1>
           <p class="cx-section__msg">Saved shipping addresses</p>
           <div>
@@ -13,7 +13,7 @@
               <div class="col-md-6">
                 <button
                   class="btn btn-block btn-action"
-                  (click)="showAddAddressForm()"
+                  (click)="addNewAddress()"
                 >
                   Add new address
                 </button>
@@ -28,8 +28,8 @@
             >
               <div *ngFor="let address of addresses" class="col-md-6">
                 <cx-address-card
-                  (editEvent)="showEditAddressForm(address)"
-                  [userId]="userId"
+                  (editEvent)="showEditAddressForm()"
+                  [userId]="userId$ | async"
                   [address]="address"
                 ></cx-address-card>
               </div>
@@ -48,10 +48,10 @@
           </div>
         </div>
 
-        <div class="cx-section" *ngIf="checkIfAnyFormOpen()">
+        <div class="cx-section" *ngIf="(isAnyFormOpen$ | async)">
           <h1 class="cx-section__title">Address Book</h1>
 
-          <section #addAddressForm *ngIf="isAddAddressFormOpen">
+          <section #addAddressForm *ngIf="(isAddAddressFormOpen$ | async)">
             <p>Add a new shipping address</p>
             <cx-address-form
               actionBtnLabel="Add address"
@@ -62,7 +62,7 @@
             ></cx-address-form>
           </section>
 
-          <section #editAddressForm *ngIf="isEditAddressFormOpen">
+          <section #editAddressForm *ngIf="(isEditAddressFormOpen$ | async)">
             <p>Edit shipping address</p>
             <cx-address-form
               actionBtnLabel="Update address"
