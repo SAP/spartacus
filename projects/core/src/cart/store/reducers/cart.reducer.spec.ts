@@ -1,6 +1,7 @@
-import * as fromCart from './cart.reducer';
 import * as fromActions from './../actions';
-import { Cart } from '@spartacus/core';
+import { Cart } from '../../../occ';
+
+import * as fromCart from './cart.reducer';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {

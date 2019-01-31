@@ -14,15 +14,6 @@ $cx-pagination-page-link-hover-background-color: 'primary' !default;
 $cx-pagination-page-link-disabled-color: 'light' !default;
 
 .page-item {
-  &.disabled {
-    .page-link {
-      &[aria-label='Previous'],
-      &[aria-label='Next'] {
-        @include var-color('color', $cx-pagination-page-link-disabled-color);
-      }
-    }
-  }
-
   .page-link {
     padding: $cx-pagination-page-link-trbl-padding;
     font-size: $h4-font-size;
@@ -45,6 +36,15 @@ $cx-pagination-page-link-disabled-color: 'light' !default;
 
       &:hover {
         @include var-color('color', $cx-pagination-page-link-hover-color);
+      }
+    }
+  }
+
+  &.disabled {
+    .page-link {
+      &[aria-label='Previous'],
+      &[aria-label='Next'] {
+        @include var-color('color', $cx-pagination-page-link-disabled-color);
       }
     }
   }
