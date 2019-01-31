@@ -1,29 +1,5 @@
 @import 'theme';
 
-.cx-order-confirmation__create-account {
-  background-color: var(--cx-background-color, var(--cx-g-background));
-  padding: var(--cx-padding, 2.5rem 0 3.75rem 0);
-  border-width: var(--cx-border-width, 1px 0 1px 0);
-  border-style: var(--cx-border-style, solid);
-  border-color: var(--cx-border-color, var(--cx-g-color-light));
-
-  .container {
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 0);
-    @include media-breakpoint-down(md) {
-      max-width: var(--cx-max-width, 100%);
-      min-width: var(--cx-min-width, 100%);
-      padding: var(--cx-padding, 0 6.25rem);
-    }
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0 1.25rem);
-    }
-    @include media-breakpoint-down(xs) {
-      padding: var(--cx-padding, 0 1.25rem);
-    }
-  }
-}
-
 .cx-order-confirmation-message {
   text-align: var(--cx-text-align, center);
   padding: var(--cx-padding, 2.5rem);
@@ -70,10 +46,6 @@
       padding: var(--cx-padding, 1.25rem);
     }
   }
-}
-
-.cx-order-confirmation-btns {
-  padding-top: var(--cx-padding, 0.875rem);
 }
 
 .cx-order-items {
