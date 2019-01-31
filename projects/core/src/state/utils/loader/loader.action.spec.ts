@@ -50,8 +50,8 @@ describe('Loader Actions', () => {
       it('should create a meta', () => {
         const meta = loadMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
+          entityType: TEST_ENTITY_TYPE,
           loader: {
-            type: TEST_ENTITY_TYPE,
             load: true
           }
         });
@@ -62,8 +62,8 @@ describe('Loader Actions', () => {
       it('should create a meta', () => {
         const meta = failMeta(TEST_ENTITY_TYPE, 'error');
         expect(meta).toEqual({
+          entityType: TEST_ENTITY_TYPE,
           loader: {
-            type: TEST_ENTITY_TYPE,
             error: 'error'
           }
         });
@@ -74,9 +74,8 @@ describe('Loader Actions', () => {
       it('should create a meta', () => {
         const meta = successMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
-          loader: {
-            type: TEST_ENTITY_TYPE
-          }
+          entityType: TEST_ENTITY_TYPE,
+          loader: {}
         });
       });
     });
