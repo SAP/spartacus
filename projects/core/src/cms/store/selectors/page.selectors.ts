@@ -1,7 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { Page } from '../../model/page.model';
 import { CmsState, PageState, StateWithCms } from '../cms-state';
+import { ContentSlotData } from '../../model/content-slot.model';
+import { Page } from '../../model/page.model';
+
 import { getCmsState } from './feature.selectors';
 
 export const getPageEntitiesSelector = (state: PageState) => state.entities;
@@ -35,7 +37,7 @@ export const getLatestPageKey: MemoizedSelector<
 
 export const getLatestPage: MemoizedSelector<
   StateWithCms,
-  any
+  Page
 > = createSelector(
   getPageEntities,
   getLatestPageKey,
@@ -45,8 +47,8 @@ export const getLatestPage: MemoizedSelector<
 );
 
 export const currentSlotSelectorFactory = (
-  position
-): MemoizedSelector<StateWithCms, any> => {
+  position: string
+): MemoizedSelector<StateWithCms, ContentSlotData> => {
   return createSelector(
     getLatestPage,
     entity => {

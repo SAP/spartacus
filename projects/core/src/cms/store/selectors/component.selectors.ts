@@ -1,5 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { CmsState, ComponentState, StateWithCms } from '../cms-state';
+
 import { getCmsState } from './feature.selectors';
 
 export const getComponentEntitiesSelector = (state: ComponentState) =>
@@ -22,7 +24,7 @@ export const getComponentEntities: MemoizedSelector<
 );
 
 export const componentSelectorFactory = (
-  uid
+  uid: string
 ): MemoizedSelector<StateWithCms, any> => {
   return createSelector(
     getComponentEntities,
