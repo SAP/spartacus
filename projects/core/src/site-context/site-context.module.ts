@@ -7,6 +7,9 @@ import { CurrencyService } from './facade/currency.service';
 import { OccConfig } from '../occ/index';
 import { StateModule } from '../state/index';
 import { SiteContext } from './facade/site-context.interface';
+import { Config, ConfigModule } from '../config/config.module';
+import { defaultSiteContextConfig } from './config/default-site-context-config';
+import { SiteContextConfig } from './config/site-context-config';
 
 export abstract class ContextServiceMap {
   [context: string]: Type<SiteContext<any>>;
@@ -28,7 +31,7 @@ export function inititializeContext(
 
 // @dynamic
 @NgModule({
-  imports: [StateModule, SiteContextOccModule, SiteContextStoreModule],
+  imports: [ConfigModule.withConfig(defaultSiteContextConfig), StateModule, SiteContextOccModule, SiteContextStoreModule],
   providers: [
     LanguageService,
     CurrencyService,
@@ -44,7 +47,8 @@ export function inititializeContext(
       useFactory: inititializeContext,
       deps: [OccConfig, LanguageService, CurrencyService],
       multi: true
-    }
+    },
+    { provide: SiteContextConfig, useExisting: Config }
   ]
 })
 export class SiteContextModule {}
