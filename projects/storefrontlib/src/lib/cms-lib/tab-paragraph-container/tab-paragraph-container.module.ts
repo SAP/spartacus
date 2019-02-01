@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { TabParagraphContainerComponent } from './tab-paragraph-container.component';
-import { ConfigModule } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
+import { ConfigModule, CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
