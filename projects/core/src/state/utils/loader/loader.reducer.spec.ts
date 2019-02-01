@@ -2,6 +2,7 @@ import { initialLoaderState, loaderReducer } from './loader.reducer';
 import {
   LoaderFailAction,
   LoaderLoadAction,
+  LoaderResetAction,
   LoaderSuccessAction
 } from './loader.action';
 
@@ -60,6 +61,21 @@ describe('Loader reducer', () => {
         value: data
       };
       expect(state).toEqual(expectedState);
+    });
+  });
+
+  describe('RESET ACTION', () => {
+    it('should reset load state', () => {
+      const action = new LoaderResetAction(TEST_ENTITY_TYPE);
+      const initialState = {
+        loading: false,
+        error: false,
+        success: true,
+        value: 'sample data'
+      };
+
+      const state = loaderReducer(TEST_ENTITY_TYPE)(initialState, action);
+      expect(state).toEqual(initialLoaderState);
     });
   });
 });
