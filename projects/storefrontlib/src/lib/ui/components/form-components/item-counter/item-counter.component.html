@@ -23,9 +23,8 @@
       type="text"
       name="value"
       cxOnlyNumber
-      (input)="onInput($event)"
+      [formControl]="inputValue"
       [value]="value"
-      [disabled]="cartIsLoading"
       *ngIf="isValueChangeable"
     />
     <div class="cx-item-counter__value" *ngIf="!isValueChangeable">
