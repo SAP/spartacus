@@ -61,7 +61,7 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage();
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
   get pageTitle$(): Observable<string> {
