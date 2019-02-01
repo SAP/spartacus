@@ -4,6 +4,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class NavigationService {
@@ -84,11 +85,11 @@ export class NavigationService {
     return children;
   }
 
-  getComponentData() {
+  getComponentData(): Observable<CmsNavigationComponent> {
     return this.componentData.data$;
   }
 
-  getNodes() {
+  getNodes(): Observable<NavigationNode> {
     return this.getComponentData().pipe(
       switchMap(data => {
         if (data) {
