@@ -1,6 +1,6 @@
 <div #dialog>
   <!-- Modal Header -->
-  <ng-container *ngIf="(loaded$ | async); else loading">
+  <ng-container *ngIf="(loaded$ | async) as loaded; else loading">
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">Item(s) added to your cart</div>
       <button
@@ -21,7 +21,7 @@
             [compact]="true"
             [isReadOnly]="false"
             [parent]="form.controls[entry.product.code]"
-            [cartIsLoading]="!(cartLoaded$ | async)"
+            [cartIsLoading]="!loaded"
             (remove)="removeEntry($event)"
             (update)="updateEntry($event)"
           ></cx-cart-item>
