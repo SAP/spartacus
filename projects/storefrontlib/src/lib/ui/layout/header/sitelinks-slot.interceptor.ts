@@ -43,12 +43,6 @@ export class HardcodedSiteLinks implements HttpInterceptor {
               url: 'store-finder'
             },
             {
-              uid: 'contact',
-              typeCode: 'CMSLinkComponent',
-              linkName: 'Contact us',
-              url: '/contact'
-            },
-            {
               uid: 'help',
               typeCode: 'CMSLinkComponent',
               linkName: 'Help',
