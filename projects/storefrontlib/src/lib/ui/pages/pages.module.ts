@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
+import { ContentPageModule } from './content-page/content-page.module';
 import { AuthGuard } from '@spartacus/core';
 
 const pageModules = [
@@ -42,8 +43,10 @@ const pageModules = [
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
+  PageNotFoundModule,
+
   // new pages should be added above this line
-  PageNotFoundModule
+  ContentPageModule
 ];
 
 @NgModule({
@@ -53,6 +56,7 @@ const pageModules = [
     PageLayoutModule,
     RouterModule.forChild([
       {
+        // This route can be dropped only when we have a mapping path to page label for content pages
         path: null,
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
@@ -71,6 +75,8 @@ const pageModules = [
         data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
       },
       {
+        // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
+        // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
         path: null,
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
