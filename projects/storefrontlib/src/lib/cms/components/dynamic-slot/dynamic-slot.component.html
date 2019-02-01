@@ -4,7 +4,9 @@
       let component of ((currentSlot$ | async)?.components | slice: 0:limit)
     "
   >
-    <ng-container *cxOutlet="component.typeCode">
+    <ng-container
+      *cxOutlet="getComponentType(component.typeCode, component.uid)"
+    >
       <!--
         We should get ride of this attr data
         as we dont' want a hosting element wrappring our components.
