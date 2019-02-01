@@ -4,8 +4,11 @@ import { DebugElement, Component, Input } from '@angular/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
+import { Component as SpaComponent } from '@spartacus/core';
 import { NavigationService } from '../navigation/navigation.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   template: '',
@@ -13,9 +16,9 @@ import { CategoryNavigationComponent } from './category-navigation.component';
 })
 class MockNavigationComponent {
   @Input()
-  node;
+  node: NavigationNode;
   @Input()
-  dropdownMode;
+  dropdownMode: string;
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -23,7 +26,7 @@ describe('CategoryNavigationComponent', () => {
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
 
-  const componentData = {
+  const componentData: NavigationNode = {
     title: 'test',
     children: [
       {
@@ -39,7 +42,7 @@ describe('CategoryNavigationComponent', () => {
     ]
   };
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData)
   };
 

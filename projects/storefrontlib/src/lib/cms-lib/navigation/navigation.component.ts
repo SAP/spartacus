@@ -12,7 +12,7 @@ import { NavigationNode } from './navigation-node.model';
 })
 export class NavigationComponent {
   @Input() dropdownMode = 'list';
-  @Input() node: any;
+  @Input() node: NavigationNode;
 
   node$: Observable<NavigationNode>;
 

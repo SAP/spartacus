@@ -6,6 +6,12 @@ import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
 import { NavigationService } from './navigation.service';
+import {
+  CmsNavigationComponent,
+  Component as SpaComponent
+} from '@spartacus/core';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -15,14 +21,14 @@ class MockNavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }
 
 describe('CmsNavigationComponent in CmsLib', () => {
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
 
-  const componentData = {
+  const componentData: CmsNavigationComponent = {
     uid: 'MockNavigationComponent',
     typeCode: 'NavigationComponent',
     navigationNode: {
@@ -54,7 +60,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
 
   const componentData$ = new BehaviorSubject(componentData);
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: componentData$.asObservable()
   };
 

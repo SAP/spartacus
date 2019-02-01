@@ -1,19 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import {
   DebugElement,
-  Component,
   Input,
   Pipe,
-  PipeTransform
+  PipeTransform,
+  Component
 } from '@angular/core';
-import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
 
+import {
+  Component as SpaComponent,
+  TranslateUrlOptions
+} from '@spartacus/core';
 import { NavigationService } from '../navigation/navigation.service';
 import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -23,7 +29,7 @@ class MockNavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }
 
 @Component({
@@ -32,14 +38,14 @@ class MockNavigationUIComponent {
 })
 class MockGenericLinkComponent {
   @Input()
-  url;
+  url: string | any[];
   @Input()
-  target;
+  target: string;
 }
 
 @Pipe({ name: 'cxTranslateUrl' })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options) {
+  transform(options: TranslateUrlOptions): string | string[] {
     return '/translated-path' + options.url;
   }
 }
@@ -50,7 +56,7 @@ describe('FooterNavigationComponent', () => {
   let footer: DebugElement;
   let column: DebugElement;
 
-  const mockLinks = [
+  const mockLinks: NavigationNode[] = [
     {
       title: 'Test child 1',
       url: '/test1',
@@ -63,7 +69,7 @@ describe('FooterNavigationComponent', () => {
     }
   ];
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of()
   };
 
