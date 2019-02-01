@@ -49,12 +49,14 @@ export class CmsService {
     return this.store.pipe(
       select(fromStore.componentStateSelectorFactory(uid)),
       tap(componentState => {
-        const attemptedLoad =
-          componentState.loading ||
-          componentState.success ||
-          componentState.error;
-        if (!attemptedLoad) {
-          this.store.dispatch(new fromStore.LoadComponent(uid));
+        if (Object.keys(componentState).length > 0) {
+          const attemptedLoad =
+            componentState.loading ||
+            componentState.success ||
+            componentState.error;
+          if (!attemptedLoad) {
+            this.store.dispatch(new fromStore.LoadComponent(uid));
+          }
         }
       }),
       map(productState => productState.value),
