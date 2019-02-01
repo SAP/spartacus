@@ -5,10 +5,11 @@ export const LOADER_FAIL_ACTION = '[LOADER] FAIL';
 export const LOADER_SUCCESS_ACTION = '[LOADER] SUCCESS';
 
 export interface LoaderMeta {
+  entityType: string;
   loader: {
-    type?: string;
     load?: boolean;
     error?: any;
+    success?: boolean;
   };
 }
 
@@ -19,8 +20,8 @@ export interface LoaderAction extends Action {
 
 export function loadMeta(entityType: string): LoaderMeta {
   return {
+    entityType: entityType,
     loader: {
-      type: entityType,
       load: true
     }
   };
@@ -28,8 +29,8 @@ export function loadMeta(entityType: string): LoaderMeta {
 
 export function failMeta(entityType: string, error?: any): LoaderMeta {
   return {
+    entityType: entityType,
     loader: {
-      type: entityType,
       error: error ? error : true
     }
   };
@@ -37,9 +38,8 @@ export function failMeta(entityType: string, error?: any): LoaderMeta {
 
 export function successMeta(entityType: string): LoaderMeta {
   return {
-    loader: {
-      type: entityType
-    }
+    entityType: entityType,
+    loader: {}
   };
 }
 

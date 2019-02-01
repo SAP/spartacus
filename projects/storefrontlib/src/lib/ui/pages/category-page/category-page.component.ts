@@ -27,12 +27,8 @@ export class CategoryPageComponent {
     return this.activeRoute.params.pipe(map(params => params['query']));
   }
 
-  private get template$(): Observable<string> {
-    return this.pageLayoutService.templateName$;
-  }
-
   get gridMode$(): Observable<string> {
-    return this.template$.pipe(
+    return this.pageLayoutService.templateName$.pipe(
       map(template =>
         template === 'ProductGridPageTemplate' ? 'grid' : 'list'
       )
