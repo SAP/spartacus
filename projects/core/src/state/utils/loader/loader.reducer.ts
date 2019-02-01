@@ -26,7 +26,7 @@ export function loaderReducer<T>(
     if (
       action.meta &&
       action.meta.loader &&
-      action.meta.loader.type === loadActionType
+      action.meta.entityType === loadActionType
     ) {
       const entity = action.meta.loader;
 
@@ -55,9 +55,12 @@ export function loaderReducer<T>(
       }
     }
 
-    return {
-      ...state,
-      value: reducer ? reducer(state.value, action) : state.value
-    };
+    if (reducer) {
+      const newValue = reducer(state.value, action);
+      if (newValue !== state.value) {
+        return { ...state, value: newValue };
+      }
+    }
+    return state;
   };
 }
