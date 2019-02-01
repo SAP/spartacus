@@ -1,12 +1,15 @@
 import {
   failMeta,
   LOADER_FAIL_ACTION,
-  LOADER_LOAD_ACTION, LOADER_RESET_ACTION,
+  LOADER_LOAD_ACTION,
+  LOADER_RESET_ACTION,
   LOADER_SUCCESS_ACTION,
   LoaderFailAction,
-  LoaderLoadAction, LoaderResetAction,
+  LoaderLoadAction,
+  LoaderResetAction,
   LoaderSuccessAction,
-  loadMeta, resetMeta,
+  loadMeta,
+  resetMeta,
   successMeta
 } from './loader.action';
 
@@ -97,8 +100,7 @@ describe('Loader Actions', () => {
         const meta = resetMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
-          loader: {
-          }
+          loader: {}
         });
       });
     });

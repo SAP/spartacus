@@ -1,7 +1,8 @@
 import {
   failMeta,
   LoaderMeta,
-  loadMeta, resetMeta,
+  loadMeta,
+  resetMeta,
   successMeta
 } from '../loader/loader.action';
 import { entityMeta, EntityMeta } from '../entity/entity.action';

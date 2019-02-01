@@ -16,7 +16,10 @@ export function entityMeta(type: string, id: string | string[]): EntityMeta {
   };
 }
 
-export function entityRemoveMeta(type: string, id: string | string[]): EntityMeta {
+export function entityRemoveMeta(
+  type: string,
+  id: string | string[]
+): EntityMeta {
   return {
     entityId: id,
     entityType: type,
@@ -31,7 +34,6 @@ export function entityRemoveAllMeta(type: string): EntityMeta {
     entityRemove: true
   };
 }
-
 
 export interface EntityAction extends Action {
   readonly payload?: any;
