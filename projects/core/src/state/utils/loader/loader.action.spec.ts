@@ -1,12 +1,12 @@
 import {
   failMeta,
   LOADER_FAIL_ACTION,
-  LOADER_LOAD_ACTION,
+  LOADER_LOAD_ACTION, LOADER_RESET_ACTION,
   LOADER_SUCCESS_ACTION,
   LoaderFailAction,
-  LoaderLoadAction,
+  LoaderLoadAction, LoaderResetAction,
   LoaderSuccessAction,
-  loadMeta,
+  loadMeta, resetMeta,
   successMeta
 } from './loader.action';
 
@@ -43,6 +43,16 @@ describe('Loader Actions', () => {
         });
       });
     });
+
+    describe('LoaderResetAction', () => {
+      it('should create an action', () => {
+        const action = new LoaderResetAction(TEST_ENTITY_TYPE);
+        expect({ ...action }).toEqual({
+          type: LOADER_RESET_ACTION,
+          meta: resetMeta(TEST_ENTITY_TYPE)
+        });
+      });
+    });
   });
 
   describe('meta creators', () => {
@@ -75,7 +85,20 @@ describe('Loader Actions', () => {
         const meta = successMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
-          loader: {}
+          loader: {
+            success: true
+          }
+        });
+      });
+    });
+
+    describe('resetMeta', () => {
+      it('should create a meta', () => {
+        const meta = resetMeta(TEST_ENTITY_TYPE);
+        expect(meta).toEqual({
+          entityType: TEST_ENTITY_TYPE,
+          loader: {
+          }
         });
       });
     });

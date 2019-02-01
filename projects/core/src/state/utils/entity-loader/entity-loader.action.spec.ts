@@ -1,11 +1,11 @@
 import {
   ENTITY_FAIL_ACTION,
-  ENTITY_LOAD_ACTION,
+  ENTITY_LOAD_ACTION, ENTITY_RESET_ACTION,
   ENTITY_SUCCESS_ACTION,
   EntityFailAction,
   entityFailMeta,
   EntityLoadAction,
-  entityLoadMeta,
+  entityLoadMeta, EntityResetAction, entityResetMeta,
   EntitySuccessAction,
   entitySuccessMeta
 } from './entity-loader.action';
@@ -51,6 +51,19 @@ describe('EntityLoader Actions', () => {
         });
       });
     });
+
+    describe('LoaderResetAction', () => {
+      it('should create an action', () => {
+        const action = new EntityResetAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITY_ID
+        );
+        expect({ ...action }).toEqual({
+          type: ENTITY_RESET_ACTION,
+          meta: entityResetMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID)
+        });
+      });
+    });
   });
 
   describe('meta creators', () => {
@@ -84,11 +97,26 @@ describe('EntityLoader Actions', () => {
       it('should create a meta', () => {
         const meta = entitySuccessMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect(meta).toEqual({
-          loader: {},
+          loader: {
+            success: true
+          },
           entityId: TEST_ENTITY_ID,
           entityType: TEST_ENTITY_TYPE
         });
       });
     });
+
+    describe('resetMeta', () => {
+      it('should create a meta', () => {
+        const meta = entityResetMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        expect(meta).toEqual({
+          loader: {
+          },
+          entityId: TEST_ENTITY_ID,
+          entityType: TEST_ENTITY_TYPE
+        });
+      });
+    });
+
   });
 });
