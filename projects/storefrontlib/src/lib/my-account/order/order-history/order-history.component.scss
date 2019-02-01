@@ -1,77 +1,20 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/pagination';
-
-//cx-order-history color variables
-$cx-order-history-table-border-top-color: 'light' !default;
-$cx-order-history-table-border-bottom-color: 'light' !default;
-$cx-order-history-tr-border-top-color-sm: 'light' !default;
-$cx-order-history-label-color: 'secondary' !default;
-$cx-order-history-value-color: 'text' !default;
-$cx-order-history-header-color: 'text' !default;
-
-//cx-order-history variables
-$cx-order-history-max-width-sm: 100% !default;
-$cx-order-history-padding-sm: 0 !default;
-
-$cx-order-history-table-padding: 1.5rem 0 1.125rem 0 !default;
-$cx-order-history-table-margin-bottom: 0 !default;
-$cx-order-history-table-border-top: 1px solid !default;
-$cx-order-history-table-border-bottom: 1px solid !default;
-
-$cx-order-history-tr-width: 100% !default;
-$cx-order-history-tr-border-top-sm: 1px solid !default;
-$cx-order-history-tr-first-child-padding-top-sm: 1.25rem !default;
-$cx-order-history-tr-first-child-border-top-sm: 0 none !default;
-
-$cx-order-history-th-padding: 1.5rem 0 1.125rem 0 !default;
-
-$cx-order-history-td-width: 25% !default;
-$cx-order-history-td-width-sm: 100% !default;
-$cx-order-history-td-padding: 1.625rem 0 !default;
-$cx-order-history-td-border-sm: 0 none !default;
-$cx-order-history-td-padding-sm: 0 1.25rem !default;
-$cx-order-history-td-first-child-padding-top-sm: 1.25rem !default;
-$cx-order-history-td-last-child-padding-bottom-sm: 1.25rem !default;
-
-$cx-order-history-header-padding: 40px 0 0 0 !default;
-$cx-order-history-header-padding-sm: 40px 20px 0 20px !default;
-
-$cx-order-history-label-min-width-sm: 110px !default;
-
-$cx-order-history-form-group-margin-bottom: 0 !default;
-$cx-order-history-form-group-col-sm-12-padding: 0 !default;
-$cx-order-history-form-group-col-sm-12-padding-sm: 20px !default;
-$cx-order-history-form-group-padding-left: 0 !default;
-$cx-order-history-form-group-padding-right: 0 !default;
-$cx-order-history-form-group-padding-sm: 1.25rem !default;
-
-$cx-order-history-form-pagination-top-padding: 1rem 0 !default;
-$cx-order-history-form-pagination-top-padding-top-sm: 0 !default;
-$cx-order-history-form-pagination-top-margin: 0 !default;
-$cx-order-history-form-pagination-bottom-padding: 2rem 0 1rem 0 !default;
-$cx-order-history-form-pagination-bottom-padding-top-sm: 0 !default;
-$cx-order-history-form-pagination-bottom-margin: 0 !default;
-
-$cx-order-history-pagination-margin-sm: 0 auto !default;
-
-$cx-order-history-no-order-min-height: 415px !default;
-$cx-order-history-no-order-min-height-sm: 474px !default;
-$cx-order-history-no-order-col-sm-12-padding: 0 !default;
-$cx-order-history-no-order-col-sm-12-padding-sm: 1.25rem !default;
-$cx-order-history-no-order-btn-margin: 1.25rem 0 !default;
-$cx-order-history-no-order-padding-left-sm: 1.25rem !default;
-$cx-order-history-no-order-padding-right-sm: 1.25rem !default;
+// @import 'functions';
+// @import 'mixins';
+// @import '~bootstrap/scss/pagination';
 
 .cx-order-history {
-  .table {
-    padding: var(--cx-paddding, 1.5rem 0 1.125rem 0);
-    margin-bottom: var(--cx-margin, 0);
-    border-width: var(--cx-border-width, 1px 0 1px 0);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
-    border-style: var(--cx-border-style, solid);
+  @include media-breakpoint-down(sm) {
+    max-width: var(--cx-max-width, 100%);
+    padding: var(--cx-padding, 0);
   }
+}
+.cx-order-history-table {
+  padding: var(--cx-paddding, 1.5rem 0 1.125rem 0);
+  margin-bottom: var(--cx-margin, 0);
+  border-width: var(--cx-border-width, 1px 0 1px 0);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  border-style: var(--cx-border-style, solid);
 
   tr {
     width: var(--cx-width, 100%);
@@ -124,130 +67,123 @@ $cx-order-history-no-order-padding-right-sm: 1.25rem !default;
       }
     }
   }
+}
 
-  &__header {
-    padding: var(--cx-padding, 40px 0 0 0);
-    color: var(--cx-color, var(--cx-g-color-text));
-
-    @include media-breakpoint-down(sm) {
-      padding: var(cx-padding, 40px 20px 0 20px);
-    }
-  }
-
-  &__thead {
-    &--mobile {
-      @include media-breakpoint-down(sm) {
-        display: var(--cx-display, none);
-      }
-    }
-  }
-
-  &__code {
-    text-decoration: var(--cx-text-decoration, underline);
-  }
-
-  &__placed {
-    text-align: var(--cx-text-align, center);
-
-    @include media-breakpoint-down(sm) {
-      text-align: var(--cx-text-align, left);
-    }
-  }
-
-  &__status {
-    text-align: var(--cx-text-align, center);
-
-    @include media-breakpoint-down(sm) {
-      text-align: var(--cx-text-align, left);
-    }
-  }
-
-  &__total {
-    text-align: var(--cx-text-align, right);
-
-    @include media-breakpoint-down(sm) {
-      text-align: var(--cx-text-align, left);
-    }
-  }
-
-  &__label {
-    text-transform: var(--cx-text-transform, uppercase);
-    color: var(--cx-color, var(--cx-g-color-secondary));
-
-    @include media-breakpoint-down(sm) {
-      @include type('8');
-      min-width: var(--cx-min-width, 110px);
-    }
-  }
-
-  &__value {
-    color: var(--cx-color, var(--cx-g-color-text));
-
-    @include media-breakpoint-down(sm) {
-      @include type('5');
-      font-weight: $font-weight-normal;
-    }
-  }
-
-  &__form-group {
-    padding: var(--cx-padding, 0);
-    margin-bottom: var(--cx-margin, 0);
-
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.25rem);
-    }
-  }
-
-  &__form-pagination {
-    &--top {
-      display: var(--cx-display, flex);
-      justify-content: var(--cx-justify-content, space-between);
-      padding: var(--cx-padding, 1rem 0);
-      margin: var(--cx-margin, 0);
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: var(--cx-flex-direction, column);
-        padding-top: var(--cx-padding, 0);
-      }
-    }
-
-    &--bottom {
-      display: var(--cx-display, flex);
-      justify-content: var(--cx-justify-content, space-between);
-      padding: var(--cx-padding, 2rem 0 1rem 0);
-      margin: var(--cx-margin, 0);
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: var(--cx-flex-direction, column);
-        padding-top: var(--cx-padding, 0);
-      }
-    }
-  }
-
-  &__pagination {
-    @include media-breakpoint-down(sm) {
-      margin: var(--cx-margin, 0 auto);
-    }
-  }
-
-  &__no-order {
-    @include type('5');
-    font-weight: $font-weight-normal;
-    min-height: var(--cx-min-height, 415px);
-
-    @include media-breakpoint-down(sm) {
-      min-height: var(--cx-min-height, 474px);
-      padding-left: var(--cx-padding, 1.25rem);
-      padding-right: var(--cx-padding, 1.25rem);
-    }
-
-    .btn {
-      margin: var(--cx-margin, 1.25rem 0);
-    }
-  }
+.cx-order-history-header {
+  padding: var(--cx-padding, 40px 0 0 0);
+  color: var(--cx-color, var(--cx-g-color-text));
 
   @include media-breakpoint-down(sm) {
-    max-width: var(--cx-max-width, 100%);
-    padding: var(--cx-padding, 0);
+    padding: var(cx-padding, 40px 20px 0 20px);
+  }
+}
+
+.cx-order-history-thead-mobile {
+  @include media-breakpoint-down(sm) {
+    display: var(--cx-display, none);
+  }
+}
+
+.cx-order-history-code {
+  text-decoration: var(--cx-text-decoration, underline);
+}
+
+.cx-order-history-placed {
+  text-align: var(--cx-text-align, center);
+
+  @include media-breakpoint-down(sm) {
+    text-align: var(--cx-text-align, left);
+  }
+}
+
+.cx-order-history-status {
+  text-align: var(--cx-text-align, center);
+
+  @include media-breakpoint-down(sm) {
+    text-align: var(--cx-text-align, left);
+  }
+}
+
+.cx-order-history-total {
+  text-align: var(--cx-text-align, right);
+
+  @include media-breakpoint-down(sm) {
+    text-align: var(--cx-text-align, left);
+  }
+}
+
+.cx-order-history-label {
+  text-transform: var(--cx-text-transform, uppercase);
+  color: var(--cx-color, var(--cx-g-color-secondary));
+
+  @include media-breakpoint-down(sm) {
+    @include type('8');
+    min-width: var(--cx-min-width, 110px);
+  }
+}
+
+.cx-order-history-value {
+  color: var(--cx-color, var(--cx-g-color-text));
+
+  @include media-breakpoint-down(sm) {
+    @include type('5');
+    font-weight: $font-weight-normal;
+  }
+}
+
+.cx-order-history-form-group {
+  padding: var(--cx-padding, 0);
+  margin-bottom: var(--cx-margin, 0);
+
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 1.25rem);
+  }
+}
+
+.cx-order-history-sort {
+  &.top {
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, space-between);
+    padding: var(--cx-padding, 1rem 0);
+    margin: var(--cx-margin, 0);
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: var(--cx-flex-direction, column);
+      padding-top: var(--cx-padding, 0);
+    }
+  }
+
+  &.bottom {
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, space-between);
+    padding: var(--cx-padding, 2rem 0 1rem 0);
+    margin: var(--cx-margin, 0);
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: var(--cx-flex-direction, column);
+      padding-top: var(--cx-padding, 0);
+    }
+  }
+}
+
+.cx-order-history-pagination {
+  @include media-breakpoint-down(sm) {
+    margin: var(--cx-margin, 0 auto);
+  }
+}
+
+.cx-order-history-no-order {
+  @include type('5');
+  font-weight: $font-weight-normal;
+  min-height: var(--cx-min-height, 415px);
+
+  @include media-breakpoint-down(sm) {
+    min-height: var(--cx-min-height, 474px);
+    padding-left: var(--cx-padding, 1.25rem);
+    padding-right: var(--cx-padding, 1.25rem);
+  }
+
+  .btn {
+    margin: var(--cx-margin, 1.25rem 0);
   }
 }
