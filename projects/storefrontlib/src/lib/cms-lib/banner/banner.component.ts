@@ -16,7 +16,7 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent {
-  static hasMedia(data) {
+  static hasMedia(data): boolean {
     return !!data.media;
   }
 

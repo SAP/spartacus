@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 export class ResponsiveBannerComponent extends BannerComponent {
   // TODO: move to a more generic location
   // TODO: Make configurable
-  private formats = [
+  private formats: any[] = [
     { code: 'mobile', width: 200 },
     { code: 'tablet', width: 500 },
     { code: 'desktop', width: 800 },

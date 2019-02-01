@@ -4,14 +4,15 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccMiscsService } from './miscs.service';
 import {
   OccConfig,
   CountryList,
   TitleList,
   CardTypeList,
   RegionList
-} from '@spartacus/core';
+} from '../../occ';
+
+import { OccMiscsService } from './miscs.service';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

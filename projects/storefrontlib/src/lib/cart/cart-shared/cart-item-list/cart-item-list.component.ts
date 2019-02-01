@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { CartService } from '@spartacus/core';
+import { CartService, PromotionResult } from '@spartacus/core';
+
 import { Item } from '../../cart-shared/cart-item/cart-item.component';
 
 @Component({
@@ -21,7 +22,7 @@ export class CartItemListComponent implements OnInit {
   items: Item[] = [];
 
   @Input()
-  potentialProductPromotions: any[] = [];
+  potentialProductPromotions: PromotionResult[] = [];
 
   @Input()
   cartIsLoading = false;
@@ -42,17 +43,23 @@ export class CartItemListComponent implements OnInit {
     });
   }
 
-  removeEntry(item) {
+  removeEntry(item: Item): void {
     this.cartService.removeEntry(item);
     delete this.form.controls[item.product.code];
   }
 
-  updateEntry({ item, updatedQuantity }) {
+  updateEntry({
+    item,
+    updatedQuantity
+  }: {
+    item: any;
+    updatedQuantity: number;
+  }): void {
     this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
-  getPotentialProductPromotionsForItem(item) {
-    const entryPromotions = [];
+  getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {
+    const entryPromotions: PromotionResult[] = [];
     if (
       this.potentialProductPromotions &&
       this.potentialProductPromotions.length > 0
@@ -74,7 +81,7 @@ export class CartItemListComponent implements OnInit {
     return entryPromotions;
   }
 
-  private createEntryFormGroup(entry) {
+  private createEntryFormGroup(entry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
       quantity: entry.quantity

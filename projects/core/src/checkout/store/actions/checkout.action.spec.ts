@@ -1,10 +1,5 @@
 import * as fromAction from '../actions/checkout.action';
-import {
-  DeliveryModeList,
-  Address,
-  PaymentDetails,
-  Order
-} from '@spartacus/core';
+import { DeliveryModeList, Address, PaymentDetails, Order } from '../../../occ';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';

@@ -1,11 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
+
+import { DeliveryMode, CheckoutService } from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
 import createSpy = jasmine.createSpy;
 
 import { DeliveryModeComponent } from './delivery-mode.component';
-import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
 class MockCheckoutService {
   loadSupportedDeliveryModes = createSpy();
@@ -13,19 +16,22 @@ class MockCheckoutService {
     return of();
   }
 }
-const mockDeliveryMode1 = {
+const mockDeliveryMode1: DeliveryMode = {
   code: 'standard-gross',
   name: 'Standard Delivery',
   deliveryCost: { formattedValue: '$10.00' }
 };
 
-const mockDeliveryMode2 = {
+const mockDeliveryMode2: DeliveryMode = {
   code: 'premium-gross',
   name: 'Premium Delivery',
   deliveryCost: { formattedValue: '$20.00' }
 };
 
-const mockSupportedDeliveryModes = [mockDeliveryMode1, mockDeliveryMode2];
+const mockSupportedDeliveryModes: DeliveryMode[] = [
+  mockDeliveryMode1,
+  mockDeliveryMode2
+];
 
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
@@ -70,7 +76,7 @@ describe('DeliveryModeComponent', () => {
       of(mockSupportedDeliveryModes)
     );
     component.ngOnInit();
-    let deliveryModes;
+    let deliveryModes: DeliveryMode[];
     component.supportedDeliveryModes$.subscribe(data => {
       deliveryModes = data;
     });

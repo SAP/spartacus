@@ -16,6 +16,5 @@ export interface CartState {
   content: any;
   entries: { [code: string]: OrderEntry };
   refresh: boolean;
-  loaded: boolean;
   cartMergeComplete: boolean;
 }

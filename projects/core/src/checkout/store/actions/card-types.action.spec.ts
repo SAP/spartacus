@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/card-types.action';
-import { CardType } from '@spartacus/core';
+import { CardType } from '../../../occ';
 
 describe('Card Types Actions', () => {
   describe('LoadCardTypes', () => {
