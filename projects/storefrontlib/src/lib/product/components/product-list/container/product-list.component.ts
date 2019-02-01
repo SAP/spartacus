@@ -3,8 +3,7 @@ import {
   Input,
   OnInit,
   OnChanges,
-  ChangeDetectionStrategy,
-  SimpleChanges
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
@@ -38,13 +37,14 @@ export class ProductListComponent implements OnChanges, OnInit {
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
+  firstLoad = false;
 
   constructor(
     protected productSearchService: ProductSearchService,
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges() {
     const { queryParams } = this.activatedRoute.snapshot;
     this.options = this.createOptionsByUrlParams();
 
@@ -57,14 +57,8 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (!this.query && queryParams.query) {
       this.query = queryParams.query;
     }
-
-    if (
-      !changes.gridMode &&
-      (changes['query'] || changes['categoryCode'] || changes['brandCode'])
-    ) {
-      if (this.query) {
-        this.search(this.query, this.options);
-      }
+    if (this.query) {
+      this.search(this.query, this.options);
     }
   }
 
@@ -97,12 +91,13 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.model$ = this.productSearchService.getSearchResults().pipe(
       tap(searchResult => {
         if (Object.keys(searchResult).length === 0) {
-          if (this.query) {
+          if (this.query && this.firstLoad) {
             this.search(this.query, this.options);
           }
         } else {
           this.getCategoryTitle(searchResult);
         }
+        this.firstLoad = true;
       }),
       filter(searchResult => Object.keys(searchResult).length > 0)
     );
