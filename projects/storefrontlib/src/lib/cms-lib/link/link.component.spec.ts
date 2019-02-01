@@ -4,12 +4,12 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import { CmsConfig } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import {
   CmsLinkComponent,
-  Component,
-  TranslateUrlOptions
+  Component as SpaComponent,
+  TranslateUrlOptions,
+  CmsConfig
 } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsConfig = {
@@ -22,7 +22,7 @@ const UseCmsModuleConfig: CmsConfig = {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions) {
+  transform(options: TranslateUrlOptions): string | string[] {
     return '/translated-path' + options.url;
   }
 }
@@ -40,7 +40,7 @@ describe('LinkComponent', () => {
     url: '/store-finder'
   };
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData)
   };
 

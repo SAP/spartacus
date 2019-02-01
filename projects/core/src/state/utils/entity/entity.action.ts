@@ -1,21 +1,18 @@
 import { Action } from '@ngrx/store';
 
 export interface EntityMeta {
-  entity: {
-    id: string;
-    type: string;
-  };
+  entityId: string | string[];
+  entityType: string;
 }
 
-export function entityMeta(type: string, id: string): EntityMeta {
+export function entityMeta(type: string, id: string | string[]): EntityMeta {
   return {
-    entity: {
-      type,
-      id
-    }
+    entityId: id,
+    entityType: type
   };
 }
 
 export interface EntityAction extends Action {
+  readonly payload?: any;
   readonly meta?: EntityMeta;
 }
