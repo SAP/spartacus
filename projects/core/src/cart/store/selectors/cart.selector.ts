@@ -10,13 +10,16 @@ import {
   StateWithCart,
   CART_FEATURE
 } from '../cart-state';
-import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';
+import {
+  loaderSuccessSelector,
+  loaderValueSelector,
+  loaderLoadingSelector
+} from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;
 export const getEntriesSelector = (state: CartState) => state.entries;
-export const getLoadedSelector = (state: CartState) => state.loaded;
 export const getCartMergeCompleteSelector = (state: CartState) =>
   state.cartMergeComplete;
 
@@ -57,12 +60,12 @@ export const getRefresh: MemoizedSelector<
   getRefreshSelector
 );
 
-export const getLoaded: MemoizedSelector<
-  StateWithCart,
-  boolean
-> = createSelector(
-  getCartState,
-  getLoadedSelector
+export const getLoaded: MemoizedSelector<any, boolean> = createSelector(
+  getActiveCartState,
+  state =>
+    loaderSuccessSelector(state) &&
+    !loaderLoadingSelector(state) &&
+    !loaderValueSelector(state).refresh
 );
 
 export const getCartMergeComplete: MemoizedSelector<

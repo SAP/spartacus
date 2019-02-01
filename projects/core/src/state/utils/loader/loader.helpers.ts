@@ -10,7 +10,7 @@ export function ofLoaderLoad(
     (action: EntityLoadAction) =>
       action.meta &&
       action.meta.loader &&
-      action.meta.loader.type === entityType &&
+      action.meta.entityType === entityType &&
       action.meta.loader.load
   );
 }
@@ -22,7 +22,7 @@ export function ofLoaderFail(
     (action: EntityLoadAction) =>
       action.meta &&
       action.meta.loader &&
-      action.meta.loader.type === entityType &&
+      action.meta.entityType === entityType &&
       action.meta.loader.error
   );
 }
@@ -34,7 +34,7 @@ export function ofLoaderSuccess(
     (action: EntityLoadAction) =>
       action.meta &&
       action.meta.loader &&
-      action.meta.loader.type === entityType &&
+      action.meta.entityType === entityType &&
       !action.meta.loader.load &&
       !action.meta.loader.error
   );
