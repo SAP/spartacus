@@ -8,8 +8,11 @@ import {
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
-import { SearchConfig } from '@spartacus/core';
-import { ProductSearchService } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  SearchConfig
+} from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-list',
@@ -33,8 +36,8 @@ export class ProductListComponent implements OnChanges, OnInit {
   model$: Observable<any>;
   searchConfig: SearchConfig = {};
   categoryTitle: string;
-
-  options;
+  options: SearchConfig;
+  firstLoad = false;
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -54,7 +57,6 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (!this.query && queryParams.query) {
       this.query = queryParams.query;
     }
-
     if (this.query) {
       this.search(this.query, this.options);
     }
@@ -89,18 +91,19 @@ export class ProductListComponent implements OnChanges, OnInit {
     this.model$ = this.productSearchService.getSearchResults().pipe(
       tap(searchResult => {
         if (Object.keys(searchResult).length === 0) {
-          if (this.query) {
+          if (this.query && this.firstLoad) {
             this.search(this.query, this.options);
           }
         } else {
           this.getCategoryTitle(searchResult);
         }
+        this.firstLoad = true;
       }),
       filter(searchResult => Object.keys(searchResult).length > 0)
     );
   }
 
-  getCategoryTitle(data): string {
+  protected getCategoryTitle(data: ProductSearchPage): string {
     if (data.breadcrumbs && data.breadcrumbs.length > 0) {
       this.categoryTitle = data.breadcrumbs[0].facetValueName;
     } else if (!this.query.includes(':relevance:')) {
