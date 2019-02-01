@@ -28,7 +28,9 @@ export function entityReducer<T>(
 
       // remove selected entities
       if (action.meta.entityRemove) {
-        if (ids.length) {
+        if (action.meta.entityId === null) {
+          return initialEntityState;
+        } else {
           let removed = false;
           const newEntities = Object.keys(state.entities).reduce((acc, cur) => {
             if (ids.indexOf(cur) > -1) {
@@ -40,8 +42,6 @@ export function entityReducer<T>(
           }, {});
 
           return removed ? { entities: newEntities } : state;
-        } else {
-          return action.meta.entityId === null ? initialEntityState : state;
         }
       }
 
