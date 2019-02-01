@@ -27,7 +27,6 @@ import { Observable, Subscription } from 'rxjs';
 export class AddressBookComponent implements OnInit, OnDestroy {
   addresses$: Observable<Address[]>;
   addressesLoading$: Observable<boolean>;
-  addressActionProcessing$: Observable<boolean>;
   userId: string;
   isAddAddressFormOpen: boolean;
   isEditAddressFormOpen: boolean;
@@ -44,7 +43,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.addresses$ = this.userService.getAddresses();
     this.addressesLoading$ = this.userService.getAddressesLoading();
-    this.addressActionProcessing$ = this.userService.getAddressActionProcessingStatus();
 
     this.userService.get().subscribe(data => {
       this.userId = data.uid;

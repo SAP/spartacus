@@ -21,7 +21,7 @@ export interface StateWithUser {
 
 export interface UserState {
   account: UserDetailsState;
-  addresses: LoaderState<UserAddressesState>;
+  addresses: LoaderState<Address[]>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
   payments: LoaderState<PaymentDetails[]>;
@@ -61,11 +61,6 @@ export interface TitleEntities {
 
 export interface TitlesState {
   entities: TitleEntities;
-}
-
-export interface UserAddressesState {
-  list: Address[];
-  isActionProcessing: boolean;
 }
 
 export interface UserDetailsState {

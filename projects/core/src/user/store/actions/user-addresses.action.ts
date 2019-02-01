@@ -1,5 +1,3 @@
-import { Action } from '@ngrx/store';
-
 import { USER_ADDRESSES } from '../user-state';
 import { Address } from '../../../occ/occ-models/index';
 import {
@@ -46,53 +44,71 @@ export class LoadUserAddressesSuccess extends LoaderSuccessAction {
 }
 
 // Adding address actions
-export class AddUserAddress implements Action {
+export class AddUserAddress extends LoaderLoadAction {
   readonly type = ADD_USER_ADDRESS;
-  constructor(public payload: { userId: string; address: Address }) {}
+  constructor(public payload: { userId: string; address: Address }) {
+    super(USER_ADDRESSES);
+  }
 }
 
-export class AddUserAddressFail implements Action {
+export class AddUserAddressFail extends LoaderFailAction {
   readonly type = ADD_USER_ADDRESS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES, payload);
+  }
 }
 
-export class AddUserAddressSuccess implements Action {
+export class AddUserAddressSuccess extends LoaderSuccessAction {
   readonly type = ADD_USER_ADDRESS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES);
+  }
 }
 
 // Updating address actions
-export class UpdateUserAddress implements Action {
+export class UpdateUserAddress extends LoaderLoadAction {
   readonly type = UPDATE_USER_ADDRESS;
   constructor(
     public payload: { userId: string; addressId: string; address: Address }
-  ) {}
+  ) {
+    super(USER_ADDRESSES);
+  }
 }
 
-export class UpdateUserAddressFail implements Action {
+export class UpdateUserAddressFail extends LoaderFailAction {
   readonly type = UPDATE_USER_ADDRESS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES, payload);
+  }
 }
 
-export class UpdateUserAddressSuccess implements Action {
+export class UpdateUserAddressSuccess extends LoaderSuccessAction {
   readonly type = UPDATE_USER_ADDRESS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES);
+  }
 }
 
 // Deleting address actions
-export class DeleteUserAddress implements Action {
+export class DeleteUserAddress extends LoaderLoadAction {
   readonly type = DELETE_USER_ADDRESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES);
+  }
 }
 
-export class DeleteUserAddressFail implements Action {
+export class DeleteUserAddressFail extends LoaderFailAction {
   readonly type = DELETE_USER_ADDRESS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES, payload);
+  }
 }
 
-export class DeleteUserAddressSuccess implements Action {
+export class DeleteUserAddressSuccess extends LoaderSuccessAction {
   readonly type = DELETE_USER_ADDRESS_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_ADDRESSES);
+  }
 }
 
 // action types
