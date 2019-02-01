@@ -135,7 +135,7 @@ describe('Entity reducer', () => {
       expect(state).toEqual(expectedState);
     });
 
-    it('should not change state if noe entities were removed', () => {
+    it('should not change state if no entities were removed', () => {
       const action = new EntityRemoveAction('testType', ['a', 'c']);
       const initialState = {
         entities: {

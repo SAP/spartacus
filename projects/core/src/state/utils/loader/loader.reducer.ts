@@ -13,7 +13,7 @@ export const initialLoaderState: LoaderState<any> = {
  * Higher order reducer that adds generic loading flag to chunk of the state
  *
  * Utilizes "loader" meta field of actions to set specific flags for specific
- * action (LOAD, SUCCESS, FAIL)
+ * action (LOAD, SUCCESS, FAIL, RESET)
  */
 export function loaderReducer<T>(
   loadActionType: string,
@@ -53,7 +53,13 @@ export function loaderReducer<T>(
           success: true
         };
       } else {
-        return initialLoaderState;
+        // reset state action
+        return {
+          ...initialLoaderState,
+          value: reducer
+            ? reducer(initialLoaderState.value, action)
+            : initialLoaderState.value
+        };
       }
     }
 
