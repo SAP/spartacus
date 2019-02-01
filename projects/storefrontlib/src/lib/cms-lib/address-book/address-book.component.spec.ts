@@ -95,14 +95,6 @@ describe('AddressBookComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show page title', () => {
-    component.ngOnInit();
-    fixture.detectChanges();
-    expect(
-      el.query(By.css('.cx-page__title')).nativeElement.textContent
-    ).toContain('Address Book');
-  });
-
   it('should show spinner if addresses are loading', () => {
     component.ngOnInit();
     isLoading.next(true);
