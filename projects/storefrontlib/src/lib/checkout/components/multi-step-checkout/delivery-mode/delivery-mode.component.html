@@ -1,8 +1,8 @@
-<div class="cx-delivery-mode-form container">
+<div class="cx-delivery-form container">
   <div class="row">
     <div class="col-md-12 col-lg-9">
       <!-- TITLE -->
-      <h3 class="cx-delivery-mode-form__title d-none d-lg-block d-xl-block">
+      <h3 class="cx-delivery-title d-none d-lg-block d-xl-block">
         Shipping Method
       </h3>
       <!-- FORM -->
@@ -22,24 +22,20 @@
             formControlName="deliveryModeId"
           />
           <label
-            class="cx-delivery-mode-form__label form-check-label
+            class="cx-delivery-label form-check-label
             form-radio-label"
             for="deliveryMode-{{ mode.code }}"
           >
-            <div class="cx-delivery-mode-form__label--shipping-mode">
-              {{ mode.name }}
-            </div>
-            <div class="cx-delivery-mode-form__label--price">
+            <div class="cx-delivery-shipping">{{ mode.name }}</div>
+            <div class="cx-delivery-price">
               {{ mode.deliveryCost.formattedValue }}
             </div>
-            <div class="cx-delivery-mode-form__label--details">
-              {{ mode.description }}
-            </div>
+            <div class="cx-delivery-details">{{ mode.description }}</div>
           </label>
         </div>
 
         <!-- BUTTON SECTION -->
-        <div class="cx-delivery-mode-form__btns row">
+        <div class="cx-delivery-btns row">
           <div class="col-sm-12 col-md-6">
             <button class="btn btn-block btn-action" (click)="back()">
               Back
