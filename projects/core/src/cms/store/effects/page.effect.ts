@@ -90,6 +90,7 @@ export class PageEffects {
       loadTime: Date.now(),
       uuid: res.uuid,
       name: res.name,
+      title: res.title,
       catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
       template: res.template,

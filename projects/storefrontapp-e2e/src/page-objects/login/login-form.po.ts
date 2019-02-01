@@ -1,4 +1,4 @@
-import { by, element, ElementFinder } from 'protractor';
+import { by, element, ElementFinder, browser } from 'protractor';
 import { E2EUtil } from '../../e2e-util';
 
 export class LoginForm {
@@ -24,5 +24,11 @@ export class LoginForm {
 
   async submitLogin() {
     await this.signInButton.click();
+  }
+
+  async submitLoginWithRedirect() {
+    await this.signInButton.click();
+    await browser.driver.wait;
+    return browser.driver.getCurrentUrl();
   }
 }
