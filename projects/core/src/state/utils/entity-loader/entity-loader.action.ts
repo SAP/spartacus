@@ -1,7 +1,7 @@
 import {
   failMeta,
   LoaderMeta,
-  loadMeta,
+  loadMeta, resetMeta,
   successMeta
 } from '../loader/loader.action';
 import { entityMeta, EntityMeta } from '../entity/entity.action';
@@ -10,6 +10,7 @@ import { Action } from '@ngrx/store';
 export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
 export const ENTITY_FAIL_ACTION = '[ENTITY] LOAD FAIL';
 export const ENTITY_SUCCESS_ACTION = '[ENTITY] LOAD SUCCESS';
+export const ENTITY_RESET_ACTION = '[ENTITY] RESET';
 
 export interface EntityLoaderMeta extends EntityMeta, LoaderMeta {}
 
@@ -49,6 +50,16 @@ export function entitySuccessMeta(
   };
 }
 
+export function entityResetMeta(
+  entityType: string,
+  id: string | string[]
+): EntityLoaderMeta {
+  return {
+    ...resetMeta(entityType),
+    ...entityMeta(entityType, id)
+  };
+}
+
 export class EntityLoadAction implements EntityLoaderAction {
   type = ENTITY_LOAD_ACTION;
   readonly meta: EntityLoaderMeta;
@@ -70,5 +81,13 @@ export class EntitySuccessAction implements EntityLoaderAction {
   readonly meta: EntityLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
     this.meta = entitySuccessMeta(entityType, id);
+  }
+}
+
+export class EntityResetAction implements EntityLoaderAction {
+  type = ENTITY_RESET_ACTION;
+  readonly meta: EntityLoaderMeta;
+  constructor(entityType: string, id: string | string[]) {
+    this.meta = entityResetMeta(entityType, id);
   }
 }

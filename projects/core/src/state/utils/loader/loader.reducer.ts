@@ -44,7 +44,7 @@ export function loaderReducer<T>(
           success: false,
           value: reducer ? reducer(state.value, action) : undefined
         };
-      } else {
+      } else if (entity.success) {
         return {
           ...state,
           value: reducer ? reducer(state.value, action) : action.payload,
@@ -52,6 +52,8 @@ export function loaderReducer<T>(
           error: false,
           success: true
         };
+      } else {
+        return initialLoaderState;
       }
     }
 
