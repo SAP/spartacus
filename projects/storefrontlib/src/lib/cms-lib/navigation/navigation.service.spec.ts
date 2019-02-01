@@ -3,7 +3,7 @@ import createSpy = jasmine.createSpy;
 
 import { CmsService, CmsNavigationComponent } from '@spartacus/core';
 import { NavigationService } from './navigation.service';
-import { CmsComponentData } from '@spartacus/storefront';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { BehaviorSubject, of } from 'rxjs';
 
 const itemsData: any = {
