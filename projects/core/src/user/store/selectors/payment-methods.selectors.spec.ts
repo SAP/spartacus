@@ -33,7 +33,7 @@ describe('User Payment Methods Selectors', () => {
     it('should return a user payment methods loader', () => {
       let result: LoaderState<PaymentDetails[]>;
       store
-        .pipe(select(fromSelectors.getPaymentMethodsLoaderState))
+        .pipe(select(fromSelectors.getPaymentMethodsState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -43,18 +43,6 @@ describe('User Payment Methods Selectors', () => {
         success: false,
         value: undefined
       });
-    });
-  });
-
-  describe('getPaymentMethodsState', () => {
-    it('should return a user payment methods state', () => {
-      let result: PaymentDetails[];
-      store
-        .pipe(select(fromSelectors.getPaymentMethodsState))
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(undefined);
     });
   });
 

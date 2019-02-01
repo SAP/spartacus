@@ -10,7 +10,7 @@ import {
 
 import { getUserState } from './feature.selector';
 
-export const getPaymentMethodsLoaderState: MemoizedSelector<
+export const getPaymentMethodsState: MemoizedSelector<
   StateWithUser,
   LoaderState<PaymentDetails[]>
 > = createSelector(
@@ -18,26 +18,18 @@ export const getPaymentMethodsLoaderState: MemoizedSelector<
   (state: UserState) => state.payments
 );
 
-export const getPaymentMethodsState: MemoizedSelector<
-  StateWithUser,
-  PaymentDetails[]
-> = createSelector(
-  getPaymentMethodsLoaderState,
-  (state: LoaderState<PaymentDetails[]>) => loaderValueSelector(state)
-);
-
 export const getPaymentMethods: MemoizedSelector<
   StateWithUser,
   PaymentDetails[]
 > = createSelector(
   getPaymentMethodsState,
-  (state: PaymentDetails[]) => state
+  (state: LoaderState<PaymentDetails[]>) => loaderValueSelector(state)
 );
 
 export const getPaymentMethodsLoading: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(
-  getPaymentMethodsLoaderState,
+  getPaymentMethodsState,
   (state: LoaderState<PaymentDetails[]>) => loaderLoadingSelector(state)
 );

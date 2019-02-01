@@ -10,7 +10,7 @@ import {
 
 import { getUserState } from './feature.selector';
 
-export const getOrdersLoaderState: MemoizedSelector<
+export const getOrdersState: MemoizedSelector<
   StateWithUser,
   LoaderState<OrderHistoryList>
 > = createSelector(
@@ -18,19 +18,11 @@ export const getOrdersLoaderState: MemoizedSelector<
   (state: UserState) => state.orders
 );
 
-export const getOrdersState: MemoizedSelector<
-  StateWithUser,
-  OrderHistoryList
-> = createSelector(
-  getOrdersLoaderState,
-  (state: LoaderState<OrderHistoryList>) => loaderValueSelector(state)
-);
-
 export const getOrdersLoaded: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(
-  getOrdersLoaderState,
+  getOrdersState,
   (state: LoaderState<OrderHistoryList>) => loaderLoadingSelector(state)
 );
 
@@ -39,5 +31,5 @@ export const getOrders: MemoizedSelector<
   OrderHistoryList
 > = createSelector(
   getOrdersState,
-  (state: OrderHistoryList) => state
+  (state: LoaderState<OrderHistoryList>) => loaderValueSelector(state)
 );

@@ -43,7 +43,7 @@ describe('User Orders Selectors', () => {
     it('should return a loading state', () => {
       let result: LoaderState<OrderHistoryList>;
       store
-        .pipe(select(fromSelectors.getOrdersLoaderState))
+        .pipe(select(fromSelectors.getOrdersState))
         .subscribe(value => (result = value))
         .unsubscribe();
 
@@ -53,18 +53,6 @@ describe('User Orders Selectors', () => {
         success: false,
         value: emptyOrder
       });
-    });
-  });
-
-  describe('getOrderState', () => {
-    it('should return the Order state from the store', () => {
-      let result: OrderHistoryList;
-      store
-        .pipe(select(fromSelectors.getOrdersState))
-        .subscribe(value => (result = value))
-        .unsubscribe();
-
-      expect(result).toEqual(emptyOrder);
     });
   });
 
