@@ -171,6 +171,7 @@ describe('AddedToCartDialogComponent', () => {
   it('should remove entry', () => {
     component.loaded$ = of(true);
     component.ngOnInit();
+    component.entry$.subscribe();
     const item = mockOrderEntry[0];
     expect(component.form.controls[item.product.code]).toBeDefined();
     component.removeEntry(item);
