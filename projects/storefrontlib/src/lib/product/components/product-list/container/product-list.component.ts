@@ -3,7 +3,8 @@ import {
   Input,
   OnInit,
   OnChanges,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  SimpleChanges
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
@@ -33,18 +34,17 @@ export class ProductListComponent implements OnChanges, OnInit {
   itemPerPage: number;
 
   grid: any;
-  model$: Observable<any>;
+  model$: Observable<ProductSearchPage>;
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
-  firstLoad = false;
 
   constructor(
     protected productSearchService: ProductSearchService,
     private activatedRoute: ActivatedRoute
   ) {}
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     const { queryParams } = this.activatedRoute.snapshot;
     this.options = this.createOptionsByUrlParams();
 
@@ -57,7 +57,9 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (!this.query && queryParams.query) {
       this.query = queryParams.query;
     }
-    if (this.query) {
+
+    // do search only when 'brandCode' or 'categoryCode' or 'query' changed
+    if (Object.keys(changes).length === 1 && !changes['gridMode']) {
       this.search(this.query, this.options);
     }
   }
@@ -88,16 +90,16 @@ export class ProductListComponent implements OnChanges, OnInit {
       mode: this.gridMode
     };
 
+    // clean previous search result
+    this.productSearchService.clearSearchResults();
+
     this.model$ = this.productSearchService.getSearchResults().pipe(
       tap(searchResult => {
         if (Object.keys(searchResult).length === 0) {
-          if (this.query && this.firstLoad) {
-            this.search(this.query, this.options);
-          }
+          this.search(this.query, this.options);
         } else {
           this.getCategoryTitle(searchResult);
         }
-        this.firstLoad = true;
       }),
       filter(searchResult => Object.keys(searchResult).length > 0)
     );
@@ -131,13 +133,16 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   protected search(query: string, options?: SearchConfig) {
-    if (options) {
-      // Overide default options
-      this.searchConfig = {
-        ...this.searchConfig,
-        ...options
-      };
+    if (this.query) {
+      if (options) {
+        // Overide default options
+        this.searchConfig = {
+          ...this.searchConfig,
+          ...options
+        };
+      }
+
+      this.productSearchService.search(query, this.searchConfig);
     }
-    this.productSearchService.search(query, this.searchConfig);
   }
 }

@@ -36,6 +36,10 @@ export class ProductSearchService {
     return this.store.pipe(select(fromStore.getSearchResults));
   }
 
+  clearSearchResults(): void {
+    this.store.dispatch(new fromStore.CleanProductSearchState());
+  }
+
   getAuxSearchResults(): Observable<ProductSearchPage> {
     return this.store.pipe(
       select(fromStore.getAuxSearchResults),
