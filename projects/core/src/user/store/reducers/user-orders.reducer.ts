@@ -19,10 +19,6 @@ export function reducer(
     case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
       return initialState;
     }
-
-    case fromAction.CLEAR_MISCS_DATA: {
-      return initialState;
-    }
   }
 
   return state;
