@@ -3,9 +3,7 @@
   <div class="code">ID {{ product?.code }}</div>
 </ng-container>
 
-<ng-container *cxOutlet="outlets.IMAGES">
-  <div class="images"><ng-content></ng-content></div>
-</ng-container>
+<div class="images"><ng-content></ng-content></div>
 
 <ng-container *cxOutlet="outlets.RATING">
   <div class="rating">
@@ -32,7 +30,7 @@
     <cx-item-counter
       isValueChangeable="true"
       [min]="1"
-      [max]="product.stock.stockLevel"
+      [max]="product.stock?.stockLevel || 1000"
       *ngIf="
         product?.stock?.stockLevel > 0 ||
         product?.stock?.stockLevelStatus === 'inStock'
