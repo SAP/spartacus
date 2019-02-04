@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PageType, CmsService, RoutingService } from '@spartacus/core';
-import { timeout, filter, take, catchError, tap } from 'rxjs/operators';
+import { timeout, take, catchError, tap } from 'rxjs/operators';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
