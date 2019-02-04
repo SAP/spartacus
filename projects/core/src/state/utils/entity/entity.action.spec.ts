@@ -15,7 +15,6 @@ describe('Entity Actions', () => {
   describe('Action creators', () => {
     describe('EntityRemoveAction', () => {
       it('should create an action', () => {
-        console.log(`xxx`);
         const action = new EntityRemoveAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect({ ...action }).toEqual({
           type: ENTITY_REMOVE_ACTION,
