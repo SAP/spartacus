@@ -29,7 +29,7 @@ export class RoutesConfigLoader {
   ) {}
 
   async load(): Promise<void> {
-    const shouldFetch = this.configurableRoutesConfig.fetchRoutesConfig;
+    const shouldFetch = this.configurableRoutesConfig.routes.fetch;
     const fetchedRoutesConfig = shouldFetch
       ? await this.fetch(this.endpoint)
       : null;
@@ -49,7 +49,7 @@ export class RoutesConfigLoader {
   private extendStaticWith(routesConfig: RoutesConfig): RoutesConfig {
     const mergedRoutesConfig = deepMerge(
       {},
-      this.configurableRoutesConfig.routesConfig,
+      this.configurableRoutesConfig.routes.config,
       routesConfig
     );
     return this.extendLanguagesTranslationsWithDefault(mergedRoutesConfig);

@@ -26,11 +26,13 @@ if (!environment.production) {
         enabled: true,
         addToHomeScreen: true
       },
-      routesConfig: {
-        translations: {
-          default: {
-            product: {
-              paths: ['product/:productCode', 'product/:name/:productCode']
+      routes: {
+        config: {
+          translations: {
+            default: {
+              product: {
+                paths: ['product/:productCode', 'product/:name/:productCode']
+              }
             }
           }
         }
