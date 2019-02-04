@@ -36,7 +36,7 @@ $cx-navigation-child-list-border-radius: 0 !default;
 $cx-navigation-child-list-text-case: capitalize !default;
 $cx-navigation-child-list-trbl-padding: 0 !default;
 $cx-navigation-child-list-md-border: 0 none !default;
-$cx-navigation-child-item-trbl-padding: 0.45rem 1.5rem;
+$cx-navigation-child-item-trbl-padding: 0.45rem 1rem;
 $cx-navigation-child-item-border: 1px solid !default;
 $cx-navigation-child-item-last-child-border: none !default;
 $cx-navigation-child-item-md-border: none !default;
@@ -80,24 +80,23 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
         margin-right: $cx-navigation-link-md-trbl-margin;
         @include var-color('border-color', $cx-navigation-link-md-arrow-color);
         border-style: solid;
-        border-width: 0 3px 3px 0;
-        display: inline-block;
-        padding: 5px;
-      }
-      &:hover::after {
-        border-color: inherit;
+        border-width: 3px;
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        border-right-color: currentColor;
+        border-top-color: currentColor;
+        border-left-color: transparent;
+        border-bottom-color: transparent;
       }
       &[aria-expanded='false'] {
         &::after {
           transform: rotate(45deg);
-          -webkit-transform: rotate(45deg);
         }
       }
       &[aria-expanded='true'] {
         &::after {
-          margin-top: 5px;
-          transform: rotate(-135deg);
-          -webkit-transform: rotate(-135deg);
+          transform: rotate(-45deg);
         }
       }
 

@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Component, Input } from '@angular/core';
+import { DebugElement, Input, Component } from '@angular/core';
 
 import { NavigationService } from '../navigation/navigation.service';
-import { CmsService } from '@spartacus/core';
+import { CmsService, Component as SpaComponent } from '@spartacus/core';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   template: '',
@@ -14,13 +15,13 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 })
 class MockNavigationComponent {
   @Input()
-  node;
+  node: NavigationNode;
   @Input()
-  dropdownMode;
+  dropdownMode: string;
 }
 
 class MockCmsService {
-  getNavigationEntryItems() {
+  getNavigationEntryItems(): Observable<any> {
     return of();
   }
 }
@@ -30,7 +31,7 @@ describe('CategoryNavigationComponent', () => {
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
 
-  const componentData = {
+  const componentData: NavigationNode = {
     title: 'test',
     children: [
       {
@@ -46,7 +47,7 @@ describe('CategoryNavigationComponent', () => {
     ]
   };
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData)
   };
 

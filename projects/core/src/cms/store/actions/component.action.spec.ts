@@ -1,15 +1,24 @@
 import * as fromComponent from './component.action';
 import { CmsComponent } from '../../../occ/occ-models/index';
+import { COMPONENT_ENTITY } from '../cms-state';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta
+} from '../../../state/utils/entity-loader/entity-loader.action';
 
 describe('Cms Component Actions', () => {
+  const test_uid = 'test_uid';
+
   describe('LoadComponent Actions', () => {
     describe('LoadComponent', () => {
       it('should create an action', () => {
-        const payload = 'test_uid';
+        const payload = test_uid;
         const action = new fromComponent.LoadComponent(payload);
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT,
-          payload: payload
+          payload: payload,
+          meta: entityLoadMeta(COMPONENT_ENTITY, test_uid)
         });
       });
     });
@@ -17,11 +26,12 @@ describe('Cms Component Actions', () => {
     describe('LoadComponentFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromComponent.LoadComponentFail(payload);
+        const action = new fromComponent.LoadComponentFail(test_uid, payload);
 
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_FAIL,
-          payload
+          payload,
+          meta: entityFailMeta(COMPONENT_ENTITY, test_uid, payload)
         });
       });
     });
@@ -36,7 +46,8 @@ describe('Cms Component Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_SUCCESS,
-          payload: component
+          payload: component,
+          meta: entitySuccessMeta(COMPONENT_ENTITY, 'comp1')
         });
       });
     });
@@ -53,30 +64,8 @@ describe('Cms Component Actions', () => {
         ]);
         expect({ ...action }).toEqual({
           type: fromComponent.GET_COMPONENET_FROM_PAGE,
-          payload: [component1, component2]
-        });
-      });
-    });
-  });
-
-  describe('CleanComponentState Action', () => {
-    describe('Clean Component State', () => {
-      it('should create an action', () => {
-        const action = new fromComponent.CleanComponentState();
-        expect({ ...action }).toEqual({
-          type: fromComponent.CLEAN_COMPONENT_STATE
-        });
-      });
-    });
-  });
-
-  describe('RefreshComponent Action', () => {
-    describe('Refresh Component', () => {
-      it('should create an action', () => {
-        const action = new fromComponent.RefreshComponent('uid');
-        expect({ ...action }).toEqual({
-          type: fromComponent.REFRESH_COMPONENT,
-          payload: 'uid'
+          payload: [component1, component2],
+          meta: entitySuccessMeta(COMPONENT_ENTITY, ['uid1', 'uid2'])
         });
       });
     });

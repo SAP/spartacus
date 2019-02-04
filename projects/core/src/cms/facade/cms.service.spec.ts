@@ -9,11 +9,12 @@ import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
 import { Page } from '../model/page.model';
-import { ContentSlotData } from '../model/content-slot.model';
+import { ContentSlotData } from '../model/content-slot-data.model';
 
 import { DefaultPageService } from '../services/default-page.service';
 import { CmsConfig } from '../config/cms-config';
 import { PageType } from '../../occ/occ-models/occ.models';
+import { take } from 'rxjs/operators';
 
 const MockCmsModuleConfig: CmsConfig = {
   defaultPageIdForType: {
@@ -66,12 +67,13 @@ describe('CmsService', () => {
     [CmsService],
     (service: CmsService) => {
       const testUid = 'test_uid';
-      const mockSelect = createSpy('select').and.returnValue(() =>
-        of(undefined)
-      );
+      const mockSelect = createSpy('select').and.returnValue(() => of({}));
       spyOnProperty(ngrxStore, 'select').and.returnValue(mockSelect);
 
-      service.getComponentData(testUid).subscribe(() => {});
+      service
+        .getComponentData(testUid)
+        .pipe(take(1))
+        .subscribe(() => {});
 
       expect(mockSelect).toHaveBeenCalled();
 
@@ -155,7 +157,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       service.refreshComponent('test_uid');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.RefreshComponent('test_uid')
+        new fromActions.LoadComponent('test_uid')
       );
     }
   ));

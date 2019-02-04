@@ -1,11 +1,12 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
-import * as fromFeature from './../reducers/index';
-import * as fromReducer from './../reducers/card-types.reducer';
+
 import { CheckoutState, CardTypesState } from '../checkout-state';
+import * as fromReducer from './../reducers/card-types.reducer';
+import * as fromFeature from './../reducers/index';
 import { CardType } from '../../../occ/occ-models/index';
 
 export const getCardTypesState: MemoizedSelector<
-  any,
+  CheckoutState,
   CardTypesState
 > = createSelector(
   fromFeature.getCheckoutState,
@@ -13,7 +14,7 @@ export const getCardTypesState: MemoizedSelector<
 );
 
 export const getCardTypesEntites: MemoizedSelector<
-  any,
+  CheckoutState,
   { [code: string]: CardType }
 > = createSelector(
   getCardTypesState,
@@ -21,7 +22,7 @@ export const getCardTypesEntites: MemoizedSelector<
 );
 
 export const getAllCardTypes: MemoizedSelector<
-  any,
+  CheckoutState,
   CardType[]
 > = createSelector(
   getCardTypesEntites,
