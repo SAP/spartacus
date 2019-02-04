@@ -22,7 +22,6 @@ export class ContentPageGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.hasCmsPage$(this.getPath(route)).pipe(
       timeout(this.LOAD_CMS_PAGE_TIMEOUT),
-      filter(hasPage => hasPage === true || hasPage === false),
       take(1),
       tap(hasPage => {
         if (!hasPage) {
