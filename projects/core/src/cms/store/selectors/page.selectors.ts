@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { CmsState, PageState, StateWithCms } from '../cms-state';
-import { ContentSlotData } from '../../model/content-slot.model';
+import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 
 import { getCmsState } from './feature.selectors';
