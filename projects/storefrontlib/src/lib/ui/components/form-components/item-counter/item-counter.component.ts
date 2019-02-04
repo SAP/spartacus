@@ -6,9 +6,15 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
+  OnChanges
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  FormControl
+} from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 const COUNTER_CONTROL_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -23,7 +29,8 @@ const COUNTER_CONTROL_ACCESSOR = {
   styleUrls: ['./item-counter.component.scss'],
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
-export class ItemCounterComponent implements OnInit, ControlValueAccessor {
+export class ItemCounterComponent
+  implements OnInit, ControlValueAccessor, OnChanges {
   @ViewChild('itemCounterInput')
   public input: ElementRef;
 
@@ -47,9 +54,31 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   focus: boolean;
 
   isValueOutOfRange = false;
+  inputValue: FormControl = new FormControl({
+    disabled: this.isValueChangeable
+  });
 
   ngOnInit() {
     this.writeValue(this.min || 0);
+    this.inputValue.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+      if (value) {
+        this.manualChange(Number(value));
+      }
+    });
+  }
+
+  ngOnChanges() {
+    if (this.cartIsLoading) {
+      this.inputValue.disable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    } else {
+      this.inputValue.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
   }
 
   constructor() {}
@@ -107,13 +136,6 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       handlers[event.code]();
       event.preventDefault();
       event.stopPropagation();
-    }
-  }
-
-  onInput(event: Event) {
-    const { value } = event.target as any;
-    if (value) {
-      this.manualChange(Number(value));
     }
   }
 

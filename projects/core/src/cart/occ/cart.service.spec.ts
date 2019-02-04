@@ -1,19 +1,21 @@
 import { TestBed } from '@angular/core/testing';
-import { OccCartService } from './cart.service';
-import {
-  OccConfig,
-  Address,
-  Cart,
-  CartList,
-  CartModification,
-  PaymentDetails,
-  DeliveryModeList
-} from '@spartacus/core';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { ProductImageConverterService } from '@spartacus/core';
+
+import {
+  CartList,
+  Cart,
+  CartModification,
+  PaymentDetails,
+  OccConfig,
+  Address,
+  DeliveryModeList
+} from '../../occ';
+import { ProductImageConverterService } from '../../product';
+
+import { OccCartService } from './cart.service';
 
 const userId = '123';
 const cartId = '456';

@@ -1,10 +1,10 @@
 import { TestBed, inject } from '@angular/core/testing';
 import createSpy = jasmine.createSpy;
 
-import { CmsService } from '@spartacus/core';
+import { CmsService, CmsNavigationComponent } from '@spartacus/core';
 import { NavigationService } from './navigation.service';
 
-const itemsData = {
+const itemsData: any = {
   MockLink001_AbstractCMSComponent: {
     uid: 'MockLink001',
     url: '/testLink1',
@@ -19,7 +19,7 @@ const itemsData = {
   }
 };
 
-const componentData = {
+const componentData: CmsNavigationComponent = {
   uid: 'MockNavigationComponent',
   typeCode: 'NavigationComponent',
   navigationNode: {
@@ -49,7 +49,7 @@ const componentData = {
   }
 };
 
-const resultNode = {
+const resultNode: any = {
   children: [
     { title: 'test link 1', url: '/testLink1', target: false },
     { title: 'test link 2', url: '/testLink2', target: true }
@@ -57,7 +57,7 @@ const resultNode = {
 };
 describe('NavigationService', () => {
   let navigationService: NavigationService;
-  let mockCmsService;
+  let mockCmsService: any;
 
   beforeEach(() => {
     mockCmsService = {

@@ -1,4 +1,5 @@
-import { StateConfig } from '@spartacus/core';
+import { StateConfig } from '../config/state-config';
+
 import {
   CX_KEY,
   getBrowserTransferStateReducer,
