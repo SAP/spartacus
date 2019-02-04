@@ -23,7 +23,13 @@ import { FormsModule } from '@angular/forms';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-import { Component, Input, PipeTransform, Pipe } from '@angular/core';
+import {
+  Component,
+  Input,
+  PipeTransform,
+  Pipe,
+  SimpleChange
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
 
@@ -107,6 +113,10 @@ describe('ProductListComponent in product-list', () => {
 
   it('should call ngOnChanges and get search results with params provided with url', () => {
     const activeRoute = TestBed.get(ActivatedRoute);
+    const previousValue = '';
+    const currentValue = '';
+    const isFirstChange = true;
+
     activeRoute.setParams({
       query: 'myBestQueryEver:category:bestqueries',
       categoryCode: 'mockCategoryCode',
@@ -114,7 +124,16 @@ describe('ProductListComponent in product-list', () => {
     });
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
-    component.ngOnChanges();
+    component.ngOnChanges({
+      categoryCode: new SimpleChange(
+        previousValue,
+        currentValue,
+        isFirstChange
+      ),
+      brandCode: new SimpleChange(previousValue, currentValue, isFirstChange),
+      gridMode: new SimpleChange(previousValue, currentValue, isFirstChange),
+      query: new SimpleChange(previousValue, currentValue, isFirstChange)
+    });
     expect(service.search).toHaveBeenCalledWith(
       'myBestQueryEver:category:bestqueries',
       { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
@@ -122,9 +141,15 @@ describe('ProductListComponent in product-list', () => {
   });
 
   it('should call ngOnChanges and get search results with category code', () => {
+    const previousValue = '';
+    const currentValue = '574';
+    const isFirstChange = true;
+
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
-    component.ngOnChanges();
+    component.ngOnChanges({
+      categoryCode: new SimpleChange(previousValue, currentValue, isFirstChange)
+    });
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
       { pageSize: 10, categoryCode: 'mockCategoryCode' }
@@ -132,9 +157,15 @@ describe('ProductListComponent in product-list', () => {
   });
 
   it('should call ngOnChanges get search results with brand code', () => {
+    const previousValue = '';
+    const currentValue = '';
+    const isFirstChange = true;
+
     component.brandCode = 'mockBrandCode';
     component.ngOnInit();
-    component.ngOnChanges();
+    component.ngOnChanges({
+      brandCode: new SimpleChange(previousValue, currentValue, isFirstChange)
+    });
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
       { pageSize: 10, brandCode: 'mockBrandCode' }
