@@ -9,7 +9,7 @@ import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
 import { Page } from '../model/page.model';
-import { ContentSlotData } from '../model/content-slot.model';
+import { ContentSlotData } from '../model/content-slot-data.model';
 
 import { DefaultPageService } from '../services/default-page.service';
 import { CmsConfig } from '../config/cms-config';
