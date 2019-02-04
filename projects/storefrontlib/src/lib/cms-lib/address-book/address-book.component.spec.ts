@@ -53,16 +53,12 @@ describe('AddressBookComponent', () => {
   let mockGlobalMessageService: any;
   const addresses = new BehaviorSubject<Address[]>([mockAddress]);
   const isLoading = new BehaviorSubject<boolean>(false);
-  const isActionProcessing = new BehaviorSubject<boolean>(false);
   const user = new BehaviorSubject<User>({ uid: 'userId' });
 
   beforeEach(async(() => {
     mockUserService = {
       getAddresses: jasmine.createSpy().and.returnValue(addresses),
       getAddressesLoading: jasmine.createSpy().and.returnValue(isLoading),
-      getAddressActionProcessingStatus: jasmine
-        .createSpy()
-        .and.returnValue(isActionProcessing),
       get: jasmine.createSpy().and.returnValue(user),
       addUserAddress: jasmine.createSpy(),
       loadAddresses: jasmine.createSpy(),
@@ -115,7 +111,6 @@ describe('AddressBookComponent', () => {
 
   it('should show spinner if any action is processing', () => {
     component.ngOnInit();
-    isActionProcessing.next(true);
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
@@ -123,7 +118,6 @@ describe('AddressBookComponent', () => {
   it('should show address cards after loading', () => {
     component.ngOnInit();
     isLoading.next(false);
-    isActionProcessing.next(false);
     addresses.next([mockAddress, mockAddress]);
     fixture.detectChanges();
     expect(el.query(By.css('cx-address-card'))).toBeTruthy();
