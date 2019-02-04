@@ -41,7 +41,7 @@ describe('User Payment Methods Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: undefined
+        value: []
       });
     });
   });
@@ -53,7 +53,7 @@ describe('User Payment Methods Selectors', () => {
         .pipe(select(fromSelectors.getPaymentMethods))
         .subscribe(value => (result = value));
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual([]);
 
       store.dispatch(
         new fromActions.LoadUserPaymentMethodsSuccess(

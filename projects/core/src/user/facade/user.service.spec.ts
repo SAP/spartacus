@@ -269,7 +269,7 @@ describe('UserService', () => {
 
     let flag: boolean;
     service
-      .getAddressActionProcessingStatus()
+      .getAddressesLoading()
       .subscribe(data => {
         flag = data;
       })

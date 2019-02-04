@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { Store, StoreModule, select } from '@ngrx/store';
 
-import { StateWithUser, USER_FEATURE, UserAddressesState } from '../user-state';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
@@ -28,7 +28,7 @@ describe('User Addresses Selectors', () => {
 
   describe('getAddressesLoaderState', () => {
     it('should return a user addresses loader state', () => {
-      let result: LoaderState<UserAddressesState>;
+      let result: LoaderState<Address[]>;
       store
         .pipe(select(fromSelectors.getAddressesLoaderState))
         .subscribe(value => (result = value))
@@ -38,10 +38,7 @@ describe('User Addresses Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: {
-          list: [],
-          isActionProcessing: false
-        }
+        value: []
       });
     });
   });
@@ -82,7 +79,7 @@ describe('User Addresses Selectors', () => {
     it('should return isActionProcessing flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getAddressActionProcessingStatus))
+        .pipe(select(fromSelectors.getAddressesLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);

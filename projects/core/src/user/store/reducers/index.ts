@@ -20,20 +20,28 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
+import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromTitlesReducer from './titles.reducer';
+import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
-import * as fromUserOrders from './user-orders.reducer';
+import * as fromUserOrdersReducer from './user-orders.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: fromUserDetailsReducer.reducer,
-    addresses: loaderReducer<Address[]>(USER_ADDRESSES),
+    addresses: loaderReducer<Address[]>(
+      USER_ADDRESSES,
+      fromAddressesReducer.reducer
+    ),
     billingCountries: fromBillingCountriesReducer.reducer,
-    payments: loaderReducer<PaymentDetails[]>(USER_PAYMENT_METHODS),
+    payments: loaderReducer<PaymentDetails[]>(
+      USER_PAYMENT_METHODS,
+      fromPaymentReducer.reducer
+    ),
     orders: loaderReducer<OrderHistoryList>(
       USER_ORDERS,
-      fromUserOrders.reducer
+      fromUserOrdersReducer.reducer
     ),
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,

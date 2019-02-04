@@ -14,13 +14,10 @@ export function reducer(
 ): OrderHistoryList {
   switch (action.type) {
     case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
-      const orders: OrderHistoryList = action.payload;
-      return orders;
+      return action.payload ? action.payload : initialState;
     }
     case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
-      return {
-        ...state
-      };
+      return initialState;
     }
 
     case fromAction.CLEAR_MISCS_DATA: {
