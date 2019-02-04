@@ -6,11 +6,11 @@
 
 ## Config
 
-All routes in Spartacus can be configured and internationalized by importing `ConfigModule.withConfig()` with an object containing `routesConfig` property: 
+All routes in Spartacus can be configured and internationalized by importing `ConfigModule.withConfig()` with an object containing `routes` property: 
 
  ```typescript
 ConfigModule.withConfig({
-    routesConfig: { /* ... */ },
+    routes: { /* ... */ },
     /* ... */
 })
 ```
@@ -38,10 +38,12 @@ Every part of the predefined config can be extended or overwritten in the applic
 
     ```typescript
     ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: {
-                    product: { paths: ['p/:productCode'] }
+        routes: {
+            config: {
+                translations: {
+                    default: {
+                        product: { paths: ['p/:productCode'] }
+                    }
                 }
             }
         }
@@ -54,15 +56,17 @@ Every part of the predefined config can be extended or overwritten in the applic
 
     ```typescript
     ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                /* predefined not overwritten: 
-                default: {
-                    product: { paths: ['p/:productCode'] }
-                }
-                */
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
+        routes: {
+            config: {
+                translations: {
+                    /* predefined not overwritten: 
+                    default: {
+                        product: { paths: ['p/:productCode'] }
+                    }
+                    */
+                    en: {
+                        product: { paths: [':productCode/custom/product-path'] }
+                    }
                 }
             }
         }
@@ -75,13 +79,15 @@ Every part of the predefined config can be extended or overwritten in the applic
 
     ```typescript
     ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: { 
-                    product: { paths: ['p/:productCode'] } // predefined overwritten
-                },
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
+        routes: {
+            config: {
+                translations: {
+                    default: { 
+                        product: { paths: ['p/:productCode'] } // predefined overwritten
+                    },
+                    en: {
+                        product: { paths: [':productCode/custom/product-path'] }
+                    }
                 }
             }
         }
@@ -101,10 +107,12 @@ All route parameters that appear in predefined config (for example `:productCode
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['product/:productName'] } // overwritten without :productCode
+    routes: {
+        config: {
+            translations: {
+                default: {
+                    product: { paths: ['product/:productName'] } // overwritten without :productCode
+                }
             }
         }
     }
@@ -136,11 +144,13 @@ where config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { // the name of the route
-                    paths: [/*...*/]
+    routes: {
+        config: {
+            translations: {
+                default: {
+                    product: { // the name of the route
+                        paths: [/*...*/]
+                    }
                 }
             }
         }
@@ -179,17 +189,19 @@ then the children's configuration should be nested at `children` property of the
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                parent: { // the name of the route
-                    paths: ['parent-path'],
-                    children: {
-                        child: { // the name of the route
-                            paths: ['child-path']
-                        },
-                    }
-                },
+    routes: {
+        config: {
+            translations: {
+                default: {
+                    parent: { // the name of the route
+                        paths: ['parent-path'],
+                        children: {
+                            child: { // the name of the route
+                                paths: ['child-path']
+                            },
+                        }
+                    },
+                }
             }
         }
     }

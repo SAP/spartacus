@@ -4,20 +4,22 @@
 
 # Loading configuration from backend
 
-When the config contains `fetchRoutesConfig` set to `true`, the app will wait with bootstrapping until translations of routes are successfully fetched from backend's URL `<baseUrl>/routes-config` (**NOTE**: this endpoint is not available in the backend yet). Example:
+When the config contains `routes.fetch` set to `true`, the app will wait with bootstrapping until translations of routes are successfully fetched from backend's URL `<baseUrl>/routes-config` (**NOTE**: this endpoint is not available in the backend yet). Example:
 
 ```typescript
 ConfigModule.withConfig({
     server: {
         baseUrl: '<base-server-url>'
     },
-    fetchRoutesConfig: true // will fetch translations from '<base-server-url>/routes-config'
+    routes: {
+        fetch: true // will fetch translations from '<base-server-url>/routes-config'
+    }
 })
 ```
 
 ## Extending static translations
 
-When the config contains both `routesConfig` with statically defined `translations` and `fetchRoutesConfig` set to `true`, then the the static routes translations will be extended by the fetched ones (the same as static translations extend the predefined ones). For example:
+When the config contains both `routes.config` with statically defined `translations` and `fetch` set to `true`, then the the static routes translations will be extended by the fetched ones (the same as static translations extend the predefined ones). For example:
 
 JSON returned by `<base-server-url>/routes-config` will have the *highest priority*:
 
@@ -38,15 +40,17 @@ ConfigModule.withConfig({
     server: {
         baseUrl: '<base-server-url>'
     },
-    routesConfig: { 
-        translations: {
-            default: {
-                product: { paths: ['p/:product-code'] },
-                category: { paths: ['c/:categoryCode'] }
+    routes: {
+        config: { 
+            translations: {
+                default: {
+                    product: { paths: ['p/:product-code'] },
+                    category: { paths: ['c/:categoryCode'] }
+                }
             }
-        }
+        },
+        fetch: true
     },
-    fetchRoutesConfig: true,
 })
 ```
 

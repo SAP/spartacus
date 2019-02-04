@@ -8,15 +8,17 @@ Additional route parameters can be configured to make the URL more specific, whi
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                product: { 
-                    paths: [
-                        // :productCode is an obligatory param, as it's present in default url
-                        // :productName is a new param
-                        ':productCode/custom/product-path/:productName'
-                    ] 
+    routes: {
+        config: {
+            translations: {
+                en: {
+                    product: { 
+                        paths: [
+                            // :productCode is an obligatory param, as it's present in default url
+                            // :productName is a new param
+                            ':productCode/custom/product-path/:productName'
+                        ] 
+                    }
                 }
             }
         }
@@ -48,18 +50,20 @@ Then additional params are also needed in `{ route: <route> }` and `{ url: <url>
 
     ```typescript
     ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: {
-                    product: { 
-                        paths: ['product/:productCode/:productName'] // 'productName' parameter added
+        routes: {
+            config: {
+                translations: {
+                    default: {
+                        product: { 
+                            paths: ['product/:productCode/:productName'] // 'productName' parameter added
+                        }
                     }
-                }
-                en: {
-                    product: { 
-                        paths: [
-                            ':productCode/custom/product-path/:productName',
-                        ]
+                    en: {
+                        product: { 
+                            paths: [
+                                ':productCode/custom/product-path/:productName',
+                            ]
+                        }
                     }
                 }
             }

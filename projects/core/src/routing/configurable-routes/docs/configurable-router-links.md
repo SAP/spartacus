@@ -60,10 +60,12 @@ when config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                cart: { paths: ['custom/cart-path'] }
+    routes: {
+        config: {
+            translations: {
+                en: {
+                    cart: { paths: ['custom/cart-path'] }
+                }
             }
         }
     }
@@ -88,10 +90,12 @@ where config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                product: { paths: [':productCode/custom/product-path'] }
+    routes: {
+        config: {
+            translations: {
+                en: {
+                    product: { paths: [':productCode/custom/product-path'] }
+                }
             }
         }
     }
@@ -123,15 +127,17 @@ Examples:
 
     ```typescript
     ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                /* 
-                default: {
-                    product: { paths: ['product/:productCode'] } // predefined not overwritten
-                }
-                */
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
+        routes: {
+            config: {
+                translations: {
+                    /* 
+                    default: {
+                        product: { paths: ['product/:productCode'] } // predefined not overwritten
+                    }
+                    */
+                    en: {
+                        product: { paths: [':productCode/custom/product-path'] }
+                    }
                 }
             }
         }
@@ -154,13 +160,15 @@ Examples:
 
     ```typescript
     ConfigModule.withConfig({
-        routesConfig: {
-            translations: {
-                default: {
-                    product: { paths: ['p/:productCode'] } // predefined overwritten
-                },
-                en: {
-                    product: { paths: [':productCode/custom/product-path'] }
+        routes: {
+            config: {
+                translations: {
+                    default: {
+                        product: { paths: ['p/:productCode'] } // predefined overwritten
+                    },
+                    en: {
+                        product: { paths: [':productCode/custom/product-path'] }
+                    }
                 }
             }
         }
@@ -202,22 +210,24 @@ then config should contain **objects** with `children` routes translations:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                parent: { // route name
-                    paths: ['parent-path/:param1'],
-                    children: {
-                        child: { // route name
-                            paths: ['child-path/:param2'],
-                            children: {
-                                grandChild: { // route name
-                                    paths: ['grand-child-path/:param3']
+    routes: {
+        config: {
+            translations: {
+                en: {
+                    parent: { // route name
+                        paths: ['parent-path/:param1'],
+                        children: {
+                            child: { // route name
+                                paths: ['child-path/:param2'],
+                                children: {
+                                    grandChild: { // route name
+                                        paths: ['grand-child-path/:param3']
+                                    }
                                 }
-                            }
-                        },
-                    }
-                },
+                            },
+                        }
+                    },
+                }
             }
         }
     }
@@ -256,18 +266,20 @@ Then `paramsMapping` needs to be configured:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: {
-                    /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
-                    paramsMapping: { productCode: 'id' }
+    routes: {
+        config: {
+            translations: {
+                default: {
+                    product: {
+                        /* 'productCode' route parameter will be filled with value of 'id' property of 'params' object  */
+                        paramsMapping: { productCode: 'id' }
+                    }
                 }
-            }
-            en: {
-                product: { 
-                    paths: [':productCode/custom/product-path']
-                },
+                en: {
+                    product: { 
+                        paths: [':productCode/custom/product-path']
+                    },
+                }
             }
         }
     }
@@ -318,10 +330,12 @@ When config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['p/:productCode'] }
+    routes: {
+        config: {
+            translations: {
+                default: {
+                    product: { paths: ['p/:productCode'] }
+                }
             }
         }
     }
@@ -361,10 +375,12 @@ When config is:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            default: {
-                product: { paths: ['p/:productCode'] }
+    routes: {
+        config: {
+            translations: {
+                default: {
+                    product: { paths: ['p/:productCode'] }
+                }
             }
         }
     }
