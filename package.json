@@ -97,7 +97,7 @@
     "karma-junit-reporter": "^1.2.0",
     "ng-packagr": "^4.4.5",
     "node-sass": "^4.11.0",
-    "prettier": "1.15.3",
+    "prettier": "1.16.3",
     "protractor": "~5.4.0",
     "semver": "^5.6.0",
     "start-server-and-test": "^1.7.11",
