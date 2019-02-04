@@ -1,12 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
-import createSpy = jasmine.createSpy;
 
-import { PaymentFormComponent } from './payment-form.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import {
   CardType,
   Address,
@@ -15,6 +13,12 @@ import {
   UserService,
   GlobalMessageService
 } from '@spartacus/core';
+
+import { Observable, of, BehaviorSubject } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { PaymentFormComponent } from './payment-form.component';
 
 const mockBillingCountries: Country[] = [
   {
@@ -236,13 +240,13 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call monthSelected(month)', () => {
-    component.monthSelected({ id: '05', name: '05' });
+    component.monthSelected({ id: 5, name: '05' });
     expect(component.payment['controls'].expiryMonth.value).toEqual('05');
   });
 
   it('should call yearSelected(year)', () => {
-    component.yearSelected({ name: '2022' });
-    expect(component.payment['controls'].expiryYear.value).toEqual('2022');
+    component.yearSelected({ id: 1, name: 2022 });
+    expect(component.payment['controls'].expiryYear.value).toEqual(2022);
   });
 
   it('should call getAddressCardContent(address)', () => {

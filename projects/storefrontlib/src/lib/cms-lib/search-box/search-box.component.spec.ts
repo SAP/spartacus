@@ -9,7 +9,7 @@ import { PictureComponent } from '../../ui/components/media/picture/picture.comp
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsService } from '@spartacus/core';
 import { SearchBoxComponentService } from './search-box-component.service';
-import { ProductSearchService } from '@spartacus/core';
+import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -17,7 +17,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('SearchBoxComponent in CmsLib', () => {
@@ -25,20 +25,19 @@ describe('SearchBoxComponent in CmsLib', () => {
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: any;
 
-  const mockSearchBoxComponentData = {
+  const mockSearchBoxComponentData: CmsSearchBoxComponent = {
     uid: '001',
     typeCode: 'SearchBoxComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
+    modifiedtime: new Date('2017-12-21T18:15:15+0000'),
     name: 'Mock SearchBox',
-    type: 'SearchBox Component',
-    displayProductImages: 'true',
-    displayProducts: 'true',
-    displaySuggestions: 'true',
-    container: 'false',
-    maxProducts: '5',
-    maxSuggestions: '5',
-    minCharactersBeforeRequest: '3',
-    waitTimeBeforeRequest: '500'
+    displayProductImages: true,
+    displayProducts: true,
+    displaySuggestions: true,
+    container: false,
+    maxProducts: 5,
+    maxSuggestions: 5,
+    minCharactersBeforeRequest: 3,
+    waitTimeBeforeRequest: 500
   };
 
   const MockCmsService = {
