@@ -15,6 +15,7 @@ import {
   DELETE_USER_ADDRESS_SUCCESS,
   Address
 } from '@spartacus/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-address-book',
@@ -39,7 +40,16 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService.getAddresses();
+    this.addresses$ = this.userService.getAddresses().pipe(
+      map((addresses: Address[]) =>
+        addresses.map((address: Address) => {
+          if (address.titleCode === null) {
+            address.titleCode = '';
+          }
+          return address;
+        })
+      )
+    );
     this.addressesLoading$ = this.userService.getAddressesLoading();
     this.addressActionProcessing$ = this.userService.getAddressActionProcessingStatus();
 
@@ -63,7 +73,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     // @TODO: Since we don't get titleCode from API we need to mock it for edit.
     this.activeAddress = {
       ...address,
-      titleCode: 'mr'
+      titleCode: address.titleCode || ''
     };
     this.isEditAddressFormOpen = true;
   }

@@ -183,6 +183,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   verifyAddress(): void {
+    if (this.address.value.titleCode === '') {
+      this.address.value.titleCode = null;
+    }
     this.checkoutService.verifyAddress(this.address.value);
   }
 
