@@ -11,7 +11,11 @@ import { defaultSiteContextConfig } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { UrlSerializer } from '@angular/router';
 import { SiteContextUrlSerializer } from './services/site-context-url-serializer';
-import { ContextServiceMap, CURRENCY_CONTEXT_ID, LANGUAGE_CONTEXT_ID } from './context-service-map';
+import {
+  ContextServiceMap,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID
+} from './context-service-map';
 
 export function inititializeContext(
   config: OccConfig,
@@ -26,7 +30,12 @@ export function inititializeContext(
 
 // @dynamic
 @NgModule({
-  imports: [ConfigModule.withConfig(defaultSiteContextConfig), StateModule, SiteContextOccModule, SiteContextStoreModule],
+  imports: [
+    ConfigModule.withConfig(defaultSiteContextConfig),
+    StateModule,
+    SiteContextOccModule,
+    SiteContextStoreModule
+  ],
   providers: [
     LanguageService,
     CurrencyService,

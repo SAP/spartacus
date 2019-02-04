@@ -6,7 +6,9 @@ describe('SiteContextParamsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SiteContextParamsService = TestBed.get(SiteContextParamsService);
+    const service: SiteContextParamsService = TestBed.get(
+      SiteContextParamsService
+    );
     expect(service).toBeTruthy();
   });
 });

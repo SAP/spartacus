@@ -11,9 +11,7 @@ import {
 import { CmsConfig } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import {
-  SiteContextComponentService
-} from './site-context-component.service';
+import { SiteContextComponentService } from './site-context-component.service';
 
 @NgModule({
   imports: [
@@ -36,9 +34,7 @@ import {
     UrlTranslationModule,
     SiteContextModule
   ],
-  providers: [
-    SiteContextComponentService
-  ],
+  providers: [SiteContextComponentService],
   declarations: [SiteContextSelectorComponent],
   exports: [SiteContextSelectorComponent],
   entryComponents: [SiteContextSelectorComponent]

@@ -1,6 +1,9 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ContextParamPersistence, SiteContextConfig } from '../config/site-context-config';
+import {
+  ContextParamPersistence,
+  SiteContextConfig
+} from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
 import { ContextServiceMap } from '../context-service-map';
 
