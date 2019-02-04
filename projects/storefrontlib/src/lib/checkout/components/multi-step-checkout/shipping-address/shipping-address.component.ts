@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  Output,
+  Input,
+  EventEmitter
+} from '@angular/core';
 
 import {
   RoutingService,
@@ -9,17 +16,19 @@ import {
 
 import { Observable } from 'rxjs';
 import { tap, filter } from 'rxjs/operators';
+
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
-  styleUrls: ['./shipping-address.component.scss']
+  styleUrls: ['./shipping-address.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
   newAddressFormManuallyOpened = false;
-  cards = [];
+  cards: Card[] = [];
   isLoading$: Observable<boolean>;
 
   @Input()
@@ -55,7 +64,7 @@ export class ShippingAddressComponent implements OnInit {
     );
   }
 
-  getCardContent(address): Card {
+  getCardContent(address: Address): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
@@ -78,7 +87,7 @@ export class ShippingAddressComponent implements OnInit {
     return card;
   }
 
-  addressSelected(address, index) {
+  addressSelected(address: Address, index: number): void {
     this.selectedAddress = address;
 
     for (let i = 0; this.cards[i]; i++) {
@@ -91,23 +100,23 @@ export class ShippingAddressComponent implements OnInit {
     }
   }
 
-  next() {
+  next(): void {
     this.addAddress.emit({ address: this.selectedAddress, newAddress: false });
   }
 
-  addNewAddress(address) {
+  addNewAddress(address: Address): void {
     this.addAddress.emit({ address: address, newAddress: true });
   }
 
-  showNewAddressForm() {
+  showNewAddressForm(): void {
     this.newAddressFormManuallyOpened = true;
   }
 
-  hideNewAddressForm() {
+  hideNewAddressForm(): void {
     this.newAddressFormManuallyOpened = false;
   }
 
-  back() {
+  back(): void {
     this.routingService.go({ route: ['cart'] });
   }
 }

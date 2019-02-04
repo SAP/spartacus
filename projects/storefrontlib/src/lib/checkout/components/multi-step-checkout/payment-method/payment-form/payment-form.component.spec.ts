@@ -1,12 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { Observable, of, BehaviorSubject } from 'rxjs';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
-import createSpy = jasmine.createSpy;
 
-import { PaymentFormComponent } from './payment-form.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import {
   CardType,
   Address,
@@ -15,6 +13,12 @@ import {
   UserService,
   GlobalMessageService
 } from '@spartacus/core';
+
+import { Observable, of, BehaviorSubject } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { PaymentFormComponent } from './payment-form.component';
 
 const mockBillingCountries: Country[] = [
   {
@@ -26,11 +30,9 @@ const mockBillingCountries: Country[] = [
 const mockBillingAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
-  titleCode: 'mr',
   line1: 'Green Street',
   line2: '420',
   town: 'Montreal',
-  region: { isocode: 'CA-QC' },
   postalCode: 'H3A',
   country: { isocode: 'CA' }
 };
@@ -132,7 +134,11 @@ describe('PaymentFormComponent', () => {
         { provide: UserService, useValue: mockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(PaymentFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -234,13 +240,13 @@ describe('PaymentFormComponent', () => {
   });
 
   it('should call monthSelected(month)', () => {
-    component.monthSelected({ id: '05', name: '05' });
+    component.monthSelected({ id: 5, name: '05' });
     expect(component.payment['controls'].expiryMonth.value).toEqual('05');
   });
 
   it('should call yearSelected(year)', () => {
-    component.yearSelected({ name: '2022' });
-    expect(component.payment['controls'].expiryYear.value).toEqual('2022');
+    component.yearSelected({ id: 1, name: 2022 });
+    expect(component.payment['controls'].expiryYear.value).toEqual(2022);
   });
 
   it('should call getAddressCardContent(address)', () => {
@@ -291,9 +297,6 @@ describe('PaymentFormComponent', () => {
       controls.payment['cvn'].setValue('test cvn');
 
       // set values for billing address form
-      controls.billingAddress['titleCode'].setValue(
-        mockBillingAddress.titleCode
-      );
       controls.billingAddress['firstName'].setValue(
         mockBillingAddress.firstName
       );
@@ -301,9 +304,6 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress['line1'].setValue(mockBillingAddress.line1);
       controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
       controls.billingAddress['town'].setValue(mockBillingAddress.town);
-      controls.billingAddress.region['controls'].isocode.setValue(
-        mockBillingAddress.region
-      );
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country
       );
@@ -380,10 +380,6 @@ describe('PaymentFormComponent', () => {
 
       // set values for billing address form
       expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress['titleCode'].setValue(
-        mockBillingAddress.titleCode
-      );
-      expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['firstName'].setValue(
         mockBillingAddress.firstName
       );
@@ -395,10 +391,6 @@ describe('PaymentFormComponent', () => {
       controls.billingAddress['line2'].setValue(mockBillingAddress.line2);
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress['town'].setValue(mockBillingAddress.town);
-      expect(isContinueBtnDisabled()).toBeTruthy();
-      controls.billingAddress.region['controls'].isocode.setValue(
-        mockBillingAddress.region
-      );
       expect(isContinueBtnDisabled()).toBeTruthy();
       controls.billingAddress.country['controls'].isocode.setValue(
         mockBillingAddress.country

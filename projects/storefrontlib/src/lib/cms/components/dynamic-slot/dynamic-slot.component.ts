@@ -1,22 +1,28 @@
 import {
   Component,
   OnInit,
-  OnDestroy,
   Input,
+  ChangeDetectionStrategy,
   Renderer2,
   ElementRef
 } from '@angular/core';
 
-import { CmsService, ContentSlotData } from '@spartacus/core';
+import {
+  CmsService,
+  ContentSlotData,
+  JSP_INCLUDE_CMS_COMPONENT_TYPE,
+  ContentSlotComponentData
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-dynamic-slot',
   templateUrl: './dynamic-slot.component.html',
-  styleUrls: ['./dynamic-slot.component.scss']
+  styleUrls: ['./dynamic-slot.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DynamicSlotComponent implements OnInit, OnDestroy {
+export class DynamicSlotComponent implements OnInit {
   currentSlot$: Observable<ContentSlotData>;
 
   @Input()
@@ -73,5 +79,18 @@ export class DynamicSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {}
+  /**
+   * The "JspIncludeComponent" is a type of CmsComponent that behaves as a placeholder component
+   * (with no specific data provided), but has a unique "uid".
+   *
+   * While it's not very clean solution, we interpret the "uid" of the "JspIncludeComponent"
+   * as a component type and thanks to that we map it onto the implementation of the Angular (or web) component.
+   *
+   * CAUTION: This function should not be used for SmartEdit bindings.
+   */
+  getComponentType(component: ContentSlotComponentData): string {
+    return component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE
+      ? component.uid
+      : component.typeCode;
+  }
 }

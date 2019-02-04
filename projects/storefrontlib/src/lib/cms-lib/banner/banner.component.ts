@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   CmsConfig,
@@ -12,10 +12,11 @@ import { map } from 'rxjs/operators';
 @Component({
   selector: 'cx-banner',
   templateUrl: './banner.component.html',
-  styleUrls: ['./banner.component.scss']
+  styleUrls: ['./banner.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent {
-  static hasMedia(data) {
+  static hasMedia(data): boolean {
     return !!data.media;
   }
 

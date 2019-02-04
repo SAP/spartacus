@@ -1,5 +1,6 @@
 import {
   Component,
+  ChangeDetectionStrategy,
   OnInit,
   ElementRef,
   ChangeDetectorRef
@@ -30,7 +31,8 @@ const SPEED = 250;
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
-  styleUrls: ['./product-carousel.component.scss']
+  styleUrls: ['./product-carousel.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent implements OnInit {
   items$: Observable<Observable<Product>[]>;
@@ -57,7 +59,7 @@ export class ProductCarouselComponent implements OnInit {
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
    */
-  protected setItems() {
+  protected setItems(): void {
     this.items$ = this.component.data$.pipe(
       map(data => {
         const productCodes = data.productCodes.split(' ');
@@ -91,15 +93,15 @@ export class ProductCarouselComponent implements OnInit {
     );
   }
 
-  prev(max) {
+  prev(max): void {
     this.setActiveItem(this.activeItem - max, max);
   }
 
-  next(max) {
+  next(max): void {
     this.setActiveItem(this.activeItem + max, max);
   }
 
-  setActiveItem(newActive: number, max: number) {
+  setActiveItem(newActive: number, max: number): void {
     this.activeItem = -1;
     // we wait a little with setting the new active
     // to make a better animation
