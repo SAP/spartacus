@@ -64,7 +64,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
-fdescribe('ProductListComponent in product-list', () => {
+describe('ProductListComponent in product-list', () => {
   let service: ProductSearchService;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
