@@ -2,6 +2,7 @@ import { initialLoaderState, loaderReducer } from './loader.reducer';
 import {
   LoaderFailAction,
   LoaderLoadAction,
+  LoaderResetAction,
   LoaderSuccessAction
 } from './loader.action';
 
@@ -13,6 +14,16 @@ describe('Loader reducer', () => {
       const action = {} as any;
       const state = loaderReducer(TEST_ENTITY_TYPE)(undefined, action);
       expect(state).toEqual(initialLoaderState);
+    });
+
+    it('should return the default state with subReducer', () => {
+      const subReducer = (s = 'default', _action: any) => s;
+      const action = {} as any;
+      const state = loaderReducer(TEST_ENTITY_TYPE, subReducer)(
+        undefined,
+        action
+      );
+      expect(state).toEqual({ ...initialLoaderState, value: 'default' });
     });
   });
 
@@ -60,6 +71,39 @@ describe('Loader reducer', () => {
         value: data
       };
       expect(state).toEqual(expectedState);
+    });
+  });
+
+  describe('RESET ACTION', () => {
+    it('should reset load state', () => {
+      const action = new LoaderResetAction(TEST_ENTITY_TYPE);
+      const initialState = {
+        loading: false,
+        error: false,
+        success: true,
+        value: 'sample data'
+      };
+
+      const state = loaderReducer(TEST_ENTITY_TYPE)(initialState, action);
+      expect(state).toEqual(initialLoaderState);
+    });
+
+    it('should use sub reducer for default state', () => {
+      const subReducer = (s = 'default', _action: any) => s;
+      const action = new LoaderResetAction(TEST_ENTITY_TYPE);
+      const initialState = {
+        loading: false,
+        error: false,
+        success: true,
+        value: 'sample data'
+      };
+
+      const state = loaderReducer(TEST_ENTITY_TYPE, subReducer)(
+        initialState,
+        action
+      );
+
+      expect(state).toEqual({ ...initialLoaderState, value: 'default' });
     });
   });
 });

@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { CmsService, ContentSlotData } from '@spartacus/core';
+import {
+  CmsService,
+  ContentSlotData,
+  ContentSlotComponentData
+} from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 import { DynamicSlotComponent } from './dynamic-slot.component';
@@ -86,15 +90,21 @@ describe('DynamicSlotComponent', () => {
 
   describe('getComponentType', () => {
     it('should return component uid when original component type is "JspIncludeComponent"', () => {
-      expect(
-        dynamicSlotComponent.getComponentType('JspIncludeComponent', 'testUid')
-      ).toBe('testUid');
+      const component: ContentSlotComponentData = {
+        typeCode: 'JspIncludeComponent',
+        uid: 'testUid'
+      };
+      expect(dynamicSlotComponent.getComponentType(component)).toBe('testUid');
     });
 
     it('should return original component type when it is NOT "JspIncludeComponent"', () => {
-      expect(
-        dynamicSlotComponent.getComponentType('testComponentType', 'testUid')
-      ).toBe('testComponentType');
+      const component: ContentSlotComponentData = {
+        typeCode: 'testComponentType',
+        uid: 'testUid'
+      };
+      expect(dynamicSlotComponent.getComponentType(component)).toBe(
+        'testComponentType'
+      );
     });
   });
 });
