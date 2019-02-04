@@ -85,6 +85,8 @@ export class DynamicSlotComponent implements OnInit {
    *
    * While it's not very clean solution, we interpret the "uid" of the "JspIncludeComponent"
    * as a component type and thanks to that we map it onto the implementation of the Angular (or web) component.
+   *
+   * CAUTION: This function should not be used for SmartEdit bindings.
    */
   getComponentType(component: ContentSlotComponentData): string {
     return component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE
