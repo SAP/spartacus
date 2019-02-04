@@ -21,7 +21,7 @@ export const getViewAllStoresState: MemoizedSelector<
 
 export const getViewAllStoresEntities: MemoizedSelector<
   StateWithStoreFinder,
-  any
+  ViewAllStoresState
 > = createSelector(
   getViewAllStoresState,
   state => loaderValueSelector(state)

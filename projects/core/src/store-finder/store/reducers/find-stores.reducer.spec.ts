@@ -16,7 +16,7 @@ describe('Find Stores Reducer', () => {
   describe('FIND_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
       const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindStores({
         queryText: 'test',
@@ -33,7 +33,7 @@ describe('Find Stores Reducer', () => {
 
   describe('FIND_STORE_BY_ID_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { name: 'test' };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindStoreById({ storeId: 'testId' });
 
@@ -47,7 +47,7 @@ describe('Find Stores Reducer', () => {
 
   describe('FIND_ALL_STORES_BY_COUNTRY_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindAllStoresByCountry({
         countryIsoCode: 'CA'
@@ -65,7 +65,7 @@ describe('Find Stores Reducer', () => {
 
   describe('FIND_ALL_STORES_BY_REGION_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindAllStoresByRegion({
         countryIsoCode: 'CA',

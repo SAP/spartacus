@@ -14,7 +14,7 @@ describe('View All Stores Reducer', () => {
 
   describe('VIEW_ALL_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.ViewAllStores();
 
