@@ -1,8 +1,4 @@
-import {
-  RouteTranslation,
-  ConfigurableRoutesConfig,
-  ParamsMapping
-} from '@spartacus/core';
+import { RouteTranslation, ConfigurableRoutesConfig } from '@spartacus/core';
 
 export interface StorefrontRoutesTranslations {
   // Those keys are listed explicitly for intellisense:
