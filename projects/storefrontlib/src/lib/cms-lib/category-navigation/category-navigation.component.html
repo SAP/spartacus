@@ -1,5 +1,8 @@
-<nav class="cx-navigation">
-  <div class="cx-navigation__list nav">
-    <cx-navigation *ngFor="let child of node.children" ngbDropdown [node]="child" [dropdownMode]="'column'"></cx-navigation>
-  </div>
+<nav *ngIf="(node$ | async) as node">
+  <cx-navigation-ui
+    *ngFor="let child of node?.children"
+    ngbDropdown
+    [node]="child"
+    dropdownMode="column"
+  ></cx-navigation-ui>
 </nav>

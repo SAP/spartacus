@@ -55,6 +55,8 @@ yarn sass
 
 ## Unit Tests are Passing
 
+There are unit tests and they are passing.
+
 Run the following commands to perform unit tests:
 
 ```
@@ -66,11 +68,25 @@ When you run these commands, Chrome opens, and you can see the progress of the t
 
 ## End-To-End Tests are Passing
 
+All the end-to-end tests are passing.
+
+When applicable, write end-to-end tests to ensure that your new or updated feature is foolproof. If it makes sense to write end-to end tests, the minimum requirement is to write basic UI end-to-end tests. You can also consider writing UI end-to-end tests with a user-flow, but this is optional.
+
+All newly written end-to-end tests must be reviewed, updated, and/or re-used.
+
 Run the following command to perform end-to-end tests:
 
 ```
 yarn e2e
 ```
+
+Note: the objective of end-to-end tests is to make sure your feature works. For example, if you are implementing a simple login screen with two buttons (such as the `Login` and `Cancel` buttons), you could write the following tests:
+
+* Log in with valid credentials
+
+* Attempt to log in with invalid credentials
+
+* Fill in the input fields, then click on the `Cancel` button.
 
 Note: E2E tests can currently only be run with SAP. We're working on exposing E2E tests to contributors.
 

@@ -5,21 +5,23 @@ import {
   OnDestroy,
   ChangeDetectorRef
 } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { filter } from 'rxjs/operators';
+
+import {
+  CheckoutService,
+  RoutingService,
+  GlobalMessageService,
+  GlobalMessageType,
+  CartService,
+  CartDataService,
+  PaymentDetails,
+  Address,
+  Cart
+} from '@spartacus/core';
+
 import { Subscription, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
-import * as fromCheckoutStore from '../../../store';
-import * as fromCart from '../../../../cart/store';
-
-import { GlobalMessageType } from './../../../../global-message/models/message.model';
-import { Address } from '../../../models/address-model';
-import { CheckoutService } from '../../../services/checkout.service';
-import { CartService } from '../../../../cart/services/cart.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
-import { RoutingService } from '@spartacus/core';
-import { checkoutNavBar } from './checkout-navigation-bar';
+import { CheckoutNavBarItem } from './checkout-navigation-bar';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -29,16 +31,17 @@ import { checkoutNavBar } from './checkout-navigation-bar';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
+  done = false;
 
   deliveryAddress: Address;
-  paymentDetails: any;
+  paymentDetails: PaymentDetails;
   shippingMethod: string;
   subscriptions: Subscription[] = [];
 
-  cart$: Observable<any>;
+  cart$: Observable<Cart>;
   tAndCToggler = false;
 
-  navs = checkoutNavBar;
+  navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -46,28 +49,27 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cartDataService: CartDataService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    private store: Store<fromCheckoutStore.CheckoutState>,
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart() {
-    this.cartService.loadCartDetails();
+  private refreshCart(): void {
+    this.cartService.loadDetails();
   }
 
   ngOnInit() {
     if (!this.cartDataService.getDetails) {
-      this.cartService.loadCartDetails();
+      this.cartService.loadDetails();
     }
-    this.cart$ = this.store.pipe(select(fromCart.getActiveCart));
+    this.cart$ = this.cartService.getActive();
     this.processSteps();
   }
 
-  processSteps() {
+  processSteps(): void {
     // step1: set delivery address
     this.subscriptions.push(
-      this.store
+      this.checkoutService
+        .getDeliveryAddress()
         .pipe(
-          select(fromCheckoutStore.getDeliveryAddress),
           filter(
             deliveryAddress =>
               Object.keys(deliveryAddress).length !== 0 && this.step === 1
@@ -83,11 +85,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step2: select delivery mode
     this.subscriptions.push(
-      this.store
-        .pipe(
-          select(fromCheckoutStore.getSelectedCode),
-          filter(selected => selected !== '' && this.step === 2)
-        )
+      this.checkoutService
+        .getSelectedDeliveryModeCode()
+        .pipe(filter(selected => selected !== '' && this.step === 2))
         .subscribe(selectedMode => {
           this.nextStep(3);
           this.refreshCart();
@@ -98,9 +98,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
     // step3: set payment information
     this.subscriptions.push(
-      this.store
+      this.checkoutService
+        .getPaymentDetails()
         .pipe(
-          select(fromCheckoutStore.getPaymentDetails),
           filter(
             paymentInfo =>
               Object.keys(paymentInfo).length !== 0 && this.step === 3
@@ -120,26 +120,27 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
                 });
               }
             });
-            this.store.dispatch(new fromCheckoutStore.ClearCheckoutStep(3));
+            this.checkoutService.clearCheckoutStep(3);
           }
         })
     );
 
     // step4: place order
     this.subscriptions.push(
-      this.store
+      this.checkoutService
+        .getOrderDetails()
         .pipe(
-          select(fromCheckoutStore.getOrderDetails),
           filter(order => Object.keys(order).length !== 0 && this.step === 4)
         )
-        .subscribe(order => {
-          this.checkoutService.orderDetails = order;
-          this.routingService.go(['orderConfirmation']);
+        .subscribe(() => {
+          // checkout steps are done
+          this.done = true;
+          this.routingService.go({ route: ['orderConfirmation'] });
         })
     );
   }
 
-  setStep(backStep) {
+  setStep(backStep: number): void {
     this.nextStep(backStep);
   }
 
@@ -164,7 +165,13 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = false;
   }
 
-  addAddress({ newAddress, address }) {
+  addAddress({
+    newAddress,
+    address
+  }: {
+    newAddress: boolean;
+    address: Address;
+  }): void {
     if (newAddress) {
       this.checkoutService.createAndSetAddress(address);
       return;
@@ -178,7 +185,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  setDeliveryMode({ deliveryModeId }) {
+  setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
     // if the selected shipping method is the same as the cart's one
     if (this.shippingMethod && this.shippingMethod === deliveryModeId) {
       this.nextStep(3);
@@ -188,33 +195,95 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  addPaymentInfo({ newPayment, payment }) {
+  addPaymentInfo({
+    newPayment,
+    payment,
+    billingAddress
+  }: {
+    newPayment: boolean;
+    payment: PaymentDetails;
+    billingAddress: Address;
+  }): void {
+    payment.billingAddress = billingAddress
+      ? billingAddress
+      : this.deliveryAddress;
+
     if (newPayment) {
-      payment.billingAddress = this.deliveryAddress;
       this.checkoutService.createPaymentDetails(payment);
       return;
     }
 
-    // if the selected paymetn is the same as the cart's one
+    // if the selected payment is the same as the cart's one
     if (this.paymentDetails && this.paymentDetails.id === payment.id) {
       this.nextStep(4);
       return;
     }
+
     this.checkoutService.setPaymentDetails(payment);
-    return;
   }
 
-  placeOrder() {
+  placeOrder(): void {
     this.checkoutService.placeOrder();
   }
 
-  toggleTAndC() {
+  toggleTAndC(): void {
     this.tAndCToggler = !this.tAndCToggler;
+  }
+
+  initializeCheckoutNavBar(): CheckoutNavBarItem[] {
+    return [
+      {
+        id: 1,
+        label: '1. Shipping Address',
+        status: {
+          disabled: false,
+          completed: false,
+          active: true
+        },
+        progressBar: true
+      },
+      {
+        id: 2,
+        label: '2. Shipping Method',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 3,
+        label: '3. Payment',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 4,
+        label: '4. Review',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      }
+    ];
+  }
+
+  clearCheckoutNavBar(): void {
+    this.navs = [];
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
-
-    this.store.dispatch(new fromCheckoutStore.ClearCheckoutData());
+    if (!this.done) {
+      this.checkoutService.clearCheckoutData();
+    }
+    this.clearCheckoutNavBar();
   }
 }

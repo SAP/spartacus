@@ -2,83 +2,137 @@
 @import 'functions';
 @import 'mixins';
 
-//header color variables
-$cx-header-background-color: 'dark' !default;
-$cx-header-color: 'inverse' !default;
-$cx-header-separator-color: 'secondary' !default;
-
-//header variables
-$cx-header-skipper-position: absolute !default;
-$cx-header-trbl-margin: 0 auto !default;
-$cx-header-bar-height: none !default;
-$cx-header-separator-position: absolute !default;
-$cx-header-separator-position-top: 43px !default;
-$cx-header-separator-position-left: 0 !default;
-$cx-header-separator-border-width: 1px !default;
-$cx-header-separator-width: 100vw !default;
-$cx-header-height-tablet: 90px !default;
-$cx-header-height-mobile: 70px !default;
-$cx-header-trbl-padding-tablet: 1.15rem 0 0 0 !default;
-$cx-header-trbl-padding-mobile: 0.5rem 0 0 0 !default;
+$space: 0.5rem;
 
 :host {
-  @include reset;
-  @include var-color('background-color', $cx-header-background-color);
-  @include var-color('color', $cx-header-color);
+  background-color: var(--cx-background-color, var(--cx-g-color-dark));
+  color: var(--cx-color, var(--cx-g-color-inverse));
+  display: block;
 }
 
-.cx-header {
-  position: relative;
-  margin: $cx-header-trbl-margin;
-  max-height: $cx-header-bar-height;
-  overflow: visible;
+header {
+  max-width: var(--cx-max-width, 1140px);
+  margin: auto;
 
-  @include media-breakpoint-up(lg) {
-    position: static;
-    @include make-container-max-widths;
+  display: flex;
+  flex-wrap: wrap;
 
+  > * {
+    align-self: center;
+  }
+}
+
+.SiteContext,
+.SiteLinks {
+  padding: $space 0;
+  font-size: 0.75rem;
+  color: var(--cx-color, var(--cx-g-color-light));
+}
+
+.SiteLinks {
+  --cx-display: block;
+}
+
+.SiteLogo {
+  --cx-width: 95px;
+}
+
+.SearchBox {
+  margin: $space auto;
+}
+
+.NavigationBar {
+  flex: 100%;
+}
+
+.cx-hamburger {
+  display: block;
+}
+
+@include media-breakpoint-only(xs) {
+  .SearchBox {
+    margin: 0 0 0 auto;
+  }
+}
+
+// non-desktop
+@include media-breakpoint-down(md) {
+  .SiteLogin,
+  .NavigationBar,
+  .SiteContext,
+  .SiteLinks {
+    flex: 100%;
+  }
+
+  .SiteLogin,
+  .NavigationBar {
+    order: 1;
+  }
+
+  .SiteContext,
+  .SiteLinks {
+    order: 2;
+  }
+
+  .SiteContext,
+  .SiteLinks,
+  .SiteLogin {
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
+    color: var(--cx-color, var(--cx-g-color-text));
+    --cx-padding: #{$space / 2} 0;
+  }
+
+  .SiteContext {
+    padding: $space $space * 2 $space / 2;
+  }
+
+  .SiteLinks {
+    padding: $space / 2 $space * 2 $space;
+  }
+
+  :host:not(.mobile-nav) {
+    .NavigationBar,
+    .SiteContext,
+    .SiteLinks,
+    .SiteLogin {
+      display: none;
+    }
+  }
+}
+
+// desktop
+@include media-breakpoint-up(lg) {
+  :host {
     &:before {
+      border-top: var(--cx-border-top, 1px solid currentColor);
       content: '';
-      position: $cx-header-separator-position;
-      border-bottom-style: solid;
-      border-bottom-width: $cx-header-separator-border-width;
-      @include var-color('border-bottom-color', $cx-header-separator-color);
-      width: $cx-header-separator-width;
-      left: $cx-header-separator-position-left;
-      top: $cx-header-separator-position-top;
+      position: absolute;
+
+      right: 0;
+      left: 0;
+      margin-top: 30px;
     }
   }
-  @include media-breakpoint-down(md) {
-    height: $cx-header-height-tablet;
-    padding: $cx-header-trbl-padding-tablet;
+
+  header {
+    padding: 0 $space * 2;
   }
-  @include media-breakpoint-down(xs) {
-    height: $cx-header-height-mobile;
-    padding: $cx-header-trbl-padding-mobile;
+  .cx-hamburger {
+    display: none;
   }
 
-  &__logo {
-    --width: 100px;
-    //keeping logo width simple for now
+  .SiteContext,
+  .SiteLinks {
+    flex: 50%;
+  }
 
-    @include media-breakpoint-down(md) {
-      --margin: 0 0 0 5rem;
-    }
-    // @include media-breakpoint-down(md) {
-    //   --width: 35%;
-    // }
-    // @include media-breakpoint-down(xs) {
-    //   --width: 25%;
-    // }
+  .SiteLinks {
+    text-align: right;
+    --cx-padding: 0 #{$space};
+    --cx-display: inline;
+  }
+
+  .SiteLogin {
+    padding: $space $space * 2;
   }
 }
-
-/**
-  Introduce the beauty of CSS vars here.
-  The container specifies highly generic CSS vars.
-  The nested components can use those CSS vars.
-  Out of the context of .site-logo the CSS vars
-  can be used for different purposes.
-  With this setup, a customer can override the width with:
-  .site-logo img { --margin: 100%; }
-*/

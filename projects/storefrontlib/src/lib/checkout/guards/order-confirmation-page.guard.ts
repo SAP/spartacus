@@ -1,28 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate } from '@angular/router';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { CheckoutService } from '../services/checkout.service';
+import { RoutingService, CheckoutService } from '@spartacus/core';
 
 @Injectable()
 export class OrderConfirmationPageGuard implements CanActivate {
   constructor(
     private checkoutService: CheckoutService,
-    private router: Router
+    private routingService: RoutingService
   ) {}
 
   canActivate(): Observable<boolean> {
-    if (this.orderDetailsPresent()) {
-      return of(true);
-    }
-
-    this.router.navigate(['/my-account/orders']);
-    return of(false);
-  }
-
-  private orderDetailsPresent(): boolean {
-    const orderDetails = this.checkoutService.orderDetails;
-    return orderDetails && Object.keys(orderDetails).length !== 0;
+    return this.checkoutService.getOrderDetails().pipe(
+      map(orderDetails => {
+        if (orderDetails && Object.keys(orderDetails).length !== 0) {
+          return true;
+        } else {
+          this.routingService.go({ route: ['orders'] });
+          return false;
+        }
+      })
+    );
   }
 }

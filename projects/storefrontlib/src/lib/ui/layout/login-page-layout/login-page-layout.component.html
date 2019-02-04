@@ -6,16 +6,18 @@
   <section class="cx-page__section container">
     <div class="row justify-content-center">
       <div class="col-md-6">
+        <div class="cx-section"><cx-login-form></cx-login-form></div>
 
         <div class="cx-section">
-          <cx-login-form></cx-login-form>
+          <h1 class="cx-section__title cx-section__title--alt">
+            Don’t have an account
+          </h1>
+          <a
+            [routerLink]="{ route: ['register'] } | cxTranslateUrl"
+            class="btn btn-block btn-secondary"
+            >Register</a
+          >
         </div>
-
-        <div class="cx-section">
-          <h1 class="cx-section__title cx-section__title--alt">Don’t have an account</h1>
-          <a routerLink="/register" class="btn btn-block btn-secondary">Register</a>
-        </div>
-
       </div>
     </div>
   </section>

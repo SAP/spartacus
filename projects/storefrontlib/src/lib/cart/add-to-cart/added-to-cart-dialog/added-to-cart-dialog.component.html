@@ -1,0 +1,83 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <ng-container *ngIf="(loaded$ | async) as loaded; else loading">
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">Item(s) added to your cart</div>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body" *ngIf="(entry$ | async) as entry">
+      <div class="cx-dialog-row">
+        <div class="cx-dialog-item col-sm-12 col-md-6">
+          <cx-cart-item
+            [item]="entry"
+            [compact]="true"
+            [isReadOnly]="false"
+            [parent]="form.controls[entry.product.code]"
+            [cartIsLoading]="!loaded"
+            (remove)="removeEntry($event)"
+            (update)="updateEntry($event)"
+          ></cx-cart-item>
+        </div>
+        <!-- Separator -->
+        <div
+          class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+        ></div>
+        <!-- Total container -->
+        <div class="cx-dialog-actions col-sm-12 col-md-6">
+          <div class="cx-dialog-total" *ngIf="(cart$ | async) as cart">
+            <div>Cart total ({{ cart.deliveryItemsQuantity }} items)</div>
+            <div>{{ cart.totalPrice.formattedValue }}</div>
+          </div>
+          <!-- Actions -->
+          <div class="cx-dialog-buttons">
+            <a
+              [class.disabled]="form.dirty"
+              [routerLink]="{ route: ['cart'] } | cxTranslateUrl"
+              class="btn btn-primary"
+              ngbAutoFocus
+              (click)="!form.dirty && activeModal.dismiss('View Cart click')"
+              >view cart</a
+            >
+            <a
+              [class.disabled]="form.dirty"
+              [routerLink]="{ route: ['checkout'] } | cxTranslateUrl"
+              class="btn btn-secondary"
+              (click)="
+                !form.dirty && activeModal.dismiss('Proceed To Checkout click')
+              "
+              >proceed to checkout</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">Updating cart...</div>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        <div class="col-sm-12"><cx-spinner></cx-spinner></div>
+      </div>
+    </div>
+  </ng-template>
+</div>

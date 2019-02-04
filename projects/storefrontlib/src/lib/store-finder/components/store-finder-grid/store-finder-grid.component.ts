@@ -1,30 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
-import * as fromStore from '../../store';
-import { StoreFinderService } from '../../services/store-finder.service';
-
+import { StoreFinderService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
   styleUrls: ['./store-finder-grid.component.scss']
 })
-export class StoreFinderGridComponent implements OnInit {
+export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations: any;
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
+  locationsSub: Subscription;
 
   constructor(
-    private store: Store<fromStore.StoresState>,
     private storeFinderService: StoreFinderService,
     private route: ActivatedRoute,
-    private router: Router
+    private routingService: RoutingService
   ) {}
 
   ngOnInit() {
     if (this.route.snapshot.params.country) {
-      this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+      this.isLoading$ = this.storeFinderService.getStoresLoading();
       if (this.route.snapshot.params.region) {
         this.storeFinderService.viewAllStoresForRegion(
           this.route.snapshot.params.country,
@@ -37,34 +35,54 @@ export class StoreFinderGridComponent implements OnInit {
       }
     }
 
-    this.store
-      .pipe(select(fromStore.getFindStoresEntities))
+    this.locationsSub = this.storeFinderService
+      .getFindStoresEntities()
       .subscribe(locations => {
         if (
           locations.pointOfServices &&
           locations.pointOfServices.length === 1
         ) {
-          this.router.navigate([
-            'store-finder',
-            'country',
-            this.route.snapshot.params.country,
-            'region',
-            this.route.snapshot.params.region,
-            locations.pointOfServices[0].name
-          ]);
+          this.viewStore(locations.pointOfServices[0]);
         }
         this.locations = locations;
       });
   }
 
   viewStore(location: any): void {
-    this.router.navigate([
-      'store-finder',
-      'country',
-      this.route.snapshot.params.country,
-      'region',
-      this.route.snapshot.params.region,
-      location.name
-    ]);
+    if (this.route.snapshot.params.region) {
+      this.routingService.go({
+        route: [
+          'storeFinder',
+          {
+            name: 'storeDescription',
+            params: {
+              country: this.route.snapshot.params.country,
+              region: this.route.snapshot.params.region,
+              store: location.name
+            }
+          }
+        ]
+      });
+      return;
+    }
+    this.routingService.go({
+      route: [
+        'storeFinder',
+        {
+          name: 'storeDescription',
+          params: {
+            region: '',
+            country: this.route.snapshot.params.country,
+            store: location.name
+          }
+        }
+      ]
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.locationsSub) {
+      this.locationsSub.unsubscribe();
+    }
   }
 }

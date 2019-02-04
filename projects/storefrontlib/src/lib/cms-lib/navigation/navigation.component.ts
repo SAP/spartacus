@@ -1,17 +1,11 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Input,
-  OnDestroy
-} from '@angular/core';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { switchMap, map, filter, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+
 import { NavigationService } from './navigation.service';
-import { Store, select } from '@ngrx/store';
-import * as fromStore from '../../cms/store';
-import { takeWhile } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsService, CmsNavigationComponent } from '@spartacus/core';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation',
@@ -19,57 +13,36 @@ import { CmsService } from '../../cms/facade/cms.service';
   styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavigationComponent extends AbstractCmsComponent
-  implements OnDestroy {
-  itemSubscription: Subscription;
+export class NavigationComponent {
+  @Input() dropdownMode = 'list';
+  @Input() node: NavigationNode;
 
-  done = false;
-
-  @Input()
-  dropdownMode = 'list';
-  @Input()
-  node;
+  node$: Observable<NavigationNode>;
 
   constructor(
     protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
     private navigationService: NavigationService,
-    protected store: Store<fromStore.CmsState>
+    public component: CmsComponentData<CmsNavigationComponent>
   ) {
-    super(cmsService, cd);
-  }
-
-  protected fetchData() {
-    if (!this.component) {
-      return;
-    }
-    const navigation = this.component.navigationNode
-      ? this.component.navigationNode
-      : this.component;
-
-    this.itemSubscription = this.store
-      .pipe(
-        select(fromStore.itemsSelectorFactory(navigation.uid)),
-        takeWhile(() => !this.done)
-      )
-      .subscribe(items => {
-        if (items === undefined) {
-          this.navigationService.getNavigationEntryItems(navigation, true, []);
-        } else {
-          this.done = true;
-          this.node = this.navigationService.createNode(navigation, items);
-          if (!this.cd['destroyed']) {
-            this.cd.detectChanges();
-          }
+    this.node$ = this.component.data$.pipe(
+      switchMap(data => {
+        if (data) {
+          const navigation = data.navigationNode ? data.navigationNode : data;
+          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+            tap(items => {
+              if (items === undefined) {
+                this.navigationService.getNavigationEntryItems(
+                  navigation,
+                  true,
+                  []
+                );
+              }
+            }),
+            filter(items => items !== undefined),
+            map(items => this.navigationService.createNode(navigation, items))
+          );
         }
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.itemSubscription) {
-      this.done = true;
-      this.itemSubscription.unsubscribe();
-    }
-    super.ngOnDestroy();
+      })
+    );
   }
 }

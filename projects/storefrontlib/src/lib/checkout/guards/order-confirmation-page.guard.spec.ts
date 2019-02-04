@@ -1,51 +1,63 @@
-import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
 
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
-import { CheckoutService } from '../services';
+import { Order, RoutingService, CheckoutService } from '@spartacus/core';
 
 class MockCheckoutService {
-  orderDetails: any;
+  getOrderDetails(): Observable<Order> {
+    return of(null);
+  }
 }
 
 describe(`OrderConfirmationPageGuard`, () => {
-  let router: Router;
+  let routingService: RoutingService;
   let guard: OrderConfirmationPageGuard;
+  let mockCheckoutService: MockCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         OrderConfirmationPageGuard,
+        {
+          provide: RoutingService,
+          useValue: { go: jasmine.createSpy() }
+        },
         { provide: CheckoutService, useClass: MockCheckoutService }
       ],
       imports: [RouterTestingModule]
     });
 
-    router = TestBed.get(Router);
+    routingService = TestBed.get(RoutingService);
     guard = TestBed.get(OrderConfirmationPageGuard);
-
-    spyOn(router, 'navigate').and.callThrough();
+    mockCheckoutService = TestBed.get(CheckoutService);
   });
 
-  describe(`when there are NO order details present`, () => {
-    it(`should return false and navigate to 'my-account/orders'`, () => {
-      spyOn<any>(guard, 'orderDetailsPresent').and.returnValue(false);
+  describe(`when there is NO order details present`, () => {
+    it(`should return false and navigate to order history page`, done => {
+      spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(of({}));
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
-        expect(router.navigate).toHaveBeenCalledWith(['/my-account/orders']);
+        expect(routingService.go).toHaveBeenCalledWith({
+          route: ['orders']
+        });
+        done();
       });
     });
+  });
 
-    describe(`when there are order details present`, () => {
-      it(`should return true`, () => {
-        spyOn<any>(guard, 'orderDetailsPresent').and.returnValue(true);
+  describe(`when there is order details present`, () => {
+    it(`should return true`, done => {
+      spyOn(mockCheckoutService, 'getOrderDetails').and.returnValue(
+        of({ code: 'test order' })
+      );
 
-        guard.canActivate().subscribe(result => {
-          expect(result).toEqual(true);
-          expect(router.navigate).not.toHaveBeenCalled();
-        });
+      guard.canActivate().subscribe(result => {
+        expect(result).toEqual(true);
+        expect(routingService.go).not.toHaveBeenCalled();
+        done();
       });
     });
   });

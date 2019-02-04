@@ -2,9 +2,6 @@
   display: flex;
   flex-direction: var(--cx-flex-direction, column);
 
-  --cx-border-color: var(--cx-light);
-  --cx-border-width: 0.1vw;
-
   height: 100%;
   > cx-picture {
     height: 100%;
@@ -18,9 +15,9 @@
   justify-content: flex-start;
 
   cx-picture {
-    width: var(--cx-width, 6vmax);
-    height: var(--cx-width, 6vmax);
-    transition: all var(--cx-transition-time);
+    width: var(--cx-width, 75px);
+    height: var(--cx-width, 75px);
+    transition: all var(--cx-g-transition-duration);
 
     &:not(.active) {
       cursor: pointer;
@@ -28,14 +25,14 @@
     overflow: hidden;
     position: relative;
 
-    border: var(--cx-border-width) var(--cx-border-color) var(--cx-border-style);
+    border: var(--cx-border, 2px solid var(--cx-g-color-light));
 
     margin: var(--cx-margin, 0.5vw);
     padding: var(--cx-padding, 0.5vw);
 
     &:hover,
     &.active {
-      border-color: var(--cx-border-color, var(--cx-primary));
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
     }
   }
 }

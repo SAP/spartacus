@@ -1,4 +1,5 @@
 import * as fromProductSearch from './product-search.action';
+import { Suggestion, ProductList, ErrorModel } from '../../../occ/occ-models';
 import { SearchConfig } from '../../model/search-config';
 
 describe('Product Search Actions', () => {
@@ -37,7 +38,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
+        const payload: ErrorModel = { message: 'Load Error' };
         const action = new fromProductSearch.SearchProductsFail(payload);
 
         expect({ ...action }).toEqual({
@@ -50,7 +51,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsSuccess', () => {
       it('should create an action', () => {
-        const payload = [{ products: ['test'] }];
+        const payload: ProductList = { products: [{ code: '123' }] };
         const action = new fromProductSearch.SearchProductsSuccess(payload);
 
         expect({ ...action }).toEqual({
@@ -79,7 +80,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductSuggestionsSuccess', () => {
       it('should create an action', () => {
-        const payload = [];
+        const payload: Suggestion[] = [];
         const action = new fromProductSearch.GetProductSuggestionsSuccess(
           payload
         );
@@ -92,7 +93,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductSuggestionsFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
+        const payload: ErrorModel = { message: 'Load Error' };
         const action = new fromProductSearch.GetProductSuggestionsFail(payload);
 
         expect({ ...action }).toEqual({

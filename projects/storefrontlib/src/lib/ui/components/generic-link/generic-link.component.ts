@@ -9,30 +9,34 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./generic-link.component.scss']
 })
 export class GenericLinkComponent {
-  private readonly absoluteUrlRegex: RegExp = /^https?:\/\//i;
+  private readonly protocolRegex: RegExp = /^https?:\/\//i;
 
   @Input()
-  url;
+  url: string | any[];
 
   @Input()
-  target;
+  target: string;
   @Input()
-  class;
+  class: string;
   @Input()
-  id;
+  id: string;
   @Input()
-  style;
+  style: string;
   @Input()
-  title;
+  title: string;
 
-  get routerUrl() {
-    if (this.url !== undefined) {
-      return this.url.startsWith('/') ? this.url : '/' + this.url;
+  get routerUrl(): any[] {
+    if (typeof this.url === 'string') {
+      return [this.getAbsoluteUrl(this.url)];
     }
     return this.url;
   }
 
-  isAbsoluteUrl(url: string): boolean {
-    return this.absoluteUrlRegex.test(url);
+  isExternalUrl(): boolean {
+    return typeof this.url === 'string' && this.protocolRegex.test(this.url);
+  }
+
+  private getAbsoluteUrl(url: string) {
+    return url.startsWith('/') ? this.url : '/' + this.url;
   }
 }

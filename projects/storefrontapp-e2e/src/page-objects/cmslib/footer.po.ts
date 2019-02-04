@@ -5,10 +5,10 @@ export class Footer {
     by.dynamicSlot('Footer', 'cx-footer-navigation')
   );
   readonly notice: ElementFinder = this.footerNavigation.element(
-    by.css('.cx-footer-navigation__notice')
+    by.css('.notice')
   );
   readonly linkSections: ElementArrayFinder = this.footerNavigation.all(
-    by.css('.cx-footer-navigation__container')
+    by.css('.navigation-elements')
   );
 
   readonly linkSectionHeader = (sectionNo: number): ElementFinder =>

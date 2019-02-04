@@ -1,44 +1,59 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { LinkComponent } from './link.component';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { CmsService } from '../../cms/facade/cms.service';
+import { CmsComponentData } from '@spartacus/storefront';
+import {
+  CmsLinkComponent,
+  Component as SpaComponent,
+  TranslateUrlOptions,
+  CmsConfig
+} from '@spartacus/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CMSLinkComponent: 'LinkComponent'
+const UseCmsModuleConfig: CmsConfig = {
+  cmsComponents: {
+    CMSLinkComponent: { selector: 'LinkComponent' }
   }
 };
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions): string | string[] {
+    return '/translated-path' + options.url;
+  }
+}
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
   let el: DebugElement;
 
-  const componentData = {
+  const componentData: CmsLinkComponent = {
     uid: '001',
     typeCode: 'CMSLinkComponent',
-    modifiedTime: '2017-12-21T18:15:15+0000',
     name: 'TestCMSLinkComponent',
-    type: 'link',
     linkName: 'Arbitrary link name',
-    url: 'http://localhost:8888/'
+    url: '/store-finder'
   };
 
-  const MockCmsService = {
-    getComponentData: () => of(componentData)
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
+    data$: of(componentData)
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LinkComponent],
+      declarations: [LinkComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig }
+        { provide: CmsConfig, useValue: UseCmsModuleConfig },
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData
+        }
       ]
     }).compileComponents();
   }));
@@ -54,14 +69,10 @@ describe('LinkComponent', () => {
   });
 
   it('should contain link name and url', () => {
-    expect(linkComponent.component).toBeNull();
-    linkComponent.onCmsComponentInit(componentData.uid);
-    expect(linkComponent.component).toBe(componentData);
-    expect(el.query(By.css('a')).nativeElement.textContent).toEqual(
-      linkComponent.component.linkName
-    );
-    expect(el.query(By.css('a')).nativeElement.url).toEqual(
-      linkComponent.component.link
-    );
+    fixture.detectChanges();
+    const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
+
+    expect(element.textContent).toEqual(componentData.linkName);
+    expect(element.href).toContain('/translated-path' + componentData.url);
   });
 });

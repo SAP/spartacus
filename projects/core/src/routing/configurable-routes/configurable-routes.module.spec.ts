@@ -1,27 +1,32 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigurableRoutesModule } from './configurable-routes.module';
-import { RoutesConfigLoader } from './routes-config-loader';
 import { APP_INITIALIZER } from '@angular/core';
+import { ConfigurableRoutesService } from './configurable-routes.service';
 
-const mockRoutesConfigLoader = {
-  load: jasmine.createSpy().and.returnValue(Promise.resolve())
-};
+class MockConfigurableRoutesService {
+  init = jasmine.createSpy().and.returnValue(Promise.resolve());
+}
 
-describe('CongifurableRoutesModule', () => {
+describe('ConfigurableRoutesModule', () => {
+  let mockService: MockConfigurableRoutesService;
+
   it('should call RoutesConfigLoader#load function on app initialization', () => {
     TestBed.configureTestingModule({
       imports: [ConfigurableRoutesModule],
       providers: [
-        { provide: RoutesConfigLoader, useValue: mockRoutesConfigLoader }
+        {
+          provide: ConfigurableRoutesService,
+          useClass: MockConfigurableRoutesService
+        }
       ]
     });
 
-    const routesConfigLoader = TestBed.get(RoutesConfigLoader);
+    mockService = TestBed.get(ConfigurableRoutesService);
     const appInits = TestBed.get(APP_INITIALIZER);
-    const [appInitiaizerInvokingLoader] = appInits.slice(-1);
+    const [appInitializerInvokingLoader] = appInits.slice(-1);
 
-    expect(routesConfigLoader.load).toHaveBeenCalledTimes(1);
-    appInitiaizerInvokingLoader();
-    expect(routesConfigLoader.load).toHaveBeenCalledTimes(2);
+    expect(mockService.init).toHaveBeenCalledTimes(1);
+    appInitializerInvokingLoader();
+    expect(mockService.init).toHaveBeenCalledTimes(2);
   });
 });

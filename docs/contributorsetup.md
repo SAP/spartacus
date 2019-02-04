@@ -6,33 +6,22 @@ This guide shows how to build and run both in development mode and in production
 
 # Prerequisites
 
-Before carrying out the procedures below, please ensure the following frontend and backend requirements are in place.
+Before carrying out the procedures below, please ensure the following front end and back end requirements are in place.
 
-## Frontend Requirements
+## Front end Requirements
 
 Your Angular development environment should include the following:
 
-- node.js >= 8.9.0
+- node.js >= 10.14.1
 - yarn >= 1.9.4
 
-## Backend Requirements
+## Back end Requirements
 
-The Spartacus JavaScript Storefront uses SAP Commerce for its backend, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
+The Spartacus JavaScript Storefront uses SAP Commerce Cloud for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-Perform the following steps to set up your backend:
+To install SAP Commerce Cloud, refer to the [installation instructions](back_end_installation) appropriate to your version.
 
-- Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
-
-   1. In the `installer` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
-
-   2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
-
-   3. Add this [build.gradle](assets/build.gradle) file to your `b2c_for_spartacus` recipe folder.
-
-   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, intialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
-
-- Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
-- Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
+Note: The latest release of SAP Commerce Cloud is recommended.
 
 # Cloning the Sources
 
@@ -50,15 +39,15 @@ $ yarn install
 
 The simplest way to build and run from the source code is to work in development mode.
 
-## Configuring Your Backend URL
+## Configuring Your Back end URL
 
 Carry out the following steps before you build and launch.
 
-1. Configure your backend URL in the `projects/storefrontapp/environments/environment.ts` file.
+1. Configure your back end URL in the `projects/storefrontapp/environments/environment.ts` file.
 
    The `environment.ts` file contains properties that are applied when the app is run in development mode.
 
-2. Add your backend base URL to the `occBaseUrl` property, as follows:
+2. Add your back end base URL to the `occBaseUrl` property, as follows:
 
    ```
    export const environment = {
@@ -89,11 +78,11 @@ Contrary to development mode, in production mode you need to package and build a
 $ yarn build:core:lib
 ```
 
-## Configuring Your Backend URL
+## Configuring Your Back end URL
 
-1. Configure your backend URL in the `projects/storefrontapp/environments/environment.prod.ts` file.
+1. Configure your back end URL in the `projects/storefrontapp/environments/environment.prod.ts` file.
 
-2. Add your backend base URL to the `occBaseUrl` property, as follows:
+2. Add your back end base URL to the `occBaseUrl` property, as follows:
 
    ```
    export const environment = {
@@ -114,7 +103,7 @@ $ yarn start:prod
 
 In both development mode and production mode, the Spartacus storefront has default values for all of its configurations. However, you may need to override these values.
 
-To configure the storfront, use the `withConfig` method on the StorefrontModule. The following is an example:
+To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example:
 
 ```
 @NgModule({

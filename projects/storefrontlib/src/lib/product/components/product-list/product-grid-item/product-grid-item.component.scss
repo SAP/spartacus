@@ -1,109 +1,75 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-$cx-search-grid-image-width: 100% !default;
-$cx-search-grid-image-align: center !default;
-$cx-search-grid-image-trbl-padding: 20px 20px 20px 20px !default;
-$cx-search-grid-image-sm-padding-top: 1.25rem !default;
+.cx-product-image-container {
+  display: var(--cx-display, block);
+  text-align: var(--cx-text-align, center);
+}
 
-$cx-search-grid-name-trbl-margin: 0 0 25px 0 !default;
-$cx-search-grid-name-color: 'dark' !default;
-$cx-search-grid-name-hover-color: 'primary' !default;
-$cx-search-grid-name-align: center !default;
-$cx-search-grid-name-height: 2.4em !default;
+.cx-product-image {
+  width: var(--cx-width, 100%);
+  padding: var(--cx-padding, 20px);
+  display: var(--cx-display, block);
 
-$cx-search-grid-name-after-background-color: 'inverse' !default;
-$cx-search-grid-name-after-width: 100% !default;
-$cx-search-grid-name-after-height: 50px !default;
-$cx-search-grid-name-after-background: none repeat scroll 0% 0% !default;
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 1.25rem 0 0 0);
+  }
+}
 
-$cx-search-grid-name-before-bottom: 0 !default;
-$cx-search-grid-name-before-right: 0 !default;
+.cx-product-name {
+  @include type('5');
+  text-align: var(--cx-text-align, center);
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 0 0 25px 0);
+  color: var(--cx-color, --cx-g-color-dark);
+  text-decoration: var(--cx-text-decoration, none);
+  height: var(--cx-height, 2.4em);
+  overflow: var(--cx-overflow, hidden);
+  position: var(--cx-position, relative);
 
-$cx-search-grid-price-trbl-margin: 0 0 25px 0 !default;
-$cx-search-grid-price-align: center !default;
-
-$cx-search-grid-price-old-color: 'secondary' !default;
-$cx-search-grid-price-old-trbl-margin: 0 0 0 0 !default;
-$cx-search-grid-price-new-color: 'primary' !default;
-$cx-search-grid-price-new-trbl-margin: 0 0 25px 5px !default;
-
-.cx-product {
-  &-search-grid__image--container {
-    display: block;
-    text-align: $cx-search-grid-image-align;
+  &:before {
+    bottom: var(--cx-bottom, 0);
+    right: var(--cx-right, 0);
+    position: var(--cx-position, absolute);
+    content: '…';
   }
 
-  &-search-grid__image {
-    width: $cx-search-grid-image-width;
-    padding: $cx-search-grid-image-trbl-padding;
-    display: block;
-
-    @include media-breakpoint-down(sm) {
-      padding-top: $cx-search-grid-image-sm-padding-top;
-    }
+  &:after {
+    content: '';
+    background: var(--cx-background, none repeat scroll 0% 0%);
+    background-color: var(--cx-background-color, --cx-g-color-inverse);
+    position: var(--cx-position, absolute);
+    height: var(--cx-height, 50px);
+    width: var(--cx-width, 100%);
+    z-index: var(--cx-z-index, 1);
   }
 
-  &-search-grid__name {
-    @include type('5');
-    text-align: $cx-search-grid-name-align;
-    display: block;
-    margin: $cx-search-grid-name-trbl-margin;
-    @include var-color('color', $cx-search-grid-name-color);
-    text-decoration: none;
-    height: $cx-search-grid-name-height;
-    overflow: hidden;
-    position: relative;
+  &:hover {
+    color: var(--cx-color, --cx-g-color-primary);
+  }
+}
 
-    &:before {
-      bottom: $cx-search-grid-name-before-bottom;
-      position: absolute;
-      right: $cx-search-grid-name-before-right;
-      content: '…';
-    }
+.cx-product-rating {
+  text-align: var(--cx-text-align, center);
+}
 
-    &:after {
-      content: '';
-      background: $cx-search-grid-name-after-background;
-      @include var-color(
-        'background-color',
-        $cx-search-grid-name-after-background-color
-      );
-      position: absolute;
-      height: $cx-search-grid-name-after-height;
-      width: $cx-search-grid-name-after-width;
-      z-index: 1;
-    }
+.cx-product-price-container {
+  text-align: var(--cx-text-align, center);
+}
 
-    &:hover {
-      @include var-color('color', $cx-search-grid-name-hover-color);
-    }
+.cx-product-price {
+  @include type('3');
+  text-align: var(--cx-text-align, center);
+  display: var(--cx-display, inline-block);
+  margin: var(--cx-margin, 0 0 25px 0);
+
+  .old {
+    color: var(--cx-g-secondary);
+    text-decoration: var(--cx-text-decoration, line-through);
+    margin: var(--cx-margin, 0);
   }
 
-  &-search-grid__rating {
-    text-align: center;
-  }
-
-  &-search-grid__price--container {
-    text-align: $cx-search-grid-price-align;
-  }
-
-  &-search-grid__price {
-    @include type('3');
-    text-align: $cx-search-grid-price-align;
-    display: inline-block;
-    margin: $cx-search-grid-price-trbl-margin;
-
-    &--old {
-      @include var-color('color', $cx-search-grid-price-old-color);
-      text-decoration: line-through;
-      margin: $cx-search-grid-price-old-trbl-margin;
-    }
-
-    &--new {
-      margin: $cx-search-grid-price-new-trbl-margin;
-      @include var-color('color', $cx-search-grid-price-new-color);
-    }
+  .new {
+    margin: var(--cx-margin, 0 0 25px 5px);
+    color: var(--cx-color, --cx-g-primary);
   }
 }

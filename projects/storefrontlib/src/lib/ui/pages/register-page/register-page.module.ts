@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { RegisterPageComponent } from './register-page.component';
 import { RegisterLayoutModule } from '../../layout/register-layout/register-layout.module';
-import { NotAuthGuard } from './../../../auth/guards/not-auth.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
+import { NotAuthGuard } from '@spartacus/core';
 
 const routes: Routes = [
   {
-    path: 'register',
+    path: null,
     canActivate: [NotAuthGuard, CmsPageGuards],
-    data: { pageLabel: 'login' },
-    component: RegisterPageComponent
+    component: RegisterPageComponent,
+    data: { pageLabel: 'login', cxPath: 'register' }
   }
 ];
 

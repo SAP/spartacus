@@ -1,30 +1,29 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { select, Store } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import * as fromStore from '../store/index';
 import { SearchConfig } from '../model/search-config';
+import * as fromStore from '../store/index';
+import { ProductSearchPage, Suggestion } from '../../occ/occ-models';
 
 @Injectable()
 export class ProductSearchService {
-  readonly searchResults$: Observable<any> = this.store.pipe(
-    select(fromStore.getSearchResults),
-    filter(results => Object.keys(results).length > 0)
-  );
+  constructor(
+    private store: Store<fromStore.StateWithProduct>,
+    private router: Router
+  ) {}
 
-  readonly auxSearchResults$: Observable<any> = this.store.pipe(
-    select(fromStore.getAuxSearchResults),
-    filter(results => Object.keys(results).length > 0)
-  );
+  search(query: string, searchConfig?: SearchConfig): void {
+    const urlTree = this.router.createUrlTree([], {
+      queryParams: { ...searchConfig, query },
+      preserveFragment: false
+    });
 
-  readonly searchSuggestions$: Observable<any> = this.store.pipe(
-    select(fromStore.getProductSuggestions)
-  );
-
-  constructor(private store: Store<fromStore.ProductsState>) {}
-
-  search(query: string, searchConfig?: SearchConfig) {
+    this.router.navigateByUrl(urlTree);
     this.store.dispatch(
       new fromStore.SearchProducts({
         queryText: query,
@@ -33,7 +32,25 @@ export class ProductSearchService {
     );
   }
 
-  searchAuxiliary(query: string, searchConfig?: SearchConfig) {
+  getSearchResults(): Observable<ProductSearchPage> {
+    return this.store.pipe(
+      select(fromStore.getSearchResults),
+      filter(results => Object.keys(results).length > 0)
+    );
+  }
+
+  getAuxSearchResults(): Observable<ProductSearchPage> {
+    return this.store.pipe(
+      select(fromStore.getAuxSearchResults),
+      filter(results => Object.keys(results).length > 0)
+    );
+  }
+
+  getSearchSuggestions(): Observable<Suggestion[]> {
+    return this.store.pipe(select(fromStore.getProductSuggestions));
+  }
+
+  searchAuxiliary(query: string, searchConfig?: SearchConfig): void {
     this.store.dispatch(
       new fromStore.SearchProducts(
         {
@@ -45,7 +62,7 @@ export class ProductSearchService {
     );
   }
 
-  getSuggestions(query: string, searchConfig?: SearchConfig) {
+  getSuggestions(query: string, searchConfig?: SearchConfig): void {
     this.store.dispatch(
       new fromStore.GetProductSuggestions({
         term: query,

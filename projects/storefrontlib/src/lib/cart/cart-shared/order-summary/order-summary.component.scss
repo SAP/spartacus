@@ -1,0 +1,32 @@
+@import 'theme';
+
+:host {
+  display: block;
+  padding: var(--cx-padding, 1rem);
+  margin: var(--cx-margin, 0 0 1.5rem 0);
+}
+
+.cx-summary-label {
+  text-align: var(--cx-text-align, start);
+  padding: var(--cx-padding, 0);
+}
+.cx-summary-amount {
+  text-align: var(--cx-text-align, end);
+  padding: var(--cx-padding, 0);
+}
+.cx-summary-promotions {
+  @include type('7');
+  color: var(--cx-color, var(--cx-g-color-success));
+  padding: var(--cx-padding, 0.5rem 0);
+}
+.cx-summary-row {
+  padding: var(--cx-padding, 0.5rem 0);
+  display: var(--cx-display, flex);
+  flex-wrap: var(--cx-flex-wrap, wrap);
+}
+.cx-summary-savings {
+  color: var(--cx-color, var(--cx-g-color-success));
+}
+.cx-summary-total {
+  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
+}

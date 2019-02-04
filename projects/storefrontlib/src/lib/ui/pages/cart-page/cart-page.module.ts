@@ -1,24 +1,33 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { CartPageLayoutModule } from '../../layout/cart-page-layout/cart-page-layout.module';
 
 import { CartPageComponent } from './cart-page.component';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+import { CartDetailsModule } from '../../../cart/cart-details/cart-details.module';
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
+import { CmsModule } from '../../../cms/cms.module';
 
 const routes: Routes = [
   {
-    path: 'cart',
+    path: null,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'cartPage' },
-    component: CartPageComponent
+    component: CartPageComponent,
+    data: { pageLabel: 'cartPage', cxPath: 'cart' }
   }
 ];
 
 @NgModule({
-  imports: [CommonModule, CartPageLayoutModule, RouterModule.forChild(routes)],
-  declarations: [CartPageComponent],
-  exports: [CartPageComponent]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    PageLayoutModule,
+    CartDetailsModule,
+    OutletRefModule,
+    CmsModule
+  ],
+  declarations: [CartPageComponent]
 })
 export class CartPageModule {}

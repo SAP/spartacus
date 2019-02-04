@@ -3,7 +3,6 @@ import { OrderHistoryModule } from './order-history/order-history.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 
 @NgModule({
-  imports: [OrderHistoryModule, OrderDetailsModule],
-  exports: [OrderHistoryModule, OrderDetailsModule]
+  imports: [OrderHistoryModule, OrderDetailsModule]
 })
 export class OrderModule {}

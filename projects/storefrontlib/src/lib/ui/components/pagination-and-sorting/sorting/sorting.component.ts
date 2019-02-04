@@ -5,6 +5,7 @@ import {
   ChangeDetectionStrategy,
   EventEmitter
 } from '@angular/core';
+import { SortModel } from '@spartacus/core';
 
 @Component({
   selector: 'cx-sorting',
@@ -14,13 +15,13 @@ import {
 })
 export class SortingComponent {
   @Input()
-  sortOptions;
+  sortOptions: SortModel[];
   @Input()
   selectedOption: string;
   @Input()
   placeholder: string;
   @Input()
-  sortLabels: any;
+  sortLabels: { [code: string]: string };
 
   @Output()
   sortListEvent: EventEmitter<string>;
@@ -29,7 +30,7 @@ export class SortingComponent {
     this.sortListEvent = new EventEmitter<string>();
   }
 
-  sortList(sortCode: string) {
+  sortList(sortCode: string): void {
     this.sortListEvent.emit(sortCode);
   }
 }

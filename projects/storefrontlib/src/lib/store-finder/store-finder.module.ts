@@ -2,14 +2,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 
 import { CmsModule } from '../cms/cms.module';
-
-import { effects } from './store/effects/index';
-import { reducers } from './store/reducers/index';
-import { services } from './services/index';
 
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 // tslint:disable-next-line:max-line-length
@@ -26,6 +20,7 @@ import { StoreFinderSearchResultComponent } from './components/store-finder-sear
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
 import { SpinnerModule } from '../ui/components/spinner/spinner.module';
+import { StoreFinderCoreModule, UrlTranslationModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -33,11 +28,11 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
     CmsModule,
     ReactiveFormsModule,
     RouterModule,
-    StoreModule.forFeature('stores', reducers),
-    EffectsModule.forFeature(effects),
     PaginationAndSortingModule,
     BootstrapModule,
-    SpinnerModule
+    SpinnerModule,
+    UrlTranslationModule,
+    StoreFinderCoreModule
   ],
   declarations: [
     StoreFinderSearchComponent,
@@ -62,7 +57,6 @@ import { SpinnerModule } from '../ui/components/spinner/spinner.module';
     ScheduleComponent,
     StoreFinderHeaderComponent,
     StoreFinderSearchResultComponent
-  ],
-  providers: [...services]
+  ]
 })
 export class StoreFinderModule {}

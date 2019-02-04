@@ -1,25 +1,32 @@
 import {
   Component,
   OnInit,
+  Input,
   Output,
   EventEmitter,
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Store, select } from '@ngrx/store';
+
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  UserService,
+  CheckoutService,
+  Country,
+  Title,
+  Region,
+  AddressValidation
+} from '@spartacus/core';
+import { Address } from '@spartacus/core';
+
 import { Observable, Subscription } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-
-import * as fromCheckoutStore from '../../../../store';
-import * as fromUser from '../../../../../user/store';
-
-import { CheckoutService } from '../../../../services/checkout.service';
-import { GlobalMessageService } from '../../../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '.././../../../../global-message/models/message.model';
+import { tap } from 'rxjs/operators';
 
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'cx-address-form',
@@ -28,12 +35,25 @@ import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
-  countries$: Observable<any>;
-  titles$: Observable<any>;
-  regions$: Observable<any>;
+  countries$: Observable<Country[]>;
+  titles$: Observable<Title[]>;
+  regions$: Observable<Region[]>;
+
+  @Input()
+  addressData: Address;
+
+  @Input()
+  actionBtnLabel: string;
+
+  @Input()
+  cancelBtnLabel: string;
+
+  @Input()
+  setAsDefaultField: boolean;
 
   @Output()
   addAddress = new EventEmitter<any>();
+
   @Output()
   backToAddress = new EventEmitter<any>();
 
@@ -42,65 +62,59 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
-    titleCode: ['', Validators.required],
+    titleCode: [null, Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [null, Validators.required]
     }),
     country: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: [null, Validators.required]
     }),
     postalCode: ['', Validators.required],
     phone: ''
   });
 
   constructor(
-    protected store: Store<fromUser.UserState>,
     private fb: FormBuilder,
     protected checkoutService: CheckoutService,
+    protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     // Fetching countries
-    this.countries$ = this.store.pipe(
-      select(fromUser.getAllDeliveryCountries),
+    this.countries$ = this.userService.getDeliveryCountries().pipe(
       tap(countries => {
-        // If the store is empty fetch countries. This is also used when changing language.
         if (Object.keys(countries).length === 0) {
-          this.store.dispatch(new fromUser.LoadDeliveryCountries());
+          this.userService.loadDeliveryCountries();
         }
       })
     );
 
     // Fetching titles
-    this.titles$ = this.store.pipe(
-      select(fromUser.getAllTitles),
+    this.titles$ = this.userService.getTitles().pipe(
       tap(titles => {
-        // If the store is empty fetch titles. This is also used when changing language.
         if (Object.keys(titles).length === 0) {
-          this.store.dispatch(new fromUser.LoadTitles());
+          this.userService.loadTitles();
         }
       })
     );
 
     // Fetching regions
-    this.regions$ = this.store.pipe(
-      select(fromUser.getAllRegions),
+    this.regions$ = this.userService.getRegions().pipe(
       tap(regions => {
         const regionControl = this.address.get('region.isocode');
 
-        // If the store is empty fetch regions. This is also used when changing language.
         if (Object.keys(regions).length === 0) {
           regionControl.disable();
           const countryIsoCode = this.address.get('country.isocode').value;
           if (countryIsoCode) {
-            this.store.dispatch(new fromUser.LoadRegions(countryIsoCode));
+            this.userService.loadRegions(countryIsoCode);
           }
         } else {
           regionControl.enable();
@@ -109,16 +123,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.store
-      .pipe(
-        select(fromCheckoutStore.getAddressVerificationResults),
-        filter(results => Object.keys(results).length !== 0)
-      )
-      .subscribe((results: any) => {
+    this.addressVerifySub = this.checkoutService
+      .getAddressVerificationResults()
+      .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
+          this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.addAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
@@ -126,45 +135,54 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             type: GlobalMessageType.MSG_TYPE_ERROR,
             text: 'Invalid Address'
           });
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
+          this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
       });
+
+    if (this.addressData) {
+      this.address.patchValue(this.addressData);
+
+      this.countrySelected(this.addressData.country);
+      if (this.addressData.region) {
+        this.regionSelected(this.addressData.region);
+      }
+    }
   }
 
-  titleSelected(title) {
+  titleSelected(title: Title): void {
     this.address['controls'].titleCode.setValue(title.code);
   }
 
-  countrySelected(country) {
+  countrySelected(country: Country): void {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
-    this.store.dispatch(new fromUser.LoadRegions(country.isocode));
+    this.userService.loadRegions(country.isocode);
   }
 
-  regionSelected(region) {
+  regionSelected(region: Region): void {
     this.address['controls'].region['controls'].isocode.setValue(
       region.isocode
     );
   }
 
-  toggleDefaultAddress() {
-    this.address.value.defaultAddress = !this.address.value.defaultAddress;
+  toggleDefaultAddress(): void {
+    this.address['controls'].defaultAddress.setValue(
+      this.address.value.defaultAddress
+    );
   }
 
-  back() {
+  back(): void {
     this.backToAddress.emit();
   }
 
-  verifyAddress() {
+  verifyAddress(): void {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
-  openSuggestedAddress(results: any) {
+  openSuggestedAddress(results: AddressValidation): void {
     if (!this.suggestedAddressModalRef) {
       this.suggestedAddressModalRef = this.modalService.open(
         SuggestedAddressDialogComponent,
@@ -175,9 +193,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then(address => {
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
+          this.checkoutService.clearAddressVerificationResults();
           if (address) {
             address = Object.assign(
               {
@@ -193,9 +209,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.store.dispatch(
-            new fromCheckoutStore.ClearAddressVerificationResults()
-          );
+          this.checkoutService.clearAddressVerificationResults();
           const address = Object.assign(
             {
               selected: true
@@ -209,9 +223,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.store.dispatch(
-      new fromCheckoutStore.ClearAddressVerificationResults()
-    );
+    this.checkoutService.clearAddressVerificationResults();
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();

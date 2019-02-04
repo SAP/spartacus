@@ -1,101 +1,179 @@
 <div class="cx-payment-form container">
-    <div class="row">
-        <div class="col-md-12 col-lg-9">
-            <!-- FORM -->
-            <div [formGroup]="payment">
-                <div class="form-group">
-                    <ng-container *ngIf="cardTypes$ | async as cardTypes">
-                        <div *ngIf="cardTypes.length !== 0">
-                            <label aria-required="true">
-                                <span class="label-content required">
-                                    Payment Type
-                                </span>
-                                <ng-select [searchable]="false" [clearable]="false" [items]="cardTypes" bindLabel="name"
-                                    bindValue="code" placeholder="Select One..." (change)="paymentSelected($event)">
-                                </ng-select>
-                            </label>
-                        </div>
-                    </ng-container>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <span class="label-content">Account Holder Name</span>
-                        <input class="form-control" type="text" required placeholder="Account Holder Name"
-                            formControlName="accountHolderName">
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>
-                        <span class="label-content">Card Number</span>
-                        <input type="text" class="form-control" required formControlName="cardNumber">
-                    </label>
-                </div>
-
-                <div class="row">
-                    <div class="form-group col-md-6">
-                        <label>
-                            <span class="label-content">Expiration Date</span>
-                            <div class="form-group__exp-date row">
-                                <div class="col-sm-6 col-md-5">
-                                    <ng-select [searchable]="false" [clearable]="false" [items]="months" bindLabel="name"
-                                        bindValue="expiryMonth" placeholder="MM" (change)="monthSelected($event)">
-                                    </ng-select>
-                                </div>
-                                <div class="col-sm-6 col-md-7">
-                                    <ng-select [searchable]="false" [clearable]="false" [items]="years" bindLabel="name"
-                                        bindValue="expiryYear" placeholder="YYYY" (change)="yearSelected($event)">
-                                    </ng-select>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>
-                            <span class="label-content">
-                                Security code (CVV)
-                                <img class="cx-payment-form__tooltip-icon" [src]="infoIconImgSrc" placement="right"
-                                    ngbTooltip="Card Verification Value">
-                            </span>
-                            <input type="text" class="form-control" id="cVVNumber" required formControlName="cvn">
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="form-check">
-                        <label>
-                            <input type="checkbox" class="form-check-input" (change)="toggleDefaultPaymentMethod()">
-                            <span class="form-check-label">Save as default</span>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- BILLING -->
-                <div class="cx-payment-form__billing">
-                    <div class="cx-payment-form__billing-address">Billing address</div>
-                    <div class="form-group">
-                        <div class="form-check">
-                            <label>
-                                <input type="checkbox" class="form-check-input" [checked]="sameAsShippingAddress"
-                                    (change)="setSameAsShippingAddress()">
-                                <span class="form-check-label">Same as shipping address</span>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- BILLING INFO COMPONENT -->
-                    <div *ngIf="sameAsShippingAddress && shippingAddress$ | async as shippingAddress">
-                        <cx-card [content]="getAddressCardContent(shippingAddress)"></cx-card>
-                    </div>
-                </div>
-
-                <!-- BUTTON SECTION -->
-                <div class="cx-payment-form__btns row">
-                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-action" (click)="back()">
-                            Change Payment</button></div>
-                    <div class="col-sm-12 col-md-6"><button class="btn btn-block btn-primary" [disabled]="payment.invalid"
-                            (click)="next()">Continue</button></div>
-                </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-9">
+      <!-- FORM -->
+      <div [formGroup]="payment">
+        <div class="form-group">
+          <ng-container *ngIf="(cardTypes$ | async) as cardTypes">
+            <div *ngIf="cardTypes.length !== 0">
+              <label aria-required="true">
+                <span class="label-content required"> Payment Type </span>
+                <ng-select
+                  [searchable]="false"
+                  [clearable]="false"
+                  [items]="cardTypes"
+                  bindLabel="name"
+                  bindValue="code"
+                  placeholder="Select One..."
+                  (change)="paymentSelected($event)"
+                >
+                </ng-select>
+              </label>
             </div>
+          </ng-container>
         </div>
+        <div class="form-group">
+          <label>
+            <span class="label-content">Account Holder Name</span>
+            <input
+              class="form-control"
+              type="text"
+              required
+              placeholder="Account Holder Name"
+              formControlName="accountHolderName"
+            />
+          </label>
+        </div>
+        <div class="form-group">
+          <label>
+            <span class="label-content">Card Number</span>
+            <input
+              type="text"
+              class="form-control"
+              required
+              formControlName="cardNumber"
+            />
+          </label>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+            <label>
+              <span class="label-content">Expiration Date</span>
+              <div class="form-group__exp-date row">
+                <div class="col-sm-6 col-md-5">
+                  <ng-select
+                    [searchable]="false"
+                    [clearable]="false"
+                    [items]="months"
+                    bindLabel="name"
+                    bindValue="expiryMonth"
+                    placeholder="MM"
+                    (change)="monthSelected($event)"
+                  >
+                  </ng-select>
+                </div>
+                <div class="col-sm-6 col-md-7">
+                  <ng-select
+                    [searchable]="false"
+                    [clearable]="false"
+                    [items]="years"
+                    bindLabel="name"
+                    bindValue="expiryYear"
+                    placeholder="YYYY"
+                    (change)="yearSelected($event)"
+                  >
+                  </ng-select>
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="form-group col-md-6">
+            <label>
+              <span class="label-content">
+                Security code (CVV)
+                <img
+                  class="cx-payment-form__tooltip-icon"
+                  [src]="infoIconImgSrc"
+                  placement="right"
+                  ngbTooltip="Card Verification Value"
+                  alt=""
+                />
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                id="cVVNumber"
+                required
+                formControlName="cvn"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-check">
+            <label>
+              <input
+                type="checkbox"
+                class="form-check-input"
+                (change)="toggleDefaultPaymentMethod()"
+              />
+              <span class="form-check-label">Save as default</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- BILLING -->
+        <div class="cx-payment-form__billing">
+          <div class="cx-payment-form__billing-address">Billing address</div>
+
+          <!-- SAME AS SHIPPING CHECKBOX -->
+          <ng-container *ngIf="(showSameAsShippingAddressCheckbox() | async)">
+            <div class="form-group">
+              <div class="form-check">
+                <label>
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [checked]="sameAsShippingAddress"
+                    (change)="toggleSameAsShippingAddress()"
+                  />
+                  <span class="form-check-label">Same as shipping address</span>
+                </label>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- BILLING INFO COMPONENT -->
+          <ng-container
+            *ngIf="
+              (sameAsShippingAddress && shippingAddress$
+                | async) as shippingAddress;
+              else billingAddressForm
+            "
+          >
+            <cx-card
+              [content]="getAddressCardContent(shippingAddress)"
+            ></cx-card>
+          </ng-container>
+
+          <ng-template #billingAddressForm>
+            <cx-billing-address-form
+              [billingAddress]="billingAddress"
+              [countries$]="countries$"
+            ></cx-billing-address-form>
+          </ng-template>
+        </div>
+
+        <!-- BUTTON SECTION -->
+        <div class="cx-payment-form__btns row">
+          <div class="col-sm-12 col-md-6">
+            <button class="btn btn-block btn-action" (click)="back()">
+              Change Payment
+            </button>
+          </div>
+          <div class="col-sm-12 col-md-6">
+            <button
+              class="btn btn-block btn-primary"
+              [disabled]="isContinueButtonDisabled()"
+              (click)="next()"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

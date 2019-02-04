@@ -1,17 +1,32 @@
 import {
   Component,
-  Input,
   ChangeDetectionStrategy,
-  OnDestroy,
-  ViewChild,
   OnInit,
+  ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
-import { Subscription, fromEvent } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
-import { AbstractCmsComponent } from '../../cms/components/abstract-cms-component';
-import { CmsService } from '../../cms/facade/cms.service';
-import { ProductService } from '@spartacus/core';
+
+import {
+  ProductService,
+  Product,
+  CmsProductCarouselComponent,
+  WindowRef
+} from '@spartacus/core';
+
+import { fromEvent, Observable, of } from 'rxjs';
+import {
+  debounceTime,
+  map,
+  distinctUntilChanged,
+  startWith
+} from 'rxjs/operators';
+
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+
+const MAX_WIDTH = 360;
+const MAX_ITEM_SIZE = 4;
+
+const SPEED = 250;
 
 @Component({
   selector: 'cx-product-carousel',
@@ -19,91 +34,80 @@ import { ProductService } from '@spartacus/core';
   styleUrls: ['./product-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductCarouselComponent extends AbstractCmsComponent
-  implements OnDestroy, OnInit {
-  productGroups: any[];
-  products = {};
+export class ProductCarouselComponent implements OnInit {
+  items$: Observable<Observable<Product>[]>;
+  itemSize$: Observable<number>;
+  activeItem = 0;
 
-  resize$: Subscription;
-
-  @ViewChild('carousel')
-  carousel: any;
-  @Input()
-  productCodes: Array<string>;
+  private window: Window;
 
   constructor(
-    protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
-    private productService: ProductService
+    public component: CmsComponentData<CmsProductCarouselComponent>,
+    private productService: ProductService,
+    winRef: WindowRef,
+    private el: ElementRef,
+    private cd: ChangeDetectorRef
   ) {
-    super(cmsService, cd);
+    this.window = winRef.nativeWindow;
   }
 
   ngOnInit() {
-    this.resize$ = fromEvent(window, 'resize')
-      .pipe(debounceTime(300))
-      .subscribe(() => this.createGroups());
+    this.setItemSize();
+    this.setItems();
   }
 
-  prev() {
-    this.carousel.prev();
+  /**
+   * Maps the item codes from CMS component to an array of `Product` observables.
+   */
+  protected setItems(): void {
+    this.items$ = this.component.data$.pipe(
+      map(data => {
+        const productCodes = data.productCodes.split(' ');
+        return productCodes.map(code => this.productService.get(code));
+      })
+    );
   }
 
-  next() {
-    this.carousel.next();
-  }
-
-  protected fetchData() {
-    this.setProductCodes();
-    this.productCodes.forEach(code => {
-      this.products[code] = this.productService.get(code);
-      this.productService.isProductLoaded(code).subscribe();
-    });
-    this.createGroups();
-    super.fetchData();
-  }
-
-  protected createGroups() {
-    const groups = [];
-    this.productCodes.forEach(product => {
-      const lastGroup = groups[groups.length - 1];
-      if (lastGroup && lastGroup.length < this.getItemsPerPage()) {
-        lastGroup.push(product);
-      } else {
-        groups.push([product]);
-      }
-    });
-    this.productGroups = groups;
-  }
-
-  protected getItemsPerPage(): number {
-    const smallScreenMaxWidth = 576;
-    const tabletScreenMaxWidth = 768;
-    const { innerWidth } = window;
-    let itemsPerPage;
-    if (innerWidth < smallScreenMaxWidth) {
-      itemsPerPage = 1;
-    } else if (
-      innerWidth > smallScreenMaxWidth &&
-      innerWidth < tabletScreenMaxWidth
-    ) {
-      itemsPerPage = 2;
-    } else {
-      itemsPerPage = 4;
+  /**
+   * The number of items shown in the carousel can be calculated
+   * the standard implemenattions uses the element size to calculate
+   * the items that fit in the carousel.
+   * This method is called in `ngOnInit`.
+   */
+  protected setItemSize(): void {
+    if (!this.window) {
+      this.itemSize$ = of(MAX_ITEM_SIZE);
+      return;
     }
-    return itemsPerPage;
+    this.itemSize$ = fromEvent(this.window, 'resize').pipe(
+      map(() => (this.el.nativeElement as HTMLElement).clientWidth),
+      startWith((this.el.nativeElement as HTMLElement).clientWidth),
+      // avoid to much calls
+      debounceTime(100),
+      map((innerWidth: any) => {
+        const itemsPerPage = Math.round(innerWidth / MAX_WIDTH);
+        return itemsPerPage > 2 ? MAX_ITEM_SIZE : itemsPerPage;
+      }),
+      // only emit new size when the size changed
+      distinctUntilChanged()
+    );
   }
 
-  protected setProductCodes() {
-    if (this.component && this.component.productCodes) {
-      this.productCodes = this.component.productCodes.split(' ');
-    }
+  prev(max): void {
+    this.setActiveItem(this.activeItem - max, max);
   }
 
-  ngOnDestroy() {
-    if (this.resize$) {
-      this.resize$.unsubscribe();
-    }
-    super.ngOnDestroy();
+  next(max): void {
+    this.setActiveItem(this.activeItem + max, max);
+  }
+
+  setActiveItem(newActive: number, max: number): void {
+    this.activeItem = -1;
+    // we wait a little with setting the new active
+    // to make a better animation
+    setTimeout(() => {
+      this.activeItem = newActive;
+      this.cd.markForCheck();
+    }, (max - 1) * SPEED);
   }
 }

@@ -6,13 +6,17 @@ import {
   EventEmitter,
   Input
 } from '@angular/core';
+
+import { PaymentDetails, Address } from '@spartacus/core';
+import { CartDataService } from '@spartacus/core';
+import { UserService } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '../../../services/checkout.service';
-import { Card } from '../../../../ui/components/card/card.component';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
+import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-method',
@@ -22,45 +26,45 @@ import { visaImgSrc } from '../../../../ui/images/visa';
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
-  existingPaymentMethods$: Observable<any>;
-  cards = [];
-  isLoading$: Observable<any>;
+  existingPaymentMethods$: Observable<PaymentDetails[]>;
+  cards: Card[] = [];
+  isLoading$: Observable<boolean>;
 
   @Input()
-  selectedPayment: any;
+  selectedPayment: PaymentDetails;
   @Output()
   backStep = new EventEmitter<any>();
   @Output()
   addPaymentInfo = new EventEmitter<any>();
 
-  constructor(protected checkoutService: CheckoutService) {}
+  constructor(
+    protected cartData: CartDataService,
+    protected userService: UserService
+  ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.checkoutService.paymentMethodsLoading$;
+    this.isLoading$ = this.userService.getPaymentMethodsLoading();
+    this.userService.loadPaymentMethods(this.cartData.userId);
 
-    this.existingPaymentMethods$ = this.checkoutService.paymentMethods$.pipe(
+    this.existingPaymentMethods$ = this.userService.getPaymentMethods().pipe(
       tap(payments => {
-        if (payments.length === 0) {
-          this.checkoutService.loadUserPaymentMethods();
-        } else {
-          if (this.cards.length === 0) {
-            payments.forEach(payment => {
-              const card = this.getCardContent(payment);
-              if (
-                this.selectedPayment &&
-                this.selectedPayment.id === payment.id
-              ) {
-                card.header = 'SELECTED';
-              }
-            });
-          }
+        if (this.cards.length === 0) {
+          payments.forEach(payment => {
+            const card = this.getCardContent(payment);
+            if (
+              this.selectedPayment &&
+              this.selectedPayment.id === payment.id
+            ) {
+              card.header = 'SELECTED';
+            }
+          });
         }
       })
     );
   }
 
-  getCardContent(payment): Card {
-    let ccImage;
+  getCardContent(payment: PaymentDetails): Card {
+    let ccImage: string;
     if (payment.cardType.code === 'visa') {
       ccImage = visaImgSrc;
     } else if (payment.cardType.code === 'master') {
@@ -81,7 +85,7 @@ export class PaymentMethodComponent implements OnInit {
     return card;
   }
 
-  paymentMethodSelected(paymentDetails, index) {
+  paymentMethodSelected(paymentDetails: PaymentDetails, index: number) {
     this.selectedPayment = paymentDetails;
 
     for (let i = 0; this.cards[i]; i++) {
@@ -94,26 +98,36 @@ export class PaymentMethodComponent implements OnInit {
     }
   }
 
-  next() {
+  next(): void {
     this.addPaymentInfo.emit({
       payment: this.selectedPayment,
       newPayment: false
     });
   }
 
-  addNewPaymentMethod(paymentDetails) {
-    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: true });
+  addNewPaymentMethod({
+    paymentDetails,
+    billingAddress
+  }: {
+    paymentDetails: PaymentDetails;
+    billingAddress: Address;
+  }): void {
+    this.addPaymentInfo.emit({
+      payment: paymentDetails,
+      billingAddress,
+      newPayment: true
+    });
   }
 
-  showNewPaymentForm() {
+  showNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = true;
   }
 
-  hideNewPaymentForm() {
+  hideNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = false;
   }
 
-  back() {
+  back(): void {
     this.backStep.emit();
   }
 }

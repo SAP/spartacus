@@ -5,13 +5,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 
-import { reducerToken, reducerProvider } from './reducers/index';
+import { reducerToken, reducerProvider, metaReducers } from './reducers/index';
 import { effects } from './effects/index';
 import { PRODUCT_FEATURE } from './product-state';
 
-import { metaReducers } from './reducers/index';
 import { ProductConverterModule } from './converters/index';
-import { ProductOccModule } from '../occ/product-occ-module';
+import { ProductOccModule } from '../occ/product-occ.module';
+import { ConfigModule } from '../../config/config.module';
+import { StateConfig } from '../../state/config/state-config';
+
+export function productStoreConfigFactory(): StateConfig {
+  // if we want to reuse PRODUCT_FEATURE const in config, we have to use factory instead of plain object
+  const config = {
+    state: { ssrTransfer: { keys: { [PRODUCT_FEATURE]: true } } }
+  };
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -20,7 +29,8 @@ import { ProductOccModule } from '../occ/product-occ-module';
     ProductOccModule,
     ProductConverterModule,
     StoreModule.forFeature(PRODUCT_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfigFactory(productStoreConfigFactory)
   ],
   providers: [reducerProvider]
 })

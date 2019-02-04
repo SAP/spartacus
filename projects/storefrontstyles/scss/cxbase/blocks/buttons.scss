@@ -2,6 +2,26 @@
 @import '../../mixins';
 @import '~bootstrap/scss/buttons';
 
+button {
+  &:focus {
+    outline: none;
+  }
+
+  &.link {
+    text-decoration: underline;
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    cursor: pointer;
+
+    &:disabled {
+      pointer-events: none !important;
+      cursor: not-allowed !important;
+      opacity: 0.8;
+    }
+  }
+}
+
 //buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
 .btn {
   text-transform: $btn-text-transform;
@@ -52,11 +72,16 @@
       // opacity: 1;
       @include var-color('background-color', 'primary');
       @include var-color('border-color', 'primary');
+
       &:hover {
         // border-color: lighten(theme-color('primary'), 26%);
         @include var-color('border-color', 'primary');
         @include cx-darken(100);
       }
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
     }
 
     &:not(:disabled):not(.disabled):active,
@@ -68,10 +93,6 @@
       &:focus {
         box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
       }
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
     }
   }
 
@@ -101,11 +122,16 @@
       // opacity: 1;
       @include var-color('background-color', 'secondary');
       @include var-color('border-color', 'secondary');
+
       &:hover {
         // border-color: lighten(theme-color('secondary'), 31%);
         @include var-color('border-color', 'secondary');
         @include cx-darken(100);
       }
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
     }
 
     &:not(:disabled):not(.disabled):active,
@@ -117,10 +143,6 @@
       &:focus {
         box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
       }
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
     }
   }
 
@@ -158,12 +180,15 @@
 
 .btn[aria-pressed='true'] {
   @extend .btn.active;
+
   &.btn-primary {
     @extend .btn-primary;
   }
+
   &.btn-secondary {
     @extend .btn-secondary;
   }
+
   &.btn-action {
     @extend .btn-action;
   }
@@ -173,12 +198,15 @@
   @extend .btn.disabled;
   cursor: auto !important;
   opacity: 0.6;
+
   &.btn-primary {
     @extend .btn-primary.disabled;
   }
+
   &.btn-secondary {
     @extend .btn-secondary.disabled;
   }
+
   &.btn-action {
     @extend .btn-action.disabled;
   }

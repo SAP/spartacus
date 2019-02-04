@@ -5,9 +5,14 @@ import {
   ElementRef,
   ChangeDetectorRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  Renderer2
 } from '@angular/core';
-import { missingProductImgSrc } from '../../../images/missingProduct';
+import {
+  missingProductImgSrc,
+  missingProductImageAlt
+} from '../../../images/missingProduct';
+import { Image } from '@spartacus/core';
 
 const DEFAULT_FORMAT = 'product';
 const INITIALIZED_CLS = 'initialized';
@@ -22,28 +27,39 @@ export class PictureComponent implements OnChanges {
   @Input()
   imageContainer;
   @Input()
-  imageFormat;
+  imageFormat: string;
   @Input()
-  imagePosition;
+  imagePosition: string;
   @Input()
-  imageAlt;
+  imageAlt: string;
+
   @Output()
   loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
-  mainImage;
+  mainImage: string;
   missingProductImgSrc = missingProductImgSrc;
+  missingProductImageAlt = missingProductImageAlt;
 
-  constructor(private elRef: ElementRef, private cd: ChangeDetectorRef) {}
+  constructor(
+    private elRef: ElementRef,
+    private cd: ChangeDetectorRef,
+    private renderer: Renderer2
+  ) {}
 
   ngOnChanges() {
     this.loadImage();
   }
 
-  loadImage() {
+  loadImage(): void {
     if (this.imageContainer) {
-      const image = this.imageContainer[this.imageFormat || DEFAULT_FORMAT];
+      const image: Image = this.imageContainer[
+        this.imageFormat || DEFAULT_FORMAT
+      ];
       if (image && image.url) {
-        (<HTMLElement>this.elRef.nativeElement).classList.add(LOADING_CLS);
+        this.renderer.addClass(
+          <HTMLElement>this.elRef.nativeElement,
+          LOADING_CLS
+        );
         this.mainImage = image.url;
         this.cd.detectChanges();
       }
@@ -51,8 +67,14 @@ export class PictureComponent implements OnChanges {
   }
 
   loadHandler() {
-    (<HTMLElement>this.elRef.nativeElement).classList.add(INITIALIZED_CLS);
-    (<HTMLElement>this.elRef.nativeElement).classList.remove(LOADING_CLS);
+    this.renderer.addClass(
+      <HTMLElement>this.elRef.nativeElement,
+      INITIALIZED_CLS
+    );
+    this.renderer.removeClass(
+      <HTMLElement>this.elRef.nativeElement,
+      LOADING_CLS
+    );
     this.loaded.emit(this.elRef.nativeElement);
   }
 

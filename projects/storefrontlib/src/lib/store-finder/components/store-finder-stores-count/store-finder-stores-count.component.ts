@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
-import * as fromStore from '../../store';
-import { StoreFinderService } from '../../services/store-finder.service';
+import { StoreFinderService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-stores-count',
@@ -12,18 +10,13 @@ import { StoreFinderService } from '../../services/store-finder.service';
 })
 export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;
-  isLoading$: Observable<any>;
+  isLoading$: Observable<boolean>;
 
-  constructor(
-    private store: Store<fromStore.StoresState>,
-    private storeFinderService: StoreFinderService
-  ) {}
+  constructor(private storeFinderService: StoreFinderService) {}
 
   ngOnInit() {
     this.storeFinderService.viewAllStores();
-    this.locations$ = this.store.pipe(
-      select(fromStore.getViewAllStoresEntities)
-    );
-    this.isLoading$ = this.store.pipe(select(fromStore.getStoresLoading));
+    this.locations$ = this.storeFinderService.getViewAllStoresEntities();
+    this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
   }
 }

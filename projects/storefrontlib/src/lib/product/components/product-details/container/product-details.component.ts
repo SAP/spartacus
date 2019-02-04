@@ -1,48 +1,94 @@
 import {
   Component,
   Input,
-  OnChanges,
   ViewChild,
-  ViewEncapsulation
+  ElementRef,
+  OnChanges
 } from '@angular/core';
+
+import { ProductService, Product, WindowRef } from '@spartacus/core';
+
 import { Observable } from 'rxjs';
-import { ProductService } from '@spartacus/core';
+
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnChanges {
   static outlets = ProductDetailOutlets;
-  @ViewChild('tabSet')
-  tabSet;
-  @ViewChild('tabSetWrapper')
-  tabSetWrapper;
+
   @Input()
   productCode: string;
-  product$: Observable<any>;
-  itemCount = 1;
+
+  product$: Observable<Product>;
 
   get outlets() {
     return ProductDetailsComponent.outlets;
   }
 
   isWritingReview = false;
+  activatedElements: HTMLElement[] = [];
 
-  constructor(protected productService: ProductService) {}
+  @ViewChild('descriptionHeader')
+  set initial(ref: ElementRef) {
+    if (ref) {
+      ref.nativeElement.click();
+    }
+  }
 
-  ngOnChanges() {
+  @ViewChild('reviewHeader') reviewHeader: ElementRef;
+
+  constructor(
+    protected productService: ProductService,
+    protected winRef: WindowRef
+  ) {}
+
+  ngOnChanges(): void {
     this.product$ = this.productService.get(this.productCode);
   }
 
-  goToReviews(isWritingReview?: boolean) {
-    if (!isWritingReview) {
-      this.isWritingReview = false;
+  select(event: MouseEvent, tab: HTMLElement) {
+    if (this.activatedElements.indexOf(tab) === -1) {
+      // remove active class on both header and content panel
+      this.activatedElements.forEach(el =>
+        el.classList.remove('active', 'toggled')
+      );
+      this.activatedElements = [<HTMLElement>event.target, tab];
+      this.activatedElements.forEach(el => el.classList.add('active'));
+
+      // only scroll if the element is not yet visible
+      if (this.isElementOutViewport(tab)) {
+        tab.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    } else {
+      this.activatedElements.forEach(el => el.classList.toggle('toggled'));
     }
-    this.tabSet.select('reviews');
-    this.tabSetWrapper.nativeElement.scrollIntoView();
+  }
+
+  private isElementOutViewport(el) {
+    if (!this.winRef.nativeWindow) {
+      return false;
+    }
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.bottom < 0 ||
+      rect.right < 0 ||
+      rect.left > this.winRef.nativeWindow.innerWidth ||
+      rect.top > this.winRef.nativeWindow.innerHeight
+    );
+  }
+
+  openReview() {
+    if (this.reviewHeader.nativeElement) {
+      this.reviewHeader.nativeElement.click();
+    }
+    this.isWritingReview = true;
   }
 }

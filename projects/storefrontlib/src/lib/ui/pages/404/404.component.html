@@ -1,14 +1,19 @@
 <div class="cx-page">
   <section class="cx-page__section">
-    <img class="cx-error__img" [src]="pageNotFoundImgSrc" alt="error 404">
+    <img class="cx-error__img" [src]="pageNotFoundImgSrc" alt="error 404" />
     <div class="cx-error">
-      <h2 class="">Opps!</h2>
+      <h2 class="">Oops!</h2>
       <div class="cx-error--message">
         We couldn't find the page you are looking for.
       </div>
       <p>Here are some helpful links instead:</p>
       <div *ngFor="let navigation of errorNav">
-        <a class="btn-link" [routerLink]="navigation.link" routerLinkActive="active">{{navigation.label}}</a>
+        <a
+          class="btn-link"
+          [routerLink]="{ route: navigation.routeName } | cxTranslateUrl"
+          routerLinkActive="active"
+          >{{ navigation.label }}</a
+        >
       </div>
     </div>
   </section>

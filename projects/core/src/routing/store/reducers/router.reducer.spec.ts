@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -12,7 +12,7 @@ import * as fromReducer from './router.reducer';
 import * as fromAction from './../actions/';
 import * as fromNgrxRouter from '@ngrx/router-store';
 
-import { PageType } from '../../../occ-models/index';
+import { PageType } from '../../../occ/occ-models/index';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -23,6 +23,7 @@ class TestComponent {}
 describe('Router Reducer', () => {
   let router: Router;
   let store: Store<any>;
+  let zone: NgZone;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,6 +46,7 @@ describe('Router Reducer', () => {
       ]
     });
 
+    zone = TestBed.get(NgZone);
     store = TestBed.get(Store);
     router = TestBed.get(Router);
   });
@@ -159,42 +161,37 @@ describe('Router Reducer', () => {
     });
   });
 
-  it('should return the router state', () => {
+  it('should return the router state', async () => {
     let routerReducer;
     store.subscribe(routerStore => {
       routerReducer = routerStore.router;
     });
 
-    router
-      .navigateByUrl('/')
-      .then(() => {
-        expect(routerReducer.state).toEqual({
-          url: '/',
-          queryParams: {},
-          params: {},
-          context: { id: 'homepage', type: PageType.CONTENT_PAGE },
-          cmsRequired: false
-        });
-        return router.navigateByUrl('category/1234');
-      })
-      .then(() => {
-        expect(routerReducer.state).toEqual({
-          url: '/category/1234',
-          queryParams: {},
-          params: { categoryCode: '1234' },
-          context: { id: '1234', type: PageType.CATEGORY_PAGE },
-          cmsRequired: false
-        });
-        return router.navigateByUrl('product/1234');
-      })
-      .then(() => {
-        expect(routerReducer.state).toEqual({
-          url: '/product/1234',
-          queryParams: {},
-          params: { productCode: '1234' },
-          context: { id: '1234', type: PageType.PRODUCT_PAGE },
-          cmsRequired: false
-        });
-      });
+    await zone.run(() => router.navigateByUrl('/'));
+    expect(routerReducer.state).toEqual({
+      url: '/',
+      queryParams: {},
+      params: {},
+      context: { id: 'homepage', type: PageType.CONTENT_PAGE },
+      cmsRequired: false
+    });
+
+    await zone.run(() => router.navigateByUrl('category/1234'));
+    expect(routerReducer.state).toEqual({
+      url: '/category/1234',
+      queryParams: {},
+      params: { categoryCode: '1234' },
+      context: { id: '1234', type: PageType.CATEGORY_PAGE },
+      cmsRequired: false
+    });
+
+    await zone.run(() => router.navigateByUrl('product/1234'));
+    expect(routerReducer.state).toEqual({
+      url: '/product/1234',
+      queryParams: {},
+      params: { productCode: '1234' },
+      context: { id: '1234', type: PageType.PRODUCT_PAGE },
+      cmsRequired: false
+    });
   });
 });

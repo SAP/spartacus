@@ -1,1 +1,3 @@
-<cx-cart-page-layout></cx-cart-page-layout>
+<cx-page-layout [class.empty]="!(cart$ | async).totalItems">
+  <cx-cart-details></cx-cart-details>
+</cx-page-layout>

@@ -1,0 +1,127 @@
+<div [ngClass]="compact ? 'cx-compact row' : 'row'">
+  <!-- Item Image -->
+  <div class="col-2 cx-image-container">
+    <a
+      [routerLink]="
+        { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
+      "
+    >
+      <cx-picture
+        [imageContainer]="item.product.images?.PRIMARY"
+        imageFormat="thumbnail"
+      ></cx-picture>
+    </a>
+  </div>
+  <!-- Item Information -->
+  <div class="cx-info col-10">
+    <div class="cx-info-container row ">
+      <!-- Item Description -->
+      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+        <div *ngIf="item.product.name" class="cx-name">
+          <a
+            class="cx-link"
+            [routerLink]="
+              { route: [{ name: 'product', params: item.product }] }
+                | cxTranslateUrl
+            "
+            >{{ item.product.name }}</a
+          >
+        </div>
+        <div *ngIf="item.product.code" class="cx-code">
+          ID {{ item.product.code }}
+        </div>
+        <!-- Variants -->
+        <div
+          *ngFor="let variant of item.product.variantOptionQualifiers"
+          class="cx-property"
+        >
+          <div class="cx-label">{{ variant.name }}</div>
+          <div class="cx-value">{{ variant.value }}</div>
+        </div>
+      </div>
+      <!-- Item Price -->
+      <div
+        *ngIf="item.basePrice"
+        class="cx-price"
+        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+      >
+        <div
+          class="cx-label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        >
+          Item
+        </div>
+        <div *ngIf="item.basePrice" class="cx-value">
+          {{ item.basePrice?.formattedValue }}
+        </div>
+      </div>
+      <!-- Item Quantity -->
+      <div
+        *ngIf="item.quantity"
+        class="cx-quantity"
+        [ngClass]="compact ? '' : ' col-3'"
+      >
+        <div
+          class="cx-label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+          placement="left"
+          ngbTooltip="The quantity represents the total number of this item in your cart."
+        >
+          Qty
+        </div>
+        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
+        <div
+          *ngIf="!isReadOnly && parent"
+          class="cx-value"
+          [formGroup]="parent"
+        >
+          <cx-item-counter
+            isValueChangeable="true"
+            [step]="1"
+            [min]="1"
+            [max]="item.product.stock?.stockLevel || 1000"
+            (update)="updateItem($event)"
+            [cartIsLoading]="cartIsLoading"
+            formControlName="quantity"
+          >
+          </cx-item-counter>
+        </div>
+      </div>
+      <!-- Total -->
+      <div
+        *ngIf="item.totalPrice"
+        class="cx-total"
+        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
+      >
+        <div
+          class="cx-label"
+          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        >
+          Total
+        </div>
+        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+      </div>
+    </div>
+    <!-- Availability -->
+    <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
+      {{ item.product.stock?.stockLevelStatus }}
+    </div>
+    <!-- Promotion -->
+    <div
+      class="cx-promo col-12"
+      *ngFor="let promotion of potentialProductPromotions"
+      [innerHTML]="promotion.description"
+    ></div>
+    <!-- Actions -->
+    <div *ngIf="!isReadOnly" class="cx-actions col-12">
+      <button
+        class="link"
+        [class.disabled]="cartIsLoading"
+        [disabled]="cartIsLoading"
+        (click)="removeItem()"
+      >
+        Remove
+      </button>
+    </div>
+  </div>
+</div>

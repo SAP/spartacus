@@ -23,7 +23,7 @@ export interface ChangelogOptions {
   to?: string;
   githubTokenFile?: string;
   githubToken?: string;
-
+  library?: string;
   stdout?: boolean;
 }
 
@@ -74,7 +74,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
               chunk.gitTags && (chunk.gitTags as string).match(/tag: (.*)/);
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
-
+            // tslint:disable-next-line:triple-equals
             if (tags && tags.find(x => x == args.to)) {
               toSha = chunk.hash as string;
             }
@@ -110,12 +110,12 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
 
       // Check if we need to edit or create a new one.
       return ghGot(
-        'repos/marlass/cloud-commerce-spartacus-storefront/releases'
+        'repos/SAP/cloud-commerce-spartacus-storefront/releases'
       ).then((x: JsonObject) => [x, markdown]);
     })
     .then(([body, markdown]) => {
       const json = body.body;
-
+      // tslint:disable-next-line:triple-equals
       const maybeRelease = json.find((x: JsonObject) => x.tag_name == args.to);
       const id = maybeRelease ? `/${maybeRelease.id}` : '';
 
@@ -124,7 +124,7 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
       };
 
       return ghGot(
-        'repos/marlass/cloud-commerce-spartacus-storefront/releases' + id,
+        'repos/SAP/cloud-commerce-spartacus-storefront/releases' + id,
         {
           body: {
             body: markdown,
@@ -140,22 +140,13 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
     });
 }
 
-// run(
-//   {
-//     from: 'eba55e75540deeff3074798d0fc27f05ca7ae1d4',
-//     to: 'HEAD',
-//     stdout: true
-//     // githubToken: '5f4b34ca0aa743eb5c4306d551a17802f8758e89'
-//   },
-//   new logging.NullLogger()
-// );
-
 program
   .option('--from <commit>', 'From which commit/tag')
   .option('--to <commit>', 'To which commit/tag')
   .option('--verbose', 'Print output')
   .option('--githubToken <token>', 'Github token for release generation')
   .option('--tokenFile <pathToFile>', 'File with github token')
+  .option('--lib <lib>', 'Changelog for passed library')
   .parse(process.argv);
 
 const config = {
@@ -163,7 +154,8 @@ const config = {
   to: program.to,
   stdout: program.verbose || false,
   githubToken: program.githubToken,
-  githubTokenFile: program.tokenFile
+  githubTokenFile: program.tokenFile,
+  library: program.lib
 };
 
 if (typeof config.from === 'undefined') {
@@ -183,6 +175,24 @@ if (typeof config.from === 'undefined') {
     )
   );
   process.exit(1);
+} else if (typeof config.library === 'string') {
+  switch (config.library) {
+    case 'core':
+    case '@spartacus/core':
+      config.library = '@spartacus/core';
+      break;
+    case 'storefrontlib':
+    case '@spartacus/storefrontlib':
+      config.library = '@spartacus/storefrontlib';
+      break;
+    case 'styles':
+    case '@spartacus/styles':
+    case 'storefrontstyles':
+      config.library = '@spartacus/styles';
+      break;
+    default:
+      config.library = undefined;
+  }
 }
 
 run(config, new logging.NullLogger());

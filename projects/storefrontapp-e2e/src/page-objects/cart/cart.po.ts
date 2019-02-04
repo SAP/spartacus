@@ -19,7 +19,7 @@ export class CartPage extends AppPage {
     by.tagName('cx-order-summary')
   );
   readonly orderSummaryAmount: ElementFinder = this.page.element(
-    by.css('.cx-order-summary__total-final .cx-order-summary__amount')
+    by.css('.cx-summary-total .cx-summary-amount')
   );
 
   readonly itemCounterComponent: ElementArrayFinder = this.page.all(
@@ -30,7 +30,7 @@ export class CartPage extends AppPage {
     this.cartEntries
       .filter(el =>
         el
-          .element(by.css('.cx-cart-item__name'))
+          .element(by.css('.cx-name'))
           .getText()
           .then(text => text === productName)
       )
@@ -49,13 +49,11 @@ export class CartPage extends AppPage {
   }
 
   async waitForReady() {
-    await E2EUtil.wait4VisibleElement(this.page);
+    await E2EUtil.wait4PresentElement(this.page);
   }
 
   async getCartEntryUnitPrice(cartEntry: ElementFinder): Promise<string> {
-    const unitPriceDiv = cartEntry.element(
-      by.css('.cx-cart-item__price--value')
-    );
+    const unitPriceDiv = cartEntry.element(by.css('.cx-price .cx-value'));
     return E2EUtil.findPrice(await unitPriceDiv.getText());
   }
 
@@ -65,15 +63,13 @@ export class CartPage extends AppPage {
   }
 
   async getCartEntryTotalPrice(cartEntry: ElementFinder): Promise<string> {
-    const totalPriceDiv = cartEntry.element(
-      by.css('.cx-cart-item__total--value')
-    );
+    const totalPriceDiv = cartEntry.element(by.css('.cx-total .cx-value'));
     return E2EUtil.findPrice(await totalPriceDiv.getText());
   }
 
   async deleteEntryByName(productName) {
     const product = this.cartEntryByProductName(productName);
-    await product.element(by.css('.cx-cart-item__actions a')).click();
+    await product.element(by.css('.cx-actions button')).click();
   }
 
   async checkCartEntry(
@@ -120,9 +116,7 @@ export class CartPage extends AppPage {
   }
 
   async getSummaryTotalValue(): Promise<string> {
-    return await this.page
-      .element(by.css('.cx-order-summary__amount'))
-      .getText();
+    return await this.page.element(by.css('.cx-summary-amount')).getText();
   }
 
   async checkCartSummary(subtotal: string, discount: string, total: string) {

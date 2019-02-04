@@ -1,56 +1,58 @@
-<div class="cx-carousel__header">{{ component?.title }}</div>
-<div class="cx-carousel__container">
-  <ng-container *ngIf="productGroups">
-    <ngb-carousel
-      #carousel
-      [wrap]="true"
-      [showNavigationArrows]="false"
-      [showNavigationIndicators]="true"
-      class="cx-carousel__slide"
-    >
-      <ng-template ngbSlide *ngFor="let group of productGroups">
-        <div
-          class="cx-carousel__product-container"
-          *ngFor="let productCode of group"
-        >
-          <ng-container *ngIf="(products[productCode] | async) as product">
-            <div
-              class="cx-carousel__product"
-              [routerLink]="['/product/', product.code]"
+<h3 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h3>
+<ng-container
+  *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
+>
+  <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
+    <button
+      class="previous"
+      (click)="prev(carousel.max)"
+      [disabled]="activeItem === 0"
+    ></button>
+
+    <div class="groups">
+      <ng-container *ngFor="let unused of carousel.products; let i = index">
+        <div class="group" *ngIf="i % carousel.max === 0">
+          <ng-container
+            *ngFor="
+              let product$ of (carousel.products | slice: i:i + carousel.max)
+            "
+          >
+            <a
+              *ngIf="(product$ | async) as product"
+              class="product"
+              [class.active]="i === activeItem"
+              [routerLink]="
+                { route: [{ name: 'product', params: product }] }
+                  | cxTranslateUrl
+              "
             >
               <cx-picture
                 [imageContainer]="product.images?.PRIMARY"
                 imageFormat="product"
               >
               </cx-picture>
-            </div>
-            <div class="cx-carousel__product-name">{{ product.name }}</div>
-            <div class="cx-carousel__product-price">
-              {{ product.price.formattedValue }}
-            </div>
+
+              <h4>{{ product.name }}</h4>
+              <div class="price">{{ product.price?.formattedValue }}</div>
+            </a>
           </ng-container>
         </div>
-      </ng-template>
-    </ngb-carousel>
-  </ng-container>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 17.875 26"
-    class="cx-carousel__arrow cx-carousel__arrow--prev"
-    (click)="prev()"
-  >
-    <path
-      d="M17.658,12.567,3.25.108A.4.4,0,0,0,2.925,0a.563.563,0,0,0-.433.217L.108,3.033A.4.4,0,0,0,0,3.358c0,.108.108.325.217.325L11.05,13,.217,22.208A.563.563,0,0,0,0,22.642a.651.651,0,0,0,.108.433l2.383,2.817c.108,0,.217.108.433.108h0a.4.4,0,0,0,.325-.108L17.658,13.433A.563.563,0,0,0,17.875,13,.821.821,0,0,0,17.658,12.567Z"
-    />
-  </svg>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 17.875 26"
-    class="cx-carousel__arrow cx-carousel__arrow--next"
-    (click)="next()"
-  >
-    <path
-      d="M17.658,12.567,3.25.108A.4.4,0,0,0,2.925,0a.563.563,0,0,0-.433.217L.108,3.033A.4.4,0,0,0,0,3.358c0,.108.108.325.217.325L11.05,13,.217,22.208A.563.563,0,0,0,0,22.642a.651.651,0,0,0,.108.433l2.383,2.817c.108,0,.217.108.433.108h0a.4.4,0,0,0,.325-.108L17.658,13.433A.563.563,0,0,0,17.875,13,.821.821,0,0,0,17.658,12.567Z"
-    />
-  </svg>
-</div>
+      </ng-container>
+    </div>
+
+    <button
+      class="next"
+      (click)="next(carousel.max)"
+      [disabled]="activeItem > carousel.products.length - carousel.max"
+    ></button>
+  </div>
+
+  <div class="indicators">
+    <ng-container *ngFor="let unused of carousel.products; let i = index">
+      <button
+        *ngIf="i % carousel.max === 0"
+        (click)="setActiveItem(i, carousel.max)"
+        [disabled]="i === activeItem"
+      ></button>
+    </ng-container></div
+></ng-container>

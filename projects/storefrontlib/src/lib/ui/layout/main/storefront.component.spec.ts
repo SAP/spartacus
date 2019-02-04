@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { ConfigurableRoutesService } from '@spartacus/core';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
@@ -23,10 +21,6 @@ class MockGlobalMessagerComponent {}
 })
 class MockFooterComponent {}
 
-class MockConfigurableRoutesService {
-  changeLanguage() {}
-}
-
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -39,12 +33,6 @@ describe('StorefrontComponent', () => {
         MockHeaderComponent,
         MockGlobalMessagerComponent,
         MockFooterComponent
-      ],
-      providers: [
-        {
-          provide: ConfigurableRoutesService,
-          useClass: MockConfigurableRoutesService
-        }
       ]
     }).compileComponents();
   }));

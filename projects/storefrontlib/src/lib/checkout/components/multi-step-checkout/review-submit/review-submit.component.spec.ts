@@ -1,32 +1,41 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule, Store } from '@ngrx/store';
-import * as NgrxStore from '@ngrx/store';
-import { ReviewSubmitComponent } from './review-submit.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-
-import * as fromCheckout from '../../../store';
-import * as fromCart from '../../../../cart/store';
-import * as fromUser from '../../../../user/store';
-import * as fromAuth from '../../../../auth/store';
-
-import { CheckoutService } from '../../../services/checkout.service';
-import { CartDataService } from '../../../../cart/services/cart-data.service';
-import { UserService } from '../../../../user/facade/user.service';
-
+import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { Input, Component } from '@angular/core';
+import {
+  CartService,
+  UserService,
+  Cart,
+  OrderEntry,
+  CheckoutService,
+  PaymentDetails,
+  Address,
+  PromotionResult,
+  DeliveryMode,
+  Country
+} from '@spartacus/core';
 
-const mockCart = {
+import { BehaviorSubject, of, Observable } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { Item } from '../../../../cart';
+import { Card } from '../../../../ui/components/card/card.component';
+
+import { ReviewSubmitComponent } from './review-submit.component';
+
+const mockCart: Cart = {
   guid: 'test',
   code: 'test',
   totalItems: 123,
   subTotal: { formattedValue: '$999.98' },
-  potentialProductPromotions: ['promotion 1', 'promotion 2']
+  potentialProductPromotions: [
+    { description: 'Promotion 1' },
+    { description: 'Promotion 2' }
+  ]
 };
 
-const mockDeliveryAddress = {
+const mockDeliveryAddress: Address = {
   firstName: 'John',
   lastName: 'Doe',
   titleCode: 'mr',
@@ -40,16 +49,16 @@ const mockDeliveryAddress = {
 
 const mockShippingMethod = 'standard-gross';
 
-const mockPaymentDetails = {
+const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
   cardNumber: '123456789',
-  cardType: 'Visa',
+  cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '01',
   expiryYear: '2022',
   cvn: '123'
 };
 
-const mockEntries = ['cart entry 1', 'cart entry 2'];
+const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -57,11 +66,11 @@ const mockEntries = ['cart entry 1', 'cart entry 2'];
 })
 class MockCartItemListComponent {
   @Input()
-  items;
+  items: Item[];
   @Input()
-  isReadOnly;
+  isReadOnly: boolean;
   @Input()
-  potentialProductPromotions;
+  potentialProductPromotions: PromotionResult[];
 }
 
 @Component({
@@ -70,89 +79,62 @@ class MockCartItemListComponent {
 })
 class MockCardComponent {
   @Input()
-  content;
+  content: Card;
+}
+
+class MockCheckoutService {
+  loadSupportedDeliveryModes = createSpy();
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+    return of();
+  }
 }
 
 describe('ReviewSubmitComponent', () => {
-  let store: Store<fromCheckout.CheckoutState>;
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let service: CheckoutService;
-  let cartData: CartDataService;
-  let mockSelectors: {
-    cart: {
-      getActiveCart: BehaviorSubject<object>;
-      getEntries: BehaviorSubject<any[]>;
-    };
-    checkout: {
-      getSelectedDeliveryMode: BehaviorSubject<string>;
-    };
-    user: {
-      countrySelectorFactory: BehaviorSubject<any>;
-    };
-  };
+
+  let mockCheckoutService: MockCheckoutService;
+  let mockUserService: any;
+  let mockCartService: any;
 
   beforeEach(async(() => {
+    mockUserService = {
+      getCountry: createSpy().and.returnValue(of(null)),
+      loadDeliveryCountries: createSpy()
+    };
+
+    mockCartService = {
+      getActive(): BehaviorSubject<Cart> {
+        return new BehaviorSubject(mockCart);
+      },
+      getEntries(): BehaviorSubject<OrderEntry[]> {
+        return new BehaviorSubject(mockEntries);
+      }
+    };
+
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers()),
-        StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('checkout', fromCheckout.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers())
-      ],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
         MockCardComponent
       ],
-      providers: [CheckoutService, CartDataService, UserService]
+      providers: [
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: UserService, useValue: mockUserService },
+        { provide: CartService, useValue: mockCartService }
+      ]
     }).compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(CheckoutService);
-    cartData = TestBed.get(CartDataService);
-    store = TestBed.get(Store);
-
-    cartData.cart = mockCart;
-    cartData.userId = 'userId';
-    cartData.cart.code = 'cartId';
 
     component.deliveryAddress = mockDeliveryAddress;
     component.shippingMethod = mockShippingMethod;
     component.paymentDetails = mockPaymentDetails;
-
-    mockSelectors = {
-      cart: {
-        getActiveCart: new BehaviorSubject({}),
-        getEntries: new BehaviorSubject([])
-      },
-      checkout: {
-        getSelectedDeliveryMode: new BehaviorSubject('')
-      },
-      user: {
-        countrySelectorFactory: new BehaviorSubject({})
-      }
-    };
-    spyOnProperty(NgrxStore, 'select').and.returnValue(selector => {
-      switch (selector) {
-        case fromCart.getActiveCart:
-          return () => mockSelectors.cart.getActiveCart;
-        case fromCart.getEntries:
-          return () => mockSelectors.cart.getEntries;
-        case fromCheckout.getSelectedDeliveryMode:
-          return () => mockSelectors.checkout.getSelectedDeliveryMode;
-        default:
-          return () => mockSelectors.user.countrySelectorFactory;
-      }
-    });
-
-    spyOn(store, 'dispatch').and.callThrough();
-    spyOn(service, 'loadSupportedDeliveryModes').and.callThrough();
   });
 
   it('should be created', () => {
@@ -160,38 +142,39 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call ngOnInit to get cart, entry, delivery mode, country name if they exists', () => {
-    mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.cart.getEntries.next([]);
-    mockSelectors.checkout.getSelectedDeliveryMode.next('mockMode');
-    mockSelectors.user.countrySelectorFactory.next('mockCountryName');
+    mockCartService.getActive().next({});
+    mockCartService.getEntries().next([]);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of('mockMode')
+    );
+    mockUserService.getCountry.and.returnValue(of('mockCountryName'));
 
     component.ngOnInit();
-    component.deliveryMode$.subscribe(data => expect(data).toEqual('mockMode'));
-    component.countryName$.subscribe(data =>
-      expect(data).toEqual('mockCountryName')
-    );
+    let mode: DeliveryMode;
+    component.deliveryMode$.subscribe(data => (mode = data));
+    expect(mode as any).toEqual('mockMode');
+
+    let countryName: Country;
+    component.countryName$.subscribe(data => (countryName = data));
+    expect(countryName as any).toEqual('mockCountryName');
   });
 
-  it('should call ngOnInit to get delivery mode if it does not exists', () => {
-    mockSelectors.cart.getActiveCart.next({});
-    mockSelectors.cart.getEntries.next([]);
-    mockSelectors.checkout.getSelectedDeliveryMode.next(null);
-    mockSelectors.user.countrySelectorFactory.next(null);
+  it('should call ngOnInit to get delivery mode if it does not exists', done => {
+    mockCartService.getActive().next({});
+    mockCartService.getEntries().next([]);
+    spyOn(mockCheckoutService, 'getSelectedDeliveryMode').and.returnValue(
+      of(null)
+    );
+    mockUserService.getCountry.and.returnValue(of(null));
 
     component.ngOnInit();
     component.deliveryMode$.subscribe(() => {
-      expect(service.loadSupportedDeliveryModes).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromCheckout.LoadSupportedDeliveryModes({
-          userId: 'userId',
-          cartId: 'cartId'
-        })
-      );
+      expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
+      done();
     });
     component.countryName$.subscribe(() => {
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromUser.LoadDeliveryCountries()
-      );
+      expect(mockUserService.loadDeliveryCountries).toHaveBeenCalled();
+      done();
     });
   });
 
@@ -209,7 +192,7 @@ describe('ReviewSubmitComponent', () => {
   });
 
   it('should call getShippingMethodCard(deliveryMode) to get shipping method card data', () => {
-    const selectedMode = {
+    const selectedMode: DeliveryMode = {
       code: 'standard-gross',
       description: 'Standard Delivery description'
     };
@@ -232,8 +215,8 @@ describe('ReviewSubmitComponent', () => {
         .textContent;
 
     beforeEach(() => {
-      mockSelectors.cart.getActiveCart.next(mockCart);
-      mockSelectors.cart.getEntries.next([]);
+      mockCartService.getActive().next(mockCart);
+      mockCartService.getEntries().next([]);
       fixture.detectChanges();
     });
 
@@ -303,24 +286,24 @@ describe('ReviewSubmitComponent', () => {
       fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
 
     it('should receive items attribute with cart entires', () => {
-      mockSelectors.cart.getEntries.next(mockEntries);
-
+      mockCartService.getActive().next(mockCart);
+      mockCartService.getEntries().next(mockEntries);
       fixture.detectChanges();
-      expect(getCartItemList().items).toEqual(['cart entry 1', 'cart entry 2']);
-    });
-
-    it('should receive isReadOnly attribute with value true', () => {
-      fixture.detectChanges();
+      expect(getCartItemList().items).toEqual([
+        { entryNumber: 123 },
+        { entryNumber: 456 }
+      ]);
       expect(getCartItemList().isReadOnly).toBe(true);
     });
 
     it('should receive potentialProductPromotions attribute with potential product promotions of cart', () => {
-      mockSelectors.cart.getActiveCart.next(mockCart);
+      mockCartService.getActive().next(mockCart);
+      mockCartService.getEntries().next(mockEntries);
 
       fixture.detectChanges();
       expect(getCartItemList().potentialProductPromotions).toEqual([
-        'promotion 1',
-        'promotion 2'
+        { description: 'Promotion 1' },
+        { description: 'Promotion 2' }
       ]);
     });
   });

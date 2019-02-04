@@ -1,65 +1,103 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FooterNavigationComponent } from './footer-navigation.component';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { NavigationModule } from '../navigation/navigation.module';
-import { DebugElement } from '@angular/core';
+import {
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+  Component
+} from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CmsService } from '../../cms/facade/cms.service';
+
+import {
+  CmsService,
+  Component as SpaComponent,
+  TranslateUrlOptions
+} from '@spartacus/core';
+
 import { NavigationService } from '../navigation/navigation.service';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    FooterNavigationComponent: 'FooterNavigationComponent'
-  }
-};
+import { NavigationComponent } from '..';
+import { FooterNavigationComponent } from './footer-navigation.component';
+import { of } from 'rxjs';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
-const mockLinks = [
-  {
-    title: 'Test child 1',
-    url: '/test1',
-    target: true
-  },
-  {
-    title: 'Test child 2',
-    url: '/',
-    target: false
+@Component({
+  selector: 'cx-navigation-ui',
+  template: ''
+})
+class MockNavigationUIComponent {
+  @Input()
+  dropdownMode = 'list';
+  @Input()
+  node: NavigationNode;
+}
+
+@Component({
+  selector: 'cx-generic-link',
+  template: '<ng-content></ng-content>'
+})
+class MockGenericLinkComponent {
+  @Input()
+  url: string | any[];
+  @Input()
+  target: string;
+}
+
+@Pipe({ name: 'cxTranslateUrl' })
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions): string | string[] {
+    return '/translated-path' + options.url;
   }
-];
+}
 
 describe('FooterNavigationComponent', () => {
-  let footerNavigationComponent: FooterNavigationComponent;
+  let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let footer: DebugElement;
   let column: DebugElement;
 
-  beforeEach(async(() => {
-    const mockCmsService = {};
-    const mockNavigationService = {};
+  const mockLinks: NavigationNode[] = [
+    {
+      title: 'Test child 1',
+      url: '/test1',
+      target: true
+    },
+    {
+      title: 'Test child 2',
+      url: '/',
+      target: false
+    }
+  ];
 
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
+    data$: of()
+  };
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        RouterTestingModule,
-        NavigationModule
+      imports: [RouterTestingModule],
+      declarations: [
+        FooterNavigationComponent,
+        NavigationComponent,
+        MockNavigationUIComponent,
+        MockGenericLinkComponent,
+        MockTranslateUrlPipe
       ],
-      declarations: [FooterNavigationComponent],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
-        { provide: CmsService, useValue: mockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService }
+        NavigationService,
+        { provide: CmsService, useValue: {} },
+        { provide: NavigationService, useValue: {} },
+        { provide: CmsComponentData, useValue: mockCmsComponentData }
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
-    footerNavigationComponent = fixture.componentInstance;
-
-    footerNavigationComponent.node = {
+    component = fixture.componentInstance;
+    component.node$ = of({
       children: [
         {
           title: 'Test 1',
@@ -67,56 +105,48 @@ describe('FooterNavigationComponent', () => {
           children: mockLinks
         }
       ]
-    };
+    });
 
     fixture.detectChanges();
   });
 
   it('should create FooterNavigationComponent in CmsLib', () => {
-    expect(footerNavigationComponent).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   describe('UI tests', () => {
     beforeAll(() => {
       footer = fixture.debugElement;
-      column = footer.query(By.css('.cx-footer-navigation__container'));
+      column = footer.query(By.css('.container'));
     });
 
     it('should display the column title', () => {
-      const titleElement: HTMLElement = column.query(
-        By.css('.cx-footer-navigation__title')
-      ).nativeElement;
+      const titleElement: HTMLElement = column.query(By.css('h1'))
+        .nativeElement;
 
       expect(titleElement.textContent).toEqual('Test 1');
     });
 
     it('should display the correct number of links', () => {
-      const list: HTMLElement = column.query(
-        By.css('.cx-footer-navigation__list')
-      ).nativeElement;
+      const list: HTMLElement = column.query(By.css('ul')).nativeElement;
 
       expect(list.childElementCount).toBe(2);
     });
 
     it('should display link title with correct url', () => {
-      const link: HTMLElement = column.query(
-        By.css('.cx-footer-navigation__link')
-      ).nativeElement;
+      const link = column.query(By.css('cx-generic-link'));
 
-      expect(link.textContent).toEqual(mockLinks[0].title);
-      expect(link.getAttribute('href')).toEqual(mockLinks[0].url);
+      expect(link.nativeElement.innerHTML).toContain(mockLinks[0].title);
+      expect(link.componentInstance.url).toEqual(
+        '/translated-path' + mockLinks[0].url
+      );
     });
 
     it('should have the correct target', () => {
-      const link1: HTMLElement = column.queryAll(
-        By.css('.cx-footer-navigation__link')
-      )[0].nativeElement;
-      const link2: HTMLElement = column.queryAll(
-        By.css('.cx-footer-navigation__link')
-      )[1].nativeElement;
+      const links = column.queryAll(By.css('cx-generic-link'));
 
-      expect(link1.getAttribute('target')).toEqual('blank');
-      expect(link2.getAttribute('target')).toEqual('self');
+      expect(links[0].componentInstance.target).toEqual('blank');
+      expect(links[1].componentInstance.target).toEqual('self');
     });
   });
 });

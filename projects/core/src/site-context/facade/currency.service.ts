@@ -1,50 +1,79 @@
 import { Injectable } from '@angular/core';
+
 import { Store, select } from '@ngrx/store';
+
 import { Observable } from 'rxjs';
-import { StateWithSiteContext, CurrencyEntities } from '../store/state';
-import {
-  LoadCurrencies,
-  SetActiveCurrency
-} from '../store/actions/currencies.action';
-import {
-  getAllCurrencies,
-  getActiveCurrency
-} from '../store/selectors/currencies.selectors';
-import { OccConfig } from '../../occ/config/occ-config';
 
+import * as fromStore from '../store/index';
+import { filter, take, tap } from 'rxjs/operators';
+import { Currency } from '../../occ/occ-models';
+import { WindowRef } from '../../window/window-ref';
+import { SiteContext } from './site-context.interface';
+
+/**
+ * Facade that provides easy access to curreny state, actions and selectors.
+ */
 @Injectable()
-export class CurrencyService {
-  readonly currencies$: Observable<CurrencyEntities> = this.store.pipe(
-    select(getAllCurrencies)
-  );
-
-  readonly activeCurrency$: Observable<string> = this.store.pipe(
-    select(getActiveCurrency)
-  );
+export class CurrencyService implements SiteContext<Currency> {
+  private sessionStorage: Storage;
 
   constructor(
-    private store: Store<StateWithSiteContext>,
-    private config: OccConfig
+    private store: Store<fromStore.StateWithSiteContext>,
+    winRef: WindowRef
   ) {
-    this.initActiveCurrency();
-    this.loadCurrencies();
+    this.sessionStorage = winRef.sessionStorage;
   }
 
-  protected loadCurrencies() {
-    this.store.dispatch(new LoadCurrencies());
+  /**
+   * Represents all the currencies supported by the current store.
+   */
+  getAll(): Observable<Currency[]> {
+    return this.store.pipe(
+      select(fromStore.getAllCurrencies),
+      tap(currencies => {
+        if (!currencies) {
+          this.store.dispatch(new fromStore.LoadCurrencies());
+        }
+      }),
+      filter(Boolean)
+    );
   }
 
-  public set activeCurrency(isocode: string) {
-    this.store.dispatch(new SetActiveCurrency(isocode));
+  /**
+   * Represents the isocode of the active currency.
+   */
+  getActive(): Observable<string> {
+    return this.store
+      .pipe(select(fromStore.getActiveCurrency))
+      .pipe(filter(Boolean));
   }
 
-  protected initActiveCurrency() {
-    if (sessionStorage) {
-      this.activeCurrency = !sessionStorage.getItem('currency')
-        ? this.config.site.currency
-        : sessionStorage.getItem('currency');
+  /**
+   * Sets the active language.
+   */
+  setActive(isocode: string) {
+    return this.store
+      .pipe(
+        select(fromStore.getActiveCurrency),
+        take(1)
+      )
+      .subscribe(activeCurrency => {
+        if (activeCurrency !== isocode) {
+          this.store.dispatch(new fromStore.SetActiveCurrency(isocode));
+        }
+      });
+  }
+
+  /**
+   * Initials the active currency. The active currency is either given
+   * by the last visit (stored in session storage) or by the
+   * default session currency of the store.
+   */
+  initialize(defaultCurrency: string) {
+    if (this.sessionStorage && !!this.sessionStorage.getItem('currency')) {
+      this.setActive(this.sessionStorage.getItem('currency'));
     } else {
-      this.activeCurrency = this.config.site.currency;
+      this.setActive(defaultCurrency);
     }
   }
 }

@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProductImagesComponent } from '../product-images/product-images.component';
-import { PictureComponent } from 'projects/storefrontlib/src/lib/ui/components/media/picture/picture.component';
+import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { OutletDirective } from 'projects/storefrontlib/src/lib/outlet';
 
 const firstImage = {
   zoom: {
@@ -35,7 +36,7 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductImagesComponent, PictureComponent]
+      declarations: [ProductImagesComponent, PictureComponent, OutletDirective]
     }).compileComponents();
   }));
 

@@ -1,0 +1,25 @@
+%cx-page-layout {
+  display: block;
+
+  > header {
+    background-color: var(--cx-g-color-background);
+    text-align: center;
+    padding-bottom: 25px;
+    padding-top: 25px;
+  }
+
+  cx-dynamic-slot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex: 1 1 var(--cx-flex-basis, 100%);
+    > * {
+      flex: 1 1 var(--cx-flex-basis, 100%);
+    }
+  }
+
+  &.footer {
+    background-color: var(--cx-background-color, var(--cx-g-color-dark));
+    color: var(--cx-color, var(--cx-g-color-inverse));
+  }
+}

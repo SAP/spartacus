@@ -1,48 +1,65 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
-import { CategoryNavigationComponent } from './category-navigation.component';
-import * as fromCmsReducer from '../../cms/store/reducers';
-import { CmsModuleConfig } from '../../cms/cms-module-config';
-import { BootstrapModule } from '../../bootstrap.module';
-import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsService } from '../../cms/facade/cms.service';
-import { NavigationComponent } from '..';
-import { NavigationUIComponent } from '../navigation/navigation-ui.component';
-import { NavigationService } from '../navigation/navigation.service';
+import { DebugElement, Input, Component } from '@angular/core';
 
-const UseCmsModuleConfig: CmsModuleConfig = {
-  cmsComponentMapping: {
-    CategoryNavigationComponent: 'CategoryNavigationComponent'
+import { NavigationService } from '../navigation/navigation.service';
+import { CmsService, Component as SpaComponent } from '@spartacus/core';
+import { CategoryNavigationComponent } from './category-navigation.component';
+import { of, Observable } from 'rxjs';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
+
+@Component({
+  template: '',
+  selector: 'cx-navigation-ui'
+})
+class MockNavigationComponent {
+  @Input()
+  node: NavigationNode;
+  @Input()
+  dropdownMode: string;
+}
+
+class MockCmsService {
+  getNavigationEntryItems(): Observable<any> {
+    return of();
   }
-};
+}
 
 describe('CategoryNavigationComponent', () => {
   let component: CategoryNavigationComponent;
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
 
-  beforeEach(async(() => {
-    const mockCmsService = {};
-    const mockNavigationService = {};
+  const componentData: NavigationNode = {
+    title: 'test',
+    children: [
+      {
+        title: 'Root 1',
+        url: '/',
+        children: []
+      },
+      {
+        title: 'Root 2',
+        url: '/test',
+        children: []
+      }
+    ]
+  };
 
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
+    data$: of(componentData)
+  };
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        BootstrapModule,
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
-        RouterTestingModule
-      ],
-      declarations: [
-        CategoryNavigationComponent,
-        NavigationComponent,
-        NavigationUIComponent
-      ],
+      imports: [RouterTestingModule],
+      declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
-        { provide: CmsModuleConfig, useValue: UseCmsModuleConfig },
-        { provide: CmsService, useValue: mockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService }
+        NavigationService,
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: NavigationService, useValue: {} },
+        { provide: CmsComponentData, useValue: mockCmsComponentData }
       ]
     }).compileComponents();
   }));
@@ -50,22 +67,7 @@ describe('CategoryNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);
     component = fixture.componentInstance;
-    component.node = {
-      title: 'test',
-      children: [
-        {
-          title: 'Root 1',
-          url: '/',
-          children: []
-        },
-        {
-          title: 'Root 2',
-          url: '/test',
-          children: []
-        }
-      ]
-    };
-
+    component.node$ = of(componentData);
     fixture.detectChanges();
   });
 
@@ -79,14 +81,13 @@ describe('CategoryNavigationComponent', () => {
     });
 
     it('should use semantic nav element', () => {
-      const navElem = nav.query(By.css('.cx-navigation')).nativeElement;
-      expect(navElem.nodeName).toBe('NAV');
+      const navElem: HTMLElement = nav.nativeElement;
+      expect(navElem.firstElementChild.tagName).toBe('NAV');
     });
 
     it('should display correct number of submenus', () => {
-      const list: HTMLElement = nav.query(By.css('.cx-navigation__list'))
-        .nativeElement;
-      expect(list.childElementCount).toBe(2);
+      const navElem: HTMLElement = nav.nativeElement;
+      expect(navElem.firstElementChild.childElementCount).toBe(2);
     });
   });
 });

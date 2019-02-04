@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[cxOnlyNumber]'
@@ -10,11 +10,10 @@ export class OnlyNumberDirective {
    * Class constructor
    * @param hostElement
    */
-  constructor(private hostElement: ElementRef) {}
+  constructor(private hostElement: ElementRef, private renderer: Renderer2) {}
 
   /**
    * Event handler for host's change event
-   * @param e
    */
   @HostListener('change')
   onChange() {
@@ -23,7 +22,6 @@ export class OnlyNumberDirective {
 
   /**
    * Event handler for host's change event
-   * @param e
    */
   @HostListener('input')
   onInput() {
@@ -35,7 +33,7 @@ export class OnlyNumberDirective {
    * @param e
    */
   @HostListener('paste', ['$event'])
-  onPaste(e) {
+  onPaste(e: ClipboardEvent) {
     const value = e.clipboardData.getData('text/plain');
     this.validateValue(value);
     e.preventDefault();
@@ -46,17 +44,17 @@ export class OnlyNumberDirective {
    * @param e
    */
   @HostListener('keyup', ['$event'])
-  onKeyUp(e) {
-    const { value } = e.target;
+  onKeyUp(e: KeyboardEvent): void {
+    const value = e.target['value'];
     this.validateValue(value);
   }
 
   /**
    * Event handler for host's keydown event
-   * @param event
+   * @param e
    */
   @HostListener('keydown', ['$event'])
-  onKeyDown(e: KeyboardEvent) {
+  onKeyDown(e: KeyboardEvent): void {
     const originalValue: string = e.target['value'];
     const key: string = this.getName(e);
     const controlOrCommand = e.ctrlKey === true || e.metaKey === true;
@@ -104,14 +102,18 @@ export class OnlyNumberDirective {
   validateValue(value: string): void {
     value = value.replace(/[^0-9]+/g, '');
     value = value.replace(/^0+/, '');
-    this.hostElement.nativeElement['value'] = value || 0;
+    this.renderer.setProperty(
+      this.hostElement.nativeElement,
+      'value',
+      value || 0
+    );
   }
 
   /**
    * Get key's name
    * @param e
    */
-  getName(e): string {
+  getName(e: KeyboardEvent): string {
     if (e.key) {
       return e.key;
     } else {

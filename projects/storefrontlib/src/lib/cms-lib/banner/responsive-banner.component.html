@@ -1,5 +1,16 @@
-<cx-generic-link fxFlex class="link" *ngIf="hasImage()" [url]="component.urlLink" [target]="getTarget()">
+<cx-generic-link
+  fxFlex
+  class="link"
+  *ngIf="hasImage() && (component.data$ | async) as data"
+  [url]="{ url: data.urlLink } | cxTranslateUrl"
+  [target]="getTarget() | async"
+>
   <picture [class]="getClass()">
-    <img [src]="getBaseUrl() + getImageUrl()" [srcset]="getResponsiveSrcset()" sizes="100%" />
+    <img
+      [src]="getImageAbsoluteUrl() | async"
+      [srcset]="getResponsiveSrcSet() | async"
+      sizes="100%"
+      alt=""
+    />
   </picture>
 </cx-generic-link>

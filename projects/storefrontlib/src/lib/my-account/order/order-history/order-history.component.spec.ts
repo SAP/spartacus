@@ -1,61 +1,93 @@
-import { DebugElement } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import createSpy = jasmine.createSpy;
+
+import {
+  AuthService,
+  RoutingService,
+  UserToken,
+  UserService,
+  OrderHistoryList
+} from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
 
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+
 import { OrderHistoryComponent } from './order-history.component';
 
-import { AuthService } from '../../../auth/facade/auth.service';
-import { RoutingService } from '@spartacus/core';
-import { UserService } from '../../../user/facade/user.service';
-
-const mockOrders = {
+const mockOrders: OrderHistoryList = {
   orders: [
-    { code: 1, placed: 1, statusDisplay: 'test', total: { formattedValue: 1 } }
+    {
+      code: '1',
+      placed: new Date('2018-01-01'),
+      statusDisplay: 'test',
+      total: { formattedValue: '1' }
+    },
+    {
+      code: '2',
+      placed: new Date('2018-01-02'),
+      statusDisplay: 'test2',
+      total: { formattedValue: '2' }
+    }
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
   sorts: [{ code: 'byDate', selected: true }]
 };
 
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of({ userId: 'test' } as UserToken);
+  }
+}
+class MockUserService {
+  go = jasmine.createSpy('go');
+  getOrderHistoryList(): Observable<OrderHistoryList> {
+    return of();
+  }
+  getOrderHistoryListLoaded(): Observable<boolean> {
+    return of(true);
+  }
+  loadOrderList(
+    _userId: string,
+    _pageSize: number,
+    _currentPage?: number,
+    _sort?: string
+  ): void {}
+}
+
+class MockRoutingService {}
+
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let el: DebugElement;
-
-  let mockAuthService: any;
-  let mockRoutingService: any;
-  let mockUserService: any;
+  let userService: MockUserService;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
-    mockRoutingService = {
-      go: createSpy()
-    };
-    mockAuthService = {
-      userToken$: of({ userId: 'test' })
-    };
-    mockUserService = {
-      orderList$: new BehaviorSubject(null),
-      orderListLoaded$: of(true),
-      loadOrderList: createSpy()
-    };
-
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, PaginationAndSortingModule],
-      declarations: [OrderHistoryComponent],
+      declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
       providers: [
-        { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useValue: mockUserService },
-        { provide: AuthService, useValue: mockAuthService }
+        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: AuthService, useClass: MockAuthService }
       ]
     }).compileComponents();
+
+    userService = TestBed.get(UserService);
+    routingService = TestBed.get(RoutingService);
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);
-    el = fixture.debugElement;
     component = fixture.componentInstance;
   });
 
@@ -64,75 +96,93 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should load order list when data not exist', () => {
-    const initialOrderListState = {
+    const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: {},
       sorts: []
     };
-    mockUserService.orderList$.next(initialOrderListState);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(
+      of(initialOrderListState)
+    );
+    spyOn(userService, 'loadOrderList').and.stub();
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    let orderList;
-    component.orders$.subscribe(value => {
-      orderList = value;
-    });
+    let orderList: OrderHistoryList;
+    component.orders$
+      .subscribe(value => {
+        orderList = value;
+      })
+      .unsubscribe();
     expect(orderList).toEqual(initialOrderListState);
-    expect(mockUserService.loadOrderList).toHaveBeenCalledWith('test', 5);
+    expect(userService.loadOrderList).toHaveBeenCalledWith('test', 5);
   });
 
   it('should read order list when data exist', () => {
-    mockUserService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
     component.ngOnInit();
     fixture.detectChanges();
 
-    let order;
-    component.orders$.subscribe(value => {
-      order = value;
-    });
-    expect(order).toEqual(mockOrders);
+    let orders: OrderHistoryList;
+    component.orders$
+      .subscribe(value => {
+        orders = value;
+      })
+      .unsubscribe();
+    expect(orders).toEqual(mockOrders);
   });
 
   xit('should redirect when clicking on order id', () => {
-    mockUserService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+
     component.ngOnInit();
     fixture.detectChanges();
 
-    el.query(By.css('.cx-order-history__table tbody tr')).triggerEventHandler(
-      'click',
-      null
+    const rows = fixture.debugElement.queryAll(
+      By.css('.cx-order-history__table tbody tr')
     );
+    rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
-      expect(mockRoutingService.go).toHaveBeenCalledWith([
-        'my-account/orders/',
-        1
-      ]);
+      expect(routingService.go).toHaveBeenCalledWith({
+        route: [
+          {
+            name: 'orderDetails',
+            params: mockOrders.orders[1]
+          }
+        ]
+      });
     });
   });
 
   it('should display No orders found page if no orders are found', () => {
-    const initialOrderListState = {
+    const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
       sorts: [{ code: 'byDate', selected: true }]
     };
-    mockUserService.orderList$.next(initialOrderListState);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(
+      of(initialOrderListState)
+    );
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('.cx-order-history__no-order'))).not.toBeNull();
+    expect(
+      fixture.debugElement.query(By.css('.cx-order-history__no-order'))
+    ).not.toBeNull();
   });
 
   it('should set correctly sort code', () => {
-    mockUserService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+    spyOn(userService, 'loadOrderList').and.stub();
+
     component.ngOnInit();
     fixture.detectChanges();
     component.changeSortCode('byOrderNumber');
 
     expect(component.sortType).toBe('byOrderNumber');
-    expect(mockUserService.loadOrderList).toHaveBeenCalledWith(
+    expect(userService.loadOrderList).toHaveBeenCalledWith(
       'test',
       5,
       0,
@@ -141,12 +191,14 @@ describe('OrderHistoryComponent', () => {
   });
 
   it('should set correctly page', () => {
-    mockUserService.orderList$.next(mockOrders);
+    spyOn(userService, 'getOrderHistoryList').and.returnValue(of(mockOrders));
+    spyOn(userService, 'loadOrderList').and.stub();
+
     component.ngOnInit();
     fixture.detectChanges();
     component.pageChange(1);
 
-    expect(mockUserService.loadOrderList).toHaveBeenCalledWith(
+    expect(userService.loadOrderList).toHaveBeenCalledWith(
       'test',
       5,
       1,

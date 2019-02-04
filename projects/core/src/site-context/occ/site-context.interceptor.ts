@@ -5,17 +5,17 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { LanguageService } from '../facade/language.service';
 import { CurrencyService } from '../facade/currency.service';
+import { LanguageService } from '../facade/language.service';
 import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
 export class SiteContextInterceptor implements HttpInterceptor {
   baseReqString: string;
-  activeLang = this.config.site.language;
-  activeCurr = this.config.site.currency;
+  activeLang: string = this.config.site.language;
+  activeCurr: string = this.config.site.currency;
 
   constructor(
     private languageService: LanguageService,
@@ -27,12 +27,12 @@ export class SiteContextInterceptor implements HttpInterceptor {
       this.config.server.occPrefix +
       this.config.site.baseSite;
 
-    this.languageService.activeLanguage$
-      .pipe(filter(lang => lang != null))
+    this.languageService
+      .getActive()
       .subscribe(data => (this.activeLang = data));
 
-    this.currencyService.activeCurrency$
-      .pipe(filter(curr => curr != null))
+    this.currencyService
+      .getActive()
       .subscribe(data => (this.activeCurr = data));
   }
 

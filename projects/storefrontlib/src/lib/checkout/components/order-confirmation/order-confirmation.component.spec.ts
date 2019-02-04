@@ -1,42 +1,56 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
-import { OrderConfirmationComponent } from './order-confirmation.component';
 import { By } from '@angular/platform-browser';
-import { CheckoutService } from '../../services';
-import { CartService } from '../../../cart/services';
+
+import { Order, CheckoutService, Cart } from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { Item } from '../../../cart';
+import { Card } from '../../../ui/components/card/card.component';
+
+import { OrderConfirmationComponent } from './order-confirmation.component';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
   @Input()
-  items: any;
+  items: Item[];
   @Input()
-  isReadOnly: any;
+  isReadOnly: boolean;
 }
 @Component({ selector: 'cx-card', template: '' })
-class MockCartComponent {
+class MockCardComponent {
   @Input()
-  content: any;
+  content: Card;
 }
 
-class CheckoutServiceMock {
-  entries;
-  orderDetails = {
-    code: 'test-code-412',
-    deliveryAddress: {
-      country: {}
-    },
-    deliveryMode: {},
-    paymentInfo: {
-      billingAddress: {
+@Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
+class MockAddtoHomeScreenBannerComponent {}
+
+class MockCheckoutService {
+  clearCheckoutData = createSpy();
+
+  getOrderDetails(): Observable<Order> {
+    return of({
+      code: 'test-code-412',
+      deliveryAddress: {
         country: {}
+      },
+      deliveryMode: {},
+      paymentInfo: {
+        billingAddress: {
+          country: {}
+        }
       }
-    }
-  };
+    });
+  }
 }
 
 describe('OrderConfirmationComponent', () => {
@@ -48,13 +62,11 @@ describe('OrderConfirmationComponent', () => {
       declarations: [
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
-        MockCartComponent,
-        MockOrderSummaryComponent
+        MockCardComponent,
+        MockOrderSummaryComponent,
+        MockAddtoHomeScreenBannerComponent
       ],
-      providers: [
-        { provide: CheckoutService, useClass: CheckoutServiceMock },
-        { provide: CartService, useValue: {} }
-      ]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
     }).compileComponents();
   }));
 

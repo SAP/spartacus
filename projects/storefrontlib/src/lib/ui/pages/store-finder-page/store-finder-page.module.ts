@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
-import { CmsPageGuards } from '../../../cms/guards';
+import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { StoreFinderPageComponent } from './store-finder-page.component';
 import { StoreFinderPageLayoutModule } from '../../layout/store-finder-page-layout/store-finder-page-layout.module';
 // tslint:disable-next-line:max-line-length
@@ -15,37 +15,37 @@ import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/comp
 
 const routes: Routes = [
   {
-    path: 'store-finder',
+    path: null,
     canActivate: [CmsPageGuards],
-    data: { pageLabel: 'storefinderPage' },
+    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinder' },
     component: StoreFinderPageComponent,
     children: [
       {
-        path: 'find-stores',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'searchResults' },
         component: StoreFinderSearchResultComponent
       },
       {
-        path: 'view-all-stores',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'allStores' },
         component: StoreFinderStoresCountComponent
       },
       {
-        path: 'country/:country/region/:region',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
+        data: { pageLabel: 'storefinderPage', cxPath: 'listStores' },
         component: StoreFinderGridComponent
       },
       {
-        path: 'country/:country',
+        path: null,
         canActivate: [CmsPageGuards],
-        data: { pageLabel: 'storefinderPage' },
-        component: StoreFinderGridComponent
+        data: { pageLabel: 'storefinderPage', cxPath: 'storeDescription' },
+        component: StoreFinderStoreDescriptionComponent
       },
       {
-        path: 'country/:country/region/:region/:store',
+        path: 'country/:country/:store',
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'storefinderPage' },
         component: StoreFinderStoreDescriptionComponent

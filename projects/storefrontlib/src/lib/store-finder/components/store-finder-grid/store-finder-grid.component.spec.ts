@@ -1,22 +1,24 @@
-import { ActivatedRoute, Router } from '@angular/router';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { StoreModule } from '@ngrx/store';
 
 import { StoreFinderGridComponent } from './store-finder-grid.component';
-// tslint:disable-next-line:max-line-length
-import { StoreFinderListItemComponent } from '../store-finder-list-item/store-finder-list-item.component';
-import { StoreFinderService } from '../../services/store-finder.service';
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
-import * as fromReducers from '../../store';
+import { StoreFinderService, RoutingService } from '@spartacus/core';
+import { Pipe, PipeTransform, Component, Input } from '@angular/core';
+import { of, Observable } from 'rxjs';
 
 const countryIsoCode = 'CA';
 const regionIsoCode = 'CA-QC';
 
-class StoreFinderServiceMock {
-  viewAllStoresForCountry(_countryIso: string) {}
-  viewAllStoresForRegion(_countryIso: string, _regionIso: string) {}
+@Component({
+  selector: 'cx-store-finder-list-item',
+  template: ''
+})
+export class MockStoreFinderListItemComponent {
+  @Input()
+  location;
 }
 
 const location = {
@@ -29,20 +31,56 @@ const mockActivatedRoute = {
   }
 };
 
+const mockStoreFinderService = {
+  viewAllStoresForCountry: jasmine.createSpy(),
+  viewAllStoresForRegion: jasmine.createSpy(),
+  getStoresLoading: jasmine.createSpy(),
+  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable))
+};
+
+@Pipe({
+  name: 'cxTranslateUrl'
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform() {}
+}
+
 describe('StoreFinderGridComponent', () => {
   let component: StoreFinderGridComponent;
   let fixture: ComponentFixture<StoreFinderGridComponent>;
   let storeFinderService: StoreFinderService;
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
+  let route: ActivatedRoute;
+
+  const mockRoutingService = {
+    go: jasmine.createSpy('go')
   };
 
-  it('should create with country routing parameter', () => {
-    mockActivatedRoute.snapshot.params = { country: countryIsoCode };
-    configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForCountry');
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, SpinnerModule],
+      declarations: [
+        StoreFinderGridComponent,
+        MockStoreFinderListItemComponent,
+        MockTranslateUrlPipe
+      ],
+      providers: [
+        { provide: StoreFinderService, useValue: mockStoreFinderService },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        { provide: RoutingService, useValue: mockRoutingService }
+      ]
+    }).compileComponents();
+  }));
 
-    createComponent();
+  beforeEach(() => {
+    fixture = TestBed.createComponent(StoreFinderGridComponent);
+    component = fixture.componentInstance;
+    route = TestBed.get(ActivatedRoute);
+    storeFinderService = TestBed.get(StoreFinderService);
+  });
+
+  it('should create with country routing parameter', () => {
+    route.snapshot.params = { country: countryIsoCode };
+    fixture.detectChanges();
 
     expect(component).toBeTruthy();
     expect(storeFinderService.viewAllStoresForCountry).toHaveBeenCalledWith(
@@ -51,65 +89,63 @@ describe('StoreFinderGridComponent', () => {
   });
 
   it('should create with country and region routing parameters', () => {
-    mockActivatedRoute.snapshot.params = {
+    route.snapshot.params = {
       country: countryIsoCode,
       region: regionIsoCode
     };
-    configureTestBed();
-    spyOn(storeFinderService, 'viewAllStoresForRegion');
-
-    createComponent();
+    fixture.detectChanges();
 
     expect(component).toBeTruthy();
+  });
+
+  it('should route when viewStore is called with region', () => {
+    route.snapshot.params = {
+      country: countryIsoCode,
+      region: regionIsoCode
+    };
+    fixture.detectChanges();
+
+    component.viewStore(location);
+
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
+      route: [
+        'storeFinder',
+        {
+          name: 'storeDescription',
+          params: {
+            country: countryIsoCode,
+            region: regionIsoCode,
+            store: location.name
+          }
+        }
+      ]
+    });
     expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
       countryIsoCode,
       regionIsoCode
     );
   });
 
-  it('should route when viewStore is called', () => {
-    mockActivatedRoute.snapshot.params = {
-      country: countryIsoCode,
-      region: regionIsoCode
+  it('should route when viewStore is called without region', () => {
+    route.snapshot.params = {
+      country: countryIsoCode
     };
-    configureTestBed();
-    createComponent();
+    fixture.detectChanges();
 
     component.viewStore(location);
 
-    expect(mockRouter.navigate).toHaveBeenCalledWith([
-      'store-finder',
-      'country',
-      countryIsoCode,
-      'region',
-      regionIsoCode,
-      location.name
-    ]);
-  });
-
-  function configureTestBed(): void {
-    const bed = TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('stores', fromReducers.reducers),
-        RouterTestingModule,
-        SpinnerModule
-      ],
-      declarations: [StoreFinderGridComponent, StoreFinderListItemComponent],
-      providers: [
-        { provide: StoreFinderService, useClass: StoreFinderServiceMock },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: Router, useValue: mockRouter }
+    expect(mockRoutingService.go).toHaveBeenCalledWith({
+      route: [
+        'storeFinder',
+        {
+          name: 'storeDescription',
+          params: {
+            region: '',
+            country: countryIsoCode,
+            store: location.name
+          }
+        }
       ]
     });
-    bed.compileComponents();
-
-    storeFinderService = bed.get(StoreFinderService);
-  }
-
-  function createComponent() {
-    fixture = TestBed.createComponent(StoreFinderGridComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }
+  });
 });

@@ -1,27 +1,25 @@
+dist: trusty
 language: node_js
 node_js:
-- 8.9.0
-dist: trusty
+  - 10.14.1
+cache: yarn
 git:
   depth: false
 branches:
   only:
-  - develop
-  - "/^feature\\/.*$/"
-jobs:
-  include:
-    - stage: "Spartacus build"
-      name: "Unit tests"
-      script: "./ci-scripts/unit-tests.sh"
-    - script: "./ci-scripts/e2e-tests.sh"
-      name: "End to end tests"
-    - script: "./ci-scripts/validate.sh"
-      name: "Validation"
-    - script: "./ci-scripts/lint.sh"
-      name: "Lint"
-    - stage: "SonarCloud"
-      script: sonar-scanner
-      name: "SonarCloud scanner"
+    - develop
+    - master
+    - "/^feature\\/.*$/"
+    - "/^hotfix\\/.*$/"
+    - "/^release\\/.*$/"
+script: ./build.sh sonar
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: dist/storefrontapp
+  on:
+    branch: develop
 notifications:
   slack:
     secure: D/c2tdqrGpf5I8CJ/rnrhYeNG1Gk/mEu7B1bI49IpC9CSsHzDeS624+9IoI6XLBjp3RfgffxTI4s2AWJcEAxhs+jSd6HaRYw44BZQJ1zyVhtZHTjm5uouqOCPaX4JTs9mPGAlqC2qnLxnbOr63uNgKghrPmsAGiFh68eqbP5+4CKx2HpqkqdlaxzR/By35wZxW1HmVMbY1yG1J+dO8vh1dpohYyB3ktDwA8K75BGPXDGCY3Uyly2rmH3AqTSsgnBXw5wJfXWAXAAeHYVS914K6Pf3FBSPWP3738Rra3SA4juxHWJlQEnoFNN4jiiXHt61uuOMYlKBjdvXy0oOTgRAaio/hkePrFZP5izQVg4+izh9bOP914N4Ia3fC42cgilNXA+NT0+vRsy9gQG30hzc8FMvjM8VstQniSbuE2qtZ/Bk8FJ8ItpdKaxNN4Ram9rCW5tzc/7qlaGnjIx4RIMWwuWHe8S5lwmV6zjoYzzOSE0Pq/v5tN3rx9YubrAhugoY+78hqh6AhCV0iWzoBhsTTxYYlSvPicf1vN9l1j/3b2yOoimliPx5Pt/74vgYLnCivrQCZS4E4MDkPlz1L8ubqibznVkcy3vrkEC9HzJSWUVXusHj/asSnaeF16b0KS4p/EoLw8k4nRPCOH4ippHly4uCPpbhEh0djaC3YgvobI=
@@ -34,3 +32,8 @@ addons:
     organization: sap
     token:
       secure: I2+ah2XiEbJ6MwWG51B0Vqpsv7KhnqMJzhoPTun6iPxlMXVqIJm1bCRkutOtlVJ+65UDj20H6ld0Tc9LOEz3Uvjk/ZSmHIA/7esC1kRcOu62VE8k/Y+nH8epI3dBr70Yymn9V27kqBNTMs+i2qC8z/+2cd0DBrAPtRQXcPedd4kw41kdeFBzmI/ng1uOhadLF2U63s+krkfLSoaBcCkksll3KsnDe/ItJN1Hu7oZ5UQUxcbP8LHDHBIm3YuMDh9WLWvp9zypglS5as8GC55Zi8dDFlqXrcVcKa5niN8Q/UOByBDy1JiM6kJbc/mjbpjdQMAoCz9YjkPhd181hbz0rocxqPmbEszwPVNadRbz3mUjTz/us+3ekrw3/i4DhuzmGlV2kRkbXIquegecivNnWMP8JyZDRerR8onSKS+YMmEI1t7tOLWHCJ4ImkfMWGVbT8t27ZWO2bhDu+N0JxyPuMRSVPRXvhEAqIbts8OdeITxQiWcSdI2Q/Fsfsft7uUBJhhU8S+c6Gs0LuCikG4WfchjCUxK5kFQqEAqLX+BUJbQxw6J2S+geoAzxWhQrs+O/GzXDzuez8Z3Ou8hk2w/l+VSJ2MuiJq/jlcSmVkYUUtKhvPfq/fcLtp9Lt9dUCw/8Es9jbvtg/0i2iyajkF/9PRc6UzhcYu/sk8xopNK4bQ=
+  artifacts:
+    paths:
+      - protractor.log.json
+    target_paths:
+      - /$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/$TRAVIS_COMMIT/
