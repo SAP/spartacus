@@ -1,9 +1,14 @@
 import { Injectable, Optional, Injector, Type } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { CmsSiteContextSelectorComponent, ContextServiceMap, CURRENCY_CONTEXT_ID, LANGUAGE_CONTEXT_ID, SiteContext } from '@spartacus/core';
+import {
+  CmsSiteContextSelectorComponent,
+  ContextServiceMap,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+  SiteContext
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, filter, switchMap, take } from 'rxjs/operators';
-
 
 const LABELS = {
   [LANGUAGE_CONTEXT_ID]: 'Language',
@@ -17,9 +22,7 @@ export class SiteContextComponentService {
     protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
     private contextServiceMap: ContextServiceMap,
     protected injector: Injector
-  ) {
-    console.log(contextServiceMap);
-  }
+  ) {}
 
   get items$(): Observable<any> {
     return this.service$.pipe(

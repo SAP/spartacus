@@ -6,17 +6,12 @@ import { LanguageService } from './facade/language.service';
 import { CurrencyService } from './facade/currency.service';
 import { OccConfig } from '../occ/index';
 import { StateModule } from '../state/index';
-import { SiteContext } from './facade/site-context.interface';
 import { Config, ConfigModule } from '../config/config.module';
 import { defaultSiteContextConfig } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
-
-export abstract class ContextServiceMap {
-  [context: string]: Type<SiteContext<any>>;
-}
-
-export const LANGUAGE_CONTEXT_ID = 'language';
-export const CURRENCY_CONTEXT_ID = 'currency';
+import { UrlSerializer } from '@angular/router';
+import { SiteContextUrlSerializer } from './services/site-context-url-serializer';
+import { ContextServiceMap, CURRENCY_CONTEXT_ID, LANGUAGE_CONTEXT_ID } from './context-service-map';
 
 export function inititializeContext(
   config: OccConfig,
@@ -48,7 +43,8 @@ export function inititializeContext(
       deps: [OccConfig, LanguageService, CurrencyService],
       multi: true
     },
-    { provide: SiteContextConfig, useExisting: Config }
+    { provide: SiteContextConfig, useExisting: Config },
+    { provide: UrlSerializer, useClass: SiteContextUrlSerializer }
   ]
 })
 export class SiteContextModule {}
