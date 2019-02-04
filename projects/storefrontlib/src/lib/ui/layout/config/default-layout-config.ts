@@ -56,8 +56,8 @@ export const defaultLayoutConfig: LayoutConfig = {
       ]
     },
     AccountPageTemplate: {
+      slots: ['BodyContent', 'SideContent'],
       showTitle: true,
-      slots: ['SideContent', 'BodyContent'],
       md: {
         // slots: ['Section5'],
         // showTitle: false
