@@ -124,10 +124,10 @@ Cypress.Commands.add(
       cy.get('[formcontrolname="line2"]').type(
         shippingAddressData.address.line2
       );
-      cy.get('[formcontrolname="town"]').type(shippingAddressData.address.city);
       cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
         shippingAddressData.address.country
       );
+      cy.get('[formcontrolname="town"]').type(shippingAddressData.address.city);
       cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
         shippingAddressData.address.state
       );

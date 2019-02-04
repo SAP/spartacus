@@ -11,7 +11,7 @@ context('Big happy path', () => {
     cy.getByText('Register').click();
     cy.register(user);
     cy.get('.cx-login-status__greet').should('contain', user.fullName);
-    cy.selectUserMenuOption('Sign out');
+    cy.selectUserMenuOption('Sign Out');
     cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
   });
 
