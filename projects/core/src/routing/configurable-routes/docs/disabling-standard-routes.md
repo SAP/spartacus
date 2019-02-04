@@ -4,7 +4,7 @@
 
 # Disabling standard routes
 
-To disable a route (i.e. to remove it from Angular's router config and avoid translating paths to this route) it suffices to set one of those things in the `routesConfig`:
+To disable a route (i.e. to remove it from Angular's router config and avoid translating paths to this route) it suffices to set one of those things in the `routes.config`:
 
 - set `null` for this route's name
 - set `null` or `[]` for route's paths
