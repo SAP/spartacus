@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+
 import { Address, UserService } from '@spartacus/core';
 
 @Component({
@@ -21,25 +22,25 @@ export class AddressCardComponent {
 
   constructor(private userService: UserService) {}
 
-  openEditFormEvent() {
+  openEditFormEvent(): void {
     this.editEvent.emit();
   }
 
-  cancelEdit() {
+  cancelEdit(): void {
     this.editMode = false;
   }
 
-  setEditMode() {
+  setEditMode(): void {
     this.editMode = true;
   }
 
-  setAddressAsDefault(addressId: string) {
+  setAddressAsDefault(addressId: string): void {
     if (this.userId) {
       this.userService.setAddressAsDefault(this.userId, addressId);
     }
   }
 
-  deleteAddress(addressId: string) {
+  deleteAddress(addressId: string): void {
     if (this.userId) {
       this.userService.deleteUserAddress(this.userId, addressId);
     }

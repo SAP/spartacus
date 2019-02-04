@@ -1,14 +1,22 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
+
+import { provideMockActions } from '@ngrx/effects/testing';
 import { Actions } from '@ngrx/effects';
-import * as fromUserOrdersEffect from './user-orders.effect';
-import * as fromUserOrdersAction from '../actions/user-orders.action';
+import { Action } from '@ngrx/store';
+
 import { Observable, of, throwError } from 'rxjs';
+
 import { hot, cold } from 'jasmine-marbles';
-import { OccConfig } from '../../../occ/config/occ-config';
+
+import { USER_ORDERS } from '../user-state';
+import * as fromUserOrdersAction from '../actions/user-orders.action';
+import { LoaderResetAction } from '../../../state';
 import { OccOrderService } from '../../occ/index';
 import { OrderHistoryList } from '../../../occ/occ-models';
+import { OccConfig } from '../../../occ/config/occ-config';
+
+import * as fromUserOrdersEffect from './user-orders.effect';
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
@@ -80,6 +88,21 @@ describe('User Orders effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(userOrdersEffect.loadUserOrders$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetUserOrders$', () => {
+    it('should return a reset actiong', () => {
+      const action: Action = {
+        type: '[Site-context] Language Change'
+      };
+
+      const completion = new LoaderResetAction(USER_ORDERS);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(userOrdersEffect.resetUserOrders$).toBeObservable(expected);
     });
   });
 });
