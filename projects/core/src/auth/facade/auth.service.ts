@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { ClientTokenState, StateWithAuth } from '../store/auth-state';
+import { StateWithAuth } from '../store/auth-state';
 import { LoadClientToken } from '../store/actions/client-token.action';
 import { Login, Logout } from '../store/actions/login-logout.action';
 import {
@@ -79,44 +81,43 @@ export class AuthService {
   }
 
   /**
-   * Loads a new client token
-   */
-  loadClientToken(): void {
-    this.store.dispatch(new LoadClientToken());
-  }
-
-  /**
-   * Returns the client token
+   * Returns a client token.  The client token from the store is returned if there is one.
+   * Otherwise, an new token is fetched from the backend and saved in the store.
    */
   getClientToken(): Observable<ClientToken> {
     return this.store.pipe(
       select(getClientTokenState),
-      tap((state: ClientTokenState) => {
-        if (!state.loading && Object.keys(state.token).length === 0) {
-          this.loadClientToken();
+      filter((state: LoaderState<ClientToken>) => {
+        if (this.isClientTokenLoaded(state)) {
+          return true;
+        } else {
+          if (!state.loading) {
+            this.store.dispatch(new LoadClientToken());
+          }
+          return false;
         }
       }),
-      filter(
-        (state: ClientTokenState) => Object.keys(state.token).length !== 0
-      ),
-      map((state: ClientTokenState) => state.token)
+      map((state: LoaderState<ClientToken>) => state.value)
     );
   }
 
   /**
-   * Refreshes the client token
+   * Fetches a clientToken from the backend ans saves it in the store where getClientToken can use it.
+   * The new clientToken is returned.
    */
   refreshClientToken(): Observable<ClientToken> {
+    this.store.dispatch(new LoadClientToken());
+
     return this.store.pipe(
       select(getClientTokenState),
-      tap((state: ClientTokenState) => {
-        const token = state.token;
-        if (token.access_token && !state.loading) {
-          this.loadClientToken();
-        }
-      }),
-      filter((state: ClientTokenState) => state.loaded),
-      map((state: ClientTokenState) => state.token)
+      filter((state: LoaderState<ClientToken>) =>
+        this.isClientTokenLoaded(state)
+      ),
+      map((state: LoaderState<ClientToken>) => state.value)
     );
+  }
+
+  protected isClientTokenLoaded(state: LoaderState<ClientToken>): boolean {
+    return (state.success || state.error) && !state.loading;
   }
 }
