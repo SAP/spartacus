@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
+import * as fromStore from '../store/index';
+import { USER_FEATURE } from '../store/user-state';
 import {
   Address,
   Order,
@@ -14,9 +16,7 @@ import {
   Country
 } from '../../occ/occ-models/index';
 
-import * as fromStore from '../store/index';
 import { UserService } from './user.service';
-import { USER_FEATURE } from '../store/user-state';
 
 describe('UserService', () => {
   let service: UserService;
@@ -145,7 +145,7 @@ describe('UserService', () => {
         orderListLoaded = data;
       })
       .unsubscribe();
-    expect(orderListLoaded).toEqual(false);
+    expect(orderListLoaded).toEqual(true);
   });
 
   it('should be able to load user payment methods', () => {
@@ -269,7 +269,7 @@ describe('UserService', () => {
 
     let flag: boolean;
     service
-      .getAddressActionProcessingStatus()
+      .getAddressesLoading()
       .subscribe(data => {
         flag = data;
       })
