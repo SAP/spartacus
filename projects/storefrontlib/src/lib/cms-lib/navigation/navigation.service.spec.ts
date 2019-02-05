@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import createSpy = jasmine.createSpy;
 
 import { CmsService, CmsNavigationComponent } from '@spartacus/core';
-import { NavigationService } from './navigation.service';
+import { NavigationComponentService } from './navigation.component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { BehaviorSubject, of } from 'rxjs';
 
@@ -71,8 +71,8 @@ const resultNode: any = {
     { title: 'test link 2', url: '/testLink2', target: true }
   ]
 };
-describe('NavigationService', () => {
-  let navigationService: NavigationService;
+describe('NavigationComponentService', () => {
+  let navigationService: NavigationComponentService;
   let mockCmsService: any;
 
   beforeEach(() => {
@@ -83,18 +83,18 @@ describe('NavigationService', () => {
     };
     TestBed.configureTestingModule({
       providers: [
-        NavigationService,
+        NavigationComponentService,
         { provide: CmsService, useValue: mockCmsService },
         { provide: CmsComponentData, useValue: componentDataMock }
       ]
     });
 
-    navigationService = TestBed.get(NavigationService);
+    navigationService = TestBed.get(NavigationComponentService);
   });
 
-  it('should inject NavigationService', inject(
-    [NavigationService],
-    (service: NavigationService) => {
+  it('should inject NavigationComponentService', inject(
+    [NavigationComponentService],
+    (service: NavigationComponentService) => {
       expect(service).toBeTruthy();
     }
   ));

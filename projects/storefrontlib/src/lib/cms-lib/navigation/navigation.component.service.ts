@@ -7,7 +7,7 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class NavigationService {
+export class NavigationComponentService {
   constructor(
     protected cmsService: CmsService,
     @Optional()

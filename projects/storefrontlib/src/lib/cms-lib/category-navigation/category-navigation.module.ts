@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ConfigModule, CmsConfig, CmsService } from '@spartacus/core';
 import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { NavigationService } from '../navigation/navigation.service';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @NgModule({
@@ -19,8 +19,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
           selector: 'cx-category-navigation',
           providers: [
             {
-              provide: NavigationService,
-              useClass: NavigationService,
+              provide: NavigationComponentService,
+              useClass: NavigationComponentService,
               deps: [CmsService, CmsComponentData]
             }
           ]

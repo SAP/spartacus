@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
-import { NavigationService } from '../navigation/navigation.service';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @NgModule({
@@ -23,8 +23,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
           selector: 'cx-footer-navigation',
           providers: [
             {
-              provide: NavigationService,
-              useClass: NavigationService,
+              provide: NavigationComponentService,
+              useClass: NavigationComponentService,
               deps: [CmsService, CmsComponentData]
             }
           ]

@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { Component as SpaComponent } from '@spartacus/core';
-import { NavigationService } from '../navigation/navigation.service';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
@@ -56,7 +56,7 @@ describe('CategoryNavigationComponent', () => {
       imports: [RouterTestingModule],
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
-        { provide: NavigationService, useValue: mockNavigationService }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));

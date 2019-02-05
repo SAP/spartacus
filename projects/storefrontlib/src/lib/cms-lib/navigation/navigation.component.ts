@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { CmsNavigationComponent } from '@spartacus/core';
-import { NavigationService } from './navigation.service';
+import { NavigationComponentService } from './navigation.component.service';
 import { NavigationNode } from './navigation-node.model';
 
 @Component({
@@ -17,7 +17,7 @@ export class NavigationComponent {
 
   node$: Observable<NavigationNode>;
 
-  constructor(private navigationService: NavigationService) {
+  constructor(private navigationService: NavigationComponentService) {
     this.node$ = this.navigationService.getNodes();
   }
 

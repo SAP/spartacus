@@ -5,7 +5,7 @@ import { of, BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
-import { NavigationService } from './navigation.service';
+import { NavigationComponentService } from './navigation.component.service';
 import {
   CmsNavigationComponent,
   Component as SpaComponent
@@ -72,7 +72,7 @@ describe('CmsNavigationComponent in CmsLib', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: NavigationService, useValue: mockNavigationService }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ],
       declarations: [NavigationComponent, MockNavigationUIComponent]
     }).compileComponents();

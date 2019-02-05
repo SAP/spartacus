@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { NavigationService } from './navigation.service';
+import { NavigationComponentService } from './navigation.component.service';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @NgModule({
@@ -25,8 +25,8 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
           selector: 'cx-navigation',
           providers: [
             {
-              provide: NavigationService,
-              useClass: NavigationService,
+              provide: NavigationComponentService,
+              useClass: NavigationComponentService,
               deps: [CmsService, CmsComponentData]
             }
           ]

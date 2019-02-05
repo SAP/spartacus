@@ -15,7 +15,7 @@ import {
   Component as SpaComponent,
   TranslateUrlOptions
 } from '@spartacus/core';
-import { NavigationService } from '../navigation/navigation.service';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
@@ -89,7 +89,7 @@ describe('FooterNavigationComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: NavigationService, useValue: mockNavigationService }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));
