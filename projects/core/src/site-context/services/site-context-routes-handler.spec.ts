@@ -6,7 +6,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-fdescribe('SiteContextRoutesHandlerService', () => {
+describe('SiteContextRoutesHandlerService', () => {
   let mockRouterEvents;
   let mockRouter;
   let mockLocation;
