@@ -1,6 +1,11 @@
-import { Action } from '@ngrx/store';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { LongitudeLatitude } from '../../model/longitude-latitude';
+import {
+  LoaderLoadAction,
+  LoaderFailAction,
+  LoaderSuccessAction
+} from '../../../state/utils/loader/loader.action';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 export const ON_HOLD = '[StoreFinder] On Hold';
 export const FIND_STORES = '[StoreFinder] Find Stores';
@@ -25,12 +30,14 @@ export const FIND_ALL_STORES_BY_REGION_FAIL =
 export const FIND_ALL_STORES_BY_REGION_SUCCESS =
   '[StoreFinder] Find All Stores by Region Success';
 
-export class OnHold implements Action {
+export class OnHold extends LoaderLoadAction {
   readonly type = ON_HOLD;
-  constructor() {}
+  constructor() {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindStores implements Action {
+export class FindStores extends LoaderLoadAction {
   readonly type = FIND_STORES;
   constructor(
     public payload: {
@@ -39,64 +46,88 @@ export class FindStores implements Action {
       useMyLocation?: boolean;
       searchConfig?: StoreFinderSearchConfig;
     }
-  ) {}
+  ) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindStoresFail implements Action {
+export class FindStoresFail extends LoaderFailAction {
   readonly type = FIND_STORES_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA, payload);
+  }
 }
 
-export class FindStoresSuccess implements Action {
+export class FindStoresSuccess extends LoaderSuccessAction {
   readonly type = FIND_STORES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindStoreById implements Action {
+export class FindStoreById extends LoaderLoadAction {
   readonly type = FIND_STORE_BY_ID;
-  constructor(public payload: { storeId: string }) {}
+  constructor(public payload: { storeId: string }) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindStoreByIdFail implements Action {
+export class FindStoreByIdFail extends LoaderFailAction {
   readonly type = FIND_STORE_BY_ID_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA, payload);
+  }
 }
 
-export class FindStoreByIdSuccess implements Action {
+export class FindStoreByIdSuccess extends LoaderSuccessAction {
   readonly type = FIND_STORE_BY_ID_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindAllStoresByCountry implements Action {
+export class FindAllStoresByCountry extends LoaderLoadAction {
   readonly type = FIND_ALL_STORES_BY_COUNTRY;
-  constructor(public payload: { countryIsoCode: string }) {}
+  constructor(public payload: { countryIsoCode: string }) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindAllStoresByCountryFail implements Action {
+export class FindAllStoresByCountryFail extends LoaderFailAction {
   readonly type = FIND_ALL_STORES_BY_COUNTRY_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA, payload);
+  }
 }
 
-export class FindAllStoresByCountrySuccess implements Action {
+export class FindAllStoresByCountrySuccess extends LoaderSuccessAction {
   readonly type = FIND_ALL_STORES_BY_COUNTRY_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindAllStoresByRegion implements Action {
+export class FindAllStoresByRegion extends LoaderLoadAction {
   readonly type = FIND_ALL_STORES_BY_REGION;
   constructor(
     public payload: { countryIsoCode: string; regionIsoCode: string }
-  ) {}
+  ) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
-export class FindAllStoresByRegionFail implements Action {
+export class FindAllStoresByRegionFail extends LoaderFailAction {
   readonly type = FIND_ALL_STORES_BY_REGION_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA, payload);
+  }
 }
 
-export class FindAllStoresByRegionSuccess implements Action {
+export class FindAllStoresByRegionSuccess extends LoaderSuccessAction {
   readonly type = FIND_ALL_STORES_BY_REGION_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(STORE_FINDER_DATA);
+  }
 }
 
 export type FindStoresAction =

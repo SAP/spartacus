@@ -1,16 +1,22 @@
+import { LoaderState } from '../../state';
+import { StoreEntities } from '../model';
+
 export const STORE_FINDER_FEATURE = 'stores';
+export const STORE_FINDER_DATA = '[StoreFinder] Store Finder Data';
+
+export interface StateWithStoreFinder {
+  [STORE_FINDER_FEATURE]: StoresState;
+}
 
 export interface StoresState {
-  findStores: FindStoresState;
-  viewAllStores: ViewAllStoresState;
+  findStores: LoaderState<FindStoresState>;
+  viewAllStores: LoaderState<ViewAllStoresState>;
 }
 
 export interface FindStoresState {
-  findStoresEntities: any;
-  isLoading: boolean;
+  findStoresEntities: StoreEntities;
 }
 
 export interface ViewAllStoresState {
-  viewAllStoresEntities: any;
-  isLoading: boolean;
+  viewAllStoresEntities: StoreEntities;
 }

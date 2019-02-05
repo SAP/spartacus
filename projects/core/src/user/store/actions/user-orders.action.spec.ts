@@ -1,5 +1,12 @@
-import * as fromUserOrdersAction from './user-orders.action';
+import { USER_ORDERS } from '../user-state';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
+
+import * as fromUserOrdersAction from './user-orders.action';
 
 const mockUserOrder: {
   userId: string;
@@ -28,7 +35,8 @@ describe('User Orders Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS,
-        payload: mockUserOrder
+        payload: mockUserOrder,
+        meta: loadMeta(USER_ORDERS)
       });
     });
   });
@@ -40,7 +48,8 @@ describe('User Orders Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS_FAIL,
-        payload: error
+        payload: error,
+        meta: failMeta(USER_ORDERS, error)
       });
     });
   });
@@ -53,7 +62,8 @@ describe('User Orders Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS,
-        payload: mockUserOrders
+        payload: mockUserOrders,
+        meta: successMeta(USER_ORDERS)
       });
     });
   });
