@@ -18,10 +18,7 @@
             </div>
             <div
               class="row cx-address-deck"
-              *ngIf="
-                !(addressesLoading$ | async) &&
-                !(addressActionProcessing$ | async)
-              "
+              *ngIf="!(addressesLoading$ | async)"
             >
               <div *ngFor="let address of addresses" class="col-md-6">
                 <cx-address-card
@@ -31,13 +28,7 @@
                 ></cx-address-card>
               </div>
             </div>
-            <div
-              class="row"
-              *ngIf="
-                (addressesLoading$ | async) ||
-                (addressActionProcessing$ | async)
-              "
-            >
+            <div class="row" *ngIf="(addressesLoading$ | async)">
               <div class="col-md-12 cx-address-deck__spinner">
                 <cx-spinner></cx-spinner>
               </div>

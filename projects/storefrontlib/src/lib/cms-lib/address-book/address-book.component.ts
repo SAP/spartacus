@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+
 import { ActionsSubject } from '@ngrx/store';
+
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -17,19 +18,20 @@ import {
 } from '@spartacus/core';
 import { map } from 'rxjs/operators';
 
+import { Observable, Subscription } from 'rxjs';
+
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
   styleUrls: ['./address-book.component.scss']
 })
 export class AddressBookComponent implements OnInit, OnDestroy {
-  addresses$: Observable<any>;
-  addressesLoading$: Observable<any>;
-  addressActionProcessing$: Observable<any>;
+  addresses$: Observable<Address[]>;
+  addressesLoading$: Observable<boolean>;
   userId: string;
   isAddAddressFormOpen: boolean;
   isEditAddressFormOpen: boolean;
-  activeAddress: Object;
+  activeAddress: Address;
 
   subscription = new Subscription();
 
@@ -51,7 +53,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
       )
     );
     this.addressesLoading$ = this.userService.getAddressesLoading();
-    this.addressActionProcessing$ = this.userService.getAddressActionProcessingStatus();
 
     this.userService.get().subscribe(data => {
       this.userId = data.uid;
@@ -61,15 +62,15 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.subscription = this.handleActionEvents();
   }
 
-  showAddAddressForm() {
+  showAddAddressForm(): void {
     this.isAddAddressFormOpen = true;
   }
 
-  hideAddAddressForm() {
+  hideAddAddressForm(): void {
     this.isAddAddressFormOpen = false;
   }
 
-  showEditAddressForm(address) {
+  showEditAddressForm(address: Address): void {
     // @TODO: Since we don't get titleCode from API we need to mock it for edit.
     this.activeAddress = {
       ...address,
@@ -78,27 +79,27 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.isEditAddressFormOpen = true;
   }
 
-  hideEditAddressForm() {
+  hideEditAddressForm(): void {
     this.isEditAddressFormOpen = false;
   }
 
-  addUserAddress(address: Address) {
+  addUserAddress(address: Address): void {
     if (this.userId) {
       this.userService.addUserAddress(this.userId, address);
     }
   }
 
-  updateUserAddress(addressId: string, address: Address) {
+  updateUserAddress(addressId: string, address: Address): void {
     if (this.userId) {
       this.userService.updateUserAddress(this.userId, addressId, address);
     }
   }
 
-  checkIfAnyFormOpen() {
+  checkIfAnyFormOpen(): boolean {
     return this.isAddAddressFormOpen || this.isEditAddressFormOpen;
   }
 
-  handleActionEvents() {
+  handleActionEvents(): Subscription {
     return this.actions.subscribe(action => {
       switch (action.type) {
         case LOAD_USER_ADDRESSES_SUCCESS: {

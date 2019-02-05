@@ -243,13 +243,6 @@ export class UserService {
   }
 
   /**
-   * Returns an action processing flag
-   */
-  getAddressActionProcessingStatus(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getAddressActionProcessingStatus));
-  }
-
-  /**
    * Returns titles
    */
   getTitles(): Observable<Title[]> {
