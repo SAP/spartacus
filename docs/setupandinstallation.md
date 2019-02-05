@@ -145,7 +145,7 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 ```
 
 ## Configuring the backend base url in META tag
-For easier deployment, you can configure the *base url* in a special META tag of HTML document instead of hardcoding it in `withConfig` method of StorefrontModule. Then you will have only one compiled javascript application that you can deploy on different environments. And you will only amend the META tag in `index.html` on defferent environments. For example:
+For easier deployment, you can configure the *base url* in a special META tag of HTML document instead of hardcoding it in `withConfig` method of StorefrontModule. Then you will have only one compiled javascript application that you can deploy on different environments. And you will only amend the META tag in `index.html` on different environments. For example:
 
 index.html
 ```html
