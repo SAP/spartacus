@@ -1,12 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
+import { Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 
+import { hot, cold } from 'jasmine-marbles';
+
 import * as fromActions from './../actions';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { RegionsEffects } from './regions.effect';
 import { RegionList } from '../../../occ/occ-models';
+import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+
+import { RegionsEffects } from './regions.effect';
 
 class MockMiscsService {
   loadRegions(_countryIsoCode: string): Observable<RegionList> {
@@ -58,6 +63,21 @@ describe('', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadRegions$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetRegions$', () => {
+    it('should return a reset action', () => {
+      const action: Action = {
+        type: '[Site-context] Language Change'
+      };
+
+      const completion = new fromActions.ResetRegions();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effect.resetRegions$).toBeObservable(expected);
     });
   });
 });

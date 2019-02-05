@@ -92,7 +92,7 @@ describe('User Orders effect', () => {
   });
 
   describe('resetUserOrders$', () => {
-    it('should return a reset actiong', () => {
+    it('should return a reset action', () => {
       const action: Action = {
         type: '[Site-context] Language Change'
       };

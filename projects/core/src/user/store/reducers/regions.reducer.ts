@@ -1,5 +1,5 @@
-import * as fromAction from '../actions/index';
 import { RegionsState } from '../user-state';
+import * as fromAction from '../actions/index';
 import { Region } from '../../../occ/occ-models';
 
 export const initialState: RegionsState = {
@@ -8,7 +8,7 @@ export const initialState: RegionsState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.RegionsAction | fromAction.ClearMiscsData
+  action: fromAction.RegionsAction
 ): RegionsState {
   switch (action.type) {
     case fromAction.LOAD_REGIONS_SUCCESS: {
@@ -25,12 +25,6 @@ export function reducer(
     case fromAction.LOAD_REGIONS: {
       return {
         ...state
-      };
-    }
-
-    case fromAction.CLEAR_MISCS_DATA: {
-      return {
-        ...initialState
       };
     }
   }

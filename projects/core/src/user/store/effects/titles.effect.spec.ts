@@ -1,14 +1,17 @@
 import { TestBed } from '@angular/core/testing';
+
 import { provideMockActions } from '@ngrx/effects/testing';
-import { TitlesEffects } from '.';
+import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from './../actions';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import { TitleList } from '../../../occ/occ-models';
+import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+
+import { TitlesEffects } from '.';
 
 class MockMiscsService {
   loadTitles(): Observable<TitleList> {
@@ -60,6 +63,21 @@ describe('Titles effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadTitles$).toBeObservable(expected);
+    });
+  });
+
+  describe('resetTitles$', () => {
+    it('should return a reset action', () => {
+      const action: Action = {
+        type: '[Site-context] Language Change'
+      };
+
+      const completion = new fromActions.ResetTitles();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(effect.resetTitles$).toBeObservable(expected);
     });
   });
 });

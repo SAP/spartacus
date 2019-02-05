@@ -20,7 +20,9 @@ export class UserOrdersEffect {
   ) {}
 
   @Effect()
-  loadUserOrders$: Observable<any> = this.actions$.pipe(
+  loadUserOrders$: Observable<
+    fromUserOrdersAction.UserOrdersAction
+  > = this.actions$.pipe(
     ofType(fromUserOrdersAction.LOAD_USER_ORDERS),
     map((action: fromUserOrdersAction.LoadUserOrders) => action.payload),
     switchMap(payload => {

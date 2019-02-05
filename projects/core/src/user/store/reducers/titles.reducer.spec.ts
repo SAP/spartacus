@@ -1,14 +1,13 @@
-import * as fromReducer from './titles.reducer';
 import * as fromActions from '../actions/';
 import { Title } from '../../../occ/occ-models';
+
+import * as fromReducer from './titles.reducer';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as
-        | fromActions.TitlesAction
-        | fromActions.MiscsDataAction;
+      const action = {} as fromActions.TitlesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -37,15 +36,6 @@ describe('Titles Reducer', () => {
       const action = new fromActions.LoadTitlesSuccess(mockTitles);
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockTitlesList);
-    });
-  });
-
-  describe('CLEAR_MISCS_DATA action', () => {
-    it('should clear the mics data', () => {
-      const { initialState } = fromReducer;
-      const action = new fromActions.ClearMiscsData();
-      const state = fromReducer.reducer(initialState, action);
-      expect(state).toEqual(initialState);
     });
   });
 });
