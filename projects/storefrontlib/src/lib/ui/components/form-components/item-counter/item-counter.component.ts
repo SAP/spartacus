@@ -58,22 +58,11 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onModelChange: Function = (_rating: number) => {};
 
   /**
-   * If value is too small it will be set to min, if is too big it will be set to max.
-   */
-  adjustValueInRange(incomingValue: number): number {
-    return incomingValue < this.min || !this.min
-      ? this.min
-      : incomingValue > this.max || !this.max
-      ? this.max
-      : incomingValue;
-  }
-
-  /**
    * Function set 'isValueOutOfRange' flag and adjust value in range. Then update model value and refresh input
    */
   manualChange(newValue: number) {
     this.isValueOutOfRange = this.isOutOfRange(newValue);
-    newValue = this.adjustValueInRange(newValue);
+
     this.updateValue(newValue);
     /* We use the value from the input, however, this value
       is not the correct value that should be displayed. The correct value to display
@@ -88,13 +77,6 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
    */
   isOutOfRange(value: number): boolean {
     return value < this.min || value > this.max;
-  }
-
-  /**
-   * Verify value for decision about displaying info about range
-   */
-  isMaxOrMinValue(): boolean {
-    return this.value === this.max || this.value === this.min;
   }
 
   onKeyDown(event: KeyboardEvent) {
@@ -156,7 +138,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   }
 
   writeValue(value: number) {
-    this.value = value || this.min || 0;
+    this.value = value;
     this.onModelChange(this.value);
   }
 
@@ -168,6 +150,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
       // If the async flag is true, then the parent component is responsible for updating the form
       this.writeValue(updatedQuantity);
     }
+
     // Additionally, we emit a change event, so that users may optionally do something on change
     this.update.emit(updatedQuantity);
     this.onTouch();
