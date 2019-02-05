@@ -1,12 +1,13 @@
-import * as fromReducer from './address-verification.reducer';
 import * as fromActions from '../actions/index';
-import { AddressValidation } from '@spartacus/core';
+import { AddressValidation } from '../../../occ';
+
+import * as fromReducer from './address-verification.reducer';
 
 describe('Address Verification Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as any;
+      const action = {} as fromActions.AddressVerificationActions;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);

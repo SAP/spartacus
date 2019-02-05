@@ -12,16 +12,20 @@ export type LayoutSections =
   | 'LandingPage2Template'
   | string;
 
-export type SlotGroup = {
+export type SlotConfig = {
   slots?: string[];
-  lg?: string[];
-  md?: string[];
-  sm?: string[];
-  xs?: string[];
+  showTitle?: boolean;
+};
+
+export type SlotGroup = {
+  [BREAKPOINT.lg]?: SlotConfig;
+  [BREAKPOINT.md]?: SlotConfig;
+  [BREAKPOINT.sm]?: SlotConfig;
+  [BREAKPOINT.xs]?: SlotConfig;
 };
 
 export type LayoutSlotConfig = {
-  [section in LayoutSections]: SlotGroup | LayoutSlotConfig
+  [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig
 };
 
 export abstract class LayoutConfig {

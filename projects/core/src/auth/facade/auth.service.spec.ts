@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store } from '@ngrx/store';
+
 import * as fromAuthStore from '../store';
 import { ClientToken, UserToken } from '../models/token-types.model';
-import { AuthService } from './auth.service';
 import { AuthState } from '../store/auth-state';
 import { AuthStoreModule } from '../store/auth-store.module';
-import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
 import { ClientAuthenticationTokenService } from '../services/client-authentication/client-authentication-token.service';
+import { UserAuthenticationTokenService } from '../services/user-authentication/user-authentication-token.service';
+
+import { AuthService } from './auth.service';
 
 class MockUserAuthenticationTokenService {}
 
@@ -85,13 +88,14 @@ describe('AuthService', () => {
   });
 
   it('should call loadClientToken() when no token is present', () => {
-    spyOn(service, 'loadClientToken').and.stub();
+    spyOn(store, 'dispatch').and.stub();
 
-    store.dispatch(new fromAuthStore.LoadClientTokenSuccess({} as ClientToken));
     const subscription = service.getClientToken().subscribe(_token => {});
     subscription.unsubscribe();
 
-    expect(service.loadClientToken).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.LoadClientToken()
+    );
   });
 
   it('should dispatch proper action for authorize', () => {
@@ -153,23 +157,16 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(new fromAuthStore.Logout());
   });
 
-  it('should dispatch proper action for loadClientToken()', () => {
-    spyOn(store, 'dispatch').and.stub();
-
-    service.loadClientToken();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new fromAuthStore.LoadClientToken()
-    );
-  });
-
-  it('refresh the client token', () => {
+  it('should dispatch proper action for refresh the client token', () => {
     store.dispatch(new fromAuthStore.LoadClientTokenSuccess(mockClientToken));
 
-    spyOn(service, 'loadClientToken').and.stub();
+    spyOn(store, 'dispatch').and.stub();
 
     const sub = service.refreshClientToken().subscribe();
     sub.unsubscribe();
 
-    expect(service.loadClientToken).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromAuthStore.LoadClientToken()
+    );
   });
 });

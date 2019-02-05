@@ -1,24 +1,33 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
+
 import * as fromCheckout from '../store/index';
-import { CheckoutService } from './checkout.service';
 import { CartDataService } from '../../cart/index';
-import { PaymentDetails } from '../../occ/occ-models/index';
-import { CheckoutAddress } from '../model/checkout-address.model';
+import {
+  PaymentDetails,
+  DeliveryMode,
+  Address,
+  Cart,
+  CardType,
+  AddressValidation,
+  Order
+} from '../../occ/occ-models/index';
+
+import { CheckoutService } from './checkout.service';
 
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let cartData: CartDataService;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
-  const cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
   const paymentDetails: PaymentDetails = {
     id: 'mockPaymentDetails'
   };
 
-  const address: CheckoutAddress = {
+  const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
     titleCode: 'mr',
@@ -58,10 +67,13 @@ describe('CheckoutService', () => {
       })
     );
 
-    let deliveryModes;
-    service.getSupportedDeliveryModes().subscribe(data => {
-      deliveryModes = data;
-    });
+    let deliveryModes: DeliveryMode[];
+    service
+      .getSupportedDeliveryModes()
+      .subscribe(data => {
+        deliveryModes = data;
+      })
+      .unsubscribe();
     expect(deliveryModes).toEqual([{ code: 'mode1' }, { code: 'mode2' }]);
   });
 
@@ -73,7 +85,7 @@ describe('CheckoutService', () => {
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
-    let selectedMode;
+    let selectedMode: DeliveryMode;
     service.getSelectedDeliveryMode().subscribe(data => {
       selectedMode = data;
     });
@@ -88,7 +100,7 @@ describe('CheckoutService', () => {
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
-    let selectedModeCode;
+    let selectedModeCode: string;
     service.getSelectedDeliveryModeCode().subscribe(data => {
       selectedModeCode = data;
     });
@@ -103,7 +115,7 @@ describe('CheckoutService', () => {
       ])
     );
 
-    let cardTypes;
+    let cardTypes: CardType[];
     service.getCardTypes().subscribe(data => {
       cardTypes = data;
     });
@@ -116,10 +128,13 @@ describe('CheckoutService', () => {
   it('should be able to get the delivery address', () => {
     store.dispatch(new fromCheckout.SetDeliveryAddressSuccess(address));
 
-    let deliveryAddress;
-    service.getDeliveryAddress().subscribe(data => {
-      deliveryAddress = data;
-    });
+    let deliveryAddress: Address;
+    service
+      .getDeliveryAddress()
+      .subscribe(data => {
+        deliveryAddress = data;
+      })
+      .unsubscribe();
     expect(deliveryAddress).toEqual(address);
   });
 
@@ -128,30 +143,39 @@ describe('CheckoutService', () => {
       new fromCheckout.VerifyAddressSuccess({ decision: 'DECLINE' })
     );
 
-    let result;
-    service.getAddressVerificationResults().subscribe(data => {
-      result = data;
-    });
+    let result: AddressValidation | string;
+    service
+      .getAddressVerificationResults()
+      .subscribe(data => {
+        result = data;
+      })
+      .unsubscribe();
     expect(result).toEqual({ decision: 'DECLINE' });
   });
 
   it('should be able to get the payment details', () => {
     store.dispatch(new fromCheckout.SetPaymentDetailsSuccess(paymentDetails));
 
-    let tempPaymentDetails;
-    service.getPaymentDetails().subscribe(data => {
-      tempPaymentDetails = data;
-    });
+    let tempPaymentDetails: PaymentDetails;
+    service
+      .getPaymentDetails()
+      .subscribe(data => {
+        tempPaymentDetails = data;
+      })
+      .unsubscribe();
     expect(tempPaymentDetails).toEqual(paymentDetails);
   });
 
   it('should be able to get the order details', () => {
     store.dispatch(new fromCheckout.PlaceOrderSuccess({ code: 'testOrder' }));
 
-    let orderDetails;
-    service.getOrderDetails().subscribe(data => {
-      orderDetails = data;
-    });
+    let orderDetails: Order;
+    service
+      .getOrderDetails()
+      .subscribe(data => {
+        orderDetails = data;
+      })
+      .unsubscribe();
     expect(orderDetails).toEqual({ code: 'testOrder' });
   });
 
