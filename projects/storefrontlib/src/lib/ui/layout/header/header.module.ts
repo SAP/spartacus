@@ -9,8 +9,8 @@ import { PwaModule } from '../../../pwa/pwa.module';
 import { LoginModule } from '../../../user/login/login.module';
 
 import { HeaderComponent } from './header.component';
+import { interceptors } from './index';
 
-import { interceptors } from './';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 
 @NgModule({

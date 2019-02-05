@@ -6,7 +6,7 @@ import { GlobalMessageModule } from '@spartacus/core';
 
 import { GlobalMessageComponent } from './global-message.component';
 
-import { interceptors } from './http-interceptors/';
+import { interceptors } from './http-interceptors/index';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, GlobalMessageModule],
