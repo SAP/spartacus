@@ -17,11 +17,11 @@ export class NavigationComponent {
 
   node$: Observable<NavigationNode>;
 
-  constructor(private navigationService: NavigationComponentService) {
-    this.node$ = this.navigationService.getNodes();
+  constructor(private service: NavigationComponentService) {
+    this.node$ = this.service.getNodes();
   }
 
   getComponentData(): Observable<CmsNavigationComponent> {
-    return this.navigationService.getComponentData();
+    return this.service.getComponentData();
   }
 }
