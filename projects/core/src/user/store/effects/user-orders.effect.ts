@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
+
+import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
+import { LoaderResetAction } from '../../../state';
 import { OccOrderService } from '../../occ/index';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
 
@@ -33,6 +39,14 @@ export class UserOrdersEffect {
             of(new fromUserOrdersAction.LoadUserOrdersFail(error))
           )
         );
+    })
+  );
+
+  @Effect()
+  resetUserOrders$: Observable<Action> = this.actions$.pipe(
+    ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
+    map(() => {
+      return new LoaderResetAction(USER_ORDERS);
     })
   );
 }
