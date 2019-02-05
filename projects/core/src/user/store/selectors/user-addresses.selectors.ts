@@ -1,12 +1,18 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { UserAddressesState, UserState, StateWithUser } from '../user-state';
+import { UserState, StateWithUser } from '../user-state';
 import { Address } from '../../../occ/occ-models/index';
+import { LoaderState } from '../../../state/utils/loader/loader-state';
+import {
+  loaderValueSelector,
+  loaderLoadingSelector
+} from '../../../state/utils/loader/loader.selectors';
+
 import { getUserState } from './feature.selector';
 
-export const getAddressesState: MemoizedSelector<
+export const getAddressesLoaderState: MemoizedSelector<
   StateWithUser,
-  UserAddressesState
+  LoaderState<Address[]>
 > = createSelector(
   getUserState,
   (state: UserState) => state.addresses
@@ -16,22 +22,14 @@ export const getAddresses: MemoizedSelector<
   StateWithUser,
   Address[]
 > = createSelector(
-  getAddressesState,
-  (state: UserAddressesState) => state.list
+  getAddressesLoaderState,
+  (state: LoaderState<Address[]>) => loaderValueSelector(state)
 );
 
 export const getAddressesLoading: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(
-  getAddressesState,
-  (state: UserAddressesState) => state.isLoading
-);
-
-export const getAddressActionProcessingStatus: MemoizedSelector<
-  StateWithUser,
-  boolean
-> = createSelector(
-  getAddressesState,
-  (state: UserAddressesState) => state.isActionProcessing
+  getAddressesLoaderState,
+  (state: LoaderState<Address[]>) => loaderLoadingSelector(state)
 );
