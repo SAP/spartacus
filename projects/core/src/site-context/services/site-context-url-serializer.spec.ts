@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
-import { SiteContextRoutesHandler } from './site-context-routes-handler';
+import { SiteContextUrlSerializer } from './site-context-url-serializer';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 
-describe('SiteContextRoutesHandlerService', () => {
+describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
     getContextParameters: () => {}
   };
@@ -11,7 +10,7 @@ describe('SiteContextRoutesHandlerService', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
       providers: [
-        SiteContextRoutesHandler,
+        SiteContextUrlSerializer,
         {
           provide: SiteContextParamsService,
           useValue: mockSiteContextParamsService
@@ -21,8 +20,8 @@ describe('SiteContextRoutesHandlerService', () => {
   );
 
   it('should be created', () => {
-    const service: SiteContextRoutesHandler = TestBed.get(
-      SiteContextRoutesHandler
+    const service: SiteContextUrlSerializer = TestBed.get(
+      SiteContextUrlSerializer
     );
     expect(service).toBeTruthy();
   });

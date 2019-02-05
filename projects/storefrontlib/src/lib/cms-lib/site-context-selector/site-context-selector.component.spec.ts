@@ -8,16 +8,15 @@ import {
   LanguageService,
   CurrencyService,
   Component,
-  Language, contextServiceMapProvider
+  Language,
+  contextServiceMapProvider
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import {
-  SiteContextComponentService
-} from './site-context-component.service';
+import { SiteContextComponentService } from './site-context-component.service';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -67,7 +66,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   };
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule( {
+    TestBed.configureTestingModule({
       imports: [BootstrapModule, BrowserAnimationsModule],
       declarations: [SiteContextSelectorComponent, MockTranslateUrlPipe],
       providers: [
