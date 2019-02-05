@@ -1,3 +1,4 @@
+import { LoaderState } from '../../state';
 import {
   Address,
   PaymentDetails,
@@ -10,6 +11,9 @@ import {
 } from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';
+export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
+export const USER_ORDERS = '[User] User Orders';
+export const USER_ADDRESSES = '[User] User Addresses';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -17,11 +21,11 @@ export interface StateWithUser {
 
 export interface UserState {
   account: UserDetailsState;
-  addresses: UserAddressesState;
+  addresses: LoaderState<Address[]>;
   billingCountries: BillingCountriesState;
   countries: DeliveryCountriesState;
-  payments: UserPaymentMethodsState;
-  orders: UserOrdersState;
+  payments: LoaderState<PaymentDetails[]>;
+  orders: LoaderState<OrderHistoryList>;
   order: OrderDetailsState;
   titles: TitlesState;
   regions: RegionsState;
@@ -29,11 +33,6 @@ export interface UserState {
 
 export interface OrderDetailsState {
   order: Order;
-}
-
-export interface UserPaymentMethodsState {
-  list: PaymentDetails[];
-  isLoading: boolean;
 }
 
 export interface RegionsState {
@@ -64,18 +63,6 @@ export interface TitlesState {
   entities: TitleEntities;
 }
 
-export interface UserAddressesState {
-  list: Address[];
-  isLoading: boolean;
-  isActionProcessing: boolean;
-}
-
 export interface UserDetailsState {
   details: User;
-}
-
-export interface UserOrdersState {
-  orders: OrderHistoryList;
-  loading: boolean;
-  loaded: boolean;
 }

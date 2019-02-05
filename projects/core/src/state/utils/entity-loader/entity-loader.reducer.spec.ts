@@ -3,8 +3,10 @@ import { initialEntityState } from '../entity/entity.reducer';
 import {
   EntityFailAction,
   EntityLoadAction,
+  EntityResetAction,
   EntitySuccessAction
 } from './entity-loader.action';
+import { initialLoaderState } from '@spartacus/core';
 
 describe('EntityLoader reducer', () => {
   const TEST_ENTITY_TYPE = 'test';
@@ -75,6 +77,38 @@ describe('EntityLoader reducer', () => {
               error: false,
               success: true,
               value: data
+            }
+          }
+        };
+        expect(state).toEqual(expectedState);
+      });
+    });
+
+    describe('RESET ACTION', () => {
+      it('should reset load state', () => {
+        const action = new EntityResetAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
+        const initialState = {
+          entities: {
+            [TEST_ENTITY_ID]: {
+              loading: false,
+              error: false,
+              success: true,
+              value: 'data'
+            }
+          }
+        };
+
+        const state = entityLoaderReducer(TEST_ENTITY_TYPE)(
+          initialState,
+          action
+        );
+        const expectedState = {
+          entities: {
+            [TEST_ENTITY_ID]: {
+              loading: false,
+              error: false,
+              success: false,
+              value: undefined
             }
           }
         };
@@ -185,6 +219,55 @@ describe('EntityLoader reducer', () => {
               error: false,
               success: true,
               value: data[1]
+            }
+          }
+        };
+        expect(state).toEqual(expectedState);
+      });
+    });
+
+    describe('RESET ACTION', () => {
+      it('should reset load state', () => {
+        const action = new EntityResetAction(
+          TEST_ENTITY_TYPE,
+          TEST_ENTITIES_ID
+        );
+        const initialState = {
+          entities: {
+            [TEST_ENTITIES_ID[0]]: {
+              loading: false,
+              error: false,
+              success: true,
+              value: 'data1'
+            },
+            [TEST_ENTITIES_ID[1]]: {
+              loading: false,
+              error: false,
+              success: true,
+              value: 'data2'
+            },
+            'another entity': {
+              loading: false,
+              error: false,
+              success: true,
+              value: 'data3'
+            }
+          }
+        };
+
+        const state = entityLoaderReducer(TEST_ENTITY_TYPE)(
+          initialState,
+          action
+        );
+        const expectedState = {
+          entities: {
+            [TEST_ENTITIES_ID[0]]: initialLoaderState,
+            [TEST_ENTITIES_ID[1]]: initialLoaderState,
+            'another entity': {
+              loading: false,
+              error: false,
+              success: true,
+              value: 'data3'
             }
           }
         };
