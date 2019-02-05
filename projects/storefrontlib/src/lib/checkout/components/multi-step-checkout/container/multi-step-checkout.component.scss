@@ -22,6 +22,9 @@
       &.progressbar {
         border-bottom: 5px solid;
         border-color: var(--cx-border-color, var(--cx-g-color-primary));
+        ::before {
+          color: var(--cx-color, var(--cx-g-color-text));
+        }
       }
 
       ::before {
@@ -32,10 +35,6 @@
       &:first-child ::before {
         padding: var(--cx-padding, 0);
         content: var(--cx-content, '');
-      }
-
-      &.is-disabled {
-        color: var(--cx-color, var(--cx-g-color-light));
       }
     }
   }
@@ -51,42 +50,45 @@
 
     &.is-active {
       color: var(--cx-color, var(--cx-g-color-primary));
+      ::before {
+        color: var(--cx-color, var(--cx-g-color-text));
+      }
     }
   }
 
   .cx-media {
     @include media-breakpoint-down(md) {
-      :last-child {
+      & > :last-child {
         border-bottom: 1px solid;
         border-color: var(--cx-border-color, var(--cx-g-color-light));
       }
     }
-  }
 
-  .cx-list-media {
-    display: var(--cx-display, none);
-    @include type('3');
-    text-transform: var(--cx-text-transform, uppercase);
-    justify-content: var(--cx-justify-content, space-between);
-    align-items: var(--cx-align-items, center);
-    line-height: var(--cx-line-height, 4.75rem);
-    min-width: var(--cx-min-widt, 100%);
-    border-top: 1px solid;
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
-    margin-bottom: 0;
-
-    button {
+    .cx-list-media {
+      display: var(--cx-display, none);
+      @include type('3');
       text-transform: var(--cx-text-transform, uppercase);
-      font-weight: $font-weight-bold;
-    }
+      justify-content: var(--cx-justify-content, space-between);
+      align-items: var(--cx-align-items, center);
+      line-height: var(--cx-line-height, 4.75rem);
+      min-width: var(--cx-min-widt, 100%);
+      border-top: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
+      margin-bottom: 0;
 
-    @include media-breakpoint-down(md) {
-      display: var(--cx-display, flex);
-      padding: var(--cx-padding, 0 3.5rem);
-    }
+      button {
+        text-transform: var(--cx-text-transform, uppercase);
+        font-weight: $font-weight-bold;
+      }
 
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.375rem);
+      @include media-breakpoint-down(md) {
+        display: var(--cx-display, flex);
+        padding: var(--cx-padding, 0 3.5rem);
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: var(--cx-padding, 0 1.375rem);
+      }
     }
   }
 
