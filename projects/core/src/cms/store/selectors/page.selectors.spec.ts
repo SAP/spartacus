@@ -8,7 +8,7 @@ import * as fromSelectors from '../selectors/page.selectors';
 import { Page } from '../../model/page.model';
 import { CmsComponent } from '../../../occ/occ-models/index';
 import { StateWithCms } from '../cms-state';
-import { ContentSlotData } from '../../model/content-slot.model';
+import { ContentSlotData } from '../../model/content-slot-data.model';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
