@@ -1,14 +1,13 @@
-import * as fromReducer from './billing-countries.reducer';
 import * as fromActions from '../actions/index';
 import { Country } from '../../../occ/occ-models/index';
+
+import * as fromReducer from './billing-countries.reducer';
 
 describe('Billing Countries Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as
-        | fromActions.BillingCountriesAction
-        | fromActions.MiscsDataAction;
+      const action = {} as fromActions.BillingCountriesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
@@ -37,15 +36,6 @@ describe('Billing Countries Reducer', () => {
       const action = new fromActions.LoadBillingCountriesSuccess(mockCountries);
       const state = fromReducer.reducer(initialState, action);
       expect(state.entities).toEqual(mockCountriesList);
-    });
-  });
-
-  describe('CLEAR_MISCS_DATA action', () => {
-    it('should clear the mics data', () => {
-      const { initialState } = fromReducer;
-      const action = new fromActions.ClearMiscsData();
-      const state = fromReducer.reducer(initialState, action);
-      expect(state).toEqual(initialState);
     });
   });
 });
