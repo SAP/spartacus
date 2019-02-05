@@ -8,7 +8,7 @@ import {
   LanguageService,
   CurrencyService,
   Component,
-  Language
+  Language, contextServiceMapProvider
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
@@ -16,8 +16,7 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import {
-  SiteContextComponentService,
-  ContextSelectorServiceMap
+  SiteContextComponentService
 } from './site-context-component.service';
 
 @Pipe({
@@ -56,7 +55,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
-    context: 'LANGUAGE'
+    context: 'language'
   };
 
   const MockCmsService = {
@@ -68,7 +67,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   };
 
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
+    TestBed.configureTestingModule( {
       imports: [BootstrapModule, BrowserAnimationsModule],
       declarations: [SiteContextSelectorComponent, MockTranslateUrlPipe],
       providers: [
@@ -85,13 +84,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
         },
-        {
-          provide: ContextSelectorServiceMap,
-          useValue: {
-            LANGUAGE: LanguageService,
-            CURRENCY: CurrencyService
-          }
-        }
+        contextServiceMapProvider
       ]
     })
       .overrideComponent(SiteContextSelectorComponent, {

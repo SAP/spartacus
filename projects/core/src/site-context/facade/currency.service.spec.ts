@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -9,7 +9,8 @@ import { Currency } from '../../occ/occ-models/occ.models';
 import { defaultOccConfig } from '../../occ/config/default-occ-config';
 import { OccConfig } from '../../occ/config/occ-config';
 import { CurrencyService } from './currency.service';
-import { SiteContextModule } from '../site-context.module';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
+import { EffectsModule } from '@ngrx/effects';
 
 const mockCurrencies: Currency[] = [
   { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
@@ -31,8 +32,15 @@ describe('CurrencyService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SiteContextModule],
-      providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
+      imports: [
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        SiteContextStoreModule
+      ],
+      providers: [
+        { provide: OccConfig, useValue: defaultOccConfig },
+        CurrencyService
+      ]
     });
 
     store = TestBed.get(Store);
