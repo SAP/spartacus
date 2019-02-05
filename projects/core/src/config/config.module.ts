@@ -17,6 +17,8 @@ import {
   provideConfigValidator,
   validateConfig
 } from './utils/config-validator';
+import { serverConfigFactory } from './server-config/server-config-factory';
+import { Meta } from '@angular/platform-browser';
 
 export const Config = new InjectionToken('Configuration');
 export const ConfigChunk = new InjectionToken('ConfigurationChunk');
@@ -76,6 +78,7 @@ export class ConfigModule {
       providers: [
         { provide: ServerConfig, useExisting: Config },
         provideConfig(defaultServerConfig),
+        provideConfigFactory(serverConfigFactory, [Meta]),
         provideConfig(config),
         {
           provide: Config,
