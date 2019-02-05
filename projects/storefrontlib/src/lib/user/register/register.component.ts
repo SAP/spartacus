@@ -9,14 +9,16 @@ import {
 import {
   AuthService,
   RoutingService,
+  Title,
   UserService,
   GlobalMessageService,
   GlobalMessageType,
-  UserRegisterFormData
+  UserRegisterFormData,
+  GlobalMessageEntities
 } from '@spartacus/core';
 
-import { Subscription, of } from 'rxjs';
-import { take, switchMap } from 'rxjs/operators';
+import { Subscription, of, Observable } from 'rxjs';
+import { take, switchMap, tap, filter } from 'rxjs/operators';
 
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
@@ -26,9 +28,11 @@ import { CustomFormValidators } from '../../ui/validators/custom-form-validators
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  titles$: Observable<Title[]>;
   subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
+      titleCode: [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
@@ -52,38 +56,75 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.auth
-      .getUserToken()
-      .pipe(
-        switchMap(data => {
-          if (data && data.access_token) {
-            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-            return this.routing.getRedirectUrl().pipe(take(1));
+    this.titles$ = this.userService.getTitles().pipe(
+      tap(titles => {
+        if (Object.keys(titles).length === 0) {
+          this.userService.loadTitles();
+        }
+      })
+    );
+    this.subscription.add(
+      this.auth
+        .getUserToken()
+        .pipe(
+          switchMap(data => {
+            if (data && data.access_token) {
+              this.globalMessageService.remove(
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+              return this.routing.getRedirectUrl().pipe(take(1));
+            }
+            return of();
+          })
+        )
+        .subscribe(url => {
+          if (url) {
+            // If forced to login due to AuthGuard, then redirect to intended destination
+            this.routing.go([url]);
+            this.routing.clearRedirectUrl();
+          } else {
+            // User manual login
+            this.routing.back();
           }
-          return of();
         })
-      )
-      .subscribe(url => {
-        if (url) {
-          // If forced to login due to AuthGuard, then redirect to intended destination
-          this.routing.go([url]);
-          this.routing.clearRedirectUrl();
-        } else {
-          // User manual login
-          this.routing.back();
+    );
+  }
+
+  submit(): void {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      titleCode
+    } = this.userRegistrationForm.value;
+    const userRegisterFormData: UserRegisterFormData = {
+      firstName,
+      lastName,
+      uid: email,
+      password,
+      titleCode
+    };
+    this.userService.register(userRegisterFormData);
+    // Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+    this.globalMessageService
+      .get()
+      .pipe(filter(data => Object.keys(data).length > 0))
+      .subscribe((message: GlobalMessageEntities) => {
+        console.log(message, message[GlobalMessageType.MSG_TYPE_ERROR][0]);
+        if (
+          message[GlobalMessageType.MSG_TYPE_ERROR][0] ===
+          'This field is required.'
+        ) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'Title is required.'
+          });
         }
       });
   }
 
-  submit(): void {
-    const userRegisterFormData: UserRegisterFormData = {
-      firstName: this.userRegistrationForm.value.firstName,
-      lastName: this.userRegistrationForm.value.lastName,
-      uid: this.userRegistrationForm.value.email,
-      password: this.userRegistrationForm.value.password
-    };
-    this.userService.register(userRegisterFormData);
-  }
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();

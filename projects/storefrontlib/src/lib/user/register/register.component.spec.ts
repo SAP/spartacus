@@ -210,7 +210,8 @@ describe('RegisterComponent', () => {
         firstName: '',
         lastName: '',
         uid: '',
-        password: ''
+        password: '',
+        titleCode: ''
       });
     });
   });

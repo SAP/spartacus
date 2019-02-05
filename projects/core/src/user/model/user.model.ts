@@ -3,4 +3,5 @@ export interface UserRegisterFormData {
   firstName: string;
   uid: string;
   password: string;
+  titleCode: string;
 }
