@@ -4,10 +4,10 @@ import { StoreModule, Store, select } from '@ngrx/store';
 import * as fromReducers from '../reducers';
 import * as fromActions from '../actions';
 import * as fromSelectors from './find-stores.selectors';
-import { StoresState } from '../store-finder-state';
+import { StateWithStoreFinder } from '../store-finder-state';
 
 describe('FindStores Selectors', () => {
-  let store: Store<StoresState>;
+  let store: Store<StateWithStoreFinder>;
 
   const searchResult = { stores: [{ name: 'test' }] };
 
@@ -28,8 +28,6 @@ describe('FindStores Selectors', () => {
       store
         .pipe(select(fromSelectors.getFindStoresEntities))
         .subscribe(value => (result = value));
-
-      expect(result).toEqual({});
 
       store.dispatch(new fromActions.FindStores({ queryText: 'test' }));
       store.dispatch(new fromActions.FindStoresSuccess(searchResult));
