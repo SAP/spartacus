@@ -1,5 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+
 import { CmsState, ComponentState, StateWithCms } from '../cms-state';
+
 import { getCmsState } from './feature.selectors';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { loaderValueSelector } from '../../../state/utils/loader/loader.selectors';

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as fromStore from '../store';
-import { filter, tap, map, take } from 'rxjs/operators';
+import { filter, tap, map, take, withLatestFrom } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
-import { ContentSlotData } from '../model/content-slot.model';
+import { ContentSlotData } from '../model/content-slot-data.model';
 import { DefaultPageService } from '../services/default-page.service';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
@@ -48,16 +48,17 @@ export class CmsService {
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
     return this.store.pipe(
       select(fromStore.componentStateSelectorFactory(uid)),
-      tap(componentState => {
+      withLatestFrom(this.getCurrentPage()),
+      tap(([componentState, currentPage]) => {
         const attemptedLoad =
           componentState.loading ||
           componentState.success ||
           componentState.error;
-        if (!attemptedLoad) {
+        if (!attemptedLoad && currentPage) {
           this.store.dispatch(new fromStore.LoadComponent(uid));
         }
       }),
-      map(productState => productState.value),
+      map(([productState]) => productState.value),
       filter(Boolean)
     );
   }
