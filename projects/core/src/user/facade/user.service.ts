@@ -40,8 +40,8 @@ export class UserService {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  register(submitFormData: UserRegisterFormData) {
-    this.store.dispatch(new fromStore.RegisterUser(submitFormData));
+  register(userRegisterFormData: UserRegisterFormData) {
+    this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
   /**

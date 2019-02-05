@@ -76,13 +76,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    const submitFormData: UserRegisterFormData = {
+    const userRegisterFormData: UserRegisterFormData = {
       firstName: this.userRegistrationForm.value.firstName,
       lastName: this.userRegistrationForm.value.lastName,
       uid: this.userRegistrationForm.value.email,
       password: this.userRegistrationForm.value.password
     };
-    this.userService.register(submitFormData);
+    this.userService.register(userRegisterFormData);
   }
   ngOnDestroy() {
     if (this.subscription) {

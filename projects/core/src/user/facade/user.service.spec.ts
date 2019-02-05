@@ -67,15 +67,15 @@ describe('UserService', () => {
   });
 
   it('should be able to register user', () => {
-    const submitFormData: UserRegisterFormData = {
+    const userRegisterFormData: UserRegisterFormData = {
       firstName: 'firstName',
       lastName: 'lastName',
       uid: 'uid',
       password: 'password'
     };
-    service.register(submitFormData);
+    service.register(userRegisterFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RegisterUser(submitFormData)
+      new fromStore.RegisterUser(userRegisterFormData)
     );
   });
 

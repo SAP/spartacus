@@ -45,6 +45,7 @@ const mockTitles: Title[] = [
     name: 'Mrs.'
   }
 ];
+const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
@@ -182,7 +183,7 @@ describe('AddressFormComponent', () => {
       .unsubscribe();
 
     expect(countries).toBe(mockCountries);
-    expect(titles).toEqual([{ code: '', name: 'None' }, ...mockTitles]);
+    expect(titles).toEqual(expectedTitles);
     expect(regions).toBe(mockRegions);
   });
 
