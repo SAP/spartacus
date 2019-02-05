@@ -34,95 +34,111 @@ $cx-payment-method-btns-margin-bottom: 1rem !default;
 $cx-payment-methods-loading-padding: 30px !default;
 .cx-payment-method {
   &.container {
-    padding: 0;
+    padding: var(--cx-padding, 0);
   }
-  &__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin: $cx-payment-method-header-margin;
-    padding: $cx-payment-method-header-padding;
-    &-title {
-      text-transform: uppercase;
-      margin-bottom: $cx-payment-method-header-title-margin-bottom;
-    }
-    &-image {
-      margin-left: $cx-payment-method-header-image-margin-left;
-    }
-  }
+
+  // &__header {
+  //   display: var(--cx-display, flex);
+  //   align-items: var(--cx-align-items, flex-start);
+  //   justify-content: var(--cx-justify-content, space-between);
+  //   margin: var(--cx-margin, 0 auto);
+  //   padding: var(--cx-padding, 2.375rem 0 1.25rem 0);
+
+  //   &-title {
+  //     text-transform: var(--cx-text-transform, uppercase);
+  //     margin-bottom: var(--cx-margin, 0);
+  //   }
+
+  //   &-image {
+  //     margin-left: var(--cx-margin, 1rem);
+  //   }
+  // }
+
   &__tooltip-icon {
-    margin-left: $cx-payment-method-tooltip-icon-margin-left;
-    height: $cx-payment-method-tooltip-icon-size;
-    width: $cx-payment-method-tooltip-icon-size;
+    margin-left: var(--cx-margin, 0.625rem);
+    height: var(--cx-height, 1.125rem);
+    width: var(--cx-width, 1.125rem);
   }
   &__billing {
-    margin-bottom: $cx-payment-method-billing-margin-bottom;
+    margin-bottom: var(--cx-margin, 1.25rem);
     &-address {
       @include type('4');
-      padding: $cx-payment-method-billing-address-padding;
+      padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
     }
   }
   &__img {
     margin: $cx-payment-method-img-margin;
     &-container {
-      display: flex;
+      display: var(--cx-display, flex);
     }
   }
-  &__title {
-    text-transform: uppercase;
-    margin: $cx-payment-method-title-margin;
-    padding: $cx-payment-method-title-padding;
-  }
-  &__spinner {
-    padding-top: $cx-payment-methods-loading-padding;
-    padding-bottom: $cx-payment-methods-loading-padding;
-  }
-  &__body {
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: $cx-payment-method-body-padding-bottom;
-  }
+
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
-  &__body {
+  .cx-payment-method-body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $cx-payment-method-no-padding;
+        padding: var(--cx-padding, 0);
       }
     }
   }
-  &__text {
-    @include media-breakpoint-down(md) {
-      padding-left: $cx-payment-method-text-md-padding-left;
-    }
-    @include media-breakpoint-down(sm) {
-      padding-left: $cx-payment-method-text-sm-padding-left;
-    }
-  }
+
   &__header {
     @include media-breakpoint-down(md) {
-      padding: $cx-payment-method-no-padding;
+      padding: var(--cx-padding, 0);
     }
     &-image {
       @include media-breakpoint-down(md) {
-        margin-right: $cx-payment-method-header-image-md-margin-right;
-        margin-left: $cx-payment-method-header-image-md-margin-left;
+        margin-right: var(--cx-margin, 1rem);
+        margin-left: var(--cx-margin, 0);
       }
     }
   }
-  &__card {
-    @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $cx-payment-method-card-background-color
-      );
+}
+
+.cx-payment-method-title {
+  text-transform: var(--cx-text-transform, uppercase);
+  margin: var(--cx-margin, 0 auto);
+  padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
+}
+
+.cx-payment-method-text {
+  @include media-breakpoint-down(md) {
+    padding-left: var(--cx-padding, 3.5rem);
+  }
+  @include media-breakpoint-down(sm) {
+    padding-left: var(--cx-padding, 1.5rem);
+  }
+}
+
+.cx-payment-method-btn {
+  padding-bottom: var(--cx-padding, 1rem);
+
+  @include media-breakpoint-down(md) {
+    padding: var(--cx-padding, 0 3.5rem 1.25rem 0);
+  }
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 1.25rem);
+  }
+
+  .btn-action {
+    @include media-breakpoint-down(sm) {
+      margin-bottom: var(--cx-margin, 1rem);
     }
   }
-  &__btns {
-    .btn-action {
-      @include media-breakpoint-down(sm) {
-        margin-bottom: $cx-payment-method-btns-margin-bottom;
-      }
-    }
+}
+
+.cx-payment-method-card {
+  @include media-breakpoint-down(md) {
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
   }
+}
+
+.cx-payment-method-spinner {
+  padding-top: var(--cx-padding, 30px 0);
+}
+.cx-payment-method-body {
+  display: var(--cx-display, flex);
+  align-items: var(--cx-align-items, flex-end);
+  padding-bottom: var(--cx-padding, 1.875rem);
 }
