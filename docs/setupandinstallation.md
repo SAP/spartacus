@@ -134,7 +134,7 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
   ],
 ```
 
-You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use this config:
+You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use the following config:
 
 ```typescript
 imports: [BrowserModule, StorefrontModule.withConfig({
@@ -144,15 +144,17 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 })]
 ```
 
-## Configuring the backend base url in META tag
-For easier deployment, you can configure the *base url* in a special META tag of HTML document instead of hardcoding it in `withConfig` method of StorefrontModule. Then you will have only one compiled javascript application that you can deploy on different environments. And you will only amend the META tag in `index.html` on different environments. For example:
+## Configuring the Base URL
 
-index.html
+You can configure the base URL with a special html `meta` tag, instead of hard coding it in the `withConfig` method of the StorefrontModule. This allows you to deploy to different environments with only one compiled JavaScript application, because you only need to modify the `meta` tag of the `index.html` file for each environment.
+
+The following example shows how the `meta` tag can be configured in the `index.html` file:
+
 ```html
 <meta name="occ-backend-base-url" content="https://my-custom-backend-url:8080" />
 ```
+The corresponding `app.module.ts` file appears as follows:
 
-app.module.ts
 ```typescript
   imports: [
     BrowserModule, StorefrontModule.withConfig({
@@ -168,7 +170,7 @@ app.module.ts
   ],
 ```
 
-**Please note** that `server.baseUrl` from `withConfig` method takes precedence over the value from META tag.
+**Note**: The `server.baseUrl` from the `withConfig` method takes precedence over the value from the `meta` tag.
 
 
 # Adding the Storefront Component
