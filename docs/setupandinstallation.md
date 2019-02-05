@@ -30,7 +30,7 @@ In the following procedure, we create a new Angular application with the name `m
 
 1. Generate a new Angular application using the Angular CLI, as follows:
 
-   ```
+   ```bash
    $ ng new mystore --style=scss
    ```
 
@@ -38,7 +38,7 @@ In the following procedure, we create a new Angular application with the name `m
 2. When prompted if you would like add Angular routing, enter `y` for yes.
 
 3. Access the newly created directory:
-   ```
+   ```bash
    $ cd mystore
    ```
 
@@ -48,7 +48,7 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 1. Add the following dependencies to the `dependencies` section of `mystore/package.json`:
 
-   ```
+   ```json
    "@angular/pwa": "^0.12.0",
    "@angular/service-worker": "~7.2.0",
    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
@@ -62,7 +62,7 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 2. Install the dependencies. The following is an example using yarn:
 
-   ```
+   ```bash
    yarn install
    ```
 
@@ -70,7 +70,7 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 Add the Spartacus libraries to your storefront application. You can do so with yarn, as follows:
 
-```
+```bash
 $ yarn add @spartacus/core
 $ yarn add @spartacus/storefront
 $ yarn add @spartacus/styles
@@ -80,19 +80,19 @@ $ yarn add @spartacus/styles
 
 1. Open `mystore/src/app/app.module.ts` and add the following line:
 
-   ```
+   ```typescript
    import { StorefrontModule } from '@spartacus/storefront';
    ```
 
 2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
 
-   ```
+   ```typescript
    imports: [BrowserModule, StorefrontModule],
    ```
 
 Your file should look like this:
 
-```
+```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -119,7 +119,7 @@ The Spartacus storefront has default values for all of its configurations. Howev
 
 To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example that uses the default values for the configs:
 
-```
+```typescript
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
@@ -136,7 +136,7 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
 
 You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use this config:
 
-```
+```typescript
 imports: [BrowserModule, StorefrontModule.withConfig({
   server: {
     baseUrl: 'https://my-custom-backend-url:8080',
@@ -144,19 +144,46 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 })]
 ```
 
+## Configuring the backend base url in META tag
+For easier deployment, you can configure the *base url* in a special META tag of HTML document instead of hardcoding it in `withConfig` method of StorefrontModule. Then you will have only one compiled javascript application that you can deploy on different environments. And you will only amend the META tag in `index.html` on defferent environments. For example:
+
+index.html
+```html
+<meta name="occ-backend-base-url" content="https://my-custom-backend-url:8080" />
+```
+
+app.module.ts
+```typescript
+  imports: [
+    BrowserModule, StorefrontModule.withConfig({
+      server: {
+        // omit baseUrl here!
+        occPrefix: '/rest/v2/'
+      },
+      authentication: {
+        client_id: 'mobile_android',
+        client_secret: 'secret'
+      }
+    })
+  ],
+```
+
+**Please note** that `server.baseUrl` from `withConfig` method takes precedence over the value from META tag.
+
+
 # Adding the Storefront Component
 
 This procedure adds the storefront component in the UI.
 
 1. Open `mystore/src/app/app.component.html` and replace the entire contents of the file with the following line:
 
-   ```
+   ```html
    <cx-storefront>Loading...</cx-storefront>
    ```
 
 2. Import the styles from the `@spartacus/styles` library by opening `mystore/src/styles.scss` and adding the following line:
 
-   ```
+   ```scss
    @import "~@spartacus/styles/index";
    ```
 
@@ -180,7 +207,7 @@ This section describes how to validate your back end installation, and then star
 
 1. Start the application with the storefront enabled, as follows:
 
-   ```
+   ```bash
    $ ng serve
    ```
 
