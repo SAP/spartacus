@@ -1,4 +1,5 @@
 import * as fromAction from '../actions/delivery-countries.action';
+import { resetMeta } from '../../../state';
 import { Country } from '../../../occ/occ-models/index';
 
 describe('Delivery Countries Actions', () => {
@@ -39,6 +40,16 @@ describe('Delivery Countries Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS,
         payload: countries
+      });
+    });
+  });
+
+  describe('ResetDeliveryCountries', () => {
+    it('should create the action', () => {
+      const action = new fromAction.ResetDeliveryCountries();
+      expect({ ...action }).toEqual({
+        type: fromAction.RESET_DELIVERY_COUNTRIES,
+        meta: resetMeta(fromAction.RESET_DELIVERY_COUNTRIES)
       });
     });
   });
