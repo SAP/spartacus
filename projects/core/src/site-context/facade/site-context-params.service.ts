@@ -1,39 +1,18 @@
-import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Injectable, Injector } from '@angular/core';
 import {
   ContextParamPersistence,
   SiteContextConfig
 } from '../config/site-context-config';
 import { SiteContext } from '../facade/site-context.interface';
-import { ContextServiceMap } from '../context-service-map';
+import { ContextServiceMap } from '../providers/context-service-map';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class SiteContextParamsService implements OnDestroy {
-  private currentValues: { [context: string]: string } = {};
-  private subscription = new Subscription();
-
+@Injectable()
+export class SiteContextParamsService {
   constructor(
     private config: SiteContextConfig,
     private injector: Injector,
     private serviceMap: ContextServiceMap
-  ) {
-    this.subscribeValues();
-  }
-
-  private subscribeValues() {
-    Object.keys(this.serviceMap).forEach(param => {
-      this.subscription.add(
-        this.injector
-          .get<SiteContext<any>>(this.serviceMap[param])
-          .getActive()
-          .subscribe(value => {
-            this.currentValues[param] = value;
-          })
-      );
-    });
-  }
+  ) {}
 
   getContextParameters(persistence?: ContextParamPersistence): string[] {
     const contextConfig = this.config.siteContext;
@@ -62,54 +41,28 @@ export class SiteContextParamsService implements OnDestroy {
       : undefined;
   }
 
-  getValue(key: string) {
-    if (this.currentValues[key]) {
-      return this.currentValues[key];
-    } else {
-      return this.getParamDefaultValue(key);
-    }
+  getSiteContextService(param: string): SiteContext<any> {
+    return this.injector.get<SiteContext<any>>(this.serviceMap[param]);
   }
 
-  // private setValue(key: string, value: string) {
-  //   if (this.serviceMap[key]) {
-  //     this.injector.get<SiteContext<any>>(this.serviceMap[key]).setActive(value);
-  //   }
-  // }
-  //
-  // getContextValues(): string[] {
-  //   const contextConfig = this.config.siteContext;
-  //
-  //   if (contextConfig) {
-  //     return Object.keys(contextConfig)
-  //       .filter(key => contextConfig[key].persistence === 'route')
-  //       .map(key => this.getValue(key));
-  //   }
-  //
-  //   return [];
-  // }
-  //
-  // setContextParamsFromRoute(url: string) {
-  //   const segments = url.split('/');
-  //   if (segments[0] === '') {
-  //     segments.shift();
-  //   }
-  //   const routerContextParams = this.getContextParameters('route');
-  //   for (
-  //     let i = 0;
-  //     i < routerContextParams.length && i < segments.length;
-  //     i++
-  //   ) {
-  //     const paramName = routerContextParams[i];
-  //     const paramValues = this.getParamValues(paramName);
-  //     if (paramValues.indexOf(segments[i]) > -1) {
-  //       this.setValue(paramName, segments[i]);
-  //     } else {
-  //       break;
-  //     }
-  //   }
-  // }
+  getValue(param: string) {
+    let value: string;
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    const service = this.getSiteContextService(param);
+    if (service) {
+      service
+        .getActive()
+        .subscribe(val => (value = val))
+        .unsubscribe();
+    }
+
+    return value !== undefined ? value : this.getParamDefaultValue(param);
+  }
+
+  setValue(param: string, value: string) {
+    const service = this.getSiteContextService(param);
+    if (service) {
+      service.setActive(value);
+    }
   }
 }
