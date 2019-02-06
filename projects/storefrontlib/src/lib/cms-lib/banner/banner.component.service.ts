@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import {
-  CmsConfig,
   CmsBannerComponent,
   CmsBannerComponentMedia,
+  CmsConfig,
   CmsResponsiveBannerComponentMedia
 } from '@spartacus/core';
 import { CmsComponentData } from './../../cms/components/cms-component-data';
@@ -17,6 +17,8 @@ export class BannerComponentService {
     protected config: CmsConfig
   ) {}
 
+  private convertToAbsoluteUrl = map(url => this.getBaseUrl() + url);
+
   // TODO: move to a more generic location
   // TODO: Make configurable
   private formats: any[] = [
@@ -25,16 +27,21 @@ export class BannerComponentService {
     { code: 'desktop', width: 800 },
     { code: 'widescreen', width: 1200 }
   ];
+
   static hasMedia(data): boolean {
     return !!data.media;
   }
 
+  getComponentData(): Observable<CmsBannerComponent> {
+    return this.component.data$;
+  }
+
   hasImage(): Observable<boolean> {
-    return this.component.data$.pipe(map(BannerComponentService.hasMedia));
+    return this.getComponentData().pipe(map(BannerComponentService.hasMedia));
   }
 
   getImageUrl(): Observable<string> {
-    return this.component.data$.pipe(
+    return this.getComponentData().pipe(
       map(data =>
         BannerComponentService.hasMedia(data)
           ? (<CmsBannerComponentMedia>data.media).url
@@ -44,7 +51,7 @@ export class BannerComponentService {
   }
 
   getResponsiveImageUrl(): Observable<string> {
-    return this.component.data$.pipe(
+    return this.getComponentData().pipe(
       map(data =>
         BannerComponentService.hasMedia(data)
           ? (<CmsResponsiveBannerComponentMedia>data.media).desktop.url
@@ -54,7 +61,7 @@ export class BannerComponentService {
   }
 
   getTarget(): Observable<string> {
-    return this.component.data$.pipe(
+    return this.getComponentData().pipe(
       map(data => {
         return !data.external || data.external === 'false' ? '_self' : '_blank';
       })
@@ -62,7 +69,7 @@ export class BannerComponentService {
   }
 
   getAltText(): Observable<string> {
-    return this.component.data$.pipe(
+    return this.getComponentData().pipe(
       map(data =>
         BannerComponentService.hasMedia(data)
           ? (<CmsBannerComponentMedia>data.media).altText
@@ -76,11 +83,15 @@ export class BannerComponentService {
   }
 
   getImageAbsoluteUrl(): Observable<string> {
-    return this.getImageUrl().pipe(map(url => this.getBaseUrl() + url));
+    return this.getImageUrl().pipe(this.convertToAbsoluteUrl);
+  }
+
+  getResponsiveImageAbsoluteUrl(): Observable<string> {
+    return this.getResponsiveImageUrl().pipe(this.convertToAbsoluteUrl);
   }
 
   getResponsiveSrcSet(): Observable<string> {
-    return this.component.data$.pipe(
+    return this.getComponentData().pipe(
       map(data => {
         return this.formats.reduce((srcset, format) => {
           if (typeof data.media[format.code] !== 'undefined') {

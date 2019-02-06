@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { BannerComponent } from './banner.component';
 
@@ -12,13 +11,5 @@ import { BannerComponent } from './banner.component';
 export class ResponsiveBannerComponent extends BannerComponent {
   getClass(): string {
     return 'responsive-banner ' + this.service.getComponentUID();
-  }
-
-  getImageUrl(): Observable<string> {
-    return this.service.getResponsiveImageUrl();
-  }
-
-  getResponsiveSrcSet(): Observable<string> {
-    return this.service.getResponsiveSrcSet();
   }
 }
