@@ -87,6 +87,13 @@ describe('ProductSearchService', () => {
     expect(tempSearchResult).toEqual(mockSearchResults);
   });
 
+  it('should be able to clear search results', () => {
+    service.clearSearchResults();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.CleanProductSearchState()
+    );
+  });
+
   it('should be able to get auxiliary search results', () => {
     let tempAuxSearchResult: ProductSearchPage;
     service

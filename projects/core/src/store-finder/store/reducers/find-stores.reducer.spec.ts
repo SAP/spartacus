@@ -13,28 +13,10 @@ describe('Find Stores Reducer', () => {
     });
   });
 
-  describe('ON_HOLD action', () => {
-    it('should set isLoading flag to true', () => {
-      const { initialState } = fromReducers;
-      const action = new fromActions.OnHold();
-      const state = fromReducers.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
-    });
-  });
-
-  describe('FIND_STORES action', () => {
-    it('should set isLoading flag to true', () => {
-      const { initialState } = fromReducers;
-      const action = new fromActions.FindStores({ queryText: '' });
-      const state = fromReducers.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
-    });
-  });
-
   describe('FIND_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
       const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindStores({
         queryText: 'test',
@@ -46,13 +28,12 @@ describe('Find Stores Reducer', () => {
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);
-      expect(state.isLoading).toEqual(false);
     });
   });
 
   describe('FIND_STORE_BY_ID_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { name: 'test' };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindStoreById({ storeId: 'testId' });
 
@@ -61,13 +42,12 @@ describe('Find Stores Reducer', () => {
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.findStoresEntities).toEqual(results);
-      expect(state.isLoading).toEqual(false);
     });
   });
 
   describe('FIND_ALL_STORES_BY_COUNTRY_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindAllStoresByCountry({
         countryIsoCode: 'CA'
@@ -85,7 +65,7 @@ describe('Find Stores Reducer', () => {
 
   describe('FIND_ALL_STORES_BY_REGION_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindAllStoresByRegion({
         countryIsoCode: 'CA',

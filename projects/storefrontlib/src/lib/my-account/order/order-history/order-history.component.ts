@@ -44,7 +44,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     });
 
     this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
-      tap((orders: any) => {
+      tap((orders: OrderHistoryList) => {
         if (
           orders.orders &&
           Object.keys(orders.orders).length === 0 &&
