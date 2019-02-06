@@ -55,12 +55,7 @@ export class CartItemListComponent implements OnInit {
     item: any;
     updatedQuantity: number;
   }): void {
-    if (
-      updatedQuantity > 0 &&
-      updatedQuantity <= item.product.stock.stockLevel
-    ) {
-      this.cartService.updateEntry(item.entryNumber, updatedQuantity);
-    }
+    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
   getPotentialProductPromotionsForItem(item: Item): PromotionResult[] {

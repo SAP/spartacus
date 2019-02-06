@@ -85,12 +85,7 @@ export class AddedToCartDialogComponent
   }
 
   updateEntry({ item, updatedQuantity }): void {
-    if (
-      updatedQuantity > 0 &&
-      updatedQuantity <= item.product.stock.stockLevel
-    ) {
-      this.cartService.updateEntry(item.entryNumber, updatedQuantity);
-    }
+    this.cartService.updateEntry(item.entryNumber, updatedQuantity);
   }
 
   private createEntryFormGroup(entry): FormGroup {

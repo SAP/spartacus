@@ -58,11 +58,22 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   onModelChange: Function = (_rating: number) => {};
 
   /**
+   * If value is too small it will be set to min, if is too big it will be set to max.
+   */
+  adjustValueInRange(incomingValue: number): number {
+    return incomingValue < this.min || !this.min
+      ? this.min
+      : incomingValue > this.max || !this.max
+      ? this.max
+      : incomingValue;
+  }
+
+  /**
    * Function set 'isValueOutOfRange' flag and adjust value in range. Then update model value and refresh input
    */
-  manualChange(newValue: number) {
+  manualChange(newValue: number): void {
     this.isValueOutOfRange = this.isOutOfRange(newValue);
-
+    newValue = this.adjustValueInRange(newValue);
     this.updateValue(newValue);
     /* We use the value from the input, however, this value
       is not the correct value that should be displayed. The correct value to display
@@ -79,7 +90,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     return value < this.min || value > this.max;
   }
 
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     const handlers = {
       ArrowDown: () => this.decrement(),
       ArrowUp: () => this.increment()
@@ -92,21 +103,21 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onInput(event: Event) {
+  onInput(event: Event): void {
     const { value } = event.target as any;
     if (value) {
       this.manualChange(Number(value));
     }
   }
 
-  onBlur(event: FocusEvent) {
+  onBlur(event: FocusEvent): void {
     this.focus = false;
     event.preventDefault();
     event.stopPropagation();
     this.onTouch();
   }
 
-  onFocus(event: FocusEvent) {
+  onFocus(event: FocusEvent): void {
     this.focus = true;
     event.preventDefault();
     event.stopPropagation();
@@ -116,36 +127,36 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   /**
    * Verify value that it can be incremented, if yes it does that.
    */
-  increment() {
+  increment(): void {
     this.manualChange(this.value + this.step);
   }
 
   /**
    * Verify value that it can be decremented, if yes it does that.
    */
-  decrement() {
+  decrement(): void {
     this.manualChange(this.value - this.step);
   }
 
   // ControlValueAccessor interface
 
-  registerOnTouched(fn: Function) {
+  registerOnTouched(fn: Function): void {
     this.onTouch = fn;
   }
 
-  registerOnChange(fn: Function) {
+  registerOnChange(fn: Function): void {
     this.onModelChange = fn;
   }
 
-  writeValue(value: number) {
-    this.value = value;
+  writeValue(value: number): void {
+    this.value = value || this.min || 0;
     this.onModelChange(this.value);
   }
 
   /**
    * Set up new value for input and emit event outside
    */
-  updateValue(updatedQuantity: number) {
+  updateValue(updatedQuantity: number): void {
     if (!this.async) {
       // If the async flag is true, then the parent component is responsible for updating the form
       this.writeValue(updatedQuantity);
