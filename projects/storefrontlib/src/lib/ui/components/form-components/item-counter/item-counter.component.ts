@@ -132,7 +132,6 @@ export class ItemCounterComponent
     }
   }
 
-
   onInput(event: Event): void {
     const { value } = event.target as any;
     if (value) {
