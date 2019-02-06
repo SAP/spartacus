@@ -14,7 +14,8 @@ export function initSiteContextRoutesHandler(
 
 export const siteContextParamsProviders: Provider[] = [
   SiteContextParamsService,
-  { provide: UrlSerializer, useClass: SiteContextUrlSerializer },
+  SiteContextUrlSerializer,
+  { provide: UrlSerializer, useExisting: SiteContextUrlSerializer },
   {
     provide: APP_INITIALIZER,
     useFactory: initSiteContextRoutesHandler,

@@ -4,6 +4,7 @@ import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 import { Subscription } from 'rxjs';
+import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { Subscription } from 'rxjs';
 export class SiteContextRoutesHandler implements OnDestroy {
   constructor(
     private siteContextParams: SiteContextParamsService,
+    private serializer: SiteContextUrlSerializer,
     private injector: Injector
   ) {}
 
@@ -31,7 +33,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
     if (routingParams.length) {
       this.subscribeChanges(routingParams);
-      this.subscribeRouting(routingParams);
+      this.subscribeRouting();
     }
   }
 
@@ -56,32 +58,21 @@ export class SiteContextRoutesHandler implements OnDestroy {
     });
   }
 
-  private subscribeRouting(params: string[]) {
+  private subscribeRouting() {
     this.subscription.add(
       this.router.events
         .pipe(filter(event => event instanceof NavigationStart))
         .subscribe((event: NavigationStart) =>
-          this.setContextParamsFromRoute(event.url, params)
+          this.setContextParamsFromRoute(event.url)
         )
     );
   }
 
-  private setContextParamsFromRoute(url: string, params: string[]) {
-    const segments = url.split('/');
-
-    if (segments[0] === '') {
-      segments.shift();
-    }
-
-    for (let i = 0; i < params.length && i < segments.length; i++) {
-      const paramName = params[i];
-      const paramValues = this.siteContextParams.getParamValues(paramName);
-      if (paramValues.indexOf(segments[i]) > -1) {
-        this.siteContextParams.setValue(paramName, segments[i]);
-      } else {
-        break;
-      }
-    }
+  private setContextParamsFromRoute(url: string) {
+    const { params } = this.serializer.urlExtractContextParameters(url);
+    Object.keys(params).forEach(param =>
+      this.siteContextParams.setValue(param, params[param])
+    );
   }
 
   ngOnDestroy(): void {

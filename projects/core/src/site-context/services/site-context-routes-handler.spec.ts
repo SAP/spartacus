@@ -5,6 +5,7 @@ import { SiteContextParamsService } from '../facade/site-context-params.service'
 import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
+import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
 describe('SiteContextRoutesHandlerService', () => {
   let mockRouterEvents;
@@ -13,6 +14,7 @@ describe('SiteContextRoutesHandlerService', () => {
   let activeLanguage;
   let mockLanguageService;
   let mockSiteContextParamsService;
+  let mockSiteContextUrlSerializer;
   let service: SiteContextRoutesHandler;
 
   beforeEach(() => {
@@ -42,6 +44,10 @@ describe('SiteContextRoutesHandlerService', () => {
       setValue: createSpy('setValue')
     };
 
+    mockSiteContextUrlSerializer = {
+      urlExtractContextParameters: url => ({ params: { language: url } })
+    };
+
     TestBed.configureTestingModule({
       providers: [
         SiteContextRoutesHandler,
@@ -56,6 +62,10 @@ describe('SiteContextRoutesHandlerService', () => {
         {
           provide: Location,
           useValue: mockLocation
+        },
+        {
+          provide: SiteContextUrlSerializer,
+          useValue: mockSiteContextUrlSerializer
         }
       ]
     });
@@ -69,17 +79,21 @@ describe('SiteContextRoutesHandlerService', () => {
   });
 
   it('should set context parameter on route navigation', () => {
-    mockRouterEvents.next(new NavigationStart(1, 'en/'));
+    mockRouterEvents.next(new NavigationStart(1, 'en'));
     expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
       'language',
       'en'
     );
   });
 
-  it('should replace location state on siteContext change', () => {
+  it('should reserialize url on siteContext change', () => {
     activeLanguage.next('de');
     expect(mockRouter.parseUrl).toHaveBeenCalledWith('test');
     expect(mockRouter.serializeUrl).toHaveBeenCalledWith('test_a');
+  });
+
+  it('should replace location state on siteContext change', () => {
+    activeLanguage.next('de');
     expect(mockLocation.replaceState).toHaveBeenCalledWith('test_a_b');
   });
 });

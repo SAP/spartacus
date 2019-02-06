@@ -2,6 +2,10 @@ import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 
+export interface ParamValuesMap {
+  [name: string]: string;
+}
+
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   private routeContextParameters = [];
@@ -28,7 +32,9 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     }
   }
 
-  private urlExtractContextParameters(url: string) {
+  urlExtractContextParameters(
+    url: string
+  ): { url: string; params: ParamValuesMap } {
     const segments = url.split('/');
     if (segments[0] === '') {
       segments.shift();
@@ -51,7 +57,10 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return { url, params };
   }
 
-  private urlTreeIncludeCotextParameters(urlTree: UrlTree, params: any) {
+  private urlTreeIncludeCotextParameters(
+    urlTree: UrlTree,
+    params: ParamValuesMap
+  ) {
     urlTree.queryParams = {
       ...urlTree.queryParams,
       ...params
@@ -65,7 +74,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return serialized;
   }
 
-  private urlTreeExtractContextParameters(urlTree: UrlTree) {
+  urlTreeExtractContextParameters(urlTree: UrlTree): ParamValuesMap {
     const params = {};
 
     this.routeContextParameters.forEach(param => {
@@ -78,7 +87,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return params;
   }
 
-  private urlIncludeCotextParameters(url: string, params: any) {
+  private urlIncludeCotextParameters(url: string, params: ParamValuesMap) {
     const contextRoutePart = this.routeContextParameters
       .map(param => {
         return params[param]
