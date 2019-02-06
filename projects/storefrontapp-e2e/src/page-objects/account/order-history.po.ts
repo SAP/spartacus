@@ -1,4 +1,5 @@
 import { browser, by, element, ElementFinder } from 'protractor';
+
 import { AppPage } from '../app.po';
 import { E2EUtil } from '../../e2e-util';
 
@@ -9,7 +10,7 @@ export class OrderHistoryPage extends AppPage {
     by.tagName('cx-order-history')
   );
   readonly historyHeader: ElementFinder = this.orderHistoryComponent.element(
-    by.css('.cx-order-history__header h3')
+    by.css('.cx-order-history-header h3')
   );
   readonly historyTable: ElementFinder = this.orderHistoryComponent.element(
     by.tagName('table')
@@ -18,7 +19,7 @@ export class OrderHistoryPage extends AppPage {
     by.cssContainingText('.btn.btn-primary.btn-block.active', 'Start Shopping')
   );
   readonly orderNumber: ElementFinder = this.page.element(
-    by.css('.cx-order-history__value')
+    by.css('.cx-order-history-value')
   );
   readonly historyItem = (itemNo: number): ElementFinder =>
     this.historyTable.all(by.css('tbody tr')).get(itemNo);
