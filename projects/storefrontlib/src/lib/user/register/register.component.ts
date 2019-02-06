@@ -106,15 +106,15 @@ export class RegisterComponent implements OnInit, OnDestroy {
       titleCode
     };
     this.userService.register(userRegisterFormData);
-    // Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+    // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.globalMessageService
       .get()
       .pipe(filter(data => Object.keys(data).length > 0))
-      .subscribe((message: GlobalMessageEntities) => {
-        console.log(message, message[GlobalMessageType.MSG_TYPE_ERROR][0]);
+      .subscribe((globalMessageEntities: GlobalMessageEntities) => {
         if (
-          message[GlobalMessageType.MSG_TYPE_ERROR][0] ===
-          'This field is required.'
+          globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR].some(
+            message => message === 'This field is required.'
+          )
         ) {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.globalMessageService.add({

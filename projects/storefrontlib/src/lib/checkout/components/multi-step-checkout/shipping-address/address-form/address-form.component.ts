@@ -135,10 +135,20 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'ACCEPT') {
           this.addAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
-          this.globalMessageService.add({
-            type: GlobalMessageType.MSG_TYPE_ERROR,
-            text: 'Invalid Address'
-          });
+          // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+          if (
+            results.errors.errors.some(error => error.subject === 'titleCode')
+          ) {
+            this.globalMessageService.add({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Title is required'
+            });
+          } else {
+            this.globalMessageService.add({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Invalid Address'
+            });
+          }
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
