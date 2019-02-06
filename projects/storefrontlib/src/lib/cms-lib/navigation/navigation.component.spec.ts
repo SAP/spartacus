@@ -87,11 +87,6 @@ describe('CmsNavigationComponent in CmsLib', () => {
     expect(navigationComponent).toBeTruthy();
   });
 
-  it('should get component data from service', () => {
-    navigationComponent.getComponentData();
-    expect(mockNavigationService.getComponentData).toHaveBeenCalled();
-  });
-
   it('should render navigation-ui component', () => {
     const getNav = () => fixture.debugElement.query(By.css('cx-navigation-ui'));
     navigationComponent.node = {};
