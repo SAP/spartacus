@@ -6,6 +6,10 @@ export interface ParamValuesMap {
   [name: string]: string;
 }
 
+export interface UrlTreeWithSiteContext extends UrlTree {
+  siteContext?: ParamValuesMap;
+}
+
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   private routeContextParameters = [];
@@ -21,10 +25,10 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     );
   }
 
-  parse(url: string): UrlTree {
+  parse(url: string): UrlTreeWithSiteContext {
     if (this.hasContextInRoutes) {
       const urlWithParams = this.urlExtractContextParameters(url);
-      const parsed = super.parse(urlWithParams.url);
+      const parsed = super.parse(urlWithParams.url) as UrlTreeWithSiteContext;
       this.urlTreeIncludeCotextParameters(parsed, urlWithParams.params);
       return parsed;
     } else {
@@ -58,36 +62,26 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   }
 
   private urlTreeIncludeCotextParameters(
-    urlTree: UrlTree,
+    urlTree: UrlTreeWithSiteContext,
     params: ParamValuesMap
   ) {
-    urlTree.queryParams = {
-      ...urlTree.queryParams,
-      ...params
-    };
+    urlTree.siteContext = params;
   }
 
-  serialize(tree: UrlTree): string {
+  serialize(tree: UrlTreeWithSiteContext): string {
     const params = this.urlTreeExtractContextParameters(tree);
     const url = super.serialize(tree);
-    const serialized = this.urlIncludeCotextParameters(url, params);
+    const serialized = this.urlIncludeContextParameters(url, params);
     return serialized;
   }
 
-  urlTreeExtractContextParameters(urlTree: UrlTree): ParamValuesMap {
-    const params = {};
-
-    this.routeContextParameters.forEach(param => {
-      if (urlTree.queryParams[param]) {
-        params[param] = urlTree.queryParams[param];
-        delete urlTree.queryParams[param];
-      }
-    });
-
-    return params;
+  urlTreeExtractContextParameters(
+    urlTree: UrlTreeWithSiteContext
+  ): ParamValuesMap {
+    return urlTree.siteContext ? urlTree.siteContext : {};
   }
 
-  private urlIncludeCotextParameters(url: string, params: ParamValuesMap) {
+  private urlIncludeContextParameters(url: string, params: ParamValuesMap) {
     const contextRoutePart = this.routeContextParameters
       .map(param => {
         return params[param]

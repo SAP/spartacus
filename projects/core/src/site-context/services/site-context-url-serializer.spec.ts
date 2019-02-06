@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { SiteContextUrlSerializer } from './site-context-url-serializer';
+import {
+  SiteContextUrlSerializer,
+  UrlTreeWithSiteContext
+} from './site-context-url-serializer';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 import { UrlSegmentGroup, UrlTree } from '@angular/router';
 
@@ -9,7 +12,7 @@ describe('SiteContextUrlSerializer', () => {
     getParamValues: () => ['en', 'de']
   };
 
-  let mockUrlTree: UrlTree;
+  let mockUrlTree: UrlTreeWithSiteContext;
   let service: SiteContextUrlSerializer;
 
   beforeEach(() => {
@@ -23,10 +26,11 @@ describe('SiteContextUrlSerializer', () => {
       ]
     });
 
-    mockUrlTree = new UrlTree();
+    mockUrlTree = new UrlTree() as UrlTreeWithSiteContext;
     Object.assign(mockUrlTree, {
       root: new UrlSegmentGroup([], {}),
-      queryParams: {
+      queryParams: {},
+      siteContext: {
         language: 'de'
       }
     });
@@ -41,7 +45,7 @@ describe('SiteContextUrlSerializer', () => {
   it('should parse url with site context parameters', () => {
     const urlTree = service.parse('en/another/part/of/url');
     const expected = { language: 'en' };
-    expect(urlTree.queryParams).toEqual(expected);
+    expect(urlTree.siteContext).toEqual(expected);
   });
 
   it('should serialize url with site context parameters', () => {
