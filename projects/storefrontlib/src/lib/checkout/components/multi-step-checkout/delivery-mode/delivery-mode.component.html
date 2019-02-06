@@ -1,11 +1,9 @@
-<div class="cx-delivery-form container">
+<div class="cx-delivery container">
   <div class="row">
     <div class="col-md-12 col-lg-9">
-      <!-- TITLE -->
       <h3 class="cx-delivery-title d-none d-lg-block d-xl-block">
         Shipping Method
       </h3>
-      <!-- FORM -->
       <div [formGroup]="mode">
         <div
           class="form-check"
@@ -33,15 +31,13 @@
             <div class="cx-delivery-details">{{ mode.description }}</div>
           </label>
         </div>
-
-        <!-- BUTTON SECTION -->
-        <div class="cx-delivery-btns row">
-          <div class="col-sm-12 col-md-6">
+        <div class="row">
+          <div class="col-md-12 col-lg-6">
             <button class="btn btn-block btn-action" (click)="back()">
               Back
             </button>
           </div>
-          <div class="col-sm-12 col-md-6">
+          <div class="col-md-12 col-lg-6">
             <button
               class="btn btn-block btn-primary"
               [disabled]="deliveryModeInvalid"

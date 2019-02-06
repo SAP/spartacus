@@ -1,13 +1,10 @@
 @import 'theme';
 @import '../container/multi-step-checkout.component';
 
-.cx-delivery-form {
+.cx-delivery {
   &.container {
     padding: var(--cx-padding, 0);
   }
-
-  // ***************************** MEDIA QUERIES *****************************
-
   @include checkout-media-style();
 }
 
