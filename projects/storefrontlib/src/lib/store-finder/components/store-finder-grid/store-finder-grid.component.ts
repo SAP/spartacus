@@ -38,13 +38,15 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
     this.locationsSub = this.storeFinderService
       .getFindStoresEntities()
       .subscribe(locations => {
-        if (
-          locations.pointOfServices &&
-          locations.pointOfServices.length === 1
-        ) {
-          this.viewStore(locations.pointOfServices[0]);
+        if (locations.findStoresEntities !== undefined) {
+          if (
+            locations.findStoresEntities.pointOfServices &&
+            locations.findStoresEntities.pointOfServices.length === 1
+          ) {
+            this.viewStore(locations.findStoresEntities.pointOfServices[0]);
+          }
+          this.locations = locations;
         }
-        this.locations = locations;
       });
   }
 
