@@ -1,108 +1,21 @@
 @import 'theme';
-@import 'functions';
 @import 'mixins';
 @import '~bootstrap/scss/card';
 @import '../container/multi-step-checkout.component';
 
-// cx-payment-method color variables
-$cx-payment-method-media-background-color: 'background' !default;
-$cx-payment-method-tooltip-icon-text-color: $inverse !default;
-$cx-payment-method-card-background-color: $inverse !default;
-// cx-payment-method  variables
-$cx-payment-method-no-padding: 0 !default;
-$cx-payment-method-no-margin: 0 !default;
-$cx-payment-method-header-margin: 0 auto !default;
-$cx-payment-method-header-padding: 2.375rem 0 1.25rem 0 !default;
-$cx-payment-method-header-title-margin-bottom: 0 !default;
-$cx-payment-method-header-image-margin-left: 1rem !default;
-$cx-payment-method-tooltip-icon-margin-left: 0.625rem !default;
-$cx-payment-method-tooltip-icon-size: 1.125rem !default;
-$cx-payment-method-billing-margin-bottom: 1.25rem !default;
-$cx-payment-method-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
-$cx-payment-method-img-margin: 0 1rem 1.25rem 0 !default;
-$cx-payment-method-title-margin: 0 auto !default;
-$cx-payment-method-title-padding: 2.375rem 0 1.75rem 0 !default;
-$cx-payment-method-body-padding-bottom: 1.875rem !default;
-// Media Queries
-$cx-payment-method-text-md-padding-left: 3.5rem !default;
-$cx-payment-method-text-sm-padding-left: 1.5rem !default;
-$cx-payment-method-text-md-padding-left: 3.5rem !default;
-$cx-payment-method-header-image-md-margin-right: 1rem !default;
-$cx-payment-method-header-image-md-margin-left: 0 !default;
-$cx-payment-method-btns-margin-bottom: 1rem !default;
-// Loading
-$cx-payment-methods-loading-padding: 30px !default;
-.cx-payment-method {
+.cx-payment {
   &.container {
     padding: var(--cx-padding, 0);
   }
-
-  // &__header {
-  //   display: var(--cx-display, flex);
-  //   align-items: var(--cx-align-items, flex-start);
-  //   justify-content: var(--cx-justify-content, space-between);
-  //   margin: var(--cx-margin, 0 auto);
-  //   padding: var(--cx-padding, 2.375rem 0 1.25rem 0);
-
-  //   &-title {
-  //     text-transform: var(--cx-text-transform, uppercase);
-  //     margin-bottom: var(--cx-margin, 0);
-  //   }
-
-  //   &-image {
-  //     margin-left: var(--cx-margin, 1rem);
-  //   }
-  // }
-
-  &__tooltip-icon {
-    margin-left: var(--cx-margin, 0.625rem);
-    height: var(--cx-height, 1.125rem);
-    width: var(--cx-width, 1.125rem);
-  }
-  &__billing {
-    margin-bottom: var(--cx-margin, 1.25rem);
-    &-address {
-      @include type('4');
-      padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
-    }
-  }
-  &__img {
-    margin: $cx-payment-method-img-margin;
-    &-container {
-      display: var(--cx-display, flex);
-    }
-  }
-
-  // ***************************** MEDIA QUERIES *****************************
-  @include checkout-media-style();
-  .cx-payment-method-body {
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: var(--cx-padding, 0);
-      }
-    }
-  }
-
-  &__header {
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0);
-    }
-    &-image {
-      @include media-breakpoint-down(md) {
-        margin-right: var(--cx-margin, 1rem);
-        margin-left: var(--cx-margin, 0);
-      }
-    }
-  }
 }
 
-.cx-payment-method-title {
+.cx-payment-title {
   text-transform: var(--cx-text-transform, uppercase);
   margin: var(--cx-margin, 0 auto);
   padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
 }
 
-.cx-payment-method-text {
+.cx-payment-text {
   @include media-breakpoint-down(md) {
     padding-left: var(--cx-padding, 3.5rem);
   }
@@ -111,7 +24,7 @@ $cx-payment-methods-loading-padding: 30px !default;
   }
 }
 
-.cx-payment-method-btn {
+.cx-payment-btn {
   padding-bottom: var(--cx-padding, 1rem);
 
   @include media-breakpoint-down(md) {
@@ -128,16 +41,26 @@ $cx-payment-methods-loading-padding: 30px !default;
   }
 }
 
-.cx-payment-method-card {
+@include checkout-media-style();
+.cx-payment-body {
+  &.row {
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0);
+    }
+  }
+}
+
+.cx-payment-card {
   @include media-breakpoint-down(md) {
     background-color: var(--cx-background-color, var(--cx-g-color-inverse));
   }
 }
 
-.cx-payment-method-spinner {
+.cx-payment-spinner {
   padding-top: var(--cx-padding, 30px 0);
 }
-.cx-payment-method-body {
+
+.cx-payment-body {
   display: var(--cx-display, flex);
   align-items: var(--cx-align-items, flex-end);
   padding-bottom: var(--cx-padding, 1.875rem);

@@ -1,10 +1,8 @@
 <ng-container
   *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
 >
-  <div class="cx-payment-method container">
-    <h3 class="cx-payment-method-title d-none d-lg-block d-xl-block">
-      Payment
-    </h3>
+  <div class="cx-payment container">
+    <h3 class="cx-payment-title d-none d-lg-block d-xl-block">Payment</h3>
     <ng-container *ngIf="!(isLoading$ | async); else loading">
       <ng-container
         *ngIf="
@@ -12,8 +10,8 @@
           else newPaymentForm
         "
       >
-        <p class="cx-payment-method-text">Choose a payment method</p>
-        <div class="cx-payment-method-btn row justify-content-end">
+        <p class="cx-payment-text">Choose a payment method</p>
+        <div class="cx-payment-btn row justify-content-end">
           <div class="col-sm-12 col-md-6">
             <button
               class="btn btn-block btn-action"
@@ -24,12 +22,12 @@
           </div>
         </div>
 
-        <div class="cx-payment-method-body row">
+        <div class="cx-payment-body row">
           <div
             class="col-md-12 col-lg-6"
             *ngFor="let method of existingPaymentMethods; let i = index"
           >
-            <div class="cx-payment-method-card">
+            <div class="cx-payment-card">
               <cx-card
                 [border]="true"
                 [content]="cards[i]"
@@ -66,8 +64,8 @@
     </ng-container>
 
     <ng-template #loading>
-      <div class="cx-payment-method container">
-        <div class="cx-payment-method-spinner"><cx-spinner></cx-spinner></div>
+      <div class="cx-payment container">
+        <div class="cx-payment-spinner"><cx-spinner></cx-spinner></div>
       </div>
     </ng-template>
   </div>
