@@ -9,7 +9,7 @@ import { OnlyNumberDirective } from './only-number.directive';
 })
 class TestHoverFocusComponent {}
 
-describe('Directive: OnlyNumber', () => {
+fdescribe('Directive: OnlyNumber', () => {
   let fixture: ComponentFixture<TestHoverFocusComponent>;
   let inputEl;
 
@@ -38,7 +38,7 @@ describe('Directive: OnlyNumber', () => {
     expect(inputEl.nativeElement.value).toBe('3');
     inputEl.triggerEventHandler('keyup', event('A'));
 
-    expect(inputEl.nativeElement.value).toBe('0');
+    expect(inputEl.nativeElement.value).toBe('');
   });
 
   it('should set correct value on paste', () => {
