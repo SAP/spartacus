@@ -1,7 +1,7 @@
-import { serverConfigFactory } from './server-config-factory';
+import { serverConfigFromMetaTagFactory } from './server-config-from-meta-tag-factory';
 import { Meta } from '@angular/platform-browser';
 
-describe('serverConfigFactory', () => {
+describe('serverConfigMetaTagFactory', () => {
   let mockMeta: Meta;
 
   beforeEach(() => {
@@ -11,14 +11,14 @@ describe('serverConfigFactory', () => {
   it('should get content of tag "occ-backend-base-url"', () => {
     mockMeta.getTag = jasmine.createSpy();
 
-    serverConfigFactory(mockMeta as Meta);
+    serverConfigFromMetaTagFactory(mockMeta as Meta);
     expect(mockMeta.getTag).toHaveBeenCalledWith('name="occ-backend-base-url"');
   });
 
   it('should return server config with baseUrl from meta tag', () => {
     mockMeta.getTag = () => ({ content: 'testBaseUrl' } as HTMLMetaElement);
 
-    expect(serverConfigFactory(mockMeta as Meta)).toEqual({
+    expect(serverConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
       server: { baseUrl: 'testBaseUrl' }
     });
   });
@@ -26,12 +26,12 @@ describe('serverConfigFactory', () => {
   it('should return empty object when meta tag contains empty string', () => {
     mockMeta.getTag = () => ({ content: '' } as HTMLMetaElement);
 
-    expect(serverConfigFactory(mockMeta as Meta)).toEqual({});
+    expect(serverConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
   });
 
   it('should return empty object when there is no meta tag', () => {
     mockMeta.getTag = () => null;
 
-    expect(serverConfigFactory(mockMeta as Meta)).toEqual({});
+    expect(serverConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({});
   });
 });
