@@ -1,5 +1,10 @@
-import { Action } from '@ngrx/store';
+import { USER_PAYMENT_METHODS } from '../user-state';
 import { PaymentDetails } from '../../../occ/occ-models/index';
+import {
+  LoaderLoadAction,
+  LoaderFailAction,
+  LoaderSuccessAction
+} from '../../../state/utils/loader/loader.action';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
 export const LOAD_USER_PAYMENT_METHODS_FAIL =
@@ -20,49 +25,67 @@ export const DELETE_USER_PAYMENT_METHOD_FAIL =
 export const DELETE_USER_PAYMENT_METHOD_SUCCESS =
   '[User] Delete User  Payment Method Success';
 
-export class LoadUserPaymentMethods implements Action {
+export class LoadUserPaymentMethods extends LoaderLoadAction {
   readonly type = LOAD_USER_PAYMENT_METHODS;
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+    super(USER_PAYMENT_METHODS);
+  }
 }
 
-export class LoadUserPaymentMethodsFail implements Action {
+export class LoadUserPaymentMethodsFail extends LoaderFailAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS, payload);
+  }
 }
 
-export class LoadUserPaymentMethodsSuccess implements Action {
+export class LoadUserPaymentMethodsSuccess extends LoaderSuccessAction {
   readonly type = LOAD_USER_PAYMENT_METHODS_SUCCESS;
-  constructor(public payload: PaymentDetails[]) {}
+  constructor(public payload: PaymentDetails[]) {
+    super(USER_PAYMENT_METHODS);
+  }
 }
 
-export class SetDefaultUserPaymentMethod implements Action {
+export class SetDefaultUserPaymentMethod extends LoaderLoadAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS);
+  }
 }
 
-export class SetDefaultUserPaymentMethodFail implements Action {
+export class SetDefaultUserPaymentMethodFail extends LoaderFailAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS, payload);
+  }
 }
 
-export class SetDefaultUserPaymentMethodSuccess implements Action {
+export class SetDefaultUserPaymentMethodSuccess extends LoaderSuccessAction {
   readonly type = SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS);
+  }
 }
 
-export class DeleteUserPaymentMethod implements Action {
+export class DeleteUserPaymentMethod extends LoaderLoadAction {
   readonly type = DELETE_USER_PAYMENT_METHOD;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS);
+  }
 }
 
-export class DeleteUserPaymentMethodFail implements Action {
+export class DeleteUserPaymentMethodFail extends LoaderFailAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS, payload);
+  }
 }
 
-export class DeleteUserPaymentMethodSuccess implements Action {
+export class DeleteUserPaymentMethodSuccess extends LoaderSuccessAction {
   readonly type = DELETE_USER_PAYMENT_METHOD_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(USER_PAYMENT_METHODS);
+  }
 }
 
 // action types

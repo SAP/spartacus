@@ -10,7 +10,8 @@ import {
 import {
   CmsService,
   ContentSlotData,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE
+  JSP_INCLUDE_CMS_COMPONENT_TYPE,
+  ContentSlotComponentData
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -83,11 +84,13 @@ export class DynamicSlotComponent implements OnInit {
    * (with no specific data provided), but has a unique "uid".
    *
    * While it's not very clean solution, we interpret the "uid" of the "JspIncludeComponent"
-   * as a component type and thanks to that we map it with the implementation of Angular (or web) component..
+   * as a component type and thanks to that we map it onto the implementation of the Angular (or web) component.
+   *
+   * CAUTION: This function should not be used for SmartEdit bindings.
    */
-  getComponentType(originalComponentType: string, uid: string): string {
-    return originalComponentType === JSP_INCLUDE_CMS_COMPONENT_TYPE
-      ? uid
-      : originalComponentType;
+  getComponentType(component: ContentSlotComponentData): string {
+    return component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE
+      ? component.uid
+      : component.typeCode;
   }
 }

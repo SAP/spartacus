@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, distinctUntilChanged, map } from 'rxjs/operators';
+import { switchMap, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { CmsService, Page } from '@spartacus/core';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
 import {
@@ -22,6 +22,11 @@ export class PageLayoutService {
   // only once to not polute the console log
   private warnLogMessages = {};
 
+  // TODO:
+  // distinctUntilChanged is not enough here, probably because
+  // we use the startWith operator in the breakpoint service which
+  // doesn't seem to work well with distinctUntilChanged, see
+  // https://github.com/ReactiveX/rxjs/issues/4030
   getSlots(section?: string): Observable<string[]> {
     return this.breakpointService.breakpoint$.pipe(
       switchMap(breakpoint =>
@@ -29,6 +34,7 @@ export class PageLayoutService {
           map(page =>
             this.getSlotConfig(page.template, 'slots', section, breakpoint)
           ),
+          filter(Boolean),
           map(config => config.slots)
         )
       ),
@@ -48,6 +54,7 @@ export class PageLayoutService {
               breakpoint
             );
           }),
+          filter(Boolean),
           map(config => config.showTitle)
         )
       ),
@@ -56,7 +63,7 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage();
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
   get pageTitle$(): Observable<string> {
@@ -68,7 +75,10 @@ export class PageLayoutService {
   }
 
   get templateName$(): Observable<string> {
-    return this.page$.pipe(map((page: Page) => page.template));
+    return this.page$.pipe(
+      filter(page => !!page.template),
+      map((page: Page) => page.template)
+    );
   }
 
   /**
