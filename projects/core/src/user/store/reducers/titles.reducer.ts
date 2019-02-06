@@ -1,5 +1,6 @@
-import * as fromAction from '../actions/index';
 import { TitlesState } from '../user-state';
+import * as fromAction from '../actions/index';
+import { Title } from '../../../occ';
 
 export const initialState: TitlesState = {
   entities: {}
@@ -13,7 +14,7 @@ export function reducer(
     case fromAction.LOAD_TITLES_SUCCESS: {
       const titles = action.payload;
       const entities = titles.reduce(
-        (titleEntities: { [code: string]: any }, name: any) => {
+        (titleEntities: { [code: string]: Title }, name: Title) => {
           return {
             ...titleEntities,
             [name.code]: name

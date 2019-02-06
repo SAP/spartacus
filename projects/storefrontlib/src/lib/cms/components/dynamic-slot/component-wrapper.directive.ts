@@ -17,7 +17,6 @@ import {
   CxApiService
 } from '@spartacus/core';
 import { CmsComponentData } from '../cms-component-data';
-import { AbstractCmsComponent } from '../abstract-cms-component';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -69,13 +68,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.getInjectorForComponent()
       );
 
-      // TODO: Remove after AbstractCmsComponent will be removed
-      const instance: AbstractCmsComponent = this.cmpRef.instance;
-      if (instance.onCmsComponentInit) {
-        instance.onCmsComponentInit(this.componentUid, this.contextParameters);
-      } else {
-        this.cd.detectChanges();
-      }
+      this.cd.detectChanges();
 
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);

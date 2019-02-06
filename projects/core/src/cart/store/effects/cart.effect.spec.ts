@@ -4,22 +4,18 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { StoreModule } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import {
-  ProductImageConverterService,
-  Cart,
-  OccConfig,
-  OccCartService
-} from '@spartacus/core';
-
 import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
+import { OccCartService } from '../../occ';
 import * as fromActions from '../actions/cart.action';
+import { OccConfig, Cart } from '../../../occ';
+import { ProductImageConverterService } from '../../../product';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
-import * as fromAuth from '../../../auth/store/index';
 import * as fromCart from '../../store/index';
+import * as fromAuth from '../../../auth/store/index';
 import * as fromUser from '../../../user/store/index';
 
 import * as fromEffects from './cart.effect';
