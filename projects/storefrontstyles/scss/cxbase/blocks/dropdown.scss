@@ -10,3 +10,7 @@ $cx-dropdown-toggle-border-width: 0 2px 2px 0 !default;
   border-radius: 0;
   margin-top: 11px;
 }
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected {
+  background-color: transparent;
+}
