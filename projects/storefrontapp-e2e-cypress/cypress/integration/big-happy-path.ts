@@ -93,22 +93,16 @@ context('Big happy path', () => {
   it('should display summary page', () => {
     cy.get('.cx-page__title').should('contain', 'Confirmation of Order');
     cy.get('h2').should('contain', 'Thank you for your order!');
-    cy.get('.cx-order-confirmation__review-summary .row').within(() => {
-      cy.get(
-        '.col-lg-3:nth-child(1) .cx-order-confirmation__review-summary-card'
-      ).within(() => {
+    cy.get('.cx-order-review-summary .row').within(() => {
+      cy.get('.col-lg-3:nth-child(1) .cx-card').within(() => {
         cy.contains(user.fullName);
         cy.contains(user.address.line1);
       });
-      cy.get(
-        '.col-lg-3:nth-child(2) .cx-order-confirmation__review-summary-card'
-      ).within(() => {
+      cy.get('.col-lg-3:nth-child(2) .cx-card').within(() => {
         cy.contains(user.fullName);
         cy.contains(user.address.line1);
       });
-      cy.get(
-        '.col-lg-3:nth-child(3) .cx-order-confirmation__review-summary-card'
-      ).within(() => {
+      cy.get('.col-lg-3:nth-child(3) .cx-card').within(() => {
         cy.contains('Standard Delivery');
       });
     });
@@ -119,9 +113,9 @@ context('Big happy path', () => {
   it('should be able to check order in order history', () => {
     cy.selectUserMenuOption('Order History');
     cy.get('cx-order-history h3').should('contain', 'Order history');
-    cy.get('.cx-order-history__table tr')
+    cy.get('.cx-order-history-table tr')
       .first()
-      .find('.cx-order-history__total .cx-order-history__value')
+      .find('.cx-order-history-total .cx-order-history-value')
       .should('contain', cart.total);
     cy.selectUserMenuOption('Sign Out');
   });
