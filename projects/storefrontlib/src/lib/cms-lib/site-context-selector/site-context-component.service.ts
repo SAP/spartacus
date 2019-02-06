@@ -1,4 +1,4 @@
-import { Injectable, Optional, Injector, Type } from '@angular/core';
+import { Injectable, Optional, Injector } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import {
   CmsSiteContextSelectorComponent,
