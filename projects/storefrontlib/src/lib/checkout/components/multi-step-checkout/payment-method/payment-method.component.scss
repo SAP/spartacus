@@ -1,12 +1,12 @@
 @import 'theme';
-@import 'mixins';
-@import '~bootstrap/scss/card';
 @import '../container/multi-step-checkout.component';
 
 .cx-payment {
   &.container {
     padding: var(--cx-padding, 0);
   }
+
+  @include checkout-media-style();
 }
 
 .cx-payment-title {
@@ -41,7 +41,6 @@
   }
 }
 
-@include checkout-media-style();
 .cx-payment-body {
   &.row {
     @include media-breakpoint-down(md) {
