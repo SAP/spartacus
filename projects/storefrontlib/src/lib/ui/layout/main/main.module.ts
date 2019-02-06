@@ -16,7 +16,7 @@ import { StorefrontComponent } from './storefront.component';
   imports: [
     CommonModule,
     RouterModule,
-    GlobalMessageComponentModule.forRoot(),
+    GlobalMessageComponentModule,
     CmsModule,
     LoginModule,
     HeaderModule.forRoot(),
