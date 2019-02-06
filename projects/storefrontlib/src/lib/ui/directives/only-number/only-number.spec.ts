@@ -9,7 +9,7 @@ import { OnlyNumberDirective } from './only-number.directive';
 })
 class TestHoverFocusComponent {}
 
-fdescribe('Directive: OnlyNumber', () => {
+describe('Directive: OnlyNumber', () => {
   let fixture: ComponentFixture<TestHoverFocusComponent>;
   let inputEl;
 
