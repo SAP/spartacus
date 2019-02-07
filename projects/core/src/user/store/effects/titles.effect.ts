@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -19,14 +18,6 @@ export class TitlesEffects {
         map(data => new fromAction.LoadTitlesSuccess(data.titles)),
         catchError(error => of(new fromAction.LoadTitlesFail(error)))
       );
-    })
-  );
-
-  @Effect()
-  resetTitles$: Observable<Action> = this.actions$.pipe(
-    ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
-    map(() => {
-      return new fromAction.ResetTitles();
     })
   );
 

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
@@ -63,21 +62,6 @@ describe('Titles effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadTitles$).toBeObservable(expected);
-    });
-  });
-
-  describe('resetTitles$', () => {
-    it('should return a reset action', () => {
-      const action: Action = {
-        type: '[Site-context] Language Change'
-      };
-
-      const completion = new fromActions.ResetTitles();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effect.resetTitles$).toBeObservable(expected);
     });
   });
 });

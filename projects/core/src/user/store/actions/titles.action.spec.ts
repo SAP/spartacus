@@ -1,5 +1,4 @@
 import * as fromAction from '../actions/titles.action';
-import { resetMeta } from '../../../state';
 
 describe('Titles Actions', () => {
   describe('LoadTitles', () => {
@@ -39,16 +38,6 @@ describe('Titles Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_TITLES_SUCCESS,
         payload: titles
-      });
-    });
-  });
-
-  describe('ResetTitles', () => {
-    it('should create the action', () => {
-      const action = new fromAction.ResetTitles();
-      expect({ ...action }).toEqual({
-        type: fromAction.RESET_TITLES,
-        meta: resetMeta(fromAction.RESET_TITLES)
       });
     });
   });

@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { LoaderResetAction } from '../../../state';
 import { Title } from '../../../occ/occ-models';
 
 export const LOAD_TITLES = '[User] Load Tiltes';
@@ -21,13 +20,6 @@ export class LoadTitlesFail implements Action {
 export class LoadTitlesSuccess implements Action {
   readonly type = LOAD_TITLES_SUCCESS;
   constructor(public payload: Title[]) {}
-}
-
-export class ResetTitles extends LoaderResetAction {
-  readonly type = RESET_TITLES;
-  constructor() {
-    super(RESET_TITLES);
-  }
 }
 
 export type TitlesAction = LoadTitles | LoadTitlesFail | LoadTitlesSuccess;
