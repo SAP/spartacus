@@ -39,13 +39,4 @@
       +
     </button>
   </div>
-  <div
-    *ngIf="isValueOutOfRange"
-    class="cx-item-counter__tip"
-    [ngClass]="{
-      error: isValueOutOfRange
-    }"
-  >
-    Must be between {{ min }} - {{ max }}
-  </div>
 </div>
