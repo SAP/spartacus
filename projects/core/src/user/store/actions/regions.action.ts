@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { LoaderResetAction } from '../../../state';
 import { Region } from '../../../occ/occ-models/index';
 
 export const LOAD_REGIONS = '[User] Load Regions';
@@ -21,13 +20,6 @@ export class LoadRegionsFail implements Action {
 export class LoadRegionsSuccess implements Action {
   readonly type = LOAD_REGIONS_SUCCESS;
   constructor(public payload: Region[]) {}
-}
-
-export class ResetRegions extends LoaderResetAction {
-  readonly type = RESET_REGIONS;
-  constructor() {
-    super(RESET_REGIONS);
-  }
 }
 
 export type RegionsAction = LoadRegions | LoadRegionsFail | LoadRegionsSuccess;

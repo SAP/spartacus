@@ -1,5 +1,3 @@
-import { resetMeta } from '../../../state';
-
 import * as fromAction from './regions.action';
 
 describe('Regions Actions', () => {
@@ -41,16 +39,6 @@ describe('Regions Actions', () => {
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS_SUCCESS,
         payload: regions
-      });
-    });
-  });
-
-  describe('ResetRegions', () => {
-    it('should create the action', () => {
-      const action = new fromAction.ResetRegions();
-      expect({ ...action }).toEqual({
-        type: fromAction.RESET_REGIONS,
-        meta: resetMeta(fromAction.RESET_REGIONS)
       });
     });
   });
