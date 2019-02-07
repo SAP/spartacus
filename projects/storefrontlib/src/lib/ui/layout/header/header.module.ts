@@ -8,8 +8,6 @@ import { LoginModule } from '../../../user/login/login.module';
 
 import { PwaModule } from '../../../pwa/pwa.module';
 import { UrlTranslationModule } from '@spartacus/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
 
 @NgModule({
   imports: [
@@ -22,12 +20,6 @@ import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
   ],
   declarations: [HeaderComponent, HeaderSkipperComponent],
   exports: [HeaderComponent],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HardcodedSiteContext,
-      multi: true
-    }
-  ]
+  providers: []
 })
 export class HeaderModule {}
