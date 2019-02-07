@@ -3,97 +3,55 @@
 @import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-// cx-review color variables
-$cx-review-media-background-color: 'background' !default;
-$cx-review-summary-background-color: 'background' !default;
-$cx-review-summary-card-border-color: 'light' !default;
-$cx-review-cart-item-border-color: 'light' !default;
-
-// cx-review variables
-$cx-review-no-margin: 0 !default;
-$cx-review-no-padding: 0 !default;
-
-$cx-review-container-margin-bottom: 2.5rem !default;
-
-$cx-review-title-margin: 0 auto !default;
-$cx-review-title-padding: 2.375rem 0 1.25rem 0 !default;
-
-$cx-review-summary-margin-left: 0 !default;
-$cx-review-summary-card-border: 1px solid !default;
-
-$cx-review-row-margin-right: 0 !default;
-$cx-review-col-md-4-padding-right: 0 !default;
-
-$cx-review-cart-item-border-top: 1px solid !default;
-$cx-review-cart-total-margin-top: 2.625rem !default;
-$cx-review-cart-total-header-border: 1px solid !default;
-$cx-review-cart-total-header-padding: 1.375rem 0 !default;
-$cx-review-cart-total-header-margin: 0 !default;
-$cx-review-cart-total-header-border-color: 'light' !default;
-
-// Media Queries
-$cx-review-col-md-12-md-padding: 0 3.5rem 3.5rem 3.5rem !default;
-$cx-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
-
 .cx-review {
   &.container {
-    padding: $cx-review-no-padding;
-    margin-bottom: $cx-review-container-margin-bottom;
+    padding: 0;
+    margin-bottom: 2.5rem;
   }
 
   &__title {
     text-transform: uppercase;
-    margin: $cx-review-title-margin;
-    padding: $cx-review-title-padding;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.25rem 0;
   }
 
   &__summary {
-    margin-left: $cx-review-summary-margin-left;
-    @include var-color('background-color', $cx-review-summary-background-color);
+    margin-left: 0;
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
 
     &-card {
       @include media-breakpoint-down(md) {
         background-color: theme-color('inverse');
-        border: $cx-review-summary-card-border;
-        @include var-color(
-          'border-color',
-          $cx-review-summary-card-border-color
-        );
+        border: 1px solid;
+        border-color: var(--cx-border-color, var(--cx-g-color-light));
       }
     }
   }
 
   .row {
-    margin-right: $cx-review-row-margin-right;
+    margin-right: 0;
   }
 
   .form-check {
-    padding: $cx-review-no-padding;
-    margin: $cx-review-no-margin;
+    padding: 0;
+    margin: 0;
   }
 
   .col-md-4 {
-    padding-right: $cx-review-col-md-4-padding-right;
+    padding-right: 0;
   }
 
   &__cart-total {
     @include type('4');
-    margin-top: $cx-review-cart-total-margin-top;
+    margin-top: 2.625rem;
 
     &-header {
       @include type('4');
-      padding: $cx-review-cart-total-header-padding;
-      margin: $cx-review-cart-total-header-margin;
-      border-top: $cx-review-cart-total-header-border;
-      @include var-color(
-        'border-top-color',
-        $cx-review-cart-total-header-border-color
-      );
-      border-bottom: $cx-review-cart-total-header-border;
-      @include var-color(
-        'border-bottom-color',
-        $cx-review-cart-total-header-border-color
-      );
+      padding: 1.375rem 0;
+      margin: 0;
+      border-top: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
+      border-bottom: 1px solid;
 
       @include media-breakpoint-down(md) {
         border-bottom: none;
@@ -121,8 +79,8 @@ $cx-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
       }
     }
     @include media-breakpoint-down(md) {
-      border-top: $cx-review-cart-item-border-top;
-      @include var-color('border-color', $cx-review-cart-item-border-color);
+      border-top: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
     }
   }
 
@@ -131,11 +89,11 @@ $cx-review-col-md-12-sm-padding: 0 1.25rem 1.25rem 1.25rem !default;
   @include checkout-media-style();
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: $cx-review-col-md-12-md-padding;
+      padding: 0 3.5rem 3.5rem 3.5rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding: $cx-review-col-md-12-sm-padding;
+      padding: 0 1.25rem 1.25rem 1.25rem;
     }
   }
 }
