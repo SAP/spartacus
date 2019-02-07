@@ -45,7 +45,7 @@ describe('Entity Actions', () => {
       });
     });
 
-    describe('entityMeta', () => {
+    describe('entityRemoveMeta', () => {
       it('should create a meta', () => {
         const meta = entityRemoveMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect(meta).toEqual({
@@ -56,7 +56,7 @@ describe('Entity Actions', () => {
       });
     });
 
-    describe('entityMeta', () => {
+    describe('entityRemoveAllMeta', () => {
       it('should create a meta', () => {
         const meta = entityRemoveAllMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
