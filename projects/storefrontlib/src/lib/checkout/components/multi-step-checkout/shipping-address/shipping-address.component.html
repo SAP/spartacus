@@ -1,6 +1,6 @@
 <ng-container *ngIf="(existingAddresses$ | async) as existingAddresses">
   <div class="cx-shipping-address container">
-    <h3 class="cx-shipping-address__title d-none d-lg-block d-xl-block">
+    <h3 class="cx-shipping-address-title d-none d-lg-block d-xl-block">
       Shipping Address
     </h3>
     <ng-container *ngIf="!(isLoading$ | async); else loading">
