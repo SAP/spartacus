@@ -6,6 +6,17 @@
   }
 }
 
+.cx-facet-checkbox {
+  position: var(--cx-position, relative);
+  margin: var(--cx-margin, 0 10px 0 0);
+  min-width: var(--cx-min-width, 22px);
+  transition: var(--cx-transition, 0.3s);
+
+  &:checked + .cx-facet-text {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+}
+
 .cx-facet-list {
   padding: var(--cx-padding, 0);
   list-style: var(--cx-list-style, none);
@@ -38,17 +49,6 @@
 
   .cx-facet-toggle-btn {
     cursor: pointer;
-  }
-}
-
-.cx-facet-checkbox {
-  position: var(--cx-position, relative);
-  margin: var(--cx-margin, 0 10px 0 0);
-  min-width: var(--cx-min-width, 22px);
-  transition: var(--cx-transition, 0.3s);
-
-  &:checked + .cx-facet-text {
-    color: var(--cx-color, var(--cx-g-color-primary));
   }
 }
 
