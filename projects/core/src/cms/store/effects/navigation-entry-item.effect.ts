@@ -31,8 +31,8 @@ export class NavigationEntryItemEffects {
             // download all items in one request
             return this.occCmsService
               .loadListComponents(
-                data.ids.componentIds,
                 pageContext,
+                data.ids.componentIds,
                 'DEFAULT',
                 0,
                 data.ids.componentIds.idList.length

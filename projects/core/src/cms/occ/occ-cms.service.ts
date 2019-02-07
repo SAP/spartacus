@@ -66,14 +66,15 @@ export class OccCmsService {
   }
 
   loadListComponents(
-    idList: IdList,
     pageContext: PageContext,
+    idList?: IdList,
     fields?: string,
     currentPage?: number,
     pageSize?: number,
     sort?: string
   ): Observable<CmsComponentList> {
-    let requestParams = this.getRequestParams(pageContext, fields);
+    let requestParams = this.getRequestParams(pageContext, fields, idList);
+
     if (currentPage !== undefined) {
       requestParams === ''
         ? (requestParams = requestParams + 'currentPage=' + currentPage)
@@ -87,7 +88,7 @@ export class OccCmsService {
     }
 
     return this.http
-      .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
+      .get<CmsComponentList>(this.getBaseEndPoint() + `/components`, {
         headers: this.headers,
         params: new HttpParams({
           fromString: requestParams
@@ -96,7 +97,11 @@ export class OccCmsService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getRequestParams(pageContext: PageContext, fields?: string): string {
+  private getRequestParams(
+    pageContext: PageContext,
+    fields?: string,
+    idList?: IdList
+  ): string {
     let requestParams = '';
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
@@ -111,6 +116,14 @@ export class OccCmsService {
         requestParams = 'catalogCode=' + pageContext.id;
         break;
       }
+    }
+
+    if (idList !== undefined) {
+      requestParams === ''
+        ? (requestParams =
+            requestParams + 'componentIds=' + idList.idList.toString())
+        : (requestParams =
+            requestParams + '&componentIds=' + idList.idList.toString());
     }
 
     if (fields !== undefined) {
