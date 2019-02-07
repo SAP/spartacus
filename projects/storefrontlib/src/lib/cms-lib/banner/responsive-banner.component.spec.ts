@@ -3,7 +3,6 @@ import { DebugElement, PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { ResponsiveBannerComponent } from './responsive-banner.component';
 import {
   CmsConfig,
   TranslateUrlOptions,
@@ -11,6 +10,8 @@ import {
   CmsBannerComponent,
   CmsResponsiveBannerComponentMedia
 } from '@spartacus/core';
+import { BannerComponentService } from './banner.component.service';
+import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
@@ -78,6 +79,11 @@ describe('ResponsiveBannerComponent', () => {
     contextParameters: null
   };
 
+  const MockBannerComponentService = new BannerComponentService(
+    MockCmsComponentData,
+    UseCmsModuleConfig
+  );
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -87,8 +93,10 @@ describe('ResponsiveBannerComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsConfig, useValue: UseCmsModuleConfig }
+        {
+          provide: BannerComponentService,
+          useValue: MockBannerComponentService
+        }
       ]
     }).compileComponents();
   }));

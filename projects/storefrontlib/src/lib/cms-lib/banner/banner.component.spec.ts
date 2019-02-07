@@ -12,6 +12,7 @@ import {
 } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { BannerComponentService } from './banner.component.service';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -55,6 +56,11 @@ describe('BannerComponent', () => {
     contextParameters: null
   };
 
+  const MockBannerComponentService = new BannerComponentService(
+    MockCmsComponentData,
+    UseCmsModuleConfig
+  );
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -64,8 +70,10 @@ describe('BannerComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsConfig, useValue: UseCmsModuleConfig }
+        {
+          provide: BannerComponentService,
+          useValue: MockBannerComponentService
+        }
       ]
     }).compileComponents();
   }));

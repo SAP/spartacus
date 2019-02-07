@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { BannerComponent } from './banner.component';
+
+import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
-import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { BannerComponent } from './banner.component';
+import { BannerComponentService } from './banner.component.service';
 
 @NgModule({
   imports: [
@@ -13,8 +16,26 @@ import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
     GenericLinkModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        SimpleResponsiveBannerComponent: { selector: 'cx-responsive-banner' },
-        SimpleBannerComponent: { selector: 'cx-banner' }
+        SimpleResponsiveBannerComponent: {
+          selector: 'cx-responsive-banner',
+          providers: [
+            {
+              provide: BannerComponentService,
+              useClass: BannerComponentService,
+              deps: [CmsComponentData, CmsConfig]
+            }
+          ]
+        },
+        SimpleBannerComponent: {
+          selector: 'cx-banner',
+          providers: [
+            {
+              provide: BannerComponentService,
+              useClass: BannerComponentService,
+              deps: [CmsComponentData, CmsConfig]
+            }
+          ]
+        }
       }
     }),
     UrlTranslationModule
