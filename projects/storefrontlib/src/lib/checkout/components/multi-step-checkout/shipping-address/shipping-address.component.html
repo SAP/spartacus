@@ -10,8 +10,8 @@
           else newAddressForm
         "
       >
-        <p class="cx-shipping-address__text">Select your Shipping Address</p>
-        <div class="cx-shipping-address__btn row justify-content-end">
+        <p class="cx-shipping-address-text">Select your Shipping Address</p>
+        <div class="cx-shipping-address-btn row justify-content-end">
           <div class="col-sm-12 col-md-6 col-lg-6">
             <button
               class="btn btn-block btn-action"
@@ -22,13 +22,13 @@
           </div>
         </div>
 
-        <div class="cx-shipping-address__body row">
+        <div class="cx-shipping-address-body row">
           <div
-            class="cx-shipping-address__card col-md-12 col-lg-6"
+            class="cx-shipping-address-card col-md-12 col-lg-6"
             *ngFor="let address of existingAddresses; let i = index"
           >
             <div
-              class="cx-shipping-address__card-inner"
+              class="cx-shipping-address-card-inner"
               (click)="addressSelected(address, i)"
             >
               <cx-card
@@ -68,7 +68,7 @@
     </ng-container>
 
     <ng-template #loading>
-      <div class="cx-shipping-address__spinner"><cx-spinner></cx-spinner></div>
+      <div class="cx-shipping-address-spinner"><cx-spinner></cx-spinner></div>
     </ng-template>
   </div>
 </ng-container>
