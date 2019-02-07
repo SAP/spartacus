@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { UserService, Address } from '@spartacus/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { UserService, Address, User } from '@spartacus/core';
 
 @Injectable()
 export class AddressBookComponentService {
   private userId: string;
+  private activeAddress = new BehaviorSubject<Address>({});
   private isAddAddressFormOpen = new BehaviorSubject<boolean>(false);
   private isEditAddressFormOpen = new BehaviorSubject<boolean>(false);
 
@@ -17,33 +19,33 @@ export class AddressBookComponentService {
     );
   }
 
+  getActiveAddress(): Observable<Address> {
+    return this.activeAddress.asObservable();
+  }
+
   getIsAddAddressFormOpen(): Observable<boolean> {
     return this.isAddAddressFormOpen.asObservable();
   }
 
   getIsEditAddressFormOpen(): Observable<boolean> {
-    return this.isEditAddressFormOpen;
+    return this.isEditAddressFormOpen.asObservable();
   }
 
-  getIsAnyFormOpen(): Observable<boolean> {
-    return this.isAddAddressFormOpen || this.isEditAddressFormOpen;
-  }
-
-  //   todo: set all to use 'next'
   showAddAddressForm() {
     this.isAddAddressFormOpen.next(true);
   }
 
   hideAddAddressForm() {
-    this.isAddAddressFormOpen = false;
+    this.isAddAddressFormOpen.next(false);
   }
 
-  showEditAddressForm() {
-    this.isEditAddressFormOpen = true;
+  showEditAddressForm(address: Address) {
+    this.activeAddress.next(address);
+    this.isEditAddressFormOpen.next(true);
   }
 
   hideEditAddressForm() {
-    this.isEditAddressFormOpen = false;
+    this.isEditAddressFormOpen.next(false);
   }
 
   getAddresses(): Observable<Address[]> {
@@ -54,12 +56,8 @@ export class AddressBookComponentService {
     return this.userService.getAddressesLoading();
   }
 
-  getAddressActionProcessing(): Observable<boolean> {
-    return this.userService.getAddressActionProcessingStatus();
-  }
-
   getUserId(): Observable<string> {
-    return this.userService.get().pipe(map(data => data.uid));
+    return this.userService.get().pipe(map((data: User) => data.uid));
   }
 
   loadAddresses() {

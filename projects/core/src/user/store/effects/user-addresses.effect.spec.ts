@@ -7,10 +7,12 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList, Address } from '../../../occ';
-import { OccUserService } from '../../occ/index';
+import { AddressList, Address, User } from '../../../occ/index';
+import { OccUserService as UserOccService } from '../../occ/index';
 
 import * as fromUserAddressesEffect from './user-addresses.effect';
+import { UserService } from '../../facade/user.service';
+import { GlobalMessageService } from 'projects/core/src/global-message';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {
@@ -25,6 +27,18 @@ class MockOccUserService {
   deleteUserAddress(): Observable<any> {
     return of({});
   }
+}
+
+class MockUserService {
+  loadAddresses = jasmine.createSpy();
+
+  get(): Observable<User> {
+    return of({});
+  }
+}
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
 }
 
 const mockUserAddresses: AddressList = { addresses: [{ id: 'address123' }] };
@@ -42,14 +56,16 @@ const mockUserAddress: Address = {
 
 describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
-  let userService: OccUserService;
+  let userOccService: UserOccService;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserAddressesEffect.UserAddressesEffects,
-        { provide: OccUserService, useClass: MockOccUserService },
+        { provide: UserOccService, useClass: MockOccUserService },
+        { provide: UserService, useClass: MockUserService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         provideMockActions(() => actions$)
       ]
     });
@@ -57,9 +73,9 @@ describe('User Addresses effect', () => {
     userAddressesEffect = TestBed.get(
       fromUserAddressesEffect.UserAddressesEffects
     );
-    userService = TestBed.get(OccUserService);
+    userOccService = TestBed.get(UserOccService);
 
-    spyOn(userService, 'loadUserAddresses').and.returnValue(
+    spyOn(userOccService, 'loadUserAddresses').and.returnValue(
       of(mockUserAddresses)
     );
   });
