@@ -132,13 +132,6 @@ export class ItemCounterComponent
     }
   }
 
-  onInput(event: Event): void {
-    const { value } = event.target as any;
-    if (value) {
-      this.manualChange(Number(value));
-    }
-  }
-
   onBlur(event: FocusEvent): void {
     this.focus = false;
     event.preventDefault();
