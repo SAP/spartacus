@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+
 import { ActionsSubject } from '@ngrx/store';
+
 import {
   GlobalMessageService,
-  GlobalMessageType,
   UserService,
   LOAD_USER_ADDRESSES_SUCCESS,
   ADD_USER_ADDRESS,
@@ -16,6 +16,8 @@ import {
   Address
 } from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
+
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-address-book',
@@ -38,7 +40,6 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   constructor(
     public service: AddressBookComponentService,
     private userService: UserService,
-    private messagesService: GlobalMessageService,
     private actions: ActionsSubject
   ) {}
 
@@ -86,7 +87,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
     this.service.updateUserAddress(addressId, address);
   }
 
-  handleActionEvents() {
+  handleActionEvents(): Subscription {
     return this.actions.subscribe(action => {
       switch (action.type) {
         case LOAD_USER_ADDRESSES_SUCCESS: {

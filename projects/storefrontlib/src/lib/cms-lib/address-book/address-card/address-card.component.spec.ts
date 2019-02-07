@@ -1,11 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddressCardComponent } from './address-card.component';
-import { AddressBookModule } from '../address-book.module';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
+
 import { StoreModule } from '@ngrx/store';
 
-const mockAddress = {
+import { Address } from '@spartacus/core';
+
+import { AddressBookModule } from '../address-book.module';
+
+import { AddressCardComponent } from './address-card.component';
+
+const mockAddress: Address = {
   id: '123',
   firstName: 'John',
   lastName: 'Doe',

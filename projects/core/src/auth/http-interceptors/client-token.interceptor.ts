@@ -7,14 +7,15 @@ import {
 } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
+
+import { AuthConfig } from '../config/auth-config';
 import { AuthService } from '../facade/auth.service';
-import { AuthenticationToken } from '../models/token-types.model';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
-import { AuthConfig } from '../config/auth-config';
+import { ClientToken } from '../models/token-types.model';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
@@ -30,7 +31,8 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return this.getClientToken(request).pipe(
-      switchMap((token: AuthenticationToken) => {
+      take(1),
+      switchMap((token: ClientToken) => {
         if (token && request.url.indexOf(this.baseReqString) > -1) {
           request = request.clone({
             setHeaders: {
@@ -43,9 +45,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     );
   }
 
-  private getClientToken(
-    request: HttpRequest<any>
-  ): Observable<AuthenticationToken> {
+  private getClientToken(request: HttpRequest<any>): Observable<ClientToken> {
     if (
       InterceptorUtil.getInterceptorParam(USE_CLIENT_TOKEN, request.headers)
     ) {

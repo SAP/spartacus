@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 const WAITING_CLASS = 'waiting';
 
@@ -8,8 +9,10 @@ const WAITING_CLASS = 'waiting';
   styleUrls: ['./product-images.component.scss']
 })
 export class ProductImagesComponent implements OnChanges {
-  @Input()
-  product: any;
+  outlets = ProductDetailOutlets;
+
+  @Input() product: any;
+
   mainImageContainer;
 
   waiting: HTMLElement;
