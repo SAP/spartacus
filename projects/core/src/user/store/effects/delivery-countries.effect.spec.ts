@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
@@ -67,21 +66,6 @@ describe('Delivery Countries effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effect.loadDeliveryCountries$).toBeObservable(expected);
-    });
-  });
-
-  describe('resetRegions$', () => {
-    it('should return a reset action', () => {
-      const action: Action = {
-        type: '[Site-context] Language Change'
-      };
-
-      const completion = new fromActions.ResetDeliveryCountries();
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effect.resetDeliveryCountries$).toBeObservable(expected);
     });
   });
 });
