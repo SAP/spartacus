@@ -63,7 +63,7 @@ export class SearchResultsPage extends AppPage {
   );
 
   readonly showMoreLessStoresButton: ElementFinder = this.page.element(
-    by.css('.cx-search-facet-list__toggle-button')
+    by.css('.cx-facet-toggle-btn')
   );
 
   readonly sortingSelect: ElementFinder = this.page.element(
