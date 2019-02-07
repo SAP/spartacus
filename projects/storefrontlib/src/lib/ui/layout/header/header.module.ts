@@ -5,9 +5,9 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { UrlTranslationModule } from '@spartacus/core';
 
-import { CmsModule } from '../../../cms';
-import { LoginModule } from '../../../user';
+import { CmsModule } from '../../../cms/cms.module';
 import { PwaModule } from '../../../pwa/pwa.module';
+import { LoginModule } from '../../../user/login/login.module';
 
 import { HeaderComponent } from './header.component';
 import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
