@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import {
   CmsBannerComponent,
@@ -7,8 +9,7 @@ import {
   CmsResponsiveBannerComponentMedia
 } from '@spartacus/core';
 import { CmsComponentData } from './../../cms/components/cms-component-data';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { ResponsiveBannerFormat } from './responsive-banner-format.model';
 
 @Injectable()
 export class BannerComponentService {
@@ -21,7 +22,7 @@ export class BannerComponentService {
 
   // TODO: move to a more generic location
   // TODO: Make configurable
-  private formats: { code: string; width: number }[] = [
+  private formats: ResponsiveBannerFormat[] = [
     { code: 'mobile', width: 200 },
     { code: 'tablet', width: 500 },
     { code: 'desktop', width: 800 },
