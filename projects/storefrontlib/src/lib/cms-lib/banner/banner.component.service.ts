@@ -21,7 +21,7 @@ export class BannerComponentService {
 
   // TODO: move to a more generic location
   // TODO: Make configurable
-  private formats: any[] = [
+  private formats: { code: string; width: number }[] = [
     { code: 'mobile', width: 200 },
     { code: 'tablet', width: 500 },
     { code: 'desktop', width: 800 },

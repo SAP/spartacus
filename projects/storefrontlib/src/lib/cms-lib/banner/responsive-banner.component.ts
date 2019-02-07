@@ -10,6 +10,7 @@ import { BannerComponent } from './banner.component';
 })
 export class ResponsiveBannerComponent extends BannerComponent {
   getClass(): string {
-    return 'responsive-banner ' + this.service.getComponentUID();
+    const RESPONSIVE_BANNER_CLASS = 'responsive-banner';
+    return `${RESPONSIVE_BANNER_CLASS} ${this.service.getComponentUID()}`;
   }
 }
