@@ -9,7 +9,6 @@ import { LoginModule } from '../../../user/login/login.module';
 import { PwaModule } from '../../../pwa/pwa.module';
 import { UrlTranslationModule } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HardcodedSiteContext } from './sitecontext-slot.interceptor';
 import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
 
 @NgModule({
@@ -24,11 +23,6 @@ import { HardcodedSiteLinks } from './sitelinks-slot.interceptor';
   declarations: [HeaderComponent, HeaderSkipperComponent],
   exports: [HeaderComponent],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HardcodedSiteContext,
-      multi: true
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HardcodedSiteLinks,
