@@ -1,6 +1,7 @@
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
+import { SiteContextConfig } from '../config/site-context-config';
 
 export interface ParamValuesMap {
   [name: string]: string;
@@ -12,24 +13,26 @@ export interface UrlTreeWithSiteContext extends UrlTree {
 
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
-  private routeContextParameters = [];
+  private readonly urlEncodingParameters: string[];
 
   get hasContextInRoutes() {
-    return this.routeContextParameters.length > 0;
+    return this.urlEncodingParameters.length > 0;
   }
 
-  constructor(private siteContextParams: SiteContextParamsService) {
+  constructor(
+    private siteContextParams: SiteContextParamsService,
+    private config: SiteContextConfig
+  ) {
     super();
-    this.routeContextParameters = this.siteContextParams.getContextParameters(
-      'route'
-    );
+    this.urlEncodingParameters =
+      this.config.siteContext.urlEncodingParameters || [];
   }
 
   parse(url: string): UrlTreeWithSiteContext {
     if (this.hasContextInRoutes) {
       const urlWithParams = this.urlExtractContextParameters(url);
       const parsed = super.parse(urlWithParams.url) as UrlTreeWithSiteContext;
-      this.urlTreeIncludeCotextParameters(parsed, urlWithParams.params);
+      this.urlTreeIncludeContextParameters(parsed, urlWithParams.params);
       return parsed;
     } else {
       return super.parse(url);
@@ -46,10 +49,10 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     const params = {};
     for (
       let i = 0;
-      i < this.routeContextParameters.length && i < segments.length;
+      i < this.urlEncodingParameters.length && i < segments.length;
       i++
     ) {
-      const paramName = this.routeContextParameters[i];
+      const paramName = this.urlEncodingParameters[i];
       const paramValues = this.siteContextParams.getParamValues(paramName);
       if (paramValues.indexOf(segments[i]) > -1) {
         params[paramName] = segments[i];
@@ -61,7 +64,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return { url, params };
   }
 
-  private urlTreeIncludeCotextParameters(
+  private urlTreeIncludeContextParameters(
     urlTree: UrlTreeWithSiteContext,
     params: ParamValuesMap
   ) {
@@ -82,7 +85,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   }
 
   private urlIncludeContextParameters(url: string, params: ParamValuesMap) {
-    const contextRoutePart = this.routeContextParameters
+    const contextRoutePart = this.urlEncodingParameters
       .map(param => {
         return params[param]
           ? params[param]

@@ -15,7 +15,7 @@ export class SiteContextParamsService {
   ) {}
 
   getContextParameters(persistence?: ContextParamPersistence): string[] {
-    const contextConfig = this.config.siteContext;
+    const contextConfig = this.config.siteContext.parameters;
     if (contextConfig) {
       const params = Object.keys(contextConfig);
       if (persistence) {
@@ -29,15 +29,17 @@ export class SiteContextParamsService {
     return [];
   }
 
-  getParamValues(param: string) {
-    return this.config.siteContext[param]
-      ? this.config.siteContext[param].values
+  getParamValues(param: string): string[] {
+    return this.config.siteContext.parameters &&
+      this.config.siteContext.parameters[param]
+      ? this.config.siteContext.parameters[param].values
       : undefined;
   }
 
-  getParamDefaultValue(param: string) {
-    return this.config.siteContext[param]
-      ? this.config.siteContext[param].defaultValue
+  getParamDefaultValue(param: string): string {
+    return this.config.siteContext.parameters &&
+      this.config.siteContext.parameters[param]
+      ? this.config.siteContext.parameters[param].defaultValue
       : undefined;
   }
 
@@ -45,7 +47,7 @@ export class SiteContextParamsService {
     return this.injector.get<SiteContext<any>>(this.serviceMap[param]);
   }
 
-  getValue(param: string) {
+  getValue(param: string): string {
     let value: string;
 
     const service = this.getSiteContextService(param);

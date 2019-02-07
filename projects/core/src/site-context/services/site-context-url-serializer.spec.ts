@@ -5,11 +5,19 @@ import {
 } from './site-context-url-serializer';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 import { UrlSegmentGroup, UrlTree } from '@angular/router';
+import { SiteContextConfig } from '@spartacus/core';
 
 describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
-    getContextParameters: () => ['language'],
-    getParamValues: () => ['en', 'de']
+    getParamValues: param =>
+      ({ language: ['en', 'de'], currency: ['usd', 'pln'] }[param]),
+    getValue: param => ({ language: 'de', currency: 'usd' }[param])
+  };
+
+  const mockSiteContextConfig: SiteContextConfig = {
+    siteContext: {
+      urlEncodingParameters: ['language', 'currency']
+    }
   };
 
   let mockUrlTree: UrlTreeWithSiteContext;
@@ -22,7 +30,8 @@ describe('SiteContextUrlSerializer', () => {
         {
           provide: SiteContextParamsService,
           useValue: mockSiteContextParamsService
-        }
+        },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig }
       ]
     });
 
@@ -31,7 +40,8 @@ describe('SiteContextUrlSerializer', () => {
       root: new UrlSegmentGroup([], {}),
       queryParams: {},
       siteContext: {
-        language: 'de'
+        language: 'de',
+        currency: 'pln'
       }
     });
 
@@ -50,11 +60,29 @@ describe('SiteContextUrlSerializer', () => {
 
   it('should serialize url with site context parameters', () => {
     const url = service.serialize(mockUrlTree);
-    expect(url).toEqual('de/');
+    expect(url).toEqual('de/pln/');
+  });
+
+  it('should serialize url with partial site context parameters', () => {
+    delete mockUrlTree.siteContext['currency'];
+    const url = service.serialize(mockUrlTree);
+    expect(url).toEqual('de/usd/');
   });
 
   describe('urlExtractContextParameters', () => {
     it('should extract context parameters from url', () => {
+      const result = service.urlExtractContextParameters(
+        'en/usd/another/part/of/url'
+      );
+      const expected = {
+        url: 'another/part/of/url',
+        params: { language: 'en', currency: 'usd' }
+      };
+
+      expect(result).toEqual(expected);
+    });
+
+    it('should extract partial context parameters', () => {
       const result = service.urlExtractContextParameters(
         'en/another/part/of/url'
       );
@@ -71,7 +99,8 @@ describe('SiteContextUrlSerializer', () => {
     it('should extract context parameters from UrlTree', () => {
       const result = service.urlTreeExtractContextParameters(mockUrlTree);
       const expected = {
-        language: 'de'
+        language: 'de',
+        currency: 'pln'
       };
 
       expect(result).toEqual(expected);

@@ -8,6 +8,9 @@ export interface ContextParams {
 
 export abstract class SiteContextConfig {
   siteContext?: {
-    [contextName: string]: ContextParams;
+    parameters?: {
+      [contextName: string]: ContextParams;
+    };
+    urlEncodingParameters?: string[];
   };
 }
