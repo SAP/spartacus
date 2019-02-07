@@ -19,7 +19,7 @@ import { StorefrontComponent } from './storefront.component';
     GlobalMessageComponentModule,
     CmsModule,
     LoginModule,
-    HeaderModule.forRoot(),
+    HeaderModule,
     UiFrameworkModule,
     OutletRefModule,
     PwaModule
