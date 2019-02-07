@@ -1,30 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { RoutingService } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-page',
-  templateUrl: './product-page.component.html',
-  styleUrls: ['./product-page.component.scss']
+  templateUrl: './product-page.component.html'
 })
-export class ProductPageComponent implements OnInit, OnDestroy {
-  productCode: string;
-  subscription: Subscription;
+export class ProductPageComponent implements OnInit {
+  productCode$: Observable<string>;
 
   constructor(private routingService: RoutingService) {}
 
   ngOnInit() {
-    this.subscription = this.routingService
+    this.productCode$ = this.routingService
       .getRouterState()
-      .subscribe(
-        routerState =>
-          (this.productCode = routerState.state.params['productCode'])
-      );
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+      .pipe(map(state => state.state.params['productCode']));
   }
 }

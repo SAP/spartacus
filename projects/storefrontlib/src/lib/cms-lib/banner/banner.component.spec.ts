@@ -4,9 +4,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { BannerComponent } from './banner.component';
-import { CmsConfig, Component } from '@spartacus/core';
+import {
+  CmsConfig,
+  Component as SpaComponent,
+  CmsBannerComponent,
+  CmsBannerComponentMedia
+} from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { BannerComponentService } from './banner.component.service';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
@@ -21,7 +27,7 @@ const UseCmsModuleConfig: CmsConfig = {
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('BannerComponent', () => {
@@ -29,7 +35,7 @@ describe('BannerComponent', () => {
   let fixture: ComponentFixture<BannerComponent>;
   let el: DebugElement;
 
-  const componentData = {
+  const componentData: CmsBannerComponent = {
     uid: 'SiteLogoComponent',
     typeCode: 'SimpleBannerComponent',
     name: 'Site Logo Component',
@@ -41,15 +47,19 @@ describe('BannerComponent', () => {
       altText: 'hybris Accelerator',
       url: '/medias/logo-hybris.jpg'
     },
-    type: 'Simple Banner Component',
     urlLink: '/logo'
   };
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData),
     uid: 'test',
     contextParameters: null
   };
+
+  const MockBannerComponentService = new BannerComponentService(
+    MockCmsComponentData,
+    UseCmsModuleConfig
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -60,8 +70,10 @@ describe('BannerComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsConfig, useValue: UseCmsModuleConfig }
+        {
+          provide: BannerComponentService,
+          useValue: MockBannerComponentService
+        }
       ]
     }).compileComponents();
   }));
@@ -79,7 +91,7 @@ describe('BannerComponent', () => {
   it('should contain image source', () => {
     fixture.detectChanges();
     expect(el.query(By.css('img')).nativeElement.src).toContain(
-      componentData.media.url
+      (<CmsBannerComponentMedia>componentData.media).url
     );
   });
 });

@@ -33,10 +33,11 @@ export class ProductSearchService {
   }
 
   getSearchResults(): Observable<ProductSearchPage> {
-    return this.store.pipe(
-      select(fromStore.getSearchResults),
-      filter(results => Object.keys(results).length > 0)
-    );
+    return this.store.pipe(select(fromStore.getSearchResults));
+  }
+
+  clearSearchResults(): void {
+    this.store.dispatch(new fromStore.CleanProductSearchState());
   }
 
   getAuxSearchResults(): Observable<ProductSearchPage> {

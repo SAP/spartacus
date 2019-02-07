@@ -17,7 +17,7 @@
   }
 
   .cx-facet-label {
-    color: var(--cx-color, --cx-g-color-secondary);
+    color: var(--cx-color, var(--cx-g-color-secondary));
     @include type('6');
     font-weight: $font-weight-normal;
     position: var(--cx-position, relative);
@@ -48,7 +48,7 @@
   transition: var(--cx-transition, 0.3s);
 
   &:checked + .cx-facet-text {
-    color: var(--cx-color, --cx-g-color-primary);
+    color: var(--cx-color, var(--cx-g-color-primary));
   }
 }
 
@@ -57,7 +57,7 @@
   border-style: var(--cx-border-style, solid);
   border-color: var(--cx-border-color, var(--cx-g-color-light));
   @include type('4');
-  color: var(--cx-color, --cx-g-color-text);
+  color: var(--cx-color, var(--cx-g-color-text));
   padding: var(--cx-padding, 0 0 10px 0);
   margin: var(--cx-margin, 0 0 17px 0);
   display: var(--cx-display, block);
@@ -71,7 +71,7 @@
       position: var(--cx-position, relative);
       top: var(--cx-top, 10px);
       font-weight: $font-weight-normal;
-      color: var(--cx-color, --cx-g-color-secondary);
+      color: var(--cx-color, var(--cx-g-color-secondary));
     }
 
     &[aria-expanded='false'] {
@@ -99,18 +99,18 @@
 
 .cx-facet-filter-header {
   @include type('3');
-  color: var(--cx-color, --cx-g-color-text);
+  color: var(--cx-color, var(--cx-g-color-text));
   padding: var(--cx-padding, 0 0 10px 0);
   margin: var(--cx-margin, 0 0 20px 0);
 
   @include media-breakpoint-down(md) {
-    display: var(--cx-display, inlineblock);
+    display: var(--cx-display, inline-block);
     margin: var(--cx-margin, 0 20px 0px 0);
   }
 }
 
 .cx-facet-filter-pill {
-  background: var(--cx-g-color-light);
+  background: var(--cx-background, var(--cx-g-color-light));
   padding: var(--cx-padding, 10px 10px 10px 13px);
   margin: var(--cx-margin, 10px 10px 5px 0);
   display: var(--cx-display, flex);

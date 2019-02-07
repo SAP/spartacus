@@ -12,18 +12,9 @@ describe('View All Stores Reducer', () => {
     });
   });
 
-  describe('VIEW_ALL_STORES action', () => {
-    it('should set isLoading flag to true', () => {
-      const { initialState } = fromReducers;
-      const action = new fromActions.ViewAllStores();
-      const state = fromReducers.reducer(initialState, action);
-      expect(state.isLoading).toEqual(true);
-    });
-  });
-
   describe('VIEW_ALL_STORES_SUCCESS action', () => {
     it('should populate results after loading', () => {
-      const results = { stores: [{ name: 'test' }] };
+      const results = { pointOfServices: [{ name: 'test' }] };
       const { initialState } = fromReducers;
       const loadAction = new fromActions.ViewAllStores();
 
@@ -32,7 +23,6 @@ describe('View All Stores Reducer', () => {
       const state = fromReducers.reducer(loadingState, resultAction);
 
       expect(state.viewAllStoresEntities).toEqual(results);
-      expect(state.isLoading).toEqual(false);
     });
   });
 });

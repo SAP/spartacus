@@ -3,8 +3,15 @@ import { DebugElement, PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
+import {
+  CmsConfig,
+  TranslateUrlOptions,
+  Component as SpaComponent,
+  CmsBannerComponent,
+  CmsResponsiveBannerComponentMedia
+} from '@spartacus/core';
+import { BannerComponentService } from './banner.component.service';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
-import { CmsConfig, TranslateUrlOptions, Component } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
@@ -31,10 +38,10 @@ describe('ResponsiveBannerComponent', () => {
   let fixture: ComponentFixture<ResponsiveBannerComponent>;
   let el: DebugElement;
 
-  const componentData = {
+  const componentData: CmsBannerComponent = {
     uid: 'ElectronicsHompageSplashBannerComponent',
     typeCode: 'SimpleResponsiveBannerComponent',
-    modifiedTime: '2018-01-04T15:25:06+0000',
+    modifiedtime: new Date('2018-01-04T15:25:06+0000'),
     name: 'Electronics Homepage Splash Banner Component',
     container: 'false',
     media: {
@@ -63,15 +70,19 @@ describe('ResponsiveBannerComponent', () => {
         url: '/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg'
       }
     },
-    type: 'Simple Responsive Banner Component',
     urlLink: '/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578'
   };
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData),
     uid: 'test',
     contextParameters: null
   };
+
+  const MockBannerComponentService = new BannerComponentService(
+    MockCmsComponentData,
+    UseCmsModuleConfig
+  );
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -82,8 +93,10 @@ describe('ResponsiveBannerComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsConfig, useValue: UseCmsModuleConfig }
+        {
+          provide: BannerComponentService,
+          useValue: MockBannerComponentService
+        }
       ]
     }).compileComponents();
   }));
@@ -104,19 +117,27 @@ describe('ResponsiveBannerComponent', () => {
       '/translated-path' + componentData.urlLink
     );
     expect(el.query(By.css('img')).nativeElement.src).toContain(
-      componentData.media.desktop.url
+      (<CmsResponsiveBannerComponentMedia>componentData.media).desktop.url
     );
     expect(el.query(By.css('img')).nativeElement.srcset).toContain(
-      `${componentData.media.mobile.url} 200w,`
+      `${
+        (<CmsResponsiveBannerComponentMedia>componentData.media).mobile.url
+      } 200w,`
     );
     expect(el.query(By.css('img')).nativeElement.srcset).toContain(
-      `${componentData.media.tablet.url} 500w,`
+      `${
+        (<CmsResponsiveBannerComponentMedia>componentData.media).tablet.url
+      } 500w,`
     );
     expect(el.query(By.css('img')).nativeElement.srcset).toContain(
-      `${componentData.media.desktop.url} 800w,`
+      `${
+        (<CmsResponsiveBannerComponentMedia>componentData.media).desktop.url
+      } 800w,`
     );
     expect(el.query(By.css('img')).nativeElement.srcset).toContain(
-      `${componentData.media.widescreen.url} 1200w`
+      `${
+        (<CmsResponsiveBannerComponentMedia>componentData.media).widescreen.url
+      } 1200w`
     );
     expect(el.query(By.css('picture')).nativeElement.classList[0]).toBe(
       'responsive-banner'
