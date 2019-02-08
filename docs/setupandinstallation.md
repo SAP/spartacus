@@ -169,9 +169,12 @@ The corresponding `app.module.ts` file appears as follows:
 
 **Note**: The value from the `meta` tag takes precedence over the `server.baseUrl` from the `withConfig` method.
 
-## Deployment to different environments
+### Placeholder meta tag
 
-For the automation of deployments, we suggest to put only a placeholder in the `head` of your `index.html` (for example html comment `<!--CX_CONFIG-->`) and during the deployment to replace the placeholder with the real `meta` tags configuration relevant for your current environment.
+The `content` of `occ-backend-base-url` `meta` tag will be ignored in two cases:
+
+- when it's empty string `<meta name="occ-backend-base-url" content="" />`
+- when it contains special placeholder `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
 
 # Adding the Storefront Component
 
