@@ -42,15 +42,21 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         this.user_id = userData.userId;
       }
     });
-
+    this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
     this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
       tap((orders: OrderHistoryList) => {
+        if (
+          orders.orders &&
+          Object.keys(orders.orders).length === 0 &&
+          this.user_id
+        ) {
+          this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
+        }
         if (orders.pagination) {
           this.sortType = orders.pagination.sort;
         }
       })
     );
-    this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
     this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
   }
 
