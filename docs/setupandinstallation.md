@@ -153,25 +153,25 @@ The following example shows how the `meta` tag can be configured in the `index.h
 ```html
 <meta name="occ-backend-base-url" content="https://my-custom-backend-url:8080" />
 ```
+
 The corresponding `app.module.ts` file appears as follows:
 
 ```typescript
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
-        // omit baseUrl here!
+        baseUrl: 'https://electronics.local:9002', // this will be shadowed by value from the meta tag
         occPrefix: '/rest/v2/'
-      },
-      authentication: {
-        client_id: 'mobile_android',
-        client_secret: 'secret'
       }
     })
   ],
 ```
 
-**Note**: The `server.baseUrl` from the `withConfig` method takes precedence over the value from the `meta` tag.
+**Note**: The value from the `meta` tag takes precedence over the `server.baseUrl` from the `withConfig` method.
 
+## Deployment to different environments
+
+For the automation of deployments, we suggest to put only a placeholder in the `head` of your `index.html` (for example html comment `<!--CX_CONFIG-->`) and during the deployment to replace the placeholder with the real `meta` tags configuration relevant for your current environment.
 
 # Adding the Storefront Component
 
