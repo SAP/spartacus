@@ -29,6 +29,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   private user_id: string;
   private PAGE_SIZE = 5;
+  private loadedOrders = false;
 
   sortType: string;
   sortLabels = {
@@ -42,14 +43,16 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         this.user_id = userData.userId;
       }
     });
-    this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
+
     this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
       tap((orders: OrderHistoryList) => {
         if (
-          orders.orders &&
-          Object.keys(orders.orders).length === 0 &&
-          this.user_id
+          !this.loadedOrders ||
+          (orders.orders &&
+            Object.keys(orders.orders).length === 0 &&
+            this.user_id)
         ) {
+          this.loadedOrders = true;
           this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
         }
         if (orders.pagination) {
@@ -57,6 +60,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         }
       })
     );
+
     this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
   }
 
