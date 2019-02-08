@@ -20,6 +20,13 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+@Pipe({
+  name: 'stripHighlightFromName'
+})
+class MockStripHighlightPipe implements PipeTransform {
+  transform(): any {}
+}
+
 describe('SearchBoxComponent in CmsLib', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
@@ -70,7 +77,8 @@ describe('SearchBoxComponent in CmsLib', () => {
       declarations: [
         SearchBoxComponent,
         PictureComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
+        MockStripHighlightPipe
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },

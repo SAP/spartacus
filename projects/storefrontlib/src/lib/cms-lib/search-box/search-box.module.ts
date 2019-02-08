@@ -3,10 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-import { MediaModule } from '../../ui/components/media/media.module';
-
-import { SearchBoxComponent } from './search-box.component';
-import { BootstrapModule } from '../../bootstrap.module';
 import {
   ConfigModule,
   ProductModule,
@@ -14,9 +10,16 @@ import {
   RoutingService,
   UrlTranslationModule
 } from '@spartacus/core';
-import { SearchBoxComponentService } from './search-box-component.service';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { CmsConfig } from '@spartacus/core';
+
+import { BootstrapModule } from '../../bootstrap.module';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { MediaModule } from '../../ui/components/media/media.module';
+
+import { SearchBoxComponentService } from './search-box-component.service';
+import { SearchBoxComponent } from './search-box.component';
+
+import { StripHighlightPipe } from './strip-highlight/strip-highlight.pipe';
 
 @NgModule({
   imports: [
@@ -43,7 +46,7 @@ import { CmsConfig } from '@spartacus/core';
     }),
     UrlTranslationModule
   ],
-  declarations: [SearchBoxComponent],
+  declarations: [SearchBoxComponent, StripHighlightPipe],
   entryComponents: [SearchBoxComponent],
   exports: [SearchBoxComponent]
 })
