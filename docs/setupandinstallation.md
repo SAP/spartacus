@@ -160,7 +160,7 @@ The corresponding `app.module.ts` file appears as follows:
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
-        baseUrl: 'https://electronics.local:9002', // this will be shadowed by value from the meta tag
+        baseUrl: 'https://electronics.local:9002', // this will be shadowed by the value from the meta tag
         occPrefix: '/rest/v2/'
       }
     })
