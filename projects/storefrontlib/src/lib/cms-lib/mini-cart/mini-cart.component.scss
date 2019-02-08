@@ -12,21 +12,27 @@ a {
   color: var(--cx-color, var(--cx-g-color-inverse));
   text-decoration: none;
 
-  @include media-breakpoint-only(xs) {
-    min-height: 55px;
-    flex-direction: column;
-    padding: var(--cx-padding, 0.3rem 0.75rem);
-  }
-
   svg {
     fill: currentColor;
     width: 30px;
-    max-height: 48px;
+    height: 30px;
+    margin: 9px 0;
   }
 
   span {
     color: currentColor;
     align-self: center;
     padding: var(--cx-padding, 0 0.5rem);
+  }
+
+  @include media-breakpoint-only(xs) {
+    min-height: 55px;
+    flex-direction: column;
+    padding: var(--cx-padding, 0.3rem 0.75rem);
+
+    svg {
+      margin: 0;
+      height: 24px;
+    }
   }
 }
