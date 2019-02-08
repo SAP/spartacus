@@ -7,7 +7,9 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
-  ViewContainerRef
+  ViewContainerRef,
+  Inject,
+  PLATFORM_ID
 } from '@angular/core';
 import {
   CmsComponent,
@@ -17,6 +19,7 @@ import {
   CxApiService
 } from '@spartacus/core';
 import { CmsComponentData } from '../cms-component-data';
+import { isPlatformServer } from '@angular/common';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -45,15 +48,27 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private cmsService: CmsService,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
-    private config: CmsConfig
+    private config: CmsConfig,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit() {
+    if (!this.shouldRender) {
+      return;
+    }
+
     if (this.componentMapper.isWebComponent(this.componentType)) {
       this.launchWebComponent();
     } else {
       this.launchComponent();
     }
+  }
+
+  private get shouldRender(): boolean {
+    const isSSR = isPlatformServer(this.platformId);
+    const disableSSR = (this.config.cmsComponents[this.componentType] || {})
+      .disableSSR;
+    return !(isSSR && disableSSR);
   }
 
   private launchComponent() {
