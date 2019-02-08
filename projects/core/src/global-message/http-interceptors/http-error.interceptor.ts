@@ -6,10 +6,12 @@ import {
   HttpInterceptor,
   HttpRequest
 } from '@angular/common/http';
+
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { GlobalMessageService } from '../facade/global-message.service';
+import { GlobalMessageType } from '../models/global-message.model';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
