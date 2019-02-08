@@ -146,7 +146,7 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 
 ## Configuring the Base URL
 
-You can configure the base URL with a special html `meta` tag, instead of hard coding it in the `withConfig` method of the StorefrontModule. This allows you to deploy to different environments with only one compiled JavaScript application, because you only need to modify the `meta` tag of the `index.html` file for each environment.
+You can configure the base URL with a special HTML `meta` tag, instead of hard coding it in the `withConfig` method of the StorefrontModule. This allows you to deploy to different environments with only one compiled JavaScript application, because you only need to modify the `meta` tag of the `index.html` file for each environment.
 
 The following example shows how the `meta` tag can be configured in the `index.html` file:
 
@@ -160,21 +160,30 @@ The corresponding `app.module.ts` file appears as follows:
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
-        baseUrl: 'https://electronics.local:9002', // this will be shadowed by the value from the meta tag
+        baseUrl: 'https://electronics.local:9002', // This value is overridden by the value from the meta tag.
         occPrefix: '/rest/v2/'
       }
     })
   ],
 ```
 
-**Note**: The value from the `meta` tag takes precedence over the `server.baseUrl` from the `withConfig` method.
+**Note**: The value from the `meta` tag takes precedence over the value of the `server.baseUrl` from the `withConfig` method.
 
-### Placeholder meta tag
+**Note**: The `content` attribute of the `meta` tag is ignored in the following cases:
 
-The `content` of `occ-backend-base-url` `meta` tag will be ignored in two cases:
+* When it's an empty string, such as in the following example:
 
-- when it's the empty string `<meta name="occ-backend-base-url" content="" />`
-- when it contains the special placeholder `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
+  ```
+  <meta name="occ-backend-base-url" content="" />
+  ```
+* When it contains a special placeholder, such as in the following example:
+
+  ```
+  <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
+  ```
+
+
+
 
 # Adding the Storefront Component
 
