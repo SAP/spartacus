@@ -67,7 +67,7 @@ class MockCmsService {
 })
 class TestWrapperComponent {}
 
-fdescribe('ComponentWrapperDirective', () => {
+describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
   let cmsService: CmsService;
 
