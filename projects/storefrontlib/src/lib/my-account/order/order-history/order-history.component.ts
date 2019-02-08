@@ -45,11 +45,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
     this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
       tap((orders: OrderHistoryList) => {
-        if (
-          orders.orders &&
-          Object.keys(orders.orders).length === 0 &&
-          this.user_id
-        ) {
+        if (orders.orders && this.user_id) {
           this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
         }
         if (orders.pagination) {
