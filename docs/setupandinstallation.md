@@ -173,8 +173,8 @@ The corresponding `app.module.ts` file appears as follows:
 
 The `content` of `occ-backend-base-url` `meta` tag will be ignored in two cases:
 
-- when it's empty string `<meta name="occ-backend-base-url" content="" />`
-- when it contains special placeholder `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
+- when it's the empty string `<meta name="occ-backend-base-url" content="" />`
+- when it contains the special placeholder `<meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />`
 
 # Adding the Storefront Component
 
