@@ -21,7 +21,7 @@ import { UiModule, UiFrameworkModule } from './ui/index';
   imports: [
     StateModule,
     RoutingModule,
-    AuthModule,
+    AuthModule.forRoot(),
     OccModule,
     CmsLibModule,
     CmsModule,
@@ -29,7 +29,7 @@ import { UiModule, UiFrameworkModule } from './ui/index';
     UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,
-    SmartEditModule
+    SmartEditModule.forRoot()
   ],
   exports: [UiModule],
   declarations: []
