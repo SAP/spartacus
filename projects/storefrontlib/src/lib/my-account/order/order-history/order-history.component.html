@@ -10,12 +10,22 @@
       <ng-container *ngIf="orders.pagination.totalResults > 0; else noOrder">
         <!-- Select Form and Pagination Top -->
         <div class="cx-order-history-sort top row">
-          <div class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <cx-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="orders.pagination.sort" [placeholder]="'Sort by Most recent'"></cx-sorting>
+          <div
+            class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="orders.sorts"
+              [sortLabels]="sortLabels"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="orders.pagination.sort"
+              [placeholder]="'Sort by Most recent'"
+            ></cx-sorting>
           </div>
           <div class="cx-order-history-pagination">
-            <cx-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></cx-pagination>
+            <cx-pagination
+              [pagination]="orders.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
           </div>
         </div>
         <!-- TABLE -->
@@ -27,57 +37,82 @@
             <th scope="col">Total</th>
           </thead>
           <tbody>
-            <tr *ngFor="let order of orders.orders" (click)="goToOrderDetail(order)">
+            <tr
+              *ngFor="let order of orders.orders"
+              (click)="goToOrderDetail(order)"
+            >
               <td class="cx-order-history-code">
                 <div class="d-md-none cx-order-history-label">Order #</div>
-                <a [routerLink]="
+                <a
+                  [routerLink]="
                     {
                       route: [{ name: 'orderDetails', params: order }]
                     } | cxTranslateUrl
                   "
-                  class="cx-order-history-value">
-                  {{ order?.code }}</a>
+                  class="cx-order-history-value"
+                >
+                  {{ order?.code }}</a
+                >
               </td>
               <td class="cx-order-history-placed">
                 <div class="d-md-none cx-order-history-label">Date</div>
-                <a [routerLink]="
+                <a
+                  [routerLink]="
                     {
                       route: [{ name: 'orderDetails', params: order }]
                     } | cxTranslateUrl
                   "
-                  class="cx-order-history-value">{{ order?.placed | date: 'longDate' }}</a>
+                  class="cx-order-history-value"
+                  >{{ order?.placed | date: 'longDate' }}</a
+                >
               </td>
               <td class="cx-order-history-status">
                 <div class="d-md-none cx-order-history-label">Status</div>
-                <a [routerLink]="
+                <a
+                  [routerLink]="
                     {
                       route: [{ name: 'orderDetails', params: order }]
                     } | cxTranslateUrl
                   "
-                  class="cx-order-history-value">
-                  {{ order?.statusDisplay }}</a>
+                  class="cx-order-history-value"
+                >
+                  {{ order?.statusDisplay }}</a
+                >
               </td>
               <td class="cx-order-history-total">
                 <div class="d-md-none cx-order-history-label">Total</div>
-                <a [routerLink]="
+                <a
+                  [routerLink]="
                     {
                       route: [{ name: 'orderDetails', params: order }]
                     } | cxTranslateUrl
                   "
-                  class="cx-order-history-value">
-                  {{ order?.total.formattedValue }}</a>
+                  class="cx-order-history-value"
+                >
+                  {{ order?.total.formattedValue }}</a
+                >
               </td>
             </tr>
           </tbody>
         </table>
         <!-- Select Form and Pagination Bottom -->
         <div class="cx-order-history-sort bottom row">
-          <div class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4">
-            <cx-sorting [sortOptions]="orders.sorts" [sortLabels]="sortLabels" (sortListEvent)="changeSortCode($event)"
-              [selectedOption]="orders.pagination.sort" [placeholder]="'Sort by Most recent'"></cx-sorting>
+          <div
+            class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="orders.sorts"
+              [sortLabels]="sortLabels"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="orders.pagination.sort"
+              [placeholder]="'Sort by Most recent'"
+            ></cx-sorting>
           </div>
           <div class="cx-order-history-pagination">
-            <cx-pagination [pagination]="orders.pagination" (viewPageEvent)="pageChange($event)"></cx-pagination>
+            <cx-pagination
+              [pagination]="orders.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
           </div>
         </div>
       </ng-container>
@@ -87,8 +122,12 @@
         <div class="cx-order-history-no-order row" *ngIf="(isLoaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>We have no order records for this account.</div>
-            <a [routerLink]="{ route: ['home'] } | cxTranslateUrl" routerLinkActive="active" class="btn btn-primary btn-block">Start
-              Shopping</a>
+            <a
+              [routerLink]="{ route: ['home'] } | cxTranslateUrl"
+              routerLinkActive="active"
+              class="btn btn-primary btn-block"
+              >Start Shopping</a
+            >
           </div>
         </div>
       </ng-template>
