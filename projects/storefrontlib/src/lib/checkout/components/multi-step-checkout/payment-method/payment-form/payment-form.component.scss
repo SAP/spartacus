@@ -1,63 +1,57 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/card';
 @import '../../container/multi-step-checkout.component';
 
 .cx-payment-form {
   &.container {
-    padding: 0;
+    padding: var(--cx-padding, 0);
   }
   &__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin: 0 auto;
-    padding: 2.375rem 0 1.25rem 0;
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, flex-start);
+    justify-content: var(--cx-justify-content, space-between);
+    margin: var(--cx-margin, 0 auto);
+    padding: var(--cx-padding, 2.375rem 0 1.25rem 0);
     &-title {
-      text-transform: uppercase;
+      text-transform: var(--cx-text-transform, uppercase);
       margin-bottom: 0;
-    }
-    &-image {
-      margin-left: 1rem;
     }
   }
   &__tooltip-icon {
-    margin-left: 0.625rem;
-    height: 1.125rem;
-    width: 1.125rem;
+    margin: var(--cx-margin, 0 0 0 0.625rem);
+    height: var(--cx-height, 1.125rem);
+    width: var(--cx-width, 1.125rem);
   }
   &__billing {
     margin-bottom: 1.25rem;
     &-address {
       @include type('4');
-      padding: 0.875rem 0 1.25rem 0;
+      padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
     }
   }
   &__img {
-    margin: 0 1rem 1.25rem 0;
+    margin: var(--cx-margin, 0 1rem 1.25rem 0);
     &-container {
-      display: flex;
+      display: var(--cx-display, flex);
     }
   }
   .form-check {
-    margin: 0;
+    margin: var(--cx-margin, 0);
   }
   .form-group {
     &__exp-date {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
+      display: var(--cx-display, flex);
+      flex-direction: var(--cx-flex-direction, row);
+      flex-wrap: var(--cx-flex-wrap, nowrap);
     }
   }
   &__title {
-    text-transform: uppercase;
-    margin: 0 auto;
-    padding: 2.375rem 0 1.75rem 0;
+    text-transform: var(--cx-text-transform, uppercase);
+    margin: var(--cx-margin, 0 auto);
+    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
   }
   &__body {
-    display: flex;
-    align-items: flex-end;
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, flex-end);
     padding-bottom: 1.875rem;
   }
   // ***************************** MEDIA QUERIES *****************************
@@ -65,7 +59,7 @@
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: 0;
+        padding: var(--cx-padding, 0);
       }
     }
   }
@@ -79,7 +73,7 @@
   }
   &__header {
     @include media-breakpoint-down(md) {
-      padding: 0;
+      padding: var(--cx-padding, 0);
     }
     &-image {
       @include media-breakpoint-down(md) {
