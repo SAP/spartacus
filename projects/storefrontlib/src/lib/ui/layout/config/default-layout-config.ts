@@ -62,6 +62,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     LoginPageTemplate: {
       slots: ['LeftContentSlot', 'RightContentSlot'],
       showTitle: true
+    },
+    ErrorPageTemplate: {
+      slots: ['MiddleContent']
     }
   }
 };
