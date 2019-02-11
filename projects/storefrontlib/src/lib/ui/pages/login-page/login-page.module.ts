@@ -5,7 +5,7 @@ import { LoginPageComponent } from './login-page.component';
 import { NotAuthGuard, UrlTranslationModule } from '@spartacus/core';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { LoginModule } from '../../../user/login/login.module';
-import { OutletRefModule } from '../../../outlet';
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 
 @NgModule({
   imports: [
