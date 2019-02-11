@@ -31,7 +31,7 @@
     <cx-address-form
       actionBtnLabel="Add address"
       cancelBtnLabel="Back to address list"
-      [setAsDefaultField]="!(!addresses || addresses.length === 0)"
+      [setAsDefaultField]="!((addresses$ | async).length === 0)"
       (addAddress)="addUserAddress($event)"
       (backToAddress)="hideAddAddressForm()"
     ></cx-address-form>
