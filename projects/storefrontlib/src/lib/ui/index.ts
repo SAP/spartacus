@@ -23,8 +23,6 @@ export * from './pages/multi-step-checkout-page/multi-step-checkout-page.compone
 export * from './pages/cart-page/cart-page.component';
 export * from './pages/order-confirmation-page/order-confirmation-page.component';
 export * from './pages/login-page/login-page.component';
-export * from './pages/404/404.component';
-export * from './pages/404/404.module';
 export * from './pages/cart-page/cart-page.module';
 export * from './pages/category-page/category-page.module';
 export * from './pages/multi-step-checkout-page/multi-step-checkout-page.module';

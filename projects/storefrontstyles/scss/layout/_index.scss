@@ -33,3 +33,7 @@ cx-page-layout {
 .LoginPageTemplate {
   @extend %LoginPageTemplate !optional;
 }
+
+.ErrorPageTemplate {
+  @extend %LoginPageTemplate !optional;
+}
