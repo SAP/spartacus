@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as fromStore from '../store';
-import { filter, tap, map, take, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  tap,
+  map,
+  take,
+  withLatestFrom,
+  shareReplay
+} from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -14,6 +21,10 @@ import { CmsComponent } from '../../occ/occ-models/cms-component.models';
 })
 export class CmsService {
   private _launchInSmartEdit = false;
+
+  private components: {
+    [uid: string]: Observable<CmsComponent>;
+  } = {};
 
   constructor(
     private store: Store<StateWithCms>,
@@ -46,21 +57,26 @@ export class CmsService {
    * @param uid : CMS componet uid
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
-    return this.store.pipe(
-      select(fromStore.componentStateSelectorFactory(uid)),
-      withLatestFrom(this.getCurrentPage()),
-      tap(([componentState, currentPage]) => {
-        const attemptedLoad =
-          componentState.loading ||
-          componentState.success ||
-          componentState.error;
-        if (!attemptedLoad && currentPage) {
-          this.store.dispatch(new fromStore.LoadComponent(uid));
-        }
-      }),
-      map(([productState]) => productState.value),
-      filter(Boolean)
-    );
+    if (!this.components[uid]) {
+      this.components[uid] = this.store.pipe(
+        select(fromStore.componentStateSelectorFactory(uid)),
+        withLatestFrom(this.getCurrentPage()),
+        tap(([componentState, currentPage]) => {
+          const attemptedLoad =
+            componentState.loading ||
+            componentState.success ||
+            componentState.error;
+          if (!attemptedLoad && currentPage) {
+            this.store.dispatch(new fromStore.LoadComponent(uid));
+          }
+        }),
+        map(([productState]) => productState.value),
+        filter(Boolean),
+        shareReplay(1)
+      );
+    }
+
+    return this.components[uid] as Observable<T>;
   }
 
   /**
