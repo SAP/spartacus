@@ -38,3 +38,7 @@ cx-page-layout {
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
 }
+
+.ErrorPageTemplate {
+  @extend %LoginPageTemplate !optional;
+}
