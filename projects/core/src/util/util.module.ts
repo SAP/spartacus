@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
-import { StripHtmlModule } from './strip-html/strip-html.module';
+import { PipeModule } from './pipe/pipe.module';
 
 @NgModule({
-  imports: [StripHtmlModule]
+  imports: [PipeModule]
 })
 export class UtilModule {}

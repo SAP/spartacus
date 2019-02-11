@@ -1,3 +1,3 @@
-export * from './strip-html/index';
+export * from './pipe/index';
 
 export * from './util.module';
