@@ -57,8 +57,8 @@ describe('ItemCounterComponent', () => {
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
     spyOn(itemCounterComponent, 'updateValue').and.callThrough();
-    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
     spyOn(itemCounterComponent, 'isOutOfRange').and.callThrough();
+    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
     spyOn(itemCounterComponent, 'manualChange').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
     spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
