@@ -53,7 +53,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    if (!this.shouldRender) {
+    if (!this.shouldRenderComponent()) {
       return;
     }
 
@@ -64,11 +64,12 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     }
   }
 
-  private get shouldRender(): boolean {
+  private shouldRenderComponent(): boolean {
     const isSSR = isPlatformServer(this.platformId);
-    const disableSSR = (this.config.cmsComponents[this.componentType] || {})
-      .disableSSR;
-    return !(isSSR && disableSSR);
+    const isComponentDisabledInSSR = (
+      this.config.cmsComponents[this.componentType] || {}
+    ).disableSSR;
+    return !(isSSR && isComponentDisabledInSSR);
   }
 
   private launchComponent() {
