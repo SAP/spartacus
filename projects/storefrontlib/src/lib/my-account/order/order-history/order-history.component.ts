@@ -44,22 +44,15 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.orders$ = this.userSerivce.getOrderHistoryList().pipe(
-      tap((orders: OrderHistoryList) => {
-        if (
-          !this.loadedOrders ||
-          (orders.orders &&
-            Object.keys(orders.orders).length === 0 &&
-            this.user_id)
-        ) {
-          this.loadedOrders = true;
-          this.userSerivce.loadOrderList(this.user_id, this.PAGE_SIZE);
-        }
-        if (orders.pagination) {
-          this.sortType = orders.pagination.sort;
-        }
-      })
-    );
+    this.orders$ = this.userSerivce
+      .getOrderHistoryList(this.user_id, this.PAGE_SIZE)
+      .pipe(
+        tap((orders: OrderHistoryList) => {
+          if (orders.pagination) {
+            this.sortType = orders.pagination.sort;
+          }
+        })
+      );
 
     this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
   }
