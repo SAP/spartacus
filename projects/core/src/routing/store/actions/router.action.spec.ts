@@ -16,7 +16,7 @@ describe('Router Actions', () => {
 
   describe('GoByUrl Action', () => {
     it('should create an action', () => {
-      const payload: string = 'test';
+      const payload = 'test';
       const action = new fromRouter.GoByUrl(payload);
       expect({ ...action }).toEqual({
         type: fromRouter.GO_BY_URL,
