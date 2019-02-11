@@ -12,7 +12,6 @@ export * from './layout/multi-step-checkout-page-layout/multi-step-checkout-page
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
 export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
-export * from './layout/login-page-layout/login-page-layout.component';
 export * from './layout/store-finder-page-layout/store-finder-page-layout.component';
 export * from './components/media/picture/picture.component';
 export * from './components/form-components/star-rating/star-rating.component';

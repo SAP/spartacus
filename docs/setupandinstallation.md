@@ -30,7 +30,7 @@ In the following procedure, we create a new Angular application with the name `m
 
 1. Generate a new Angular application using the Angular CLI, as follows:
 
-   ```
+   ```bash
    $ ng new mystore --style=scss
    ```
 
@@ -38,7 +38,7 @@ In the following procedure, we create a new Angular application with the name `m
 2. When prompted if you would like add Angular routing, enter `y` for yes.
 
 3. Access the newly created directory:
-   ```
+   ```bash
    $ cd mystore
    ```
 
@@ -48,7 +48,7 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 1. Add the following dependencies to the `dependencies` section of `mystore/package.json`:
 
-   ```
+   ```json
    "@angular/pwa": "^0.12.0",
    "@angular/service-worker": "~7.2.0",
    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
@@ -62,7 +62,7 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 2. Install the dependencies. The following is an example using yarn:
 
-   ```
+   ```bash
    yarn install
    ```
 
@@ -70,7 +70,7 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 Add the Spartacus libraries to your storefront application. You can do so with yarn, as follows:
 
-```
+```bash
 $ yarn add @spartacus/core
 $ yarn add @spartacus/storefront
 $ yarn add @spartacus/styles
@@ -80,19 +80,19 @@ $ yarn add @spartacus/styles
 
 1. Open `mystore/src/app/app.module.ts` and add the following line:
 
-   ```
+   ```typescript
    import { StorefrontModule } from '@spartacus/storefront';
    ```
 
 2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
 
-   ```
+   ```typescript
    imports: [BrowserModule, StorefrontModule],
    ```
 
 Your file should look like this:
 
-```
+```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -119,7 +119,7 @@ The Spartacus storefront has default values for all of its configurations. Howev
 
 To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example that uses the default values for the configs:
 
-```
+```typescript
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
@@ -134,9 +134,9 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
   ],
 ```
 
-You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use this config:
+You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use the following config:
 
-```
+```typescript
 imports: [BrowserModule, StorefrontModule.withConfig({
   server: {
     baseUrl: 'https://my-custom-backend-url:8080',
@@ -144,19 +144,60 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 })]
 ```
 
+## Configuring the Base URL
+
+You can configure the base URL with a special HTML `meta` tag, instead of hard coding it in the `withConfig` method of the StorefrontModule. This allows you to deploy to different environments with only one compiled JavaScript application, because you only need to modify the `meta` tag of the `index.html` file for each environment.
+
+The following example shows how the `meta` tag can be configured in the `index.html` file:
+
+```html
+<meta name="occ-backend-base-url" content="https://my-custom-backend-url:8080" />
+```
+
+The corresponding `app.module.ts` file appears as follows:
+
+```typescript
+  imports: [
+    BrowserModule, StorefrontModule.withConfig({
+      server: {
+        baseUrl: 'https://electronics.local:9002', // This value is overridden by the value from the meta tag.
+        occPrefix: '/rest/v2/'
+      }
+    })
+  ],
+```
+
+**Note**: The value from the `meta` tag takes precedence over the value of the `server.baseUrl` from the `withConfig` method.
+
+**Note**: The `content` attribute of the `meta` tag is ignored in the following cases:
+
+* When it's an empty string, such as in the following example:
+
+  ```
+  <meta name="occ-backend-base-url" content="" />
+  ```
+* When it contains a special placeholder, such as in the following example:
+
+  ```
+  <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
+  ```
+
+
+
+
 # Adding the Storefront Component
 
 This procedure adds the storefront component in the UI.
 
 1. Open `mystore/src/app/app.component.html` and replace the entire contents of the file with the following line:
 
-   ```
+   ```html
    <cx-storefront>Loading...</cx-storefront>
    ```
 
 2. Import the styles from the `@spartacus/styles` library by opening `mystore/src/styles.scss` and adding the following line:
 
-   ```
+   ```scss
    @import "~@spartacus/styles/index";
    ```
 
@@ -180,7 +221,7 @@ This section describes how to validate your back end installation, and then star
 
 1. Start the application with the storefront enabled, as follows:
 
-   ```
+   ```bash
    $ ng serve
    ```
 
