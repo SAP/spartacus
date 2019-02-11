@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { NavigationExtras } from '@angular/router';
 
 export const GO = '[Router] Go';
+export const GO_BY_URL = '[Router] Go By Url';
 export const BACK = '[Router] Back';
 export const FORWARD = '[Router] Forward';
 export const SAVE_REDIRECT_URL = '[Router] Save Redirect Url';
@@ -15,6 +16,13 @@ export class Go implements Action {
       query?: object;
       extras?: NavigationExtras;
     }
+  ) {}
+}
+
+export class GoByUrl implements Action {
+  readonly type = GO_BY_URL;
+  constructor(
+    public payload: string
   ) {}
 }
 
@@ -35,4 +43,4 @@ export class ClearRedirectUrl implements Action {
   readonly type = CLEAR_REDIRECT_URL;
 }
 
-export type Actions = Go | Back | Forward | SaveRedirectUrl | ClearRedirectUrl;
+export type Actions = Go | GoByUrl | Back | Forward | SaveRedirectUrl | ClearRedirectUrl;
