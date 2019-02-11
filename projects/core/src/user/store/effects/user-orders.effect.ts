@@ -11,6 +11,7 @@ import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
 import { OccOrderService } from '../../occ/index';
 import { OrderHistoryList } from '../../../occ/occ-models/index';
+import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 
 @Injectable()
 export class UserOrdersEffect {
@@ -44,7 +45,11 @@ export class UserOrdersEffect {
 
   @Effect()
   resetUserOrders$: Observable<Action> = this.actions$.pipe(
-    ofType('[Site-context] Language Change', '[Site-context] Currency Change', fromUserOrdersAction.CLEAR_USER_ORDERS),
+    ofType(
+      LANGUAGE_CHANGE,
+      CURRENCY_CHANGE,
+      fromUserOrdersAction.CLEAR_USER_ORDERS
+    ),
     map(() => {
       return new LoaderResetAction(USER_ORDERS);
     })
