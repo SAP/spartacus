@@ -30,9 +30,6 @@ export interface NavigationNodes {
 }
 
 export interface PageState {
-  // TODO:#1135 - remove
-  entities?: { [context: string]: Page };
-
   pageData: EntityState<Page>;
   latestPageId: string; // TODO:#1135 - subject to be renamed
   index: IndexType;

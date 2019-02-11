@@ -34,8 +34,7 @@ describe('Cms Page Reducer', () => {
       const action = new fromActions.LoadPageDataSuccess(payload);
       const state = fromPage.reducer(initialState, action);
 
-      expect(state.count).toEqual(1);
-      expect(state.entities['test']).toEqual(page);
+      expect(state.pageData.entities['test']).toEqual(page);
       expect(state.latestPageId).toEqual('test');
     });
 

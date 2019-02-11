@@ -18,9 +18,8 @@ import * as pageActions from '../actions/page.action';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from '../../services/default-page.service';
 import { RoutingService, PageContext } from '../../../routing/index';
-import { PageType, CMSPage } from '../../../occ/occ-models/index';
+import { CMSPage } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class PageEffects {
@@ -41,36 +40,10 @@ export class PageEffects {
           filter(routerState => routerState.state.cmsRequired),
           map(routerState => routerState.state.context),
           take(1),
-          mergeMap(context =>
-            this.occCmsService.loadPageData(context).pipe(
-              mergeMap(data => {
-                const page = this.getPageData(data, context);
-                return [
-                  new pageActions.LoadPageDataSuccess(page),
-                  new pageActions.UpdateLatestPageKey(page.pageId),
-                  new componentActions.GetComponentFromPage(
-                    this.getComponents(data)
-                  )
-                ];
-              }),
-              catchError(error => of(new pageActions.LoadPageDataFail(error)))
-            )
-          )
+          mergeMap(context => this.loadPageInternal(context))
         );
       } else {
-        return this.occCmsService.loadPageData(pageContext).pipe(
-          mergeMap(data => {
-            return [
-              new pageActions.LoadPageDataSuccess(
-                this.getPageData(data, pageContext)
-              ),
-              new componentActions.GetComponentFromPage(
-                this.getComponents(data)
-              )
-            ];
-          }),
-          catchError(error => of(new pageActions.LoadPageDataFail(error)))
-        );
+        return this.loadPageInternal(pageContext);
       }
     })
   );
@@ -78,11 +51,27 @@ export class PageEffects {
   constructor(
     private actions$: Actions,
     private occCmsService: OccCmsService,
-    private defaultPageService: DefaultPageService,
     private routingService: RoutingService
-  ) {}
+  ) {
+    // TODO:#1135 - not needed?
+    // private defaultPageService: DefaultPageService,
+  }
 
-  private getPageData(res: any, pageContext: PageContext): Page {
+  private loadPageInternal(pageContext: PageContext): Observable<Action> {
+    return this.occCmsService.loadPageData(pageContext).pipe(
+      mergeMap(data => {
+        const page = this.getPageData(data);
+        return [
+          new pageActions.LoadPageDataSuccess(page),
+          new pageActions.UpdateLatestPageKey(page.pageId),
+          new componentActions.GetComponentFromPage(this.getComponents(data))
+        ];
+      }),
+      catchError(error => of(new pageActions.LoadPageDataFail(error)))
+    );
+  }
+
+  private getPageData(res: any): Page {
     const page: Page = {
       loadTime: Date.now(),
       uuid: res.uuid,
@@ -91,10 +80,8 @@ export class PageEffects {
       catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
       template: res.template,
-      seen: new Array<string>(),
       slots: {}
     };
-    page.seen.push(pageContext.id);
 
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = {
@@ -120,28 +107,6 @@ export class PageEffects {
     }
 
     return page;
-  }
-
-  // TODO:#1135 - delete
-  private getPageKey(pageContext: PageContext, page: Page): string {
-    switch (pageContext.type) {
-      case PageType.CATEGORY_PAGE:
-      case PageType.CATALOG_PAGE:
-      case PageType.PRODUCT_PAGE: {
-        const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
-          pageContext.type
-        );
-        if (defaultPageIds.indexOf(page.pageId) > -1) {
-          return page.pageId + '_' + pageContext.type;
-        } else {
-          return pageContext.id + '_' + pageContext.type;
-        }
-      }
-
-      case PageType.CONTENT_PAGE: {
-        return page.pageId + '_' + pageContext.type;
-      }
-    }
   }
 
   private getCatalogUuid(cmsItem: any): string {

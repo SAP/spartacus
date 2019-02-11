@@ -8,7 +8,5 @@ export interface Page {
   title?: string;
   template?: string;
   loadTime?: number;
-  // TODO:#1135 - remove
-  seen?: Array<string>;
   slots: { [key: string]: ContentSlotData };
 }

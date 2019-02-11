@@ -2,8 +2,6 @@ import { PageState, IndexType } from '../cms-state';
 import * as fromPageData from '../actions/page.action';
 
 export const initialState: PageState = {
-  entities: {},
-
   pageData: undefined,
   latestPageId: '',
   index: {} as IndexType
@@ -67,13 +65,17 @@ export function reducer(
 
     case fromPageData.REFRESH_LATEST_PAGE: {
       const entities = {
-        ...state.entities,
+        ...state.pageData.entities,
         [state.latestPageId]: null
+      };
+      const pageData = {
+        ...state.pageData,
+        entities
       };
 
       return {
         ...state,
-        entities
+        pageData
       };
     }
 
