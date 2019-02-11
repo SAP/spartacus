@@ -1,20 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
-
 import { of } from 'rxjs';
-
 import createSpy = jasmine.createSpy;
-
-import { SiteContextModule } from '../site-context.module';
 import * as fromStore from '../store';
 import { StateWithSiteContext } from '../store/state';
-import { defaultOccConfig } from '../../occ/config/default-occ-config';
-import { OccConfig } from '../../occ/config/occ-config';
-import { Language } from '../../occ/occ-models/occ.models';
-
 import { LanguageService } from './language.service';
+import { OccConfig } from '../../occ/config/occ-config';
+import { defaultOccConfig } from '../../occ/config/default-occ-config';
+import { Language } from '../../occ/occ-models/occ.models';
+import { EffectsModule } from '@ngrx/effects';
+import { SiteContextStoreModule } from '../store/site-context-store.module';
 
 const mockLanguages: Language[] = [
   { active: true, isocode: 'ja', name: 'Japanese' }
@@ -35,8 +32,15 @@ describe('LanguageService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SiteContextModule.forRoot()],
-      providers: [{ provide: OccConfig, useValue: defaultOccConfig }]
+      imports: [
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        SiteContextStoreModule
+      ],
+      providers: [
+        { provide: OccConfig, useValue: defaultOccConfig },
+        LanguageService
+      ]
     });
 
     store = TestBed.get(Store);
