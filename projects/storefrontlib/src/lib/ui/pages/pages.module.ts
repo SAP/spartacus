@@ -10,7 +10,9 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-
+import { ContactUsPageModule } from './contact-us-page/contact-us-page.module';
+import { HelpPageModule } from './help-page/help-page.module';
+import { SalePageModule } from './sale-page/sale-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
 // ContentPage: my Account Pages
@@ -43,6 +45,9 @@ const pageModules = [
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
+  ContactUsPageModule,
+  HelpPageModule,
+  SalePageModule,
   // new pages should be added above this line
   PageNotFoundModule
 ];
@@ -58,12 +63,6 @@ const pageModules = [
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'homepage', cxPath: 'home' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'faq', cxPath: 'help' }
       },
       {
         path: null,
