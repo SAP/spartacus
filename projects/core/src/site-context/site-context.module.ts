@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { SiteContextOccModule } from './occ/site-context-occ.module';
 import { SiteContextStoreModule } from './store/site-context-store.module';
 import { StateModule } from '../state/index';

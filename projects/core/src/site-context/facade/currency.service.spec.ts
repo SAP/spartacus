@@ -36,7 +36,7 @@ describe('CurrencyService', () => {
       imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        SiteContextStoreModule.forRoot()
+        SiteContextStoreModule
       ],
       providers: [
         { provide: OccConfig, useValue: defaultOccConfig },
