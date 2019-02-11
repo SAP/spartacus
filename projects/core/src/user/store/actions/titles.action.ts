@@ -5,7 +5,6 @@ import { Title } from '../../../occ/occ-models';
 export const LOAD_TITLES = '[User] Load Tiltes';
 export const LOAD_TITLES_FAIL = '[User] Load Titles Fail';
 export const LOAD_TITLES_SUCCESS = '[User] Load Titles Success';
-export const RESET_TITLES = '[User] Reset Tiltes';
 
 export class LoadTitles implements Action {
   readonly type = LOAD_TITLES;

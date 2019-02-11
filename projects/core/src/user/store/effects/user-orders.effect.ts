@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
 
 import { USER_ORDERS } from '../user-state';
+import { CLEAR_MISCS_DATA } from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
 import { OccOrderService } from '../../occ/index';
@@ -46,7 +47,7 @@ export class UserOrdersEffect {
 
   @Effect()
   resetUserOrders$: Observable<Action> = this.actions$.pipe(
-    ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
+    ofType(CLEAR_MISCS_DATA),
     map(() => {
       return new LoaderResetAction(USER_ORDERS);
     })

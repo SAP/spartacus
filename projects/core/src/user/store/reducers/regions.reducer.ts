@@ -8,7 +8,7 @@ export const initialState: RegionsState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.RegionsAction
+  action: fromAction.RegionsAction | fromAction.ClearMiscsData
 ): RegionsState {
   switch (action.type) {
     case fromAction.LOAD_REGIONS_SUCCESS: {
@@ -25,6 +25,12 @@ export function reducer(
     case fromAction.LOAD_REGIONS: {
       return {
         ...state
+      };
+    }
+
+    case fromAction.CLEAR_MISCS_DATA: {
+      return {
+        ...initialState
       };
     }
   }

@@ -5,7 +5,6 @@ import { Region } from '../../../occ/occ-models/index';
 export const LOAD_REGIONS = '[User] Load Regions';
 export const LOAD_REGIONS_SUCCESS = '[User] Load Regions Success';
 export const LOAD_REGIONS_FAIL = '[User] Load Regions Fail';
-export const RESET_REGIONS = '[User] Reset Regions';
 
 export class LoadRegions implements Action {
   readonly type = LOAD_REGIONS;
