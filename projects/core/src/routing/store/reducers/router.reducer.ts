@@ -76,10 +76,13 @@ export function reducer(
       const currentUrl = action.payload.routerState
         ? action.payload.routerState.url
         : '';
+      const contextId = action.payload.routerState
+        ? action.payload.routerState.context.id
+        : '';
       let redirectUrl;
       if (
-        currentUrl === '/login' ||
-        currentUrl === '/register' ||
+        contextId === 'login' ||
+        contextId === 'register' ||
         currentUrl === state.redirectUrl
       ) {
         redirectUrl = state.redirectUrl;
