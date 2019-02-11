@@ -5,25 +5,15 @@
   &.container {
     padding: var(--cx-padding, 0);
   }
-  &__header {
-    display: var(--cx-display, flex);
-    align-items: var(--cx-align-items, flex-start);
-    justify-content: var(--cx-justify-content, space-between);
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 2.375rem 0 1.25rem 0);
-    &-title {
-      text-transform: var(--cx-text-transform, uppercase);
-      margin-bottom: 0;
-    }
-  }
-  &__tooltip-icon {
+  .cx-payment-form-tooltip {
     margin: var(--cx-margin, 0 0 0 0.625rem);
     height: var(--cx-height, 1.125rem);
     width: var(--cx-width, 1.125rem);
   }
-  &__billing {
+  .cx-payment-form-billing {
     margin-bottom: 1.25rem;
-    &-address {
+
+    .cx-payment-form-billing-address {
       @include type('4');
       padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
     }

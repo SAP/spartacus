@@ -83,7 +83,7 @@
               <span class="label-content">
                 Security code (CVV)
                 <img
-                  class="cx-payment-form__tooltip-icon"
+                  class="cx-payment-form-tooltip"
                   [src]="infoIconImgSrc"
                   placement="right"
                   ngbTooltip="Card Verification Value"
@@ -115,8 +115,8 @@
         </div>
 
         <!-- BILLING -->
-        <div class="cx-payment-form__billing">
-          <div class="cx-payment-form__billing-address">Billing address</div>
+        <div class="cx-payment-form-billing">
+          <div class="cx-payment-form-billing-address">Billing address</div>
 
           <!-- SAME AS SHIPPING CHECKBOX -->
           <ng-container *ngIf="(showSameAsShippingAddressCheckbox() | async)">
