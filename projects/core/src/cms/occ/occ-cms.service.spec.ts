@@ -55,7 +55,7 @@ const MockCmsModuleConfig: CmsConfig = {
 
 const endpoint = '/cms';
 
-describe('OccCmsService', () => {
+fdescribe('OccCmsService', () => {
   let service: OccCmsService;
   let httpMock: HttpTestingController;
 
@@ -208,7 +208,9 @@ describe('OccCmsService', () => {
         return req.method === 'GET' && req.url === endpoint + '/components';
       });
 
-      expect(testRequest.request.body).toEqual(ids);
+      expect(testRequest.request.params.get('componentIds')).toEqual(
+        ids.idList.toString()
+      );
       expect(testRequest.request.params.get('productCode')).toEqual('123');
 
       expect(testRequest.cancelled).toBeFalsy();
@@ -234,7 +236,7 @@ describe('OccCmsService', () => {
       });
 
       const request: HttpRequest<any> = testRequest.request;
-      expect(request.body).toEqual(ids);
+      expect(request.params.get('componentIds')).toEqual(ids.idList.toString());
       expect(request.params.get('productCode')).toEqual('123');
       expect(request.params.get('fields')).toEqual('FULL');
       expect(request.params.get('currentPage')).toEqual('0');
