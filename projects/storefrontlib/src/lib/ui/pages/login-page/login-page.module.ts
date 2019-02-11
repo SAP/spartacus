@@ -1,21 +1,28 @@
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from './../../../cms/guards/cms-page.guard';
 import { NgModule } from '@angular/core';
-import { LoginPageLayoutModule } from './../../layout/login-page-layout/login-page-layout.module';
 import { LoginPageComponent } from './login-page.component';
-import { NotAuthGuard } from '@spartacus/core';
+import { NotAuthGuard, UrlTranslationModule } from '@spartacus/core';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+import { LoginModule } from '../../../user/login/login.module';
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 
-const routes: Routes = [
-  {
-    path: null,
-    canActivate: [NotAuthGuard, CmsPageGuards],
-    component: LoginPageComponent,
-    data: { pageLabel: 'login', cxPath: 'login' }
-  }
-];
 @NgModule({
-  imports: [LoginPageLayoutModule, RouterModule.forChild(routes)],
-  declarations: [LoginPageComponent],
-  exports: [LoginPageComponent]
+  imports: [
+    // TODO: drop this module once components have been moved to cms components
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuards],
+        component: LoginPageComponent,
+        data: { pageLabel: 'login', cxPath: 'login' }
+      }
+    ]),
+    PageLayoutModule,
+    LoginModule,
+    UrlTranslationModule,
+    OutletRefModule
+  ],
+  declarations: [LoginPageComponent]
 })
 export class LoginPageModule {}
