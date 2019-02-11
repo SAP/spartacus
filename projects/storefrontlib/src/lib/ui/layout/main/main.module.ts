@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { FooterComponent } from '../footer/footer.component';
 import { HeaderModule } from './../header/header.module';
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 import { CmsModule } from '../../../cms/cms.module';
@@ -26,7 +25,7 @@ import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
     PwaModule,
     PageLayoutModule
   ],
-  declarations: [StorefrontComponent, FooterComponent],
+  declarations: [StorefrontComponent],
   exports: [StorefrontComponent]
 })
 export class MainModule {}
