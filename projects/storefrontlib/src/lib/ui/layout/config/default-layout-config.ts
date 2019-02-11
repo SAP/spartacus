@@ -8,6 +8,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     lg: 1200
   },
   layoutSlots: {
+    footer: {
+      slots: ['Footer']
+    },
     LandingPage2Template: {
       slots: [
         'Section1',

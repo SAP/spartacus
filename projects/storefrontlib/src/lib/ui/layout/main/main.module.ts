@@ -12,6 +12,7 @@ import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,7 +23,8 @@ import { StorefrontComponent } from './storefront.component';
     HeaderModule,
     UiFrameworkModule,
     OutletRefModule,
-    PwaModule
+    PwaModule,
+    PageLayoutModule
   ],
   declarations: [StorefrontComponent, FooterComponent],
   exports: [StorefrontComponent]
