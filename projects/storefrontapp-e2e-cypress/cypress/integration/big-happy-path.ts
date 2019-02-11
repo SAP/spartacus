@@ -61,7 +61,7 @@ context('Big happy path', () => {
   });
 
   it('should fill in payment form', () => {
-    cy.get('.cx-payment-method__title').should('contain', 'Payment');
+    cy.get('.cx-payment-title').should('contain', 'Payment');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
       .find('.cx-summary-amount')
       .should('contain', cart.total);
