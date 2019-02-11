@@ -9,9 +9,11 @@ import {
   ContextServiceMap
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
-import { SiteContextSelectorComponent } from './site-context-selector.component';
+
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+
 import { SiteContextComponentService } from './site-context-component.service';
+import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @NgModule({
   imports: [
@@ -32,7 +34,7 @@ import { SiteContextComponentService } from './site-context-component.service';
       }
     }),
     UrlTranslationModule,
-    SiteContextModule
+    SiteContextModule.forRoot()
   ],
   providers: [SiteContextComponentService],
   declarations: [SiteContextSelectorComponent],

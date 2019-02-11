@@ -1,4 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
+
 import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 import { of } from 'rxjs';
@@ -34,7 +35,7 @@ describe('LanguageService', () => {
       imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        SiteContextStoreModule
+        SiteContextStoreModule.forRoot()
       ],
       providers: [
         { provide: OccConfig, useValue: defaultOccConfig },

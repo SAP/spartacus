@@ -8,6 +8,7 @@ import { SiteContextConfig } from './config/site-context-config';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
 import { siteContextParamsProviders } from './providers/site-context-params-providers';
+import { interceptors } from './occ/index';
 
 // @dynamic
 @NgModule({
@@ -24,4 +25,11 @@ import { siteContextParamsProviders } from './providers/site-context-params-prov
     { provide: SiteContextConfig, useExisting: Config }
   ]
 })
-export class SiteContextModule {}
+export class SiteContextModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SiteContextModule,
+      providers: [...interceptors]
+    };
+  }
+}
