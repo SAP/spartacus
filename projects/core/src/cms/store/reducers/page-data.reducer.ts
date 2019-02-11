@@ -11,10 +11,8 @@ export function pageDataReducer(
 ): Page {
   switch (action.type) {
     case fromAction.LOAD_PAGEDATA_SUCCESS: {
-      const page = action.payload;
-      console.log(`page`, page);
-
-      return page;
+      console.log(`page`, action.payload);
+      return action.payload;
 
       // TODO:#1135 - delete
       /*
