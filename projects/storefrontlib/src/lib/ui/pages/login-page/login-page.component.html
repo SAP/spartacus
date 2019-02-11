@@ -1,5 +1,5 @@
 <cx-page-layout>
-  <ng-template cxOutletRef="BodyContent">
+  <ng-template cxOutletRef="ReturningCustomerLoginComponent">
     <!-- TOOD: 
       move this to a configurable CMS component
       reflecting JspIncludeComponent "ReturningCustomerLoginComponent"
@@ -7,19 +7,20 @@
     <cx-login-form></cx-login-form>
   </ng-template>
 
-  <ng-template cxOutletRef="LeftContentSlot">
+  <ng-template cxOutletRef="NewCustomerLoginComponent">
     <!-- TOOD: 
         move this to a configurable CMS component
         reflecting JspIncludeComponent "NewCustomerLoginComponent"
       -->
-
-    <h1 class="cx-section__title cx-section__title--alt">
-      Don’t have an account
-    </h1>
-    <a
-      [routerLink]="{ route: ['register'] } | cxTranslateUrl"
-      class="btn btn-block btn-secondary"
-      >Register</a
-    >
+    <div>
+      <h1 class="cx-section__title cx-section__title--alt">
+        Don’t have an account
+      </h1>
+      <a
+        [routerLink]="{ route: ['register'] } | cxTranslateUrl"
+        class="btn btn-block btn-secondary"
+        >Register</a
+      >
+    </div>
   </ng-template>
 </cx-page-layout>

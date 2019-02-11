@@ -60,7 +60,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       showTitle: true
     },
     LoginPageTemplate: {
-      slots: ['BodyContent', 'SideContent'],
+      slots: ['LeftContentSlot', 'RightContentSlot'],
       showTitle: true
     }
   }
