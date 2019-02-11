@@ -22,7 +22,7 @@ import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
   imports: [
     StateModule,
     RoutingModule,
-    AuthModule,
+    AuthModule.forRoot(),
     OccModule,
     CmsLibModule,
     CmsModule,
@@ -30,7 +30,7 @@ import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
     UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,
-    SmartEditModule
+    SmartEditModule.forRoot()
   ],
   exports: [UiModule],
   declarations: []

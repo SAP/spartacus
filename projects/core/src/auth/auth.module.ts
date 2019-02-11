@@ -1,12 +1,14 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { services } from './services/index';
-import { interceptors } from './http-interceptors/index';
-import { AuthConfig } from './config/auth-config';
-import { defaultAuthConfig } from './config/default-auth-config';
+
 import { Config, ConfigModule } from '../config/config.module';
 import { RoutingModule } from '../routing/routing.module';
+
+import { AuthConfig } from './config/auth-config';
+import { defaultAuthConfig } from './config/default-auth-config';
+import { interceptors } from './http-interceptors/index';
+import { services } from './services/index';
 import { AuthStoreModule } from './store/auth-store.module';
 
 @NgModule({
@@ -17,10 +19,13 @@ import { AuthStoreModule } from './store/auth-store.module';
     AuthStoreModule,
     ConfigModule.withConfig(defaultAuthConfig)
   ],
-  providers: [
-    ...services,
-    ...interceptors,
-    { provide: AuthConfig, useExisting: Config }
-  ]
+  providers: [...services, { provide: AuthConfig, useExisting: Config }]
 })
-export class AuthModule {}
+export class AuthModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: AuthModule,
+      providers: [...interceptors]
+    };
+  }
+}
