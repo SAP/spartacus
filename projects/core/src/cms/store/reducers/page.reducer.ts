@@ -1,11 +1,12 @@
+import { PageState, IndexType } from '../cms-state';
 import * as fromPageData from '../actions/page.action';
-import { Page } from '../../model/page.model';
-import { PageState } from '../cms-state';
 
 export const initialState: PageState = {
   entities: {},
-  count: 0,
-  latestPageKey: ''
+
+  pageData: undefined,
+  latestPageId: '',
+  index: {} as IndexType
 };
 
 export function reducer(
@@ -13,57 +14,61 @@ export function reducer(
   action: fromPageData.PageAction
 ): PageState {
   switch (action.type) {
-    case fromPageData.UPDATE_LATEST_PAGE_KEY: {
-      const pageKey = action.payload;
-      return {
-        ...state,
-        latestPageKey: pageKey
-      };
-    }
+    // TODO:#1135 - delete
+    // case fromPageData.UPDATE_LATEST_PAGE_KEY: {
+    //   const pageKey = action.payload;
+    //   console.log(`UPDATE_LATEST_PAGE_KEY`, pageKey);
+    //   return {
+    //     ...state,
+    //     latestPageKey: pageKey
+    //   };
+    // }
 
-    case fromPageData.LOAD_PAGEDATA_SUCCESS: {
-      let page: { key: string; value: Page } = action.payload;
+    // TODO:#1135 - delete
+    // case fromPageData.LOAD_PAGEDATA_SUCCESS: {
+    //   let page: { key: string; value: Page } = action.payload;
+    //   console.log(`LOAD_PAGEDATA_SUCCESS`, page);
 
-      const existPage = state.entities[page.key];
-      if (existPage != null) {
-        let samePage = true;
-        for (const position of Object.keys(page.value.slots)) {
-          if (
-            page.value.slots[position].components.length !==
-            existPage.slots[position].components.length
-          ) {
-            samePage = false;
-            break;
-          }
-        }
-        if (samePage) {
-          page = {
-            ...page,
-            value: {
-              ...page.value,
-              seen: [...page.value.seen, ...existPage.seen]
-            }
-          };
-        }
-      }
+    //   const existPage = state.entities[page.key];
+    //   if (existPage != null) {
+    //     let samePage = true;
+    //     for (const position of Object.keys(page.value.slots)) {
+    //       if (
+    //         page.value.slots[position].components.length !==
+    //         existPage.slots[position].components.length
+    //       ) {
+    //         samePage = false;
+    //         break;
+    //       }
+    //     }
+    //     if (samePage) {
+    //       page = {
+    //         ...page,
+    //         value: {
+    //           ...page.value,
+    //           seen: [...page.value.seen, ...existPage.seen]
+    //         }
+    //       };
+    //     }
+    //   }
 
-      const entities = {
-        ...state.entities,
-        [page.key]: page.value
-      };
+    //   const entities = {
+    //     ...state.entities,
+    //     [page.key]: page.value
+    //   };
 
-      return {
-        ...state,
-        entities,
-        count: state.count + 1,
-        latestPageKey: page.key
-      };
-    }
+    //   return {
+    //     ...state,
+    //     entities,
+    //     count: state.count + 1,
+    //     latestPageKey: page.key
+    //   };
+    // }
 
     case fromPageData.REFRESH_LATEST_PAGE: {
       const entities = {
         ...state.entities,
-        [state.latestPageKey]: null
+        [state.latestPageId]: null
       };
 
       return {
@@ -72,6 +77,7 @@ export function reducer(
       };
     }
 
+    // TODO:#1135 - maybe use the reset functionality?
     case fromPageData.CLEAN_PAGE_STATE: {
       return initialState;
     }

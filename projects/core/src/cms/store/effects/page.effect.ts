@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 import {
   map,
@@ -11,21 +13,19 @@ import {
   take
 } from 'rxjs/operators';
 
-import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
+import * as pageActions from '../actions/page.action';
+import { ContentSlotData } from '../../model/content-slot-data.model';
+import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
 import { DefaultPageService } from '../../services/default-page.service';
-
-import { Page } from '../../model/page.model';
-import { ContentSlotData } from '../../model/content-slot-data.model';
-
 import { RoutingService, PageContext } from '../../../routing/index';
 import { PageType, CMSPage } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class PageEffects {
   @Effect()
-  loadPage$: Observable<any> = this.actions$.pipe(
+  loadPage$: Observable<Action> = this.actions$.pipe(
     ofType(
       pageActions.LOAD_PAGEDATA,
       pageActions.REFRESH_LATEST_PAGE,
@@ -44,10 +44,10 @@ export class PageEffects {
           mergeMap(context =>
             this.occCmsService.loadPageData(context).pipe(
               mergeMap(data => {
+                const page = this.getPageData(data, context);
                 return [
-                  new pageActions.LoadPageDataSuccess(
-                    this.getPageData(data, context)
-                  ),
+                  new pageActions.LoadPageDataSuccess(page),
+                  new pageActions.UpdateLatestPageKey(page.pageId),
                   new componentActions.GetComponentFromPage(
                     this.getComponents(data)
                   )
@@ -82,10 +82,7 @@ export class PageEffects {
     private routingService: RoutingService
   ) {}
 
-  private getPageData(
-    res: any,
-    pageContext: PageContext
-  ): { key: string; value: Page } {
+  private getPageData(res: any, pageContext: PageContext): Page {
     const page: Page = {
       loadTime: Date.now(),
       uuid: res.uuid,
@@ -122,9 +119,10 @@ export class PageEffects {
       }
     }
 
-    return { key: this.getPageKey(pageContext, page), value: page };
+    return page;
   }
 
+  // TODO:#1135 - delete
   private getPageKey(pageContext: PageContext, page: Page): string {
     switch (pageContext.type) {
       case PageType.CATEGORY_PAGE:

@@ -1,7 +1,8 @@
-import * as fromPage from './page.reducer';
 import * as fromActions from '../actions/page.action';
 import { Page } from '../../model/page.model';
 import { CmsComponent } from '../../../occ/occ-models/index';
+
+import * as fromPage from './page.reducer';
 
 describe('Cms Page Reducer', () => {
   describe('undefined action', () => {
@@ -35,7 +36,7 @@ describe('Cms Page Reducer', () => {
 
       expect(state.count).toEqual(1);
       expect(state.entities['test']).toEqual(page);
-      expect(state.latestPageKey).toEqual('test');
+      expect(state.latestPageId).toEqual('test');
     });
 
     it('should add id to array `seen` for the same cms page', () => {
@@ -58,7 +59,7 @@ describe('Cms Page Reducer', () => {
       const state = fromPage.reducer(currentState, action);
 
       expect(state.entities['test'].seen).toEqual(['123']);
-      expect(state.latestPageKey).toEqual('test');
+      expect(state.latestPageId).toEqual('test');
     });
 
     it('should overwrite the existing cms page', () => {
@@ -81,7 +82,7 @@ describe('Cms Page Reducer', () => {
       expect(state.entities['test'].slots['left']).toEqual({
         components: [{ uid: 'comp1' }, { uid: 'comp2' }]
       });
-      expect(state.latestPageKey).toEqual('test');
+      expect(state.latestPageId).toEqual('test');
     });
   });
 
@@ -112,7 +113,7 @@ describe('Cms Page Reducer', () => {
       const action = new fromActions.UpdateLatestPageKey(payload);
       const state = fromPage.reducer(initialState, action);
 
-      expect(state.latestPageKey).toEqual(payload);
+      expect(state.latestPageId).toEqual(payload);
     });
   });
 

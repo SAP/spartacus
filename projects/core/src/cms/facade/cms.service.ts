@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import * as fromStore from '../store';
-import { filter, tap, map, take, withLatestFrom } from 'rxjs/operators';
+
 import { select, Store } from '@ngrx/store';
-import { Page } from '../model/page.model';
+
+import { Observable } from 'rxjs';
+import { filter, tap, map, withLatestFrom } from 'rxjs/operators';
+
+import * as fromStore from '../store';
+import { PageType } from '../../occ';
+import { PageContext } from '../../routing';
+import { EntityLoaderState, LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
-import { DefaultPageService } from '../services/default-page.service';
+import { NodeItem } from '../model/node-item.model';
+import { Page } from '../model/page.model';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
 
@@ -16,14 +22,15 @@ export class CmsService {
   private _launchInSmartEdit = false;
 
   constructor(
-    private store: Store<StateWithCms>,
-    private defaultPageService: DefaultPageService
-  ) {}
+    private store: Store<StateWithCms> // TODO:#1135 - delete?
+  ) {
+    // private defaultPageService: DefaultPageService
+  }
 
   /**
    * Set _launchInSmartEdit value
    */
-  set launchInSmartEdit(value) {
+  set launchInSmartEdit(value: boolean) {
     this._launchInSmartEdit = value;
   }
 
@@ -78,7 +85,7 @@ export class CmsService {
    * Given navigation node uid, get items (with id and type) inside the navigation entries
    * @param navigationNodeUid : uid of the navigation node
    */
-  getNavigationEntryItems(navigationNodeUid: string): Observable<any> {
+  getNavigationEntryItems(navigationNodeUid: string): Observable<NodeItem> {
     return this.store.pipe(
       select(fromStore.itemsSelectorFactory(navigationNodeUid))
     );
@@ -92,7 +99,7 @@ export class CmsService {
   loadNavigationItems(
     rootUid: string,
     itemList: { id: string; superType: string }[]
-  ) {
+  ): void {
     this.store.dispatch(
       new fromStore.LoadNavigationItems({
         nodeId: rootUid,
@@ -104,7 +111,7 @@ export class CmsService {
   /**
    * Refresh the content of the latest cms page
    */
-  refreshLatestPage() {
+  refreshLatestPage(): void {
     this.store.dispatch(new fromStore.RefreshLatestPage());
   }
 
@@ -112,21 +119,59 @@ export class CmsService {
    * Refresh cms component's content
    * @param uid : component uid
    */
-  refreshComponent(uid: string) {
+  refreshComponent(uid: string): void {
     this.store.dispatch(new fromStore.LoadComponent(uid));
+  }
+
+  // TODO:#1135 - test
+  private getIndexType(
+    pageContext: PageContext
+  ): Observable<EntityLoaderState<string>> {
+    if (pageContext.type === PageType.CONTENT_PAGE) {
+      return this.store.pipe(select(fromStore.getLoaderContentState));
+    } else if (pageContext.type === PageType.PRODUCT_PAGE) {
+      return this.store.pipe(select(fromStore.getLoaderProductState));
+    } else if (pageContext.type === PageType.CATEGORY_PAGE) {
+      return this.store.pipe(select(fromStore.getLoaderCategoryState));
+    } else {
+      return this.store.pipe(select(fromStore.getLoaderCatalogState));
+    }
   }
 
   /**
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */
-  hasPage(pageContext): Observable<boolean> {
-    let tryTimes = 0;
+  hasPage(pageContext: PageContext): Observable<boolean> {
+    // TODO:#1135 maybe implement three functions: one per cms type
 
+    console.log({ pageContext });
+
+    return this.getIndexType(pageContext).pipe(
+      map(index => index.entities[pageContext.id]),
+      tap((entity: LoaderState<string>) => {
+        const attemptedLoad = entity.loading || entity.success || entity.error;
+        if (!attemptedLoad) {
+          this.store.dispatch(new fromStore.LoadPageData(pageContext));
+        }
+      }),
+      tap(entity => {
+        if (entity.success) {
+          this.store.dispatch(new fromStore.UpdateLatestPageKey(entity.value));
+        }
+      }),
+      filter(entity => entity.success || entity.error),
+      map(entity => entity.success)
+    );
+
+    // TODO:#1135 - delete
+    /*
     return this.store.pipe(
       select(fromStore.getPageEntities),
       map((entities: { [key: string]: Page }) => {
+        console.log(`entities`, entities);
         let key = pageContext.id + '_' + pageContext.type;
+        console.log(`key: ${key}`);
         let found = !!entities[key];
         if (!found) {
           const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
@@ -160,5 +205,6 @@ export class CmsService {
       filter(found => found || tryTimes === 3),
       take(1)
     );
+    */
   }
 }
