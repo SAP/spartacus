@@ -98,7 +98,7 @@ Some of the CMS components might be intended not to render in the server for mul
 - a CMS component is not required for SSR output and for performance reason will be removed from the rendering process
 - a CMS component interacts with external services (latency) and is not relevant for indexing and social sharing
 
-Every CMS component is enabled in SSR by default, but can be configured no to render in the server:
+While it is possible to add conditional logic in a component to render (parts of) the view in the SSR, we offer a configuration for components to make this more generic and avoid any specific logic in components:
 
 ```typescript
 ConfigModule.withConfig({
