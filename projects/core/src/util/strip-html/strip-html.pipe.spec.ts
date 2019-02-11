@@ -1,20 +1,22 @@
-import { StripHighlightPipe } from './strip-highlight.pipe';
 import { TestBed } from '@angular/core/testing';
+
 import { Product } from '@spartacus/core';
 
-describe('StripHighlightPipe', () => {
+import { StripHtmlPipe } from './strip-html.pipe';
+
+describe('StripHtmlPipe', () => {
   const mockProduct: Product = {
     code: 'testId',
     name: '8GB Super Fast <em class="search-results-highlight">Card</em>'
   };
 
-  let pipe: StripHighlightPipe;
+  let pipe: StripHtmlPipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StripHighlightPipe]
+      providers: [StripHtmlPipe]
     });
-    pipe = TestBed.get(StripHighlightPipe);
+    pipe = TestBed.get(StripHtmlPipe);
   });
 
   describe('transform', () => {

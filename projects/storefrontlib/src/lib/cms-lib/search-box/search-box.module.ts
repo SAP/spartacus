@@ -8,7 +8,8 @@ import {
   ProductModule,
   ProductSearchService,
   RoutingService,
-  UrlTranslationModule
+  UrlTranslationModule,
+  StripHtmlModule
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 
@@ -19,8 +20,6 @@ import { MediaModule } from '../../ui/components/media/media.module';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
-import { StripHighlightPipe } from './strip-highlight/strip-highlight.pipe';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -30,6 +29,7 @@ import { StripHighlightPipe } from './strip-highlight/strip-highlight.pipe';
     ReactiveFormsModule,
     MediaModule,
     ProductModule,
+    StripHtmlModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SearchBoxComponent: {
@@ -46,7 +46,7 @@ import { StripHighlightPipe } from './strip-highlight/strip-highlight.pipe';
     }),
     UrlTranslationModule
   ],
-  declarations: [SearchBoxComponent, StripHighlightPipe],
+  declarations: [SearchBoxComponent],
   entryComponents: [SearchBoxComponent],
   exports: [SearchBoxComponent]
 })
