@@ -20,9 +20,6 @@ import { OrderDetailsPageModule } from './myaccount/order-details-page/order-det
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
-
-// ProductPage
-import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
@@ -36,7 +33,6 @@ const pageModules = [
   MultiStepCheckoutPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
-  ProductPageModule,
   RegisterPageModule,
   LoginPageModule,
   PaymentDetailsPageModule,
@@ -76,6 +72,18 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
         component: PageLayoutComponent
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'product' }
+      },
+      {
+        path:
+          'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'product' }
       }
     ])
   ]

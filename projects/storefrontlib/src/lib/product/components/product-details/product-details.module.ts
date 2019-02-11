@@ -27,7 +27,7 @@ import { OutletModule } from '../../../outlet/index';
     CartSharedModule,
     CmsModule,
     AddToCartModule,
-    OutletModule
+    OutletModule,
   ],
   declarations: [
     ProductSummaryComponent,
