@@ -80,10 +80,7 @@ export function reducer(
         ? action.payload.routerState.context.id
         : '';
       let redirectUrl;
-      if (
-        contextId === 'login' ||
-        currentUrl === state.redirectUrl
-      ) {
+      if (contextId === 'login' || currentUrl === state.redirectUrl) {
         redirectUrl = state.redirectUrl;
       } else {
         redirectUrl = '';

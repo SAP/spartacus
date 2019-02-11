@@ -21,9 +21,7 @@ export class Go implements Action {
 
 export class GoByUrl implements Action {
   readonly type = GO_BY_URL;
-  constructor(
-    public payload: string
-  ) {}
+  constructor(public payload: string) {}
 }
 
 export class Back implements Action {
@@ -43,4 +41,10 @@ export class ClearRedirectUrl implements Action {
   readonly type = CLEAR_REDIRECT_URL;
 }
 
-export type Actions = Go | GoByUrl | Back | Forward | SaveRedirectUrl | ClearRedirectUrl;
+export type Actions =
+  | Go
+  | GoByUrl
+  | Back
+  | Forward
+  | SaveRedirectUrl
+  | ClearRedirectUrl;

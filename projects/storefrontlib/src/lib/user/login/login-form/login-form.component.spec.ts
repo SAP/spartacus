@@ -28,7 +28,7 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  go = createSpy();
+  goByUrl = createSpy();
   clearRedirectUrl = createSpy();
   getRedirectUrl() {
     return of('/test');
@@ -89,7 +89,7 @@ describe('LoginFormComponent', () => {
   });
 
   it('should redirect to returnUrl saved in store if there is one', () => {
-    expect(routingService.go).toHaveBeenCalledWith(['/test']);
+    expect(routingService.goByUrl).toHaveBeenCalledWith('/test');
   });
 
   describe('userId form field', () => {
