@@ -5,11 +5,11 @@ In addition, component specific business logic can be customized. This requires 
 
 With this setup, CMS components can be customized in multiple ways:
 
-| Scenario  | Approach | Example | 
-| ------------- | ------------- | ------------- | 
-| Customize style  | Add custom css rules<br/>(Out of scope for this doc) | Customize component style for the `LanguageSelector` | 
-| Replace component | Configure a custom component  | Provide a custom `BannerComponent` | 
-| Customize logic  | Configure a custom service | Provide a custom `SearchBoxComponentService` |
+| Scenario          | Approach                                             | Example                                              |
+| ----------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| Customize style   | Add custom css rules<br/>(Out of scope for this doc) | Customize component style for the `LanguageSelector` |
+| Replace component | Configure a custom component                         | Provide a custom `BannerComponent`                   |
+| Customize logic   | Configure a custom service                           | Provide a custom `SearchBoxComponentService`         |
 
 ## Configure custom components
 There are two types of components that can be configured:
@@ -20,9 +20,9 @@ There are two types of components that can be configured:
 
 The configuration for a CMS components can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The configuration belows shows how to configure a custom angular component for the BannerComponent
 
-```
+```typescript
 ConfigModule.withConfig({
-  cmsComponentMapping: {
+  cmsMapping: {
     BannerComponent: {
         selector: 'custom-banner';
     }
@@ -42,9 +42,9 @@ Web components have a lot of benefits, and as soon as some of the fundamentals o
 
 In order to configure a web component as a CMS component, the configuration must consist of the path to JS file (web component implementation) and its tag name separated by hash symbol:
 
-```
+```typescript
 ConfigModule.withConfig({
-  cmsComponentMapping: {
+  cmsMapping: {
     BannerComponent: {
         selector: 'path/to/banner/component/file.js#custom-banner';
     }
@@ -74,9 +74,9 @@ Component services are designed to be non-singleton services, scoped to the comp
 
 In order to configure a custom component service, we can provide a service in a similar fashion though. The configuration is done in line with the component configuration. In the example below, the SearchComponent is provided with a custom `SearchBoxComponentService`:
 
-```
+```typescript
 ConfigModule.withConfig({
-  cmsComponentMapping: {
+  cmsMapping: {
     SearchBoxComponent: {
         providers: [
         {
@@ -84,6 +84,27 @@ ConfigModule.withConfig({
           useClass: CustomSearchBoxComponentService,
           deps: [CmsComponentData, ProductSearchService, RoutingService]
         }
+      ];
+    }
+  }
+});
+```
+
+# Control of Server Side Rendering
+
+Some of the CMS components might be intended not to render in the server for multiple reasons:
+
+- a CMS component requires personalised input and should not or can not be rendered without it
+- a CMS component is not required for SSR output and for performance reason will be removed from the rendering process
+- a CMS component interacts with external services (latency) and is not relevant for indexing and social sharing
+
+Every CMS component is enabled in SSR by default, but can be configured no to render in the server:
+
+```typescript
+ConfigModule.withConfig({
+  cmsMapping: {
+    SearchBoxComponent: {
+        disableSSR: true
       ];
     }
   }
