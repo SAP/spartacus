@@ -55,7 +55,7 @@ const MockCmsModuleConfig: CmsConfig = {
 
 const endpoint = '/cms';
 
-fdescribe('OccCmsService', () => {
+describe('OccCmsService', () => {
   let service: OccCmsService;
   let httpMock: HttpTestingController;
 
