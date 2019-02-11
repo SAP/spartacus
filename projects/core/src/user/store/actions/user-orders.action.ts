@@ -36,6 +36,7 @@ export class LoadUserOrdersSuccess extends LoaderSuccessAction {
   readonly type = LOAD_USER_ORDERS_SUCCESS;
   constructor(public payload: OrderHistoryList) {
     super(USER_ORDERS);
+
   }
 }
 
