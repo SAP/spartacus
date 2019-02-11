@@ -16,7 +16,8 @@ export function reducer(
     case fromUserOrdersAction.LOAD_USER_ORDERS_SUCCESS: {
       return action.payload ? action.payload : initialState;
     }
-    case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL: {
+    case fromUserOrdersAction.LOAD_USER_ORDERS_FAIL:
+    case fromUserOrdersAction.CLEAR_USER_ORDERS: {
       return initialState;
     }
   }
