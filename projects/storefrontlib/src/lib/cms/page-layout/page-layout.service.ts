@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap, distinctUntilChanged, map, filter } from 'rxjs/operators';
+import {
+  switchMap,
+  distinctUntilChanged,
+  map,
+  filter,
+  tap
+} from 'rxjs/operators';
 import { CmsService, Page } from '@spartacus/core';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
 import {
@@ -63,7 +69,10 @@ export class PageLayoutService {
   }
 
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
+    return this.cms.getCurrentPage().pipe(
+      filter(Boolean),
+      tap(p => console.log(p))
+    );
   }
 
   get pageTitle$(): Observable<string> {
