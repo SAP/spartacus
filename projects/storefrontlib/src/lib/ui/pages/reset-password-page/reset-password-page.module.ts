@@ -7,7 +7,7 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { NotAuthGuard } from '@spartacus/core';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { UserComponentModule } from '../../../user/user.module';
-import { OutletRefModule } from '../../../outlet';
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 
 const routes: Routes = [
   {
