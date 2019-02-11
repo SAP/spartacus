@@ -14,6 +14,17 @@ describe('Router Actions', () => {
     });
   });
 
+  describe('GoByUrl Action', () => {
+    it('should create an action', () => {
+      const payload: string = 'test';
+      const action = new fromRouter.GoByUrl(payload);
+      expect({ ...action }).toEqual({
+        type: fromRouter.GO_BY_URL,
+        payload: payload
+      });
+    });
+  });
+
   describe('Back Action', () => {
     it('should create an action', () => {
       const action = new fromRouter.Back();
