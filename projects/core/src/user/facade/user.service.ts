@@ -339,4 +339,11 @@ export class UserService {
   loadBillingCountries() {
     return this.store.dispatch(new fromStore.LoadBillingCountries());
   }
+
+  /**
+   * Cleaning order list
+   */
+  clearOrderList() {
+    this.store.dispatch(new fromStore.ClearUserOrders());
+  }
 }

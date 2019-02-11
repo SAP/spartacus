@@ -20,7 +20,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
-    private userSerivce: UserService
+    private userService: UserService
   ) {}
 
   orders$: Observable<OrderHistoryList>;
@@ -29,7 +29,6 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
 
   private user_id: string;
   private PAGE_SIZE = 5;
-  private loadedOrders = false;
 
   sortType: string;
   sortLabels = {
@@ -44,7 +43,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.orders$ = this.userSerivce
+    this.orders$ = this.userService
       .getOrderHistoryList(this.user_id, this.PAGE_SIZE)
       .pipe(
         tap((orders: OrderHistoryList) => {
@@ -54,13 +53,14 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
         })
       );
 
-    this.isLoaded$ = this.userSerivce.getOrderHistoryListLoaded();
+    this.isLoaded$ = this.userService.getOrderHistoryListLoaded();
   }
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    this.userService.clearOrderList();
   }
 
   changeSortCode(sortCode: string): void {
@@ -87,7 +87,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.userSerivce.loadOrderList(
+    this.userService.loadOrderList(
       this.user_id,
       this.PAGE_SIZE,
       event.currentPage,

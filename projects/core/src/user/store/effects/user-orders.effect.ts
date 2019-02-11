@@ -44,7 +44,7 @@ export class UserOrdersEffect {
 
   @Effect()
   resetUserOrders$: Observable<Action> = this.actions$.pipe(
-    ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
+    ofType('[Site-context] Language Change', '[Site-context] Currency Change', fromUserOrdersAction.CLEAR_USER_ORDERS),
     map(() => {
       return new LoaderResetAction(USER_ORDERS);
     })
