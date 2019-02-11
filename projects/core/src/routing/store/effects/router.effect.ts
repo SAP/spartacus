@@ -20,6 +20,15 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
+  navigateBuUrl$: Observable<any> = this.actions$.pipe(
+    ofType(RouterActions.GO_BY_URL),
+    map((action: RouterActions.Go) => action.payload),
+    tap(url => {
+      this.router.navigateByUrl(url);
+    })
+  );
+
+  @Effect({ dispatch: false })
   navigateBack$: Observable<Action> = this.actions$.pipe(
     ofType(RouterActions.BACK),
     tap(() => this.location.back())

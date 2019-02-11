@@ -38,10 +38,24 @@ describe('Router Effects', () => {
       actions$ = hot('-a', { a: action });
 
       spyOn(router, 'navigate');
+      spyOn(router, 'navigateByUrl');
       effects.navigate$.subscribe(() => {
         expect(router.navigate).toHaveBeenCalledWith(['/test'], {
           queryParams: undefined
         });
+      });
+    });
+  });
+
+  describe('navigateByUrl$', () => {
+    it('should navigate to url', () => {
+      const action = new fromActions.GoByUrl('/test');
+
+      actions$ = hot('-a', { a: action });
+
+      spyOn(router, 'navigate');
+      effects.navigate$.subscribe(() => {
+        expect(router.navigateByUrl).toHaveBeenCalledWith('/test');
       });
     });
   });
