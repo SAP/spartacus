@@ -68,6 +68,7 @@ describe('UserService', () => {
 
   it('should be able to register user', () => {
     const userRegisterFormData: UserRegisterFormData = {
+      titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
       uid: 'uid',
