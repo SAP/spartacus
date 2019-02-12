@@ -8,17 +8,16 @@ import {
   LanguageService,
   CurrencyService,
   Component,
-  Language
+  Language,
+  contextServiceMapProvider,
+  LANGUAGE_CONTEXT_ID
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import {
-  SiteContextComponentService,
-  ContextSelectorServiceMap
-} from './site-context-component.service';
+import { SiteContextComponentService } from './site-context-component.service';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -56,7 +55,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
-    context: 'LANGUAGE'
+    context: LANGUAGE_CONTEXT_ID
   };
 
   const MockCmsService = {
@@ -85,13 +84,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
         },
-        {
-          provide: ContextSelectorServiceMap,
-          useValue: {
-            LANGUAGE: LanguageService,
-            CURRENCY: CurrencyService
-          }
-        }
+        contextServiceMapProvider
       ]
     })
       .overrideComponent(SiteContextSelectorComponent, {
