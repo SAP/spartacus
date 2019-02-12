@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Product } from '@spartacus/core';
+import { Product } from '../../../occ/occ-models/occ.models';
 
 @Pipe({ name: 'stripHtml' })
 export class StripHtmlPipe implements PipeTransform {
