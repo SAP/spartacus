@@ -3,20 +3,31 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { SearchBoxComponent } from './search-box.component';
-import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-import { BootstrapModule } from '../../bootstrap.module';
-import { CmsService } from '@spartacus/core';
-import { SearchBoxComponentService } from './search-box-component.service';
-import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform } from '@angular/core';
+
+import { CmsService } from '@spartacus/core';
+import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
+
+import { of } from 'rxjs';
+
+import { BootstrapModule } from '../../bootstrap.module';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { PictureComponent } from '../../ui/components/media/picture/picture.component';
+
+import { SearchBoxComponentService } from './search-box-component.service';
+import { SearchBoxComponent } from './search-box.component';
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
+@Pipe({
+  name: 'stripHtml'
+})
+class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
 }
 
@@ -70,7 +81,8 @@ describe('SearchBoxComponent in CmsLib', () => {
       declarations: [
         SearchBoxComponent,
         PictureComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
+        MockStripHtmlPipe
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
