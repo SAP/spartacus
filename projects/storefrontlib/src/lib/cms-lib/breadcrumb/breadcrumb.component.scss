@@ -1,5 +1,24 @@
+// .breadcrumb {
+//   clear: both;
+//   background-color: #d9d9d9;
+//   padding: 10px;
+// }
+
+:host {
+  color: var(--cx-g-color-text, #000);
+  height: 100px;
+  display: block;
+}
+
 .breadcrumb {
-  clear: both;
-  background-color: #d9d9d9;
-  padding: 10px;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding-bottom: 25px;
+  padding-top: 25px;
+
+  text-align: center;
+
+  background-color: var(--cx-g-color-background);
+  height: inherit;
 }

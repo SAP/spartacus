@@ -17,6 +17,6 @@ import { CmsConfig } from '@spartacus/core';
   ],
   declarations: [BreadcrumbComponent],
   entryComponents: [BreadcrumbComponent],
-  exports: [BreadcrumbComponent]
+  exports: []
 })
 export class BreadcrumbModule {}

@@ -7,7 +7,7 @@ import { BannerModule } from './banner/banner.module';
 import { CategoryNavigationModule } from './category-navigation/category-navigation.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
-// import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
+import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
@@ -26,7 +26,7 @@ import { AddressBookModule } from './address-book/address-book.module';
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
-    // BreadcrumbModule,
+    BreadcrumbModule,
     ProductCarouselModule,
     SearchBoxModule,
     MiniCartModule,
