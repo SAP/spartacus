@@ -16,7 +16,7 @@ const routes: Routes = [
     path: null,
     canActivate: [AuthGuard, CmsPageGuards, OrderConfirmationPageGuard],
     component: OrderConfirmationPageComponent,
-    data: { pageLabel: 'cartPage', cxPath: 'orderConfirmation' }
+    data: { pageLabel: 'orderConfirmationPage', cxPath: 'orderConfirmation' }
   }
 ];
 
