@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { ActionsSubject } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import {
   GlobalMessageService,
@@ -16,9 +16,6 @@ import {
   DELETE_USER_ADDRESS_SUCCESS,
   Address
 } from '@spartacus/core';
-import { map } from 'rxjs/operators';
-
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-address-book',
@@ -42,13 +39,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService
-      .getAddresses()
-      .pipe(
-        map((addresses: Address[]) =>
-          addresses.map((address: Address) => address)
-        )
-      );
+    this.addresses$ = this.userService.getAddresses();
     this.addressesLoading$ = this.userService.getAddressesLoading();
 
     this.userService.get().subscribe(data => {
