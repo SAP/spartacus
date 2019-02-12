@@ -56,12 +56,15 @@ export const defaultLayoutConfig: LayoutConfig = {
       ]
     },
     AccountPageTemplate: {
-      slots: ['BodyContent', 'SideContent'],
       showTitle: true,
-      md: {
-        // slots: ['Section5'],
-        // showTitle: false
-      }
+      slots: ['BodyContent', 'SideContent']
+    },
+    LoginPageTemplate: {
+      showTitle: true,
+      slots: ['LeftContentSlot', 'RightContentSlot']
+    },
+    ErrorPageTemplate: {
+      slots: ['MiddleContent']
     }
   }
 };
