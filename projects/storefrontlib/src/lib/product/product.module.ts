@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import { MediaModule } from './../ui/components/media/media.module';
 import { CmsModule } from './../cms/cms.module';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -12,11 +11,6 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
     RouterModule,
     MediaModule,
     CmsModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ProductDetails: { selector: 'cx-product-details' }
-      }
-    })
   ]
 })
 export class ProductModule {}

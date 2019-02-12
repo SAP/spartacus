@@ -16,6 +16,7 @@ import { CartSharedModule } from './../../../cart/cart-shared/cart-shared.module
 import { ComponentsModule } from './../../../ui/components/components.module';
 import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
 import { OutletModule } from '../../../outlet/index';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -28,6 +29,11 @@ import { OutletModule } from '../../../outlet/index';
     CmsModule,
     AddToCartModule,
     OutletModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductDetailsComponent: { selector: 'cx-product-details' }
+      }
+    })
   ],
   declarations: [
     ProductSummaryComponent,
