@@ -44,7 +44,9 @@ export class SiteContextParamsService {
   }
 
   getSiteContextService(param: string): SiteContext<any> {
-    return this.injector.get<SiteContext<any>>(this.serviceMap[param]);
+    if (this.serviceMap[param]) {
+      return this.injector.get<SiteContext<any>>(this.serviceMap[param], null);
+    }
   }
 
   getValue(param: string): string {
