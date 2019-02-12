@@ -42,16 +42,13 @@ export class AddressBookComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService.getAddresses().pipe(
-      map((addresses: Address[]) =>
-        addresses.map((address: Address) => {
-          if (address.titleCode === null) {
-            address.titleCode = '';
-          }
-          return address;
-        })
-      )
-    );
+    this.addresses$ = this.userService
+      .getAddresses()
+      .pipe(
+        map((addresses: Address[]) =>
+          addresses.map((address: Address) => address)
+        )
+      );
     this.addressesLoading$ = this.userService.getAddressesLoading();
 
     this.userService.get().subscribe(data => {
@@ -72,10 +69,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
 
   showEditAddressForm(address: Address): void {
     // @TODO: Since we don't get titleCode from API we need to mock it for edit.
-    this.activeAddress = {
-      ...address,
-      titleCode: address.titleCode || ''
-    };
+    this.activeAddress = address;
     this.isEditAddressFormOpen = true;
   }
 
