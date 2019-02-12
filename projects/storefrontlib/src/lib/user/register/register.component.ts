@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .subscribe(url => {
         if (url) {
           // If forced to login due to AuthGuard, then redirect to intended destination
-          this.routing.go([url]);
+          this.routing.goByUrl(url);
           this.routing.clearRedirectUrl();
         } else {
           // User manual login
