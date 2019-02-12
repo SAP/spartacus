@@ -18,7 +18,6 @@
 .cx-shipping-address-body {
   display: var(--cx-display, flex);
   align-items: var(--cx-align-items, flex-end);
-  padding-bottom: var(--cx-padding, 1.875rem);
 }
 
 .cx-shipping-address-text {
@@ -34,6 +33,7 @@
 
 .cx-shipping-address-btn {
   padding-bottom: var(--cx-padding, 1rem);
+  justify-content: var(--cx-justify-content, flex-end);
 
   @include media-breakpoint-down(md) {
     padding: var(--cx-padding, 0 3.5rem 1.25rem 0);
