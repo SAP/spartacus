@@ -121,7 +121,7 @@ describe('UserService', () => {
 
     let orderList: OrderHistoryList;
     service
-      .getOrderHistoryList()
+      .getOrderHistoryList('', 1)
       .subscribe(data => {
         orderList = data;
       })
@@ -426,5 +426,12 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(regions).toEqual([{ name: 'r1' }, { name: 'r2' }]);
+  });
+
+  it('should be able to clear order list', () => {
+    service.clearOrderList();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearUserOrders()
+    );
   });
 });
