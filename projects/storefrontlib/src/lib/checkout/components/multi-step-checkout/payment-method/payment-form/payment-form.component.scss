@@ -12,79 +12,29 @@
   }
   .cx-payment-form-billing {
     margin-bottom: 1.25rem;
+  }
 
-    .cx-payment-form-billing-address {
-      @include type('4');
-      padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
-    }
+  .cx-payment-form-billing-address {
+    @include type('4');
+    padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
   }
-  &__img {
-    margin: var(--cx-margin, 0 1rem 1.25rem 0);
-    &-container {
-      display: var(--cx-display, flex);
-    }
+
+  .cx-payment-form-exp-date {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+    flex-wrap: var(--cx-flex-wrap, nowrap);
   }
+
   .form-check {
     margin: var(--cx-margin, 0);
   }
-  .form-group {
-    &__exp-date {
-      display: var(--cx-display, flex);
-      flex-direction: var(--cx-flex-direction, row);
-      flex-wrap: var(--cx-flex-wrap, nowrap);
-    }
-  }
-  &__title {
-    text-transform: var(--cx-text-transform, uppercase);
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
-  }
-  &__body {
-    display: var(--cx-display, flex);
-    align-items: var(--cx-align-items, flex-end);
-    padding-bottom: 1.875rem;
-  }
+
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
-  &__body {
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: var(--cx-padding, 0);
-      }
-    }
-  }
-  &__text {
-    @include media-breakpoint-down(md) {
-      padding-left: 3.5rem;
-    }
-    @include media-breakpoint-down(sm) {
-      padding-left: 1.5rem;
-    }
-  }
-  &__header {
+
+  .row {
     @include media-breakpoint-down(md) {
       padding: var(--cx-padding, 0);
-    }
-    &-image {
-      @include media-breakpoint-down(md) {
-        margin-right: 1rem;
-        margin-left: 0;
-      }
-    }
-  }
-  &__card {
-    @include media-breakpoint-down(md) {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-background)
-      );
-    }
-  }
-  &__btns {
-    .btn-action {
-      @include media-breakpoint-down(sm) {
-        margin-bottom: 1rem;
-      }
     }
   }
 }
