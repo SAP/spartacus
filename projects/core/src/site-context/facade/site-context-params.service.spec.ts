@@ -10,7 +10,7 @@ import {
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
-describe('SiteContextParamsService', () => {
+fdescribe('SiteContextParamsService', () => {
   const siteContextConfig: SiteContextConfig = {
     siteContext: {
       parameters: {
@@ -82,9 +82,16 @@ describe('SiteContextParamsService', () => {
     expect(value).toEqual('USD');
   });
 
-  it('getSiteContextService should return relevant service', () => {
-    const ctxService = service.getSiteContextService('language');
-    expect(ctxService).toEqual(mockLanguageService);
+  describe('getSiteContextService', () => {
+    it('should return relevant service', () => {
+      const ctxService = service.getSiteContextService('language');
+      expect(ctxService).toEqual(mockLanguageService);
+    });
+
+    it('should return undefined if there is no such parameter', () => {
+      const ctxService = service.getSiteContextService('custom');
+      expect(ctxService).toEqual(undefined);
+    });
   });
 
   it('getValue should call corresponding service', () => {
