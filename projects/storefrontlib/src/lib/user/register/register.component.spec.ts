@@ -60,6 +60,7 @@ class MockUserService {
   loadTitles(): void {}
 
   register(
+    _titleCode: string,
     _firstName: string,
     _lastName: string,
     _email: string,
@@ -69,6 +70,9 @@ class MockUserService {
 
 class MockGlobalMessageService {
   remove() {}
+  get() {
+    return of();
+  }
 }
 
 describe('RegisterComponent', () => {
@@ -109,6 +113,34 @@ describe('RegisterComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    it('should load titles', () => {
+      spyOn(userService, 'getTitles').and.returnValue(of(mockTitlesList));
+
+      component.ngOnInit();
+
+      let titleList: Title[];
+      component.titles$
+        .subscribe(data => {
+          titleList = data;
+        })
+        .unsubscribe();
+      expect(titleList).toEqual(mockTitlesList);
+    });
+
+    it('should fetch titles if the state is empty', done => {
+      spyOn(userService, 'loadTitles').and.stub();
+      spyOn(userService, 'getTitles').and.returnValue(of([]));
+
+      component.ngOnInit();
+
+      component.titles$
+        .subscribe(() => {
+          expect(userService.loadTitles).toHaveBeenCalled();
+          done();
+        })
+        .unsubscribe();
+    });
+
     it('should remove error messages', () => {
       spyOn(globalMessageService, 'remove').and.callThrough();
       component.ngOnInit();
@@ -165,6 +197,7 @@ describe('RegisterComponent', () => {
     it('form valid when filled', () => {
       component.ngOnInit();
 
+      controls['titleCode'].setValue('Mr');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('Doe');
       controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
@@ -178,6 +211,7 @@ describe('RegisterComponent', () => {
     it('form invalid when not all required fields filled', () => {
       component.ngOnInit();
 
+      controls['titleCode'].setValue('Mr');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('');
       controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
@@ -191,6 +225,7 @@ describe('RegisterComponent', () => {
     it('form invalid when not terms not checked', () => {
       component.ngOnInit();
 
+      controls['titleCode'].setValue('Mr');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('Doe');
       controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');

@@ -19,6 +19,7 @@ const user: UserRegisterFormData = {
   firstName: '',
   lastName: '',
   password: '',
+  titleCode: '',
   uid: ''
 };
 

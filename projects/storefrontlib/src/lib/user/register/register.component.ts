@@ -63,31 +63,27 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-    this.subscription.add(
-      this.auth
-        .getUserToken()
-        .pipe(
-          switchMap(data => {
-            if (data && data.access_token) {
-              this.globalMessageService.remove(
-                GlobalMessageType.MSG_TYPE_ERROR
-              );
-              return this.routing.getRedirectUrl().pipe(take(1));
-            }
-            return of();
-          })
-        )
-        .subscribe(url => {
-          if (url) {
-            // If forced to login due to AuthGuard, then redirect to intended destination
-            this.routing.goByUrl(url);
-            this.routing.clearRedirectUrl();
-          } else {
-            // User manual login
-            this.routing.back();
+    this.subscription = this.auth
+      .getUserToken()
+      .pipe(
+        switchMap(data => {
+          if (data && data.access_token) {
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+            return this.routing.getRedirectUrl().pipe(take(1));
           }
+          return of();
         })
-    );
+      )
+      .subscribe(url => {
+        if (url) {
+          // If forced to login due to AuthGuard, then redirect to intended destination
+          this.routing.goByUrl(url);
+          this.routing.clearRedirectUrl();
+        } else {
+          // User manual login
+          this.routing.back();
+        }
+      });
   }
 
   submit(): void {
