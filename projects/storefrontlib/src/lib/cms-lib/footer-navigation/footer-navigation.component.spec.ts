@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 import {
   DebugElement,
   Input,
@@ -7,19 +8,16 @@ import {
   PipeTransform,
   Component
 } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
 
 import {
-  CmsService,
   Component as SpaComponent,
   TranslateUrlOptions
 } from '@spartacus/core';
-
-import { NavigationService } from '../navigation/navigation.service';
-
-import { NavigationComponent } from '..';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { NavigationComponent } from '../navigation/navigation.component';
 import { FooterNavigationComponent } from './footer-navigation.component';
-import { of } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 
@@ -75,6 +73,11 @@ describe('FooterNavigationComponent', () => {
     data$: of()
   };
 
+  const mockNavigationService = {
+    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getComponentData: createSpy().and.returnValue(of(null))
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
@@ -86,10 +89,7 @@ describe('FooterNavigationComponent', () => {
         MockTranslateUrlPipe
       ],
       providers: [
-        NavigationService,
-        { provide: CmsService, useValue: {} },
-        { provide: NavigationService, useValue: {} },
-        { provide: CmsComponentData, useValue: mockCmsComponentData }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));
