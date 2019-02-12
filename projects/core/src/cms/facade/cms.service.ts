@@ -133,6 +133,7 @@ export class CmsService {
       return this.store.pipe(select(fromStore.getLoaderProductState));
     } else if (pageContext.type === PageType.CATEGORY_PAGE) {
       return this.store.pipe(select(fromStore.getLoaderCategoryState));
+      // TODO:#1135 - what to do if the pageContext.type doesn't match?
     } else {
       return this.store.pipe(select(fromStore.getLoaderCatalogState));
     }
@@ -144,10 +145,8 @@ export class CmsService {
    */
   hasPage(pageContext: PageContext): Observable<boolean> {
     // TODO:#1135 maybe implement three functions: one per cms type
-
-    console.log({ pageContext });
-
     return this.getIndexType(pageContext).pipe(
+      tap(x => console.log(`x`, x)),
       map(index => index.entities[pageContext.id]),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
