@@ -53,13 +53,4 @@ describe('User Orders Reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
-
-  describe('CLEAR_USER_ORDERS action', () => {
-    it('should return the initial state', () => {
-      const { initialState } = fromUserOrdersReducer;
-      const action = new fromUserOrdersAction.ClearUserOrders();
-      const state = fromUserOrdersReducer.reducer(initialState, action);
-      expect(state).toEqual(initialState);
-    });
-  });
 });
