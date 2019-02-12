@@ -31,7 +31,7 @@ class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('SearchBoxComponent in CmsLib', () => {
+describe('SearchBoxComponent in CmsLib', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: any;
