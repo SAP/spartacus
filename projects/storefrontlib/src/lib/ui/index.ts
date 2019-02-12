@@ -12,7 +12,6 @@ export * from './layout/multi-step-checkout-page-layout/multi-step-checkout-page
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
 export * from './layout/main/storefront.component';
 export * from './layout/header/header.component';
-export * from './layout/login-page-layout/login-page-layout.component';
 export * from './layout/store-finder-page-layout/store-finder-page-layout.component';
 export * from './components/media/picture/picture.component';
 export * from './components/form-components/star-rating/star-rating.component';
@@ -25,8 +24,6 @@ export * from './pages/multi-step-checkout-page/multi-step-checkout-page.compone
 export * from './pages/cart-page/cart-page.component';
 export * from './pages/order-confirmation-page/order-confirmation-page.component';
 export * from './pages/login-page/login-page.component';
-export * from './pages/404/404.component';
-export * from './pages/404/404.module';
 export * from './pages/cart-page/cart-page.module';
 export * from './pages/category-page/category-page.module';
 export * from './pages/multi-step-checkout-page/multi-step-checkout-page.module';
