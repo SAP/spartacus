@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 import * as fromStore from '../store/index';
 import {
@@ -76,8 +77,23 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(): Observable<OrderHistoryList> {
-    return this.store.pipe(select(fromStore.getOrders));
+  getOrderHistoryList(
+    userId: string,
+    pageSize: number
+  ): Observable<OrderHistoryList> {
+    return this.store.pipe(
+      select(fromStore.getOrdersState),
+      tap(orderListState => {
+        const attemptedLoad =
+          orderListState.loading ||
+          orderListState.success ||
+          orderListState.error;
+        if (!attemptedLoad && !!userId) {
+          this.loadOrderList(userId, pageSize);
+        }
+      }),
+      map(orderListState => orderListState.value)
+    );
   }
 
   /**
@@ -305,5 +321,12 @@ export class UserService {
    */
   loadBillingCountries() {
     return this.store.dispatch(new fromStore.LoadBillingCountries());
+  }
+
+  /**
+   * Cleaning order list
+   */
+  clearOrderList() {
+    this.store.dispatch(new fromStore.ClearUserOrders());
   }
 }
