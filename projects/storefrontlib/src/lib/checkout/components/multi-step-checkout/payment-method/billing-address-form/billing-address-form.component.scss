@@ -1,51 +1,38 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 @import '../../container/multi-step-checkout.component';
-
-$cx-billing-address-form-card-background-color: 'inverse' !default;
-// cx-billing-address-form variables
-$cx-billing-address-form-no-padding: 0 !default;
-$cx-billing-address-form-padding: 1em 0 !default;
-$cx-billing-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
-$cx-billing-address-form-title-margin: 0 auto !default;
-$cx-billing-address-form-body-padding-bottom: 1.875rem !default;
-$cx-billing-address-form-text-margin-bottom: 1.25rem !default;
-$cx-billing-address-form-text-md-padding-left: 3.5rem !default;
-$cx-billing-address-form-text-sm-padding-left: 1.5rem !default;
 
 .cx-billing-address-form {
   &.container {
-    padding: $cx-billing-address-form-padding;
+    padding: 1em 0;
   }
 
   &__title {
     text-transform: uppercase;
-    margin: $cx-billing-address-form-title-margin;
-    padding: $cx-billing-address-form-title-padding;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.75rem 0;
   }
 
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $cx-billing-address-form-body-padding-bottom;
+    padding-bottom: 1.875rem;
 
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $cx-billing-address-form-no-padding;
+        padding: 0;
       }
     }
   }
 
   &__text {
-    margin-bottom: $cx-billing-address-form-text-margin-bottom;
+    margin-bottom: 1.25rem;
 
     @include media-breakpoint-down(md) {
-      padding-left: $cx-billing-address-form-text-md-padding-left;
+      padding-left: 3.5rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding-left: $cx-billing-address-form-text-sm-padding-left;
+      padding-left: 1.5rem;
     }
   }
 
@@ -55,10 +42,7 @@ $cx-billing-address-form-text-sm-padding-left: 1.5rem !default;
 
   &__card {
     @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $cx-billing-address-form-card-background-color
-      );
+      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
     }
   }
 
