@@ -8,7 +8,7 @@ import { filter, tap, map, withLatestFrom } from 'rxjs/operators';
 import * as fromStore from '../store';
 import { PageType } from '../../occ';
 import { PageContext } from '../../routing';
-import { EntityLoaderState, LoaderState } from '../../state';
+import { EntityLoaderState, LoaderState, EntityLoadAction } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -152,6 +152,10 @@ export class CmsService {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         if (!attemptedLoad) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
+          // TODO:#1135 - dispatch from here?
+          this.store.dispatch(
+            new EntityLoadAction(pageContext.type, pageContext.id)
+          );
         }
       }),
       tap(entity => {
