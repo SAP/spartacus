@@ -9,7 +9,8 @@ import {
   CurrencyService,
   Component,
   Language,
-  contextServiceMapProvider
+  contextServiceMapProvider,
+  LANGUAGE_CONTEXT_ID
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
@@ -54,7 +55,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
-    context: 'language'
+    context: LANGUAGE_CONTEXT_ID
   };
 
   const MockCmsService = {
