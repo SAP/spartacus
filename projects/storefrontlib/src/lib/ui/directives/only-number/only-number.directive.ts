@@ -101,12 +101,7 @@ export class OnlyNumberDirective {
    */
   validateValue(value: string): void {
     value = value.replace(/[^0-9]+/g, '');
-    value = value.replace(/^0+/, '');
-    this.renderer.setProperty(
-      this.hostElement.nativeElement,
-      'value',
-      value || 0
-    );
+    this.renderer.setProperty(this.hostElement.nativeElement, 'value', value);
   }
 
   /**

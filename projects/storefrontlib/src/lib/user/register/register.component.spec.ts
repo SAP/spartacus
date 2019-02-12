@@ -43,7 +43,7 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  go = createSpy();
+  goByUrl = createSpy();
   back = createSpy();
   clearRedirectUrl = createSpy();
 
@@ -121,7 +121,7 @@ describe('RegisterComponent', () => {
       spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
       component.ngOnInit();
 
-      expect(routingService.go).toHaveBeenCalledWith(['testUrl']);
+      expect(routingService.goByUrl).toHaveBeenCalledWith('testUrl');
       expect(routingService.clearRedirectUrl).toHaveBeenCalled();
     });
 
