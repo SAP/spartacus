@@ -38,6 +38,14 @@
   }
 }
 
+.cx-btns {
+  .btn-action {
+    @include media-breakpoint-down(sm) {
+      margin-bottom: var(--cx-margin, 1rem);
+    }
+  }
+}
+
 .form-check {
   display: var(--cx-display, flex);
 }
