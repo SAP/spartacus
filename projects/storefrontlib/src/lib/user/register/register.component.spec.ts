@@ -3,21 +3,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import {
   AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
-  UserToken,
   Title,
   UserService,
-  GlobalMessageService,
-  GlobalMessageType
+  UserToken
 } from '@spartacus/core';
 
-import { of, Observable } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
+import { Observable, of } from 'rxjs';
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { RegisterComponent } from './register.component';
 import { RouterTestingModule } from '@angular/router/testing';
+import createSpy = jasmine.createSpy;
 
 const mockTitlesList: Title[] = [
   {
@@ -44,9 +43,10 @@ class MockAuthService {
 }
 
 class MockRoutingService {
-  go = createSpy();
+  goByUrl = createSpy();
   back = createSpy();
   clearRedirectUrl = createSpy();
+
   getRedirectUrl() {
     return of();
   }
@@ -56,7 +56,9 @@ class MockUserService {
   getTitles(): Observable<Title[]> {
     return of([]);
   }
+
   loadTitles(): void {}
+
   register(
     _titleCode: string,
     _firstName: string,
@@ -68,6 +70,9 @@ class MockUserService {
 
 class MockGlobalMessageService {
   remove() {}
+  get() {
+    return of();
+  }
 }
 
 describe('RegisterComponent', () => {
@@ -148,7 +153,7 @@ describe('RegisterComponent', () => {
       spyOn(routingService, 'getRedirectUrl').and.returnValue(of('testUrl'));
       component.ngOnInit();
 
-      expect(routingService.go).toHaveBeenCalledWith(['testUrl']);
+      expect(routingService.goByUrl).toHaveBeenCalledWith('testUrl');
       expect(routingService.clearRedirectUrl).toHaveBeenCalled();
     });
 
@@ -206,7 +211,7 @@ describe('RegisterComponent', () => {
     it('form invalid when not all required fields filled', () => {
       component.ngOnInit();
 
-      controls['titleCode'].setValue('');
+      controls['titleCode'].setValue('Mr');
       controls['firstName'].setValue('John');
       controls['lastName'].setValue('');
       controls['email'].setValue('JohnDoe@thebest.john.intheworld.com');
@@ -236,7 +241,13 @@ describe('RegisterComponent', () => {
     it('should submit form', () => {
       spyOn(userService, 'register').and.stub();
       component.submit();
-      expect(userService.register).toHaveBeenCalledWith('', '', '', '', '');
+      expect(userService.register).toHaveBeenCalledWith({
+        firstName: '',
+        lastName: '',
+        uid: '',
+        password: '',
+        titleCode: ''
+      });
     });
   });
 });

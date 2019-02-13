@@ -5,7 +5,7 @@ import { OrderHistoryList } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
-  loaderLoadingSelector
+  loaderSuccessSelector
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getUserState } from './feature.selector';
@@ -23,7 +23,7 @@ export const getOrdersLoaded: MemoizedSelector<
   boolean
 > = createSelector(
   getOrdersState,
-  (state: LoaderState<OrderHistoryList>) => loaderLoadingSelector(state)
+  (state: LoaderState<OrderHistoryList>) => loaderSuccessSelector(state)
 );
 
 export const getOrders: MemoizedSelector<
