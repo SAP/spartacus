@@ -24,9 +24,6 @@ const MockLayoutConfig: LayoutConfig = {
       md: {
         slots: SLOT_CONFIG_FOR_MD
       },
-      lg: {
-        showTitle: true
-      },
       footer: {
         md: {
           slots: FOOTER_SLOT_CONFIG_FOR_MD
@@ -34,12 +31,8 @@ const MockLayoutConfig: LayoutConfig = {
       }
     },
     page_template_2: {
-      showTitle: true,
       footer: {
         slots: FOOTER_SLOT_CONFIG_FOR_PAGE2
-      },
-      lg: {
-        showTitle: false
       }
     }
   }
