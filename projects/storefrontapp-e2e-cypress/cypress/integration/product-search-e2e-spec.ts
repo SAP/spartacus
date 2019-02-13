@@ -14,10 +14,7 @@ context('Product search', () => {
         PRODUCTS_PER_PAGE
       );
       cy.get('cx-product-list cx-product-list-item:first').within(() => {
-        cy.get('a.cx-product-name').should(
-          'contain',
-          'Photosmart E317 Digital Camera'
-        );
+        cy.get('a.cx-product-name').should('be.visible');
       });
     });
   });
@@ -46,6 +43,43 @@ context('Product search', () => {
         'have.length',
         PRODUCTS_PER_PAGE
       );
+    });
+  });
+
+  describe('Facets', () => {
+    it('should filter results using facet filtering', () => {
+      cy.get(
+        'cx-product-facet-navigation .cx-search-facet-checkbox:first'
+      ).click();
+      cy.get('header h1').should('contain', '79 results for Chiba');
+    });
+
+    it('should be able to clear active facet', () => {
+      cy.get(
+        'cx-product-facet-navigation .cx-search-facet-filter__pill .close:first'
+      ).click();
+      cy.get('header h1').should('contain', 'results for camera');
+    });
+  });
+
+  describe('Sorting', () => {
+    before(() => {
+      cy.visit('/');
+      cy.get('cx-searchbox input').type('camera{enter}');
+    });
+
+    it('should be able to sort by lowest price', () => {
+      cy.get('cx-sorting .ng-select:first').ngSelect('Price (lowest first)');
+      cy.get(
+        'cx-product-list cx-product-list-item:first .cx-product-price'
+      ).should('contain', '$1.58');
+    });
+
+    it('should be able to use sorting by highest price', () => {
+      cy.get('cx-sorting .ng-select:first').ngSelect('Price (highest first)');
+      cy.get(
+        'cx-product-list cx-product-list-item:first .cx-product-price'
+      ).should('contain', '$6,030.71');
     });
   });
 });
