@@ -1,13 +1,20 @@
 import * as fromActions from './find-stores.action';
 import { StoreFinderSearchConfig } from '../../model/search-config';
 import { LongitudeLatitude } from '../../model/longitude-latitude';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 describe('Find Stores Actions', () => {
   describe('OnHold', () => {
     it('should create OnHold action', () => {
       const action = new fromActions.OnHold();
       expect({ ...action }).toEqual({
-        type: fromActions.ON_HOLD
+        type: fromActions.ON_HOLD,
+        meta: loadMeta(STORE_FINDER_DATA)
       });
     });
   });
@@ -24,6 +31,7 @@ describe('Find Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES,
+        meta: loadMeta(STORE_FINDER_DATA),
         payload
       });
     });
@@ -40,7 +48,8 @@ describe('Find Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES,
-        payload
+        payload,
+        meta: loadMeta(STORE_FINDER_DATA)
       });
     });
   });
@@ -52,7 +61,8 @@ describe('Find Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES_FAIL,
-        payload
+        payload,
+        meta: failMeta(STORE_FINDER_DATA, payload)
       });
     });
   });
@@ -64,7 +74,8 @@ describe('Find Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES_SUCCESS,
-        payload
+        payload,
+        meta: successMeta(STORE_FINDER_DATA)
       });
     });
   });
@@ -77,7 +88,11 @@ describe('Find Stores Actions', () => {
 
       expect({
         ...action
-      }).toEqual({ type: fromActions.FIND_STORE_BY_ID, payload });
+      }).toEqual({
+        type: fromActions.FIND_STORE_BY_ID,
+        payload,
+        meta: loadMeta(STORE_FINDER_DATA)
+      });
     });
   });
 
@@ -88,7 +103,11 @@ describe('Find Stores Actions', () => {
 
       expect({
         ...action
-      }).toEqual({ type: fromActions.FIND_STORE_BY_ID_FAIL, payload });
+      }).toEqual({
+        type: fromActions.FIND_STORE_BY_ID_FAIL,
+        payload,
+        meta: failMeta(STORE_FINDER_DATA, payload)
+      });
     });
   });
 
@@ -99,78 +118,10 @@ describe('Find Stores Actions', () => {
 
       expect({
         ...action
-      }).toEqual({ type: fromActions.FIND_STORE_BY_ID_SUCCESS, payload });
-    });
-  });
-
-  describe('FindAllStoresByCountry', () => {
-    it('should create FindAllStoresByCountry action', () => {
-      const payload = { countryIsoCode: 'test' };
-      const action = new fromActions.FindAllStoresByCountry(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_BY_COUNTRY,
-        payload
-      });
-    });
-  });
-
-  describe('FindAllStoresByCountryFail', () => {
-    it('should create FindAllStoresByCountryFail action', () => {
-      const payload = {};
-      const action = new fromActions.FindAllStoresByCountryFail(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_BY_COUNTRY_FAIL,
-        payload
-      });
-    });
-  });
-
-  describe('FindAllStoresByCountrySuccess', () => {
-    it('should create FindAllStoresByCountrySuccess action', () => {
-      const payload = [{ stores: ['test'] }];
-      const action = new fromActions.FindAllStoresByCountrySuccess(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_BY_COUNTRY_SUCCESS,
-        payload
-      });
-    });
-  });
-
-  describe('FindAllStoresByRegion', () => {
-    it('should create FindAllStoresByRegion action', () => {
-      const payload = { countryIsoCode: 'test', regionIsoCode: 'test' };
-      const action = new fromActions.FindAllStoresByRegion(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_BY_REGION,
-        payload
-      });
-    });
-  });
-
-  describe('FindAllStoresByRegionFail', () => {
-    it('should create FindAllStoresByRegionFail action', () => {
-      const payload = {};
-      const action = new fromActions.FindAllStoresByRegionFail(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_BY_REGION_FAIL,
-        payload
-      });
-    });
-  });
-
-  describe('FindAllStoresByRegionSuccess', () => {
-    it('should create FindAllStoresByRegionSuccess action', () => {
-      const payload = [{ stores: ['test'] }];
-      const action = new fromActions.FindAllStoresByRegionSuccess(payload);
-
-      expect({ ...action }).toEqual({
-        type: fromActions.FIND_ALL_STORES_BY_REGION_SUCCESS,
-        payload
+      }).toEqual({
+        type: fromActions.FIND_STORE_BY_ID_SUCCESS,
+        payload,
+        meta: successMeta(STORE_FINDER_DATA)
       });
     });
   });

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // ContentPage
-import { PageNotFoundModule } from './404/404.module';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
@@ -10,12 +9,12 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-import { PaymentDetailsPageModule } from './payment-details-page/payment-details-page.module';
-
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
+
 // ContentPage: my Account Pages
-import { OrderHistoryPageModule } from './order-history-page/order-history-page.module';
-import { OrderDetailsPageModule } from './order-details-page/order-details-page.module';
+import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
+import { OrderHistoryPageModule } from './myaccount/order-history-page/order-history-page.module';
+import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
@@ -41,9 +40,8 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ResetNewPasswordPageModule,
+  ResetNewPasswordPageModule
   // new pages should be added above this line
-  PageNotFoundModule
 ];
 
 @NgModule({
@@ -68,6 +66,18 @@ const pageModules = [
         path: null,
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
+        data: { pageLabel: 'sale', cxPath: 'sale' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'contactUs', cxPath: 'contact' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
         data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
       },
       {
@@ -75,6 +85,12 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
         component: PageLayoutComponent
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [CmsPageGuards],
+        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
       }
     ])
   ]

@@ -33,17 +33,6 @@ $cx-item-counter-action-trbl-margin: 0 !default;
     flex-direction: column;
   }
 
-  &__tip {
-    &.error {
-      color: #ed3939;
-      font-size: 13px;
-    }
-
-    &.info {
-      font-size: 13px;
-    }
-  }
-
   &__value {
     border: none;
     text-align: center;

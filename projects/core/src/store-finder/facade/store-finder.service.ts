@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store, Action, select } from '@ngrx/store';
-import { StoresState } from '../store/store-finder-state';
+import {
+  StateWithStoreFinder,
+  FindStoresState,
+  ViewAllStoresState
+} from '../store/store-finder-state';
 
 import * as fromStore from '../store/index';
 import { StoreFinderSearchConfig } from './../model/search-config';
 import { LongitudeLatitude } from './../model/longitude-latitude';
-import { StoreEntities } from '../model/store-entities';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
 
@@ -13,7 +16,10 @@ import { WindowRef } from '../../window/window-ref';
 export class StoreFinderService {
   private geolocationWatchId: number = null;
 
-  constructor(private store: Store<StoresState>, private winRef: WindowRef) {}
+  constructor(
+    private store: Store<StateWithStoreFinder>,
+    private winRef: WindowRef
+  ) {}
 
   /**
    * Returns boolean observable for store's loading state
@@ -25,7 +31,7 @@ export class StoreFinderService {
   /**
    * Returns observable for store's entities
    */
-  getFindStoresEntities(): Observable<StoreEntities> {
+  getFindStoresEntities(): Observable<FindStoresState> {
     return this.store.pipe(select(fromStore.getFindStoresEntities));
   }
 
@@ -39,7 +45,7 @@ export class StoreFinderService {
   /**
    * Returns observable for view all store's entities
    */
-  getViewAllStoresEntities(): Observable<StoreEntities> {
+  getViewAllStoresEntities(): Observable<ViewAllStoresState> {
     return this.store.pipe(select(fromStore.getViewAllStoresEntities));
   }
 
@@ -48,17 +54,20 @@ export class StoreFinderService {
    * @param queryText text query
    * @param longitudeLatitude longitude and latitude coordinates
    * @param searchConfig search configuration
+   * @param countryIsoCode country ISO code
    */
   findStoresAction(
     queryText: string,
     longitudeLatitude: LongitudeLatitude,
-    searchConfig: StoreFinderSearchConfig
+    searchConfig: StoreFinderSearchConfig,
+    countryIsoCode?: string
   ) {
     this.store.dispatch(
       new fromStore.FindStores({
         queryText: queryText,
         longitudeLatitude: longitudeLatitude,
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
+        countryIsoCode: countryIsoCode
       })
     );
   }
@@ -76,26 +85,6 @@ export class StoreFinderService {
    */
   viewStoreById(storeId: string) {
     this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
-  }
-
-  /**
-   * View all stores for specified country
-   * @param countryIsoCode country ISO code
-   */
-  viewAllStoresForCountry(countryIsoCode: string) {
-    this.clearWatchGeolocation(
-      new fromStore.FindAllStoresByCountry({ countryIsoCode })
-    );
-  }
-
-  /**
-   * View all stores for specified region
-   * @param regionIsoCode region ISO code
-   */
-  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
-    this.clearWatchGeolocation(
-      new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
-    );
   }
 
   /**

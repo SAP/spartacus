@@ -1,31 +1,41 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import { ProductListComponent } from './product-list.component';
-import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
-import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
-
+import { FormsModule } from '@angular/forms';
 import {
-  ProductViewComponent,
-  ViewModes
-} from '../product-view/product-view.component';
+  Component,
+  Input,
+  PipeTransform,
+  Pipe,
+  SimpleChange
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
 import {
   NgbCollapseModule,
   NgbPaginationModule,
   NgbRatingModule
 } from '@ng-bootstrap/ng-bootstrap';
+
+import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
+import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
+import {
+  ProductViewComponent,
+  ViewModes
+} from '../product-view/product-view.component';
 import { StarRatingComponent } from '../../../../ui';
-import { FormsModule } from '@angular/forms';
+import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
 import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-import { Component, Input, PipeTransform, Pipe } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+
+import { ProductListComponent } from './product-list.component';
 
 class MockProductSearchService {
   search = createSpy();
@@ -34,6 +44,8 @@ class MockProductSearchService {
   getSearchResults(): Observable<ProductSearchPage> {
     return of();
   }
+
+  clearSearchResults(): void {}
 }
 class MockActivatedRoute {
   snapshot = { queryParams: {} };
@@ -54,6 +66,13 @@ class MockProductListItemComponent {
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
+}
+
+@Pipe({
+  name: 'stripHtml'
+})
+class MockStripHtmlPipe implements PipeTransform {
+  transform(): any {}
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -90,7 +109,8 @@ describe('ProductListComponent in product-list', () => {
         ProductViewComponent,
         StarRatingComponent,
         MockProductListItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
+        MockStripHtmlPipe
       ]
     }).compileComponents();
   }));
@@ -107,14 +127,19 @@ describe('ProductListComponent in product-list', () => {
 
   it('should call ngOnChanges and get search results with params provided with url', () => {
     const activeRoute = TestBed.get(ActivatedRoute);
+
     activeRoute.setParams({
       query: 'myBestQueryEver:category:bestqueries',
       categoryCode: 'mockCategoryCode',
       page: 112
     });
+
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
-    component.ngOnChanges();
+    component.ngOnChanges({
+      categoryCode: new SimpleChange(null, component.categoryCode, false)
+    });
+
     expect(service.search).toHaveBeenCalledWith(
       'myBestQueryEver:category:bestqueries',
       { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
@@ -124,7 +149,10 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges and get search results with category code', () => {
     component.categoryCode = 'mockCategoryCode';
     component.ngOnInit();
-    component.ngOnChanges();
+    component.ngOnChanges({
+      categoryCode: new SimpleChange(null, component.categoryCode, false)
+    });
+
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:category:mockCategoryCode',
       { pageSize: 10, categoryCode: 'mockCategoryCode' }
@@ -134,7 +162,10 @@ describe('ProductListComponent in product-list', () => {
   it('should call ngOnChanges get search results with brand code', () => {
     component.brandCode = 'mockBrandCode';
     component.ngOnInit();
-    component.ngOnChanges();
+    component.ngOnChanges({
+      brandCode: new SimpleChange(null, component.categoryCode, false)
+    });
+
     expect(service.search).toHaveBeenCalledWith(
       ':relevance:brand:mockBrandCode',
       { pageSize: 10, brandCode: 'mockBrandCode' }
@@ -148,6 +179,7 @@ describe('ProductListComponent in product-list', () => {
 
   it('should change pages', done => {
     const pagination = new PaginationComponent();
+    component.query = 'mockQuery';
     pagination.viewPageEvent.subscribe(event => {
       expect(event).toEqual(1);
       component.viewPage(event);
@@ -160,6 +192,7 @@ describe('ProductListComponent in product-list', () => {
 
   it('should change sortings', done => {
     const pagination = new SortingComponent();
+    component.query = 'mockQuery';
     pagination.sortListEvent.subscribe(event => {
       expect(event).toEqual('sortCode');
       component.viewPage(event);

@@ -1,5 +1,12 @@
-import * as fromAuthActions from './';
+import { CLIENT_TOKEN_DATA } from '../auth-state';
 import { ClientToken } from './../../models/token-types.model';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
+
+import * as fromAuthActions from './';
 
 const clientToken: ClientToken = {
   access_token: 'xxx',
@@ -13,7 +20,8 @@ describe('Client Token Actions', () => {
     it('should create the action', () => {
       const action = new fromAuthActions.LoadClientToken();
       expect({ ...action }).toEqual({
-        type: fromAuthActions.LOAD_CLIENT_TOKEN
+        type: fromAuthActions.LOAD_CLIENT_TOKEN,
+        meta: loadMeta(CLIENT_TOKEN_DATA)
       });
     });
   });
@@ -22,10 +30,10 @@ describe('Client Token Actions', () => {
     it('should create the action', () => {
       const error = 'anError';
       const action = new fromAuthActions.LoadClientTokenFail(error);
-
       expect({ ...action }).toEqual({
         type: fromAuthActions.LOAD_CLIENT_TOKEN_FAIL,
-        payload: error
+        payload: error,
+        meta: failMeta(CLIENT_TOKEN_DATA, error)
       });
     });
   });
@@ -36,7 +44,8 @@ describe('Client Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAuthActions.LOAD_CLIENT_TOKEN_SUCCESS,
-        payload: clientToken
+        payload: clientToken,
+        meta: successMeta(CLIENT_TOKEN_DATA)
       });
     });
   });

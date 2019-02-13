@@ -1,5 +1,9 @@
 import { entityReducer, initialEntityState } from './entity.reducer';
-import { EntityAction } from './entity.action';
+import {
+  EntityAction,
+  EntityRemoveAction,
+  EntityRemoveAllAction
+} from './entity.action';
 
 describe('Entity reducer', () => {
   const testSubReducer = jasmine
@@ -84,6 +88,85 @@ describe('Entity reducer', () => {
         ...action,
         payload: action.payload[1]
       });
+    });
+  });
+
+  describe('remove action', () => {
+    it('should remove entity', () => {
+      const action = new EntityRemoveAction('testType', 'a');
+      const initialState = {
+        entities: {
+          a: '1',
+          b: '2'
+        }
+      };
+      const state = entityReducer('testType', testSubReducer)(
+        initialState,
+        action
+      );
+
+      const expectedState = {
+        entities: {
+          b: '2'
+        }
+      };
+      expect(state).toEqual(expectedState);
+    });
+
+    it('should remove many entities', () => {
+      const action = new EntityRemoveAction('testType', ['a', 'c']);
+      const initialState = {
+        entities: {
+          a: '1',
+          b: '2',
+          c: '3'
+        }
+      };
+      const state = entityReducer('testType', testSubReducer)(
+        initialState,
+        action
+      );
+
+      const expectedState = {
+        entities: {
+          b: '2'
+        }
+      };
+      expect(state).toEqual(expectedState);
+    });
+
+    it('should not change state if no entities were removed', () => {
+      const action = new EntityRemoveAction('testType', ['a', 'c']);
+      const initialState = {
+        entities: {
+          b: '2'
+        }
+      };
+      const state = entityReducer('testType', testSubReducer)(
+        initialState,
+        action
+      );
+
+      expect(state).toBe(initialState);
+    });
+  });
+
+  describe('remove all action', () => {
+    it('should remove all entities', () => {
+      const action = new EntityRemoveAllAction('testType');
+      const initialState = {
+        entities: {
+          a: '1',
+          b: '2',
+          c: '3'
+        }
+      };
+      const state = entityReducer('testType', testSubReducer)(
+        initialState,
+        action
+      );
+
+      expect(state).toEqual(initialEntityState);
     });
   });
 });

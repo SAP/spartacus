@@ -61,6 +61,7 @@ class MockUserService {
     _currentPage?: number,
     _sort?: string
   ): void {}
+  clearOrderList() {}
 }
 
 class MockRoutingService {}
@@ -116,7 +117,6 @@ describe('OrderHistoryComponent', () => {
       })
       .unsubscribe();
     expect(orderList).toEqual(initialOrderListState);
-    expect(userService.loadOrderList).toHaveBeenCalledWith('test', 5);
   });
 
   it('should read order list when data exist', () => {
@@ -140,7 +140,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     const rows = fixture.debugElement.queryAll(
-      By.css('.cx-order-history__table tbody tr')
+      By.css('.cx-order-history-table tbody tr')
     );
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
@@ -169,7 +169,7 @@ describe('OrderHistoryComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('.cx-order-history__no-order'))
+      fixture.debugElement.query(By.css('.cx-order-history-no-order'))
     ).not.toBeNull();
   });
 

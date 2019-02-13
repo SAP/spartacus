@@ -1,16 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject, of } from 'rxjs';
-import { AddressBookComponent } from './address-book.component';
-import { UserService, CheckoutService } from '@spartacus/core';
-import { AddressBookModule } from './address-book.module';
-import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
-import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
+
 import { StoreModule } from '@ngrx/store';
+
+import {
+  UserService,
+  CheckoutService,
+  Address,
+  AddressValidation,
+  User
+} from '@spartacus/core';
 import { GlobalMessageService } from '@spartacus/core';
 
-const mockAddress = {
+import { BehaviorSubject, of } from 'rxjs';
+
+import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
+import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
+
+import { AddressBookComponent } from './address-book.component';
+import { AddressBookModule } from './address-book.module';
+
+const mockAddress: Address = {
   id: '123',
   firstName: 'John',
   lastName: 'Doe',
@@ -29,7 +40,7 @@ class MockCheckoutService {
 
   verifyAddress = jasmine.createSpy();
 
-  getAddressVerificationResults() {
+  getAddressVerificationResults(): BehaviorSubject<AddressValidation> {
     return new BehaviorSubject({ decision: 'ACCEPT' });
   }
 }
@@ -37,21 +48,17 @@ class MockCheckoutService {
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
-  let mockUserService;
+  let mockUserService: any;
   let el: DebugElement;
   let mockGlobalMessageService: any;
-  const addresses = new BehaviorSubject<any>([mockAddress]);
+  const addresses = new BehaviorSubject<Address[]>([mockAddress]);
   const isLoading = new BehaviorSubject<boolean>(false);
-  const isActionProcessing = new BehaviorSubject<boolean>(false);
-  const user = new BehaviorSubject<any>({ uid: 'userId' });
+  const user = new BehaviorSubject<User>({ uid: 'userId' });
 
   beforeEach(async(() => {
     mockUserService = {
       getAddresses: jasmine.createSpy().and.returnValue(addresses),
       getAddressesLoading: jasmine.createSpy().and.returnValue(isLoading),
-      getAddressActionProcessingStatus: jasmine
-        .createSpy()
-        .and.returnValue(isActionProcessing),
       get: jasmine.createSpy().and.returnValue(user),
       addUserAddress: jasmine.createSpy(),
       loadAddresses: jasmine.createSpy(),
@@ -104,7 +111,6 @@ describe('AddressBookComponent', () => {
 
   it('should show spinner if any action is processing', () => {
     component.ngOnInit();
-    isActionProcessing.next(true);
     fixture.detectChanges();
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
@@ -112,7 +118,6 @@ describe('AddressBookComponent', () => {
   it('should show address cards after loading', () => {
     component.ngOnInit();
     isLoading.next(false);
-    isActionProcessing.next(false);
     addresses.next([mockAddress, mockAddress]);
     fixture.detectChanges();
     expect(el.query(By.css('cx-address-card'))).toBeTruthy();

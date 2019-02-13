@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 import * as fromStore from '../store/index';
 import {
@@ -15,6 +16,7 @@ import {
   Region,
   OrderHistoryList
 } from '../../occ/occ-models/index';
+import { UserRegisterFormData } from '../model/user.model';
 
 @Injectable()
 export class UserService {
@@ -37,28 +39,10 @@ export class UserService {
   /**
    * Register a new user
    *
-   * @param titleCode a title code
-   * @param firstName first name
-   * @param lastName last name
-   * @param email an email
-   * @param password a password
+   * @param submitFormData as UserRegisterFormData
    */
-  register(
-    titleCode: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-  ): void {
-    this.store.dispatch(
-      new fromStore.RegisterUser({
-        firstName: firstName,
-        lastName: lastName,
-        password: password,
-        titleCode: titleCode,
-        uid: email
-      })
-    );
+  register(userRegisterFormData: UserRegisterFormData) {
+    this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
   /**
@@ -93,8 +77,23 @@ export class UserService {
   /**
    * Returns order history list
    */
-  getOrderHistoryList(): Observable<OrderHistoryList> {
-    return this.store.pipe(select(fromStore.getOrders));
+  getOrderHistoryList(
+    userId: string,
+    pageSize: number
+  ): Observable<OrderHistoryList> {
+    return this.store.pipe(
+      select(fromStore.getOrdersState),
+      tap(orderListState => {
+        const attemptedLoad =
+          orderListState.loading ||
+          orderListState.success ||
+          orderListState.error;
+        if (!attemptedLoad && !!userId) {
+          this.loadOrderList(userId, pageSize);
+        }
+      }),
+      map(orderListState => orderListState.value)
+    );
   }
 
   /**
@@ -260,13 +259,6 @@ export class UserService {
   }
 
   /**
-   * Returns an action processing flag
-   */
-  getAddressActionProcessingStatus(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getAddressActionProcessingStatus));
-  }
-
-  /**
    * Returns titles
    */
   getTitles(): Observable<Title[]> {
@@ -329,5 +321,12 @@ export class UserService {
    */
   loadBillingCountries() {
     return this.store.dispatch(new fromStore.LoadBillingCountries());
+  }
+
+  /**
+   * Cleaning order list
+   */
+  clearOrderList() {
+    this.store.dispatch(new fromStore.ClearUserOrders());
   }
 }
