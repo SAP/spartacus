@@ -14,8 +14,7 @@ describe('StoreFinderService', () => {
   let winRef: WindowRef;
 
   const queryText = 'test';
-  const countryIsoCode = 'CA';
-  const regionIsoCode = 'CA-QC';
+
   const storeId = 'shop_los_angeles_1';
   const geolocationWatchId = 1;
 
@@ -129,26 +128,6 @@ describe('StoreFinderService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.ViewAllStores()
-      );
-    });
-  });
-
-  describe('View All Stores for Country', () => {
-    it('should dispatch a new action', () => {
-      service.viewAllStoresForCountry(countryIsoCode);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStoresByCountry({ countryIsoCode })
-      );
-    });
-  });
-
-  describe('View All Stores for Region', () => {
-    it('should dispatch a new action', () => {
-      service.viewAllStoresForRegion('CA', 'CA-QC');
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
       );
     });
   });

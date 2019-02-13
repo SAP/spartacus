@@ -61,6 +61,7 @@ class MockUserService {
     _currentPage?: number,
     _sort?: string
   ): void {}
+  clearOrderList() {}
 }
 
 class MockRoutingService {}
@@ -116,7 +117,6 @@ describe('OrderHistoryComponent', () => {
       })
       .unsubscribe();
     expect(orderList).toEqual(initialOrderListState);
-    expect(userService.loadOrderList).toHaveBeenCalledWith('test', 5);
   });
 
   it('should read order list when data exist', () => {

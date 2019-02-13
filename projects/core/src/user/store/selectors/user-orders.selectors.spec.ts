@@ -40,7 +40,7 @@ describe('User Orders Selectors', () => {
   });
 
   describe('getOrdersLoaderState', () => {
-    it('should return a loading state', () => {
+    it('should return orders state', () => {
       let result: LoaderState<OrderHistoryList>;
       store
         .pipe(select(fromSelectors.getOrdersState))
@@ -67,6 +67,20 @@ describe('User Orders Selectors', () => {
 
       store.dispatch(new fromActions.LoadUserOrdersSuccess(mockUserOrders));
       expect(result).toEqual(mockUserOrders);
+    });
+  });
+
+  describe('getOrdersLoaded', () => {
+    it('should return success flag of orders state', () => {
+      let result: boolean;
+      store
+        .pipe(select(fromSelectors.getOrdersLoaded))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadUserOrdersSuccess(mockUserOrders));
+      expect(result).toEqual(true);
     });
   });
 });

@@ -1,19 +1,25 @@
 import { SiteContextConfig } from './site-context-config';
+import {
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID
+} from '../providers/context-service-map';
 
-export const defaultSiteContextConfig: SiteContextConfig = {
-  siteContext: {
-    parameters: {
-      language: {
-        persistence: 'route',
-        defaultValue: 'en',
-        values: ['en', 'de', 'ja', 'zh']
+export function defaultSiteContextConfigFactory(): SiteContextConfig {
+  return {
+    siteContext: {
+      parameters: {
+        [LANGUAGE_CONTEXT_ID]: {
+          persistence: 'route',
+          defaultValue: 'en',
+          values: ['en', 'de', 'ja', 'zh']
+        },
+        [CURRENCY_CONTEXT_ID]: {
+          persistence: 'route',
+          defaultValue: 'USD',
+          values: ['USD', 'JPY']
+        }
       },
-      currency: {
-        persistence: 'route',
-        defaultValue: 'USD',
-        values: ['USD', 'JPY']
-      }
-    },
-    urlEncodingParameters: ['language', 'currency']
-  }
-};
+      urlEncodingParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID]
+    }
+  };
+}
