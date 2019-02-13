@@ -12,7 +12,7 @@ import { PageContext } from '../../../routing/index';
 export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
 export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
-export const UPDATE_LATEST_PAGE_ID = '[Cms] Update latest page key';
+export const UPDATE_LATEST_PAGE_ID = '[Cms] Update latest page Id';
 
 // TODO:#1135 - update test
 export class LoadPageData extends EntityLoadAction {
