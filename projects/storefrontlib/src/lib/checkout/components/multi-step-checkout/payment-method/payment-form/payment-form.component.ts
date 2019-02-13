@@ -3,15 +3,33 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
-import { CheckoutService } from '@spartacus/core';
-import { Card } from '../../../../../ui/components/card/card.component';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
+import {
+  CheckoutService,
+  CardType,
+  Address,
+  Country,
+  UserService,
+  GlobalMessageService,
+  GlobalMessageType,
+  AddressValidation
+} from '@spartacus/core';
+
+import { Observable, Subscription, combineLatest } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
+
+import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
 import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
+import { Card } from '../../../../../ui/components/card/card.component'; // tslint:disable-line
+
+type monthType = { id: number; name: string };
+type yearType = { id: number; name: number };
 
 @Component({
   selector: 'cx-payment-form',
@@ -19,12 +37,16 @@ import { infoIconImgSrc } from '../../../../../ui/images/info-icon';
   styleUrls: ['./payment-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PaymentFormComponent implements OnInit {
-  months = [];
-  years = [];
+export class PaymentFormComponent implements OnInit, OnDestroy {
+  private checkboxSub: Subscription;
+  private addressVerifySub: Subscription;
+  suggestedAddressModalRef: NgbModalRef;
+  months: monthType[] = [];
+  years: yearType[] = [];
 
-  cardTypes$: Observable<any>;
-  shippingAddress$: Observable<any>;
+  cardTypes$: Observable<CardType[]>;
+  shippingAddress$: Observable<Address>;
+  countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
 
   @Output()
@@ -44,15 +66,39 @@ export class PaymentFormComponent implements OnInit {
     cvn: ['', Validators.required]
   });
 
+  billingAddress: FormGroup = this.fb.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    line1: ['', Validators.required],
+    line2: [''],
+    town: ['', Validators.required],
+    country: this.fb.group({
+      isocode: ['', Validators.required]
+    }),
+    postalCode: ['', Validators.required]
+  });
+
   infoIconImgSrc = infoIconImgSrc;
 
   constructor(
     protected checkoutService: CheckoutService,
-    private fb: FormBuilder
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService,
+    private fb: FormBuilder,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
     this.expMonthAndYear();
+
+    this.countries$ = this.userService.getAllBillingCountries().pipe(
+      tap(countries => {
+        // If the store is empty fetch countries. This is also used when changing language.
+        if (Object.keys(countries).length === 0) {
+          this.userService.loadBillingCountries();
+        }
+      })
+    );
 
     this.cardTypes$ = this.checkoutService.getCardTypes().pipe(
       tap(cardTypes => {
@@ -61,10 +107,37 @@ export class PaymentFormComponent implements OnInit {
         }
       })
     );
+
     this.shippingAddress$ = this.checkoutService.getDeliveryAddress();
+
+    this.checkboxSub = this.showSameAsShippingAddressCheckbox().subscribe(
+      (shouldShowCheckbox: boolean) => {
+        // this operation makes sure the checkbox is not checked if not shown and vice versa
+        this.sameAsShippingAddress = shouldShowCheckbox;
+      }
+    );
+
+    // verify the new added address
+    this.addressVerifySub = this.checkoutService
+      .getAddressVerificationResults()
+      .subscribe((results: AddressValidation) => {
+        if (results === 'FAIL') {
+          this.checkoutService.clearAddressVerificationResults();
+        } else if (results.decision === 'ACCEPT') {
+          this.next();
+        } else if (results.decision === 'REJECT') {
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'Invalid Address'
+          });
+          this.checkoutService.clearAddressVerificationResults();
+        } else if (results.decision === 'REVIEW') {
+          this.openSuggestedAddress(results);
+        }
+      });
   }
 
-  expMonthAndYear() {
+  expMonthAndYear(): void {
     const year = new Date().getFullYear();
     for (let i = 0; i < 10; i++) {
       this.years.push({ id: i + 1, name: year + i });
@@ -78,27 +151,51 @@ export class PaymentFormComponent implements OnInit {
     }
   }
 
-  toggleDefaultPaymentMethod() {
+  toggleDefaultPaymentMethod(): void {
     this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
   }
 
-  paymentSelected(card) {
+  // TODO:#530
+  paymentSelected(card): void {
     this.payment['controls'].cardType['controls'].code.setValue(card.code);
   }
 
-  monthSelected(month) {
+  monthSelected(month: monthType): void {
     this.payment['controls'].expiryMonth.setValue(month.name);
   }
 
-  yearSelected(year) {
+  yearSelected(year: yearType): void {
     this.payment['controls'].expiryYear.setValue(year.name);
   }
 
-  setSameAsShippingAddress() {
+  toggleSameAsShippingAddress(): void {
     this.sameAsShippingAddress = !this.sameAsShippingAddress;
   }
 
-  getAddressCardContent(address): Card {
+  isContinueButtonDisabled(): boolean {
+    return (
+      this.payment.invalid ||
+      (!this.sameAsShippingAddress && this.billingAddress.invalid)
+    );
+  }
+
+  /**
+   * Check if the shipping address can also be a billing address
+   *
+   * @memberof PaymentFormComponent
+   */
+  showSameAsShippingAddressCheckbox(): Observable<boolean> {
+    return combineLatest(this.countries$, this.shippingAddress$).pipe(
+      map(([countries, address]) => {
+        return !!countries.filter(
+          (country: Country): boolean =>
+            country.isocode === address.country.isocode
+        ).length;
+      })
+    );
+  }
+
+  getAddressCardContent(address: Address): Card {
     let region = '';
     if (address.region && address.region.isocode) {
       region = address.region.isocode + ', ';
@@ -116,11 +213,55 @@ export class PaymentFormComponent implements OnInit {
     };
   }
 
-  back() {
+  openSuggestedAddress(results: AddressValidation): void {
+    if (!this.suggestedAddressModalRef) {
+      this.suggestedAddressModalRef = this.modalService.open(
+        SuggestedAddressDialogComponent,
+        { centered: true, size: 'lg' }
+      );
+      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.billingAddress.value;
+      this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
+        results.suggestedAddresses;
+      this.suggestedAddressModalRef.result
+        .then(() => {
+          this.checkoutService.clearAddressVerificationResults();
+          this.suggestedAddressModalRef = null;
+        })
+        .catch(() => {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          this.checkoutService.clearAddressVerificationResults();
+          this.suggestedAddressModalRef = null;
+        });
+    }
+  }
+
+  back(): void {
     this.backToPayment.emit();
   }
 
-  next() {
-    this.addPaymentInfo.emit(this.payment.value);
+  verifyAddress(): void {
+    if (this.sameAsShippingAddress) {
+      this.next();
+    } else {
+      this.checkoutService.verifyAddress(this.billingAddress.value);
+    }
+  }
+
+  next(): void {
+    this.addPaymentInfo.emit({
+      paymentDetails: this.payment.value,
+      billingAddress: this.sameAsShippingAddress
+        ? null
+        : this.billingAddress.value
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.checkboxSub) {
+      this.checkboxSub.unsubscribe();
+    }
+    if (this.addressVerifySub) {
+      this.addressVerifySub.unsubscribe();
+    }
   }
 }

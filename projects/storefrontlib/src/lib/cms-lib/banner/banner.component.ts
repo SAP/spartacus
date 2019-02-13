@@ -16,7 +16,7 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BannerComponent {
-  static hasMedia(data) {
+  static hasMedia(data): boolean {
     return !!data.media;
   }
 
@@ -42,7 +42,7 @@ export class BannerComponent {
   getTarget(): Observable<string> {
     return this.component.data$.pipe(
       map(data => {
-        return data.external && Boolean(data.external) ? '_blank' : '_self';
+        return !data.external || data.external === 'false' ? '_self' : '_blank';
       })
     );
   }

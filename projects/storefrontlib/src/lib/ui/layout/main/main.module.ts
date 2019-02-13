@@ -4,8 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { GlobalMessageComponentModule } from '../../../global-message/global-message.module';
 import { CmsModule } from '../../../cms/cms.module';
-import { LoginModule } from '../../../user/components/login/login.module';
-import { SiteContextModule } from '../../../site-context/site-context.module';
+import { LoginModule } from '../../../user/login/login.module';
 
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 
@@ -21,7 +20,6 @@ import { PwaModule } from './../../../pwa/pwa.module';
     GlobalMessageComponentModule,
     CmsModule,
     LoginModule,
-    SiteContextModule,
     HeaderModule,
     UiFrameworkModule,
     OutletRefModule,

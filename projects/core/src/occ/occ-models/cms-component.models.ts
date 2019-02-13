@@ -2,6 +2,11 @@ import { Component } from './occ.models';
 
 export type CmsComponent = Component;
 
+export interface CmsComponentList {
+  component: CmsComponent[];
+  pagination: any;
+}
+
 export interface CmsLinkComponent extends CmsComponent {
   url?: string;
   container?: boolean;
@@ -10,6 +15,10 @@ export interface CmsLinkComponent extends CmsComponent {
   contentPageLabelOrId?: string;
   linkName?: string;
   target?: boolean;
+}
+
+export interface CmsSiteContextSelectorComponent extends CmsComponent {
+  context?: string;
 }
 
 export interface CmsSearchBoxComponent extends CmsComponent {
@@ -27,10 +36,7 @@ export interface CmsParagraphComponent extends CmsComponent {
   content?: string;
   container?: string;
   modifiedTime?: string;
-  name?: string;
   title?: string;
-  typeCode?: string;
-  uid?: string;
 }
 
 export interface CmsBannerComponentMedia {
@@ -49,11 +55,7 @@ export interface CmsResponsiveBannerComponentMedia {
 
 export interface CmsBannerComponent extends CmsComponent {
   container?: string;
-  uid?: string;
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
-  modifiedTime?: string;
-  name?: string;
-  typeCode?: string;
   urlLink?: string;
   external?: string;
 }
@@ -62,27 +64,41 @@ export interface CmsProductCarouselComponent extends CmsComponent {
   title?: string;
   productCodes?: string;
   container?: string;
-  modifiedTime?: string;
-  name?: string;
   popup?: string;
   scroll?: string;
-  typeCode?: string;
-  uid?: string;
 }
 
 export interface CmsMiniCartComponent extends CmsComponent {
   container?: string;
-  modifiedTime?: string;
-  name?: string;
   shownProductCount?: string;
   title?: string;
   totalDisplay?: string;
-  typeCode?: string;
-  uid?: string;
   lightboxBannerComponent?: CmsBannerComponent;
 }
 
 // TODO: Upgrade model when Breadcrumbs will be finally used in project
 export interface CmsBreadcrumbsComponent extends CmsComponent {
   container?: string;
+}
+
+export interface CmsNavigationNode {
+  uid?: string;
+  title?: string;
+  children?: Array<CmsNavigationNode>;
+  entries?: Array<CmsNavigationEntry>;
+}
+
+export interface CmsNavigationEntry {
+  itemId?: string;
+  itemSuperType?: string;
+  itemType?: string;
+}
+
+export interface CmsNavigationComponent extends CmsComponent {
+  container?: string;
+  styleClass?: string;
+  wrapAfter?: string;
+  notice?: string;
+  showLanguageCurrency?: string;
+  navigationNode?: CmsNavigationNode;
 }

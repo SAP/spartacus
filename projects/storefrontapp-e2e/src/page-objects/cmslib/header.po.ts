@@ -27,12 +27,15 @@ export class Header {
   readonly searchInput: ElementFinder = this.searchComponent.element(
     by.css('input.cx-search-box__input')
   );
-  readonly currencySwitcher: ElementFinder = this.header.element(
-    by.css('#currencySelector')
-  );
-  readonly languageSwitcher: ElementFinder = this.header.element(
-    by.css('#languageSelector')
-  );
+  readonly currencySwitcher: ElementFinder = this.header
+    .element(by.cssContainingText('label span', 'Currency'))
+    .element(by.xpath('..'))
+    .element(by.css('select'));
+
+  readonly languageSwitcher: ElementFinder = this.header
+    .element(by.cssContainingText('label span', 'Language'))
+    .element(by.xpath('..'))
+    .element(by.css('select'));
   currencyOption(currency: String): ElementFinder {
     return this.currencySwitcher.element(by.css(`option[value="${currency}"]`));
   }
@@ -59,5 +62,19 @@ export class Header {
     return await this.loginComponent
       .element(by.css('.cx-login-status__greet'))
       .isPresent();
+  }
+
+  async selectCategory(categoryName: string) {
+    await this.header
+      .all(by.cssContainingText('.cx-navigation__link', categoryName))
+      .first()
+      .click();
+  }
+
+  async selectChildCategory(categoryName: string) {
+    await this.header
+      .all(by.cssContainingText('.cx-navigation__child-link', categoryName))
+      .first()
+      .click();
   }
 }

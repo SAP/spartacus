@@ -14,7 +14,7 @@ import {
 import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from '../../occ/default-page.service';
+import { DefaultPageService } from '../../services/default-page.service';
 
 import { Page } from '../../model/page.model';
 import { ContentSlotData } from '../../model/content-slot.model';
@@ -90,6 +90,7 @@ export class PageEffects {
       loadTime: Date.now(),
       uuid: res.uuid,
       name: res.name,
+      title: res.title,
       catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
       template: res.template,

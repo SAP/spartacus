@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ItemCounterComponent } from './item-counter.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -6,9 +12,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 class MockEvent {
   code: string;
+
   preventDefault() {}
+
   stopPropagation() {}
 }
+
+const testData = [
+  { incomingValue: 0, adjustedValue: 1, isOutOfRange: true },
+  { incomingValue: 1, adjustedValue: 1, isOutOfRange: false },
+  { incomingValue: 2, adjustedValue: 2, isOutOfRange: false },
+  { incomingValue: 5, adjustedValue: 5, isOutOfRange: false },
+  { incomingValue: 6, adjustedValue: 5, isOutOfRange: true }
+];
 
 describe('ItemCounterComponent', () => {
   let itemCounterComponent: ItemCounterComponent;
@@ -33,13 +49,17 @@ describe('ItemCounterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ItemCounterComponent);
     itemCounterComponent = fixture.componentInstance;
+    itemCounterComponent.input = { nativeElement: { value: '' } };
 
     keyBoardEvent = TestBed.get(KeyboardEvent);
     focusEvent = TestBed.get(FocusEvent);
 
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
-    spyOn(itemCounterComponent, 'hasError').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
+    spyOn(itemCounterComponent, 'updateValue').and.callThrough();
+    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
+    spyOn(itemCounterComponent, 'isOutOfRange').and.callThrough();
+    spyOn(itemCounterComponent, 'manualChange').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
     spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
     spyOn(keyBoardEvent, 'stopPropagation').and.callThrough();
@@ -47,19 +67,17 @@ describe('ItemCounterComponent', () => {
     spyOn(focusEvent, 'stopPropagation').and.callThrough();
   });
 
-  it('should create cart details component', () => {
+  it('should create ItemCounterComponent', () => {
     expect(itemCounterComponent).toBeTruthy();
   });
 
   it('should call writeValue(value) with null value', () => {
     itemCounterComponent.writeValue(null);
-
     expect(itemCounterComponent.value).toEqual(0);
   });
 
   it('should call writeValue(value) with valid value', () => {
     itemCounterComponent.writeValue(3);
-
     expect(itemCounterComponent.value).toEqual(3);
   });
 
@@ -103,44 +121,51 @@ describe('ItemCounterComponent', () => {
     expect(focusEvent.stopPropagation).toHaveBeenCalled();
   });
 
-  it('should call increment() with value less than max', () => {
-    itemCounterComponent.value = 1;
-    itemCounterComponent.max = 2;
-    itemCounterComponent.increment();
+  describe('increment()', () => {
+    it('should increment value when it is less than max', () => {
+      itemCounterComponent.value = 1;
+      itemCounterComponent.min = 1;
+      itemCounterComponent.max = 2;
+      itemCounterComponent.increment();
 
-    expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
+
+    it('should set value to max when it is greater than max', () => {
+      itemCounterComponent.value = 3;
+      itemCounterComponent.min = 1;
+      itemCounterComponent.max = 2;
+      itemCounterComponent.increment();
+
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
   });
 
-  it('should call increment() with value greater than max', () => {
-    itemCounterComponent.value = 3;
-    itemCounterComponent.max = 2;
-    itemCounterComponent.increment();
+  describe('decrement()', () => {
+    it('should decrement value when it is greater than min', () => {
+      itemCounterComponent.value = 3;
+      itemCounterComponent.min = 2;
+      itemCounterComponent.max = 5;
+      itemCounterComponent.decrement();
 
-    expect(itemCounterComponent.value).toEqual(3);
-    expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
+    it('should set value to min when it is less than min', () => {
+      itemCounterComponent.value = 1;
+      itemCounterComponent.min = 2;
+      itemCounterComponent.max = 5;
+      itemCounterComponent.decrement();
+
+      expect(itemCounterComponent.value).toEqual(2);
+      expect(itemCounterComponent.update.emit).toHaveBeenCalled();
+    });
   });
 
-  it('should call decrement() with value greater than min', () => {
-    itemCounterComponent.value = 3;
-    itemCounterComponent.min = 2;
-    itemCounterComponent.decrement();
-
-    expect(itemCounterComponent.value).toEqual(2);
-    expect(itemCounterComponent.update.emit).toHaveBeenCalled();
-  });
-
-  it('should call decrement() with value less than max', () => {
-    itemCounterComponent.value = 1;
-    itemCounterComponent.min = 2;
-    itemCounterComponent.decrement();
-
-    expect(itemCounterComponent.value).toEqual(1);
-    expect(itemCounterComponent.update.emit).not.toHaveBeenCalled();
-  });
-
-  it('should not display input when isValueChangable is not passed', () => {
-    itemCounterComponent.isValueChangable = false;
+  it('should not display input when isValueChangeable is not passed', () => {
+    itemCounterComponent.isValueChangeable = false;
     fixture.detectChanges();
 
     expect(
@@ -151,8 +176,8 @@ describe('ItemCounterComponent', () => {
     ).toBeTruthy();
   });
 
-  it('should display input when isValueChangable is passed', () => {
-    itemCounterComponent.isValueChangable = true;
+  it('should display input when isValueChangeable is passed', () => {
+    itemCounterComponent.isValueChangeable = true;
     fixture.detectChanges();
 
     expect(
@@ -163,10 +188,70 @@ describe('ItemCounterComponent', () => {
     ).toBeFalsy();
   });
 
-  it('should contain error when value is not in correct range', () => {
-    itemCounterComponent.value = 61;
+  it('should adjust value in range', () => {
     itemCounterComponent.min = 1;
     itemCounterComponent.max = 5;
-    expect(itemCounterComponent.hasError()).toBeTruthy();
+
+    testData.forEach(({ incomingValue, adjustedValue }) => {
+      expect(itemCounterComponent.adjustValueInRange(incomingValue)).toEqual(
+        adjustedValue
+      );
+    });
+  });
+
+  it('should verify is value out of range', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+
+    testData.forEach(({ incomingValue, isOutOfRange }) => {
+      expect(itemCounterComponent.isOutOfRange(incomingValue)).toBe(
+        isOutOfRange
+      );
+    });
+  });
+
+  it('should try set manual change with value', () => {
+    itemCounterComponent.min = 1;
+    itemCounterComponent.max = 5;
+
+    testData.forEach(({ incomingValue, adjustedValue }) => {
+      itemCounterComponent.manualChange(incomingValue);
+      expect(itemCounterComponent.isOutOfRange).toHaveBeenCalledWith(
+        incomingValue
+      );
+      expect(itemCounterComponent.adjustValueInRange).toHaveBeenCalledWith(
+        incomingValue
+      );
+      expect(itemCounterComponent.updateValue).toHaveBeenCalledWith(
+        adjustedValue
+      );
+    });
+  });
+
+  it('should call manualChange with value', fakeAsync(() => {
+    itemCounterComponent.isValueChangeable = true;
+    itemCounterComponent.ngOnInit();
+    fixture.detectChanges();
+
+    const event = value => ({
+      key: value,
+      target: { value }
+    });
+    const inputEl = fixture.debugElement.query(By.css('input'));
+    inputEl.triggerEventHandler('input', event('5'));
+    tick(300);
+    expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(5);
+  }));
+
+  it('should disable/enable input based on cartIsLoading', () => {
+    itemCounterComponent.cartIsLoading = true;
+    itemCounterComponent.ngOnChanges();
+    fixture.detectChanges();
+    expect(itemCounterComponent.inputValue.disabled).toBeTruthy();
+
+    itemCounterComponent.cartIsLoading = false;
+    itemCounterComponent.ngOnChanges();
+    fixture.detectChanges();
+    expect(itemCounterComponent.inputValue.disabled).toBeFalsy();
   });
 });

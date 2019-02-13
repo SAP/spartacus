@@ -51,6 +51,33 @@ $cx-product-search-layout-list-before-bottom: 12px !default;
     overflow: hidden;
   }
 
+  &--list {
+    display: inline-block;
+    padding: $cx-product-search-layout-list-trbl-padding;
+
+    @include media-breakpoint-down(sm) {
+      padding: $cx-product-search-layout-list-mobile-trbl-padding;
+    }
+
+    span {
+      @include var-color('color', $cx-product-search-layout-list-span-color);
+
+      &:hover {
+        @include var-color(
+          'color',
+          $cx-product-search-layout-list-span-hover-color
+        );
+      }
+
+      &:before {
+        content: '\2630';
+        font-size: $cx-product-search-layout-list-before-font-size;
+        bottom: $cx-product-search-layout-list-before-bottom;
+        position: relative;
+      }
+    }
+  }
+
   &--grid {
     display: inline-block;
     padding: $cx-product-search-layout-grid-trbl-padding;
@@ -110,33 +137,6 @@ $cx-product-search-layout-list-before-bottom: 12px !default;
           'background-color',
           $cx-product-search-layout-grid-span-before-background-color
         );
-      }
-    }
-  }
-
-  &--list {
-    display: inline-block;
-    padding: $cx-product-search-layout-list-trbl-padding;
-
-    @include media-breakpoint-down(sm) {
-      padding: $cx-product-search-layout-list-mobile-trbl-padding;
-    }
-
-    span {
-      @include var-color('color', $cx-product-search-layout-list-span-color);
-
-      &:hover {
-        @include var-color(
-          'color',
-          $cx-product-search-layout-list-span-hover-color
-        );
-      }
-
-      &:before {
-        content: '\2630';
-        font-size: $cx-product-search-layout-list-before-font-size;
-        bottom: $cx-product-search-layout-list-before-bottom;
-        position: relative;
       }
     }
   }

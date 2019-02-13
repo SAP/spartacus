@@ -7,15 +7,15 @@ import {
   Input
 } from '@angular/core';
 
-import { PaymentDetails } from '@spartacus/core';
+import { PaymentDetails, Address } from '@spartacus/core';
+import { CartDataService } from '@spartacus/core';
+import { UserService } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { CartDataService } from '@spartacus/core';
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
-import { UserService } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -27,11 +27,11 @@ import { Card } from '../../../../ui/components/card/card.component';
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
-  cards = [];
+  cards: Card[] = [];
   isLoading$: Observable<boolean>;
 
   @Input()
-  selectedPayment: any;
+  selectedPayment: PaymentDetails;
   @Output()
   backStep = new EventEmitter<any>();
   @Output()
@@ -63,8 +63,8 @@ export class PaymentMethodComponent implements OnInit {
     );
   }
 
-  getCardContent(payment): Card {
-    let ccImage;
+  getCardContent(payment: PaymentDetails): Card {
+    let ccImage: string;
     if (payment.cardType.code === 'visa') {
       ccImage = visaImgSrc;
     } else if (payment.cardType.code === 'master') {
@@ -85,7 +85,7 @@ export class PaymentMethodComponent implements OnInit {
     return card;
   }
 
-  paymentMethodSelected(paymentDetails, index) {
+  paymentMethodSelected(paymentDetails: PaymentDetails, index: number) {
     this.selectedPayment = paymentDetails;
 
     for (let i = 0; this.cards[i]; i++) {
@@ -98,26 +98,36 @@ export class PaymentMethodComponent implements OnInit {
     }
   }
 
-  next() {
+  next(): void {
     this.addPaymentInfo.emit({
       payment: this.selectedPayment,
       newPayment: false
     });
   }
 
-  addNewPaymentMethod(paymentDetails) {
-    this.addPaymentInfo.emit({ payment: paymentDetails, newPayment: true });
+  addNewPaymentMethod({
+    paymentDetails,
+    billingAddress
+  }: {
+    paymentDetails: PaymentDetails;
+    billingAddress: Address;
+  }): void {
+    this.addPaymentInfo.emit({
+      payment: paymentDetails,
+      billingAddress,
+      newPayment: true
+    });
   }
 
-  showNewPaymentForm() {
+  showNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = true;
   }
 
-  hideNewPaymentForm() {
+  hideNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = false;
   }
 
-  back() {
+  back(): void {
     this.backStep.emit();
   }
 }

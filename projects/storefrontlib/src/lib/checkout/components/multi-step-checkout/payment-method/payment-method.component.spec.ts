@@ -1,8 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
+
 import { CartDataService, UserService, PaymentDetails } from '@spartacus/core';
+
 import { of, Observable } from 'rxjs';
+
+import { Card } from '../../../../ui/components/card/card.component';
+
 import { PaymentMethodComponent } from './payment-method.component';
 
 class MockUserService {
@@ -56,9 +61,9 @@ class MockSpinnerComponent {}
 })
 class MockCardComponent {
   @Input()
-  border;
+  border: boolean;
   @Input()
-  content;
+  content: Card;
 }
 
 describe('PaymentMethodComponent', () => {
@@ -131,9 +136,9 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call paymentMethodSelected(paymentDetails, index)', () => {
-    const card1 = { title: 'test card 1' };
-    const card2 = { title: 'test card 2' };
-    const card3 = { title: 'test card 3' };
+    const card1: Card = { title: 'test card 1' };
+    const card2: Card = { title: 'test card 2' };
+    const card3: Card = { title: 'test card 3' };
     component.cards.push(card1, card2, card3);
     component.paymentMethodSelected(mockPaymentMethod1, 1);
 
@@ -153,9 +158,13 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call addNewPaymentMethod()', () => {
-    component.addNewPaymentMethod(mockPaymentMethod1);
+    component.addNewPaymentMethod({
+      paymentDetails: mockPaymentMethod1,
+      billingAddress: null
+    });
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
+      billingAddress: null,
       newPayment: true
     });
   });

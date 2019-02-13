@@ -5,7 +5,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from './../../occ/default-page.service';
+import { DefaultPageService } from '../../services/default-page.service';
 import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './page.effect';
 import * as fromActions from '../actions';
@@ -56,6 +56,7 @@ describe('Page Effects', () => {
     uid: 'testPageId',
     name: 'testPage',
     template: 'testTemplate',
+    title: 'testPageTitle',
     contentSlots: {
       contentSlot: [
         {
@@ -102,6 +103,7 @@ describe('Page Effects', () => {
     name: 'testPage',
     pageId: 'testPageId',
     template: 'testTemplate',
+    title: 'testPageTitle',
     seen: new Array<string>(),
     catalogUuid: 'mockPageCatalogUuid',
     slots: {

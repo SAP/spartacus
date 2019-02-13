@@ -1,6 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   CartService,
@@ -11,7 +12,6 @@ import {
   PaymentDetails,
   Order,
   CheckoutService,
-  CheckoutAddress,
   Cart
 } from '@spartacus/core';
 
@@ -20,7 +20,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 class MockCheckoutService {
   clearCheckoutData = createSpy();
@@ -31,7 +30,7 @@ class MockCheckoutService {
   setPaymentDetails = createSpy();
   placeOrder = createSpy();
 
-  getSelectedDeliveryModeCode(): Observable<any> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return of('');
   }
 
@@ -48,7 +47,7 @@ class MockCheckoutService {
   }
 }
 
-const mockAddress: CheckoutAddress = {
+const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
   lastName: 'Doe',
@@ -60,58 +59,61 @@ const mockAddress: CheckoutAddress = {
   postalCode: 'zip',
   country: { isocode: 'JP' }
 };
-const mockPaymentDetails = {
+const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
   cardNumber: '123456789',
-  cardType: 'Visa',
+  cardType: {
+    code: 'Visa',
+    name: 'Visa'
+  },
   expiryMonth: '01',
   expiryYear: '2022',
   cvn: '123'
 };
-const mockDeliveryAddresses = ['address1', 'address2'];
+const mockDeliveryAddresses: string[] = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
 const mockOrderDetails = { id: '1234' };
 
 @Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
-  selectedShippingMethod;
+  selectedShippingMethod: string;
 }
 
 @Component({ selector: 'cx-payment-method', template: '' })
 class MockPaymentMethodComponent {
   @Input()
-  selectedPayment;
+  selectedPayment: PaymentDetails;
 }
 
 @Component({ selector: 'cx-review-submit', template: '' })
 class MockReviewSubmitComponent {
   @Input()
-  deliveryAddress;
+  deliveryAddress: Address;
   @Input()
-  shippingMethod;
+  shippingMethod: string;
   @Input()
-  paymentDetails;
+  paymentDetails: PaymentDetails;
 }
 
 @Component({ selector: 'cx-shipping-address', template: '' })
 class MockShippingAddressComponent {
   @Input()
-  selectedAddress;
+  selectedAddress: Address;
 }
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
   @Input()
-  cart: any;
+  cart: Cart;
 }
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('MultiStepCheckoutComponent', () => {
@@ -265,21 +267,20 @@ describe('MultiStepCheckoutComponent', () => {
   it('should call nextStep()', () => {
     // next step is 3
     component.nextStep(3);
-    // previous 2 steps are complete
-    expect(component.navs[0].status.completed).toBeTruthy();
+
+    expect(component.navs[0].status.completed).toBeFalsy();
+    expect(component.navs[0].status.active).toBeFalsy();
+    expect(component.navs[0].progressBar).toBeFalsy();
+
     expect(component.navs[1].status.completed).toBeTruthy();
-    // step3 is active, and enabled, progress bar is on
+    expect(component.navs[1].status.active).toBeFalsy();
+    expect(component.navs[1].progressBar).toBeTruthy();
+
+    // except step3 (navs[2]), other steps are not active
     expect(component.navs[2].status.active).toBeTruthy();
     expect(component.navs[2].status.disabled).toBeFalsy();
     expect(component.navs[2].progressBar).toBeTruthy();
-    // except step3, other steps are not active
-    // step1, progress bar is on
-    expect(component.navs[0].status.active).toBeFalsy();
-    expect(component.navs[0].progressBar).toBeTruthy();
-    // step2, progress bar is on
-    expect(component.navs[1].status.active).toBeFalsy();
-    expect(component.navs[1].progressBar).toBeTruthy();
-    // step4, progress bar is off
+
     expect(component.navs[3].status.active).toBeFalsy();
     expect(component.navs[3].progressBar).toBeFalsy();
   });
@@ -312,9 +313,9 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setDeliveryMode()', () => {
-    const deliveryMode: any = {
+    const deliveryMode = {
       deliveryModeId: 'testId'
-    };
+    } as any;
     component.setDeliveryMode(deliveryMode);
     expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalledWith(
       deliveryMode.deliveryModeId
@@ -322,9 +323,9 @@ describe('MultiStepCheckoutComponent', () => {
   });
 
   it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
-    const deliveryMode: any = {
+    const deliveryMode = {
       deliveryModeId: 'testId'
-    };
+    } as any;
     component.shippingMethod = 'testId';
     component.setDeliveryMode(deliveryMode);
 
@@ -336,7 +337,11 @@ describe('MultiStepCheckoutComponent', () => {
 
   it('should call addPaymentInfo() with new created payment info', () => {
     component.deliveryAddress = mockAddress;
-    component.addPaymentInfo({ payment: mockPaymentDetails, newPayment: true });
+    component.addPaymentInfo({
+      payment: mockPaymentDetails,
+      newPayment: true,
+      billingAddress: null
+    });
     expect(mockCheckoutService.createPaymentDetails).toHaveBeenCalledWith(
       mockPaymentDetails
     );
@@ -346,7 +351,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
-      newPayment: false
+      newPayment: false,
+      billingAddress: null
     });
     expect(mockCheckoutService.createPaymentDetails).not.toHaveBeenCalledWith(
       mockPaymentDetails
@@ -361,7 +367,8 @@ describe('MultiStepCheckoutComponent', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({
       payment: mockPaymentDetails,
-      newPayment: false
+      newPayment: false,
+      billingAddress: null
     });
     expect(component.nextStep).toHaveBeenCalledWith(4);
     expect(mockCheckoutService.setPaymentDetails).not.toHaveBeenCalledWith(

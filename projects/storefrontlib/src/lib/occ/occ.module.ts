@@ -9,8 +9,6 @@ import {
   OccMiscsService,
   OccOrderService
 } from '@spartacus/core';
-import { OccStoreFinderService } from './store/store-finder.service';
-import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
@@ -18,8 +16,6 @@ import { OccE2eConfigurationService } from './e2e/e2e-configuration-service';
     OccUserService,
     OccMiscsService,
     OccOrderService,
-    OccStoreFinderService,
-    OccE2eConfigurationService,
     { provide: OccConfig, useExisting: Config }
   ]
 })

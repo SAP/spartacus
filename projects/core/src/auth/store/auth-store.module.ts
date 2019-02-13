@@ -8,6 +8,20 @@ import { effects } from './effects/index';
 import { metaReducers } from './reducers/index';
 import { AUTH_FEATURE } from './auth-state';
 import { StateModule } from '../../state/state.module';
+import { StateConfig } from '../../state/config/state-config';
+import { ConfigModule } from '../../config/config.module';
+
+export function authStoreConfigFactory(): StateConfig {
+  // if we want to reuse AUTH_FEATURE const in config, we have to use factory instead of plain object
+  const config = {
+    state: {
+      storageSync: {
+        keys: [{ [AUTH_FEATURE]: ['userToken', 'clientToken'] }]
+      }
+    }
+  };
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -15,7 +29,8 @@ import { StateModule } from '../../state/state.module';
     HttpClientModule,
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
+    ConfigModule.withConfigFactory(authStoreConfigFactory)
   ],
   providers: [reducerProvider]
 })

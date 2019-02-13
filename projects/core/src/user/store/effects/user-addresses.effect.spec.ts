@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+
 import { provideMockActions } from '@ngrx/effects/testing';
-import { cold, hot } from 'jasmine-marbles';
+
 import { Observable, of } from 'rxjs';
 
-import { OccUserService } from '../../occ/index';
+import { cold, hot } from 'jasmine-marbles';
+
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { AddressList, Address } from '../../../occ';
+import { OccUserService } from '../../occ/index';
+
 import * as fromUserAddressesEffect from './user-addresses.effect';
-import { AddressList, Address } from '@spartacus/core';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {

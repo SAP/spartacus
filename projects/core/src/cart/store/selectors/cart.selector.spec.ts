@@ -1,14 +1,15 @@
-import { Store, StoreModule, select } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
-import { Cart, OrderEntry } from '@spartacus/core';
 
+import { Store, StoreModule, select } from '@ngrx/store';
+
+import * as fromActions from './../actions';
+import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import * as fromActions from './../actions';
-import { CartsState } from '../cart-state';
+import { Cart, OrderEntry } from '../../../occ';
 
 describe('Cart selectors', () => {
-  let store: Store<CartsState>;
+  let store: Store<StateWithCart>;
 
   const testCart: Cart = {
     code: 'xxx',
@@ -51,11 +52,11 @@ describe('Cart selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  describe('getActiveCart', () => {
-    it('should return the active cart from the state', () => {
+  describe('getActiveCartContent', () => {
+    it('should return the cart content from the state', () => {
       let result: Cart;
       store
-        .pipe(select(fromSelectors.getActiveCart))
+        .pipe(select(fromSelectors.getCartContent))
         .subscribe(value => (result = value));
 
       expect(result).toEqual({});

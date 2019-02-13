@@ -11,6 +11,8 @@ import { FooterNavigationModule } from './footer-navigation/footer-navigation.mo
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
+import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
+import { AddressBookModule } from './address-book/address-book.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -27,9 +29,11 @@ import { MiniCartModule } from './mini-cart/mini-cart.module';
     // BreadcrumbModule,
     ProductCarouselModule,
     SearchBoxModule,
-    MiniCartModule
+    MiniCartModule,
     // ProductReferencesModule,
     // TabParagraphContainerModule
+    SiteContextSelectorModule,
+    AddressBookModule
   ]
 })
 export class CmsLibModule {}

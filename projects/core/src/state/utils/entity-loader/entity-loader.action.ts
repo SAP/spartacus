@@ -4,7 +4,7 @@ import {
   loadMeta,
   successMeta
 } from '../loader/loader.action';
-import { EntityMeta } from '../entity/entity.action';
+import { entityMeta, EntityMeta } from '../entity/entity.action';
 import { Action } from '@ngrx/store';
 
 export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
@@ -20,39 +20,39 @@ export interface EntityLoaderAction extends Action {
 
 export function entityLoadMeta(
   entityType: string,
-  id: string
+  id: string | string[]
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
-    entityId: id
+    ...entityMeta(entityType, id)
   };
 }
 
 export function entityFailMeta(
   entityType: string,
-  id: string,
+  id: string | string[],
   error?: any
 ): EntityLoaderMeta {
   return {
     ...failMeta(entityType, error),
-    entityId: id
+    ...entityMeta(entityType, id)
   };
 }
 
 export function entitySuccessMeta(
   entityType: string,
-  id: string
+  id: string | string[]
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
-    entityId: id
+    ...entityMeta(entityType, id)
   };
 }
 
 export class EntityLoadAction implements EntityLoaderAction {
   type = ENTITY_LOAD_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string) {
+  constructor(entityType: string, id: string | string[]) {
     this.meta = entityLoadMeta(entityType, id);
   }
 }
@@ -60,7 +60,7 @@ export class EntityLoadAction implements EntityLoaderAction {
 export class EntityFailAction implements EntityLoaderAction {
   type = ENTITY_FAIL_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string, error?: any) {
+  constructor(entityType: string, id: string | string[], error?: any) {
     this.meta = entityFailMeta(entityType, id, error);
   }
 }
@@ -68,7 +68,7 @@ export class EntityFailAction implements EntityLoaderAction {
 export class EntitySuccessAction implements EntityLoaderAction {
   type = ENTITY_SUCCESS_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string) {
+  constructor(entityType: string, id: string | string[]) {
     this.meta = entitySuccessMeta(entityType, id);
   }
 }

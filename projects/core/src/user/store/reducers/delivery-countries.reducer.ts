@@ -1,4 +1,4 @@
-import * as fromAction from '../actions';
+import * as fromAction from '../actions/index';
 import { DeliveryCountriesState } from '../user-state';
 import { Country } from '../../../occ/occ-models/index';
 
@@ -38,6 +38,3 @@ export function reducer(
 
   return state;
 }
-
-export const getDeliveryCountriesEntites = (state: DeliveryCountriesState) =>
-  state.entities;

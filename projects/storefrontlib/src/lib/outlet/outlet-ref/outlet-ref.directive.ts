@@ -1,6 +1,7 @@
 import { Directive, TemplateRef, Input, OnInit } from '@angular/core';
-import { OutletService } from '../outlet.service';
+
 import { OutletPosition } from '../outlet.model';
+import { OutletService } from '../outlet.service';
 
 @Directive({
   selector: '[cxOutletRef]'

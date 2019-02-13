@@ -1,58 +1,32 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-//mini-cart color variables
-$cx-mini-cart-button-background-color: 'primary' !default;
-$cx-mini-cart-button-color: 'inverse' !default;
+:host {
+  margin-left: 0.75rem;
+  display: block;
+}
 
-//mini-cart variables
-$cx-mini-cart-button-height: 50px !default;
-$cx-mini-cart-button-border-radius: 0 !default;
-$cx-mini-cart-button-md-height: 60px !default;
-$cx-mini-cart-button-md-trbl-padding: 0.5rem 0.75rem 0 0.75rem !default;
-$cx-mini-cart-icon-width: 25px !default;
-$cx-mini-cart-count-trbl-margin: 0 0 0 0.35rem !default;
+a {
+  display: flex;
+  background: var(--cx-background, var(--cx-g-color-primary));
+  padding: var(--cx-padding, 0 0.5rem);
+  color: var(--cx-color, var(--cx-g-color-inverse));
+  text-decoration: none;
 
-.cx-mini-cart {
-  //these are temp fixes until store finder
-  //gets back to its original position
-  @include media-breakpoint-up(xs) {
-    margin-left: 1rem;
-  }
-  @include media-breakpoint-up(sm) {
-    margin-left: 1.5rem;
+  @include media-breakpoint-only(xs) {
+    min-height: 55px;
+    flex-direction: column;
+    padding: var(--cx-padding, 0.3rem 0.75rem);
   }
 
-  &__button {
-    @include var-color(
-      'background-color',
-      $cx-mini-cart-button-background-color
-    );
-    @include var-color('color', $cx-mini-cart-button-color);
-    position: relative;
-    height: $cx-mini-cart-button-height;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: $cx-mini-cart-button-border-radius;
-    margin-right: 1rem;
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
-      height: $cx-mini-cart-button-md-height;
-      padding: $cx-mini-cart-button-md-trbl-padding;
-      margin-right: 1.5rem;
-    }
-    @include media-breakpoint-up(lg) {
-      margin-right: 0;
-    }
-  }
-  &__icon {
-    width: $cx-mini-cart-icon-width;
+  svg {
     fill: currentColor;
-    pointer-events: none;
+    width: 30px;
+    max-height: 48px;
   }
-  &__count {
-    margin: $cx-mini-cart-count-trbl-margin;
+
+  span {
+    color: currentColor;
+    align-self: center;
+    padding: var(--cx-padding, 0 0.5rem);
   }
 }

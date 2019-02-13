@@ -1,19 +1,22 @@
 import {
-  Directive,
-  ViewContainerRef,
-  Input,
-  OnInit,
-  OnDestroy,
+  ChangeDetectorRef,
   ComponentRef,
+  Directive,
   Injector,
+  Input,
+  OnDestroy,
+  OnInit,
   Renderer2,
-  ChangeDetectorRef
+  ViewContainerRef
 } from '@angular/core';
-import { CmsComponent } from '@spartacus/core';
+import {
+  CmsComponent,
+  CmsConfig,
+  CmsService,
+  ComponentMapperService,
+  CxApiService
+} from '@spartacus/core';
 import { CmsComponentData } from '../cms-component-data';
-import { AbstractCmsComponent } from '../abstract-cms-component';
-import { CxApiService } from '../../../cx-api/cx-api.service';
-import { CmsConfig, CmsService, ComponentMapperService } from '@spartacus/core';
 
 @Directive({
   selector: '[cxComponentWrapper]'
@@ -65,13 +68,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.getInjectorForComponent()
       );
 
-      // TODO: Remove after AbstractCmsComponent will be removed
-      const instance: AbstractCmsComponent = this.cmpRef.instance;
-      if (instance.onCmsComponentInit) {
-        instance.onCmsComponentInit(this.componentUid, this.contextParameters);
-      } else {
-        this.cd.detectChanges();
-      }
+      this.cd.detectChanges();
 
       if (this.cmsService.isLaunchInSmartEdit()) {
         this.addSmartEditContract(this.cmpRef.location.nativeElement);

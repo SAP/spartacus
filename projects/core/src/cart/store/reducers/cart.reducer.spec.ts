@@ -1,6 +1,7 @@
-import * as fromCart from './cart.reducer';
 import * as fromActions from './../actions';
-import { Cart } from '@spartacus/core';
+import { Cart } from '../../../occ';
+
+import * as fromCart from './cart.reducer';
 
 describe('Cart reducer', () => {
   describe('undefined action', () => {
@@ -36,7 +37,6 @@ describe('Cart reducer', () => {
       expect(state.content).toEqual(testCart);
       expect(state.entries).toEqual({});
       expect(state.refresh).toEqual(false);
-      expect(state.loaded).toEqual(true);
     });
 
     it('should load an existing cart', () => {
@@ -67,7 +67,6 @@ describe('Cart reducer', () => {
         '1234': { entryNumber: 0, product: { code: '1234' } }
       });
       expect(state.refresh).toEqual(false);
-      expect(state.loaded).toEqual(true);
     });
   });
 
@@ -78,69 +77,6 @@ describe('Cart reducer', () => {
       const action = new fromActions.AddEntrySuccess({});
       const state = fromCart.reducer(initialState, action);
       expect(state.refresh).toEqual(true);
-    });
-  });
-
-  describe('REMOVE_ENTRY', () => {
-    it('should set loaded to false', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.RemoveEntry({});
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(false);
-    });
-  });
-
-  describe('ADD_ENTRY', () => {
-    it('should set loaded to false', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.AddEntry({});
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(false);
-    });
-  });
-
-  describe('UPDATE_ENTRY', () => {
-    it('should set loaded to false', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.UpdateEntry({});
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(false);
-    });
-  });
-
-  describe('LOAD_CART', () => {
-    it('should set loaded to false', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.LoadCart({ userId: '', cartId: '' });
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(false);
-    });
-  });
-
-  describe('CREATE_CART', () => {
-    it('should set loaded to false', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.CreateCart({});
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(false);
-    });
-  });
-
-  describe('LOAD_CART_SUCCESS', () => {
-    it('should set loaded to true', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.LoadCartSuccess({});
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(true);
-    });
-  });
-
-  describe('CREATE_CART_SUCCESS', () => {
-    it('should set loaded to true', () => {
-      const { initialState } = fromCart;
-      const action = new fromActions.CreateCartSuccess({});
-      const state = fromCart.reducer(initialState, action);
-      expect(state.loaded).toEqual(true);
     });
   });
 });

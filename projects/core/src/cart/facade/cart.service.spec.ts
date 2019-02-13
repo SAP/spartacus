@@ -2,10 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
-import { AuthService, Cart, OrderEntry, UserToken } from '@spartacus/core';
-
 import { of, Observable } from 'rxjs';
-import { CartsState } from '../store/cart-state';
+
+import { UserToken, AuthService } from '../../auth';
+import { OrderEntry, Cart } from '../../occ';
+import { StateWithCart } from '../store/cart-state';
 import * as fromCart from '../../cart/store';
 
 import { CartDataService, ANONYMOUS_USERID } from './cart-data.service';
@@ -27,7 +28,7 @@ describe('CartService', () => {
   let service: CartService;
   let cartData: CartDataServiceStub;
   let authService: AuthServiceStub;
-  let store: Store<CartsState>;
+  let store: Store<StateWithCart>;
 
   const productCode = '1234';
   const userId = 'testUserId';

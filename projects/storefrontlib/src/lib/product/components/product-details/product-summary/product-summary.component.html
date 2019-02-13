@@ -3,9 +3,7 @@
   <div class="code">ID {{ product?.code }}</div>
 </ng-container>
 
-<ng-container *cxOutlet="outlets.IMAGES">
-  <div class="images"><ng-content></ng-content></div>
-</ng-container>
+<div class="images"><ng-content></ng-content></div>
 
 <ng-container *cxOutlet="outlets.RATING">
   <div class="rating">
@@ -30,9 +28,9 @@
   <div class="quantity">
     <label>Qty</label>
     <cx-item-counter
-      isValueChangable="true"
+      isValueChangeable="true"
       [min]="1"
-      [max]="product.stock.stockLevel"
+      [max]="product.stock?.stockLevel || 1000"
       *ngIf="
         product?.stock?.stockLevel > 0 ||
         product?.stock?.stockLevelStatus === 'inStock'
@@ -45,9 +43,10 @@
     *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
     [quantity]="itemCount"
     [productCode]="product?.code"
+    [maxQuantity]="product.stock.stockLevel"
   ></cx-add-to-cart>
 </ng-container>
 
 <ng-container *cxOutlet="outlets.SHARE">
-  <a href="#" class="share btn-link"> Share </a>
+  <div><a href="#" class="share btn-link"> Share </a></div>
 </ng-container>

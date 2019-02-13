@@ -1,14 +1,27 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Component, Input } from '@angular/core';
+import {
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+  Component
+} from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { CmsService } from '@spartacus/core';
+import {
+  CmsService,
+  Component as SpaComponent,
+  TranslateUrlOptions
+} from '@spartacus/core';
 
 import { NavigationService } from '../navigation/navigation.service';
 
 import { NavigationComponent } from '..';
 import { FooterNavigationComponent } from './footer-navigation.component';
+import { of } from 'rxjs';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -18,15 +31,34 @@ class MockNavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }
+
+@Component({
+  selector: 'cx-generic-link',
+  template: '<ng-content></ng-content>'
+})
+class MockGenericLinkComponent {
+  @Input()
+  url: string | any[];
+  @Input()
+  target: string;
+}
+
+@Pipe({ name: 'cxTranslateUrl' })
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(options: TranslateUrlOptions): string | string[] {
+    return '/translated-path' + options.url;
+  }
+}
+
 describe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let footer: DebugElement;
   let column: DebugElement;
 
-  const mockLinks = [
+  const mockLinks: NavigationNode[] = [
     {
       title: 'Test child 1',
       url: '/test1',
@@ -39,18 +71,25 @@ describe('FooterNavigationComponent', () => {
     }
   ];
 
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
+    data$: of()
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [
         FooterNavigationComponent,
         NavigationComponent,
-        MockNavigationUIComponent
+        MockNavigationUIComponent,
+        MockGenericLinkComponent,
+        MockTranslateUrlPipe
       ],
       providers: [
         NavigationService,
         { provide: CmsService, useValue: {} },
-        { provide: NavigationService, useValue: {} }
+        { provide: NavigationService, useValue: {} },
+        { provide: CmsComponentData, useValue: mockCmsComponentData }
       ]
     }).compileComponents();
   }));
@@ -58,7 +97,7 @@ describe('FooterNavigationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);
     component = fixture.componentInstance;
-    component.node = {
+    component.node$ = of({
       children: [
         {
           title: 'Test 1',
@@ -66,7 +105,7 @@ describe('FooterNavigationComponent', () => {
           children: mockLinks
         }
       ]
-    };
+    });
 
     fixture.detectChanges();
   });
@@ -95,18 +134,19 @@ describe('FooterNavigationComponent', () => {
     });
 
     it('should display link title with correct url', () => {
-      const link: HTMLElement = column.query(By.css('a')).nativeElement;
+      const link = column.query(By.css('cx-generic-link'));
 
-      expect(link.textContent).toEqual(mockLinks[0].title);
-      expect(link.getAttribute('href')).toEqual(mockLinks[0].url);
+      expect(link.nativeElement.innerHTML).toContain(mockLinks[0].title);
+      expect(link.componentInstance.url).toEqual(
+        '/translated-path' + mockLinks[0].url
+      );
     });
 
     it('should have the correct target', () => {
-      const link1: HTMLElement = column.queryAll(By.css('a'))[0].nativeElement;
-      const link2: HTMLElement = column.queryAll(By.css('a'))[1].nativeElement;
+      const links = column.queryAll(By.css('cx-generic-link'));
 
-      expect(link1.getAttribute('target')).toEqual('blank');
-      expect(link2.getAttribute('target')).toEqual('self');
+      expect(links[0].componentInstance.target).toEqual('blank');
+      expect(links[1].componentInstance.target).toEqual('self');
     });
   });
 });

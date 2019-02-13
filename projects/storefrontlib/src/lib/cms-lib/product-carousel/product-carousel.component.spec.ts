@@ -3,11 +3,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ProductService, Product, Component } from '@spartacus/core';
+import {
+  ProductService,
+  Product,
+  Component,
+  CmsProductCarouselComponent
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
-import { BootstrapModule } from '../../bootstrap.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { ProductCarouselComponent } from './product-carousel.component';
@@ -17,26 +21,25 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
 
-const mockComponentData: any = {
+const mockComponentData: CmsProductCarouselComponent = {
   uid: '001',
   typeCode: 'ProductCarouselComponent',
-  modifiedTime: '2017-12-21T18:15:15+0000',
+  modifiedtime: new Date('2017-12-21T18:15:15+0000'),
   popup: 'false',
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
   name: 'Mock Product Carousel',
-  type: 'Product Carousel',
   container: 'false'
 };
 
 const mockProduct: Product = {
-  code: 'C001',
+  code: '111111',
   name: 'Camera',
   price: {
     formattedValue: '$100.00'
@@ -48,7 +51,7 @@ const MockCmsComponentData = <CmsComponentData<Component>>{
 };
 
 class MockProductService {
-  get(): Observable<any> {
+  get(): Observable<Product> {
     return of(mockProduct);
   }
 
@@ -64,7 +67,7 @@ describe('ProductCarouselComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, BootstrapModule],
+      imports: [RouterTestingModule],
       declarations: [
         ProductCarouselComponent,
         PictureComponent,
@@ -88,18 +91,33 @@ describe('ProductCarouselComponent', () => {
     expect(productCarouselComponent).toBeTruthy();
   });
 
-  it('should have productCodes', () => {
-    expect(productCarouselComponent.productCodes).toEqual(productCodeArray);
+  it('should have products', () => {
+    expect(productCarouselComponent.items$);
+
+    let products$: Observable<Product>[];
+    productCarouselComponent.items$
+      .subscribe(productData$ => {
+        products$ = productData$;
+      })
+      .unsubscribe();
+    expect(products$.length).toBe(productCodeArray.length);
   });
 
-  it('should have 1 group', () => {
-    spyOn<any>(productCarouselComponent, 'getItemsPerPage').and.returnValue(4);
-    expect(productCarouselComponent.productGroups.length).toBe(1);
+  it('should have product data', () => {
+    expect(productCarouselComponent.items$);
+
+    let product: Product;
+    productCarouselComponent.items$
+      .subscribe(productData$ => {
+        productData$[0].subscribe(data => (product = data)).unsubscribe();
+      })
+      .unsubscribe();
+    expect(product).toBe(mockProduct);
   });
 
   it('should contain cms content in the html rendering after bootstrap', () => {
-    expect(
-      el.query(By.css('.cx-carousel__header')).nativeElement.textContent
-    ).toContain(mockComponentData.title);
+    expect(el.query(By.css('h3')).nativeElement.textContent).toContain(
+      mockComponentData.title
+    );
   });
 });

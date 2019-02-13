@@ -1,4 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -10,5 +11,5 @@ export class NavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }

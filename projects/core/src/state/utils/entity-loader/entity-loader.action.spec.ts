@@ -59,10 +59,10 @@ describe('EntityLoader Actions', () => {
         const meta = entityLoadMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect(meta).toEqual({
           loader: {
-            type: TEST_ENTITY_TYPE,
             load: true
           },
-          entityId: TEST_ENTITY_ID
+          entityId: TEST_ENTITY_ID,
+          entityType: TEST_ENTITY_TYPE
         });
       });
     });
@@ -72,10 +72,10 @@ describe('EntityLoader Actions', () => {
         const meta = entityFailMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID, 'error');
         expect(meta).toEqual({
           loader: {
-            type: TEST_ENTITY_TYPE,
             error: 'error'
           },
-          entityId: TEST_ENTITY_ID
+          entityId: TEST_ENTITY_ID,
+          entityType: TEST_ENTITY_TYPE
         });
       });
     });
@@ -84,10 +84,9 @@ describe('EntityLoader Actions', () => {
       it('should create a meta', () => {
         const meta = entitySuccessMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID);
         expect(meta).toEqual({
-          loader: {
-            type: TEST_ENTITY_TYPE
-          },
-          entityId: TEST_ENTITY_ID
+          loader: {},
+          entityId: TEST_ENTITY_ID,
+          entityType: TEST_ENTITY_TYPE
         });
       });
     });
