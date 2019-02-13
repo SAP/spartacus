@@ -45,6 +45,7 @@ const mockTitles: Title[] = [
     name: 'Mrs.'
   }
 ];
+const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
@@ -110,6 +111,7 @@ describe('AddressFormComponent', () => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     controls = component.address.controls;
+    component.showTitleCode = true;
 
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
@@ -181,7 +183,7 @@ describe('AddressFormComponent', () => {
       .unsubscribe();
 
     expect(countries).toBe(mockCountries);
-    expect(titles).toBe(mockTitles);
+    expect(titles).toEqual(expectedTitles);
     expect(regions).toBe(mockRegions);
   });
 
@@ -210,7 +212,10 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REJECT'
+      decision: 'REJECT',
+      errors: {
+        errors: [{ subject: 'No' }]
+      }
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -242,7 +247,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call verfiyAddress()', () => {
+  it('should call verifyAddress()', () => {
     component.verifyAddress();
     expect(mockCheckoutService.verifyAddress).toHaveBeenCalled();
   });
