@@ -28,7 +28,6 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
     this.locations$ = this.storeFinderService.getViewAllStoresEntities();
 
     if (this.route.snapshot.params.country) {
-      console.log(this.route);
       this.storeFinderService.findStoresAction(
         '',
         this.defaultLocation,
