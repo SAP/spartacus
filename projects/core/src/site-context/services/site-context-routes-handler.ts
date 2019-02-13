@@ -1,6 +1,6 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { NavigationStart, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 import { Subscription } from 'rxjs';
@@ -61,8 +61,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
   private subscribeRouting() {
     this.subscription.add(
       this.router.events
-        .pipe(filter(event => event instanceof NavigationStart))
-        .subscribe((event: NavigationStart) =>
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe((event: NavigationEnd) =>
           this.setContextParamsFromRoute(event.url)
         )
     );
