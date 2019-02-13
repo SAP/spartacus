@@ -4,6 +4,13 @@
   padding: 25px 0;
   text-align: center;
 
-  color: var(--cx-g-color-text, #000);
+  color: var(--cx-g-color-text, currentcolor);
   background-color: var(--cx-g-color-background);
+}
+
+nav {
+  font-size: var(--cx-font-size-small, 0.75rem);
+  a {
+    color: var(--cx-g-color-secondary);
+  }
 }
