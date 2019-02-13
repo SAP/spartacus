@@ -8,7 +8,6 @@ import {
   USER_PAYMENT_METHODS,
   USER_ADDRESSES
 } from '../user-state';
-import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/index';
 import {
   PaymentDetails,
@@ -65,12 +64,8 @@ export function clearUserState(
   return function(state, action) {
     if (action.type === LOGOUT) {
       state = undefined;
-    } else if (
-      action.type === '[Site-context] Language Change' ||
-      action.type === '[Site-context] Currency Change'
-    ) {
-      action = new fromAction.ClearMiscsData();
     }
+
     return reducer(state, action);
   };
 }
