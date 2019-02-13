@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
+
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot, cold } from 'jasmine-marbles';
+
 import { Observable, of } from 'rxjs';
 
+import { hot, cold } from 'jasmine-marbles';
+
 import * as fromActions from './../actions';
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { RegionsEffects } from './regions.effect';
 import { RegionList } from '../../../occ/occ-models';
+import { OccMiscsService } from '../../../occ/miscs/miscs.service';
+
+import { RegionsEffects } from './regions.effect';
 
 class MockMiscsService {
   loadRegions(_countryIsoCode: string): Observable<RegionList> {

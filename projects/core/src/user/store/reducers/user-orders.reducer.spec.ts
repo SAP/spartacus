@@ -1,4 +1,3 @@
-import * as fromActions from '../actions/index';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import {
   OrderHistory,
@@ -13,7 +12,7 @@ describe('User Orders Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromUserOrdersReducer;
-      const action = {} as fromActions.MiscsDataAction;
+      const action = {} as fromUserOrdersAction.UserOrdersAction;
       const state = fromUserOrdersReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
