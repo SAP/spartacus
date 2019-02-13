@@ -16,10 +16,24 @@ export class BreadcrumbComponent {
     private cms: CmsService
   ) {}
 
-  get title$(): Observable<string> {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
-      map((page: Page) => page.title)
+  get crumbs$(): Observable<any[]> {
+    return this.pageType$.pipe(
+      map(t => (t === 'ContentPage' ? [{ label: 'home', link: '/' }] : ['']))
     );
+  }
+
+  get title$(): Observable<string> {
+    return this.page$.pipe(map((page: Page) => page.title));
+  }
+
+  protected get pageType$(): Observable<string> {
+    return this.page$.pipe(
+      filter(Boolean),
+      map((p: Page) => p.type)
+    );
+  }
+
+  protected get page$() {
+    return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 }

@@ -1,3 +1,6 @@
-<div class="breadcrumb">
-  <h3>{{ title$ | async }}</h3>
-</div>
+<nav>
+  <a *ngFor="let crumb of (crumbs$ | async)" [routerLink]="crumb.link">
+    {{ crumb.label }}
+  </a>
+</nav>
+<h3>{{ title$ | async }}</h3>
