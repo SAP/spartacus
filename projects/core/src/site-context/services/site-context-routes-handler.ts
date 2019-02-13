@@ -1,6 +1,7 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
 import {
+  NavigationCancel,
   NavigationEnd,
   NavigationError,
   NavigationStart,
@@ -74,7 +75,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
             event =>
               event instanceof NavigationStart ||
               event instanceof NavigationEnd ||
-              event instanceof NavigationError
+              event instanceof NavigationError ||
+              event instanceof NavigationCancel
           )
         )
         .subscribe((event: RouterEvent) => {
