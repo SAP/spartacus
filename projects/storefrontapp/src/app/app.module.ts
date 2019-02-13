@@ -22,9 +22,6 @@ if (!environment.production) {
     BrowserTransferStateModule,
     StorefrontModule.withConfig({
       production: environment.production,
-      site: {
-        baseSite: 'electronics-spa'
-      },
       server: {
         baseUrl: environment.occBaseUrl
       },
