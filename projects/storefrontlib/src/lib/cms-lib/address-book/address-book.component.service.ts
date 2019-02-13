@@ -52,8 +52,16 @@ export class AddressBookComponentService {
     return this.userService.getAddresses();
   }
 
-  getAddressesLoading(): Observable<boolean> {
-    return this.userService.getAddressesLoading();
+  getAddressesStateLoading(): Observable<boolean> {
+    return this.userService.getAddressesStateLoading();
+  }
+
+  getAddressesStateError(): Observable<boolean> {
+    return this.userService.getAddressesStateError();
+  }
+
+  getAddressesStateSuccess(): Observable<boolean> {
+    return this.userService.getAddressesStateSuccess();
   }
 
   getUserId(): Observable<string> {

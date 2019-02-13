@@ -60,11 +60,11 @@ describe('User Addresses Selectors', () => {
     });
   });
 
-  describe('getAddressLoading', () => {
-    it('should return isLoading flag', () => {
+  describe('getAddressesStateLoading', () => {
+    it('should return loading flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getAddressesLoading))
+        .pipe(select(fromSelectors.getAddressesStateLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
@@ -75,16 +75,33 @@ describe('User Addresses Selectors', () => {
     });
   });
 
-  describe('getAddressProcessingStatus', () => {
-    it('should return isActionProcessing flag', () => {
+  describe('getAddressesStateSuccess', () => {
+    it('should return success flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getAddressesLoading))
+        .pipe(select(fromSelectors.getAddressesStateSuccess))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
-      store.dispatch(new fromActions.DeleteUserAddress('addressId'));
+      store.dispatch(
+        new fromActions.LoadUserAddressesSuccess(mockUserAddresses)
+      );
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getAddressesStateError', () => {
+    it('should return error flag', () => {
+      let result: boolean;
+      store
+        .pipe(select(fromSelectors.getAddressesStateError))
+        .subscribe(value => (result = value));
+
+      expect(result).toEqual(false);
+
+      store.dispatch(new fromActions.LoadUserAddressesFail(''));
 
       expect(result).toEqual(true);
     });

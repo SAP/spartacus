@@ -271,8 +271,22 @@ export class UserService {
   /**
    * Returns a loading flag for addresses
    */
-  getAddressesLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getAddressesLoading));
+  getAddressesStateLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getAddressesStateLoading));
+  }
+
+  /**
+   * Returns a success flag for addresses
+   */
+  getAddressesStateSuccess(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getAddressesStateSuccess));
+  }
+
+  /**
+   * Returns an error flag for addresses
+   */
+  getAddressesStateError(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getAddressesStateError));
   }
 
   /**

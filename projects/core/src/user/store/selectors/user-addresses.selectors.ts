@@ -5,7 +5,9 @@ import { Address } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
-  loaderLoadingSelector
+  loaderLoadingSelector,
+  loaderSuccessSelector,
+  loaderErrorSelector
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getUserState } from './feature.selector';
@@ -26,10 +28,26 @@ export const getAddresses: MemoizedSelector<
   (state: LoaderState<Address[]>) => loaderValueSelector(state)
 );
 
-export const getAddressesLoading: MemoizedSelector<
+export const getAddressesStateLoading: MemoizedSelector<
   StateWithUser,
   boolean
 > = createSelector(
   getAddressesLoaderState,
   (state: LoaderState<Address[]>) => loaderLoadingSelector(state)
+);
+
+export const getAddressesStateSuccess: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getAddressesLoaderState,
+  (state: LoaderState<Address[]>) => loaderSuccessSelector(state)
+);
+
+export const getAddressesStateError: MemoizedSelector<
+  StateWithUser,
+  boolean
+> = createSelector(
+  getAddressesLoaderState,
+  (state: LoaderState<Address[]>) => loaderErrorSelector(state)
 );

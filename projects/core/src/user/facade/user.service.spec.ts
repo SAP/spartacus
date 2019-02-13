@@ -240,41 +240,6 @@ describe('UserService', () => {
     expect(addresses).toEqual([{ id: 'address1' }, { id: 'address2' }]);
   });
 
-  it('should be able to get Address loading flag', () => {
-    store.dispatch(new fromStore.LoadUserAddresses('testUserId'));
-
-    let flag: boolean;
-    service
-      .getAddressesLoading()
-      .subscribe(data => {
-        flag = data;
-      })
-      .unsubscribe();
-    expect(flag).toEqual(true);
-  });
-
-  it('should be able to get Address action processing flag', () => {
-    const mockAddress = {
-      id: 'addressId'
-    };
-
-    store.dispatch(
-      new fromStore.AddUserAddress({
-        userId: 'testUserId',
-        address: mockAddress
-      })
-    );
-
-    let flag: boolean;
-    service
-      .getAddressesLoading()
-      .subscribe(data => {
-        flag = data;
-      })
-      .unsubscribe();
-    expect(flag).toEqual(true);
-  });
-
   it('should be able to get titles data', () => {
     store.dispatch(
       new fromStore.LoadTitlesSuccess([

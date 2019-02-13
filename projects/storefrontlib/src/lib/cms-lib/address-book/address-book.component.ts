@@ -11,7 +11,9 @@ import { AddressBookComponentService } from './address-book.component.service';
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;
-  addressesLoading$: Observable<boolean>;
+  addressesStateLoading$: Observable<boolean>;
+  addressesStateSuccess$: Observable<boolean>;
+  addressesStateError$: Observable<boolean>;
   userId$: Observable<string>;
   isAddAddressFormOpen$: Observable<boolean>;
   isEditAddressFormOpen$: Observable<boolean>;
@@ -22,7 +24,9 @@ export class AddressBookComponent implements OnInit {
 
   ngOnInit() {
     this.addresses$ = this.service.getAddresses();
-    this.addressesLoading$ = this.service.getAddressesLoading();
+    this.addressesStateLoading$ = this.service.getAddressesStateLoading();
+    this.addressesStateSuccess$ = this.service.getAddressesStateSuccess();
+    this.addressesStateError$ = this.service.getAddressesStateError();
     this.userId$ = this.service.getUserId();
     this.isAddAddressFormOpen$ = this.service.getIsAddAddressFormOpen();
     this.isEditAddressFormOpen$ = this.service.getIsEditAddressFormOpen();
@@ -35,6 +39,18 @@ export class AddressBookComponent implements OnInit {
     );
 
     this.service.loadAddresses();
+
+    this.addressesStateSuccess$.subscribe((bool: Boolean) => {
+      if (bool) {
+        console.log(`We have the liftoff!`);
+      }
+    });
+
+    this.addressesStateError$.subscribe((bool: Boolean) => {
+      if (bool) {
+        console.log(`Nope, not this time.`);
+      }
+    });
   }
 
   addNewAddress() {
