@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
-import { OccUserService } from '../../occ/index';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { OccUserService } from '../../occ/index';
 import { AddressList } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class UserAddressesEffects {
   @Effect()
-  loadUserAddresses$: Observable<any> = this.actions$.pipe(
+  loadUserAddresses$: Observable<
+    fromUserAddressesAction.UserAddressesAction
+  > = this.actions$.pipe(
     ofType(fromUserAddressesAction.LOAD_USER_ADDRESSES),
     map((action: fromUserAddressesAction.LoadUserAddresses) => action.payload),
     mergeMap(payload => {
@@ -28,7 +32,9 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  addUserAddress$: Observable<any> = this.actions$.pipe(
+  addUserAddress$: Observable<
+    fromUserAddressesAction.UserAddressesAction
+  > = this.actions$.pipe(
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS),
     map((action: fromUserAddressesAction.AddUserAddress) => action.payload),
     mergeMap(payload => {
@@ -46,7 +52,9 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  updateUserAddress$: Observable<any> = this.actions$.pipe(
+  updateUserAddress$: Observable<
+    fromUserAddressesAction.UserAddressesAction
+  > = this.actions$.pipe(
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS),
     map((action: fromUserAddressesAction.UpdateUserAddress) => action.payload),
     mergeMap(payload => {
@@ -64,7 +72,9 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  deleteUserAddress$: Observable<any> = this.actions$.pipe(
+  deleteUserAddress$: Observable<
+    fromUserAddressesAction.UserAddressesAction
+  > = this.actions$.pipe(
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS),
     map((action: fromUserAddressesAction.DeleteUserAddress) => action.payload),
     mergeMap(payload => {
