@@ -75,11 +75,39 @@ context('Product search', () => {
       ).should('contain', '$1.58');
     });
 
-    it('should be able to use sorting by highest price', () => {
+    it('should be able to sort by highest price', () => {
       cy.get('cx-sorting .ng-select:first').ngSelect('Price (highest first)');
       cy.get(
         'cx-product-list cx-product-list-item:first .cx-product-price'
       ).should('contain', '$6,030.71');
+    });
+
+    it('should be able to sort by name ascending', () => {
+      cy.get('cx-sorting .ng-select:first').ngSelect('Name (ascending)');
+      cy.get(
+        'cx-product-list cx-product-list-item:first a.cx-product-name'
+      ).should('contain', '10.2 Megapixel D-SLR');
+    });
+
+    it('should be able to sort by name descending', () => {
+      cy.get('cx-sorting .ng-select:first').ngSelect('Name (descending)');
+      cy.get(
+        'cx-product-list cx-product-list-item:first a.cx-product-name'
+      ).should('contain', 'Wide Strap for EOS 450D');
+    });
+
+    it('should be able to sort by relevance', () => {
+      cy.get('cx-sorting .ng-select:first').ngSelect('Relevance');
+      cy.get(
+        'cx-product-list cx-product-list-item:first a.cx-product-name'
+      ).should('contain', 'CAMERA');
+    });
+
+    it('should be able to sort by top rated', () => {
+      cy.get('cx-sorting .ng-select:first').ngSelect('Top Rated');
+      cy.get(
+        'cx-product-list cx-product-list-item:first a.cx-product-name'
+      ).should('contain', 'QuickCam for Notebooks Pro');
     });
   });
 });
