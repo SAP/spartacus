@@ -206,25 +206,6 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should open suggested address with address verification result "review"', () => {
-    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
-    spyOn(userService, 'getTitles').and.returnValue(of([]));
-    spyOn(userService, 'getRegions').and.returnValue(of([]));
-
-    const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REVIEW'
-    };
-    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
-      of(mockAddressVerificationResult)
-    );
-
-    spyOn(component, 'openSuggestedAddress');
-    component.ngOnInit();
-    expect(component.openSuggestedAddress).toHaveBeenCalledWith(
-      mockAddressVerificationResult
-    );
-  });
-
   it('should clear address verification result with address verification result "reject"', () => {
     spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
     spyOn(userService, 'getTitles').and.returnValue(of([]));
@@ -245,6 +226,25 @@ describe('AddressFormComponent', () => {
     expect(
       mockCheckoutService.clearAddressVerificationResults
     ).toHaveBeenCalledWith();
+  });
+
+  it('should open suggested address with address verification result "review"', () => {
+    spyOn(userService, 'getDeliveryCountries').and.returnValue(of([]));
+    spyOn(userService, 'getTitles').and.returnValue(of([]));
+    spyOn(userService, 'getRegions').and.returnValue(of([]));
+
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REVIEW'
+    };
+    spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
+    );
+
+    spyOn(component, 'openSuggestedAddress');
+    component.ngOnInit();
+    expect(component.openSuggestedAddress).toHaveBeenCalledWith(
+      mockAddressVerificationResult
+    );
   });
 
   it('should call verifyAddress()', () => {
