@@ -32,7 +32,7 @@ const mockRoutingService = {
   routerState$: of(mockRouterState)
 };
 
-describe('Page Effects', () => {
+fdescribe('Page Effects', () => {
   let actions$: Observable<any>;
   let occService: OccCmsService;
   let defaultPageService: DefaultPageService;
@@ -57,7 +57,7 @@ describe('Page Effects', () => {
     name: 'testPage',
     template: 'testTemplate',
     title: 'testPageTitle',
-    type: 'ContentPage',
+    typeCode: 'ContentPage',
     contentSlots: {
       contentSlot: [
         {
