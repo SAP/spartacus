@@ -329,4 +329,13 @@ export class UserService {
   clearOrderList() {
     this.store.dispatch(new fromStore.ClearUserOrders());
   }
+
+  /**
+   * Reset new password
+   * @param token
+   * @param password
+   */
+  resetPassword(token: string, password: string) {
+    this.store.dispatch(new fromStore.ResetPassword({ token, password }));
+  }
 }

@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   Validators,
   AbstractControl
 } from '@angular/forms';
+import { RoutingService, UserService } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
@@ -13,29 +15,43 @@ import { CustomFormValidators } from '../../../ui/validators/custom-form-validat
   templateUrl: './reset-new-password-form.component.html',
   styleUrls: ['./reset-new-password-form.component.scss']
 })
-export class ResetNewPasswordFormComponent implements OnInit {
-  form: FormGroup;
+export class ResetNewPasswordFormComponent implements OnInit, OnDestroy {
+  token: string;
+  subscription: Subscription;
 
-  constructor(private fb: FormBuilder) {}
+  form: FormGroup = this.fb.group(
+    {
+      password: [
+        '',
+        [Validators.required, CustomFormValidators.passwordValidator]
+      ],
+      repassword: ['', [Validators.required]]
+    },
+    { validator: this.matchPassword }
+  );
+
+  constructor(
+    private fb: FormBuilder,
+    private routingService: RoutingService,
+    private userService: UserService
+  ) {}
 
   ngOnInit() {
-    // TODO: We need API to verify token, and get address email
-
-    this.form = this.fb.group(
-      {
-        password: [
-          '',
-          [Validators.required, CustomFormValidators.passwordValidator]
-        ],
-        repassword: ['', [Validators.required]]
-      },
-      { validator: this.matchPassword }
-    );
+    this.subscription = this.routingService
+      .getRouterState()
+      .subscribe(state => (this.token = state.state.queryParams['token']));
   }
 
-  changePassword() {
-    // TODO: We need API to send our password and repassword
-    // TODO: After changing password, login
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  resetPassword() {
+    const password = this.form.value['password'];
+    this.userService.resetPassword(this.token, password);
+    this.routingService.go({ route: ['login'] });
   }
 
   private matchPassword(ac: AbstractControl) {
