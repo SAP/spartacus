@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { switchMap, distinctUntilChanged, map, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {
+  switchMap,
+  distinctUntilChanged,
+  map,
+  filter,
+  tap
+} from 'rxjs/operators';
 import { CmsService, Page } from '@spartacus/core';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
 import {
@@ -42,35 +48,10 @@ export class PageLayoutService {
     );
   }
 
-  private showTitle(section?: string): Observable<boolean> {
-    return this.breakpointService.breakpoint$.pipe(
-      switchMap(breakpoint =>
-        this.page$.pipe(
-          map(page => {
-            return this.getSlotConfig(
-              page.template,
-              'showTitle',
-              section,
-              breakpoint
-            );
-          }),
-          filter(Boolean),
-          map(config => config.showTitle)
-        )
-      ),
-      distinctUntilChanged()
-    );
-  }
-
   get page$(): Observable<Page> {
-    return this.cms.getCurrentPage().pipe(filter(Boolean));
-  }
-
-  get pageTitle$(): Observable<string> {
-    return this.showTitle().pipe(
-      switchMap(show =>
-        show ? this.page$.pipe(map((page: Page) => page.title)) : of()
-      )
+    return this.cms.getCurrentPage().pipe(
+      filter(Boolean),
+      tap(p => console.log(p))
     );
   }
 
