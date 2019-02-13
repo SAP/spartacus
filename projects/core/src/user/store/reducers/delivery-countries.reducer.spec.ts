@@ -40,4 +40,13 @@ describe('Delivery Countries Reducer', () => {
       expect(state.entities).toEqual(mockCountriesList);
     });
   });
+
+  describe('CLEAR_MISCS_DATA action', () => {
+    it('should clear the mics data', () => {
+      const { initialState } = fromReducer;
+      const action = new fromActions.ClearMiscsData();
+      const state = fromReducer.reducer(initialState, action);
+      expect(state).toEqual(initialState);
+    });
+  });
 });
