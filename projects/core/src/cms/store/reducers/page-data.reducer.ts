@@ -4,6 +4,8 @@ import { Page } from '../../model/page.model';
 
 const initialState: Page = undefined;
 
+// TODO:#1135 - rename file to match the effect, action and selector
+
 // TODO:#1135 - test
 export function pageDataReducer(
   state = initialState,
@@ -11,39 +13,7 @@ export function pageDataReducer(
 ): Page {
   switch (action.type) {
     case fromAction.LOAD_PAGEDATA_SUCCESS: {
-      console.log(`page`, action.payload);
       return action.payload;
-
-      // TODO:#1135 - delete
-      /*
-      const existPage = action.payload.value;
-      if (existPage != null) {
-        let samePage = true;
-        for (const position of Object.keys(page.value.slots)) {
-          if (
-            page.value.slots[position].components.length !==
-            existPage.slots[position].components.length
-          ) {
-            samePage = false;
-            break;
-          }
-        }
-        if (samePage) {
-          page = {
-            ...page,
-            value: {
-              ...page.value,
-              seen: [...page.value.seen, ...existPage.seen]
-            }
-          };
-        }
-      }
-
-      return {
-        ...state,
-        ...page.value
-      };
-      */
     }
   }
   return state;

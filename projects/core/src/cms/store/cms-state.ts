@@ -7,10 +7,6 @@ export const CMS_FEATURE = 'cms';
 export const NAVIGATION_DETAIL_ENTITY = '[Cms] Navigation Entity';
 export const COMPONENT_ENTITY = '[Cms[ Component Entity';
 export const PAGE_DATA_ENTITY = '[Cms] Page Data Entity';
-export const CONTENT_PAGES_ENTITY = '[Cms] Content Pages Entity';
-export const PRODUCT_PAGES_ENTITY = '[Cms] Product Pages Entity';
-export const CATEGORY_PAGES_ENTITY = '[Cms] Category Pages Entity';
-export const CATALOG_PAGES_ENTITY = '[Cms] Catalog Pages Entity';
 
 export interface StateWithCms {
   [CMS_FEATURE]: CmsState;

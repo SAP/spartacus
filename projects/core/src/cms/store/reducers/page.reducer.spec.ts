@@ -85,31 +85,12 @@ describe('Cms Page Reducer', () => {
     });
   });
 
-  describe('CLEAN_PAGE_STATE action', () => {
-    it('should clean the page state entities', () => {
-      const page: Page = {
-        pageId: 'testPageId',
-        name: 'testPage',
-        seen: [],
-        slots: { left: null }
-      };
-      const payload = { key: 'test', value: page };
-
-      const { initialState } = fromPage;
-      const state = { ...initialState, [payload.key]: payload.value };
-      const cleanAction = new fromActions.CleanPageState();
-      const newState = fromPage.reducer(state, cleanAction);
-
-      expect(newState).toEqual(initialState);
-    });
-  });
-
   describe('UPDATE_LATEST_PAGE_KEY action', () => {
     it('should update the latestPageKey in page state', () => {
       const payload = 'new key';
 
       const { initialState } = fromPage;
-      const action = new fromActions.UpdateLatestPageKey(payload);
+      const action = new fromActions.UpdateLatestPageId(payload);
       const state = fromPage.reducer(initialState, action);
 
       expect(state.latestPageId).toEqual(payload);

@@ -12,12 +12,9 @@ import {
   CmsState,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
-  PAGE_DATA_ENTITY,
-  CONTENT_PAGES_ENTITY,
-  PRODUCT_PAGES_ENTITY,
-  CATEGORY_PAGES_ENTITY,
-  CATALOG_PAGES_ENTITY
+  PAGE_DATA_ENTITY
 } from '../cms-state';
+import { PageType } from '../../../occ';
 import { entityReducer } from '../../../state';
 import { NodeItem } from '../../model/node-item.model';
 import { Page } from '../../model/page.model';
@@ -37,10 +34,10 @@ export function getReducers(): ActionReducerMap<CmsState> {
       pageData: entityReducer<Page>(PAGE_DATA_ENTITY, pageDataReducer),
       latestPageId: latestPageKeyReducer,
       index: combineReducers({
-        content: entityLoaderReducer<string>(CONTENT_PAGES_ENTITY),
-        product: entityLoaderReducer<string>(PRODUCT_PAGES_ENTITY),
-        category: entityLoaderReducer<string>(CATEGORY_PAGES_ENTITY),
-        catalog: entityLoaderReducer<string>(CATALOG_PAGES_ENTITY)
+        content: entityLoaderReducer<string>(PageType.CONTENT_PAGE),
+        product: entityLoaderReducer<string>(PageType.PRODUCT_PAGE),
+        category: entityLoaderReducer<string>(PageType.CATEGORY_PAGE),
+        catalog: entityLoaderReducer<string>(PageType.CATALOG_PAGE)
       })
     }),
     component: entityLoaderReducer(COMPONENT_ENTITY),

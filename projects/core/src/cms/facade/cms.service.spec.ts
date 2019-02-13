@@ -1,20 +1,24 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { CmsService } from './cms.service';
+
 import { Store, StoreModule } from '@ngrx/store';
-import createSpy = jasmine.createSpy;
-import * as fromStore from '../store';
 import * as ngrxStore from '@ngrx/store';
-import * as fromActions from '../store/actions';
-import * as fromReducers from '../store/reducers';
 
 import { of } from 'rxjs';
-import { Page } from '../model/page.model';
-import { ContentSlotData } from '../model/content-slot-data.model';
 
-import { DefaultPageService } from '../services/default-page.service';
-import { CmsConfig } from '../config/cms-config';
-import { PageType } from '../../occ/occ-models/occ.models';
+import createSpy = jasmine.createSpy;
+
 import { take } from 'rxjs/operators';
+
+import * as fromStore from '../store';
+import { CmsConfig } from '../config/cms-config';
+import { ContentSlotData } from '../model/content-slot-data.model';
+import { Page } from '../model/page.model';
+import { DefaultPageService } from '../services/default-page.service';
+import * as fromActions from '../store/actions';
+import * as fromReducers from '../store/reducers';
+import { PageType } from '../../occ/occ-models/occ.models';
+
+import { CmsService } from './cms.service';
 
 const MockCmsModuleConfig: CmsConfig = {
   defaultPageIdForType: {
@@ -177,7 +181,7 @@ describe('CmsService', () => {
         expect(result).toBe(true);
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromActions.UpdateLatestPageKey('testPageId_ContentPage')
+          new fromActions.UpdateLatestPageId('testPageId_ContentPage')
         );
       }
     ));
@@ -203,7 +207,7 @@ describe('CmsService', () => {
         expect(result).toBe(true);
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromActions.UpdateLatestPageKey('testProductPage_ProductPage')
+          new fromActions.UpdateLatestPageId('testProductPage_ProductPage')
         );
       }
     ));

@@ -1,7 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import * as fromState from '../../../cms/store/cms-state';
-
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
 
@@ -31,26 +29,6 @@ export function loaderReducer<T>(
       action.meta.loader &&
       action.meta.entityType === loadActionType
     ) {
-      // TODO:#1135 - delete
-      const actions: string[] = [
-        '[Cms] Load PageData',
-        fromState.PAGE_DATA_ENTITY,
-        fromState.CONTENT_PAGES_ENTITY,
-        fromState.PRODUCT_PAGES_ENTITY,
-        fromState.CATEGORY_PAGES_ENTITY,
-        fromState.CATALOG_PAGES_ENTITY
-      ];
-      if (
-        actions.indexOf(action.meta.entityType) !== -1 ||
-        actions.indexOf(action.type) !== -1
-      ) {
-        console.log(`entity reducer action type: `, action.type);
-        console.log(
-          `entity reducer meta entity type: `,
-          action.meta.entityType
-        );
-      }
-
       const entity = action.meta.loader;
 
       if (entity.load) {

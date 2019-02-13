@@ -15,6 +15,7 @@ import {
 
 import * as componentActions from '../actions/component.action';
 import * as pageActions from '../actions/page.action';
+import { EntitySuccessAction } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
@@ -63,8 +64,9 @@ export class PageEffects {
         const page = this.getPageData(data);
         return [
           new pageActions.LoadPageDataSuccess(page),
-          new pageActions.UpdateLatestPageKey(page.pageId),
-          new componentActions.GetComponentFromPage(this.getComponents(data))
+          new pageActions.UpdateLatestPageId(page.pageId),
+          new componentActions.GetComponentFromPage(this.getComponents(data)),
+          new EntitySuccessAction(pageContext.type, pageContext.id, page.pageId)
         ];
       }),
       catchError(error => of(new pageActions.LoadPageDataFail(error)))

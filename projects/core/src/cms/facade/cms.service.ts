@@ -6,9 +6,8 @@ import { Observable } from 'rxjs';
 import { filter, tap, map, withLatestFrom } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import { PageType } from '../../occ';
 import { PageContext } from '../../routing';
-import { EntityLoaderState, LoaderState, EntityLoadAction } from '../../state';
+import { LoaderState, EntityLoadAction } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -123,91 +122,32 @@ export class CmsService {
     this.store.dispatch(new fromStore.LoadComponent(uid));
   }
 
-  // TODO:#1135 - test
-  private getIndexType(
-    pageContext: PageContext
-  ): Observable<EntityLoaderState<string>> {
-    if (pageContext.type === PageType.CONTENT_PAGE) {
-      return this.store.pipe(select(fromStore.getLoaderContentState));
-    } else if (pageContext.type === PageType.PRODUCT_PAGE) {
-      return this.store.pipe(select(fromStore.getLoaderProductState));
-    } else if (pageContext.type === PageType.CATEGORY_PAGE) {
-      return this.store.pipe(select(fromStore.getLoaderCategoryState));
-      // TODO:#1135 - what to do if the pageContext.type doesn't match?
-    } else {
-      return this.store.pipe(select(fromStore.getLoaderCatalogState));
-    }
-  }
-
   /**
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */
   hasPage(pageContext: PageContext): Observable<boolean> {
     // TODO:#1135 maybe implement three functions: one per cms type
-    return this.getIndexType(pageContext).pipe(
-      tap(x => console.log(`x`, x)),
-      map(index => index.entities[pageContext.id]),
+    return this.store.pipe(
+      select(fromStore.getIndex(pageContext)),
+      map(index => index.entities[pageContext.id] || {}),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         if (!attemptedLoad) {
-          this.store.dispatch(new fromStore.LoadPageData(pageContext));
-          // TODO:#1135 - dispatch from here?
           this.store.dispatch(
             new EntityLoadAction(pageContext.type, pageContext.id)
           );
+          // TODO:#1135 - dispatch from the effect of EntityLoadAction
+          this.store.dispatch(new fromStore.LoadPageData(pageContext));
         }
       }),
       tap(entity => {
         if (entity.success) {
-          this.store.dispatch(new fromStore.UpdateLatestPageKey(entity.value));
+          this.store.dispatch(new fromStore.UpdateLatestPageId(entity.value));
         }
       }),
       filter(entity => entity.success || entity.error),
       map(entity => entity.success)
     );
-
-    // TODO:#1135 - delete
-    /*
-    return this.store.pipe(
-      select(fromStore.getPageEntities),
-      map((entities: { [key: string]: Page }) => {
-        console.log(`entities`, entities);
-        let key = pageContext.id + '_' + pageContext.type;
-        console.log(`key: ${key}`);
-        let found = !!entities[key];
-        if (!found) {
-          const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
-            pageContext.type
-          );
-          if (defaultPageIds) {
-            for (let i = 0, len = defaultPageIds.length; i < len; i++) {
-              key = defaultPageIds[i] + '_' + pageContext.type;
-              found =
-                entities[key] &&
-                entities[key].seen.indexOf(pageContext.id) > -1;
-              if (found) {
-                break;
-              }
-            }
-          }
-        }
-        // found page directly from store
-        if (found && tryTimes === 0) {
-          this.store.dispatch(new fromStore.UpdateLatestPageKey(key));
-        }
-        return found;
-      }),
-      tap(found => {
-        // if not found, load this cms page
-        if (!found) {
-          tryTimes = tryTimes + 1;
-          this.store.dispatch(new fromStore.LoadPageData(pageContext));
-        }
-      }),
-      filter(found => found || tryTimes === 3),
-      take(1)
-    );
-    */
   }
 }

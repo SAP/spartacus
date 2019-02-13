@@ -13,8 +13,7 @@ export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
 export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
 export const REFRESH_LATEST_PAGE = '[Cms] Refresh latest page';
-export const UPDATE_LATEST_PAGE_KEY = '[Cms] Update latest page key';
-export const CLEAN_PAGE_STATE = '[Cms] Clean Page State;';
+export const UPDATE_LATEST_PAGE_ID = '[Cms] Update latest page key';
 
 // TODO:#1135 - update test
 export class LoadPageData extends EntityLoadAction {
@@ -44,16 +43,9 @@ export class RefreshLatestPage implements Action {
   readonly type = REFRESH_LATEST_PAGE;
 }
 
-// TODO:#1135 - rename `key` to id.
-export class UpdateLatestPageKey implements Action {
-  // TODO:#1135 - rename `key` to id.
-  readonly type = UPDATE_LATEST_PAGE_KEY;
+export class UpdateLatestPageId implements Action {
+  readonly type = UPDATE_LATEST_PAGE_ID;
   constructor(public payload: string) {}
-}
-
-export class CleanPageState implements Action {
-  readonly type = CLEAN_PAGE_STATE;
-  constructor() {}
 }
 
 // action types
@@ -62,5 +54,4 @@ export type PageAction =
   | LoadPageDataFail
   | LoadPageDataSuccess
   | RefreshLatestPage
-  | UpdateLatestPageKey
-  | CleanPageState;
+  | UpdateLatestPageId;

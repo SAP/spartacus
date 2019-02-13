@@ -78,11 +78,6 @@ export function reducer(
         pageData
       };
     }
-
-    // TODO:#1135 - maybe use the reset functionality?
-    case fromPageData.CLEAN_PAGE_STATE: {
-      return initialState;
-    }
   }
   return state;
 }

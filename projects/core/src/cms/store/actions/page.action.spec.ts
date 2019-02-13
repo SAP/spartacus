@@ -1,7 +1,8 @@
-import * as fromPage from './page.action';
 import { Page } from '../../model/page.model';
 import { PageContext } from '../../../routing/index';
 import { PageType } from '../../../occ/occ-models/index';
+
+import * as fromPage from './page.action';
 
 describe('Cms Page Actions', () => {
   describe('LoadPageData Actions', () => {
@@ -51,9 +52,9 @@ describe('Cms Page Actions', () => {
     describe('Update Latest PageKey', () => {
       it('should create an action', () => {
         const pageKey = '123_2';
-        const action = new fromPage.UpdateLatestPageKey(pageKey);
+        const action = new fromPage.UpdateLatestPageId(pageKey);
         expect({ ...action }).toEqual({
-          type: fromPage.UPDATE_LATEST_PAGE_KEY,
+          type: fromPage.UPDATE_LATEST_PAGE_ID,
           payload: pageKey
         });
       });

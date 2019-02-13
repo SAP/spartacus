@@ -8,7 +8,7 @@ export function latestPageKeyReducer(
   action: fromPageData.PageAction
 ): string {
   switch (action.type) {
-    case fromPageData.UPDATE_LATEST_PAGE_KEY: {
+    case fromPageData.UPDATE_LATEST_PAGE_ID: {
       return action.payload;
     }
   }
