@@ -22,6 +22,7 @@ export interface StandardCmsComponentConfig {
 
 export interface JspIncludeCmsComponentConfig {
   AccountAddressBookComponent?: CmsComponentMapping;
+  ResetPasswordComponent?: CmsComponentMapping;
 }
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
