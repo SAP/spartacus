@@ -12,13 +12,11 @@ import { AddressBookComponentService } from './address-book.component.service';
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;
   addressesLoading$: Observable<boolean>;
-  addressActionProcessing$: Observable<boolean>;
   userId$: Observable<string>;
   isAddAddressFormOpen$: Observable<boolean>;
   isEditAddressFormOpen$: Observable<boolean>;
   isAnyFormOpen$: Observable<boolean>;
-
-  activeAddress: Address;
+  activeAddress$: Observable<Address>;
 
   constructor(public service: AddressBookComponentService) {}
 
@@ -28,6 +26,7 @@ export class AddressBookComponent implements OnInit {
     this.userId$ = this.service.getUserId();
     this.isAddAddressFormOpen$ = this.service.getIsAddAddressFormOpen();
     this.isEditAddressFormOpen$ = this.service.getIsEditAddressFormOpen();
+    this.activeAddress$ = this.service.getActiveAddress();
 
     this.isAnyFormOpen$ = combineLatest(
       this.isAddAddressFormOpen$,
