@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 
 import {
   ProductService,
@@ -25,6 +25,7 @@ export class ProductCarouselService {
   itemSize$: Observable<number>;
 
   constructor(
+    @Optional()
     protected component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService
   ) {}
@@ -32,7 +33,7 @@ export class ProductCarouselService {
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
    */
-  setItems(): Observable<Observable<Product>[]> {
+  getItems(): Observable<Observable<Product>[]> {
     return this.component.data$.pipe(
       map(data => {
         const productCodes = data.productCodes.split(' ');
@@ -47,7 +48,7 @@ export class ProductCarouselService {
    * the items that fit in the carousel.
    * This method is called in `ngOnInit`.
    */
-  setItemSize(window, nativeElement) {
+  getItemSize(window, nativeElement) {
     if (!window) {
       this.itemSize$ = of(MAX_ITEM_SIZE);
       return;
@@ -66,21 +67,24 @@ export class ProductCarouselService {
     );
   }
 
-  async setActiveItem(newActive: number, max: number): Promise<number> {
-    // we wait a little with setting the new active
-    // to make a better animation
-    return new Promise<number>(resolve => {
+  async delay(max: number): Promise<void> {
+    return new Promise<void>(resolve => {
       setTimeout(() => {
-        resolve(newActive);
+        resolve();
       }, (max - 1) * SPEED);
     });
   }
 
-  setPreviousItemAsActive(activeItem: number, max: number): Promise<number> {
-    return this.setActiveItem(activeItem - max, max);
+  async setPreviousItemAsActive(
+    activeItem: number,
+    max: number
+  ): Promise<number> {
+    await this.delay(max);
+    return activeItem + 1;
   }
 
-  setNextItemAsActive(activeItem: number, max: number): Promise<number> {
-    return this.setActiveItem(activeItem + max, max);
+  async setNextItemAsActive(activeItem: number, max: number): Promise<number> {
+    await this.delay(max);
+    return activeItem - 1;
   }
 }

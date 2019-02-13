@@ -37,11 +37,11 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   protected setItems(): void {
-    this.items$ = this.productCarouselService.setItems();
+    this.items$ = this.productCarouselService.getItems();
   }
 
   protected setItemSize(): void {
-    this.itemSize$ = this.productCarouselService.setItemSize(
+    this.itemSize$ = this.productCarouselService.getItemSize(
       this.window,
       this.el.nativeElement
     );
@@ -63,9 +63,7 @@ export class ProductCarouselComponent implements OnInit {
 
   async setActiveItem(newActive: number, max: number) {
     this.activeItem = -1;
-    this.activeItem = await this.productCarouselService.setActiveItem(
-      newActive,
-      max
-    );
+    await this.productCarouselService.delay(max);
+    this.activeItem = newActive;
   }
 }
