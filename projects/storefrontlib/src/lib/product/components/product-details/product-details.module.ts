@@ -16,7 +16,13 @@ import { CartSharedModule } from './../../../cart/cart-shared/cart-shared.module
 import { ComponentsModule } from './../../../ui/components/components.module';
 import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
 import { OutletModule } from '../../../outlet/index';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  ProductService,
+  RoutingService,
+  WindowRef
+} from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -48,6 +54,8 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
     ProductAttributesComponent,
     ProductImagesComponent,
     ProductReviewsComponent
-  ]
+  ],
+  entryComponents: [ProductDetailsComponent],
+  providers: [ProductService, WindowRef, RoutingService]
 })
 export class ProductDetailsModule {}
