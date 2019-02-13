@@ -1,48 +1,36 @@
-<div class="cx-page">
-  <section class="cx-page__section container">
-    <div class="row" *ngIf="(addresses$ | async) as addresses">
-      <div class="col-md-12">
-        <div class="cx-section" *ngIf="(isAnyFormOpen$ | async)">
-          <h1 class="cx-section__title">Address Book</h1>
-          <p class="cx-section__msg">Saved shipping addresses</p>
-          <div>
-            <div class="row">
-              <div class="col-md-6">
-                <button class="btn btn-block btn-action" (click)="addNewAddress()">
-                  Add new address
-                </button>
-              </div>
-            </div>
-            <div class="row cx-address-deck" *ngIf="!(addressesLoading$ | async)">
-              <div *ngFor="let address of addresses" class="col-md-6">
-                <cx-address-card (editEvent)="service.showEditAddressForm(address)" [userId]="userId$ | async"
-                  [address]="address"></cx-address-card>
-              </div>
-            </div>
-            <div class="row" *ngIf="(addressesLoading$ | async)">
-              <div class="col-md-12 cx-address-deck__spinner">
-                <cx-spinner></cx-spinner>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="cx-section" *ngIf="(isAnyFormOpen$ | async)">
-          <h1 class="cx-section__title">Address Book</h1>
-
-          <section #addAddressForm *ngIf="(isAddAddressFormOpen$ | async)">
-            <p>Add a new shipping address</p>
-            <cx-address-form actionBtnLabel="Add address" cancelBtnLabel="Back to address list" [setAsDefaultField]="!(addresses.length === 0)"
-              (addAddress)="service.addUserAddress($event)" (backToAddress)="service.hideAddAddressForm()"></cx-address-form>
-          </section>
-
-          <section #editAddressForm *ngIf="(isEditAddressFormOpen$ | async)">
-            <p>Edit shipping address</p>
-            <cx-address-form actionBtnLabel="Update address" cancelBtnLabel="Back to address list" [addressData]="activeAddress"
-              (addAddress)="service.updateUserAddress(activeAddress['id'], $event)" (backToAddress)="service.hideEditAddressForm()"></cx-address-form>
-          </section>
-        </div>
+<div class="cx-section" *ngIf="!checkIfAnyFormOpen()">
+  <p class="cx-section__msg">Saved shipping addresses</p>
+  <div>
+    <div class="row">
+      <div class="col-md-6">
+        <button class="btn btn-block btn-action" (click)="showAddAddressForm()">
+          Add new address
+        </button>
       </div>
     </div>
+    <div class="row cx-address-deck" *ngIf="!(addressesLoading$ | async)">
+      <div *ngFor="let address of (addresses$ | async)" class="col-md-6">
+        <cx-address-card (editEvent)="showEditAddressForm(address)" [userId]="userId" [address]="address"></cx-address-card>
+      </div>
+    </div>
+    <div class="row" *ngIf="(addressesLoading$ | async)">
+      <div class="col-md-12 cx-address-deck__spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cx-section" *ngIf="checkIfAnyFormOpen()">
+  <section #addAddressForm *ngIf="isAddAddressFormOpen">
+    <p>Add a new shipping address</p>
+    <cx-address-form actionBtnLabel="Add address" cancelBtnLabel="Back to address list" [setAsDefaultField]="!((addresses$ | async).length === 0)"
+      (addAddress)="addUserAddress($event)" (backToAddress)="hideAddAddressForm()"></cx-address-form>
+  </section>
+
+  <section #editAddressForm *ngIf="isEditAddressFormOpen">
+    <p>Edit shipping address</p>
+    <cx-address-form actionBtnLabel="Update address" cancelBtnLabel="Back to address list" [addressData]="activeAddress"
+      (addAddress)="updateUserAddress(activeAddress['id'], $event)" (backToAddress)="hideEditAddressForm()"></cx-address-form>
   </section>
 </div>

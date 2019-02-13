@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DebugElement, Input, Component } from '@angular/core';
+import { DebugElement, Component, Input } from '@angular/core';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
-import { NavigationService } from '../navigation/navigation.service';
-import { CmsService, Component as SpaComponent } from '@spartacus/core';
+import { Component as SpaComponent } from '@spartacus/core';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { of, Observable } from 'rxjs';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 
@@ -18,12 +19,6 @@ class MockNavigationComponent {
   node: NavigationNode;
   @Input()
   dropdownMode: string;
-}
-
-class MockCmsService {
-  getNavigationEntryItems(): Observable<any> {
-    return of();
-  }
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -51,15 +46,17 @@ describe('CategoryNavigationComponent', () => {
     data$: of(componentData)
   };
 
+  const mockNavigationService = {
+    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getComponentData: createSpy().and.returnValue(of(null))
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
-        NavigationService,
-        { provide: CmsService, useClass: MockCmsService },
-        { provide: NavigationService, useValue: {} },
-        { provide: CmsComponentData, useValue: mockCmsComponentData }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));
