@@ -4,9 +4,9 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AuthGuard } from '@spartacus/core';
 
-import { OrderConfirmationModule } from '../../../checkout';
-import { PageLayoutModule } from '../../../cms';
-import { OutletRefModule } from '../../../outlet';
+import { OrderConfirmationModule } from '../../../checkout/index';
+import { PageLayoutModule } from '../../../cms/index';
+import { OutletRefModule } from '../../../outlet/index';
 import { OrderConfirmationPageGuard } from '../../../checkout/guards/order-confirmation-page.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
