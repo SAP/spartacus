@@ -121,7 +121,7 @@ describe('UserService', () => {
 
     let orderList: OrderHistoryList;
     service
-      .getOrderHistoryList()
+      .getOrderHistoryList('', 1)
       .subscribe(data => {
         orderList = data;
       })
@@ -134,9 +134,7 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list loaded flag', () => {
-    store.dispatch(
-      new fromStore.LoadUserOrders({ userId: 'testUserId', pageSize: 10 })
-    );
+    store.dispatch(new fromStore.LoadUserOrdersSuccess({}));
 
     let orderListLoaded: boolean;
     service
@@ -426,5 +424,12 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(regions).toEqual([{ name: 'r1' }, { name: 'r2' }]);
+  });
+
+  it('should be able to clear order list', () => {
+    service.clearOrderList();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearUserOrders()
+    );
   });
 });

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // ContentPage
-import { PageNotFoundModule } from './404/404.module';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
@@ -10,7 +9,6 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
 // ContentPage: my Account Pages
@@ -40,9 +38,8 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ResetNewPasswordPageModule,
+  ResetNewPasswordPageModule
   // new pages should be added above this line
-  PageNotFoundModule
 ];
 
 @NgModule({
@@ -67,6 +64,18 @@ const pageModules = [
         path: null,
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
+        data: { pageLabel: 'sale', cxPath: 'sale' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'contactUs', cxPath: 'contact' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
         data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
       },
       {
@@ -80,6 +89,12 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'orders', cxPath: 'orders' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
       }
     ])
   ]

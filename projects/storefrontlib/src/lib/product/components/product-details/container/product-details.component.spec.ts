@@ -149,6 +149,6 @@ describe('ProductDetailsComponent in product', () => {
       productDetailsComponent.openReview();
       result = productDetailsComponent.isWritingReview;
     });
-    expect(result).toEqual(true);
+    expect(result).toEqual(false);
   });
 });
