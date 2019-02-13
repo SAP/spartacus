@@ -40,6 +40,7 @@ export class AddressBookComponent implements OnInit {
 
     this.service.loadAddresses();
 
+    // testing state changes
     this.addressesStateSuccess$.subscribe((bool: Boolean) => {
       if (bool) {
         console.log(`We have the liftoff!`);
