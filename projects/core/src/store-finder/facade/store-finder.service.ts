@@ -54,17 +54,20 @@ export class StoreFinderService {
    * @param queryText text query
    * @param longitudeLatitude longitude and latitude coordinates
    * @param searchConfig search configuration
+   * @param countryIsoCode country ISO code
    */
   findStoresAction(
     queryText: string,
     longitudeLatitude: LongitudeLatitude,
-    searchConfig: StoreFinderSearchConfig
+    searchConfig: StoreFinderSearchConfig,
+    countryIsoCode?: string
   ) {
     this.store.dispatch(
       new fromStore.FindStores({
         queryText: queryText,
         longitudeLatitude: longitudeLatitude,
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
+        countryIsoCode: countryIsoCode
       })
     );
   }
@@ -82,26 +85,6 @@ export class StoreFinderService {
    */
   viewStoreById(storeId: string) {
     this.clearWatchGeolocation(new fromStore.FindStoreById({ storeId }));
-  }
-
-  /**
-   * View all stores for specified country
-   * @param countryIsoCode country ISO code
-   */
-  viewAllStoresForCountry(countryIsoCode: string) {
-    this.clearWatchGeolocation(
-      new fromStore.FindAllStoresByCountry({ countryIsoCode })
-    );
-  }
-
-  /**
-   * View all stores for specified region
-   * @param regionIsoCode region ISO code
-   */
-  viewAllStoresForRegion(countryIsoCode: string, regionIsoCode: string) {
-    this.clearWatchGeolocation(
-      new fromStore.FindAllStoresByRegion({ countryIsoCode, regionIsoCode })
-    );
   }
 
   /**

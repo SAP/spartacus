@@ -4,11 +4,14 @@
 
 $cx-store-finder-list-item-open: 'success' !default;
 $cx-store-finder-list-item-closed: 'danger' !default;
+$cx-store-finder-list-item-margin: 20px 0 !default;
 
 .cx-store-finder-list-item {
+  margin: $cx-store-finder-list-item-margin;
   &__display-name {
     @include type('6');
     text-decoration: underline;
+    cursor: pointer;
   }
   &__address {
     @include type('7');
