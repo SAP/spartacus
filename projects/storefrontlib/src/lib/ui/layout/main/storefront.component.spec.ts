@@ -16,6 +16,12 @@ class MockHeaderComponent {}
 class MockGlobalMessagerComponent {}
 
 @Component({
+  selector: 'cx-dynamic-slot',
+  template: ''
+})
+class DynamicSlotComponent {}
+
+@Component({
   selector: 'cx-footer',
   template: ''
 })
@@ -32,7 +38,8 @@ describe('StorefrontComponent', () => {
         StorefrontComponent,
         MockHeaderComponent,
         MockGlobalMessagerComponent,
-        MockFooterComponent
+        MockFooterComponent,
+        DynamicSlotComponent
       ]
     }).compileComponents();
   }));
