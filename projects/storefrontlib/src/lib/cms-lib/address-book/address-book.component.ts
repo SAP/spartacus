@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-
 import { ActionsSubject } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 import {
   GlobalMessageService,
@@ -16,8 +16,6 @@ import {
   DELETE_USER_ADDRESS_SUCCESS,
   Address
 } from '@spartacus/core';
-
-import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-address-book',
@@ -62,10 +60,7 @@ export class AddressBookComponent implements OnInit, OnDestroy {
 
   showEditAddressForm(address: Address): void {
     // @TODO: Since we don't get titleCode from API we need to mock it for edit.
-    this.activeAddress = {
-      ...address,
-      titleCode: 'mr'
-    };
+    this.activeAddress = address;
     this.isEditAddressFormOpen = true;
   }
 

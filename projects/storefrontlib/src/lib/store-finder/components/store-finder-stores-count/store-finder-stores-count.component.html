@@ -14,7 +14,10 @@
           {
             route: [
               'storeFinder',
-              { name: 'listStores', params: { country: country.isoCode } }
+              {
+                name: 'listStores',
+                params: { country: country.isoCode }
+              }
             ]
           } | cxTranslateUrl
         "
@@ -42,37 +45,6 @@
           >
         </div>
       </a>
-      <div class="cx-store-finder-list-count__region-set">
-        <ul class="cx-store-finder-list-count__region-directory">
-          <li
-            *ngFor="let region of country?.storeCountDataList"
-            class="cx-store-finder-list-count__directory-item"
-          >
-            <a
-              [routerLink]="
-                {
-                  route: [
-                    'storeFinder',
-                    {
-                      name: 'listStores',
-                      params: {
-                        country: country.isoCode,
-                        region: region.isoCode
-                      }
-                    }
-                  ]
-                } | cxTranslateUrl
-              "
-              class="btn-link cx-store-finder-list-count__item-link"
-            >
-              {{ region.name }}</a
-            >
-            <span class="cx-store-finder-list-count__item-count"
-              >({{ region.count }})</span
-            >
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </ng-container>

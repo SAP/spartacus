@@ -9,6 +9,7 @@ import {
 export const LOAD_USER_ORDERS = '[User] Load User Orders';
 export const LOAD_USER_ORDERS_FAIL = '[User] Load User Orders Fail';
 export const LOAD_USER_ORDERS_SUCCESS = '[User] Load User Orders Success';
+export const CLEAR_USER_ORDERS = '[User] Clear User Orders';
 
 export class LoadUserOrders extends LoaderLoadAction {
   readonly type = LOAD_USER_ORDERS;
@@ -38,7 +39,13 @@ export class LoadUserOrdersSuccess extends LoaderSuccessAction {
   }
 }
 
+export class ClearUserOrders {
+  readonly type = CLEAR_USER_ORDERS;
+  constructor() {}
+}
+
 export type UserOrdersAction =
   | LoadUserOrders
   | LoadUserOrdersFail
-  | LoadUserOrdersSuccess;
+  | LoadUserOrdersSuccess
+  | ClearUserOrders;

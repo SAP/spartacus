@@ -5,5 +5,10 @@
 
 export const environment = {
   production: false,
-  occBaseUrl: ''
+  // occBaseUrl:
+  //   'https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com'
+  occBaseUrl: 'https://dev-com-17.accdemo.b2c.ydev.hybris.com:9002'
 };
+
+// 1. from where to call dispatch an action to update the `latestPageKeyReducer`? Basically from where to call the `latestPageKeyReducer`
+// 1.1 create a new action for this?
