@@ -104,6 +104,5 @@ export class ProductDetailsComponent implements OnChanges, OnInit {
     if (this.reviewHeader.nativeElement) {
       this.reviewHeader.nativeElement.click();
     }
-    this.isWritingReview = true;
   }
 }
