@@ -136,9 +136,7 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list loaded flag', () => {
-    store.dispatch(
-      new fromStore.LoadUserOrders({ userId: 'testUserId', pageSize: 10 })
-    );
+    store.dispatch(new fromStore.LoadUserOrdersSuccess({}));
 
     let orderListLoaded: boolean;
     service
