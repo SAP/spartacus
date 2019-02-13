@@ -87,7 +87,9 @@ describe('StoreFinderGridComponent', () => {
     expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
       '',
       undefined,
-      {},
+      {
+        pageSize: -1
+      },
       countryIsoCode
     );
   });
