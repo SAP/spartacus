@@ -1,4 +1,3 @@
-import { ProductCarouselService } from './product-carousel.service';
 import {
   Component,
   ChangeDetectionStrategy,
@@ -7,7 +6,7 @@ import {
 } from '@angular/core';
 
 import { Product, WindowRef } from '@spartacus/core';
-
+import { ProductCarouselService } from './product-carousel.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -26,7 +25,7 @@ export class ProductCarouselComponent implements OnInit {
   constructor(
     winRef: WindowRef,
     private el: ElementRef,
-    private productCarouselService: ProductCarouselService
+    private service: ProductCarouselService
   ) {
     this.window = winRef.nativeWindow;
   }
@@ -37,25 +36,25 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   protected setItems(): void {
-    this.items$ = this.productCarouselService.getItems();
+    this.items$ = this.service.getItems();
   }
 
   protected setItemSize(): void {
-    this.itemSize$ = this.productCarouselService.getItemSize(
+    this.itemSize$ = this.service.getItemSize(
       this.window,
       this.el.nativeElement
     );
   }
 
   async prev(max) {
-    this.activeItem = await this.productCarouselService.setPreviousItemAsActive(
+    this.activeItem = await this.service.setPreviousItemAsActive(
       this.activeItem,
       max
     );
   }
 
   async next(max) {
-    this.activeItem = await this.productCarouselService.setNextItemAsActive(
+    this.activeItem = await this.service.setNextItemAsActive(
       this.activeItem,
       max
     );
@@ -63,7 +62,7 @@ export class ProductCarouselComponent implements OnInit {
 
   async setActiveItem(newActive: number, max: number) {
     this.activeItem = -1;
-    await this.productCarouselService.delay(max);
+    await this.service.delay(max);
     this.activeItem = newActive;
   }
 }
