@@ -10,7 +10,7 @@ export const defaultStorefrontRoutesTranslations: {
     search: { paths: ['search/:query'] },
     login: { paths: ['login'] },
     register: { paths: ['register'] },
-    resetPassword: { paths: ['reset-new-password/:token'] },
+    resetPassword: { paths: ['login/pw/change'] },
     forgotPassword: { paths: ['reset-password'] },
     checkout: { paths: ['checkout'] },
     orderConfirmation: { paths: ['order-confirmation'] },
