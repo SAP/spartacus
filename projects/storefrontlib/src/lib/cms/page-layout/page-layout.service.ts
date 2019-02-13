@@ -34,6 +34,7 @@ export class PageLayoutService {
           map(page =>
             this.getSlotConfig(page.template, 'slots', section, breakpoint)
           ),
+          filter(Boolean),
           map(config => config.slots)
         )
       ),
@@ -53,6 +54,7 @@ export class PageLayoutService {
               breakpoint
             );
           }),
+          filter(Boolean),
           map(config => config.showTitle)
         )
       ),
