@@ -9,6 +9,7 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
+import { CLEAR_MISCS_DATA } from '../actions';
 import { USER_ORDERS } from '../user-state';
 import * as fromUserOrdersAction from '../actions/user-orders.action';
 import { LoaderResetAction } from '../../../state';
@@ -92,9 +93,9 @@ describe('User Orders effect', () => {
   });
 
   describe('resetUserOrders$', () => {
-    it('should return a reset actiong', () => {
+    it('should return a reset action', () => {
       const action: Action = {
-        type: '[Site-context] Language Change'
+        type: CLEAR_MISCS_DATA
       };
 
       const completion = new LoaderResetAction(USER_ORDERS);

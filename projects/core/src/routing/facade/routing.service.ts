@@ -48,6 +48,14 @@ export class RoutingService {
   }
 
   /**
+   * Navigation using URL
+   * @param url
+   */
+  goByUrl(url: string) {
+    this.store.dispatch(new fromStore.GoByUrl(url));
+  }
+
+  /**
    * Navigating back
    */
   back(): void {

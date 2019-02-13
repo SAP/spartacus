@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
+
 import { Actions, Effect, ofType } from '@ngrx/effects';
+
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 import * as fromAction from '../actions/billing-countries.action';
+import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 
 @Injectable()
 export class BillingCountriesEffect {
   @Effect()
-  loadBillingCountries$: Observable<any> = this.actions$.pipe(
+  loadBillingCountries$: Observable<
+    fromAction.BillingCountriesAction
+  > = this.actions$.pipe(
     ofType(fromAction.LOAD_BILLING_COUNTRIES),
     switchMap(() => {
       return this.occMiscsService.loadBillingCountries().pipe(
