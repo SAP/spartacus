@@ -91,6 +91,12 @@ const pageModules = [
         component: PageLayoutComponent,
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'search', cxPath: 'search' }
       }
     ])
   ]

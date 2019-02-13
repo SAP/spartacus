@@ -14,11 +14,16 @@ import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
 import { MediaModule } from '../../../ui/components/media/media.module';
 import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { UrlTranslationModule } from '@spartacus/core';
+import { UrlTranslationModule, ConfigModule, CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        SearchResultsListComponent: { selector: 'cx-product-list' }
+      }
+    }),
     RouterModule,
     MediaModule,
     BootstrapModule,

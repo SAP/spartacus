@@ -16,12 +16,6 @@ const routes: Routes = [
     path: null,
     canActivate: [CmsPageGuards],
     component: CategoryPageComponent,
-    data: { pageLabel: 'search', cxPath: 'search' }
-  },
-  {
-    path: null,
-    canActivate: [CmsPageGuards],
-    component: CategoryPageComponent,
     data: { cxPath: 'category' }
   },
   {
