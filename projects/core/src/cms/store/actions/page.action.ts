@@ -38,6 +38,7 @@ export class LoadPageDataSuccess extends EntitySuccessAction {
   }
 }
 
+// TODO:#1135 - delete
 export class UpdateLatestPageId implements Action {
   readonly type = UPDATE_LATEST_PAGE_ID;
   constructor(public payload: string) {}

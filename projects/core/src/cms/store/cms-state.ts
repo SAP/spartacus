@@ -27,7 +27,6 @@ export interface NavigationNodes {
 
 export interface PageState {
   pageData: EntityState<Page>;
-  latestPageId: string;
   index: IndexType;
 }
 

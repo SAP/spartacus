@@ -20,7 +20,6 @@ import { NodeItem } from '../../model/node-item.model';
 import { Page } from '../../model/page.model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
-import { latestPageKeyReducer } from './latest-page-key.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
 import { pageDataReducer } from './page-data.reducer';
 
@@ -28,7 +27,6 @@ export function getReducers(): ActionReducerMap<CmsState> {
   return {
     page: combineReducers({
       pageData: entityReducer<Page>(PAGE_DATA_ENTITY, pageDataReducer),
-      latestPageId: latestPageKeyReducer,
       index: combineReducers({
         content: entityLoaderReducer<string>(PageType.CONTENT_PAGE),
         product: entityLoaderReducer<string>(PageType.PRODUCT_PAGE),

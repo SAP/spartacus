@@ -11,7 +11,6 @@ import { PageType } from '../../../occ/occ-models/occ.models';
 
 export const getPageEntitiesSelector = (state: PageState) =>
   state.pageData.entities;
-export const getLatestPageIdSelector = (state: PageState) => state.latestPageId;
 
 export const getPageState: MemoizedSelector<
   StateWithCms,
@@ -52,8 +51,7 @@ export const getIndex = (
           return index.catalog;
         }
       }
-      // TODO:#1135 what to return?
-      return undefined;
+      return { entities: {} };
     }
   );
 
@@ -67,7 +65,7 @@ export const getIndexEntity = (
   );
 
 // TODO:#1135 - test
-export const getPageDataByContext = (
+export const getPageData = (
   pageContext: PageContext
 ): MemoizedSelector<StateWithCms, Page> =>
   createSelector(
@@ -85,31 +83,12 @@ export const getPageEntities: MemoizedSelector<
   getPageEntitiesSelector
 );
 
-export const getLatestPageId: MemoizedSelector<
-  StateWithCms,
-  string
-> = createSelector(
-  getPageState,
-  getLatestPageIdSelector
-);
-
-// TODO:#1135 - delete?
-export const getLatestPage: MemoizedSelector<
-  StateWithCms,
-  Page
-> = createSelector(
-  getPageEntities,
-  getLatestPageId,
-  (entities, id): Page => {
-    return entities[id];
-  }
-);
-
 export const currentSlotSelectorFactory = (
+  pageContext: PageContext,
   position: string
 ): MemoizedSelector<StateWithCms, ContentSlotData> => {
   return createSelector(
-    getLatestPage,
+    getPageData(pageContext),
     entity => {
       if (entity) {
         return entity.slots[position];

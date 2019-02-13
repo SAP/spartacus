@@ -51,7 +51,7 @@ export class CmsService {
       .getPageContext()
       .pipe(
         switchMap(pageContext =>
-          this.store.select(fromStore.getPageDataByContext(pageContext))
+          this.store.select(fromStore.getPageData(pageContext))
         )
       );
   }
@@ -83,9 +83,13 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.store.pipe(
-      select(fromStore.currentSlotSelectorFactory(position)),
-      filter(Boolean)
+    return this.routingService.getPageContext().pipe(
+      switchMap(pageContext =>
+        this.store.pipe(
+          select(fromStore.currentSlotSelectorFactory(pageContext, position)),
+          filter(Boolean)
+        )
+      )
     );
   }
 
