@@ -1,51 +1,7 @@
 @import 'theme';
-@import '../../container/multi-step-checkout.component';
 
 .cx-billing-address-form {
   &.container {
     padding: var(--cx-padding, 1em 0);
   }
-
-  &__title {
-    text-transform: var(--cx-text-transform, uppercase);
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
-  }
-
-  &__body {
-    display: var(--cx-display, flex);
-    align-items: var(--cx-align-items, flex-end);
-    padding: var(--cx-padding, 0 0 1.875rem 0);
-
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: var(--cx-padding, 0);
-      }
-    }
-  }
-
-  &__text {
-    margin: var(--cx-margin, 0 0 1.25rem 0);
-
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0 0 0 3.5rem);
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0 0 0 1.5rem);
-    }
-  }
-
-  &__btns {
-    padding: var(--cx-padding, 0 0 1rem 0);
-  }
-
-  &__card {
-    @include media-breakpoint-down(md) {
-      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
-    }
-  }
-
-  // ***************************** MEDIA QUERIES *****************************
-  @include checkout-media-style();
 }
