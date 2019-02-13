@@ -6,6 +6,7 @@ import { AuthGuard } from '@spartacus/core';
 
 import { OrderConfirmationModule } from '../../../checkout';
 import { PageLayoutModule } from '../../../cms';
+import { OutletRefModule } from '../../../outlet';
 import { OrderConfirmationPageGuard } from '../../../checkout/guards/order-confirmation-page.guard';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 
@@ -25,6 +26,7 @@ const routes: Routes = [
     CommonModule,
     OrderConfirmationModule,
     PageLayoutModule,
+    OutletRefModule,
     RouterModule.forChild(routes)
   ],
   declarations: [OrderConfirmationPageComponent],

@@ -65,6 +65,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     },
     ErrorPageTemplate: {
       slots: ['MiddleContent']
+    },
+    OrderConfirmationPageTemplate: {
+      slots: ['BodyContent', 'SideContent']
     }
   }
 };
