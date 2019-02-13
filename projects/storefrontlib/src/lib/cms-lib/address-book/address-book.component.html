@@ -29,6 +29,7 @@
   <section #addAddressForm *ngIf="isAddAddressFormOpen">
     <p>Add a new shipping address</p>
     <cx-address-form
+      showTitleCode="true"
       actionBtnLabel="Add address"
       cancelBtnLabel="Back to address list"
       [setAsDefaultField]="!((addresses$ | async).length === 0)"
@@ -40,6 +41,7 @@
   <section #editAddressForm *ngIf="isEditAddressFormOpen">
     <p>Edit shipping address</p>
     <cx-address-form
+      showTitleCode="true"
       actionBtnLabel="Update address"
       cancelBtnLabel="Back to address list"
       [addressData]="activeAddress"

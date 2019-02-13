@@ -1,5 +1,5 @@
-import * as fromAction from '../actions/index';
 import { RegionsState } from '../user-state';
+import * as fromAction from '../actions/index';
 import { Region } from '../../../occ/occ-models';
 
 export const initialState: RegionsState = {
