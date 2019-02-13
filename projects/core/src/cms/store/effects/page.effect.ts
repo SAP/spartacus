@@ -28,7 +28,6 @@ export class PageEffects {
   loadPage$: Observable<Action> = this.actions$.pipe(
     ofType(
       pageActions.LOAD_PAGEDATA,
-      pageActions.REFRESH_LATEST_PAGE,
       '[Site-context] Language Change',
       '[Auth] Logout',
       '[Auth] Login'
@@ -36,6 +35,7 @@ export class PageEffects {
     map((action: pageActions.LoadPageData) => action.payload),
     switchMap(pageContext => {
       if (pageContext === undefined) {
+        // TODO:#1135 - use the new method instead
         return this.routingService.getRouterState().pipe(
           filter(routerState => routerState && routerState.state),
           filter(routerState => routerState.state.cmsRequired),
@@ -64,7 +64,6 @@ export class PageEffects {
         const page = this.getPageData(data);
         return [
           new pageActions.LoadPageDataSuccess(page),
-          new pageActions.UpdateLatestPageId(page.pageId),
           new componentActions.GetComponentFromPage(this.getComponents(data)),
           new EntitySuccessAction(pageContext.type, pageContext.id, page.pageId)
         ];

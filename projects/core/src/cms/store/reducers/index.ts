@@ -23,14 +23,10 @@ import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-l
 import { latestPageKeyReducer } from './latest-page-key.reducer';
 import * as fromNavigation from './navigation-entry-item.reducer';
 import { pageDataReducer } from './page-data.reducer';
-import * as fromPage from './page.reducer';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
-    // TODO:#1135 - remove
-    page: fromPage.reducer,
-
-    newPage: combineReducers({
+    page: combineReducers({
       pageData: entityReducer<Page>(PAGE_DATA_ENTITY, pageDataReducer),
       latestPageId: latestPageKeyReducer,
       index: combineReducers({

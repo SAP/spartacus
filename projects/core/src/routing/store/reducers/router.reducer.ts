@@ -123,6 +123,15 @@ export const getRouterState: MemoizedSelector<any, any> = createSelector(
   (state: any) => state[ROUTING_FEATURE]
 );
 
+// TODO:#1135 - test
+export const getPageContext: MemoizedSelector<
+  any,
+  PageContext
+> = createSelector(
+  getRouterState,
+  (routingState: any) => routingState.state.context
+);
+
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
   getRouterState,
   state => state.redirectUrl

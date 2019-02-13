@@ -7,11 +7,13 @@ export const initialState: PageState = {
   index: {} as IndexType
 };
 
+// TODO:#1135 - delete file
 export function reducer(
   state = initialState,
   action: fromPageData.PageAction
 ): PageState {
-  switch (action.type) {
+  switch (
+    action.type
     // TODO:#1135 - delete
     // case fromPageData.UPDATE_LATEST_PAGE_KEY: {
     //   const pageKey = action.payload;
@@ -63,21 +65,23 @@ export function reducer(
     //   };
     // }
 
-    case fromPageData.REFRESH_LATEST_PAGE: {
-      const entities = {
-        ...state.pageData.entities,
-        [state.latestPageId]: null
-      };
-      const pageData = {
-        ...state.pageData,
-        entities
-      };
+    // TODO:#1135 - delete
+    // case fromPageData.REFRESH_LATEST_PAGE: {
+    //   const entities = {
+    //     ...state.pageData.entities,
+    //     [state.latestPageId]: null
+    //   };
+    //   const pageData = {
+    //     ...state.pageData,
+    //     entities
+    //   };
 
-      return {
-        ...state,
-        pageData
-      };
-    }
+    //   return {
+    //     ...state,
+    //     pageData
+    //   };
+    // }
+  ) {
   }
   return state;
 }

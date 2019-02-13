@@ -6,6 +6,7 @@ import { NavigationExtras } from '@angular/router';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
 import { WindowRef } from '../../window/window-ref';
+import { PageContext } from '../models/page-context.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,11 @@ export class RoutingService {
    */
   getRouterState(): Observable<any> {
     return this.store.pipe(select(fromStore.getRouterState));
+  }
+
+  // TODO:#1135 - test
+  getPageContext(): Observable<PageContext> {
+    return this.store.pipe(select(fromStore.getPageContext));
   }
 
   /**

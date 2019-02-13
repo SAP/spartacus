@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
-import { filter, tap, map, withLatestFrom } from 'rxjs/operators';
+import { filter, tap, map, withLatestFrom, switchMap } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import { PageContext } from '../../routing';
+import { PageContext, RoutingService } from '../../routing';
 import { LoaderState, EntityLoadAction } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
@@ -21,8 +21,10 @@ export class CmsService {
   private _launchInSmartEdit = false;
 
   constructor(
-    private store: Store<StateWithCms> // TODO:#1135 - delete?
+    private store: Store<StateWithCms>,
+    private routingService: RoutingService
   ) {
+    // TODO:#1135 - delete?
     // private defaultPageService: DefaultPageService
   }
 
@@ -43,8 +45,15 @@ export class CmsService {
   /**
    * Get current CMS page data
    */
+  // TODO:#1135 - update test
   getCurrentPage(): Observable<Page> {
-    return this.store.pipe(select(fromStore.getLatestPage));
+    return this.routingService
+      .getPageContext()
+      .pipe(
+        switchMap(pageContext =>
+          this.store.select(fromStore.getPageDataByContext(pageContext))
+        )
+      );
   }
 
   /**
@@ -111,7 +120,12 @@ export class CmsService {
    * Refresh the content of the latest cms page
    */
   refreshLatestPage(): void {
-    this.store.dispatch(new fromStore.RefreshLatestPage());
+    this.routingService.getPageContext().pipe(
+      // TODO:#1135 - tap? should we switchMap?
+      tap(pageContext =>
+        this.store.dispatch(new fromStore.LoadPageData(pageContext))
+      )
+    );
   }
 
   /**
@@ -127,10 +141,8 @@ export class CmsService {
    * @param pageContext
    */
   hasPage(pageContext: PageContext): Observable<boolean> {
-    // TODO:#1135 maybe implement three functions: one per cms type
     return this.store.pipe(
-      select(fromStore.getIndex(pageContext)),
-      map(index => index.entities[pageContext.id] || {}),
+      select(fromStore.getIndexEntity(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         if (!attemptedLoad) {

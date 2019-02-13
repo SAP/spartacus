@@ -27,14 +27,12 @@ export interface NavigationNodes {
 
 export interface PageState {
   pageData: EntityState<Page>;
-  latestPageId: string; // TODO:#1135 - subject to be renamed
+  latestPageId: string;
   index: IndexType;
 }
 
 export interface CmsState {
   page: PageState;
-  // TODO:#1135 - rename to `page` and remove the `page` from the line above.
-  newPage: PageState;
   component: ComponentState;
   navigation: EntityLoaderState<NodeItem>;
 }

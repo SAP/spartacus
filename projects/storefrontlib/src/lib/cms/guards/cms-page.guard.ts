@@ -21,8 +21,10 @@ export class CmsPageGuards implements CanActivate {
   }
 
   hasPage(): Observable<boolean> {
+    // TODO:#1135 - use the new method?
     return this.routingService.getRouterState().pipe(
       map(routerState => routerState.state.context),
+      // TODO:#1135 - why take(1)?
       take(1),
       mergeMap(pageContext => this.cmsService.hasPage(pageContext))
     );

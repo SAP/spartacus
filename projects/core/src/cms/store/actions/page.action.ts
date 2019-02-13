@@ -12,7 +12,6 @@ import { PageContext } from '../../../routing/index';
 export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
 export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
-export const REFRESH_LATEST_PAGE = '[Cms] Refresh latest page';
 export const UPDATE_LATEST_PAGE_ID = '[Cms] Update latest page key';
 
 // TODO:#1135 - update test
@@ -39,10 +38,6 @@ export class LoadPageDataSuccess extends EntitySuccessAction {
   }
 }
 
-export class RefreshLatestPage implements Action {
-  readonly type = REFRESH_LATEST_PAGE;
-}
-
 export class UpdateLatestPageId implements Action {
   readonly type = UPDATE_LATEST_PAGE_ID;
   constructor(public payload: string) {}
@@ -53,5 +48,4 @@ export type PageAction =
   | LoadPageData
   | LoadPageDataFail
   | LoadPageDataSuccess
-  | RefreshLatestPage
   | UpdateLatestPageId;
