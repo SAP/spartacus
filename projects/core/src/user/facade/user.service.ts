@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 
 import { Observable } from 'rxjs';
 
+import { OccUserService } from '../occ/user.service';
 import * as fromStore from '../store/index';
 import {
   Order,
@@ -18,7 +19,10 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    private store: Store<fromStore.StateWithUser>,
+    private occUserService: OccUserService
+  ) {}
 
   /**
    * Returns a user
@@ -322,5 +326,9 @@ export class UserService {
    */
   loadBillingCountries() {
     return this.store.dispatch(new fromStore.LoadBillingCountries());
+  }
+
+  requestForgotPasswordEmail(userEmailAddress: string) {
+    this.occUserService.requestForgotPasswordEmail(userEmailAddress);
   }
 }

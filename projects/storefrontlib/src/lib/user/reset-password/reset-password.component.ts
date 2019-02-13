@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
-
+import { UserService } from '@spartacus/core';
 @Component({
   selector: 'cx-reset-password',
   templateUrl: './reset-password.component.html',
@@ -10,7 +10,7 @@ import { CustomFormValidators } from '../../ui/validators/custom-form-validators
 export class ResetPasswordComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private userService: UserService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -18,7 +18,7 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  requestPasswordReset() {
-    // @TODO: Add reset password logic.
+  requestForgotPasswordEmail() {
+    this.userService.requestForgotPasswordEmail(this.form.value.userId);
   }
 }

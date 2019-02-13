@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+
 import { ResetPasswordComponent } from './reset-password.component';
 
 @Pipe({
@@ -49,12 +50,12 @@ describe('ResetPasswordComponent', () => {
     expect(component.form.valid).toBeTruthy();
   });
 
-  it('should requestPasswordReset() to be defined', () => {
-    expect(component.requestPasswordReset).toBeDefined();
+  it('should requestForgotPasswordEmail() to be defined', () => {
+    expect(component.requestForgotPasswordEmail).toBeDefined();
   });
 
-  it('should call requestPasswordReset() method on submit', () => {
-    const request = spyOn(component, 'requestPasswordReset');
+  it('should call requestForgotPasswordEmail() method on submit', () => {
+    const request = spyOn(component, 'requestForgotPasswordEmail');
     userId.setValue('test@test.com');
     fixture.detectChanges();
     form.triggerEventHandler('submit', null);
