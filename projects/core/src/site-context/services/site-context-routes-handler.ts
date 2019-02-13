@@ -39,11 +39,10 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   private subscribeChanges(params: string[]) {
     params.forEach(param => {
-      this.subscription.add(
-        this.siteContextParams
-          .getSiteContextService(param)
-          .getActive()
-          .subscribe(value => {
+      const service = this.siteContextParams.getSiteContextService(param);
+      if (service) {
+        this.subscription.add(
+          service.getActive().subscribe(value => {
             if (
               this.contextValues[param] &&
               this.contextValues[param] !== value
@@ -54,7 +53,8 @@ export class SiteContextRoutesHandler implements OnDestroy {
             }
             this.contextValues[param] = value;
           })
-      );
+        );
+      }
     });
   }
 
