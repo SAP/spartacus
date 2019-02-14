@@ -63,9 +63,13 @@ export class PageEffects {
       mergeMap(data => {
         const page = this.getPageData(data);
         return [
+          new EntitySuccessAction(
+            pageContext.type,
+            pageContext.id,
+            page.pageId
+          ),
           new pageActions.LoadPageDataSuccess(page),
-          new componentActions.GetComponentFromPage(this.getComponents(data)),
-          new EntitySuccessAction(pageContext.type, pageContext.id, page.pageId)
+          new componentActions.GetComponentFromPage(this.getComponents(data))
         ];
       }),
       catchError(error => of(new pageActions.LoadPageDataFail(error)))

@@ -6,10 +6,15 @@ import { StateWithCms, IndexType } from '../cms-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/page.selectors';
-import { EntitySuccessAction } from '../../../state';
+import {
+  EntitySuccessAction,
+  EntityLoaderState,
+  LoaderState
+} from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { CmsComponent, PageType } from '../../../occ/occ-models/index';
+import { PageContext } from 'projects/core/src/routing';
 
 fdescribe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
@@ -36,19 +41,17 @@ fdescribe('Cms PageData Selectors', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  fdescribe('getPageStateIndex', () => {
+  describe('getPageStateIndex', () => {
     it('should return the index part of the state', () => {
-      let result: IndexType;
-
-      store
-        .pipe(select(fromSelectors.getPageStateIndex))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual({});
-
       store.dispatch(
         new EntitySuccessAction(PageType.CONTENT_PAGE, 'homepage', 'value')
       );
+
+      let result: IndexType;
+      store
+        .pipe(select(fromSelectors.getPageStateIndex))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       const expectedResult: IndexType = {
         content: {
@@ -70,20 +73,69 @@ fdescribe('Cms PageData Selectors', () => {
     });
   });
 
-  describe('getPageEntities', () => {
-    it('should return pages as entities', () => {
-      let result: { [key: string]: Page };
+  describe('getIndex', () => {
+    it('should return an index', () => {
+      store.dispatch(
+        new EntitySuccessAction(PageType.CONTENT_PAGE, 'homepage', 'value')
+      );
 
+      const pageContext: PageContext = {
+        id: 'testPageId',
+        type: PageType.CONTENT_PAGE
+      };
+
+      let result: EntityLoaderState<string>;
       store
-        .pipe(select(fromSelectors.getPageEntities))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual({});
-
-      store.dispatch(new fromActions.LoadPageDataSuccess(page));
+        .pipe(select(fromSelectors.getIndex(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({
-        [page.pageId]: page
+        entities: {
+          homepage: {
+            loading: false,
+            error: false,
+            success: true,
+            value: 'value'
+          }
+        }
+      });
+    });
+  });
+
+  fdescribe('getIndexEntity', () => {
+    const pageContext: PageContext = {
+      id: 'testPageId',
+      type: PageType.CONTENT_PAGE
+    };
+
+    it('should retrn an empty object when there is no entity', () => {
+      let result: LoaderState<string>;
+      store
+        .pipe(select(fromSelectors.getIndexEntity(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual({});
+    });
+
+    it('should return an entity from an index', () => {
+      store.dispatch(
+        new EntitySuccessAction(PageType.CONTENT_PAGE, 'homepage', 'value')
+      );
+
+      let result: LoaderState<string>;
+      store
+        .pipe(select(fromSelectors.getIndexEntity(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      console.log(result);
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: true,
+        value: 'value'
       });
     });
   });

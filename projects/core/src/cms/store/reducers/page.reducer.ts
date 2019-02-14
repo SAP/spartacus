@@ -3,7 +3,6 @@ import * as fromPageData from '../actions/page.action';
 
 export const initialState: PageState = {
   pageData: undefined,
-  latestPageId: '',
   index: {} as IndexType
 };
 

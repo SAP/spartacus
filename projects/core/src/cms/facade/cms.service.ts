@@ -2,8 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
-import { filter, tap, map, withLatestFrom, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import {
+  filter,
+  tap,
+  map,
+  withLatestFrom,
+  switchMap,
+  catchError
+} from 'rxjs/operators';
 
 import * as fromStore from '../store';
 import { PageContext, RoutingService } from '../../routing';
@@ -157,13 +164,13 @@ export class CmsService {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
         }
       }),
-      tap(entity => {
-        if (entity.success) {
-          this.store.dispatch(new fromStore.UpdateLatestPageId(entity.value));
-        }
-      }),
       filter(entity => entity.success || entity.error),
-      map(entity => entity.success)
+      map(entity => entity.success),
+      // TODO:#1135 - throw error
+      catchError(error => {
+        console.error(error);
+        return of(false);
+      })
     );
   }
 }

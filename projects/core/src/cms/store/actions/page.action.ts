@@ -1,5 +1,3 @@
-import { Action } from '@ngrx/store';
-
 import { PAGE_DATA_ENTITY } from '../cms-state';
 import {
   EntitySuccessAction,
@@ -12,7 +10,6 @@ import { PageContext } from '../../../routing/index';
 export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
 export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
-export const UPDATE_LATEST_PAGE_ID = '[Cms] Update latest page Id';
 
 // TODO:#1135 - update test
 export class LoadPageData extends EntityLoadAction {
@@ -38,15 +35,5 @@ export class LoadPageDataSuccess extends EntitySuccessAction {
   }
 }
 
-// TODO:#1135 - delete
-export class UpdateLatestPageId implements Action {
-  readonly type = UPDATE_LATEST_PAGE_ID;
-  constructor(public payload: string) {}
-}
-
 // action types
-export type PageAction =
-  | LoadPageData
-  | LoadPageDataFail
-  | LoadPageDataSuccess
-  | UpdateLatestPageId;
+export type PageAction = LoadPageData | LoadPageDataFail | LoadPageDataSuccess;
