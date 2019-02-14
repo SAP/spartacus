@@ -67,19 +67,27 @@ export class ProductCarouselService {
     );
   }
 
-  delay(max: number): Observable<void> {
+  setActiveItemWithDelay(
+    newActiveItem: number,
+    max: number
+  ): Observable<number> {
     return new Observable(observer => {
       setTimeout(() => {
+        observer.next(newActiveItem);
         observer.complete();
       }, (max - 1) * SPEED);
     });
   }
 
   setPreviousItemAsActive(activeItem: number, max: number): Observable<number> {
-    return this.delay(max).pipe(map(() => activeItem + 1));
+    return this.setActiveItemWithDelay(activeItem, max).pipe(
+      map(newActiveItem => newActiveItem + 1)
+    );
   }
 
   setNextItemAsActive(activeItem: number, max: number): Observable<number> {
-    return this.delay(max).pipe(map(() => activeItem - 1));
+    return this.setActiveItemWithDelay(activeItem, max).pipe(
+      map(newActiveItem => newActiveItem - 1)
+    );
   }
 }

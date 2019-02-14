@@ -9,7 +9,7 @@
   <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
     <button
       class="previous"
-      (click)="prev(carousel.max)"
+      (click)="prev(carousel.activeItem, carousel.max)"
       [disabled]="carousel.activeItem === 0"
     ></button>
 
@@ -46,7 +46,7 @@
 
     <button
       class="next"
-      (click)="next(carousel.max)"
+      (click)="next(carousel.activeItem, carousel.max)"
       [disabled]="carousel.activeItem > carousel.products.length - carousel.max"
     ></button>
   </div>

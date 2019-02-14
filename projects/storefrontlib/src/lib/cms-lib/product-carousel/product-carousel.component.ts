@@ -19,7 +19,6 @@ export class ProductCarouselComponent implements OnInit {
   items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
   activeItem$: Observable<number>;
-  activeItem = 0;
 
   private window: Window;
 
@@ -47,18 +46,15 @@ export class ProductCarouselComponent implements OnInit {
     );
   }
 
-  prev(max) {
-    this.activeItem$ = this.service.setPreviousItemAsActive(
-      this.activeItem,
-      max
-    );
+  prev(activeItem: number, max: number) {
+    this.activeItem$ = this.service.setPreviousItemAsActive(activeItem, max);
   }
 
-  next(max) {
-    this.activeItem$ = this.service.setNextItemAsActive(this.activeItem, max);
+  next(activeItem: number, max: number) {
+    this.activeItem$ = this.service.setNextItemAsActive(activeItem, max);
   }
 
-  setActiveItem(newActive: number, max: number) {
-    this.service.delay(max).subscribe(() => (this.activeItem = newActive));
+  setActiveItem(newActiveItem: number, max: number) {
+    this.activeItem$ = this.service.setActiveItemWithDelay(newActiveItem, max);
   }
 }
