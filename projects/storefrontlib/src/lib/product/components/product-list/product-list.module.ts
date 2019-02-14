@@ -26,7 +26,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ProductListComponent: { selector: 'cx-product-list' },
+        CMSProductListComponent: { selector: 'cx-product-list' },
         SearchResultsListComponent: { selector: 'cx-product-list' }
       }
     }),
