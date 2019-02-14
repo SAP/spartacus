@@ -4,9 +4,10 @@ import {
   OnInit,
   OnChanges,
   ChangeDetectionStrategy,
-  SimpleChanges
+  SimpleChanges,
+  OnDestroy
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -22,7 +23,7 @@ import { PageLayoutService } from '../../../../cms/page-layout/page-layout.servi
   styleUrls: ['./product-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductListComponent implements OnChanges, OnInit {
+export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
   @Input()
   gridMode: String;
   @Input()
@@ -39,6 +40,7 @@ export class ProductListComponent implements OnChanges, OnInit {
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
+  subscriptions = new Subscription();
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -88,19 +90,29 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
-    this.categoryCode = this.activatedRoute.params.pipe(
-      map(params => params['categoryCode'])
+    this.subscriptions.add(
+      this.activatedRoute.params
+        .pipe(map(params => params['categoryCode']))
+        .subscribe(categoryCode => (this.categoryCode = categoryCode))
     );
-    this.brandCode = this.activatedRoute.params.pipe(
-      map(params => params['brandCode'])
+    this.subscriptions.add(
+      this.activatedRoute.params
+        .pipe(map(params => params['brandCode']))
+        .subscribe(brandCode => (this.brandCode = brandCode))
     );
-    this.query = this.activatedRoute.params.pipe(
-      map(params => params['query'])
+    this.subscriptions.add(
+      this.activatedRoute.params
+        .pipe(map(params => params['query']))
+        .subscribe(query => (this.query = query))
     );
-    this.pageLayoutService.templateName$.pipe(
-      map(template =>
-        template === 'ProductGridPageTemplate' ? 'grid' : 'list'
-      )
+    this.subscriptions.add(
+      this.pageLayoutService.templateName$
+        .pipe(
+          map(template =>
+            template === 'ProductGridPageTemplate' ? 'grid' : 'list'
+          )
+        )
+        .subscribe(gridMode => (this.gridMode = gridMode))
     );
 
     this.grid = {
@@ -122,13 +134,15 @@ export class ProductListComponent implements OnChanges, OnInit {
     );
   }
 
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   protected getCategoryTitle(data: ProductSearchPage): string {
+    console.log(this.query);
     if (data.breadcrumbs && data.breadcrumbs.length > 0) {
       this.categoryTitle = data.breadcrumbs[0].facetValueName;
-    } else if (
-      typeof this.query === 'string' &&
-      !this.query.includes(':relevance:')
-    ) {
+    } else if (!this.query.includes(':relevance:')) {
       this.categoryTitle = this.query;
     }
     if (this.categoryTitle) {
