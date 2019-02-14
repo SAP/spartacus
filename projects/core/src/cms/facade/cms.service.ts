@@ -9,7 +9,8 @@ import {
   map,
   withLatestFrom,
   switchMap,
-  catchError
+  catchError,
+  take
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -131,12 +132,12 @@ export class CmsService {
    * Refresh the content of the latest cms page
    */
   refreshLatestPage(): void {
-    this.routingService.getPageContext().pipe(
-      // TODO:#1135 - tap? should we switchMap?
-      tap(pageContext =>
+    this.routingService
+      .getPageContext()
+      .pipe(take(1))
+      .subscribe(pageContext =>
         this.store.dispatch(new fromStore.LoadPageData(pageContext))
-      )
-    );
+      );
   }
 
   /**

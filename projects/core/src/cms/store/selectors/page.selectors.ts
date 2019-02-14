@@ -72,7 +72,7 @@ export const getPageData = (
     getPageState,
     getIndexEntity(pageContext),
     (pageState: PageState, entity: LoaderState<string>) =>
-      pageState.pageData[entity.value]
+      pageState.pageData.entities[entity.value]
   );
 
 export const getPageEntities: MemoizedSelector<
