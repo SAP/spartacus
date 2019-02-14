@@ -1,39 +1,32 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/modal';
 
-.cx-suggested-addresses-dialog {
-  &__header {
-    padding: var(--cx-padding, 0 0 0 2rem);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
+.cx-dialog-header {
+  padding: var(--cx-padding, 1rem 1rem 1rem 2rem);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
+.cx-dialog-title {
+  @include type('3');
+}
+.cx-dialog-body {
+  padding: var(--cx-padding, 1rem);
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 15px 0);
   }
-  &__title {
-    @include type('3');
-  }
-  &__body {
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 15px 0);
-    }
-  }
-  &__suggested,
-  &__entered {
-    @include type('7');
-    margin: var(--cx-margin, 0 0 0 0.75rem);
-  }
-  &__label {
-    @include type('5');
-  }
-  &__actions {
-    display: var(--cx-display, flex);
-    flex-direction: var(--cx-flex-direction, row);
-    &__btn {
-      margin: var(--cx-margin, 0 0 0 0.5rem);
-    }
-  }
-  &__btn {
-    display: var(--cx-display, flex);
-    justify-content: var(--cx-justify-content, center);
-    margin: var(--cx-margin, 5rem auto);
-  }
+}
+.cx-dialog-suggested,
+.cx-dialog-entered {
+  @include type('7');
+  margin: var(--cx-margin, 0 0 0 0.75rem);
+}
+.cx-dialog-label {
+  @include type('5');
+}
+.cx-dialog-actions {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, row);
+}
+.cx-dialog-buttons {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
+  margin: var(--cx-margin, 0 0 0 0.5rem);
 }
