@@ -4,7 +4,7 @@ context('Homepage', () => {
   });
 
   it('should display title', () => {
-    expect(cy.title).to.not.equal('');
+    cy.title().should('not.be.empty');
   });
 
   it('should have site logo', () => {
@@ -12,16 +12,14 @@ context('Homepage', () => {
   });
 
   it('should have splash banner', () => {
-    cy.get('picture.ElectronicsHompageSplashBannerComponent').should('exist');
+    cy.get('picture.ElectronicsHompageSplashBannerComponent');
   });
 
   it('should have footer with footer navigation and notice', () => {
-    const footer = cy.get('cx-dynamic-slot.Footer');
-    footer.should('exist');
-    footer.within(() => {
+    cy.get('cx-dynamic-slot.Footer').within(() => {
       cy.get('.navigation-elements').should('have.length', 3);
       cy.get('h1').should('have.length', 3);
-      cy.get('cx-generic-link').should('exist');
+      cy.get('cx-generic-link');
       cy.get('.notice').should(
         'contain',
         'SAP SE or an SAP affiliate company. All rights reserved.'
