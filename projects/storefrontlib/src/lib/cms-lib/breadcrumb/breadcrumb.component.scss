@@ -1,7 +1,7 @@
 :host {
   display: block;
 
-  padding: 25px 0;
+  padding: 20px 0;
   text-align: center;
 
   color: var(--cx-g-color-text, currentcolor);
@@ -9,7 +9,8 @@
 }
 
 nav {
-  font-size: var(--cx-font-size-small, 0.75rem);
+  font-size: var(--cx-font-size-small, 0.85rem);
+  padding: 5px 0;
   a {
     color: var(--cx-g-color-secondary);
   }
