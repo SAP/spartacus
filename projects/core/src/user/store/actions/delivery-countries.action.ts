@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Country } from '../../../occ/occ-models/index';
 
 export const LOAD_DELIVERY_COUNTRIES = '[User] Load Delivery Countries';

@@ -1,14 +1,13 @@
-import * as fromReducer from './billing-countries.reducer';
 import * as fromActions from '../actions/index';
 import { Country } from '../../../occ/occ-models/index';
+
+import * as fromReducer from './billing-countries.reducer';
 
 describe('Billing Countries Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as
-        | fromActions.BillingCountriesAction
-        | fromActions.MiscsDataAction;
+      const action = {} as fromActions.BillingCountriesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);
