@@ -93,6 +93,18 @@ describe('SiteContextUrlSerializer', () => {
 
       expect(result).toEqual(expected);
     });
+
+    it('should extract partial non consecutive context parameters', () => {
+      const result = service.urlExtractContextParameters(
+        '/usd/another/part/of/url'
+      );
+      const expected = {
+        url: 'another/part/of/url',
+        params: { currency: 'usd' }
+      };
+
+      expect(result).toEqual(expected);
+    });
   });
 
   describe('urlTreeExtractContextParameters', () => {

@@ -29,6 +29,14 @@ export class FindStoresEffect {
         .pipe(
           map(data => {
             data.geolocation = payload.longitudeLatitude;
+
+            if (payload.countryIsoCode) {
+              data.stores = data.stores.filter(
+                store =>
+                  store.address.country.isocode === payload.countryIsoCode
+              );
+            }
+
             return new fromAction.FindStoresSuccess(data);
           }),
           catchError(error => of(new fromAction.FindStoresFail(error)))
@@ -45,42 +53,6 @@ export class FindStoresEffect {
         map(data => new fromAction.FindStoreByIdSuccess(data)),
         catchError(error => of(new fromAction.FindStoreByIdFail(error)))
       )
-    )
-  );
-
-  @Effect()
-  findAllStoresByCountry$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.FIND_ALL_STORES_BY_COUNTRY),
-    map((action: fromAction.FindAllStoresByCountry) => action.payload),
-    mergeMap(payload =>
-      this.occStoreFinderService
-        .findStoresByCountry(payload.countryIsoCode)
-        .pipe(
-          map(data => {
-            return new fromAction.FindAllStoresByCountrySuccess(data);
-          }),
-          catchError(error =>
-            of(new fromAction.FindAllStoresByCountryFail(error))
-          )
-        )
-    )
-  );
-
-  @Effect()
-  findAllStoresByRegion$: Observable<any> = this.actions$.pipe(
-    ofType(fromAction.FIND_ALL_STORES_BY_REGION),
-    map((action: fromAction.FindAllStoresByRegion) => action.payload),
-    mergeMap(payload =>
-      this.occStoreFinderService
-        .findStoresByRegion(payload.countryIsoCode, payload.regionIsoCode)
-        .pipe(
-          map(data => {
-            return new fromAction.FindAllStoresByRegionSuccess(data);
-          }),
-          catchError(error =>
-            of(new fromAction.FindAllStoresByRegionFail(error))
-          )
-        )
     )
   );
 }

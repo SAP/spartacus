@@ -72,7 +72,10 @@ export class SiteContextComponentService {
   }
 
   protected getService(context: string) {
-    return this.injector.get<SiteContext<any>>(this.contextServiceMap[context]);
+    return this.injector.get<SiteContext<any>>(
+      this.contextServiceMap[context],
+      null
+    );
   }
 
   protected getOptionLabel(item: any, context?: string) {
