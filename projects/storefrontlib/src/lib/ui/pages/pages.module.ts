@@ -16,9 +16,6 @@ import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payme
 import { OrderHistoryPageModule } from './myaccount/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
-// CategoryPage
-import { CategoryPageModule } from './category-page/category-page.module';
-
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
@@ -29,7 +26,6 @@ import { AuthGuard } from '@spartacus/core';
 
 const pageModules = [
   OrderHistoryPageModule,
-  CategoryPageModule,
   CartPageModule,
   MultiStepCheckoutPageModule,
   OrderDetailsPageModule,
@@ -91,6 +87,24 @@ const pageModules = [
         component: PageLayoutComponent,
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'search', cxPath: 'search' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'category' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'brand' }
       }
     ])
   ]

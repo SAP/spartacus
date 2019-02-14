@@ -2,7 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { UrlTranslationModule, StripHtmlModule } from '@spartacus/core';
+import {
+  UrlTranslationModule,
+  StripHtmlModule,
+  ConfigModule,
+  CmsConfig
+} from '@spartacus/core';
 
 import { BootstrapModule } from '../../../bootstrap.module';
 import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
@@ -19,6 +24,12 @@ import { ProductViewComponent } from './product-view/product-view.component';
 @NgModule({
   imports: [
     CommonModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductListComponent: { selector: 'cx-product-list' },
+        SearchResultsListComponent: { selector: 'cx-product-list' }
+      }
+    }),
     RouterModule,
     MediaModule,
     BootstrapModule,
@@ -39,6 +50,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductListComponent,
     ProductListItemComponent,
     ProductGridItemComponent
-  ]
+  ],
+  entryComponents: [ProductListComponent]
 })
 export class ProductListModule {}
