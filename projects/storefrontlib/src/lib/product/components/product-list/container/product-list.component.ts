@@ -7,13 +7,14 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
+import { tap, filter, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import {
   ProductSearchService,
   ProductSearchPage,
   SearchConfig
 } from '@spartacus/core';
+import { PageLayoutService } from '../../../../cms/page-layout/page-layout.service';
 
 @Component({
   selector: 'cx-product-list',
@@ -41,7 +42,8 @@ export class ProductListComponent implements OnChanges, OnInit {
 
   constructor(
     protected productSearchService: ProductSearchService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private pageLayoutService: PageLayoutService
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
@@ -86,6 +88,21 @@ export class ProductListComponent implements OnChanges, OnInit {
   }
 
   ngOnInit() {
+    this.categoryCode = this.activatedRoute.params.pipe(
+      map(params => params['categoryCode'])
+    );
+    this.brandCode = this.activatedRoute.params.pipe(
+      map(params => params['brandCode'])
+    );
+    this.query = this.activatedRoute.params.pipe(
+      map(params => params['query'])
+    );
+    this.pageLayoutService.templateName$.pipe(
+      map(template =>
+        template === 'ProductGridPageTemplate' ? 'grid' : 'list'
+      )
+    );
+
     this.grid = {
       mode: this.gridMode
     };
@@ -108,7 +125,10 @@ export class ProductListComponent implements OnChanges, OnInit {
   protected getCategoryTitle(data: ProductSearchPage): string {
     if (data.breadcrumbs && data.breadcrumbs.length > 0) {
       this.categoryTitle = data.breadcrumbs[0].facetValueName;
-    } else if (!this.query.includes(':relevance:')) {
+    } else if (
+      typeof this.query === 'string' &&
+      !this.query.includes(':relevance:')
+    ) {
       this.categoryTitle = this.query;
     }
     if (this.categoryTitle) {
