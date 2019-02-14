@@ -67,24 +67,19 @@ export class ProductCarouselService {
     );
   }
 
-  async delay(max: number): Promise<void> {
-    return new Promise<void>(resolve => {
+  delay(max: number): Observable<void> {
+    return new Observable(observer => {
       setTimeout(() => {
-        resolve();
+        observer.complete();
       }, (max - 1) * SPEED);
     });
   }
 
-  async setPreviousItemAsActive(
-    activeItem: number,
-    max: number
-  ): Promise<number> {
-    await this.delay(max);
-    return activeItem + 1;
+  setPreviousItemAsActive(activeItem: number, max: number): Observable<number> {
+    return this.delay(max).pipe(map(() => activeItem + 1));
   }
 
-  async setNextItemAsActive(activeItem: number, max: number): Promise<number> {
-    await this.delay(max);
-    return activeItem - 1;
+  setNextItemAsActive(activeItem: number, max: number): Observable<number> {
+    return this.delay(max).pipe(map(() => activeItem - 1));
   }
 }

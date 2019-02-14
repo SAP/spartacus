@@ -18,6 +18,7 @@ import { Observable } from 'rxjs';
 export class ProductCarouselComponent implements OnInit {
   items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
+  activeItem$: Observable<number>;
   activeItem = 0;
 
   private window: Window;
@@ -46,23 +47,18 @@ export class ProductCarouselComponent implements OnInit {
     );
   }
 
-  async prev(max) {
-    this.activeItem = await this.service.setPreviousItemAsActive(
+  prev(max) {
+    this.activeItem$ = this.service.setPreviousItemAsActive(
       this.activeItem,
       max
     );
   }
 
-  async next(max) {
-    this.activeItem = await this.service.setNextItemAsActive(
-      this.activeItem,
-      max
-    );
+  next(max) {
+    this.activeItem$ = this.service.setNextItemAsActive(this.activeItem, max);
   }
 
-  async setActiveItem(newActive: number, max: number) {
-    this.activeItem = -1;
-    await this.service.delay(max);
-    this.activeItem = newActive;
+  setActiveItem(newActive: number, max: number) {
+    this.service.delay(max).subscribe(() => (this.activeItem = newActive));
   }
 }
