@@ -48,6 +48,7 @@ export class TitleService {
   protected findProductTitle(): Observable<string> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
+      filter(Boolean),
       switchMap(code =>
         this.productService.get(code).pipe(
           filter(Boolean),
