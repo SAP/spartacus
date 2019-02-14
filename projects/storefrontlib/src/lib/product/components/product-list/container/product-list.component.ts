@@ -90,30 +90,23 @@ export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.add(
-      this.activatedRoute.params
-        .pipe(map(params => params['categoryCode']))
-        .subscribe(categoryCode => (this.categoryCode = categoryCode))
-    );
-    this.subscriptions.add(
-      this.activatedRoute.params
-        .pipe(map(params => params['brandCode']))
-        .subscribe(brandCode => (this.brandCode = brandCode))
-    );
-    this.subscriptions.add(
-      this.activatedRoute.params
-        .pipe(map(params => params['query']))
-        .subscribe(query => (this.query = query))
-    );
-    this.subscriptions.add(
-      this.pageLayoutService.templateName$
-        .pipe(
-          map(template =>
-            template === 'ProductGridPageTemplate' ? 'grid' : 'list'
+    this.subscriptions
+      .add(
+        this.activatedRoute.params.subscribe(params => {
+          this.categoryCode = params.categoryCode;
+          this.brandCode = params.brandCode;
+          this.query = params.query;
+        })
+      )
+      .add(
+        this.pageLayoutService.templateName$
+          .pipe(
+            map(template =>
+              template === 'ProductGridPageTemplate' ? 'grid' : 'list'
+            )
           )
-        )
-        .subscribe(gridMode => (this.gridMode = gridMode))
-    );
+          .subscribe(gridMode => (this.gridMode = gridMode))
+      );
 
     this.grid = {
       mode: this.gridMode
