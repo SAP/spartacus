@@ -1,4 +1,4 @@
-import { user, cart, product } from './../sample-data/big-happy-path';
+import { user, cart, product } from '../sample-data/big-happy-path';
 
 context('Big happy path', () => {
   before(() => {
