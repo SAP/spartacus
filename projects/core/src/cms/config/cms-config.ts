@@ -29,6 +29,7 @@ export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
 export interface CmsComponentMapping {
   selector?: string;
   providers?: StaticProvider[];
+  disableSSR?: boolean;
 }
 
 export interface CMSComponentConfig

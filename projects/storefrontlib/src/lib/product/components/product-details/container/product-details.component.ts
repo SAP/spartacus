@@ -89,6 +89,5 @@ export class ProductDetailsComponent implements OnChanges {
     if (this.reviewHeader.nativeElement) {
       this.reviewHeader.nativeElement.click();
     }
-    this.isWritingReview = true;
   }
 }
