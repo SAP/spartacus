@@ -3,9 +3,9 @@
 ## February 13, 2019
 
 Libraries: spartacus/
-* styles 0.1.0-prealpha.TBD
-* core 0.1.0-prealpha.TBD
-* storefront 0.1.0-prealpha.TBD
+* core 0.1.0-prealpha.7
+* storefront 0.1.0-prealpha.9
+* styles 0.1.0-prealpha.15
 
 1. Top bar missing: no language and currency menus, can't use storefinder.
 
@@ -22,8 +22,8 @@ Depending on the server configuration, refreshing the page or trying to go direc
 ## January 14, 2019
 
 Libraries: spartacus/
-* styles 0.1.0-prealpha.7
 * core 0.1.0-prealpha.6
 * storefront 0.1.0-prealpha.13
+* styles 0.1.0-prealpha.7
 
 SmartEdit support has been added. Full functionality of this feature nonetheless requires extensions that will be released in SAP Commerce Cloud 1905.
