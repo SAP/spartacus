@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import {
   CmsService,
   PageType,
   Page,
   ProductService,
   ProductSearchService,
-  RoutingService,
-  ProductSearchPage
+  RoutingService
 } from '@spartacus/core';
 import { switchMap, filter, map } from 'rxjs/operators';
 
@@ -23,19 +22,19 @@ export class TitleService {
   ) {}
 
   get title$(): Observable<string> {
-    // content page: take what we have
-    // search page: "171 results for eos"
-    // prod list / category page: show: "4 results for Webcams"
-    // pdp: product title
     return this.page$.pipe(
       switchMap((page: Page) => {
         switch (page.type) {
           case PageType.PRODUCT_PAGE:
-            return this.findProductTitle();
+            return this.productTitle$;
           case PageType.CATEGORY_PAGE:
-            return this.findCategoryTitle();
-          default:
-            return of(page.title);
+            return this.categoryTitle$;
+          case PageType.CONTENT_PAGE:
+            if (page.template === 'SearchResultsListPageTemplate') {
+              return this.searchResultTitle$;
+            } else {
+              return of(page.title);
+            }
         }
       })
     );
@@ -45,7 +44,7 @@ export class TitleService {
     return this.cms.getCurrentPage().pipe(filter(Boolean));
   }
 
-  protected findProductTitle(): Observable<string> {
+  protected get productTitle$(): Observable<string> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
       filter(Boolean),
@@ -58,24 +57,32 @@ export class TitleService {
     );
   }
 
-  protected findCategoryTitle(): Observable<string> {
-    return this.productSearchService
-      .getSearchResults()
-      .pipe(map((r: ProductSearchPage) => this.getCategoryTitle(r)));
+  protected get categoryTitle$(): Observable<string> {
+    return this.productSearchService.getSearchResults().pipe(
+      filter(data => !!(data.breadcrumbs && data.breadcrumbs.length > 0)),
+      map(data => {
+        return [data.pagination.totalPages, data.breadcrumbs[0].facetValueName];
+      }),
+      map(([count, query]: [number, string]) =>
+        this.getSearchResultTitle(count, query)
+      )
+    );
   }
 
-  protected getCategoryTitle(data: ProductSearchPage): string {
-    let title = '';
-    if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-      title = data.breadcrumbs[0].facetValueName;
-    }
-    // else if (!this.query.includes(':relevance:')) {
-    //   title = this.query;
-    // }
-    if (title) {
-      title = data.pagination.totalResults + ' results for ' + title;
-    }
+  protected get searchResultTitle$(): Observable<string> {
+    return combineLatest(
+      this.productSearchService.getSearchResults().pipe(
+        filter(data => !!(data && data.pagination)),
+        map(results => results.pagination.totalResults)
+      ),
+      this.routingService.getRouterState().pipe(
+        map(state => state.state.params['query']),
+        filter(Boolean)
+      )
+    ).pipe(map(([t, q]: [number, string]) => this.getSearchResultTitle(t, q)));
+  }
 
-    return title;
+  protected getSearchResultTitle(total: number, part: string) {
+    return `${total} results for "${part}"`;
   }
 }
