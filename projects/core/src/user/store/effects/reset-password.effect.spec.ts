@@ -46,7 +46,7 @@ describe('', () => {
       });
       const completion1 = new fromActions.ResetPasswordSuccess();
       const completion2 = new AddMessage({
-        text: 'Password Reset Successfully',
+        text: 'Success! You can now login using your new password.',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION
       });
 
