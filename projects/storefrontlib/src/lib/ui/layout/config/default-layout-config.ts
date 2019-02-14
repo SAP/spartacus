@@ -39,7 +39,6 @@ export const defaultLayoutConfig: LayoutConfig = {
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
-        'BottomHeaderSlot',
         'VariantSelectorSlot',
         'AddToCart',
         'UpSelling',
