@@ -4,7 +4,11 @@ import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
+import { UserService } from '@spartacus/core';
+
 import { ResetPasswordComponent } from './reset-password.component';
+
+class MockUserService {}
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -23,7 +27,8 @@ describe('ResetPasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetPasswordComponent, MockTranslateUrlPipe]
+      declarations: [ResetPasswordComponent, MockTranslateUrlPipe],
+      providers: [{ provide: UserService, useClass: MockUserService }]
     }).compileComponents();
   }));
 
