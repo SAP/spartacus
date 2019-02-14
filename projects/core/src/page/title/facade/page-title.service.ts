@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 
 import { CmsService, Page } from '../../../cms/index';
-import { switchMap, filter, tap } from 'rxjs/operators';
+import { switchMap, filter } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { PageTitleResolver } from './page-title.resolver';
 

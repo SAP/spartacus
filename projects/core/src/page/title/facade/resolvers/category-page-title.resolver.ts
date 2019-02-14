@@ -4,8 +4,11 @@ import { RoutingService } from 'projects/core/src/routing';
 import { map, filter } from 'rxjs/operators';
 import { ProductSearchService } from 'projects/core/src/product';
 
-import { Page } from '../../../cms/model/page.model';
-import { PageType, PaginationModel } from '../../../occ/occ-models/occ.models';
+import { Page } from '../../../../cms/model/page.model';
+import {
+  PageType,
+  PaginationModel
+} from '../../../../occ/occ-models/occ.models';
 import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({

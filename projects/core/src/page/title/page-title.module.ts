@@ -8,7 +8,7 @@ import {
 } from './facade/index';
 
 import { PageTitleService } from './facade/page-title.service';
-import { PageTitleResolver } from './facade/page-title.resolver';
+import { PageTitleResolver } from './facade/resolvers/page-title.resolver';
 
 @NgModule({
   imports: [],
