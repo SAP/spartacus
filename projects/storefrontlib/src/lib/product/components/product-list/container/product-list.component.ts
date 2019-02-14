@@ -132,7 +132,6 @@ export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   protected getCategoryTitle(data: ProductSearchPage): string {
-    console.log(this.query);
     if (data.breadcrumbs && data.breadcrumbs.length > 0) {
       this.categoryTitle = data.breadcrumbs[0].facetValueName;
     } else if (!this.query.includes(':relevance:')) {
