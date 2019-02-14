@@ -434,4 +434,14 @@ describe('UserService', () => {
       new fromStore.ClearUserOrders()
     );
   });
+
+  it('should be able to reset password', () => {
+    service.resetPassword('test token', 'test password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ResetPassword({
+        token: 'test token',
+        password: 'test password'
+      })
+    );
+  });
 });

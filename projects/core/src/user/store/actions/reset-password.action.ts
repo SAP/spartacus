@@ -16,7 +16,6 @@ export class ResetPasswordFail implements Action {
 
 export class ResetPasswordSuccess implements Action {
   readonly type = RESET_PASSWORD_SUCCESS;
-  constructor(public payload: any) {}
 }
 
 export type ResetPasswordAction =

@@ -13,7 +13,9 @@ import { GlobalMessageType, AddMessage } from '../../../global-message/index';
 export class ResetPasswordEffects {
   @Effect()
   resetPassword$: Observable<
-    AddMessage | fromActions.ResetPasswordFail
+    | fromActions.ResetPasswordSuccess
+    | AddMessage
+    | fromActions.ResetPasswordFail
   > = this.actions$.pipe(
     ofType(fromActions.RESET_PASSWORD),
     map((action: fromActions.ResetPassword) => {
@@ -21,12 +23,13 @@ export class ResetPasswordEffects {
     }),
     switchMap(({ token, password }) => {
       return this.occUserService.resetPassword(token, password).pipe(
-        map(() => {
-          return new AddMessage({
+        switchMap(() => [
+          new fromActions.ResetPasswordSuccess(),
+          new AddMessage({
             text: 'Password Reset Successfully',
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-          });
-        }),
+          })
+        ]),
         catchError(error => of(new fromActions.ResetPasswordFail(error)))
       );
     })
