@@ -9,7 +9,7 @@ import {
   RoutingService,
   ProductSearchPage
 } from '@spartacus/core';
-import { switchMap, filter, map, tap } from 'rxjs/operators';
+import { switchMap, filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
