@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { CmsBreadcrumbsComponent } from '@spartacus/core';
 import { CmsComponentData } from './../../cms/components/cms-component-data';
 
-import { TitleService } from './title.service';
+import { PageTitleService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-breadcrumb',
@@ -14,7 +14,7 @@ import { TitleService } from './title.service';
 export class BreadcrumbComponent {
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
-    protected titleService: TitleService
+    protected pageTitleService: PageTitleService
   ) {}
 
   get crumbs$(): Observable<any[]> {
@@ -25,6 +25,6 @@ export class BreadcrumbComponent {
   }
 
   get title$(): Observable<string> {
-    return this.titleService.title$;
+    return this.pageTitleService.resolve();
   }
 }
