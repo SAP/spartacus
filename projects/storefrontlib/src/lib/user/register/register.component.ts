@@ -12,11 +12,13 @@ import {
   Title,
   UserService,
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
+  UserRegisterFormData,
+  GlobalMessageEntities
 } from '@spartacus/core';
 
-import { Observable, Subscription, of } from 'rxjs';
-import { take, tap, switchMap } from 'rxjs/operators';
+import { Subscription, of, Observable } from 'rxjs';
+import { take, switchMap, tap, filter } from 'rxjs/operators';
 
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
@@ -30,7 +32,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   userRegistrationForm: FormGroup = this.fb.group(
     {
-      titleCode: ['', Validators.required],
+      titleCode: [''],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
@@ -61,7 +63,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
         }
       })
     );
-
     this.subscription = this.auth
       .getUserToken()
       .pipe(
@@ -86,14 +87,40 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.userService.register(
-      this.userRegistrationForm.value.titleCode,
-      this.userRegistrationForm.value.firstName,
-      this.userRegistrationForm.value.lastName,
-      this.userRegistrationForm.value.email,
-      this.userRegistrationForm.value.password
-    );
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      titleCode
+    } = this.userRegistrationForm.value;
+    const userRegisterFormData: UserRegisterFormData = {
+      firstName,
+      lastName,
+      uid: email,
+      password,
+      titleCode
+    };
+    this.userService.register(userRegisterFormData);
+    // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+    this.globalMessageService
+      .get()
+      .pipe(filter(data => Object.keys(data).length > 0))
+      .subscribe((globalMessageEntities: GlobalMessageEntities) => {
+        if (
+          globalMessageEntities[GlobalMessageType.MSG_TYPE_ERROR].some(
+            message => message === 'This field is required.'
+          )
+        ) {
+          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          this.globalMessageService.add({
+            type: GlobalMessageType.MSG_TYPE_ERROR,
+            text: 'Title is required.'
+          });
+        }
+      });
   }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
