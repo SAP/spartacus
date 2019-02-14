@@ -42,7 +42,7 @@ context('Big happy path', () => {
   });
 
   it('should fill in address form', () => {
-    cy.get('.cx-shipping-address__title').should('contain', 'Shipping Address');
+    cy.get('.cx-shipping-address-title').should('contain', 'Shipping Address');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
       .first()
       .find('.cx-summary-amount')
