@@ -5,7 +5,7 @@ import { map, filter } from 'rxjs/operators';
 import { ProductSearchService } from 'projects/core/src/product';
 
 import { Page } from '../../../cms/model/page.model';
-import { PageType } from '../../../occ/occ-models/occ.models';
+import { PageType, PaginationModel } from '../../../occ/occ-models/occ.models';
 import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({
@@ -27,18 +27,12 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
     return this.productSearchService.getSearchResults().pipe(
       filter(data => !!(data.breadcrumbs && data.breadcrumbs.length > 0)),
       map(data => {
-        return [
-          data.pagination.totalResults,
-          data.breadcrumbs[0].facetValueName
-        ];
+        return [data.pagination, data.breadcrumbs[0].facetValueName];
       }),
-      map(([count, query]: [number, string]) =>
-        this.getSearchResultTitle(count, query)
+      map(
+        ([pagination, category]: [PaginationModel, string]) =>
+          `${pagination.totalResults} results for ${category}`
       )
     );
-  }
-
-  protected getSearchResultTitle(total: number, part: string) {
-    return `${total} results for "${part}"`;
   }
 }
