@@ -67,7 +67,7 @@ context('Big happy path', () => {
   });
 
   it('should review and place order', () => {
-    cy.get('.cx-review__title').should('contain', 'Review');
+    cy.get('.cx-review-title').should('contain', 'Review');
     cy.getByText('Ship To')
       .parentsUntil('cx-card')
       .find('.cx-card-body__container')
