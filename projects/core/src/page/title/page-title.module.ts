@@ -8,18 +8,11 @@ import {
   CheckoutPageTitleResolver
 } from './facade/index';
 
-import { PageTitleService } from './facade/page-title.service';
 import { PageTitleResolver } from './facade/page-title.resolver';
 
 @NgModule({
   imports: [],
   providers: [
-    PageTitleService,
-    ProductPageTitleResolver,
-    CategoryPageTitleResolver,
-    ContentPageTitleResolver,
-    SearchPageTitleResolver,
-    CategoryPageTitleResolver,
     {
       provide: PageTitleResolver,
       useExisting: ProductPageTitleResolver,
