@@ -1,56 +1,51 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-// cx-delivery-mode color variables
-$cx-delivery-mode-form-media-background-color: 'background' !default;
-$cx-delivery-mode-form-label-details-color: 'success' !default;
-
-// cx-delivery-mode variables
-$cx-delivery-mode-form-no-padding: 0 !default;
-$cx-delivery-mode-form-margin: 0 auto 0 0.75rem !default;
-$cx-delivery-mode-form-title-margin: 0 auto !default;
-$cx-delivery-mode-form-title-padding: 2.375rem 0 1.75rem 0 !default;
-
-.cx-delivery-mode-form {
+.cx-delivery {
   &.container {
-    padding: $cx-delivery-mode-form-no-padding;
+    padding: var(--cx-padding, 0);
   }
-
-  &__title {
-    text-transform: uppercase;
-    margin: $cx-delivery-mode-form-title-margin;
-    padding: $cx-delivery-mode-form-title-padding;
-  }
-
-  &__label {
-    padding: $cx-delivery-mode-form-no-padding;
-    margin: $cx-delivery-mode-form-margin;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    &--shipping-mode {
-      flex: 50%;
-    }
-    &--price {
-      flex: 50%;
-      text-align: right;
-    }
-    &--details {
-      flex: 100%;
-      @include var-color('color', $cx-delivery-mode-form-label-details-color);
-    }
-  }
-
-  .form-check {
-    display: flex;
-  }
-
-  // ***************************** MEDIA QUERIES *****************************
-
   @include checkout-media-style();
+}
+
+.cx-delivery-title {
+  text-transform: var(--cx-text-transform, uppercase);
+  margin: var(--cx-margin, 0 auto);
+  padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
+}
+
+.cx-delivery-label {
+  padding: var(--cx-padding, 0);
+  margin: var(--cx-margin, 0 auto 0 0.75rem);
+  width: var(--cx-width, 100%);
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, row);
+  justify-content: var(--cx-space-justify-content, space-between);
+  flex-wrap: var(--cx-flex-wrap, wrap);
+
+  .cx-delivery-shipping {
+    flex: var(--cx-flex, 50%);
+  }
+
+  .cx-delivery-price {
+    flex: var(--cx-flex, 50%);
+    text-align: var(--cx-text-align, right);
+  }
+
+  .cx-delivery-details {
+    flex: var(--cx-flex, 100%);
+    color: var(--cx-color, var(--cx-g-color-success));
+  }
+}
+
+.cx-btns {
+  .btn-action {
+    @include media-breakpoint-down(sm) {
+      margin-bottom: var(--cx-margin, 1rem);
+    }
+  }
+}
+
+.form-check {
+  display: var(--cx-display, flex);
 }
