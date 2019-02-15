@@ -50,15 +50,13 @@ context('Product search', () => {
 
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
-      cy.get(
-        'cx-product-facet-navigation .cx-search-facet-checkbox:first'
-      ).click();
+      cy.get('cx-product-facet-navigation .cx-facet-checkbox:first').click();
       cy.get(resultsTitleSelector).should('contain', '79 results for Chiba');
     });
 
     it('should be able to clear active facet', () => {
       cy.get(
-        'cx-product-facet-navigation .cx-search-facet-filter__pill .close:first'
+        'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
       ).click();
       cy.get(resultsTitleSelector).should('contain', 'results for camera');
     });
