@@ -1,132 +1,40 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/card';
 @import '../../container/multi-step-checkout.component';
 
-// cx-payment-form color variables
-$cx-payment-form-media-background-color: 'background' !default;
-$cx-payment-form-tooltip-icon-text-color: $inverse !default;
-$cx-payment-form-card-background-color: $inverse !default;
-// cx-payment-form  variables
-$cx-payment-form-no-padding: 0 !default;
-$cx-payment-form-no-margin: 0 !default;
-$cx-payment-form-header-margin: 0 auto !default;
-$cx-payment-form-header-padding: 2.375rem 0 1.25rem 0 !default;
-$cx-payment-form-header-title-margin-bottom: 0 !default;
-$cx-payment-form-header-image-margin-left: 1rem !default;
-$cx-payment-form-tooltip-icon-margin-left: 0.625rem !default;
-$cx-payment-form-tooltip-icon-size: 1.125rem !default;
-$cx-payment-form-billing-margin-bottom: 1.25rem !default;
-$cx-payment-form-billing-address-padding: 0.875rem 0 1.25rem 0 !default;
-$cx-payment-form-img-margin: 0 1rem 1.25rem 0 !default;
-$cx-payment-form-title-margin: 0 auto !default;
-$cx-payment-form-title-padding: 2.375rem 0 1.75rem 0 !default;
-$cx-payment-form-body-padding-bottom: 1.875rem !default;
-// Media Queries
-$cx-payment-form-text-md-padding-left: 3.5rem !default;
-$cx-payment-form-text-sm-padding-left: 1.5rem !default;
-$cx-payment-form-text-md-padding-left: 3.5rem !default;
-$cx-payment-form-header-image-md-margin-right: 1rem !default;
-$cx-payment-form-header-image-md-margin-left: 0 !default;
-$cx-payment-form-btns-margin-bottom: 1rem !default;
 .cx-payment-form {
   &.container {
-    padding: 0;
+    padding: var(--cx-padding, 0);
   }
-  &__header {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin: $cx-payment-form-header-margin;
-    padding: $cx-payment-form-header-padding;
-    &-title {
-      text-transform: uppercase;
-      margin-bottom: $cx-payment-form-header-title-margin-bottom;
-    }
-    &-image {
-      margin-left: $cx-payment-form-header-image-margin-left;
-    }
+  .cx-payment-form-tooltip {
+    margin: var(--cx-margin, 0 0 0 0.625rem);
+    height: var(--cx-height, 1.125rem);
+    width: var(--cx-width, 1.125rem);
   }
-  &__tooltip-icon {
-    margin-left: $cx-payment-form-tooltip-icon-margin-left;
-    height: $cx-payment-form-tooltip-icon-size;
-    width: $cx-payment-form-tooltip-icon-size;
+  .cx-payment-form-billing {
+    margin: var(--cx-margin, 0 0 1.25rem 0);
   }
-  &__billing {
-    margin-bottom: $cx-payment-form-billing-margin-bottom;
-    &-address {
-      @include type('4');
-      padding: $cx-payment-form-billing-address-padding;
-    }
+
+  .cx-payment-form-billing-address {
+    @include type('4');
+    padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
   }
-  &__img {
-    margin: $cx-payment-form-img-margin;
-    &-container {
-      display: flex;
-    }
+
+  .cx-payment-form-exp-date {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+    flex-wrap: var(--cx-flex-wrap, nowrap);
   }
+
   .form-check {
-    margin: $cx-payment-form-no-margin;
+    margin: var(--cx-margin, 0);
   }
-  .form-group {
-    &__exp-date {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-    }
-  }
-  &__title {
-    text-transform: uppercase;
-    margin: $cx-payment-form-title-margin;
-    padding: $cx-payment-form-title-padding;
-  }
-  &__body {
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: $cx-payment-form-body-padding-bottom;
-  }
+
   // ***************************** MEDIA QUERIES *****************************
   @include checkout-media-style();
-  &__body {
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: $cx-payment-form-no-padding;
-      }
-    }
-  }
-  &__text {
+
+  .row {
     @include media-breakpoint-down(md) {
-      padding-left: $cx-payment-form-text-md-padding-left;
-    }
-    @include media-breakpoint-down(sm) {
-      padding-left: $cx-payment-form-text-sm-padding-left;
-    }
-  }
-  &__header {
-    @include media-breakpoint-down(md) {
-      padding: $cx-payment-form-no-padding;
-    }
-    &-image {
-      @include media-breakpoint-down(md) {
-        margin-right: $cx-payment-form-header-image-md-margin-right;
-        margin-left: $cx-payment-form-header-image-md-margin-left;
-      }
-    }
-  }
-  &__card {
-    @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $cx-payment-form-card-background-color
-      );
-    }
-  }
-  &__btns {
-    .btn-action {
-      @include media-breakpoint-down(sm) {
-        margin-bottom: $cx-payment-form-btns-margin-bottom;
-      }
+      padding: var(--cx-padding, 0);
     }
   }
 }
