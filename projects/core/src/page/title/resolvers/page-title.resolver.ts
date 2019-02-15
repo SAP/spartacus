@@ -1,4 +1,4 @@
-import { Page } from '../../../cms/index';
+import { Page } from '../../../cms';
 import { Observable } from 'rxjs';
 
 export abstract class PageTitleResolver {

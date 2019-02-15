@@ -1,2 +1,3 @@
-export * from './facade/index';
+export * from './facade';
 export * from './page-title.module';
+export * from './resolvers';

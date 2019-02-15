@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { RoutingService } from '../../../../routing/index';
-import { ProductSearchService } from '../../../../product/index';
-import { Page } from '../../../../cms/index';
-import { PageType } from '../../../../occ/index';
-import { PageTitleResolver } from '../page-title.resolver';
+import { RoutingService } from '../../../routing';
+import { ProductSearchService } from '../../../product';
+import { Page } from '../../../cms';
+import { PageType } from '../../../occ';
+import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({
   providedIn: 'root'

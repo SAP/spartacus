@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RoutingService } from '../../../../routing/index';
-import { Page } from '../../../../cms/index';
-import { PageType } from '../../../../occ/index';
-import { CartService } from '../../../../cart/index';
-import { PageTitleResolver } from '../page-title.resolver';
+import { RoutingService } from '../../../routing';
+import { Page } from '../../../cms';
+import { PageType } from '../../../occ';
+import { CartService } from '../../../cart';
+import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({
   providedIn: 'root'

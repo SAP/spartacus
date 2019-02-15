@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { RoutingService } from '../../../../routing/index';
-import { ProductSearchService } from '../../../../product/index';
-import { Page } from '../../../../cms/index';
+import { RoutingService } from '../../../routing';
+import { ProductSearchService } from '../../../product';
+import { Page } from '../../../cms';
 
-import {
-  PageType,
-  PaginationModel
-} from '../../../../occ/occ-models/occ.models';
-import { PageTitleResolver } from '../page-title.resolver';
+import { PageType, PaginationModel } from '../../../occ';
+import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({
   providedIn: 'root'

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-import { CmsService, Page } from '../../../../cms/index';
-import { PageType } from '../../../../occ/index';
-import { PageTitleResolver } from '../page-title.resolver';
+import { CmsService, Page } from '../../../cms';
+import { PageType } from '../../../occ';
+import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({
   providedIn: 'root'

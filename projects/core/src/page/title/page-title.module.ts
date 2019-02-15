@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 
+import { PageTitleResolver } from './resolvers/page-title.resolver';
 import {
-  ContentPageTitleResolver,
-  CategoryPageTitleResolver,
   ProductPageTitleResolver,
+  CategoryPageTitleResolver,
+  ContentPageTitleResolver,
   SearchPageTitleResolver,
   CheckoutPageTitleResolver
-} from './facade/index';
-
-import { PageTitleResolver } from './facade/page-title.resolver';
+} from './resolvers';
 
 @NgModule({
   imports: [],
