@@ -1,11 +1,12 @@
 import { BootstrapModule } from '../../bootstrap.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NavigationModule } from '../navigation/navigation.module';
 
+import { ConfigModule, CmsConfig, CmsService } from '@spartacus/core';
+import { NavigationModule } from '../navigation/navigation.module';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { ConfigModule } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @NgModule({
   imports: [
@@ -14,7 +15,16 @@ import { CmsConfig } from '@spartacus/core';
     BootstrapModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CategoryNavigationComponent: { selector: 'cx-category-navigation' }
+        CategoryNavigationComponent: {
+          selector: 'cx-category-navigation',
+          providers: [
+            {
+              provide: NavigationComponentService,
+              useClass: NavigationComponentService,
+              deps: [CmsService, CmsComponentData]
+            }
+          ]
+        }
       }
     })
   ],

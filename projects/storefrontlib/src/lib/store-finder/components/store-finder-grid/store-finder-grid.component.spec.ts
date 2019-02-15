@@ -32,10 +32,11 @@ const mockActivatedRoute = {
 };
 
 const mockStoreFinderService = {
-  viewAllStoresForCountry: jasmine.createSpy(),
-  viewAllStoresForRegion: jasmine.createSpy(),
   getStoresLoading: jasmine.createSpy(),
-  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable))
+  getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
+  getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
+  findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
+  getViewAllStoresLoading: jasmine.createSpy()
 };
 
 @Pipe({
@@ -83,7 +84,12 @@ describe('StoreFinderGridComponent', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-    expect(storeFinderService.viewAllStoresForCountry).toHaveBeenCalledWith(
+    expect(storeFinderService.findStoresAction).toHaveBeenCalledWith(
+      '',
+      undefined,
+      {
+        pageSize: -1
+      },
       countryIsoCode
     );
   });
@@ -96,34 +102,6 @@ describe('StoreFinderGridComponent', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-  });
-
-  it('should route when viewStore is called with region', () => {
-    route.snapshot.params = {
-      country: countryIsoCode,
-      region: regionIsoCode
-    };
-    fixture.detectChanges();
-
-    component.viewStore(location);
-
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      route: [
-        'storeFinder',
-        {
-          name: 'storeDescription',
-          params: {
-            country: countryIsoCode,
-            region: regionIsoCode,
-            store: location.name
-          }
-        }
-      ]
-    });
-    expect(storeFinderService.viewAllStoresForRegion).toHaveBeenCalledWith(
-      countryIsoCode,
-      regionIsoCode
-    );
   });
 
   it('should route when viewStore is called without region', () => {

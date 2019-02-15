@@ -1,28 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
-import { ProductListComponent } from './product-list.component';
-import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
-import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
-import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import {
-  ProductViewComponent,
-  ViewModes
-} from '../product-view/product-view.component';
-import {
-  NgbCollapseModule,
-  NgbPaginationModule,
-  NgbRatingModule
-} from '@ng-bootstrap/ng-bootstrap';
-import { StarRatingComponent } from '../../../../ui';
 import { FormsModule } from '@angular/forms';
-import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
-import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import {
   Component,
   Input,
@@ -31,7 +9,33 @@ import {
   SimpleChange
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import {
+  NgbCollapseModule,
+  NgbPaginationModule,
+  NgbRatingModule
+} from '@ng-bootstrap/ng-bootstrap';
+
 import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+
+import { of, Observable } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
+import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
+import {
+  ProductViewComponent,
+  ViewModes
+} from '../product-view/product-view.component';
+import { StarRatingComponent } from '../../../../ui';
+import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
+import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
+import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
+import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
+
+import { ProductListComponent } from './product-list.component';
 
 class MockProductSearchService {
   search = createSpy();
@@ -62,6 +66,13 @@ class MockProductListItemComponent {
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
+}
+
+@Pipe({
+  name: 'stripHtml'
+})
+class MockStripHtmlPipe implements PipeTransform {
+  transform(): any {}
 }
 
 describe('ProductListComponent in product-list', () => {
@@ -98,7 +109,8 @@ describe('ProductListComponent in product-list', () => {
         ProductViewComponent,
         StarRatingComponent,
         MockProductListItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
+        MockStripHtmlPipe
       ]
     }).compileComponents();
   }));

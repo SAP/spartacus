@@ -20,8 +20,6 @@ const longitudeLatitude: LongitudeLatitude = {
 
 const storeCountResponseBody = { CA: 50 };
 
-const countryIsoCode = 'CA';
-const regionIsoCode = 'CA-QC';
 const storeId = 'test';
 
 export class MockOccModuleConfig {
@@ -123,35 +121,6 @@ describe('OccStoreFinderService', () => {
           url: '/stores/' + storeId + '?fields=FULL'
         })
         .flush(searchResults.stores[0]);
-    });
-  });
-
-  describe('query by country', () => {
-    it('should request stores by country', () => {
-      service.findStoresByCountry(countryIsoCode).subscribe(result => {
-        expect(result).toEqual(searchResults);
-      });
-
-      httpMock
-        .expectOne({ method: 'GET', url: '/stores/country/' + countryIsoCode })
-        .flush(searchResults);
-    });
-  });
-
-  describe('query by region', () => {
-    it('should request stores by region', () => {
-      service
-        .findStoresByRegion(countryIsoCode, regionIsoCode)
-        .subscribe(result => {
-          expect(result).toEqual(searchResults);
-        });
-
-      httpMock
-        .expectOne({
-          method: 'GET',
-          url: '/stores/country/' + countryIsoCode + '/region/' + regionIsoCode
-        })
-        .flush(searchResults);
     });
   });
 });
