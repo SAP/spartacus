@@ -16,6 +16,7 @@ import {
   Region,
   OrderHistoryList
 } from '../../occ/occ-models/index';
+import { UserRegisterFormData } from '../model/user.model';
 
 @Injectable()
 export class UserService {
@@ -38,28 +39,10 @@ export class UserService {
   /**
    * Register a new user
    *
-   * @param titleCode a title code
-   * @param firstName first name
-   * @param lastName last name
-   * @param email an email
-   * @param password a password
+   * @param submitFormData as UserRegisterFormData
    */
-  register(
-    titleCode: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-  ): void {
-    this.store.dispatch(
-      new fromStore.RegisterUser({
-        firstName: firstName,
-        lastName: lastName,
-        password: password,
-        titleCode: titleCode,
-        uid: email
-      })
-    );
+  register(userRegisterFormData: UserRegisterFormData) {
+    this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
   /**

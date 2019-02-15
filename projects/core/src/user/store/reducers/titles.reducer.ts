@@ -8,7 +8,7 @@ export const initialState: TitlesState = {
 
 export function reducer(
   state = initialState,
-  action: fromAction.TitlesAction | fromAction.MiscsDataAction
+  action: fromAction.TitlesAction | fromAction.ClearMiscsData
 ): TitlesState {
   switch (action.type) {
     case fromAction.LOAD_TITLES_SUCCESS: {

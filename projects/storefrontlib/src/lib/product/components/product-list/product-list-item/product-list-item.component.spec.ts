@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductListItemComponent } from './product-list-item.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ChangeDetectionStrategy,
@@ -8,6 +7,8 @@ import {
   Pipe,
   PipeTransform
 } from '@angular/core';
+
+import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -57,6 +58,13 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Pipe({
+  name: 'stripHtml'
+})
+class MockStripHtmlPipe implements PipeTransform {
+  transform(): any {}
+}
+
 describe('ProductListItemComponent in product-list', () => {
   let component: ProductListItemComponent;
   let fixture: ComponentFixture<ProductListItemComponent>;
@@ -85,7 +93,8 @@ describe('ProductListItemComponent in product-list', () => {
         MockPictureComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
+        MockStripHtmlPipe
       ]
     })
       .overrideComponent(ProductListItemComponent, {

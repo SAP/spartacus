@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
+import { provideMockActions } from '@ngrx/effects/testing';
+
 import { Observable, of } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/billing-countries.action';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { provideMockActions } from '@ngrx/effects/testing';
 import { Country, CountryList } from '../../../occ/occ-models/index';
+
 import { BillingCountriesEffect } from './billing-countries.effect';
 
 class MockMiscsService {
