@@ -1,135 +1,126 @@
-<div class="cx-page">
-  <ng-container *ngIf="(cart$ | async) as cart">
-    <header class="cx-page__header">
-      <h1 class="cx-page__title d-none d-lg-block d-xl-block">
-        Checkout {{ cart.totalItems }}
-        {{ cart.totalItems > 1 ? 'items' : 'item' }}
-      </h1>
-    </header>
-
-    <div class="cx-multi-step-checkout container">
-      <div class="row">
-        <div class="col-md-12 col-lg-8">
-          <!-- VISIBLE ONLY ON LG AND XL SCREENS -->
-          <!-- Navigation -->
-          <div class="cx-multi-step-checkout__nav d-none d-lg-block d-xl-block">
-            <ul class="cx-multi-step-checkout__nav-list">
-              <li
-                *ngFor="let nav of navs"
-                class="cx-multi-step-checkout__nav-item"
+<ng-container *ngIf="(cart$ | async) as cart">
+  <div class="cx-multi-step-checkout container">
+    <div class="row">
+      <div class="col-md-12 col-lg-8">
+        <!-- VISIBLE ONLY ON LG AND XL SCREENS -->
+        <!-- Navigation -->
+        <div class="cx-multi-step-checkout__nav d-none d-lg-block d-xl-block">
+          <ul class="cx-multi-step-checkout__nav-list">
+            <li
+              *ngFor="let nav of navs"
+              class="cx-multi-step-checkout__nav-item"
+              [ngClass]="{
+                ' is-disabled': nav.status.disabled,
+                ' progressbar': nav.progressBar
+              }"
+            >
+              <a
+                class=" cx-multi-step-checkout__nav-link "
                 [ngClass]="{
                   ' is-disabled': nav.status.disabled,
-                  ' progressbar': nav.progressBar
+                  ' is-active': nav.status.active
                 }"
+                (click)="
+                  nav.status.disabled === false ? setStep(nav.id) : false
+                "
+                >{{ nav.label }}</a
               >
-                <a
-                  class=" cx-multi-step-checkout__nav-link "
-                  [ngClass]="{
-                    ' is-disabled': nav.status.disabled,
-                    ' is-active': nav.status.active
-                  }"
-                  (click)="
-                    nav.status.disabled === false ? setStep(nav.id) : false
-                  "
-                  >{{ nav.label }}</a
-                >
-              </li>
-            </ul>
-          </div>
-
-          <div class="cx-multi-step-checkout__nav--media">
-            <div class="cx-multi-step-checkout__nav-list--media">
-              Cart total ({{ cart.totalItems }} items):
-              {{ cart.subTotal?.formattedValue }}
-            </div>
-
-            <div *ngFor="let nav of navs">
-              <!-- Navigation -->
-              <div
-                class="cx-multi-step-checkout__nav-list--media"
-                [ngClass]="{ ' is-active': nav.status.active }"
-              >
-                <div>{{ nav.label }}</div>
-                <button
-                  *ngIf="nav.status.completed && !nav.status.active"
-                  class="btn btn-link"
-                  (click)="setStep(nav.id)"
-                >
-                  edit
-                </button>
-              </div>
-
-              <!-- Content -->
-              <div *ngIf="nav.status.active && step === 1">
-                <cx-shipping-address
-                  [selectedAddress]="deliveryAddress"
-                  (addAddress)="addAddress($event)"
-                ></cx-shipping-address>
-              </div>
-              <div *ngIf="nav.status.active && step === 2">
-                <cx-delivery-mode
-                  [selectedShippingMethod]="shippingMethod"
-                  (selectMode)="setDeliveryMode($event)"
-                  (backStep)="setStep(1)"
-                ></cx-delivery-mode>
-              </div>
-              <div *ngIf="nav.status.active && step === 3">
-                <cx-payment-method
-                  [selectedPayment]="paymentDetails"
-                  (addPaymentInfo)="addPaymentInfo($event)"
-                  (backStep)="setStep(2)"
-                ></cx-payment-method>
-              </div>
-              <div *ngIf="nav.status.active && step === 4">
-                <cx-review-submit
-                  [deliveryAddress]="deliveryAddress"
-                  [shippingMethod]="shippingMethod"
-                  [paymentDetails]="paymentDetails"
-                >
-                </cx-review-submit>
-              </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
 
-        <!-- ORDER SUMMARY SECTION -->
-        <div class="col-md-7 offset-md-5 col-lg-4 offset-lg-0">
-          <cx-order-summary [cart]="cart"></cx-order-summary>
+        <div class="cx-multi-step-checkout__nav--media">
+          <div class="cx-multi-step-checkout__nav-list--media">
+            Cart total ({{ cart.totalItems }} items):
+            {{ cart.subTotal?.formattedValue }}
+          </div>
 
-          <!-- CHECKBOX AND PLACE ORDER BUTTON -->
-          <div class="cx-multi-step-checkout__place-order" *ngIf="step === 4">
-            <div class="cx-multi-step-checkout__place-order-form form-check">
-              <label>
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  (change)="toggleTAndC()"
-                />
-                <span class="form-check-label">
-                  I confirm that I have read and agree with the
-                  <a
-                    [routerLink]="
-                      { route: ['termsAndConditions'] } | cxTranslateUrl
-                    "
-                    class="cx-multi-step-checkout__tc-link"
-                    >Terms & Conditions</a
-                  >
-                </span>
-              </label>
-            </div>
-            <button
-              [disabled]="!tAndCToggler"
-              (click)="placeOrder()"
-              class="btn btn-primary btn-block"
+          <div *ngFor="let nav of navs">
+            <!-- Navigation -->
+            <div
+              class="cx-multi-step-checkout__nav-list--media"
+              [ngClass]="{ ' is-active': nav.status.active }"
             >
-              Place Order
-            </button>
-            <button class="btn btn-action btn-block" (click)="setStep(3)">
-              Back
-            </button>
+              <div>{{ nav.label }}</div>
+              <button
+                *ngIf="nav.status.completed && !nav.status.active"
+                class="btn btn-link"
+                (click)="setStep(nav.id)"
+              >
+                edit
+              </button>
+            </div>
+
+            <!-- Content -->
+            <div *ngIf="nav.status.active && step === 1">
+              <cx-shipping-address
+                [selectedAddress]="deliveryAddress"
+                (addAddress)="addAddress($event)"
+              ></cx-shipping-address>
+            </div>
+            <div *ngIf="nav.status.active && step === 2">
+              <cx-delivery-mode
+                [selectedShippingMethod]="shippingMethod"
+                (selectMode)="setDeliveryMode($event)"
+                (backStep)="setStep(1)"
+              ></cx-delivery-mode>
+            </div>
+            <div *ngIf="nav.status.active && step === 3">
+              <cx-payment-method
+                [selectedPayment]="paymentDetails"
+                (addPaymentInfo)="addPaymentInfo($event)"
+                (backStep)="setStep(2)"
+              ></cx-payment-method>
+            </div>
+            <div *ngIf="nav.status.active && step === 4">
+              <cx-review-submit
+                [deliveryAddress]="deliveryAddress"
+                [shippingMethod]="shippingMethod"
+                [paymentDetails]="paymentDetails"
+              >
+              </cx-review-submit>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- ORDER SUMMARY SECTION -->
+      <div class="col-md-7 offset-md-5 col-lg-4 offset-lg-0">
+        <cx-order-summary [cart]="cart"></cx-order-summary>
+
+        <!-- CHECKBOX AND PLACE ORDER BUTTON -->
+        <div class="cx-multi-step-checkout__place-order" *ngIf="step === 4">
+          <div class="cx-multi-step-checkout__place-order-form form-check">
+            <label>
+              <input
+                class="form-check-input"
+                type="checkbox"
+                (change)="toggleTAndC()"
+              />
+              <span class="form-check-label">
+                I confirm that I have read and agree with the
+                <a
+                  [routerLink]="
+                    { route: ['termsAndConditions'] } | cxTranslateUrl
+                  "
+                  class="cx-multi-step-checkout__tc-link"
+                  >Terms & Conditions</a
+                >
+              </span>
+            </label>
+          </div>
+          <button
+            [disabled]="!tAndCToggler"
+            (click)="placeOrder()"
+            class="btn btn-primary btn-block"
+          >
+            Place Order
+          </button>
+          <button class="btn btn-action btn-block" (click)="setStep(3)">
+            Back
+          </button>
+        </div>
+      </div>
     </div>
-  </ng-container>
-</div>
+  </div>
+</ng-container>

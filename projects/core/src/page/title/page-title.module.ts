@@ -4,7 +4,8 @@ import {
   ContentPageTitleResolver,
   CategoryPageTitleResolver,
   ProductPageTitleResolver,
-  SearchPageTitleResolver
+  SearchPageTitleResolver,
+  CheckoutPageTitleResolver
 } from './facade/index';
 
 import { PageTitleService } from './facade/page-title.service';
@@ -18,6 +19,7 @@ import { PageTitleResolver } from './facade/page-title.resolver';
     CategoryPageTitleResolver,
     ContentPageTitleResolver,
     SearchPageTitleResolver,
+    CategoryPageTitleResolver,
     {
       provide: PageTitleResolver,
       useExisting: ProductPageTitleResolver,
@@ -36,6 +38,11 @@ import { PageTitleResolver } from './facade/page-title.resolver';
     {
       provide: PageTitleResolver,
       useExisting: SearchPageTitleResolver,
+      multi: true
+    },
+    {
+      provide: PageTitleResolver,
+      useExisting: CheckoutPageTitleResolver,
       multi: true
     }
   ]
