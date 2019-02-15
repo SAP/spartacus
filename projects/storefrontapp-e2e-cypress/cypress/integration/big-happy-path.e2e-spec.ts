@@ -68,16 +68,16 @@ context('Big happy path', () => {
 
   it('should review and place order', () => {
     cy.get('.cx-review-title').should('contain', 'Review');
-    cy.getByText('Ship To')
-      .parentsUntil('cx-card')
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Ship To')
       .find('.cx-card-body__container')
       .within(() => {
         cy.getByText(user.fullName);
         cy.getByText(user.address.line1);
         cy.getByText(user.address.line2);
       });
-    cy.getByText('Shipping Method')
-      .parentsUntil('cx-card')
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Shipping Method')
       .find('.cx-card-body__container')
       .within(() => {
         cy.getByText('standard-gross');
