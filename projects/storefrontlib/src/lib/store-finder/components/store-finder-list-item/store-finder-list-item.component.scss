@@ -1,25 +1,27 @@
 @import 'theme';
 
-.cx-store-finder-list-item {
+:host {
+  display: var(--cx-display, block);
   margin: var(--cx-margin, 1.25rem 0);
-  &__display-name {
-    @include type('6');
-    text-decoration: var(--cx-text-decoration, underline);
-    cursor: pointer;
-  }
-  &__address {
-    @include type('7');
-  }
-  &__open {
-    @include type('8');
-    color: var(--cx-color, var(--cx-g-color-success));
-  }
-  &__closed {
-    @include type('8');
-    color: var(--cx-color, var(--cx-g-color-danger));
-  }
-  &__button {
-    line-height: var(--cx-line-height, 2);
-    margin: var(--cx-margin, 1rem 0 0);
-  }
+}
+
+.cx-store-name {
+  @include type('6');
+  text-decoration: var(--cx-text-decoration, underline);
+  cursor: pointer;
+}
+.cx-store-address {
+  @include type('7');
+}
+.cx-store-open {
+  @include type('8');
+  color: var(--cx-color, var(--cx-g-color-success));
+}
+.cx-store-closed {
+  @include type('8');
+  color: var(--cx-color, var(--cx-g-color-danger));
+}
+.cx-button {
+  line-height: var(--cx-line-height, 2);
+  margin: var(--cx-margin, 1rem 0 0);
 }
