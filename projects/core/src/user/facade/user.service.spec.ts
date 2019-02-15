@@ -17,6 +17,7 @@ import {
 } from '../../occ/occ-models/index';
 
 import { UserService } from './user.service';
+import { UserRegisterFormData } from '../model/user.model';
 
 describe('UserService', () => {
   let service: UserService;
@@ -66,15 +67,16 @@ describe('UserService', () => {
   });
 
   it('should be able to register user', () => {
-    service.register('title', 'firstname', 'lastname', 'email', 'password');
+    const userRegisterFormData: UserRegisterFormData = {
+      titleCode: 'Mr.',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      uid: 'uid',
+      password: 'password'
+    };
+    service.register(userRegisterFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RegisterUser({
-        firstName: 'firstname',
-        lastName: 'lastname',
-        password: 'password',
-        titleCode: 'title',
-        uid: 'email'
-      })
+      new fromStore.RegisterUser(userRegisterFormData)
     );
   });
 
@@ -134,9 +136,7 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list loaded flag', () => {
-    store.dispatch(
-      new fromStore.LoadUserOrders({ userId: 'testUserId', pageSize: 10 })
-    );
+    store.dispatch(new fromStore.LoadUserOrdersSuccess({}));
 
     let orderListLoaded: boolean;
     service

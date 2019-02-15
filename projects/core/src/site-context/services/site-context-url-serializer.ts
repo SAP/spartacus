@@ -47,19 +47,23 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       segments.shift();
     }
     const params = {};
-    for (
-      let i = 0;
-      i < this.urlEncodingParameters.length && i < segments.length;
-      i++
+
+    let paramId = 0;
+    let segmentId = 0;
+    while (
+      paramId < this.urlEncodingParameters.length &&
+      segmentId < segments.length
     ) {
-      const paramName = this.urlEncodingParameters[i];
+      const paramName = this.urlEncodingParameters[paramId];
       const paramValues = this.siteContextParams.getParamValues(paramName);
-      if (paramValues.indexOf(segments[i]) > -1) {
-        params[paramName] = segments[i];
-      } else {
-        break;
+
+      if (paramValues.indexOf(segments[segmentId]) > -1) {
+        params[paramName] = segments[segmentId];
+        segmentId++;
       }
+      paramId++;
     }
+
     url = segments.slice(Object.keys(params).length).join('/');
     return { url, params };
   }

@@ -1,9 +1,8 @@
 import { by, element, ElementArrayFinder, ElementFinder } from 'protractor';
 
 export class Footer {
-  readonly footerNavigation: ElementFinder = element(
-    by.dynamicSlot('Footer', 'cx-footer-navigation')
-  );
+  readonly footerNavigation: ElementFinder = element(by.css('footer'));
+
   readonly notice: ElementFinder = this.footerNavigation.element(
     by.css('.notice')
   );
