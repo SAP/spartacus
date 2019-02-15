@@ -1,236 +1,161 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-$cx-search-facet-trbl-padding: 0 !default;
-
-$cx-search-facet-list-trbl-margin: 0 0 32px 0 !default;
-
-$cx-search-facet-mobile-btn-trbl-margin: 0 0 20px 0 !default;
-
-$cx-search-facet-filter-header-trbl-margin: 0 0 20px 0 !default;
-$cx-search-facet-filter-header-trbl-padding: 0 0 10px 0 !default;
-
-$cx-search-facet-filter-header-mobile-trbl-margin: 0 20px 0px 0 !default;
-
-$cx-search-facet-filter-trbl-margin: 0 0 40px 0 !default;
-$cx-search-facet-filter-color: 'light' !default;
-$cx-search-facet-filter-sm-trbl-margin: 0 0 0 0 !default;
-
-$cx-search-facet-filter-pill-trbl-padding: 10px 10px 10px 13px !default;
-$cx-search-facet-filter-pill-trbl-margin: 10px 10px 5px 0 !default;
-$cx-search-facet-filter-pill-border-radius: 4px !default;
-
-$cx-search-facet-filter-pill-button-trbl-margin: 0 0 0 10px;
-
-$cx-search-facet-header-border: 1px solid !default;
-$cx-search-facet-header-border-color: 'light' !default;
-$cx-search-facet-header-color: 'text' !default;
-$cx-search-facet-header-trbl-padding: 0 0 10px 0 !default;
-$cx-search-facet-header-trbl-margin: 0 0 17px 0 !default;
-$cx-search-facet-header-link-font-size: 25px !default;
-$cx-search-facet-header-link-top: 10px !default;
-$cx-search-facet-header-link-icon-height: 2px !default;
-
-$cx-search-facet-header-icon-color: 'secondary' !default;
-
-$cx-search-facet-label-color: 'secondary' !default;
-$cx-search-facet-label-selected-color: 'primary' !default;
-$cx-search-facet-label-margin: 0 !default;
-
-$cx-search-facet-label-wrapper-trbl-padding: 0 0 0 0 !default;
-$cx-search-facet-label-wrapper-trbl-margin: 0 0 15px 0 !default;
-
-$cx-search-facet-checkbox-trbl-margin: 0 10px 0 0 !default;
-$cx-search-facet-checkbox-transition: 0.3s !default;
-$cx-search-facet-checkbox-rectangular-size: 22px !default;
-$cx-search-facet-checkbox-background-color__hover: 'light' !default;
-
-$cx-search-facet-item-link-trbl-margin: 0 0 16px 0 !default;
-
-$cx-search-facet-modal-height: 100vh !default;
-
-$cx-search-facet-modal-label-trbl-margin: 0 0 27px 0 !default;
-$cx-search-facet-modal-footer-trbl-margin: 0 0 0 20px !default;
-$cx-search-facet-modal-footer-btn-width: 50% !default;
 
 .cx-search-facet {
-  &-checkbox {
-    position: relative;
-    margin: $cx-search-facet-checkbox-trbl-margin;
-    min-width: $cx-search-facet-checkbox-rectangular-size;
-    transition: $cx-search-facet-checkbox-transition;
+  @include media-breakpoint-down(md) {
+    display: var(--cx-display, none);
+  }
+}
+
+.cx-facet-checkbox {
+  position: var(--cx-position, relative);
+  margin: var(--cx-margin, 0 10px 0 0);
+  min-width: var(--cx-min-width, 22px);
+  transition: var(--cx-transition, 0.3s);
+
+  &:checked + .cx-facet-text {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+}
+
+.cx-facet-list {
+  padding: var(--cx-padding, 0);
+  list-style: var(--cx-list-style, none);
+  margin: var(--cx-margin, 0 0 32px 0);
+
+  .form-check {
+    padding: var(--cx-padding, 0);
+    margin: var(--cx-margin, 0 0 15px 0);
   }
 
-  &-list {
-    padding: $cx-search-facet-trbl-padding;
-    list-style: none;
-    margin: $cx-search-facet-list-trbl-margin;
+  .cx-facet-label {
+    color: var(--cx-color, var(--cx-g-color-secondary));
+    @include type('6');
+    font-weight: $font-weight-normal;
+    position: var(--cx-position, relative);
+    margin: var(--cx-margin, 0);
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, flex-start);
+    justify-content: var(--cx-justify-content, flex-start);
+    cursor: var(--cx-cursor, pointer);
 
-    .form-check {
-      padding: $cx-search-facet-label-wrapper-trbl-padding;
-      margin: $cx-search-facet-label-wrapper-trbl-margin;
+    &:hover .cx-facet-checkbox:not(:checked) {
+      background-color: var(--cx-g-color-light);
     }
 
-    &__label {
-      @include var-color('color', $cx-search-facet-label-color);
-      @include type('6');
+    .cx-facet-text {
+      line-height: var(--cx-light-height, 22px);
+    }
+  }
+
+  .cx-facet-toggle-btn {
+    cursor: pointer;
+  }
+}
+
+.cx-facet-header {
+  border-width: var(--cx-border-width, 0 0 1px 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  @include type('4');
+  color: var(--cx-color, var(--cx-g-color-text));
+  padding: var(--cx-padding, 0 0 10px 0);
+  margin: var(--cx-margin, 0 0 17px 0);
+  display: var(--cx-display, block);
+  font-weight: $font-weight-semi;
+
+  .cx-facet-header-link {
+    &:after {
+      float: var(--cx-float, right);
+      font-size: var(--cx-font-size, 25px);
+      line-height: var(--cx-line-height, 0);
+      position: var(--cx-position, relative);
+      top: var(--cx-top, 10px);
       font-weight: $font-weight-normal;
-      position: relative;
-      margin: $cx-search-facet-label-margin;
-      display: flex;
-      align-items: flex-start;
-      justify-content: flex-start;
-      cursor: pointer;
-
-      &-text {
-        line-height: $cx-search-facet-checkbox-rectangular-size;
-      }
-
-      &:hover .cx-search-facet-checkbox:not(:checked) {
-        @include var-color(
-          'background-color',
-          $cx-search-facet-checkbox-background-color__hover
-        );
-      }
+      color: var(--cx-color, var(--cx-g-color-secondary));
     }
 
-    &__toggle-button {
-      cursor: pointer;
-    }
-
-    &__item--link {
-      @include type('');
-      margin: $cx-search-facet-item-link-trbl-margin;
-    }
-
-    &__item--show-more {
+    &[aria-expanded='false'] {
       &:after {
-        content: '\003e';
+        content: '+';
+      }
+    }
+
+    &[aria-expanded='true'] {
+      &:after {
+        content: '\2013';
+        height: var(--cx-height, 2px);
       }
     }
   }
+}
 
-  &-checkbox {
-    &:checked + .cx-search-facet-list__label-text {
-      @include var-color('color', $cx-search-facet-label-selected-color);
-    }
+.cx-facet-filter-container {
+  margin: var(--cx-margin, 0 0 40px 0);
+
+  @include media-breakpoint-down(md) {
+    margin: var(--cx-margin, 0);
+  }
+}
+
+.cx-facet-filter-header {
+  @include type('3');
+  color: var(--cx-color, var(--cx-g-color-text));
+  padding: var(--cx-padding, 0 0 10px 0);
+  margin: var(--cx-margin, 0 0 20px 0);
+
+  @include media-breakpoint-down(md) {
+    display: var(--cx-display, inline-block);
+    margin: var(--cx-margin, 0 20px 0px 0);
+  }
+}
+
+.cx-facet-filter-pill {
+  background: var(--cx-background, var(--cx-g-color-light));
+  padding: var(--cx-padding, 10px 10px 10px 13px);
+  margin: var(--cx-margin, 10px 10px 5px 0);
+  display: var(--cx-display, flex);
+  align-items: var(--cx-align-items, flex-start);
+  border-radius: var(--cx-border-radius, 4px);
+
+  span {
+    flex: var(--cx-flex, 1 1 auto);
   }
 
-  &-header {
-    border-bottom: $cx-search-facet-header-border;
+  button {
+    margin: var(--cx-margin, 0 0 0 10px);
+    flex: var(--cx-flex, 0 0 1rem);
+  }
+}
+
+.cx-facet-modal-title {
+  @include type('3');
+}
+
+@include media-breakpoint-down(md) {
+  display: var(--cx-display, none);
+}
+
+.cx-facet-mobile {
+  @include media-breakpoint-up(lg) {
+    display: var(--cx-display, none);
+  }
+
+  @include media-breakpoint-down(md) {
+    .cx-facet-mobile-btn {
+      margin: var(--cx-margin, 0 0 20px 0);
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .cx-facet-modal-body {
+    overflow-y: var(--cx-overflow-y, scroll);
+    height: var(--cx-height, 100vh);
+  }
+
+  .cx-facet-modal-label {
     @include type('4');
-    @include var-color('color', $cx-search-facet-header-color);
-    @include var-color('border-color', $cx-search-facet-header-border-color);
-    padding: $cx-search-facet-header-trbl-padding;
-    margin: $cx-search-facet-header-trbl-margin;
-    display: block;
     font-weight: $font-weight-semi;
-
-    &__link {
-      &:after {
-        float: right;
-        font-size: $cx-search-facet-header-link-font-size;
-        line-height: 0;
-        position: relative;
-        top: $cx-search-facet-header-link-top;
-        font-weight: $font-weight-normal;
-        @include var-color('color', $cx-search-facet-header-icon-color);
-      }
-
-      &[aria-expanded='false'] {
-        &:after {
-          content: '+';
-        }
-      }
-
-      &[aria-expanded='true'] {
-        &:after {
-          content: '\2013';
-          height: $cx-search-facet-header-link-icon-height;
-        }
-      }
-    }
-  }
-
-  &-filter__container {
-    margin: $cx-search-facet-filter-trbl-margin;
-
-    @include media-breakpoint-down(md) {
-      margin: $cx-search-facet-filter-sm-trbl-margin;
-    }
-  }
-
-  &-filter__header {
-    @include type('3');
-    @include var-color('color', $cx-search-facet-header-color);
-    padding: $cx-search-facet-filter-header-trbl-padding;
-    margin: $cx-search-facet-filter-header-trbl-margin;
-
-    @include media-breakpoint-down(md) {
-      display: inline-block;
-      margin: $cx-search-facet-filter-header-mobile-trbl-margin;
-    }
-  }
-
-  &-filter__pill {
-    @include var-color('background', $cx-search-facet-filter-color);
-    padding: $cx-search-facet-filter-pill-trbl-padding;
-    margin: $cx-search-facet-filter-pill-trbl-margin;
-    display: flex;
-    align-items: flex-start;
-    border-radius: $cx-search-facet-filter-pill-border-radius;
-
-    span {
-      flex: 1 1 auto;
-    }
-
-    button {
-      margin: $cx-search-facet-filter-pill-button-trbl-margin;
-      flex: 0 0 1rem;
-    }
-  }
-
-  &-modal__title {
-    @include type('3');
-  }
-
-  @include media-breakpoint-down(md) {
-    display: none;
-  }
-
-  &__mobile {
-    @include media-breakpoint-up(lg) {
-      display: none;
-    }
-
-    @include media-breakpoint-down(md) {
-      &--btn {
-        margin: $cx-search-facet-mobile-btn-trbl-margin;
-      }
-    }
-  }
-
-  @include media-breakpoint-down(md) {
-    &__modal-body {
-      overflow-y: scroll;
-      height: $cx-search-facet-modal-height;
-    }
-
-    &__modal--label {
-      @include type('4');
-      font-weight: $font-weight-semi;
-      margin: $cx-search-facet-modal-label-trbl-margin;
-    }
-
-    &__modal--footer {
-      .btn {
-        width: $cx-search-facet-modal-footer-btn-width;
-
-        &:last-child {
-          margin: $cx-search-facet-modal-footer-trbl-margin;
-        }
-      }
-    }
+    margin: var(--cx-margin, 0 0 27px 0);
   }
 }

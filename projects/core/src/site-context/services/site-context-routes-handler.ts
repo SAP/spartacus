@@ -1,6 +1,13 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { NavigationStart, Router } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterEvent
+} from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 import { Subscription } from 'rxjs';
@@ -24,6 +31,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   private router: Router;
   private location: Location;
+  private isNavigating = false;
 
   init() {
     this.router = this.injector.get<Router>(Router);
@@ -44,6 +52,7 @@ export class SiteContextRoutesHandler implements OnDestroy {
         this.subscription.add(
           service.getActive().subscribe(value => {
             if (
+              !this.isNavigating &&
               this.contextValues[param] &&
               this.contextValues[param] !== value
             ) {
@@ -61,10 +70,21 @@ export class SiteContextRoutesHandler implements OnDestroy {
   private subscribeRouting() {
     this.subscription.add(
       this.router.events
-        .pipe(filter(event => event instanceof NavigationStart))
-        .subscribe((event: NavigationStart) =>
-          this.setContextParamsFromRoute(event.url)
+        .pipe(
+          filter(
+            event =>
+              event instanceof NavigationStart ||
+              event instanceof NavigationEnd ||
+              event instanceof NavigationError ||
+              event instanceof NavigationCancel
+          )
         )
+        .subscribe((event: RouterEvent) => {
+          this.isNavigating = event instanceof NavigationStart;
+          if (this.isNavigating) {
+            this.setContextParamsFromRoute(event.url);
+          }
+        })
     );
   }
 
