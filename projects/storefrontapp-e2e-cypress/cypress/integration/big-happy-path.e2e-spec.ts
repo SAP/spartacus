@@ -1,4 +1,4 @@
-import { user, cart, product } from './../sample-data/big-happy-path';
+import { user, cart, product } from '../sample-data/big-happy-path';
 
 context('Big happy path', () => {
   before(() => {
@@ -42,7 +42,7 @@ context('Big happy path', () => {
   });
 
   it('should fill in address form', () => {
-    cy.get('.cx-shipping-address__title').should('contain', 'Shipping Address');
+    cy.get('.cx-shipping-address-title').should('contain', 'Shipping Address');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
       .first()
       .find('.cx-summary-amount')
@@ -52,10 +52,7 @@ context('Big happy path', () => {
   });
 
   it('should choose delivery', () => {
-    cy.get('.cx-delivery-mode-form__title').should(
-      'contain',
-      'Shipping Method'
-    );
+    cy.get('.cx-delivery-title').should('contain', 'Shipping Method');
     cy.get('#deliveryMode-standard-gross').check();
     cy.get('button.btn-primary').click();
   });
@@ -87,7 +84,7 @@ context('Big happy path', () => {
     );
 
     cy.get('.form-check-input').check();
-    cy.get('.cx-multi-step-checkout__place-order button.btn-primary').click();
+    cy.get('.cx-place-order button.btn-primary').click();
   });
 
   it('should display summary page', () => {
