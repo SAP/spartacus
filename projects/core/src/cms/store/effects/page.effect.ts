@@ -15,7 +15,7 @@ import {
 
 import * as componentActions from '../actions/component.action';
 import * as pageActions from '../actions/page.action';
-import { EntitySuccessAction } from '../../../state';
+import { EntitySuccessAction, EntityFailAction } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
@@ -27,12 +27,12 @@ export class PageEffects {
   @Effect()
   loadPage$: Observable<Action> = this.actions$.pipe(
     ofType(
-      pageActions.LOAD_PAGEDATA,
+      pageActions.LOAD_PAGE_INDEX,
       '[Site-context] Language Change',
       '[Auth] Logout',
       '[Auth] Login'
     ),
-    map((action: pageActions.LoadPageData) => action.payload),
+    map((action: pageActions.LoadPageIndex) => action.pageContext),
     switchMap(pageContext => {
       if (pageContext === undefined) {
         // TODO:#1135 - use the new method instead
@@ -68,11 +68,18 @@ export class PageEffects {
             pageContext.id,
             page.pageId
           ),
+          // TODO:#1135v2 - if we dispatch the success now, we will never have the `loading` flag set to `true`?
           new pageActions.LoadPageDataSuccess(page),
           new componentActions.GetComponentFromPage(this.getComponents(data))
         ];
       }),
-      catchError(error => of(new pageActions.LoadPageDataFail(error)))
+      // TODO:#1135v2 - check parameters for EntityFailAction. Should we use pagecontext?
+      catchError(error =>
+        of(
+          new pageActions.LoadPageDataFail(error),
+          new EntityFailAction(pageContext.type, pageContext.id)
+        )
+      )
     );
   }
 

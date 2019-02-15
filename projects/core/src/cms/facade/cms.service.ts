@@ -2,20 +2,19 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   filter,
   tap,
   map,
   withLatestFrom,
   switchMap,
-  catchError,
   take
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
 import { PageContext, RoutingService } from '../../routing';
-import { LoaderState, EntityLoadAction } from '../../state';
+import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
@@ -136,7 +135,7 @@ export class CmsService {
       .getPageContext()
       .pipe(take(1))
       .subscribe(pageContext =>
-        this.store.dispatch(new fromStore.LoadPageData(pageContext))
+        this.store.dispatch(new fromStore.LoadPageIndex(pageContext))
       );
   }
 
@@ -158,20 +157,11 @@ export class CmsService {
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         if (!attemptedLoad) {
-          this.store.dispatch(
-            new EntityLoadAction(pageContext.type, pageContext.id)
-          );
-          // TODO:#1135 - dispatch from the effect of EntityLoadAction
-          this.store.dispatch(new fromStore.LoadPageData(pageContext));
+          this.store.dispatch(new fromStore.LoadPageIndex(pageContext));
         }
       }),
       filter(entity => entity.success || entity.error),
-      map(entity => entity.success),
-      // TODO:#1135 - throw error
-      catchError(error => {
-        console.error(error);
-        return of(false);
-      })
+      map(entity => entity.success)
     );
   }
 }
