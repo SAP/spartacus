@@ -1,21 +1,22 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
+
+:host {
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 0 0 3rem);
+}
 
 .cx-store-finder-search {
-  margin-bottom: 3rem;
-
   &__button {
-    margin-bottom: 1rem;
+    margin: var(--cx-margin, 0 0 1rem);
   }
 
   &__bottom-links {
-    text-align: center;
+    text-align: var(--cx-text-align, center);
   }
 
   &__links {
     @include type('6');
-    border: 0;
-    padding: 0;
+    border: var(--cx-border, 0);
+    padding: var(--cx-padding, 0);
   }
 }
