@@ -130,6 +130,7 @@ export class CmsService {
   /**
    * Refresh the content of the latest cms page
    */
+  // TODO:#1135 - update test
   refreshLatestPage(): void {
     this.routingService
       .getPageContext()

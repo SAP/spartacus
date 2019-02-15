@@ -12,7 +12,8 @@ import {
   CmsState,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
-  PAGE_DATA_ENTITY
+  PAGE_DATA_ENTITY,
+  StateWithCms
 } from '../cms-state';
 import { PageType } from '../../../occ';
 import { entityReducer } from '../../../state';
@@ -52,8 +53,8 @@ export const reducerProvider: Provider = {
 };
 
 export function clearCmsState(
-  reducer: ActionReducer<any, Action>
-): ActionReducer<any, Action> {
+  reducer: ActionReducer<StateWithCms, Action>
+): ActionReducer<StateWithCms, Action> {
   return function(state, action) {
     if (
       action.type === '[Site-context] Language Change' ||
@@ -66,4 +67,4 @@ export function clearCmsState(
   };
 }
 
-export const metaReducers: MetaReducer<any>[] = [clearCmsState];
+export const metaReducers: MetaReducer<StateWithCms>[] = [clearCmsState];

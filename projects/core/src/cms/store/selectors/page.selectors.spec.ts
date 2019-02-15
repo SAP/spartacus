@@ -6,17 +6,13 @@ import { StateWithCms, IndexType } from '../cms-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/page.selectors';
-import {
-  EntitySuccessAction,
-  EntityLoaderState,
-  LoaderState
-} from '../../../state';
+import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { CmsComponent, PageType } from '../../../occ/occ-models/index';
 import { PageContext } from 'projects/core/src/routing';
 
-fdescribe('Cms PageData Selectors', () => {
+describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
 
   const components: CmsComponent[] = [
@@ -25,9 +21,14 @@ fdescribe('Cms PageData Selectors', () => {
     { uid: 'comp3', typeCode: 'NavigationComponent' }
   ];
   const page: Page = {
-    pageId: 'testPageId',
-    name: 'testPage',
+    pageId: 'homepage',
+    name: 'HomePage',
     slots: { left: { components } }
+  };
+
+  const pageContext: PageContext = {
+    id: 'homepage',
+    type: PageType.CONTENT_PAGE
   };
 
   beforeEach(() => {
@@ -44,7 +45,7 @@ fdescribe('Cms PageData Selectors', () => {
   describe('getPageStateIndex', () => {
     it('should return the index part of the state', () => {
       store.dispatch(
-        new EntitySuccessAction(PageType.CONTENT_PAGE, 'homepage', 'value')
+        new fromActions.LoadPageIndexSuccess(pageContext, 'value')
       );
 
       let result: IndexType;
@@ -76,13 +77,8 @@ fdescribe('Cms PageData Selectors', () => {
   describe('getIndex', () => {
     it('should return an index', () => {
       store.dispatch(
-        new EntitySuccessAction(PageType.CONTENT_PAGE, 'homepage', 'value')
+        new fromActions.LoadPageIndexSuccess(pageContext, 'value')
       );
-
-      const pageContext: PageContext = {
-        id: 'testPageId',
-        type: PageType.CONTENT_PAGE
-      };
 
       let result: EntityLoaderState<string>;
       store
@@ -103,12 +99,7 @@ fdescribe('Cms PageData Selectors', () => {
     });
   });
 
-  fdescribe('getIndexEntity', () => {
-    const pageContext: PageContext = {
-      id: 'testPageId',
-      type: PageType.CONTENT_PAGE
-    };
-
+  describe('getIndexEntity', () => {
     it('should retrn an empty object when there is no entity', () => {
       let result: LoaderState<string>;
       store
@@ -121,7 +112,7 @@ fdescribe('Cms PageData Selectors', () => {
 
     it('should return an entity from an index', () => {
       store.dispatch(
-        new EntitySuccessAction(PageType.CONTENT_PAGE, 'homepage', 'value')
+        new fromActions.LoadPageIndexSuccess(pageContext, 'value')
       );
 
       let result: LoaderState<string>;
@@ -140,34 +131,32 @@ fdescribe('Cms PageData Selectors', () => {
     });
   });
 
-  describe('getLatestPageId', () => {
-    it('should return the latest page id', () => {
-      let result: string;
+  describe('getPageEntities', () => {
+    it('should return the entities', () => {
+      store.dispatch(new fromActions.LoadPageDataSuccess(page));
 
+      let result: { [id: string]: Page };
       store
-        .pipe(select(fromSelectors.getLatestPageId))
-        .subscribe(value => (result = value));
+        .pipe(select(fromSelectors.getPageEntities))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
-      expect(result).toEqual('');
-
-      store.dispatch(new fromActions.UpdateLatestPageId('test'));
-
-      expect(result).toEqual('test');
+      expect(result).toEqual({ homepage: page });
     });
   });
 
-  describe('getLatestPage', () => {
-    it('should return the latest page', () => {
-      let result: Page;
-
-      store
-        .pipe(select(fromSelectors.getLatestPage))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(undefined);
-
+  describe('getPageData', () => {
+    it('should return the page', () => {
+      store.dispatch(
+        new fromActions.LoadPageIndexSuccess(pageContext, 'homepage')
+      );
       store.dispatch(new fromActions.LoadPageDataSuccess(page));
-      store.dispatch(new fromActions.UpdateLatestPageId(page.pageId));
+
+      let result: Page;
+      store
+        .pipe(select(fromSelectors.getPageData(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual(page);
     });
@@ -175,16 +164,18 @@ fdescribe('Cms PageData Selectors', () => {
 
   describe('currentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      let result: ContentSlotData;
-
-      store
-        .pipe(select(fromSelectors.currentSlotSelectorFactory('left')))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(undefined);
-
+      store.dispatch(
+        new fromActions.LoadPageIndexSuccess(pageContext, 'homepage')
+      );
       store.dispatch(new fromActions.LoadPageDataSuccess(page));
-      store.dispatch(new fromActions.UpdateLatestPageId(page.pageId));
+
+      let result: ContentSlotData;
+      store
+        .pipe(
+          select(fromSelectors.currentSlotSelectorFactory(pageContext, 'left'))
+        )
+        .subscribe(value => (result = value))
+        .unsubscribe();
 
       expect(result).toEqual({ components });
     });
