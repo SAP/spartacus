@@ -68,16 +68,20 @@ context('Big happy path', () => {
 
   it('should review and place order', () => {
     cy.get('.cx-review__title').should('contain', 'Review');
-    cy.get('cx-review-submit .cx-review__summary-card__address').within(() => {
-      cy.getByText(user.fullName);
-      cy.getByText(user.address.line1);
-      cy.getByText(user.address.line2);
-    });
-    cy.get('cx-review-submit .cx-review__summary-card__shipping-method').within(
-      () => {
+    cy.getByText('Ship To')
+      .parentsUntil('cx-card')
+      .find('.cx-card-body__container')
+      .within(() => {
+        cy.getByText(user.fullName);
+        cy.getByText(user.address.line1);
+        cy.getByText(user.address.line2);
+      });
+    cy.getByText('Shipping Method')
+      .parentsUntil('cx-card')
+      .find('.cx-card-body__container')
+      .within(() => {
         cy.getByText('standard-gross');
-      }
-    );
+      });
     cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
       'contain',
       cart.total
