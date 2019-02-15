@@ -6,7 +6,7 @@ import { ProductSearchService } from '../../../../product/index';
 
 import { Page } from '../../../../cms/model/page.model';
 import { PageType } from '../../../../occ/occ-models/occ.models';
-import { PageTitleResolver } from './page-title.resolver';
+import { PageTitleResolver } from '../page-title.resolver';
 
 @Injectable({
   providedIn: 'root'

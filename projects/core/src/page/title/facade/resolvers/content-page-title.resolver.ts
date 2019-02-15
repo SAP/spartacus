@@ -5,7 +5,7 @@ import { map, filter } from 'rxjs/operators';
 import { Page } from '../../../../cms/model/page.model';
 import { PageType } from '../../../../occ/occ-models/occ.models';
 import { CmsService } from '../../../../cms/facade/cms.service';
-import { PageTitleResolver } from './page-title.resolver';
+import { PageTitleResolver } from '../page-title.resolver';
 
 @Injectable({
   providedIn: 'root'
