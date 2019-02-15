@@ -15,73 +15,62 @@ import {
 
 import * as componentActions from '../actions/component.action';
 import * as pageActions from '../actions/page.action';
-import { EntitySuccessAction, EntityFailAction } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { RoutingService, PageContext } from '../../../routing/index';
+import { RoutingService } from '../../../routing/index';
 import { CMSPage } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class PageEffects {
+  // TODO:#1135 - test
   @Effect()
-  loadPage$: Observable<Action> = this.actions$.pipe(
-    ofType(
-      pageActions.LOAD_PAGE_INDEX,
-      '[Site-context] Language Change',
-      '[Auth] Logout',
-      '[Auth] Login'
-    ),
-    map((action: pageActions.LoadPageIndex) => action.pageContext),
-    switchMap(pageContext => {
-      if (pageContext === undefined) {
-        // TODO:#1135 - use the new method instead
-        return this.routingService.getRouterState().pipe(
-          filter(routerState => routerState && routerState.state),
-          filter(routerState => routerState.state.cmsRequired),
-          map(routerState => routerState.state.context),
-          take(1),
-          mergeMap(context => this.loadPageInternal(context))
-        );
-      } else {
-        return this.loadPageInternal(pageContext);
-      }
-    })
+  refreshPage$: Observable<Action> = this.actions$.pipe(
+    ofType('[Site-context] Language Change', '[Auth] Logout', '[Auth] Login'),
+    // TODO:#1135v2 - switchMap?
+    switchMap(_ =>
+      this.routingService.getRouterState().pipe(
+        filter(routerState => routerState && routerState.state),
+        filter(routerState => routerState.state.cmsRequired),
+        map(routerState => routerState.state.context),
+        take(1),
+        // TODO:#1135v2 - why merge map?
+        mergeMap(context => of(new pageActions.LoadPageIndex(context)))
+      )
+    )
+  );
+
+  @Effect()
+  loadPageIndex$: Observable<Action> = this.actions$.pipe(
+    ofType(pageActions.LOAD_PAGE_INDEX),
+    map((action: pageActions.LoadPageIndex) => action.payload),
+    // TODO:#1135v2 - switchMapp?
+    switchMap(pageContext =>
+      this.occCmsService.loadPageData(pageContext).pipe(
+        // TODO:#1135v2 - why merge map?
+        mergeMap(data => {
+          const page = this.getPageData(data);
+          return [
+            new pageActions.LoadPageIndexSuccess(pageContext, page.pageId),
+            new pageActions.LoadPageDataSuccess(page),
+            new componentActions.GetComponentFromPage(this.getComponents(data))
+          ];
+        }),
+        catchError(error =>
+          of(
+            new pageActions.LoadPageIndexFail(pageContext, error),
+            new pageActions.LoadPageDataFail(error)
+          )
+        )
+      )
+    )
   );
 
   constructor(
     private actions$: Actions,
     private occCmsService: OccCmsService,
     private routingService: RoutingService
-  ) {
-    // TODO:#1135 - not needed?
-    // private defaultPageService: DefaultPageService,
-  }
-
-  private loadPageInternal(pageContext: PageContext): Observable<Action> {
-    return this.occCmsService.loadPageData(pageContext).pipe(
-      mergeMap(data => {
-        const page = this.getPageData(data);
-        return [
-          new EntitySuccessAction(
-            pageContext.type,
-            pageContext.id,
-            page.pageId
-          ),
-          // TODO:#1135v2 - if we dispatch the success now, we will never have the `loading` flag set to `true`?
-          new pageActions.LoadPageDataSuccess(page),
-          new componentActions.GetComponentFromPage(this.getComponents(data))
-        ];
-      }),
-      // TODO:#1135v2 - check parameters for EntityFailAction. Should we use pagecontext?
-      catchError(error =>
-        of(
-          new pageActions.LoadPageDataFail(error),
-          new EntityFailAction(pageContext.type, pageContext.id)
-        )
-      )
-    );
-  }
+  ) {}
 
   private getPageData(res: any): Page {
     const page: Page = {

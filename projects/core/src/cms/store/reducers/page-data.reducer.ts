@@ -15,6 +15,10 @@ export function pageDataReducer(
     case fromAction.LOAD_PAGEDATA_SUCCESS: {
       return action.payload;
     }
+
+    case fromAction.LOAD_PAGEDATA_FAIL: {
+      return initialState;
+    }
   }
   return state;
 }
