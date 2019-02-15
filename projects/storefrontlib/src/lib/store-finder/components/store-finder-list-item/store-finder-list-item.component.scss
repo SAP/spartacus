@@ -1,16 +1,10 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-$cx-store-finder-list-item-open: 'success' !default;
-$cx-store-finder-list-item-closed: 'danger' !default;
-$cx-store-finder-list-item-margin: 20px 0 !default;
 
 .cx-store-finder-list-item {
-  margin: $cx-store-finder-list-item-margin;
+  margin: var(--cx-margin, 1.25rem 0);
   &__display-name {
     @include type('6');
-    text-decoration: underline;
+    text-decoration: var(--cx-text-decoration, underline);
     cursor: pointer;
   }
   &__address {
@@ -18,14 +12,14 @@ $cx-store-finder-list-item-margin: 20px 0 !default;
   }
   &__open {
     @include type('8');
-    @include var-color('color', $cx-store-finder-list-item-open);
+    color: var(--cx-color, var(--cx-g-color-success));
   }
   &__closed {
     @include type('8');
-    @include var-color('color', $cx-store-finder-list-item-closed);
+    color: var(--cx-color, var(--cx-g-color-danger));
   }
   &__button {
-    line-height: 2;
-    margin-top: 1rem;
+    line-height: var(--cx-line-height, 2);
+    margin: var(--cx-margin, 1rem 0 0);
   }
 }
