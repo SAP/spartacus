@@ -1,10 +1,11 @@
-const testUserId = Date.now() - 1535535333333;
+import { generateMail } from '../helpers/user';
+
 export const user = {
   firstName: 'Winston',
   lastName: 'Rumfoord',
   fullName: 'Winston Rumfoord',
   password: 'Password123.',
-  email: `user${testUserId}@ydev.hybris.com`,
+  email: generateMail('happy-path', true),
   phone: '555 555 555',
   address: {
     city: 'Tralfamadore',
