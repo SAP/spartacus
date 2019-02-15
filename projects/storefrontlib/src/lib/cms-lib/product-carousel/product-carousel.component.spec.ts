@@ -1,3 +1,4 @@
+import { ProductCarouselService } from './product-carousel.service';
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -60,7 +61,15 @@ class MockProductService {
   }
 }
 
-describe('ProductCarouselComponent', () => {
+class MockProductCarouselService {
+  getItems = jasmine.createSpy('getItems').and.callFake(() => of([]));
+  getItemSize = jasmine.createSpy('getItemSize');
+  setActiveItemWithDelay = jasmine.createSpy('setActiveItemWithDelay');
+  setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
+  setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
+}
+
+fdescribe('ProductCarouselComponent', () => {
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
@@ -77,7 +86,18 @@ describe('ProductCarouselComponent', () => {
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: ProductService, useClass: MockProductService }
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(ProductCarouselComponent, {
+        set: {
+          providers: [
+            {
+              provide: ProductCarouselService,
+              useClass: MockProductCarouselService
+            }
+          ]
+        }
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {
