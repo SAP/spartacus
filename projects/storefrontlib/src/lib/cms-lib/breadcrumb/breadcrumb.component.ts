@@ -17,14 +17,14 @@ export class BreadcrumbComponent {
     protected pageTitleService: PageTitleService
   ) {}
 
+  get title$(): Observable<string> {
+    return this.pageTitleService.resolve();
+  }
+
   get crumbs$(): Observable<any[]> {
     // initial version for the breadcrumb
     // this must be done in such a way that
     // other pages can contribute to a stream of crumbs
     return of([{ label: 'Home', link: '/' }]);
-  }
-
-  get title$(): Observable<string> {
-    return this.pageTitleService.resolve();
   }
 }
