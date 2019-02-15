@@ -84,7 +84,7 @@ context('Big happy path', () => {
     );
 
     cy.get('.form-check-input').check();
-    cy.get('.cx-multi-step-checkout__place-order button.btn-primary').click();
+    cy.get('.cx-place-order button.btn-primary').click();
   });
 
   it('should display summary page', () => {
