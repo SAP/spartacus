@@ -392,13 +392,10 @@ describe('MultiStepCheckoutComponent', () => {
   it('should contain proper total value and total items', () => {
     fixture.detectChanges();
 
-    const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))
-      .nativeElement.textContent;
     const values = fixture.debugElement.query(
       By.css('.cx-multi-step-checkout__nav-list--media')
     ).nativeElement.textContent;
 
-    expect(pageTitle).toContain('5141');
     expect(values).toContain('5141');
     expect(values).toContain('11119');
   });
