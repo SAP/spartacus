@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Title } from '../../../occ/occ-models';
 
 export const LOAD_TITLES = '[User] Load Tiltes';

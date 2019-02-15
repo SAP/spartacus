@@ -21,6 +21,12 @@ class MockGlobalMessagerComponent {}
 })
 class MockFooterComponent {}
 
+@Component({
+  selector: 'cx-page-layout',
+  template: ''
+})
+class MockPageLayoutComponent {}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -32,7 +38,8 @@ describe('StorefrontComponent', () => {
         StorefrontComponent,
         MockHeaderComponent,
         MockGlobalMessagerComponent,
-        MockFooterComponent
+        MockFooterComponent,
+        MockPageLayoutComponent
       ]
     }).compileComponents();
   }));

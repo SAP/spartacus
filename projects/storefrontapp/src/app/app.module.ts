@@ -3,8 +3,11 @@ import {
   BrowserModule,
   BrowserTransferStateModule
 } from '@angular/platform-browser';
-import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+
 import { environment } from '../environments/environment';
 
 const devImports = [];
