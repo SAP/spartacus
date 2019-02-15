@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { RoutingService } from '../../../../routing/index';
+import { Observable } from 'rxjs';
 import { map, filter, switchMap } from 'rxjs/operators';
-import { ProductService } from '../../../../product/facade/index';
-
-import { Page } from '../../../../cms/model/page.model';
-import { PageType } from '../../../../occ/occ-models/occ.models';
+import { RoutingService } from '../../../../routing/index';
+import { ProductService } from '../../../../product/index';
+import { Page } from '../../../../cms/index';
+import { PageType } from '../../../../occ/index';
 import { PageTitleResolver } from '../page-title.resolver';
 
 @Injectable({

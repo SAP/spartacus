@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RoutingService } from '../../../../routing/index';
 import { map, filter } from 'rxjs/operators';
+import { RoutingService } from '../../../../routing/index';
 import { ProductSearchService } from '../../../../product/index';
+import { Page } from '../../../../cms/index';
 
-import { Page } from '../../../../cms/model/page.model';
 import {
   PageType,
   PaginationModel

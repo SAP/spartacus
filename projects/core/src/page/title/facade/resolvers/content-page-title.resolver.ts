@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
-
-import { Page } from '../../../../cms/model/page.model';
-import { PageType } from '../../../../occ/occ-models/occ.models';
-import { CmsService } from '../../../../cms/facade/cms.service';
+import { CmsService, Page } from '../../../../cms/index';
+import { PageType } from '../../../../occ/index';
 import { PageTitleResolver } from '../page-title.resolver';
 
 @Injectable({
