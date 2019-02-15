@@ -13,6 +13,7 @@ import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
 import { OrderConfirmationPageComponent } from './order-confirmation-page.component';
 
 const routes: Routes = [
+  // TODO: as soon as the components are moved to CMS driven components we can drop this specific OrderConfirmationPageComponent
   {
     path: null,
     canActivate: [AuthGuard, CmsPageGuards, OrderConfirmationPageGuard],
