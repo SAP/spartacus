@@ -334,6 +334,8 @@ export class UserService {
    * Request an email to reset a forgotten password.
    */
   requestForgotPasswordEmail(userEmailAddress: string) {
-    this.store.dispatch(new fromStore.ForgotPasswordEmailRequest(userEmailAddress));
+    this.store.dispatch(
+      new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
+    );
   }
 }
