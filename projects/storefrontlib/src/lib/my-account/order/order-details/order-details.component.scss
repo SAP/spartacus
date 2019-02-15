@@ -101,15 +101,15 @@
   }
 }
 
-.cx-cart-item-list {
-  .cx-cart-item-list__header {
+.cx-list {
+  .cx-item-list-header {
     padding: var(--cx-padding, 1.125rem 1.875rem);
     @include media-breakpoint-down(md) {
       padding: var(--cx-padding, 1.125rem 1.875rem);
     }
   }
 
-  .cx-cart-item-list__row {
+  .cx-item-list-row {
     padding: var(--cx-padding, 1.625rem 1.875rem);
     @include media-breakpoint-down(md) {
       padding: var(--cx-padding, 1.625rem 1.875rem);
@@ -120,7 +120,7 @@
     }
   }
 
-  .cx-cart-item-list__item {
+  .cx-item-list-items {
     padding: var(--cx-padding, 0);
 
     @include media-breakpoint-down(sm) {
