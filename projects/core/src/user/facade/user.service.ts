@@ -5,7 +5,6 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
-import { OccUserService } from '../occ/user.service';
 import * as fromStore from '../store/index';
 import {
   Order,
@@ -21,10 +20,7 @@ import { UserRegisterFormData } from '../model/user.model';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private store: Store<fromStore.StateWithUser>,
-    private occUserService: OccUserService
-  ) {}
+  constructor(private store: Store<fromStore.StateWithUser>) {}
 
   /**
    * Returns a user
@@ -338,6 +334,6 @@ export class UserService {
    * Request an email to reset a forgotten password.
    */
   requestForgotPasswordEmail(userEmailAddress: string) {
-    this.occUserService.requestForgotPasswordEmail(userEmailAddress);
+    this.store.dispatch(new fromStore.ForgotPasswordEmailRequest(userEmailAddress));
   }
 }

@@ -178,7 +178,7 @@ export class OccUserService {
     );
   }
 
-  requestForgotPasswordEmail(userEmailAddress: string): void {
+  requestForgotPasswordEmail(userEmailAddress: string): Observable<any> {
     const url: string = this.getBaseEndPoint() + FORGOT_PASSWORD_ENDPOINT;
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
@@ -188,9 +188,8 @@ export class OccUserService {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    this.http
+    return this.http
       .post(url, httpParams, { headers })
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe();
+      .pipe(catchError((error: any) => throwError(error)));
   }
 }
