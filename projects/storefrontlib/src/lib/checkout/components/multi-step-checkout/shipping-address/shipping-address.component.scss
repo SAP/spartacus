@@ -1,73 +1,68 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 @import '../container/multi-step-checkout.component';
 
-$cx-shipping-address-card-background-color: 'inverse' !default;
-// cx-shipping-address variables
-$cx-shipping-address-no-padding: 0 !default;
-$cx-shipping-address-title-padding: 2.375rem 0 1.75rem 0 !default;
-$cx-shipping-address-title-margin: 0 auto !default;
-$cx-shipping-address-body-padding-bottom: 1.875rem !default;
-$cx-shipping-address-text-margin-bottom: 1.25rem !default;
-$cx-shipping-address-text-md-padding-left: 3.5rem !default;
-$cx-shipping-address-text-sm-padding-left: 1.5rem !default;
-$cx-shipping-address-card-padding-bottom: 30px !default;
-$cx-shipping-address-card-height: 100% !default;
-// Loading
-$cx-shipping-address-loading-padding: 30px !default;
 .cx-shipping-address {
   &.container {
-    padding: $cx-shipping-address-no-padding;
+    padding: var(--cx-padding, 0);
   }
-  &__title {
-    text-transform: uppercase;
-    margin: $cx-shipping-address-title-margin;
-    padding: $cx-shipping-address-title-padding;
-  }
-  &__spinner {
-    padding-top: $cx-shipping-address-loading-padding;
-    padding-bottom: $cx-shipping-address-loading-padding;
-  }
-  &__body {
-    display: flex;
-    align-items: flex-end;
-    padding-bottom: $cx-shipping-address-body-padding-bottom;
-  }
-  &__text {
-    margin-bottom: $cx-shipping-address-text-margin-bottom;
-  }
-  &__btns {
-    padding-bottom: 1rem;
-  }
-  // ***************************** MEDIA QUERIES *****************************
-  @include checkout-media-style();
-  &__body {
-    align-items: stretch;
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: $cx-shipping-address-no-padding;
-      }
-    }
-  }
-  &__text {
-    @include media-breakpoint-down(md) {
-      padding-left: $cx-shipping-address-text-md-padding-left;
-    }
-    @include media-breakpoint-down(sm) {
-      padding-left: $cx-shipping-address-text-sm-padding-left;
-    }
-  }
-  &__card {
-    padding-bottom: $cx-shipping-address-card-padding-bottom;
 
-    &-inner {
-      height: $cx-shipping-address-card-height;
-      cursor: pointer;
-      @include var-color(
-        'background-color',
-        $cx-shipping-address-card-background-color
-      );
+  @include checkout-media-style();
+}
+
+.cx-shipping-address-title {
+  text-transform: var(--cx-text-transform, uppercase);
+  margin: var(--cx-margin, 0 auto);
+  padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
+}
+
+.cx-shipping-address-body {
+  display: var(--cx-display, flex);
+  align-items: var(--cx-align-items, flex-end);
+}
+
+.cx-shipping-address-text {
+  margin-bottom: var(--cx-margin, 1.25rem);
+
+  @include media-breakpoint-down(md) {
+    padding-left: var(--cx-padding, 3.5rem);
+  }
+  @include media-breakpoint-down(sm) {
+    padding-left: var(--cx-padding, 1.5rem);
+  }
+}
+
+.cx-shipping-address-btn {
+  padding-bottom: var(--cx-padding, 1rem);
+  justify-content: var(--cx-justify-content, flex-end);
+
+  @include media-breakpoint-down(md) {
+    padding: var(--cx-padding, 0 3.5rem 1.25rem 0);
+  }
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 1.25rem);
+  }
+}
+
+.cx-shipping-address-spinner {
+  padding-top: var(--cx-padding, 30px);
+  padding-bottom: var(--cx-padding, 30px);
+}
+
+.cx-shipping-address-body {
+  align-items: var(--cx-align-items, stretch);
+  &.row {
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0);
     }
+  }
+}
+
+.cx-shipping-address-card {
+  padding-bottom: var(--cxpadding, 30px);
+
+  .cx-shipping-address-card-inner {
+    height: var(--cx-height, 100%);
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+    cursor: pointer;
   }
 }
