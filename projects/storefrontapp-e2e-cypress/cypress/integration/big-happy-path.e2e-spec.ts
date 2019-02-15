@@ -52,10 +52,7 @@ context('Big happy path', () => {
   });
 
   it('should choose delivery', () => {
-    cy.get('.cx-delivery-mode-form__title').should(
-      'contain',
-      'Shipping Method'
-    );
+    cy.get('.cx-delivery-title').should('contain', 'Shipping Method');
     cy.get('#deliveryMode-standard-gross').check();
     cy.get('button.btn-primary').click();
   });
