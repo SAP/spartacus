@@ -14,7 +14,6 @@ export const LOAD_PAGEDATA = '[Cms] Load PageData';
 export const LOAD_PAGEDATA_FAIL = '[Cms] Load PageData Fail';
 export const LOAD_PAGEDATA_SUCCESS = '[Cms] Load PageData Success';
 
-// TODO:#1135v2 - test
 export class LoadPageIndex extends EntityLoadAction {
   readonly type = LOAD_PAGE_INDEX;
   constructor(public payload: PageContext) {
@@ -22,23 +21,20 @@ export class LoadPageIndex extends EntityLoadAction {
   }
 }
 
-// TODO:#1135 - test
 export class LoadPageIndexFail extends EntityFailAction {
   readonly type = LOAD_PAGE_INDEX_FAIL;
-  constructor(public pageContext: PageContext, public payload: any) {
+  constructor(pageContext: PageContext, public payload: any) {
     super(pageContext.type, pageContext.id, payload);
   }
 }
 
-// TODO:#1135 - test
 export class LoadPageIndexSuccess extends EntitySuccessAction {
   readonly type = LOAD_PAGE_INDEX_SUCCESS;
-  constructor(public pageContext: PageContext, public payload: string) {
+  constructor(pageContext: PageContext, public payload: string) {
     super(pageContext.type, pageContext.id, payload);
   }
 }
 
-// TODO:#1135 - update test
 export class LoadPageData extends EntityLoadAction {
   readonly type = LOAD_PAGEDATA;
   constructor(public payload: PageContext) {
@@ -46,15 +42,13 @@ export class LoadPageData extends EntityLoadAction {
   }
 }
 
-// TODO:#1135 - update test
 export class LoadPageDataFail extends EntityFailAction {
   readonly type = LOAD_PAGEDATA_FAIL;
-  constructor(public payload: any) {
-    super(PAGE_DATA_ENTITY, payload);
+  constructor(pageContext: PageContext, public payload: any) {
+    super(PAGE_DATA_ENTITY, pageContext.id, payload);
   }
 }
 
-// TODO:#1135 - update test
 export class LoadPageDataSuccess extends EntitySuccessAction {
   readonly type = LOAD_PAGEDATA_SUCCESS;
   constructor(public payload: Page) {
@@ -65,6 +59,8 @@ export class LoadPageDataSuccess extends EntitySuccessAction {
 // action types
 export type PageAction =
   | LoadPageIndex
+  | LoadPageIndexFail
+  | LoadPageIndexSuccess
   | LoadPageData
   | LoadPageDataFail
   | LoadPageDataSuccess;

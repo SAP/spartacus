@@ -112,7 +112,7 @@ describe('CmsService', () => {
     }
   ));
 
-  fit('getNavigationEntryItems should be able to get navigation entry items by navigationNodeUid', inject(
+  it('getNavigationEntryItems should be able to get navigation entry items by navigationNodeUid', inject(
     [CmsService],
     (service: CmsService) => {
       const testUid = 'test_uid';

@@ -3,16 +3,67 @@ import { PageContext } from '../../../routing/index';
 import { PageType } from '../../../occ/occ-models/index';
 
 import * as fromPage from './page.action';
+import {
+  entityLoadMeta,
+  entityFailMeta,
+  entitySuccessMeta
+} from '../../../state';
+import { PAGE_DATA_ENTITY } from '../cms-state';
 
 describe('Cms Page Actions', () => {
+  const pageContext: PageContext = {
+    id: 'test',
+    type: PageType.CONTENT_PAGE
+  };
+
+  describe('LoadPageIndex Actions', () => {
+    describe('LoadPageIndex', () => {
+      it('should create the action', () => {
+        const action = new fromPage.LoadPageIndex(pageContext);
+
+        expect({ ...action }).toEqual({
+          type: fromPage.LOAD_PAGE_INDEX,
+          meta: entityLoadMeta(pageContext.type, pageContext.id),
+          payload: pageContext
+        });
+      });
+    });
+
+    describe('LoadPageIndexFail', () => {
+      it('should create the action', () => {
+        const payload = 'error';
+        const action = new fromPage.LoadPageIndexFail(pageContext, payload);
+
+        expect({ ...action }).toEqual({
+          type: fromPage.LOAD_PAGE_INDEX_FAIL,
+          meta: entityFailMeta(pageContext.type, pageContext.id, payload),
+          payload
+        });
+      });
+    });
+
+    describe('LoadPageIndexSuccess', () => {
+      it('should create the action', () => {
+        const payload = 'testKey';
+        const action = new fromPage.LoadPageIndexSuccess(pageContext, payload);
+
+        expect({ ...action }).toEqual({
+          type: fromPage.LOAD_PAGE_INDEX_SUCCESS,
+          meta: entitySuccessMeta(pageContext.type, pageContext.id),
+          payload
+        });
+      });
+    });
+  });
+
   describe('LoadPageData Actions', () => {
     describe('LoadPageData', () => {
       it('should create an action', () => {
-        const payload = new PageContext('123', PageType.PRODUCT_PAGE);
-        const action = new fromPage.LoadPageData(payload);
+        const action = new fromPage.LoadPageData(pageContext);
         expect({ ...action }).toEqual({
           type: fromPage.LOAD_PAGEDATA,
-          payload: payload
+          payload: pageContext,
+          meta: entityLoadMeta(PAGE_DATA_ENTITY, pageContext.id)
         });
       });
     });
@@ -20,64 +71,29 @@ describe('Cms Page Actions', () => {
     describe('LoadLoadPageDataFail', () => {
       it('should create an action', () => {
         const payload = { message: 'Load Error' };
-        const action = new fromPage.LoadPageDataFail(payload);
+        const action = new fromPage.LoadPageDataFail(pageContext, payload);
 
         expect({ ...action }).toEqual({
           type: fromPage.LOAD_PAGEDATA_FAIL,
-          payload
+          payload,
+          meta: entityFailMeta(PAGE_DATA_ENTITY, pageContext.id, payload)
         });
       });
     });
 
     describe('LoadLoadPageDataSuccess', () => {
       it('should create an action', () => {
-        const page: Page = {
-          pageId: 'testPageId',
+        const payload: Page = {
+          pageId: 'test',
           name: 'testPage',
-          seen: [],
           slots: { left: {} }
         };
-        const payload = { key: 'test', value: page };
         const action = new fromPage.LoadPageDataSuccess(payload);
 
         expect({ ...action }).toEqual({
           type: fromPage.LOAD_PAGEDATA_SUCCESS,
-          payload
-        });
-      });
-    });
-  });
-
-  describe('UpdateLatestPageKey Action', () => {
-    describe('Update Latest PageKey', () => {
-      it('should create an action', () => {
-        const pageKey = '123_2';
-        const action = new fromPage.UpdateLatestPageId(pageKey);
-        expect({ ...action }).toEqual({
-          type: fromPage.UPDATE_LATEST_PAGE_ID,
-          payload: pageKey
-        });
-      });
-    });
-  });
-
-  describe('CleanPageState Action', () => {
-    describe('Clean Page State', () => {
-      it('should create an action', () => {
-        const action = new fromPage.CleanPageState();
-        expect({ ...action }).toEqual({
-          type: fromPage.CLEAN_PAGE_STATE
-        });
-      });
-    });
-  });
-
-  describe('RefreshLatestPage Action', () => {
-    describe('Refresh Latest Page', () => {
-      it('should create an action', () => {
-        const action = new fromPage.RefreshLatestPage();
-        expect({ ...action }).toEqual({
-          type: fromPage.REFRESH_LATEST_PAGE
+          payload,
+          meta: entitySuccessMeta(PAGE_DATA_ENTITY, payload.pageId)
         });
       });
     });

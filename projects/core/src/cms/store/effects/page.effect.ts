@@ -59,7 +59,7 @@ export class PageEffects {
         catchError(error =>
           of(
             new pageActions.LoadPageIndexFail(pageContext, error),
-            new pageActions.LoadPageDataFail(error)
+            new pageActions.LoadPageDataFail(pageContext, error)
           )
         )
       )
