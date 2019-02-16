@@ -1,4 +1,9 @@
 import { user, cart, product } from '../sample-data/big-happy-path';
+import { login, register } from '../helpers/auth-forms';
+import {
+  fillPaymentDetails,
+  fillShippingAddress
+} from '../helpers/checkout-forms';
 
 context('Big happy path', () => {
   before(() => {
@@ -9,7 +14,7 @@ context('Big happy path', () => {
   it('should register successfully', () => {
     cy.getByText(/Sign in \/ Register/i).click();
     cy.getByText('Register').click();
-    cy.register(user);
+    register(user);
     cy.get('.cx-login-status__greet').should('contain', user.fullName);
     cy.selectUserMenuOption('Sign Out');
     cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
@@ -38,7 +43,7 @@ context('Big happy path', () => {
       cy.get('.cx-name .cx-link').should('contain', product.name);
       cy.getByText(/proceed to checkout/i).click();
     });
-    cy.login(user.email, user.password);
+    login(user.email, user.password);
   });
 
   it('should fill in address form', () => {
@@ -48,7 +53,7 @@ context('Big happy path', () => {
       .find('.cx-summary-amount')
       .should('contain', '$2,623.08');
 
-    cy.fillShippingAddress(user);
+    fillShippingAddress(user);
   });
 
   it('should choose delivery', () => {
@@ -63,7 +68,7 @@ context('Big happy path', () => {
       .find('.cx-summary-amount')
       .should('contain', cart.total);
 
-    cy.fillPaymentDetails(user);
+    fillPaymentDetails(user);
   });
 
   it('should review and place order', () => {
