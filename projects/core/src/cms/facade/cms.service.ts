@@ -30,10 +30,7 @@ export class CmsService {
   constructor(
     private store: Store<StateWithCms>,
     private routingService: RoutingService
-  ) {
-    // TODO:#1135 - delete?
-    // private defaultPageService: DefaultPageService
-  }
+  ) {}
 
   /**
    * Set _launchInSmartEdit value
@@ -52,7 +49,6 @@ export class CmsService {
   /**
    * Get current CMS page data
    */
-  // TODO:#1135 - update test
   getCurrentPage(): Observable<Page> {
     return this.routingService
       .getPageContext()
@@ -130,7 +126,6 @@ export class CmsService {
   /**
    * Refresh the content of the latest cms page
    */
-  // TODO:#1135 - update test
   refreshLatestPage(): void {
     this.routingService
       .getPageContext()
