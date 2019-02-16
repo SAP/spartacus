@@ -1,11 +1,13 @@
 import { by, element, ElementFinder } from 'protractor';
-import { DeliveryModeForm } from './delivery-mode-form.po';
-import { ReviewForm } from './review-form.po';
+
 import { AppPage } from '../app.po';
-import { OrderConfirmationPage } from './order-confirmation.po';
-import { ShippingAddress } from './shipping-address.po';
-import { PaymentMethod } from './payment-method.po';
 import { TermsAndConditionsPage } from '../terms-and-conditions.po';
+
+import { DeliveryModeForm } from './delivery-mode-form.po';
+import { OrderConfirmationPage } from './order-confirmation.po';
+import { PaymentMethod } from './payment-method.po';
+import { ReviewForm } from './review-form.po';
+import { ShippingAddress } from './shipping-address.po';
 
 export class MultiStepCheckoutPage extends AppPage {
   readonly page: ElementFinder = element(
@@ -17,7 +19,7 @@ export class MultiStepCheckoutPage extends AppPage {
   );
 
   readonly agreeToTermsCheckbox: ElementFinder = this.page.element(
-    by.css('.cx-multi-step-checkout__place-order-form .form-check-input')
+    by.css('.cx-place-order-form .form-check-input')
   );
 
   readonly placeOrderButton: ElementFinder = this.page.element(
@@ -25,7 +27,7 @@ export class MultiStepCheckoutPage extends AppPage {
   );
 
   readonly termsAndConditions: ElementFinder = this.page.element(
-    by.css('.cx-multi-step-checkout__tc-link')
+    by.css('.cx-tc-link')
   );
 
   readonly shippingAddress: ShippingAddress = new ShippingAddress(this.page);
