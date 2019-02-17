@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-import { AuthGuard } from '@spartacus/core';
+import { AuthGuard, NotAuthGuard } from '@spartacus/core';
 
 const pageModules = [
   OrderHistoryPageModule,
@@ -85,6 +85,12 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
         component: PageLayoutComponent
+      },
+      {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'forgotPassword', cxPath: 'forgotPassword' }
       },
       {
         path: null,

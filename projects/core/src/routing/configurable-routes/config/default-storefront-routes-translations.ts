@@ -11,7 +11,7 @@ export const defaultStorefrontRoutesTranslations: {
     login: { paths: ['login'] },
     register: { paths: ['register'] },
     resetPassword: { paths: ['reset-new-password/:token'] },
-    forgotPassword: { paths: ['reset-password'] },
+    forgotPassword: { paths: ['forgot-password'] },
     checkout: { paths: ['checkout'] },
     orderConfirmation: { paths: ['order-confirmation'] },
     product: {
