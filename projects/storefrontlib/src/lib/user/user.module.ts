@@ -24,7 +24,7 @@ import {
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        forgotPasswordComponent: { selector: 'cx-reset-password' }
+        ForgotPasswordComponent: { selector: 'cx-reset-password' }
       }
     })
   ],
