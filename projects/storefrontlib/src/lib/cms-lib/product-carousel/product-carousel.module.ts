@@ -1,4 +1,3 @@
-import { CmsComponentData } from '@spartacus/storefront';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -10,7 +9,9 @@ import {
   ProductService
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
+
 import { ProductCarouselService } from './product-carousel.service';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @NgModule({
   imports: [
