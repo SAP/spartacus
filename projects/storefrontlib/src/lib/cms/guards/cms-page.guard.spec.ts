@@ -21,7 +21,7 @@ class MockRoutingService {
   }
 }
 
-fdescribe('CmsPageGuards', () => {
+describe('CmsPageGuards', () => {
   let routingService: RoutingService;
 
   beforeEach(() => {

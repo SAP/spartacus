@@ -4,17 +4,19 @@ import {
   RouterStateSnapshot,
   Params
 } from '@angular/router';
+
 import {
   createSelector,
   createFeatureSelector,
   ActionReducerMap,
   MemoizedSelector
 } from '@ngrx/store';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
 import * as fromNgrxRouter from '@ngrx/router-store';
+
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
+import { PageContext } from '../../models/page-context.model';
+import { PageType } from '../../../occ/occ-models/index';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -123,7 +125,6 @@ export const getRouterState: MemoizedSelector<any, any> = createSelector(
   (state: any) => state[ROUTING_FEATURE]
 );
 
-// TODO:#1135 - test
 export const getPageContext: MemoizedSelector<
   any,
   PageContext
