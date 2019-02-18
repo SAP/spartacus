@@ -1,5 +1,5 @@
 <ng-container *cxOutlet="section || (templateName$ | async)">
-  <header *ngIf="(pageTitle$ | async) as title">
+  <header *ngIf="!section && (pageTitle$ | async) as title">
     <!--
           TODO: add breadcrumb component
         -->

@@ -1,14 +1,13 @@
-import * as fromReducer from './titles.reducer';
 import * as fromActions from '../actions/';
 import { Title } from '../../../occ/occ-models';
+
+import * as fromReducer from './titles.reducer';
 
 describe('Titles Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as
-        | fromActions.TitlesAction
-        | fromActions.MiscsDataAction;
+      const action = {} as fromActions.TitlesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);

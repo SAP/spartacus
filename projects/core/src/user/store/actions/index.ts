@@ -6,8 +6,6 @@ export class ClearMiscsData implements Action {
   readonly type = CLEAR_MISCS_DATA;
 }
 
-export type MiscsDataAction = ClearMiscsData;
-
 export * from './user-details.action';
 export * from './user-addresses.action';
 export * from './payment-methods.action';
