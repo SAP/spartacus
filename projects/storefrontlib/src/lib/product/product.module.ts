@@ -11,6 +11,7 @@ import { CmsModule } from './../cms/cms.module';
     RouterModule,
     MediaModule,
     CmsModule,
-  ]
+  ],
+  declarations: []
 })
 export class ProductModule {}

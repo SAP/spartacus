@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  flex-direction: var(--cx-flex-direction, column);
+
+  height: 100%;
+  > cx-picture {
+    height: 100%;
+    width: 100%; // required to support horizontal layouts
+    position: relative;
+  }
+}
+
+.thumbs {
+  display: flex;
+  justify-content: flex-start;
+
+  cx-picture {
+    width: var(--cx-width, 75px);
+    height: var(--cx-width, 75px);
+    transition: all var(--cx-g-transition-duration);
+
+    &:not(.active) {
+      cursor: pointer;
+    }
+    overflow: hidden;
+    position: relative;
+
+    border: var(--cx-border, 2px solid var(--cx-g-color-light));
+
+    margin: var(--cx-margin, 0.5vw);
+    padding: var(--cx-padding, 0.5vw);
+
+    &:hover,
+    &.active {
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
+    }
+  }
+}

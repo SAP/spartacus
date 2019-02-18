@@ -18,6 +18,9 @@ import { OrderDetailsPageModule } from './myaccount/order-details-page/order-det
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
+
+// ProductPage
+import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
@@ -31,6 +34,7 @@ const pageModules = [
   MultiStepCheckoutPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
+  ProductPageModule,
   RegisterPageModule,
   LoginPageModule,
   PaymentDetailsPageModule,
