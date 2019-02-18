@@ -7,6 +7,26 @@ describe('Added to cart modal', () => {
   });
 
   it('basic modal behavior', () => {
+    // Type 1000 in the input to see if the value will change to maximum 'max stock'
+    cy.get('cx-product-summary .cx-item-counter__value')
+      .clear()
+      .type('1000');
+
+    // check if the '+' button is disabled when the quantity is the minimum '1'
+    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+      .contains('+')
+      .should('be.disabled');
+
+    // Type 0 in the input to see if the value will change to minimum '1'
+    cy.get('cx-product-summary .cx-item-counter__value')
+      .clear()
+      .type('0');
+
+    // check if the '-' button is disabled when the quantity is the minimum '1'
+    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+      .contains('-')
+      .should('be.disabled');
+
     // increase the quantity to 2 and add it to cart
     cy.get('cx-product-summary .cx-item-counter.btn-group button')
       .contains('+')
@@ -14,18 +34,28 @@ describe('Added to cart modal', () => {
 
     cy.get('cx-product-summary cx-add-to-cart button').click();
 
-    // quantity is set correctly
+    // Check if the text in the cart dialog and product summary in product details matches
     cy.get('cx-added-to-cart-dialog .cx-name').then($cartItem => {
       cy.get('cx-product-summary .name').then($productItem => {
         expect($cartItem.text()).equal($productItem.text());
       });
     });
+
+    // quantity is correctly updated
     cy.get(
       'cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value'
     ).should('have.value', '2');
     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
       'contain',
       '2 items'
+    );
+
+    // check if the total is correct
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
+      $cartTotalItemPrice => {
+        const totalPrice = $cartTotalItemPrice.text().trim();
+        expect(totalPrice).equal('$4,004.96');
+      }
     );
 
     // action buttons links correctly
@@ -46,7 +76,7 @@ describe('Added to cart modal', () => {
   });
 
   it('adding same product twice to cart', () => {
-    // in crease the quantity to 3 items of the same product to cart
+    // increase the quantity to 3 items of the same product
     cy.get('cx-product-summary .cx-item-counter.btn-group button')
       .contains('+')
       .click();
@@ -84,6 +114,14 @@ describe('Added to cart modal', () => {
     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
       'contain',
       '6 items'
+    );
+
+    // check if the total is correct
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
+      $cartTotalItemPrice => {
+        const totalPrice = $cartTotalItemPrice.text().trim();
+        expect(totalPrice).equal('$121.88');
+      }
     );
 
     // navigate to cart details
