@@ -1,12 +1,4 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  ChangeDetectionStrategy,
-  SimpleChanges,
-  OnDestroy
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
@@ -20,10 +12,9 @@ import { PageLayoutService } from '../../../../cms/page-layout/page-layout.servi
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
+export class ProductListComponent implements OnInit, OnDestroy {
   @Input()
   gridMode: String;
   @Input()
@@ -48,7 +39,7 @@ export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
     private pageLayoutService: PageLayoutService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  update() {
     const { queryParams } = this.activatedRoute.snapshot;
     this.options = this.createOptionsByUrlParams();
 
@@ -63,9 +54,9 @@ export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     // do search only when 'brandCode' or 'categoryCode' or 'query' changed
-    if (Object.keys(changes).length === 1 && !changes['gridMode']) {
-      this.search(this.query, this.options);
-    }
+    // if (Object.keys(changes).length === 1 && !changes['gridMode']) {
+    this.search(this.query, this.options);
+    // }
   }
 
   createOptionsByUrlParams(): SearchConfig {
@@ -96,6 +87,7 @@ export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
           this.categoryCode = params.categoryCode;
           this.brandCode = params.brandCode;
           this.query = params.query;
+          this.update();
         })
       )
       .add(
@@ -105,7 +97,10 @@ export class ProductListComponent implements OnChanges, OnInit, OnDestroy {
               template === 'ProductGridPageTemplate' ? 'grid' : 'list'
             )
           )
-          .subscribe(gridMode => (this.gridMode = gridMode))
+          .subscribe(gridMode => {
+            this.gridMode = gridMode;
+            this.update();
+          })
       );
 
     this.grid = {
