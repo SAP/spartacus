@@ -1,4 +1,4 @@
-<ng-container *ngIf="(updateParams$ | async) && (updateGridMode$ | async)">
+<ng-container *ngIf="(updateParams$ | async)">
   <div class="cx-page" *ngIf="(model$ | async) as model">
     <header *ngIf="categoryTitle" class="cx-page__header">
       <h1 class="cx-page__title">{{ categoryTitle }}</h1>
@@ -14,7 +14,7 @@
               [searchResult]="model"
             ></cx-product-facet-navigation>
           </div>
-          <div class="col-12 col-lg-9">
+          <div class="col-12 col-lg-9" *ngIf="(gridMode$ | async) as gridMode">
             <div class="cx-sorting top">
               <div class="row">
                 <div class="col-12 col-lg-4 mr-auto">
@@ -39,7 +39,7 @@
                   </div>
                 </div>
                 <div class="col-auto ml-auto ml-lg-0">
-                  <cx-product-view [(mode)]="grid.mode"></cx-product-view>
+                  <cx-product-view [(mode)]="gridMode"></cx-product-view>
                 </div>
                 <div class="col-12 d-lg-none d-xl-none">
                   <cx-product-facet-navigation
@@ -52,7 +52,7 @@
               </div>
             </div>
             <div class="cx-product-container">
-              <div *ngIf="grid.mode === 'grid'" class="row">
+              <div *ngIf="gridMode === 'grid'" class="row">
                 <cx-product-grid-item
                   *ngFor="let product of model?.products"
                   [product]="product"
@@ -60,7 +60,7 @@
                 ></cx-product-grid-item>
               </div>
 
-              <ng-template [ngIf]="grid.mode === 'list'">
+              <ng-template [ngIf]="gridMode === 'list'">
                 <cx-product-list-item
                   *ngFor="let product of model?.products"
                   [product]="product"
@@ -89,7 +89,7 @@
                   </div>
                 </div>
                 <div class="col-auto ml-auto ml-lg-0">
-                  <cx-product-view [(mode)]="grid.mode"></cx-product-view>
+                  <cx-product-view [(mode)]="gridMode"></cx-product-view>
                 </div>
                 <div class="col-12 d-lg-none d-xl-none">
                   <cx-product-facet-navigation

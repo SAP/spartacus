@@ -15,19 +15,17 @@ import { PageLayoutService } from '../../../../cms/page-layout/page-layout.servi
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  gridMode: String;
   query;
   categoryCode;
   brandCode;
   itemPerPage: number;
 
-  grid: any;
   model$: Observable<ProductSearchPage>;
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
   updateParams$: Observable<Params>;
-  updateGridMode$: Observable<string>;
+  gridMode$: Observable<string>;
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -75,7 +73,6 @@ export class ProductListComponent implements OnInit {
   ngOnInit() {
     this.updateParams$ = this.activatedRoute.params.pipe(
       tap(params => {
-        console.log('par', params);
         this.categoryCode = params.categoryCode;
         this.brandCode = params.brandCode;
         this.query = params.query;
@@ -83,17 +80,10 @@ export class ProductListComponent implements OnInit {
       })
     );
 
-    this.updateGridMode$ = this.pageLayoutService.templateName$.pipe(
+    this.gridMode$ = this.pageLayoutService.templateName$.pipe(
       map(template =>
         template === 'ProductGridPageTemplate' ? 'grid' : 'list'
-      ),
-      tap(gridMode => {
-        console.log('gridMode', gridMode);
-        this.gridMode = gridMode;
-        this.grid = {
-          mode: this.gridMode
-        };
-      })
+      )
     );
 
     // clean previous search result
