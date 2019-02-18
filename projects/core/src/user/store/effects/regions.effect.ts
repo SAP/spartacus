@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { Effect, Actions, ofType } from '@ngrx/effects';
+
 import { Observable, of } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 
@@ -9,7 +11,7 @@ import { OccMiscsService } from '../../../occ/miscs/miscs.service';
 @Injectable()
 export class RegionsEffects {
   @Effect()
-  loadRegions$: Observable<any> = this.actions$.pipe(
+  loadRegions$: Observable<fromActions.RegionsAction> = this.actions$.pipe(
     ofType(fromActions.LOAD_REGIONS),
     map((action: fromActions.LoadRegions) => {
       return action.payload;

@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+
 import { Region } from '../../../occ/occ-models/index';
 
 export const LOAD_REGIONS = '[User] Load Regions';

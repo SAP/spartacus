@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { FooterComponent } from '../footer/footer.component';
 import { HeaderModule } from './../header/header.module';
 import { UiFrameworkModule } from '../../ui-framework/ui-framework.module';
 import { CmsModule } from '../../../cms/cms.module';
@@ -12,6 +11,7 @@ import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
 import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,9 +22,10 @@ import { StorefrontComponent } from './storefront.component';
     HeaderModule,
     UiFrameworkModule,
     OutletRefModule,
-    PwaModule
+    PwaModule,
+    PageLayoutModule
   ],
-  declarations: [StorefrontComponent, FooterComponent],
+  declarations: [StorefrontComponent],
   exports: [StorefrontComponent]
 })
 export class MainModule {}
