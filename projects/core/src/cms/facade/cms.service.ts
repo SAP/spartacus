@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import * as fromStore from '../store';
 import {
   filter,
@@ -7,7 +7,8 @@ import {
   map,
   take,
   withLatestFrom,
-  shareReplay
+  multicast,
+  refCount
 } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import { Page } from '../model/page.model';
@@ -72,7 +73,9 @@ export class CmsService {
         }),
         map(([productState]) => productState.value),
         filter(Boolean),
-        shareReplay(1)
+        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
+        multicast(() => new ReplaySubject(1)),
+        refCount()
       );
     }
 
