@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../../routing';
 import { ProductSearchService } from '../../../product';
-import { Page } from '../../../cms';
+import { Page, CmsService } from '../../../cms';
 
-import { PageType, PaginationModel } from '../../../occ';
+import { PageType } from '../../../occ/';
 import { PageTitleResolver } from './page-title.resolver';
 
 @Injectable({
@@ -14,7 +14,8 @@ import { PageTitleResolver } from './page-title.resolver';
 export class CategoryPageTitleResolver extends PageTitleResolver {
   constructor(
     protected routingService: RoutingService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
+    protected cms: CmsService
   ) {
     super();
   }
@@ -24,15 +25,34 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
   }
 
   resolve(): Observable<string> {
-    return this.productSearchService.getSearchResults().pipe(
-      filter(data => !!(data.breadcrumbs && data.breadcrumbs.length > 0)),
-      map(data => {
-        return [data.pagination, data.breadcrumbs[0].facetValueName];
-      }),
-      map(
-        ([pagination, category]: [PaginationModel, string]) =>
-          `${pagination.totalResults} results for ${category}`
-      )
+    return this.cms.getCurrentPage().pipe(
+      switchMap(page => {
+        // only the existence of a plp component tells us if products
+        // are rendered or if this is an ordinary content page
+        if (this.hasProductListComponent(page)) {
+          return this.productSearchService.getSearchResults().pipe(
+            map(data => {
+              if (data.breadcrumbs && data.breadcrumbs.length > 0) {
+                return `${data.pagination.totalResults} results for ${
+                  data.breadcrumbs[0].facetValueName
+                }`;
+              }
+            })
+          );
+        } else {
+          return of(page.title || page.name);
+        }
+      })
+    );
+  }
+
+  protected hasProductListComponent(page: Page): boolean {
+    // ProductListComponent
+    return !!Object.keys(page.slots).find(
+      key =>
+        !!page.slots[key].components.find(
+          comp => comp.uid === 'ProductListComponent'
+        )
     );
   }
 }

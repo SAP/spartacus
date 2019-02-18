@@ -19,7 +19,6 @@ export class CheckoutPageTitleResolver extends PageTitleResolver {
   }
 
   hasMatch(page: Page) {
-    console.log('page', page);
     return (
       page.type === PageType.CONTENT_PAGE &&
       page.template === 'MultiStepCheckoutSummaryPageTemplate'

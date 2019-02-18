@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { Observable, combineLatest, pipe } from 'rxjs';
+import { map, filter, tap } from 'rxjs/operators';
 import { RoutingService } from '../../../routing';
 import { ProductSearchService } from '../../../product';
 import { Page } from '../../../cms';

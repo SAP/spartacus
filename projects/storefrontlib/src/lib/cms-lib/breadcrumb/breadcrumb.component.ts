@@ -18,7 +18,7 @@ export class BreadcrumbComponent {
   ) {}
 
   get title$(): Observable<string> {
-    return this.pageTitleService.resolve();
+    return this.pageTitleService.getTitle();
   }
 
   get crumbs$(): Observable<any[]> {
