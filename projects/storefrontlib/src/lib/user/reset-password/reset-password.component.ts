@@ -9,7 +9,7 @@ import { UserService, RoutingService } from '@spartacus/core';
 })
 export class ResetPasswordComponent implements OnInit {
   form: FormGroup;
-
+  submited = false;
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
@@ -23,6 +23,11 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   requestForgotPasswordEmail() {
+    this.submited = true;
+
+    if (this.form.invalid) {
+      return;
+    }
     this.userService.requestForgotPasswordEmail(this.form.value.userId);
     this.routingService.go({ route: ['login'] });
   }
