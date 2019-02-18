@@ -22,12 +22,12 @@ import { Page } from '../../model/page.model';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 import * as fromNavigation from './navigation-entry-item.reducer';
-import { pageDataReducer } from './page-data.reducer';
+import * as fromPageReducer from './page.reducer';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
     page: combineReducers({
-      pageData: entityReducer<Page>(PAGE_DATA_ENTITY, pageDataReducer),
+      pageData: entityReducer<Page>(PAGE_DATA_ENTITY, fromPageReducer.reducer),
       index: combineReducers({
         content: entityLoaderReducer<string>(PageType.CONTENT_PAGE),
         product: entityLoaderReducer<string>(PageType.PRODUCT_PAGE),

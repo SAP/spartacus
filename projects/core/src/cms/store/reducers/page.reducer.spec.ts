@@ -1,6 +1,7 @@
 import * as fromActions from '../actions/page.action';
+import { PageType } from '../../../occ';
+import { PageContext } from '../../../routing';
 import { Page } from '../../model/page.model';
-import { CmsComponent } from '../../../occ/occ-models/index';
 
 import * as fromPage from './page.reducer';
 
@@ -17,106 +18,31 @@ describe('Cms Page Reducer', () => {
 
   describe('LOAD_PAGEDATA_SUCCESS action', () => {
     it('should populate the page state', () => {
-      const components: CmsComponent[] = [
-        { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-        { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-        { uid: 'comp3', typeCode: 'NavigationComponent' }
-      ];
-      const page: Page = {
+      const page = {
         pageId: 'testPageId',
-        name: 'testPage',
-        seen: [],
-        slots: { left: { components } }
-      };
-      const payload = { key: 'test', value: page };
+        name: 'testPage'
+      } as Page;
 
       const { initialState } = fromPage;
-      const action = new fromActions.LoadPageDataSuccess(payload);
+      const action = new fromActions.LoadPageDataSuccess(page);
       const state = fromPage.reducer(initialState, action);
 
-      expect(state.pageData.entities['test']).toEqual(page);
-      expect(state.latestPageId).toEqual('test');
-    });
-
-    it('should add id to array `seen` for the same cms page', () => {
-      const page: Page = {
-        pageId: 'testPageId',
-        seen: [],
-        slots: { left: { uid: 'uid' } }
-      };
-      const payload = { key: 'test', value: page };
-      const { initialState } = fromPage;
-      const currentState = { ...initialState, [payload.key]: payload.value };
-
-      const newPage: Page = {
-        pageId: 'testPageId',
-        seen: ['123'],
-        slots: { left: { uid: 'uid' } }
-      };
-      const newPayload = { key: 'test', value: newPage };
-      const action = new fromActions.LoadPageDataSuccess(newPayload);
-      const state = fromPage.reducer(currentState, action);
-
-      expect(state.entities['test'].seen).toEqual(['123']);
-      expect(state.latestPageId).toEqual('test');
-    });
-
-    it('should overwrite the existing cms page', () => {
-      const page: Page = {
-        pageId: 'testPageId',
-        slots: { left: { components: [{ uid: 'comp1' }] } }
-      };
-      const payload = { key: 'test', value: page };
-      const { initialState } = fromPage;
-      const currentState = { ...initialState, [payload.key]: payload.value };
-
-      const newPage: Page = {
-        pageId: 'testPageId',
-        slots: { left: { components: [{ uid: 'comp1' }, { uid: 'comp2' }] } }
-      };
-      const newPayload = { key: 'test', value: newPage };
-      const action = new fromActions.LoadPageDataSuccess(newPayload);
-      const state = fromPage.reducer(currentState, action);
-
-      expect(state.entities['test'].slots['left']).toEqual({
-        components: [{ uid: 'comp1' }, { uid: 'comp2' }]
-      });
-      expect(state.latestPageId).toEqual('test');
+      expect(state).toEqual(page);
     });
   });
 
-  describe('UPDATE_LATEST_PAGE_KEY action', () => {
-    it('should update the latestPageKey in page state', () => {
-      const payload = 'new key';
+  describe('LOAD_PAGEDATA_FAIL action', () => {
+    it('should return the default state', () => {
+      const pageContext: PageContext = {
+        id: 'homepage',
+        type: PageType.CONTENT_PAGE
+      };
 
       const { initialState } = fromPage;
-      const action = new fromActions.UpdateLatestPageId(payload);
+      const action = new fromActions.LoadPageDataFail(pageContext, 'error');
       const state = fromPage.reducer(initialState, action);
 
-      expect(state.latestPageId).toEqual(payload);
-    });
-  });
-
-  describe('REFRESH_LATEST_PAGE action', () => {
-    it('should reset latest page', () => {
-      const page: Page = {
-        pageId: 'testPageId',
-        name: 'testPage',
-        seen: [],
-        slots: { left: null }
-      };
-      const payload = { key: 'test', value: page };
-
-      const { initialState } = fromPage;
-      const state = {
-        ...initialState,
-        [payload.key]: payload.value,
-        latestPageKey: 'test'
-      };
-      const refreshAction = new fromActions.RefreshLatestPage();
-      const newState = fromPage.reducer(state, refreshAction);
-
-      expect(newState.entities['test']).toEqual(null);
+      expect(state).toEqual(initialState);
     });
   });
 });
