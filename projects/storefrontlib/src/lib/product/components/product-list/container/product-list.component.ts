@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { tap, filter, map } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import {
   ProductSearchService,
   ProductSearchPage,
@@ -14,16 +14,11 @@ import { PageLayoutService } from '../../../../cms/page-layout/page-layout.servi
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
-export class ProductListComponent implements OnInit, OnDestroy {
-  @Input()
+export class ProductListComponent implements OnInit {
   gridMode: String;
-  @Input()
   query;
-  @Input()
   categoryCode;
-  @Input()
   brandCode;
-  @Input()
   itemPerPage: number;
 
   grid: any;
@@ -31,7 +26,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
-  subscriptions = new Subscription();
+  updateParams$: Observable<Params>;
+  updateGridMode$: Observable<string>;
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -77,30 +73,28 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions
-      .add(
-        this.activatedRoute.params.subscribe(params => {
-          this.categoryCode = params.categoryCode;
-          this.brandCode = params.brandCode;
-          this.query = params.query;
-          this.update();
-        })
-      )
-      .add(
-        this.pageLayoutService.templateName$
-          .pipe(
-            map(template =>
-              template === 'ProductGridPageTemplate' ? 'grid' : 'list'
-            )
-          )
-          .subscribe(gridMode => {
-            this.gridMode = gridMode;
-          })
-      );
+    this.updateParams$ = this.activatedRoute.params.pipe(
+      tap(params => {
+        console.log('par', params);
+        this.categoryCode = params.categoryCode;
+        this.brandCode = params.brandCode;
+        this.query = params.query;
+        this.update();
+      })
+    );
 
-    this.grid = {
-      mode: this.gridMode
-    };
+    this.updateGridMode$ = this.pageLayoutService.templateName$.pipe(
+      map(template =>
+        template === 'ProductGridPageTemplate' ? 'grid' : 'list'
+      ),
+      tap(gridMode => {
+        console.log('gridMode', gridMode);
+        this.gridMode = gridMode;
+        this.grid = {
+          mode: this.gridMode
+        };
+      })
+    );
 
     // clean previous search result
     this.productSearchService.clearSearchResults();
@@ -115,10 +109,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
       }),
       filter(searchResult => Object.keys(searchResult).length > 0)
     );
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 
   protected getCategoryTitle(data: ProductSearchPage): string {

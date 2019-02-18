@@ -1,5 +1,5 @@
-<ng-container *ngIf="(model$ | async) as model">
-  <div class="cx-page">
+<ng-container *ngIf="(updateParams$ | async) && (updateGridMode$ | async)">
+  <div class="cx-page" *ngIf="(model$ | async) as model">
     <header *ngIf="categoryTitle" class="cx-page__header">
       <h1 class="cx-page__title">{{ categoryTitle }}</h1>
     </header>
