@@ -12,7 +12,7 @@ describe('Added to cart modal', () => {
       .clear()
       .type('1000');
 
-    // check if the '+' button is disabled when the quantity is the minimum '1'
+    // check if the '+' button is disabled when the quantity is the maximum 'max stock'
     cy.get('cx-product-summary .cx-item-counter.btn-group button')
       .contains('+')
       .should('be.disabled');
