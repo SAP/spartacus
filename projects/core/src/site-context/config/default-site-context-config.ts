@@ -16,10 +16,30 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
           defaultValue: 'USD',
-          values: ['USD', 'JPY']
+          values: [
+            'USD',
+            'EUR',
+            'JPY',
+            'GBP',
+            'AUD',
+            'CAD',
+            'CHF',
+            'CNY',
+            'SEK',
+            'NZD',
+            'MXN',
+            'SGD',
+            'HKD',
+            'NOK',
+            'KRW',
+            'TRY',
+            'RUB',
+            'INR',
+            'BRL',
+            'ZAR'
+          ]
         }
-      },
-      urlEncodingParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID]
+      }
     }
   };
 }
