@@ -1,19 +1,27 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import {
+  RoutingService,
+  PageType,
+  CmsService,
+  PageContext
+} from '@spartacus/core';
+
 import { of, Observable } from 'rxjs';
+
 import { CmsPageGuards } from './cms-page.guard';
-import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
 class MockCmsService {
   hasPage() {}
 }
 class MockRoutingService {
-  getRouterState(): Observable<any> {
+  getPageContext(): Observable<PageContext> {
     return of();
   }
 }
 
-describe('CmsPageGuards', () => {
+fdescribe('CmsPageGuards', () => {
   let routingService: RoutingService;
 
   beforeEach(() => {
@@ -27,15 +35,8 @@ describe('CmsPageGuards', () => {
     });
 
     routingService = TestBed.get(RoutingService);
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of({
-        state: {
-          url: '/test',
-          queryParams: {},
-          params: {},
-          context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
-        }
-      })
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
     );
   });
 
@@ -44,8 +45,13 @@ describe('CmsPageGuards', () => {
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
-        let result = false;
-        cmsPageGuards.canActivate().subscribe(value => (result = value));
+
+        let result: boolean;
+        cmsPageGuards
+          .canActivate()
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
         expect(result).toBe(true);
       }
     ));
@@ -54,8 +60,13 @@ describe('CmsPageGuards', () => {
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
-        let result = true;
-        cmsPageGuards.canActivate().subscribe(value => (result = value));
+
+        let result: boolean;
+        cmsPageGuards
+          .canActivate()
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
         expect(result).toBe(false);
       }
     ));

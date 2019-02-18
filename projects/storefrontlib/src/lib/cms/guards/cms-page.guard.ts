@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, take, mergeMap, catchError, switchMap } from 'rxjs/operators';
+
 import { RoutingService, CmsService } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+import { take, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {
@@ -21,10 +23,7 @@ export class CmsPageGuards implements CanActivate {
   }
 
   hasPage(): Observable<boolean> {
-    // TODO:#1135 - use the new method?
-    return this.routingService.getRouterState().pipe(
-      map(routerState => routerState.state.context),
-      // TODO:#1135 - why take(1)?
+    return this.routingService.getPageContext().pipe(
       take(1),
       mergeMap(pageContext => this.cmsService.hasPage(pageContext))
     );
