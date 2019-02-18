@@ -13,7 +13,7 @@ describe('Added to cart modal', () => {
       .type('1000');
 
     // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+    cy.get('cx-product-summary .cx-item-counter__action')
       .contains('+')
       .should('be.disabled');
 
@@ -23,12 +23,12 @@ describe('Added to cart modal', () => {
       .type('0');
 
     // check if the '-' button is disabled when the quantity is the minimum '1'
-    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+    cy.get('cx-product-summary .cx-item-counter__action')
       .contains('-')
       .should('be.disabled');
 
     // increase the quantity to 2 and add it to cart
-    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+    cy.get('cx-product-summary .cx-item-counter__action')
       .contains('+')
       .click();
 
