@@ -19,11 +19,10 @@ import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
 import { RoutingService } from '../../../routing/index';
-import { CMSPage } from '../../../occ/occ-models/index';
+import { CMSPage, CmsComponent } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class PageEffects {
-  // TODO:#1135 - test
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
     ofType('[Site-context] Language Change', '[Auth] Logout', '[Auth] Login'),
@@ -128,7 +127,7 @@ export class PageEffects {
     }
   }
 
-  private getComponents(pageData: CMSPage): any[] {
+  private getComponents(pageData: CMSPage): CmsComponent[] {
     const components = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {
