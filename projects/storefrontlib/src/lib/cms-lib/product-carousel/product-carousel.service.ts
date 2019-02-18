@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import {
   ProductService,
@@ -11,7 +11,9 @@ import {
   debounceTime,
   map,
   distinctUntilChanged,
-  startWith
+  startWith,
+  merge,
+  delay
 } from 'rxjs/operators';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
@@ -25,10 +27,17 @@ export class ProductCarouselService {
   itemSize$: Observable<number>;
 
   constructor(
-    @Optional()
     protected component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService
   ) {}
+
+  getTitle(): Observable<string> {
+    return this.component.data$.pipe(
+      map(data => {
+        return data.title;
+      })
+    );
+  }
 
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
@@ -71,12 +80,7 @@ export class ProductCarouselService {
     newActiveItem: number,
     max: number
   ): Observable<number> {
-    return new Observable(observer => {
-      setTimeout(() => {
-        observer.next(newActiveItem);
-        observer.complete();
-      }, (max - 1) * SPEED);
-    });
+    return of(-1).pipe(merge(of(newActiveItem).pipe(delay((max - 1) * SPEED))));
   }
 
   setPreviousItemAsActive(activeItem: number, max: number): Observable<number> {

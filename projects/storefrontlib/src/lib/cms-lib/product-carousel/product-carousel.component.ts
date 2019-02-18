@@ -19,6 +19,7 @@ export class ProductCarouselComponent implements OnInit {
   items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
   activeItem$: Observable<number>;
+  title$: Observable<string>;
 
   private window: Window;
 
@@ -31,10 +32,14 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setTitle();
     this.setItemSize();
     this.setItems();
   }
 
+  protected setTitle(): void {
+    this.title$ = this.service.getTitle();
+  }
   protected setItems(): void {
     this.items$ = this.service.getItems();
   }

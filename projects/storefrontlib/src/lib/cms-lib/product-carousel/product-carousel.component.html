@@ -1,4 +1,5 @@
-<h3 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h3>
+<h3 *ngIf="(title$ | async) as title">{{ title }}</h3>
+
 <ng-container
   *ngIf="{
     max: itemSize$ | async,
