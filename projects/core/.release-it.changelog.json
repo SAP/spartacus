@@ -1,0 +1,22 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "core-${version}",
+    "commitMessage": "Release core-${version}",
+    "tagAnnotation": "Release core-${version}"
+  },
+  "npm": {
+    "publish": true,
+    "publishPath": "./../../dist/core",
+    "tag": "next"
+  },
+  "scripts": {
+    "afterBump": "cd ../.. && yarn build:core:lib"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "@spartacus/core@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --from core-${latestVersion} --to core-${version}"
+  }
+}
