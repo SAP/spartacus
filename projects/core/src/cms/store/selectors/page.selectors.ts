@@ -5,12 +5,32 @@ import { PageContext } from '../../../routing';
 import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
+import { PageType } from '../../../occ/occ-models/occ.models';
 
 import { getCmsState } from './feature.selectors';
-import { PageType } from '../../../occ/occ-models/occ.models';
 
 export const getPageEntitiesSelector = (state: PageState) =>
   state.pageData.entities;
+export const getIndexByType = (
+  index: IndexType,
+  type: PageType
+): EntityLoaderState<string> => {
+  switch (type) {
+    case PageType.CONTENT_PAGE: {
+      return index.content;
+    }
+    case PageType.PRODUCT_PAGE: {
+      return index.product;
+    }
+    case PageType.CATEGORY_PAGE: {
+      return index.category;
+    }
+    case PageType.CATALOG_PAGE: {
+      return index.catalog;
+    }
+  }
+  return { entities: {} };
+};
 
 export const getPageState: MemoizedSelector<
   StateWithCms,
@@ -33,24 +53,7 @@ export const getIndex = (
 ): MemoizedSelector<StateWithCms, EntityLoaderState<string>> =>
   createSelector(
     getPageStateIndex,
-    (index: IndexType) => {
-      // TODO:#1135 - move this logic somewhere out of the selector
-      switch (pageContext.type) {
-        case PageType.CONTENT_PAGE: {
-          return index.content;
-        }
-        case PageType.PRODUCT_PAGE: {
-          return index.product;
-        }
-        case PageType.CATEGORY_PAGE: {
-          return index.category;
-        }
-        case PageType.CATALOG_PAGE: {
-          return index.catalog;
-        }
-      }
-      return { entities: {} };
-    }
+    (index: IndexType) => getIndexByType(index, pageContext.type)
   );
 
 export const getIndexEntity = (
