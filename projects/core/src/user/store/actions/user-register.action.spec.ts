@@ -5,10 +5,10 @@ describe('User Register Actions', () => {
   describe('RegisterUser Action', () => {
     it('should create the action', () => {
       const user: UserRegisterFormData = {
+        titleCode: '',
         firstName: '',
         lastName: '',
         password: '',
-        titleCode: '',
         uid: ''
       };
 

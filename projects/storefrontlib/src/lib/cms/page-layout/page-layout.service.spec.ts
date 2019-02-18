@@ -290,6 +290,15 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(undefined);
       });
+
+      it('should ignore unknown section', () => {
+        let results;
+        pageLayoutService
+          .getSlots('unknwon')
+          .subscribe(slots => (results = slots))
+          .unsubscribe();
+        expect(results).toEqual(undefined);
+      });
     });
   });
 });

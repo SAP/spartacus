@@ -7,7 +7,6 @@ export * from './components/form-components/form-components.module';
 export * from './components/pagination-and-sorting/pagination-and-sorting.module';
 export * from './components/spinner/spinner.component';
 export * from './pages/pages.module';
-export * from './layout/footer/footer.component';
 export * from './layout/multi-step-checkout-page-layout/multi-step-checkout-page-layout.component';
 export * from './layout/order-confirmation-page-layout/order-confirmation-page-layout.component';
 export * from './layout/main/storefront.component';
@@ -24,8 +23,6 @@ export * from './pages/multi-step-checkout-page/multi-step-checkout-page.compone
 export * from './pages/cart-page/cart-page.component';
 export * from './pages/order-confirmation-page/order-confirmation-page.component';
 export * from './pages/login-page/login-page.component';
-export * from './pages/404/404.component';
-export * from './pages/404/404.module';
 export * from './pages/cart-page/cart-page.module';
 export * from './pages/category-page/category-page.module';
 export * from './pages/multi-step-checkout-page/multi-step-checkout-page.module';

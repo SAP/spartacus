@@ -41,6 +41,6 @@ Cypress.Commands.add(
     cy.wrap(element).click();
     cy.get('.ng-dropdown-panel-items')
       .contains(option)
-      .click();
+      .click({ force: true });
   }
 );
