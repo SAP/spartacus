@@ -74,7 +74,7 @@ class MockProductCarouselService {
   setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
 }
 
-fdescribe('ProductCarouselComponent', () => {
+describe('ProductCarouselComponent', () => {
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
