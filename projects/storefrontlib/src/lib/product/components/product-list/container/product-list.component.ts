@@ -52,11 +52,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     if (!this.query && queryParams.query) {
       this.query = queryParams.query;
     }
-
-    // do search only when 'brandCode' or 'categoryCode' or 'query' changed
-    // if (Object.keys(changes).length === 1 && !changes['gridMode']) {
     this.search(this.query, this.options);
-    // }
   }
 
   createOptionsByUrlParams(): SearchConfig {
@@ -99,7 +95,6 @@ export class ProductListComponent implements OnInit, OnDestroy {
           )
           .subscribe(gridMode => {
             this.gridMode = gridMode;
-            this.update();
           })
       );
 
