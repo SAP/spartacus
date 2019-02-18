@@ -13,13 +13,14 @@ import {
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import { PageContext, RoutingService } from '../../routing';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { PageContext } from '../../routing/models/page-context.model';
 
 @Injectable({
   providedIn: 'root'
