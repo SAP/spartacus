@@ -85,13 +85,13 @@ export class ProductCarouselService {
 
   setPreviousItemAsActive(activeItem: number, max: number): Observable<number> {
     return this.setActiveItemWithDelay(activeItem, max).pipe(
-      map(newActiveItem => newActiveItem + 1)
+      map(newActiveItem => newActiveItem - max)
     );
   }
 
   setNextItemAsActive(activeItem: number, max: number): Observable<number> {
     return this.setActiveItemWithDelay(activeItem, max).pipe(
-      map(newActiveItem => newActiveItem - 1)
+      map(newActiveItem => newActiveItem + max)
     );
   }
 }

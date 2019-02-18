@@ -32,6 +32,7 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setActiveItem(0, 1);
     this.setTitle();
     this.setItemSize();
     this.setItems();
