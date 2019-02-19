@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { RoutingService } from '../../routing';
-import { Page, CmsService } from '../../cms/index';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { CmsService } from '../../cms/facade/cms.service';
+import { Page } from '../../cms/model/page.model';
 
-import { PageType } from '../../occ';
+import { PageType } from '../../occ/occ-models/occ.models';
 import { PageTitleResolver } from '../../cms/page/page-title.resolver';
-import { ProductSearchService } from '../facade';
+import { ProductSearchService } from '../facade/product-search.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
     protected productSearchService: ProductSearchService,
     protected cms: CmsService
   ) {
-    super(PageType.CATEGORY_PAGE);
+    super();
+    this.pageType = PageType.CATEGORY_PAGE;
   }
 
   resolve(): Observable<string> {

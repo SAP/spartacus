@@ -8,9 +8,10 @@ import {
 import { ProductStoreModule } from './store/product-store.module';
 import { ProductOccModule } from './occ/product-occ.module';
 
-import { PageTitleResolver, CmsModule } from '../cms';
+import { CmsModule } from '../cms/cms.module';
+import { PageTitleResolver } from '../cms/page/page-title.resolver';
 import { ProductPageTitleResolver } from './services/product-page-title.resolver';
-import { SearchPageTitleResolver } from './services';
+import { SearchPageTitleResolver } from './services/search-page-title.resolver';
 import { CategoryPageTitleResolver } from './services/category-page-title.resolver';
 
 const pageTitleResolvers = [

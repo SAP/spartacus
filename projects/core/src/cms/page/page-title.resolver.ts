@@ -1,11 +1,12 @@
 import { Observable } from 'rxjs';
 import { PageType } from '../../occ';
-import { Page } from 'projects/core/src/cms';
+import { Page } from '../model/page.model';
 
 export abstract class PageTitleResolver {
-  abstract resolve(): Observable<string>;
+  pageType: PageType;
+  pageTemplate: string;
 
-  constructor(protected pageType?: PageType, protected pageTemplate?: string) {}
+  abstract resolve(): Observable<string>;
 
   getScore(page: Page): number {
     let score = 0;
