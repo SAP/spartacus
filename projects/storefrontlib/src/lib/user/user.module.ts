@@ -6,7 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
 import { RegisterComponent } from './register/register.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import {
   UserModule,
   UrlTranslationModule,
@@ -24,12 +24,12 @@ import {
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ForgotPasswordComponent: { selector: 'cx-reset-password' }
+        ForgotPasswordComponent: { selector: 'cx-forgot-password' }
       }
     })
   ],
-  declarations: [RegisterComponent, ResetPasswordComponent],
-  exports: [RegisterComponent, ResetPasswordComponent],
-  entryComponents: [ResetPasswordComponent]
+  declarations: [RegisterComponent, ForgotPasswordComponent],
+  exports: [RegisterComponent, ForgotPasswordComponent],
+  entryComponents: [ForgotPasswordComponent]
 })
 export class UserComponentModule {}

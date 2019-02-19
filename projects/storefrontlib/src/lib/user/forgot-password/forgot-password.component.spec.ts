@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 
 import { UserService, RoutingService } from '@spartacus/core';
 
-import { ResetPasswordComponent } from './reset-password.component';
+import { ForgotPasswordComponent } from './forgot-password.component';
 
 class MockUserService {}
 class MockRoutingService {}
@@ -18,9 +18,9 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('ResetPasswordComponent', () => {
-  let component: ResetPasswordComponent;
-  let fixture: ComponentFixture<ResetPasswordComponent>;
+describe('ForgotPasswordComponent', () => {
+  let component: ForgotPasswordComponent;
+  let fixture: ComponentFixture<ForgotPasswordComponent>;
   let form: DebugElement;
   let submit: DebugElement;
   let userEmail: AbstractControl;
@@ -28,7 +28,7 @@ describe('ResetPasswordComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetPasswordComponent, MockTranslateUrlPipe],
+      declarations: [ForgotPasswordComponent, MockTranslateUrlPipe],
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useClass: MockRoutingService }
@@ -37,7 +37,7 @@ describe('ResetPasswordComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ResetPasswordComponent);
+    fixture = TestBed.createComponent(ForgotPasswordComponent);
     component = fixture.componentInstance;
     form = fixture.debugElement.query(By.css('form'));
     submit = fixture.debugElement.query(By.css('[type="submit"]'));

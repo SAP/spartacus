@@ -3,11 +3,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 import { UserService, RoutingService } from '@spartacus/core';
 @Component({
-  selector: 'cx-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  selector: 'cx-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
   form: FormGroup;
   submited = false;
   constructor(
