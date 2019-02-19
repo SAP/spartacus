@@ -9,8 +9,9 @@ describe('Added to cart modal', () => {
   it('basic modal behavior', () => {
     // Type 1000 in the input to see if the value will change to maximum 'max stock'
     cy.get('cx-product-summary .cx-item-counter__value')
-      .clear({ force: true })
-      .type('1000', { force: true });
+      .type('{selectall}{backspace}')
+      .type('1000')
+      .should('have.value', '22');
 
     // check if the '+' button is disabled when the quantity is the maximum 'max stock'
     cy.get('cx-product-summary .cx-item-counter__action')
@@ -19,8 +20,9 @@ describe('Added to cart modal', () => {
 
     // Type 0 in the input to see if the value will change to minimum '1'
     cy.get('cx-product-summary .cx-item-counter__value')
-      .clear({ force: true })
-      .type('0', { force: true });
+      .type('{selectall}{backspace}')
+      .type('0')
+      .should('have.value', '1');
 
     // check if the '-' button is disabled when the quantity is the minimum '1'
     cy.get('cx-product-summary .cx-item-counter__action')
