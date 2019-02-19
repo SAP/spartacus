@@ -71,7 +71,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             return this.routing.getRedirectUrl().pipe(take(1));
           }
-          return of();
+          return of(null);
         })
       )
       .subscribe(url => {
