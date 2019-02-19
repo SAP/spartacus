@@ -16,11 +16,13 @@ import { OutletModule } from '../../../outlet/index';
 import {
   CmsConfig,
   ConfigModule,
+  ProductReviewService,
   ProductService,
   RoutingService,
   WindowRef
 } from '@spartacus/core';
 import { ProductTabsComponent } from './container/product-tabs.component';
+import { ProductReviewsModule } from './product-reviews/product-reviews.module';
 
 @NgModule({
   imports: [
@@ -33,17 +35,23 @@ import { ProductTabsComponent } from './container/product-tabs.component';
     CmsModule,
     AddToCartModule,
     OutletModule,
+    ProductReviewsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphContainer: { selector: 'cx-product-tabs' }
+        CMSTabParagraphContainer: {
+          selector: 'cx-product-tabs',
+          providers: [
+            {
+              provide: ProductReviewService,
+              useClass: ProductReviewService,
+              deps: [] // Store must be here
+            }
+          ]
+        }
       }
     })
   ],
-  declarations: [
-    ProductAttributesComponent,
-    ProductReviewsComponent,
-    ProductTabsComponent
-  ],
+  declarations: [ProductAttributesComponent, ProductTabsComponent],
   exports: [
     ProductAttributesComponent,
     ProductReviewsComponent,
