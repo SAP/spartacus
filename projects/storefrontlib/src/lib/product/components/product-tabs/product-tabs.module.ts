@@ -16,7 +16,6 @@ import { OutletModule } from '../../../outlet/index';
 import {
   CmsConfig,
   ConfigModule,
-  ProductReviewService,
   ProductService,
   RoutingService,
   WindowRef
@@ -40,13 +39,6 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
       cmsComponents: {
         CMSTabParagraphContainer: {
           selector: 'cx-product-tabs',
-          providers: [
-            {
-              provide: ProductReviewService,
-              useClass: ProductReviewService,
-              deps: [] // Store must be here
-            }
-          ]
         }
       }
     })
