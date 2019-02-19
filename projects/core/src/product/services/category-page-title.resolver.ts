@@ -5,7 +5,7 @@ import { RoutingService } from '../../routing';
 import { Page, CmsService } from '../../cms';
 
 import { PageType } from '../../occ';
-import { PageTitleResolver } from '../../page/title/resolvers/page-title.resolver';
+import { PageTitleResolver } from '../../cms/page/page-title.resolver';
 import { ProductSearchService } from '../facade';
 
 @Injectable({

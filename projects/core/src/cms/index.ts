@@ -13,3 +13,7 @@ export * from './store/selectors/index';
 export * from './facade/index';
 export * from './cms.module';
 export { defaultCmsModuleConfig } from './config/default-cms-config';
+
+export * from './services/index';
+export * from './page/index';
+export * from './page/page.module';

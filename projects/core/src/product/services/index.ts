@@ -1,7 +1,7 @@
-import { PageTitleResolver } from '../../page/index';
 import { ProductPageTitleResolver } from './product-page-title.resolver';
 import { CategoryPageTitleResolver } from './category-page-title.resolver';
 import { SearchPageTitleResolver } from './search-page-title.resolver';
+import { PageTitleResolver } from '../../cms';
 
 export const pageTitleResolvers = [
   {

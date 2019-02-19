@@ -4,7 +4,7 @@ import { map, filter, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../../product/facade';
 import { PageType } from '../../occ';
-import { PageTitleResolver } from '../../page';
+import { PageTitleResolver } from '../../cms';
 
 @Injectable({
   providedIn: 'root'

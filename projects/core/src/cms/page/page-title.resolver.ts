@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { PageType } from '../../../occ';
+import { PageType } from '../../occ';
 import { Page } from 'projects/core/src/cms';
 
 export abstract class PageTitleResolver {
