@@ -1,0 +1,179 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<p><img src="docs/assets/spartacus-blue.png" alt="JavaScript storefront (spartacus)" class="img-responsive"></p>
+<h1 id="what-is-spartacus-">What is Spartacus?</h1>
+<p>Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.</p>
+<h2 id="extendable">Extendable</h2>
+<p>Spartacus is designed to be upgradable while maintaining full extendability. You&#39;ll be able to adopt new versions of Spartacus by updating the Spartacus libraries that we will regularly enhance.</p>
+<p>We’re making great progress and are planning our first beta in Q1 2019 and a launch date in Q2 2019. In the meantime, in order to ensure that the first release is as extendable and upgradable as we&#39;d like, breaking changes will very likely be introduced. Please keep that in mind if you decide to start a project using the Spartacus storefront, prior to the first release.</p>
+<h2 id="progressive">Progressive</h2>
+<p>Spartacus is on a journey to be fully compliant with the Progressive Web Application (PWA) checklist. We aim to add support for all major features of a PWA-enabled storefront, to offer the best possible customer experience regardless of device or location.</p>
+<h2 id="open-source">Open Source</h2>
+<p>Spartacus is open source. It will be continually developed by the SAP Commerce Cloud team, but we are very keen to welcome contributors and to foster an inclusive, active development community for Spartacus.</p>
+<p>See our <a href="CONTRIBUTING.md">contributing documentation</a> for more information.</p>
+<h2 id="technology">Technology</h2>
+<p>The Spartacus storefront is part of our exciting new journey towards a customizable-yet-upgradable technology for SAP Commerce Cloud installations.</p>
+<p>See <a href="https://cx.sap.com/en/products/commerce">SAP Customer Experience</a> for more information about SAP Commerce Cloud.</p>
+<h2 id="storefront-features">Storefront features</h2>
+<p>Spartacus provides core storefront features such as:</p>
+<ul>
+<li>home page</li>
+<li>search</li>
+<li>categories</li>
+<li>product details</li>
+<li>cart page</li>
+<li>adding to cart</li>
+<li>checkout</li>
+<li>order history</li>
+</ul>
+<h1 id="requirements">Requirements</h1>
+<ul>
+<li>SAP Commerce Cloud instance (Release 1811)</li>
+<li>Angular CLI (<a href="https://angular.io/)">https://angular.io/)</a>: &gt;= 7.2.1 and &lt; 8.0.0</li>
+<li>node.js &gt;= 10.14.1</li>
+<li>yarn &gt;= 1.9.4</li>
+</ul>
+<h1 id="download-and-installation">Download and Installation</h1>
+<p>To get up and running with Spartacus, the simplest approach is to build the application from ready-made libraries. You can also clone and build from source.</p>
+<p>Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.</p>
+<p>For complete setup instructions, see the <a href="docs/setupandinstallation.md">Setup and Installation</a> guide.</p>
+<h2 id="customizing-and-extending-spartacus">Customizing and Extending Spartacus</h2>
+<p>To maintain our promise of upgradability, the design pattern for Spartacus is for non-core features to be built as feature libraries that add to or change the provided functionality.</p>
+<p>Spartacus comes with an application shell (storefrontapp) that contains core resources that are needed to load the rest of the web app. These core resources are provided through libraries, such as the <code>storefrontlib</code> and <code>storefrontstylelib</code>. You then build new feature libraries that contain any custom functionality and pages. It is recommended to keep the shell app as a container for libraries and to avoid developing features directly in the shell app.</p>
+<p>Content for Spartacus pages is fetched from the SAP Commerce Cloud CMS (Content Management System), such as logos, links, banners and static pages. We recommend that new content-driven features follow the same pattern to enable Content Managers to modify page content through the CMS tools.</p>
+<p>The documentation for customizing and extending Spartacus is still under development and will be released soon.</p>
+<h1 id="limitations">Limitations</h1>
+<p>Spartacus works with Release 1808 of SAP Commerce Cloud, with some limitations. See the <a href="docs/setupandinstallation.md">Setup and Installation</a> guide for more information.</p>
+<p>Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud. This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.</p>
+<h1 id="known-issues">Known Issues</h1>
+<p>Known issues are documented in the GitHub issue tracking system.</p>
+<h1 id="how-to-obtain-support">How to Obtain Support</h1>
+<p>Spartacus is provided &quot;as-is&quot; with no official lines of support.</p>
+<p>To get help from the Spartacus community:</p>
+<ul>
+<li>For more general questions, post a question in the Help chat of our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE">Slack workspace</a>.</li>
+<li>For developer questions, post a question to <a href="https://stackoverflow.com/questions/tagged/spartacus">Stack Overflow with the &#39;spartacus&#39; tag</a>.</li>
+</ul>
+<h1 id="contributing">Contributing</h1>
+<p>Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.</p>
+<ul>
+<li>Post comments to our Feedback chat in our <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE">Slack</a> channel.</li>
+<li>Read the <a href="CONTRIBUTING.md">Contributing document</a> and learn how to:<ul>
+<li>Help others</li>
+<li>Report an issue</li>
+<li>Contribute code to Spartacus</li>
+</ul>
+</li>
+</ul>
+<h1 id="to-do">To Do</h1>
+<p>Many changes are coming! Most tasks will be posted to our GitHub issue tracking system, and this section will be updated with the major roadmap items.</p>
+<p>Some of the upcoming features or changes to the open source release:</p>
+<ul>
+<li>Mock server</li>
+<li>Personal information pages (My Account, Payment Management, Address Management)</li>
+<li>Extensibility examples</li>
+<li>Style customization examples</li>
+<li>Performance improvements through App Shell Caching</li>
+<li>Completion of test coverage, including end-to-end tests</li>
+</ul>
+<p>As mentioned, some of the improvements will mean breaking changes. While we strive to avoid doing so, we cannot guarantee this will not happen before the first release.</p>
+<h1 id="license">License</h1>
+<p>Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
+This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the <a href="LICENSE.txt">LICENSE</a> file.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
