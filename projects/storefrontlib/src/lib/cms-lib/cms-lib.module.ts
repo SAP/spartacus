@@ -13,7 +13,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
 import { AddressBookModule } from './address-book/address-book.module';
-import { ProductDetailsModule } from '../product/components/product-details/product-details.module';
+import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -35,7 +35,7 @@ import { ProductDetailsModule } from '../product/components/product-details/prod
     // TabParagraphContainerModule
     SiteContextSelectorModule,
     AddressBookModule,
-    ProductDetailsModule
+    ProductTabsModule
   ]
 })
 export class CmsLibModule {}
