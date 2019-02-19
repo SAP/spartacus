@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { ProductDetailsComponent } from './container/product-details.component';
 import { ProductSummaryComponent } from './product-summary/product-summary.component';
 import { ProductImagesComponent } from './product-images/product-images.component';
-// import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
-// import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 
@@ -33,15 +31,11 @@ import { OutletModule } from '../../../outlet/index';
     ProductDetailsComponent,
     ProductSummaryComponent,
     ProductImagesComponent,
-    // ProductAttributesComponent,
-    // ProductReviewsComponent
   ],
   exports: [
     ProductDetailsComponent,
     ProductSummaryComponent,
     ProductImagesComponent,
-    // ProductAttributesComponent,
-    // ProductReviewsComponent
   ]
 })
 export class ProductDetailsModule {}
