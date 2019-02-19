@@ -1,10 +1,37 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import * as ngrxStore from '@ngrx/store';
-
-import { of } from 'rxjs';
-
 import { PageTitleService } from './page-title.service';
+import { PageTitleResolver } from '../page';
+import { Injectable } from '@angular/core';
+import { PageType } from '../../occ/occ-models/occ.models';
+import { Observable, of } from 'rxjs';
+import { Page } from '../model/page.model';
+import { CmsService } from './cms.service';
+
+const mockTitle = 'title';
+const mockPage: Page = {
+  type: PageType.CONTENT_PAGE,
+  slots: {}
+};
+class MockCmsService {
+  getCurrentPage(): Observable<Page> {
+    return of(mockPage);
+  }
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+class ContentPageResolver extends PageTitleResolver {
+  constructor(protected cms: CmsService) {
+    super();
+    this.pageType = PageType.CONTENT_PAGE;
+  }
+
+  resolve(): Observable<string> {
+    return of(mockTitle);
+  }
+}
 
 fdescribe('PageTitleService', () => {
   let service: PageTitleService;
@@ -12,34 +39,34 @@ fdescribe('PageTitleService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
-      providers: [PageTitleService]
+      providers: [
+        PageTitleService,
+        { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: PageTitleResolver,
+          useExisting: ContentPageResolver,
+          multi: true
+        }
+      ]
     });
 
     service = TestBed.get(PageTitleService);
   });
 
-  it('should ProductService is injected', inject(
+  it('should be created', inject(
     [PageTitleService],
     (pageTitleService: PageTitleService) => {
       expect(pageTitleService).toBeTruthy();
     }
   ));
 
-  fdescribe('get(productCode)', () => {
-    it('should be able to get product by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          value: mockProduct
-        })
-      );
-      let result: Product;
-      service
-        .get('testId')
-        .subscribe(product => {
-          result = product;
-        })
-        .unsubscribe();
-      expect(result).toBe(mockProduct);
+  it('should resolve title', () => {
+    let result: string;
+    const subscription = service.getTitle().subscribe(value => {
+      result = value;
     });
+    subscription.unsubscribe();
+
+    expect(result).toEqual(mockTitle);
   });
 });
