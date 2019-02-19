@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { CheckoutService } from './facade/index';
 import { CheckoutStoreModule } from './store/checkout-store.module';
-import { PageTitleResolver } from '../cms';
+import { PageTitleResolver } from '../cms/index';
 import { CheckoutPageTitleResolver } from './service/checkout-page-title.resolver';
 
 @NgModule({

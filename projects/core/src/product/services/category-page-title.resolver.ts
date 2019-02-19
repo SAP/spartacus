@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing';
-import { Page, CmsService } from '../../cms';
+import { Page, CmsService } from '../../cms/index';
 
 import { PageType } from '../../occ';
 import { PageTitleResolver } from '../../cms/page/page-title.resolver';
