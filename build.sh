@@ -4,4 +4,7 @@ set -o pipefail
 
 SONAR=$1
 
-./ci-scripts/build-for-deploy.sh
+echo "-----"
+echo "generating docs"
+yarn doc:generate
+mv documentation docs

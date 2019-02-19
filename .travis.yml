@@ -17,7 +17,7 @@ deploy:
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
-  local_dir: dist/storefrontapp
+  local_dir: docs
   on:
     branch: develop
 notifications:
