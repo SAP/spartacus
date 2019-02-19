@@ -14,7 +14,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./product-tabs.component.scss']
 })
 export class ProductTabsComponent implements OnInit {
-  // productCode$: Observable<string>;
   productCode: string;
   product$: Observable<Product>;
 
