@@ -213,8 +213,8 @@ describe('OccUserService', () => {
     });
   });
 
-  describe('forgot passord: ', () => {
-    it('should request a forgot password email', () => {
+  describe('forgot password: ', () => {
+    it('should request a forgot password email for userId', () => {
       const testUserId = 'test@test.com';
       service
         .requestForgotPasswordEmail(testUserId)
