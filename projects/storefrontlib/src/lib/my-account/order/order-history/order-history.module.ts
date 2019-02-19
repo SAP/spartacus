@@ -6,11 +6,21 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { UrlTranslationModule } from '@spartacus/core';
+import {
+  UrlTranslationModule,
+  ConfigModule,
+  CmsConfig,
+  UserService
+} from '@spartacus/core';
 
 @NgModule({
   imports: [
     CommonModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        AccountOrderHistoryComponent: { selector: 'cx-order-history' }
+      }
+    }),
     RouterModule,
     FormsModule,
     NgSelectModule,
@@ -19,6 +29,8 @@ import { UrlTranslationModule } from '@spartacus/core';
     UrlTranslationModule
   ],
   declarations: [OrderHistoryComponent],
-  exports: [OrderHistoryComponent]
+  exports: [OrderHistoryComponent],
+  providers: [UserService],
+  entryComponents: [OrderHistoryComponent]
 })
 export class OrderHistoryModule {}
