@@ -9,7 +9,7 @@
     "build": "ng build storefrontapp --prod",
     "build:core:lib": "ng build core && ng build storefrontlib",
     "build:qa": "ng build -c=qa",
-    "compodoc": "npx compodoc -p tsconfig.json",
+    "doc:generate": "npx compodoc -p tsconfig.compodoc.json",
     "e2e": "ng e2e",
     "e2e:no-serve": "ng e2e --devServerTarget=",
     "e2e:ci": "ng e2e --configuration=ci --protractor-config=projects/storefrontapp-e2e/protractor.headless.conf.js",
