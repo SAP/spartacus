@@ -23,7 +23,7 @@ describe('ResetPasswordComponent', () => {
   let fixture: ComponentFixture<ResetPasswordComponent>;
   let form: DebugElement;
   let submit: DebugElement;
-  let userId: AbstractControl;
+  let userEmail: AbstractControl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -43,7 +43,7 @@ describe('ResetPasswordComponent', () => {
     submit = fixture.debugElement.query(By.css('[type="submit"]'));
 
     component.ngOnInit();
-    userId = component.form.controls['userId'];
+    userEmail = component.form.controls['userEmail'];
   });
 
   it('should create component', () => {
@@ -55,7 +55,7 @@ describe('ResetPasswordComponent', () => {
   });
 
   it('should form be valid when proper email is set', () => {
-    userId.setValue('test@test.com');
+    userEmail.setValue('test@test.com');
     expect(component.form.valid).toBeTruthy();
   });
 
@@ -65,14 +65,14 @@ describe('ResetPasswordComponent', () => {
 
   it('should call requestForgotPasswordEmail() method on submit', () => {
     const request = spyOn(component, 'requestForgotPasswordEmail');
-    userId.setValue('test@test.com');
+    userEmail.setValue('test@test.com');
     fixture.detectChanges();
     form.triggerEventHandler('submit', null);
     expect(request).toHaveBeenCalled();
   });
 
   it('should submit button be enabled when form is invalid', () => {
-    userId.setValue('test');
+    userEmail.setValue('test');
     fixture.detectChanges();
     expect(component.form.valid).toBeFalsy();
     expect(submit.nativeElement.disabled).toBeFalsy();
@@ -80,7 +80,7 @@ describe('ResetPasswordComponent', () => {
 
   it('should field be valid when a valid email is provided.', () => {
     fixture.detectChanges();
-    const input = component.form.controls['userId'];
+    const input = component.form.controls['userEmail'];
     input.setValue('valid.email@test.com');
     input.markAsTouched();
     input.markAsDirty();
@@ -97,7 +97,7 @@ describe('ResetPasswordComponent', () => {
 
   it('should not display error message when user cusor is still in the field.', () => {
     fixture.detectChanges();
-    const input = component.form.controls['userId'];
+    const input = component.form.controls['userEmail'];
     input.setValue('partial.email@');
     input.markAsDirty();
     fixture.detectChanges();
@@ -113,7 +113,7 @@ describe('ResetPasswordComponent', () => {
 
   it('should not display validation message on empty abandonment.', () => {
     fixture.detectChanges();
-    const input = component.form.controls['userId'];
+    const input = component.form.controls['userEmail'];
     input.setValue('');
     input.markAsTouched();
     fixture.detectChanges();
@@ -129,7 +129,7 @@ describe('ResetPasswordComponent', () => {
 
   it('should display error message when email is invalid and user clicks outside of the field.', () => {
     fixture.detectChanges();
-    const input = component.form.controls['userId'];
+    const input = component.form.controls['userEmail'];
     input.setValue('invalid.email@');
     input.markAsTouched();
     input.markAsDirty();

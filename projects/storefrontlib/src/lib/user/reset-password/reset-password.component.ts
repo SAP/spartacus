@@ -18,7 +18,10 @@ export class ResetPasswordComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      userId: ['', [Validators.required, CustomFormValidators.emailValidator]]
+      userEmail: [
+        '',
+        [Validators.required, CustomFormValidators.emailValidator]
+      ]
     });
   }
 
@@ -28,7 +31,7 @@ export class ResetPasswordComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.userService.requestForgotPasswordEmail(this.form.value.userId);
+    this.userService.requestForgotPasswordEmail(this.form.value.userEmail);
     this.routingService.go({ route: ['login'] });
   }
 }
