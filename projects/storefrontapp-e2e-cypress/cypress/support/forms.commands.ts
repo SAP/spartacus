@@ -1,4 +1,4 @@
-import './general.commands';
+import './ngSelect.commands';
 
 declare global {
   namespace Cypress {

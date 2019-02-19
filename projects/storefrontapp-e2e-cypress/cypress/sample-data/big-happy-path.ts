@@ -1,11 +1,11 @@
-import { generateMail } from '../helpers/user';
+import { generateMail, randomString } from '../helpers/user';
 
 export const user = {
   firstName: 'Winston',
   lastName: 'Rumfoord',
   fullName: 'Winston Rumfoord',
   password: 'Password123.',
-  email: generateMail('happy-path', true),
+  email: generateMail(randomString(), true),
   phone: '555 555 555',
   address: {
     city: 'Tralfamadore',
