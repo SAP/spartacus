@@ -1,20 +1,10 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// Loading
-$cx-store-finder-search-result-loading-padding: 30px !default;
-
-.cx-store-finder-search-result {
-  &__pagination {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    justify-content: center;
-    display: flex;
-  }
-
-  &__spinner {
-    padding-top: $cx-store-finder-search-result-loading-padding;
-    padding-bottom: $cx-store-finder-search-result-loading-padding;
-  }
+.cx-pagination {
+  margin: var(--cx-margin, 2rem auto);
+  justify-content: var(--cx-justify-content, center);
+  display: var(--cx-display, flex);
+}
+.cx-spinner {
+  padding: var(--cx-padding, 2rem 0);
 }
