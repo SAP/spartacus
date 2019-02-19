@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, combineLatest, pipe } from 'rxjs';
-import { map, filter, tap } from 'rxjs/operators';
+import { Observable, combineLatest } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 import { RoutingService } from '../../../routing';
 import { ProductSearchService } from '../../../product';
-import { Page } from '../../../cms';
 import { PageType } from '../../../occ';
 import { PageTitleResolver } from './page-title.resolver';
 
@@ -15,14 +14,7 @@ export class SearchPageTitleResolver extends PageTitleResolver {
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService
   ) {
-    super();
-  }
-
-  hasMatch(page: Page) {
-    return (
-      page.type === PageType.CONTENT_PAGE &&
-      page.template === 'SearchResultsListPageTemplate'
-    );
+    super(PageType.CONTENT_PAGE, 'SearchResultsListPageTemplate');
   }
 
   resolve(): Observable<string> {

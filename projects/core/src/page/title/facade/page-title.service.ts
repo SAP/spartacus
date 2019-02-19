@@ -11,11 +11,9 @@ export class PageTitleService {
   constructor(
     @Inject(PageTitleResolver) private resolvers: PageTitleResolver[],
     protected cms: CmsService
-  ) {
-    resolvers.reverse();
-  }
+  ) {}
 
-  resolve(): Observable<string> {
+  getTitle(): Observable<string> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
       switchMap(page => {
@@ -30,9 +28,18 @@ export class PageTitleService {
     );
   }
 
-  // we iterate over the reversed list of multi-provided title resolvers
-  // and try to find a match
+  /**
+   * return the title resolver with the best match
+   * title resovers can by default match on PageType and page template
+   * but custom match comparisors can be implemented.
+   */
   protected getResolver(page: Page) {
-    return this.resolvers.find(r => r.hasMatch(page));
+    const matchingResolvers = this.resolvers.filter(
+      resolver => resolver.getScore(page) > 0
+    );
+    matchingResolvers.sort(function(a, b) {
+      return b.getScore(page) - a.getScore(page);
+    });
+    return matchingResolvers[0];
   }
 }

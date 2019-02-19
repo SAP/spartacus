@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../../routing';
 import { ProductService } from '../../../product';
-import { Page } from '../../../cms';
 import { PageType } from '../../../occ';
 import { PageTitleResolver } from './page-title.resolver';
 
@@ -15,11 +14,7 @@ export class ProductPageTitleResolver extends PageTitleResolver {
     protected routingService: RoutingService,
     protected productService: ProductService
   ) {
-    super();
-  }
-
-  hasMatch(page: Page) {
-    return page.type === PageType.PRODUCT_PAGE;
+    super(PageType.PRODUCT_PAGE);
   }
 
   resolve(): Observable<string> {

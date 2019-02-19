@@ -17,11 +17,7 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
     protected productSearchService: ProductSearchService,
     protected cms: CmsService
   ) {
-    super();
-  }
-
-  hasMatch(page: Page) {
-    return page.type === PageType.CATEGORY_PAGE;
+    super(PageType.CATEGORY_PAGE);
   }
 
   resolve(): Observable<string> {
