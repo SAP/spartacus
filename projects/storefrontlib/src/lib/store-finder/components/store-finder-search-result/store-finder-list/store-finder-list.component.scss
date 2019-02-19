@@ -1,68 +1,63 @@
 @import 'theme';
 
-.cx-store-finder-list {
-  &__column-set {
+.cx-columns {
+  display: var(--cx-display, none);
+  @include media-breakpoint-up(md) {
+    display: var(--cx-display, flex);
+    height: var(--cx-height, 70vh);
+  }
+}
+.cx-columns-mobile {
+  display: var(--cx-display, block);
+  @include media-breakpoint-up(md) {
     display: var(--cx-display, none);
-    @include media-breakpoint-up(md) {
-      display: var(--cx-display, flex);
-      height: var(--cx-height, 70vh);
-    }
   }
-  &__column-set-mobile {
-    display: var(--cx-display, block);
-    @include media-breakpoint-up(md) {
-      display: var(--cx-display, none);
-    }
-  }
-  &__address-column {
+}
+.cx-address-col {
+  height: var(--cx-height, 100%);
+  @include media-breakpoint-up(md) {
     height: var(--cx-height, 100%);
-    @include media-breakpoint-up(md) {
-      height: var(--cx-height, 100%);
-      overflow-y: var(--cx-overflow-y, scroll);
-      padding: var(--cx-padding, inherit inherit inherit 0);
-    }
-  }
-  &__map-column {
-    // background: $light; //temporary bg, remove when google map is implemented
-    @include media-breakpoint-up(md) {
-      height: var(--cx-height, 100%);
-      overflow-y: var(--cx-overflow-y, scroll);
-    }
-  }
-  &__list {
-    @include type('6');
-    list-style: var(--cx-list-style, none);
+    overflow-y: var(--cx-overflow-y, scroll);
     padding: var(--cx-padding, inherit inherit inherit 0);
   }
-  &__selected-store-item {
-    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+}
+.cx-map-col {
+  // background: $light; //temporary bg, remove when google map is implemented
+  @include media-breakpoint-up(md) {
+    height: var(--cx-height, 100%);
+    overflow-y: var(--cx-overflow-y, scroll);
   }
-  &__list-items {
-    border-width: var(--cx-border-width, 1px 0 0 0);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
-    padding: var(--cx-padding, 1rem 1.5rem);
+}
+.cx-list {
+  @include type('6');
+  list-style: var(--cx-list-style, none);
+  padding: var(--cx-padding, inherit inherit inherit 0);
+}
+.cx-selected-item {
+  background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+}
+.cx-list-items {
+  border-width: var(--cx-border-width, 1px 0 0 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  padding: var(--cx-padding, 1rem 1.5rem);
 
-    &:hover {
-      background-color: var(
-        --cx-background-color,
-        var(--cx-g-color-background)
-      );
-    }
-
-    &--ordered {
-      counter-increment: var(--cx-counter-increment, resultCount);
-    }
-    &--ordered:before {
-      content: counter(resultCount, decimal);
-      position: var(--cx-position, absolute);
-      left: var(--cx-left, 1rem);
-    }
+  &:hover {
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
   }
 
-  &__not-found {
-    @include type('4');
-    text-align: var(--cx-text-align, center);
-    padding: var(--cx-padding, 3rem 0);
+  .cx-ordered {
+    counter-increment: var(--cx-counter-increment, resultCount);
   }
+  .cx-ordered:before {
+    content: counter(resultCount, decimal);
+    position: var(--cx-position, absolute);
+    left: var(--cx-left, 1rem);
+  }
+}
+
+.cx-not-found {
+  @include type('4');
+  text-align: var(--cx-text-align, center);
+  padding: var(--cx-padding, 3rem 0);
 }
