@@ -165,6 +165,7 @@ $useTabsOnPDP: false !default;
   }
 }
 
+cx-product-page {
   .details {
     @if $useTabsOnPDP == true {
       @extend %pdpTabs !optional;
@@ -172,3 +173,4 @@ $useTabsOnPDP: false !default;
       @extend %pdpFlat !optional;
     }
   }
+}
