@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { RoutingService } from '../../../routing';
-import { PageType } from '../../../occ';
-import { CartService } from '../../../cart';
-import { PageTitleResolver } from './page-title.resolver';
+import { RoutingService } from '../../routing';
+import { PageType } from '../../occ';
+import { CartService } from '../../cart';
+import { PageTitleResolver } from '../../page/title/resolvers/page-title.resolver';
 
 @Injectable({
   providedIn: 'root'
