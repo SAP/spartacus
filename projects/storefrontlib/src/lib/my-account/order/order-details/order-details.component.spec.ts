@@ -183,14 +183,14 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display order summary', () => {
     fixture.detectChanges();
-    const element: DebugElement = el.query(By.css('cx-summary'));
+    const element: DebugElement = el.query(By.css('cx-order-summary'));
     expect(element).not.toBeNull();
   });
 
   it('should order details display "ship to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-card-body-label-container')
+      By.css('.cx-card-body__label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
