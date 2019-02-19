@@ -165,7 +165,7 @@ $useTabsOnPDP: false !default;
   }
 }
 
-  .tabs {
+  .details {
     @if $useTabsOnPDP == true {
       @extend %pdpTabs !optional;
     } @else {

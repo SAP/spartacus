@@ -1,4 +1,4 @@
-<div class="tabs" *ngIf="(product$ | async) as product">
+<div class="details" *ngIf="(product$ | async) as product">
   <ng-container>
     <h3 #descriptionHeader (click)="select($event, description)">
       Product Details
