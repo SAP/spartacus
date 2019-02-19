@@ -1,10 +1,8 @@
 import {
   Component,
-  Input,
-  ViewChild,
-  ElementRef,
-  OnChanges,
-  OnInit
+  EventEmitter,
+  OnInit,
+  Output
 } from '@angular/core';
 
 import {
@@ -24,26 +22,18 @@ import { map } from 'rxjs/operators';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
-export class ProductDetailsComponent implements OnChanges, OnInit {
+export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
 
-  @Input()
   productCode: string;
+
+  @Output() openReview = new EventEmitter();
 
   product$: Observable<Product>;
 
   get outlets() {
     return ProductDetailsComponent.outlets;
   }
-
-  @ViewChild('descriptionHeader')
-  set initial(ref: ElementRef) {
-    if (ref) {
-      ref.nativeElement.click();
-    }
-  }
-
-  @ViewChild('reviewHeader') reviewHeader: ElementRef;
 
   constructor(
     protected productService: ProductService,
@@ -55,16 +45,13 @@ export class ProductDetailsComponent implements OnChanges, OnInit {
     this.routingService
       .getRouterState()
       .pipe(map(state => state.state.params['productCode']))
-      .subscribe(productCode => (this.productCode = productCode));
+      .subscribe(productCode => {
+        this.productCode = productCode;
+        this.product$ = this.productService.get(this.productCode);
+      });
   }
 
-  ngOnChanges(): void {
-    this.product$ = this.productService.get(this.productCode);
-  }
-
-  openReview() {
-    if (this.reviewHeader.nativeElement) {
-      this.reviewHeader.nativeElement.click();
-    }
+  launchReview() {
+    this.openReview.emit();
   }
 }

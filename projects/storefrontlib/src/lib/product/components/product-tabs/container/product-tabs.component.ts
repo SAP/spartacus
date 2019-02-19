@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   Product,
   ProductService,
@@ -19,6 +19,15 @@ export class ProductTabsComponent implements OnInit {
 
   isWritingReview = false;
   activatedElements: HTMLElement[] = [];
+
+  @ViewChild('descriptionHeader')
+  set initial(ref: ElementRef) {
+    if (ref) {
+      ref.nativeElement.click();
+    }
+  }
+
+  @ViewChild('reviewHeader') reviewHeader: ElementRef;
 
   constructor(
     protected productService: ProductService,
@@ -59,6 +68,12 @@ export class ProductTabsComponent implements OnInit {
       }
     } else {
       this.activatedElements.forEach(el => el.classList.toggle('toggled'));
+    }
+  }
+
+  openReview() {
+    if (this.reviewHeader.nativeElement) {
+      this.reviewHeader.nativeElement.click();
     }
   }
 
