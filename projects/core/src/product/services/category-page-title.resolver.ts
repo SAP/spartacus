@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { RoutingService } from '../../../routing';
-import { ProductSearchService } from '../../../product';
-import { Page, CmsService } from '../../../cms';
+import { RoutingService } from '../../routing';
+import { Page, CmsService } from '../../cms';
 
-import { PageType } from '../../../occ/';
-import { PageTitleResolver } from './page-title.resolver';
+import { PageType } from '../../occ';
+import { PageTitleResolver } from '../../page/title/resolvers/page-title.resolver';
+import { ProductSearchService } from '../facade';
 
 @Injectable({
   providedIn: 'root'
