@@ -165,12 +165,10 @@ $useTabsOnPDP: false !default;
   }
 }
 
-cx-product-details {
-  .details {
+  .tabs {
     @if $useTabsOnPDP == true {
       @extend %pdpTabs !optional;
     } @else {
       @extend %pdpFlat !optional;
     }
   }
-}
