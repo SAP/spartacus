@@ -227,7 +227,6 @@ describe('OccUserService', () => {
           req.serializeBody() === `userId=${testUserId}`
         );
       });
-      console.log(mockReq.)
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
