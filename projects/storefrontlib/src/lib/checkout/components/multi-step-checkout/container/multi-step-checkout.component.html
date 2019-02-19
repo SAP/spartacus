@@ -7,23 +7,23 @@
       </h1>
     </header>
 
-    <div class="cx-multi-step-checkout container">
+    <div class="cx-checkout-container container">
       <div class="row">
         <div class="col-md-12 col-lg-8">
           <!-- VISIBLE ONLY ON LG AND XL SCREENS -->
           <!-- Navigation -->
-          <div class="cx-multi-step-checkout__nav d-none d-lg-block d-xl-block">
-            <ul class="cx-multi-step-checkout__nav-list">
+          <div class="cx-nav d-none d-lg-block d-xl-block">
+            <ul class="cx-list">
               <li
                 *ngFor="let nav of navs"
-                class="cx-multi-step-checkout__nav-item"
+                class="cx-item"
                 [ngClass]="{
                   ' is-disabled': nav.status.disabled,
                   ' progressbar': nav.progressBar
                 }"
               >
                 <a
-                  class=" cx-multi-step-checkout__nav-link "
+                  class="cx-link "
                   [ngClass]="{
                     ' is-disabled': nav.status.disabled,
                     ' is-active': nav.status.active
@@ -37,8 +37,8 @@
             </ul>
           </div>
 
-          <div class="cx-multi-step-checkout__nav--media">
-            <div class="cx-multi-step-checkout__nav-list--media">
+          <div class="cx-media">
+            <div class="cx-list-media">
               Cart total ({{ cart.totalItems }} items):
               {{ cart.subTotal?.formattedValue }}
             </div>
@@ -46,7 +46,7 @@
             <div *ngFor="let nav of navs">
               <!-- Navigation -->
               <div
-                class="cx-multi-step-checkout__nav-list--media"
+                class="cx-list-media"
                 [ngClass]="{ ' is-active': nav.status.active }"
               >
                 <div>{{ nav.label }}</div>
@@ -97,8 +97,8 @@
           <cx-order-summary [cart]="cart"></cx-order-summary>
 
           <!-- CHECKBOX AND PLACE ORDER BUTTON -->
-          <div class="cx-multi-step-checkout__place-order" *ngIf="step === 4">
-            <div class="cx-multi-step-checkout__place-order-form form-check">
+          <div class="cx-place-order" *ngIf="step === 4">
+            <div class="cx-place-order-form form-check">
               <label>
                 <input
                   class="form-check-input"
@@ -111,7 +111,7 @@
                     [routerLink]="
                       { route: ['termsAndConditions'] } | cxTranslateUrl
                     "
-                    class="cx-multi-step-checkout__tc-link"
+                    class="cx-tc-link"
                     >Terms & Conditions</a
                   >
                 </span>
