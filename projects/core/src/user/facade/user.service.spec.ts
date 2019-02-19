@@ -18,9 +18,6 @@ import {
 
 import { UserService } from './user.service';
 import { UserRegisterFormData } from '../model/user.model';
-import { OccUserService } from '../occ/user.service';
-
-class MockOccUserService {}
 
 describe('UserService', () => {
   let service: UserService;
@@ -32,10 +29,7 @@ describe('UserService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStore.getReducers())
       ],
-      providers: [
-        UserService,
-        { provide: OccUserService, useclass: MockOccUserService }
-      ]
+      providers: [UserService]
     });
 
     store = TestBed.get(Store);
