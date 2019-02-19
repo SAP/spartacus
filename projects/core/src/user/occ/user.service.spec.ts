@@ -25,6 +25,7 @@ const endpoint = '/users';
 const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
+const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -208,6 +209,26 @@ describe('OccUserService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush('');
+    });
+  });
+
+  describe('forgot passord: ', () => {
+    it('should request a forgot password email', () => {
+      const testUserId = 'test@test.com';
+      service
+        .requestForgotPasswordEmail(testUserId)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url === `${forgotPasswordEndpoint}` &&
+          req.serializeBody() === `userId=${testUserId}`
+        );
+      });
+      console.log(mockReq.)
+      expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
   });
