@@ -211,7 +211,7 @@ describe('ReviewSubmitComponent', () => {
 
   describe('UI cart total section', () => {
     const getCartTotalText = () =>
-      fixture.debugElement.query(By.css('.cx-review__cart-total')).nativeElement
+      fixture.debugElement.query(By.css('.cx-review-cart-total')).nativeElement
         .textContent;
 
     beforeEach(() => {
@@ -231,9 +231,8 @@ describe('ReviewSubmitComponent', () => {
 
   describe('child cx-card component of shipping address', () => {
     const getShippingAddressCardContent = () =>
-      fixture.debugElement.query(
-        By.css('.cx-review__summary-card__address cx-card')
-      ).componentInstance.content;
+      fixture.debugElement.query(By.css('.cx-review-card-address cx-card'))
+        .componentInstance.content;
 
     it('should receive content attribute with shipping address', () => {
       const mockShippingAdddressCardData = 'test shipping address';
@@ -249,9 +248,8 @@ describe('ReviewSubmitComponent', () => {
 
   describe('child cx-card component of shipping method', () => {
     const getShippingMethodCardContent = () =>
-      fixture.debugElement.query(
-        By.css('.cx-review__summary-card__shipping-method cx-card')
-      ).componentInstance.content;
+      fixture.debugElement.query(By.css('.cx-review-card-shipping cx-card'))
+        .componentInstance.content;
 
     it('should receive content attribute with shipping method', () => {
       const mockShippingMethodCardData = 'test shipping method';
@@ -265,9 +263,8 @@ describe('ReviewSubmitComponent', () => {
 
   describe('child cx-card component of payment method', () => {
     const getPaymentMethodCardContent = () =>
-      fixture.debugElement.query(
-        By.css('.cx-review__summary-card__payment-method cx-card')
-      ).componentInstance;
+      fixture.debugElement.query(By.css('.cx-review-card-payment cx-card'))
+        .componentInstance;
 
     it('should receive content attribute with payment method', () => {
       const mockPaymentMethodCardData = 'test payment method';
