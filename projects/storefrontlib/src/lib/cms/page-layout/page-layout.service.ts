@@ -69,7 +69,7 @@ export class PageLayoutService {
   get pageTitle$(): Observable<string> {
     return this.showTitle().pipe(
       switchMap(show =>
-        show ? this.page$.pipe(map((page: Page) => page.title)) : of(undefined)
+        show ? this.page$.pipe(map((page: Page) => page.title)) : of()
       )
     );
   }
