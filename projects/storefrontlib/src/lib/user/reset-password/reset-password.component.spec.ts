@@ -71,14 +71,47 @@ describe('ResetPasswordComponent', () => {
     expect(request).toHaveBeenCalled();
   });
 
-  it('should submit button be disabled when form is invalid', () => {
+  it('should submit button be enabled when form is invalid', () => {
     userId.setValue('test');
     fixture.detectChanges();
     expect(component.form.valid).toBeFalsy();
-    expect(submit.nativeElement.disabled).toBeTruthy();
+    expect(submit.nativeElement.disabled).toBeFalsy();
   });
 
-  it('should error message appear when email is invalid', () => {
+  it('should field be valid when a valid email is provided.', () => {
+    fixture.detectChanges();
+    const input = component.form.controls['userId'];
+    input.setValue('valid.email@test.com');
+    input.markAsTouched();
+    input.markAsDirty();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const message = fixture.debugElement.nativeElement.querySelector(
+        '.invalid-feedback'
+      );
+      expect(input.valid).toBeTruthy();
+      expect(message).toBeFalsy();
+      expect(submit.nativeElement.disabled).toBeFalsy();
+    });
+  });
+
+  it('should not display error message when user cusor is still in the field.', () => {
+    fixture.detectChanges();
+    const input = component.form.controls['userId'];
+    input.setValue('partial.email@');
+    input.markAsDirty();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const message = fixture.debugElement.nativeElement.querySelector(
+        '.invalid-feedback'
+      );
+      expect(input.valid).toBeFalsy();
+      expect(message).toBeFalsy();
+      expect(submit.nativeElement.disabled).toBeFalsy();
+    });
+  });
+
+  it('should not display validation message on empty abandonment.', () => {
     fixture.detectChanges();
     const input = component.form.controls['userId'];
     input.setValue('');
@@ -88,8 +121,26 @@ describe('ResetPasswordComponent', () => {
       const message = fixture.debugElement.nativeElement.querySelector(
         '.invalid-feedback'
       );
-      expect(component.form.valid).toBeFalsy();
+      expect(input.valid).toBeFalsy();
+      expect(message).toBeFalsy();
+      expect(submit.nativeElement.disabled).toBeFalsy();
+    });
+  });
+
+  it('should display error message when email is invalid and user clicks outside of the field.', () => {
+    fixture.detectChanges();
+    const input = component.form.controls['userId'];
+    input.setValue('invalid.email@');
+    input.markAsTouched();
+    input.markAsDirty();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const message = fixture.debugElement.nativeElement.querySelector(
+        '.invalid-feedback'
+      );
+      expect(input.valid).toBeFalsy();
       expect(message).toBeTruthy();
+      expect(submit.nativeElement.disabled).toBeFalsy();
     });
   });
 });
