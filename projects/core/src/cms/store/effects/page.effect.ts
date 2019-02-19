@@ -31,8 +31,10 @@ export class PageEffects {
     // TODO:#1135v2 - switchMap?
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
-        filter(routerState => routerState && routerState.state),
-        filter(routerState => routerState.state.cmsRequired),
+        filter(
+          routerState =>
+            routerState && routerState.state && routerState.state.cmsRequired
+        ),
         map(routerState => routerState.state.context),
         take(1),
         // TODO:#1135v2 - why merge map?
