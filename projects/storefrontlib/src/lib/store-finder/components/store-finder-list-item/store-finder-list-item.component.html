@@ -1,27 +1,27 @@
 <ng-container>
-  <div class="cx-store-finder-list-item" (click)="handleStoreItemClick()">
-    <div class="cx-store-finder-list-item__display-name">
+  <div (click)="handleStoreItemClick()">
+    <div class="cx-store-name">
       {{ location.displayName }}
     </div>
-    <div class="cx-store-finder-list-item__address" *ngIf="location.address">
+    <div class="cx-store-address" *ngIf="location.address">
       {{ location.address.line1 }}<br />
       {{ location.address.town }},
       {{ location.address.region ? location.address.region.name + ',' : '' }}
       {{ location.address.postalCode }}
     </div>
     <div *ngIf="location.openingHours">
-      <div *ngIf="isOpen(location)" class="cx-store-finder-list-item__open">
+      <div *ngIf="isOpen(location)" class="cx-store-open">
         {{ getClosingTime(location) | date: 'EEE' }}: Open until
         {{ getClosingTime(location) | date: 'shortTime' }}
       </div>
-      <div *ngIf="!isOpen(location)" class="cx-store-finder-list-item__closed">
+      <div *ngIf="!isOpen(location)" class="cx-store-closed">
         {{ getClosingTime(location) | date: 'EEE' }}: Closed
       </div>
     </div>
     <a
       href="{{ getDirections(location) }}"
       target="_blank"
-      class="btn btn-sm btn-action btn-block cx-store-finder-list-item__button"
+      class="btn btn-sm btn-action btn-block cx-button"
       >Get Directions</a
     >
   </div>
