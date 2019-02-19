@@ -13,5 +13,5 @@ ng build storefrontapp -c=ci --base-href "https://sap.github.io/cloud-commerce-s
 echo "-----"
 echo "generating docs"
 yarn doc:generate
-cp -R documentation dist/storefrontapp/docs
+mv documentation dist/storefrontapp/docs
 
