@@ -36,8 +36,7 @@ describe('Cms Page Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromPage.LOAD_PAGE_INDEX_FAIL,
-          meta: entityFailMeta(pageContext.type, pageContext.id, payload),
-          payload
+          meta: entityFailMeta(pageContext.type, pageContext.id, payload)
         });
       });
     });
@@ -62,7 +61,6 @@ describe('Cms Page Actions', () => {
         const action = new fromPage.LoadPageData(pageContext);
         expect({ ...action }).toEqual({
           type: fromPage.LOAD_PAGEDATA,
-          payload: pageContext,
           meta: entityLoadMeta(PAGE_DATA_ENTITY, pageContext.id)
         });
       });
@@ -80,7 +78,7 @@ describe('Cms Page Actions', () => {
       });
     });
 
-    describe('LoadLoadPageDataSuccess', () => {
+    describe('LoadPageDataSuccess', () => {
       it('should create an action', () => {
         const payload: Page = {
           pageId: 'test',

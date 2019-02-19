@@ -23,21 +23,21 @@ export class LoadPageIndex extends EntityLoadAction {
 
 export class LoadPageIndexFail extends EntityFailAction {
   readonly type = LOAD_PAGE_INDEX_FAIL;
-  constructor(pageContext: PageContext, public payload: any) {
-    super(pageContext.type, pageContext.id, payload);
+  constructor(pageContext: PageContext, error: any) {
+    super(pageContext.type, pageContext.id, error);
   }
 }
 
 export class LoadPageIndexSuccess extends EntitySuccessAction {
   readonly type = LOAD_PAGE_INDEX_SUCCESS;
-  constructor(pageContext: PageContext, public payload: string) {
+  constructor(pageContext: PageContext, payload: string) {
     super(pageContext.type, pageContext.id, payload);
   }
 }
 
 export class LoadPageData extends EntityLoadAction {
   readonly type = LOAD_PAGEDATA;
-  constructor(public payload: PageContext) {
+  constructor(payload: PageContext) {
     super(PAGE_DATA_ENTITY, payload.id);
   }
 }
@@ -51,8 +51,8 @@ export class LoadPageDataFail extends EntityFailAction {
 
 export class LoadPageDataSuccess extends EntitySuccessAction {
   readonly type = LOAD_PAGEDATA_SUCCESS;
-  constructor(public payload: Page) {
-    super(PAGE_DATA_ENTITY, payload.pageId);
+  constructor(payload: Page) {
+    super(PAGE_DATA_ENTITY, payload.pageId, payload);
   }
 }
 
