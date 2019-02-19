@@ -1,0 +1,1071 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>CardComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/storefrontlib/src/lib/ui/components/card/card.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>cx-card</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./card.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./card.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelEdit">cancelEdit</a>
+                            </li>
+                            <li>
+                                <a href="#delete">delete</a>
+                            </li>
+                            <li>
+                                <a href="#edit">edit</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#send">send</a>
+                            </li>
+                            <li>
+                                <a href="#setDefault">setDefault</a>
+                            </li>
+                            <li>
+                                <a href="#setEditMode">setEditMode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#border">border</a>
+                            </li>
+                            <li>
+                                <a href="#content">content</a>
+                            </li>
+                            <li>
+                                <a href="#editMode">editMode</a>
+                            </li>
+                            <li>
+                                <a href="#fitToContainer">fitToContainer</a>
+                            </li>
+                            <li>
+                                <a href="#isDefault">isDefault</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelCard">cancelCard</a>
+                            </li>
+                            <li>
+                                <a href="#deleteCard">deleteCard</a>
+                            </li>
+                            <li>
+                                <a href="#editCard">editCard</a>
+                            </li>
+                            <li>
+                                <a href="#sendCard">sendCard</a>
+                            </li>
+                            <li>
+                                <a href="#setDefaultCard">setDefaultCard</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:80</a></div>
+                            </td>
+                        </tr>
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="border"></a>
+                        <code>border</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:41</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="content"></a>
+                        <code>content</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="../interfaces/Card.html" target="_self" >Card</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:50</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="editMode"></a>
+                        <code>editMode</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:44</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="fitToContainer"></a>
+                        <code>fitToContainer</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:52</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="isDefault"></a>
+                        <code>isDefault</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:47</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="cancelCard"></a>
+                        <code>cancelCard</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code>EventEmitter&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:38</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="deleteCard"></a>
+                        <code>deleteCard</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code>EventEmitter&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:30</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="editCard"></a>
+                        <code>editCard</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code>EventEmitter&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="sendCard"></a>
+                        <code>sendCard</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code>EventEmitter&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="setDefaultCard"></a>
+                        <code>setDefaultCard</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code>EventEmitter&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:32</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cancelEdit"></a>
+                        <span class="name">
+                            <b>
+                            cancelEdit
+                            </b>
+                            <a href="#cancelEdit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>cancelEdit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:60</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="delete"></a>
+                        <span class="name">
+                            <b>
+                            delete
+                            </b>
+                            <a href="#delete"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>delete()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:65</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="edit"></a>
+                        <span class="name">
+                            <b>
+                            edit
+                            </b>
+                            <a href="#edit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>edit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:78</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:84</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="send"></a>
+                        <span class="name">
+                            <b>
+                            send
+                            </b>
+                            <a href="#send"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>send()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:74</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setDefault"></a>
+                        <span class="name">
+                            <b>
+                            setDefault
+                            </b>
+                            <a href="#setDefault"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setDefault()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:69</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setEditMode"></a>
+                        <span class="name">
+                            <b>
+                            setEditMode
+                            </b>
+                            <a href="#setEditMode"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setEditMode()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/storefrontlib/src/lib/ui/components/card/card.component.ts:56</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, Input, Output, EventEmitter } from &#x27;@angular/core&#x27;;
+
+export interface CardAction {
+  event: string;
+  name: string;
+}
+
+export interface CardLinkAction {
+  link: string;
+  name: string;
+}
+
+export interface Card {
+  header?: string;
+  title?: string;
+  textBold?: string;
+  text?: Array&lt;string&gt;;
+  img?: string;
+  actions?: Array&lt;CardAction | CardLinkAction&gt;;
+  deleteMsg?: string;
+}
+
+@Component({
+  selector: &#x27;cx-card&#x27;,
+  templateUrl: &#x27;./card.component.html&#x27;,
+  styleUrls: [&#x27;./card.component.scss&#x27;]
+})
+export class CardComponent implements OnInit {
+  @Output()
+  deleteCard: EventEmitter&lt;number&gt; &#x3D; new EventEmitter();
+  @Output()
+  setDefaultCard: EventEmitter&lt;number&gt; &#x3D; new EventEmitter();
+  @Output()
+  sendCard: EventEmitter&lt;number&gt; &#x3D; new EventEmitter();
+  @Output()
+  editCard: EventEmitter&lt;number&gt; &#x3D; new EventEmitter();
+  @Output()
+  cancelCard: EventEmitter&lt;number&gt; &#x3D; new EventEmitter();
+
+  @Input()
+  border &#x3D; false;
+
+  @Input()
+  editMode &#x3D; false;
+
+  @Input()
+  isDefault &#x3D; false;
+
+  @Input()
+  content: Card;
+  @Input()
+  fitToContainer &#x3D; false;
+
+  // ACTIONS
+
+  setEditMode(): void {
+    this.editMode &#x3D; true;
+  }
+
+  cancelEdit(): void {
+    this.editMode &#x3D; false;
+    this.cancelCard.emit(5);
+  }
+
+  delete(): void {
+    this.deleteCard.emit(1);
+  }
+
+  setDefault(): void {
+    this.isDefault &#x3D; true;
+    this.setDefaultCard.emit(2);
+  }
+
+  send(): void {
+    this.sendCard.emit(3);
+  }
+
+  edit(): void {
+    this.editCard.emit(4);
+  }
+
+  constructor() {}
+
+  ngOnInit() {}
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  *ngIf&#x3D;&quot;content&quot;
+  class&#x3D;&quot;cx-card&quot;
+  [class.cx-card--border]&#x3D;&quot;border&quot;
+  [class.cx-card--fit-to-container]&#x3D;&quot;fitToContainer&quot;
+&gt;
+  &lt;!-- Card Header --&gt;
+  &lt;div *ngIf&#x3D;&quot;content.header &amp;&amp; !editMode&quot; class&#x3D;&quot;card-header&quot;&gt;
+    {{ content.header }}
+  &lt;/div&gt;
+  &lt;!-- Card Body --&gt;
+  &lt;div class&#x3D;&quot;card-body cx-card-body&quot; [class.cx-card--delete-mode]&#x3D;&quot;editMode&quot;&gt;
+    &lt;!-- Edit message --&gt;
+    &lt;div *ngIf&#x3D;&quot;editMode&quot; class&#x3D;&quot;cx-card-body__delete-msg&quot;&gt;
+      {{ content.deleteMsg }}
+    &lt;/div&gt;
+    &lt;!-- Card title --&gt;
+    &lt;h4 *ngIf&#x3D;&quot;content.title&quot; class&#x3D;&quot;cx-card-body__title&quot;&gt;
+      {{ content.title }}
+    &lt;/h4&gt;
+    &lt;!-- Card Content --&gt;
+    &lt;div class&#x3D;&quot;cx-card-body__container&quot;&gt;
+      &lt;!-- Card Label --&gt;
+      &lt;div class&#x3D;&quot;cx-card-body__label-container&quot;&gt;
+        &lt;div *ngIf&#x3D;&quot;content.textBold&quot; class&#x3D;&quot;card__label--bold&quot;&gt;
+          {{ content.textBold }}
+        &lt;/div&gt;
+        &lt;div *ngFor&#x3D;&quot;let line of content.text&quot;&gt;
+          &lt;div class&#x3D;&quot;card__label&quot;&gt;{{ line }}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- Image --&gt;
+      &lt;div *ngIf&#x3D;&quot;content.img&quot; class&#x3D;&quot;cx-card-body__img-container&quot;&gt;
+        &lt;img src&#x3D;&quot;{{ content.img }}&quot; alt&#x3D;&quot;&quot; /&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Edit Mode Actions --&gt;
+    &lt;div *ngIf&#x3D;&quot;editMode&quot; class&#x3D;&quot;row cx-card-body__delete&quot;&gt;
+      &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+        &lt;button class&#x3D;&quot;btn btn-block btn-secondary&quot; (click)&#x3D;&quot;cancelEdit()&quot;&gt;
+          cancel
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
+        &lt;button class&#x3D;&quot;btn btn-block btn-primary&quot; (click)&#x3D;&quot;delete()&quot;&gt;
+          delete
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Actions --&gt;
+    &lt;div
+      *ngIf&#x3D;&quot;content.actions &amp;&amp; !editMode&quot;
+      class&#x3D;&quot;cx-card-body__actions-container&quot;
+    &gt;
+      &lt;div *ngFor&#x3D;&quot;let action of content.actions&quot;&gt;
+        &lt;div [ngSwitch]&#x3D;&quot;action.event&quot;&gt;
+          &lt;a
+            *ngSwitchCase&#x3D;&quot;&#x27;delete&#x27;&quot;
+            class&#x3D;&quot;card-link btn-link&quot;
+            (click)&#x3D;&quot;delete()&quot;
+            &gt;{{ action.name }}&lt;/a
+          &gt;
+          &lt;a
+            *ngSwitchCase&#x3D;&quot;&#x27;default&#x27;&quot;
+            class&#x3D;&quot;card-link btn-link&quot;
+            (click)&#x3D;&quot;setDefault()&quot;
+            &gt;{{ action.name }}&lt;/a
+          &gt;
+          &lt;a
+            *ngSwitchCase&#x3D;&quot;&#x27;send&#x27;&quot;
+            class&#x3D;&quot;card-link btn-link&quot;
+            (click)&#x3D;&quot;send()&quot;
+            &gt;{{ action.name }}&lt;/a
+          &gt;
+          &lt;a
+            *ngSwitchCase&#x3D;&quot;&#x27;edit&#x27;&quot;
+            class&#x3D;&quot;card-link btn-link&quot;
+            (click)&#x3D;&quot;edit()&quot;
+            &gt;{{ action.name }}&lt;/a
+          &gt;
+          &lt;a
+            *ngSwitchDefault
+            href&#x3D;&quot;{{ action.link }}&quot;
+            class&#x3D;&quot;card-link btn-link&quot;
+            &gt;{{ action.name }}&lt;/a
+          &gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./card.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;theme&#x27;;
+@import &#x27;functions&#x27;;
+@import &#x27;mixins&#x27;;
+
+// cx-card color variables
+$cx-card-border-color: &#x27;light&#x27; !default;
+$cx-card-delete-mode-background-color: &#x27;background&#x27; !default;
+$cx-card-delete-msg-color: &#x27;danger&#x27; !default;
+
+// cx-card variables
+$cx-card-border: 1px solid !default;
+$cx-card-body-delete-padding: 1rem 0 0 0 !default;
+$cx-card-body-delete-msg-padding: 0 0 1.25rem 0 !default;
+$cx-card-body-actions-container-padding: 1.25rem 0 0 0 !default;
+$cx-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
+
+.cx-card {
+  &amp;--border {
+    border: $cx-card-border;
+    @include var-color(&#x27;border-color&#x27;, $cx-card-border-color);
+  }
+
+  &amp;-body {
+    &amp;__delete {
+      padding: $cx-card-body-delete-padding;
+      &amp;-msg {
+        @include var-color(&#x27;color&#x27;, $cx-card-delete-msg-color);
+        padding: $cx-card-body-delete-msg-padding;
+      }
+    }
+
+    &amp;__container {
+      display: flex;
+    }
+
+    &amp;__label-container {
+      flex-grow: 2;
+    }
+
+    &amp;__actions-container {
+      display: flex;
+      justify-content: flex-end;
+      padding: $cx-card-body-actions-container-padding;
+      .card-link {
+        padding: $cx-card-body-actions-container-card-link-padding;
+      }
+    }
+  }
+
+  &amp;--fit-to-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    &amp; .cx-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
+
+  &amp;--delete-mode {
+    @include var-color(
+      &#x27;background-color&#x27;,
+      $cx-card-delete-mode-background-color
+    );
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div  *ngIf="content"  class="cx-card"  [class.cx-card--border]="border"  [class.cx-card--fit-to-container]="fitToContainer">  <!-- Card Header -->  <div *ngIf="content.header && !editMode" class="card-header">    {{ content.header }}  </div>  <!-- Card Body -->  <div class="card-body cx-card-body" [class.cx-card--delete-mode]="editMode">    <!-- Edit message -->    <div *ngIf="editMode" class="cx-card-body__delete-msg">      {{ content.deleteMsg }}    </div>    <!-- Card title -->    <h4 *ngIf="content.title" class="cx-card-body__title">      {{ content.title }}    </h4>    <!-- Card Content -->    <div class="cx-card-body__container">      <!-- Card Label -->      <div class="cx-card-body__label-container">        <div *ngIf="content.textBold" class="card__label--bold">          {{ content.textBold }}        </div>        <div *ngFor="let line of content.text">          <div class="card__label">{{ line }}</div>        </div>      </div>      <!-- Image -->      <div *ngIf="content.img" class="cx-card-body__img-container">        <img src="{{ content.img }}" alt="" />      </div>    </div>    <!-- Edit Mode Actions -->    <div *ngIf="editMode" class="row cx-card-body__delete">      <div class="col-md-6">        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">          cancel        </button>      </div>      <div class="col-md-6">        <button class="btn btn-block btn-primary" (click)="delete()">          delete        </button>      </div>    </div>    <!-- Actions -->    <div      *ngIf="content.actions && !editMode"      class="cx-card-body__actions-container"    >      <div *ngFor="let action of content.actions">        <div [ngSwitch]="action.event">          <a            *ngSwitchCase="\'delete\'"            class="card-link btn-link"            (click)="delete()"            >{{ action.name }}</a          >          <a            *ngSwitchCase="\'default\'"            class="card-link btn-link"            (click)="setDefault()"            >{{ action.name }}</a          >          <a            *ngSwitchCase="\'send\'"            class="card-link btn-link"            (click)="send()"            >{{ action.name }}</a          >          <a            *ngSwitchCase="\'edit\'"            class="card-link btn-link"            (click)="edit()"            >{{ action.name }}</a          >          <a            *ngSwitchDefault            href="{{ action.link }}"            class="card-link btn-link"            >{{ action.name }}</a          >        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartPageComponent', 'selector': 'cx-cart-page'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CategoryPageComponent', 'selector': 'cx-category-page'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DynamicSlotComponent', 'selector': 'cx-dynamic-slot'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'HeaderComponent', 'selector': 'cx-header'},{'name': 'HeaderSkipperComponent', 'selector': 'cx-header-skipper'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginPageComponent', 'selector': ''},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MultiStepCheckoutComponent', 'selector': 'cx-multi-step-checkout'},{'name': 'MultiStepCheckoutPageComponent', 'selector': 'cx-multi-step-checkout-page'},{'name': 'MultiStepCheckoutPageLayoutComponent', 'selector': 'cx-multi-step-checkout-page-layout'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'OrderConfirmationComponent', 'selector': 'cx-order-confirmation'},{'name': 'OrderConfirmationPageComponent', 'selector': 'cx-order-confirmation-page'},{'name': 'OrderConfirmationPageLayoutComponent', 'selector': 'cx-order-confirmation-page-layout'},{'name': 'OrderDetailsComponent', 'selector': 'cx-order-details'},{'name': 'OrderDetailsPageComponent', 'selector': ''},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryPageComponent', 'selector': ''},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentDetailsPageComponent', 'selector': ''},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PictureComponent', 'selector': 'cx-picture'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsComponent', 'selector': 'cx-product-details'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductPageComponent', 'selector': 'cx-product-page'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterLayoutComponent', 'selector': 'cx-register-layout'},{'name': 'RegisterPageComponent', 'selector': 'cx-register-page'},{'name': 'ResetNewPasswordComponent', 'selector': 'cx-reset-new-password'},{'name': 'ResetNewPasswordFormComponent', 'selector': 'cx-reset-new-password-form'},{'name': 'ResetNewPasswordLayoutComponent', 'selector': 'cx-reset-new-password-layout'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordPageComponent', 'selector': 'cx-reset-password-page'},{'name': 'ResponsiveBannerComponent', 'selector': 'cx-responsive-banner'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPageComponent', 'selector': 'cx-store-finder-page'},{'name': 'StoreFinderPageLayoutComponent', 'selector': 'cx-store-finder-page-layout'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'}];
+    var DIRECTIVES = [{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'StyleRefDirective', 'selector': '[cxCssRef]'}];
+    var ACTUAL_COMPONENT = {'name': 'CardComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CardComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

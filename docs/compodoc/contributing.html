@@ -1,0 +1,289 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1 id="contributing-to-the-spartacus-storefront">Contributing to the Spartacus Storefront</h1>
+<p>Thank you for your interest in the Spartacus storefront! We welcome contributions in all forms.</p>
+<p>Here are some of the ways you can contribute to Spartacus:</p>
+<p>Note: This is a living document. Like the Spartacus code, this document will be improved over time with the help of our community. Feedback welcome.</p>
+<hr>
+<h2 id="helping-others">Helping Others</h2>
+<p>An easy way to start is by helping others who may have questions or need support. Look for such requests here:</p>
+<ul>
+<li>Spartacus <a href="https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTRiNTFkMDJlZjRmYTBlY2QzZTM3YWNlYzJkYmEwZDY2MjM0MmIyYzdhYmQwZDMwZjg2YTAwOGFjNDBhZDYyNzE">Slack workspace</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/spartacus">Stack Overflow posts tagged with &#39;spartacus&#39;</a></li>
+</ul>
+<hr>
+<h2 id="reporting-issues">Reporting Issues</h2>
+<p>Bug reports welcome! We are using <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/issues">GitHub issue tracking</a> for tracking user stories and bugs.</p>
+<h3 id="determining-if-an-issue-should-be-created">Determining if an Issue Should be Created</h3>
+<p>Analyzing reports is a bit of work, so please ask yourself these questions before creating an issue:</p>
+<ul>
+<li><p>Does the bug really apply to Spartacus? </p>
+<p>  There may be reasons the problem is occuring that have nothing to do with the Spartacus storefront code. Consider the following:</p>
+<ul>
+<li>The problem may be caused by code that is not part of Spartacus.</li>
+<li>The problem may be caused by data being sent to Spartacus through REST API calls.</li>
+<li>The problem may be caused by incorrect CMS data sent by SAP Commerce Cloud, perhaps due to custom extensions.</li>
+<li>The behavior may be different from what you expect, but may be working as designed. Or the feature may need improvement. In this case, it would be an enhancement request. Feature requests can be submitted to the <a href="https://spartacus-storefront.slack.com/messages/CD8LC0X5F">feature request channel</a> in our Spartacus Slack workspace.</li>
+<li>Perhaps you are unable to get Spartacus to work properly with your custom SAP Commerce Cloud.</li>
+</ul>
+</li>
+<li><p>Is the problem reproducible in the latest release?</p>
+<ul>
+<li>If you are not using the latest libraries or source code, please try to reproduce with the latest code first.</li>
+<li>Make sure the problem is consistently reproducible using repeatable steps.</li>
+</ul>
+</li>
+<li>Has this bug already been reported?<ul>
+<li>Please search the issue tracker for a similar bug before reporting the issue as a new bug.</li>
+</ul>
+</li>
+</ul>
+<p>If the bug does indeed apply to Spartacus code, please create an issue.</p>
+<h3 id="providing-the-right-information-for-the-issue">Providing the Right Information for the Issue</h3>
+<ul>
+<li><p>Summarize the issue well. The following are some guidelines:</p>
+<ul>
+<li>Precisely state what you expected as compared to the actual behavior you&#39;re seeing.</li>
+<li>Include only those details that apply to the issue.</li>
+<li>Be concise, but include details important for helping us in understanding the problem and finding the root cause.</li>
+<li><p>State the version you are testing, which browser you are using, and on which device. </p>
+<p>If it is possible to indicate what you&#39;ve seen in other browser and device combinations, that is even better! For example, does the issue occur in all browsers, or just one browser on one particular operating system? (For example, &quot;only in Firefox on Windows 10.)</p>
+</li>
+<li>If possible, include the last version where the bug was not present.</li>
+<li>If the bug is more visual, please attach a screenshot and mark up the problem.</li>
+<li>Generally, provide as much detail as necessary, but balance our need for information with how obvious the problem is.</li>
+</ul>
+</li>
+<li><p>Provide detailed, step-by-step instructions for reproducing the issue with an example, including, if possible:</p>
+<ul>
+<li>A URL to your example</li>
+<li>Any rquired username or password (but don&#39;t give us credentials that can be mis-used)</li>
+<li>Screenshots if it helps us understand better.</li>
+</ul>
+</li>
+<li><p>Use our <a href="ISSUE_TEMPLATE.md">issue template</a>.</p>
+<ul>
+<li>Do not include more than one bug per issue created. This helps us to analyze bugs more easily.</li>
+</ul>
+</li>
+</ul>
+<p>Please report issues in English.</p>
+<h3 id="about-reporting-security-issues">About Reporting Security Issues</h3>
+<p>If you find a security issue, we&#39;d rather you tell us directly instead of creating a public issue. This way we can fix it before it can be exploited.</p>
+<ul>
+<li>SAP Customers: if you have discovered a security issue that is not covered by a published security note, please report it by creating a customer message at <a href="https://launchpad.support.sap.com/#incident/solution.">https://launchpad.support.sap.com/#incident/solution.</a></li>
+<li>Researchers/non-Customers: please send the relevant information to <a href="mailto:secure@sap.com">secure@sap.com</a> using <a href="http://global.sap.com/pc/security/keyblock.txt">PGP for e-mail encryption</a>.</li>
+<li>Also refer to the general <a href="https://www.sap.com/corporate/en/company/security.html">SAP security information page</a>.</li>
+</ul>
+<h3 id="how-we-process-issues">How We Process Issues</h3>
+<p>New issues are reviewed regularly for validty and prioritization. Confirmed issues are given the &quot;Approved&quot; label, and the rest are either sent back to the reporter with a request for more details, or closed with an explanation.</p>
+<p>Validated issues are then moved into one of these buckets:</p>
+<ul>
+<li>Priority issues will be assigned to one of our developers</li>
+<li>Issues that are less urgent will be left open as &quot;contribution welcome&quot;</li>
+<li>Certain issues may be moved to our internal issue tracking system if we don&#39;t think they belong to Spartacus.</li>
+</ul>
+<p>Issues are closed when the fix is merged to develop. The release that contains the fix will be noted in the comments and the release changelog.</p>
+<h3 id="how-we-use-labels">How We Use Labels</h3>
+<p>We use labels to categorize issues and set issue status. We also use prefixes to help categorize some of our labels, such as the following:</p>
+<ul>
+<li>The <code>closed</code> prefix indicates the reason for closing an issue, when no changes were done (for example, <code>closed/duplicate</code>).</li>
+<li>The <code>epic</code> prefix allows us to group together issues that belong to a particular epic, feature, or theme (for example, <code>epic/facades</code>).</li>
+<li>The <code>triage</code> label is applied to issues that still require further information or analysis before they can be worked on (for example, <code>triage/analysis wanted</code>).</li>
+<li>The <code>type</code> prefix is used to identify issues other than tasks and user stories, such as bugs, enhancement requests, and issues that only affect the documentation (for example, <code>type/bug</code>).</li>
+</ul>
+<p>You can view all of the labels we use, including the label descriptions, on our GitHub <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/labels">labels page</a>. </p>
+<p>Note: labels can only be changed by maintainers.</p>
+<h3 id="issue-reporting-disclaimer">Issue Reporting Disclaimer</h3>
+<p>Feedback, especially bug reports, are always welcome. However, our capacity as a team is limited -- we cannot answer specific project or consultation requests, nor can we invest time in fleshing out what might be a bug. Because of this, we reserve the right to close or not process issue reports that do not contain enough information. We also do not guarantee that every well-documented issue will be fixed.</p>
+<p>That being said, we will try our very best to ensure the Spartacus code base is of high quality.</p>
+<hr>
+<h2 id="analyzing-issues">Analyzing Issues</h2>
+<p>You don&#39;t have to be a programmer to help us determine the specifics of a bug. Any help here is welcome!</p>
+<p>To view a list of open issues that require analysis, see the <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/issues?q=is%3Aopen">list of open issues</a> and especially the <a href="https://github.com/SAP/cloud-commerce-spartacus-storefront/labels/triage/analysis%20wanted">list of issues where analysis is requested</a>.</p>
+<hr>
+<h2 id="contributing-code">Contributing Code</h2>
+<p>We welcome contributions to the Spartacus codebase. Before you start your first contribution, here are some things you should know:</p>
+<ol>
+<li><p>You must be aware of the Apache License (which describes contributions), and you must agree to the <a href="LICENSE.md">Contributors License Agreement</a>. This is common practice for most open source projects.</p>
+<p> Note: You do not need to sign the CLA until you submit your first pull request. If you have not signed the CLA before, a link to the CLA assistant is provided on the PR status page.</p>
+<ul>
+<li>To make this process as simple as possible, we use the <em><a href="https://cla-assistant.io/">CLA assistant</a></em> for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click-experience for accepting the CLA.</li>
+<li>For company contributors, special rules apply. See the respective section below for details.</li>
+</ul>
+</li>
+<li><p>Contributions must be compliant with the project code style, quality, and standards. We also follow them :-) </p>
+<p> The <code>Contribution Content Guidelines</code> section below gives more details on the coding guidelines.</p>
+</li>
+<li><p>Not all contributions will be accepted.</p>
+<ul>
+<li>The code you are submitting must fit the overall vision and direction of Spartacus and really improve it. Bug fixes are simple cases, for example, but new features may work better as third-party extensions.</li>
+<li>Major feature implementations should be discussed with the owner <a href="https://github.com/Xymmer">Bill Marcotte</a>. You can also float ideas in our Slack channel, and we&#39;ll connect you to the appropriate person for further discussion.</li>
+</ul>
+</li>
+</ol>
+<h3 id="contributor-license-agreement">Contributor License Agreement</h3>
+<p>When you contribute anything to Spartacus (code, documentation, analysis, anything), be aware that your contribution is covered by the same <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache 2.0 License</a> that is applied to Spartacus itself. In particular, you must agree to the <a href="https://gist.github.com/CLAassistant/bd1ea8ec8aa0357414e8">Individual Contributor License Agreement</a>.</p>
+<p>This applies to all contributors, including those contributing on behalf of a company. If you agree to its content, click on the link posted by the CLA assistant as a comment to the pull request. Click it to check the CLA, then accept it on the following screen if you agree to it. CLA assistant will save this decision for upcoming contributions and will notify you if there is any changes to the CLA in the meantime.</p>
+<h4 id="company-contributors">Company Contributors</h4>
+<p>If employees of a company contribute code, in <strong>addition</strong> to the individual agreement above, there needs to be one company agreement submitted. This is mainly for the protection of the contributing employees.</p>
+<p>A company representative authorized to do so must fill out the following <a href="/docs/SAP%20Corporate%20Contributor%20License%20Agreement.pdf">Corporate Contributor License Agreement</a> form. The form contains a list of employees who are authorized to contribute on behalf of your company. When this list changes, please let us know.</p>
+<p>Submit the form to us through one of the following methods:</p>
+<ul>
+<li>Email to <a href="mailto:opensource@sap.com">opensource@sap.com</a> and <a href="mailto:spartacus@sap.com">spartacus@sap.com</a></li>
+<li>Fax to +49 6227 78-45813</li>
+<li>Mail to:</li>
+</ul>
+<p>Industry Standards &amp; Open Source Team
+Dietmar-Hopp-Allee 16
+69190 Walldorf, Germany</p>
+<h3 id="contribution-content-guidelines">Contribution Content Guidelines</h3>
+<p>A contribution will be considered for inclusion in Spartacus if it meets the following criteria:</p>
+<ul>
+<li>The contribution fits the overall vision and direction of Spartacus</li>
+<li>The contribution truly improves the storefront</li>
+<li>The contribution follows the applicable guidelines and standards.</li>
+</ul>
+<p>The &quot;guidelines and standards&quot; requirement could fill entire books and still lack a 100% clear definition, but rest assured that you will receive feedback if something is not right. That being said, please consult the following documentation:</p>
+<ul>
+<li><a href="docs/contributing/definition-of-done.md">Definition of Done</a></li>
+<li><a href="docs/contributing/coding-guidelines.md">Coding Guidelines</a></li>
+<li><a href="docs/contributing/commit-guidelines.md">Commit Guidelines</a></li>
+<li><a href="docs/contributing/dev-tools.md">Development Tools for Spartacus</a></li>
+</ul>
+<h3 id="contribution-process">Contribution Process</h3>
+<ol>
+<li><p>Make sure the change would be welcome, as described above.</p>
+</li>
+<li><p>Create a fork of the Spartacus library sources. </p>
+</li>
+<li><p>Build and run the storefront from the library development workspace. </p>
+<p> For more information, see <a href="docs/contributorsetup.md">Contributor Setup</a>.</p>
+</li>
+<li><p>Work on the change in your fork (either on the <code>develop</code> branch or on a feature branch).</p>
+</li>
+<li><p>Commit and push your changes using the <a href="https://help.github.com/articles/about-pull-request-merges/">squash and merge</a> feature in GitHub.</p>
+<p> That you should also use the squash and merge feature when additional changes are required after code review.</p>
+</li>
+<li><p>In the commit message, please follow the conventions described in the <a href="docs/contributing/commit-guidelines.md">commit guidelines</a>.</p>
+<p> By following the guidelines, your work will be accurately captured in the release changelog.</p>
+</li>
+<li><p>If your change fixes an issue reported in GitHub, add the following line to the commit message:</p>
+<p>  <code>Fixes https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/(issueNumber)</code></p>
+<ul>
+<li>Do not add a colon after &quot;Fixes&quot;, as this prevents automatic closing.</li>
+<li><p>When your pull request number is known (for example, because you enhanced a pull request after a code review), you can also add the following line:</p>
+<p>  <code>Closes https://github.com/SAP/cloud-commerce-spartacus-storefront/pull/(pullRequestNumber)</code></p>
+</li>
+</ul>
+</li>
+<li><p>Create a pull request so that we can review your change.</p>
+</li>
+<li>Follow the link posted by the CLA assistant to your pull request and accept it, as described above.</li>
+<li><p>Wait for our code review and approval, possibly enhancing your change on request.</p>
+<p> Note: This may take time, depending on the required effort for reviewing, testing, and clarification. Spartacus developers are also working their regular duties.</p>
+</li>
+<li><p>After the change has been approved, we will inform you in a comment.</p>
+</li>
+<li><p>Due to internal SAP processes, your pull request cannot be merged directly into the branch. It will be merged internally, and will also immediately appear in the public repository.</p>
+</li>
+<li>We will close the pull request. At that point, you can delete your branch.</li>
+</ol>
+<p>We look forward to hearing from you!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'contributing.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

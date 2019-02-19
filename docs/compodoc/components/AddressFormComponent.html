@@ -1,0 +1,1819 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>AddressFormComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>cx-address-form</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./address-form.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./address-form.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#address">address</a>
+                            </li>
+                            <li>
+                                <a href="#addressVerifySub">addressVerifySub</a>
+                            </li>
+                            <li>
+                                <a href="#countries$">countries$</a>
+                            </li>
+                            <li>
+                                <a href="#regions$">regions$</a>
+                            </li>
+                            <li>
+                                <a href="#suggestedAddressModalRef">suggestedAddressModalRef</a>
+                            </li>
+                            <li>
+                                <a href="#titles$">titles$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#back">back</a>
+                            </li>
+                            <li>
+                                <a href="#countrySelected">countrySelected</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#openSuggestedAddress">openSuggestedAddress</a>
+                            </li>
+                            <li>
+                                <a href="#regionSelected">regionSelected</a>
+                            </li>
+                            <li>
+                                <a href="#titleSelected">titleSelected</a>
+                            </li>
+                            <li>
+                                <a href="#toggleDefaultAddress">toggleDefaultAddress</a>
+                            </li>
+                            <li>
+                                <a href="#verifyAddress">verifyAddress</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#actionBtnLabel">actionBtnLabel</a>
+                            </li>
+                            <li>
+                                <a href="#addressData">addressData</a>
+                            </li>
+                            <li>
+                                <a href="#cancelBtnLabel">cancelBtnLabel</a>
+                            </li>
+                            <li>
+                                <a href="#setAsDefaultField">setAsDefaultField</a>
+                            </li>
+                            <li>
+                                <a href="#showTitleCode">showTitleCode</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addAddress">addAddress</a>
+                            </li>
+                            <li>
+                                <a href="#backToAddress">backToAddress</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, checkoutService: <a href="../injectables/CheckoutService.html">CheckoutService</a>, userService: <a href="../injectables/UserService.html">UserService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, modalService: NgbModal)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:79</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>checkoutService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>userService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>modalService</td>
+                                                  
+                                                        <td>
+                                                                    <code>NgbModal</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="actionBtnLabel"></a>
+                        <code>actionBtnLabel</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:43</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="addressData"></a>
+                        <code>addressData</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:40</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="cancelBtnLabel"></a>
+                        <code>cancelBtnLabel</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:46</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="setAsDefaultField"></a>
+                        <code>setAsDefaultField</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:49</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="showTitleCode"></a>
+                        <code>showTitleCode</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:52</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="addAddress"></a>
+                        <code>addAddress</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:55</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="backToAddress"></a>
+                        <code>backToAddress</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:58</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="back"></a>
+                        <span class="name">
+                            <b>
+                            back
+                            </b>
+                            <a href="#back"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>back()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="191" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:191</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="countrySelected"></a>
+                        <span class="name">
+                            <b>
+                            countrySelected
+                            </b>
+                            <a href="#countrySelected"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>countrySelected(country: <a href="../interfaces/Country.html">Country</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="172" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:172</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>country</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/Country.html" target="_self" >Country</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnDestroy"></a>
+                        <span class="name">
+                            <b>
+                            ngOnDestroy
+                            </b>
+                            <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="239" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:239</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:89</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="openSuggestedAddress"></a>
+                        <span class="name">
+                            <b>
+                            openSuggestedAddress
+                            </b>
+                            <a href="#openSuggestedAddress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>openSuggestedAddress(results: <a href="../interfaces/AddressValidation.html">AddressValidation</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="199" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:199</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>results</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/AddressValidation.html" target="_self" >AddressValidation</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="regionSelected"></a>
+                        <span class="name">
+                            <b>
+                            regionSelected
+                            </b>
+                            <a href="#regionSelected"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>regionSelected(region: <a href="../interfaces/Region.html">Region</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:179</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>region</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/Region.html" target="_self" >Region</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="titleSelected"></a>
+                        <span class="name">
+                            <b>
+                            titleSelected
+                            </b>
+                            <a href="#titleSelected"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>titleSelected(title: <a href="../interfaces/Title.html">Title</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:168</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>title</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/Title.html" target="_self" >Title</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="toggleDefaultAddress"></a>
+                        <span class="name">
+                            <b>
+                            toggleDefaultAddress
+                            </b>
+                            <a href="#toggleDefaultAddress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>toggleDefaultAddress()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="185" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:185</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="verifyAddress"></a>
+                        <span class="name">
+                            <b>
+                            verifyAddress
+                            </b>
+                            <a href="#verifyAddress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>verifyAddress()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="195" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:195</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="address"></a>
+                        <span class="name">
+                            <b>
+                            address
+                            </b>
+                            <a href="#address"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>address:     <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.fb.group({
+    defaultAddress: [false],
+    titleCode: [&#x27;&#x27;],
+    firstName: [&#x27;&#x27;, Validators.required],
+    lastName: [&#x27;&#x27;, Validators.required],
+    line1: [&#x27;&#x27;, Validators.required],
+    line2: [&#x27;&#x27;],
+    town: [&#x27;&#x27;, Validators.required],
+    region: this.fb.group({
+      isocode: [null, Validators.required]
+    }),
+    country: this.fb.group({
+      isocode: [null, Validators.required]
+    }),
+    postalCode: [&#x27;&#x27;, Validators.required],
+    phone: &#x27;&#x27;
+  })</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:63</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addressVerifySub"></a>
+                        <span class="name">
+                            <b>
+                            addressVerifySub
+                            </b>
+                            <a href="#addressVerifySub"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>addressVerifySub:     <code>Subscription</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:60</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="countries$"></a>
+                        <span class="name">
+                            <b>
+                            countries$
+                            </b>
+                            <a href="#countries$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>countries$:     <code><a href="../interfaces/Country.html" target="_self" >Observable&lt;Country[]&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Country.html" target="_self" >Observable&lt;Country[]&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:35</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="regions$"></a>
+                        <span class="name">
+                            <b>
+                            regions$
+                            </b>
+                            <a href="#regions$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>regions$:     <code><a href="../interfaces/Region.html" target="_self" >Observable&lt;Region[]&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Region.html" target="_self" >Observable&lt;Region[]&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="suggestedAddressModalRef"></a>
+                        <span class="name">
+                            <b>
+                            suggestedAddressModalRef
+                            </b>
+                            <a href="#suggestedAddressModalRef"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>suggestedAddressModalRef:     <code>NgbModalRef</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>NgbModalRef</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:61</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="titles$"></a>
+                        <span class="name">
+                            <b>
+                            titles$
+                            </b>
+                            <a href="#titles$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>titles$:     <code><a href="../interfaces/Title.html" target="_self" >Observable&lt;Title[]&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Title.html" target="_self" >Observable&lt;Title[]&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/shipping-address/address-form/address-form.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from &#x27;@angular/core&#x27;;
+import { FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
+import { NgbModal, NgbModalRef } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
+import { Observable, Subscription } from &#x27;rxjs&#x27;;
+import { map, tap } from &#x27;rxjs/operators&#x27;;
+
+import {
+  Address,
+  AddressValidation,
+  CheckoutService,
+  Country,
+  GlobalMessageService,
+  GlobalMessageType,
+  Region,
+  Title,
+  UserService
+} from &#x27;@spartacus/core&#x27;;
+import { SuggestedAddressDialogComponent } from &#x27;./suggested-addresses-dialog/suggested-addresses-dialog.component&#x27;;
+
+@Component({
+  selector: &#x27;cx-address-form&#x27;,
+  templateUrl: &#x27;./address-form.component.html&#x27;,
+  styleUrls: [&#x27;./address-form.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class AddressFormComponent implements OnInit, OnDestroy {
+  countries$: Observable&lt;Country[]&gt;;
+  titles$: Observable&lt;Title[]&gt;;
+  regions$: Observable&lt;Region[]&gt;;
+
+  @Input()
+  addressData: Address;
+
+  @Input()
+  actionBtnLabel: string;
+
+  @Input()
+  cancelBtnLabel: string;
+
+  @Input()
+  setAsDefaultField: boolean;
+
+  @Input()
+  showTitleCode: boolean;
+
+  @Output()
+  addAddress &#x3D; new EventEmitter&lt;any&gt;();
+
+  @Output()
+  backToAddress &#x3D; new EventEmitter&lt;any&gt;();
+
+  addressVerifySub: Subscription;
+  suggestedAddressModalRef: NgbModalRef;
+
+  address: FormGroup &#x3D; this.fb.group({
+    defaultAddress: [false],
+    titleCode: [&#x27;&#x27;],
+    firstName: [&#x27;&#x27;, Validators.required],
+    lastName: [&#x27;&#x27;, Validators.required],
+    line1: [&#x27;&#x27;, Validators.required],
+    line2: [&#x27;&#x27;],
+    town: [&#x27;&#x27;, Validators.required],
+    region: this.fb.group({
+      isocode: [null, Validators.required]
+    }),
+    country: this.fb.group({
+      isocode: [null, Validators.required]
+    }),
+    postalCode: [&#x27;&#x27;, Validators.required],
+    phone: &#x27;&#x27;
+  });
+
+  constructor(
+    private fb: FormBuilder,
+    protected checkoutService: CheckoutService,
+    protected userService: UserService,
+    protected globalMessageService: GlobalMessageService,
+    private modalService: NgbModal
+  ) {}
+
+  ngOnInit() {
+    // Fetching countries
+    this.countries$ &#x3D; this.userService.getDeliveryCountries().pipe(
+      tap(countries &#x3D;&gt; {
+        if (Object.keys(countries).length &#x3D;&#x3D;&#x3D; 0) {
+          this.userService.loadDeliveryCountries();
+        }
+      })
+    );
+
+    // Fetching titles
+    this.titles$ &#x3D; this.userService.getTitles().pipe(
+      tap(titles &#x3D;&gt; {
+        if (Object.keys(titles).length &#x3D;&#x3D;&#x3D; 0) {
+          this.userService.loadTitles();
+        }
+      }),
+      map(titles &#x3D;&gt; {
+        const noneTitle &#x3D; { code: &#x27;&#x27;, name: &#x27;None&#x27; };
+        return [noneTitle, ...titles];
+      })
+    );
+
+    // Fetching regions
+    this.regions$ &#x3D; this.userService.getRegions().pipe(
+      tap(regions &#x3D;&gt; {
+        const regionControl &#x3D; this.address.get(&#x27;region.isocode&#x27;);
+
+        if (Object.keys(regions).length &#x3D;&#x3D;&#x3D; 0) {
+          regionControl.disable();
+          const countryIsoCode &#x3D; this.address.get(&#x27;country.isocode&#x27;).value;
+          if (countryIsoCode) {
+            this.userService.loadRegions(countryIsoCode);
+          }
+        } else {
+          regionControl.enable();
+        }
+      })
+    );
+
+    // verify the new added address
+    this.addressVerifySub &#x3D; this.checkoutService
+      .getAddressVerificationResults()
+      .subscribe((results: AddressValidation) &#x3D;&gt; {
+        if (results &#x3D;&#x3D;&#x3D; &#x27;FAIL&#x27;) {
+          this.checkoutService.clearAddressVerificationResults();
+        } else if (results.decision &#x3D;&#x3D;&#x3D; &#x27;ACCEPT&#x27;) {
+          this.addAddress.emit(this.address.value);
+        } else if (results.decision &#x3D;&#x3D;&#x3D; &#x27;REJECT&#x27;) {
+          // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+          if (
+            results.errors.errors.some(error &#x3D;&gt; error.subject &#x3D;&#x3D;&#x3D; &#x27;titleCode&#x27;)
+          ) {
+            this.globalMessageService.add({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: &#x27;Title is required&#x27;
+            });
+          } else {
+            this.globalMessageService.add({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: &#x27;Invalid Address&#x27;
+            });
+          }
+          this.checkoutService.clearAddressVerificationResults();
+        } else if (results.decision &#x3D;&#x3D;&#x3D; &#x27;REVIEW&#x27;) {
+          this.openSuggestedAddress(results);
+        }
+      });
+
+    if (this.addressData) {
+      this.address.patchValue(this.addressData);
+
+      this.countrySelected(this.addressData.country);
+      if (this.addressData.region) {
+        this.regionSelected(this.addressData.region);
+      }
+    }
+  }
+
+  titleSelected(title: Title): void {
+    this.address[&#x27;controls&#x27;].titleCode.setValue(title.code);
+  }
+
+  countrySelected(country: Country): void {
+    this.address[&#x27;controls&#x27;].country[&#x27;controls&#x27;].isocode.setValue(
+      country.isocode
+    );
+    this.userService.loadRegions(country.isocode);
+  }
+
+  regionSelected(region: Region): void {
+    this.address[&#x27;controls&#x27;].region[&#x27;controls&#x27;].isocode.setValue(
+      region.isocode
+    );
+  }
+
+  toggleDefaultAddress(): void {
+    this.address[&#x27;controls&#x27;].defaultAddress.setValue(
+      this.address.value.defaultAddress
+    );
+  }
+
+  back(): void {
+    this.backToAddress.emit();
+  }
+
+  verifyAddress(): void {
+    this.checkoutService.verifyAddress(this.address.value);
+  }
+
+  openSuggestedAddress(results: AddressValidation): void {
+    if (!this.suggestedAddressModalRef) {
+      this.suggestedAddressModalRef &#x3D; this.modalService.open(
+        SuggestedAddressDialogComponent,
+        { centered: true, size: &#x27;lg&#x27; }
+      );
+      this.suggestedAddressModalRef.componentInstance.enteredAddress &#x3D; this.address.value;
+      this.suggestedAddressModalRef.componentInstance.suggestedAddresses &#x3D;
+        results.suggestedAddresses;
+      this.suggestedAddressModalRef.result
+        .then(address &#x3D;&gt; {
+          this.checkoutService.clearAddressVerificationResults();
+          if (address) {
+            address &#x3D; Object.assign(
+              {
+                titleCode: this.address.value.titleCode,
+                phone: this.address.value.phone,
+                selected: true
+              },
+              address
+            );
+            this.addAddress.emit(address);
+          }
+          this.suggestedAddressModalRef &#x3D; null;
+        })
+        .catch(() &#x3D;&gt; {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          this.checkoutService.clearAddressVerificationResults();
+          const address &#x3D; Object.assign(
+            {
+              selected: true
+            },
+            this.address.value
+          );
+          this.addAddress.emit(address);
+          this.suggestedAddressModalRef &#x3D; null;
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    this.checkoutService.clearAddressVerificationResults();
+
+    if (this.addressVerifySub) {
+      this.addressVerifySub.unsubscribe();
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;cx-address-form container&quot;&gt;
+  &lt;div class&#x3D;&quot;row&quot;&gt;
+    &lt;div class&#x3D;&quot;col-md-12 col-lg-9&quot;&gt;
+      &lt;div [formGroup]&#x3D;&quot;address&quot;&gt;
+        &lt;div class&#x3D;&quot;form-group&quot; *ngIf&#x3D;&quot;showTitleCode&quot;&gt;
+          &lt;ng-container *ngIf&#x3D;&quot;(titles$ | async) as titles&quot;&gt;
+            &lt;div *ngIf&#x3D;&quot;titles.length !&#x3D;&#x3D; 0&quot;&gt;
+              &lt;label aria-required&#x3D;&quot;true&quot;&gt;
+                &lt;span class&#x3D;&quot;label-content required&quot;&gt;Title&lt;/span&gt;
+                &lt;ng-select
+                  formControlName&#x3D;&quot;titleCode&quot;
+                  [searchable]&#x3D;&quot;false&quot;
+                  [clearable]&#x3D;&quot;false&quot;
+                  [items]&#x3D;&quot;titles&quot;
+                  bindLabel&#x3D;&quot;name&quot;
+                  bindValue&#x3D;&quot;code&quot;
+                  (change)&#x3D;&quot;titleSelected($event)&quot;
+                &gt;
+                &lt;/ng-select&gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+          &lt;/ng-container&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label&gt;
+            &lt;span class&#x3D;&quot;label-content required&quot;&gt;First name&lt;/span&gt;
+            &lt;input
+              class&#x3D;&quot;form-control&quot;
+              type&#x3D;&quot;text&quot;
+              required
+              placeholder&#x3D;&quot;First Name&quot;
+              formControlName&#x3D;&quot;firstName&quot;
+            /&gt;
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label&gt;
+            &lt;span class&#x3D;&quot;label-content required&quot;&gt;Last name&lt;/span&gt;
+            &lt;input
+              type&#x3D;&quot;text&quot;
+              class&#x3D;&quot;form-control&quot;
+              required
+              placeholder&#x3D;&quot;Last Name&quot;
+              formControlName&#x3D;&quot;lastName&quot;
+            /&gt;
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label&gt;
+            &lt;span class&#x3D;&quot;label-content required&quot;&gt;Address 1&lt;/span&gt;
+            &lt;input
+              type&#x3D;&quot;text&quot;
+              class&#x3D;&quot;form-control&quot;
+              required
+              placeholder&#x3D;&quot;Street Address&quot;
+              formControlName&#x3D;&quot;line1&quot;
+            /&gt;
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label&gt;
+            &lt;span class&#x3D;&quot;label-content&quot;&gt;Address 2 (optional)&lt;/span&gt;
+            &lt;input
+              type&#x3D;&quot;text&quot;
+              class&#x3D;&quot;form-control&quot;
+              placeholder&#x3D;&quot;Apt, Suite&quot;
+              formControlName&#x3D;&quot;line2&quot;
+            /&gt;
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot; formGroupName&#x3D;&quot;country&quot;&gt;
+          &lt;ng-container *ngIf&#x3D;&quot;(countries$ | async) as countries&quot;&gt;
+            &lt;div *ngIf&#x3D;&quot;countries.length !&#x3D;&#x3D; 0&quot;&gt;
+              &lt;label aria-required&#x3D;&quot;true&quot;&gt;
+                &lt;span class&#x3D;&quot;label-content required&quot;&gt;Country&lt;/span&gt;
+                &lt;ng-select
+                  class&#x3D;&quot;country-select&quot;
+                  formControlName&#x3D;&quot;isocode&quot;
+                  [searchable]&#x3D;&quot;false&quot;
+                  [clearable]&#x3D;&quot;false&quot;
+                  [items]&#x3D;&quot;countries&quot;
+                  bindLabel&#x3D;&quot;name&quot;
+                  bindValue&#x3D;&quot;isocode&quot;
+                  placeholder&#x3D;&quot;Select One...&quot;
+                  (change)&#x3D;&quot;countrySelected($event)&quot;
+                &gt;
+                &lt;/ng-select&gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+          &lt;/ng-container&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;row&quot;&gt;
+          &lt;div class&#x3D;&quot;form-group col-md-6&quot;&gt;
+            &lt;label&gt;
+              &lt;span class&#x3D;&quot;label-content required&quot;&gt;City&lt;/span&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                class&#x3D;&quot;form-control&quot;
+                required
+                placeholder&#x3D;&quot;City&quot;
+                formControlName&#x3D;&quot;town&quot;
+              /&gt;
+            &lt;/label&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;form-group col-md-6&quot;&gt;
+            &lt;ng-container
+              *ngIf&#x3D;&quot;(regions$ | async) as regions&quot;
+              formGroupName&#x3D;&quot;region&quot;
+            &gt;
+              &lt;div *ngIf&#x3D;&quot;regions.length !&#x3D;&#x3D; 0&quot;&gt;
+                &lt;label aria-required&#x3D;&quot;true&quot;&gt;
+                  &lt;span class&#x3D;&quot;label-content required&quot;&gt;State&lt;/span&gt;
+                  &lt;ng-container *ngIf&#x3D;&quot;regions[0].name&quot;&gt;
+                    &lt;ng-select
+                      class&#x3D;&quot;region-select&quot;
+                      formControlName&#x3D;&quot;isocode&quot;
+                      [searchable]&#x3D;&quot;false&quot;
+                      [clearable]&#x3D;&quot;false&quot;
+                      [items]&#x3D;&quot;regions&quot;
+                      bindLabel&#x3D;&quot;name&quot;
+                      bindValue&#x3D;&quot;isocode&quot;
+                      placeholder&#x3D;&quot;Select One...&quot;
+                      (change)&#x3D;&quot;regionSelected($event)&quot;
+                    &gt;
+                    &lt;/ng-select&gt;
+                  &lt;/ng-container&gt;
+                  &lt;ng-container *ngIf&#x3D;&quot;!regions[0].name&quot;&gt;
+                    &lt;ng-select
+                      class&#x3D;&quot;region-select&quot;
+                      [searchable]&#x3D;&quot;false&quot;
+                      [clearable]&#x3D;&quot;false&quot;
+                      [items]&#x3D;&quot;regions&quot;
+                      bindLabel&#x3D;&quot;isocode&quot;
+                      bindValue&#x3D;&quot;region&quot;
+                      placeholder&#x3D;&quot;Select One...&quot;
+                      (change)&#x3D;&quot;regionSelected($event)&quot;
+                    &gt;
+                    &lt;/ng-select&gt;
+                  &lt;/ng-container&gt;
+                &lt;/label&gt;
+              &lt;/div&gt;
+            &lt;/ng-container&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;form-group col-md-6&quot;&gt;
+            &lt;label&gt;
+              &lt;span class&#x3D;&quot;label-content required&quot;&gt;Zip code&lt;/span&gt;
+              &lt;input
+                type&#x3D;&quot;text&quot;
+                class&#x3D;&quot;form-control&quot;
+                required
+                placeholder&#x3D;&quot;Postal Code/Zip&quot;
+                formControlName&#x3D;&quot;postalCode&quot;
+              /&gt;
+            &lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot;&gt;
+          &lt;label&gt;
+            &lt;span class&#x3D;&quot;label-content&quot;&gt;Phone number (optional)&lt;/span&gt;
+            &lt;input
+              type&#x3D;&quot;text&quot;
+              class&#x3D;&quot;form-control&quot;
+              placeholder&#x3D;&quot;(555) 555 - 0123&quot;
+              formControlName&#x3D;&quot;phone&quot;
+            /&gt;
+          &lt;/label&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;form-group&quot; *ngIf&#x3D;&quot;setAsDefaultField !&#x3D;&#x3D; false&quot;&gt;
+          &lt;div class&#x3D;&quot;form-check&quot;&gt;
+            &lt;label&gt;
+              &lt;input
+                type&#x3D;&quot;checkbox&quot;
+                class&#x3D;&quot;form-check-input&quot;
+                formControlName&#x3D;&quot;defaultAddress&quot;
+                (change)&#x3D;&quot;toggleDefaultAddress()&quot;
+              /&gt;
+              &lt;span class&#x3D;&quot;form-check-label&quot;&gt;Save as default&lt;/span&gt;
+            &lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;cx-address-form__btns row&quot;&gt;
+          &lt;div class&#x3D;&quot;col-sm-12 col-md-6 col-lg-6&quot;&gt;
+            &lt;button class&#x3D;&quot;btn btn-block btn-action&quot; (click)&#x3D;&quot;back()&quot;&gt;
+              {{ cancelBtnLabel || &#x27;Change Address&#x27; }}
+            &lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class&#x3D;&quot;col-sm-12 col-md-6 col-lg-6&quot;&gt;
+            &lt;button
+              class&#x3D;&quot;btn btn-block btn-primary&quot;
+              [disabled]&#x3D;&quot;address.invalid&quot;
+              (click)&#x3D;&quot;verifyAddress()&quot;
+            &gt;
+              {{ actionBtnLabel || &#x27;Continue&#x27; }}
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./address-form.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;theme&#x27;;
+@import &#x27;functions&#x27;;
+@import &#x27;mixins&#x27;;
+@import &#x27;../../container/multi-step-checkout.component&#x27;;
+
+$cx-address-form-card-background-color: &#x27;inverse&#x27; !default;
+// cx-address-form variables
+$cx-address-form-no-padding: 0 !default;
+$cx-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
+$cx-address-form-title-margin: 0 auto !default;
+$cx-address-form-body-padding-bottom: 1.875rem !default;
+$cx-address-form-text-margin-bottom: 1.25rem !default;
+$cx-address-form-text-md-padding-left: 3.5rem !default;
+$cx-address-form-text-sm-padding-left: 1.5rem !default;
+.cx-address-form {
+  &amp;.container {
+    padding: $cx-address-form-no-padding;
+  }
+  &amp;__title {
+    text-transform: uppercase;
+    margin: $cx-address-form-title-margin;
+    padding: $cx-address-form-title-padding;
+  }
+  &amp;__body {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: $cx-address-form-body-padding-bottom;
+  }
+  &amp;__text {
+    margin-bottom: $cx-address-form-text-margin-bottom;
+  }
+  &amp;__btns {
+    padding-bottom: 1rem;
+  }
+  // ***************************** MEDIA QUERIES *****************************
+  @include checkout-media-style();
+  &amp;__body {
+    &amp;.row {
+      @include media-breakpoint-down(md) {
+        padding: $cx-address-form-no-padding;
+      }
+    }
+  }
+  &amp;__text {
+    @include media-breakpoint-down(md) {
+      padding-left: $cx-address-form-text-md-padding-left;
+    }
+    @include media-breakpoint-down(sm) {
+      padding-left: $cx-address-form-text-sm-padding-left;
+    }
+  }
+  &amp;__card {
+    @include media-breakpoint-down(md) {
+      @include var-color(
+        &#x27;background-color&#x27;,
+        $cx-address-form-card-background-color
+      );
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="cx-address-form container">  <div class="row">    <div class="col-md-12 col-lg-9">      <div [formGroup]="address">        <div class="form-group" *ngIf="showTitleCode">          <ng-container *ngIf="(titles$ | async) as titles">            <div *ngIf="titles.length !== 0">              <label aria-required="true">                <span class="label-content required">Title</span>                <ng-select                  formControlName="titleCode"                  [searchable]="false"                  [clearable]="false"                  [items]="titles"                  bindLabel="name"                  bindValue="code"                  (change)="titleSelected($event)"                >                </ng-select>              </label>            </div>          </ng-container>        </div>        <div class="form-group">          <label>            <span class="label-content required">First name</span>            <input              class="form-control"              type="text"              required              placeholder="First Name"              formControlName="firstName"            />          </label>        </div>        <div class="form-group">          <label>            <span class="label-content required">Last name</span>            <input              type="text"              class="form-control"              required              placeholder="Last Name"              formControlName="lastName"            />          </label>        </div>        <div class="form-group">          <label>            <span class="label-content required">Address 1</span>            <input              type="text"              class="form-control"              required              placeholder="Street Address"              formControlName="line1"            />          </label>        </div>        <div class="form-group">          <label>            <span class="label-content">Address 2 (optional)</span>            <input              type="text"              class="form-control"              placeholder="Apt, Suite"              formControlName="line2"            />          </label>        </div>        <div class="form-group" formGroupName="country">          <ng-container *ngIf="(countries$ | async) as countries">            <div *ngIf="countries.length !== 0">              <label aria-required="true">                <span class="label-content required">Country</span>                <ng-select                  class="country-select"                  formControlName="isocode"                  [searchable]="false"                  [clearable]="false"                  [items]="countries"                  bindLabel="name"                  bindValue="isocode"                  placeholder="Select One..."                  (change)="countrySelected($event)"                >                </ng-select>              </label>            </div>          </ng-container>        </div>        <div class="row">          <div class="form-group col-md-6">            <label>              <span class="label-content required">City</span>              <input                type="text"                class="form-control"                required                placeholder="City"                formControlName="town"              />            </label>          </div>          <div class="form-group col-md-6">            <ng-container              *ngIf="(regions$ | async) as regions"              formGroupName="region"            >              <div *ngIf="regions.length !== 0">                <label aria-required="true">                  <span class="label-content required">State</span>                  <ng-container *ngIf="regions[0].name">                    <ng-select                      class="region-select"                      formControlName="isocode"                      [searchable]="false"                      [clearable]="false"                      [items]="regions"                      bindLabel="name"                      bindValue="isocode"                      placeholder="Select One..."                      (change)="regionSelected($event)"                    >                    </ng-select>                  </ng-container>                  <ng-container *ngIf="!regions[0].name">                    <ng-select                      class="region-select"                      [searchable]="false"                      [clearable]="false"                      [items]="regions"                      bindLabel="isocode"                      bindValue="region"                      placeholder="Select One..."                      (change)="regionSelected($event)"                    >                    </ng-select>                  </ng-container>                </label>              </div>            </ng-container>          </div>          <div class="form-group col-md-6">            <label>              <span class="label-content required">Zip code</span>              <input                type="text"                class="form-control"                required                placeholder="Postal Code/Zip"                formControlName="postalCode"              />            </label>          </div>        </div>        <div class="form-group">          <label>            <span class="label-content">Phone number (optional)</span>            <input              type="text"              class="form-control"              placeholder="(555) 555 - 0123"              formControlName="phone"            />          </label>        </div>        <div class="form-group" *ngIf="setAsDefaultField !== false">          <div class="form-check">            <label>              <input                type="checkbox"                class="form-check-input"                formControlName="defaultAddress"                (change)="toggleDefaultAddress()"              />              <span class="form-check-label">Save as default</span>            </label>          </div>        </div>        <div class="cx-address-form__btns row">          <div class="col-sm-12 col-md-6 col-lg-6">            <button class="btn btn-block btn-action" (click)="back()">              {{ cancelBtnLabel || \'Change Address\' }}            </button>          </div>          <div class="col-sm-12 col-md-6 col-lg-6">            <button              class="btn btn-block btn-primary"              [disabled]="address.invalid"              (click)="verifyAddress()"            >              {{ actionBtnLabel || \'Continue\' }}            </button>          </div>        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartPageComponent', 'selector': 'cx-cart-page'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CategoryPageComponent', 'selector': 'cx-category-page'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DynamicSlotComponent', 'selector': 'cx-dynamic-slot'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'HeaderComponent', 'selector': 'cx-header'},{'name': 'HeaderSkipperComponent', 'selector': 'cx-header-skipper'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginPageComponent', 'selector': ''},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MultiStepCheckoutComponent', 'selector': 'cx-multi-step-checkout'},{'name': 'MultiStepCheckoutPageComponent', 'selector': 'cx-multi-step-checkout-page'},{'name': 'MultiStepCheckoutPageLayoutComponent', 'selector': 'cx-multi-step-checkout-page-layout'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'OrderConfirmationComponent', 'selector': 'cx-order-confirmation'},{'name': 'OrderConfirmationPageComponent', 'selector': 'cx-order-confirmation-page'},{'name': 'OrderConfirmationPageLayoutComponent', 'selector': 'cx-order-confirmation-page-layout'},{'name': 'OrderDetailsComponent', 'selector': 'cx-order-details'},{'name': 'OrderDetailsPageComponent', 'selector': ''},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryPageComponent', 'selector': ''},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentDetailsPageComponent', 'selector': ''},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PictureComponent', 'selector': 'cx-picture'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsComponent', 'selector': 'cx-product-details'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductPageComponent', 'selector': 'cx-product-page'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterLayoutComponent', 'selector': 'cx-register-layout'},{'name': 'RegisterPageComponent', 'selector': 'cx-register-page'},{'name': 'ResetNewPasswordComponent', 'selector': 'cx-reset-new-password'},{'name': 'ResetNewPasswordFormComponent', 'selector': 'cx-reset-new-password-form'},{'name': 'ResetNewPasswordLayoutComponent', 'selector': 'cx-reset-new-password-layout'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordPageComponent', 'selector': 'cx-reset-password-page'},{'name': 'ResponsiveBannerComponent', 'selector': 'cx-responsive-banner'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPageComponent', 'selector': 'cx-store-finder-page'},{'name': 'StoreFinderPageLayoutComponent', 'selector': 'cx-store-finder-page-layout'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'}];
+    var DIRECTIVES = [{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'StyleRefDirective', 'selector': '[cxCssRef]'}];
+    var ACTUAL_COMPONENT = {'name': 'AddressFormComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'AddressFormComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

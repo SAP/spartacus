@@ -1,0 +1,1226 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>ProductReviewsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>cx-product-reviews</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./product-reviews.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./product-reviews.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#_isWritingReview">_isWritingReview</a>
+                            </li>
+                            <li>
+                                <a href="#initialMaxListItems">initialMaxListItems</a>
+                            </li>
+                            <li>
+                                <a href="#maxListItems">maxListItems</a>
+                            </li>
+                            <li>
+                                <a href="#reviewForm">reviewForm</a>
+                            </li>
+                            <li>
+                                <a href="#reviews$">reviews$</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cancelWriteReview">cancelWriteReview</a>
+                            </li>
+                            <li>
+                                <a href="#initiateWriteReview">initiateWriteReview</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnChanges">ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#resetReviewForm">resetReviewForm</a>
+                            </li>
+                            <li>
+                                <a href="#submitReview">submitReview</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isWritingReview">isWritingReview</a>
+                            </li>
+                            <li>
+                                <a href="#product">product</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isWritingReviewChange">isWritingReviewChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#isWritingReview">isWritingReview</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(reviewService: <a href="../injectables/ProductReviewService.html">ProductReviewService</a>, fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reviewService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ProductReviewService.html" target="_self" >ProductReviewService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="isWritingReview"></a>
+                        <code>isWritingReview</code>
+                    </td>
+                    <td class="col-md-10">
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="product"></a>
+                        <code>product</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="../interfaces/Product.html" target="_self" >Product</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="isWritingReviewChange"></a>
+                        <code>isWritingReviewChange</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:30</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cancelWriteReview"></a>
+                        <span class="name">
+                            <b>
+                            cancelWriteReview
+                            </b>
+                            <a href="#cancelWriteReview"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>cancelWriteReview()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:66</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initiateWriteReview"></a>
+                        <span class="name">
+                            <b>
+                            initiateWriteReview
+                            </b>
+                            <a href="#initiateWriteReview"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>initiateWriteReview()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:62</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnChanges"></a>
+                        <span class="name">
+                            <b>
+                            ngOnChanges
+                            </b>
+                            <a href="#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnChanges()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:50</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:58</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resetReviewForm"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            resetReviewForm
+                            </b>
+                            <a href="#resetReviewForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>resetReviewForm()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:86</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="submitReview"></a>
+                        <span class="name">
+                            <b>
+                            submitReview
+                            </b>
+                            <a href="#submitReview"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>submitReview()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:71</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="_isWritingReview"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            _isWritingReview
+                            </b>
+                            <a href="#_isWritingReview"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>_isWritingReview:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initialMaxListItems"></a>
+                        <span class="name">
+                            <b>
+                            initialMaxListItems
+                            </b>
+                            <a href="#initialMaxListItems"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>initialMaxListItems:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>5</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="maxListItems"></a>
+                        <span class="name">
+                            <b>
+                            maxListItems
+                            </b>
+                            <a href="#maxListItems"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>maxListItems:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reviewForm"></a>
+                        <span class="name">
+                            <b>
+                            reviewForm
+                            </b>
+                            <a href="#reviewForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>reviewForm:     <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reviews$"></a>
+                        <span class="name">
+                            <b>
+                            reviews$
+                            </b>
+                            <a href="#reviews$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>reviews$:     <code><a href="../interfaces/Review.html" target="_self" >Observable&lt;Review[]&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Review.html" target="_self" >Observable&lt;Review[]&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isWritingReview"></a>
+                        <span class="name"><b>isWritingReview</b><a href="#isWritingReview"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>isWritingReview(val)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/lib/product/components/product-details/product-reviews/product-reviews.component.ts:32</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>val</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output
+} from &#x27;@angular/core&#x27;;
+import { FormBuilder, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
+
+import { ProductReviewService, Review, Product } from &#x27;@spartacus/core&#x27;;
+
+import { Observable } from &#x27;rxjs&#x27;;
+
+@Component({
+  selector: &#x27;cx-product-reviews&#x27;,
+  templateUrl: &#x27;./product-reviews.component.html&#x27;,
+  styleUrls: [&#x27;./product-reviews.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class ProductReviewsComponent implements OnChanges, OnInit {
+  @Input()
+  product: Product;
+  @Input()
+  get isWritingReview() {
+    return this._isWritingReview;
+  }
+  @Output()
+  isWritingReviewChange &#x3D; new EventEmitter();
+
+  set isWritingReview(val) {
+    this._isWritingReview &#x3D; val;
+    this.isWritingReviewChange.emit(this.isWritingReview);
+  }
+  private _isWritingReview &#x3D; false;
+
+  // TODO: configurable
+  initialMaxListItems &#x3D; 5;
+  maxListItems: number;
+  reviewForm: FormGroup;
+
+  reviews$: Observable&lt;Review[]&gt;;
+
+  constructor(
+    protected reviewService: ProductReviewService,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnChanges() {
+    this.maxListItems &#x3D; this.initialMaxListItems;
+
+    if (this.product) {
+      this.reviews$ &#x3D; this.reviewService.getByProductCode(this.product.code);
+    }
+  }
+
+  ngOnInit() {
+    this.resetReviewForm();
+  }
+
+  initiateWriteReview(): void {
+    this.isWritingReview &#x3D; true;
+  }
+
+  cancelWriteReview(): void {
+    this.isWritingReview &#x3D; false;
+    this.resetReviewForm();
+  }
+
+  submitReview(): void {
+    const reviewFormControls &#x3D; this.reviewForm.controls;
+    const review: Review &#x3D; {
+      headline: reviewFormControls.title.value,
+      comment: reviewFormControls.comment.value,
+      rating: reviewFormControls.rating.value,
+      alias: reviewFormControls.reviewerName.value
+    };
+
+    this.reviewService.add(this.product.code, review);
+
+    this.isWritingReview &#x3D; false;
+    this.resetReviewForm();
+  }
+
+  private resetReviewForm(): void {
+    this.reviewForm &#x3D; this.fb.group({
+      title: [&#x27;&#x27;, Validators.required],
+      comment: [&#x27;&#x27;, Validators.required],
+      rating: [0, [Validators.min(1), Validators.max(5)]],
+      reviewerName: &#x27;&#x27;
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;!isWritingReview; else writeReview&quot;&gt;
+  &lt;div class&#x3D;&quot;header&quot;&gt;
+    &lt;h3&gt;Overall Rating&lt;/h3&gt;
+    &lt;button class&#x3D;&quot;btn btn-primary&quot; (click)&#x3D;&quot;initiateWriteReview()&quot;&gt;
+      Write a Review
+    &lt;/button&gt;
+    &lt;cx-star-rating
+      class&#x3D;&quot;rating&quot;
+      [rating]&#x3D;&quot;product.averageRating&quot;
+      [disabled]&#x3D;&quot;true&quot;
+    &gt;&lt;/cx-star-rating&gt;
+  &lt;/div&gt;
+
+  &lt;ng-container *ngIf&#x3D;&quot;!isWritingReview; else writeReview&quot;&gt;
+    &lt;ng-container *ngIf&#x3D;&quot;(reviews$ | async) as reviews&quot;&gt;
+      &lt;div
+        class&#x3D;&quot;review&quot;
+        tabindex&#x3D;&quot;0&quot;
+        *ngFor&#x3D;&quot;let review of (reviews | slice: 0:maxListItems)&quot;
+      &gt;
+        &lt;div class&#x3D;&quot;title&quot;&gt;{{ review.headline }}&lt;/div&gt;
+        &lt;cx-star-rating
+          [rating]&#x3D;&quot;review.rating&quot;
+          [disabled]&#x3D;&quot;true&quot;
+        &gt;&lt;/cx-star-rating&gt;
+        &lt;div class&#x3D;&quot;name&quot;&gt;
+          {{ review.alias ? review.alias : review.principal?.name }}
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;date&quot;&gt;{{ review.date | date }}&lt;/div&gt;
+        &lt;div class&#x3D;&quot;text&quot;&gt;{{ review.comment }}&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div *ngIf&#x3D;&quot;reviews.length &gt; initialMaxListItems&quot;&gt;
+        &lt;button
+          class&#x3D;&quot;btn btn-primary&quot;
+          (click)&#x3D;&quot;maxListItems &#x3D; reviews.length&quot;
+          *ngIf&#x3D;&quot;maxListItems &#x3D;&#x3D;&#x3D; initialMaxListItems&quot;
+        &gt;
+          More
+        &lt;/button&gt;
+        &lt;button
+          class&#x3D;&quot;btn btn-primary&quot;
+          (click)&#x3D;&quot;maxListItems &#x3D; initialMaxListItems&quot;
+          *ngIf&#x3D;&quot;maxListItems !&#x3D;&#x3D; initialMaxListItems&quot;
+        &gt;
+          Less
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/ng-container&gt;
+  &lt;/ng-container&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-template #writeReview&gt;
+  &lt;form [formGroup]&#x3D;&quot;reviewForm&quot; (ngSubmit)&#x3D;&quot;submitReview()&quot;&gt;
+    &lt;div class&#x3D;&quot;form-group&quot;&gt;
+      &lt;label&gt;
+        &lt;span class&#x3D;&quot;label-content&quot;&gt;Review Title&lt;/span&gt;
+        &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;form-control&quot; formControlName&#x3D;&quot;title&quot; /&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;form-group&quot;&gt;
+      &lt;label&gt;
+        &lt;span class&#x3D;&quot;label-content&quot;&gt;Write your comments&lt;/span&gt;
+        &lt;textarea
+          class&#x3D;&quot;form-control&quot;
+          rows&#x3D;&quot;3&quot;
+          formControlName&#x3D;&quot;comment&quot;
+        &gt;&lt;/textarea&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;form-group&quot;&gt;
+      &lt;label&gt;
+        &lt;span class&#x3D;&quot;label-content&quot;&gt;Rating&lt;/span&gt;
+        &lt;cx-star-rating formControlName&#x3D;&quot;rating&quot; [steps]&#x3D;&quot;0.5&quot;&gt;&lt;/cx-star-rating&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;form-group&quot;&gt;
+      &lt;label&gt;
+        &lt;span class&#x3D;&quot;label-content&quot;&gt;Reviewer name (optional)&lt;/span&gt;
+        &lt;input
+          type&#x3D;&quot;text&quot;
+          class&#x3D;&quot;form-control&quot;
+          formControlName&#x3D;&quot;reviewerName&quot;
+        /&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class&#x3D;&quot;form-group row&quot;&gt;
+      &lt;div class&#x3D;&quot;col-12 col-md-4&quot;&gt;
+        &lt;button
+          type&#x3D;&quot;submit&quot;
+          class&#x3D;&quot;btn btn-block btn-secondary&quot;
+          (click)&#x3D;&quot;cancelWriteReview()&quot;
+        &gt;
+          Cancel
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class&#x3D;&quot;col-12 col-md-4&quot;&gt;
+        &lt;button
+          type&#x3D;&quot;submit&quot;
+          class&#x3D;&quot;btn btn-block btn-primary&quot;
+          [ngClass]&#x3D;&quot;{ &#x27;submit-btn&#x27;: reviewForm.valid }&quot;
+          [disabled]&#x3D;&quot;!reviewForm.valid&quot;
+        &gt;
+          Submit
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./product-reviews.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;theme&#x27;;
+@import &#x27;functions&#x27;;
+@import &#x27;mixins&#x27;;
+
+$gutterSize: 15px;
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+
+  border-bottom: var(--cx-border-bottom, 1px solid var(--cx-g-color-light));
+
+  padding: var(--cx-padding, 0 $gutterSize $gutterSize);
+  margin: var(--cx-margin, 0 -#{$gutterSize} 40px -#{$gutterSize});
+
+  button {
+    margin: var(--cx-margin, 0 0 0 auto);
+  }
+  .rating {
+    flex-basis: 100%;
+  }
+}
+
+.review {
+  display: grid;
+  grid-template-columns: var(--cx-grid-template-columns, auto auto 10vw);
+  grid-template-rows: var(
+    --cx-grid-template-rows,
+    repeat(3, minmax(10px, auto)) auto
+  );
+  grid-column-gap: 1vw;
+  margin: 1vh 0;
+
+  // layout
+  cx-star-rating,
+  .title,
+  .text {
+    grid-column: var(--cx-grid-column, 1 / span 2);
+  }
+  @include media-breakpoint-down(md) {
+    .text {
+      grid-column: var(--cx-grid-column, 1 / span 3);
+    }
+  }
+  .date {
+    grid-column: var(--cx-grid-column, 2 / span 3);
+  }
+  .name {
+    grid-column: var(--cx-grid-column, 2 / span 3);
+    grid-row: var(--cx-grid-row, 5);
+  }
+  .text {
+    grid-row: var(--cx-grid-row, 0);
+  }
+
+  // formatting
+  .title {
+    font-weight: bold;
+  }
+  .text {
+    margin: 0.5vh 0;
+  }
+  .name,
+  .date {
+    text-align: var(--cx-text-align, right);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="!isWritingReview; else writeReview">  <div class="header">    <h3>Overall Rating</h3>    <button class="btn btn-primary" (click)="initiateWriteReview()">      Write a Review    </button>    <cx-star-rating      class="rating"      [rating]="product.averageRating"      [disabled]="true"    ></cx-star-rating>  </div>  <ng-container *ngIf="!isWritingReview; else writeReview">    <ng-container *ngIf="(reviews$ | async) as reviews">      <div        class="review"        tabindex="0"        *ngFor="let review of (reviews | slice: 0:maxListItems)"      >        <div class="title">{{ review.headline }}</div>        <cx-star-rating          [rating]="review.rating"          [disabled]="true"        ></cx-star-rating>        <div class="name">          {{ review.alias ? review.alias : review.principal?.name }}        </div>        <div class="date">{{ review.date | date }}</div>        <div class="text">{{ review.comment }}</div>      </div>      <div *ngIf="reviews.length > initialMaxListItems">        <button          class="btn btn-primary"          (click)="maxListItems = reviews.length"          *ngIf="maxListItems === initialMaxListItems"        >          More        </button>        <button          class="btn btn-primary"          (click)="maxListItems = initialMaxListItems"          *ngIf="maxListItems !== initialMaxListItems"        >          Less        </button>      </div>    </ng-container>  </ng-container></ng-container><ng-template #writeReview>  <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">    <div class="form-group">      <label>        <span class="label-content">Review Title</span>        <input type="text" class="form-control" formControlName="title" />      </label>    </div>    <div class="form-group">      <label>        <span class="label-content">Write your comments</span>        <textarea          class="form-control"          rows="3"          formControlName="comment"        ></textarea>      </label>    </div>    <div class="form-group">      <label>        <span class="label-content">Rating</span>        <cx-star-rating formControlName="rating" [steps]="0.5"></cx-star-rating>      </label>    </div>    <div class="form-group">      <label>        <span class="label-content">Reviewer name (optional)</span>        <input          type="text"          class="form-control"          formControlName="reviewerName"        />      </label>    </div>    <div class="form-group row">      <div class="col-12 col-md-4">        <button          type="submit"          class="btn btn-block btn-secondary"          (click)="cancelWriteReview()"        >          Cancel        </button>      </div>      <div class="col-12 col-md-4">        <button          type="submit"          class="btn btn-block btn-primary"          [ngClass]="{ \'submit-btn\': reviewForm.valid }"          [disabled]="!reviewForm.valid"        >          Submit        </button>      </div>    </div>  </form></ng-template></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartPageComponent', 'selector': 'cx-cart-page'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CategoryPageComponent', 'selector': 'cx-category-page'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DynamicSlotComponent', 'selector': 'cx-dynamic-slot'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'HeaderComponent', 'selector': 'cx-header'},{'name': 'HeaderSkipperComponent', 'selector': 'cx-header-skipper'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginPageComponent', 'selector': ''},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MultiStepCheckoutComponent', 'selector': 'cx-multi-step-checkout'},{'name': 'MultiStepCheckoutPageComponent', 'selector': 'cx-multi-step-checkout-page'},{'name': 'MultiStepCheckoutPageLayoutComponent', 'selector': 'cx-multi-step-checkout-page-layout'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'OrderConfirmationComponent', 'selector': 'cx-order-confirmation'},{'name': 'OrderConfirmationPageComponent', 'selector': 'cx-order-confirmation-page'},{'name': 'OrderConfirmationPageLayoutComponent', 'selector': 'cx-order-confirmation-page-layout'},{'name': 'OrderDetailsComponent', 'selector': 'cx-order-details'},{'name': 'OrderDetailsPageComponent', 'selector': ''},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryPageComponent', 'selector': ''},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentDetailsPageComponent', 'selector': ''},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PictureComponent', 'selector': 'cx-picture'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsComponent', 'selector': 'cx-product-details'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductPageComponent', 'selector': 'cx-product-page'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterLayoutComponent', 'selector': 'cx-register-layout'},{'name': 'RegisterPageComponent', 'selector': 'cx-register-page'},{'name': 'ResetNewPasswordComponent', 'selector': 'cx-reset-new-password'},{'name': 'ResetNewPasswordFormComponent', 'selector': 'cx-reset-new-password-form'},{'name': 'ResetNewPasswordLayoutComponent', 'selector': 'cx-reset-new-password-layout'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordPageComponent', 'selector': 'cx-reset-password-page'},{'name': 'ResponsiveBannerComponent', 'selector': 'cx-responsive-banner'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPageComponent', 'selector': 'cx-store-finder-page'},{'name': 'StoreFinderPageLayoutComponent', 'selector': 'cx-store-finder-page-layout'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'}];
+    var DIRECTIVES = [{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'StyleRefDirective', 'selector': '[cxCssRef]'}];
+    var ACTUAL_COMPONENT = {'name': 'ProductReviewsComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductReviewsComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

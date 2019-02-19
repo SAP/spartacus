@@ -1,0 +1,1049 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>CartItemComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>cx-cart-item</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./cart-item.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./cart-item.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isProductOutOfStock">isProductOutOfStock</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#removeItem">removeItem</a>
+                            </li>
+                            <li>
+                                <a href="#updateItem">updateItem</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cartIsLoading">cartIsLoading</a>
+                            </li>
+                            <li>
+                                <a href="#compact">compact</a>
+                            </li>
+                            <li>
+                                <a href="#isReadOnly">isReadOnly</a>
+                            </li>
+                            <li>
+                                <a href="#item">item</a>
+                            </li>
+                            <li>
+                                <a href="#parent">parent</a>
+                            </li>
+                            <li>
+                                <a href="#potentialProductPromotions">potentialProductPromotions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#remove">remove</a>
+                            </li>
+                            <li>
+                                <a href="#update">update</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="cartIsLoading"></a>
+                        <code>cartIsLoading</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:26</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="compact"></a>
+                        <code>compact</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:18</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="isReadOnly"></a>
+                        <code>isReadOnly</code>
+                    </td>
+                    <td class="col-md-10">
+                        <p>
+                            <em>Default value : </em><code>false</code>
+                        </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:24</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="item"></a>
+                        <code>item</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="../interfaces/Item.html" target="_self" >Item</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:20</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="parent"></a>
+                        <code>parent</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:34</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="potentialProductPromotions"></a>
+                        <code>potentialProductPromotions</code>
+                    </td>
+                    <td class="col-md-10">
+                            <p>
+                            <em>Type :</em>    <code>any[]</code>
+
+                            </p>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:22</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="remove"></a>
+                        <code>remove</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:29</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-2">
+                        <a name="update"></a>
+                        <code>update</code>
+                    </td>
+                    <td class="col-md-10">
+                        <em><code>$event</code> Type:</em>    <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:31</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isProductOutOfStock"></a>
+                        <span class="name">
+                            <b>
+                            isProductOutOfStock
+                            </b>
+                            <a href="#isProductOutOfStock"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>isProductOutOfStock(product)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:38</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>product</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="removeItem"></a>
+                        <span class="name">
+                            <b>
+                            removeItem
+                            </b>
+                            <a href="#removeItem"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>removeItem()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="updateItem"></a>
+                        <span class="name">
+                            <b>
+                            updateItem
+                            </b>
+                            <a href="#updateItem"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>updateItem(updatedQuantity: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/lib/cart/cart-shared/cart-item/cart-item.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>updatedQuantity</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, EventEmitter, Input, OnInit, Output } from &#x27;@angular/core&#x27;;
+import { FormGroup } from &#x27;@angular/forms&#x27;;
+
+export interface Item {
+  product?: any;
+  quantity?: any;
+  basePrice?: any;
+  totalPrice?: any;
+}
+
+@Component({
+  selector: &#x27;cx-cart-item&#x27;,
+  templateUrl: &#x27;./cart-item.component.html&#x27;,
+  styleUrls: [&#x27;./cart-item.component.scss&#x27;]
+})
+export class CartItemComponent implements OnInit {
+  @Input()
+  compact &#x3D; false;
+  @Input()
+  item: Item;
+  @Input()
+  potentialProductPromotions: any[];
+  @Input()
+  isReadOnly &#x3D; false;
+  @Input()
+  cartIsLoading &#x3D; false;
+
+  @Output()
+  remove &#x3D; new EventEmitter&lt;any&gt;();
+  @Output()
+  update &#x3D; new EventEmitter&lt;any&gt;();
+
+  @Input()
+  parent: FormGroup;
+
+  ngOnInit() {}
+
+  isProductOutOfStock(product) {
+    // TODO Move stocklevelstatuses across the app to an enum
+    return (
+      product &amp;&amp;
+      product.stock &amp;&amp;
+      product.stock.stockLevelStatus &#x3D;&#x3D;&#x3D; &#x27;outOfStock&#x27;
+    );
+  }
+
+  updateItem(updatedQuantity: number) {
+    this.update.emit({ item: this.item, updatedQuantity });
+  }
+
+  removeItem() {
+    this.remove.emit(this.item);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div [ngClass]&#x3D;&quot;compact ? &#x27;cx-compact row&#x27; : &#x27;row&#x27;&quot;&gt;
+  &lt;!-- Item Image --&gt;
+  &lt;div class&#x3D;&quot;col-2 cx-image-container&quot;&gt;
+    &lt;a
+      [routerLink]&#x3D;&quot;
+        { route: [{ name: &#x27;product&#x27;, params: item.product }] } | cxTranslateUrl
+      &quot;
+    &gt;
+      &lt;cx-picture
+        [imageContainer]&#x3D;&quot;item.product.images?.PRIMARY&quot;
+        imageFormat&#x3D;&quot;thumbnail&quot;
+      &gt;&lt;/cx-picture&gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+  &lt;!-- Item Information --&gt;
+  &lt;div class&#x3D;&quot;cx-info col-10&quot;&gt;
+    &lt;div class&#x3D;&quot;cx-info-container row &quot;&gt;
+      &lt;!-- Item Description --&gt;
+      &lt;div [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; col-md-3 col-lg-3 col-xl-5&#x27;&quot;&gt;
+        &lt;div *ngIf&#x3D;&quot;item.product.name&quot; class&#x3D;&quot;cx-name&quot;&gt;
+          &lt;a
+            class&#x3D;&quot;cx-link&quot;
+            [routerLink]&#x3D;&quot;
+              { route: [{ name: &#x27;product&#x27;, params: item.product }] }
+                | cxTranslateUrl
+            &quot;
+            &gt;{{ item.product.name }}&lt;/a
+          &gt;
+        &lt;/div&gt;
+        &lt;div *ngIf&#x3D;&quot;item.product.code&quot; class&#x3D;&quot;cx-code&quot;&gt;
+          ID {{ item.product.code }}
+        &lt;/div&gt;
+        &lt;!-- Variants --&gt;
+        &lt;div
+          *ngFor&#x3D;&quot;let variant of item.product.variantOptionQualifiers&quot;
+          class&#x3D;&quot;cx-property&quot;
+        &gt;
+          &lt;div class&#x3D;&quot;cx-label&quot;&gt;{{ variant.name }}&lt;/div&gt;
+          &lt;div class&#x3D;&quot;cx-value&quot;&gt;{{ variant.value }}&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- Item Price --&gt;
+      &lt;div
+        *ngIf&#x3D;&quot;item.basePrice&quot;
+        class&#x3D;&quot;cx-price&quot;
+        [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; col-md-3 col-lg-3 col-xl-2&#x27;&quot;
+      &gt;
+        &lt;div
+          class&#x3D;&quot;cx-label&quot;
+          [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; d-block d-md-none d-lg-none d-xl-none&#x27;&quot;
+        &gt;
+          Item
+        &lt;/div&gt;
+        &lt;div *ngIf&#x3D;&quot;item.basePrice&quot; class&#x3D;&quot;cx-value&quot;&gt;
+          {{ item.basePrice?.formattedValue }}
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- Item Quantity --&gt;
+      &lt;div
+        *ngIf&#x3D;&quot;item.quantity&quot;
+        class&#x3D;&quot;cx-quantity&quot;
+        [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; col-3&#x27;&quot;
+      &gt;
+        &lt;div
+          class&#x3D;&quot;cx-label&quot;
+          [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; d-block d-md-none d-lg-none d-xl-none&#x27;&quot;
+          placement&#x3D;&quot;left&quot;
+          ngbTooltip&#x3D;&quot;The quantity represents the total number of this item in your cart.&quot;
+        &gt;
+          Qty
+        &lt;/div&gt;
+        &lt;div *ngIf&#x3D;&quot;isReadOnly&quot; class&#x3D;&quot;cx-value&quot;&gt;{{ item.quantity }}&lt;/div&gt;
+        &lt;div
+          *ngIf&#x3D;&quot;!isReadOnly &amp;&amp; parent&quot;
+          class&#x3D;&quot;cx-value&quot;
+          [formGroup]&#x3D;&quot;parent&quot;
+        &gt;
+          &lt;cx-item-counter
+            isValueChangeable&#x3D;&quot;true&quot;
+            [step]&#x3D;&quot;1&quot;
+            [min]&#x3D;&quot;1&quot;
+            [max]&#x3D;&quot;item.product.stock?.stockLevel || 1000&quot;
+            (update)&#x3D;&quot;updateItem($event)&quot;
+            [cartIsLoading]&#x3D;&quot;cartIsLoading&quot;
+            formControlName&#x3D;&quot;quantity&quot;
+          &gt;
+          &lt;/cx-item-counter&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;!-- Total --&gt;
+      &lt;div
+        *ngIf&#x3D;&quot;item.totalPrice&quot;
+        class&#x3D;&quot;cx-total&quot;
+        [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; col-md-3 col-lg-3 col-xl-2&#x27;&quot;
+      &gt;
+        &lt;div
+          class&#x3D;&quot;cx-label&quot;
+          [ngClass]&#x3D;&quot;compact ? &#x27;&#x27; : &#x27; d-block d-md-none d-lg-none d-xl-none&#x27;&quot;
+        &gt;
+          Total
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;cx-value&quot;&gt;{{ item.totalPrice.formattedValue }}&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Availability --&gt;
+    &lt;div *ngIf&#x3D;&quot;isProductOutOfStock(item)&quot; class&#x3D;&quot;cx-availability col-12&quot;&gt;
+      {{ item.product.stock?.stockLevelStatus }}
+    &lt;/div&gt;
+    &lt;!-- Promotion --&gt;
+    &lt;div
+      class&#x3D;&quot;cx-promo col-12&quot;
+      *ngFor&#x3D;&quot;let promotion of potentialProductPromotions&quot;
+      [innerHTML]&#x3D;&quot;promotion.description&quot;
+    &gt;&lt;/div&gt;
+    &lt;!-- Actions --&gt;
+    &lt;div *ngIf&#x3D;&quot;!isReadOnly&quot; class&#x3D;&quot;cx-actions col-12&quot;&gt;
+      &lt;button
+        class&#x3D;&quot;link&quot;
+        [class.disabled]&#x3D;&quot;cartIsLoading&quot;
+        [disabled]&#x3D;&quot;cartIsLoading&quot;
+        (click)&#x3D;&quot;removeItem()&quot;
+      &gt;
+        Remove
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./cart-item.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;theme&#x27;;
+
+.cx-info-container {
+  @include media-breakpoint-down(sm) {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, column);
+  }
+}
+
+.cx-name {
+  @include type(&#x27;5&#x27;);
+  overflow-wrap: var(--cx-overflow-wrap, break-word);
+  padding: var(--cx-padding, 0);
+
+  .cx-link {
+    color: var(--cx-color, var(--cx-g-color-text));
+    text-decoration: var(--cx-text-decoration, none);
+
+    &amp;:hover {
+      color: var(--cx-color, var(--cx-g-color-primary));
+    }
+  }
+}
+
+.cx-code {
+  @include type(&#x27;7&#x27;);
+  color: var(--cx-color, var(--cx-g-color-secondary));
+  padding: var(--cx-padding, 0.625rem 0);
+}
+
+.cx-property {
+  display: var(--cx-display, flex);
+}
+
+.cx-label {
+  @include type(&#x27;8&#x27;);
+  overflow-wrap: var(--cx-overflow-wrap, break-word);
+  padding-right: 1rem;
+
+  @include media-breakpoint-down(sm) {
+    min-width: var(--cx-min-width, 5rem);
+  }
+}
+
+.cx-value {
+  @include type(&#x27;5&#x27;);
+  overflow-wrap: var(--cx-overflow-wrap, break-word);
+  font-weight: var(--cx-g-font-weight-normal, 400);
+
+  @include media-breakpoint-down(sm) {
+    @include type(&#x27;7&#x27;);
+  }
+}
+
+.cx-price {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
+  align-items: var(--cx-align-items, center);
+  @include type(&#x27;5&#x27;);
+  font-weight: $font-weight-normal;
+
+  @include media-breakpoint-down(sm) {
+    justify-content: var(--cx-justify-content, flex-start);
+  }
+
+  .cx-old {
+    text-decoration: var(--cx-text-decoration, line-through);
+    color: var(--cx-color, var(--cx-g-color-secondary));
+    padding: var(--cx-padding, 0 1rem 0 0);
+  }
+
+  .cx-new {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+}
+
+.cx-quantity {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
+  align-items: var(--cx-align-items, center);
+
+  @include media-breakpoint-down(sm) {
+    justify-content: var(--cx-justify-content, flex-start);
+  }
+}
+
+.cx-total {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-end);
+  align-items: var(--cx-align-items, center);
+
+  @include media-breakpoint-down(sm) {
+    justify-content: var(--cx-justify-content, flex-start);
+  }
+}
+
+.cx-promo {
+  @include type(&#x27;8&#x27;);
+  color: var(--cx-color, var(--cx-g-color-success));
+  padding: var(--cx-padding, 0.75rem 0);
+  margin: var(--cx-margin, 0);
+}
+
+.cx-availability {
+  @include type(&#x27;8&#x27;);
+  color: var(--cx-color, var(--cx-g-color-danger));
+  padding: var(--cx-padding, 0.75rem 0);
+  margin: var(--cx-margin, 0);
+}
+
+.cx-actions {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-end);
+  padding: var(--cx-padding, 0);
+
+  @include media-breakpoint-down(sm) {
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, flex-start);
+    padding: var(--cx-padding, 0);
+  }
+
+  button.link {
+    @include type(&#x27;8&#x27;);
+    color: var(--cx-color, var(--cx-g-color-text));
+  }
+}
+
+// ------------------------------------COMPACT VERSION STYLING------------------------------------------
+
+.cx-compact {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, row);
+
+  .cx-image-container {
+    padding: var(--cx-padding, 0);
+  }
+
+  .cx-info-container {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, column);
+    margin: var(--cx-margin, 0);
+  }
+
+  .cx-price,
+  .cx-quantity,
+  .cx-total,
+  .cx-actions {
+    justify-content: var(--cx-justify-content, flex-start);
+
+    .cx-label {
+      @include type(&#x27;8&#x27;);
+      min-width: var(--cx-min-width, 5rem);
+    }
+
+    .cx-value {
+      @include type(&#x27;7&#x27;);
+    }
+
+    padding: var(--cx-padding, 0);
+
+    button.link {
+      @include type(&#x27;8&#x27;);
+      color: var(--cx-color, var(--cx-g-color-text));
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div [ngClass]="compact ? \'cx-compact row\' : \'row\'">  <!-- Item Image -->  <div class="col-2 cx-image-container">    <a      [routerLink]="        { route: [{ name: \'product\', params: item.product }] } | cxTranslateUrl      "    >      <cx-picture        [imageContainer]="item.product.images?.PRIMARY"        imageFormat="thumbnail"      ></cx-picture>    </a>  </div>  <!-- Item Information -->  <div class="cx-info col-10">    <div class="cx-info-container row ">      <!-- Item Description -->      <div [ngClass]="compact ? \'\' : \' col-md-3 col-lg-3 col-xl-5\'">        <div *ngIf="item.product.name" class="cx-name">          <a            class="cx-link"            [routerLink]="              { route: [{ name: \'product\', params: item.product }] }                | cxTranslateUrl            "            >{{ item.product.name }}</a          >        </div>        <div *ngIf="item.product.code" class="cx-code">          ID {{ item.product.code }}        </div>        <!-- Variants -->        <div          *ngFor="let variant of item.product.variantOptionQualifiers"          class="cx-property"        >          <div class="cx-label">{{ variant.name }}</div>          <div class="cx-value">{{ variant.value }}</div>        </div>      </div>      <!-- Item Price -->      <div        *ngIf="item.basePrice"        class="cx-price"        [ngClass]="compact ? \'\' : \' col-md-3 col-lg-3 col-xl-2\'"      >        <div          class="cx-label"          [ngClass]="compact ? \'\' : \' d-block d-md-none d-lg-none d-xl-none\'"        >          Item        </div>        <div *ngIf="item.basePrice" class="cx-value">          {{ item.basePrice?.formattedValue }}        </div>      </div>      <!-- Item Quantity -->      <div        *ngIf="item.quantity"        class="cx-quantity"        [ngClass]="compact ? \'\' : \' col-3\'"      >        <div          class="cx-label"          [ngClass]="compact ? \'\' : \' d-block d-md-none d-lg-none d-xl-none\'"          placement="left"          ngbTooltip="The quantity represents the total number of this item in your cart."        >          Qty        </div>        <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>        <div          *ngIf="!isReadOnly && parent"          class="cx-value"          [formGroup]="parent"        >          <cx-item-counter            isValueChangeable="true"            [step]="1"            [min]="1"            [max]="item.product.stock?.stockLevel || 1000"            (update)="updateItem($event)"            [cartIsLoading]="cartIsLoading"            formControlName="quantity"          >          </cx-item-counter>        </div>      </div>      <!-- Total -->      <div        *ngIf="item.totalPrice"        class="cx-total"        [ngClass]="compact ? \'\' : \' col-md-3 col-lg-3 col-xl-2\'"      >        <div          class="cx-label"          [ngClass]="compact ? \'\' : \' d-block d-md-none d-lg-none d-xl-none\'"        >          Total        </div>        <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>      </div>    </div>    <!-- Availability -->    <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">      {{ item.product.stock?.stockLevelStatus }}    </div>    <!-- Promotion -->    <div      class="cx-promo col-12"      *ngFor="let promotion of potentialProductPromotions"      [innerHTML]="promotion.description"    ></div>    <!-- Actions -->    <div *ngIf="!isReadOnly" class="cx-actions col-12">      <button        class="link"        [class.disabled]="cartIsLoading"        [disabled]="cartIsLoading"        (click)="removeItem()"      >        Remove      </button>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartPageComponent', 'selector': 'cx-cart-page'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CategoryPageComponent', 'selector': 'cx-category-page'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DynamicSlotComponent', 'selector': 'cx-dynamic-slot'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'HeaderComponent', 'selector': 'cx-header'},{'name': 'HeaderSkipperComponent', 'selector': 'cx-header-skipper'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginPageComponent', 'selector': ''},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MultiStepCheckoutComponent', 'selector': 'cx-multi-step-checkout'},{'name': 'MultiStepCheckoutPageComponent', 'selector': 'cx-multi-step-checkout-page'},{'name': 'MultiStepCheckoutPageLayoutComponent', 'selector': 'cx-multi-step-checkout-page-layout'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'OrderConfirmationComponent', 'selector': 'cx-order-confirmation'},{'name': 'OrderConfirmationPageComponent', 'selector': 'cx-order-confirmation-page'},{'name': 'OrderConfirmationPageLayoutComponent', 'selector': 'cx-order-confirmation-page-layout'},{'name': 'OrderDetailsComponent', 'selector': 'cx-order-details'},{'name': 'OrderDetailsPageComponent', 'selector': ''},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryPageComponent', 'selector': ''},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentDetailsPageComponent', 'selector': ''},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PictureComponent', 'selector': 'cx-picture'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsComponent', 'selector': 'cx-product-details'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductPageComponent', 'selector': 'cx-product-page'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterLayoutComponent', 'selector': 'cx-register-layout'},{'name': 'RegisterPageComponent', 'selector': 'cx-register-page'},{'name': 'ResetNewPasswordComponent', 'selector': 'cx-reset-new-password'},{'name': 'ResetNewPasswordFormComponent', 'selector': 'cx-reset-new-password-form'},{'name': 'ResetNewPasswordLayoutComponent', 'selector': 'cx-reset-new-password-layout'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordPageComponent', 'selector': 'cx-reset-password-page'},{'name': 'ResponsiveBannerComponent', 'selector': 'cx-responsive-banner'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPageComponent', 'selector': 'cx-store-finder-page'},{'name': 'StoreFinderPageLayoutComponent', 'selector': 'cx-store-finder-page-layout'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'}];
+    var DIRECTIVES = [{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'StyleRefDirective', 'selector': '[cxCssRef]'}];
+    var ACTUAL_COMPONENT = {'name': 'CartItemComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CartItemComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

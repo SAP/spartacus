@@ -1,0 +1,1768 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>UrlTranslationService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts</code>
+        </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#ROOT_URL">ROOT_URL</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#findPartialPathWithFillableParams">findPartialPathWithFillableParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#findPathsWithFillableParams">findPathsWithFillableParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#generateUrl">generateUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getMappedParamName">getMappedParamName</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getParams">getParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#provideParamsValues">provideParamsValues</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#provideParamsValuesForSingleRoute">provideParamsValuesForSingleRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#splitRoutesNamesAndParams">splitRoutesNamesAndParams</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#standarizeNestedRoutes">standarizeNestedRoutes</a>
+                            </li>
+                            <li>
+                                <a href="#translate">translate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validateOptions">validateOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validateOptionsRoute">validateOptionsRoute</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#validateOptionsUrl">validateOptionsUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#warn">warn</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(configurableRoutesService: <a href="../injectables/ConfigurableRoutesService.html">ConfigurableRoutesService</a>, routeRecognizer: <a href="../injectables/RouteRecognizerService.html">RouteRecognizerService</a>, urlParser: <a href="../injectables/UrlParsingService.html">UrlParsingService</a>, config: <a href="../classes/ServerConfig.html">ServerConfig</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>configurableRoutesService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ConfigurableRoutesService.html" target="_self" >ConfigurableRoutesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>routeRecognizer</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/RouteRecognizerService.html" target="_self" >RouteRecognizerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>urlParser</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/UrlParsingService.html" target="_self" >UrlParsingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../classes/ServerConfig.html" target="_self" >ServerConfig</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="findPartialPathWithFillableParams"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            findPartialPathWithFillableParams
+                            </b>
+                            <a href="#findPartialPathWithFillableParams"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>findPartialPathWithFillableParams(paths: string[], params: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, paramsMapping: <a href="../interfaces/ParamsMapping.html">ParamsMapping</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="277" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:277</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>paths</td>
+                                                        <td>
+                                                                    <code>string[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>params</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>paramsMapping</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ParamsMapping.html" target="_self" >ParamsMapping</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="findPathsWithFillableParams"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            findPathsWithFillableParams
+                            </b>
+                            <a href="#findPathsWithFillableParams"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>findPathsWithFillableParams(nestedRoutesTranslations: <a href="../interfaces/RouteTranslation.html">RouteTranslation[]</a>, nestedRoutesParams: object[])</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="242" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:242</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nestedRoutesTranslations</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/RouteTranslation.html" target="_self" >RouteTranslation[]</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>nestedRoutesParams</td>
+                                                        <td>
+                                                                    <code>object[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>string[]</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="generateUrl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            generateUrl
+                            </b>
+                            <a href="#generateUrl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>generateUrl(nestedRoutes: <a href="../interfaces/TranslateUrlOptions.html">TranslateUrlOptionsRoute[]</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:123</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nestedRoutes</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/TranslateUrlOptions.html" target="_self" >TranslateUrlOptionsRoute[]</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>string[]</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getMappedParamName"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            getMappedParamName
+                            </b>
+                            <a href="#getMappedParamName"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getMappedParamName(paramName: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, paramsMapping: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="301" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:301</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>paramName</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>paramsMapping</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getParams"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            getParams
+                            </b>
+                            <a href="#getParams"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getParams(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="294" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:294</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>path</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="provideParamsValues"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            provideParamsValues
+                            </b>
+                            <a href="#provideParamsValues"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>provideParamsValues(nestedRoutesPaths: string[], nestedRoutesParams: object[], nestedRoutesParamsMappings: <a href="../interfaces/ParamsMapping.html">ParamsMapping[]</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:203</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nestedRoutesPaths</td>
+                                                        <td>
+                                                                    <code>string[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>nestedRoutesParams</td>
+                                                        <td>
+                                                                    <code>object[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>nestedRoutesParamsMappings</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ParamsMapping.html" target="_self" >ParamsMapping[]</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>string[]</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="provideParamsValuesForSingleRoute"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            provideParamsValuesForSingleRoute
+                            </b>
+                            <a href="#provideParamsValuesForSingleRoute"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>provideParamsValuesForSingleRoute(path: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, paramsMapping: <a href="../interfaces/ParamsMapping.html">ParamsMapping</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="224" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:224</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>path</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>params</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>paramsMapping</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/ParamsMapping.html" target="_self" >ParamsMapping</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>string[]</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="splitRoutesNamesAndParams"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            splitRoutesNamesAndParams
+                            </b>
+                            <a href="#splitRoutesNamesAndParams"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>splitRoutesNamesAndParams(nestedRoutes: <a href="../interfaces/TranslateUrlOptionsRouteObject.html">TranslateUrlOptionsRouteObject[]</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:188</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nestedRoutes</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/TranslateUrlOptionsRouteObject.html" target="_self" >TranslateUrlOptionsRouteObject[]</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>literal type</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="standarizeNestedRoutes"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            standarizeNestedRoutes
+                            </b>
+                            <a href="#standarizeNestedRoutes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>standarizeNestedRoutes(nestedRoutes: <a href="../interfaces/TranslateUrlOptions.html">TranslateUrlOptionsRoute[]</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:178</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Converts all elements to objects</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nestedRoutes</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/TranslateUrlOptions.html" target="_self" >TranslateUrlOptionsRoute[]</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/TranslateUrlOptionsRouteObject.html" target="_self" >TranslateUrlOptionsRouteObject[]</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="translate"></a>
+                        <span class="name">
+                            <b>
+                            translate
+                            </b>
+                            <a href="#translate"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>translate(options: <a href="../interfaces/TranslateUrlOptions.html">TranslateUrlOptions</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>options</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/TranslateUrlOptions.html" target="_self" >TranslateUrlOptions</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>string | []</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="validateOptions"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            validateOptions
+                            </b>
+                            <a href="#validateOptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>validateOptions(options: <a href="../interfaces/TranslateUrlOptions.html">TranslateUrlOptions</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>options</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/TranslateUrlOptions.html" target="_self" >TranslateUrlOptions</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="validateOptionsRoute"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            validateOptionsRoute
+                            </b>
+                            <a href="#validateOptionsRoute"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>validateOptionsRoute(nestedRoutes: <a href="../interfaces/TranslateUrlOptions.html">TranslateUrlOptionsRoute[]</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:87</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nestedRoutes</td>
+                                                        <td>
+                                                                    <code><a href="../interfaces/TranslateUrlOptions.html" target="_self" >TranslateUrlOptionsRoute[]</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="validateOptionsUrl"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            validateOptionsUrl
+                            </b>
+                            <a href="#validateOptionsUrl"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>validateOptionsUrl(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:75</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>url</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="warn"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            warn
+                            </b>
+                            <a href="#warn"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>warn(...args: any[])</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="308" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:308</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>args</td>
+                                                        <td>
+                                                                    <code>any[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ROOT_URL"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            ROOT_URL
+                            </b>
+                            <a href="#ROOT_URL"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>ROOT_URL:     <code>[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[&#x27;/&#x27;]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/routing/configurable-routes/url-translation/url-translation.service.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { ConfigurableRoutesService } from &#x27;../configurable-routes.service&#x27;;
+import { RouteRecognizerService } from &#x27;./route-recognizer.service&#x27;;
+import { UrlParsingService } from &#x27;./url-parsing.service&#x27;;
+import { ServerConfig } from &#x27;../../../config/server-config/server-config&#x27;;
+import { RouteTranslation, ParamsMapping } from &#x27;../routes-config&#x27;;
+import { getParamName, isParam } from &#x27;./path-utils&#x27;;
+import {
+  TranslateUrlOptions,
+  TranslateUrlOptionsRoute,
+  TranslateUrlOptionsRouteObject
+} from &#x27;./translate-url-options&#x27;;
+
+@Injectable()
+export class UrlTranslationService {
+  readonly ROOT_URL &#x3D; [&#x27;/&#x27;];
+
+  constructor(
+    private configurableRoutesService: ConfigurableRoutesService,
+    private routeRecognizer: RouteRecognizerService,
+    private urlParser: UrlParsingService,
+    private config: ServerConfig
+  ) {}
+
+  translate(options: TranslateUrlOptions): string | string[] {
+    // if options are invalid, return the root url
+    if (!this.validateOptions(options)) {
+      return this.ROOT_URL;
+    }
+
+    if (typeof options.url &#x3D;&#x3D;&#x3D; &#x27;string&#x27;) {
+      const recognizedRoute &#x3D; this.routeRecognizer.recognizeByDefaultUrl(
+        options.url
+      );
+      return recognizedRoute ? this.generateUrl(recognizedRoute) : options.url;
+    }
+
+    return this.generateUrl(options.route);
+  }
+
+  private validateOptions(options: TranslateUrlOptions): boolean {
+    if (!options || typeof options !&#x3D;&#x3D; &#x27;object&#x27;) {
+      this.warn(
+        &#x60;Incorrect options for translating url. Options have to be an object. Options: &#x60;,
+        options
+      );
+      return false;
+    }
+
+    const urlDefined &#x3D; Boolean(options.url) || options.url &#x3D;&#x3D;&#x3D; &#x27;&#x27;;
+    const routeDefined &#x3D; Boolean(options.route);
+    if (!urlDefined &amp;&amp; !routeDefined) {
+      this.warn(
+        &#x60;Incorrect options for translating url. Options must have &#x27;url&#x27; string or &#x27;route&#x27; array property. Options: &#x60;,
+        options
+      );
+      return false;
+    }
+    if (urlDefined &amp;&amp; routeDefined) {
+      this.warn(
+        &#x60;Incorrect options for translating url. Options cannot have both &#x27;url&#x27; and &#x27;route&#x27; property. Options: &#x60;,
+        options
+      );
+      return false;
+    }
+    if (urlDefined) {
+      return this.validateOptionsUrl(options.url);
+    }
+    if (routeDefined) {
+      return this.validateOptionsRoute(options.route);
+    }
+    return true;
+  }
+
+  private validateOptionsUrl(url: string): boolean {
+    if (typeof url !&#x3D;&#x3D; &#x27;string&#x27;) {
+      this.warn(
+        &#x60;Incorrect options for translating url.&#x60;,
+        &#x60;&#x27;url&#x27; property should be a string. Url: &#x60;,
+        url
+      );
+      return false;
+    }
+    return true;
+  }
+
+  private validateOptionsRoute(
+    nestedRoutes: TranslateUrlOptionsRoute[]
+  ): boolean {
+    if (!Array.isArray(nestedRoutes)) {
+      this.warn(
+        &#x60;Incorrect options for translating url.&#x60;,
+        &#x60;&#x27;route&#x27; property should be an array. Route: &#x60;,
+        nestedRoutes
+      );
+      return false;
+    }
+
+    const length &#x3D; nestedRoutes.length;
+    if (!length) {
+      this.warn(
+        &#x60;Incorrect options for translating url.&#x60;,
+        &#x60;&#x27;route&#x27; array should not be empty. Route: &#x60;,
+        nestedRoutes
+      );
+      return false;
+    }
+
+    for (let i &#x3D; 0; i &lt; length; i++) {
+      const nestedRoute &#x3D; nestedRoutes[i];
+      if (typeof nestedRoute !&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp; !nestedRoute.name) {
+        this.warn(
+          &#x60;Incorrect options for translating url.&#x60;,
+          &#x60;&#x27;route&#x27; array can contain only elements which are string or object with &#x27;name&#x27; property. Route: &#x60;,
+          nestedRoutes
+        );
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private generateUrl(nestedRoutes: TranslateUrlOptionsRoute[]): string[] {
+    const standarizedNestedRoutes &#x3D; this.standarizeNestedRoutes(nestedRoutes);
+
+    // if no routes given, return root url
+    if (!standarizedNestedRoutes.length) {
+      return this.ROOT_URL;
+    }
+
+    const {
+      nestedRoutesNames,
+      nestedRoutesParams
+    } &#x3D; this.splitRoutesNamesAndParams(standarizedNestedRoutes);
+
+    const nestedRoutesTranslations &#x3D; this.configurableRoutesService.getNestedRoutesTranslations(
+      nestedRoutesNames
+    );
+
+    // if no routes translations were configured, return root url:
+    if (!nestedRoutesTranslations) {
+      return this.ROOT_URL;
+    }
+
+    const [leafNestedRouteTranslation] &#x3D; nestedRoutesTranslations.slice(-1);
+
+    // if leaf route was disabled in config (set to null), return root url:
+    if (!leafNestedRouteTranslation.paths) {
+      return this.ROOT_URL;
+    }
+
+    // find first path for every nested route that can satisfy it&#x27;s parameters with given parameters
+    const nestedRoutesPaths &#x3D; this.findPathsWithFillableParams(
+      nestedRoutesTranslations,
+      nestedRoutesParams
+    );
+
+    // if not every nested route had configured path that can be satisfied with given params, return root url
+    if (!nestedRoutesPaths) {
+      return this.ROOT_URL;
+    }
+
+    const result &#x3D; this.provideParamsValues(
+      nestedRoutesPaths,
+      nestedRoutesParams,
+      nestedRoutesTranslations.map(
+        routTranslation &#x3D;&gt; routTranslation.paramsMapping
+      )
+    );
+
+    result.unshift(&#x27;&#x27;); // ensure absolute path ( leading &#x27;&#x27; in path array is equvalent to leading &#x27;/&#x27; in string)
+    return result;
+  }
+
+  /**
+   * Converts all elements to objects
+   */
+  private standarizeNestedRoutes(
+    nestedRoutes: TranslateUrlOptionsRoute[]
+  ): TranslateUrlOptionsRouteObject[] {
+    return (nestedRoutes || []).map(route &#x3D;&gt;
+      typeof route &#x3D;&#x3D;&#x3D; &#x27;string&#x27;
+        ? { name: route, params: {} }
+        : { name: route.name, params: route.params || {} }
+    );
+  }
+
+  private splitRoutesNamesAndParams(
+    nestedRoutes: TranslateUrlOptionsRouteObject[]
+  ): {
+    nestedRoutesNames: string[];
+    nestedRoutesParams: object[];
+  } {
+    return (nestedRoutes || []).reduce(
+      ({ nestedRoutesNames, nestedRoutesParams }, route) &#x3D;&gt; ({
+        nestedRoutesNames: [...nestedRoutesNames, route.name],
+        nestedRoutesParams: [...nestedRoutesParams, route.params]
+      }),
+      { nestedRoutesNames: [], nestedRoutesParams: [] }
+    );
+  }
+
+  private provideParamsValues(
+    nestedRoutesPaths: string[],
+    nestedRoutesParams: object[],
+    nestedRoutesParamsMappings: ParamsMapping[]
+  ): string[] {
+    const length &#x3D; nestedRoutesPaths.length;
+    const result &#x3D; [];
+    for (let i &#x3D; 0; i &lt; length; i++) {
+      const path &#x3D; nestedRoutesPaths[i];
+      const paramsObject &#x3D; nestedRoutesParams[i];
+      const paramsMapping &#x3D; nestedRoutesParamsMappings[i];
+      const pathSegments &#x3D; this.provideParamsValuesForSingleRoute(
+        path,
+        paramsObject,
+        paramsMapping
+      );
+      result.push(...pathSegments);
+    }
+    return result;
+  }
+
+  private provideParamsValuesForSingleRoute(
+    path: string,
+    params: object,
+    paramsMapping: ParamsMapping
+  ): string[] {
+    return this.urlParser.getPrimarySegments(path).map(segment &#x3D;&gt; {
+      if (isParam(segment)) {
+        const paramName &#x3D; getParamName(segment);
+        const mappedParamName &#x3D; this.getMappedParamName(
+          paramName,
+          paramsMapping
+        );
+        return params[mappedParamName];
+      }
+      return segment;
+    });
+  }
+
+  private findPathsWithFillableParams(
+    nestedRoutesTranslations: RouteTranslation[],
+    nestedRoutesParams: object[]
+  ): string[] {
+    const length &#x3D; nestedRoutesTranslations.length;
+    const result &#x3D; [];
+    for (let i &#x3D; 0; i &lt; length; i++) {
+      const routeTranslation &#x3D; nestedRoutesTranslations[i];
+      const paramsObject &#x3D; nestedRoutesParams[i];
+      const path &#x3D; this.findPartialPathWithFillableParams(
+        routeTranslation.paths,
+        paramsObject,
+        routeTranslation.paramsMapping
+      );
+      if (path &#x3D;&#x3D;&#x3D; undefined || path &#x3D;&#x3D;&#x3D; null) {
+        this.warn(
+          &#x60;No configured path matches all its params to given object. &#x60;,
+          &#x60;Route translation: &#x60;,
+          routeTranslation,
+          &#x60;(in nested routes translations list&#x60;,
+          nestedRoutesTranslations,
+          &#x60;). Params object: &#x60;,
+          paramsObject,
+          &#x60;(in params objects list&#x60;,
+          nestedRoutesParams,
+          &#x60;)&#x60;
+        );
+        return null;
+      }
+      result.push(path);
+    }
+    return result;
+  }
+
+  // find first path that can fill all its params with values from given object
+  private findPartialPathWithFillableParams(
+    paths: string[],
+    params: object,
+    paramsMapping: ParamsMapping
+  ): string {
+    return paths.find(path &#x3D;&gt;
+      this.getParams(path).every(paramName &#x3D;&gt; {
+        const mappedParamName &#x3D; this.getMappedParamName(
+          paramName,
+          paramsMapping
+        );
+
+        return params[mappedParamName] !&#x3D;&#x3D; undefined;
+      })
+    );
+  }
+
+  private getParams(path: string) {
+    return this.urlParser
+      .getPrimarySegments(path)
+      .filter(isParam)
+      .map(getParamName);
+  }
+
+  private getMappedParamName(paramName: string, paramsMapping: object): string {
+    if (paramsMapping) {
+      return paramsMapping[paramName] || paramName;
+    }
+    return paramName;
+  }
+
+  private warn(...args) {
+    if (!this.config.production) {
+      console.warn(...args);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'UrlTranslationService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

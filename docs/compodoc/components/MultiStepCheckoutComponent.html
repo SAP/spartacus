@@ -1,0 +1,2047 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>MultiStepCheckoutComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>cx-multi-step-checkout</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./multi-step-checkout.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./multi-step-checkout.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#cart$">cart$</a>
+                            </li>
+                            <li>
+                                <a href="#deliveryAddress">deliveryAddress</a>
+                            </li>
+                            <li>
+                                <a href="#done">done</a>
+                            </li>
+                            <li>
+                                <a href="#navs">navs</a>
+                            </li>
+                            <li>
+                                <a href="#paymentDetails">paymentDetails</a>
+                            </li>
+                            <li>
+                                <a href="#shippingMethod">shippingMethod</a>
+                            </li>
+                            <li>
+                                <a href="#step">step</a>
+                            </li>
+                            <li>
+                                <a href="#subscriptions">subscriptions</a>
+                            </li>
+                            <li>
+                                <a href="#tAndCToggler">tAndCToggler</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#addAddress">addAddress</a>
+                            </li>
+                            <li>
+                                <a href="#addPaymentInfo">addPaymentInfo</a>
+                            </li>
+                            <li>
+                                <a href="#clearCheckoutNavBar">clearCheckoutNavBar</a>
+                            </li>
+                            <li>
+                                <a href="#initializeCheckoutNavBar">initializeCheckoutNavBar</a>
+                            </li>
+                            <li>
+                                <a href="#nextStep">nextStep</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#placeOrder">placeOrder</a>
+                            </li>
+                            <li>
+                                <a href="#processSteps">processSteps</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#refreshCart">refreshCart</a>
+                            </li>
+                            <li>
+                                <a href="#setDeliveryMode">setDeliveryMode</a>
+                            </li>
+                            <li>
+                                <a href="#setStep">setStep</a>
+                            </li>
+                            <li>
+                                <a href="#toggleTAndC">toggleTAndC</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(checkoutService: <a href="../injectables/CheckoutService.html">CheckoutService</a>, cartService: <a href="../injectables/CartService.html">CartService</a>, cartDataService: <a href="../injectables/CartDataService.html">CartDataService</a>, routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, cd: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>checkoutService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cartService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/CartService.html" target="_self" >CartService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cartDataService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/CartDataService.html" target="_self" >CartDataService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>routingService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/RoutingService.html" target="_self" >RoutingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>globalMessageService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/GlobalMessageService.html" target="_self" >GlobalMessageService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cd</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addAddress"></a>
+                        <span class="name">
+                            <b>
+                            addAddress
+                            </b>
+                            <a href="#addAddress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>addAddress(undefined: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="168" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:168</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="addPaymentInfo"></a>
+                        <span class="name">
+                            <b>
+                            addPaymentInfo
+                            </b>
+                            <a href="#addPaymentInfo"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>addPaymentInfo(undefined: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="198" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:198</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="clearCheckoutNavBar"></a>
+                        <span class="name">
+                            <b>
+                            clearCheckoutNavBar
+                            </b>
+                            <a href="#clearCheckoutNavBar"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>clearCheckoutNavBar()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="278" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:278</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="initializeCheckoutNavBar"></a>
+                        <span class="name">
+                            <b>
+                            initializeCheckoutNavBar
+                            </b>
+                            <a href="#initializeCheckoutNavBar"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>initializeCheckoutNavBar()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="233" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:233</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/Item.html" target="_self" >CheckoutNavBarItem[]</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="nextStep"></a>
+                        <span class="name">
+                            <b>
+                            nextStep
+                            </b>
+                            <a href="#nextStep"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>nextStep(step: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:147</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>step</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnDestroy"></a>
+                        <span class="name">
+                            <b>
+                            ngOnDestroy
+                            </b>
+                            <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="282" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:282</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:59</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="placeOrder"></a>
+                        <span class="name">
+                            <b>
+                            placeOrder
+                            </b>
+                            <a href="#placeOrder"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>placeOrder()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="225" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:225</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="processSteps"></a>
+                        <span class="name">
+                            <b>
+                            processSteps
+                            </b>
+                            <a href="#processSteps"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>processSteps()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:67</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="refreshCart"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            refreshCart
+                            </b>
+                            <a href="#refreshCart"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>refreshCart()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setDeliveryMode"></a>
+                        <span class="name">
+                            <b>
+                            setDeliveryMode
+                            </b>
+                            <a href="#setDeliveryMode"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setDeliveryMode(undefined: literal type)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="188" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:188</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>
+                                                                    <code>literal type</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setStep"></a>
+                        <span class="name">
+                            <b>
+                            setStep
+                            </b>
+                            <a href="#setStep"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>setStep(backStep: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="143" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:143</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>backStep</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="toggleTAndC"></a>
+                        <span class="name">
+                            <b>
+                            toggleTAndC
+                            </b>
+                            <a href="#toggleTAndC"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>toggleTAndC()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="229" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:229</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="cart$"></a>
+                        <span class="name">
+                            <b>
+                            cart$
+                            </b>
+                            <a href="#cart$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>cart$:     <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;Cart&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Cart.html" target="_self" >Observable&lt;Cart&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="deliveryAddress"></a>
+                        <span class="name">
+                            <b>
+                            deliveryAddress
+                            </b>
+                            <a href="#deliveryAddress"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>deliveryAddress:     <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Address.html" target="_self" >Address</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:36</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="done"></a>
+                        <span class="name">
+                            <b>
+                            done
+                            </b>
+                            <a href="#done"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>done:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:34</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navs"></a>
+                        <span class="name">
+                            <b>
+                            navs
+                            </b>
+                            <a href="#navs"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>navs:     <code><a href="../interfaces/Item.html" target="_self" >CheckoutNavBarItem[]</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/Item.html" target="_self" >CheckoutNavBarItem[]</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.initializeCheckoutNavBar()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="paymentDetails"></a>
+                        <span class="name">
+                            <b>
+                            paymentDetails
+                            </b>
+                            <a href="#paymentDetails"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>paymentDetails:     <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/PaymentDetails.html" target="_self" >PaymentDetails</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="shippingMethod"></a>
+                        <span class="name">
+                            <b>
+                            shippingMethod
+                            </b>
+                            <a href="#shippingMethod"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>shippingMethod:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:38</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="step"></a>
+                        <span class="name">
+                            <b>
+                            step
+                            </b>
+                            <a href="#step"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>step:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>1</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="subscriptions"></a>
+                        <span class="name">
+                            <b>
+                            subscriptions
+                            </b>
+                            <a href="#subscriptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>subscriptions:     <code>Subscription[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription[]</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>[]</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:39</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tAndCToggler"></a>
+                        <span class="name">
+                            <b>
+                            tAndCToggler
+                            </b>
+                            <a href="#tAndCToggler"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>tAndCToggler:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>false</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/lib/checkout/components/multi-step-checkout/container/multi-step-checkout.component.ts:42</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef
+} from &#x27;@angular/core&#x27;;
+
+import {
+  CheckoutService,
+  RoutingService,
+  GlobalMessageService,
+  GlobalMessageType,
+  CartService,
+  CartDataService,
+  PaymentDetails,
+  Address,
+  Cart
+} from &#x27;@spartacus/core&#x27;;
+
+import { Subscription, Observable } from &#x27;rxjs&#x27;;
+import { filter } from &#x27;rxjs/operators&#x27;;
+
+import { CheckoutNavBarItem } from &#x27;./checkout-navigation-bar&#x27;;
+
+@Component({
+  selector: &#x27;cx-multi-step-checkout&#x27;,
+  templateUrl: &#x27;./multi-step-checkout.component.html&#x27;,
+  styleUrls: [&#x27;./multi-step-checkout.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
+  step &#x3D; 1;
+  done &#x3D; false;
+
+  deliveryAddress: Address;
+  paymentDetails: PaymentDetails;
+  shippingMethod: string;
+  subscriptions: Subscription[] &#x3D; [];
+
+  cart$: Observable&lt;Cart&gt;;
+  tAndCToggler &#x3D; false;
+
+  navs: CheckoutNavBarItem[] &#x3D; this.initializeCheckoutNavBar();
+
+  constructor(
+    protected checkoutService: CheckoutService,
+    protected cartService: CartService,
+    protected cartDataService: CartDataService,
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected cd: ChangeDetectorRef
+  ) {}
+
+  private refreshCart(): void {
+    this.cartService.loadDetails();
+  }
+
+  ngOnInit() {
+    if (!this.cartDataService.getDetails) {
+      this.cartService.loadDetails();
+    }
+    this.cart$ &#x3D; this.cartService.getActive();
+    this.processSteps();
+  }
+
+  processSteps(): void {
+    // step1: set delivery address
+    this.subscriptions.push(
+      this.checkoutService
+        .getDeliveryAddress()
+        .pipe(
+          filter(
+            deliveryAddress &#x3D;&gt;
+              Object.keys(deliveryAddress).length !&#x3D;&#x3D; 0 &amp;&amp; this.step &#x3D;&#x3D;&#x3D; 1
+          )
+        )
+        .subscribe(deliveryAddress &#x3D;&gt; {
+          this.deliveryAddress &#x3D; deliveryAddress;
+          this.nextStep(2);
+          this.refreshCart();
+          this.cd.detectChanges();
+        })
+    );
+
+    // step2: select delivery mode
+    this.subscriptions.push(
+      this.checkoutService
+        .getSelectedDeliveryModeCode()
+        .pipe(filter(selected &#x3D;&gt; selected !&#x3D;&#x3D; &#x27;&#x27; &amp;&amp; this.step &#x3D;&#x3D;&#x3D; 2))
+        .subscribe(selectedMode &#x3D;&gt; {
+          this.nextStep(3);
+          this.refreshCart();
+          this.shippingMethod &#x3D; selectedMode;
+          this.cd.detectChanges();
+        })
+    );
+
+    // step3: set payment information
+    this.subscriptions.push(
+      this.checkoutService
+        .getPaymentDetails()
+        .pipe(
+          filter(
+            paymentInfo &#x3D;&gt;
+              Object.keys(paymentInfo).length !&#x3D;&#x3D; 0 &amp;&amp; this.step &#x3D;&#x3D;&#x3D; 3
+          )
+        )
+        .subscribe(paymentInfo &#x3D;&gt; {
+          if (!paymentInfo[&#x27;hasError&#x27;]) {
+            this.nextStep(4);
+            this.paymentDetails &#x3D; paymentInfo;
+            this.cd.detectChanges();
+          } else {
+            Object.keys(paymentInfo).forEach(key &#x3D;&gt; {
+              if (key.startsWith(&#x27;InvalidField&#x27;)) {
+                this.globalMessageService.add({
+                  type: GlobalMessageType.MSG_TYPE_ERROR,
+                  text: &#x27;InvalidField: &#x27; + paymentInfo[key]
+                });
+              }
+            });
+            this.checkoutService.clearCheckoutStep(3);
+          }
+        })
+    );
+
+    // step4: place order
+    this.subscriptions.push(
+      this.checkoutService
+        .getOrderDetails()
+        .pipe(
+          filter(order &#x3D;&gt; Object.keys(order).length !&#x3D;&#x3D; 0 &amp;&amp; this.step &#x3D;&#x3D;&#x3D; 4)
+        )
+        .subscribe(() &#x3D;&gt; {
+          // checkout steps are done
+          this.done &#x3D; true;
+          this.routingService.go({ route: [&#x27;orderConfirmation&#x27;] });
+        })
+    );
+  }
+
+  setStep(backStep: number): void {
+    this.nextStep(backStep);
+  }
+
+  nextStep(step: number): void {
+    const previousStep &#x3D; step - 1;
+
+    this.navs.forEach(function(nav) {
+      if (nav.id &#x3D;&#x3D;&#x3D; previousStep) {
+        nav.status.completed &#x3D; true;
+      }
+      if (nav.id &#x3D;&#x3D;&#x3D; step) {
+        nav.status.active &#x3D; true;
+        nav.status.disabled &#x3D; false;
+      } else {
+        nav.status.active &#x3D; false;
+      }
+
+      nav.progressBar &#x3D; nav.status.active || nav.status.completed;
+    });
+
+    this.step &#x3D; step;
+    this.tAndCToggler &#x3D; false;
+  }
+
+  addAddress({
+    newAddress,
+    address
+  }: {
+    newAddress: boolean;
+    address: Address;
+  }): void {
+    if (newAddress) {
+      this.checkoutService.createAndSetAddress(address);
+      return;
+    }
+    // if the selected address is the same as the cart&#x27;s one
+    if (this.deliveryAddress &amp;&amp; address.id &#x3D;&#x3D;&#x3D; this.deliveryAddress.id) {
+      this.nextStep(2);
+      return;
+    }
+    this.checkoutService.setDeliveryAddress(address);
+    return;
+  }
+
+  setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
+    // if the selected shipping method is the same as the cart&#x27;s one
+    if (this.shippingMethod &amp;&amp; this.shippingMethod &#x3D;&#x3D;&#x3D; deliveryModeId) {
+      this.nextStep(3);
+      return;
+    }
+    this.checkoutService.setDeliveryMode(deliveryModeId);
+    return;
+  }
+
+  addPaymentInfo({
+    newPayment,
+    payment,
+    billingAddress
+  }: {
+    newPayment: boolean;
+    payment: PaymentDetails;
+    billingAddress: Address;
+  }): void {
+    payment.billingAddress &#x3D; billingAddress
+      ? billingAddress
+      : this.deliveryAddress;
+
+    if (newPayment) {
+      this.checkoutService.createPaymentDetails(payment);
+      return;
+    }
+
+    // if the selected payment is the same as the cart&#x27;s one
+    if (this.paymentDetails &amp;&amp; this.paymentDetails.id &#x3D;&#x3D;&#x3D; payment.id) {
+      this.nextStep(4);
+      return;
+    }
+
+    this.checkoutService.setPaymentDetails(payment);
+  }
+
+  placeOrder(): void {
+    this.checkoutService.placeOrder();
+  }
+
+  toggleTAndC(): void {
+    this.tAndCToggler &#x3D; !this.tAndCToggler;
+  }
+
+  initializeCheckoutNavBar(): CheckoutNavBarItem[] {
+    return [
+      {
+        id: 1,
+        label: &#x27;1. Shipping Address&#x27;,
+        status: {
+          disabled: false,
+          completed: false,
+          active: true
+        },
+        progressBar: true
+      },
+      {
+        id: 2,
+        label: &#x27;2. Shipping Method&#x27;,
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 3,
+        label: &#x27;3. Payment&#x27;,
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 4,
+        label: &#x27;4. Review&#x27;,
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      }
+    ];
+  }
+
+  clearCheckoutNavBar(): void {
+    this.navs &#x3D; [];
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach(subscription &#x3D;&gt; subscription.unsubscribe());
+    if (!this.done) {
+      this.checkoutService.clearCheckoutData();
+    }
+    this.clearCheckoutNavBar();
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;cx-page&quot;&gt;
+  &lt;ng-container *ngIf&#x3D;&quot;(cart$ | async) as cart&quot;&gt;
+    &lt;header class&#x3D;&quot;cx-page__header&quot;&gt;
+      &lt;h1 class&#x3D;&quot;cx-page__title d-none d-lg-block d-xl-block&quot;&gt;
+        Checkout {{ cart.totalItems }}
+        {{ cart.totalItems &gt; 1 ? &#x27;items&#x27; : &#x27;item&#x27; }}
+      &lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;div class&#x3D;&quot;cx-checkout-container container&quot;&gt;
+      &lt;div class&#x3D;&quot;row&quot;&gt;
+        &lt;div class&#x3D;&quot;col-md-12 col-lg-8&quot;&gt;
+          &lt;!-- VISIBLE ONLY ON LG AND XL SCREENS --&gt;
+          &lt;!-- Navigation --&gt;
+          &lt;div class&#x3D;&quot;cx-nav d-none d-lg-block d-xl-block&quot;&gt;
+            &lt;ul class&#x3D;&quot;cx-list&quot;&gt;
+              &lt;li
+                *ngFor&#x3D;&quot;let nav of navs&quot;
+                class&#x3D;&quot;cx-item&quot;
+                [ngClass]&#x3D;&quot;{
+                  &#x27; is-disabled&#x27;: nav.status.disabled,
+                  &#x27; progressbar&#x27;: nav.progressBar
+                }&quot;
+              &gt;
+                &lt;a
+                  class&#x3D;&quot;cx-link &quot;
+                  [ngClass]&#x3D;&quot;{
+                    &#x27; is-disabled&#x27;: nav.status.disabled,
+                    &#x27; is-active&#x27;: nav.status.active
+                  }&quot;
+                  (click)&#x3D;&quot;
+                    nav.status.disabled &#x3D;&#x3D;&#x3D; false ? setStep(nav.id) : false
+                  &quot;
+                  &gt;{{ nav.label }}&lt;/a
+                &gt;
+              &lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+
+          &lt;div class&#x3D;&quot;cx-media&quot;&gt;
+            &lt;div class&#x3D;&quot;cx-list-media&quot;&gt;
+              Cart total ({{ cart.totalItems }} items):
+              {{ cart.subTotal?.formattedValue }}
+            &lt;/div&gt;
+
+            &lt;div *ngFor&#x3D;&quot;let nav of navs&quot;&gt;
+              &lt;!-- Navigation --&gt;
+              &lt;div
+                class&#x3D;&quot;cx-list-media&quot;
+                [ngClass]&#x3D;&quot;{ &#x27; is-active&#x27;: nav.status.active }&quot;
+              &gt;
+                &lt;div&gt;{{ nav.label }}&lt;/div&gt;
+                &lt;button
+                  *ngIf&#x3D;&quot;nav.status.completed &amp;&amp; !nav.status.active&quot;
+                  class&#x3D;&quot;btn btn-link&quot;
+                  (click)&#x3D;&quot;setStep(nav.id)&quot;
+                &gt;
+                  edit
+                &lt;/button&gt;
+              &lt;/div&gt;
+
+              &lt;!-- Content --&gt;
+              &lt;div *ngIf&#x3D;&quot;nav.status.active &amp;&amp; step &#x3D;&#x3D;&#x3D; 1&quot;&gt;
+                &lt;cx-shipping-address
+                  [selectedAddress]&#x3D;&quot;deliveryAddress&quot;
+                  (addAddress)&#x3D;&quot;addAddress($event)&quot;
+                &gt;&lt;/cx-shipping-address&gt;
+              &lt;/div&gt;
+              &lt;div *ngIf&#x3D;&quot;nav.status.active &amp;&amp; step &#x3D;&#x3D;&#x3D; 2&quot;&gt;
+                &lt;cx-delivery-mode
+                  [selectedShippingMethod]&#x3D;&quot;shippingMethod&quot;
+                  (selectMode)&#x3D;&quot;setDeliveryMode($event)&quot;
+                  (backStep)&#x3D;&quot;setStep(1)&quot;
+                &gt;&lt;/cx-delivery-mode&gt;
+              &lt;/div&gt;
+              &lt;div *ngIf&#x3D;&quot;nav.status.active &amp;&amp; step &#x3D;&#x3D;&#x3D; 3&quot;&gt;
+                &lt;cx-payment-method
+                  [selectedPayment]&#x3D;&quot;paymentDetails&quot;
+                  (addPaymentInfo)&#x3D;&quot;addPaymentInfo($event)&quot;
+                  (backStep)&#x3D;&quot;setStep(2)&quot;
+                &gt;&lt;/cx-payment-method&gt;
+              &lt;/div&gt;
+              &lt;div *ngIf&#x3D;&quot;nav.status.active &amp;&amp; step &#x3D;&#x3D;&#x3D; 4&quot;&gt;
+                &lt;cx-review-submit
+                  [deliveryAddress]&#x3D;&quot;deliveryAddress&quot;
+                  [shippingMethod]&#x3D;&quot;shippingMethod&quot;
+                  [paymentDetails]&#x3D;&quot;paymentDetails&quot;
+                &gt;
+                &lt;/cx-review-submit&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- ORDER SUMMARY SECTION --&gt;
+        &lt;div class&#x3D;&quot;col-md-7 offset-md-5 col-lg-4 offset-lg-0&quot;&gt;
+          &lt;cx-order-summary [cart]&#x3D;&quot;cart&quot;&gt;&lt;/cx-order-summary&gt;
+
+          &lt;!-- CHECKBOX AND PLACE ORDER BUTTON --&gt;
+          &lt;div class&#x3D;&quot;cx-place-order&quot; *ngIf&#x3D;&quot;step &#x3D;&#x3D;&#x3D; 4&quot;&gt;
+            &lt;div class&#x3D;&quot;cx-place-order-form form-check&quot;&gt;
+              &lt;label&gt;
+                &lt;input
+                  class&#x3D;&quot;form-check-input&quot;
+                  type&#x3D;&quot;checkbox&quot;
+                  (change)&#x3D;&quot;toggleTAndC()&quot;
+                /&gt;
+                &lt;span class&#x3D;&quot;form-check-label&quot;&gt;
+                  I confirm that I have read and agree with the
+                  &lt;a
+                    [routerLink]&#x3D;&quot;
+                      { route: [&#x27;termsAndConditions&#x27;] } | cxTranslateUrl
+                    &quot;
+                    class&#x3D;&quot;cx-tc-link&quot;
+                    &gt;Terms &amp; Conditions&lt;/a
+                  &gt;
+                &lt;/span&gt;
+              &lt;/label&gt;
+            &lt;/div&gt;
+            &lt;button
+              [disabled]&#x3D;&quot;!tAndCToggler&quot;
+              (click)&#x3D;&quot;placeOrder()&quot;
+              class&#x3D;&quot;btn btn-primary btn-block&quot;
+            &gt;
+              Place Order
+            &lt;/button&gt;
+            &lt;button class&#x3D;&quot;btn btn-action btn-block&quot; (click)&#x3D;&quot;setStep(3)&quot;&gt;
+              Back
+            &lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/ng-container&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./multi-step-checkout.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &#x27;theme&#x27;;
+
+.cx-checkout-container {
+  padding: var(--cx-padding, 2.5rem 0);
+
+  .cx-nav {
+    @include type(&#x27;4&#x27;, &#x27;semi&#x27;);
+    margin-bottom: 0;
+
+    .cx-list {
+      display: var(--cx-display, flex);
+      flex-direction: var(--cx-flex-direction, row);
+      list-style: var(--cx-list-style, none);
+      padding: var(--cx-padding, 0);
+      margin-bottom: 0;
+    }
+
+    .cx-item {
+      color: var(--cx-color, var(--cx-g-color-text));
+      padding: var(--cx-padding, 0 0 1.375rem 0);
+
+      &amp;.progressbar {
+        border-bottom: 5px solid;
+        border-color: var(--cx-border-color, var(--cx-g-color-primary));
+        ::before {
+          color: var(--cx-color, var(--cx-g-color-text));
+        }
+      }
+
+      ::before {
+        padding: var(--cx-padding, 0 0.5rem);
+        content: var(--cx-content, &#x27;&gt;&#x27;);
+      }
+
+      &amp;:first-child ::before {
+        padding: var(--cx-padding, 0);
+        content: var(--cx-content, &#x27;&#x27;);
+      }
+    }
+  }
+
+  .cx-link,
+  .cx-link:hover {
+    cursor: pointer;
+
+    &amp;.is-disabled {
+      color: var(--cx-color, var(--cx-g-color-light));
+      cursor: not-allowed;
+    }
+
+    &amp;.is-active {
+      color: var(--cx-color, var(--cx-g-color-primary));
+      ::before {
+        color: var(--cx-color, var(--cx-g-color-text));
+      }
+    }
+  }
+
+  .cx-media {
+    @include media-breakpoint-down(md) {
+      &amp; &gt; :last-child {
+        border-bottom: 1px solid;
+        border-color: var(--cx-border-color, var(--cx-g-color-light));
+      }
+    }
+
+    .cx-list-media {
+      display: var(--cx-display, none);
+      @include type(&#x27;3&#x27;);
+      text-transform: var(--cx-text-transform, uppercase);
+      justify-content: var(--cx-justify-content, space-between);
+      align-items: var(--cx-align-items, center);
+      line-height: var(--cx-line-height, 4.75rem);
+      min-width: var(--cx-min-widt, 100%);
+      border-top: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
+      margin-bottom: 0;
+
+      button {
+        text-transform: var(--cx-text-transform, uppercase);
+        font-weight: $font-weight-bold;
+      }
+
+      @include media-breakpoint-down(md) {
+        display: var(--cx-display, flex);
+        padding: var(--cx-padding, 0 3.5rem);
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: var(--cx-padding, 0 1.375rem);
+      }
+    }
+  }
+
+  .cx-place-order {
+    padding: var(--cx-padding, 0 1rem);
+
+    .cx-form {
+      display: var(--cx-display, flex);
+      .form-check-input {
+        min-height: var(--cx-min-height, 1.375rem);
+        min-width: var(--cx-min-width, 1.375rem);
+      }
+    }
+
+    button {
+      margin-top: 1.25rem;
+    }
+  }
+
+  // ***************************** MEDIA QUERIES *****************************
+
+  @include media-breakpoint-down(md) {
+    margin: var(--cx-margin, 0);
+  }
+
+  &amp;.container {
+    @include media-breakpoint-down(md) {
+      max-width: var(--cx-max-width, 100%);
+      padding: var(--cx-padding, 0);
+    }
+  }
+
+  .col-md-7 {
+    @include media-breakpoint-down(md) {
+      padding-right: 4.375rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 1.375rem);
+    }
+  }
+
+  .cx-list-media {
+    &amp;.is-active {
+      @include media-breakpoint-down(md) {
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-background)
+        );
+      }
+    }
+  }
+}
+
+// Mixin imported in the other multi-step-checkout components
+@mixin checkout-media-style() {
+  @include media-breakpoint-down(md) {
+    margin-bottom: 2.375rem;
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
+  }
+
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0 4.375rem 1.875rem 4.375rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 0 2.25rem 1.25rem 2.25rem);
+    }
+  }
+
+  &amp;.container {
+    @include media-breakpoint-down(md) {
+      max-width: var(--cx-max-width, 100%);
+      margin-bottom: 0;
+    }
+  }
+
+  .cx-btn {
+    padding-bottom: 1rem;
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0 3.5rem 1.25rem 0);
+    }
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 1.25rem);
+    }
+  }
+
+  .cx-btns {
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0);
+    }
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="cx-page">  <ng-container *ngIf="(cart$ | async) as cart">    <header class="cx-page__header">      <h1 class="cx-page__title d-none d-lg-block d-xl-block">        Checkout {{ cart.totalItems }}        {{ cart.totalItems > 1 ? \'items\' : \'item\' }}      </h1>    </header>    <div class="cx-checkout-container container">      <div class="row">        <div class="col-md-12 col-lg-8">          <!-- VISIBLE ONLY ON LG AND XL SCREENS -->          <!-- Navigation -->          <div class="cx-nav d-none d-lg-block d-xl-block">            <ul class="cx-list">              <li                *ngFor="let nav of navs"                class="cx-item"                [ngClass]="{                  \' is-disabled\': nav.status.disabled,                  \' progressbar\': nav.progressBar                }"              >                <a                  class="cx-link "                  [ngClass]="{                    \' is-disabled\': nav.status.disabled,                    \' is-active\': nav.status.active                  }"                  (click)="                    nav.status.disabled === false ? setStep(nav.id) : false                  "                  >{{ nav.label }}</a                >              </li>            </ul>          </div>          <div class="cx-media">            <div class="cx-list-media">              Cart total ({{ cart.totalItems }} items):              {{ cart.subTotal?.formattedValue }}            </div>            <div *ngFor="let nav of navs">              <!-- Navigation -->              <div                class="cx-list-media"                [ngClass]="{ \' is-active\': nav.status.active }"              >                <div>{{ nav.label }}</div>                <button                  *ngIf="nav.status.completed && !nav.status.active"                  class="btn btn-link"                  (click)="setStep(nav.id)"                >                  edit                </button>              </div>              <!-- Content -->              <div *ngIf="nav.status.active && step === 1">                <cx-shipping-address                  [selectedAddress]="deliveryAddress"                  (addAddress)="addAddress($event)"                ></cx-shipping-address>              </div>              <div *ngIf="nav.status.active && step === 2">                <cx-delivery-mode                  [selectedShippingMethod]="shippingMethod"                  (selectMode)="setDeliveryMode($event)"                  (backStep)="setStep(1)"                ></cx-delivery-mode>              </div>              <div *ngIf="nav.status.active && step === 3">                <cx-payment-method                  [selectedPayment]="paymentDetails"                  (addPaymentInfo)="addPaymentInfo($event)"                  (backStep)="setStep(2)"                ></cx-payment-method>              </div>              <div *ngIf="nav.status.active && step === 4">                <cx-review-submit                  [deliveryAddress]="deliveryAddress"                  [shippingMethod]="shippingMethod"                  [paymentDetails]="paymentDetails"                >                </cx-review-submit>              </div>            </div>          </div>        </div>        <!-- ORDER SUMMARY SECTION -->        <div class="col-md-7 offset-md-5 col-lg-4 offset-lg-0">          <cx-order-summary [cart]="cart"></cx-order-summary>          <!-- CHECKBOX AND PLACE ORDER BUTTON -->          <div class="cx-place-order" *ngIf="step === 4">            <div class="cx-place-order-form form-check">              <label>                <input                  class="form-check-input"                  type="checkbox"                  (change)="toggleTAndC()"                />                <span class="form-check-label">                  I confirm that I have read and agree with the                  <a                    [routerLink]="                      { route: [\'termsAndConditions\'] } | cxTranslateUrl                    "                    class="cx-tc-link"                    >Terms & Conditions</a                  >                </span>              </label>            </div>            <button              [disabled]="!tAndCToggler"              (click)="placeOrder()"              class="btn btn-primary btn-block"            >              Place Order            </button>            <button class="btn btn-action btn-block" (click)="setStep(3)">              Back            </button>          </div>        </div>      </div>    </div>  </ng-container></div></div>'
+    var COMPONENTS = [{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressCardComponent', 'selector': 'cx-address-card'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BillingAddressFormComponent', 'selector': 'cx-billing-address-form'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartPageComponent', 'selector': 'cx-cart-page'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CategoryPageComponent', 'selector': 'cx-category-page'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DynamicSlotComponent', 'selector': 'cx-dynamic-slot'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'HeaderComponent', 'selector': 'cx-header'},{'name': 'HeaderSkipperComponent', 'selector': 'cx-header-skipper'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginPageComponent', 'selector': ''},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MultiStepCheckoutComponent', 'selector': 'cx-multi-step-checkout'},{'name': 'MultiStepCheckoutPageComponent', 'selector': 'cx-multi-step-checkout-page'},{'name': 'MultiStepCheckoutPageLayoutComponent', 'selector': 'cx-multi-step-checkout-page-layout'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'OrderConfirmationComponent', 'selector': 'cx-order-confirmation'},{'name': 'OrderConfirmationPageComponent', 'selector': 'cx-order-confirmation-page'},{'name': 'OrderConfirmationPageLayoutComponent', 'selector': 'cx-order-confirmation-page-layout'},{'name': 'OrderDetailsComponent', 'selector': 'cx-order-details'},{'name': 'OrderDetailsPageComponent', 'selector': ''},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryPageComponent', 'selector': ''},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentDetailsPageComponent', 'selector': ''},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PictureComponent', 'selector': 'cx-picture'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsComponent', 'selector': 'cx-product-details'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductPageComponent', 'selector': 'cx-product-page'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterLayoutComponent', 'selector': 'cx-register-layout'},{'name': 'RegisterPageComponent', 'selector': 'cx-register-page'},{'name': 'ResetNewPasswordComponent', 'selector': 'cx-reset-new-password'},{'name': 'ResetNewPasswordFormComponent', 'selector': 'cx-reset-new-password-form'},{'name': 'ResetNewPasswordLayoutComponent', 'selector': 'cx-reset-new-password-layout'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordPageComponent', 'selector': 'cx-reset-password-page'},{'name': 'ResponsiveBannerComponent', 'selector': 'cx-responsive-banner'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPageComponent', 'selector': 'cx-store-finder-page'},{'name': 'StoreFinderPageLayoutComponent', 'selector': 'cx-store-finder-page-layout'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'}];
+    var DIRECTIVES = [{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'OnlyNumberDirective', 'selector': '[cxOnlyNumber]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'StyleRefDirective', 'selector': '[cxCssRef]'}];
+    var ACTUAL_COMPONENT = {'name': 'MultiStepCheckoutComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'MultiStepCheckoutComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

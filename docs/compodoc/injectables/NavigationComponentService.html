@@ -1,0 +1,775 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li>NavigationComponentService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts</code>
+        </p>
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#createChildren">createChildren</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#createNode">createNode</a>
+                            </li>
+                            <li>
+                                <a href="#getComponentData">getComponentData</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#getNavigationEntryItems">getNavigationEntryItems</a>
+                            </li>
+                            <li>
+                                <a href="#getNodes">getNodes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#processChildren">processChildren</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(cmsService: <a href="../injectables/CmsService.html">CmsService</a>, componentData: <a href="../interfaces/Component.html">CmsComponentData<CmsNavigationComponent></a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:10</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>cmsService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/CmsService.html" target="_self" >CmsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>componentData</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../interfaces/Component.html" target="_self" >CmsComponentData&lt;CmsNavigationComponent&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="createChildren"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            createChildren
+                            </b>
+                            <a href="#createChildren"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>createChildren(node, items)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:79</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>node</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>items</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{}</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="createNode"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            createNode
+                            </b>
+                            <a href="#createNode"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>createNode(nodeData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, items: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:52</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Create a new node tree for display</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nodeData</td>
+                                                        <td>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>items</td>
+                                                        <td>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/NavigationNode.html" target="_self" >NavigationNode</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getComponentData"></a>
+                        <span class="name">
+                            <b>
+                            getComponentData
+                            </b>
+                            <a href="#getComponentData"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getComponentData()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:88</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/Component.html" target="_self" >Observable&lt;CmsNavigationComponent&gt;</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNavigationEntryItems"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            getNavigationEntryItems
+                            </b>
+                            <a href="#getNavigationEntryItems"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>getNavigationEntryItems(nodeData: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, root: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, itemsList: [])</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Get all navigation entry items&#39; type and id. Dispatch action to load all these items</p>
+</div>
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Default value</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>nodeData</td>
+                                                        <td>
+                                                                    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>root</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>itemsList</td>
+                                                        <td>
+                                                                    <code>[]</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code>[]</code>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="getNodes"></a>
+                        <span class="name">
+                            <b>
+                            getNodes
+                            </b>
+                            <a href="#getNodes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>getNodes()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:92</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="../interfaces/NavigationNode.html" target="_self" >Observable&lt;NavigationNode&gt;</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="processChildren"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            processChildren
+                            </b>
+                            <a href="#processChildren"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>processChildren(node, itemsList)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/lib/cms-lib/navigation/navigation.component.service.ts:41</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>node</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                                <tr>
+                                                        <td>itemsList</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
+import { filter, map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+
+import { CmsNavigationComponent, CmsService } from &#x27;@spartacus/core&#x27;;
+import { NavigationNode } from &#x27;./navigation-node.model&#x27;;
+import { CmsComponentData } from &#x27;../../cms/components/cms-component-data&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+
+@Injectable()
+export class NavigationComponentService {
+  constructor(
+    protected cmsService: CmsService,
+    @Optional()
+    protected componentData: CmsComponentData&lt;CmsNavigationComponent&gt;
+  ) {}
+
+  /**
+   * Get all navigation entry items&#x27; type and id. Dispatch action to load all these items
+   * @param nodeData
+   * @param root
+   * @param itemsList
+   */
+  public getNavigationEntryItems(nodeData: any, root: boolean, itemsList &#x3D; []) {
+    if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
+      this.processChildren(nodeData, itemsList);
+    } else if (nodeData.entries &amp;&amp; nodeData.entries.length &gt; 0) {
+      nodeData.entries.forEach(entry &#x3D;&gt; {
+        itemsList.push({
+          superType: entry.itemSuperType,
+          id: entry.itemId
+        });
+      });
+    }
+
+    if (root) {
+      const rootUid &#x3D; nodeData.uid;
+      this.cmsService.loadNavigationItems(rootUid, itemsList);
+    }
+  }
+
+  private processChildren(node, itemsList): void {
+    for (const child of node.children) {
+      this.getNavigationEntryItems(child, false, itemsList);
+    }
+  }
+
+  /**
+   * Create a new node tree for display
+   * @param nodeData
+   * @param items
+   */
+  public createNode(nodeData: any, items: any): NavigationNode {
+    const node &#x3D; {};
+
+    node[&#x27;title&#x27;] &#x3D; nodeData.title;
+    node[&#x27;url&#x27;] &#x3D; &#x27;&#x27;;
+
+    if (nodeData.children &amp;&amp; nodeData.children.length &gt; 0) {
+      const children &#x3D; this.createChildren(nodeData, items);
+      node[&#x27;children&#x27;] &#x3D; children;
+    } else if (nodeData.entries &amp;&amp; nodeData.entries.length &gt; 0) {
+      const entry &#x3D; nodeData.entries[0];
+      const item &#x3D; items[&#x60;${entry.itemId}_${entry.itemSuperType}&#x60;];
+
+      // now we only consider CMSLinkComponent
+      if (entry.itemType &#x3D;&#x3D;&#x3D; &#x27;CMSLinkComponent&#x27; &amp;&amp; item !&#x3D;&#x3D; undefined) {
+        if (!node[&#x27;title&#x27;]) {
+          node[&#x27;title&#x27;] &#x3D; item.linkName;
+        }
+        node[&#x27;url&#x27;] &#x3D; item.url;
+        // if &quot;NEWWINDOW&quot;, target is true
+        node[&#x27;target&#x27;] &#x3D; item.target;
+      }
+    }
+
+    return node;
+  }
+
+  private createChildren(node, items) {
+    const children &#x3D; [];
+    for (const child of node.children) {
+      const childNode &#x3D; this.createNode(child, items);
+      children.push(childNode);
+    }
+    return children;
+  }
+
+  getComponentData(): Observable&lt;CmsNavigationComponent&gt; {
+    return this.componentData.data$;
+  }
+
+  getNodes(): Observable&lt;NavigationNode&gt; {
+    return this.getComponentData().pipe(
+      switchMap(data &#x3D;&gt; {
+        if (data) {
+          const navigation &#x3D; data.navigationNode ? data.navigationNode : data;
+          return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
+            tap(items &#x3D;&gt; {
+              if (items &#x3D;&#x3D;&#x3D; undefined) {
+                this.getNavigationEntryItems(navigation, true, []);
+              }
+            }),
+            filter(items &#x3D;&gt; items !&#x3D;&#x3D; undefined),
+            map(items &#x3D;&gt; this.createNode(navigation, items))
+          );
+        }
+      })
+    );
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'NavigationComponentService.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
