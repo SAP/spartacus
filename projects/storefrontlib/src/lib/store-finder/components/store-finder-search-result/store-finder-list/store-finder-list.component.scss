@@ -22,7 +22,6 @@
   }
 }
 .cx-map-col {
-  // background: $light; //temporary bg, remove when google map is implemented
   @include media-breakpoint-up(md) {
     height: var(--cx-height, 100%);
     overflow-y: var(--cx-overflow-y, scroll);
@@ -45,15 +44,14 @@
   &:hover {
     background-color: var(--cx-background-color, var(--cx-g-color-background));
   }
-
-  .cx-ordered {
-    counter-increment: var(--cx-counter-increment, resultCount);
-  }
-  .cx-ordered:before {
-    content: counter(resultCount, decimal);
-    position: var(--cx-position, absolute);
-    left: var(--cx-left, 1rem);
-  }
+}
+.cx-ordered {
+  counter-increment: var(--cx-counter-increment, resultCount);
+}
+.cx-ordered:before {
+  content: var(--cx-content, counter(resultCount, decimal));
+  position: var(--cx-position, absolute);
+  left: var(--cx-left, 1rem);
 }
 
 .cx-not-found {
