@@ -20,12 +20,14 @@ import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
 import { RoutingService } from '../../../routing/index';
 import { CMSPage, CmsComponent } from '../../../occ/occ-models/index';
+import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 
 @Injectable()
 export class PageEffects {
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
-    ofType('[Site-context] Language Change', '[Auth] Logout', '[Auth] Login'),
+    ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
     // TODO:#1135v2 - switchMap?
     switchMap(_ =>
       this.routingService.getRouterState().pipe(

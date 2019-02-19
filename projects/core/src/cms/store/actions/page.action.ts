@@ -44,8 +44,8 @@ export class LoadPageData extends EntityLoadAction {
 
 export class LoadPageDataFail extends EntityFailAction {
   readonly type = LOAD_PAGEDATA_FAIL;
-  constructor(pageContext: PageContext, public payload: any) {
-    super(PAGE_DATA_ENTITY, pageContext.id, payload);
+  constructor(pageContext: PageContext, error: any) {
+    super(PAGE_DATA_ENTITY, pageContext.id, error);
   }
 }
 

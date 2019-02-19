@@ -19,6 +19,8 @@ import { PageType } from '../../../occ';
 import { entityReducer } from '../../../state';
 import { NodeItem } from '../../model/node-item.model';
 import { Page } from '../../model/page.model';
+import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 import * as fromNavigation from './navigation-entry-item.reducer';
@@ -57,9 +59,9 @@ export function clearCmsState(
 ): ActionReducer<StateWithCms, Action> {
   return function(state, action) {
     if (
-      action.type === '[Site-context] Language Change' ||
-      action.type === '[Auth] Logout' ||
-      action.type === '[Auth] Login'
+      action.type === LANGUAGE_CHANGE ||
+      action.type === LOGOUT ||
+      action.type === LOGIN
     ) {
       state = undefined;
     }

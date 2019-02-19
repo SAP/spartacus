@@ -1,14 +1,14 @@
-import { Page } from '../../model/page.model';
-import { PageContext } from '../../../routing/index';
-import { PageType } from '../../../occ/occ-models/index';
-
-import * as fromPage from './page.action';
+import { PAGE_DATA_ENTITY } from '../cms-state';
 import {
   entityLoadMeta,
   entityFailMeta,
   entitySuccessMeta
 } from '../../../state';
-import { PAGE_DATA_ENTITY } from '../cms-state';
+import { Page } from '../../model/page.model';
+import { PageContext } from '../../../routing/index';
+import { PageType } from '../../../occ/occ-models/index';
+
+import * as fromPage from './page.action';
 
 describe('Cms Page Actions', () => {
   const pageContext: PageContext = {
@@ -70,13 +70,12 @@ describe('Cms Page Actions', () => {
 
     describe('LoadLoadPageDataFail', () => {
       it('should create an action', () => {
-        const payload = { message: 'Load Error' };
-        const action = new fromPage.LoadPageDataFail(pageContext, payload);
+        const error = { message: 'Load Error' };
+        const action = new fromPage.LoadPageDataFail(pageContext, error);
 
         expect({ ...action }).toEqual({
           type: fromPage.LOAD_PAGEDATA_FAIL,
-          payload,
-          meta: entityFailMeta(PAGE_DATA_ENTITY, pageContext.id, payload)
+          meta: entityFailMeta(PAGE_DATA_ENTITY, pageContext.id, error)
         });
       });
     });
