@@ -13,7 +13,6 @@ import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-
 
 // ContentPage: my Account Pages
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
-import { OrderHistoryPageModule } from './myaccount/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
 // CategoryPage
@@ -28,7 +27,6 @@ import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 import { AuthGuard } from '@spartacus/core';
 
 const pageModules = [
-  OrderHistoryPageModule,
   CategoryPageModule,
   CartPageModule,
   MultiStepCheckoutPageModule,
@@ -88,8 +86,14 @@ const pageModules = [
       },
       {
         path: null,
+        canActivate: [AuthGuard, CmsPageGuards],
         component: PageLayoutComponent,
+        data: { pageLabel: 'orders', cxPath: 'orders' }
+      },
+      {
+        path: null,
         canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
         data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
       }
     ])
