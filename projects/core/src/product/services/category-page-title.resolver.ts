@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, filter } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page } from '../../cms/model/page.model';
@@ -24,6 +24,7 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
 
   resolve(): Observable<string> {
     return this.cms.getCurrentPage().pipe(
+      filter(Boolean),
       switchMap(page => {
         // only the existence of a plp component tells us if products
         // are rendered or if this is an ordinary content page
