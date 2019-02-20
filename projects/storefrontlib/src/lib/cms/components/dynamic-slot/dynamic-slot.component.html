@@ -1,13 +1,9 @@
 <ng-container *cxOutlet="position">
-  <ng-container
-    *ngFor="
-      let component of ((currentSlot$ | async)?.components | slice: 0:limit)
-    "
-  >
+  <ng-container *ngFor="let component of (currentSlot$ | async)?.components">
     <ng-container *cxOutlet="getComponentType(component)">
       <!--
         We should get ride of this attr data
-        as we dont' want a hosting element wrappring our components.
+        as we don't want a hosting element wrapping our components.
         It's currently only used in one test case.
         [attr.data-component-uid]="component.uid"
       -->

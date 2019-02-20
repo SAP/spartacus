@@ -25,14 +25,9 @@ import { tap } from 'rxjs/operators';
 export class DynamicSlotComponent implements OnInit {
   currentSlot$: Observable<ContentSlotData>;
 
-  @Input()
-  position: string;
-  @Input()
-  limit: number;
-  @Input()
-  contextParameters: any;
-  @Input()
-  componentClass: string;
+  @Input() position: string;
+  @Input() contextParameters: any;
+  @Input() componentClass: string;
 
   constructor(
     protected cmsService: CmsService,
