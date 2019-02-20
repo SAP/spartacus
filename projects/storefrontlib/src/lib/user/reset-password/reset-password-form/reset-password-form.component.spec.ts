@@ -1,15 +1,42 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ResetPasswordFormComponent } from './reset-password-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { of } from 'rxjs';
 
-describe('ResetPasswordFormComponent', () => {
+import { UserService, RoutingService } from '@spartacus/core';
+
+import { ResetPasswordFormComponent } from './reset-password-form.component';
+
+class MockUserService {
+  isPasswordReset() {
+    return of(false);
+  }
+}
+
+const router = {
+  state: {
+    url: '/test',
+    queryParams: { token: 'test token' }
+  }
+};
+class MockRoutingService {
+  getRouterState() {
+    return of(router);
+  }
+}
+
+fdescribe('ResetPasswordFormComponent', () => {
   let component: ResetPasswordFormComponent;
   let fixture: ComponentFixture<ResetPasswordFormComponent>;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetPasswordFormComponent]
+      imports: [ReactiveFormsModule, RouterTestingModule],
+      declarations: [ResetPasswordFormComponent],
+      providers: [
+        { provide: UserService, useClass: MockUserService },
+        { provide: RoutingService, useClass: MockRoutingService }
+      ]
     }).compileComponents();
   }));
 
