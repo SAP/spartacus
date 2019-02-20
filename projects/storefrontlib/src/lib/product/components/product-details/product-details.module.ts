@@ -30,12 +30,12 @@ import { OutletModule } from '../../../outlet/index';
   declarations: [
     ProductDetailsComponent,
     ProductSummaryComponent,
-    ProductImagesComponent,
+    ProductImagesComponent
   ],
   exports: [
     ProductDetailsComponent,
     ProductSummaryComponent,
-    ProductImagesComponent,
+    ProductImagesComponent
   ]
 })
 export class ProductDetailsModule {}

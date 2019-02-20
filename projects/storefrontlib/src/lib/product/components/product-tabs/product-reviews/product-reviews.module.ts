@@ -10,7 +10,7 @@ import { FormComponentsModule } from './../../../../ui/components/form-component
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    FormComponentsModule,
+    FormComponentsModule
   ],
   declarations: [ProductReviewsComponent],
   exports: [ProductReviewsComponent]
