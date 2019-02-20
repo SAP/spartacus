@@ -17,3 +17,4 @@ export * from './regions.action';
 export * from './order-details.action';
 export * from './billing-countries.action';
 export * from './reset-password.action';
+export * from './forgot-password.action';

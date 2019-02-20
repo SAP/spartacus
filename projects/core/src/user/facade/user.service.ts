@@ -338,4 +338,13 @@ export class UserService {
   resetPassword(token: string, password: string) {
     this.store.dispatch(new fromStore.ResetPassword({ token, password }));
   }
+
+  /*
+   * Request an email to reset a forgotten password.
+   */
+  requestForgotPasswordEmail(userEmailAddress: string) {
+    this.store.dispatch(
+      new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
+    );
+  }
 }

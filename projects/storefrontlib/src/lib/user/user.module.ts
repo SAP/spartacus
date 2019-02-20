@@ -6,9 +6,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
 import { RegisterComponent } from './register/register.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
 import { ResetNewPasswordModule } from './reset-new-password/reset-new-password.module';
+import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 
 @NgModule({
   imports: [
@@ -18,9 +18,10 @@ import { ResetNewPasswordModule } from './reset-new-password/reset-new-password.
     RouterModule,
     UserModule,
     UrlTranslationModule,
-    ResetNewPasswordModule
+    ResetNewPasswordModule,
+    ForgotPasswordModule
   ],
-  declarations: [RegisterComponent, ResetPasswordComponent],
-  exports: [RegisterComponent, ResetPasswordComponent]
+  declarations: [RegisterComponent],
+  exports: [RegisterComponent]
 })
 export class UserComponentModule {}

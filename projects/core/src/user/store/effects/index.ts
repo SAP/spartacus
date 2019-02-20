@@ -9,6 +9,7 @@ import { RegionsEffects } from './regions.effect';
 import { OrderDetailsEffect } from './order-details.effect';
 import { BillingCountriesEffect } from './billing-countries.effect';
 import { ResetPasswordEffects } from './reset-password.effect';
+import { ForgotPasswordEffects } from './forgot-password.effect';
 
 export const effects: any[] = [
   DeliveryCountriesEffects,
@@ -21,7 +22,8 @@ export const effects: any[] = [
   UserOrdersEffect,
   OrderDetailsEffect,
   BillingCountriesEffect,
-  ResetPasswordEffects
+  ResetPasswordEffects,
+  ForgotPasswordEffects
 ];
 
 export * from './user-details.effect';

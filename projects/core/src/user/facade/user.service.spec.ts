@@ -444,4 +444,11 @@ describe('UserService', () => {
       })
     );
   });
+
+  it('should be able to request a forgot password email', () => {
+    service.requestForgotPasswordEmail('test@test.com');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ForgotPasswordEmailRequest('test@test.com')
+    );
+  });
 });
