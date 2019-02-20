@@ -1,4 +1,4 @@
 import 'cypress-testing-library/add-commands';
-import './ngSelect.commands';
-import './selectUserMenuOption.commands';
-import './requireLoggedIn.commands';
+import './ng-select.commands';
+import './select-user-menu-option.commands';
+import './require-logged-in.commands';

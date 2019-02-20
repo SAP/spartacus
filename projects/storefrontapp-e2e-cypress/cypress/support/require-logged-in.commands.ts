@@ -14,7 +14,7 @@ declare global {
        */
       requireLoggedIn: (
         user?: AccountData,
-        options?: RequireLoggedInOptions
+        options?: RequireLoggedInDebugOptions
       ) => Cypress.Chainable<string>;
     }
   }
@@ -32,13 +32,13 @@ export interface RegistrationData {
   titleCode: string;
 }
 
-export interface RequireLoggedInOptions {
-  alwaysRegister?: boolean;
+export interface RequireLoggedInDebugOptions {
+  freshUserOnTestRefresh?: boolean;
 }
 
 Cypress.Commands.add(
   'requireLoggedIn',
-  (accountData?: AccountData, options: RequireLoggedInOptions = {}) => {
+  (accountData?: AccountData, options: RequireLoggedInDebugOptions = {}) => {
     const apiUrl = Cypress.env('API_URL');
     const config = {
       tokenUrl: `${apiUrl}/authorizationserver/oauth/token`,
@@ -49,7 +49,11 @@ Cypress.Commands.add(
       }
     };
 
-    function login(uid: string, password: string) {
+    function login(
+      uid: string,
+      password: string,
+      failOnStatusCode: boolean = true
+    ) {
       return cy.request({
         method: 'POST',
         url: config.tokenUrl,
@@ -60,7 +64,7 @@ Cypress.Commands.add(
           password
         },
         form: true,
-        failOnStatusCode: false
+        failOnStatusCode
       });
     }
 
@@ -72,8 +76,7 @@ Cypress.Commands.add(
           ...config.client,
           grant_type: 'client_credentials'
         },
-        form: true,
-        failOnStatusCode: false
+        form: true
       });
     }
 
@@ -95,20 +98,6 @@ Cypress.Commands.add(
         headers: {
           Authorization: `bearer ${access_token}`
         }
-      });
-    }
-
-    function loginAsNewUser(uid: string, password: string) {
-      return cy.request({
-        method: 'POST',
-        url: config.tokenUrl,
-        body: {
-          ...config.client,
-          grant_type: 'password',
-          username: uid,
-          password
-        },
-        form: true
       });
     }
 
@@ -139,10 +128,10 @@ Cypress.Commands.add(
       }
     };
     const account = accountData || defaultAccount;
-    const username = generateMail(account.user, options.alwaysRegister);
+    const username = generateMail(account.user, options.freshUserOnTestRefresh);
 
     cy.server();
-    login(username, account.registrationData.password).then(res => {
+    login(username, account.registrationData.password, false).then(res => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage
         setSessionData({ ...res.body, userId: username });
@@ -160,9 +149,7 @@ Cypress.Commands.add(
               response.body.access_token
             )
           )
-          .then(() =>
-            loginAsNewUser(username, account.registrationData.password)
-          )
+          .then(() => login(username, account.registrationData.password))
           .then(response => {
             setSessionData({ ...response.body, userId: username });
           });

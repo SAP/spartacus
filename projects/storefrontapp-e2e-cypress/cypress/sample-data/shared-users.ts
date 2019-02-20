@@ -1,4 +1,4 @@
-import { AccountData } from '../support/requireLoggedIn.commands';
+import { AccountData } from '../support/require-logged-in.commands';
 
 export const standardUser: AccountData = {
   user: 'standard',

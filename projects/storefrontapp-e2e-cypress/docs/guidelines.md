@@ -18,12 +18,17 @@ For situations when you use different API server please update url in cypress en
 - for repeatable, simple tasks create function in `helpers` directory
 - if you use helper very often create global command instead (examples: `ngSelect`, `selectUserMenuOption`)
 
+### generateMail helper
+
+To create user account you need to have unique email address. There is a helper `generateMail` available in `helpers/user.ts` created for this use case.
+As a first argument you pass your unique string to differentiate between users. Second argument is `newTimestamp` and setting it to `true` will generate unique mail on every test refresh.
+
 ## Tests that require user login
 
 Registering and logging in with user interface takes some time. Instead we recommend to use our command `requireLoggedIn`.
 It will create new user or login as existing one (if you want to share the same user between multiple tests).
 
-Command `requireLoggedIn` accepts 2 arguments. First one is user object. You only pass it for tests that intend to share the same user. As a second argument you pass options object. There is one option available `alwaysRegister` that will force creating new user (might be helpful for development) instead of using already created.
+Command `requireLoggedIn` accepts 2 arguments. First one is user object. You only pass it for tests that intend to share the same user. As a second argument you pass options object. There is one option available `freshUserOnTestRefresh` that will force creating new user (might be helpful for development) instead of using already created.
 
 ### Separate user for this test (recommended approach)
 
@@ -75,8 +80,9 @@ context('Context 2', () => {
 })
 ```
 
-### Always create new user (development purpose only)
+### Fresh user on test restart (development purpose only)
 
+While debugging test this will create fresh user on each test restart instead of using user created in the first run.
 It is only useful for shared users. If you rely on unique user for spec (you don't pass user to `requireLoggedIn` command) this options doesn't change behavior.
 Never use this feature in production! If you need unique user for test don't pass user reference.
 
@@ -86,7 +92,7 @@ import { standardUser } from '../sample-data/shared-users.ts';
 
 context('Context', () => {
   before(() => {
-    cy.requireLoggedIn(standardUser, { alwaysRegister: true });
+    cy.requireLoggedIn(standardUser, { freshUserOnTestRefresh: true });
   })
 })
 ```
