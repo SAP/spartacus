@@ -6,13 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
 import { RegisterComponent } from './register/register.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import {
-  UserModule,
-  UrlTranslationModule,
-  ConfigModule,
-  CmsConfig
-} from '@spartacus/core';
+import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 
 @NgModule({
   imports: [
@@ -22,14 +17,9 @@ import {
     RouterModule,
     UserModule,
     UrlTranslationModule,
-    ConfigModule.withConfig(<CmsConfig>{
-      cmsComponents: {
-        ForgotPasswordComponent: { selector: 'cx-forgot-password' }
-      }
-    })
+    ForgotPasswordModule
   ],
-  declarations: [RegisterComponent, ForgotPasswordComponent],
-  exports: [RegisterComponent, ForgotPasswordComponent],
-  entryComponents: [ForgotPasswordComponent]
+  declarations: [RegisterComponent],
+  exports: [RegisterComponent]
 })
 export class UserComponentModule {}
