@@ -20,17 +20,17 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @Injectable()
 export class ProductCarouselService {
+  MAX_WIDTH = 360;
+  MAX_ITEM_SIZE = 4;
+  SPEED = 250;
+
   items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
   activeItem$: Observable<number>;
   title$: Observable<string>;
 
-  itemSize = 4;
+  itemSize = this.MAX_ITEM_SIZE;
   activeItem = 0;
-
-  MAX_WIDTH = 360;
-  MAX_ITEM_SIZE = 4;
-  SPEED = 250;
 
   constructor(
     protected component: CmsComponentData<CmsProductCarouselComponent>,
