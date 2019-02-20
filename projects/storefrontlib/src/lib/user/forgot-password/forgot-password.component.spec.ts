@@ -95,7 +95,7 @@ describe('ForgotPasswordComponent', () => {
     });
   });
 
-  it('should not display error message when user cusor is still in the field.', () => {
+  it('should not display error message when user cursor is still in the field.', () => {
     fixture.detectChanges();
     const input = component.form.controls['userEmail'];
     input.setValue('partial.email@');
