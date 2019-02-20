@@ -1,4 +1,9 @@
 import { user, cart, product } from '../sample-data/big-happy-path';
+import { login, register } from '../helpers/auth-forms';
+import {
+  fillPaymentDetails,
+  fillShippingAddress
+} from '../helpers/checkout-forms';
 
 context('Big happy path', () => {
   before(() => {
@@ -9,7 +14,7 @@ context('Big happy path', () => {
   it('should register successfully', () => {
     cy.getByText(/Sign in \/ Register/i).click();
     cy.getByText('Register').click();
-    cy.register(user);
+    register(user);
     cy.get('.cx-login-status__greet').should('contain', user.fullName);
     cy.selectUserMenuOption('Sign Out');
     cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
@@ -38,24 +43,21 @@ context('Big happy path', () => {
       cy.get('.cx-name .cx-link').should('contain', product.name);
       cy.getByText(/proceed to checkout/i).click();
     });
-    cy.login(user.email, user.password);
+    login(user.email, user.password);
   });
 
   it('should fill in address form', () => {
-    cy.get('.cx-shipping-address__title').should('contain', 'Shipping Address');
+    cy.get('.cx-shipping-address-title').should('contain', 'Shipping Address');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
       .first()
       .find('.cx-summary-amount')
       .should('contain', '$2,623.08');
 
-    cy.fillShippingAddress(user);
+    fillShippingAddress(user);
   });
 
   it('should choose delivery', () => {
-    cy.get('.cx-delivery-mode-form__title').should(
-      'contain',
-      'Shipping Method'
-    );
+    cy.get('.cx-delivery-title').should('contain', 'Shipping Method');
     cy.get('#deliveryMode-standard-gross').check();
     cy.get('button.btn-primary').click();
   });
@@ -66,28 +68,32 @@ context('Big happy path', () => {
       .find('.cx-summary-amount')
       .should('contain', cart.total);
 
-    cy.fillPaymentDetails(user);
+    fillPaymentDetails(user);
   });
 
   it('should review and place order', () => {
-    cy.get('.cx-review__title').should('contain', 'Review');
-    cy.get('cx-review-submit .cx-review__summary-card__address').within(() => {
-      cy.getByText(user.fullName);
-      cy.getByText(user.address.line1);
-      cy.getByText(user.address.line2);
-    });
-    cy.get('cx-review-submit .cx-review__summary-card__shipping-method').within(
-      () => {
+    cy.get('.cx-review-title').should('contain', 'Review');
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Ship To')
+      .find('.cx-card-body__container')
+      .within(() => {
+        cy.getByText(user.fullName);
+        cy.getByText(user.address.line1);
+        cy.getByText(user.address.line2);
+      });
+    cy.get('.cx-review-summary-card')
+      .contains('cx-card', 'Shipping Method')
+      .find('.cx-card-body__container')
+      .within(() => {
         cy.getByText('standard-gross');
-      }
-    );
+      });
     cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
       'contain',
       cart.total
     );
 
     cy.get('.form-check-input').check();
-    cy.get('.cx-multi-step-checkout__place-order button.btn-primary').click();
+    cy.get('.cx-place-order button.btn-primary').click();
   });
 
   it('should display summary page', () => {

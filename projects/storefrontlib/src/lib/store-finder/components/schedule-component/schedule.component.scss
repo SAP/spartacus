@@ -1,11 +1,11 @@
-.days {
-  padding-left: 0px;
+.cx-days {
+  padding: var(--cx-padding, 0 1rem 0 0);
 }
 
-.scheduleWrapper {
-  margin-top: 1.5rem;
+.cx-store-hours {
+  margin: var(--cx-margin, 1.5rem 0);
 }
 
-.hours {
-  text-align: center;
+.cx-hours {
+  text-align: var(--cx-text-align, center);
 }

@@ -1,44 +1,34 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-//cx-payment-methods variables
-$cx-payment-methods-padding-left-sm: 1.25rem !default;
-$cx-payment-methods-padding-right-sm: 1.25rem !default;
-
-$cx-payment-methods-header-padding: 2.5rem 0 0 0 !default;
-
-$cx-payment-methods-existing-methods-padding: 0rem 0 2.5rem 0 !default;
-$cx-payment-methods-existing-methods-padding-md: 0 0 3.125rem 0 !default;
-$cx-payment-methods-existing-methods-padding-sm: 0 0 4.375rem 0 !default;
-
-$cx-payment-methods-card-padding-top: 1.875rem !default;
-
-.cx-payment-methods {
-  &__header {
-    padding: $cx-payment-methods-header-padding;
+.cx-payment {
+  @include media-breakpoint-down(sm) {
+    padding-left: var(--cx-padding, 1.25rem);
+    padding-right: var(--cx-padding, 1.25rem);
   }
+}
 
-  &__existing-methods {
-    display: flex;
-    align-items: flex-end;
-    padding: $cx-payment-methods-existing-methods-padding;
+.cx-header {
+  padding: var(--cx-padding, 2.5rem 0 0 0);
+}
 
-    @include media-breakpoint-down(md) {
-      padding: $cx-payment-methods-existing-methods-padding-md;
-    }
+.cx-existing {
+  display: var(--cx-display, flex);
+  padding: var(--cx-padding, 0rem 0 2.5rem 0);
+  align-items: var(--cx-align-items, stretch);
 
-    @include media-breakpoint-down(sm) {
-      padding: $cx-payment-methods-existing-methods-padding-sm;
-    }
-  }
-
-  &__card {
-    padding-top: $cx-payment-methods-card-padding-top;
+  @include media-breakpoint-down(md) {
+    padding: var(--cx-padding, 0 0 3.125rem 0);
   }
 
   @include media-breakpoint-down(sm) {
-    padding-left: $cx-payment-methods-padding-left-sm;
-    padding-right: $cx-payment-methods-padding-right-sm;
+    padding: var(--cx-padding, 0 0 4.375rem 0);
   }
+}
+
+.cx-payment-card {
+  padding-top: var(--cx-padding, 1.875rem);
+}
+
+.cx-payment-inner {
+  height: var(--cx-height, 100%);
 }

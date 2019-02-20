@@ -4,14 +4,13 @@ import { CommonModule } from '@angular/common';
 // ContentPage
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
-import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
+
 import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 
 // ContentPage: my Account Pages
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
-import { OrderHistoryPageModule } from './myaccount/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
 // CategoryPage
@@ -24,12 +23,13 @@ import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 import { AuthGuard, NotAuthGuard } from '@spartacus/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
+import { CartNotEmptyGuard } from '../../cart/guards';
 
 const pageModules = [
-  OrderHistoryPageModule,
   CategoryPageModule,
   CartPageModule,
-  MultiStepCheckoutPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
@@ -90,8 +90,14 @@ const pageModules = [
       },
       {
         path: null,
+        canActivate: [AuthGuard, CmsPageGuards],
         component: PageLayoutComponent,
+        data: { pageLabel: 'orders', cxPath: 'orders' }
+      },
+      {
+        path: null,
         canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
         data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
       },
       {
@@ -99,8 +105,21 @@ const pageModules = [
         component: PageLayoutComponent,
         canActivate: [CmsPageGuards],
         data: { pageLabel: 'resetPassword', cxPath: 'resetPassword' }
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
       }
     ])
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HardcodedCheckoutComponent,
+      multi: true
+    }
   ]
 })
 export class PagesModule {}
