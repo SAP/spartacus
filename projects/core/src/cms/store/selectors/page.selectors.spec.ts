@@ -10,7 +10,7 @@ import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
 import { CmsComponent, PageType } from '../../../occ/occ-models/index';
-import { PageContext } from 'projects/core/src/routing';
+import { PageContext } from '../../../routing/models/page-context.model';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
@@ -44,9 +44,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageStateIndex', () => {
     it('should return the index part of the state', () => {
-      store.dispatch(
-        new fromActions.LoadPageIndexSuccess(pageContext, 'value')
-      );
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
 
       let result: IndexType;
       store
@@ -61,7 +59,7 @@ describe('Cms PageData Selectors', () => {
               loading: false,
               error: false,
               success: true,
-              value: 'value'
+              value: page.pageId
             }
           }
         },
@@ -76,9 +74,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getIndex', () => {
     it('should return an index', () => {
-      store.dispatch(
-        new fromActions.LoadPageIndexSuccess(pageContext, 'value')
-      );
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
 
       let result: EntityLoaderState<string>;
       store
@@ -92,7 +88,7 @@ describe('Cms PageData Selectors', () => {
             loading: false,
             error: false,
             success: true,
-            value: 'value'
+            value: page.pageId
           }
         }
       });
@@ -111,9 +107,7 @@ describe('Cms PageData Selectors', () => {
     });
 
     it('should return an entity from an index', () => {
-      store.dispatch(
-        new fromActions.LoadPageIndexSuccess(pageContext, 'value')
-      );
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
 
       let result: LoaderState<string>;
       store
@@ -121,19 +115,18 @@ describe('Cms PageData Selectors', () => {
         .subscribe(value => (result = value))
         .unsubscribe();
 
-      console.log(result);
       expect(result).toEqual({
         loading: false,
         error: false,
         success: true,
-        value: 'value'
+        value: page.pageId
       });
     });
   });
 
   describe('getPageEntities', () => {
     it('should return the entities', () => {
-      store.dispatch(new fromActions.LoadPageDataSuccess(page));
+      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: { [id: string]: Page };
       store
@@ -147,10 +140,8 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageData', () => {
     it('should return the page', () => {
-      store.dispatch(
-        new fromActions.LoadPageIndexSuccess(pageContext, 'homepage')
-      );
-      store.dispatch(new fromActions.LoadPageDataSuccess(page));
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: Page;
       store
@@ -164,10 +155,8 @@ describe('Cms PageData Selectors', () => {
 
   describe('currentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
-      store.dispatch(
-        new fromActions.LoadPageIndexSuccess(pageContext, 'homepage')
-      );
-      store.dispatch(new fromActions.LoadPageDataSuccess(page));
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: ContentSlotData;
       store

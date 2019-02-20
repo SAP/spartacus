@@ -25,6 +25,7 @@ import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.a
 
 @Injectable()
 export class PageEffects {
+  // TODO:#1135 - rename effect?
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
     ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
@@ -38,15 +39,16 @@ export class PageEffects {
         map(routerState => routerState.state.context),
         take(1),
         // TODO:#1135v2 - why merge map?
-        mergeMap(context => of(new pageActions.LoadPageIndex(context)))
+        mergeMap(context => of(new pageActions.LoadPageData(context)))
       )
     )
   );
 
+  // TODO:#1135 - rename effect?
   @Effect()
-  loadPageIndex$: Observable<Action> = this.actions$.pipe(
-    ofType(pageActions.LOAD_PAGE_INDEX),
-    map((action: pageActions.LoadPageIndex) => action.payload),
+  loadPageData$: Observable<Action> = this.actions$.pipe(
+    ofType(pageActions.LOAD_PAGE_DATA),
+    map((action: pageActions.LoadPageData) => action.payload),
     // TODO:#1135v2 - switchMapp?
     switchMap(pageContext =>
       this.occCmsService.loadPageData(pageContext).pipe(
@@ -54,16 +56,14 @@ export class PageEffects {
         mergeMap(data => {
           const page = this.getPageData(data);
           return [
-            new pageActions.LoadPageIndexSuccess(pageContext, page.pageId),
-            new pageActions.LoadPageDataSuccess(page),
+            // TODO:#1135 - why do we need `page` parameter here?
+            new pageActions.LoadPageDataSuccess(pageContext, page),
+            new pageActions.AddPageDataSuccess(page),
             new componentActions.GetComponentFromPage(this.getComponents(data))
           ];
         }),
         catchError(error =>
-          of(
-            new pageActions.LoadPageIndexFail(pageContext, error),
-            new pageActions.LoadPageDataFail(pageContext, error)
-          )
+          of(new pageActions.LoadPageDataFail(pageContext, error))
         )
       )
     )

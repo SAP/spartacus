@@ -164,7 +164,7 @@ describe('Page Effects', () => {
         );
 
         const action = new LanguageChange();
-        const completion = new fromActions.LoadPageIndex(context);
+        const completion = new fromActions.LoadPageData(context);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -179,7 +179,7 @@ describe('Page Effects', () => {
         );
 
         const action = new Logout();
-        const completion = new fromActions.LoadPageIndex(context);
+        const completion = new fromActions.LoadPageData(context);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -194,7 +194,7 @@ describe('Page Effects', () => {
         );
 
         const action = new Login();
-        const completion = new fromActions.LoadPageIndex(context);
+        const completion = new fromActions.LoadPageData(context);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', { b: completion });
@@ -204,19 +204,16 @@ describe('Page Effects', () => {
     });
   });
 
-  describe('loadPageIndex$', () => {
-    describe('when LoadPageIndex is being dispatched', () => {
-      it('should dispatch LoadPageIndexSuccess, LoadPageDataSuccess and GetComponentFromPage actions', () => {
+  describe('loadPageData$', () => {
+    describe('when LoadPageData is dispatched', () => {
+      it('should dispatch LoadPageDataSuccess, AddPageDataSuccess and GetComponentFromPage actions', () => {
         const mockedComponents: CmsComponent[] = [{ name: 'aComponent' }];
         spyOn<any>(effects, 'getComponents').and.returnValue(mockedComponents);
 
-        const action = new fromActions.LoadPageIndex(context);
+        const action = new fromActions.LoadPageData(context);
 
-        const completion1 = new fromActions.LoadPageIndexSuccess(
-          context,
-          page.pageId
-        );
-        const completion2 = new fromActions.LoadPageDataSuccess(page);
+        const completion1 = new fromActions.LoadPageDataSuccess(context, page);
+        const completion2 = new fromActions.AddPageDataSuccess(page);
         const completion3 = new fromActions.GetComponentFromPage(
           mockedComponents
         );
@@ -228,31 +225,26 @@ describe('Page Effects', () => {
           d: completion3
         });
 
-        expect(effects.loadPageIndex$).toBeObservable(expected);
+        expect(effects.loadPageData$).toBeObservable(expected);
       });
 
-      it('should dispatch LoadPageIndexFail and LoadPageDataFail actions', () => {
+      it('should dispatch LoadPageDataFail action', () => {
         const error = 'error';
         spyOn<any>(effects, 'getPageData').and.throwError(error);
 
-        const action = new fromActions.LoadPageIndex(context);
+        const action = new fromActions.LoadPageData(context);
 
-        const completion1 = new fromActions.LoadPageIndexFail(
-          context,
-          new Error(error)
-        );
-        const completion2 = new fromActions.LoadPageDataFail(
+        const completion = new fromActions.LoadPageDataFail(
           context,
           new Error(error)
         );
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-(bc)', {
-          b: completion1,
-          c: completion2
+        const expected = cold('-b', {
+          b: completion
         });
 
-        expect(effects.loadPageIndex$).toBeObservable(expected);
+        expect(effects.loadPageData$).toBeObservable(expected);
       });
     });
   });

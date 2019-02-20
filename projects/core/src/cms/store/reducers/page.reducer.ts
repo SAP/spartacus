@@ -1,20 +1,16 @@
 import * as fromAction from '../actions';
-import { EntityLoaderAction } from '../../../state';
 import { Page } from '../../model/page.model';
 
 export const initialState: Page = undefined;
 
+// TODO:#1135 - rename to `page-data.reducer.ts`. Rename the test as well
 export function reducer(
   state = initialState,
-  action: EntityLoaderAction
+  action: fromAction.AddPageDataSuccess
 ): Page {
   switch (action.type) {
-    case fromAction.LOAD_PAGEDATA_SUCCESS: {
+    case fromAction.ADD_PAGEDATA_SUCCESS: {
       return action.payload;
-    }
-
-    case fromAction.LOAD_PAGEDATA_FAIL: {
-      return initialState;
     }
   }
   return state;

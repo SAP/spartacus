@@ -10,17 +10,17 @@ import createSpy = jasmine.createSpy;
 import { take } from 'rxjs/operators';
 
 import * as fromStore from '../store';
+import { RoutingService, PageContext } from '../../routing';
+import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
+import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import * as fromActions from '../store/actions';
+import { StateWithCms } from '../store/cms-state';
 import * as fromReducers from '../store/reducers';
 import { PageType } from '../../occ/occ-models/occ.models';
 
 import { CmsService } from './cms.service';
-import { RoutingService, PageContext } from '../../routing';
-import { StateWithCms } from '../store/cms-state';
-import { NodeItem } from '../model/node-item.model';
-import { LoaderState } from '../../state';
 
 class MockRoutingService {
   getPageContext(): Observable<PageContext> {
@@ -156,10 +156,8 @@ describe('CmsService', () => {
       };
       spyOn(routingService, 'getPageContext').and.returnValue(of(pageContext));
 
-      store.dispatch(
-        new fromActions.LoadPageIndexSuccess(pageContext, page.pageId)
-      );
-      store.dispatch(new fromActions.LoadPageDataSuccess(page));
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: Page;
       service
@@ -184,7 +182,7 @@ describe('CmsService', () => {
 
       service.refreshLatestPage();
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromActions.LoadPageIndex(pageContext)
+        new fromActions.LoadPageData(pageContext)
       );
     }
   ));
@@ -220,7 +218,7 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(store.dispatch).toHaveBeenCalledWith(
-          new fromActions.LoadPageIndex(pageContext)
+          new fromActions.LoadPageData(pageContext)
         );
       }
     ));
@@ -245,7 +243,7 @@ describe('CmsService', () => {
           .unsubscribe();
 
         expect(store.dispatch).not.toHaveBeenCalledWith(
-          new fromActions.LoadPageIndex(pageContext)
+          new fromActions.LoadPageData(pageContext)
         );
       }
     ));

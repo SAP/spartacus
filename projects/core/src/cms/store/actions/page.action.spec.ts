@@ -16,79 +16,59 @@ describe('Cms Page Actions', () => {
     type: PageType.CONTENT_PAGE
   };
 
-  describe('LoadPageIndex Actions', () => {
-    describe('LoadPageIndex', () => {
+  describe('LoadPageData Actions', () => {
+    describe('LoadPageData', () => {
       it('should create the action', () => {
-        const action = new fromPage.LoadPageIndex(pageContext);
+        const action = new fromPage.LoadPageData(pageContext);
 
         expect({ ...action }).toEqual({
-          type: fromPage.LOAD_PAGE_INDEX,
+          type: fromPage.LOAD_PAGE_DATA,
           meta: entityLoadMeta(pageContext.type, pageContext.id),
           payload: pageContext
         });
       });
     });
 
-    describe('LoadPageIndexFail', () => {
+    describe('LoadPageDataFail', () => {
       it('should create the action', () => {
         const payload = 'error';
-        const action = new fromPage.LoadPageIndexFail(pageContext, payload);
+        const action = new fromPage.LoadPageDataFail(pageContext, payload);
 
         expect({ ...action }).toEqual({
-          type: fromPage.LOAD_PAGE_INDEX_FAIL,
+          type: fromPage.LOAD_PAGE_DATA_FAIL,
           meta: entityFailMeta(pageContext.type, pageContext.id, payload)
         });
       });
     });
 
-    describe('LoadPageIndexSuccess', () => {
+    describe('LoadPageDataSuccess', () => {
       it('should create the action', () => {
-        const payload = 'testKey';
-        const action = new fromPage.LoadPageIndexSuccess(pageContext, payload);
+        const page: Page = <Page>{
+          pageId: 'test'
+        };
+        const action = new fromPage.LoadPageDataSuccess(pageContext, page);
 
         expect({ ...action }).toEqual({
-          type: fromPage.LOAD_PAGE_INDEX_SUCCESS,
+          type: fromPage.LOAD_PAGE_DATA_SUCCESS,
           meta: entitySuccessMeta(pageContext.type, pageContext.id),
-          payload
+          payload: page
         });
       });
     });
   });
 
-  describe('LoadPageData Actions', () => {
-    describe('LoadPageData', () => {
-      it('should create an action', () => {
-        const action = new fromPage.LoadPageData(pageContext);
-        expect({ ...action }).toEqual({
-          type: fromPage.LOAD_PAGEDATA,
-          meta: entityLoadMeta(PAGE_DATA_ENTITY, pageContext.id)
-        });
-      });
-    });
-
-    describe('LoadLoadPageDataFail', () => {
-      it('should create an action', () => {
-        const error = { message: 'Load Error' };
-        const action = new fromPage.LoadPageDataFail(pageContext, error);
-
-        expect({ ...action }).toEqual({
-          type: fromPage.LOAD_PAGEDATA_FAIL,
-          meta: entityFailMeta(PAGE_DATA_ENTITY, pageContext.id, error)
-        });
-      });
-    });
-
-    describe('LoadPageDataSuccess', () => {
+  describe('AddPageDataSuccess Actions', () => {
+    describe('AddPageDataSuccess', () => {
       it('should create an action', () => {
         const payload: Page = {
           pageId: 'test',
           name: 'testPage',
           slots: { left: {} }
         };
-        const action = new fromPage.LoadPageDataSuccess(payload);
+        const action = new fromPage.AddPageDataSuccess(payload);
 
         expect({ ...action }).toEqual({
-          type: fromPage.LOAD_PAGEDATA_SUCCESS,
+          type: fromPage.ADD_PAGEDATA_SUCCESS,
           payload,
           meta: entitySuccessMeta(PAGE_DATA_ENTITY, payload.pageId)
         });

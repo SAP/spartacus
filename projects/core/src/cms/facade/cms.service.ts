@@ -132,7 +132,7 @@ export class CmsService {
       .getPageContext()
       .pipe(take(1))
       .subscribe(pageContext =>
-        this.store.dispatch(new fromStore.LoadPageIndex(pageContext))
+        this.store.dispatch(new fromStore.LoadPageData(pageContext))
       );
   }
 
@@ -154,7 +154,7 @@ export class CmsService {
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
         if (!attemptedLoad) {
-          this.store.dispatch(new fromStore.LoadPageIndex(pageContext));
+          this.store.dispatch(new fromStore.LoadPageData(pageContext));
         }
       }),
       filter(entity => entity.success || entity.error),
