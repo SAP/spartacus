@@ -168,7 +168,7 @@ describe('OrderDetailsComponent', () => {
   it('should order details display correct order ID', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-order-details__detail:first-of-type .cx-order-details__value')
+      By.css('.cx-detail:first-of-type .cx-detail-value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.code);
   });
@@ -176,7 +176,7 @@ describe('OrderDetailsComponent', () => {
   it('should order details display correct order status', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-order-details__detail:last-of-type .cx-order-details__value')
+      By.css('.cx-detail:last-of-type .cx-detail-value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
   });
@@ -205,7 +205,7 @@ describe('OrderDetailsComponent', () => {
   it('should order details display "bill to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-order-details__account-summary.row > div:nth-child(2)')
+      By.css('.cx-account-summary.row > div:nth-child(2)')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.billingAddress.firstName &&
@@ -220,7 +220,7 @@ describe('OrderDetailsComponent', () => {
   it('should order details display "payment" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-order-details__account-summary.row > div:nth-child(3)')
+      By.css('.cx-account-summary.row > div:nth-child(3)')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.accountHolderName &&
@@ -234,7 +234,7 @@ describe('OrderDetailsComponent', () => {
   it('should order details display "shipping" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-order-details__account-summary.row > div:nth-child(4)')
+      By.css('.cx-account-summary.row > div:nth-child(4)')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
