@@ -48,6 +48,7 @@
     "@angular/pwa": "^0.12.0",
     "@angular/router": "~7.2.0",
     "@angular/service-worker": "~7.2.0",
+    "@compodoc/compodoc": "^1.1.8",
     "@ng-bootstrap/ng-bootstrap": "^4.0.1",
     "@ng-select/ng-select": "^2.13.2",
     "@ngrx/effects": "~7.0.0",
