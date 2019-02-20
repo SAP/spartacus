@@ -1,15 +1,14 @@
 <ng-container *cxOutlet="position">
   <ng-container *ngFor="let component of (currentSlot$ | async)?.components">
-    <ng-container *cxOutlet="getComponentType(component)">
-      <ng-container
-        cxComponentWrapper
-        [componentType]="getComponentType(component)"
-        [componentUid]="component.uid"
-        [componentUuid]="component.uuid"
-        [componentCatalogUuid]="component.catalogUuid"
-        [contextParameters]="contextParameters"
-      >
-      </ng-container>
+    <ng-container
+      cxComponentWrapper
+      [componentType]="getComponentType(component)"
+      [componentUid]="component.uid"
+      [componentUuid]="component.uuid"
+      [componentCatalogUuid]="component.catalogUuid"
+      [contextParameters]="contextParameters"
+      *cxOutlet="getComponentType(component)"
+    >
     </ng-container>
   </ng-container>
 </ng-container>
