@@ -16,10 +16,8 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent implements OnInit {
-  items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
   activeItem$: Observable<number>;
-  title$: Observable<string>;
 
   private window: Window;
 
