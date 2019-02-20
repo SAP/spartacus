@@ -18,21 +18,24 @@ import {
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 
-const MAX_WIDTH = 360;
-const MAX_ITEM_SIZE = 4;
-const SPEED = 250;
 @Injectable()
 export class ProductCarouselService {
   items$: Observable<Observable<Product>[]>;
   itemSize$: Observable<number>;
+  activeItem$: Observable<number>;
+  title$: Observable<string>;
+
+  MAX_WIDTH = 360;
+  MAX_ITEM_SIZE = 4;
+  SPEED = 250;
 
   constructor(
     protected component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService
   ) {}
 
-  getTitle(): Observable<string> {
-    return this.component.data$.pipe(
+  getTitle(): void {
+    this.title$ = this.component.data$.pipe(
       map(data => {
         return data.title;
       })
@@ -42,8 +45,8 @@ export class ProductCarouselService {
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
    */
-  getItems(): Observable<Observable<Product>[]> {
-    return this.component.data$.pipe(
+  getItems(): void {
+    this.items$ = this.component.data$.pipe(
       map(data => {
         const productCodes = data.productCodes.split(' ');
         return productCodes.map(code => this.productService.get(code));
@@ -59,38 +62,45 @@ export class ProductCarouselService {
    */
   getItemSize(window, nativeElement) {
     if (!window) {
-      this.itemSize$ = of(MAX_ITEM_SIZE);
+      this.itemSize$ = of(this.MAX_ITEM_SIZE);
       return;
     }
-    return fromEvent(window, 'resize').pipe(
+    this.itemSize$ = fromEvent(window, 'resize').pipe(
       map(() => (nativeElement as HTMLElement).clientWidth),
       startWith((nativeElement as HTMLElement).clientWidth),
       // avoid to much calls
       debounceTime(100),
       map((innerWidth: any) => {
-        const itemsPerPage = Math.round(innerWidth / MAX_WIDTH);
-        return itemsPerPage > 2 ? MAX_ITEM_SIZE : itemsPerPage;
+        const itemsPerPage = Math.round(innerWidth / this.MAX_WIDTH);
+        return itemsPerPage > 2 ? this.MAX_ITEM_SIZE : itemsPerPage;
       }),
       // only emit new size when the size changed
       distinctUntilChanged()
     );
   }
 
+  getActiveItem(newActiveItem: number, max: number) {
+    const maxItemSize = max ? max : this.MAX_ITEM_SIZE;
+    this.activeItem$ = this.getActiveItemWithDelay(newActiveItem, maxItemSize);
+  }
+
   getActiveItemWithDelay(
     newActiveItem: number,
     max: number
   ): Observable<number> {
-    return of(-1).pipe(merge(of(newActiveItem).pipe(delay((max - 1) * SPEED))));
+    return of(-1).pipe(
+      merge(of(newActiveItem).pipe(delay((max - 1) * this.SPEED)))
+    );
   }
 
-  getPreviousItemAsActive(activeItem: number, max: number): Observable<number> {
-    return this.getActiveItemWithDelay(activeItem, max).pipe(
+  getPreviousItemAsActive(activeItem: number, max: number): void {
+    this.activeItem$ = this.getActiveItemWithDelay(activeItem, max).pipe(
       map(newActiveItem => newActiveItem - max)
     );
   }
 
-  getNextItemAsActive(activeItem: number, max: number): Observable<number> {
-    return this.getActiveItemWithDelay(activeItem, max).pipe(
+  getNextItemAsActive(activeItem: number, max: number): void {
+    this.activeItem$ = this.getActiveItemWithDelay(activeItem, max).pipe(
       map(newActiveItem => newActiveItem + max)
     );
   }

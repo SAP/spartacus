@@ -5,9 +5,8 @@ import {
   ElementRef
 } from '@angular/core';
 
-import { Product, WindowRef } from '@spartacus/core';
+import { WindowRef } from '@spartacus/core';
 import { ProductCarouselService } from './product-carousel.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-carousel',
@@ -16,9 +15,6 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductCarouselComponent implements OnInit {
-  itemSize$: Observable<number>;
-  activeItem$: Observable<number>;
-
   private window: Window;
 
   constructor(
@@ -30,18 +26,9 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setActiveItem(0, 1);
-    this.setItemSize();
-  }
-
-  protected setItemSize(): void {
-    this.itemSize$ = this.service.getItemSize(
-      this.window,
-      this.el.nativeElement
-    );
-  }
-
-  setActiveItem(newActiveItem: number, max: number) {
-    this.activeItem$ = this.service.getActiveItemWithDelay(newActiveItem, max);
+    this.service.getTitle();
+    this.service.getItems();
+    this.service.getItemSize(this.window, this.el.nativeElement);
+    this.service.getActiveItem(0, this.service.MAX_ITEM_SIZE);
   }
 }

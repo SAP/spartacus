@@ -1,10 +1,10 @@
-<h3 *ngIf="(service.getTitle() | async) as title">{{ title }}</h3>
+<h3 *ngIf="(service.title$ | async) as title">{{ title }}</h3>
 
 <ng-container
   *ngIf="{
-    max: itemSize$ | async,
-    products: service.getItems() | async,
-    activeItem: activeItem$ | async
+    max: service.itemSize$ | async,
+    products: service.items$ | async,
+    activeItem: service.activeItem$ | async
   } as carousel"
 >
   <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
@@ -58,7 +58,7 @@
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <button
         *ngIf="i % carousel.max === 0"
-        (click)="setActiveItem(i, carousel.max)"
+        (click)="service.getActiveItem(i, carousel.max)"
         [disabled]="i === carousel.activeItem"
       ></button>
     </ng-container></div
