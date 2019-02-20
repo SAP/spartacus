@@ -25,7 +25,6 @@ import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.a
 
 @Injectable()
 export class PageEffects {
-  // TODO:#1135 - rename effect?
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
     ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
@@ -44,7 +43,6 @@ export class PageEffects {
     )
   );
 
-  // TODO:#1135 - rename effect?
   @Effect()
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(pageActions.LOAD_PAGE_DATA),

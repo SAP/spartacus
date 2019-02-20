@@ -1,7 +1,7 @@
 import * as fromActions from '../actions/page.action';
 import { Page } from '../../model/page.model';
 
-import * as fromPage from './page.reducer';
+import * as fromPage from './page-data.reducer';
 
 describe('Cms Page Reducer', () => {
   describe('undefined action', () => {

@@ -24,8 +24,8 @@ import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.a
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
 
 import * as fromNavigation from './navigation-entry-item.reducer';
+import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
-import * as fromPageReducer from './page.reducer';
 
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
