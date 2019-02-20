@@ -49,7 +49,7 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
     return !!Object.keys(page.slots).find(
       key =>
         !!page.slots[key].components.find(
-          comp => comp.uid === 'ProductListComponent'
+          comp => comp.typeCode === 'CMSProductListComponent'
         )
     );
   }
