@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
+
 import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';

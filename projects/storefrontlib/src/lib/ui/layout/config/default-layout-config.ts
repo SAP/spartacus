@@ -68,6 +68,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     },
     ErrorPageTemplate: {
       slots: ['MiddleContent']
+    },
+    MultiStepCheckoutSummaryPageTemplate: {
+      slots: ['BodyContent', 'SideContent']
     }
   }
 };
