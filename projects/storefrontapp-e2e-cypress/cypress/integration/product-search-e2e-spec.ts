@@ -11,7 +11,10 @@ context('Product search', () => {
   describe('Search results', () => {
     it('should be able to search and get results', () => {
       cy.get('cx-searchbox input').type('camera{enter}');
-      cy.get(resultsTitleSelector).contains('results for "camera"');
+      cy.get(resultsTitleSelector).should(
+        'contain',
+        '144 results for "camera"'
+      );
       cy.get(productItemSelector).should('have.length', PRODUCTS_PER_PAGE);
       cy.get(firstProductItemSelector).within(() => {
         cy.get('a.cx-product-name').should('be.visible');
