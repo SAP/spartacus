@@ -62,16 +62,16 @@ class MockProductService {
 }
 
 class MockProductCarouselService {
-  getTitle = jasmine.createSpy('setTitle').and.callFake(() => of('Mock Title'));
+  getTitle = jasmine.createSpy('getTitle').and.callFake(() => of('Mock Title'));
   getItems = jasmine
     .createSpy('getItems')
     .and.callFake(() => of(productCodeArray));
   getItemSize = jasmine.createSpy('getItemSize');
-  setActiveItemWithDelay = jasmine
-    .createSpy('setActiveItemWithDelay')
+  getActiveItemWithDelay = jasmine
+    .createSpy('getActiveItemWithDelay')
     .and.callFake(() => of([]));
-  setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
-  setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
+  getPreviousItemAsActive = jasmine.createSpy('getPreviousItemAsActive');
+  getNextItemAsActive = jasmine.createSpy('getNextItemAsActive');
 }
 
 describe('ProductCarouselComponent', () => {
@@ -121,7 +121,8 @@ describe('ProductCarouselComponent', () => {
     expect(productCarouselComponent.items$);
 
     let products$: Observable<Product>[];
-    productCarouselComponent.items$
+    productCarouselComponent.service
+      .getItems()
       .subscribe(productData$ => {
         products$ = productData$;
       })
