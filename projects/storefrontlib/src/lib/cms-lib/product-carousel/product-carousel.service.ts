@@ -12,7 +12,6 @@ import {
   map,
   distinctUntilChanged,
   startWith,
-  merge,
   delay,
   tap
 } from 'rxjs/operators';
@@ -41,7 +40,6 @@ export class ProductCarouselService {
   setTitle(): void {
     this.title$ = this.component.data$.pipe(
       map(data => {
-        console.log(data.title);
         return data.title;
       })
     );
@@ -66,40 +64,36 @@ export class ProductCarouselService {
    * This method is called in `ngOnInit`.
    */
   setItemSize(window, nativeElement) {
-    if (!window) {
-      this.itemSize$ = of(this.MAX_ITEM_SIZE);
-      return;
-    }
-    this.itemSize$ = fromEvent(window, 'resize').pipe(
-      map(() => (nativeElement as HTMLElement).clientWidth),
-      startWith((nativeElement as HTMLElement).clientWidth),
-      // avoid to much calls
-      debounceTime(100),
-      map((innerWidth: any) => {
-        const itemsPerPage = Math.round(innerWidth / this.MAX_WIDTH);
-        return itemsPerPage > 2 ? this.MAX_ITEM_SIZE : itemsPerPage;
-      }),
-      // only emit new size when the size changed
-      distinctUntilChanged()
-    );
-    this.itemSize$.pipe(tap(itemSize => (this.itemSize = itemSize)));
+    this.itemSize$ = !window
+      ? of(this.MAX_ITEM_SIZE)
+      : fromEvent(window, 'resize')
+          .pipe(
+            map(() => (nativeElement as HTMLElement).clientWidth),
+            startWith((nativeElement as HTMLElement).clientWidth),
+            // avoid to much calls
+            debounceTime(100),
+            map((innerWidth: any) => {
+              const itemsPerPage = Math.round(innerWidth / this.MAX_WIDTH);
+              return itemsPerPage > 2 ? this.MAX_ITEM_SIZE : itemsPerPage;
+            }),
+            // only emit new size when the size changed
+            distinctUntilChanged()
+          )
+          .pipe(tap(itemSize => (this.itemSize = itemSize)));
   }
 
   setItemAsActive(newActiveItem: number) {
-    this.activeItem$ =
-      // of(-1).pipe(merge(
-      of(newActiveItem)
-        .pipe(delay(this.getDelayValue()))
-        // ))
-        .pipe(tap(activeItem => (this.activeItem = activeItem)));
+    this.activeItem$ = of(newActiveItem)
+      .pipe(delay(this.getDelayValue()))
+      .pipe(tap(activeItem => (this.activeItem = activeItem)));
   }
 
   setPreviousItemAsActive(): void {
-    this.setItemAsActive(this.activeItem - 1);
+    this.setItemAsActive(this.activeItem - this.itemSize);
   }
 
   setNextItemAsActive(): void {
-    this.setItemAsActive(this.activeItem + 1);
+    this.setItemAsActive(this.activeItem + this.itemSize);
   }
 
   getDelayValue() {

@@ -6,13 +6,11 @@
     products: service.items$ | async,
     activeItem: service.activeItem$ | async
   } as carousel"
->activeItem$: {{carousel.activeItem}}, activeItem: {{service.activeItem}},itemSize$: {{carousel.max}}, itemSize: {{service.itemSize}}
+>
   <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
     <button
       class="previous"
-      (click)="
-        service.setPreviousItemAsActive()
-      "
+      (click)="service.setPreviousItemAsActive()"
       [disabled]="carousel.activeItem === 0"
     ></button>
 
