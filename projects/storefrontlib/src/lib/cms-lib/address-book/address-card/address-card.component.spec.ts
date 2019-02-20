@@ -2,8 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
-
 import { Address, UserService } from '@spartacus/core';
 
 import { AddressCardComponent } from './address-card.component';
@@ -32,7 +30,6 @@ describe('AddressCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddressCardComponent],
-      imports: [StoreModule.forRoot({})],
       providers: [{ provide: UserService, useClass: MockUserService }]
     }).compileComponents();
   }));
