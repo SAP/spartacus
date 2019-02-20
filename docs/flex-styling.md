@@ -50,7 +50,9 @@ An alternative method is to create a new library and import in to the project al
 
 #### Creating a brand new theme library
 
+The final theme override is to completely omit the default styles import. 
 
+**Note** This will brake the styling. Therefore, all the classes and variables present in Sparta have to be duplicated (can be modified) or their use has to be removed from the project.
 
 ## Flexible styling
 For more fine grain customization, it is possible to affect the styling of each components directly. Built into each components style is a set of custom properties (css variables) that can be overridden. These variables are viewable from the browser's inspector.
