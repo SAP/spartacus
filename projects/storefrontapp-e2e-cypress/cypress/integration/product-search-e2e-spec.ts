@@ -51,7 +51,7 @@ context('Product search', () => {
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
       cy.get('cx-product-facet-navigation .cx-facet-checkbox:first').click();
-      cy.get(resultsTitleSelector).should('contain', '79 results for "Chiba"');
+      cy.get(resultsTitleSelector).should('contain', '79 results for "camera"');
     });
 
     it('should be able to clear active facet', () => {
