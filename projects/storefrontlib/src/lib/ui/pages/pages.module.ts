@@ -28,7 +28,7 @@ import { AuthGuard } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { CartNotEmptyGuard } from '../../cart/guards';
-import { CheckoutComponentModule } from '../../checkout';
+import { CheckoutComponentModule } from '../../checkout/index';
 
 const pageModules = [
   CategoryPageModule,
