@@ -1,4 +1,4 @@
-.map {
-  width: 730px;
-  height: 500px;
+.cx-store-map {
+  width: var(--cx-width, 45.5rem);
+  height: var(--cx-height, 31.25rem);
 }
