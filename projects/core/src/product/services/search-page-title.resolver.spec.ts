@@ -32,9 +32,7 @@ class MockCmsService {
   }
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 class FakeContentPageTitleResolver extends PageTitleResolver {
   constructor(protected cms: CmsService) {
     super();
