@@ -11,11 +11,11 @@ import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../ui/validators/custom-form-validators';
 
 @Component({
-  selector: 'cx-reset-new-password-form',
-  templateUrl: './reset-new-password-form.component.html',
-  styleUrls: ['./reset-new-password-form.component.scss']
+  selector: 'cx-reset-password-form',
+  templateUrl: './reset-password-form.component.html',
+  styleUrls: ['./reset-password-form.component.scss']
 })
-export class ResetNewPasswordFormComponent implements OnInit, OnDestroy {
+export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   token: string;
   subscription: Subscription;
 
