@@ -28,6 +28,7 @@ import { AuthGuard } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { CartNotEmptyGuard } from '../../cart/guards';
+import { CheckoutComponentModule } from '../../checkout';
 
 const pageModules = [
   CategoryPageModule,
@@ -40,7 +41,8 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ResetNewPasswordPageModule
+  ResetNewPasswordPageModule,
+  CheckoutComponentModule
   // new pages should be added above this line
 ];
 
