@@ -76,21 +76,21 @@ export class ProductCarouselService {
     );
   }
 
-  setActiveItemWithDelay(
+  getActiveItemWithDelay(
     newActiveItem: number,
     max: number
   ): Observable<number> {
     return of(-1).pipe(merge(of(newActiveItem).pipe(delay((max - 1) * SPEED))));
   }
 
-  setPreviousItemAsActive(activeItem: number, max: number): Observable<number> {
-    return this.setActiveItemWithDelay(activeItem, max).pipe(
+  getPreviousItemAsActive(activeItem: number, max: number): Observable<number> {
+    return this.getActiveItemWithDelay(activeItem, max).pipe(
       map(newActiveItem => newActiveItem - max)
     );
   }
 
-  setNextItemAsActive(activeItem: number, max: number): Observable<number> {
-    return this.setActiveItemWithDelay(activeItem, max).pipe(
+  getNextItemAsActive(activeItem: number, max: number): Observable<number> {
+    return this.getActiveItemWithDelay(activeItem, max).pipe(
       map(newActiveItem => newActiveItem + max)
     );
   }

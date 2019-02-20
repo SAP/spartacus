@@ -26,23 +26,14 @@ export class ProductCarouselComponent implements OnInit {
   constructor(
     winRef: WindowRef,
     private el: ElementRef,
-    private service: ProductCarouselService
+    public service: ProductCarouselService
   ) {
     this.window = winRef.nativeWindow;
   }
 
   ngOnInit() {
     this.setActiveItem(0, 1);
-    this.setTitle();
     this.setItemSize();
-    this.setItems();
-  }
-
-  protected setTitle(): void {
-    this.title$ = this.service.getTitle();
-  }
-  protected setItems(): void {
-    this.items$ = this.service.getItems();
   }
 
   protected setItemSize(): void {
@@ -52,15 +43,7 @@ export class ProductCarouselComponent implements OnInit {
     );
   }
 
-  prev(activeItem: number, max: number) {
-    this.activeItem$ = this.service.setPreviousItemAsActive(activeItem, max);
-  }
-
-  next(activeItem: number, max: number) {
-    this.activeItem$ = this.service.setNextItemAsActive(activeItem, max);
-  }
-
   setActiveItem(newActiveItem: number, max: number) {
-    this.activeItem$ = this.service.setActiveItemWithDelay(newActiveItem, max);
+    this.activeItem$ = this.service.getActiveItemWithDelay(newActiveItem, max);
   }
 }
