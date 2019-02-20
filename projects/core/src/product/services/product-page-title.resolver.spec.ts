@@ -76,10 +76,12 @@ describe('ProductPageTitleResolver', () => {
 
   it('should resolve product page title', () => {
     let result: string;
-    const subscription = service.getTitle().subscribe(value => {
-      result = value;
-    });
-    subscription.unsubscribe();
+    service
+      .getTitle()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
 
     expect(result).toEqual('Product title');
   });

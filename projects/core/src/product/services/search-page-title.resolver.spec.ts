@@ -109,10 +109,12 @@ describe('SearchPageTitleResolver', () => {
 
     it('should resolve search results in title ', () => {
       let result: string;
-      const subscription = service.getTitle().subscribe(value => {
-        result = value;
-      });
-      subscription.unsubscribe();
+      service
+        .getTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
       expect(result).toEqual('3 results for "Canon"');
     });
@@ -125,10 +127,12 @@ describe('SearchPageTitleResolver', () => {
 
     it('should resolve content page title', () => {
       let result: string;
-      const subscription = service.getTitle().subscribe(value => {
-        result = value;
-      });
-      subscription.unsubscribe();
+      service
+        .getTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
       expect(result).toEqual('content page title');
     });

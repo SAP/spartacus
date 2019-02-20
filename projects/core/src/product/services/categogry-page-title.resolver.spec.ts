@@ -111,10 +111,12 @@ describe('CategoryPageTitleResolver', () => {
 
     it('should resolve category page title with product listing', () => {
       let result: string;
-      const subscription = service.getTitle().subscribe(value => {
-        result = value;
-      });
-      subscription.unsubscribe();
+      service
+        .getTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
       expect(result).toEqual('6 results for Hand-held Camcorders');
     });
@@ -129,10 +131,12 @@ describe('CategoryPageTitleResolver', () => {
 
     it('should resolve category page title', () => {
       let result: string;
-      const subscription = service.getTitle().subscribe(value => {
-        result = value;
-      });
-      subscription.unsubscribe();
+      service
+        .getTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
       expect(result).toEqual('content page title');
     });
