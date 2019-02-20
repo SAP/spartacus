@@ -347,4 +347,11 @@ export class UserService {
       new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
     );
   }
+
+  /**
+   * Return whether user's password is successfully reset
+   */
+  isPasswordReset(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getResetPassword));
+  }
 }

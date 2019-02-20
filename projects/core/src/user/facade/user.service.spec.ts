@@ -451,4 +451,17 @@ describe('UserService', () => {
       new fromStore.ForgotPasswordEmailRequest('test@test.com')
     );
   });
+
+  it('should be able to return whether user password is succesfully reset', () => {
+    store.dispatch(new fromStore.ResetPasswordSuccess());
+
+    let isResst: boolean;
+    service
+      .isPasswordReset()
+      .subscribe(data => {
+        isResst = data;
+      })
+      .unsubscribe();
+    expect(isResst).toBeTruthy();
+  });
 });
