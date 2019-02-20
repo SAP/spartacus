@@ -9,7 +9,7 @@ import { ReviewSubmitModule } from './review-submit/review-submit.module';
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { RouterModule } from '@angular/router';
-import { UrlTranslationModule } from '@spartacus/core';
+import { UrlTranslationModule, ConfigModule, CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -21,9 +21,14 @@ import { UrlTranslationModule } from '@spartacus/core';
     PaymentMethodModule,
     ReviewSubmitModule,
     RouterModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' }
+      }
+    })
   ],
   declarations: [MultiStepCheckoutComponent],
-  exports: [MultiStepCheckoutComponent]
+  entryComponents: [MultiStepCheckoutComponent]
 })
 export class MultiStepCheckoutModule {}
