@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CMSPage } from '@spartacus/core';
 
 @Injectable()
 export class HardcodedBreadcrumb implements HttpInterceptor {
@@ -25,7 +26,7 @@ export class HardcodedBreadcrumb implements HttpInterceptor {
     );
   }
 
-  private shouldBeIntercepted(event: HttpResponse<any>): boolean {
+  private shouldBeIntercepted(event: HttpResponse<CMSPage>): boolean {
     return event.url.indexOf('/cms/pages') > -1;
   }
 
