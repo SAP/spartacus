@@ -11,7 +11,7 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ResetPasswordComponent: { selector: 'cx-reset-new-password-form' }
+        ResetPasswordComponent: { selector: 'cx-reset-password-form' }
       }
     }),
     FormsModule,

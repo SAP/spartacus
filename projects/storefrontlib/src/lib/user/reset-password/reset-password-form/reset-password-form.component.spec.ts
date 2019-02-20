@@ -1,20 +1,20 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ResetNewPasswordFormComponent } from './reset-password-form.component';
+import { ResetPasswordFormComponent } from './reset-password-form.component';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 
 describe('ResetPasswordFormComponent', () => {
-  let component: ResetNewPasswordFormComponent;
-  let fixture: ComponentFixture<ResetNewPasswordFormComponent>;
+  let component: ResetPasswordFormComponent;
+  let fixture: ComponentFixture<ResetPasswordFormComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [FormsModule, ReactiveFormsModule, RouterTestingModule],
-      declarations: [ResetNewPasswordFormComponent]
+      declarations: [ResetPasswordFormComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ResetNewPasswordFormComponent);
+    fixture = TestBed.createComponent(ResetPasswordFormComponent);
     component = fixture.componentInstance;
 
     component.ngOnInit();
