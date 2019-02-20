@@ -13,7 +13,8 @@ import {
   distinctUntilChanged,
   startWith,
   merge,
-  delay
+  delay,
+  tap
 } from 'rxjs/operators';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
@@ -25,6 +26,9 @@ export class ProductCarouselService {
   activeItem$: Observable<number>;
   title$: Observable<string>;
 
+  itemSize = 4;
+  activeItem = 0;
+
   MAX_WIDTH = 360;
   MAX_ITEM_SIZE = 4;
   SPEED = 250;
@@ -34,9 +38,10 @@ export class ProductCarouselService {
     private productService: ProductService
   ) {}
 
-  getTitle(): void {
+  setTitle(): void {
     this.title$ = this.component.data$.pipe(
       map(data => {
+        console.log(data.title);
         return data.title;
       })
     );
@@ -45,7 +50,7 @@ export class ProductCarouselService {
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
    */
-  getItems(): void {
+  setItems(): void {
     this.items$ = this.component.data$.pipe(
       map(data => {
         const productCodes = data.productCodes.split(' ');
@@ -60,7 +65,7 @@ export class ProductCarouselService {
    * the items that fit in the carousel.
    * This method is called in `ngOnInit`.
    */
-  getItemSize(window, nativeElement) {
+  setItemSize(window, nativeElement) {
     if (!window) {
       this.itemSize$ = of(this.MAX_ITEM_SIZE);
       return;
@@ -77,31 +82,27 @@ export class ProductCarouselService {
       // only emit new size when the size changed
       distinctUntilChanged()
     );
+    this.itemSize$.pipe(tap(itemSize => (this.itemSize = itemSize)));
   }
 
-  getActiveItem(newActiveItem: number, max: number) {
-    const maxItemSize = max ? max : this.MAX_ITEM_SIZE;
-    this.activeItem$ = this.getActiveItemWithDelay(newActiveItem, maxItemSize);
+  setItemAsActive(newActiveItem: number) {
+    this.activeItem$ =
+      // of(-1).pipe(merge(
+      of(newActiveItem)
+        .pipe(delay(this.getDelayValue()))
+        // ))
+        .pipe(tap(activeItem => (this.activeItem = activeItem)));
   }
 
-  getActiveItemWithDelay(
-    newActiveItem: number,
-    max: number
-  ): Observable<number> {
-    return of(-1).pipe(
-      merge(of(newActiveItem).pipe(delay((max - 1) * this.SPEED)))
-    );
+  setPreviousItemAsActive(): void {
+    this.setItemAsActive(this.activeItem - 1);
   }
 
-  getPreviousItemAsActive(activeItem: number, max: number): void {
-    this.activeItem$ = this.getActiveItemWithDelay(activeItem, max).pipe(
-      map(newActiveItem => newActiveItem - max)
-    );
+  setNextItemAsActive(): void {
+    this.setItemAsActive(this.activeItem + 1);
   }
 
-  getNextItemAsActive(activeItem: number, max: number): void {
-    this.activeItem$ = this.getActiveItemWithDelay(activeItem, max).pipe(
-      map(newActiveItem => newActiveItem + max)
-    );
+  getDelayValue() {
+    return (this.itemSize - 1) * this.SPEED;
   }
 }

@@ -122,7 +122,7 @@ describe('ProductCarouselComponent', () => {
 
     let products$: Observable<Product>[];
     productCarouselComponent.service
-      .getItems()
+      .setItems()
       .subscribe(productData$ => {
         products$ = productData$;
       })

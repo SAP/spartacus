@@ -6,12 +6,12 @@
     products: service.items$ | async,
     activeItem: service.activeItem$ | async
   } as carousel"
->
+>activeItem$: {{carousel.activeItem}}, activeItem: {{service.activeItem}},itemSize$: {{carousel.max}}, itemSize: {{service.itemSize}}
   <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
     <button
       class="previous"
       (click)="
-        service.getPreviousItemAsActive(carousel.activeItem, carousel.max)
+        service.setPreviousItemAsActive()
       "
       [disabled]="carousel.activeItem === 0"
     ></button>
@@ -49,7 +49,7 @@
 
     <button
       class="next"
-      (click)="service.getNextItemAsActive(carousel.activeItem, carousel.max)"
+      (click)="service.setNextItemAsActive()"
       [disabled]="carousel.activeItem > carousel.products.length - carousel.max"
     ></button>
   </div>
@@ -58,7 +58,7 @@
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <button
         *ngIf="i % carousel.max === 0"
-        (click)="service.getActiveItem(i, carousel.max)"
+        (click)="service.setItemAsActive(i)"
         [disabled]="i === carousel.activeItem"
       ></button>
     </ng-container></div
