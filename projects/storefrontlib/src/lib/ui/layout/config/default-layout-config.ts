@@ -71,6 +71,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     },
     OrderConfirmationPageTemplate: {
       slots: ['BodyContent', 'SideContent']
+    },
+    MultiStepCheckoutSummaryPageTemplate: {
+      slots: ['BodyContent', 'SideContent']
     }
   }
 };
