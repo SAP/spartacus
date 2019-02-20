@@ -62,16 +62,30 @@ class MockProductService {
 }
 
 class MockProductCarouselService {
-  getTitle = jasmine.createSpy('getTitle').and.callFake(() => of('Mock Title'));
-  getItems = jasmine
-    .createSpy('getItems')
-    .and.callFake(() => of(productCodeArray));
-  getItemSize = jasmine.createSpy('getItemSize');
-  getActiveItemWithDelay = jasmine
-    .createSpy('getActiveItemWithDelay')
-    .and.callFake(() => of([]));
-  getPreviousItemAsActive = jasmine.createSpy('getPreviousItemAsActive');
-  getNextItemAsActive = jasmine.createSpy('getNextItemAsActive');
+  items$ = of([
+    of(mockProduct),
+    of(mockProduct),
+    of(mockProduct),
+    of(mockProduct)
+  ]);
+  itemSize$ = of(4);
+  activeItem$ = of(0);
+  title$ = of('Mock Title');
+
+  setTitle = jasmine.createSpy('setTitle').and.callFake(() => of('Mock Title'));
+  setItems = jasmine
+    .createSpy('setItems')
+    .and.callFake(() =>
+      of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
+    );
+
+  setItemSize = jasmine.createSpy('setItemSize');
+  setItemAsActive = jasmine
+    .createSpy('setItemAsActive')
+    .and.callFake(() => of(1));
+  setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
+  setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
+  getDelayValue = jasmine.createSpy('getDelayValue').and.callThrough();
 }
 
 describe('ProductCarouselComponent', () => {
@@ -112,23 +126,23 @@ describe('ProductCarouselComponent', () => {
     el = fixture.debugElement;
   });
 
-  it('should be created', () => {
+  it('should be created', async(() => {
     productCarouselComponent.ngOnInit();
     expect(productCarouselComponent).toBeTruthy();
-  });
+  }));
 
-  it('should have products', () => {
-    expect(productCarouselComponent.items$);
+  it('should have products', async(() => {
+    expect(productCarouselComponent.service.items$);
 
     let products$: Observable<Product>[];
-    productCarouselComponent.service
-      .setItems()
+    productCarouselComponent.service.setItems();
+    productCarouselComponent.service.items$
       .subscribe(productData$ => {
         products$ = productData$;
       })
       .unsubscribe();
     expect(products$.length).toBe(productCodeArray.length);
-  });
+  }));
 
   it('should contain cms content in the html rendering after bootstrap', () => {
     expect(el.query(By.css('h3')).nativeElement.textContent).toContain(
