@@ -143,4 +143,20 @@ describe('ForgotPasswordComponent', () => {
       expect(submit.nativeElement.disabled).toBeFalsy();
     });
   });
+
+  it('should display error message when user clicks submit.', () => {
+    fixture.detectChanges();
+    const input = component.form.controls['userEmail'];
+    input.setValue('');
+    component.submited = true;
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      const message = fixture.debugElement.nativeElement.querySelector(
+        '.invalid-feedback'
+      );
+      expect(input.valid).toBeFalsy();
+      expect(message).toBeTruthy();
+      expect(submit.nativeElement.disabled).toBeFalsy();
+    });
+  });
 });
