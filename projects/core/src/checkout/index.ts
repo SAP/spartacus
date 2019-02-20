@@ -5,4 +5,4 @@ export * from './store/selectors/index';
 export * from './facade/index';
 export * from './checkout.module';
 
-export * from './service/index';
+export * from './services/index';
