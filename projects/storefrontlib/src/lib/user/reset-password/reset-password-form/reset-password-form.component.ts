@@ -17,7 +17,8 @@ import { CustomFormValidators } from '../../../ui/validators/custom-form-validat
 })
 export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   token: string;
-  subscription: Subscription;
+  subscription = new Subscription();
+  submited = false;
 
   form: FormGroup = this.fb.group(
     {
@@ -37,9 +38,19 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.subscription = this.routingService
-      .getRouterState()
-      .subscribe(state => (this.token = state.state.queryParams['token']));
+    this.subscription.add(
+      this.routingService
+        .getRouterState()
+        .subscribe(state => (this.token = state.state.queryParams['token']))
+    );
+
+    this.subscription.add(
+      this.userService.isPasswordReset().subscribe(reset => {
+        if (reset) {
+          this.routingService.go({ route: ['login'] });
+        }
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -49,9 +60,13 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   }
 
   resetPassword() {
+    this.submited = true;
+    if (this.form.invalid) {
+      return;
+    }
+
     const password = this.form.value['password'];
     this.userService.resetPassword(this.token, password);
-    this.routingService.go({ route: ['login'] });
   }
 
   private matchPassword(ac: AbstractControl) {
