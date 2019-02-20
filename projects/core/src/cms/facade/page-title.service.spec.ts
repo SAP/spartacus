@@ -93,10 +93,12 @@ describe('PageTitleService', () => {
 
     it('should resolve content page title', () => {
       let result: string;
-      const subscription = service.getTitle().subscribe(value => {
-        result = value;
-      });
-      subscription.unsubscribe();
+      service
+        .getTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
       expect(result).toEqual('content page title');
     });
@@ -109,10 +111,12 @@ describe('PageTitleService', () => {
 
     it('should resolve special page title', () => {
       let result: string;
-      const subscription = service.getTitle().subscribe(value => {
-        result = value;
-      });
-      subscription.unsubscribe();
+      service
+        .getTitle()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
 
       expect(result).toEqual('special page title');
     });
