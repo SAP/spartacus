@@ -7,7 +7,6 @@ import { OrderConfirmationPageModule } from './order-confirmation-page/order-con
 import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
 import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
-import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
@@ -25,7 +24,7 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-import { AuthGuard } from '@spartacus/core';
+import { AuthGuard, NotAuthGuard } from '@spartacus/core';
 
 const pageModules = [
   OrderHistoryPageModule,
@@ -38,7 +37,6 @@ const pageModules = [
   RegisterPageModule,
   LoginPageModule,
   PaymentDetailsPageModule,
-  ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule
   // new pages should be added above this line
@@ -85,6 +83,12 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
         component: PageLayoutComponent
+      },
+      {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'forgotPassword', cxPath: 'forgotPassword' }
       },
       {
         path: null,

@@ -329,4 +329,13 @@ export class UserService {
   clearOrderList() {
     this.store.dispatch(new fromStore.ClearUserOrders());
   }
+
+  /**
+   * Request an email to reset a forgotten password.
+   */
+  requestForgotPasswordEmail(userEmailAddress: string) {
+    this.store.dispatch(
+      new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
+    );
+  }
 }

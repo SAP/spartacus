@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { UserRegisterFormData } from '../model/user.model';
-
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN
-} from '../../occ/utils/interceptor-util';
 import { OccConfig } from '../../occ/config/occ-config';
 import {
   User,
@@ -18,11 +13,16 @@ import {
   AddressList,
   PaymentDetailsList
 } from '../../occ/occ-models/index';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN
+} from '../../occ/utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
 const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
+const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 
 @Injectable()
 export class OccUserService {
@@ -165,5 +165,31 @@ export class OccUserService {
       '/' +
       USER_ENDPOINT
     );
+  }
+
+  protected getBaseEndPoint(): string {
+    if (!this.config || !this.config.server) {
+      return '';
+    }
+    return (
+      (this.config.server.baseUrl || '') +
+      this.config.server.occPrefix +
+      this.config.site.baseSite
+    );
+  }
+
+  requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
+    const url: string = this.getBaseEndPoint() + FORGOT_PASSWORD_ENDPOINT;
+    const httpParams: HttpParams = new HttpParams().set(
+      'userId',
+      userEmailAddress
+    );
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    return this.http
+      .post(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 }
