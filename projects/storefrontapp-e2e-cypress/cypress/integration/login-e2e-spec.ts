@@ -15,7 +15,6 @@ describe('Login', () => {
     register(user);
 
     // check if the the user exist in the dom
-    cy.get('cx-login .cx-login-status__greet').should('exist');
     cy.get('cx-login .cx-login-status__greet').should('contain', user.fullName);
 
     // sign out by going through the dropdown
@@ -31,7 +30,6 @@ describe('Login', () => {
     login(user.email, user.password);
 
     // check if the the username exist in the dom
-    cy.get('cx-login .cx-login-status__greet').should('exist');
     cy.get('cx-login .cx-login-status__greet').should('contain', user.fullName);
 
     // sign out by going through the dropdown
