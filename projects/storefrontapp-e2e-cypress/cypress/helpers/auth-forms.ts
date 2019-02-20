@@ -30,6 +30,6 @@ export function login(username: string, password: string) {
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').type(username);
     cy.get('[formcontrolname="password"]').type(password);
-    cy.get('button[type=submit]').click();
+    cy.get('button[type="submit"]').click();
   });
 }
