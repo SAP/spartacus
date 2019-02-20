@@ -68,7 +68,7 @@ class MockRoutingService {
   }
 }
 
-describe('CategoryPageTitleResolver', () => {
+describe('SearchPageTitleResolver', () => {
   let service: PageTitleService;
   let cmsService: CmsService;
 

@@ -8,44 +8,21 @@ import {
   CmsService,
   PageTitleService
 } from '../../cms/';
-import { ProductService } from '../facade';
-import { RoutingService } from '../../routing';
-import { ProductPageTitleResolver } from './product-page-title.resolver';
+import { ContentPageTitleResolver } from './content-page-title.resolver';
 
-const mockProductPage: Page = {
-  type: PageType.PRODUCT_PAGE,
-  title: 'content page title',
+const mockContentPage: Page = {
+  type: PageType.CONTENT_PAGE,
+  title: 'Page title',
   slots: {}
 };
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
-    return of(mockProductPage);
+    return of(mockContentPage);
   }
 }
 
-class MockRoutingService {
-  getRouterState() {
-    return of({
-      state: {
-        params: {
-          productCode: '1234'
-        }
-      }
-    });
-  }
-}
-
-class MockProductService {
-  get(code: string) {
-    return of({
-      code: code,
-      name: 'Product title'
-    });
-  }
-}
-
-describe('ProductPageTitleResolver', () => {
+describe('ContentPageTitleResolver', () => {
   let service: PageTitleService;
 
   beforeEach(() => {
@@ -54,11 +31,9 @@ describe('ProductPageTitleResolver', () => {
       providers: [
         PageTitleService,
         { provide: CmsService, useClass: MockCmsService },
-        { provide: ProductService, useClass: MockProductService },
-        { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: PageTitleResolver,
-          useExisting: ProductPageTitleResolver,
+          useExisting: ContentPageTitleResolver,
           multi: true
         }
       ]
@@ -67,20 +42,20 @@ describe('ProductPageTitleResolver', () => {
     service = TestBed.get(PageTitleService);
   });
 
-  it('ProductTitleService should be created', inject(
+  it('PageTitleService should be created', inject(
     [PageTitleService],
     (pageTitleService: PageTitleService) => {
       expect(pageTitleService).toBeTruthy();
     }
   ));
 
-  it('should resolve product page title', () => {
+  it('should resolve content page title', () => {
     let result: string;
     const subscription = service.getTitle().subscribe(value => {
       result = value;
     });
     subscription.unsubscribe();
 
-    expect(result).toEqual('Product title');
+    expect(result).toEqual('Page title');
   });
 });
