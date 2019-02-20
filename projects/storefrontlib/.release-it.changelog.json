@@ -3,13 +3,13 @@
     "requireCleanWorkingDir": true,
     "requireUpstream": false,
     "tagName": "storefront-${version}",
-    "commitMessage": "Release storefront-${version}",
-    "tagAnnotation": "Release storefront-${version}"
+    "commitMessage": "Bumping storefront version to ${version}",
+    "tagAnnotation": "Bumping storefront version to ${version}"
   },
   "npm": {
     "publish": true,
     "publishPath": "./../../dist/storefrontlib",
-    "tag": "next"
+    "tag": "latest"
   },
   "scripts": {
     "afterBump": "cd ../.. && yarn build:core:lib"

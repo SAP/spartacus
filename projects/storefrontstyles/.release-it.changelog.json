@@ -3,12 +3,12 @@
     "requireCleanWorkingDir": true,
     "requireUpstream": false,
     "tagName": "styles-${version}",
-    "commitMessage": "Release styles-${version}",
-    "tagAnnotation": "Release styles-${version}"
+    "commitMessage": "Bumping styles version to ${version}",
+    "tagAnnotation": "Bumping styles version to ${version}"
   },
   "npm": {
     "publish": true,
-    "tag": "next"
+    "tag": "latest"
   },
   "github": {
     "release": true,

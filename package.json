@@ -35,9 +35,9 @@
     "release:styles": "cd projects/storefrontstyles && release-it && cd ../..",
     "release:lib": "cd projects/storefrontlib && release-it && cd ../..",
     "release:core": "cd projects/core && release-it && cd ../..",
-    "release-with-changelog:styles": "cd projects/storefrontstyles && release-it --config .release-it.changelog.json && cd ../..",
-    "release-with-changelog:lib": "cd projects/storefrontlib && release-it --config .release-it.changelog.json && cd ../..",
-    "release-with-changelog:core": "cd projects/core && release-it --config .release-it.changelog.json && cd ../..",
+    "release:styles:with-changelog": "cd projects/storefrontstyles && release-it --config .release-it.changelog.json && cd ../..",
+    "release:lib:with-changelog": "cd projects/storefrontlib && release-it --config .release-it.changelog.json && cd ../..",
+    "release:core:with-changelog": "cd projects/core && release-it --config .release-it.changelog.json && cd ../..",
     "release-notes:lib": "ts-node ./scripts/changelog.ts --verbose --lib storefront",
     "release-notes:core": "ts-node ./scripts/changelog.ts --verbose --lib core",
     "release-notes:styles": "ts-node ./scripts/changelog.ts --verbose --lib styles"
