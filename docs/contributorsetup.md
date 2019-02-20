@@ -99,6 +99,22 @@ Launch the server with ng serve, as follows:
 $ yarn start:prod
 ```
 
+## Launching the Storefront with SSR (and PWA) enabled
+
+1. Build SSR version of the app (production build wrapped in express.js server)
+
+```
+$ yarn build:ssr
+```
+
+2. Launch the SSR server as follows:
+
+```
+$ yarn start:ssr
+```
+
+App will be served with production build and without using webpack dev server, thus PWA and service worker's related features will be fully functional.
+
 # Additional Storefront Configuration
 
 In both development mode and production mode, the Spartacus storefront has default values for all of its configurations. However, you may need to override these values.
