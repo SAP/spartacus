@@ -68,7 +68,7 @@ class MockProductSearchService {
 }
 class MockRoutingService {}
 
-fdescribe('CategoryPageTitleResolver', () => {
+describe('CategoryPageTitleResolver', () => {
   let service: PageTitleService;
   let cmsService: CmsService;
 
