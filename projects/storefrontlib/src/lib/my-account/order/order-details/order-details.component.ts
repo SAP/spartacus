@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   RoutingService,
   Order,
@@ -18,8 +18,7 @@ import { Card } from '../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-order-details',
   templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./order-details.component.scss']
 })
 export class OrderDetailsComponent implements OnInit, OnDestroy {
   constructor(

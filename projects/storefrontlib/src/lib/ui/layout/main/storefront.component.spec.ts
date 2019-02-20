@@ -27,6 +27,12 @@ class DynamicSlotComponent {}
 })
 class MockFooterComponent {}
 
+@Component({
+  selector: 'cx-page-layout',
+  template: ''
+})
+class MockPageLayoutComponent {}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -39,7 +45,8 @@ describe('StorefrontComponent', () => {
         MockHeaderComponent,
         MockGlobalMessagerComponent,
         MockFooterComponent,
-        DynamicSlotComponent
+        DynamicSlotComponent,
+        MockPageLayoutComponent
       ]
     }).compileComponents();
   }));

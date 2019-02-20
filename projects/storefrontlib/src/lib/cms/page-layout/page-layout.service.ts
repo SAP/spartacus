@@ -100,6 +100,10 @@ export class PageLayoutService {
       ? pageTemplateConfig[section]
       : this.config.layoutSlots[section];
 
+    if (!sectionConfig) {
+      return null;
+    }
+
     const responsiveConfig = this.getResponsiveSlotConfig(
       <LayoutSlotConfig>sectionConfig,
       configAttribute,
