@@ -1,23 +1,22 @@
-<div class="cx-payment-methods container">
-  <div class="cx-payment-methods__header"><h3>Payment methods</h3></div>
+<div class="cx-payment container">
+  <div class="cx-header"><h3>Payment methods</h3></div>
 
-  <div class="cx-payment-methods__body">
-    <div class="cx-payment-methods__msg">
-      New payment methods are added during checkout.
-    </div>
+  <div class="cx-body">
+    <div class="cx-msg">New payment methods are added during checkout.</div>
     <div *ngIf="(loading$ | async); else cards"><cx-spinner></cx-spinner></div>
     <ng-template #cards>
       <div
         *ngIf="(paymentMethods$ | async) as paymentMethods"
-        class="cx-payment-methods__existing-methods row"
+        class="cx-existing row"
       >
         <div
-          class="cx-payment-methods__card col-sm-12 col-md-12 col-lg-6"
+          class="cx-payment-card col-sm-12 col-md-12 col-lg-6"
           *ngFor="let paymentMethod of paymentMethods"
         >
-          <div class="cx-payment-methods__card-inner">
+          <div class="cx-payment-inner">
             <cx-card
               [border]="true"
+              [fitToContainer]="true"
               [content]="getCardContent(paymentMethod)"
               (deleteCard)="deletePaymentMethod(paymentMethod)"
               (setDefaultCard)="setDefaultPaymentMethod(paymentMethod)"
