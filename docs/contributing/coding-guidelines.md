@@ -120,3 +120,7 @@ Always try to reduce module dependencies.
 `occ -> ngrx/store -> component`
 
 We are currently planning to add a one-layer "facade" between ngrx/store and component. ProductModule is currently done, as is a part of CmsModule. We will add facades to all feature modules soon.
+
+### Don't break SSR
+
+Please read [Server Side Rendering "Gotchas"](./coding-guidelines-ssr.md)
