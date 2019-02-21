@@ -6,7 +6,7 @@
 >
   <cx-store-finder-list [locations]="locations"></cx-store-finder-list>
   <div *ngIf="locations?.stores">
-    <div class="cx-store-finder-search-result__pagination">
+    <div class="cx-pagination">
       <cx-pagination
         [pagination]="locations.pagination"
         (viewPageEvent)="viewPage($event)"
@@ -15,7 +15,7 @@
   </div>
 </div>
 <ng-template #loading>
-  <div class="cx-store-finder-search-result__spinner">
+  <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
