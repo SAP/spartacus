@@ -88,21 +88,33 @@ describe('DynamicSlotComponent', () => {
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
   });
 
-  describe('getComponentType', () => {
-    it('should return component uid when original component type is "JspIncludeComponent"', () => {
-      const component: ContentSlotComponentData = {
-        typeCode: 'JspIncludeComponent',
-        uid: 'testUid'
+  describe('getComponentMappedType', () => {
+    let component: ContentSlotComponentData;
+
+    beforeEach(() => {
+      component = {
+        uid: 'testUid',
+        selector: 'testSelector'
       };
-      expect(dynamicSlotComponent.getComponentType(component)).toBe('testUid');
     });
 
-    it('should return original component type when it is NOT "JspIncludeComponent"', () => {
-      const component: ContentSlotComponentData = {
-        typeCode: 'testComponentType',
-        uid: 'testUid'
-      };
-      expect(dynamicSlotComponent.getComponentType(component)).toBe(
+    it('should return "uid" of the component when original component type is "JspIncludeComponent"', () => {
+      component.typeCode = 'JspIncludeComponent';
+      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
+        'testUid'
+      );
+    });
+
+    it('should return "selector" of the component when original component type is "FlexCmsComponent"', () => {
+      component.typeCode = 'FlexCmsComponent';
+      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
+        'testSelector'
+      );
+    });
+
+    it('should return original component type when it is NOT "JspIncludeComponent" nor "FlexCmsComponent"', () => {
+      component.typeCode = 'testComponentType';
+      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentType'
       );
     });

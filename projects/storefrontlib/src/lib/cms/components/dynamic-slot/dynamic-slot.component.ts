@@ -11,7 +11,8 @@ import {
   CmsService,
   ContentSlotData,
   JSP_INCLUDE_CMS_COMPONENT_TYPE,
-  ContentSlotComponentData
+  ContentSlotComponentData,
+  FLEX_CMS_COMPONENT_TYPE
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -88,9 +89,14 @@ export class DynamicSlotComponent implements OnInit {
    *
    * CAUTION: This function should not be used for SmartEdit bindings.
    */
-  getComponentType(component: ContentSlotComponentData): string {
-    return component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE
-      ? component.uid
-      : component.typeCode;
+  getComponentMappedType(component: ContentSlotComponentData): string {
+    switch (component.typeCode) {
+      case JSP_INCLUDE_CMS_COMPONENT_TYPE:
+        return component.uid;
+      case FLEX_CMS_COMPONENT_TYPE:
+        return component.flextype;
+      default:
+        return component.typeCode;
+    }
   }
 }
