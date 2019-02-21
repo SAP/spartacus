@@ -11,17 +11,6 @@ declare namespace Cypress {
         ```
        */
     selectUserMenuOption: (option: string) => void;
-    /**
-       * Selects in ng select
-       *
-       * @memberof Cypress.Chainable
-       *
-       * @example
-        ```
-        cy.get('[name="title"]').ngSelect('Mr.')
-        ```
-       */
-    ngSelect: (option: string) => void;
   }
 }
 
@@ -31,16 +20,3 @@ Cypress.Commands.add('selectUserMenuOption', (option: string) => {
     cy.getByText(new RegExp(option, 'i')).click();
   });
 });
-
-Cypress.Commands.add(
-  'ngSelect',
-  {
-    prevSubject: 'element'
-  },
-  (element, option) => {
-    cy.wrap(element).click();
-    cy.get('.ng-dropdown-panel-items')
-      .contains(option)
-      .click();
-  }
-);

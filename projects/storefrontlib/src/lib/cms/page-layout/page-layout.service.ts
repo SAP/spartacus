@@ -122,11 +122,20 @@ export class PageLayoutService {
     breakpoint?: BREAKPOINT
   ): SlotConfig {
     const pageTemplateConfig = this.config.layoutSlots[templateUid];
+
+    if (!pageTemplateConfig) {
+      return null;
+    }
+
     // if there's no section config on the page layout
     // we fall back to the global section config
     const sectionConfig = pageTemplateConfig[section]
       ? pageTemplateConfig[section]
       : this.config.layoutSlots[section];
+
+    if (!sectionConfig) {
+      return null;
+    }
 
     const responsiveConfig = this.getResponsiveSlotConfig(
       <LayoutSlotConfig>sectionConfig,
