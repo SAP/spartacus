@@ -6,6 +6,8 @@ The following guidelines are highly recommended when working with server-side re
 
 Do not access global objects that are available in the browser. For example, do not use the `window`, `document`, `navigator`, and other browser types, because they do not exist on the server. If you try to use them, or any library that uses them, it will not work. For most cases, it is better to inject `WindowRef` and then do additional checks. For example, you can check if `WindowRef.nativeWindow` is defined.
 
+## Working with Timeouts
+
 Limit or avoid using `setTimeout`. It slows down the server-side rendering process and should be removed from the `ngOnDestroy` method of your components.
 
 For RxJs timeouts, cancel their stream on success, because they can slow down rendering as well.
