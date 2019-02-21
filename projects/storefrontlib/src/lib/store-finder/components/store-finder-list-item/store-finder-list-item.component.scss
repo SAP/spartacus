@@ -1,31 +1,27 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-$cx-store-finder-list-item-open: 'success' !default;
-$cx-store-finder-list-item-closed: 'danger' !default;
-$cx-store-finder-list-item-margin: 20px 0 !default;
+:host {
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 1.25rem 0);
+}
 
-.cx-store-finder-list-item {
-  margin: $cx-store-finder-list-item-margin;
-  &__display-name {
-    @include type('6');
-    text-decoration: underline;
-    cursor: pointer;
-  }
-  &__address {
-    @include type('7');
-  }
-  &__open {
-    @include type('8');
-    @include var-color('color', $cx-store-finder-list-item-open);
-  }
-  &__closed {
-    @include type('8');
-    @include var-color('color', $cx-store-finder-list-item-closed);
-  }
-  &__button {
-    line-height: 2;
-    margin-top: 1rem;
-  }
+.cx-store-name {
+  @include type('6');
+  text-decoration: var(--cx-text-decoration, underline);
+  cursor: pointer;
+}
+.cx-store-address {
+  @include type('7');
+}
+.cx-store-open {
+  @include type('8');
+  color: var(--cx-color, var(--cx-g-color-success));
+}
+.cx-store-closed {
+  @include type('8');
+  color: var(--cx-color, var(--cx-g-color-danger));
+}
+.cx-button {
+  line-height: var(--cx-line-height, 2);
+  margin: var(--cx-margin, 1rem 0 0);
 }
