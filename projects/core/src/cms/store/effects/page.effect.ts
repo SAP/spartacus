@@ -56,7 +56,6 @@ export class PageEffects {
           return [
             // TODO:#1135 - why do we need `page` parameter here?
             new pageActions.LoadPageDataSuccess(pageContext, page),
-            new pageActions.AddPageDataSuccess(page),
             new componentActions.GetComponentFromPage(this.getComponents(data))
           ];
         }),
