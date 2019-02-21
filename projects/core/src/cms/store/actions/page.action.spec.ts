@@ -1,4 +1,3 @@
-import { PAGE_DATA_ENTITY } from '../cms-state';
 import {
   entityLoadMeta,
   entityFailMeta,
@@ -52,25 +51,6 @@ describe('Cms Page Actions', () => {
           type: fromPage.LOAD_PAGE_DATA_SUCCESS,
           meta: entitySuccessMeta(pageContext.type, pageContext.id),
           payload: page
-        });
-      });
-    });
-  });
-
-  describe('AddPageDataSuccess Actions', () => {
-    describe('AddPageDataSuccess', () => {
-      it('should create an action', () => {
-        const payload: Page = {
-          pageId: 'test',
-          name: 'testPage',
-          slots: { left: {} }
-        };
-        const action = new fromPage.AddPageDataSuccess(payload);
-
-        expect({ ...action }).toEqual({
-          type: fromPage.ADD_PAGEDATA_SUCCESS,
-          payload,
-          meta: entitySuccessMeta(PAGE_DATA_ENTITY, payload.pageId)
         });
       });
     });

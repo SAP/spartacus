@@ -126,7 +126,7 @@ describe('Cms PageData Selectors', () => {
 
   describe('getPageEntities', () => {
     it('should return the entities', () => {
-      store.dispatch(new fromActions.AddPageDataSuccess(page));
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
 
       let result: { [id: string]: Page };
       store
@@ -141,7 +141,6 @@ describe('Cms PageData Selectors', () => {
   describe('getPageData', () => {
     it('should return the page', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
-      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: Page;
       store
@@ -156,7 +155,6 @@ describe('Cms PageData Selectors', () => {
   describe('currentSlotSelectorFactory', () => {
     it('should return current slot by position', () => {
       store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
-      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: ContentSlotData;
       store

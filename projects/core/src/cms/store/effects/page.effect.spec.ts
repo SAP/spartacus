@@ -206,23 +206,21 @@ describe('Page Effects', () => {
 
   describe('loadPageData$', () => {
     describe('when LoadPageData is dispatched', () => {
-      it('should dispatch LoadPageDataSuccess, AddPageDataSuccess and GetComponentFromPage actions', () => {
+      it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
         const mockedComponents: CmsComponent[] = [{ name: 'aComponent' }];
         spyOn<any>(effects, 'getComponents').and.returnValue(mockedComponents);
 
         const action = new fromActions.LoadPageData(context);
 
         const completion1 = new fromActions.LoadPageDataSuccess(context, page);
-        const completion2 = new fromActions.AddPageDataSuccess(page);
-        const completion3 = new fromActions.GetComponentFromPage(
+        const completion2 = new fromActions.GetComponentFromPage(
           mockedComponents
         );
 
         actions$ = hot('-a', { a: action });
-        const expected = cold('-(bcd)', {
+        const expected = cold('-(bc)', {
           b: completion1,
-          c: completion2,
-          d: completion3
+          c: completion2
         });
 
         expect(effects.loadPageData$).toBeObservable(expected);

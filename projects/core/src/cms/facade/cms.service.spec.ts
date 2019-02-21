@@ -157,7 +157,6 @@ describe('CmsService', () => {
       spyOn(routingService, 'getPageContext').and.returnValue(of(pageContext));
 
       store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
-      store.dispatch(new fromActions.AddPageDataSuccess(page));
 
       let result: Page;
       service

@@ -15,7 +15,8 @@ describe('Cms Page Index Reducer', () => {
     it('should return the default state', () => {
       const { initialState } = fromPage;
       const action = {} as fromActions.LoadPageDataSuccess;
-      const state = fromPage.reducer(undefined, action);
+
+      const state = fromPage.reducer(PageType.CONTENT_PAGE)(undefined, action);
 
       expect(state).toBe(initialState);
     });
@@ -30,7 +31,10 @@ describe('Cms Page Index Reducer', () => {
 
       const { initialState } = fromPage;
       const action = new fromActions.LoadPageDataSuccess(pageContext, page);
-      const state = fromPage.reducer(initialState, action);
+      const state = fromPage.reducer(PageType.CONTENT_PAGE)(
+        initialState,
+        action
+      );
 
       expect(state).toEqual(page.pageId);
     });
@@ -41,7 +45,10 @@ describe('Cms Page Index Reducer', () => {
       const error = 'error';
       const { initialState } = fromPage;
       const action = new fromActions.LoadPageDataFail(pageContext, error);
-      const state = fromPage.reducer(initialState, action);
+      const state = fromPage.reducer(PageType.CONTENT_PAGE)(
+        initialState,
+        action
+      );
 
       expect(state).toEqual(initialState);
     });
