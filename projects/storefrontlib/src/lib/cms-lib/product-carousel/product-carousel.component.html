@@ -4,7 +4,8 @@
   *ngIf="{
     maxItemSize: service.itemSize$ | async,
     products: service.items$ | async,
-    activeItem: service.activeItem$ | async
+    activeItem: service.activeItemWithDelay$ | async,
+    active: service.activeItem$ | async
   } as carousel"
 >
   <div class="cx-carousel" [ngClass]="'size-' + carousel.maxItemSize">

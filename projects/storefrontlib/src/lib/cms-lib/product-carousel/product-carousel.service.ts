@@ -13,7 +13,7 @@ import {
   distinctUntilChanged,
   startWith,
   delay,
-  tap
+  withLatestFrom
 } from 'rxjs/operators';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
@@ -25,12 +25,10 @@ export class ProductCarouselService {
   SPEED = 250;
 
   items$: Observable<Observable<Product>[]>;
-  itemSize$: Observable<number>;
-  activeItem$: Observable<number>;
+  itemSize$ = of(this.MAX_ITEM_SIZE);
+  activeItem$ = of(0);
+  activeItemWithDelay$ = of(0);
   title$: Observable<string>;
-
-  itemSize = this.MAX_ITEM_SIZE;
-  activeItem = 0;
 
   constructor(
     protected component: CmsComponentData<CmsProductCarouselComponent>,
@@ -64,7 +62,7 @@ export class ProductCarouselService {
    * This method is called in `ngOnInit`.
    */
   setItemSize(window, nativeElement) {
-    this.itemSize$ = (!window
+    this.itemSize$ = !window
       ? of(this.MAX_ITEM_SIZE)
       : fromEvent(window, 'resize').pipe(
           map(() => (nativeElement as HTMLElement).clientWidth),
@@ -77,25 +75,41 @@ export class ProductCarouselService {
           }),
           // only emit new size when the size changed
           distinctUntilChanged()
-        )
-    ).pipe(tap(itemSize => (this.itemSize = itemSize)));
+        );
   }
 
   setItemAsActive(newActiveItem: number) {
-    this.activeItem$ = of(newActiveItem)
-      .pipe(delay(this.getDelayValue()))
-      .pipe(tap(activeItem => (this.activeItem = activeItem)));
+    this.activeItem$ = this.itemSize$.pipe(
+      map(itemSize => this.setItem(newActiveItem, itemSize))
+    );
   }
 
   setPreviousItemAsActive(): void {
-    this.setItemAsActive(this.activeItem - this.itemSize);
+    this.activeItem$ = this.activeItem$.pipe(
+      withLatestFrom(this.itemSize$),
+      map(([activeItem, itemSize]: [number, number]) =>
+        this.setItem(activeItem - itemSize, itemSize)
+      )
+    );
   }
 
   setNextItemAsActive(): void {
-    this.setItemAsActive(this.activeItem + this.itemSize);
+    this.activeItem$ = this.activeItem$.pipe(
+      withLatestFrom(this.itemSize$),
+      map(([activeItem, itemSize]: [number, number]) =>
+        this.setItem(activeItem + itemSize, itemSize)
+      )
+    );
   }
 
-  getDelayValue() {
-    return (this.itemSize - 1) * this.SPEED;
+  private setItem(newActiveItem: number, itemSize: number) {
+    this.activeItemWithDelay$ = of(newActiveItem).pipe(
+      delay(this.getDelayValue(itemSize))
+    );
+    return newActiveItem;
+  }
+
+  private getDelayValue(itemSize) {
+    return (itemSize - 1) * this.SPEED;
   }
 }
