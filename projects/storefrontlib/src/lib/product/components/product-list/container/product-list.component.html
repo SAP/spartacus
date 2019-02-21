@@ -7,12 +7,12 @@
       <div class="container">
         <div class="row">
           <div class="col-12 col-lg-3 d-none d-lg-block">
-            <cx-product-facet-navigation
+            <!-- <cx-product-facet-navigation
               (filter)="onFilter($event)"
               [minPerFacet]="6"
               [activeFacetValueCode]="categoryCode || brandCode"
               [searchResult]="model"
-            ></cx-product-facet-navigation>
+            ></cx-product-facet-navigation> -->
           </div>
           <div class="col-12 col-lg-9" *ngIf="(gridMode$ | async) as gridMode">
             <div class="cx-sorting top">
@@ -42,12 +42,12 @@
                   <cx-product-view [(mode)]="gridMode"></cx-product-view>
                 </div>
                 <div class="col-12 d-lg-none d-xl-none">
-                  <cx-product-facet-navigation
+                  <!-- <cx-product-facet-navigation
                     (filter)="onFilter($event)"
                     [minPerFacet]="6"
                     [activeFacetValueCode]="categoryCode || brandCode"
                     [searchResult]="model"
-                  ></cx-product-facet-navigation>
+                  ></cx-product-facet-navigation> -->
                 </div>
               </div>
             </div>

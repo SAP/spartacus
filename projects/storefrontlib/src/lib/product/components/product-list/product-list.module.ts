@@ -27,7 +27,8 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSProductListComponent: { selector: 'cx-product-list' },
-        SearchResultsListComponent: { selector: 'cx-product-list' }
+        SearchResultsListComponent: { selector: 'cx-product-list' },
+        ProductRefinementComponent: { selector: 'cx-product-facet-navigation' }
       }
     }),
     RouterModule,
