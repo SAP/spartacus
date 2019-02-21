@@ -1,8 +1,8 @@
-# Configurable state persistence and rehydration
+# Configurable State Persistence and Rehydration
 
 ## Storage Synchronization
 
-You can configure state synchronization with session or local storage like in the following example:
+You can configure state synchronization with session or local storage. The following is an example:
 
 ```typescript
 ConfigModule.withConfig({
@@ -16,9 +16,9 @@ ConfigModule.withConfig({
 
 ## SSR Transfer State
 
-The application runs XHR requests on the server & once again on the Client-side (when the application bootstraps). To prevent unnecessary backend calls for the state that was already populated on the server, we include part of the NgRX state with SSR rendered html.
+The application runs XHR requests on the server and then again on the client-side (when the application bootstraps). To prevent unnecessary back end calls for the state that was already populated on the server, we include part of the NgRX state with the server-side rendered HTML.
 
-You can configure transfer of cms and products state (from NgRx store) like in the following example:
+You can configure the transfer of CMS and products state (from NgRx store), as shown in the following example:
  
 ```typescript
 ConfigModule.withConfig({
@@ -33,7 +33,7 @@ ConfigModule.withConfig({
 });
 ```
 
-You can also narrow configuration to specific state subparts:
+You can also narrow the configuration to specific state sub-parts:
 
 ```typescript
 ConfigModule.withConfig({

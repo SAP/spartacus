@@ -1,28 +1,28 @@
-### Server Side Rendering (SSR) "Gotchas"
+# Server-Side Rendering Coding Guidelines
 
-#### Do not access global objects available in browser 
+The following guidelines are highly recommended when working with server-side rendering (SSR).
 
-- **window**, **document**, **navigator**, and other browser types - do not exist on the server - so using them, or any library that uses them will not work. For most cases you should inject WindowRef and do additional checks if, for example, *WindowRef.nativeWindow* is defined.
+## Working with Global Objects
 
-- Try to limit or avoid using setTimeout. It will slow down the server-side rendering process. Make sure to remove them in the ngOnDestroy method of your Components.
+Do not access global objects that are available in the browser. For example, do not use the `window`, `document`, `navigator`, and other browser types, because they do not exist on the server. If you try to use them, or any library that uses them, it will not work. For most cases, it is better to inject `WindowRef` and then do additional checks. For example, you can check if `WindowRef.nativeWindow` is defined.
 
-- Also for RxJs timeouts, make sure to cancel their stream on success, for they can slow down rendering as well.
+Limit or avoid using `setTimeout`. It slows down the server-side rendering process and should be removed from the `ngOnDestroy` method of your components.
 
-#### Don't manipulate the nativeElement directly
+For RxJs timeouts, cancel their stream on success, because they can slow down rendering as well.
 
-- Use the Renderer2 and related methods
+## Manipulating the nativeElement
 
-We do this to ensure that in any environment we're able to change our view.
+Do not manipulate the `nativeElement` directly. Instead, use the `Renderer2` and related methods. We do this to ensure that, in any environment, we are able to change our view. The following is an example:
 
 ```typescript
 constructor(element: ElementRef, renderer: Renderer2) {
   renderer.setStyle(element.nativeElement, 'font-size', 'x-large');
 }
 ```
+## Using Transfer State Functionality
 
-#### Utilize transfer state functionality
+We recommend using transfer state functionality. The application runs XHR requests on the server, and then again on the client-side (when the application bootstraps). 
 
-The application runs XHR requests on the server & once again on the Client-side (when the application bootstraps)
-Use a cache that's transferred from server to client. 
+Use a cache that is transferred from the server to the client.
 
-Please read [Configurable State Management](../../projects/core/src/state/docs/configurable-state-management.md) for more information.
+For more information, see [Configurable State Management](../../projects/core/src/state/docs/configurable-state-management.md).

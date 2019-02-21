@@ -99,21 +99,21 @@ Launch the server with ng serve, as follows:
 $ yarn start:prod
 ```
 
-## Launching the Storefront with SSR (and PWA) enabled
+## Launching the Storefront with SSR (and PWA) Enabled
 
-1. Build SSR version of the app (production build wrapped in express.js server)
+1. Build the server-side rendering (SSR) version of the app (that is, the production build wrapped in the `express.js` server), as follows:
 
-```
-$ yarn build:ssr
-```
+    ```
+    $ yarn build:ssr
+    ```
 
 2. Launch the SSR server as follows:
 
-```
-$ yarn start:ssr
-```
+    ```
+    $ yarn start:ssr
+    ```
 
-App will be served with production build and without using webpack dev server, thus PWA and service worker's related features will be fully functional.
+The app will be served with the production build, without using the webpack dev server. As a result, PWA and the features related to service workers will be fully functional.
 
 # Additional Storefront Configuration
 

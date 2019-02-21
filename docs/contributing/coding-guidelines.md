@@ -3,8 +3,6 @@
 To keep the Spartacus code readable and maintainable, please follow these rules, even if you find them violated somewhere. Note that this list is not complete.
 When a file is consistently not following these rules and adhering to the rules would make the code worse, follow the local style.
 
-[TOC]
-
 ## Overall Angular Guidelines
 
 ### General
@@ -119,8 +117,10 @@ Always try to reduce module dependencies.
 
 `occ -> ngrx/store -> component`
 
-We are currently planning to add a one-layer "facade" between ngrx/store and component. ProductModule is currently done, as is a part of CmsModule. We will add facades to all feature modules soon.
+We are currently planning to add a one-layer "facade" between `ngrx/store` and `component`. Work on the ProductModule is done, as is a part of the work on the CmsModule. We will add facades to all feature modules soon.
 
-### Don't break SSR
+### Server-Side Rendering
 
-Please read [Server Side Rendering "Gotchas"](./coding-guidelines-ssr.md)
+Do not break server-side rendering (SSR).
+
+For more information, see the [Server-Side Rendering Coding Guidelines](./coding-guidelines-ssr.md).
