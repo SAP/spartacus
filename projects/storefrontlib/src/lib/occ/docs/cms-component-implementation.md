@@ -22,7 +22,7 @@ The configuration for a CMS components can be provided to the `ConfigModule` (or
 
 ```typescript
 ConfigModule.withConfig({
-  cmsMapping: {
+  cmsComponents: {
     BannerComponent: {
         selector: 'custom-banner';
     }
@@ -44,7 +44,7 @@ In order to configure a web component as a CMS component, the configuration must
 
 ```typescript
 ConfigModule.withConfig({
-  cmsMapping: {
+  cmsComponents: {
     BannerComponent: {
         selector: 'path/to/banner/component/file.js#custom-banner';
     }
@@ -76,7 +76,7 @@ In order to configure a custom component service, we can provide a service in a 
 
 ```typescript
 ConfigModule.withConfig({
-  cmsMapping: {
+  cmsComponents: {
     SearchBoxComponent: {
         providers: [
         {
@@ -102,7 +102,7 @@ While it is possible to add conditional logic in a component to render (parts of
 
 ```typescript
 ConfigModule.withConfig({
-  cmsMapping: {
+  cmsComponents: {
     SearchBoxComponent: {
         disableSSR: true
       ];
