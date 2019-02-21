@@ -1,22 +1,23 @@
-.contactInfo p {
-  margin-bottom: 0.5rem;
+.cx-contactInfo p {
+  margin-bottom: var(--cx-margin, 0.5rem);
 }
 
-.contactInfo {
-  margin-bottom: 1rem;
-  font-weight: bold;
-  text-decoration: underline;
+.cx-contactInfo {
+  margin-bottom: var(--cx-margin, 1rem);
+  font-weight: var(--cx-g-font-weight-bold, 700);
+  text-decoration: var(--cx-text-dectoration, underline);
 }
 
-.contactInfo a {
-  color: black;
+.cx-contactInfo a {
+  color: var(--cx-color, var(--cx-g-color-text));
 }
 
-.schedule {
-  margin-top: 1.5rem;
+.cx-schedule {
+  margin-top: var(--cx-margin, 1.5rem);
 }
 
-.storeFeature {
-  border: solid 1px;
-  margin: 5px;
+.cx-storeFeature {
+  border-width: var(--cx-border-width, 1px);
+  border-style: var(--cx-border-style, solid);
+  margin: var(--cx-margin, 5px);
 }

@@ -3,7 +3,7 @@
   *ngIf="!(isLoading$ | async) && (location$ | async) as location; else loading"
 >
   <div class="row">
-    <article class="storeInfo col-lg-4">
+    <article class="cx-storeInfo col-lg-4">
       <h2>{{ location.displayName }}</h2>
 
       <p *ngIf="location.address" class="storeAddress">
@@ -13,7 +13,7 @@
         {{ location.address.postalCode }}
       </p>
 
-      <section class="contactInfo">
+      <section class="cx-contactInfo">
         <p>
           <a [href]="getDirections(location)" target="_blank">Get Directions</a>
         </p>
@@ -24,11 +24,11 @@
           >
         </p>
       </section>
-      <div class="schedule">
+      <div class="cx-schedule">
         <cx-schedule [location]="location"> <h3>Store hours</h3> </cx-schedule>
       </div>
     </article>
-    <article class="storeMap col-lg-8">
+    <article class="cx-storeMap col-lg-8">
       <cx-store-finder-map [locations]="[location]"></cx-store-finder-map>
     </article>
   </div>
@@ -37,12 +37,10 @@
 
   <article class="row">
     <div class="col-lg-3" *ngFor="let feature of location.features?.entry">
-      <div class="storeFeature">{{ feature.value }}</div>
+      <div class="cx-storeFeature">{{ feature.value }}</div>
     </div>
   </article>
 </div>
 <ng-template #loading>
-  <div class="cx-store-finder-description__spinner">
-    <cx-spinner></cx-spinner>
-  </div>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
 </ng-template>
