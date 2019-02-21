@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 
 import { ProductDetailOutlets } from '../../../product-outlets.model';
-import { map } from 'rxjs/operators';
+import { map, switchMap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-details',
@@ -19,8 +19,6 @@ import { map } from 'rxjs/operators';
 })
 export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
-
-  productCode: string;
 
   @Output() openReview = new EventEmitter();
 
@@ -37,13 +35,11 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.routingService
-      .getRouterState()
-      .pipe(map(state => state.state.params['productCode']))
-      .subscribe(productCode => {
-        this.productCode = productCode;
-        this.product$ = this.productService.get(this.productCode);
-      });
+    this.product$ = this.routingService.getRouterState().pipe(
+      map(state => state.state.params['productCode']),
+      filter(Boolean),
+      switchMap(productCode => this.productService.get(productCode))
+    );
   }
 
   launchReview() {

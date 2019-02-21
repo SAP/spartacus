@@ -19,7 +19,7 @@ const router = {
   state: {
     url: '/',
     queryParams: {},
-    params: {},
+    params: { productCode: '123456' },
     context: { id: '1', type: PageType.PRODUCT_PAGE },
     cmsRequired: false
   }
@@ -109,7 +109,7 @@ describe('ProductDetailsComponent in product', () => {
   });
 
   it('should fetch product data', () => {
-    productDetailsComponent.productCode = '123456';
+    productDetailsComponent.ngOnInit();
     let result: Product;
     productDetailsComponent.product$.subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);

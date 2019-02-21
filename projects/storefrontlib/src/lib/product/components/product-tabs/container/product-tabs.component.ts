@@ -6,7 +6,7 @@ import {
   WindowRef
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-tabs',
@@ -14,7 +14,6 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./product-tabs.component.scss']
 })
 export class ProductTabsComponent implements OnInit {
-  productCode: string;
   product$: Observable<Product>;
 
   isWritingReview = false;
@@ -36,17 +35,11 @@ export class ProductTabsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.routingService
-      .getRouterState()
-      .pipe(map(state => state.state.params['productCode']))
-      .subscribe(productCode => {
-        this.productCode = productCode;
-        this.changeProduct();
-      });
-  }
-
-  changeProduct(): void {
-    this.product$ = this.productService.get(this.productCode);
+    this.product$ = this.routingService.getRouterState().pipe(
+      map(state => state.state.params['productCode']),
+      filter(Boolean),
+      switchMap(productCode => this.productService.get(productCode))
+    );
   }
 
   select(event: MouseEvent, tab: HTMLElement) {

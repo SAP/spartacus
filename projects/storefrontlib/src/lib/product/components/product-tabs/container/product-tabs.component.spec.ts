@@ -26,7 +26,7 @@ const router = {
   state: {
     url: '/',
     queryParams: {},
-    params: {},
+    params: { productCode: '123456' },
     context: { id: '1', type: PageType.PRODUCT_PAGE },
     cmsRequired: false
   }
@@ -107,14 +107,14 @@ describe('ProductTabsComponent in product', () => {
   });
 
   it('should fetch product data', () => {
-    productTabsComponent.productCode = '123456';
+    productTabsComponent.ngOnInit();
     let result: Product;
     productTabsComponent.product$.subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);
   });
 
   it('should go to reviews tab', () => {
-    productTabsComponent.productCode = '123456';
+    productTabsComponent.ngOnInit();
     let result: boolean;
     productTabsComponent.product$.subscribe(() => {
       fixture.detectChanges();
