@@ -64,22 +64,21 @@ export class ProductCarouselService {
    * This method is called in `ngOnInit`.
    */
   setItemSize(window, nativeElement) {
-    this.itemSize$ = !window
+    this.itemSize$ = (!window
       ? of(this.MAX_ITEM_SIZE)
-      : fromEvent(window, 'resize')
-          .pipe(
-            map(() => (nativeElement as HTMLElement).clientWidth),
-            startWith((nativeElement as HTMLElement).clientWidth),
-            // avoid to much calls
-            debounceTime(100),
-            map((innerWidth: any) => {
-              const itemsPerPage = Math.round(innerWidth / this.MAX_WIDTH);
-              return itemsPerPage > 2 ? this.MAX_ITEM_SIZE : itemsPerPage;
-            }),
-            // only emit new size when the size changed
-            distinctUntilChanged()
-          )
-          .pipe(tap(itemSize => (this.itemSize = itemSize)));
+      : fromEvent(window, 'resize').pipe(
+          map(() => (nativeElement as HTMLElement).clientWidth),
+          startWith((nativeElement as HTMLElement).clientWidth),
+          // avoid to much calls
+          debounceTime(100),
+          map((innerWidth: any) => {
+            const itemsPerPage = Math.round(innerWidth / this.MAX_WIDTH);
+            return itemsPerPage > 2 ? this.MAX_ITEM_SIZE : itemsPerPage;
+          }),
+          // only emit new size when the size changed
+          distinctUntilChanged()
+        )
+    ).pipe(tap(itemSize => (this.itemSize = itemSize)));
   }
 
   setItemAsActive(newActiveItem: number) {

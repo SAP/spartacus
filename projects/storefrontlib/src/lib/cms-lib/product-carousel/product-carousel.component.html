@@ -2,12 +2,12 @@
 
 <ng-container
   *ngIf="{
-    max: service.itemSize$ | async,
+    maxItemSize: service.itemSize$ | async,
     products: service.items$ | async,
     activeItem: service.activeItem$ | async
   } as carousel"
 >
-  <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
+  <div class="cx-carousel" [ngClass]="'size-' + carousel.maxItemSize">
     <button
       class="previous"
       (click)="service.setPreviousItemAsActive()"
@@ -16,10 +16,11 @@
 
     <div class="groups">
       <ng-container *ngFor="let unused of carousel.products; let i = index">
-        <div class="group" *ngIf="i % carousel.max === 0">
+        <div class="group" *ngIf="i % carousel.maxItemSize === 0">
           <ng-container
             *ngFor="
-              let product$ of (carousel.products | slice: i:i + carousel.max)
+              let product$ of (carousel.products
+                | slice: i:i + carousel.maxItemSize)
             "
           >
             <a
@@ -48,14 +49,16 @@
     <button
       class="next"
       (click)="service.setNextItemAsActive()"
-      [disabled]="carousel.activeItem > carousel.products.length - carousel.max"
+      [disabled]="
+        carousel.activeItem > carousel.products.length - carousel.maxItemSize
+      "
     ></button>
   </div>
 
   <div class="indicators">
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <button
-        *ngIf="i % carousel.max === 0"
+        *ngIf="i % carousel.maxItemSize === 0"
         (click)="service.setItemAsActive(i)"
         [disabled]="i === carousel.activeItem"
       ></button>
