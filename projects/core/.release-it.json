@@ -1,0 +1,17 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "core-${version}",
+    "commitMessage": "Bumping core version to ${version}",
+    "tagAnnotation": "Bumping core version to ${version}"
+  },
+  "npm": {
+    "publish": true,
+    "publishPath": "./../../dist/core",
+    "tag": "latest"
+  },
+  "scripts": {
+    "afterBump": "cd ../.. && yarn build:core:lib"
+  }
+}
