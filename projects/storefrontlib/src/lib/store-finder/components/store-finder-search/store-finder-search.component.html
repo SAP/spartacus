@@ -1,4 +1,4 @@
-<div class="cx-store-finder-search container">
+<div class="container">
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <div class="form-group">
@@ -14,7 +14,7 @@
       </div>
       <button
         type="button"
-        class="btn btn-primary btn-block cx-store-finder-search__button"
+        class="btn btn-primary btn-block cx-button"
         [routerLink]="
           { route: ['storeFinder', 'searchResults'] } | cxTranslateUrl
         "
@@ -23,11 +23,8 @@
         Find store
       </button>
 
-      <div class="cx-store-finder-search__bottom-links">
-        <button
-          (click)="viewStoresWithMyLoc()"
-          class="cx-store-finder-search__links btn-link"
-        >
+      <div class="cx-bottom-links">
+        <button (click)="viewStoresWithMyLoc()" class="cx-link btn-link">
           Use my location
         </button>
         |
@@ -35,7 +32,7 @@
           [routerLink]="
             { route: ['storeFinder', 'allStores'] } | cxTranslateUrl
           "
-          class="cx-store-finder-search__links btn-link"
+          class="cx-link btn-link"
           >View all stores</a
         >
       </div>
