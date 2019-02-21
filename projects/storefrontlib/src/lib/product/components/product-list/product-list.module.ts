@@ -52,6 +52,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductListItemComponent,
     ProductGridItemComponent
   ],
-  entryComponents: [ProductListComponent]
+  entryComponents: [ProductListComponent, ProductFacetNavigationComponent]
 })
 export class ProductListModule {}
