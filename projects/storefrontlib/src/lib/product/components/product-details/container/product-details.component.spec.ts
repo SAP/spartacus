@@ -2,39 +2,19 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-  ProductService,
-  Product,
-  RoutingService,
-  PageType
-} from '@spartacus/core';
+import { Product } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import { OutletDirective } from '../../../../outlet';
 
 import { ProductDetailsComponent } from './product-details.component';
-
-const router = {
-  state: {
-    url: '/',
-    queryParams: {},
-    params: { productCode: '123456' },
-    context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
-};
-
-class MockRoutingService {
-  getRouterState() {
-    return of(router);
-  }
-}
+import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 
 const mockProduct: Product = { name: 'mockProduct' };
 
-class MockProductService {
-  get(): Observable<Product> {
+class MockCurrentProductService {
+  getProduct(): Observable<Product> {
     return of(mockProduct);
   }
 }
@@ -86,12 +66,8 @@ describe('ProductDetailsComponent in product', () => {
       ],
       providers: [
         {
-          provide: ProductService,
-          useClass: MockProductService
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService
         }
       ]
     }).compileComponents();

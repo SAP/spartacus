@@ -1,16 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-
-import {
-  ProductService,
-  Product,
-  WindowRef,
-  RoutingService
-} from '@spartacus/core';
-
 import { Observable } from 'rxjs';
 
+import { Product } from '@spartacus/core';
+import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
-import { map, switchMap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-details',
@@ -28,18 +21,10 @@ export class ProductDetailsComponent implements OnInit {
     return ProductDetailsComponent.outlets;
   }
 
-  constructor(
-    protected productService: ProductService,
-    protected winRef: WindowRef,
-    protected routingService: RoutingService
-  ) {}
+  constructor(protected currentPageService: CurrentProductService) {}
 
   ngOnInit(): void {
-    this.product$ = this.routingService.getRouterState().pipe(
-      map(state => state.state.params['productCode']),
-      filter(Boolean),
-      switchMap(productCode => this.productService.get(productCode))
-    );
+    this.product$ = this.currentPageService.getProduct();
   }
 
   launchReview() {

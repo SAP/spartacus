@@ -1,12 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  Product,
-  ProductService,
-  RoutingService,
-  WindowRef
-} from '@spartacus/core';
+import { Product, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 
 @Component({
   selector: 'cx-product-tabs',
@@ -29,17 +24,12 @@ export class ProductTabsComponent implements OnInit {
   @ViewChild('reviewHeader') reviewHeader: ElementRef;
 
   constructor(
-    protected productService: ProductService,
     protected winRef: WindowRef,
-    protected routingService: RoutingService
+    protected currentPageService: CurrentProductService
   ) {}
 
   ngOnInit(): void {
-    this.product$ = this.routingService.getRouterState().pipe(
-      map(state => state.state.params['productCode']),
-      filter(Boolean),
-      switchMap(productCode => this.productService.get(productCode))
-    );
+    this.product$ = this.currentPageService.getProduct();
   }
 
   select(event: MouseEvent, tab: HTMLElement) {
