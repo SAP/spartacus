@@ -1,0 +1,14 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "styles-${version}",
+    "commitMessage": "Bumping styles version to ${version}",
+    "tagAnnotation": "Bumping styles version to ${version}"
+  },
+  "npm": {
+    "publish": true,
+    "tag": "latest"
+  },
+  "github": {}
+}
