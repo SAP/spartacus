@@ -1,24 +1,24 @@
-# Customize CMS Component
-While the JS storefront is naturally composed out of a large number of fine-grained JS components, there's a special kind of components to render CMS content. CMS components are dynamically added at runtime. The CMS component type, given by the backend, is mapped to an equilavent JS component. The mapping is provided in a configuration, which can be customised. This allows to configure a custom component to render a specific CMS component. 
+# Customizing CMS Components
 
-In addition, component specific business logic can be customized. This requires an additional configuration where the custom service can be provided to the (out of the box) component. 
+The Spartacus storefront is based on JavaScript, and accordingly, it is composed of a large number of fine-grained JavaScript components. However, there is a special kind of component to render CMS content. CMS components are dynamically added at runtime. The CMS component type, given by the back end, is mapped to an equivalent JS component. The mapping is provided in a configuration that can be customized. This allows you to configure a custom component to render a specific CMS component.
 
-With this setup, CMS components can be customized in multiple ways:
+In addition, component-specific business logic can be customized. This requires an additional configuration where the custom service can be provided to the (default) component.
+
+With this setup, CMS components can be customized in the following ways:
 
 | Scenario          | Approach                                             | Example                                              |
 | ----------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| Customize style   | Add custom css rules<br/>(Out of scope for this doc) | Customize component style for the `LanguageSelector` |
+| Customize style   | Add custom CSS rules<br/>(Out of scope for this doc) | Customize component style for the `LanguageSelector` |
 | Replace component | Configure a custom component                         | Provide a custom `BannerComponent`                   |
 | Customize logic   | Configure a custom service                           | Provide a custom `SearchBoxComponentService`         |
 
-## Configure custom components
-There are two types of components that can be configured:
-1. angular components
-2. web components
+## Configuring Custom Components
 
-**1. Custom CMS Components (Angular)**
+There are two types of components that can be configured: angular components, and web components.
 
-The configuration for a CMS components can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The configuration belows shows how to configure a custom angular component for the BannerComponent
+### Custom CMS Components (Angular)
+
+The configuration for a CMS component can be provided to the `ConfigModule` (or directly to the `StorefrontModule`). The following configuration shows how to configure a custom Angular component for the `BannerComponent`:
 
 ```typescript
 ConfigModule.withConfig({
@@ -30,17 +30,15 @@ ConfigModule.withConfig({
 });
 ```
 
-It's important to note that with this setup, there are 2 important pieces that need optimization going forward:
-- the components must be loaded upfront (using so-called `entryComponents`)
-- this doesn't allow for lazyloading
+It's important to note that with this setup, the components must be loaded up front (using so-called `entryComponents`), and it does not allow for lazy loading.
 
-Both of these related downsides will be improved going forward. With that in mind, a change in this API is expected.
+Both of these related downsides will be improved in a future release. With that in mind, a change in this API is expected.
 
-**2. Web components as CMS components**
+### Web Components as CMS Components
 
-Web components have a lot of benefits, and as soon as some of the fundamentals of angular are ready for this, we'll most likely move into this direction. We've already got our selfs prepared for loading web components, although the current recommendation is to stick with angular components. 
+Web components have a lot of benefits, and as soon as some of the fundamentals of Angular are ready for this, we'll most likely begin to use them. We are already preparing for loading web components, although the current recommendation is to stick with Angular components.
 
-In order to configure a web component as a CMS component, the configuration must consist of the path to JS file (web component implementation) and its tag name separated by hash symbol:
+To configure a web component as a CMS component, the configuration must consist of the path to the JS file (web component implementation) and its tag name, separated by a hash symbol (`#`). The following is an example:
 
 ```typescript
 ConfigModule.withConfig({
@@ -57,22 +55,25 @@ One JS file can contain more that one web component implementation, used as diff
 This requires a separate build process to generate the JS chunk that holds the web component(s), which is out of scope of this documentation. 
 
 
-**Access CMS Data in custom components**
+### Accessing CMS Data in Custom Components
 
-The CMS data that is related to the component is provided as a service (`CmsComponentData`) to the component during instantiation. It contains the component `uid` and an observable (`data$`) to the component payload. Using Angular's DI system, components as well as component specific services can use the `CmsComponentData`. 
+The CMS data that is related to the component is provided as a service (`CmsComponentData`) to the component during instantiation. It contains the component `uid` and an observable (`data$`) to the component payload. Using Angular's DI system, components as well as component-specific services can use the `CmsComponentData`.
 
-Web components will not have access to the application DI system, regardless of wether they're build in angular or not; they're isolated from the core application and can only interact with inputs and outputs. Therefore, they cannot access `CmsComponentData` and would also suffer from not being able to reuse any of the services provided by Spartacus. 
-A special effort was made to provide web components with both the component related data as well as a generic API to core services of Spartacus. The input needed for this is `cxApi`. 
+Web components will not have access to the application DI system, regardless of wether they're build in Angular or not: they are isolated from the core application and can only interact with inputs and outputs. Therefore, they cannot access `CmsComponentData`, and would also suffer from not being able to reuse any of the services provided by Spartacus.
 
-# Custom Services
-Spartacus CMS Components that use (complex) business logic will delegate this to a service. This is recommended for a number of reasons, but also simplifies extensibility:
+A special effort was made to provide web components with both the component-related data, as well as a generic API to tje core services of Spartacus. The input needed for this is `cxApi`.
+
+## Customing Services
+
+Spartacus CMS components that use (complex) business logic will delegate this to a service. This simplifies extensibility, and is also recommended for the following reasons:
+
 - components only depend on a single service
 - the service might have other dependencies
 - a custom service can be provided for custom business logic
 
-Component services are designed to be non-singleton services, scoped to the component, so that they have direct access to the `CmsComponentData` provided in the component scope. This design does not play well with Angular DI system, as the DI system doesn't provide a mechanism to override component services without changing the component. 
+Component services are designed to be non-singleton services, scoped to the component, so that they have direct access to the `CmsComponentData` provided in the component scope. This design does not play well with the Angular DI system, as the DI system does not provide a mechanism to override component services without changing the component.
 
-In order to configure a custom component service, we can provide a service in a similar fashion though. The configuration is done in line with the component configuration. In the example below, the SearchComponent is provided with a custom `SearchBoxComponentService`:
+However, to configure a custom component service, we can provide a service in a similar fashion. The configuration is done in-line with the component configuration. In the following example, the `SearchComponent` is provided with a custom `SearchBoxComponentService`:
 
 ```typescript
 ConfigModule.withConfig({
@@ -90,15 +91,15 @@ ConfigModule.withConfig({
 });
 ```
 
-# Control of Server Side Rendering
+## Controlling Server Side Rendering
 
 Some of the CMS components might be intended not to render in the server for multiple reasons:
 
-- a CMS component requires personalised input and should not or can not be rendered without it
-- a CMS component is not required for SSR output and for performance reason will be removed from the rendering process
+- a CMS component requires personalized input and should not, or cannot, be rendered without it
+- a CMS component is not required for SSR output, and for performance reasons will be removed from the rendering process
 - a CMS component interacts with external services (latency) and is not relevant for indexing and social sharing
 
-While it is possible to add conditional logic in a component to render (parts of) the view in the SSR, we offer a configuration for components to make this more generic and avoid any specific logic in components:
+While it is possible to add conditional logic in a component to render (parts of) the view in the SSR, we offer a configuration for components to make this more generic and to avoid any specific logic in components. The following is an example:
 
 ```typescript
 ConfigModule.withConfig({
