@@ -11,7 +11,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_PAGE_DATA_SUCCESS: {
       const page: Page = action.payload;
-      return {...state, entities: {...state.entities, [page.pageId]: page }};
+      return { ...state, entities: { ...state.entities, [page.pageId]: page } };
     }
   }
   return state;

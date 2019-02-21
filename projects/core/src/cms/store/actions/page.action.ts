@@ -32,7 +32,4 @@ export class LoadPageDataSuccess extends EntitySuccessAction {
 }
 
 // action types
-export type PageAction =
-  | LoadPageData
-  | LoadPageDataFail
-  | LoadPageDataSuccess;
+export type PageAction = LoadPageData | LoadPageDataFail | LoadPageDataSuccess;
