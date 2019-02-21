@@ -40,7 +40,6 @@ function generate_docs {
 }
 
 function push_gh_pages {
-    # TODO: push to github pages
     git clone git@github.com:SAP/cloud-commerce-spartacus-storefront.git spa -b gh-pages
     cd spa
     rm -rf *
