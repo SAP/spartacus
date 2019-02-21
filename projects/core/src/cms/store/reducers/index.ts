@@ -12,13 +12,10 @@ import {
   CmsState,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
-  StateWithCms,
-  PAGE_DATA_ENTITY
+  StateWithCms
 } from '../cms-state';
 import { PageType } from '../../../occ';
-import { entityReducer } from '../../../state';
 import { NodeItem } from '../../model/node-item.model';
-import { Page } from '../../model/page.model';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
@@ -30,23 +27,23 @@ import * as fromPageIndexReducer from './page-index.reducer';
 export function getReducers(): ActionReducerMap<CmsState> {
   return {
     page: combineReducers({
-      pageData: entityReducer<Page>(PAGE_DATA_ENTITY, fromPageReducer.reducer),
+      pageData: fromPageReducer.reducer,
       index: combineReducers({
         content: entityLoaderReducer<string>(
           PageType.CONTENT_PAGE,
-          fromPageIndexReducer.reducer
+          fromPageIndexReducer.reducer(PageType.CONTENT_PAGE)
         ),
         product: entityLoaderReducer<string>(
           PageType.PRODUCT_PAGE,
-          fromPageIndexReducer.reducer
+          fromPageIndexReducer.reducer(PageType.PRODUCT_PAGE)
         ),
         category: entityLoaderReducer<string>(
           PageType.CATEGORY_PAGE,
-          fromPageIndexReducer.reducer
+          fromPageIndexReducer.reducer(PageType.CATEGORY_PAGE)
         ),
         catalog: entityLoaderReducer<string>(
           PageType.CATALOG_PAGE,
-          fromPageIndexReducer.reducer
+          fromPageIndexReducer.reducer(PageType.CATALOG_PAGE)
         )
       })
     }),
