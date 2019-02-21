@@ -71,7 +71,7 @@ context.only('Store finder', () => {
   it('should allow to go to 2 result page', () => {
     cy.get('cx-pagination .page-item')
       .getByText('2')
-      .click();
+      .click({ force: true }); // electron thinks map is over pagination
     cy.get('cx-pagination .page-item.active').should('contain', '2');
 
     cy.get('cx-store-finder-list-item')
