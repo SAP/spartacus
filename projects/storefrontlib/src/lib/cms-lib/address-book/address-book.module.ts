@@ -31,7 +31,7 @@ import { AddressBookComponentService } from './address-book.component.service';
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
-  providers: [UserService],
+  providers: [UserService, AddressBookComponentService],
   entryComponents: [AddressBookComponent]
 })
 export class AddressBookModule {}

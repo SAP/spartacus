@@ -1,52 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { UserService, Address, User } from '@spartacus/core';
 
 @Injectable()
 export class AddressBookComponentService {
-  private userId: string;
-  private activeAddress = new BehaviorSubject<Address>({});
-  private isAddAddressFormOpen = new BehaviorSubject<boolean>(false);
-  private isEditAddressFormOpen = new BehaviorSubject<boolean>(false);
-
-  constructor(private userService: UserService) {
-    this.getUserId().pipe(
-      map(id => {
-        this.userId = id || null;
-      })
-    );
-  }
-
-  getActiveAddress(): Observable<Address> {
-    return this.activeAddress.asObservable();
-  }
-
-  getIsAddAddressFormOpen(): Observable<boolean> {
-    return this.isAddAddressFormOpen.asObservable();
-  }
-
-  getIsEditAddressFormOpen(): Observable<boolean> {
-    return this.isEditAddressFormOpen.asObservable();
-  }
-
-  showAddAddressForm() {
-    this.isAddAddressFormOpen.next(true);
-  }
-
-  hideAddAddressForm() {
-    this.isAddAddressFormOpen.next(false);
-  }
-
-  showEditAddressForm(address: Address) {
-    this.activeAddress.next(address);
-    this.isEditAddressFormOpen.next(true);
-  }
-
-  hideEditAddressForm() {
-    this.isEditAddressFormOpen.next(false);
-  }
+  constructor(private userService: UserService) {}
 
   getAddresses(): Observable<Address[]> {
     return this.userService.getAddresses();
@@ -56,27 +16,19 @@ export class AddressBookComponentService {
     return this.userService.getAddressesStateLoading();
   }
 
-  getAddressesStateError(): Observable<boolean> {
-    return this.userService.getAddressesStateError();
-  }
-
-  getAddressesStateSuccess(): Observable<boolean> {
-    return this.userService.getAddressesStateSuccess();
-  }
-
   getUserId(): Observable<string> {
-    return this.userService.get().pipe(map((data: User) => data.uid));
+    return this.userService.get().pipe(map(({ uid }: User) => uid));
   }
 
-  loadAddresses() {
-    this.userService.loadAddresses(this.userId);
+  loadAddresses(userId: string) {
+    this.userService.loadAddresses(userId);
   }
 
-  addUserAddress(address: Address) {
-    this.userService.addUserAddress(this.userId, address);
+  addUserAddress(userId: string, address: Address) {
+    this.userService.addUserAddress(userId, address);
   }
 
-  updateUserAddress(addressId: string, address: Address) {
-    this.userService.updateUserAddress(this.userId, addressId, address);
+  updateUserAddress(userId: string, addressId: string, address: Address) {
+    this.userService.updateUserAddress(userId, addressId, address);
   }
 }

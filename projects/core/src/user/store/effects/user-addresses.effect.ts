@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, take } from 'rxjs/operators';
 
 import { OccUserService } from '../../occ/index';
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
@@ -103,11 +103,12 @@ export class UserAddressesEffects {
       fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS
     ),
     tap(() => {
-      this.userService.get().pipe(
-        map(({ uid }: User) => {
+      this.userService
+        .get()
+        .pipe(take(1))
+        .subscribe(({ uid }: User) => {
           this.userService.loadAddresses(uid);
-        })
-      );
+        });
     })
   );
 
@@ -122,6 +123,12 @@ export class UserAddressesEffects {
    * Show global confirmation message with provided text
    */
   private showGlobalMessage(text: string) {
+    // ----------
+    // todo: handle automatic removal of outdated messages
+    this.messageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+    this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
+    // ----------
+
     this.messageService.add({
       type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       text
