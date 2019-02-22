@@ -61,6 +61,7 @@ describe('PageTitleService', () => {
       imports: [],
       providers: [
         PageTitleService,
+        ContentPageResolver,
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageTitleResolver,

@@ -75,6 +75,7 @@ describe('CategoryPageTitleResolver', () => {
       imports: [],
       providers: [
         PageTitleService,
+        ContentPageTitleResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
