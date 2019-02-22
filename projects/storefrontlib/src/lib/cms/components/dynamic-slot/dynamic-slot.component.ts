@@ -11,10 +11,11 @@ import {
   CmsService,
   ContentSlotData,
   JSP_INCLUDE_CMS_COMPONENT_TYPE,
-  ContentSlotComponentData
+  ContentSlotComponentData,
+  CmsComponent
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, first } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-dynamic-slot',
@@ -45,6 +46,13 @@ export class DynamicSlotComponent implements OnInit {
 
     this.currentSlot$ = this.cmsService.getContentSlot(this.position).pipe(
       tap(slot => {
+        if (slot.components && slot.components.length > 0) {
+          this.renderer.addClass(
+            this.hostElement.nativeElement,
+            'has-components'
+          );
+        }
+
         if (this.cmsService.isLaunchInSmartEdit()) {
           this.addSmartEditContract(slot);
         }
