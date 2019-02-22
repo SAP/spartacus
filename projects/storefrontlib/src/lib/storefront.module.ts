@@ -17,6 +17,7 @@ import { CmsModule } from './cms/index';
 import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
+import { MultiStepCheckoutModule } from './checkout';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
     UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,
-    SmartEditModule.forRoot()
+    SmartEditModule.forRoot(),
+    MultiStepCheckoutModule
   ],
   exports: [UiModule],
   declarations: []
