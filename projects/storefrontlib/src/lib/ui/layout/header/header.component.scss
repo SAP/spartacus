@@ -24,8 +24,7 @@ header {
 
 .SiteContext,
 .SiteLinks {
-  padding: $space 0;
-  font-size: 0.75rem;
+  font-size: var(--cx-g-font-small, 0.75rem);
   color: var(--cx-color, var(--cx-g-color-light));
 }
 
@@ -124,12 +123,13 @@ header {
   .SiteContext,
   .SiteLinks {
     flex: 50%;
+    display: flex;
+    --cx-margin: #{$space} 8px;
   }
 
   .SiteLinks {
-    text-align: right;
+    justify-content: flex-end;
     --cx-padding: 0 #{$space};
-    --cx-display: inline;
   }
 
   .SiteLogin {
