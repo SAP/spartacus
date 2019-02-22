@@ -84,6 +84,7 @@ describe('ResetPasswordFormComponent', () => {
   it('should form be invalid when password not valid', () => {
     password.setValue(nonValidPassword);
     password.markAsDirty();
+    password.markAsTouched();
     fixture.detectChanges();
 
     expect(component.form.valid).toBeFalsy();
@@ -98,6 +99,7 @@ describe('ResetPasswordFormComponent', () => {
     password.setValue(validPassword);
     rePassword.setValue(nonValidPassword);
     rePassword.markAsDirty();
+    rePassword.markAsTouched();
     fixture.detectChanges();
 
     expect(component.form.valid).toBeFalsy();
