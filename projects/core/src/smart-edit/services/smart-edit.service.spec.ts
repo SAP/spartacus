@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { of, Observable } from 'rxjs';
 
-import { CmsService, Page } from '../../cms';
+import { CmsService, Page } from '../../cms/index';
 import { RoutingService } from '../../routing';
 
 import { SmartEditService } from './smart-edit.service';
