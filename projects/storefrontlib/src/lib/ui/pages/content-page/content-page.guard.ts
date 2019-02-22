@@ -17,10 +17,10 @@ export class ContentPageGuard implements CanActivate {
     return route.url.map(urlSegment => urlSegment.path).join('/');
   }
 
-  // The timeout is needed since CmsService.hasPage does not emit "false" when there is no page in CMS.
-  // When CmsService.hasPage is fixed, the timeout can be removed here.
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.hasCmsPage$(this.getPath(route)).pipe(
+      // The timeout is needed since CmsService.hasPage does not emit "false" when there is no page in CMS.
+      // When CmsService.hasPage is fixed, the timeout can be removed here.
       timeout(this.LOAD_CMS_PAGE_TIMEOUT),
       take(1),
       tap(hasPage => {
