@@ -11,11 +11,10 @@ import {
   CmsService,
   ContentSlotData,
   JSP_INCLUDE_CMS_COMPONENT_TYPE,
-  ContentSlotComponentData,
-  CmsComponent
+  ContentSlotComponentData
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, first } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-dynamic-slot',
