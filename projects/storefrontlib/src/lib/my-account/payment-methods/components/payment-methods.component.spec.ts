@@ -71,12 +71,10 @@ describe('PaymentMethodsComponent', () => {
 
   it('should show basic information', () => {
     function getTitle(elem: DebugElement) {
-      return elem.query(By.css('.cx-payment-methods__header')).nativeElement
-        .textContent;
+      return elem.query(By.css('.cx-header')).nativeElement.textContent;
     }
     function getBodyMessage(elem: DebugElement) {
-      return elem.query(By.css('.cx-payment-methods__msg')).nativeElement
-        .textContent;
+      return elem.query(By.css('.cx-msg')).nativeElement.textContent;
     }
     component.ngOnInit();
     fixture.detectChanges();
