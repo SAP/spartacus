@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 import { RoutingService, CmsSearchBoxComponent } from '@spartacus/core';
 
-interface SearchBoxConfig {
+export interface SearchBoxConfig {
   maxProducts: number;
   displaySuggestions: boolean;
   maxSuggestions: number;
