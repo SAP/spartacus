@@ -8,6 +8,13 @@ import {
 } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CmsComponentData } from 'projects/storefrontlib/src/lib/cms';
+import {
+  CmsProductFacetNavigationComponent,
+  ProductSearchService,
+  ProductSearchPage
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -18,31 +25,43 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class ProductFacetNavigationComponent implements OnInit {
   @Input()
   activeFacetValueCode;
-  @Input()
-  searchResult;
-  @Input()
+  // searchResult$: Observable<;
   minPerFacet = 6;
 
   @Output()
   filter: EventEmitter<any> = new EventEmitter<any>();
 
-  showAllPerFacetMap: Map<String, boolean>;
+  data$: Observable<any>;
+  searchResult$: Observable<ProductSearchPage>;
+
+  showAllPerFacetMap: Map<string, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
 
-  get visibleFacets() {
-    if (!this.searchResult.facets) {
-      return [];
-    }
-    return this.searchResult.facets.filter(facet => facet.visible);
-  }
+  // get visibleFacets() {
+  //   if (!this.searchResult.facets) {
+  //     return [];
+  //   }
+  //   return this.searchResult.facets.filter(facet => facet.visible);
+  // }
 
-  constructor(private modalService: NgbModal) {
-    this.showAllPerFacetMap = new Map<String, boolean>();
+  constructor(
+    public component: CmsComponentData<CmsProductFacetNavigationComponent>,
+    private modalService: NgbModal,
+    protected productSearchService: ProductSearchService
+  ) {
+    this.showAllPerFacetMap = new Map<string, boolean>();
     this.queryCodec = new HttpUrlEncodingCodec();
   }
 
   ngOnInit() {
+    this.searchResult$ = this.productSearchService.getSearchResults();
+    // console.log('SEARCH RESULT: ', this.searchResult);
+    // console.log('ACTIVE FACET: ', this.activeFacetValueCode);
+    this.component.data$.subscribe(data => {
+      console.log('DATA FROM CMS: ', data);
+    });
+
     if (this.searchResult.facets) {
       this.searchResult.facets.forEach(el => {
         this.showAllPerFacetMap.set(el.name, false);
@@ -58,15 +77,15 @@ export class ProductFacetNavigationComponent implements OnInit {
     this.filter.emit(this.queryCodec.decodeValue(query));
   }
 
-  showLess(facetName: String) {
+  showLess(facetName: string) {
     this.updateShowAllPerFacetMap(facetName, false);
   }
 
-  showMore(facetName: String) {
+  showMore(facetName: string) {
     this.updateShowAllPerFacetMap(facetName, true);
   }
 
-  private updateShowAllPerFacetMap(facetName: String, showAll: boolean) {
+  private updateShowAllPerFacetMap(facetName: string, showAll: boolean) {
     this.showAllPerFacetMap.set(facetName, showAll);
   }
 
@@ -89,5 +108,19 @@ export class ProductFacetNavigationComponent implements OnInit {
         ? facet.values.length
         : this.minPerFacet
     );
+  }
+
+  protected search(query: string, options?: SearchConfig) {
+    if (this.query) {
+      if (options) {
+        // Overide default options
+        this.searchConfig = {
+          ...this.searchConfig,
+          ...options
+        };
+      }
+
+      this.productSearchService.search(query, this.searchConfig);
+    }
   }
 }
