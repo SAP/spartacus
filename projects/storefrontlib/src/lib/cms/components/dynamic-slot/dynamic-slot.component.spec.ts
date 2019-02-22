@@ -88,31 +88,29 @@ describe('DynamicSlotComponent', () => {
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
   });
 
-  describe('getComponentMappedType', () => {
+  fdescribe('getComponentMappedType', () => {
     let component: ContentSlotComponentData;
 
     beforeEach(() => {
-      component = {
-        uid: 'testUid',
-        selector: 'testSelector'
-      };
+      component = { uid: 'testUid' };
     });
 
-    it('should return "uid" of the component when original component type is "JspIncludeComponent"', () => {
+    it('should return "uid" of the component when component type is "JspIncludeComponent"', () => {
       component.typeCode = 'JspIncludeComponent';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testUid'
       );
     });
 
-    it('should return "selector" of the component when original component type is "FlexCmsComponent"', () => {
+    it('should return "flextype" of the component when component type is "FlexCmsComponent"', () => {
       component.typeCode = 'FlexCmsComponent';
+      component.flextype = 'testComponentMappedType';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
-        'testSelector'
+        'testComponentMappedType'
       );
     });
 
-    it('should return original component type when it is NOT "JspIncludeComponent" nor "FlexCmsComponent"', () => {
+    it('should return component type when it is NOT "JspIncludeComponent" nor "FlexCmsComponent"', () => {
       component.typeCode = 'testComponentType';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentType'
