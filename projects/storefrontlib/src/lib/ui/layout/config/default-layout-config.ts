@@ -66,8 +66,11 @@ export const defaultLayoutConfig: LayoutConfig = {
     ErrorPageTemplate: {
       slots: ['MiddleContent']
     },
+    OrderConfirmationPageTemplate: {
+      slots: ['BodyContent', 'SideContent']
+    },
     MultiStepCheckoutSummaryPageTemplate: {
-      slots: ['SideContent', 'BodyContent']
+      slots: ['BodyContent', 'SideContent']
     }
   }
 };
