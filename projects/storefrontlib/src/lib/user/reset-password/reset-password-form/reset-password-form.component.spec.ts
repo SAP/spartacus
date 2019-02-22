@@ -41,7 +41,7 @@ describe('ResetPasswordFormComponent', () => {
   let rePassword: AbstractControl;
 
   const validPassword = 'test1234Test@';
-  const nonValidPassword = '12341234';
+  const nonValidPassword = '1234';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -83,14 +83,27 @@ describe('ResetPasswordFormComponent', () => {
 
   it('should form be invalid when password not valid', () => {
     password.setValue(nonValidPassword);
-    rePassword.setValue(nonValidPassword);
+    password.markAsDirty();
+    fixture.detectChanges();
+
     expect(component.form.valid).toBeFalsy();
+    const message = fixture.debugElement.query(By.css('.invalid-feedback'))
+      .children[0].nativeElement.textContent;
+    expect(message).toEqual(
+      'Password must be six characters minimum, with one uppercase letter, one number, one symbol'
+    );
   });
 
   it('should form be invalid when password and repassword are not match', () => {
     password.setValue(validPassword);
     rePassword.setValue(nonValidPassword);
+    rePassword.markAsDirty();
+    fixture.detectChanges();
+
     expect(component.form.valid).toBeFalsy();
+    const message = fixture.debugElement.query(By.css('.invalid-feedback'))
+      .children[0].nativeElement.textContent;
+    expect(message).toEqual('Both password must match');
   });
 
   it('should call resetPassword() method on submit', () => {
