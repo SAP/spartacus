@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 // import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'cx-product-references',
   templateUrl: './product-references.component.html',
-  styleUrls: ['./product-references.component.scss']
+  styleUrls: ['./product-references.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductReferencesComponent {} /*extends AbstractProductComponent {
 

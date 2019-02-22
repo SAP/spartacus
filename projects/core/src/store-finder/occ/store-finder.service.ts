@@ -23,7 +23,7 @@ export class OccStoreFinderService {
   }
 
   storesCount(): Observable<any> {
-    const storeCountUrl = this.getStoresEndpoint('count');
+    const storeCountUrl = this.getStoresEndpoint('storescounts');
 
     return this.http
       .get(storeCountUrl)
@@ -36,29 +36,6 @@ export class OccStoreFinderService {
 
     return this.http
       .get(storeDetailsUrl, { params })
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  findStoresByCountry(countryIsoCode: string): Observable<any> {
-    const storesByCountryUrl = this.getStoresEndpoint(
-      'country/' + countryIsoCode
-    );
-
-    return this.http
-      .get(storesByCountryUrl)
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  findStoresByRegion(
-    countryIsoCode: string,
-    regionIsoCode: string
-  ): Observable<any> {
-    const storesByRegionUrl = this.getStoresEndpoint(
-      'country/' + countryIsoCode + '/region/' + regionIsoCode
-    );
-
-    return this.http
-      .get(storesByRegionUrl)
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

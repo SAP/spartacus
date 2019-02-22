@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
+import * as fromStore from '../store/index';
+import { USER_FEATURE } from '../store/user-state';
 import {
   Address,
   Order,
@@ -14,9 +16,8 @@ import {
   Country
 } from '../../occ/occ-models/index';
 
-import * as fromStore from '../store/index';
 import { UserService } from './user.service';
-import { USER_FEATURE } from '../store/user-state';
+import { UserRegisterFormData } from '../model/user.model';
 
 describe('UserService', () => {
   let service: UserService;
@@ -66,15 +67,16 @@ describe('UserService', () => {
   });
 
   it('should be able to register user', () => {
-    service.register('title', 'firstname', 'lastname', 'email', 'password');
+    const userRegisterFormData: UserRegisterFormData = {
+      titleCode: 'Mr.',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      uid: 'uid',
+      password: 'password'
+    };
+    service.register(userRegisterFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.RegisterUser({
-        firstName: 'firstname',
-        lastName: 'lastname',
-        password: 'password',
-        titleCode: 'title',
-        uid: 'email'
-      })
+      new fromStore.RegisterUser(userRegisterFormData)
     );
   });
 
@@ -121,7 +123,7 @@ describe('UserService', () => {
 
     let orderList: OrderHistoryList;
     service
-      .getOrderHistoryList()
+      .getOrderHistoryList('', 1)
       .subscribe(data => {
         orderList = data;
       })
@@ -134,9 +136,7 @@ describe('UserService', () => {
   });
 
   it('should be able to get order list loaded flag', () => {
-    store.dispatch(
-      new fromStore.LoadUserOrders({ userId: 'testUserId', pageSize: 10 })
-    );
+    store.dispatch(new fromStore.LoadUserOrdersSuccess({}));
 
     let orderListLoaded: boolean;
     service
@@ -145,7 +145,7 @@ describe('UserService', () => {
         orderListLoaded = data;
       })
       .unsubscribe();
-    expect(orderListLoaded).toEqual(false);
+    expect(orderListLoaded).toEqual(true);
   });
 
   it('should be able to load user payment methods', () => {
@@ -269,7 +269,7 @@ describe('UserService', () => {
 
     let flag: boolean;
     service
-      .getAddressActionProcessingStatus()
+      .getAddressesLoading()
       .subscribe(data => {
         flag = data;
       })
@@ -426,5 +426,12 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(regions).toEqual([{ name: 'r1' }, { name: 'r2' }]);
+  });
+
+  it('should be able to clear order list', () => {
+    service.clearOrderList();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearUserOrders()
+    );
   });
 });

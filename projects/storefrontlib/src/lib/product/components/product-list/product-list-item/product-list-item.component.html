@@ -2,12 +2,13 @@
   <div class="col-12 col-md-4">
     <a
       [routerLink]="
-        { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+        { route: [{ name: 'product', params: product | stripHtml }] }
+          | cxTranslateUrl
       "
-      class="cx-product-search-list__image__container"
+      class="cx-product-image-container"
     >
       <cx-picture
-        class="cx-product-search-list__image"
+        class="cx-product-image"
         [imageContainer]="product.images?.PRIMARY"
         imageFormat="product"
         [imageAlt]="product.summary"
@@ -17,9 +18,10 @@
   <div class="col-12 col-md-8">
     <a
       [routerLink]="
-        { route: [{ name: 'product', params: product }] } | cxTranslateUrl
+        { route: [{ name: 'product', params: product | stripHtml }] }
+          | cxTranslateUrl
       "
-      class="cx-product-search-list__name"
+      class="cx-product-name"
       [innerHtml]="product.name"
       >{{ product.name }}</a
     >
@@ -27,15 +29,12 @@
       [rating]="product?.averageRating"
       [disabled]="true"
     ></cx-star-rating>
-    <div class="cx-product-search-list__price" aria-label="Product price">
+    <div class="cx-product-price" aria-label="Product price">
       {{ product.price?.formattedValue }}
     </div>
     <div class="row">
       <div class="col-12 col-md-8">
-        <p
-          class="cx-product-search-list__summary"
-          [innerHtml]="product.summary"
-        >
+        <p class="cx-product-summary" [innerHtml]="product.summary">
           {{ product.summary }}
         </p>
       </div>

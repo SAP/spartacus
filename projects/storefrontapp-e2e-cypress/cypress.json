@@ -1,0 +1,10 @@
+{
+  "defaultCommandTimeout": 10000,
+  "baseUrl": "http://localhost:4200",
+  "projectId": "k3nmep",
+  "env": {
+    "CLIENT_ID": "mobile_android",
+    "CLIENT_SECRET": "secret",
+    "API_URL": "https://storefront.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com"
+  }
+}

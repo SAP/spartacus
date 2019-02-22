@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { CartService, CmsMiniCartComponent } from '@spartacus/core';
-import { Cart } from '@spartacus/core';
+import { CartService, CmsMiniCartComponent, Cart } from '@spartacus/core';
+
 import { CmsComponentData } from './../../cms/components/cms-component-data';
 
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
-  styleUrls: ['./mini-cart.component.scss']
+  styleUrls: ['./mini-cart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MiniCartComponent {
   cart$: Observable<Cart>;

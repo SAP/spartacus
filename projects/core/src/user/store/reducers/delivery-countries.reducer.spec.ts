@@ -1,14 +1,13 @@
-import * as fromReducer from './delivery-countries.reducer';
 import * as fromActions from '../actions/';
 import { Country } from '../../../occ/occ-models/index';
+
+import * as fromReducer from './delivery-countries.reducer';
 
 describe('Delivery Countries Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducer;
-      const action = {} as
-        | fromActions.DeliveryCountriesAction
-        | fromActions.MiscsDataAction;
+      const action = {} as fromActions.DeliveryCountriesAction;
       const state = fromReducer.reducer(undefined, action);
 
       expect(state).toBe(initialState);

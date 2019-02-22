@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  tick,
+  fakeAsync
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ItemCounterComponent } from './item-counter.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -51,8 +57,8 @@ describe('ItemCounterComponent', () => {
     spyOn(itemCounterComponent, 'decrement').and.callThrough();
     spyOn(itemCounterComponent, 'increment').and.callThrough();
     spyOn(itemCounterComponent, 'updateValue').and.callThrough();
-    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
     spyOn(itemCounterComponent, 'isOutOfRange').and.callThrough();
+    spyOn(itemCounterComponent, 'adjustValueInRange').and.callThrough();
     spyOn(itemCounterComponent, 'manualChange').and.callThrough();
     spyOn(itemCounterComponent.update, 'emit').and.callThrough();
     spyOn(keyBoardEvent, 'preventDefault').and.callThrough();
@@ -61,19 +67,17 @@ describe('ItemCounterComponent', () => {
     spyOn(focusEvent, 'stopPropagation').and.callThrough();
   });
 
-  it('should create cart details component', () => {
+  it('should create ItemCounterComponent', () => {
     expect(itemCounterComponent).toBeTruthy();
   });
 
   it('should call writeValue(value) with null value', () => {
     itemCounterComponent.writeValue(null);
-
     expect(itemCounterComponent.value).toEqual(0);
   });
 
   it('should call writeValue(value) with valid value', () => {
     itemCounterComponent.writeValue(3);
-
     expect(itemCounterComponent.value).toEqual(3);
   });
 
@@ -224,21 +228,30 @@ describe('ItemCounterComponent', () => {
     });
   });
 
-  describe('onInput()', () => {
-    it('should call manualChange with value', () => {
-      itemCounterComponent.min = 1;
-      itemCounterComponent.max = 5;
-      const inputEvent = { target: { value: '3' } };
-      itemCounterComponent.onInput(inputEvent);
-      expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(3);
-    });
+  it('should call manualChange with value', fakeAsync(() => {
+    itemCounterComponent.isValueChangeable = true;
+    itemCounterComponent.ngOnInit();
+    fixture.detectChanges();
 
-    it('should not call manualChange', () => {
-      itemCounterComponent.min = 1;
-      itemCounterComponent.max = 5;
-      const inputEvent = { target: {} };
-      itemCounterComponent.onInput(inputEvent);
-      expect(itemCounterComponent.manualChange).not.toHaveBeenCalled();
+    const event = value => ({
+      key: value,
+      target: { value }
     });
+    const inputEl = fixture.debugElement.query(By.css('input'));
+    inputEl.triggerEventHandler('input', event('5'));
+    tick(300);
+    expect(itemCounterComponent.manualChange).toHaveBeenCalledWith(5);
+  }));
+
+  it('should disable/enable input based on cartIsLoading', () => {
+    itemCounterComponent.cartIsLoading = true;
+    itemCounterComponent.ngOnChanges();
+    fixture.detectChanges();
+    expect(itemCounterComponent.inputValue.disabled).toBeTruthy();
+
+    itemCounterComponent.cartIsLoading = false;
+    itemCounterComponent.ngOnChanges();
+    fixture.detectChanges();
+    expect(itemCounterComponent.inputValue.disabled).toBeFalsy();
   });
 });

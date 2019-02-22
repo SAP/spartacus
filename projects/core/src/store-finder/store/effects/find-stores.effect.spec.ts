@@ -1,18 +1,19 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 import { provideMockActions } from '@ngrx/effects/testing';
 
-import { hot, cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-import { OccStoreFinderService } from '../../occ/store-finder.service';
-import { OccConfig } from '@spartacus/core';
-import { StoreFinderSearchConfig } from '../../model/search-config';
+import { hot, cold } from 'jasmine-marbles';
+
+import * as fromActions from '../actions/find-stores.action';
+import { OccConfig } from '../../../occ';
 import { LongitudeLatitude } from '../../model/longitude-latitude';
-import { OccE2eConfigurationService } from '../../occ/e2e/e2e-configuration-service';
+import { StoreFinderSearchConfig } from '../../model/search-config';
+import { OccStoreFinderService } from '../../occ/store-finder.service';
 
 import * as fromEffects from './find-stores.effect';
-import * as fromActions from '../actions/find-stores.action';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -39,7 +40,6 @@ describe('FindStores Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
-        OccE2eConfigurationService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.FindStoresEffect,
         provideMockActions(() => actions$)
@@ -52,8 +52,6 @@ describe('FindStores Effects', () => {
 
     spyOn(service, 'findStores').and.returnValue(of(searchResult));
     spyOn(service, 'findStoreById').and.returnValue(of(singleStoreResult));
-    spyOn(service, 'findStoresByCountry').and.returnValue(of(searchResult));
-    spyOn(service, 'findStoresByRegion').and.returnValue(of(searchResult));
   });
 
   describe('findStores$', () => {
@@ -98,39 +96,6 @@ describe('FindStores Effects', () => {
       const expected = cold('-b', { b: completion });
 
       expect(effects.findStores$).toBeObservable(expected);
-    });
-  });
-
-  describe('findAllStoresByCountry$', () => {
-    it('should return searchResult from FindAllStoresByCountrySuccess', () => {
-      const action = new fromActions.FindAllStoresByCountry({
-        countryIsoCode: 'test'
-      });
-      const completion = new fromActions.FindAllStoresByCountrySuccess(
-        searchResult
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.findAllStoresByCountry$).toBeObservable(expected);
-    });
-  });
-
-  describe('findAllStoresByRegion$', () => {
-    it('should return searchResult from FindAllStoresByRegionSuccess', () => {
-      const action = new fromActions.FindAllStoresByRegion({
-        countryIsoCode: 'test',
-        regionIsoCode: 'CA-QC'
-      });
-      const completion = new fromActions.FindAllStoresByRegionSuccess(
-        searchResult
-      );
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
-
-      expect(effects.findAllStoresByRegion$).toBeObservable(expected);
     });
   });
 });

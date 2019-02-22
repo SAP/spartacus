@@ -1,8 +1,12 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Subscription, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import {
-  CheckoutAddress,
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef
+} from '@angular/core';
+
+import {
   CheckoutService,
   RoutingService,
   GlobalMessageService,
@@ -10,29 +14,34 @@ import {
   CartService,
   CartDataService,
   PaymentDetails,
-  Address
+  Address,
+  Cart
 } from '@spartacus/core';
 
-import { checkoutNavBar } from './checkout-navigation-bar';
+import { Subscription, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
+import { CheckoutNavBarItem } from './checkout-navigation-bar';
 
 @Component({
   selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
-  styleUrls: ['./multi-step-checkout.component.scss']
+  styleUrls: ['./multi-step-checkout.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
   done = false;
 
-  deliveryAddress: CheckoutAddress;
-  paymentDetails: any;
+  deliveryAddress: Address;
+  paymentDetails: PaymentDetails;
   shippingMethod: string;
   subscriptions: Subscription[] = [];
 
-  cart$: Observable<any>;
+  cart$: Observable<Cart>;
   tAndCToggler = false;
 
-  navs = checkoutNavBar;
+  navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -55,7 +64,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.processSteps();
   }
 
-  processSteps() {
+  processSteps(): void {
     // step1: set delivery address
     this.subscriptions.push(
       this.checkoutService
@@ -131,7 +140,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     );
   }
 
-  setStep(backStep) {
+  setStep(backStep: number): void {
     this.nextStep(backStep);
   }
 
@@ -156,7 +165,13 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = false;
   }
 
-  addAddress({ newAddress, address }) {
+  addAddress({
+    newAddress,
+    address
+  }: {
+    newAddress: boolean;
+    address: Address;
+  }): void {
     if (newAddress) {
       this.checkoutService.createAndSetAddress(address);
       return;
@@ -170,7 +185,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  setDeliveryMode({ deliveryModeId }) {
+  setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
     // if the selected shipping method is the same as the cart's one
     if (this.shippingMethod && this.shippingMethod === deliveryModeId) {
       this.nextStep(3);
@@ -188,7 +203,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     newPayment: boolean;
     payment: PaymentDetails;
     billingAddress: Address;
-  }) {
+  }): void {
     payment.billingAddress = billingAddress
       ? billingAddress
       : this.deliveryAddress;
@@ -207,12 +222,61 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.checkoutService.setPaymentDetails(payment);
   }
 
-  placeOrder() {
+  placeOrder(): void {
     this.checkoutService.placeOrder();
   }
 
-  toggleTAndC() {
+  toggleTAndC(): void {
     this.tAndCToggler = !this.tAndCToggler;
+  }
+
+  initializeCheckoutNavBar(): CheckoutNavBarItem[] {
+    return [
+      {
+        id: 1,
+        label: '1. Shipping Address',
+        status: {
+          disabled: false,
+          completed: false,
+          active: true
+        },
+        progressBar: true
+      },
+      {
+        id: 2,
+        label: '2. Shipping Method',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 3,
+        label: '3. Payment',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      },
+      {
+        id: 4,
+        label: '4. Review',
+        status: {
+          disabled: true,
+          completed: false,
+          active: false
+        },
+        progressBar: false
+      }
+    ];
+  }
+
+  clearCheckoutNavBar(): void {
+    this.navs = [];
   }
 
   ngOnDestroy() {
@@ -220,5 +284,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     if (!this.done) {
       this.checkoutService.clearCheckoutData();
     }
+    this.clearCheckoutNavBar();
   }
 }

@@ -23,9 +23,8 @@
       type="text"
       name="value"
       cxOnlyNumber
-      (input)="onInput($event)"
+      [formControl]="inputValue"
       [value]="value"
-      [disabled]="cartIsLoading"
       *ngIf="isValueChangeable"
     />
     <div class="cx-item-counter__value" *ngIf="!isValueChangeable">
@@ -39,15 +38,5 @@
     >
       +
     </button>
-  </div>
-  <div
-    *ngIf="isValueOutOfRange || isMaxOrMinValue()"
-    class="cx-item-counter__tip"
-    [ngClass]="{
-      info: !isValueOutOfRange && isMaxOrMinValue(),
-      error: isValueOutOfRange
-    }"
-  >
-    Must be between {{ min }} - {{ max }}
   </div>
 </div>

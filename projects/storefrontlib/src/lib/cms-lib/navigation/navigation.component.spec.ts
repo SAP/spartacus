@@ -5,23 +5,13 @@ import { of, BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { NavigationComponent } from './navigation.component';
-import { NavigationService } from './navigation.service';
-import { CmsService } from '@spartacus/core';
+import { NavigationComponentService } from './navigation.component.service';
+import {
+  CmsNavigationComponent,
+  Component as SpaComponent
+} from '@spartacus/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-
-class MockCmsService {
-  getComponentData() {
-    return of(null);
-  }
-  getNavigationEntryItems() {
-    return of(undefined);
-  }
-}
-
-const mockNavigationService = {
-  getNavigationEntryItems: createSpy(),
-  createNode: createSpy()
-};
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -31,15 +21,14 @@ class MockNavigationUIComponent {
   @Input()
   dropdownMode = 'list';
   @Input()
-  node;
+  node: NavigationNode;
 }
 
 describe('CmsNavigationComponent in CmsLib', () => {
   let navigationComponent: NavigationComponent;
   let fixture: ComponentFixture<NavigationComponent>;
-  let cmsService: CmsService;
 
-  const componentData = {
+  const componentData: CmsNavigationComponent = {
     uid: 'MockNavigationComponent',
     typeCode: 'NavigationComponent',
     navigationNode: {
@@ -71,17 +60,19 @@ describe('CmsNavigationComponent in CmsLib', () => {
 
   const componentData$ = new BehaviorSubject(componentData);
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: componentData$.asObservable()
+  };
+
+  const mockNavigationService = {
+    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getComponentData: createSpy().and.returnValue(of(null))
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        NavigationService,
-        { provide: CmsService, useClass: MockCmsService },
-        { provide: NavigationService, useValue: mockNavigationService },
-        { provide: CmsComponentData, useValue: mockCmsComponentData }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ],
       declarations: [NavigationComponent, MockNavigationUIComponent]
     }).compileComponents();
@@ -90,45 +81,10 @@ describe('CmsNavigationComponent in CmsLib', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationComponent);
     navigationComponent = fixture.componentInstance;
-    cmsService = TestBed.get(CmsService);
-
-    spyOn(cmsService, 'getComponentData').and.returnValue(of(componentData));
   });
 
   it('should be created', () => {
     expect(navigationComponent).toBeTruthy();
-  });
-
-  it('should able to get navigation entry item data even if they are not exist', () => {
-    navigationComponent.node$.subscribe();
-    expect(mockNavigationService.getNavigationEntryItems).toHaveBeenCalledWith(
-      componentData.navigationNode,
-      true,
-      []
-    );
-  });
-
-  it('should able to create node data from the existing entry items', () => {
-    const itemsData = {
-      MockLink001_AbstractCMSComponent: {
-        uid: 'MockLink001',
-        link: 'testLink1',
-        linkName: 'test link 1'
-      },
-      MockLink002_AbstractCMSComponent: {
-        uid: 'MockLink002',
-        link: 'testLink2',
-        linkName: 'test link 2'
-      }
-    };
-
-    spyOn(cmsService, 'getNavigationEntryItems').and.returnValue(of(itemsData));
-    navigationComponent.node$.subscribe();
-    componentData$.next(componentData);
-    expect(mockNavigationService.createNode).toHaveBeenCalledWith(
-      componentData.navigationNode,
-      itemsData
-    );
   });
 
   it('should render navigation-ui component', () => {

@@ -1,5 +1,9 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { CmsService, ContentSlotData } from '@spartacus/core';
+import {
+  CmsService,
+  ContentSlotData,
+  ContentSlotComponentData
+} from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 import { DynamicSlotComponent } from './dynamic-slot.component';
@@ -82,5 +86,25 @@ describe('DynamicSlotComponent', () => {
     const native = fixture.debugElement.nativeElement;
     expect(native.classList.contains('smartEditComponent')).toBeFalsy();
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
+  });
+
+  describe('getComponentType', () => {
+    it('should return component uid when original component type is "JspIncludeComponent"', () => {
+      const component: ContentSlotComponentData = {
+        typeCode: 'JspIncludeComponent',
+        uid: 'testUid'
+      };
+      expect(dynamicSlotComponent.getComponentType(component)).toBe('testUid');
+    });
+
+    it('should return original component type when it is NOT "JspIncludeComponent"', () => {
+      const component: ContentSlotComponentData = {
+        typeCode: 'testComponentType',
+        uid: 'testUid'
+      };
+      expect(dynamicSlotComponent.getComponentType(component)).toBe(
+        'testComponentType'
+      );
+    });
   });
 });

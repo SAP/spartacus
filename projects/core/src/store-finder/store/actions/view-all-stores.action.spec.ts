@@ -1,4 +1,10 @@
 import * as fromActions from './view-all-stores.action';
+import {
+  loadMeta,
+  failMeta,
+  successMeta
+} from '../../../state/utils/loader/loader.action';
+import { STORE_FINDER_DATA } from '../store-finder-state';
 
 describe('View All Stores Actions', () => {
   describe('ViewAllStores', () => {
@@ -6,7 +12,8 @@ describe('View All Stores Actions', () => {
       const action = new fromActions.ViewAllStores();
 
       expect({ ...action }).toEqual({
-        type: fromActions.VIEW_ALL_STORES
+        type: fromActions.VIEW_ALL_STORES,
+        meta: loadMeta(STORE_FINDER_DATA)
       });
     });
   });
@@ -18,7 +25,8 @@ describe('View All Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.VIEW_ALL_STORES_FAIL,
-        payload
+        payload,
+        meta: failMeta(STORE_FINDER_DATA, payload)
       });
     });
   });
@@ -30,7 +38,8 @@ describe('View All Stores Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromActions.VIEW_ALL_STORES_SUCCESS,
-        payload
+        payload,
+        meta: successMeta(STORE_FINDER_DATA)
       });
     });
   });

@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { Title, Country, Region, CheckoutService } from '@spartacus/core';
+import { UserService, GlobalMessageService } from '@spartacus/core';
+import { AddressValidation } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
 import createSpy = jasmine.createSpy;
 
-import { UserService, GlobalMessageService } from '@spartacus/core';
-
 import { AddressFormComponent } from './address-form.component';
-import { AddressValidation } from '@spartacus/core';
 
 class MockUserService {
   getTitles(): Observable<Title[]> {
@@ -45,6 +45,7 @@ const mockTitles: Title[] = [
     name: 'Mrs.'
   }
 ];
+const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
@@ -96,7 +97,11 @@ describe('AddressFormComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService }
       ]
-    }).compileComponents();
+    })
+      .overrideComponent(AddressFormComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default }
+      })
+      .compileComponents();
 
     userService = TestBed.get(UserService);
     mockCheckoutService = TestBed.get(CheckoutService);
@@ -106,6 +111,7 @@ describe('AddressFormComponent', () => {
     fixture = TestBed.createComponent(AddressFormComponent);
     component = fixture.componentInstance;
     controls = component.address.controls;
+    component.showTitleCode = true;
 
     spyOn(component.addAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
@@ -177,7 +183,7 @@ describe('AddressFormComponent', () => {
       .unsubscribe();
 
     expect(countries).toBe(mockCountries);
-    expect(titles).toBe(mockTitles);
+    expect(titles).toEqual(expectedTitles);
     expect(regions).toBe(mockRegions);
   });
 
@@ -186,7 +192,9 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
-    const mockAddressVerificationResult = { decision: 'ACCEPT' };
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'ACCEPT'
+    };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
     );
@@ -203,7 +211,12 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
-    const mockAddressVerificationResult = { decision: 'REJECT' };
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REJECT',
+      errors: {
+        errors: [{ subject: 'No' }]
+      }
+    };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
     );
@@ -220,7 +233,9 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of([]));
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
-    const mockAddressVerificationResult = { decision: 'REVIEW' };
+    const mockAddressVerificationResult: AddressValidation = {
+      decision: 'REVIEW'
+    };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
     );
@@ -232,7 +247,7 @@ describe('AddressFormComponent', () => {
     );
   });
 
-  it('should call verfiyAddress()', () => {
+  it('should call verifyAddress()', () => {
     component.verifyAddress();
     expect(mockCheckoutService.verifyAddress).toHaveBeenCalled();
   });

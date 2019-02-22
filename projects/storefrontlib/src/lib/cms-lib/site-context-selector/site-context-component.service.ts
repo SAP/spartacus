@@ -1,18 +1,18 @@
-import { Injectable, Optional, Injector, Type } from '@angular/core';
+import { Injectable, Optional, Injector } from '@angular/core';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { CmsSiteContextSelectorComponent, SiteContext } from '@spartacus/core';
+import {
+  CmsSiteContextSelectorComponent,
+  ContextServiceMap,
+  CURRENCY_CONTEXT_ID,
+  LANGUAGE_CONTEXT_ID,
+  SiteContext
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, filter, switchMap, take } from 'rxjs/operators';
 
-export abstract class ContextSelectorServiceMap {
-  [context: string]: Type<SiteContext<any>>;
-}
-
-const LANGUAGE = 'LANGUAGE';
-
 const LABELS = {
-  LANGUAGE: 'Language',
-  CURRENCY: 'Currency'
+  [LANGUAGE_CONTEXT_ID]: 'Language',
+  [CURRENCY_CONTEXT_ID]: 'Currency'
 };
 
 @Injectable()
@@ -20,7 +20,7 @@ export class SiteContextComponentService {
   constructor(
     @Optional()
     protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
-    private contextServiceMap: ContextSelectorServiceMap,
+    private contextServiceMap: ContextServiceMap,
     protected injector: Injector
   ) {}
 
@@ -72,13 +72,19 @@ export class SiteContextComponentService {
   }
 
   protected getService(context: string) {
-    return this.injector.get<SiteContext<any>>(this.contextServiceMap[context]);
+    return this.injector.get<SiteContext<any>>(
+      this.contextServiceMap[context],
+      null
+    );
   }
 
   protected getOptionLabel(item: any, context?: string) {
     switch (context) {
-      case LANGUAGE:
+      case LANGUAGE_CONTEXT_ID:
         return item.nativeName;
+        break;
+      case CURRENCY_CONTEXT_ID:
+        return item.symbol + ' ' + item.isocode;
         break;
       default:
         return item.isocode;

@@ -1,33 +1,45 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  OnInit
+} from '@angular/core';
+
+import {
+  CheckoutService,
+  Address,
+  CartService,
+  UserService,
+  OrderEntry,
+  Cart,
+  DeliveryMode,
+  Country,
+  PaymentDetails
+} from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import {
-  CheckoutService,
-  CheckoutAddress,
-  CartService,
-  UserService
-} from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
-  styleUrls: ['./review-submit.component.scss']
+  styleUrls: ['./review-submit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
   @Input()
-  deliveryAddress: CheckoutAddress;
+  deliveryAddress: Address;
   @Input()
   shippingMethod: string;
   @Input()
-  paymentDetails: any;
+  paymentDetails: PaymentDetails;
 
-  entries$: Observable<any>;
-  cart$: Observable<any>;
-  deliveryMode$: Observable<any>;
-  countryName$: Observable<any>;
+  entries$: Observable<OrderEntry[]>;
+  cart$: Observable<Cart>;
+  deliveryMode$: Observable<DeliveryMode>;
+  countryName$: Observable<Country>;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -58,7 +70,7 @@ export class ReviewSubmitComponent implements OnInit {
       );
   }
 
-  getShippingAddressCard(countryName): Card {
+  getShippingAddressCard(countryName: string): Card {
     if (!countryName) {
       countryName = this.deliveryAddress.country.isocode;
     }
@@ -82,7 +94,7 @@ export class ReviewSubmitComponent implements OnInit {
     };
   }
 
-  getShippingMethodCard(deliveryMode): Card {
+  getShippingMethodCard(deliveryMode: DeliveryMode): Card {
     if (deliveryMode) {
       return {
         title: 'Shipping Method',

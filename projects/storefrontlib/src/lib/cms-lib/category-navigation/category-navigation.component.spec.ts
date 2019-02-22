@@ -1,12 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement, Component, Input } from '@angular/core';
-
-import { NavigationService } from '../navigation/navigation.service';
-import { CmsService } from '@spartacus/core';
-import { CategoryNavigationComponent } from './category-navigation.component';
 import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
+
+import { Component as SpaComponent } from '@spartacus/core';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
+import { CategoryNavigationComponent } from './category-navigation.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   template: '',
@@ -14,15 +16,9 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
 })
 class MockNavigationComponent {
   @Input()
-  node;
+  node: NavigationNode;
   @Input()
-  dropdownMode;
-}
-
-class MockCmsService {
-  getNavigationEntryItems() {
-    return of();
-  }
+  dropdownMode: string;
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -30,7 +26,7 @@ describe('CategoryNavigationComponent', () => {
   let fixture: ComponentFixture<CategoryNavigationComponent>;
   let nav: DebugElement;
 
-  const componentData = {
+  const componentData: NavigationNode = {
     title: 'test',
     children: [
       {
@@ -46,8 +42,13 @@ describe('CategoryNavigationComponent', () => {
     ]
   };
 
-  const mockCmsComponentData = {
+  const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData)
+  };
+
+  const mockNavigationService = {
+    getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
+    getComponentData: createSpy().and.returnValue(of(null))
   };
 
   beforeEach(async(() => {
@@ -55,10 +56,7 @@ describe('CategoryNavigationComponent', () => {
       imports: [RouterTestingModule],
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
-        NavigationService,
-        { provide: CmsService, useClass: MockCmsService },
-        { provide: NavigationService, useValue: {} },
-        { provide: CmsComponentData, useValue: mockCmsComponentData }
+        { provide: NavigationComponentService, useValue: mockNavigationService }
       ]
     }).compileComponents();
   }));

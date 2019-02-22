@@ -6,9 +6,15 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
+  OnChanges
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  FormControl
+} from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 const COUNTER_CONTROL_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
@@ -23,7 +29,8 @@ const COUNTER_CONTROL_ACCESSOR = {
   styleUrls: ['./item-counter.component.scss'],
   providers: [COUNTER_CONTROL_ACCESSOR]
 })
-export class ItemCounterComponent implements OnInit, ControlValueAccessor {
+export class ItemCounterComponent
+  implements OnInit, ControlValueAccessor, OnChanges {
   @ViewChild('itemCounterInput')
   public input: ElementRef;
 
@@ -42,20 +49,42 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   isValueChangeable = false;
 
   @Output()
-  update = new EventEmitter<any>();
+  update = new EventEmitter<number>();
 
   focus: boolean;
 
   isValueOutOfRange = false;
+  inputValue: FormControl = new FormControl({
+    disabled: this.isValueChangeable
+  });
 
   ngOnInit() {
     this.writeValue(this.min || 0);
+    this.inputValue.valueChanges.pipe(debounceTime(300)).subscribe(value => {
+      if (value) {
+        this.manualChange(Number(value));
+      }
+    });
+  }
+
+  ngOnChanges() {
+    if (this.cartIsLoading) {
+      this.inputValue.disable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    } else {
+      this.inputValue.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
   }
 
   constructor() {}
 
-  onTouch = () => {};
-  onModelChange = (_rating: number) => {};
+  onTouch: Function = () => {};
+  onModelChange: Function = (_rating: number) => {};
 
   /**
    * If value is too small it will be set to min, if is too big it will be set to max.
@@ -71,7 +100,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   /**
    * Function set 'isValueOutOfRange' flag and adjust value in range. Then update model value and refresh input
    */
-  manualChange(newValue: number) {
+  manualChange(newValue: number): void {
     this.isValueOutOfRange = this.isOutOfRange(newValue);
     newValue = this.adjustValueInRange(newValue);
     this.updateValue(newValue);
@@ -90,14 +119,7 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     return value < this.min || value > this.max;
   }
 
-  /**
-   * Verify value for decision about displaying info about range
-   */
-  isMaxOrMinValue(): boolean {
-    return this.value === this.max || this.value === this.min;
-  }
-
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     const handlers = {
       ArrowDown: () => this.decrement(),
       ArrowUp: () => this.increment()
@@ -110,21 +132,14 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  onInput(event) {
-    const { value } = event.target;
-    if (value) {
-      this.manualChange(Number(value));
-    }
-  }
-
-  onBlur(event: FocusEvent) {
+  onBlur(event: FocusEvent): void {
     this.focus = false;
     event.preventDefault();
     event.stopPropagation();
     this.onTouch();
   }
 
-  onFocus(event: FocusEvent) {
+  onFocus(event: FocusEvent): void {
     this.focus = true;
     event.preventDefault();
     event.stopPropagation();
@@ -134,28 +149,28 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   /**
    * Verify value that it can be incremented, if yes it does that.
    */
-  increment() {
+  increment(): void {
     this.manualChange(this.value + this.step);
   }
 
   /**
    * Verify value that it can be decremented, if yes it does that.
    */
-  decrement() {
+  decrement(): void {
     this.manualChange(this.value - this.step);
   }
 
   // ControlValueAccessor interface
 
-  registerOnTouched(fn) {
+  registerOnTouched(fn: Function): void {
     this.onTouch = fn;
   }
 
-  registerOnChange(fn) {
+  registerOnChange(fn: Function): void {
     this.onModelChange = fn;
   }
 
-  writeValue(value: number) {
+  writeValue(value: number): void {
     this.value = value || this.min || 0;
     this.onModelChange(this.value);
   }
@@ -163,11 +178,12 @@ export class ItemCounterComponent implements OnInit, ControlValueAccessor {
   /**
    * Set up new value for input and emit event outside
    */
-  updateValue(updatedQuantity) {
+  updateValue(updatedQuantity: number): void {
     if (!this.async) {
       // If the async flag is true, then the parent component is responsible for updating the form
       this.writeValue(updatedQuantity);
     }
+
     // Additionally, we emit a change event, so that users may optionally do something on change
     this.update.emit(updatedQuantity);
     this.onTouch();

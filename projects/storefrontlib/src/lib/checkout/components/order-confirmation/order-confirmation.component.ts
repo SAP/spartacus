@@ -1,16 +1,30 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  OnDestroy
+} from '@angular/core';
+
+import {
+  Order,
+  CheckoutService,
+  Address,
+  PaymentDetails,
+  DeliveryMode
+} from '@spartacus/core';
+
 import { Observable } from 'rxjs';
 
-import { CheckoutService } from '@spartacus/core';
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-order-confirmation',
   templateUrl: './order-confirmation.component.html',
-  styleUrls: ['./order-confirmation.component.scss']
+  styleUrls: ['./order-confirmation.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
-  order$: Observable<any>;
+  order$: Observable<Order>;
 
   constructor(protected checkoutService: CheckoutService) {}
 
@@ -22,7 +36,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     this.checkoutService.clearCheckoutData();
   }
 
-  getAddressCardContent(deliveryAddress: any): Card {
+  getAddressCardContent(deliveryAddress: Address): Card {
     return {
       title: 'Ship To',
       textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
@@ -37,7 +51,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingCardContent(deliveryMode: any): Card {
+  getShippingCardContent(deliveryMode: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: deliveryMode.name,
@@ -45,7 +59,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getBillingAddressCardContent(billingAddress: any): Card {
+  getBillingAddressCardContent(billingAddress: Address): Card {
     return {
       title: 'Bill To',
       textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
@@ -60,7 +74,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getPaymentInfoCardContent(paymentInfo: any): Card {
+  getPaymentInfoCardContent(paymentInfo: PaymentDetails): Card {
     return {
       title: 'Payment',
       textBold: paymentInfo.accountHolderName,

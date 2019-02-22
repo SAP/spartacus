@@ -7,9 +7,9 @@ import {
 describe('Global Message Actions', () => {
   describe('CreateGlobalMessage Actions', () => {
     describe('AddMessage', () => {
-      it('should create the action', () => {
+      it('Should create the action', () => {
         const message: GlobalMessage = {
-          text: 'test',
+          text: 'Test action',
           type: GlobalMessageType.MSG_TYPE_CONFIRMATION
         };
 
@@ -22,8 +22,8 @@ describe('Global Message Actions', () => {
       });
     });
 
-    describe('RemoveAction', () => {
-      it('should create the action', () => {
+    describe('RemoveMessage', () => {
+      it('Should create the action', () => {
         const payload = {
           type: GlobalMessageType.MSG_TYPE_ERROR,
           index: 0

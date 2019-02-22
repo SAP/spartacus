@@ -1,13 +1,8 @@
 /// <reference types="@types/googlemaps" />
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
 import { Injectable } from '@angular/core';
-import { OccE2eConfigurationService } from '../occ/index';
 import { StoreDataService } from '../facade/store-data.service';
-
-const GOOGLE_MAP_API_URL = 'https://maps.googleapis.com/maps/api/js';
-const GOOGLE_API_KEY_PROPERTY_NAME = 'e2egoogleservices.apikey';
-const DEFAULT_SCALE = 12;
-const SELECTED_MARKER_SCALE = 16;
+import { StoreFinderConfig } from '../config/store-finder-config';
 
 @Injectable()
 export class GoogleMapRendererService {
@@ -15,8 +10,8 @@ export class GoogleMapRendererService {
   private markers: google.maps.Marker[];
 
   constructor(
+    private config: StoreFinderConfig,
     private externalJsFileLoader: ExternalJsFileLoader,
-    private sccConfigurationService: OccE2eConfigurationService,
     private storeDataService: StoreDataService
   ) {}
 
@@ -33,17 +28,13 @@ export class GoogleMapRendererService {
     selectMarkerHandler?: Function
   ): void {
     if (this.googleMap === null) {
-      this.sccConfigurationService
-        .getConfiguration(GOOGLE_API_KEY_PROPERTY_NAME)
-        .subscribe(result => {
-          this.externalJsFileLoader.load(
-            GOOGLE_MAP_API_URL,
-            { key: result },
-            () => {
-              this.drawMap(mapElement, locations, selectMarkerHandler);
-            }
-          );
-        });
+      this.externalJsFileLoader.load(
+        this.config.googleMaps.apiUrl,
+        { key: this.config.googleMaps.apiKey },
+        () => {
+          this.drawMap(mapElement, locations, selectMarkerHandler);
+        }
+      );
     } else {
       this.drawMap(mapElement, locations, selectMarkerHandler);
     }
@@ -56,7 +47,7 @@ export class GoogleMapRendererService {
    */
   centerMap(latitute: number, longitude: number): void {
     this.googleMap.panTo({ lat: latitute, lng: longitude });
-    this.googleMap.setZoom(SELECTED_MARKER_SCALE);
+    this.googleMap.setZoom(this.config.googleMaps.selectedMarkerScale);
   }
 
   /**
@@ -81,7 +72,7 @@ export class GoogleMapRendererService {
   ): void {
     const mapProp = {
       center: mapCenter,
-      zoom: DEFAULT_SCALE,
+      zoom: this.config.googleMaps.scale,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     this.googleMap = new google.maps.Map(mapElement, mapProp);

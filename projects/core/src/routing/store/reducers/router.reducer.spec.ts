@@ -108,18 +108,22 @@ describe('Router Reducer', () => {
       };
 
       action.payload.routerState.url = '/login';
+      action.payload.routerState.context.id = 'login';
       const state1 = fromReducer.reducer(initialState, action);
       expect(state1.redirectUrl).toBe('/checkout');
 
       action.payload.routerState.url = '/register';
+      action.payload.routerState.context.id = 'login';
       const state2 = fromReducer.reducer(initialState, action);
       expect(state2.redirectUrl).toBe('/checkout');
 
       action.payload.routerState.url = '/checkout';
+      action.payload.routerState.context.id = 'checkout';
       const state3 = fromReducer.reducer(initialState, action);
       expect(state3.redirectUrl).toBe('/checkout');
 
       action.payload.routerState.url = '/';
+      action.payload.routerState.context.id = 'homepage';
       const state4 = fromReducer.reducer(initialState, action);
       expect(state4.redirectUrl).toBe('');
     });

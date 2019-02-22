@@ -8,7 +8,7 @@ To build the Spartacus project from source, see [Contributor Setup](contributors
 
 Before carrying out the procedures below, please ensure the following front end and back end requirements are in place.
 
-## Front end Requirements
+## Front End Requirements
 
 Your Angular development environment should include the following:
 
@@ -16,48 +16,39 @@ Your Angular development environment should include the following:
 - node.js >= 10.14.1
 - yarn >= 1.9.4
 
-## Back end Requirements
+## Back End Requirements
 
-The Spartacus JavaScript Storefront uses SAP Commerce for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
+The Spartacus JavaScript Storefront uses SAP Commerce Cloud for its back end, and makes use of the sample data from the B2C Accelerator electronics storefront in particular.
 
-Perform the following steps to set up your back end:
+To install SAP Commerce Cloud, refer to the [installation instructions](back_end_installation) appropriate to your version.
 
-- Install a new instance of SAP Commerce 1808 using the `b2c_acc_plus` recipe, as follows:
-
-   1. In the `installer/recipes` folder of SAP Commerce 1808, make a copy of `b2c_acc_plus` and call it `b2c_for_spartacus`.
-
-   2. Delete the existing `build.gradle` file in the `b2c_for_spartacus` recipe folder. 
-
-   3. Add this [build.gradle](assets/build.gradle) file to your `b2c_for_spartacus` recipe folder.
-
-   4. Follow the instructions in https://help.hybris.com/1808/hcd/8c46c266866910149666a0fe4caeee4e.html to install, initialize and start a new instance of SAP Commerce 1808, using `b2c_for_spartacus` as the recipe name.
-
-- Import `spartacus_sample_data.impex`, which you can download here: https://help.hybris.com/1808/api/spartacus/spartacus_sample_data.impex
-
-  For more information on importing ImpEx, see https://help.hybris.com/1808/hcd/2f095d195c0740aab4b0bbdf0f0a2d12.html. 
-
-- Configure your OCC client, as described here: https://help.hybris.com/1808/hcd/627c92db29ce4fce8b01ffbe478a8b3b.html#loio4079b4327ac243b6b3bd507cda6d74ff
+Note: The latest release of SAP Commerce Cloud is recommended.
 
 # Creating a New Angular Application
 
 In the following procedure, we create a new Angular application with the name `mystore`.
 
 1. Generate a new Angular application using the Angular CLI, as follows:
+
+   ```bash
+   $ ng new mystore --style=scss
    ```
-   $ ng new {mystore} --style=scss --routing=true
-   ```
-2. Access the newly created directory:
-   ```
-   $ cd {mystore}
+
+
+2. When prompted if you would like add Angular routing, enter `y` for yes.
+
+3. Access the newly created directory:
+   ```bash
+   $ cd mystore
    ```
 
 # Adding Peer Dependencies to the Storefront
 
 The dependencies in this procedure are required by the Spartacus storefront.
 
-1. Add the following dependencies to the `dependencies` section of `{mystore}/package.json`:
+1. Add the following dependencies to the `dependencies` section of `mystore/package.json`:
 
-   ```
+   ```json
    "@angular/pwa": "^0.12.0",
    "@angular/service-worker": "~7.2.0",
    "@ng-bootstrap/ng-bootstrap": "^4.0.1",
@@ -71,42 +62,41 @@ The dependencies in this procedure are required by the Spartacus storefront.
 
 2. Install the dependencies. The following is an example using yarn:
 
-   ```
+   ```bash
    yarn install
    ```
 
 # Adding the Storefront Dependencies
 
-There are several libraries you must add to your storefront application. You can do so with yarn, as follows:
+Add the Spartacus libraries to your storefront application. You can do so with yarn, as follows:
 
+```bash
+$ yarn add @spartacus/core
+$ yarn add @spartacus/storefront
+$ yarn add @spartacus/styles
 ```
-$ yarn add @spartacus/core@next
-$ yarn add @spartacus/storefront@next
-$ yarn add @spartacus/styles@next
-```
-
-The storefront libraries are not yet released, so we suggest using the `@next` tag to install the latest pre-alpha version that is available.
 
 # Importing the Storefront Module into Your Application
 
-1. Open `{mystore}/src/app/app.module.ts` and add the following lines:
+1. Open `mystore/src/app/app.module.ts` and add the following line:
 
-   ```
+   ```typescript
    import { StorefrontModule } from '@spartacus/storefront';
    ```
 
 2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
 
-   ```
+   ```typescript
    imports: [BrowserModule, StorefrontModule],
    ```
 
 Your file should look like this:
 
-```
+```typescript
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StorefrontModule } from '@spartacus/storefront';
 
@@ -115,7 +105,7 @@ import { StorefrontModule } from '@spartacus/storefront';
     AppComponent
   ],
   imports: [
-    BrowserModule, StorefrontModule
+    BrowserModule, AppRoutingModule, StorefrontModule
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -127,9 +117,9 @@ export class AppModule { }
 
 The Spartacus storefront has default values for all of its configurations. However, you may need to override these values. An example use case would be so that your storefront can communicate with your SAP Commerce back end.
 
-To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example:
+To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example that uses the default values for the configs:
 
-```
+```typescript
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
@@ -144,9 +134,9 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
   ],
 ```
 
-This example uses the default values for the configs. You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use this config:
+You do not have to specify a config if you do not need to override its value. For example, if you only need to override the back end base URL, you can use the following config:
 
-```
+```typescript
 imports: [BrowserModule, StorefrontModule.withConfig({
   server: {
     baseUrl: 'https://my-custom-backend-url:8080',
@@ -154,19 +144,60 @@ imports: [BrowserModule, StorefrontModule.withConfig({
 })]
 ```
 
+## Configuring the Base URL
+
+You can configure the base URL with a special HTML `meta` tag, instead of hard coding it in the `withConfig` method of the StorefrontModule. This allows you to deploy to different environments with only one compiled JavaScript application, because you only need to modify the `meta` tag of the `index.html` file for each environment.
+
+The following example shows how the `meta` tag can be configured in the `index.html` file:
+
+```html
+<meta name="occ-backend-base-url" content="https://my-custom-backend-url:8080" />
+```
+
+The corresponding `app.module.ts` file appears as follows:
+
+```typescript
+  imports: [
+    BrowserModule, StorefrontModule.withConfig({
+      server: {
+        baseUrl: 'https://electronics.local:9002', // This value is overridden by the value from the meta tag.
+        occPrefix: '/rest/v2/'
+      }
+    })
+  ],
+```
+
+**Note**: The value from the `meta` tag takes precedence over the value of the `server.baseUrl` from the `withConfig` method.
+
+**Note**: The `content` attribute of the `meta` tag is ignored in the following cases:
+
+* When it's an empty string, such as in the following example:
+
+  ```
+  <meta name="occ-backend-base-url" content="" />
+  ```
+* When it contains a special placeholder, such as in the following example:
+
+  ```
+  <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
+  ```
+
+
+
+
 # Adding the Storefront Component
 
 This procedure adds the storefront component in the UI.
 
-1. Open `{approot}/src/app/app.component.html` and replace the entire contents of the file with the following line:
+1. Open `mystore/src/app/app.component.html` and replace the entire contents of the file with the following line:
 
-   ```
+   ```html
    <cx-storefront>Loading...</cx-storefront>
    ```
 
-2. Import the styles from the `@spartacus/styles` library by opening `{approot}/src/styles.scss` and adding the following line:
+2. Import the styles from the `@spartacus/styles` library by opening `mystore/src/styles.scss` and adding the following line:
 
-   ```
+   ```scss
    @import "~@spartacus/styles/index";
    ```
 
@@ -190,7 +221,7 @@ This section describes how to validate your back end installation, and then star
 
 1. Start the application with the storefront enabled, as follows:
 
-   ```
+   ```bash
    $ ng serve
    ```
 
@@ -199,12 +230,6 @@ This section describes how to validate your back end installation, and then star
 # Known Issues
 
 The following are known issues with the current release of Spartacus JavaScript Storefront:
-
-- When using SAP Commerce 1808 for your back end, you are currently not able to add payment details or address details in the Spartacus storefront, which prevents successful checkout. However, if you add payment and address details through the Accelerator electronics storefront, they will then appear in the Spartacus storefront, and you will be able to check out.
-
-- The Spartacus storefront is currently missing all categories.
-
-- The Spartacus storefront is currently missing the footer.
 
 - Certain AddOns may cause the Spartacus storefront to not work properly.
 

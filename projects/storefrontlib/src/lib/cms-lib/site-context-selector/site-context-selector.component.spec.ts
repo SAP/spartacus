@@ -1,29 +1,29 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 import { BootstrapModule } from '../../bootstrap.module';
 import {
   CmsService,
   CmsSiteContextSelectorComponent,
   LanguageService,
   CurrencyService,
-  Component
+  Component,
+  Language,
+  contextServiceMapProvider,
+  LANGUAGE_CONTEXT_ID
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 import { CmsComponentData } from '../../cms/components/cms-component-data';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import {
-  SiteContextComponentService,
-  ContextSelectorServiceMap
-} from './site-context-component.service';
+import { SiteContextComponentService } from './site-context-component.service';
 
 @Pipe({
   name: 'cxTranslateUrl'
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
+  transform(): any {}
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -32,7 +32,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   let serviceSpy: any;
   let el: DebugElement;
 
-  const mockLanguages = [
+  const mockLanguages: Language[] = [
     { active: true, isocode: 'ja', name: 'Japanese', nativeName: 'Japanese' },
     { active: true, isocode: 'en', name: 'English', nativeName: 'English' }
   ];
@@ -41,13 +41,13 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   const MockLanguageService = {
     active: mockActiveLang,
-    getAll() {
+    getAll(): Observable<Language[]> {
       return of(mockLanguages);
     },
-    getActive() {
+    getActive(): Observable<string> {
       return of(this.active);
     },
-    setActive(isocode: string) {
+    setActive(isocode: string): void {
       this.active = isocode;
     }
   };
@@ -55,7 +55,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
-    context: 'LANGUAGE'
+    context: LANGUAGE_CONTEXT_ID
   };
 
   const MockCmsService = {
@@ -84,13 +84,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
           provide: CmsComponentData,
           useValue: MockCmsComponentData
         },
-        {
-          provide: ContextSelectorServiceMap,
-          useValue: {
-            LANGUAGE: LanguageService,
-            CURRENCY: CurrencyService
-          }
-        }
+        contextServiceMapProvider
       ]
     })
       .overrideComponent(SiteContextSelectorComponent, {

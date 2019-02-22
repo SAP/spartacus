@@ -1,37 +1,40 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  OnInit,
-  Input,
-  Output,
   EventEmitter,
-  OnDestroy
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
 } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-
-import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import {
+  Address,
+  AddressValidation,
+  CheckoutService,
+  Country,
   GlobalMessageService,
   GlobalMessageType,
-  UserService,
-  CheckoutService
+  Region,
+  Title,
+  UserService
 } from '@spartacus/core';
-
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
-import { Address } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss']
+  styleUrls: ['./address-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
-  countries$: Observable<any>;
-  titles$: Observable<any>;
-  regions$: Observable<any>;
+  countries$: Observable<Country[]>;
+  titles$: Observable<Title[]>;
+  regions$: Observable<Region[]>;
 
   @Input()
   addressData: Address;
@@ -45,6 +48,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   @Input()
   setAsDefaultField: boolean;
 
+  @Input()
+  showTitleCode: boolean;
+
   @Output()
   addAddress = new EventEmitter<any>();
 
@@ -56,7 +62,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   address: FormGroup = this.fb.group({
     defaultAddress: [false],
-    titleCode: [null, Validators.required],
+    titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     line1: ['', Validators.required],
@@ -96,6 +102,10 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (Object.keys(titles).length === 0) {
           this.userService.loadTitles();
         }
+      }),
+      map(titles => {
+        const noneTitle = { code: '', name: 'None' };
+        return [noneTitle, ...titles];
       })
     );
 
@@ -119,16 +129,26 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // verify the new added address
     this.addressVerifySub = this.checkoutService
       .getAddressVerificationResults()
-      .subscribe((results: any) => {
+      .subscribe((results: AddressValidation) => {
         if (results === 'FAIL') {
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.addAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
-          this.globalMessageService.add({
-            type: GlobalMessageType.MSG_TYPE_ERROR,
-            text: 'Invalid Address'
-          });
+          // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+          if (
+            results.errors.errors.some(error => error.subject === 'titleCode')
+          ) {
+            this.globalMessageService.add({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Title is required'
+            });
+          } else {
+            this.globalMessageService.add({
+              type: GlobalMessageType.MSG_TYPE_ERROR,
+              text: 'Invalid Address'
+            });
+          }
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
@@ -145,38 +165,38 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  titleSelected(title) {
+  titleSelected(title: Title): void {
     this.address['controls'].titleCode.setValue(title.code);
   }
 
-  countrySelected(country) {
+  countrySelected(country: Country): void {
     this.address['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
     this.userService.loadRegions(country.isocode);
   }
 
-  regionSelected(region) {
+  regionSelected(region: Region): void {
     this.address['controls'].region['controls'].isocode.setValue(
       region.isocode
     );
   }
 
-  toggleDefaultAddress() {
+  toggleDefaultAddress(): void {
     this.address['controls'].defaultAddress.setValue(
       this.address.value.defaultAddress
     );
   }
 
-  back() {
+  back(): void {
     this.backToAddress.emit();
   }
 
-  verifyAddress() {
+  verifyAddress(): void {
     this.checkoutService.verifyAddress(this.address.value);
   }
 
-  openSuggestedAddress(results: any) {
+  openSuggestedAddress(results: AddressValidation): void {
     if (!this.suggestedAddressModalRef) {
       this.suggestedAddressModalRef = this.modalService.open(
         SuggestedAddressDialogComponent,
