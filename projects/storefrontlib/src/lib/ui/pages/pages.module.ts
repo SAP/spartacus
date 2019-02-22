@@ -2,20 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // ContentPage
-import { PageNotFoundModule } from './404/404.module';
 import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
-import { MultiStepCheckoutPageModule } from './multi-step-checkout-page/multi-step-checkout-page.module';
+
 import { RegisterPageModule } from './register-page/register-page.module';
 import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
 // ContentPage: my Account Pages
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
-import { OrderHistoryPageModule } from './myaccount/order-history-page/order-history-page.module';
 import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
 // CategoryPage
@@ -29,12 +26,13 @@ import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 import { ContentPageModule } from './content-page/content-page.module';
 import { AuthGuard } from '@spartacus/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
+import { CartNotEmptyGuard } from '../../cart/guards';
 
 const pageModules = [
-  OrderHistoryPageModule,
   CategoryPageModule,
   CartPageModule,
-  MultiStepCheckoutPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
@@ -44,8 +42,6 @@ const pageModules = [
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
-  PageNotFoundModule,
-
   // new pages should be added above this line
   ContentPageModule
 ];
@@ -73,6 +69,18 @@ const pageModules = [
         path: null,
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
+        data: { pageLabel: 'sale', cxPath: 'sale' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'contactUs', cxPath: 'contact' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
         data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
       },
       {
@@ -82,8 +90,33 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
         component: PageLayoutComponent
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'orders', cxPath: 'orders' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
       }
     ])
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HardcodedCheckoutComponent,
+      multi: true
+    }
   ]
 })
 export class PagesModule {}

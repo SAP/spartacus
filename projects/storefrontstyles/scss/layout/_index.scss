@@ -4,6 +4,7 @@
 @import './page-templates/category-page';
 @import './page-templates/product-detail';
 @import './page-templates/cart-page';
+@import './page-templates/login-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -27,4 +28,21 @@ cx-page-layout {
 
 .CartPageTemplate {
   @extend %CartPageTemplate !optional;
+}
+
+.LoginPageTemplate {
+  @extend %LoginPageTemplate !optional;
+}
+
+.AccountPageTemplate {
+  --cx-max-width: 100%;
+  @extend %LoginPageTemplate !optional;
+}
+
+.MultiStepCheckoutSummaryPageTemplate {
+  @extend %ContentPage1Template !optional;
+}
+
+.ErrorPageTemplate {
+  @extend %LoginPageTemplate !optional;
 }

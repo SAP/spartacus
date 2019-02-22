@@ -66,6 +66,15 @@ describe('RoutingService', () => {
     });
   });
 
+  describe('goByUrl', () => {
+    it('should dispatch GoByUrl action', () => {
+      service.goByUrl('test');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.GoByUrl('test')
+      );
+    });
+  });
+
   describe('back', () => {
     it('should dispatch back action', () => {
       service.back();

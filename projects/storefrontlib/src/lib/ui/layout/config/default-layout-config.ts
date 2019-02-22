@@ -8,6 +8,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     lg: 1200
   },
   layoutSlots: {
+    footer: {
+      slots: ['Footer']
+    },
     LandingPage2Template: {
       slots: [
         'Section1',
@@ -56,12 +59,18 @@ export const defaultLayoutConfig: LayoutConfig = {
       ]
     },
     AccountPageTemplate: {
-      slots: ['BodyContent', 'SideContent'],
       showTitle: true,
-      md: {
-        // slots: ['Section5'],
-        // showTitle: false
-      }
+      slots: ['BodyContent', 'SideContent']
+    },
+    LoginPageTemplate: {
+      showTitle: true,
+      slots: ['LeftContentSlot', 'RightContentSlot']
+    },
+    ErrorPageTemplate: {
+      slots: ['MiddleContent']
+    },
+    MultiStepCheckoutSummaryPageTemplate: {
+      slots: ['SideContent', 'BodyContent']
     }
   }
 };

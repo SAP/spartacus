@@ -1,17 +1,24 @@
-<ng-container *ngIf="!(isLoading$ | async) && locations; else loading">
-  <ul class="stores-grid">
-    <li
-      *ngFor="let location of locations?.pointOfServices; let i = index"
-      (click)="viewStore(location)"
-      id="{{ 'item-' + i }}"
-    >
-      <cx-store-finder-list-item
-        [location]="location"
-      ></cx-store-finder-list-item>
-    </li>
-  </ul>
+<ng-container
+  *ngIf="
+    !(isLoading$ | async) && (locations$ | async) as locations;
+    else loading
+  "
+>
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-md-3 item"
+        *ngFor="let location of locations?.stores"
+        (click)="viewStore(location)"
+      >
+        <cx-store-finder-list-item
+          [location]="location"
+        ></cx-store-finder-list-item>
+      </div>
+    </div>
+  </div>
 </ng-container>
 
 <ng-template #loading>
-  <div class="cx-store-finder-list__spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
 </ng-template>

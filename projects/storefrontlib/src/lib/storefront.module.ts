@@ -16,12 +16,13 @@ import { CmsLibModule } from './cms-lib/index';
 import { CmsModule } from './cms/index';
 import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
+import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 
 @NgModule({
   imports: [
     StateModule,
     RoutingModule,
-    AuthModule,
+    AuthModule.forRoot(),
     OccModule,
     CmsLibModule,
     CmsModule,
@@ -29,7 +30,7 @@ import { UiModule, UiFrameworkModule } from './ui/index';
     UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,
-    SmartEditModule
+    SmartEditModule.forRoot()
   ],
   exports: [UiModule],
   declarations: []
@@ -38,7 +39,7 @@ export class StorefrontModule {
   static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [provideConfig(config)]
+      providers: [provideConfig(config), ...provideConfigFromMetaTags()]
     };
   }
 }
