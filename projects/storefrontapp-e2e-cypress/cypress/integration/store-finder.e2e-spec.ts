@@ -70,7 +70,7 @@ context.only('Store finder', () => {
 
   it('should allow to go to 2 result page', () => {
     cy.get('cx-pagination .page-item')
-      .getByText('2')
+      .contains('2')
       .click({ force: true }); // electron thinks map is over pagination
     cy.get('cx-pagination .page-item.active').should('contain', '2');
 
@@ -80,7 +80,8 @@ context.only('Store finder', () => {
       .should('contain', STORES[1].name);
   });
 
-  it('should allow to view all stores', () => {
+  // TODO enable after modelT server upgrade
+  it.skip('should allow to view all stores', () => {
     cy.getByText('View all stores').click();
     cy.get('.cx-store-finder-list-count__country-set')
       .getByText('Japan')
