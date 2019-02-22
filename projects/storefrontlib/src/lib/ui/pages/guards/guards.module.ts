@@ -6,4 +6,4 @@ import { RoutingModule, CartModule } from '@spartacus/core';
   imports: [RoutingModule, CartModule],
   providers: [CartNotEmptyGuard]
 })
-export class GardsModule {}
+export class GuardsModule {}

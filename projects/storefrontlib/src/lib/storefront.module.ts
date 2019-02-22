@@ -17,7 +17,7 @@ import { CmsModule } from './cms/index';
 import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { MultiStepCheckoutModule } from './checkout';
+import { MultiStepCheckoutModule } from './checkout/index';
 
 @NgModule({
   imports: [
