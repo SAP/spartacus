@@ -42,7 +42,6 @@ export const defaultLayoutConfig: LayoutConfig = {
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
-        'BottomHeaderSlot',
         'VariantSelectorSlot',
         'AddToCart',
         'UpSelling',
@@ -59,11 +58,9 @@ export const defaultLayoutConfig: LayoutConfig = {
       ]
     },
     AccountPageTemplate: {
-      showTitle: true,
       slots: ['BodyContent', 'SideContent']
     },
     LoginPageTemplate: {
-      showTitle: true,
       slots: ['LeftContentSlot', 'RightContentSlot']
     },
     ErrorPageTemplate: {
