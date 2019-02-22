@@ -13,8 +13,7 @@ const STORES = [
 ];
 
 const MAP_SELECTOR = 'cx-store-finder-map .cx-store-map .gm-style';
-const SEARCH_RESULTS =
-  'cx-store-finder-list .cx-store-finder-list__column-set .cx-store-finder-list__list-items';
+const SEARCH_RESULTS = 'cx-store-finder-list .cx-columns .cx-list-items';
 
 context.only('Store finder', () => {
   before(() => {
@@ -43,7 +42,7 @@ context.only('Store finder', () => {
     cy.get(SEARCH_RESULTS)
       .eq(2)
       .click()
-      .should('have.class', 'cx-store-finder-list__selected-store-item');
+      .should('have.class', 'cx-selected-item');
   });
 
   it('should allow to go to the next result page', () => {
