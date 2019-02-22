@@ -30,6 +30,7 @@ const routes: Routes = [
     OutletRefModule,
     RouterModule.forChild(routes)
   ],
+  providers: [OrderConfirmationPageGuard],
   declarations: [OrderConfirmationPageComponent],
   exports: [OrderConfirmationPageComponent]
 })
