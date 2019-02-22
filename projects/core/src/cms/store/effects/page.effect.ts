@@ -116,7 +116,8 @@ export class PageEffects {
             uid: component.uid,
             uuid: component.uuid,
             catalogUuid: this.getCatalogUuid(component),
-            typeCode: component.typeCode
+            typeCode: component.typeCode,
+            flextype: component.flextype
           });
         }
       }
