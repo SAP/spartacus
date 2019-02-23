@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StorefrontComponent } from './storefront.component';
+import { SeoTitleService } from '../../../seo/seo-title.service';
 
 @Component({
   selector: 'cx-header',
@@ -33,6 +34,10 @@ class MockFooterComponent {}
 })
 class MockPageLayoutComponent {}
 
+class MockSeoTitleService {
+  initPageTitle() {}
+}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -40,6 +45,7 @@ describe('StorefrontComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
+      providers: [{ provide: SeoTitleService, useClass: MockSeoTitleService }],
       declarations: [
         StorefrontComponent,
         MockHeaderComponent,

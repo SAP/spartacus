@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { SeoTitleService } from '../../../seo';
+import { SeoTitleService } from '../../../seo/seo-title.service';
 
 @Component({
   selector: 'cx-storefront',
@@ -7,7 +7,7 @@ import { SeoTitleService } from '../../../seo';
   styleUrls: ['./storefront.component.scss']
 })
 export class StorefrontComponent {
-  constructor(private seoService: SeoTitleService) {
+  constructor(protected seoService: SeoTitleService) {
     this.seoService.initPageTitle();
   }
 }
