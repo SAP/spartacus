@@ -18,6 +18,7 @@ import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { SeoModule } from './seo/seo.module';
+import { MultiStepCheckoutModule } from './checkout/index';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { SeoModule } from './seo/seo.module';
     ConfigModule.forRoot(),
     CxApiModule,
     SmartEditModule.forRoot(),
-    SeoModule
+    SeoModule,
+    MultiStepCheckoutModule
   ],
   exports: [UiModule],
   declarations: []

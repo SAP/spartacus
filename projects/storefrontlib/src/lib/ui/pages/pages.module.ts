@@ -27,7 +27,8 @@ import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 import { AuthGuard } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
-import { CartNotEmptyGuard } from '../../cart/guards';
+import { GuardsModule } from './guards/guards.module';
+import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 
 const pageModules = [
   CategoryPageModule,
@@ -40,8 +41,8 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ResetNewPasswordPageModule
-  // new pages should be added above this line
+  ResetNewPasswordPageModule,
+  GuardsModule
 ];
 
 @NgModule({
