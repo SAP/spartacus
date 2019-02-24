@@ -159,8 +159,9 @@ export class OccUserService {
 
   // TODO: when the endpoint is ready, add implementation here
   resetPassword(token: string, password: string): Observable<{}> {
-    console.warn('token: ', token);
-    console.warn('password: ', password);
+    if (token === undefined || password === undefined) {
+      return of();
+    }
     return of({});
   }
 
