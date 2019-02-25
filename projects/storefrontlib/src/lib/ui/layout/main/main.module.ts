@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -12,6 +12,9 @@ import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+
+import { initSeoService } from '../../../seo/seo-title.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -26,6 +29,15 @@ import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
     PageLayoutModule
   ],
   declarations: [StorefrontComponent],
-  exports: [StorefrontComponent]
+  exports: [StorefrontComponent],
+
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initSeoService,
+      deps: [Injector],
+      multi: true
+    }
+  ]
 })
 export class MainModule {}
