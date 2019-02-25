@@ -9,7 +9,7 @@ describe('Added to cart modal', () => {
   it('basic modal behavior', () => {
     // Type 1000 in the input to see if the value will change to maximum 'max stock'
     cy.get('cx-product-summary .cx-item-counter__value')
-      .type('{selectall}{backspace}')
+      .clear()
       .type('1000')
       .should('have.value', '22');
 
@@ -20,7 +20,7 @@ describe('Added to cart modal', () => {
 
     // Type 0 in the input to see if the value will change to minimum '1'
     cy.get('cx-product-summary .cx-item-counter__value')
-      .type('{selectall}{backspace}')
+      .clear()
       .type('0')
       .should('have.value', '1');
 
