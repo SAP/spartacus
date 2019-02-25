@@ -1,6 +1,7 @@
+import { Action } from '@ngrx/store';
+
 import { LoaderState } from './loader-state';
 import { LoaderAction } from './loader.action';
-import { Action } from '@ngrx/store';
 
 export const initialLoaderState: LoaderState<any> = {
   loading: false,
@@ -18,7 +19,7 @@ export const initialLoaderState: LoaderState<any> = {
 export function loaderReducer<T>(
   loadActionType: string,
   reducer?: (state: T, action: Action) => T
-) {
+): (state: LoaderState<T>, action: LoaderAction) => LoaderState<T> {
   return (
     state: LoaderState<T> = initialLoaderState,
     action: LoaderAction

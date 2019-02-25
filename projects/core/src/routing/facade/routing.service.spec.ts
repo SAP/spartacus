@@ -1,12 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { RoutingService } from './routing.service';
-import * as fromStore from '../store';
+
 import { Store, StoreModule } from '@ngrx/store';
-import createSpy = jasmine.createSpy;
-import { of } from 'rxjs';
 import * as NgrxStore from '@ngrx/store';
-import { RouterState } from '../store/reducers/router.reducer';
+
+import { of } from 'rxjs';
+
+import createSpy = jasmine.createSpy;
+
+import * as fromStore from '../store';
+import { PageType } from '../../occ';
+import { PageContext } from '../models/page-context.model';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { RouterState } from '../store/reducers/router.reducer';
+
+import { RoutingService } from './routing.service';
 
 describe('RoutingService', () => {
   let store: Store<RouterState>;
@@ -140,5 +147,22 @@ describe('RoutingService', () => {
     service.getRouterState().subscribe(state => (routerState = state));
     expect(mockRouterState).toHaveBeenCalledWith(fromStore.getRouterState);
     expect(routerState).toEqual({});
+  });
+
+  it('shoud return only page context from the state', () => {
+    const pageContext: PageContext = {
+      id: 'homepage',
+      type: PageType.CATALOG_PAGE
+    };
+    const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
+    spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);
+
+    let result: PageContext;
+    service
+      .getPageContext()
+      .subscribe(value => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual(pageContext);
   });
 });
