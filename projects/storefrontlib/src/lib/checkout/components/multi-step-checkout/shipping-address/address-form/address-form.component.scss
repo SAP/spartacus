@@ -1,30 +1,21 @@
 @import 'theme';
 
-$cx-address-form-card-background-color: 'inverse' !default;
-// cx-address-form variables
-$cx-address-form-no-padding: 0 !default;
-$cx-address-form-title-padding: 2.375rem 0 1.75rem 0 !default;
-$cx-address-form-title-margin: 0 auto !default;
-$cx-address-form-body-padding-bottom: 1.875rem !default;
-$cx-address-form-text-margin-bottom: 1.25rem !default;
-$cx-address-form-text-md-padding-left: 3.5rem !default;
-$cx-address-form-text-sm-padding-left: 1.5rem !default;
 .cx-address-form {
   &.container {
-    padding: $cx-address-form-no-padding;
+    padding: 0;
   }
   &__title {
     text-transform: uppercase;
-    margin: $cx-address-form-title-margin;
-    padding: $cx-address-form-title-padding;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.75rem 0;
   }
   &__body {
     display: flex;
     align-items: flex-end;
-    padding-bottom: $cx-address-form-body-padding-bottom;
+    padding-bottom: 1.875rem;
   }
   &__text {
-    margin-bottom: $cx-address-form-text-margin-bottom;
+    margin-bottom: 1.25rem;
   }
   &__btns {
     padding-bottom: 1rem;
@@ -34,24 +25,21 @@ $cx-address-form-text-sm-padding-left: 1.5rem !default;
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: $cx-address-form-no-padding;
+        padding: 0;
       }
     }
   }
   &__text {
     @include media-breakpoint-down(md) {
-      padding-left: $cx-address-form-text-md-padding-left;
+      padding-left: 3.5rem;
     }
     @include media-breakpoint-down(sm) {
-      padding-left: $cx-address-form-text-sm-padding-left;
+      padding-left: 1.5rem;
     }
   }
   &__card {
     @include media-breakpoint-down(md) {
-      @include var-color(
-        'background-color',
-        $cx-address-form-card-background-color
-      );
+      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
     }
   }
 }
