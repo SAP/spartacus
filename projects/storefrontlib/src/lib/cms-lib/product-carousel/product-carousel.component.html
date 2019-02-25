@@ -1,11 +1,11 @@
-<h3 *ngIf="(service.title$ | async) as title">{{ title }}</h3>
+<h3 *ngIf="(service.getTitle() | async) as title">{{ title }}</h3>
 
 <ng-container
   *ngIf="{
     maxItemSize: service.itemSize$ | async,
-    products: service.items$ | async,
-    activeItem: service.activeItemWithDelay$ | async,
-    active: service.activeItem$ | async
+    products: service.getItems() | async,
+    activeItem: service.getActiveItemWithDelay() | async,
+    active: service.getActiveItem() | async
   } as carousel"
 >
   <div class="cx-carousel" [ngClass]="'size-' + carousel.maxItemSize">

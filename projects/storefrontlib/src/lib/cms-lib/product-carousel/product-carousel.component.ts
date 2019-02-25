@@ -26,9 +26,6 @@ export class ProductCarouselComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.setTitle();
-    this.service.setItems();
     this.service.setItemSize(this.window, this.el.nativeElement);
-    this.service.setItemAsActive(0);
   }
 }

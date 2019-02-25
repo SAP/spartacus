@@ -24,16 +24,32 @@ export class ProductCarouselService {
   MAX_ITEM_SIZE = 4;
   SPEED = 250;
 
-  items$: Observable<Observable<Product>[]>;
-  itemSize$ = of(this.MAX_ITEM_SIZE);
-  activeItem$ = of(0);
-  activeItemWithDelay$ = of(0);
-  title$: Observable<string>;
+  private items$: Observable<Observable<Product>[]>;
+  private itemSize$ = of(this.MAX_ITEM_SIZE);
+  private activeItem$ = of(0);
+  private activeItemWithDelay$ = of(0);
+  private title$: Observable<string>;
 
   constructor(
     protected component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService
-  ) {}
+  ) {
+    this.setTitle();
+    this.setItems();
+    this.setItemAsActive(0);
+  }
+
+  getActiveItem(): Observable<number> {
+    return this.activeItem$;
+  }
+
+  getActiveItemWithDelay(): Observable<number> {
+    return this.activeItemWithDelay$;
+  }
+
+  getTitle(): Observable<string> {
+    return this.title$;
+  }
 
   setTitle(): void {
     this.title$ = this.component.data$.pipe(
@@ -41,6 +57,10 @@ export class ProductCarouselService {
         return data.title;
       })
     );
+  }
+
+  getItems(): Observable<Observable<Product>[]> {
+    return this.items$;
   }
 
   /**
