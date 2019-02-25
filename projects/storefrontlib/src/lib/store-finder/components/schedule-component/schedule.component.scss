@@ -1,16 +1,11 @@
-@import 'theme';
-
-.days {
-  padding-left: var(--cx-padding, 0px);
+.cx-days {
+  padding: var(--cx-padding, 0 1rem 0 0);
 }
 
-.scheduleWrapper {
-  margin-top: var(--cx-margin, 1.5rem);
-  @include media-breakpoint-down(md) {
-    margin-bottom: var(--cx-margin, 40px);
-  }
+.cx-store-hours {
+  margin: var(--cx-margin, 1.5rem 0);
 }
 
-.hours {
+.cx-hours {
   text-align: var(--cx-text-align, center);
 }
