@@ -1,2 +1,2 @@
-export * from './seo-title.service';
+export * from './seo-meta.service';
 export * from './seo.module';

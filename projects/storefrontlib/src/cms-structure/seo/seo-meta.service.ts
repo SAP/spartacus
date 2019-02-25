@@ -5,13 +5,13 @@ import { PageTitleService } from '@spartacus/core';
 @Injectable({
   providedIn: 'root'
 })
-export class SeoTitleService {
+export class SeoMetaService {
   constructor(
     protected pageTitleService: PageTitleService,
     protected ngTitleService: Title
   ) {}
 
-  initPageTitle() {
+  init() {
     this.pageTitleService
       .getTitle()
       .subscribe(pageTitle => (this.title = pageTitle));
