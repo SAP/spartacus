@@ -88,7 +88,7 @@ export class DynamicSlotComponent implements OnInit {
    *
    * CAUTION: This function should not be used for SmartEdit bindings.
    */
-  getComponentType(component: ContentSlotComponentData): string {
+  getComponentMappedType(component: ContentSlotComponentData): string {
     return component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE
       ? component.uid
       : component.typeCode;
