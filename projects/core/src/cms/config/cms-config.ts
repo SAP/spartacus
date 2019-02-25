@@ -25,6 +25,7 @@ export interface JspIncludeCmsComponentConfig {
 }
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
+export const FLEX_CMS_COMPONENT_TYPE = 'FlexCmsComponent';
 
 export interface CmsComponentMapping {
   selector?: string;
