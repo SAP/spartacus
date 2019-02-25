@@ -97,8 +97,7 @@ describe('Cart', () => {
     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
     cy.selectUserMenuOption('Sign Out');
-
-    cy.visit('/');
+    cy.visit('/cart');
 
     cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
     cy.get('cx-product-list')
@@ -114,7 +113,7 @@ describe('Cart', () => {
 
     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
-    cy.getByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     login(
       standardUser.registrationData.email,
       standardUser.registrationData.password
