@@ -12,7 +12,7 @@ import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
-import { initSeoService } from '../../../seo/index';
+import { SeoModule } from '../../../seo/index';
 
 @NgModule({
   imports: [
@@ -25,18 +25,10 @@ import { initSeoService } from '../../../seo/index';
     UiFrameworkModule,
     OutletRefModule,
     PwaModule,
-    PageLayoutModule
+    PageLayoutModule,
+    SeoModule
   ],
   declarations: [StorefrontComponent],
-  exports: [StorefrontComponent],
-
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initSeoService,
-      deps: [Injector],
-      multi: true
-    }
-  ]
+  exports: [StorefrontComponent]
 })
 export class MainModule {}
