@@ -48,7 +48,7 @@ context('Product details', () => {
       .should('contain', 'Shipping');
   });
 
-  it('should contain tabs with correct text', () => {
+  it.skip('should contain tabs with correct text', () => {
     cy.get(tabsHeaderList)
       .eq(0)
       .click();
