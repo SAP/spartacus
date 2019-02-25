@@ -124,7 +124,7 @@ export class SearchResultsPage extends AppPage {
   }
 
   getHeaderText() {
-    return this.page.element(by.css('header h1')).getText();
+    return this.page.element(by.css('cx-breadcrumb h1')).getText();
   }
 
   getFirstProductDataFromList() {

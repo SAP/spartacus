@@ -3,4 +3,5 @@ export interface ContentSlotComponentData {
   typeCode?: string;
   uuid?: string;
   catalogUuid?: string;
+  flextype?: string;
 }

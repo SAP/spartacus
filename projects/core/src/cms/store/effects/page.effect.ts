@@ -77,6 +77,7 @@ export class PageEffects {
       loadTime: Date.now(),
       uuid: res.uuid,
       name: res.name,
+      type: res.typeCode,
       title: res.title,
       catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
@@ -101,7 +102,8 @@ export class PageEffects {
             uid: component.uid,
             uuid: component.uuid,
             catalogUuid: this.getCatalogUuid(component),
-            typeCode: component.typeCode
+            typeCode: component.typeCode,
+            flextype: component.flextype
           });
         }
       }
