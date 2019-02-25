@@ -6,6 +6,8 @@ import {
   Input,
   EventEmitter
 } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap, filter } from 'rxjs/operators';
 
 import {
   RoutingService,
@@ -13,10 +15,6 @@ import {
   CartDataService,
   UserService
 } from '@spartacus/core';
-
-import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -43,7 +41,7 @@ export class ShippingAddressComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.userService.getAddressesStateLoading();
+    this.isLoading$ = this.userService.getAddressesLoading();
     this.userService.loadAddresses(this.cartData.userId);
 
     this.existingAddresses$ = this.userService.getAddresses().pipe(

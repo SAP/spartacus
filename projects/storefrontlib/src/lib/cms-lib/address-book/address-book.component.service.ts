@@ -13,7 +13,7 @@ export class AddressBookComponentService {
   }
 
   getAddressesStateLoading(): Observable<boolean> {
-    return this.userService.getAddressesStateLoading();
+    return this.userService.getAddressesLoading();
   }
 
   getUserId(): Observable<string> {

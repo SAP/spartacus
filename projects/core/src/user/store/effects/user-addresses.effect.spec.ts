@@ -1,18 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
-
 import { Observable, of } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
-import { AddressList, Address, User } from '../../../occ/index';
-import { OccUserService as UserOccService } from '../../occ/index';
-
 import * as fromUserAddressesEffect from './user-addresses.effect';
+import { AddressList, Address, User } from '../../../occ/index';
+import { OccUserService } from '../../occ/index';
 import { UserService } from '../../facade/user.service';
-import { GlobalMessageService } from 'projects/core/src/global-message';
+import { GlobalMessageService } from '../../../global-message/index';
 
 class MockOccUserService {
   loadUserAddresses(_userId: string): Observable<any> {
@@ -56,14 +52,14 @@ const mockUserAddress: Address = {
 
 describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
-  let userOccService: UserOccService;
+  let userOccService: OccUserService;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         fromUserAddressesEffect.UserAddressesEffects,
-        { provide: UserOccService, useClass: MockOccUserService },
+        { provide: OccUserService, useClass: MockOccUserService },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         provideMockActions(() => actions$)
@@ -73,7 +69,7 @@ describe('User Addresses effect', () => {
     userAddressesEffect = TestBed.get(
       fromUserAddressesEffect.UserAddressesEffects
     );
-    userOccService = TestBed.get(UserOccService);
+    userOccService = TestBed.get(OccUserService);
 
     spyOn(userOccService, 'loadUserAddresses').and.returnValue(
       of(mockUserAddresses)

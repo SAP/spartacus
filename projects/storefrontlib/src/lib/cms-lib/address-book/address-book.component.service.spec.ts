@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { UserService, Address, User } from '@spartacus/core';
-import { AddressBookComponentService } from './address-book.component.service';
 import { of, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+
+import { UserService, Address, User } from '@spartacus/core';
+import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
   {

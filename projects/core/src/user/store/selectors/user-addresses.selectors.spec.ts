@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { Store, StoreModule, select } from '@ngrx/store';
 
 import { StateWithUser, USER_FEATURE } from '../user-state';
@@ -60,48 +59,16 @@ describe('User Addresses Selectors', () => {
     });
   });
 
-  describe('getAddressesStateLoading', () => {
+  describe('getAddressesLoading', () => {
     it('should return loading flag', () => {
       let result: boolean;
       store
-        .pipe(select(fromSelectors.getAddressesStateLoading))
+        .pipe(select(fromSelectors.getAddressesLoading))
         .subscribe(value => (result = value));
 
       expect(result).toEqual(false);
 
       store.dispatch(new fromActions.LoadUserAddresses('userId'));
-
-      expect(result).toEqual(true);
-    });
-  });
-
-  describe('getAddressesStateSuccess', () => {
-    it('should return success flag', () => {
-      let result: boolean;
-      store
-        .pipe(select(fromSelectors.getAddressesStateSuccess))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(
-        new fromActions.LoadUserAddressesSuccess(mockUserAddresses)
-      );
-
-      expect(result).toEqual(true);
-    });
-  });
-
-  describe('getAddressesStateError', () => {
-    it('should return error flag', () => {
-      let result: boolean;
-      store
-        .pipe(select(fromSelectors.getAddressesStateError))
-        .subscribe(value => (result = value));
-
-      expect(result).toEqual(false);
-
-      store.dispatch(new fromActions.LoadUserAddressesFail(''));
 
       expect(result).toEqual(true);
     });
