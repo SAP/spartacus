@@ -3,7 +3,7 @@
   *ngIf="!(isLoading$ | async) && (location$ | async) as location; else loading"
 >
   <div class="row">
-    <article class="cx-storeInfo col-lg-4">
+    <article class="cx-store col-lg-4">
       <h2>{{ location.displayName }}</h2>
 
       <p *ngIf="location.address" class="storeAddress">
@@ -13,16 +13,22 @@
         {{ location.address.postalCode }}
       </p>
 
-      <section class="cx-contactInfo">
-        <p>
-          <a [href]="getDirections(location)" target="_blank">Get Directions</a>
-        </p>
-        <p>Call {{ location.address?.phone }}</p>
-        <p>
-          <a [routerLink]="{ route: ['contact'] } | cxTranslateUrl"
-            >Contact us</a
-          >
-        </p>
+      <section class="cx-contact">
+        <ul class="cx-list">
+          <li class="cx-item">
+            <a class="cx-link" [href]="getDirections(location)" target="_blank"
+              >Get Directions</a
+            >
+          </li>
+          <li class="cx-item">Call {{ location.address?.phone }}</li>
+          <li class="cx-item">
+            <a
+              class="cx-link"
+              [routerLink]="{ route: ['contact'] } | cxTranslateUrl"
+              >Contact us</a
+            >
+          </li>
+        </ul>
       </section>
       <div class="cx-schedule">
         <cx-schedule [location]="location"> <h3>Store hours</h3> </cx-schedule>
@@ -33,7 +39,7 @@
     </article>
   </div>
 
-  <div class="row cx-storeFeature">
+  <div class="row cx-feature">
     <div class="col-lg-12">
       <h3 class="cx-features-header">Store features</h3>
     </div>

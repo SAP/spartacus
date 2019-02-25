@@ -1,21 +1,26 @@
 @import 'theme';
 
-.cx-storeInfo {
+.cx-store {
   text-align: var(--cx-text-align, left);
 }
 
-.cx-contactInfo p {
-  margin-bottom: var(--cx-margin, 0.5rem);
-}
-
-.cx-contactInfo {
+.cx-contact {
   margin-bottom: var(--cx-margin, 1rem);
   font-weight: var(--cx-g-font-weight-bold, 700);
   text-decoration: var(--cx-text-dectoration, underline);
 }
 
-.cx-contactInfo a {
+.cx-list {
+  padding: var(--cx-padding, 0);
+  list-style: var(--cx-list-style, none);
+}
+
+.cx-link {
   color: var(--cx-color, var(--cx-g-color-text));
+}
+
+.cx-item {
+  margin-bottom: var(--cx-margin, 0.5rem);
 }
 
 .cx-schedule {
@@ -23,9 +28,9 @@
   font-weight: var(--cx-g-font-weight-bold, 700);
 }
 
-.cx-storeFeature {
-  margin-top: var(--cx-margin, 43px);
-  margin-bottom: var(--cx-margin, 29px);
+.cx-feature {
+  margin-top: var(--cx-margin, 30px);
+  margin-bottom: var(--cx-margin, 20px);
 }
 
 .cx-features-header {
