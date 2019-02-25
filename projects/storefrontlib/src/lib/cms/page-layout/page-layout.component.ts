@@ -33,10 +33,6 @@ export class PageLayoutComponent implements OnInit {
     return this.pageLayoutService.getSlots(this.section);
   }
 
-  get pageTitle$() {
-    return this.pageLayoutService.pageTitle$;
-  }
-
   get templateName$() {
     return this.pageLayoutService.templateName$.pipe(
       // intercept the observable to keep a clean DOM tree

@@ -88,7 +88,7 @@ describe('DynamicSlotComponent', () => {
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
   });
 
-  fdescribe('getComponentMappedType', () => {
+  describe('getComponentMappedType', () => {
     let component: ContentSlotComponentData;
 
     beforeEach(() => {

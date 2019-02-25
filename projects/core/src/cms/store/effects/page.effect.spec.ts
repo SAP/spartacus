@@ -59,6 +59,7 @@ describe('Page Effects', () => {
     name: 'testPage',
     template: 'testTemplate',
     title: 'testPageTitle',
+    typeCode: 'ContentPage',
     contentSlots: {
       contentSlot: [
         {
@@ -106,6 +107,7 @@ describe('Page Effects', () => {
     loadTime: 1000000000000,
     name: 'testPage',
     pageId: 'testPageId',
+    type: 'ContentPage',
     template: 'testTemplate',
     title: 'testPageTitle',
     seen: new Array<string>(),

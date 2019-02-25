@@ -15,7 +15,8 @@
         <!-- we only create a wrappimg div if we need to host a css class -->
         <div
           cxComponentWrapper
-          [componentType]="getComponentMappedType(component)"
+          [componentType]="component.typeCode"
+          [componentMappedType]="getComponentMappedType(component)"
           [componentUid]="component.uid"
           [componentUuid]="component.uuid"
           [componentCatalogUuid]="component.catalogUuid"
@@ -26,7 +27,8 @@
       <ng-template
         #containerWrapper
         cxComponentWrapper
-        [componentType]="getComponentMappedType(component)"
+        [componentType]="component.typeCode"
+        [componentMappedType]="getComponentMappedType(component)"
         [componentUid]="component.uid"
         [componentUuid]="component.uuid"
         [componentCatalogUuid]="component.catalogUuid"
