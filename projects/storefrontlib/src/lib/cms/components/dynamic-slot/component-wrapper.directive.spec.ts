@@ -61,7 +61,7 @@ class MockCmsService {
 
 @Component({
   template:
-    '<ng-container cxComponentWrapper componentType="CMSTestComponent" ' +
+    '<ng-container cxComponentWrapper componentType="cms_typeCode" componentMappedType="CMSTestComponent" ' +
     'componentUid="test_uid" componentUuid="test_uuid" componentCatalogUuid="test_catalogUuid">' +
     '</ng-container>'
 })
@@ -149,7 +149,7 @@ describe('ComponentWrapperDirective', () => {
           'test_uid'
         );
         expect(compEl.getAttribute('data-smartedit-component-type')).toEqual(
-          'CMSTestComponent'
+          'cms_typeCode'
         );
         expect(
           compEl.getAttribute('data-smartedit-catalog-version-uuid')
