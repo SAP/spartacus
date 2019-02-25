@@ -30,7 +30,7 @@ class MockUserService {
   getAddresses(): Observable<Address[]> {
     return of(mockAddresses);
   }
-  getAddressesStateLoading(): Observable<boolean> {
+  getAddressesLoading(): Observable<boolean> {
     return of(false);
   }
   get(): Observable<User> {

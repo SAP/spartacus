@@ -45,8 +45,6 @@ export class UserAddressesEffects {
         .addUserAddress(payload.userId, payload.address)
         .pipe(
           map((data: any) => {
-            this.notifyAboutAddSuccess();
-
             return new fromUserAddressesAction.AddUserAddressSuccess(data);
           }),
           catchError(error =>
@@ -67,8 +65,6 @@ export class UserAddressesEffects {
         .updateUserAddress(payload.userId, payload.addressId, payload.address)
         .pipe(
           map((data: any) => {
-            this.notifyAboutUpdateSuccess();
-
             return new fromUserAddressesAction.UpdateUserAddressSuccess(data);
           }),
           catchError(error =>
@@ -89,8 +85,6 @@ export class UserAddressesEffects {
         .deleteUserAddress(payload.userId, payload.addressId)
         .pipe(
           map((data: any) => {
-            this.notifyAboutDeleteSuccess();
-
             return new fromUserAddressesAction.DeleteUserAddressSuccess(data);
           }),
           catchError(error =>
@@ -120,6 +114,30 @@ export class UserAddressesEffects {
     })
   );
 
+  @Effect({ dispatch: false })
+  showGlobalMessageOnAddSuccess$ = this.actions$.pipe(
+    ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
+    tap(() => {
+      this.showGlobalMessage('New address was added successfully!');
+    })
+  );
+
+  @Effect({ dispatch: false })
+  showGlobalMessageOnUpdateSuccess$ = this.actions$.pipe(
+    ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
+    tap(() => {
+      this.showGlobalMessage('Address updated successfully!');
+    })
+  );
+
+  @Effect({ dispatch: false })
+  showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
+    ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
+    tap(() => {
+      this.showGlobalMessage('Address deleted successfully!');
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private occUserService: OccUserService,
@@ -141,17 +159,5 @@ export class UserAddressesEffects {
       type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       text
     });
-  }
-
-  private notifyAboutAddSuccess() {
-    this.showGlobalMessage('New address was added successfully!');
-  }
-
-  private notifyAboutUpdateSuccess() {
-    this.showGlobalMessage('Address updated successfully!');
-  }
-
-  private notifyAboutDeleteSuccess() {
-    this.showGlobalMessage('Address deleted successfully!');
   }
 }
