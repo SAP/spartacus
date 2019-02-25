@@ -44,13 +44,16 @@ describe('EntityLoader Actions', () => {
 
     describe('LoaderSuccessAction', () => {
       it('should create an action', () => {
+        const payload = 'payload';
         const action = new EntitySuccessAction(
           TEST_ENTITY_TYPE,
-          TEST_ENTITY_ID
+          TEST_ENTITY_ID,
+          payload
         );
         expect({ ...action }).toEqual({
           type: ENTITY_SUCCESS_ACTION,
-          meta: entitySuccessMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID)
+          meta: entitySuccessMeta(TEST_ENTITY_TYPE, TEST_ENTITY_ID),
+          payload
         });
       });
     });
