@@ -8,3 +8,4 @@ export * from './regions.selectors';
 export * from './order-details.selectors';
 export * from './feature.selector';
 export * from './billing-countries.selectors';
+export * from './reset-password.selectors';

@@ -331,11 +331,27 @@ export class UserService {
   }
 
   /**
+   * Reset new password
+   * @param token
+   * @param password
+   */
+  resetPassword(token: string, password: string) {
+    this.store.dispatch(new fromStore.ResetPassword({ token, password }));
+  }
+
+  /*
    * Request an email to reset a forgotten password.
    */
   requestForgotPasswordEmail(userEmailAddress: string) {
     this.store.dispatch(
       new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
     );
+  }
+
+  /**
+   * Return whether user's password is successfully reset
+   */
+  isPasswordReset(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getResetPassword));
   }
 }

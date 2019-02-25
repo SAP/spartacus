@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { throwError, Observable } from 'rxjs';
+import { throwError, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { UserRegisterFormData } from '../model/user.model';
@@ -155,6 +155,14 @@ export class OccUserService {
     return this.http
       .post<User>(url, user, { headers })
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  // TODO: when the endpoint is ready, add implementation here
+  resetPassword(token: string, password: string): Observable<{}> {
+    if (token === undefined || password === undefined) {
+      return of();
+    }
+    return of({});
   }
 
   protected getUserEndpoint() {
