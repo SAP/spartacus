@@ -44,8 +44,7 @@
     "release:core:with-changelog": "cd projects/core && release-it --config .release-it.changelog.json && cd ../..",
     "release-notes:lib": "ts-node ./scripts/changelog.ts --verbose --lib storefront",
     "release-notes:core": "ts-node ./scripts/changelog.ts --verbose --lib core",
-    "release-notes:styles": "ts-node ./scripts/changelog.ts --verbose --lib styles",
-    "postinstall": "cd projects/storefrontapp-e2e-cypress && yarn && cd ../.."
+    "release-notes:styles": "ts-node ./scripts/changelog.ts --verbose --lib styles"
   },
   "private": false,
   "dependencies": {
