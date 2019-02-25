@@ -2,16 +2,16 @@
 
 .cx-address-form {
   &.container {
-    padding: 0;
+    padding: var(--cx-padding, 0);
   }
   &__title {
-    text-transform: uppercase;
-    margin: 0 auto;
-    padding: 2.375rem 0 1.75rem 0;
+    text-transform: var(--cx-text-transform, uppercase);
+    margin: var(--cx-margin, 0 auto);
+    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
   }
   &__body {
-    display: flex;
-    align-items: flex-end;
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, flex-end);
     padding-bottom: 1.875rem;
   }
   &__text {
@@ -25,7 +25,7 @@
   &__body {
     &.row {
       @include media-breakpoint-down(md) {
-        padding: 0;
+        padding: var(--cx-padding, 0);
       }
     }
   }
