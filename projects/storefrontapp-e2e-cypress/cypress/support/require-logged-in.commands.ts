@@ -30,6 +30,7 @@ export interface RegistrationData {
   lastName: string;
   password: string;
   titleCode: string;
+  email?: string;
 }
 
 export interface RequireLoggedInDebugOptions {
@@ -128,7 +129,9 @@ Cypress.Commands.add(
       }
     };
     const account = accountData || defaultAccount;
-    const username = generateMail(account.user, options.freshUserOnTestRefresh);
+    const username =
+      account.registrationData.email ||
+      generateMail(account.user, options.freshUserOnTestRefresh);
 
     cy.server();
     login(username, account.registrationData.password, false).then(res => {

@@ -1,8 +1,6 @@
 import { login } from '../helpers/auth-forms';
 import { standardUser } from '../sample-data/shared-users';
-
-// import { standardUser } from '../sample-data/shared-users';
-// import { login } from '../helpers/auth-forms';
+import { generateMail, randomString } from '../helpers/user';
 
 const PRODUCT_CODE_1 = '1934793';
 const PRODUCT_CODE_2 = '300938';
@@ -84,38 +82,82 @@ describe('Cart', () => {
   });
 
   it('should add product to cart as anonymous and merge when logged in', () => {
-    cy.requireLoggedIn()
-      .its('username')
-      .then(email => {
-        cy.visit('/cart');
-        console.log(email);
-        cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
-        cy.get('.dropdown-item.active').click();
-        cy.get('cx-product-summary cx-add-to-cart button').click();
-        cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-          'contain',
-          'Cart total (1 items)'
-        );
-        cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+    standardUser.registrationData.email = generateMail(randomString(), true);
+    cy.requireLoggedIn(standardUser);
 
-        cy.selectUserMenuOption('Sign Out');
+    cy.visit('/cart');
 
-        cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
-        cy.get('cx-product-list')
-          .contains('cx-product-list-item', 'EASYSHARE M381')
-          .within(() => {
-            cy.get('cx-add-to-cart button').click();
-          });
+    cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
+    cy.get('.dropdown-item.active').click();
+    cy.get('cx-product-summary cx-add-to-cart button').click();
+    cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
+      'contain',
+      'Cart total (1 items)'
+    );
+    cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
-        cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-          'contain',
-          'Cart total (1 items)'
-        );
-        cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+    cy.selectUserMenuOption('Sign Out');
 
-        cy.getByText(/Sign in \/ Register/i).click();
-        login(email, standardUser.registrationData.password);
+    cy.visit('/');
+
+    cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
+    cy.get('cx-product-list')
+      .contains('cx-product-list-item', 'EASYSHARE M381')
+      .within(() => {
+        cy.get('cx-add-to-cart button').click();
       });
+
+    cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
+      'contain',
+      'Cart total (1 items)'
+    );
+
+    cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+
+    cy.getByText(/Sign in \/ Register/i).click();
+    login(
+      standardUser.registrationData.email,
+      standardUser.registrationData.password
+    );
+
+    const miniCart = cy.get('cx-mini-cart');
+    miniCart.within(() => {
+      cy.get('.count').should('contain', 2);
+    });
+    miniCart.click();
+    //     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+    // cy.requireLoggedIn()
+    //   .its('username')
+    //   .then(email => {
+    //     cy.visit('/cart');
+
+    //     cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
+    //     cy.get('.dropdown-item.active').click();
+    //     cy.get('cx-product-summary cx-add-to-cart button').click();
+    //     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
+    //       'contain',
+    //       'Cart total (1 items)'
+    //     );
+    //     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+
+    //     cy.selectUserMenuOption('Sign Out');
+
+    //     cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
+    //     cy.get('cx-product-list')
+    //       .contains('cx-product-list-item', 'EASYSHARE M381')
+    //       .within(() => {
+    //         cy.get('cx-add-to-cart button').click();
+    //       });
+
+    //     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
+    //       'contain',
+    //       'Cart total (1 items)'
+    //     );
+    //     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+
+    //     cy.getByText(/Sign in \/ Register/i).click();
+    //     login(email, standardUser.registrationData.password);
+    //   });
   });
 
   xit('should add product to cart and manipulate quantity', () => {
