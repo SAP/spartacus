@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta, MetaDefinition } from '@angular/platform-browser';
 import { PageTitleService } from '@spartacus/core';
 
 @Injectable({
@@ -7,8 +7,9 @@ import { PageTitleService } from '@spartacus/core';
 })
 export class SeoMetaService {
   constructor(
-    protected pageTitleService: PageTitleService,
-    protected ngTitleService: Title
+    protected ngTitle: Title,
+    protected ngMeta: Meta,
+    protected pageTitleService: PageTitleService
   ) {}
 
   init() {
@@ -18,6 +19,14 @@ export class SeoMetaService {
   }
 
   protected set title(title: string) {
-    this.ngTitleService.setTitle(title || '');
+    this.ngTitle.setTitle(title || '');
+  }
+
+  protected set description(value: string) {
+    this.meta = { name: 'description', content: value };
+  }
+
+  protected set meta(meta: MetaDefinition) {
+    this.ngMeta.addTag(meta);
   }
 }
