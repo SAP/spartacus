@@ -1,13 +1,6 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { PageTitleService } from '@spartacus/core';
-
-export function initSeoService(injector: Injector) {
-  return function() {
-    const service = injector.get<SeoTitleService>(SeoTitleService);
-    service.initPageTitle();
-  };
-}
 
 @Injectable({
   providedIn: 'root'

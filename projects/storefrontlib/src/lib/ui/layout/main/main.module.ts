@@ -12,8 +12,7 @@ import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
-
-import { initSeoService } from '../../../seo/seo-title.service';
+import { initSeoService } from '../../../seo/index';
 
 @NgModule({
   imports: [
