@@ -1,3 +1,9 @@
+@import 'theme';
+
+.cx-storeInfo {
+  text-align: var(--cx-text-align, left);
+}
+
 .cx-contactInfo p {
   margin-bottom: var(--cx-margin, 0.5rem);
 }
@@ -14,10 +20,23 @@
 
 .cx-schedule {
   margin-top: var(--cx-margin, 1.5rem);
+  font-weight: var(--cx-g-font-weight-bold, 700);
 }
 
 .cx-storeFeature {
+  margin-top: var(--cx-margin, 43px);
+  margin-bottom: var(--cx-margin, 29px);
+}
+
+.cx-features-header {
+  text-align: var(--cx-text-align, left);
+}
+
+.cx-features {
   border-width: var(--cx-border-width, 1px);
   border-style: var(--cx-border-style, solid);
-  margin: var(--cx-margin, 5px);
+
+  @include media-breakpoint-down(md) {
+    margin: var(--cx-margin, 5px 0);
+  }
 }

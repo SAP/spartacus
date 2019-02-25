@@ -33,11 +33,15 @@
     </article>
   </div>
 
-  <div class="row"><h3 class="col-lg-12">Store features</h3></div>
+  <div class="row cx-storeFeature">
+    <div class="col-lg-12">
+      <h3 class="cx-features-header">Store features</h3>
+    </div>
+  </div>
 
   <article class="row">
     <div class="col-lg-3" *ngFor="let feature of location.features?.entry">
-      <div class="cx-storeFeature">{{ feature.value }}</div>
+      <div class="cx-features">{{ feature.value }}</div>
     </div>
   </article>
 </div>

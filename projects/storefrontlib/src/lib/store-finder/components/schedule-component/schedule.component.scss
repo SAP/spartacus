@@ -1,11 +1,16 @@
+@import 'theme';
+
 .days {
-  padding-left: 0px;
+  padding-left: var(--cx-padding, 0px);
 }
 
 .scheduleWrapper {
-  margin-top: 1.5rem;
+  margin-top: var(--cx-margin, 1.5rem);
+  @include media-breakpoint-down(md) {
+    margin-bottom: var(--cx-margin, 40px);
+  }
 }
 
 .hours {
-  text-align: center;
+  text-align: var(--cx-text-align, center);
 }
