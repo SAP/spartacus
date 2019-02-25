@@ -22,16 +22,11 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductListComponent implements OnChanges, OnInit {
-  @Input()
-  gridMode: String;
-  @Input()
-  query;
-  @Input()
-  categoryCode;
-  @Input()
-  brandCode;
-  @Input()
-  itemPerPage: number;
+  @Input() gridMode: String;
+  @Input() query;
+  @Input() categoryCode;
+  @Input() brandCode;
+  @Input() itemPerPage: number;
 
   grid: any;
   model$: Observable<ProductSearchPage>;
@@ -97,26 +92,10 @@ export class ProductListComponent implements OnChanges, OnInit {
       tap(searchResult => {
         if (Object.keys(searchResult).length === 0) {
           this.search(this.query, this.options);
-        } else {
-          this.getCategoryTitle(searchResult);
         }
       }),
       filter(searchResult => Object.keys(searchResult).length > 0)
     );
-  }
-
-  protected getCategoryTitle(data: ProductSearchPage): string {
-    if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-      this.categoryTitle = data.breadcrumbs[0].facetValueName;
-    } else if (!this.query.includes(':relevance:')) {
-      this.categoryTitle = this.query;
-    }
-    if (this.categoryTitle) {
-      this.categoryTitle =
-        data.pagination.totalResults + ' results for ' + this.categoryTitle;
-    }
-
-    return this.categoryTitle;
   }
 
   onFilter(query: string) {
