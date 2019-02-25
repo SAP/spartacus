@@ -16,7 +16,6 @@ import { CmsConfig } from '../../config/cms-config';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 import { Page } from '../../model/page.model';
 import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from '../../services/default-page.service';
 import { PageType, CmsComponent } from '../../../occ/occ-models';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
@@ -46,7 +45,6 @@ class RoutingServiceMock {
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
   let occService: OccCmsService;
-  let defaultPageService: DefaultPageService;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
 
@@ -144,22 +142,17 @@ describe('Page Effects', () => {
         OccCmsService,
         { provide: RoutingService, useClass: RoutingServiceMock },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
-        DefaultPageService,
         fromEffects.PageEffects,
         provideMockActions(() => actions$)
       ]
     });
 
     occService = TestBed.get(OccCmsService);
-    defaultPageService = TestBed.get(DefaultPageService);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;
 
     spyOn(occService, 'loadPageData').and.returnValue(of(cmsPageData));
-    spyOn(defaultPageService, 'getDefaultPageIdsBytype').and.returnValue([
-      'productList'
-    ]);
   });
 
   describe('refreshPage$', () => {
