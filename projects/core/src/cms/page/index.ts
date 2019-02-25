@@ -1,2 +1,2 @@
-export * from './page-title.resolver';
+export * from './page-meta.resolver';
 export * from './content-page-title.resolver';

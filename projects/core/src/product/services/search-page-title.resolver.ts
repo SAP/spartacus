@@ -4,12 +4,14 @@ import { map, filter } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageType } from '../../occ/occ-models/occ.models';
 import { ProductSearchService } from '../facade/product-search.service';
-import { PageTitleResolver } from '../../cms/page/page-title.resolver';
+import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
+import { PageMeta } from '../../cms/model/page.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SearchPageTitleResolver extends PageTitleResolver {
+export class SearchPageTitleResolver extends PageMetaResolver
+  implements PageMetaResolver {
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService
@@ -19,7 +21,7 @@ export class SearchPageTitleResolver extends PageTitleResolver {
     this.pageTemplate = 'SearchResultsListPageTemplate';
   }
 
-  resolve(): Observable<string> {
+  resolve(): Observable<PageMeta> {
     return combineLatest(
       this.productSearchService.getSearchResults().pipe(
         filter(data => !!(data && data.pagination)),
@@ -29,10 +31,16 @@ export class SearchPageTitleResolver extends PageTitleResolver {
         map(state => state.state.params['query']),
         filter(Boolean)
       )
-    ).pipe(map(([t, q]: [number, string]) => this.getSearchResultTitle(t, q)));
+    ).pipe(
+      map(([t, q]: [number, string]) => {
+        return {
+          title: this.resolveTitle(t, q)
+        };
+      })
+    );
   }
 
-  protected getSearchResultTitle(total: number, part: string) {
+  resolveTitle(total: number, part: string) {
     return `${total} results for "${part}"`;
   }
 }

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { PageTitleResolver } from './page-title.resolver';
+import { PageMetaResolver } from './page-meta.resolver';
 import { ContentPageTitleResolver } from './content-page-title.resolver';
 
 @NgModule({
   providers: [
     {
-      provide: PageTitleResolver,
+      provide: PageMetaResolver,
       useExisting: ContentPageTitleResolver,
       multi: true
     }

@@ -3,16 +3,18 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap, filter } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
-import { Page } from '../../cms/model/page.model';
+import { Page, PageMeta } from '../../cms/model/page.model';
 
-import { PageType } from '../../occ/occ-models/occ.models';
-import { PageTitleResolver } from '../../cms/page/page-title.resolver';
+import { PageType, ProductSearchPage } from '../../occ/occ-models/occ.models';
+import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { ProductSearchService } from '../facade/product-search.service';
+import { PageTitleResolver } from '../../cms/page/page.resolvers';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CategoryPageTitleResolver extends PageTitleResolver {
+export class CategoryPageTitleResolver extends PageMetaResolver
+  implements PageTitleResolver {
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
@@ -22,7 +24,7 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
     this.pageType = PageType.CATEGORY_PAGE;
   }
 
-  resolve(): Observable<string> {
+  resolve(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
       switchMap(page => {
@@ -32,17 +34,25 @@ export class CategoryPageTitleResolver extends PageTitleResolver {
           return this.productSearchService.getSearchResults().pipe(
             map(data => {
               if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-                return `${data.pagination.totalResults} results for ${
-                  data.breadcrumbs[0].facetValueName
-                }`;
+                return {
+                  title: this.resolveTitle(data)
+                };
               }
             })
           );
         } else {
-          return of(page.title || page.name);
+          return of({
+            title: page.title || page.name
+          });
         }
       })
     );
+  }
+
+  resolveTitle(data: ProductSearchPage) {
+    return `${data.pagination.totalResults} results for ${
+      data.breadcrumbs[0].facetValueName
+    }`;
   }
 
   protected hasProductListComponent(page: Page): boolean {

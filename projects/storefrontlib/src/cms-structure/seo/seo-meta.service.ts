@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Title, Meta, MetaDefinition } from '@angular/platform-browser';
-import { PageTitleService } from '@spartacus/core';
+import { PageMetaService, PageMeta } from '@spartacus/core';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,13 +10,19 @@ export class SeoMetaService {
   constructor(
     protected ngTitle: Title,
     protected ngMeta: Meta,
-    protected pageTitleService: PageTitleService
+    protected pageMetaService: PageMetaService
   ) {}
 
   init() {
-    this.pageTitleService
-      .getTitle()
-      .subscribe(pageTitle => (this.title = pageTitle));
+    this.pageMetaService
+      .getMeta()
+      .pipe(filter(Boolean))
+      .subscribe((meta: PageMeta) => (this.meta = meta));
+  }
+
+  protected set meta(meta: PageMeta) {
+    this.title = meta.title;
+    this.description = meta.description;
   }
 
   protected set title(title: string) {
@@ -23,10 +30,12 @@ export class SeoMetaService {
   }
 
   protected set description(value: string) {
-    this.meta = { name: 'description', content: value };
+    this.tag = { name: 'description', content: value };
   }
 
-  protected set meta(meta: MetaDefinition) {
-    this.ngMeta.addTag(meta);
+  protected set tag(meta: MetaDefinition) {
+    if (meta.content) {
+      this.ngMeta.updateTag(meta);
+    }
   }
 }
