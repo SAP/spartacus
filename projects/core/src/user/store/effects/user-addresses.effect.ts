@@ -95,45 +95,37 @@ export class UserAddressesEffects {
   );
 
   /**
-   *  Reload addresses on success actions (add, update and delete user address)
+   *  Reload addresses and notify about add success
    */
-  @Effect({ dispatch: false })
-  reloadAddressesOnActionsSuccess$ = this.actions$.pipe(
-    ofType(
-      fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS,
-      fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS,
-      fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS
-    ),
-    tap(() => {
-      this.userService
-        .get()
-        .pipe(take(1))
-        .subscribe(({ uid }: User) => {
-          this.userService.loadAddresses(uid);
-        });
-    })
-  );
-
   @Effect({ dispatch: false })
   showGlobalMessageOnAddSuccess$ = this.actions$.pipe(
     ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
     tap(() => {
+      this.loadAddresses();
       this.showGlobalMessage('New address was added successfully!');
     })
   );
 
+  /**
+   *  Reload addresses and notify about update success
+   */
   @Effect({ dispatch: false })
   showGlobalMessageOnUpdateSuccess$ = this.actions$.pipe(
     ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
     tap(() => {
+      this.loadAddresses();
       this.showGlobalMessage('Address updated successfully!');
     })
   );
 
+  /**
+   *  Reload addresses and notify about delete success
+   */
   @Effect({ dispatch: false })
   showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
     ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
     tap(() => {
+      this.loadAddresses();
       this.showGlobalMessage('Address deleted successfully!');
     })
   );
@@ -159,5 +151,14 @@ export class UserAddressesEffects {
       type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       text
     });
+  }
+
+  private loadAddresses() {
+    this.userService
+      .get()
+      .pipe(take(1))
+      .subscribe(({ uid }: User) => {
+        this.userService.loadAddresses(uid);
+      });
   }
 }
