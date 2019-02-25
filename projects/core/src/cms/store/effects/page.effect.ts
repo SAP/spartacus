@@ -28,7 +28,6 @@ export class PageEffects {
   @Effect()
   refreshPage$: Observable<Action> = this.actions$.pipe(
     ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
-    // TODO:#1135v2 - switchMap?
     switchMap(_ =>
       this.routingService.getRouterState().pipe(
         filter(
@@ -37,7 +36,6 @@ export class PageEffects {
         ),
         map(routerState => routerState.state.context),
         take(1),
-        // TODO:#1135v2 - why merge map?
         mergeMap(context => of(new pageActions.LoadPageData(context)))
       )
     )
@@ -47,14 +45,11 @@ export class PageEffects {
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(pageActions.LOAD_PAGE_DATA),
     map((action: pageActions.LoadPageData) => action.payload),
-    // TODO:#1135v2 - switchMapp?
     switchMap(pageContext =>
       this.occCmsService.loadPageData(pageContext).pipe(
-        // TODO:#1135v2 - why merge map?
         mergeMap(data => {
           const page = this.getPageData(data);
           return [
-            // TODO:#1135 - why do we need `page` parameter here?
             new pageActions.LoadPageDataSuccess(pageContext, page),
             new componentActions.GetComponentFromPage(this.getComponents(data))
           ];
