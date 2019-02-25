@@ -5,6 +5,7 @@ export interface Page {
   pageId?: string;
   catalogUuid?: string;
   name?: string;
+  type?: string;
   title?: string;
   template?: string;
   loadTime?: number;

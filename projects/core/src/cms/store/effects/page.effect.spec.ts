@@ -54,12 +54,14 @@ describe('Page Effects', () => {
     {
       uid: 'comp1',
       typeCode: 'SimpleBannerComponent',
-      uuid: 'compUuid1'
+      uuid: 'compUuid1',
+      flextype: undefined
     },
     {
       uid: 'comp2',
-      typeCode: 'CMSLinkComponent',
-      uuid: 'compUuid2'
+      typeCode: 'FlexCmsComponent',
+      uuid: 'compUuid2',
+      flextype: 'AccountAddressBookComponent'
     }
   ];
 
@@ -69,6 +71,7 @@ describe('Page Effects', () => {
     name: 'testPage',
     template: 'testTemplate',
     title: 'testPageTitle',
+    typeCode: 'ContentPage',
     contentSlots: {
       contentSlot: [
         {
@@ -99,13 +102,15 @@ describe('Page Effects', () => {
       uid: 'comp1',
       typeCode: 'SimpleBannerComponent',
       uuid: 'compUuid1',
-      catalogUuid: undefined
+      catalogUuid: undefined,
+      flextype: undefined
     },
     {
       uid: 'comp2',
-      typeCode: 'CMSLinkComponent',
+      typeCode: 'FlexCmsComponent',
       uuid: 'compUuid2',
-      catalogUuid: undefined
+      catalogUuid: undefined,
+      flextype: 'AccountAddressBookComponent'
     }
   ];
 
@@ -114,6 +119,7 @@ describe('Page Effects', () => {
     loadTime: 1000000000000,
     name: 'testPage',
     pageId: 'testPageId',
+    type: 'ContentPage',
     template: 'testTemplate',
     title: 'testPageTitle',
     catalogUuid: 'mockPageCatalogUuid',

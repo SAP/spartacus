@@ -1,5 +1,5 @@
 const PRODUCTS_PER_PAGE = 10;
-const resultsTitleSelector = 'header h1';
+const resultsTitleSelector = 'cx-breadcrumb h1';
 const productItemSelector = 'cx-product-list cx-product-list-item';
 const firstProductItemSelector = `${productItemSelector}:first`;
 
@@ -11,7 +11,10 @@ context('Product search', () => {
   describe('Search results', () => {
     it('should be able to search and get results', () => {
       cy.get('cx-searchbox input').type('camera{enter}');
-      cy.get(resultsTitleSelector).contains('results for camera');
+      cy.get(resultsTitleSelector).should(
+        'contain',
+        '144 results for "camera"'
+      );
       cy.get(productItemSelector).should('have.length', PRODUCTS_PER_PAGE);
       cy.get(firstProductItemSelector).within(() => {
         cy.get('a.cx-product-name').should('be.visible');
@@ -51,14 +54,14 @@ context('Product search', () => {
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
       cy.get('cx-product-facet-navigation .cx-facet-checkbox:first').click();
-      cy.get(resultsTitleSelector).should('contain', '79 results for Chiba');
+      cy.get(resultsTitleSelector).should('contain', '79 results for "camera"');
     });
 
     it('should be able to clear active facet', () => {
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
       ).click();
-      cy.get(resultsTitleSelector).should('contain', 'results for camera');
+      cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
     });
   });
 

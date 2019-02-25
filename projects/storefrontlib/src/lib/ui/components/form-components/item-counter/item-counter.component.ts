@@ -7,7 +7,8 @@ import {
   OnInit,
   Output,
   ViewChild,
-  OnChanges
+  OnChanges,
+  Renderer2
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -81,7 +82,7 @@ export class ItemCounterComponent
     }
   }
 
-  constructor() {}
+  constructor(private renderer: Renderer2) {}
 
   onTouch: Function = () => {};
   onModelChange: Function = (_rating: number) => {};
@@ -109,7 +110,7 @@ export class ItemCounterComponent
       is this.value, which the parent updates if the async call succeed. If the call
       fails, then the input will need to display this.value, and not what the user
       recently typed in */
-    this.input.nativeElement.value = newValue;
+    this.renderer.setProperty(this.input.nativeElement, 'value', newValue);
   }
 
   /**
