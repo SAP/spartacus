@@ -25,7 +25,11 @@ a {
     padding: var(--cx-padding, 0 0.5rem);
   }
 
+  @include media-breakpoint-down(lg) {
+    margin-right: 0.5rem;
+  }
   @include media-breakpoint-only(xs) {
+    margin-right: 0;
     min-height: 55px;
     flex-direction: column;
     padding: var(--cx-padding, 0.3rem 0.75rem);
