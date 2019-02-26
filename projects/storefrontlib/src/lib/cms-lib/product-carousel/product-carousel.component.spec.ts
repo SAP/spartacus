@@ -1,7 +1,8 @@
-import { ProductCarouselService } from './product-carousel.service';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of, Observable } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
 import {
   ProductService,
@@ -9,14 +10,10 @@ import {
   Component,
   CmsProductCarouselComponent
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
-
+import { ProductCarouselService } from './product-carousel.component.service';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-
 import { ProductCarouselComponent } from './product-carousel.component';
 import { CmsComponentData } from '../../cms/components/cms-component-data';
-import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxTranslateUrl'

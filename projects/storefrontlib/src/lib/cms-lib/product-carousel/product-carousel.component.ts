@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 
 import { WindowRef } from '@spartacus/core';
-import { ProductCarouselService } from './product-carousel.service';
+import { ProductCarouselService } from './product-carousel.component.service';
 
 @Component({
   selector: 'cx-product-carousel',
