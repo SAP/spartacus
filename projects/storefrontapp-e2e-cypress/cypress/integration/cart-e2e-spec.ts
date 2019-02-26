@@ -162,17 +162,15 @@ describe('Cart', () => {
     });
     miniCart.click();
 
-    cy.get('cx-cart-item-list')
-      .contains('cx-cart-item', 'Photosmart E317 Digital Camera')
-      .within(() => {
-        cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-        cy.get('.cx-item-counter__value').should('have.value', '1');
-        cy.get('.cx-total>.cx-value').should('contain', '$114.12');
+    getCartItem('Photosmart E317 Digital Camera').within(() => {
+      cy.get('.cx-price>.cx-value').should('contain', '$114.12');
+      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-total>.cx-value').should('contain', '$114.12');
 
-        cy.get('.cx-item-counter__action')
-          .contains('+')
-          .click();
-      });
+      cy.get('.cx-item-counter__action')
+        .contains('+')
+        .click();
+    });
 
     cy.get('cx-cart-details .cx-total').should(
       'contain',
@@ -184,17 +182,15 @@ describe('Cart', () => {
       .get('.cx-summary-amount')
       .should('contain', '$208.24');
 
-    cy.get('cx-cart-item-list')
-      .contains('cx-cart-item', 'Photosmart E317 Digital Camera')
-      .within(() => {
-        cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-        cy.get('.cx-item-counter__value').should('have.value', '2');
-        cy.get('.cx-total>.cx-value').should('contain', '$228.24');
+    getCartItem('Photosmart E317 Digital Camera').within(() => {
+      cy.get('.cx-price>.cx-value').should('contain', '$114.12');
+      cy.get('.cx-item-counter__value').should('have.value', '2');
+      cy.get('.cx-total>.cx-value').should('contain', '$228.24');
 
-        cy.get('.cx-item-counter__action')
-          .contains('+')
-          .click();
-      });
+      cy.get('.cx-item-counter__action')
+        .contains('+')
+        .click();
+    });
 
     cy.get('cx-cart-details .cx-total').should(
       'contain',
@@ -206,13 +202,11 @@ describe('Cart', () => {
       .get('.cx-summary-amount')
       .should('contain', '$322.36');
 
-    cy.get('cx-cart-item-list')
-      .contains('cx-cart-item', 'Photosmart E317 Digital Camera')
-      .within(() => {
-        cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-        cy.get('.cx-item-counter__value').should('have.value', '3');
-        cy.get('.cx-total>.cx-value').should('contain', '$342.36');
-      });
+    getCartItem('Photosmart E317 Digital Camera').within(() => {
+      cy.get('.cx-price>.cx-value').should('contain', '$114.12');
+      cy.get('.cx-item-counter__value').should('have.value', '3');
+      cy.get('.cx-total>.cx-value').should('contain', '$342.36');
+    });
   });
 
   it('should be unable to add out of stock products to cart', () => {
