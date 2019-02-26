@@ -18,7 +18,7 @@ describe('Cart', () => {
     cy.visit('/');
   });
 
-  xit('should add products to cart via search autocomplete', () => {
+  it('should add products to cart via search autocomplete', () => {
     cy.get('cx-searchbox input').type(PRODUCT_CODE_1);
     cy.get('.dropdown-item.active').click();
 
@@ -38,7 +38,7 @@ describe('Cart', () => {
     });
   });
 
-  xit('should add products to cart through search result page', () => {
+  it('should add products to cart through search result page', () => {
     cy.get('cx-searchbox input').type(`${PRODUCT_TYPE}{enter}`);
     cy.get('cx-product-list')
       .contains('cx-product-list-item', 'Photosmart E317 Digital')
@@ -61,7 +61,7 @@ describe('Cart', () => {
     });
   });
 
-  xit('should display empty cart if no items added and when items are removed', () => {
+  it('should display empty cart if no items added and when items are removed', () => {
     getCartItem('PowerShot A480').within(() => {
       cy.getByText('Remove').click();
     });
@@ -119,47 +119,35 @@ describe('Cart', () => {
       standardUser.registrationData.password
     );
 
+    cy.get('cx-breadcrumb h1').should('contain', '1 results');
+
     const miniCart = cy.get('cx-mini-cart');
     miniCart.within(() => {
       cy.get('.count').should('contain', 2);
     });
     miniCart.click();
-    //     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
-    // cy.requireLoggedIn()
-    //   .its('username')
-    //   .then(email => {
-    //     cy.visit('/cart');
 
-    //     cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
-    //     cy.get('.dropdown-item.active').click();
-    //     cy.get('cx-product-summary cx-add-to-cart button').click();
-    //     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-    //       'contain',
-    //       'Cart total (1 items)'
-    //     );
-    //     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+    cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
-    //     cy.selectUserMenuOption('Sign Out');
+    getCartItem('Photosmart E317 Digital Camera').within(() => {
+      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-total>.cx-value').should('contain', '$114.12');
+    });
 
-    //     cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
-    //     cy.get('cx-product-list')
-    //       .contains('cx-product-list-item', 'EASYSHARE M381')
-    //       .within(() => {
-    //         cy.get('cx-add-to-cart button').click();
-    //       });
+    getCartItem('EASYSHARE M381').within(() => {
+      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-total>.cx-value').should('contain', '$370.72');
+    });
 
-    //     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-    //       'contain',
-    //       'Cart total (1 items)'
-    //     );
-    //     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
-
-    //     cy.getByText(/Sign in \/ Register/i).click();
-    //     login(email, standardUser.registrationData.password);
-    //   });
+    cy.selectUserMenuOption('Sign Out');
+    cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
+    cy.get('.EmptyCartMiddleContent').should(
+      'contain',
+      'Your shopping cart is empty'
+    );
   });
 
-  xit('should add product to cart and manipulate quantity', () => {
+  it('should add product to cart and manipulate quantity', () => {
     cy.visit(`/product/${PRODUCT_CODE_2}`);
     cy.get('cx-product-summary cx-add-to-cart button').click();
     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
@@ -227,7 +215,7 @@ describe('Cart', () => {
       });
   });
 
-  xit('should be unable to add out of stock products to cart', () => {
+  it('should be unable to add out of stock products to cart', () => {
     cy.visit(`/product/${PRODUCT_CODE_4}`);
 
     cy.get('cx-product-summary .quantity').should('contain', 'Out of stock');
