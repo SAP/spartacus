@@ -62,33 +62,35 @@ class MockProductService {
 }
 
 class MockProductCarouselService {
-  items$ = of([
-    of(mockProduct),
-    of(mockProduct),
-    of(mockProduct),
-    of(mockProduct)
-  ]);
-  itemSize$ = of(4);
-  activeItem$ = of(0);
-  title$ = of('Mock Title');
-
+  getTitle = jasmine.createSpy('getTitle').and.callFake(() => of('Mock Title'));
   setTitle = jasmine.createSpy('setTitle').and.callFake(() => of('Mock Title'));
+  getItems = jasmine
+    .createSpy('getItems')
+    .and.callFake(() =>
+      of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
+    );
   setItems = jasmine
     .createSpy('setItems')
     .and.callFake(() =>
       of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
     );
 
+  getItemSize = jasmine.createSpy('getItemSize').and.callFake(() => of(4));
   setItemSize = jasmine.createSpy('setItemSize');
+  getItemAsActive = jasmine
+    .createSpy('getItemAsActive')
+    .and.callFake(() => of(0));
   setItemAsActive = jasmine
     .createSpy('setItemAsActive')
     .and.callFake(() => of(1));
   setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
+  getActiveItemWithDelay = jasmine.createSpy('getActiveItemWithDelay');
   setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
   getDelayValue = jasmine.createSpy('getDelayValue').and.callThrough();
+  getActiveItem = jasmine.createSpy('getActiveItem').and.callFake(() => of(1));
 }
 
-describe('ProductCarouselComponent', () => {
+fdescribe('ProductCarouselComponent', () => {
   let productCarouselComponent: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
   let el: DebugElement;
@@ -132,11 +134,10 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('should have products', async(() => {
-    expect(productCarouselComponent.service.items$);
-
     let products$: Observable<Product>[];
     productCarouselComponent.service.setItems();
-    productCarouselComponent.service.items$
+    productCarouselComponent.service
+      .getItems()
       .subscribe(productData$ => {
         products$ = productData$;
       })
