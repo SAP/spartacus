@@ -95,11 +95,17 @@ describe('Cart', () => {
     );
     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
-    cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
-
     cy.selectUserMenuOption('Sign Out');
     cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
+    cy.visit('/cart');
+    cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
+    cy.get('.EmptyCartMiddleContent').should(
+      'contain',
+      'Your shopping cart is empty'
+    );
+
+    cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
     cy.get('cx-product-list')
       .contains('cx-product-list-item', 'EASYSHARE M381')
       .within(() => {
