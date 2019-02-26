@@ -9,10 +9,10 @@ import {
   CmsService,
   PageMetaService,
   PageMeta
-} from '../../cms/';
+} from '../../cms';
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
-import { SearchPageTitleResolver } from './search-page-title.resolver';
+import { SearchPageMetaResolver } from './search-page-meta.resolver';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -79,7 +79,7 @@ describe('SearchPageTitleResolver', () => {
       providers: [
         PageMetaService,
         FakeContentPageTitleResolver,
-        SearchPageTitleResolver,
+        SearchPageMetaResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
@@ -90,7 +90,7 @@ describe('SearchPageTitleResolver', () => {
         },
         {
           provide: PageMetaResolver,
-          useExisting: SearchPageTitleResolver,
+          useExisting: SearchPageMetaResolver,
           multi: true
         }
       ]

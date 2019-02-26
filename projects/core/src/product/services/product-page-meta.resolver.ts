@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { ProductService } from '../../product/facade/product.service';
+import { ProductService } from '../facade/product.service';
 import { PageType, Product } from '../../occ/occ-models/occ.models';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageMeta } from '../../cms/model/page.model';
@@ -14,7 +14,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
-export class ProductPageTitleResolver extends PageMetaResolver
+export class ProductPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageDescriptionResolver {
   constructor(
     protected routingService: RoutingService,

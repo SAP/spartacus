@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CheckoutService } from './facade/index';
 import { CheckoutStoreModule } from './store/checkout-store.module';
 import { PageMetaResolver } from '../cms/index';
-import { CheckoutPageTitleResolver } from './services/checkout-page-title.resolver';
+import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
 
 @NgModule({
   imports: [CheckoutStoreModule],
@@ -11,7 +11,7 @@ import { CheckoutPageTitleResolver } from './services/checkout-page-title.resolv
     CheckoutService,
     {
       provide: PageMetaResolver,
-      useExisting: CheckoutPageTitleResolver,
+      useExisting: CheckoutPageMetaResolver,
       multi: true
     }
   ]

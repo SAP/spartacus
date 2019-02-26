@@ -2,8 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
-import { Page, PageMetaResolver, CmsService } from '../../cms/';
-import { ContentPageTitleResolver } from './content-page-title.resolver';
+import { Page, PageMetaResolver, CmsService } from '..';
+import { ContentPageMetaResolver } from './content-page-meta.resolver';
 import { PageMetaService } from '../facade';
 import { PageMeta } from '../model/page.model';
 
@@ -30,7 +30,7 @@ describe('ContentPageTitleResolver', () => {
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,
-          useExisting: ContentPageTitleResolver,
+          useExisting: ContentPageMetaResolver,
           multi: true
         }
       ]

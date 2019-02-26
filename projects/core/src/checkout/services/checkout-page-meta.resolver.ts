@@ -13,7 +13,7 @@ import { Cart } from '../../occ/occ-models/index';
 @Injectable({
   providedIn: 'root'
 })
-export class CheckoutPageTitleResolver extends PageMetaResolver
+export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver {
   constructor(
     protected routingService: RoutingService,

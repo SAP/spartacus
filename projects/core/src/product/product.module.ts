@@ -10,24 +10,24 @@ import { ProductOccModule } from './occ/product-occ.module';
 
 import { CmsModule } from '../cms/cms.module';
 import { PageMetaResolver } from '../cms/page/page-meta.resolver';
-import { ProductPageTitleResolver } from './services/product-page-title.resolver';
-import { SearchPageTitleResolver } from './services/search-page-title.resolver';
-import { CategoryPageTitleResolver } from './services/category-page-title.resolver';
+import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
+import { SearchPageMetaResolver } from './services/search-page-meta.resolver';
+import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 
 const pageTitleResolvers = [
   {
     provide: PageMetaResolver,
-    useExisting: ProductPageTitleResolver,
+    useExisting: ProductPageMetaResolver,
     multi: true
   },
   {
     provide: PageMetaResolver,
-    useExisting: CategoryPageTitleResolver,
+    useExisting: CategoryPageMetaResolver,
     multi: true
   },
   {
     provide: PageMetaResolver,
-    useExisting: SearchPageTitleResolver,
+    useExisting: SearchPageMetaResolver,
     multi: true
   }
 ];

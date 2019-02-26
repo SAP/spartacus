@@ -10,7 +10,7 @@ import { PageMeta } from '../../cms/model/page.model';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchPageTitleResolver extends PageMetaResolver
+export class SearchPageMetaResolver extends PageMetaResolver
   implements PageMetaResolver {
   constructor(
     protected routingService: RoutingService,

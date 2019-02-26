@@ -9,10 +9,10 @@ import {
   CmsService,
   PageMetaService,
   PageMeta
-} from '../../cms/';
+} from '../../cms';
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
-import { CategoryPageTitleResolver } from './category-page-title.resolver';
+import { CategoryPageMetaResolver } from './category-page-meta.resolver';
 
 const mockPageWithProductList: Page = {
   type: PageType.CATEGORY_PAGE,
@@ -89,7 +89,7 @@ describe('CategoryPageTitleResolver', () => {
         },
         {
           provide: PageMetaResolver,
-          useExisting: CategoryPageTitleResolver,
+          useExisting: CategoryPageMetaResolver,
           multi: true
         }
       ]

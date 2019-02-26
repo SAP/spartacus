@@ -8,10 +8,10 @@ import {
   CmsService,
   PageMetaService,
   PageMeta
-} from '../../cms/';
+} from '../../cms';
 import { ProductService } from '../facade';
 import { RoutingService } from '../../routing';
-import { ProductPageTitleResolver } from './product-page-title.resolver';
+import { ProductPageMetaResolver } from './product-page-meta.resolver';
 
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,
@@ -60,7 +60,7 @@ describe('ProductPageTitleResolver', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         {
           provide: PageMetaResolver,
-          useExisting: ProductPageTitleResolver,
+          useExisting: ProductPageMetaResolver,
           multi: true
         }
       ]

@@ -10,7 +10,7 @@ import { PageTitleResolver } from './page.resolvers';
 @Injectable({
   providedIn: 'root'
 })
-export class ContentPageTitleResolver extends PageMetaResolver
+export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver {
   constructor(protected cms: CmsService) {
     super();
