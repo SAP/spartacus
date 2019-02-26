@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, take } from 'rxjs/operators';
 
 import * as fromUserAddressesAction from '../actions/user-addresses.action';
+import { AddressList, User } from '../../../occ/occ-models/index';
+import {
+  GlobalMessageService,
+  GlobalMessageType
+} from '../../../global-message/index';
+import { UserService } from '../../facade/index';
 import { OccUserService } from '../../occ/index';
-import { AddressList } from '../../../occ/occ-models/index';
 
 @Injectable()
 export class UserAddressesEffects {
@@ -91,8 +94,71 @@ export class UserAddressesEffects {
     })
   );
 
+  /**
+   *  Reload addresses and notify about add success
+   */
+  @Effect({ dispatch: false })
+  showGlobalMessageOnAddSuccess$ = this.actions$.pipe(
+    ofType(fromUserAddressesAction.ADD_USER_ADDRESS_SUCCESS),
+    tap(() => {
+      this.loadAddresses();
+      this.showGlobalMessage('New address was added successfully!');
+    })
+  );
+
+  /**
+   *  Reload addresses and notify about update success
+   */
+  @Effect({ dispatch: false })
+  showGlobalMessageOnUpdateSuccess$ = this.actions$.pipe(
+    ofType(fromUserAddressesAction.UPDATE_USER_ADDRESS_SUCCESS),
+    tap(() => {
+      this.loadAddresses();
+      this.showGlobalMessage('Address updated successfully!');
+    })
+  );
+
+  /**
+   *  Reload addresses and notify about delete success
+   */
+  @Effect({ dispatch: false })
+  showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
+    ofType(fromUserAddressesAction.DELETE_USER_ADDRESS_SUCCESS),
+    tap(() => {
+      this.loadAddresses();
+      this.showGlobalMessage('Address deleted successfully!');
+    })
+  );
+
   constructor(
     private actions$: Actions,
-    private occUserService: OccUserService
+    private occUserService: OccUserService,
+    private userService: UserService,
+    private messageService: GlobalMessageService
   ) {}
+
+  /**
+   * Show global confirmation message with provided text
+   */
+  private showGlobalMessage(text: string) {
+    // ----------
+    // todo: handle automatic removal of outdated messages
+    this.messageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+    this.messageService.remove(GlobalMessageType.MSG_TYPE_CONFIRMATION);
+    // ----------
+
+    this.messageService.add({
+      type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      text
+    });
+  }
+
+  private loadAddresses() {
+    this.userService
+      .get()
+      .pipe(take(1))
+      .subscribe(({ uid }: User) => {
+        this.userService.loadAddresses(uid);
+      });
+  }
 }
