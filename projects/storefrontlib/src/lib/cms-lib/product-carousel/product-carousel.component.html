@@ -1,26 +1,33 @@
-<h3 *ngIf="(component.data$ | async) as component">{{ component?.title }}</h3>
+<h3 *ngIf="(service.getTitle() | async) as title">{{ title }}</h3>
+
 <ng-container
-  *ngIf="{ max: itemSize$ | async, products: items$ | async } as carousel"
+  *ngIf="{
+    maxItemSize: service.getItemSize() | async,
+    products: service.getItems() | async,
+    activeItem: service.getActiveItemWithDelay() | async,
+    active: service.getActiveItem() | async
+  } as carousel"
 >
-  <div class="cx-carousel" [ngClass]="'size-' + carousel.max">
+  <div class="cx-carousel" [ngClass]="'size-' + carousel.maxItemSize">
     <button
       class="previous"
-      (click)="prev(carousel.max)"
-      [disabled]="activeItem === 0"
+      (click)="service.setPreviousItemAsActive()"
+      [disabled]="carousel.activeItem === 0"
     ></button>
 
     <div class="groups">
       <ng-container *ngFor="let unused of carousel.products; let i = index">
-        <div class="group" *ngIf="i % carousel.max === 0">
+        <div class="group" *ngIf="i % carousel.maxItemSize === 0">
           <ng-container
             *ngFor="
-              let product$ of (carousel.products | slice: i:i + carousel.max)
+              let product$ of (carousel.products
+                | slice: i:i + carousel.maxItemSize)
             "
           >
             <a
               *ngIf="(product$ | async) as product"
               class="product"
-              [class.active]="i === activeItem"
+              [class.active]="i === carousel.activeItem"
               [routerLink]="
                 { route: [{ name: 'product', params: product }] }
                   | cxTranslateUrl
@@ -42,17 +49,19 @@
 
     <button
       class="next"
-      (click)="next(carousel.max)"
-      [disabled]="activeItem > carousel.products.length - carousel.max"
+      (click)="service.setNextItemAsActive()"
+      [disabled]="
+        carousel.activeItem > carousel.products.length - carousel.maxItemSize
+      "
     ></button>
   </div>
 
   <div class="indicators">
     <ng-container *ngFor="let unused of carousel.products; let i = index">
       <button
-        *ngIf="i % carousel.max === 0"
-        (click)="setActiveItem(i, carousel.max)"
-        [disabled]="i === activeItem"
+        *ngIf="i % carousel.maxItemSize === 0"
+        (click)="service.setItemAsActive(i)"
+        [disabled]="i === carousel.activeItem"
       ></button>
     </ng-container></div
 ></ng-container>
