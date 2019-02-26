@@ -131,10 +131,6 @@
   @include type('3');
 }
 
-@include media-breakpoint-down(md) {
-  display: var(--cx-display, none);
-}
-
 .cx-facet-mobile {
   @include media-breakpoint-up(lg) {
     display: var(--cx-display, none);
