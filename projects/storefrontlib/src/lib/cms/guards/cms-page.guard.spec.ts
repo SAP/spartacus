@@ -1,43 +1,33 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  RoutingService,
-  PageType,
-  CmsService,
-  PageContext
-} from '@spartacus/core';
+import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import { CmsPageGuards } from './cms-page.guard';
+import createSpy = jasmine.createSpy;
 
 class MockCmsService {
   hasPage() {}
 }
-class MockRoutingService {
-  getPageContext(): Observable<PageContext> {
-    return of();
-  }
-}
+const MockRoutingService = {
+  getPageContext: createSpy('getPageContext').and.returnValue(
+    of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
+  ),
+  go: createSpy('RoutingService.go')
+};
 
-describe('CmsPageGuards', () => {
-  let routingService: RoutingService;
-
+fdescribe('CmsPageGuards', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CmsPageGuards,
-        { provide: RoutingService, useClass: MockRoutingService },
+        { provide: RoutingService, useValue: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService }
       ],
       imports: [RouterTestingModule]
     });
-
-    routingService = TestBed.get(RoutingService);
-    spyOn(routingService, 'getPageContext').and.returnValue(
-      of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
-    );
   });
 
   describe('canActivate', () => {
@@ -68,6 +58,20 @@ describe('CmsPageGuards', () => {
           .unsubscribe();
 
         expect(result).toBe(false);
+      }
+    ));
+
+    it('should redirect when CmsService hasPage is false for the page context', inject(
+      [CmsService, CmsPageGuards],
+      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(false));
+
+        cmsPageGuards
+          .canActivate()
+          .subscribe()
+          .unsubscribe();
+
+        expect(MockRoutingService.go).toHaveBeenCalled();
       }
     ));
   });
