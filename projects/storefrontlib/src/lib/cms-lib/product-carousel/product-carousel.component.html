@@ -2,7 +2,7 @@
 
 <ng-container
   *ngIf="{
-    maxItemSize: service.itemSize$ | async,
+    maxItemSize: service.getItemSize() | async,
     products: service.getItems() | async,
     activeItem: service.getActiveItemWithDelay() | async,
     active: service.getActiveItem() | async

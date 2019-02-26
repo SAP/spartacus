@@ -59,6 +59,9 @@ export class ProductCarouselService {
     return this.items$;
   }
 
+  getItemSize(): Observable<number> {
+    return this.itemSize$;
+  }
   /**
    * Maps the item codes from CMS component to an array of `Product` observables.
    */
