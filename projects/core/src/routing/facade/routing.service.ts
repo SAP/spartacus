@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import * as fromStore from '../store';
-import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { NavigationExtras } from '@angular/router';
-import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
-import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
+
+import { select, Store } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
+
+import * as fromStore from '../store';
+import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
+import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
+import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +26,13 @@ export class RoutingService {
    */
   getRouterState(): Observable<any> {
     return this.store.pipe(select(fromStore.getRouterState));
+  }
+
+  /**
+   * Get the `PageContext` from the state
+   */
+  getPageContext(): Observable<PageContext> {
+    return this.store.pipe(select(fromStore.getPageContext));
   }
 
   /**
