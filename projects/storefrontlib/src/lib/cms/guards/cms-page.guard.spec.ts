@@ -1,14 +1,9 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  RoutingService,
-  PageType,
-  CmsService,
-  PageContext
-} from '@spartacus/core';
+import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import { CmsPageGuards } from './cms-page.guard';
 
@@ -16,9 +11,10 @@ class MockCmsService {
   hasPage() {}
 }
 class MockRoutingService {
-  getPageContext(): Observable<PageContext> {
+  getPageContext() {
     return of();
   }
+  go() {}
 }
 
 describe('CmsPageGuards', () => {
@@ -68,6 +64,21 @@ describe('CmsPageGuards', () => {
           .unsubscribe();
 
         expect(result).toBe(false);
+      }
+    ));
+
+    it('should redirect when CmsService hasPage is false for the page context', inject(
+      [CmsService, CmsPageGuards],
+      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(false));
+        spyOn(routingService, 'go');
+
+        cmsPageGuards
+          .canActivate()
+          .subscribe()
+          .unsubscribe();
+
+        expect(routingService.go).toHaveBeenCalled();
       }
     ));
   });
