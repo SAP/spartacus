@@ -6,13 +6,23 @@ import { CardModule } from '../../ui/components/card/card.module';
 import { AddressFormModule } from '../../checkout/components/multi-step-checkout/shipping-address/address-form/address-form.module';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { UserService, ConfigModule, CmsConfig } from '@spartacus/core';
+import { AddressBookComponentService } from './address-book.component.service';
 
 @NgModule({
   imports: [
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountAddressBookComponent: { selector: 'cx-address-book' }
+        AccountAddressBookComponent: {
+          selector: 'cx-address-book',
+          providers: [
+            {
+              provide: AddressBookComponentService,
+              useClass: AddressBookComponentService,
+              deps: [UserService]
+            }
+          ]
+        }
       }
     }),
     CardModule,
@@ -21,7 +31,7 @@ import { UserService, ConfigModule, CmsConfig } from '@spartacus/core';
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
-  providers: [UserService],
+  providers: [UserService, AddressBookComponentService],
   entryComponents: [AddressBookComponent]
 })
 export class AddressBookModule {}
