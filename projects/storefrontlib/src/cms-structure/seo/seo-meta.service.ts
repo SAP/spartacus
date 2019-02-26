@@ -30,10 +30,10 @@ export class SeoMetaService {
   }
 
   protected set description(value: string) {
-    this.tag = { name: 'description', content: value };
+    this.addTag({ name: 'description', content: value });
   }
 
-  protected set tag(meta: MetaDefinition) {
+  protected addTag(meta: MetaDefinition) {
     if (meta.content) {
       this.ngMeta.updateTag(meta);
     }
