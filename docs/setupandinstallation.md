@@ -34,7 +34,6 @@ In the following procedure, we create a new Angular application with the name `m
    $ ng new mystore --style=scss
    ```
 
-
 2. When prompted if you would like add Angular routing, enter `y` for yes.
 
 3. Access the newly created directory:
@@ -117,19 +116,21 @@ export class AppModule { }
 
 The Spartacus storefront has default values for all of its configurations. However, you may need to override these values. An example use case would be so that your storefront can communicate with your SAP Commerce back end.
 
-To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example that uses the default values for the configs:
+To configure the storefront, use the `withConfig` method on the StorefrontModule. The following is an example that uses the default values for the configs with the Electronics storefront served locally:
 
 ```typescript
   imports: [
     BrowserModule, StorefrontModule.withConfig({
       server: {
-        baseUrl: 'https://electronics.local:9002',
+        baseUrl: 'https://localhost:9002',
         occPrefix: '/rest/v2/'
       },
       authentication: {
         client_id: 'mobile_android',
         client_secret: 'secret'
-      }
+      },
+      site: {
+        baseSite: 'electronics',
     })
   ],
 ```
@@ -143,47 +144,6 @@ imports: [BrowserModule, StorefrontModule.withConfig({
   }
 })]
 ```
-
-## Configuring the Base URL
-
-You can configure the base URL with a special HTML `meta` tag, instead of hard coding it in the `withConfig` method of the StorefrontModule. This allows you to deploy to different environments with only one compiled JavaScript application, because you only need to modify the `meta` tag of the `index.html` file for each environment.
-
-The following example shows how the `meta` tag can be configured in the `index.html` file:
-
-```html
-<meta name="occ-backend-base-url" content="https://my-custom-backend-url:8080" />
-```
-
-The corresponding `app.module.ts` file appears as follows:
-
-```typescript
-  imports: [
-    BrowserModule, StorefrontModule.withConfig({
-      server: {
-        baseUrl: 'https://electronics.local:9002', // This value is overridden by the value from the meta tag.
-        occPrefix: '/rest/v2/'
-      }
-    })
-  ],
-```
-
-**Note**: The value from the `meta` tag takes precedence over the value of the `server.baseUrl` from the `withConfig` method.
-
-**Note**: The `content` attribute of the `meta` tag is ignored in the following cases:
-
-* When it's an empty string, such as in the following example:
-
-  ```
-  <meta name="occ-backend-base-url" content="" />
-  ```
-* When it contains a special placeholder, such as in the following example:
-
-  ```
-  <meta name="occ-backend-base-url" content="OCC_BACKEND_BASE_URL_VALUE" />
-  ```
-
-
-
 
 # Adding the Storefront Component
 
