@@ -28,6 +28,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input()
   componentType: string;
   @Input()
+  componentMappedType: string;
+  @Input()
   componentUid: string;
   @Input()
   componentUuid: string;
@@ -57,7 +59,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.componentMapper.isWebComponent(this.componentType)) {
+    if (this.componentMapper.isWebComponent(this.componentMappedType)) {
       this.launchWebComponent();
     } else {
       this.launchComponent();
@@ -67,14 +69,14 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   private shouldRenderComponent(): boolean {
     const isSSR = isPlatformServer(this.platformId);
     const isComponentDisabledInSSR = (
-      this.config.cmsComponents[this.componentType] || {}
+      this.config.cmsComponents[this.componentMappedType] || {}
     ).disableSSR;
     return !(isSSR && isComponentDisabledInSSR);
   }
 
   private launchComponent() {
     const factory = this.componentMapper.getComponentFactoryByCode(
-      this.componentType
+      this.componentMappedType
     );
 
     if (factory) {
@@ -94,7 +96,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private async launchWebComponent() {
     const elementName = await this.componentMapper.initWebComponent(
-      this.componentType,
+      this.componentMappedType,
       this.renderer
     );
 
@@ -125,7 +127,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private getInjectorForComponent(): Injector {
     const configProviders =
-      (this.config.cmsComponents[this.componentType] || {}).providers || [];
+      (this.config.cmsComponents[this.componentMappedType] || {}).providers ||
+      [];
     return Injector.create({
       providers: [
         {

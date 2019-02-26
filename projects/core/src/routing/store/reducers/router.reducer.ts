@@ -4,17 +4,19 @@ import {
   RouterStateSnapshot,
   Params
 } from '@angular/router';
+
 import {
   createSelector,
   createFeatureSelector,
   ActionReducerMap,
   MemoizedSelector
 } from '@ngrx/store';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
 import * as fromNgrxRouter from '@ngrx/router-store';
+
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
+import { PageContext } from '../../models/page-context.model';
+import { PageType } from '../../../occ/occ-models/index';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -121,6 +123,14 @@ export const getRouterFeatureState: MemoizedSelector<
 export const getRouterState: MemoizedSelector<any, any> = createSelector(
   getRouterFeatureState,
   (state: any) => state[ROUTING_FEATURE]
+);
+
+export const getPageContext: MemoizedSelector<
+  any,
+  PageContext
+> = createSelector(
+  getRouterState,
+  (routingState: any) => routingState.state.context
 );
 
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(

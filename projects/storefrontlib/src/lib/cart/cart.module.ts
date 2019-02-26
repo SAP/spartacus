@@ -5,7 +5,7 @@ import { CartModule } from '@spartacus/core';
 import { AddToCartModule } from './add-to-cart/add-to-cart.module';
 import { CartDetailsModule } from './cart-details/cart-details.module';
 import { CartSharedModule } from './cart-shared/cart-shared.module';
-import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
+
 @NgModule({
   imports: [
     AddToCartModule,
@@ -14,7 +14,6 @@ import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
     NgbModule,
     CartModule
   ],
-  exports: [AddToCartModule, CartDetailsModule, CartSharedModule],
-  providers: [CartNotEmptyGuard]
+  exports: [AddToCartModule, CartDetailsModule, CartSharedModule]
 })
 export class CartComponentModule {}
