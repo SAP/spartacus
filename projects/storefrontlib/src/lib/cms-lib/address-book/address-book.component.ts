@@ -1,155 +1,69 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  UserService,
-  LOAD_USER_ADDRESSES_SUCCESS,
-  ADD_USER_ADDRESS,
-  ADD_USER_ADDRESS_SUCCESS,
-  ADD_USER_ADDRESS_FAIL,
-  UPDATE_USER_ADDRESS,
-  UPDATE_USER_ADDRESS_SUCCESS,
-  UPDATE_USER_ADDRESS_FAIL,
-  DELETE_USER_ADDRESS_SUCCESS,
-  Address
-} from '@spartacus/core';
+import { Address } from '@spartacus/core';
+import { AddressBookComponentService } from './address-book.component.service';
 
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
   styleUrls: ['./address-book.component.scss']
 })
-export class AddressBookComponent implements OnInit, OnDestroy {
+export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;
-  addressesLoading$: Observable<boolean>;
+  addressesStateLoading$: Observable<boolean>;
+  currentAddress: Address;
   userId: string;
-  isAddAddressFormOpen: boolean;
-  isEditAddressFormOpen: boolean;
-  activeAddress: Address;
 
-  subscription = new Subscription();
+  showAddAddressForm = false;
+  showEditAddressForm = false;
 
-  constructor(
-    private userService: UserService,
-    private messagesService: GlobalMessageService,
-    private actions: ActionsSubject
-  ) {}
+  constructor(public service: AddressBookComponentService) {}
 
   ngOnInit() {
-    this.addresses$ = this.userService.getAddresses();
-    this.addressesLoading$ = this.userService.getAddressesLoading();
+    this.addresses$ = this.service.getAddresses();
+    this.addressesStateLoading$ = this.service.getAddressesStateLoading();
 
-    this.userService.get().subscribe(data => {
-      this.userId = data.uid;
-      this.userService.loadAddresses(this.userId);
-    });
-
-    this.subscription = this.handleActionEvents();
+    this.service
+      .getUserId()
+      .pipe(take(1))
+      .subscribe(id => {
+        this.userId = id;
+        this.service.loadAddresses(id);
+      });
   }
 
-  showAddAddressForm(): void {
-    this.isAddAddressFormOpen = true;
+  addAddressButtonHandle() {
+    this.showEditAddressForm = false;
+    this.showAddAddressForm = true;
   }
 
-  hideAddAddressForm(): void {
-    this.isAddAddressFormOpen = false;
+  editAddressButtonHandle(address: Address) {
+    this.showAddAddressForm = false;
+    this.showEditAddressForm = true;
+    this.currentAddress = address;
   }
 
-  showEditAddressForm(address: Address): void {
-    // @TODO: Since we don't get titleCode from API we need to mock it for edit.
-    this.activeAddress = address;
-    this.isEditAddressFormOpen = true;
+  addAddressSubmit(address: Address) {
+    this.showAddAddressForm = false;
+    this.service.addUserAddress(this.userId, address);
   }
 
-  hideEditAddressForm(): void {
-    this.isEditAddressFormOpen = false;
+  addAddressCancel() {
+    this.showAddAddressForm = false;
   }
 
-  addUserAddress(address: Address): void {
-    if (this.userId) {
-      this.userService.addUserAddress(this.userId, address);
-    }
+  editAddressSubmit(address: Address) {
+    this.showEditAddressForm = false;
+    this.service.updateUserAddress(
+      this.userId,
+      this.currentAddress['id'],
+      address
+    );
   }
 
-  updateUserAddress(addressId: string, address: Address): void {
-    if (this.userId) {
-      this.userService.updateUserAddress(this.userId, addressId, address);
-    }
-  }
-
-  checkIfAnyFormOpen(): boolean {
-    return this.isAddAddressFormOpen || this.isEditAddressFormOpen;
-  }
-
-  handleActionEvents(): Subscription {
-    return this.actions.subscribe(action => {
-      switch (action.type) {
-        case LOAD_USER_ADDRESSES_SUCCESS: {
-          this.userService.getAddresses().subscribe(data => {
-            this.hideAddAddressForm();
-            if (data.length === 0) {
-              this.showAddAddressForm();
-            }
-          });
-          break;
-        }
-
-        case ADD_USER_ADDRESS: {
-          this.hideAddAddressForm();
-          break;
-        }
-
-        case ADD_USER_ADDRESS_SUCCESS: {
-          this.messagesService.add({
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            text: 'New address was added successfully!'
-          });
-          this.hideAddAddressForm();
-          this.userService.loadAddresses(this.userId);
-          break;
-        }
-
-        case ADD_USER_ADDRESS_FAIL: {
-          this.showAddAddressForm();
-          break;
-        }
-
-        case UPDATE_USER_ADDRESS: {
-          this.hideEditAddressForm();
-          break;
-        }
-
-        case UPDATE_USER_ADDRESS_SUCCESS: {
-          this.messagesService.add({
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            text: 'Address updated successfully!'
-          });
-          this.hideEditAddressForm();
-          this.userService.loadAddresses(this.userId);
-          break;
-        }
-
-        case UPDATE_USER_ADDRESS_FAIL: {
-          this.showEditAddressForm(this.activeAddress);
-          break;
-        }
-
-        case DELETE_USER_ADDRESS_SUCCESS: {
-          this.messagesService.add({
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-            text: 'Address deleted successfully!'
-          });
-          this.userService.loadAddresses(this.userId);
-          break;
-        }
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
+  editAddressCancel() {
+    this.showEditAddressForm = false;
   }
 }

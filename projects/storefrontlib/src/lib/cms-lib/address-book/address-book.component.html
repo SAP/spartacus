@@ -1,52 +1,68 @@
-<div class="cx-section" *ngIf="!checkIfAnyFormOpen()">
-  <p class="cx-section__msg">Saved shipping addresses</p>
-  <div>
+<div class="cx-section">
+  <ng-container
+    *ngIf="
+      (addresses$ | async).length &&
+      !(showAddAddressForm || showEditAddressForm)
+    "
+  >
+    <p class="cx-section__msg">Saved shipping addresses</p>
+
     <div class="row">
       <div class="col-md-6">
-        <button class="btn btn-block btn-action" (click)="showAddAddressForm()">
+        <button
+          class="btn btn-block btn-action"
+          (click)="addAddressButtonHandle()"
+        >
           Add new address
         </button>
       </div>
     </div>
-    <div class="row cx-address-deck" *ngIf="!(addressesLoading$ | async)">
+
+    <div
+      class="row cx-address-deck"
+      *ngIf="!(addressesStateLoading$ | async); else loading"
+    >
       <div *ngFor="let address of (addresses$ | async)" class="col-md-6">
         <cx-address-card
-          (editEvent)="showEditAddressForm(address)"
+          (editEvent)="editAddressButtonHandle(address)"
           [userId]="userId"
           [address]="address"
         ></cx-address-card>
       </div>
     </div>
-    <div class="row" *ngIf="(addressesLoading$ | async)">
-      <div class="col-md-12 cx-address-deck__spinner">
-        <cx-spinner></cx-spinner>
-      </div>
-    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
+    <section>
+      <p class="cx-section__msg">Add a new shipping address</p>
+      <cx-address-form
+        showTitleCode="true"
+        actionBtnLabel="Add address"
+        cancelBtnLabel="Back to address list"
+        [setAsDefaultField]="!((addresses$ | async).length === 0)"
+        (submitAddress)="addAddressSubmit($event)"
+        (backToAddress)="addAddressCancel()"
+      ></cx-address-form>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="showEditAddressForm">
+    <section>
+      <p class="cx-section__msg">Edit shipping address</p>
+      <cx-address-form
+        showTitleCode="true"
+        actionBtnLabel="Update address"
+        cancelBtnLabel="Back to address list"
+        [addressData]="currentAddress"
+        (submitAddress)="editAddressSubmit($event)"
+        (backToAddress)="editAddressCancel()"
+      ></cx-address-form>
+    </section>
+  </ng-container>
+</div>
+
+<ng-template #loading>
+  <div class="col-md-12 cx-address-deck__spinner">
+    <cx-spinner></cx-spinner>
   </div>
-</div>
-
-<div class="cx-section" *ngIf="checkIfAnyFormOpen()">
-  <section #addAddressForm *ngIf="isAddAddressFormOpen">
-    <p>Add a new shipping address</p>
-    <cx-address-form
-      showTitleCode="true"
-      actionBtnLabel="Add address"
-      cancelBtnLabel="Back to address list"
-      [setAsDefaultField]="!((addresses$ | async).length === 0)"
-      (addAddress)="addUserAddress($event)"
-      (backToAddress)="hideAddAddressForm()"
-    ></cx-address-form>
-  </section>
-
-  <section #editAddressForm *ngIf="isEditAddressFormOpen">
-    <p>Edit shipping address</p>
-    <cx-address-form
-      showTitleCode="true"
-      actionBtnLabel="Update address"
-      cancelBtnLabel="Back to address list"
-      [addressData]="activeAddress"
-      (addAddress)="updateUserAddress(activeAddress['id'], $event)"
-      (backToAddress)="hideEditAddressForm()"
-    ></cx-address-form>
-  </section>
-</div>
+</ng-template>
