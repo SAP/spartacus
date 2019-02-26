@@ -46,6 +46,13 @@ export class DynamicSlotComponent implements OnInit {
 
     this.currentSlot$ = this.cmsService.getContentSlot(this.position).pipe(
       tap(slot => {
+        if (slot.components && slot.components.length > 0) {
+          this.renderer.addClass(
+            this.hostElement.nativeElement,
+            'has-components'
+          );
+        }
+
         if (this.cmsService.isLaunchInSmartEdit()) {
           this.addSmartEditContract(slot);
         }
