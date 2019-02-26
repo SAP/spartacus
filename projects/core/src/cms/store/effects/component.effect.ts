@@ -27,7 +27,7 @@ export class ComponentEffects {
   loadComponent$: Observable<any> = this.actions$.pipe(
     ofType(componentActions.LOAD_COMPONENT),
     map((action: componentActions.LoadComponent) => action.payload),
-    switchMap(uid => {
+    mergeMap(uid => {
       return this.routingService.getRouterState().pipe(
         filter(routerState => routerState !== undefined),
         map(routerState => routerState.state.context),
