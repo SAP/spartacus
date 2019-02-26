@@ -65,18 +65,6 @@ const pageModules = [
         path: null,
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
-        data: { pageLabel: 'faq', cxPath: 'help' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'sale', cxPath: 'sale' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
         data: { pageLabel: 'contactUs', cxPath: 'contact' }
       },
       {
