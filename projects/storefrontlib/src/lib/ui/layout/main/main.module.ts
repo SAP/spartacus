@@ -12,6 +12,8 @@ import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+import { SeoModule } from '../../../seo/index';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
     UiFrameworkModule,
     OutletRefModule,
     PwaModule,
-    PageLayoutModule
+    PageLayoutModule,
+    SeoModule
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent]
