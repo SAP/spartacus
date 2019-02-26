@@ -6,28 +6,34 @@ import { RoutingService, PageType, CmsService } from '@spartacus/core';
 import { of } from 'rxjs';
 
 import { CmsPageGuards } from './cms-page.guard';
-import createSpy = jasmine.createSpy;
 
 class MockCmsService {
   hasPage() {}
 }
-const MockRoutingService = {
-  getPageContext: createSpy('getPageContext').and.returnValue(
-    of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
-  ),
-  go: createSpy('RoutingService.go')
-};
+class MockRoutingService {
+  getPageContext() {
+    return of();
+  }
+  go() {}
+}
 
-fdescribe('CmsPageGuards', () => {
+describe('CmsPageGuards', () => {
+  let routingService: RoutingService;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CmsPageGuards,
-        { provide: RoutingService, useValue: MockRoutingService },
+        { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService }
       ],
       imports: [RouterTestingModule]
     });
+
+    routingService = TestBed.get(RoutingService);
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
+    );
   });
 
   describe('canActivate', () => {
@@ -65,13 +71,14 @@ fdescribe('CmsPageGuards', () => {
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
+        spyOn(routingService, 'go');
 
         cmsPageGuards
           .canActivate()
           .subscribe()
           .unsubscribe();
 
-        expect(MockRoutingService.go).toHaveBeenCalled();
+        expect(routingService.go).toHaveBeenCalled();
       }
     ));
   });
