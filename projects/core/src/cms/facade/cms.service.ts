@@ -9,19 +9,15 @@ import {
   map,
   withLatestFrom,
   switchMap,
-  take
-} from 'rxjs/operators';
-import * as fromStore from '../store';
-import {
-  filter,
-  tap,
-  map,
   take,
-  withLatestFrom,
   multicast,
   refCount
 } from 'rxjs/operators';
-import { select, Store } from '@ngrx/store';
+
+import * as fromStore from '../store';
+import { LoaderState } from '../../state';
+import { ContentSlotData } from '../model/content-slot-data.model';
+import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import { StateWithCms } from '../store/cms-state';
 import { CmsComponent } from '../../occ/occ-models/cms-component.models';
