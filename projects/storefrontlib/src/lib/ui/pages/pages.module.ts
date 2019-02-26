@@ -24,7 +24,6 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-import { ContentPageModule } from './content-page/content-page.module';
 import { AuthGuard } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
@@ -43,9 +42,7 @@ const pageModules = [
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
-  GuardsModule,
-  // new pages should be added above this line
-  ContentPageModule
+  GuardsModule
 ];
 
 @NgModule({
@@ -60,18 +57,6 @@ const pageModules = [
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'homepage', cxPath: 'home' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'contactUs', cxPath: 'contact' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
       },
       {
         // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
@@ -89,15 +74,14 @@ const pageModules = [
       },
       {
         path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
-      },
-      {
-        path: null,
         canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
+      },
+      {
+        path: '**',
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent
       }
     ])
   ],

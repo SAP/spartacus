@@ -36,7 +36,7 @@ export const defaultStorefrontRoutesTranslations: {
         }
       }
     },
-    termsAndConditions: { paths: ['terms-and-conditions'] },
+    termsAndConditions: { paths: ['termsAndConditions'] },
     orders: { paths: ['my-account/orders'] },
     orderDetails: {
       paths: ['my-account/orders/:orderCode'],
