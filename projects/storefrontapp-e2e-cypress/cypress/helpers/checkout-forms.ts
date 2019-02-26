@@ -28,21 +28,33 @@ export interface PaymentDetails {
 export function fillShippingAddress(shippingAddressData: ShippingAddressData) {
   cy.get('cx-address-form').within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-    cy.get('[formcontrolname="firstName"]').type(shippingAddressData.firstName);
-    cy.get('[formcontrolname="lastName"]').type(shippingAddressData.lastName);
-    cy.get('[formcontrolname="line1"]').type(shippingAddressData.address.line1);
-    cy.get('[formcontrolname="line2"]').type(shippingAddressData.address.line2);
+    cy.get('[formcontrolname="firstName"]')
+      .clear()
+      .type(shippingAddressData.firstName);
+    cy.get('[formcontrolname="lastName"]')
+      .clear()
+      .type(shippingAddressData.lastName);
+    cy.get('[formcontrolname="line1"]')
+      .clear()
+      .type(shippingAddressData.address.line1);
+    cy.get('[formcontrolname="line2"]')
+      .clear()
+      .type(shippingAddressData.address.line2);
     cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
       shippingAddressData.address.country
     );
-    cy.get('[formcontrolname="town"]').type(shippingAddressData.address.city);
+    cy.get('[formcontrolname="town"]')
+      .clear()
+      .type(shippingAddressData.address.city);
     cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
       shippingAddressData.address.state
     );
-    cy.get('[formcontrolname="postalCode"]').type(
-      shippingAddressData.address.postal
-    );
-    cy.get('[formcontrolname="phone"]').type(shippingAddressData.phone);
+    cy.get('[formcontrolname="postalCode"]')
+      .clear()
+      .type(shippingAddressData.address.postal);
+    cy.get('[formcontrolname="phone"]')
+      .clear()
+      .type(shippingAddressData.phone);
     cy.get('button.btn-primary').click();
   });
 }
