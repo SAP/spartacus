@@ -4,17 +4,19 @@ import {
   RouterStateSnapshot,
   Params
 } from '@angular/router';
+
 import {
   createSelector,
   createFeatureSelector,
   ActionReducerMap,
   MemoizedSelector
 } from '@ngrx/store';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
 import * as fromNgrxRouter from '@ngrx/router-store';
+
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
+import { PageContext } from '../../models/page-context.model';
+import { PageType } from '../../../occ/occ-models/index';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -123,6 +125,14 @@ export const getRouterState: MemoizedSelector<any, any> = createSelector(
   (state: any) => state[ROUTING_FEATURE]
 );
 
+export const getPageContext: MemoizedSelector<
+  any,
+  PageContext
+> = createSelector(
+  getRouterState,
+  (routingState: any) => routingState.state.context
+);
+
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
   getRouterState,
   state => state.redirectUrl
@@ -168,7 +178,7 @@ export class CustomSerializer
       context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
     } else if (state.url.length > 0) {
       context = {
-        id: state.url[state.url.length - 1].path,
+        id: state.url.map(urlSegment => urlSegment.path).join('/'),
         type: PageType.CONTENT_PAGE
       };
     } else {

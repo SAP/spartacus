@@ -1,16 +1,20 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of, Observable } from 'rxjs';
-import { CmsPageGuards } from './cms-page.guard';
+
 import { RoutingService, PageType, CmsService } from '@spartacus/core';
+
+import { of } from 'rxjs';
+
+import { CmsPageGuards } from './cms-page.guard';
 
 class MockCmsService {
   hasPage() {}
 }
 class MockRoutingService {
-  getRouterState(): Observable<any> {
+  getPageContext() {
     return of();
   }
+  go() {}
 }
 
 describe('CmsPageGuards', () => {
@@ -27,15 +31,8 @@ describe('CmsPageGuards', () => {
     });
 
     routingService = TestBed.get(RoutingService);
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of({
-        state: {
-          url: '/test',
-          queryParams: {},
-          params: {},
-          context: { id: 'testPageId', type: PageType.CONTENT_PAGE }
-        }
-      })
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of({ id: 'testPageId', type: PageType.CONTENT_PAGE })
     );
   });
 
@@ -44,8 +41,13 @@ describe('CmsPageGuards', () => {
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
-        let result = false;
-        cmsPageGuards.canActivate().subscribe(value => (result = value));
+
+        let result: boolean;
+        cmsPageGuards
+          .canActivate()
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
         expect(result).toBe(true);
       }
     ));
@@ -54,9 +56,29 @@ describe('CmsPageGuards', () => {
       [CmsService, CmsPageGuards],
       (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
-        let result = true;
-        cmsPageGuards.canActivate().subscribe(value => (result = value));
+
+        let result: boolean;
+        cmsPageGuards
+          .canActivate()
+          .subscribe(value => (result = value))
+          .unsubscribe();
+
         expect(result).toBe(false);
+      }
+    ));
+
+    it('should redirect when CmsService hasPage is false for the page context', inject(
+      [CmsService, CmsPageGuards],
+      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(false));
+        spyOn(routingService, 'go');
+
+        cmsPageGuards
+          .canActivate()
+          .subscribe()
+          .unsubscribe();
+
+        expect(routingService.go).toHaveBeenCalled();
       }
     ));
   });

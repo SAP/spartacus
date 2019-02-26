@@ -27,7 +27,8 @@ import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
 import { AuthGuard } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
-import { CartNotEmptyGuard } from '../../cart/guards';
+import { GuardsModule } from './guards/guards.module';
+import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 
 const pageModules = [
   CategoryPageModule,
@@ -40,8 +41,8 @@ const pageModules = [
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
-  ResetNewPasswordPageModule
-  // new pages should be added above this line
+  ResetNewPasswordPageModule,
+  GuardsModule
 ];
 
 @NgModule({
@@ -51,36 +52,15 @@ const pageModules = [
     PageLayoutModule,
     RouterModule.forChild([
       {
+        // This route can be dropped only when we have a mapping path to page label for content pages
         path: null,
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'homepage', cxPath: 'home' }
       },
       {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'faq', cxPath: 'help' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'sale', cxPath: 'sale' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'contactUs', cxPath: 'contact' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
-      },
-      {
+        // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
+        // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
         path: null,
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
@@ -94,15 +74,14 @@ const pageModules = [
       },
       {
         path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
-      },
-      {
-        path: null,
         canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
+      },
+      {
+        path: '**',
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent
       }
     ])
   ],
