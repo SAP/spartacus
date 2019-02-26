@@ -66,6 +66,5 @@ Adding an html page title has several advantages:
 * the page title will increase ranking the page in search engines
 * the page title will identify content in search engines
 
-
 ### Description tag
-Each page on the storefront can contain a so-called description tag. The description tag is used at the SERP (search engine result page) to improve the click-through-rate (CTR). It is not used to improve page ranking. It is generally considered best practise to create a description tag for each page, although there are occassion where the search engine is better capable to generate the description based on the context.
+Each page on the storefront can contain a so-called description tag. The description tag is used at the SERP (search engine result page) to improve the click-through-rate (CTR). It is not used to improve page ranking. It is generally considered best practice to create a description tag for each page, although there are occassion where the search engine is better capable to generate the description based on the context.
