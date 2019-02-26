@@ -62,9 +62,9 @@ The following procedure will demonstrate the steps to update a component's style
 1. Find the component's selector using the browser's inspector tool.
 2. Using the inspector view the component's markup and available variables.
 3. Write your custom SCSS in the files of your choice (must be includes in the build through standard Angular/SCSS build). The custom style must follow these rules.
+    - Referencing components is done through their selector e.g. `cx-product-images`
     - It must override the default classes as well as rules
     - The rules are customizable through css variables
-    - Referencing components is done through their selector e.g. `cx-product-images`
 
 The following sample code demonstrates the configuration of the thumbs in the product image component.
 
