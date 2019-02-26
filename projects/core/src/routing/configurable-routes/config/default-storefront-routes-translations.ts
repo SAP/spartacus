@@ -36,10 +36,7 @@ export const defaultStorefrontRoutesTranslations: {
         }
       }
     },
-    termsAndConditions: { paths: ['terms-and-conditions'] },
-    contact: { paths: ['contact'] },
-    help: { paths: ['faq'] },
-    sale: { paths: ['sale'] },
+    termsAndConditions: { paths: ['termsAndConditions'] },
     orders: { paths: ['my-account/orders'] },
     orderDetails: {
       paths: ['my-account/orders/:orderCode'],
@@ -47,7 +44,7 @@ export const defaultStorefrontRoutesTranslations: {
     },
     addressBook: { paths: ['my-account/address-book'] },
     paymentManagement: { paths: ['my-account/payment-details'] },
-    pageNotFound: { paths: ['**'] }
+    pageNotFound: { paths: ['notFound'] }
   },
 
   en: {} as any
