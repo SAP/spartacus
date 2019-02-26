@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+
 import { Observable, of } from 'rxjs';
 import {
   map,
@@ -11,93 +13,72 @@ import {
   take
 } from 'rxjs/operators';
 
-import * as pageActions from '../actions/page.action';
 import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../occ/occ-cms.service';
-import { DefaultPageService } from '../../services/default-page.service';
-
-import { Page } from '../../model/page.model';
+import * as pageActions from '../actions/page.action';
 import { ContentSlotData } from '../../model/content-slot-data.model';
-
-import { RoutingService, PageContext } from '../../../routing/index';
-import { PageType, CMSPage } from '../../../occ/occ-models/index';
+import { Page } from '../../model/page.model';
+import { OccCmsService } from '../../occ/occ-cms.service';
+import { RoutingService } from '../../../routing/index';
+import { CMSPage, CmsComponent } from '../../../occ/occ-models/index';
+import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 
 @Injectable()
 export class PageEffects {
   @Effect()
-  loadPage$: Observable<any> = this.actions$.pipe(
-    ofType(
-      pageActions.LOAD_PAGEDATA,
-      pageActions.REFRESH_LATEST_PAGE,
-      '[Site-context] Language Change',
-      '[Auth] Logout',
-      '[Auth] Login'
-    ),
+  refreshPage$: Observable<Action> = this.actions$.pipe(
+    ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
+    switchMap(_ =>
+      this.routingService.getRouterState().pipe(
+        filter(
+          routerState =>
+            routerState && routerState.state && routerState.state.cmsRequired
+        ),
+        map(routerState => routerState.state.context),
+        take(1),
+        mergeMap(context => of(new pageActions.LoadPageData(context)))
+      )
+    )
+  );
+
+  @Effect()
+  loadPageData$: Observable<Action> = this.actions$.pipe(
+    ofType(pageActions.LOAD_PAGE_DATA),
     map((action: pageActions.LoadPageData) => action.payload),
-    switchMap(pageContext => {
-      if (pageContext === undefined) {
-        return this.routingService.getRouterState().pipe(
-          filter(routerState => routerState && routerState.state),
-          filter(routerState => routerState.state.cmsRequired),
-          map(routerState => routerState.state.context),
-          take(1),
-          mergeMap(context =>
-            this.occCmsService.loadPageData(context).pipe(
-              mergeMap(data => {
-                return [
-                  new pageActions.LoadPageDataSuccess(
-                    this.getPageData(data, context)
-                  ),
-                  new componentActions.GetComponentFromPage(
-                    this.getComponents(data)
-                  )
-                ];
-              }),
-              catchError(error => of(new pageActions.LoadPageDataFail(error)))
-            )
-          )
-        );
-      } else {
-        return this.occCmsService.loadPageData(pageContext).pipe(
-          mergeMap(data => {
-            return [
-              new pageActions.LoadPageDataSuccess(
-                this.getPageData(data, pageContext)
-              ),
-              new componentActions.GetComponentFromPage(
-                this.getComponents(data)
-              )
-            ];
-          }),
-          catchError(error => of(new pageActions.LoadPageDataFail(error)))
-        );
-      }
-    })
+    switchMap(pageContext =>
+      this.occCmsService.loadPageData(pageContext).pipe(
+        mergeMap(data => {
+          const page = this.getPageData(data);
+          return [
+            new pageActions.LoadPageDataSuccess(pageContext, page),
+            new componentActions.GetComponentFromPage(this.getComponents(data))
+          ];
+        }),
+        catchError(error =>
+          of(new pageActions.LoadPageDataFail(pageContext, error))
+        )
+      )
+    )
   );
 
   constructor(
     private actions$: Actions,
     private occCmsService: OccCmsService,
-    private defaultPageService: DefaultPageService,
     private routingService: RoutingService
   ) {}
 
-  private getPageData(
-    res: any,
-    pageContext: PageContext
-  ): { key: string; value: Page } {
+  private getPageData(res: any): Page {
     const page: Page = {
       loadTime: Date.now(),
       uuid: res.uuid,
       name: res.name,
+      type: res.typeCode,
       title: res.title,
       catalogUuid: this.getCatalogUuid(res),
       pageId: res.uid,
       template: res.template,
-      seen: new Array<string>(),
       slots: {}
     };
-    page.seen.push(pageContext.id);
 
     for (const slot of res.contentSlots.contentSlot) {
       page.slots[slot.position] = {
@@ -116,34 +97,14 @@ export class PageEffects {
             uid: component.uid,
             uuid: component.uuid,
             catalogUuid: this.getCatalogUuid(component),
-            typeCode: component.typeCode
+            typeCode: component.typeCode,
+            flextype: component.flextype
           });
         }
       }
     }
 
-    return { key: this.getPageKey(pageContext, page), value: page };
-  }
-
-  private getPageKey(pageContext: PageContext, page: Page): string {
-    switch (pageContext.type) {
-      case PageType.CATEGORY_PAGE:
-      case PageType.CATALOG_PAGE:
-      case PageType.PRODUCT_PAGE: {
-        const defaultPageIds = this.defaultPageService.getDefaultPageIdsBytype(
-          pageContext.type
-        );
-        if (defaultPageIds.indexOf(page.pageId) > -1) {
-          return page.pageId + '_' + pageContext.type;
-        } else {
-          return pageContext.id + '_' + pageContext.type;
-        }
-      }
-
-      case PageType.CONTENT_PAGE: {
-        return page.pageId + '_' + pageContext.type;
-      }
-    }
+    return page;
   }
 
   private getCatalogUuid(cmsItem: any): string {
@@ -164,7 +125,7 @@ export class PageEffects {
     }
   }
 
-  private getComponents(pageData: CMSPage): any[] {
+  private getComponents(pageData: CMSPage): CmsComponent[] {
     const components = [];
     if (pageData) {
       for (const slot of pageData.contentSlots.contentSlot) {

@@ -39,6 +39,10 @@ cx-page-layout {
   @extend %LoginPageTemplate !optional;
 }
 
+.MultiStepCheckoutSummaryPageTemplate {
+  @extend %ContentPage1Template !optional;
+}
+
 .ErrorPageTemplate {
   @extend %LoginPageTemplate !optional;
 }
