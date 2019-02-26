@@ -11,7 +11,25 @@ export function defaultSiteContextConfigFactory(): SiteContextConfig {
         [LANGUAGE_CONTEXT_ID]: {
           persistence: 'route',
           defaultValue: 'en',
-          values: ['en', 'de', 'ja', 'zh']
+          values: [
+            'en',
+            'de',
+            'ja',
+            'zh',
+            'ru',
+            'fr',
+            'tr',
+            'it',
+            'es',
+            'uk',
+            'pl',
+            'nl',
+            'hi',
+            'ar',
+            'pt',
+            'bn',
+            'pa'
+          ]
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
