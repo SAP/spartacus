@@ -33,11 +33,7 @@ export class ProductCarouselService {
   constructor(
     protected component: CmsComponentData<CmsProductCarouselComponent>,
     private productService: ProductService
-  ) {
-    this.setTitle();
-    this.setItems();
-    this.setItemAsActive(0);
-  }
+  ) {}
 
   getActiveItem(): Observable<number> {
     return this.activeItem$;
