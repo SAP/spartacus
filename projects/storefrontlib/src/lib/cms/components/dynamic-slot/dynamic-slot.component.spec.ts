@@ -89,21 +89,29 @@ describe('DynamicSlotComponent', () => {
   });
 
   describe('getComponentMappedType', () => {
-    it('should return component uid when original component type is "JspIncludeComponent"', () => {
-      const component: ContentSlotComponentData = {
-        typeCode: 'JspIncludeComponent',
-        uid: 'testUid'
-      };
+    let component: ContentSlotComponentData;
+
+    beforeEach(() => {
+      component = { uid: 'testUid' };
+    });
+
+    it('should return "uid" of the component when component type is "JspIncludeComponent"', () => {
+      component.typeCode = 'JspIncludeComponent';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testUid'
       );
     });
 
-    it('should return original component type when it is NOT "JspIncludeComponent"', () => {
-      const component: ContentSlotComponentData = {
-        typeCode: 'testComponentType',
-        uid: 'testUid'
-      };
+    it('should return "flextype" of the component when component type is "FlexCmsComponent"', () => {
+      component.typeCode = 'FlexCmsComponent';
+      component.flextype = 'testComponentMappedType';
+      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
+        'testComponentMappedType'
+      );
+    });
+
+    it('should return component type when it is NOT "JspIncludeComponent" nor "FlexCmsComponent"', () => {
+      component.typeCode = 'testComponentType';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentType'
       );

@@ -9,6 +9,5 @@ export interface Page {
   title?: string;
   template?: string;
   loadTime?: number;
-  seen?: Array<string>;
   slots: { [key: string]: ContentSlotData };
 }
