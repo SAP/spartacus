@@ -12,10 +12,14 @@ const STORES = [
   }
 ];
 
-const MAP_SELECTOR = 'cx-store-finder-map .cx-store-map .gm-style';
-const SEARCH_RESULTS = 'cx-store-finder-list .cx-columns .cx-list-items';
-
 context.only('Store finder', () => {
+  const googleMap = 'cx-store-finder-map .cx-store-map .gm-style';
+  const searchResults = 'cx-store-finder-list .cx-columns .cx-list-items';
+  const resultListItem = 'cx-store-finder-list-item';
+  const storeName = '.cx-store-name';
+  const pagination = 'cx-pagination';
+  const activePage = `${pagination} .page-item.active`;
+
   before(() => {
     cy.visit('/store-finder');
   });
@@ -26,56 +30,57 @@ context.only('Store finder', () => {
       cy.get('.btn-primary').click();
     });
     // we should get 20 results in first page
-    cy.get(SEARCH_RESULTS).should('have.length', '20');
-    cy.get('cx-store-finder-list-item')
+    cy.get(searchResults).should('have.length', '20');
+    cy.get(resultListItem)
       .first()
       .within(() => {
-        cy.get('.cx-store-name').should('contain', STORES[0].name);
-        cy.get('.cx-store-address').should('contain', STORES[0].addressLine1);
-        cy.get('.cx-store-address').should('contain', STORES[0].addressLine2);
+        cy.get(storeName).should('contain', STORES[0].name);
+        cy.get('.cx-store-address')
+          .should('contain', STORES[0].addressLine1)
+          .should('contain', STORES[0].addressLine2);
       });
     // map exists
-    cy.get(MAP_SELECTOR);
+    cy.get(googleMap);
   });
 
   it('should allow to select store from result list', () => {
-    cy.get(SEARCH_RESULTS)
+    cy.get(searchResults)
       .eq(2)
       .click()
       .should('have.class', 'cx-selected-item');
   });
 
   it('should allow to go to the next result page', () => {
-    cy.get('cx-pagination')
+    cy.get(pagination)
       .getAllByLabelText('Next')
       .click();
-    cy.get('cx-pagination .page-item.active').should('contain', '2');
-    cy.get('cx-store-finder-list-item')
+    cy.get(activePage).should('contain', '2');
+    cy.get(resultListItem)
       .first()
-      .find('.cx-store-name')
+      .find(storeName)
       .should('contain', STORES[1].name);
   });
 
   it('should allow to go to the previous result page', () => {
-    cy.get('cx-pagination')
+    cy.get(pagination)
       .getAllByLabelText('Previous')
       .click();
-    cy.get('cx-pagination .page-item.active').should('contain', '1');
-    cy.get('cx-store-finder-list-item')
+    cy.get(activePage).should('contain', '1');
+    cy.get(resultListItem)
       .first()
-      .find('.cx-store-name')
+      .find(storeName)
       .should('contain', STORES[0].name);
   });
 
   it('should allow to go to 2 result page', () => {
-    cy.get('cx-pagination .page-item')
+    cy.get(`${pagination} .page-item`)
       .contains('2')
       .click({ force: true }); // electron thinks map is over pagination
-    cy.get('cx-pagination .page-item.active').should('contain', '2');
+    cy.get(activePage).should('contain', '2');
 
-    cy.get('cx-store-finder-list-item')
+    cy.get(resultListItem)
       .first()
-      .find('.cx-store-name')
+      .find(storeName)
       .should('contain', STORES[1].name);
   });
 
@@ -85,7 +90,7 @@ context.only('Store finder', () => {
     cy.get('.cx-store-finder-list-count__country-set')
       .getByText('Japan')
       .click();
-    cy.get('cx-store-finder-list-item').should('have.length', 49);
+    cy.get(resultListItem).should('have.length', 49);
   });
 
   // TODO enable after modelT server upgrade
@@ -96,7 +101,7 @@ context.only('Store finder', () => {
         STORES[2].name
       }?fields=FULL&lang=en&curr=USD`
     ).as('store');
-    cy.get('cx-store-finder-list-item')
+    cy.get(resultListItem)
       .first()
       .click();
     cy.wait('@store').then(xhr => {
@@ -104,15 +109,15 @@ context.only('Store finder', () => {
       const features = body.features.entry;
       const openHours = body.openingHours.weekDayOpeningList;
       // map exists
-      cy.get(MAP_SELECTOR);
+      cy.get(googleMap);
       cy.get('cx-store-finder-store-description').within(() => {
         cy.get('.contactInfo').should('contain', body.address.phone);
 
-        features.map(feature => {
+        features.forEach(feature => {
           cy.getByText(feature.value);
         });
 
-        openHours.map(day => {
+        openHours.forEach(day => {
           cy.getByText(day.weekDay)
             .closest('.row')
             .contains(
