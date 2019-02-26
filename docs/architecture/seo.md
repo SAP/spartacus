@@ -5,6 +5,7 @@ We're covering the following topics:
 - Stateful URLs
 - Configurable URLs
 - Indexable Page response (SSR)
+- HTML tags
 
 ## Stateful URLs
 Using URLs to have a stateful address for each piece of the storefront services a multiple goals. It will not only help users to better navigate the storefront, but also crawlers will be able to crawl each and every page. Crawlers can identify more pages that can shared through social media, bots, or search indexes. 
@@ -31,3 +32,15 @@ Configurable URLs will help to improve SEO in general, but also help to migrate 
 Server Side Rendering (SSR) is a technique to render the javascript logic server side, and provide rich content in the response. The SSR response contains the full HTML that is required by crawlers (Google, Facebook, etc.) in order to index or retrieve data from the response. 
 
 SSR is provided by Spartacus and is planned to be a default deployment option Commerce Cloud.
+
+## Html tags
+### Title tag
+Adding an html page title has several advantages:
+* the page can be uniquely addressed in the browser (browser history, bookmarks, tabs, etc)
+* the page title will increase ranking the page in search engines
+* the page title will identify content in search engines
+
+Spartacus is shipped with `pageTitleResolvers` which resovle a page title for a specific page. Most titles are cms driven, but in some occassions the title is computed based on produt content, search results, cart items, etc. 
+The page title resolvers are used for the title tag, but customer can provide a custom serivce to customize the title tag content.  
+
+The page title will be updated dynamically during navigation, but can be delivered statically using SSR.
