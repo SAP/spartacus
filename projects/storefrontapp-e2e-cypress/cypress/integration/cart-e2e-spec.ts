@@ -84,8 +84,7 @@ describe('Cart', () => {
   it('should add product to cart as anonymous and merge when logged in', () => {
     standardUser.registrationData.email = generateMail(randomString(), true);
     cy.requireLoggedIn(standardUser);
-
-    cy.visit('/cart');
+    cy.visit('/login');
 
     cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
     cy.get('.dropdown-item.active').click();
@@ -96,10 +95,11 @@ describe('Cart', () => {
     );
     cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
-    cy.selectUserMenuOption('Sign Out');
-    cy.visit('/cart');
-
     cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
+
+    cy.selectUserMenuOption('Sign Out');
+    cy.get('cx-login [role="link"]').should('contain', 'Sign In');
+
     cy.get('cx-product-list')
       .contains('cx-product-list-item', 'EASYSHARE M381')
       .within(() => {
