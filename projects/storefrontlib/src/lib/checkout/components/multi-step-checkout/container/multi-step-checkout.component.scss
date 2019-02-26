@@ -1,203 +1,143 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// cx-multi-step-checkout color variables
-$cx-multi-step-checkout-progress-bar-color: 'primary' !default;
-$cx-multi-step-checkout-media-background-color: 'background' !default;
-$cx-multi-step-checkout-nav-list-media-border-color: 'light' !default;
-$cx-multi-step-checkout-media-border-color: 'light' !default;
+.cx-checkout-container {
+  padding: var(--cx-padding, 2.5rem 0);
 
-// cx-multi-step-checkout variables
-$cx-multi-step-checkout-padding: 2.5rem 0 !default;
-$cx-multi-step-checkout-no-padding: 0 !default;
-$cx-multi-step-checkout-no-margin: 0 !default;
-$cx-multi-step-checkout-no-margin-bottom: 0 !default;
-
-$cx-multi-step-checkout-nav-margin-bottom: 0 !default;
-
-$cx-multi-step-checkout-nav-item-padding: 0 0 1.375rem 0 !default;
-$cx-multi-step-checkout-nav-item-before-padding: 0 0.5rem !default;
-
-$cx-multi-step-checkout-nav-list-padding: 0 !default;
-$cx-multi-step-checkout-nav-list-margin-bottom: 0 !default;
-$cx-multi-step-checkout-nav-list-media-line-height: 4.75rem !default;
-$cx-multi-step-checkout-nav-list-media-border-top: 1px solid !default;
-$cx-multi-step-checkout-nav-list-media-md-padding: 3.5rem !default;
-$cx-multi-step-checkout-nav-list-media-sm-padding: 1.375rem !default;
-
-$cx-multi-step-checkout-nav-link-cursor: pointer !default;
-$cx-multi-step-checkout-nav-link-disabled-cursor: not-allowed !default;
-
-$cx-multi-step-checkout-progressbar-border-bottom: 5px solid !default;
-
-$cx-multi-step-checkout-place-order-padding: 0 1rem !default;
-$cx-multi-step-checkout-place-order-form-check-input-size: 1.375rem !default;
-$cx-multi-step-checkout-place-order-btn-margin-top: 1.25rem !default;
-
-// Media Queries
-$cx-multi-step-checkout-media-border: 1px solid;
-$cx-multi-step-checkout-media-margin-bottom: 2.375rem !default;
-$cx-multi-step-checkout-media-col-md-7-padding: 4.375rem !default;
-$cx-multi-step-checkout-media-col-sm-7-padding: 1.375rem !default;
-$cx-multi-step-checkout-media-col-md-12-padding: 0 4.375rem 1.875rem 4.375rem !default;
-$cx-multi-step-checkout-media-col-sm-12-padding: 0 2.25rem 1.25rem 2.25rem !default;
-$cx-multi-step-checkout-btn-padding-bottom: 1rem !default;
-$cx-multi-step-checkout-btn-md-padding: 0 3.5rem 1.25rem 0 !default;
-$cx-multi-step-checkout-btn-sm-padding: 1.25rem !default;
-$cx-multi-step-checkout-btns-margin-bottom: 1rem !default;
-$cx-multi-step-checkout-btns-padding: 0 !default;
-
-.cx-multi-step-checkout {
-  padding: $cx-multi-step-checkout-padding;
-
-  &__nav {
+  .cx-nav {
     @include type('4', 'semi');
-    margin-bottom: $cx-multi-step-checkout-nav-margin-bottom;
+    margin-bottom: 0;
 
-    &-list {
-      display: flex;
-      flex-direction: row;
-      list-style: none;
-      padding: $cx-multi-step-checkout-nav-list-padding;
-      margin-bottom: $cx-multi-step-checkout-nav-list-margin-bottom;
+    .cx-list {
+      display: var(--cx-display, flex);
+      flex-direction: var(--cx-flex-direction, row);
+      list-style: var(--cx-list-style, none);
+      padding: var(--cx-padding, 0);
+      margin-bottom: 0;
     }
 
-    &-item {
-      color: theme-color('text');
-      padding: $cx-multi-step-checkout-nav-item-padding;
+    .cx-item {
+      color: var(--cx-color, var(--cx-g-color-text));
+      padding: var(--cx-padding, 0 0 1.375rem 0);
 
       &.progressbar {
-        border-bottom: $cx-multi-step-checkout-progressbar-border-bottom;
-        @include var-color(
-          'border-bottom-color',
-          $cx-multi-step-checkout-progress-bar-color
-        );
-      }
-
-      &::before {
-        padding: $cx-multi-step-checkout-nav-item-before-padding;
-        content: '>';
-      }
-
-      &:first-child::before {
-        content: '';
-        padding: $cx-multi-step-checkout-no-padding;
-      }
-
-      &.is-disabled {
-        color: theme-color('light');
-      }
-    }
-
-    &-link,
-    &-link:hover {
-      cursor: $cx-multi-step-checkout-nav-link-cursor;
-
-      &.is-disabled {
-        color: theme-color('light');
-        cursor: $cx-multi-step-checkout-nav-link-disabled-cursor;
-      }
-
-      &.is-active {
-        @include var-color('color', 'primary');
-      }
-    }
-
-    &--media {
-      @include media-breakpoint-down(md) {
-        &:last-child {
-          border-bottom: $cx-multi-step-checkout-media-border;
-          @include var-color(
-            'border-color',
-            $cx-multi-step-checkout-media-border-color
-          );
+        border-bottom: 5px solid;
+        border-color: var(--cx-border-color, var(--cx-g-color-primary));
+        ::before {
+          color: var(--cx-color, var(--cx-g-color-text));
         }
       }
-    }
 
-    &-list--media {
-      display: none;
-      @include type('3');
-      text-transform: uppercase;
-      justify-content: space-between;
-      align-items: center;
-      line-height: $cx-multi-step-checkout-nav-list-media-line-height;
-      min-width: 100%;
-      border-top: $cx-multi-step-checkout-nav-list-media-border-top;
-      @include var-color(
-        'border-color',
-        $cx-multi-step-checkout-nav-list-media-border-color
-      );
-      margin-bottom: $cx-multi-step-checkout-no-margin;
-
-      button {
-        text-transform: uppercase;
-        font-weight: $font-weight-bold;
+      ::before {
+        padding: var(--cx-padding, 0 0.5rem);
+        content: var(--cx-content, '>');
       }
 
-      @include media-breakpoint-down(md) {
-        display: flex;
-        padding-left: $cx-multi-step-checkout-nav-list-media-md-padding;
-        padding-right: $cx-multi-step-checkout-nav-list-media-md-padding;
-      }
-
-      @include media-breakpoint-down(sm) {
-        padding-left: $cx-multi-step-checkout-nav-list-media-sm-padding;
-        padding-right: $cx-multi-step-checkout-nav-list-media-sm-padding;
+      &:first-child ::before {
+        padding: var(--cx-padding, 0);
+        content: var(--cx-content, '');
       }
     }
   }
 
-  &__place-order {
-    padding: $cx-multi-step-checkout-place-order-padding;
+  .cx-link,
+  .cx-link:hover {
+    cursor: pointer;
 
-    &-form {
-      display: flex;
+    &.is-disabled {
+      color: var(--cx-color, var(--cx-g-color-light));
+      cursor: not-allowed;
+    }
+
+    &.is-active {
+      color: var(--cx-color, var(--cx-g-color-primary));
+      ::before {
+        color: var(--cx-color, var(--cx-g-color-text));
+      }
+    }
+  }
+
+  .cx-media {
+    @include media-breakpoint-down(md) {
+      & > :last-child {
+        border-bottom: 1px solid;
+        border-color: var(--cx-border-color, var(--cx-g-color-light));
+      }
+    }
+
+    .cx-list-media {
+      display: var(--cx-display, none);
+      @include type('3');
+      text-transform: var(--cx-text-transform, uppercase);
+      justify-content: var(--cx-justify-content, space-between);
+      align-items: var(--cx-align-items, center);
+      line-height: var(--cx-line-height, 4.75rem);
+      min-width: var(--cx-min-widt, 100%);
+      border-top: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
+      margin-bottom: 0;
+
+      button {
+        text-transform: var(--cx-text-transform, uppercase);
+        font-weight: $font-weight-bold;
+      }
+
+      @include media-breakpoint-down(md) {
+        display: var(--cx-display, flex);
+        padding: var(--cx-padding, 0 3.5rem);
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: var(--cx-padding, 0 1.375rem);
+      }
+    }
+  }
+
+  .cx-place-order {
+    padding: var(--cx-padding, 0 1rem);
+
+    .cx-form {
+      display: var(--cx-display, flex);
       .form-check-input {
-        min-height: $cx-multi-step-checkout-place-order-form-check-input-size;
-        min-width: $cx-multi-step-checkout-place-order-form-check-input-size;
+        min-height: var(--cx-min-height, 1.375rem);
+        min-width: var(--cx-min-width, 1.375rem);
       }
     }
 
     button {
-      margin-top: $cx-multi-step-checkout-place-order-btn-margin-top;
+      margin-top: 1.25rem;
     }
   }
 
   // ***************************** MEDIA QUERIES *****************************
 
   @include media-breakpoint-down(md) {
-    margin: $cx-multi-step-checkout-no-margin;
+    margin: var(--cx-margin, 0);
   }
 
   &.container {
     @include media-breakpoint-down(md) {
-      max-width: 100%;
-      padding: $cx-multi-step-checkout-no-padding;
+      max-width: var(--cx-max-width, 100%);
+      padding: var(--cx-padding, 0);
     }
   }
 
   .col-md-7 {
     @include media-breakpoint-down(md) {
-      padding-right: $cx-multi-step-checkout-media-col-md-7-padding;
+      padding-right: 4.375rem;
     }
 
     @include media-breakpoint-down(sm) {
-      padding-right: $cx-multi-step-checkout-media-col-sm-7-padding;
-      padding-left: $cx-multi-step-checkout-media-col-sm-7-padding;
+      padding: var(--cx-padding, 1.375rem);
     }
   }
 
-  &__nav {
-    &-list--media {
-      &.is-active {
-        @include media-breakpoint-down(md) {
-          @include var-color(
-            'background-color',
-            $cx-multi-step-checkout-media-background-color
-          );
-        }
+  .cx-list-media {
+    &.is-active {
+      @include media-breakpoint-down(md) {
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-background)
+        );
       }
     }
   }
@@ -206,47 +146,44 @@ $cx-multi-step-checkout-btns-padding: 0 !default;
 // Mixin imported in the other multi-step-checkout components
 @mixin checkout-media-style() {
   @include media-breakpoint-down(md) {
-    margin-bottom: $cx-multi-step-checkout-media-margin-bottom;
-    @include var-color(
-      'background-color',
-      $cx-multi-step-checkout-media-background-color
-    );
+    margin-bottom: 2.375rem;
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
   }
 
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: $cx-multi-step-checkout-media-col-md-12-padding;
+      padding: var(--cx-padding, 0 4.375rem 1.875rem 4.375rem);
     }
 
     @include media-breakpoint-down(sm) {
-      padding: $cx-multi-step-checkout-media-col-sm-12-padding;
+      padding: var(--cx-padding, 0 2.25rem 1.25rem 2.25rem);
     }
   }
 
   &.container {
     @include media-breakpoint-down(md) {
-      max-width: 100%;
-      margin-bottom: $cx-multi-step-checkout-no-margin-bottom;
+      max-width: var(--cx-max-width, 100%);
+      margin-bottom: 0;
     }
   }
 
-  &__btn {
-    padding-bottom: $cx-multi-step-checkout-btn-padding-bottom;
+  .cx-btn {
+    padding-bottom: 1rem;
     @include media-breakpoint-down(md) {
-      padding: $cx-multi-step-checkout-btn-md-padding;
+      padding: var(--cx-padding, 0 3.5rem 1.25rem 0);
     }
     @include media-breakpoint-down(sm) {
-      padding: $cx-multi-step-checkout-btn-sm-padding;
+      padding: var(--cx-padding, 1.25rem);
     }
   }
 
-  &__btns {
+  .cx-btns {
     @include media-breakpoint-down(md) {
-      padding: $cx-multi-step-checkout-btns-padding;
+      padding: var(--cx-padding, 0);
     }
     .btn-action {
       @include media-breakpoint-down(sm) {
-        margin-bottom: $cx-multi-step-checkout-btns-margin-bottom;
+        margin-bottom: 1rem;
       }
     }
   }

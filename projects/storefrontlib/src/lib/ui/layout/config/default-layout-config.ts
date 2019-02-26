@@ -8,6 +8,9 @@ export const defaultLayoutConfig: LayoutConfig = {
     lg: 1200
   },
   layoutSlots: {
+    footer: {
+      slots: ['Footer']
+    },
     LandingPage2Template: {
       slots: [
         'Section1',
@@ -39,7 +42,6 @@ export const defaultLayoutConfig: LayoutConfig = {
     ProductDetailsPageTemplate: {
       slots: [
         'TopHeaderSlot',
-        'BottomHeaderSlot',
         'VariantSelectorSlot',
         'AddToCart',
         'UpSelling',
@@ -56,15 +58,19 @@ export const defaultLayoutConfig: LayoutConfig = {
       ]
     },
     AccountPageTemplate: {
-      showTitle: true,
       slots: ['BodyContent', 'SideContent']
     },
     LoginPageTemplate: {
-      showTitle: true,
       slots: ['LeftContentSlot', 'RightContentSlot']
     },
     ErrorPageTemplate: {
       slots: ['MiddleContent']
+    },
+    OrderConfirmationPageTemplate: {
+      slots: ['BodyContent', 'SideContent']
+    },
+    MultiStepCheckoutSummaryPageTemplate: {
+      slots: ['BodyContent', 'SideContent']
     }
   }
 };

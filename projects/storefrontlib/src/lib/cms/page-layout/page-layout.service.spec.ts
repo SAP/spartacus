@@ -24,9 +24,6 @@ const MockLayoutConfig: LayoutConfig = {
       md: {
         slots: SLOT_CONFIG_FOR_MD
       },
-      lg: {
-        showTitle: true
-      },
       footer: {
         md: {
           slots: FOOTER_SLOT_CONFIG_FOR_MD
@@ -34,12 +31,8 @@ const MockLayoutConfig: LayoutConfig = {
       }
     },
     page_template_2: {
-      showTitle: true,
       footer: {
         slots: FOOTER_SLOT_CONFIG_FOR_PAGE2
-      },
-      lg: {
-        showTitle: false
       }
     }
   }
@@ -131,14 +124,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(DEFAULT_FOOTER_SLOT_CONFIG);
       });
-
-      it('should not render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(slots => (results = slots))
-          .unsubscribe();
-        expect(results).toEqual(undefined);
-      });
     });
 
     describe('tablet (md)', () => {
@@ -165,15 +150,6 @@ describe('PageLayoutService', () => {
           .subscribe(slots => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_MD);
-      });
-
-      it('should not render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-
-        expect(results).toEqual(undefined);
       });
     });
 
@@ -202,15 +178,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_MD);
       });
-
-      it('should render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-
-        expect(results).toEqual(PAGE_TITLE);
-      });
     });
   });
 
@@ -233,14 +200,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
-
-      it('should render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-        expect(results).toEqual(PAGE_TITLE);
-      });
     });
 
     describe('mobile (md)', () => {
@@ -258,14 +217,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
-
-      it('should render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-        expect(results).toEqual(PAGE_TITLE);
-      });
     });
 
     describe('desktop (lg)', () => {
@@ -281,14 +232,6 @@ describe('PageLayoutService', () => {
           .subscribe(slots => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
-      });
-
-      it('should not render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-        expect(results).toEqual(undefined);
       });
     });
   });

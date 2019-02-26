@@ -14,7 +14,6 @@ export type LayoutSections =
 
 export type SlotConfig = {
   slots?: string[];
-  showTitle?: boolean;
 };
 
 export type SlotGroup = {
