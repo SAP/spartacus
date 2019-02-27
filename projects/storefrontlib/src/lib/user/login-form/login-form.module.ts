@@ -3,7 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { LoginFormComponent } from './login-form.component';
-import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import {
+  UserModule,
+  UrlTranslationModule,
+  ConfigModule,
+  CmsConfig
+} from '@spartacus/core';
 import { CmsModule } from '../../cms/cms.module';
 import { BootstrapModule } from '../../bootstrap.module';
 
@@ -16,7 +21,14 @@ import { BootstrapModule } from '../../bootstrap.module';
     CmsModule,
     BootstrapModule,
     UserModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        ReturningCustomerLoginComponent: {
+          selector: 'cx-login-form'
+        }
+      }
+    })
   ],
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],
