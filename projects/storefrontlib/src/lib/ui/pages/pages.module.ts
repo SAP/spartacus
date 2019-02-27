@@ -29,6 +29,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
+import { GuestLoginPageModule } from './guest-login/guest-login-page.module';
 
 const pageModules = [
   CategoryPageModule,
@@ -42,6 +43,7 @@ const pageModules = [
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
+  GuestLoginPageModule,
   GuardsModule
 ];
 
