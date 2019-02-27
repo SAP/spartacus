@@ -1,5 +1,17 @@
 # Compatibility Notes
 
+## February 27, 2019
+
+Libraries: spartacus/
+
+* core 0.1.0-prealpha.x
+* storefront 0.1.0-prealpha.x
+* styles 0.1.0-prealpha.x
+
+### 
+
+Release 1811 will not work properly with Spartacus if the baseSite is set to a name that's different from the product catalog name. This is fixed in 1905 release.
+
 ## February 13, 2019
 
 Libraries: spartacus/
