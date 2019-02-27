@@ -3,8 +3,8 @@ import { CanActivate } from '@angular/router';
 
 import { RoutingService, CmsService } from '@spartacus/core';
 
-import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {
@@ -25,6 +25,7 @@ export class CmsPageGuards implements CanActivate {
         pageId = pageContext.id;
       }),
       switchMap(pageContext => this.cmsService.hasPage(pageContext)),
+      catchError(() => of(false)),
       tap(hasPage => {
         if (!hasPage && pageId !== '/notFound') {
           this.routingService.go(['notFound']);
