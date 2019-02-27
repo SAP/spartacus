@@ -1,4 +1,4 @@
-<div class="cx-search-facet">
+<div class="cx-search-facet" *ngIf="(searchResult$ | async) as searchResult">
   <ng-template [ngIf]="searchResult.breadcrumbs?.length">
     <h4 class="cx-facet-filter-header">Filter By</h4>
     <div class="cx-facet-filter-container">
