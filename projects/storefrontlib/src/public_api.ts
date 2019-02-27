@@ -17,4 +17,5 @@ export * from './lib/pwa/pwa.module';
 export * from './lib/storefront.module';
 export * from './lib/storefront-config';
 export * from './lib/outlet/index';
-export * from './lib/seo/index';
+
+export * from './cms-structure/index';
