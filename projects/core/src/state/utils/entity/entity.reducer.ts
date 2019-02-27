@@ -1,6 +1,7 @@
+import { Action } from '@ngrx/store';
+
 import { EntityState } from './entity-state';
 import { EntityAction } from './entity.action';
-import { Action } from '@ngrx/store';
 
 export const initialEntityState: EntityState<any> = { entities: {} };
 

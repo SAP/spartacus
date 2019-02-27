@@ -1,0 +1,14 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "styles-${version}",
+    "commitMessage": "Bumping styles version to ${version}",
+    "tagAnnotation": "Bumping styles version to ${version}"
+  },
+  "github": {
+    "release": true,
+    "releaseName": "@spartacus/styles@${version}",
+    "releaseNotes": "cd ../.. && npm run --silent release-notes:styles -- --from styles-${latestVersion} --to styles-${version}"
+  }
+}

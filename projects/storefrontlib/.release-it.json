@@ -1,0 +1,15 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "storefront-${version}",
+    "commitMessage": "Bumping storefront version to ${version}",
+    "tagAnnotation": "Bumping storefront version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/storefrontlib"
+  },
+  "scripts": {
+    "afterBump": "cd ../.. && yarn build:core:lib"
+  }
+}

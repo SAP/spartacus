@@ -4,10 +4,10 @@
     else loading
   "
 >
-  <div class="cx-store-finder-list-count container">
+  <div class="cx-count container">
     <div
       *ngFor="let country of locations?.countriesAndRegionsStoreCount"
-      class="cx-store-finder-list-count__country-set; else loading"
+      class="cx-set"
     >
       <a
         [routerLink]="
@@ -23,14 +23,14 @@
         "
         class="btn-link"
       >
-        <div class="cx-store-finder-list-count__country-title">
+        <div class="cx-title">
           <span
             [ngClass]="
               country?.storeCountDataList
                 ? 'country-header'
                 : 'country-header-link'
             "
-            class="cx-store-finder-list-count__country-name"
+            class="cx-name"
             >{{ country.name }}</span
           >
           <span
@@ -40,7 +40,7 @@
                 : 'country-header-link'
             "
             *ngIf="!country?.storeCountDataList"
-            class="cx-store-finder-list-count__country-count"
+            class="cx-country-count"
             >({{ country.count }})</span
           >
         </div>
@@ -49,5 +49,5 @@
   </div>
 </ng-container>
 <ng-template #loading>
-  <div class="cx-store-finder-count__spinner"><cx-spinner></cx-spinner></div>
+  <div class="cx-count-spinner"><cx-spinner></cx-spinner></div>
 </ng-template>
