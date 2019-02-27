@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 
 import { CheckoutService } from './facade/index';
 import { CheckoutStoreModule } from './store/checkout-store.module';
-import { PageTitleResolver } from '../cms/index';
-import { CheckoutPageTitleResolver } from './services/checkout-page-title.resolver';
+import { PageMetaResolver } from '../cms/index';
+import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
 
 @NgModule({
   imports: [CheckoutStoreModule],
   providers: [
     CheckoutService,
     {
-      provide: PageTitleResolver,
-      useExisting: CheckoutPageTitleResolver,
+      provide: PageMetaResolver,
+      useExisting: CheckoutPageMetaResolver,
       multi: true
     }
   ]
