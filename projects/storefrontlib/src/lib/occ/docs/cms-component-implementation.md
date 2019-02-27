@@ -118,7 +118,4 @@ For Angular (or web-) components that don't need any data from CMS (for example 
 
 In the same vein, the `uid` attribute of `JspIncludeComponent` is used in the CMS mapping instead of the original component type.
 
-**Note:** We recommend using `FlexCmsComponent` rather than `JspIncludeComponent`, because:
-
-- `uid` has to be unique, so you can't have two instances of the same `JspIncludeComponent`
-- `flextype` gives you more type safety, because it should come from an enumeration dropdown in the CMS
+**Note:** We recommend using `FlexCmsComponent` rather than `JspIncludeComponent`, because `uid` has to be unique, so you can't have two instances of the same `JspIncludeComponent`.
