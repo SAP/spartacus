@@ -23,7 +23,7 @@ import { RouterModule } from '@angular/router';
 import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-import { AuthGuard } from '@spartacus/core';
+import { AuthGuard, NotAuthGuard } from '@spartacus/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { GuardsModule } from './guards/guards.module';
@@ -75,6 +75,12 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
+      },
+      {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'login', cxPath: 'login' }
       },
       {
         path: '**',
