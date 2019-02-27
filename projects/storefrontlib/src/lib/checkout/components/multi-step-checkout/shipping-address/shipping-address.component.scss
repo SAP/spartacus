@@ -4,9 +4,9 @@
   &.container {
     padding: var(--cx-padding, 0);
   }
-
-  @include checkout-media-style();
 }
+
+@include checkout-media-style();
 
 .cx-shipping-address-title {
   text-transform: var(--cx-text-transform, uppercase);

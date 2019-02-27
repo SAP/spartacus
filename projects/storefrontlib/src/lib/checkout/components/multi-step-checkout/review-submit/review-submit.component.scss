@@ -1,97 +1,91 @@
 @import 'theme';
 
-.cx-review {
-  &.container {
-    padding: var(--cx-padding, 0);
-  }
+.cx-review-title {
+  text-transform: var(--cx-text-transform, uppercase);
+  margin: var(--cx-margin, 0 auto);
+  padding: var(--cx-padding, 2.375rem 0 1.25rem 0);
+}
 
-  .cx-review-title {
-    text-transform: var(--cx-text-transform, uppercase);
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 2.375rem 0 1.25rem 0);
-  }
+.cx-review-summary {
+  margin: var(--cx-margin, 0);
+  background-color: var(--cx-background-color, var(--cx-g-color-background));
 
-  .cx-review-summary {
-    margin: var(--cx-margin, 0);
-    background-color: var(--cx-background-color, var(--cx-g-color-background));
-
-    .cx-review-summary-card {
-      @include media-breakpoint-down(md) {
-        background-color: theme-color('inverse');
-        border-style: var(--cx-border-style, solid);
-        border-width: var(--cx-border-width, 1px);
-        border-color: var(--cx-border-color, var(--cx-g-color-light));
-      }
-    }
-  }
-
-  .row {
-    margin: var(--cx-margin, 0);
-  }
-
-  .form-check {
-    padding: var(--cx-padding, 0);
-    margin: var(--cx-margin, 0);
-  }
-
-  .col-md-4 {
-    padding: var(--cx-padding, 0);
-  }
-
-  .cx-review-cart-total {
-    @include type('4');
-    margin: var(--cx-margin, 2.625rem 0 0.5rem 0);
-  }
-
-  .cx-review-cart-heading {
-    @include type('4');
-    padding: var(--cx-padding, 1.375rem 0);
-    margin: var(--cx-margin, 0);
-    border-style: var(--cx-border-style, solid);
-    border-width: var(--cx-border-width, 1px 0);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
-
+  .cx-review-summary-card {
     @include media-breakpoint-down(md) {
-      border-width: var(--cx-border-width, 1px 0 0);
-      max-width: var(--cx-max-width, 100%);
-      min-width: var(--cx-min-width, 100%);
-      padding: var(--cx-padding, 1.375rem 0 1.375rem 3.5rem);
-    }
-    @include media-breakpoint-down(sm) {
-      max-width: var(--cx-max-width, 100%);
-      min-width: var(--cx-min-width, 100%);
-      padding: var(--cx-padding, 1.375rem 0 1.375rem 1.25rem);
-    }
-  }
-
-  .cx-review-cart-item {
-    padding: var(--cx-padding, 0);
-    .col-md-12 {
-      @include media-breakpoint-down(md) {
-        padding: var(--cx-padding, 0);
-      }
-
-      @include media-breakpoint-down(sm) {
-        padding: var(--cx-padding, 0);
-      }
-    }
-    @include media-breakpoint-down(md) {
+      background-color: theme-color('inverse');
       border-style: var(--cx-border-style, solid);
-      border-width: var(--cx-border-width, 1px 0 0);
+      border-width: var(--cx-border-width, 1px);
       border-color: var(--cx-border-color, var(--cx-g-color-light));
     }
   }
+}
 
-  // ***************************** MEDIA QUERIES *****************************
+.row {
+  margin: var(--cx-margin, 0);
+}
 
-  @include checkout-media-style();
+.form-check {
+  padding: var(--cx-padding, 0);
+  margin: var(--cx-margin, 0);
+}
+
+.col-md-4 {
+  padding: var(--cx-padding, 0);
+}
+
+.cx-review-cart-total {
+  @include type('4');
+  margin: var(--cx-margin, 2.625rem 0 0.5rem 0);
+}
+
+.cx-review-cart-heading {
+  @include type('4');
+  padding: var(--cx-padding, 1.375rem 0);
+  margin: var(--cx-margin, 0);
+  border-style: var(--cx-border-style, solid);
+  border-width: var(--cx-border-width, 1px 0);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+
+  @include media-breakpoint-down(md) {
+    border-width: var(--cx-border-width, 1px 0 0);
+    max-width: var(--cx-max-width, 100%);
+    min-width: var(--cx-min-width, 100%);
+    padding: var(--cx-padding, 1.375rem 0 1.375rem 3.5rem);
+  }
+  @include media-breakpoint-down(sm) {
+    max-width: var(--cx-max-width, 100%);
+    min-width: var(--cx-min-width, 100%);
+    padding: var(--cx-padding, 1.375rem 0 1.375rem 1.25rem);
+  }
+}
+
+.cx-review-cart-item {
+  padding: var(--cx-padding, 0);
   .col-md-12 {
     @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0 3.5rem 3.5rem 3.5rem);
+      padding: var(--cx-padding, 0);
     }
 
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0 1.25rem 1.25rem 1.25rem);
+      padding: var(--cx-padding, 0);
     }
+  }
+  @include media-breakpoint-down(md) {
+    border-style: var(--cx-border-style, solid);
+    border-width: var(--cx-border-width, 1px 0 0);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+  }
+}
+
+// ***************************** MEDIA QUERIES *****************************
+
+@include checkout-media-style();
+.col-md-12 {
+  @include media-breakpoint-down(md) {
+    padding: var(--cx-padding, 0 3.5rem 3.5rem 3.5rem);
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 0 1.25rem 1.25rem 1.25rem);
   }
 }

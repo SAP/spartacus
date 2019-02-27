@@ -1,45 +1,11 @@
 @import 'theme';
 
-.cx-address-form {
-  &.container {
-    padding: var(--cx-padding, 0);
-  }
-  &__title {
-    text-transform: var(--cx-text-transform, uppercase);
-    margin: var(--cx-margin, 0 auto);
-    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
-  }
-  &__body {
-    display: var(--cx-display, flex);
-    align-items: var(--cx-align-items, flex-end);
-    padding: var(--cx-padding, 0 0 1.875rem);
-  }
-  &__text {
-    padding: var(--cx-padding, 0 0 1.25rem);
-  }
-  &__btns {
-    padding: var(--cx-padding, 0 0 1rem);
-  }
-  // ***************************** MEDIA QUERIES *****************************
-  @include checkout-media-style();
-  &__body {
-    &.row {
-      @include media-breakpoint-down(md) {
-        padding: var(--cx-padding, 0);
-      }
-    }
-  }
-  &__text {
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0 0 0 3.5rem);
-    }
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0 0 0 1.5rem);
-    }
-  }
-  &__card {
-    @include media-breakpoint-down(md) {
-      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
-    }
-  }
+.container {
+  padding: var(--cx-padding, 0);
 }
+
+.cx-btns {
+  padding: var(--cx-padding, 0 0 1rem);
+}
+// ***************************** MEDIA QUERIES *****************************
+@include checkout-media-style();

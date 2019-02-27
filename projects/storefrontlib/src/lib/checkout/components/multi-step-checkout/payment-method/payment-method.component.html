@@ -1,7 +1,7 @@
 <ng-container
   *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
 >
-  <div class="cx-payment container">
+  <div class="cx-payment">
     <h3 class="cx-payment-title d-none d-lg-block d-xl-block">Payment</h3>
     <ng-container *ngIf="!(isLoading$ | async); else loading">
       <ng-container
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="row cx-btns">
           <div class="col-md-12 col-lg-6">
             <button class="btn btn-block btn-action" (click)="back()">
               Back
