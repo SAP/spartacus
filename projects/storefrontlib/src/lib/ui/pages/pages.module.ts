@@ -79,6 +79,12 @@ const pageModules = [
         data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
       },
       {
+        path: 'cx-preview',
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'smartedit-preview' }
+      },
+      {
         path: '**',
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent
