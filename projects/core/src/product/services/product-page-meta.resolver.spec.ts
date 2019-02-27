@@ -4,13 +4,14 @@ import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
 import {
   Page,
-  PageTitleResolver,
+  PageMetaResolver,
   CmsService,
-  PageTitleService
-} from '../../cms/';
+  PageMetaService,
+  PageMeta
+} from '../../cms';
 import { ProductService } from '../facade';
 import { RoutingService } from '../../routing';
-import { ProductPageTitleResolver } from './product-page-title.resolver';
+import { ProductPageMetaResolver } from './product-page-meta.resolver';
 
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,
@@ -40,49 +41,62 @@ class MockProductService {
   get(code: string) {
     return of({
       code: code,
-      name: 'Product title'
+      name: 'Product title',
+      summary: 'Product summary'
     });
   }
 }
 
 describe('ProductPageTitleResolver', () => {
-  let service: PageTitleService;
+  let service: PageMetaService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        PageTitleService,
+        PageMetaService,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductService, useClass: MockProductService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: PageTitleResolver,
-          useExisting: ProductPageTitleResolver,
+          provide: PageMetaResolver,
+          useExisting: ProductPageMetaResolver,
           multi: true
         }
       ]
     });
 
-    service = TestBed.get(PageTitleService);
+    service = TestBed.get(PageMetaService);
   });
 
   it('ProductTitleService should be created', inject(
-    [PageTitleService],
-    (pageTitleService: PageTitleService) => {
+    [PageMetaService],
+    (pageTitleService: PageMetaService) => {
       expect(pageTitleService).toBeTruthy();
     }
   ));
 
   it('should resolve product page title', () => {
-    let result: string;
+    let result: PageMeta;
     service
-      .getTitle()
+      .getMeta()
       .subscribe(value => {
         result = value;
       })
       .unsubscribe();
 
-    expect(result).toEqual('Product title');
+    expect(result.title).toEqual('Product title');
+  });
+
+  it('should have product description', () => {
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.description).toEqual('Product summary');
   });
 });
