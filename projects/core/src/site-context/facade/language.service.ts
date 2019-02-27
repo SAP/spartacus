@@ -39,9 +39,10 @@ export class LanguageService implements SiteContext<Language> {
    * Represents the isocode of the active language.
    */
   getActive(): Observable<string> {
-    return this.store
-      .pipe(select(fromStore.getActiveLanguage))
-      .pipe(filter(Boolean));
+    return this.store.pipe(
+      select(fromStore.getActiveLanguage),
+      filter(Boolean)
+    );
   }
 
   /**

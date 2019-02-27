@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { ProductsState } from '../store/index';
@@ -109,6 +109,20 @@ describe('ProductService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadProduct('productCode')
       );
+    });
+
+    it('should be not trigger multiple product load actions for multiple product subscription.', () => {
+      const productMock = new BehaviorSubject({});
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        productMock
+      );
+
+      service.get('productCode').subscribe();
+      service.get('productCode').subscribe();
+
+      productMock.complete();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 
