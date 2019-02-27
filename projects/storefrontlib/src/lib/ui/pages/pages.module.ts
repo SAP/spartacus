@@ -15,9 +15,6 @@ import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
 import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
-// CategoryPage
-import { CategoryPageModule } from './category-page/category-page.module';
-
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
@@ -31,7 +28,6 @@ import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 
 const pageModules = [
-  CategoryPageModule,
   CartPageModule,
   OrderDetailsPageModule,
   OrderConfirmationPageModule,
@@ -77,6 +73,45 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'search', cxPath: 'search' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'category' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'brand' }
+      },
+      // redirect OLD links
+      {
+        path: 'Open-Catalogue/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
+      },
+      {
+        path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
+      },
+      {
+        path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
+      },
+      {
+        path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
       },
       {
         path: '**',

@@ -1,13 +1,8 @@
+import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import {
-  Component,
-  Input,
-  PipeTransform,
-  Pipe,
-  SimpleChange
-} from '@angular/core';
+import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {
@@ -37,8 +32,16 @@ import { SortingComponent } from '../../../../ui/components/pagination-and-sorti
 
 import { ProductListComponent } from './product-list.component';
 
+class MockPageLayoutService {
+  getSlots(): Observable<string[]> {
+    return of(['LogoSlot']);
+  }
+  get templateName$(): Observable<string> {
+    return of('LandingPage2Template');
+  }
+}
 class MockProductSearchService {
-  search = createSpy();
+  search = createSpy('search');
   searchResults$ = of();
 
   getSearchResults(): Observable<ProductSearchPage> {
@@ -48,10 +51,10 @@ class MockProductSearchService {
   clearSearchResults(): void {}
 }
 class MockActivatedRoute {
+  params = of();
   snapshot = { queryParams: {} };
   setParams = params => (this.snapshot.queryParams = params);
 }
-
 @Component({
   template: '',
   selector: 'cx-product-list-item'
@@ -98,6 +101,10 @@ describe('ProductListComponent in product-list', () => {
         {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
+        },
+        {
+          provide: PageLayoutService,
+          useClass: MockPageLayoutService
         }
       ],
       declarations: [
@@ -125,56 +132,14 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnChanges and get search results with params provided with url', () => {
-    const activeRoute = TestBed.get(ActivatedRoute);
-
-    activeRoute.setParams({
-      query: 'myBestQueryEver:category:bestqueries',
-      categoryCode: 'mockCategoryCode',
-      page: 112
-    });
-
-    component.categoryCode = 'mockCategoryCode';
-    component.ngOnInit();
-    component.ngOnChanges({
-      categoryCode: new SimpleChange(null, component.categoryCode, false)
-    });
-
-    expect(service.search).toHaveBeenCalledWith(
-      'myBestQueryEver:category:bestqueries',
-      { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
-    );
-  });
-
-  it('should call ngOnChanges and get search results with category code', () => {
-    component.categoryCode = 'mockCategoryCode';
-    component.ngOnInit();
-    component.ngOnChanges({
-      categoryCode: new SimpleChange(null, component.categoryCode, false)
-    });
-
-    expect(service.search).toHaveBeenCalledWith(
-      ':relevance:category:mockCategoryCode',
-      { pageSize: 10, categoryCode: 'mockCategoryCode' }
-    );
-  });
-
-  it('should call ngOnChanges get search results with brand code', () => {
-    component.brandCode = 'mockBrandCode';
-    component.ngOnInit();
-    component.ngOnChanges({
-      brandCode: new SimpleChange(null, component.categoryCode, false)
-    });
-
-    expect(service.search).toHaveBeenCalledWith(
-      ':relevance:brand:mockBrandCode',
-      { pageSize: 10, brandCode: 'mockBrandCode' }
-    );
-  });
-
   it('should call onFilter', () => {
     component.onFilter('mockQuery');
     expect(service.search).toHaveBeenCalledWith('mockQuery', {});
+  });
+
+  it('should update() method to be defined', done => {
+    expect(component.update).toBeDefined();
+    done();
   });
 
   it('should change pages', done => {
