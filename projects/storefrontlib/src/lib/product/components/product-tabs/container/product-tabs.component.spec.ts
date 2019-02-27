@@ -73,7 +73,6 @@ describe('ProductTabsComponent in product', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductTabsComponent);
-    fixture.detectChanges();
     productTabsComponent = fixture.componentInstance;
     fixture.detectChanges();
   });

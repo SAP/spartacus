@@ -13,8 +13,8 @@ export class CurrentProductService {
   getProduct(): Observable<Product> {
     return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
-      filter(Boolean),
-      switchMap(productCode => this.productService.get(productCode))
+      filter(productCode => !!productCode),
+      switchMap((productCode: string) => this.productService.get(productCode))
     );
   }
 }

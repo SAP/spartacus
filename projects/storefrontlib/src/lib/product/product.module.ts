@@ -6,7 +6,6 @@ import { MediaModule } from './../ui/components/media/media.module';
 import { CmsModule } from './../cms/cms.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MediaModule, CmsModule],
-  declarations: []
+  imports: [CommonModule, RouterModule, MediaModule, CmsModule]
 })
 export class ProductModule {}

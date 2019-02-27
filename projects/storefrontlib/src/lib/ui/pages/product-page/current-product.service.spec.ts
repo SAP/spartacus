@@ -33,7 +33,7 @@ class MockProductService {
   }
 }
 
-describe('CurrencyService', () => {
+describe('CurrentProductService', () => {
   let service;
 
   beforeEach(() => {
