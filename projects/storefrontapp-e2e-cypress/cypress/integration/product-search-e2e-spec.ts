@@ -1,4 +1,4 @@
-const PRODUCTS_PER_PAGE = 10;
+import { PRODUCT_LISTING } from './../helpers/data-configuration';
 const resultsTitleSelector = 'cx-breadcrumb h1';
 const productItemSelector = 'cx-product-list cx-product-list-item';
 const firstProductItemSelector = `${productItemSelector}:first`;
@@ -15,7 +15,10 @@ context('Product search', () => {
         'contain',
         '144 results for "camera"'
       );
-      cy.get(productItemSelector).should('have.length', PRODUCTS_PER_PAGE);
+      cy.get(productItemSelector).should(
+        'have.length',
+        PRODUCT_LISTING.PRODUCTS_PER_PAGE
+      );
       cy.get(firstProductItemSelector).within(() => {
         cy.get('a.cx-product-name').should('be.visible');
       });
@@ -46,7 +49,7 @@ context('Product search', () => {
       cy.get('cx-product-view > div > div:first').click();
       cy.get('cx-product-list cx-product-grid-item').should(
         'have.length',
-        PRODUCTS_PER_PAGE
+        PRODUCT_LISTING.PRODUCTS_PER_PAGE
       );
     });
   });
