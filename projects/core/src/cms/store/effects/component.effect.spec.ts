@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
@@ -33,6 +32,12 @@ class MockRoutingService {
   }
 }
 
+class MockOccCmsService {
+  loadComponent() {
+    return of({});
+  }
+}
+
 describe('Component Effects', () => {
   let actions$: Observable<any>;
   let service: OccCmsService;
@@ -45,9 +50,9 @@ describe('Component Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({})],
       providers: [
-        OccCmsService,
+        { provide: OccCmsService, useClass: MockOccCmsService },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
@@ -57,17 +62,29 @@ describe('Component Effects', () => {
 
     service = TestBed.get(OccCmsService);
     effects = TestBed.get(fromEffects.ComponentEffects);
-
-    spyOn(service, 'loadComponent').and.returnValue(of(component));
   });
 
   describe('loadComponent$', () => {
     it('should return a component from LoadComponentSuccess', () => {
       const action = new fromActions.LoadComponent('comp1');
       const completion = new fromActions.LoadComponentSuccess(component);
+      spyOn(service, 'loadComponent').and.returnValue(of(component));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
+
+      expect(effects.loadComponent$).toBeObservable(expected);
+    });
+
+    it('should process only one ongoing request for multiple load component dispatches for the same uid', () => {
+      const action = new fromActions.LoadComponent('comp1');
+      const completion = new fromActions.LoadComponentSuccess(component);
+      spyOn(service, 'loadComponent').and.returnValue(
+        cold('---c', { c: component })
+      );
+
+      actions$ = hot('-aaa------a', { a: action });
+      const expected = cold('------b------b', { b: completion });
 
       expect(effects.loadComponent$).toBeObservable(expected);
     });
