@@ -6,7 +6,6 @@ import { CartPageModule } from './cart-page/cart-page.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
 
 import { RegisterPageModule } from './register-page/register-page.module';
-import { LoginPageModule } from './login-page/login-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
@@ -37,7 +36,6 @@ const pageModules = [
   OrderConfirmationPageModule,
   ProductPageModule,
   RegisterPageModule,
-  LoginPageModule,
   PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
