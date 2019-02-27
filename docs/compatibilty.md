@@ -10,7 +10,7 @@ Libraries: spartacus/
 
 ### 
 
-Release 1811 will not work properly with Spartacus if the baseSite is set to a name that's different from the product catalog name. This is fixed in 1905 release.
+SAP Commerce Cloud Release 1811 will not work properly with Spartacus if the baseSite is set to a name that's different from the product catalog name. This is fixed in 1905 release. In February 2019 we created a new content catalog called 'electronics-spa' (as yet unreleased) that contains content specific to Spartacus, based on 'electronics' content catalog that ships with SAP Commerce Cloud 1811. See #893 for more information.
 
 ## February 13, 2019
 
