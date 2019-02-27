@@ -1,5 +1,8 @@
 # SEO Capabilities
-As a storefront framework, Spartacus cares about Search Engine Optimisation. This is a large topic but main focus for Spartacus has been on the architectural side so that we provide a solid foundation that allows for SEO capabilities rather than implement all kinds of features. 
+
+An important topic for Spartacus, as a storefront framework, is search engine optimization (SEO). Although SEO is a large topic, the implementation in Spartacus is focused on the architecture, and on providing a solid foundation that allows for SEO capabilities, rather than implementing all sorts of features.
+
+As a storefront framework, Spartacus cares about search engine optimization. This is a large topic but main focus for Spartacus has been on the architectural side so that we provide a solid foundation that allows for SEO capabilities rather than implement all kinds of features.
 
 We're covering the following topics: 
 - Stateful URLs
