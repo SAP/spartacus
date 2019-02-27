@@ -3,7 +3,8 @@ import { Observable, of } from 'rxjs';
 import { CmsBreadcrumbsComponent } from '@spartacus/core';
 import { CmsComponentData } from './../../cms/components/cms-component-data';
 
-import { PageTitleService } from '@spartacus/core';
+import { PageMetaService } from '@spartacus/core';
+import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-breadcrumb',
@@ -14,11 +15,14 @@ import { PageTitleService } from '@spartacus/core';
 export class BreadcrumbComponent {
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
-    protected pageTitleService: PageTitleService
+    protected pageMetaService: PageMetaService
   ) {}
 
   get title$(): Observable<string> {
-    return this.pageTitleService.getTitle();
+    return this.pageMetaService.getMeta().pipe(
+      filter(Boolean),
+      map(meta => meta.title)
+    );
   }
 
   get crumbs$(): Observable<any[]> {
