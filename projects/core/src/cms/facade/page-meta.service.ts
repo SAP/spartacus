@@ -1,29 +1,29 @@
 import { Injectable, Inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, filter } from 'rxjs/operators';
-import { Page } from '../model/page.model';
+import { Page, PageMeta } from '../model/page.model';
 import { CmsService } from './cms.service';
-import { PageTitleResolver } from '../page/page-title.resolver';
+import { PageMetaResolver } from '../page/page-meta.resolver';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PageTitleService {
+export class PageMetaService {
   constructor(
-    @Inject(PageTitleResolver) private resolvers: PageTitleResolver[],
+    @Inject(PageMetaResolver) private resolvers: PageMetaResolver[],
     protected cms: CmsService
   ) {}
 
-  getTitle(): Observable<string> {
+  getMeta(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
-      switchMap(page => {
-        const pageTitleResolver = this.getResolver(page);
-        if (pageTitleResolver) {
-          return pageTitleResolver.resolve();
+      switchMap((page: Page) => {
+        const metaResolver = this.getMetaResolver(page);
+        if (metaResolver) {
+          return metaResolver.resolve();
         } else {
           // we do not have a page resolver
-          return of('');
+          return of(null);
         }
       })
     );
@@ -34,7 +34,7 @@ export class PageTitleService {
    * title resovers can by default match on PageType and page template
    * but custom match comparisors can be implemented.
    */
-  protected getResolver(page: Page) {
+  protected getMetaResolver(page: Page) {
     const matchingResolvers = this.resolvers.filter(
       resolver => resolver.getScore(page) > 0
     );
