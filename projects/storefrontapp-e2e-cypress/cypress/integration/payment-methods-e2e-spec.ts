@@ -17,11 +17,10 @@ describe('Payment Methods', () => {
   describe('should go to payment details page for login user', () => {
     before(() => {
       cy.requireLoggedIn();
+      cy.visit('/my-account/payment-details');
     });
 
     it('should see spinner when loading', () => {
-      cy.visit('/my-account/payment-details');
-
       cy.get('cx-payment-methods .cx-body').then(() =>
         cy.get('cx-spinner').should('exist')
       );
