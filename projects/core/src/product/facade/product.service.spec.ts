@@ -112,7 +112,7 @@ describe('ProductService', () => {
     });
 
     it('should be not trigger multiple product load actions for multiple product subscription.', () => {
-      const productMock = new BehaviorSubject({ value: mockProduct });
+      const productMock = new BehaviorSubject({});
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         productMock
       );
