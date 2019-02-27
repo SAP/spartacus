@@ -1,10 +1,10 @@
 import { NgModule, APP_INITIALIZER, Injector } from '@angular/core';
-import { SeoTitleService } from './seo-title.service';
+import { SeoMetaService } from './seo-meta.service';
 
 export function initSeoService(injector: Injector) {
   const result = () => {
-    const service = injector.get(SeoTitleService);
-    service.initPageTitle();
+    const service = injector.get(SeoMetaService);
+    service.init();
   };
   return result;
 }

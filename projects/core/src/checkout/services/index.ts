@@ -1,1 +1,1 @@
-export * from './checkout-page-title.resolver';
+export * from './checkout-page-meta.resolver';

@@ -5,13 +5,14 @@ import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
 import {
   Page,
-  PageTitleResolver,
+  PageMetaResolver,
   CmsService,
-  PageTitleService
-} from '../../cms/';
+  PageMetaService,
+  PageMeta
+} from '../../cms';
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
-import { SearchPageTitleResolver } from './search-page-title.resolver';
+import { SearchPageMetaResolver } from './search-page-meta.resolver';
 
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
@@ -33,14 +34,16 @@ class MockCmsService {
 }
 
 @Injectable()
-class FakeContentPageTitleResolver extends PageTitleResolver {
+class FakeContentPageTitleResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
   }
 
-  resolve(): Observable<string> {
-    return of('content page title');
+  resolve(): Observable<PageMeta> {
+    return of({
+      title: 'content page title'
+    });
   }
 }
 
@@ -67,33 +70,33 @@ class MockRoutingService {
 }
 
 describe('SearchPageTitleResolver', () => {
-  let service: PageTitleService;
+  let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        PageTitleService,
+        PageMetaService,
         FakeContentPageTitleResolver,
-        SearchPageTitleResolver,
+        SearchPageMetaResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: PageTitleResolver,
+          provide: PageMetaResolver,
           useExisting: FakeContentPageTitleResolver,
           multi: true
         },
         {
-          provide: PageTitleResolver,
-          useExisting: SearchPageTitleResolver,
+          provide: PageMetaResolver,
+          useExisting: SearchPageMetaResolver,
           multi: true
         }
       ]
     });
 
-    service = TestBed.get(PageTitleService);
+    service = TestBed.get(PageMetaService);
     cmsService = TestBed.get(CmsService);
   });
 
@@ -103,22 +106,22 @@ describe('SearchPageTitleResolver', () => {
     });
 
     it('PageTitleService should be created', inject(
-      [PageTitleService],
-      (pageTitleService: PageTitleService) => {
+      [PageMetaService],
+      (pageTitleService: PageMetaService) => {
         expect(pageTitleService).toBeTruthy();
       }
     ));
 
     it('should resolve search results in title ', () => {
-      let result: string;
+      let result: PageMeta;
       service
-        .getTitle()
+        .getMeta()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
-      expect(result).toEqual('3 results for "Canon"');
+      expect(result.title).toEqual('3 results for "Canon"');
     });
   });
 
@@ -128,15 +131,15 @@ describe('SearchPageTitleResolver', () => {
     });
 
     it('should resolve content page title', () => {
-      let result: string;
+      let result: PageMeta;
       service
-        .getTitle()
+        .getMeta()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
-      expect(result).toEqual('content page title');
+      expect(result.title).toEqual('content page title');
     });
   });
 });

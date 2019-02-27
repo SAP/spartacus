@@ -1,11 +1,11 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { PageTitleService } from './page-title.service';
-import { PageTitleResolver } from '../page';
+import { PageMetaService } from './page-meta.service';
+import { PageMetaResolver } from '../page';
 import { Injectable } from '@angular/core';
 import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
-import { Page } from '../model/page.model';
+import { Page, PageMeta } from '../model/page.model';
 import { CmsService } from './cms.service';
 
 const mockPage: Page = {
@@ -26,57 +26,61 @@ class MockCmsService {
 }
 
 @Injectable()
-class ContentPageResolver extends PageTitleResolver {
+class ContentPageResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
   }
 
-  resolve(): Observable<string> {
-    return of('content page title');
+  resolve(): Observable<PageMeta> {
+    return of({
+      title: 'content page title'
+    });
   }
 }
 
 @Injectable({
   providedIn: 'root'
 })
-class AnotherPageResolver extends PageTitleResolver {
+class AnotherPageResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'template';
   }
 
-  resolve(): Observable<string> {
-    return of('special page title');
+  resolve(): Observable<PageMeta> {
+    return of({
+      title: 'special page title'
+    });
   }
 }
 
 describe('PageTitleService', () => {
-  let service: PageTitleService;
+  let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        PageTitleService,
+        PageMetaService,
         ContentPageResolver,
         { provide: CmsService, useClass: MockCmsService },
         {
-          provide: PageTitleResolver,
+          provide: PageMetaResolver,
           useExisting: ContentPageResolver,
           multi: true
         },
         {
-          provide: PageTitleResolver,
+          provide: PageMetaResolver,
           useExisting: AnotherPageResolver,
           multi: true
         }
       ]
     });
 
-    service = TestBed.get(PageTitleService);
+    service = TestBed.get(PageMetaService);
     cmsService = TestBed.get(CmsService);
   });
 
@@ -86,22 +90,22 @@ describe('PageTitleService', () => {
     });
 
     it('PageTitleService should be created', inject(
-      [PageTitleService],
-      (pageTitleService: PageTitleService) => {
+      [PageMetaService],
+      (pageTitleService: PageMetaService) => {
         expect(pageTitleService).toBeTruthy();
       }
     ));
 
     it('should resolve content page title', () => {
-      let result: string;
+      let result: PageMeta;
       service
-        .getTitle()
+        .getMeta()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
-      expect(result).toEqual('content page title');
+      expect(result.title).toEqual('content page title');
     });
   });
 
@@ -111,15 +115,15 @@ describe('PageTitleService', () => {
     });
 
     it('should resolve special page title', () => {
-      let result: string;
+      let result: PageMeta;
       service
-        .getTitle()
+        .getMeta()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
-      expect(result).toEqual('special page title');
+      expect(result.title).toEqual('special page title');
     });
   });
 });
