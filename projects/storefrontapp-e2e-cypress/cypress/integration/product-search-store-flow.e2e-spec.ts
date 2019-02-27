@@ -6,12 +6,12 @@ context('Product search store flow', () => {
 
   describe('Product search', () => {
     it('should be able to search with store filtering', () => {
-      const resultsTitleSelector = 'cx-breadcrumb h1';
+      const resultsTitle = 'cx-breadcrumb h1';
 
       // Search for a product
       cy.get('cx-searchbox input').type('canon{enter}');
 
-      cy.get(resultsTitleSelector).should('contain', '77 results for "canon"');
+      cy.get(resultsTitle).should('contain', '77 results for "canon"');
 
       cy.get('cx-product-list-item').should(
         'have.length',
@@ -48,7 +48,7 @@ context('Product search store flow', () => {
             .click({ force: true });
         });
 
-      cy.get(resultsTitleSelector).should('contain', '45 results for "canon"');
+      cy.get(resultsTitle).should('contain', '45 results for "canon"');
       cy.get('cx-product-list-item')
         .first()
         .should('contain', 'LP-E5');
@@ -56,7 +56,7 @@ context('Product search store flow', () => {
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
       ).click();
-      cy.get(resultsTitleSelector).should('contain', '77 results for "canon"');
+      cy.get(resultsTitle).should('contain', '77 results for "canon"');
 
       // Add product to cart from search listing page
       cy.get('cx-add-to-cart:first button').click({ force: true });

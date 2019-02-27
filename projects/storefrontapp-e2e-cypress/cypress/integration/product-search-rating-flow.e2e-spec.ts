@@ -6,13 +6,13 @@ context('Product search rating flow', () => {
 
   describe('Product search', () => {
     it('should be able to search and show product rating', () => {
-      const resultsTitleSelector = 'cx-breadcrumb h1';
+      const resultsTitle = 'cx-breadcrumb h1';
       const tabsHeaderList = 'cx-product-details .details > h3';
 
       // Search for a product
       cy.get('cx-searchbox input').type('DSC-N1{enter}');
 
-      cy.get(resultsTitleSelector).should('contain', '21 results for "DSC-N1"');
+      cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
 
       cy.get('cx-product-list-item').should(
         'have.length',
@@ -55,14 +55,14 @@ context('Product search rating flow', () => {
             .click();
         });
 
-      cy.get(resultsTitleSelector).should('contain', '20 results for "DSC-N1"');
+      cy.get(resultsTitle).should('contain', '20 results for "DSC-N1"');
       cy.get('cx-product-list-item:first')
         .first()
         .should('contain', 'Cyber-shot DSC-W55');
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
       ).click();
-      cy.get(resultsTitleSelector).should('contain', '21 results for "DSC-N1"');
+      cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
 
       // Select product and read all the tabs on product details page
       cy.get('cx-product-list-item:first .cx-product-name').click();
