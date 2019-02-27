@@ -34,13 +34,37 @@ Server Side Rendering (SSR) is a technique to render the javascript logic server
 SSR is provided by Spartacus and is planned to be a default deployment option Commerce Cloud.
 
 ## Html tags
+HTML and meta tags in partucular are used by search engines, social platform and bots to display page meta data on their platforms. It is considered best practise to prepare the meta tags with care, and evaluate the values regurarly. This will improve ranking, click-through-rate and usability when users will come across a page. Moreover, the browser is keen to leverage the page title during navigation on tabs, history and bookmarks.  
+
+
+The **PageMeta model** is a set of attributes that can be resolved by so-called `PageMetaResolvers`. The resolvers are extendible on a finegrain level and can contribute to the tags that will be generated. 
+
+```typescript
+export interface PageMeta {
+  title?: string;
+  description?: string;
+}
+```
+
+HTML5 supports a number of specific metatag properties, such as `description`, `keyworks`, etc. These metatags are used by search engines, social platforms and bots. In order to be more specific on one or the other platform, some social platform introduce a specific set of properties. Facebook for example uses an Open Graph protocol that enables any web page to become a rich object in a social graph. Specific metatags can be used to articulate the experience on the social platform. The code snippet below shows a custom page description for facebook.
+
+```html
+<meta property="og:title" content="Custom title for facebook" />
+<meta property="og:description" content="Custom description for facebook" />
+```
+
+### Page Meta Resolvers
+In order to support the potential multitude of meta tags, Spartacus uses a small framework to customize and extend the meta tags per page. 
+
+Spartacus is shipped with `pageMetaResolvers` which resolves the page meta data for a specific page. Some of the meta data might be driven by CMS data, but most meta tags are computed based on product content, category content, search results,etc.
+
+The page meta will be updated dynamically during navigation, but can be delivered statically using SSR.
+
 ### Title tag
 Adding an html page title has several advantages:
 * the page can be uniquely addressed in the browser (browser history, bookmarks, tabs, etc)
 * the page title will increase ranking the page in search engines
 * the page title will identify content in search engines
 
-Spartacus is shipped with `pageTitleResolvers` which resovle a page title for a specific page. Most titles are cms driven, but in some occassions the title is computed based on produt content, search results, cart items, etc. 
-The page title resolvers are used for the title tag, but customer can provide a custom serivce to customize the title tag content.  
-
-The page title will be updated dynamically during navigation, but can be delivered statically using SSR.
+### Description tag
+Each page on the storefront can contain a so-called description tag. The description tag is used at the SERP (search engine result page) to improve the click-through-rate (CTR). It is not used to improve page ranking. It is generally considered best practice to create a description tag for each page, although there are occassion where the search engine is better capable to generate the description based on the context.

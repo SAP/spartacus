@@ -9,25 +9,25 @@ import { ProductStoreModule } from './store/product-store.module';
 import { ProductOccModule } from './occ/product-occ.module';
 
 import { CmsModule } from '../cms/cms.module';
-import { PageTitleResolver } from '../cms/page/page-title.resolver';
-import { ProductPageTitleResolver } from './services/product-page-title.resolver';
-import { SearchPageTitleResolver } from './services/search-page-title.resolver';
-import { CategoryPageTitleResolver } from './services/category-page-title.resolver';
+import { PageMetaResolver } from '../cms/page/page-meta.resolver';
+import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
+import { SearchPageMetaResolver } from './services/search-page-meta.resolver';
+import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 
 const pageTitleResolvers = [
   {
-    provide: PageTitleResolver,
-    useExisting: ProductPageTitleResolver,
+    provide: PageMetaResolver,
+    useExisting: ProductPageMetaResolver,
     multi: true
   },
   {
-    provide: PageTitleResolver,
-    useExisting: CategoryPageTitleResolver,
+    provide: PageMetaResolver,
+    useExisting: CategoryPageMetaResolver,
     multi: true
   },
   {
-    provide: PageTitleResolver,
-    useExisting: SearchPageTitleResolver,
+    provide: PageMetaResolver,
+    useExisting: SearchPageMetaResolver,
     multi: true
   }
 ];
