@@ -1,42 +1,43 @@
 import { TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
+import { SeoMetaService } from './seo-meta.service';
+import { PageMeta, PageMetaService } from '@spartacus/core';
 
-import { PageTitleService } from '@spartacus/core';
-import { SeoTitleService } from './seo-title.service';
-
-class MockPageTitleService {
-  getTitle(): Observable<string> {
-    return of('test title');
+class MockPageMetaService {
+  getMeta(): Observable<PageMeta> {
+    return of({
+      title: 'test title'
+    });
   }
 }
 
 describe('SeoTitleService', () => {
-  let seoTitleService: SeoTitleService;
+  let seoMetaService: SeoMetaService;
 
   let ngTitleService: Title;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SeoTitleService,
+        SeoMetaService,
         Title,
-        { provide: PageTitleService, useClass: MockPageTitleService }
+        { provide: PageMetaService, useClass: MockPageMetaService }
       ]
     });
 
-    seoTitleService = TestBed.get(SeoTitleService);
+    seoMetaService = TestBed.get(SeoMetaService);
 
     ngTitleService = TestBed.get(Title);
   });
 
   it('should inject service', () => {
-    expect(seoTitleService).toBeTruthy();
+    expect(seoMetaService).toBeTruthy();
   });
 
   describe('Should update title', () => {
     it('should render default slots', () => {
-      seoTitleService.initPageTitle();
+      seoMetaService.init();
 
       expect(ngTitleService.getTitle()).toBe('test title');
     });
