@@ -11,3 +11,8 @@ export interface Page {
   loadTime?: number;
   slots: { [key: string]: ContentSlotData };
 }
+
+export interface PageMeta {
+  title?: string;
+  description?: string;
+}

@@ -178,7 +178,7 @@ export class CustomSerializer
       context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
     } else if (state.url.length > 0) {
       context = {
-        id: state.url[state.url.length - 1].path,
+        id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
         type: PageType.CONTENT_PAGE
       };
     } else {

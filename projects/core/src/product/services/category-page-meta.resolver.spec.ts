@@ -5,13 +5,14 @@ import { PageType } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
 import {
   Page,
-  PageTitleResolver,
+  PageMetaResolver,
   CmsService,
-  PageTitleService
-} from '../../cms/';
+  PageMetaService,
+  PageMeta
+} from '../../cms';
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
-import { CategoryPageTitleResolver } from './category-page-title.resolver';
+import { CategoryPageMetaResolver } from './category-page-meta.resolver';
 
 const mockPageWithProductList: Page = {
   type: PageType.CATEGORY_PAGE,
@@ -39,14 +40,16 @@ class MockCmsService {
 }
 
 @Injectable()
-class ContentPageTitleResolver extends PageTitleResolver {
+class ContentPageTitleResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
   }
 
-  resolve(): Observable<string> {
-    return of('content page title');
+  resolve(): Observable<PageMeta> {
+    return of({
+      title: 'content page title'
+    });
   }
 }
 
@@ -67,32 +70,32 @@ class MockProductSearchService {
 class MockRoutingService {}
 
 describe('CategoryPageTitleResolver', () => {
-  let service: PageTitleService;
+  let service: PageMetaService;
   let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        PageTitleService,
+        PageMetaService,
         ContentPageTitleResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: RoutingService, useClass: MockRoutingService },
         {
-          provide: PageTitleResolver,
+          provide: PageMetaResolver,
           useExisting: ContentPageTitleResolver,
           multi: true
         },
         {
-          provide: PageTitleResolver,
-          useExisting: CategoryPageTitleResolver,
+          provide: PageMetaResolver,
+          useExisting: CategoryPageMetaResolver,
           multi: true
         }
       ]
     });
 
-    service = TestBed.get(PageTitleService);
+    service = TestBed.get(PageMetaService);
     cmsService = TestBed.get(CmsService);
   });
 
@@ -104,22 +107,22 @@ describe('CategoryPageTitleResolver', () => {
     });
 
     it('PageTitleService should be created', inject(
-      [PageTitleService],
-      (pageTitleService: PageTitleService) => {
+      [PageMetaService],
+      (pageTitleService: PageMetaService) => {
         expect(pageTitleService).toBeTruthy();
       }
     ));
 
     it('should resolve category page title with product listing', () => {
-      let result: string;
+      let result: PageMeta;
       service
-        .getTitle()
+        .getMeta()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
-      expect(result).toEqual('6 results for Hand-held Camcorders');
+      expect(result.title).toEqual('6 results for Hand-held Camcorders');
     });
   });
 
@@ -131,15 +134,15 @@ describe('CategoryPageTitleResolver', () => {
     });
 
     it('should resolve category page title', () => {
-      let result: string;
+      let result: PageMeta;
       service
-        .getTitle()
+        .getMeta()
         .subscribe(value => {
           result = value;
         })
         .unsubscribe();
 
-      expect(result).toEqual('content page title');
+      expect(result.title).toEqual('content page title');
     });
   });
 });
