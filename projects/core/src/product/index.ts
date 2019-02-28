@@ -9,3 +9,5 @@ export * from './store/selectors/index';
 
 export * from './facade/index';
 export * from './product.module';
+
+export * from './services/index';

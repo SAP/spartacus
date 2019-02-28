@@ -5,9 +5,14 @@ export interface Page {
   pageId?: string;
   catalogUuid?: string;
   name?: string;
+  type?: string;
   title?: string;
   template?: string;
   loadTime?: number;
-  seen?: Array<string>;
   slots: { [key: string]: ContentSlotData };
+}
+
+export interface PageMeta {
+  title?: string;
+  description?: string;
 }

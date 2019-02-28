@@ -1,20 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { RoutingService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
+import { CurrentProductService } from './current-product.service';
 
 @Component({
   selector: 'cx-product-page',
-  templateUrl: './product-page.component.html'
+  templateUrl: './product-page.component.html',
+  providers: [CurrentProductService]
 })
-export class ProductPageComponent implements OnInit {
-  productCode$: Observable<string>;
-
-  constructor(private routingService: RoutingService) {}
-
-  ngOnInit() {
-    this.productCode$ = this.routingService
-      .getRouterState()
-      .pipe(map(state => state.state.params['productCode']));
-  }
+export class ProductPageComponent {
+  constructor() {}
 }

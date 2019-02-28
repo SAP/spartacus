@@ -3,8 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { MediaModule } from '../../ui/components/media/media.module';
-import { ConfigModule, UrlTranslationModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  UrlTranslationModule,
+  ProductService
+} from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
+
+import { ProductCarouselService } from './product-carousel.component.service';
+import { CmsComponentData } from '../../cms/components/cms-component-data';
 
 @NgModule({
   imports: [
@@ -13,7 +20,16 @@ import { CmsConfig } from '@spartacus/core';
     MediaModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ProductCarouselComponent: { selector: 'cx-product-carousel' }
+        ProductCarouselComponent: {
+          selector: 'cx-product-carousel',
+          providers: [
+            {
+              provide: ProductCarouselService,
+              useClass: ProductCarouselService,
+              deps: [CmsComponentData, ProductService]
+            }
+          ]
+        }
       }
     }),
     UrlTranslationModule

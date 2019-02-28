@@ -1,18 +1,19 @@
 import { Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+
 import {
   RouterStateSerializer,
   StoreRouterConnectingModule
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
-import { Router } from '@angular/router';
-
-import * as fromReducer from './router.reducer';
-import * as fromAction from './../actions/';
 import * as fromNgrxRouter from '@ngrx/router-store';
 
+import * as fromAction from './../actions/';
 import { PageType } from '../../../occ/occ-models/index';
+
+import * as fromReducer from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
