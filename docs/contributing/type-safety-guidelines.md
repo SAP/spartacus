@@ -10,7 +10,7 @@ If you are looking for generated OCC types, refer to `projects/core/src/occ-mode
 
 ## Method Parameters and Return Values
 
-Although the `void` return type is implicit in JavaScript and TypeScript, we prefer to make it explicit. The reasoning is that, if a method is modified in the future to return a value, then we already have type safety in place for the returned type.
+Although the `void` return type is implicit in JavaScript and TypeScript, we prefer to make it explicit. The reasoning is that, if a method is modified in the future to return a value, then we would receive feedback from TypeScript to update the return type.
 
 The following is an example of a method with an explicit `void` return type:
 
