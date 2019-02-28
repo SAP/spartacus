@@ -155,8 +155,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     this.payment.value.defaultPayment = !this.payment.value.defaultPayment;
   }
 
-  // TODO:#530
-  paymentSelected(card): void {
+  paymentSelected(card: CardType): void {
     this.payment['controls'].cardType['controls'].code.setValue(card.code);
   }
 

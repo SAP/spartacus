@@ -29,6 +29,9 @@ if (!environment.production) {
         enabled: true,
         addToHomeScreen: true
       },
+      siteContext: {
+        urlEncodingParameters: ['LANGUAGE', 'CURRENCY']
+      },
       routesConfig: {
         translations: {
           default: {
