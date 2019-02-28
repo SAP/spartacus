@@ -113,8 +113,6 @@ describe('Address management page', () => {
       const firstCard = cy.get('cx-address-card').first();
       firstCard.should('contain', '✓ DEFAULT');
       firstCard.should('contain', 'N Z');
-
-      cy.get('cx-address-card').should('have.length', 2);
     });
 
     it('should delete the existing address', () => {
@@ -139,6 +137,8 @@ describe('Address management page', () => {
       firstCard.find('.delete').click();
       cy.get('.cx-address-card--delete-mode button.btn-primary').click();
       cy.get('cx-global-message').contains('Address deleted successfully!');
+
+      cy.get('cx-address-card').should('have.length', 1);
     });
   });
 });
