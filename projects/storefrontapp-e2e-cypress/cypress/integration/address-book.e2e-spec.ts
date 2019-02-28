@@ -119,10 +119,10 @@ describe('Address management page', () => {
       let firstCard = cy.get('cx-address-card').first();
 
       firstCard.find('.delete').click();
-      // cy.get('.cx-address-card__delete-msg').should(
-      //   'contain',
-      //   'Are you sure you want to delete this payment method?'
-      // );
+      cy.get('.cx-address-card__delete-msg').should(
+        'have.text',
+        ' Are you sure you want to delete this address? '
+      );
 
       // click cancel
       cy.get('.btn-secondary').should('contain', 'cancel');
