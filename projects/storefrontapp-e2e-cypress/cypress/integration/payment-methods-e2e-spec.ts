@@ -68,7 +68,7 @@ describe('Payment Methods', () => {
 
     it('should be able to delete the payment', () => {
       cy.get('.card-link').should('have.text', 'Delete');
-      cy.get('.card-link').click();
+      cy.get('.card-link').click({ force: true });
 
       // should see confirmation message
       cy.get('cx-card').should(
