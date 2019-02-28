@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "cy:open": "yarn && cypress open",
-    "cy:run": "yarn && cypress run"
+    "cy:run": "yarn && cypress run --spec cypress/integration/*",
+    "cy:run:smoke": "yarn && cypress run --spec cypress/integration/smoke/**/*"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
