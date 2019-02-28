@@ -177,10 +177,17 @@ export class CustomSerializer
     } else if (state.data.pageLabel !== undefined) {
       context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
     } else if (state.url.length > 0) {
-      context = {
-        id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
-        type: PageType.CONTENT_PAGE
-      };
+      if (state.url[0].path === 'cx-preview') {
+        context = {
+          id: 'smartedit-preview',
+          type: PageType.CONTENT_PAGE
+        };
+      } else {
+        context = {
+          id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
+          type: PageType.CONTENT_PAGE
+        };
+      }
     } else {
       context = {
         id: 'homepage',
