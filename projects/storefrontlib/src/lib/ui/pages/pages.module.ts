@@ -83,12 +83,6 @@ const pageModules = [
         data: { pageLabel: 'login', cxPath: 'login' }
       },
       {
-        path: 'cx-preview',
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'smartedit-preview' }
-      },
-      {
         path: '**',
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent
