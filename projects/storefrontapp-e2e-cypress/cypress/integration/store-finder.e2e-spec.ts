@@ -12,7 +12,7 @@ const STORES = [
   }
 ];
 
-context.only('Store finder', () => {
+context('Store finder', () => {
   const googleMap = 'cx-store-finder-map .cx-store-map .gm-style';
   const searchResults = 'cx-store-finder-list .cx-columns .cx-list-items';
   const resultListItem = 'cx-store-finder-list-item';
