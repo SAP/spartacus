@@ -6,7 +6,7 @@ import { GuestLoginPageComponent } from './guest-login-page.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { NotAuthGuard } from '@spartacus/core';
 import { GuestLoginModule } from '../../../user/guest-login/guest-login.module';
-import { OutletRefModule } from '../../../outlet';
+import { OutletRefModule } from '../../../outlet/index';
 
 const routes: Routes = [
   {
