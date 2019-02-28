@@ -94,7 +94,7 @@ const pageModules = [
         redirectTo: null,
         data: { cxRedirectTo: 'product' }
       },
-      // Important! That route (**) must be always as last item!
+      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {
         path: '**',
         canActivate: [CmsPageGuards],
