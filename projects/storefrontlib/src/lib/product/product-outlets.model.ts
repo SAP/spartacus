@@ -8,3 +8,10 @@ export enum ProductDetailOutlets {
   PRICE = 'PDP.PRICE',
   SHARE = 'PDP.SHARE'
 }
+
+export enum ProductTabsOutlets {
+  DESCRIPTION = 'PDP.DESCRIPTION',
+  SPECIFICATIONS = 'PDP.SPECIFICATIONS',
+  REVIEWS = 'PDP.REVIEWS',
+  SHIPPING = 'PDP.SHIPPING'
+}

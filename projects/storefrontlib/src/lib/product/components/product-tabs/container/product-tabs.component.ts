@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Product, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
+import { ProductTabsOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-tabs',
@@ -9,6 +10,8 @@ import { CurrentProductService } from '../../../../ui/pages/product-page/current
   styleUrls: ['./product-tabs.component.scss']
 })
 export class ProductTabsComponent implements OnInit {
+  static outlets = ProductTabsOutlets;
+
   product$: Observable<Product>;
 
   isWritingReview = false;
@@ -22,6 +25,10 @@ export class ProductTabsComponent implements OnInit {
   }
 
   @ViewChild('reviewHeader') reviewHeader: ElementRef;
+
+  get outlets() {
+    return ProductTabsComponent.outlets;
+  }
 
   constructor(
     protected winRef: WindowRef,
