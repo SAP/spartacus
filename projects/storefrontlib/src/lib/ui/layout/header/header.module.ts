@@ -11,8 +11,6 @@ import { LoginModule } from '../../../user/login/login.module';
 import { HeaderComponent } from './header.component';
 
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
-import { HardcodedBreadcrumb } from './breadcrumb-slot.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -24,13 +22,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     UrlTranslationModule
   ],
   declarations: [HeaderComponent, HeaderSkipperComponent],
-  exports: [HeaderComponent],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HardcodedBreadcrumb,
-      multi: true
-    }
-  ]
+  exports: [HeaderComponent]
 })
 export class HeaderModule {}

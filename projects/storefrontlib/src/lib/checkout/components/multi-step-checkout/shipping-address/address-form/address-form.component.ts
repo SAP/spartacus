@@ -52,7 +52,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   showTitleCode: boolean;
 
   @Output()
-  addAddress = new EventEmitter<any>();
+  submitAddress = new EventEmitter<any>();
 
   @Output()
   backToAddress = new EventEmitter<any>();
@@ -133,7 +133,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         if (results === 'FAIL') {
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
-          this.addAddress.emit(this.address.value);
+          this.submitAddress.emit(this.address.value);
         } else if (results.decision === 'REJECT') {
           // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
           if (
@@ -217,7 +217,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               },
               address
             );
-            this.addAddress.emit(address);
+            this.submitAddress.emit(address);
           }
           this.suggestedAddressModalRef = null;
         })
@@ -230,7 +230,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             },
             this.address.value
           );
-          this.addAddress.emit(address);
+          this.submitAddress.emit(address);
           this.suggestedAddressModalRef = null;
         });
     }
