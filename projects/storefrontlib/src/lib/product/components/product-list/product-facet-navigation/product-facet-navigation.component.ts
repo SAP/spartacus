@@ -1,12 +1,5 @@
 import { ActivatedRoute } from '@angular/router';
-import {
-  Component,
-  Input,
-  Output,
-  OnInit,
-  EventEmitter,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { tap, filter } from 'rxjs/operators';
@@ -20,16 +13,9 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductFacetNavigationComponent implements OnInit {
-  @Input()
-  activeFacetValueCode;
-  @Input()
-  searchResult;
-  @Input()
+  activeFacetValueCode: string;
+  searchResult: ProductSearchPage;
   minPerFacet = 6;
-
-  @Output()
-  filter: EventEmitter<any> = new EventEmitter<any>();
-
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
@@ -76,7 +62,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   toggleValue(query: string) {
-    this.filter.emit(this.queryCodec.decodeValue(query));
+    this.productSearchService.search(this.queryCodec.decodeValue(query));
   }
 
   showLess(facetName: String) {
