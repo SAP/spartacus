@@ -8,11 +8,13 @@ import { LoginModule } from './login/login.module';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import { LoginFormModule } from './login-form/login-form.module';
 
 @NgModule({
   imports: [
     CommonModule,
     LoginModule,
+    LoginFormModule,
     ReactiveFormsModule,
     RouterModule,
     UserModule,

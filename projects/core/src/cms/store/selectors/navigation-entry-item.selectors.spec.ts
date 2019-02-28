@@ -49,7 +49,12 @@ describe('Navigation Entry Items Selectors', () => {
         )
         .subscribe(value => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: false,
+        value: undefined
+      });
 
       store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));
 

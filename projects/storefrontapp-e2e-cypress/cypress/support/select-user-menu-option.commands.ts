@@ -17,6 +17,6 @@ declare namespace Cypress {
 Cypress.Commands.add('selectUserMenuOption', (option: string) => {
   cy.get('cx-login [ngbdropdown]').click();
   cy.get('cx-login [aria-label="My Account"]').within(() => {
-    cy.getByText(new RegExp(option, 'i')).click();
+    cy.getByText(new RegExp(option, 'i')).click({ force: true });
   });
 });
