@@ -28,28 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  constructor(
-    private auth: AuthService,
-    private routing: RoutingService,
-    private userService: UserService,
-    private route: ActivatedRoute,
-    private elementRef: ElementRef,
-    private renderer: Renderer2
-  ) {
-    this.renderer.listen(this.elementRef.nativeElement, 'click', event => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const target = event.target || event.srcElement;
-      if (
-        target.attributes['class'] &&
-        target.attributes['class'].nodeValue === 'cx-navigation__child-link' &&
-        target.attributes.href === undefined
-      ) {
-        this.logout();
-      }
-    });
-  }
+  constructor(private auth: AuthService, private userService: UserService) {}
 
   ngOnInit() {
     this.user$ = this.userService.get();
@@ -65,24 +44,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.isLogin = false;
         }
       });
-  }
-
-  logout(): void {
-    this.isLogin = false;
-    this.auth.logout();
-
-    let state = this.route.snapshot;
-    while (state.firstChild) {
-      state = state.firstChild;
-    }
-    if (
-      state.routeConfig.canActivate &&
-      state.routeConfig.canActivate.find(
-        child => child.GUARD_NAME === 'AuthGuard'
-      )
-    ) {
-      this.routing.go({ route: ['login'] });
-    }
   }
 
   ngOnDestroy() {
