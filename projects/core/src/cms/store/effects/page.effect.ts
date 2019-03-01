@@ -98,7 +98,7 @@ export class PageEffects {
             uuid: component.uuid,
             catalogUuid: this.getCatalogUuid(component),
             typeCode: component.typeCode,
-            flextype: component.flextype
+            flexType: component.flexType
           });
         }
       }
