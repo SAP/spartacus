@@ -1,0 +1,50 @@
+<div class="details" *ngIf="(product$ | async) as product">
+  <ng-container *cxOutlet="outlets.DESCRIPTION">
+    <h3 #descriptionHeader (click)="select($event, description)">
+      Product Details
+    </h3>
+    <div #description>
+      <div class="container" [innerHTML]="product?.description"></div>
+    </div>
+  </ng-container>
+
+  <ng-container *cxOutlet="outlets.SPECIFICATIONS">
+    <h3 (click)="select($event, specifications)">Specs</h3>
+    <div #specifications>
+      <div class="container">
+        <h2>Specs</h2>
+        <cx-product-attributes [product]="product"></cx-product-attributes>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *cxOutlet="outlets.REVIEWS">
+    <h3 #reviewHeader (click)="select($event, reviews)">
+      Reviews ({{ product?.numberOfReviews }})
+    </h3>
+    <div #reviews>
+      <div class="container">
+        <h2>Reviews ({{ product?.numberOfReviews }})</h2>
+        <cx-product-reviews
+          class="container"
+          [(isWritingReview)]="isWritingReview"
+          [product]="product"
+        ></cx-product-reviews>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *cxOutlet="outlets.SHIPPING">
+    <h3 (click)="select($event, shipping)">Shipping</h3>
+    <div #shipping>
+      <div class="container">
+        <h2>Shipping</h2>
+        <ng-container
+          cxComponentWrapper
+          componentMappedType="CMSTabParagraphComponent"
+          componentUid="deliveryTab"
+        ></ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
