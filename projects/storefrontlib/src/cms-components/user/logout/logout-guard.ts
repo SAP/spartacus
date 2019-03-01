@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot
-} from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthService } from '@spartacus/core';
 
@@ -15,10 +11,7 @@ export class LogoutGuard implements CanActivate {
 
   constructor(private auth: AuthService) {}
 
-  canActivate(
-    _route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
+  canActivate(): Observable<boolean> {
     this.logout();
     return of(false);
   }
