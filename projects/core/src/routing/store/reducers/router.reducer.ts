@@ -166,33 +166,34 @@ export class CustomSerializer
     }
 
     let context: PageContext;
-    if (params['productCode']) {
-      context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
-    } else if (params['categoryCode']) {
-      context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
-    } else if (params['brandCode']) {
-      context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-    } else if (params['query']) {
-      context = { id: 'search', type: PageType.CONTENT_PAGE };
-    } else if (state.data.pageLabel !== undefined) {
-      context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-    } else if (state.url.length > 0) {
-      if (state.url[0].path === 'cx-preview') {
-        context = {
-          id: 'smartedit-preview',
-          type: PageType.CONTENT_PAGE
-        };
-      } else {
+    // we give smartedit preview page a PageContext
+    if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
+      context = {
+        id: 'smartedit-preview',
+        type: PageType.CONTENT_PAGE
+      };
+    } else {
+      if (params['productCode']) {
+        context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+      } else if (params['categoryCode']) {
+        context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['brandCode']) {
+        context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['query']) {
+        context = { id: 'search', type: PageType.CONTENT_PAGE };
+      } else if (state.data.pageLabel !== undefined) {
+        context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+      } else if (state.url.length > 0) {
         context = {
           id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
           type: PageType.CONTENT_PAGE
         };
+      } else {
+        context = {
+          id: 'homepage',
+          type: PageType.CONTENT_PAGE
+        };
       }
-    } else {
-      context = {
-        id: 'homepage',
-        type: PageType.CONTENT_PAGE
-      };
     }
 
     return { url, queryParams, params, context, cmsRequired };
