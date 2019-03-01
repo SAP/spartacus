@@ -54,6 +54,8 @@ export interface CmsResponsiveBannerComponentMedia {
 }
 
 export interface CmsBannerComponent extends CmsComponent {
+  headline?: string;
+  content?: string;
   container?: string;
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;

@@ -33,12 +33,31 @@ export class BannerComponentService {
     return !!data.media;
   }
 
+  static hasHeadline(data): boolean {
+    return !!data.headline;
+  }
+
+  static hasContent(data): boolean {
+    return !!data.content;
+  }
+
   getComponentData(): Observable<CmsBannerComponent> {
+    console.log();
     return this.component.data$;
   }
 
   hasImage(): Observable<boolean> {
     return this.getComponentData().pipe(map(BannerComponentService.hasMedia));
+  }
+
+  hasHeadline(): Observable<boolean> {
+    return this.getComponentData().pipe(
+      map(BannerComponentService.hasHeadline)
+    );
+  }
+
+  hasContent(): Observable<boolean> {
+    return this.getComponentData().pipe(map(BannerComponentService.hasContent));
   }
 
   getImageUrl(): Observable<string> {
@@ -76,6 +95,20 @@ export class BannerComponentService {
           ? (<CmsBannerComponentMedia>data.media).altText
           : ''
       )
+    );
+  }
+
+  getHeadline(): Observable<string> {
+    return this.getComponentData().pipe(
+      map(data =>
+        BannerComponentService.hasHeadline(data) ? data.headline : ''
+      )
+    );
+  }
+
+  getContent(): Observable<string> {
+    return this.getComponentData().pipe(
+      map(data => (BannerComponentService.hasContent(data) ? data.content : ''))
     );
   }
 
