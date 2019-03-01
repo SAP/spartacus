@@ -27,16 +27,15 @@
   .container {
     @include media-breakpoint-down(md) {
       width: var(--cx-width, 100%);
-      margin-bottom: 0;
     }
   }
 
   .cx-checkout-btns {
-    padding-bottom: var(--cx-padding, 1rem);
+    padding: var(--cx-padding, 1rem 0);
     justify-content: var(--cx-justify-content, flex-end);
 
     @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0 0 1.25rem 0);
+      padding: var(--cx-padding, 1.25rem 0);
     }
     @include media-breakpoint-down(sm) {
       padding: var(--cx-padding, 1.25rem);
@@ -44,7 +43,7 @@
 
     .btn-action {
       @include media-breakpoint-down(md) {
-        margin-bottom: 1rem;
+        margin: var(--cx-maring, 0 0 1rem);
       }
     }
   }
