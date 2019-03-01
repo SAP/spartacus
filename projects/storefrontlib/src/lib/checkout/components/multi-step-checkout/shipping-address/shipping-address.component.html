@@ -1,77 +1,75 @@
 <ng-container *ngIf="(existingAddresses$ | async) as existingAddresses">
-  <div class="cx-shipping-address">
-    <h3 class="cx-shipping-address-title d-none d-lg-block d-xl-block">
-      Shipping Address
-    </h3>
-    <ng-container *ngIf="!(isLoading$ | async); else loading">
-      <ng-container
-        *ngIf="
-          existingAddresses?.length && !newAddressFormManuallyOpened;
-          else newAddressForm
-        "
-      >
-        <p class="cx-shipping-address-text">Select your Shipping Address</p>
-        <div class="cx-shipping-address-btn row">
-          <div class="col-sm-12 col-md-6 col-lg-6">
-            <button
-              class="btn btn-block btn-action"
-              (click)="showNewAddressForm()"
-            >
-              Add New Address
-            </button>
-          </div>
-        </div>
-
-        <div class="cx-shipping-address-body row">
-          <div
-            class="cx-shipping-address-card col-md-12 col-lg-6"
-            *ngFor="let address of existingAddresses; let i = index"
+  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    Shipping Address
+  </h3>
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <ng-container
+      *ngIf="
+        existingAddresses?.length && !newAddressFormManuallyOpened;
+        else newAddressForm
+      "
+    >
+      <p class="cx-checkout-text">Select your Shipping Address</p>
+      <div class="cx-checkout-btns row">
+        <div class="col-sm-12 col-md-12 col-lg-6">
+          <button
+            class="btn btn-block btn-action"
+            (click)="showNewAddressForm()"
           >
-            <div
-              class="cx-shipping-address-card-inner"
-              (click)="addressSelected(address, i)"
-            >
-              <cx-card
-                [border]="true"
-                [fitToContainer]="true"
-                [content]="cards[i]"
-                (sendCard)="addressSelected(address, i)"
-              ></cx-card>
-            </div>
+            Add New Address
+          </button>
+        </div>
+      </div>
+
+      <div class="cx-checkout-body row">
+        <div
+          class="cx-shipping-address-card col-md-12 col-lg-6"
+          *ngFor="let address of existingAddresses; let i = index"
+        >
+          <div
+            class="cx-shipping-address-card-inner"
+            (click)="addressSelected(address, i)"
+          >
+            <cx-card
+              [border]="true"
+              [fitToContainer]="true"
+              [content]="cards[i]"
+              (sendCard)="addressSelected(address, i)"
+            ></cx-card>
           </div>
         </div>
+      </div>
 
-        <div class="cx-btns row">
-          <div class="col-md-12 col-lg-6">
-            <button class="btn btn-block btn-action" (click)="back()">
-              Back to cart
-            </button>
-          </div>
-          <div class="col-md-12 col-lg-6">
-            <button
-              class="btn btn-block btn-primary"
-              [disabled]="!selectedAddress"
-              (click)="next()"
-            >
-              Continue
-            </button>
-          </div>
+      <div class="cx-checkout-btns row">
+        <div class="col-md-12 col-lg-6">
+          <button class="cx-btn btn btn-block btn-action" (click)="back()">
+            Back to cart
+          </button>
         </div>
-      </ng-container>
-
-      <ng-template #newAddressForm>
-        <cx-address-form
-          showTitleCode="true"
-          (submitAddress)="addNewAddress($event)"
-          (backToAddress)="hideNewAddressForm()"
-        ></cx-address-form>
-      </ng-template>
+        <div class="col-md-12 col-lg-6">
+          <button
+            class="cx-btn btn btn-block btn-primary"
+            [disabled]="!selectedAddress"
+            (click)="next()"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
     </ng-container>
 
-    <ng-template #loading>
-      <div class="cx-shipping-address-spinner">
-        <cx-spinner></cx-spinner>
-      </div>
+    <ng-template #newAddressForm>
+      <cx-address-form
+        showTitleCode="true"
+        (submitAddress)="addNewAddress($event)"
+        (backToAddress)="hideNewAddressForm()"
+      ></cx-address-form>
     </ng-template>
-  </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </ng-template>
 </ng-container>
