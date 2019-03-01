@@ -32,11 +32,12 @@ Configurable URLs help to improve SEO in general, but can also be used to help m
 
 Server-side rendering (SSR) is a technique that renders the JavaScript logic on the server side, and then provides rich content in the response. The SSR response contains the full HTML that is required by web crawlers to index or retrieve data from the response.
 
-SSR is provided by Spartacus and is planned to be a default deployment option in Commerce Cloud.
+SSR is provided by Spartacus, and is planned to be a default deployment option in Commerce Cloud.
 
 
-## Html tags
-HTML and meta tags in partucular are used by search engines, social platform and bots to display page meta data on their platforms. It is considered best practise to prepare the meta tags with care, and evaluate the values regurarly. This will improve ranking, click-through-rate and usability when users will come across a page. Moreover, the browser is keen to leverage the page title during navigation on tabs, history and bookmarks.  
+## Html Tags
+
+HTML tags, and meta tags in particular, are used by search engines, social platforms, and bots to display page meta data on their platforms. It is considered best practise to prepare the meta tags with care, and evaluate the values regurarly. This will improve ranking, click-through-rate and usability when users will come across a page. Moreover, the browser is keen to leverage the page title during navigation on tabs, history and bookmarks.  
 
 
 The **PageMeta model** is a set of attributes that can be resolved by so-called `PageMetaResolvers`. The resolvers are extendible on a finegrain level and can contribute to the tags that will be generated. 
