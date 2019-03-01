@@ -7,7 +7,7 @@ context('Product search rating flow', () => {
   describe('Product search', () => {
     it('should be able to search and show product rating', () => {
       const resultsTitle = 'cx-breadcrumb h1';
-      const tabsHeaderList = 'cx-product-details .details > h3';
+      const tabsHeaderList = 'cx-product-tabs .details > h3';
 
       // Search for a product
       cy.get('cx-searchbox input').type('DSC-N1{enter}');
