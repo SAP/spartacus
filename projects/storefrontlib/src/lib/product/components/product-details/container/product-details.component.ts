@@ -1,15 +1,8 @@
-import {
-  Component,
-  Input,
-  ViewChild,
-  ElementRef,
-  OnChanges
-} from '@angular/core';
-
-import { ProductService, Product, WindowRef } from '@spartacus/core';
-
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
+import { Product } from '@spartacus/core';
+import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
@@ -17,11 +10,10 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.scss']
 })
-export class ProductDetailsComponent implements OnChanges {
+export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
 
-  @Input()
-  productCode: string;
+  @Output() openReview = new EventEmitter();
 
   product$: Observable<Product>;
 
@@ -29,65 +21,13 @@ export class ProductDetailsComponent implements OnChanges {
     return ProductDetailsComponent.outlets;
   }
 
-  isWritingReview = false;
-  activatedElements: HTMLElement[] = [];
+  constructor(protected currentPageService: CurrentProductService) {}
 
-  @ViewChild('descriptionHeader')
-  set initial(ref: ElementRef) {
-    if (ref) {
-      ref.nativeElement.click();
-    }
+  ngOnInit(): void {
+    this.product$ = this.currentPageService.getProduct();
   }
 
-  @ViewChild('reviewHeader') reviewHeader: ElementRef;
-
-  constructor(
-    protected productService: ProductService,
-    protected winRef: WindowRef
-  ) {}
-
-  ngOnChanges(): void {
-    this.product$ = this.productService.get(this.productCode);
-  }
-
-  select(event: MouseEvent, tab: HTMLElement) {
-    if (this.activatedElements.indexOf(tab) === -1) {
-      // remove active class on both header and content panel
-      this.activatedElements.forEach(el =>
-        el.classList.remove('active', 'toggled')
-      );
-      this.activatedElements = [<HTMLElement>event.target, tab];
-      this.activatedElements.forEach(el => el.classList.add('active'));
-
-      // only scroll if the element is not yet visible
-      if (this.isElementOutViewport(tab)) {
-        tab.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest'
-        });
-      }
-    } else {
-      this.activatedElements.forEach(el => el.classList.toggle('toggled'));
-    }
-  }
-
-  private isElementOutViewport(el) {
-    if (!this.winRef.nativeWindow) {
-      return false;
-    }
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.bottom < 0 ||
-      rect.right < 0 ||
-      rect.left > this.winRef.nativeWindow.innerWidth ||
-      rect.top > this.winRef.nativeWindow.innerHeight
-    );
-  }
-
-  openReview() {
-    if (this.reviewHeader.nativeElement) {
-      this.reviewHeader.nativeElement.click();
-    }
+  launchReview() {
+    this.openReview.emit();
   }
 }

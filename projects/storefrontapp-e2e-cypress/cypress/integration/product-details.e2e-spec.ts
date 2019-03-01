@@ -1,7 +1,7 @@
 context('Product details', () => {
   const productContainer = 'cx-product-details';
   const summaryContainer = `${productContainer} cx-product-summary`;
-  const tabsContainer = `${productContainer} .details`;
+  const tabsContainer = 'cx-product-tabs .details';
   const tabsHeaderList = `${tabsContainer} > h3`;
   const activeTabContainer = `${tabsContainer} .active .container`;
   const reviewContainer = 'cx-product-reviews';
