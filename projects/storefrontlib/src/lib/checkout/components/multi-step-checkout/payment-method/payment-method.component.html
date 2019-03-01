@@ -1,72 +1,68 @@
 <ng-container
   *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
 >
-  <div class="cx-payment">
-    <h3 class="cx-payment-title d-none d-lg-block d-xl-block">Payment</h3>
-    <ng-container *ngIf="!(isLoading$ | async); else loading">
-      <ng-container
-        *ngIf="
-          existingPaymentMethods?.length && !newPaymentFormManuallyOpened;
-          else newPaymentForm
-        "
-      >
-        <p class="cx-payment-text">Choose a payment method</p>
-        <div class="cx-payment-btn row justify-content-end">
-          <div class="col-sm-12 col-md-6">
-            <button
-              class="btn btn-block btn-action"
-              (click)="showNewPaymentForm()"
-            >
-              Add New Payment
-            </button>
-          </div>
-        </div>
-
-        <div class="cx-payment-body row">
-          <div
-            class="col-md-12 col-lg-6"
-            *ngFor="let method of existingPaymentMethods; let i = index"
+  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">Payment</h3>
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <ng-container
+      *ngIf="
+        existingPaymentMethods?.length && !newPaymentFormManuallyOpened;
+        else newPaymentForm
+      "
+    >
+      <p class="cx-checkout-text">Choose a payment method</p>
+      <div class="cx-checkout-btns row">
+        <div class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-block btn-action"
+            (click)="showNewPaymentForm()"
           >
-            <div class="cx-payment-card">
-              <cx-card
-                [border]="true"
-                [content]="cards[i]"
-                (sendCard)="paymentMethodSelected(method, i)"
-              ></cx-card>
-            </div>
+            Add New Payment
+          </button>
+        </div>
+      </div>
+
+      <div class="cx-checkout-body row">
+        <div
+          class="col-md-12 col-lg-6"
+          *ngFor="let method of existingPaymentMethods; let i = index"
+        >
+          <div class="cx-payment-card">
+            <cx-card
+              [border]="true"
+              [content]="cards[i]"
+              (sendCard)="paymentMethodSelected(method, i)"
+            ></cx-card>
           </div>
         </div>
+      </div>
 
-        <div class="row cx-btns">
-          <div class="col-md-12 col-lg-6">
-            <button class="btn btn-block btn-action" (click)="back()">
-              Back
-            </button>
-          </div>
-          <div class="col-md-12 col-lg-6">
-            <button
-              class="btn btn-block btn-primary"
-              [disabled]="!selectedPayment"
-              (click)="next()"
-            >
-              Continue
-            </button>
-          </div>
+      <div class="row cx-checkout-btns">
+        <div class="col-md-12 col-lg-6">
+          <button class="btn btn-block btn-action" (click)="back()">
+            Back
+          </button>
         </div>
-      </ng-container>
-
-      <ng-template #newPaymentForm>
-        <cx-payment-form
-          (addPaymentInfo)="addNewPaymentMethod($event)"
-          (backToPayment)="hideNewPaymentForm()"
-        ></cx-payment-form>
-      </ng-template>
+        <div class="col-md-12 col-lg-6">
+          <button
+            class="btn btn-block btn-primary"
+            [disabled]="!selectedPayment"
+            (click)="next()"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
     </ng-container>
 
-    <ng-template #loading>
-      <div class="cx-payment container">
-        <div class="cx-payment-spinner"><cx-spinner></cx-spinner></div>
-      </div>
+    <ng-template #newPaymentForm>
+      <cx-payment-form
+        (addPaymentInfo)="addNewPaymentMethod($event)"
+        (backToPayment)="hideNewPaymentForm()"
+      ></cx-payment-form>
     </ng-template>
-  </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  </ng-template>
 </ng-container>
