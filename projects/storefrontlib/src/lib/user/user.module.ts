@@ -9,10 +9,12 @@ import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
 import { LoginFormModule } from './login-form/login-form.module';
+import { GuestLoginModule } from './guest-login/guest-login.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    GuestLoginModule,
     LoginModule,
     LoginFormModule,
     ReactiveFormsModule,
