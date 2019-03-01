@@ -26,9 +26,7 @@ describe('Register', () => {
       .click();
     register(user);
 
-    cy.get('cx-global-message .alert-danger')
-      .should('exist')
-      .should('contain', user.email);
+    cy.get('cx-global-message .alert-danger').should('contain', user.email);
 
     // the url should be still the same
     cy.url().should('match', /\/register/);
