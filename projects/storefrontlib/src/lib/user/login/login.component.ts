@@ -1,21 +1,6 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  ElementRef,
-  Renderer2
-} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
-import {
-  AuthService,
-  RoutingService,
-  UserToken,
-  User,
-  UserService
-} from '@spartacus/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { AuthService, UserToken, User, UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',
