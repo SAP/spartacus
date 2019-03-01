@@ -6,8 +6,8 @@ The SEO implementation in Spartacus includes the following:
 
 - Stateful URLs
 - Configurable URLs
-- Indexable Page response (SSR)
-- HTML tags
+- Indexable Pages
+- HTML Tags
 
 ## Stateful URLs
 
