@@ -1,144 +1,130 @@
 @import 'theme';
 
-.cx-checkout-container {
-  padding: var(--cx-padding, 2.5rem 0);
+:host {
+  @include media-breakpoint-down(md) {
+    padding: var(--cx-padding, 1.5rem 0);
+  }
+}
 
-  .cx-nav {
-    @include type('4', 'semi');
+.cx-nav {
+  @include type('4', 'semi');
+  margin-bottom: 0;
+
+  .cx-list {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+    list-style: var(--cx-list-style, none);
+    padding: var(--cx-padding, 0);
     margin-bottom: 0;
-
-    .cx-list {
-      display: var(--cx-display, flex);
-      flex-direction: var(--cx-flex-direction, row);
-      list-style: var(--cx-list-style, none);
-      padding: var(--cx-padding, 0);
-      margin-bottom: 0;
-    }
-
-    .cx-item {
-      color: var(--cx-color, var(--cx-g-color-text));
-      padding: var(--cx-padding, 0 0 1.375rem 0);
-
-      &.progressbar {
-        border-bottom: 5px solid;
-        border-color: var(--cx-border-color, var(--cx-g-color-primary));
-        ::before {
-          color: var(--cx-color, var(--cx-g-color-text));
-        }
-      }
-
-      ::before {
-        padding: var(--cx-padding, 0 0.5rem);
-        content: var(--cx-content, '>');
-      }
-
-      &:first-child ::before {
-        padding: var(--cx-padding, 0);
-        content: var(--cx-content, '');
-      }
-    }
   }
 
-  .cx-link,
-  .cx-link:hover {
-    cursor: pointer;
+  .cx-item {
+    color: var(--cx-color, var(--cx-g-color-text));
+    padding: var(--cx-padding, 0 0 1.375rem 0);
 
-    &.is-disabled {
-      color: var(--cx-color, var(--cx-g-color-light));
-      cursor: not-allowed;
-    }
-
-    &.is-active {
-      color: var(--cx-color, var(--cx-g-color-primary));
+    &.progressbar {
+      border-bottom: 5px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
       ::before {
         color: var(--cx-color, var(--cx-g-color-text));
       }
     }
-  }
 
-  .cx-media {
-    @include media-breakpoint-down(md) {
-      & > :last-child {
-        border-bottom: 1px solid;
-        border-color: var(--cx-border-color, var(--cx-g-color-light));
-      }
+    ::before {
+      padding: var(--cx-padding, 0 0.5rem);
+      content: var(--cx-content, '>');
     }
 
-    .cx-list-media {
-      display: var(--cx-display, none);
-      @include type('3');
-      text-transform: var(--cx-text-transform, uppercase);
-      justify-content: var(--cx-justify-content, space-between);
-      align-items: var(--cx-align-items, center);
-      line-height: var(--cx-line-height, 4.75rem);
-      min-width: var(--cx-min-widt, 100%);
-      border-top: 1px solid;
-      border-color: var(--cx-border-color, var(--cx-g-color-light));
-      margin-bottom: 0;
-
-      button {
-        text-transform: var(--cx-text-transform, uppercase);
-        font-weight: $font-weight-bold;
-      }
-
-      @include media-breakpoint-down(md) {
-        display: var(--cx-display, flex);
-        padding: var(--cx-padding, 0 3.5rem);
-      }
-
-      @include media-breakpoint-down(sm) {
-        padding: var(--cx-padding, 0 1.375rem);
-      }
-    }
-  }
-
-  .cx-place-order {
-    padding: var(--cx-padding, 0 1rem);
-
-    .cx-form {
-      display: var(--cx-display, flex);
-      .form-check-input {
-        min-height: var(--cx-min-height, 1.375rem);
-        min-width: var(--cx-min-width, 1.375rem);
-      }
-    }
-
-    button {
-      margin-top: 1.25rem;
-    }
-  }
-
-  // ***************************** MEDIA QUERIES *****************************
-
-  @include media-breakpoint-down(md) {
-    margin: var(--cx-margin, 0);
-  }
-
-  &.container {
-    @include media-breakpoint-down(md) {
-      max-width: var(--cx-max-width, 100%);
+    &:first-child ::before {
       padding: var(--cx-padding, 0);
+      content: var(--cx-content, '');
     }
   }
+}
 
-  .col-md-7 {
-    @include media-breakpoint-down(md) {
-      padding-right: 4.375rem;
+.cx-link,
+.cx-link:hover {
+  cursor: pointer;
+
+  &.is-disabled {
+    color: var(--cx-color, var(--cx-g-color-light));
+    cursor: not-allowed;
+  }
+
+  &.is-active {
+    color: var(--cx-color, var(--cx-g-color-primary));
+    ::before {
+      color: var(--cx-color, var(--cx-g-color-text));
     }
+  }
+}
 
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.375rem);
+.cx-media {
+  @include media-breakpoint-down(md) {
+    & > :last-child {
+      border-bottom: 1px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-light));
     }
   }
 
   .cx-list-media {
-    &.is-active {
-      @include media-breakpoint-down(md) {
-        background-color: var(
-          --cx-background-color,
-          var(--cx-g-color-background)
-        );
-      }
+    display: var(--cx-display, none);
+    @include type('3');
+    text-transform: var(--cx-text-transform, uppercase);
+    justify-content: var(--cx-justify-content, space-between);
+    align-items: var(--cx-align-items, center);
+    line-height: var(--cx-line-height, 4.75rem);
+    min-width: var(--cx-min-widt, 100%);
+    border-top: 1px solid;
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    margin-bottom: 0;
+
+    button {
+      text-transform: var(--cx-text-transform, uppercase);
+      font-weight: $font-weight-bold;
+    }
+
+    @include media-breakpoint-down(md) {
+      display: var(--cx-display, flex);
+      padding: var(--cx-padding, 0 3.5rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 0 1.375rem);
+    }
+  }
+}
+
+.cx-place-order {
+  padding: var(--cx-padding, 0 1rem);
+
+  .cx-form {
+    display: var(--cx-display, flex);
+    .form-check-input {
+      min-height: var(--cx-min-height, 1.375rem);
+      min-width: var(--cx-min-width, 1.375rem);
+    }
+  }
+
+  button {
+    margin-top: 1.25rem;
+  }
+}
+
+.col-md-12 {
+  @include media-breakpoint-down(md) {
+    max-width: var(--cx-max-width, 100%);
+    padding: var(--cx-padding, 0 0 2rem);
+  }
+}
+
+.cx-list-media {
+  &.is-active {
+    @include media-breakpoint-down(md) {
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-background)
+      );
     }
   }
 }
