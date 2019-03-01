@@ -3,6 +3,7 @@
 @import './page-templates/content-page-1';
 @import './page-templates/category-page';
 @import './page-templates/product-detail';
+@import './page-templates/product-list';
 @import './page-templates/cart-page';
 @import './page-templates/login-page';
 
@@ -20,6 +21,10 @@ cx-page-layout {
 
 .CategoryPageTemplate {
   @extend %CategoryPageTemplate !optional;
+}
+
+.ProductListPageTemplate {
+  @extend %ProductListPageTemplate !optional;
 }
 
 .ProductDetailsPageTemplate {
