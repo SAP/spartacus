@@ -42,7 +42,6 @@ export class BannerComponentService {
   }
 
   getComponentData(): Observable<CmsBannerComponent> {
-    console.log();
     return this.component.data$;
   }
 
