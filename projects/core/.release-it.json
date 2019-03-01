@@ -7,9 +7,7 @@
     "tagAnnotation": "Bumping core version to ${version}"
   },
   "npm": {
-    "publish": true,
-    "publishPath": "./../../dist/core",
-    "tag": "latest"
+    "publishPath": "./../../dist/core"
   },
   "scripts": {
     "afterBump": "cd ../.. && yarn build:core:lib"
