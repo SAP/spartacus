@@ -6,8 +6,8 @@ The SEO implementation in Spartacus includes the following:
 
 - Stateful URLs
 - Configurable URLs
-- Indexable Pages
-- HTML Tags
+- Indexable Page response (SSR)
+- HTML tags
 
 ## Stateful URLs
 
@@ -33,7 +33,7 @@ Server-side rendering (SSR) is a technique that renders the JavaScript logic on 
 
 SSR is provided by Spartacus, and is planned to be a default deployment option in Commerce Cloud.
 
-## Html Tags
+## Html tags
 HTML and meta tags in partucular are used by search engines, social platform and bots to display page meta data on their platforms. It is considered best practise to prepare the meta tags with care, and evaluate the values regurarly. This will improve ranking, click-through-rate and usability when users will come across a page. Moreover, the browser is keen to leverage the page title during navigation on tabs, history and bookmarks.  
 
 
@@ -68,4 +68,3 @@ Adding an html page title has several advantages:
 
 ### Description tag
 Each page on the storefront can contain a so-called description tag. The description tag is used at the SERP (search engine result page) to improve the click-through-rate (CTR). It is not used to improve page ranking. It is generally considered best practice to create a description tag for each page, although there are occassion where the search engine is better capable to generate the description based on the context.
->>>>>>> develop
