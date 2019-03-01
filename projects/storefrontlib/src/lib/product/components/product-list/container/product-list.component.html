@@ -1,19 +1,9 @@
 <ng-container *ngIf="(updateParams$ | async)">
   <div class="cx-page" *ngIf="(model$ | async) as model">
-    <header *ngIf="categoryTitle" class="cx-page__header">
-      <h1 class="cx-page__title">{{ categoryTitle }}</h1>
-    </header>
     <section class="cx-page__section">
       <div class="container">
         <div class="row">
-          <div class="col-12 col-lg-3 d-none d-lg-block">
-            <!-- <cx-product-facet-navigation
-              (filter)="onFilter($event)"
-              [activeFacetValueCode]="categoryCode || brandCode"
-              [searchResult]="model"
-            ></cx-product-facet-navigation> -->
-          </div>
-          <div class="col-12 col-lg-9" *ngIf="(gridMode$ | async) as gridMode">
+          <div class="col-12 col-lg-12" *ngIf="(gridMode$ | async) as gridMode">
             <div class="cx-sorting top">
               <div class="row">
                 <div class="col-12 col-lg-4 mr-auto">
@@ -89,14 +79,6 @@
                 </div>
                 <div class="col-auto ml-auto ml-lg-0">
                   <cx-product-view [(mode)]="gridMode"></cx-product-view>
-                </div>
-                <div class="col-12 d-lg-none d-xl-none">
-                  <!-- <cx-product-facet-navigation
-                    (filter)="onFilter($event)"
-                    [minPerFacet]="6"
-                    [activeFacetValueCode]="categoryCode || brandCode"
-                    [searchResult]="model"
-                  ></cx-product-facet-navigation> -->
                 </div>
               </div>
             </div>
