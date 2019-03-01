@@ -1,36 +1,33 @@
 # SEO Capabilities
 
-An important topic for Spartacus, as a storefront framework, is search engine optimization (SEO). Although SEO is a large topic, the implementation in Spartacus is focused on the architecture, and on providing a solid foundation that allows for SEO capabilities, rather than implementing all sorts of features.
+Search engine optimization (SEO) is an important element of the Spartacus storefront framework. The implementation of SEO in Spartacus is focused on the architecture, rather than on features, so that we can provide a solid foundation that allows for a wide range of SEO capabilities.
 
-As a storefront framework, Spartacus cares about search engine optimization. This is a large topic but main focus for Spartacus has been on the architectural side so that we provide a solid foundation that allows for SEO capabilities rather than implement all kinds of features.
+The SEO implementation in Spartacus includes the following:
 
-We're covering the following topics: 
 - Stateful URLs
 - Configurable URLs
-- Indexable Page response (SSR)
+- Indexable Pages
 
 ## Stateful URLs
-Using URLs to have a stateful address for each piece of the storefront services a multiple goals. It will not only help users to better navigate the storefront, but also crawlers will be able to crawl each and every page. Crawlers can identify more pages that can shared through social media, bots, or search indexes. 
 
-In order to serve a stateful URL for everyting, we're covering a number of features:
-- Deeplinks can be used to address any page
-- The URL routing configuration can take the multi-site context into account so that a stateful URL for special variants of the storefront can be launched and cached. 
+Spartacus provides a URL with a stateful address for every piece of the storefront. This makes it easier for users to navigate the storefront, and also allows web crawlers to index each and every page. As a result, more pages can be shared through social media, bots, and search indexes.
+
+To serve stateful URLs for everything, we allow deep links to address any page. The URL routing configuration can also take into account a multi-site context, so that stateful URLs for special variants of the storefront can be launched and cached.
 
 ### Configurable URLs
-URLs for Content pages are configurable in the CMS by using a CMS page label. This is a page label that doesn't allow for translation. 
 
-URLs for non-content pages are configurable in Spartacus. This is mainly related to product and category pages. Attributes, such the product name can be configured to be part of the URL. 
+You can configure URLs for content pages by using a CMS page label in the CMS (back end). These page labels cannot be localized.
 
-i.e. the default configuration for a product page is storefront.com/product/1234, but customers can improve the URL in order to add the product or cateogry title to the URL.
+You can configure URLs for non-content pages in Spartacus. These are mainly related to product and category pages. You can configure attributes, such the product name, to be part of the URL. For example, the default configuration for a product page is `storefront.com/product/1234`, but you can modify the URL to include the product or category title. 
 
-Configurable URLs will help to improve SEO in general, but also help to migrate an existing solution to Spartacus; customers can keep their existing URLs and configure the equivalent URLs in spartacus. 
+Configurable URLs help to improve SEO in general, but can also be used to help migrate an existing solution to Spartacus: customers can keep their existing URLs, and configure the equivalent URLs in Spartacus.
 
-**notes**: 
-- the product code is used for resolving the product data from the backend. The rest of the URL can be configured for SEO reasons. 
-- some customers have product titles with special characters or even user characters that won't wrok (i.e. using a slash in the code or title). This migh require special treatment of the attributes before/after they're used in the URL. 
+**Note**: The product code is used for resolving the product data from the back end. The rest of the URL can be configured for SEO purposes.
 
+**Note**: Some customers have product titles with special characters that will not work (for example, having a slash in the code or title). This might require special treatment of the attributes before or after they are used in the URL.
 
 ## Indexable Pages
-Server Side Rendering (SSR) is a technique to render the javascript logic server side, and provide rich content in the response. The SSR response contains the full HTML that is required by crawlers (Google, Facebook, etc.) in order to index or retrieve data from the response. 
 
-SSR is provided by Spartacus and is planned to be a default deployment option Commerce Cloud.
+Server-side rendering (SSR) is a technique that renders the JavaScript logic on the server side, and then provides rich content in the response. The SSR response contains the full HTML that is required by web crawlers to index or retrieve data from the response.
+
+SSR is provided by Spartacus, and is planned to be a default deployment option in Commerce Cloud.
