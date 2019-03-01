@@ -113,7 +113,7 @@ describe('AddressFormComponent', () => {
     controls = component.address.controls;
     component.showTitleCode = true;
 
-    spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component.submitAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
   });
 
@@ -201,7 +201,7 @@ describe('AddressFormComponent', () => {
 
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
-    expect(component.addAddress.emit).toHaveBeenCalledWith(
+    expect(component.submitAddress.emit).toHaveBeenCalledWith(
       component.address.value
     );
   });

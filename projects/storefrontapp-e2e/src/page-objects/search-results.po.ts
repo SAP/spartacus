@@ -55,15 +55,15 @@ export class SearchResultsPage extends AppPage {
   );
 
   readonly facets: ElementArrayFinder = this.page.all(
-    by.css('.cx-search-facet-checkbox')
+    by.css('.cx-facet-checkbox')
   );
 
   readonly clearSpecificFacets: ElementArrayFinder = this.page.all(
-    by.css('.cx-search-facet-filter__pill .close')
+    by.css('.cx-facet-filter-pill .close')
   );
 
   readonly showMoreLessStoresButton: ElementFinder = this.page.element(
-    by.css('.cx-search-facet-list__toggle-button')
+    by.css('.cx-facet-toggle-btn')
   );
 
   readonly sortingSelect: ElementFinder = this.page.element(
@@ -124,7 +124,7 @@ export class SearchResultsPage extends AppPage {
   }
 
   getHeaderText() {
-    return this.page.element(by.css('header h1')).getText();
+    return this.page.element(by.css('cx-breadcrumb h1')).getText();
   }
 
   getFirstProductDataFromList() {

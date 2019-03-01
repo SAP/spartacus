@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { map, take, mergeMap, catchError, switchMap } from 'rxjs/operators';
+
 import { RoutingService, CmsService } from '@spartacus/core';
+
+import { Observable, of } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class CmsPageGuards implements CanActivate {
@@ -14,17 +16,21 @@ export class CmsPageGuards implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean> {
-    return this.hasPage().pipe(
-      switchMap(found => of(found)),
-      catchError(() => of(false))
-    );
-  }
+    let pageId: string;
 
-  hasPage(): Observable<boolean> {
-    return this.routingService.getRouterState().pipe(
-      map(routerState => routerState.state.context),
-      take(1),
-      mergeMap(pageContext => this.cmsService.hasPage(pageContext))
+    return this.routingService.getPageContext().pipe(
+      // this is a temporary workaround to prevent infinite redirect to not found page (if not properly configured on the backend)
+      // will be removed/refactored in follow up tickets (
+      tap(pageContext => {
+        pageId = pageContext.id;
+      }),
+      switchMap(pageContext => this.cmsService.hasPage(pageContext)),
+      catchError(() => of(false)),
+      tap(hasPage => {
+        if (!hasPage && pageId !== '/notFound') {
+          this.routingService.go(['notFound']);
+        }
+      })
     );
   }
 }

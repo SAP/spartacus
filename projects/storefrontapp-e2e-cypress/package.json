@@ -5,8 +5,8 @@
   "author": "Marcin Lasak",
   "license": "MIT",
   "scripts": {
-    "test": "cypress open",
-    "test:ci": "cypress run"
+    "cy:open": "yarn && cypress open",
+    "cy:run": "yarn && cypress run"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",

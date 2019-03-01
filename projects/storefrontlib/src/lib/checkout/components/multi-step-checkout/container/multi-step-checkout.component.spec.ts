@@ -392,22 +392,16 @@ describe('MultiStepCheckoutComponent', () => {
   it('should contain proper total value and total items', () => {
     fixture.detectChanges();
 
-    const pageTitle = fixture.debugElement.query(By.css('.cx-page__title'))
+    const values = fixture.debugElement.query(By.css('.cx-list-media'))
       .nativeElement.textContent;
-    const values = fixture.debugElement.query(
-      By.css('.cx-multi-step-checkout__nav-list--media')
-    ).nativeElement.textContent;
 
-    expect(pageTitle).toContain('5141');
     expect(values).toContain('5141');
     expect(values).toContain('11119');
   });
 
   it('should highlight proper step', () => {
     fixture.detectChanges();
-    const steps = fixture.debugElement.queryAll(
-      By.css('.cx-multi-step-checkout__nav-item a')
-    );
+    const steps = fixture.debugElement.queryAll(By.css('.cx-item a'));
     steps[0].nativeElement.click();
     fixture.detectChanges();
 
@@ -422,9 +416,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
 
     const getPlaceOrderForm = () =>
-      fixture.debugElement.query(
-        By.css('.cx-multi-step-checkout__place-order-form')
-      );
+      fixture.debugElement.query(By.css('.cx-place-order-form'));
 
     expect(getPlaceOrderForm()).toBeTruthy();
   });
@@ -433,9 +425,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
 
     const getPlaceOrderForm = () =>
-      fixture.debugElement.query(
-        By.css('.cx-multi-step-checkout__place-order-form')
-      );
+      fixture.debugElement.query(By.css('.cx-place-order-form'));
 
     expect(getPlaceOrderForm()).toBeFalsy();
   });
@@ -446,9 +436,8 @@ describe('MultiStepCheckoutComponent', () => {
     fixture.detectChanges();
 
     const getBackBtn = () =>
-      fixture.debugElement.query(
-        By.css('.cx-multi-step-checkout__place-order .btn-action')
-      ).nativeElement;
+      fixture.debugElement.query(By.css('.cx-place-order .btn-action'))
+        .nativeElement;
     getBackBtn().click();
     expect(component.setStep).toHaveBeenCalledWith(3);
   });
@@ -458,9 +447,8 @@ describe('MultiStepCheckoutComponent', () => {
     fixture.detectChanges();
 
     const getPlaceOrderBtn = () =>
-      fixture.debugElement.query(
-        By.css('.cx-multi-step-checkout__place-order .btn-primary')
-      ).nativeElement;
+      fixture.debugElement.query(By.css('.cx-place-order .btn-primary'))
+        .nativeElement;
     expect(getPlaceOrderBtn().disabled).toBe(true);
   });
 
@@ -469,15 +457,14 @@ describe('MultiStepCheckoutComponent', () => {
     component.ngOnInit();
 
     const inputCheckbox = fixture.debugElement.query(
-      By.css('.cx-multi-step-checkout__place-order-form .form-check-input')
+      By.css('.cx-place-order-form .form-check-input')
     ).nativeElement;
     inputCheckbox.click();
     fixture.detectChanges();
 
     const getPlaceOrderBtn = () =>
-      fixture.debugElement.query(
-        By.css('.cx-multi-step-checkout__place-order .btn-primary')
-      ).nativeElement;
+      fixture.debugElement.query(By.css('.cx-place-order .btn-primary'))
+        .nativeElement;
     expect(getPlaceOrderBtn().disabled).toBe(false);
   });
 });

@@ -22,7 +22,6 @@ import { HeaderSkipperComponent } from './header-skipper/header-skipper.componen
     UrlTranslationModule
   ],
   declarations: [HeaderComponent, HeaderSkipperComponent],
-  exports: [HeaderComponent],
-  providers: []
+  exports: [HeaderComponent]
 })
 export class HeaderModule {}

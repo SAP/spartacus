@@ -1,6 +1,6 @@
 <ng-container *ngIf="(existingAddresses$ | async) as existingAddresses">
   <div class="cx-shipping-address container">
-    <h3 class="cx-shipping-address__title d-none d-lg-block d-xl-block">
+    <h3 class="cx-shipping-address-title d-none d-lg-block d-xl-block">
       Shipping Address
     </h3>
     <ng-container *ngIf="!(isLoading$ | async); else loading">
@@ -10,8 +10,8 @@
           else newAddressForm
         "
       >
-        <p class="cx-shipping-address__text">Select your Shipping Address</p>
-        <div class="cx-shipping-address__btn row justify-content-end">
+        <p class="cx-shipping-address-text">Select your Shipping Address</p>
+        <div class="cx-shipping-address-btn row">
           <div class="col-sm-12 col-md-6 col-lg-6">
             <button
               class="btn btn-block btn-action"
@@ -22,13 +22,13 @@
           </div>
         </div>
 
-        <div class="cx-shipping-address__body row">
+        <div class="cx-shipping-address-body row">
           <div
-            class="cx-shipping-address__card col-md-12 col-lg-6"
+            class="cx-shipping-address-card col-md-12 col-lg-6"
             *ngFor="let address of existingAddresses; let i = index"
           >
             <div
-              class="cx-shipping-address__card-inner"
+              class="cx-shipping-address-card-inner"
               (click)="addressSelected(address, i)"
             >
               <cx-card
@@ -41,7 +41,7 @@
           </div>
         </div>
 
-        <div class="row">
+        <div class="cx-btns row">
           <div class="col-md-12 col-lg-6">
             <button class="btn btn-block btn-action" (click)="back()">
               Back to cart
@@ -62,14 +62,16 @@
       <ng-template #newAddressForm>
         <cx-address-form
           showTitleCode="true"
-          (addAddress)="addNewAddress($event)"
+          (submitAddress)="addNewAddress($event)"
           (backToAddress)="hideNewAddressForm()"
         ></cx-address-form>
       </ng-template>
     </ng-container>
 
     <ng-template #loading>
-      <div class="cx-shipping-address__spinner"><cx-spinner></cx-spinner></div>
+      <div class="cx-shipping-address-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
     </ng-template>
   </div>
 </ng-container>
