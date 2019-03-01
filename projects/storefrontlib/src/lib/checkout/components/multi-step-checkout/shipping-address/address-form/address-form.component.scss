@@ -1,11 +1,3 @@
 @import 'theme';
 
 @include checkout-media-style();
-
-.cx-checkout-btns {
-  .col-md-12 {
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0 1.25rem);
-    }
-  }
-}

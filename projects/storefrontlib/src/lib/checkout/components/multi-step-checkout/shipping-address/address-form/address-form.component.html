@@ -1,6 +1,6 @@
-<div class="row">
-  <div class="col-md-12 col-lg-9">
-    <div [formGroup]="address">
+<div [formGroup]="address">
+  <div class="row">
+    <div class="col-md-12 col-lg-9">
       <div class="form-group" *ngIf="showTitleCode">
         <ng-container *ngIf="(titles$ | async) as titles">
           <div *ngIf="titles.length !== 0">
@@ -177,22 +177,22 @@
           </label>
         </div>
       </div>
-      <div class="cx-checkout-btns row">
-        <div class="col-md-12 col-lg-6">
-          <button class="btn btn-block btn-action" (click)="back()">
-            {{ cancelBtnLabel || 'Change Address' }}
-          </button>
-        </div>
-        <div class="col-md-12 col-lg-6">
-          <button
-            class="btn btn-block btn-primary"
-            [disabled]="address.invalid"
-            (click)="verifyAddress()"
-          >
-            {{ actionBtnLabel || 'Continue' }}
-          </button>
-        </div>
-      </div>
+    </div>
+  </div>
+  <div class="cx-checkout-btns row">
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ cancelBtnLabel || 'Change Address' }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="address.invalid"
+        (click)="verifyAddress()"
+      >
+        {{ actionBtnLabel || 'Continue' }}
+      </button>
     </div>
   </div>
 </div>
