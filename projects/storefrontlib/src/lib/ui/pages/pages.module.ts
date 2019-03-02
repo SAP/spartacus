@@ -28,7 +28,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
-import { LogoutModule } from 'projects/storefrontlib/src/cms-components';
+import { LogoutModule } from '../../../cms-components/index';
 
 const pageModules = [
   CategoryPageModule,
