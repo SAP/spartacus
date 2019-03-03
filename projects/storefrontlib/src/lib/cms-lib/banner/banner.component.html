@@ -15,4 +15,6 @@
     alt=""
   />
 </cx-generic-link>
-<p *ngIf="(service.hasContent() | async)">{{ service.getContent() | async }}</p>
+<p *ngIf="(service.hasContent() | async)">
+  {{ service.getContent() | async }}
+</p>
