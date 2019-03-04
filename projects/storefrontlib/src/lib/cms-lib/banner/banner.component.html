@@ -1,4 +1,4 @@
-<p *ngIf="(service.hasHeadline() | async)">
+<p class="cx-banner-headline" *ngIf="(service.hasHeadline() | async)">
   {{ service.getHeadline() | async }}
 </p>
 <cx-generic-link
@@ -15,6 +15,6 @@
     alt=""
   />
 </cx-generic-link>
-<p *ngIf="(service.hasContent() | async)">
+<p class="cx-banner-content" *ngIf="(service.hasContent() | async)">
   {{ service.getContent() | async }}
 </p>
