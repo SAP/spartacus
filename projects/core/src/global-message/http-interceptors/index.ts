@@ -3,47 +3,47 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { HttpErrorHandler } from './handlers';
-import * as handers from './handlers';
+import * as handlers from './handlers';
 
 export const errorHandlers: Provider[] = [
   {
     provide: HttpErrorHandler,
-    useExisting: handers.UnknownErrorHandler,
+    useExisting: handlers.UnknownErrorHandler,
     multi: true
   },
   {
     provide: HttpErrorHandler,
-    useExisting: handers.BadGatewayHandler,
+    useExisting: handlers.BadGatewayHandler,
     multi: true
   },
   {
     provide: HttpErrorHandler,
-    useExisting: handers.BadRequestHandler,
+    useExisting: handlers.BadRequestHandler,
     multi: true
   },
   {
     provide: HttpErrorHandler,
-    useExisting: handers.ConflictHandler,
+    useExisting: handlers.ConflictHandler,
     multi: true
   },
   {
     provide: HttpErrorHandler,
-    useExisting: handers.ForbiddenHandler,
+    useExisting: handlers.ForbiddenHandler,
     multi: true
   },
   {
     provide: HttpErrorHandler,
-    useExisting: handers.GatewayTimeoutHandler,
+    useExisting: handlers.GatewayTimeoutHandler,
     multi: true
   },
   {
     provide: HttpErrorHandler,
-    useExisting: handers.NotFoundHandler,
+    useExisting: handlers.NotFoundHandler,
     multi: true
   }
 ];
 
-export const interceptors: Provider[] = [
+export const httpErrorInterceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: HttpErrorInterceptor,

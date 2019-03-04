@@ -27,6 +27,8 @@ export class BadRequestHandler extends HttpErrorHandler {
         );
       }
     } else {
+      // this is currently showing up in case we have a page not found. It should be a 404.
+      // see https://jira.hybris.com/browse/CMSX-8516
       this.globalMessageService.add({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: this.getErrorMessage(response)
