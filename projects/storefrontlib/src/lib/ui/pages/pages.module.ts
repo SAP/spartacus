@@ -84,12 +84,6 @@ const pageModules = [
         data: { pageLabel: 'login', cxPath: 'login' }
       },
       {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
-      },
-      {
         path: '**',
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent
