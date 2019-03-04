@@ -2,14 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import {
   filter,
   tap,
   map,
   withLatestFrom,
   switchMap,
-  take
+  take,
+  multicast,
+  refCount
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -27,6 +29,10 @@ import { PageContext } from '../../routing/models/page-context.model';
 })
 export class CmsService {
   private _launchInSmartEdit = false;
+
+  private components: {
+    [uid: string]: Observable<CmsComponent>;
+  } = {};
 
   constructor(
     private store: Store<StateWithCms>,
@@ -65,21 +71,28 @@ export class CmsService {
    * @param uid : CMS componet uid
    */
   getComponentData<T extends CmsComponent>(uid: string): Observable<T> {
-    return this.store.pipe(
-      select(fromStore.componentStateSelectorFactory(uid)),
-      withLatestFrom(this.getCurrentPage()),
-      tap(([componentState, currentPage]) => {
-        const attemptedLoad =
-          componentState.loading ||
-          componentState.success ||
-          componentState.error;
-        if (!attemptedLoad && currentPage) {
-          this.store.dispatch(new fromStore.LoadComponent(uid));
-        }
-      }),
-      map(([productState]) => productState.value),
-      filter(Boolean)
-    );
+    if (!this.components[uid]) {
+      this.components[uid] = this.store.pipe(
+        select(fromStore.componentStateSelectorFactory(uid)),
+        withLatestFrom(this.getCurrentPage()),
+        tap(([componentState, currentPage]) => {
+          const attemptedLoad =
+            componentState.loading ||
+            componentState.success ||
+            componentState.error;
+          if (!attemptedLoad && currentPage) {
+            this.store.dispatch(new fromStore.LoadComponent(uid));
+          }
+        }),
+        map(([productState]) => productState.value),
+        filter(Boolean),
+        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
+        multicast(() => new ReplaySubject(1)),
+        refCount()
+      );
+    }
+
+    return this.components[uid] as Observable<T>;
   }
 
   /**
