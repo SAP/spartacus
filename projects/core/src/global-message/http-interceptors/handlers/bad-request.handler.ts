@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorHandler } from './response.handler';
+import { HttpErrorHandler } from './http-error.handler';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 

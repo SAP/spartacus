@@ -11,7 +11,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { GlobalMessageService } from '../facade/global-message.service';
-import { HttpErrorHandler } from './handlers/response.handler';
+import { HttpErrorHandler } from './handlers/http-error.handler';
 import { HttpResponseStatus } from '../models/response-status.model';
 
 @Injectable()

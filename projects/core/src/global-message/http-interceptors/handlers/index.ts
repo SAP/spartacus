@@ -4,5 +4,5 @@ export * from './conflict.handler';
 export * from './forbidden.handler';
 export * from './gateway-timeout.handler';
 export * from './not-found.handler';
-export * from './response.handler';
+export * from './http-error.handler';
 export * from './unknown-error.handler';
