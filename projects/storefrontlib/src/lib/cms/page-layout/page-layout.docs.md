@@ -64,14 +64,14 @@ Another potential bottleneck with responsive design might be the amount of conte
 ### SSR
 Special attention is required when pages are rendered on the server, using Server Side Rendering (SSR). Whenever the SSR process or the edge cache layers are not able to address the client device, the process should decide on the preferred breakpoint. At the one hand, the mode where all content is rendered is preferred for search engines (typically the desktop version). But for an optimized mobile experience, the performance can be boosted by exposing the mobile optimized version. 
 
-TODO: evaluate the usage of device headers in SSR and edge caching (varnish and CDN).
+TODO: evaluate the usage of device headers in SSR and edge caching (varnish and CDN) ([#1108](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/1108)).
 
 In Spartacus, all content is always rendered. To that reason, the mobile version is rendered at SSR.
 
 ## Personalization
 
-TODO: evaluate if Spartacus is doing the below correctly.
+TODO: evaluate if Spartacus is doing the below correctly ([1538](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/1538)).
 
 Special care is required when personalization is added into the mix. While Single Page Applications can leverage the advantage of caching the page structure after first load and use it during the session or even in sub sequential visits, content isn't necessarily static and could change based on the user interaction. The storefront should reload content while the user re-visits a page, however if content hasn't changed, there's no reason to refresh the content. 
 
-An optimized interaction from front-end to backend could be implemented to avoid duplicated calls for content. One idea that comes to mind is to provide a hash (in backend) of the page structure and pass this in sub sequential calls. The backend could evaluate the hash and return a 304 (not modified) in case of equal page structure. This would save the network bandwith and client-site processing of the data. 
+An optimised interaction from front-end to backend could be implemented to avoid duplicated calls for content. One idea that comes to mind is to provide a hash (in backend) of the page structure and pass this in sub sequential calls. The backend could evaluate the hash and return a 304 (not modified) in case of equal page structure. This would save the network bandwidth and client-site processing of the data. 
