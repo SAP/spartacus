@@ -23,7 +23,7 @@ export class SeoMetaService {
   protected set meta(meta: PageMeta) {
     this.title = meta.title;
     this.description = meta.description;
-    this.robots = meta.robots || [PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX];
+    this.robots = meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
   }
 
   protected set title(title: string) {
@@ -35,7 +35,7 @@ export class SeoMetaService {
   }
 
   protected set robots(value: PageRobotsMeta[]) {
-    this.addTag({ name: 'robots', content: value.join(' ') });
+    this.addTag({ name: 'robots', content: value.join(', ') });
   }
 
   protected addTag(meta: MetaDefinition) {
