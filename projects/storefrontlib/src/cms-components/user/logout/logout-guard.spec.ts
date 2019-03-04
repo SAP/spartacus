@@ -8,9 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgZone, Component } from '@angular/core';
 
 class MockAuthService {
-  logout() {
-    console.log('logout...');
-  }
+  logout() {}
 }
 
 @Component({
