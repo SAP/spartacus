@@ -19,9 +19,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(HttpErrorHandler) private handlers: HttpErrorHandler[],
     protected globalMessageService: GlobalMessageService
-  ) {
-    console.log('HttpErrorInterceptor', this.handlers);
-  }
+  ) {}
 
   intercept(
     request: HttpRequest<any>,

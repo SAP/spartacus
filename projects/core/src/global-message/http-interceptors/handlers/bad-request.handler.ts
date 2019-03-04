@@ -13,7 +13,6 @@ export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
-    console.log('handle bad request');
     if (
       response.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
       response.error.error === 'invalid_grant'
@@ -28,7 +27,6 @@ export class BadRequestHandler extends HttpErrorHandler {
         );
       }
     } else {
-      console.log('global message?', this.getErrorMessage(response));
       this.globalMessageService.add({
         type: GlobalMessageType.MSG_TYPE_ERROR,
         text: this.getErrorMessage(response)
