@@ -15,4 +15,12 @@ export interface Page {
 export interface PageMeta {
   title?: string;
   description?: string;
+  robots?: PageRobotsMeta[];
+}
+
+export enum PageRobotsMeta {
+  INDEX = 'INDEX',
+  NOINDEX = 'NOINDEX',
+  FOLLOW = 'FOLLOW',
+  NOFOLLOW = 'NOFOLLOW'
 }
