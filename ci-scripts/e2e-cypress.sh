@@ -2,6 +2,8 @@
 set -e
 set -o pipefail
 
+yarn
+
 echo '-----'
 echo 'Building Spartacus libraries'
 yarn build:core:lib
