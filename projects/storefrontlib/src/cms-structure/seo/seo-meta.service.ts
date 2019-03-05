@@ -40,7 +40,7 @@ export class SeoMetaService {
 
   protected addTag(meta: MetaDefinition) {
     if (meta.content) {
-      this.ngMeta.updateTag(meta);
+      this.ngMeta.addTag(meta);
     }
   }
 }
