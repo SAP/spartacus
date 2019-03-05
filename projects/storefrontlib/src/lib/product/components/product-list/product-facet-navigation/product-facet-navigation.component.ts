@@ -1,4 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,6 +20,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
   searchResult$: Observable<ProductSearchPage>;
+  updateParams$: Observable<Params>;
 
   get visibleFacets() {
     if (!this.searchResult.facets) {
@@ -38,7 +39,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.params.pipe(
+    this.updateParams$ = this.activatedRoute.params.pipe(
       tap(params => {
         this.activeFacetValueCode = params.categoryCode || params.brandCode;
       })
