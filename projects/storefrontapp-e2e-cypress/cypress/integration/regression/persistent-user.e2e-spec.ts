@@ -5,7 +5,7 @@ context('Check login', () => {
     cy.visit('/');
   });
 
-  it('should register successfully', () => {
+  it('should login successfully', () => {
     cy.get('.cx-login-status__greet').should('contain', 'Test User');
   });
 });
