@@ -1,0 +1,1 @@
+runSpartacusPipeline module: 'spartacus'
