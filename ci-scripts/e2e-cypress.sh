@@ -11,4 +11,4 @@ yarn build:core:lib
 
 echo '-----'
 echo 'Running Cypress end to end tests'
-yarn e2e:cy:start-run
+yarn e2e:cy:start-run-ci
