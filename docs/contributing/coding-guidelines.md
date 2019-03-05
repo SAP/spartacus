@@ -68,27 +68,23 @@ Also, logged-in users and anonymous users may see different response data. When 
 
 Component selectors should always start with "cx-".
 
-### Code Structure
+### Modules
 
-The code structure of each module should be consistent. For example:
+Try to keep modules as small as possible. In most cases, one module has only one component. Also, we should always try to reduce module dependencies.
 
-- Store-related code is in the `store` folder
-- Component code is in the `component` folder
-- All OCC (API) services are inside the `OccModule`
+The code structure of each module should be consistent. For example, most modules have the following folders:
 
-However, common UI components are inside the `UI/components` folder.
+- a `store` folder that contains store-related code
+- a `facade` folder that contains all facade code for that particular module
+- an `occ` folder that contains module-specific services that call the OCC APIs to communicate with the back end
 
-### Keep Modules Small
+The one exception is for UI components that are common to all modules, which are in `storefrontlib/src/lib/ui/components`.
 
-Try to keep modules as small as possible. In most cases, one module has only one component.
-
-### Unit Tests, Always
+### Testing
 
 New code must always be covered by unit tests.
 
-### End-To-End Tests
-
-New, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`, and for page objects, the file names should end with `po.ts`. 
+With regards to end-to-end tests, new, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`, and for page objects, the file names should end with `po.ts`.
 
 If you decide to write an end-to-end test based on user-flow, add the word `flow` to the test's name. If you have more than one user-flow test, separate them into individual files, so they can be run in parallel. We also recommend grouping the tests in a sub-directory with a relevant name. For reference, have a look at the end-to-end tests for product search.
 
@@ -103,10 +99,6 @@ To know if your end-to-end test belongs to the `smoke` folder or the `regression
     If yes, the test belongs in the `smoke` folder. A good example of a critical user-flow are the steps to complete the checkout.
 
 If you answered "no" to these questions, then the test belongs in the `regression` folder.
-
-### Reduce Module Dependencies
-
-Always try to reduce module dependencies.
 
 ### Layers in Spartacus
 
