@@ -1,15 +1,12 @@
 # Coding Guidelines
 
-To keep the Spartacus code readable and maintainable, please follow these rules, even if you find them violated somewhere. Note that this list is not complete.
-When a file is consistently not following these rules and adhering to the rules would make the code worse, follow the local style.
+To keep the Spartacus code readable and maintainable, please follow our coding guidelines, even if you find them violated somewhere. If a file is consistently not following the guidelines, and adhering to the guidelines would make the code worse, then follow the local style.
 
 ## Overall Angular Guidelines
 
-### General
+We follow [Google's Style Guide](https://angular.io/guide/styleguide).
 
-We are following [Google's Style Guide](https://angular.io/guide/styleguide).
-
-### Coding Guidelines Check using the CLI
+### Coding Guidelines Check Using the CLI
 
 Certain guideline violations can be detected automatically by a tool called codelyzer, which is bundled with the Angular CLI. You can analyze an angular app with the following command:
 
@@ -18,13 +15,13 @@ $ ng lint
 ```
 
 
-The tool reports violations to the guidelines for the whole application.  If all good, it will output:
+The tool reports violations to the guidelines for the whole application.  If there are no errors, it will output the following:
 
 ```
 All files pass linting.
 ```
 
-Otherwise, issues will be listed:
+Otherwise, issues will be listed. The following is an example:
 
 ```
 ERROR: /SAPDevelop/AngularApp/src/app/myfeature/myfeature.component.ts[7, 14]: The name of the class MyFeature should end with the suffix Component (https://angular.io/styleguide#style-02-03)
@@ -32,54 +29,52 @@ ERROR: /SAPDevelop/AngularApp/src/app/myfeature/myfeature.component.ts[7, 14]: T
 Lint errors found in the listed files.
 ```
 
-
 If you look at the end of the error message, there is a direct link to the style guideline that is violated.
 
 ### Coding Guidelines on the Pipeline
 
 The  `ng lint` command is part of the Definition of Done and is integrated into the pipeline. 
 
-New violations on the branch = non-green build + no merges allowed.
+New violations on the branch result in a non-green build, and no merges are allowed.
 
 ### Coding Guidelines in the IDE
 
-To make the standards adoption even more seamless, vscode and other editors can provide live feedback from the rules reported by `ng lint`.
+To make the standards adoption even more seamless, Visual Studio Code (VS Code) and other editors can provide live feedback from the rules reported by `ng lint`.
 
-All that is required is to install the TSLint plugin. So far, it works out of the box without the need to add further configuration. (TSlint reads the project's `tslint.json` file and seems to figure it out on its own.)
+We use a number of VS Code extensions for code compliance. When you open the source folder in VS Code, if you are missing any of the recommended extensions, VS Code prompts you to install them.
 
-### Coding guidelines in DOD
+You can see the list of recommended extensions in `.vscode/extensions.json`.
 
-Use the TSLint vscode plugin. Code styling errors will show up in red as you type.
+If you are missing any of the recommended extensions, please install them.
 
-
-
-## Spartacus Specific Guidelines
+## Spartacus-Specific Guidelines
 
 ### NGRX
 
-We have chosen to use the NGRX store to manage the global application state in our features. Using NGRX has apparent advantages for performance, better testability, and ease of troubleshooting (with time travel and such).
+We use the NGRX store to manage the global application state in our features. Using NGRX has apparent advantages for performance, better testability, and ease of troubleshooting (with time travel and such).
 
-- The rule of thumb is to use the store for a feature unless there is a compelling reason not to.  We want to keep it consistent throughout the app.
+- Use the store for a feature unless there is a compelling reason not to. We want to keep it consistent throughout the app.
 - Use one common store for the whole app.
-- Using the store doesn’t mean that we need to cache everything.  Caching should be used with intent and where it makes sense.  In general, cms data is a good candidate for caching; application data is not.
+
+**Note**: Using the store does not mean that we need to cache everything. Caching should be used with intent, and where it makes sense. In general, CMS data is a good candidate for caching, while application data is not.
 
 ### Site Context
 
-Site context can be changed for each page. The response data may be different for different site context. Keep this in mind when working on pages.
+Site context can be changed for each page. The response data may be different for different site contexts. Keep this in mind when working on pages.
 
 Also, logged-in users and anonymous users may see different response data. When working on pages, take into consideration that a user can change their login status through login or logout.
 
 ### Naming Conventions
 
-Component selectors should always start with "cx-". (Currently, many component selectors start with "y-" but this is being chnaged.)
+Component selectors should always start with "cx-".
 
 ### Code Structure
 
 The code structure of each module should be consistent. For example:
 
-- Store-related codes are in the `store` folder
-- Component codes are inside the `component` folder
-- All OCC (API) services are inside `OccModule`
+- Store-related code is in the `store` folder
+- Component code is in the `component` folder
+- All OCC (API) services are inside the `OccModule`
 
 However, common UI components are inside the `UI/components` folder.
 
@@ -124,3 +119,7 @@ We are currently planning to add a one-layer "facade" between `ngrx/store` and `
 Do not break server-side rendering (SSR).
 
 For more information, see the [Server-Side Rendering Coding Guidelines](./coding-guidelines-ssr.md).
+
+### Protected and Private Methods
+
+If a method needs to be extendible, declare it as a `protected` method. Keep in mind, however, that all methods that are `protected` are a part of our public API. If you update a `protected` method, you must be careful not to introduce breaking changes as much as possible. If a method does not need to be extendible, declare it as `private` instead. For example, if you are creating helper methods in a service for code readability, it is probably better to declare these methods as `private`, unless it is essential for these methods to be extendible by customers.
