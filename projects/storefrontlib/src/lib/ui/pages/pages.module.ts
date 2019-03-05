@@ -41,7 +41,6 @@ const pageModules = [
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
   GuardsModule
-  // new pages should be added above this line
 ];
 
 @NgModule({
