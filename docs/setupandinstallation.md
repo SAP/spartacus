@@ -131,6 +131,7 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
       },
       site: {
         baseSite: 'electronics'
+      }
     })
   ],
 ```
