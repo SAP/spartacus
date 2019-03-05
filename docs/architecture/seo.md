@@ -63,13 +63,19 @@ Spartacus is shipped with `pageMetaResolvers` which resolves the page meta data 
 
 The page meta will be updated dynamically during navigation, but can be delivered statically using SSR.
 
-### Title tag
+### Title resolver
 Adding an html page title has several advantages:
 * the page can be uniquely addressed in the browser (browser history, bookmarks, tabs, etc)
 * the page title will increase ranking the page in search engines
 * the page title will identify content in search engines
 
-### Description tag
+A special resolver is provided for pages that require a specific heading. The page title for a Search Engine Result Page (SERP) is not necessary the same as the page heading shown in the UI. The product title is a good example. For a great SERP, a pdp would typically disclose the product title, category and brand:
+
+`Product Title | Main category | Brand`
+
+Such a title however will look bad in the UI and a very different title is used for that. In order to support flexibility, Spartacus uses a specific `PageHeadingResolver` that can be implemented in the page resolving logic. 
+
+### Description resolver
 Each page on the storefront can contain a so-called description tag. The description tag is used at the SERP (search engine result page) to improve the click-through-rate (CTR). It is not used to improve page ranking. It is generally considered best practice to create a description tag for each page, although there are occassion where the search engine is better capable to generate the description based on the context.
 
 ### Robots tag

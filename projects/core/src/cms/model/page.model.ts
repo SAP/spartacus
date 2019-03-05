@@ -14,6 +14,7 @@ export interface Page {
 
 export interface PageMeta {
   title?: string;
+  heading?: string;
   description?: string;
   robots?: PageRobotsMeta[];
 }
