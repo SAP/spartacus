@@ -92,7 +92,7 @@ const pageModules = [
         path: null,
         canActivate: [NotAuthGuard, CmsPageGuards],
         component: PageLayoutComponent,
-        data: { pageLabel: 'checkout-login', cxPath: 'guestLogin' }
+        data: { pageLabel: 'checkout-login', cxPath: 'checkoutLogin' }
       },
       {
         path:

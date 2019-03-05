@@ -1,18 +1,18 @@
-import { GuestLoginComponent } from './guest-login.component';
+import { CheckoutLoginComponent } from './checkout-login.component';
 import { ComponentFixture, async, TestBed } from '@angular/core/testing';
 
-describe('GuestLoginComponent', () => {
-  let component: GuestLoginComponent;
-  let fixture: ComponentFixture<GuestLoginComponent>;
+describe('CheckoutLoginComponent', () => {
+  let component: CheckoutLoginComponent;
+  let fixture: ComponentFixture<CheckoutLoginComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GuestLoginComponent]
+      declarations: [CheckoutLoginComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GuestLoginComponent);
+    fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
   });
 

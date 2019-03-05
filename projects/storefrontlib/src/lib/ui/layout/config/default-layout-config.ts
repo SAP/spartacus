@@ -73,7 +73,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       slots: ['BodyContent', 'SideContent']
     },
     CheckoutLoginPageTemplate: {
-      slots: ['RightContentSlot', 'CenterContentSlot', 'LeftContentSlot']
+      slots: ['RightContentSlot']
     }
   }
 };
