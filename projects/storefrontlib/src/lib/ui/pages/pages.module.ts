@@ -83,6 +83,19 @@ const pageModules = [
         data: { pageLabel: 'login', cxPath: 'login' }
       },
       {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'product' }
+      },
+      {
+        path:
+          'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'product' }
+      },
+      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
+      {
         path: '**',
         canActivate: [CmsPageGuards],
         component: PageLayoutComponent
