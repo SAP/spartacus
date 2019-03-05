@@ -89,6 +89,12 @@ const pageModules = [
         data: { cxPath: 'product' }
       },
       {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'checkout-login', cxPath: 'checkoutLogin' }
+      },
+      {
         path:
           'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
         redirectTo: null,

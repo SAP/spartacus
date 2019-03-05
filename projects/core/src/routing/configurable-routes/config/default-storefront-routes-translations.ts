@@ -9,6 +9,7 @@ export const defaultStorefrontRoutesTranslations: {
     cart: { paths: ['cart'] },
     search: { paths: ['search/:query'] },
     login: { paths: ['login'] },
+    checkoutLogin: { paths: ['checkout-login'] },
     register: { paths: ['register'] },
     resetPassword: { paths: ['reset-new-password/:token'] },
     forgotPassword: { paths: ['reset-password'] },
