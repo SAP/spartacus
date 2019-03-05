@@ -86,12 +86,12 @@ The ability of a page to be indexed or not can be controlled by a metatag:
 ```
 
 There are 4 potential values that can be used to guide search engines:
-| value    | description                                                                      |
-| -------- | -------------------------------------------------------------------------------- |
-| INDEX    | Instructs the search engine to index the page                                    |
-| NOINDEX  | Instructs the search engine to *not* index the page                              |
-| FOLLOW   | Instructs the search engine to follow the links on the page for further indexing |
-| NOFOLLOW | Instructs the search engine to follow the links on the page for further indexing |
+| value    | description                                                                            |
+| -------- | -------------------------------------------------------------------------------------- |
+| INDEX    | Instructs the search engine to index the page                                          |
+| NOINDEX  | Instructs the search engine to *not* index the page                                    |
+| FOLLOW   | Instructs the search engine to follow the links on the page for further indexing       |
+| NOFOLLOW | Instructs the search engine to *not* follow the links on the page for further indexing |
 
 Spartacus provides a separate `PageRobotsResolver` interface that can be used to control the robots meta tag. The `PageMetaService` uses `FOLLOW, NOINDEX` whenever no value is provided by the `PageMeta`.
 
