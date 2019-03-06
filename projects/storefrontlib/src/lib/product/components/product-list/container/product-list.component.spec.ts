@@ -132,11 +132,6 @@ describe('ProductListComponent in product-list', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call onFilter', () => {
-    component.onFilter('mockQuery');
-    expect(service.search).toHaveBeenCalledWith('mockQuery', {});
-  });
-
   it('should update() method to be defined', done => {
     expect(component.update).toBeDefined();
     done();

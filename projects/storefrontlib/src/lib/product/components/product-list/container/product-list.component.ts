@@ -115,11 +115,6 @@ export class ProductListComponent implements OnInit {
     return this.categoryTitle;
   }
 
-  onFilter(query: string) {
-    this.query = query;
-    this.search(query);
-  }
-
   viewPage(pageNumber: number) {
     this.search(this.query, { currentPage: pageNumber });
   }
