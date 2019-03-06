@@ -55,7 +55,7 @@ context('Product search product type flow', () => {
       cy.get(resultsTitle).should('contain', '16 results for "sony"');
       cy.get('cx-product-list-item')
         .first()
-        .should('contain', 'Accessory kit');
+        .should('contain', 'MSHX8A');
 
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
@@ -147,7 +147,7 @@ context('Product search product type flow', () => {
       cy.get(resultsTitle).should('contain', '7 results for "sony"');
       cy.get('cx-product-list-item')
         .first()
-        .should('contain', 'NP-FV 70');
+        .should('contain', 'InfoLITHIUM™ H Series Battery');
 
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
