@@ -1,4 +1,4 @@
-import { PRODUCT_LISTING } from './../helpers/data-configuration';
+import { PRODUCT_LISTING } from '../../../helpers/data-configuration';
 context('Product search rating flow', () => {
   before(() => {
     cy.visit('/');
