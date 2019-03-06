@@ -3,6 +3,9 @@ const productId2 = '3325048';
 
 describe('Added to cart modal', () => {
   before(() => {
+    cy.window().then(win => {
+      win.sessionStorage.clear();
+    });
     cy.visit(`/product/${productId}`);
   });
 

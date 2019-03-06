@@ -1,9 +1,9 @@
-import { user, cart, product } from '../sample-data/big-happy-path';
-import { login, register } from '../helpers/auth-forms';
+import { user, cart, product } from '../../sample-data/big-happy-path';
+import { login, register } from '../../helpers/auth-forms';
 import {
   fillPaymentDetails,
   fillShippingAddress
-} from '../helpers/checkout-forms';
+} from '../../helpers/checkout-forms';
 
 context('Big happy path', () => {
   before(() => {
@@ -47,7 +47,7 @@ context('Big happy path', () => {
   });
 
   it('should fill in address form', () => {
-    cy.get('.cx-shipping-address-title').should('contain', 'Shipping Address');
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
       .first()
       .find('.cx-summary-amount')
@@ -57,13 +57,13 @@ context('Big happy path', () => {
   });
 
   it('should choose delivery', () => {
-    cy.get('.cx-delivery-title').should('contain', 'Shipping Method');
+    cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
     cy.get('#deliveryMode-standard-gross').check();
     cy.get('button.btn-primary').click();
   });
 
   it('should fill in payment form', () => {
-    cy.get('.cx-payment-title').should('contain', 'Payment');
+    cy.get('.cx-checkout-title').should('contain', 'Payment');
     cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
       .find('.cx-summary-amount')
       .should('contain', cart.total);
