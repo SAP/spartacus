@@ -94,7 +94,7 @@ You can use the `robots` meta tag to control whether or not a page is indexed. T
  <meta name="robots" value="FOLLOW, NOINDEX">
  ```
 
-  The following table lists the values that can be used to guide search engines:
+The following table lists the values that can be used to guide search engines:
 
  | Value    | Description                                                                            |
  | -------- | -------------------------------------------------------------------------------------- |
@@ -103,6 +103,6 @@ You can use the `robots` meta tag to control whether or not a page is indexed. T
  | FOLLOW   | Instructs the search engine to follow the links on the page for further indexing       |
  | NOFOLLOW | Instructs the search engine to **not** follow the links on the page for further indexing |
 
-  Spartacus provides a separate `PageRobotsResolver` interface that you can use to control the `robots` meta tag. The `PageMetaService` uses `FOLLOW, NOINDEX` whenever no value is provided by the `PageMeta`.
+Spartacus provides a separate `PageRobotsResolver` interface that you can use to control the `robots` meta tag. The `PageMetaService` uses `FOLLOW, NOINDEX` whenever no value is provided by the `PageMeta`.
 
-  The `CheckoutPageMetaResolver` demonstrates the usage of the  `PageRobotsResolver` and instructs search engines to not index the page nor follow any links on the page.
+The `CheckoutPageMetaResolver` demonstrates the usage of the  `PageRobotsResolver` and instructs search engines to not index the page nor follow any links on the page.
