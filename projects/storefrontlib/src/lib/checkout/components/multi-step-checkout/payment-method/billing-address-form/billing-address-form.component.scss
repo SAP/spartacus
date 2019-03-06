@@ -1,7 +1,3 @@
 @import 'theme';
 
-.cx-billing-address-form {
-  &.container {
-    padding: var(--cx-padding, 1em 0);
-  }
-}
+@include checkout-media-style();
