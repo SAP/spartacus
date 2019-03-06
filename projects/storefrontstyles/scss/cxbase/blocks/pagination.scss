@@ -2,40 +2,26 @@
 @import '../../mixins';
 @import '~bootstrap/scss/pagination';
 
-$cx-pagination-page-action-trbl-padding: 11px 14px 12px 14px !default;
-$cx-pagination-page-action-color: 'secondary' !default;
-
-$cx-pagination-page-link-trbl-padding: 12px 17px 12px 17px !default;
-$cx-pagination-page-link-color: 'text' !default;
-$cx-pagination-page-link-height: 48px !default;
-$cx-pagination-page-link-hover-color: 'inverse' !default;
-$cx-pagination-page-link-hover-background-color: 'primary' !default;
-
-$cx-pagination-page-link-disabled-color: 'light' !default;
-
 .page-item {
   .page-link {
-    padding: $cx-pagination-page-link-trbl-padding;
+    padding: var(--cx-padding, 12px 17px 12px 17px);
     font-size: $h4-font-size;
-    height: $cx-pagination-page-link-height;
-    @include var-color('color', $cx-pagination-page-link-color);
+    height: var(--cx-height, 48px);
+    color: var(--cx-color, var(--cx-g-color-text));
 
     &:hover {
-      @include var-color(
-        'background-color',
-        $cx-pagination-page-link-hover-background-color
-      );
-      @include var-color('color', $cx-pagination-page-link-hover-color);
-      font-weight: $font-weight-bold;
+      background-color: var(--cx-background-color, var(--cx-g-color-primary));
+      color: var(--cx-color, var(--cx-g-color-inverse));
+      font-weight: var(--cx-g-font-weight-bold, 700);
     }
 
     &[aria-label='Previous'],
     &[aria-label='Next'] {
-      padding: $cx-pagination-page-action-trbl-padding;
-      @include var-color('color', $cx-pagination-page-action-color);
+      padding: var(--cx-padding, 11px 14px 12px 14px);
+      color: var(--cx-color, var(--cx-g-color-secondary));
 
       &:hover {
-        @include var-color('color', $cx-pagination-page-link-hover-color);
+        color: var(--cx-color, var(--cx-g-color-inverse));
       }
     }
   }
@@ -44,7 +30,7 @@ $cx-pagination-page-link-disabled-color: 'light' !default;
     .page-link {
       &[aria-label='Previous'],
       &[aria-label='Next'] {
-        @include var-color('color', $cx-pagination-page-link-disabled-color);
+        color: var(--cx-color, var(--cx-g-color-light));
       }
     }
   }
