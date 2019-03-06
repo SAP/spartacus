@@ -9,3 +9,7 @@ export interface PageTitleResolver {
 export interface PageDescriptionResolver {
   resolveDescription(...args);
 }
+
+export interface PageRobotsResolver {
+  resolveRobots(...args);
+}
