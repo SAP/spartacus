@@ -79,7 +79,6 @@ class MockStripHtmlPipe implements PipeTransform {
 }
 
 describe('ProductListComponent in product-list', () => {
-  let service: ProductSearchService;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
 
@@ -125,7 +124,6 @@ describe('ProductListComponent in product-list', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(ProductSearchService);
   });
 
   it('should create', () => {
