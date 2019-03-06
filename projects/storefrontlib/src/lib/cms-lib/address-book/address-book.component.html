@@ -1,35 +1,34 @@
 <div class="cx-section">
-  <ng-container
-    *ngIf="
-      (addresses$ | async).length &&
-      !(showAddAddressForm || showEditAddressForm)
-    "
-  >
-    <p class="cx-section__msg">Saved shipping addresses</p>
-
-    <div class="row">
-      <div class="col-md-6">
-        <button
-          class="btn btn-block btn-action"
-          (click)="addAddressButtonHandle()"
-        >
-          Add new address
-        </button>
-      </div>
-    </div>
-
-    <div
-      class="row cx-address-deck"
-      *ngIf="!(addressesStateLoading$ | async); else loading"
+  <ng-container *ngIf="(addresses$ | async) as addresses">
+    <ng-container
+      *ngIf="addresses.length && !(showAddAddressForm || showEditAddressForm)"
     >
-      <div *ngFor="let address of (addresses$ | async)" class="col-md-6">
-        <cx-address-card
-          (editEvent)="editAddressButtonHandle(address)"
-          [userId]="userId"
-          [address]="address"
-        ></cx-address-card>
+      <p class="cx-section__msg">Saved shipping addresses</p>
+
+      <div class="row">
+        <div class="col-md-6">
+          <button
+            class="btn btn-block btn-action"
+            (click)="addAddressButtonHandle()"
+          >
+            Add new address
+          </button>
+        </div>
       </div>
-    </div>
+
+      <div
+        class="row cx-address-deck"
+        *ngIf="!(addressesStateLoading$ | async); else loading"
+      >
+        <div *ngFor="let address of addresses" class="col-md-6">
+          <cx-address-card
+            (editEvent)="editAddressButtonHandle(address)"
+            [userId]="userId"
+            [address]="address"
+          ></cx-address-card>
+        </div>
+      </div>
+    </ng-container>
   </ng-container>
 
   <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
