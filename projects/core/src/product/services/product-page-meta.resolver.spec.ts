@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { PageType } from '../../occ/occ-models/occ.models';
+import { PageType, Product } from '../../occ/occ-models/occ.models';
 import { Observable, of } from 'rxjs';
 import {
   Page,
@@ -39,10 +39,16 @@ class MockRoutingService {
 
 class MockProductService {
   get(code: string) {
-    return of({
+    return of(<Product>{
       code: code,
       name: 'Product title',
-      summary: 'Product summary'
+      summary: 'Product summary',
+      categories: [
+        {
+          code: '123'
+        }
+      ],
+      manufacturer: 'Canon'
     });
   }
 }
@@ -76,6 +82,18 @@ describe('ProductPageTitleResolver', () => {
     }
   ));
 
+  it('should resolve product page heading', () => {
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.heading).toEqual('Product title');
+  });
+
   it('should resolve product page title', () => {
     let result: PageMeta;
     service
@@ -85,7 +103,7 @@ describe('ProductPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Product title');
+    expect(result.title).toEqual('Product title | 123 | Canon');
   });
 
   it('should have product description', () => {
