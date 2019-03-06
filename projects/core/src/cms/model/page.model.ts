@@ -16,4 +16,12 @@ export interface PageMeta {
   title?: string;
   heading?: string;
   description?: string;
+  robots?: PageRobotsMeta[];
+}
+
+export enum PageRobotsMeta {
+  INDEX = 'INDEX',
+  NOINDEX = 'NOINDEX',
+  FOLLOW = 'FOLLOW',
+  NOFOLLOW = 'NOFOLLOW'
 }
