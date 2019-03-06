@@ -6,6 +6,7 @@
 @import './page-templates/product-list';
 @import './page-templates/cart-page';
 @import './page-templates/login-page';
+@import './page-templates/error-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;
@@ -49,5 +50,5 @@ cx-page-layout {
 }
 
 .ErrorPageTemplate {
-  @extend %LoginPageTemplate !optional;
+  @extend %ErrorPageTemplate !optional;
 }
