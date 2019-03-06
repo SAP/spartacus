@@ -8,6 +8,10 @@ The SEO implementation in Spartacus includes the following:
 - Configurable URLs
 - Indexable Pages
 - HTML Tags
+  - Page Meta Resolvers
+  - Title Resolver
+  - Description Resolver
+  - Robots Tag
 
 ## Stateful URLs
 
@@ -29,11 +33,9 @@ Configurable URLs help to improve SEO in general, but can also be used to help m
 
 ## Indexable Pages
 
-
 Server-side rendering (SSR) is a technique that renders the JavaScript logic on the server side, and then provides rich content in the response. The SSR response contains the full HTML that is required by web crawlers to index or retrieve data from the response.
 
-SSR is provided by Spartacus, and is planned to be a default deployment option in Commerce Cloud.
-
+SSR is provided by Spartacus, and is planned to be a default deployment option in SaaS Commerce Cloud.
 
 ## Html Tags
 
@@ -63,9 +65,9 @@ Spartacus ships with `pageMetaResolvers` that resolve the page meta data for a s
 
 The page meta data is updated dynamically during navigation, but can be delivered statically using SSR.
 
-### Title Tag
+### Title Resolver
 
-Adding an HTML page `title` tag has the following advantages:
+Adding an HTML `title` tag to your page has the following advantages:
 
 - the page can be uniquely addressed in the browser (that is, through the browser history, bookmarks, tabs, and so on)
 
@@ -73,6 +75,34 @@ Adding an HTML page `title` tag has the following advantages:
 
 - the page title identifies content in search engines
 
-### Description Tag
+Spartacus provides a special resolver for pages that require a specific heading. The page title for a search engine result page (SERP) is not necessarily the same as the page heading shown in the UI. Let's look at the product title as an example. To achieve good results in the SERP, a product details page would typically disclose the product title, category, and brand, as follows:
 
-Each page on the storefront can contain a `description` tag. The description tag is used in the search engine result page (SERP) to improve the click-through-rate (CTR). It is not used to improve the page ranking. It is generally considered best practice to create a description tag for each page, although there are occasions when the search engine is more capable of generating the description based on the context.
+`Product Title | Main category | Brand`
+
+However, such a title does not look good in the UI, so a different title is used for that. To support flexibility, Spartacus uses a specific `PageHeadingResolver` that can be implemented in the page resolving logic.
+
+
+### Description Resolver
+
+Each page on the storefront can contain a `description` tag. The description tag is used in the search engine result page to improve the click-through-rate (CTR). It is not used to improve the page ranking. It is generally considered best practice to create a description tag for each page, although there are occasions when the search engine is more capable of generating the description based on the context.
+
+### Robots Tag
+
+You can use the `robots` meta tag to control whether or not a page is indexed. The following is an example:
+
+  ```html
+ <meta name="robots" value="FOLLOW, NOINDEX">
+ ```
+
+  The following table lists the values that can be used to guide search engines:
+
+ | Value    | Description                                                                            |
+ | -------- | -------------------------------------------------------------------------------------- |
+ | INDEX    | Instructs the search engine to index the page                                          |
+ | NOINDEX  | Instructs the search engine to **not** index the page                                    |
+ | FOLLOW   | Instructs the search engine to follow the links on the page for further indexing       |
+ | NOFOLLOW | Instructs the search engine to **not** follow the links on the page for further indexing |
+
+  Spartacus provides a separate `PageRobotsResolver` interface that you can use to control the `robots` meta tag. The `PageMetaService` uses `FOLLOW, NOINDEX` whenever no value is provided by the `PageMeta`.
+
+  The `CheckoutPageMetaResolver` demonstrates the usage of the  `PageRobotsResolver` and instructs search engines to not index the page nor follow any links on the page.
