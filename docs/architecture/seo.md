@@ -6,6 +6,9 @@ We're covering the following topics:
 - Configurable URLs
 - Indexable Page response (SSR)
 - HTML tags
+  - title
+  - description
+  - robots
 
 ## Stateful URLs
 Using URLs to have a stateful address for each piece of the storefront services a multiple goals. It will not only help users to better navigate the storefront, but also crawlers will be able to crawl each and every page. Crawlers can identify more pages that can shared through social media, bots, or search indexes. 
@@ -31,7 +34,7 @@ Configurable URLs will help to improve SEO in general, but also help to migrate 
 ## Indexable Pages
 Server Side Rendering (SSR) is a technique to render the javascript logic server side, and provide rich content in the response. The SSR response contains the full HTML that is required by crawlers (Google, Facebook, etc.) in order to index or retrieve data from the response. 
 
-SSR is provided by Spartacus and is planned to be a default deployment option Commerce Cloud.
+SSR is provided by Spartacus and is planned to be a default deployment option at Commerce Cloud.
 
 ## Html tags
 HTML and meta tags in partucular are used by search engines, social platform and bots to display page meta data on their platforms. It is considered best practise to prepare the meta tags with care, and evaluate the values regurarly. This will improve ranking, click-through-rate and usability when users will come across a page. Moreover, the browser is keen to leverage the page title during navigation on tabs, history and bookmarks.  
@@ -74,3 +77,22 @@ Such a title however will look bad in the UI and a very different title is used 
 
 ### Description resolver
 Each page on the storefront can contain a so-called description tag. The description tag is used at the SERP (search engine result page) to improve the click-through-rate (CTR). It is not used to improve page ranking. It is generally considered best practice to create a description tag for each page, although there are occassion where the search engine is better capable to generate the description based on the context.
+
+### Robots tag
+The ability of a page to be indexed or not can be controlled by a metatag:
+
+```html
+<meta name="robots" value="FOLLOW, NOINDEX">
+```
+
+There are 4 potential values that can be used to guide search engines:
+| value    | description                                                                            |
+| -------- | -------------------------------------------------------------------------------------- |
+| INDEX    | Instructs the search engine to index the page                                          |
+| NOINDEX  | Instructs the search engine to *not* index the page                                    |
+| FOLLOW   | Instructs the search engine to follow the links on the page for further indexing       |
+| NOFOLLOW | Instructs the search engine to *not* follow the links on the page for further indexing |
+
+Spartacus provides a separate `PageRobotsResolver` interface that can be used to control the robots meta tag. The `PageMetaService` uses `FOLLOW, NOINDEX` whenever no value is provided by the `PageMeta`.
+
+The `CheckoutPageMetaResolver` demonstrates the usage of the  `PageRobotsResolver` and will instruct search engines to not index the page nor follow any links on the page. 
