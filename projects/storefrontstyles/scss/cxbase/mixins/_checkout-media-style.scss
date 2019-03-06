@@ -9,11 +9,6 @@
     }
   }
 
-  @include media-breakpoint-down(md) {
-    margin-bottom: 2.375rem;
-    background-color: var(--cx-background-color, var(--cx-g-color-background));
-  }
-
   .col-md-12 {
     @include media-breakpoint-down(md) {
       padding: var(--cx-padding, 0 4.375rem);
