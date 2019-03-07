@@ -23,8 +23,8 @@ context('Product details', () => {
   before(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();
+      cy.visit('/product/266685');
     });
-    cy.visit('/product/266685');
   });
 
   it('should contain correct product details', () => {
