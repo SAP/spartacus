@@ -1,4 +1,4 @@
-import { PRODUCT_LISTING } from './../helpers/data-configuration';
+import { PRODUCT_LISTING } from '../../../helpers/data-configuration';
 context('Product search store flow', () => {
   before(() => {
     cy.visit('/');
@@ -28,7 +28,7 @@ context('Product search store flow', () => {
 
       cy.get('cx-product-list-item:nth-child(1)').should(
         'contain',
-        'EOS 500D + 18-200mm IS'
+        'GR-80TP Extension Battery Grip/Tripod'
       );
 
       // Sort by name descending
