@@ -1,7 +1,7 @@
 import {
   fillShippingAddress,
   ShippingAddressData
-} from '../helpers/checkout-forms';
+} from '../../helpers/checkout-forms';
 
 describe('Address management page', () => {
   const newAddress: ShippingAddressData = {
