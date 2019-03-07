@@ -3,7 +3,7 @@ import { PromotionsComponent } from './promotions.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-fdescribe('PromotionsComponent', () => {
+describe('PromotionsComponent', () => {
   let component: PromotionsComponent;
   let fixture: ComponentFixture<PromotionsComponent>;
 
