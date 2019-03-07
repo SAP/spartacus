@@ -1,6 +1,5 @@
 <ng-container *ngIf="(cart$ | async) as cart">
   <ng-container *ngIf="(entries$ | async) as entries">
-
     <div class="cart-details-wrapper">
       <h1>Shopping Cart (ID {{ cart?.code }})</h1>
       <div class="cx-total">
@@ -8,13 +7,18 @@
         {{ cart.totalPrice?.formattedValue }}
       </div>
       <div class="cx-promotions" *ngIf="cartHasPromotions(cart)">
-        <strong *ngFor="let promotion of getAllPromotionsForCart(cart)" [innerHTML]="promotion.description">
+        <strong
+          *ngFor="let promotion of getAllPromotionsForCart(cart)"
+          [innerHTML]="promotion.description"
+        >
         </strong>
       </div>
-      <cx-cart-item-list [items]="entries" [potentialProductPromotions]="cart.potentialProductPromotions"
-        [cartIsLoading]="!(cartLoaded$ | async)"></cx-cart-item-list>
+      <cx-cart-item-list
+        [items]="entries"
+        [potentialProductPromotions]="cart.potentialProductPromotions"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+      ></cx-cart-item-list>
       <!-- NOT FOR MVP  <cx-cart-coupon></cx-cart-coupon> -->
     </div>
-
   </ng-container>
 </ng-container>
