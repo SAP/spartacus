@@ -1,11 +1,10 @@
 @import '../../theme';
-@import '../../mixins';
 @import '~bootstrap/scss/pagination';
 
 .page-item {
   .page-link {
+    @include type(4);
     padding: var(--cx-padding, 12px 17px 12px 17px);
-    font-size: $h4-font-size;
     height: var(--cx-height, 48px);
     color: var(--cx-color, var(--cx-g-color-text));
 
