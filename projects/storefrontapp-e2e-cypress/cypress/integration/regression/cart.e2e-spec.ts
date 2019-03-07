@@ -1,6 +1,6 @@
-import { login } from '../helpers/auth-forms';
-import { standardUser } from '../sample-data/shared-users';
-import { generateMail, randomString } from '../helpers/user';
+import { login } from '../../helpers/auth-forms';
+import { standardUser } from '../../sample-data/shared-users';
+import { generateMail, randomString } from '../../helpers/user';
 
 const PRODUCT_CODE_1 = '1934793';
 const PRODUCT_CODE_2 = '300938';
