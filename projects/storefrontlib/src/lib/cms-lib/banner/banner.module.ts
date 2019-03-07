@@ -26,6 +26,16 @@ import { BannerComponentService } from './banner.component.service';
             }
           ]
         },
+        BannerComponent: {
+          selector: 'cx-banner',
+          providers: [
+            {
+              provide: BannerComponentService,
+              useClass: BannerComponentService,
+              deps: [CmsComponentData, CmsConfig]
+            }
+          ]
+        },
         SimpleBannerComponent: {
           selector: 'cx-banner',
           providers: [
