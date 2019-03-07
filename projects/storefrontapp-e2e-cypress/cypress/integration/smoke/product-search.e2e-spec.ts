@@ -1,4 +1,4 @@
-import { PRODUCT_LISTING } from './../helpers/data-configuration';
+import { PRODUCT_LISTING } from '../../helpers/data-configuration';
 const resultsTitleSelector = 'cx-breadcrumb h1';
 const productItemSelector = 'cx-product-list cx-product-list-item';
 const firstProductItemSelector = `${productItemSelector}:first`;
