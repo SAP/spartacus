@@ -62,7 +62,7 @@
       <ng-container *ngIf="existingAddresses.length; else initialAddressForm">
         <cx-address-form
           showTitleCode="true"
-          (backToAddress)="hideNewAddressForm()"
+          (backToAddress)="hideNewAddressForm(false)"
           (submitAddress)="addNewAddress($event)"
         ></cx-address-form>
       </ng-container>
