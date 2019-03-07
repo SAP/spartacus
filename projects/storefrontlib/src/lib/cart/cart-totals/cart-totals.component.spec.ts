@@ -44,7 +44,7 @@ class MockCartService {
   }
 }
 
-fdescribe('CartTotalsComponent', () => {
+describe('CartTotalsComponent', () => {
   let component: CartTotalsComponent;
   let fixture: ComponentFixture<CartTotalsComponent>;
 
