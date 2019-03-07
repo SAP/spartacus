@@ -1,0 +1,82 @@
+@mixin checkout-media-style() {
+  :host {
+    @include media-breakpoint-down(md) {
+      display: var(--cx-display, block);
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-background)
+      );
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    margin-bottom: 2.375rem;
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
+  }
+
+  .col-md-12 {
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0 4.375rem);
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 0 2.25rem);
+    }
+  }
+
+  .container {
+    @include media-breakpoint-down(md) {
+      width: var(--cx-width, 100%);
+    }
+  }
+
+  .cx-checkout-btns {
+    padding: var(--cx-padding, 1rem 0);
+    justify-content: var(--cx-justify-content, flex-end);
+
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 1.25rem 0);
+    }
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 1.25rem);
+    }
+
+    .btn-action {
+      @include media-breakpoint-down(md) {
+        margin: var(--cx-maring, 0 0 1rem);
+      }
+    }
+  }
+
+  .cx-checkout-title {
+    text-transform: var(--cx-text-transform, uppercase);
+    margin: var(--cx-margin, 0 auto);
+    padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
+  }
+
+  .cx-checkout-body {
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, stretch);
+    &.row {
+      @include media-breakpoint-down(md) {
+        padding: var(--cx-padding, 0);
+      }
+    }
+  }
+
+  .cx-checkout-text {
+    margin-bottom: var(--cx-margin, 1.25rem);
+
+    @include media-breakpoint-down(md) {
+      padding-left: var(--cx-padding, 3.5rem);
+    }
+    @include media-breakpoint-down(sm) {
+      padding-left: var(--cx-padding, 1.5rem);
+    }
+  }
+
+  .cx-spinner {
+    padding-top: var(--cx-padding, 30px);
+    padding-bottom: var(--cx-padding, 30px);
+  }
+}
