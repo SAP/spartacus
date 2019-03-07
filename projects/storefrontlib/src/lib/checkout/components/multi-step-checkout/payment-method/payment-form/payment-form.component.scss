@@ -1,40 +1,27 @@
 @import 'theme';
-@import '../../container/multi-step-checkout.component';
 
-.cx-payment-form {
-  &.container {
-    padding: var(--cx-padding, 0);
-  }
-  .cx-payment-form-tooltip {
-    margin: var(--cx-margin, 0 0 0 0.625rem);
-    height: var(--cx-height, 1.125rem);
-    width: var(--cx-width, 1.125rem);
-  }
-  .cx-payment-form-billing {
-    margin: var(--cx-margin, 0 0 1.25rem 0);
-  }
+@include checkout-media-style();
 
-  .cx-payment-form-billing-address {
-    @include type('4');
-    padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
-  }
+.cx-payment-form-tooltip {
+  margin: var(--cx-margin, 0 0 0 0.625rem);
+  height: var(--cx-height, 1.125rem);
+  width: var(--cx-width, 1.125rem);
+}
+.cx-payment-form-billing {
+  margin: var(--cx-margin, 0 0 1.25rem 0);
+}
 
-  .cx-payment-form-exp-date {
-    display: var(--cx-display, flex);
-    flex-direction: var(--cx-flex-direction, row);
-    flex-wrap: var(--cx-flex-wrap, nowrap);
-  }
+.cx-payment-form-billing-address {
+  @include type('4');
+  padding: var(--cx-padding, 0.875rem 0 1.25rem 0);
+}
 
-  .form-check {
-    margin: var(--cx-margin, 0);
-  }
+.cx-payment-form-exp-date {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, row);
+  flex-wrap: var(--cx-flex-wrap, nowrap);
+}
 
-  // ***************************** MEDIA QUERIES *****************************
-  @include checkout-media-style();
-
-  .row {
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 0);
-    }
-  }
+.form-check {
+  margin: var(--cx-margin, 0);
 }

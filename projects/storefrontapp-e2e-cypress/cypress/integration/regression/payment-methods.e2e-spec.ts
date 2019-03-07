@@ -1,8 +1,8 @@
-import { user } from '../sample-data/big-happy-path';
+import { user } from '../../sample-data/big-happy-path';
 import {
   fillShippingAddress,
   fillPaymentDetails
-} from '../helpers/checkout-forms';
+} from '../../helpers/checkout-forms';
 
 describe('Payment Methods', () => {
   before(() => {
