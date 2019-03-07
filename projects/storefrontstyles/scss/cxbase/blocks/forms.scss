@@ -137,7 +137,7 @@ label {
   &:focus {
     background-color: var(--cx-background-color, var(--cx-g-color-background));
     box-shadow: var(--cx-box-shadow, none);
-    -webkit-box-shadow: none;
+    -webkit-box-shadow: var(--cx-webkit-box-shadow, none);
   }
 }
 
@@ -153,104 +153,105 @@ input[type='radio'] {
     content: '';
     position: var(--cx-position, absolute);
     display: var(--cx-display, inline-block);
-    height: 10px;
-    width: 10px;
-    border-radius: 50%;
-    background-color: theme-color('inverse');
-    left: 4px;
-    top: 4px;
+    height: var(--cx-height, 10px);
+    width: var(--cx-width, 10px);
+    border-radius: var(--cx-border-radius, 50%);
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+    left: var(--cx-left, 4px);
+    top: var(--cx-top, 4px);
   }
   &:checked {
-    border-color: var(--cx-g-color-primary, theme-color('primary')) !important;
-    background-color: theme-color('inverse');
+    border-color: var(--cx-border-color, var(--cx-g-color-primary)) !important;
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
 
     &::after {
-      @include var-color('background-color', 'primary');
+      background-color: var(--cx-background-color, var(--cx-g-color-primary));
     }
   }
 }
 
 .form-toggle {
-  position: relative;
+  position: var(--cx-position, relative);
   display: var(--cx-display, inline-block);
-  width: 88px;
-  height: 40px;
+  height: var(--cx-height, 40px);
+  width: var(--cx-width, 88px);
 }
 
 .form-toggle-input {
-  display: none;
+  display: var(--cx-display, none);
 }
 
 .form-toggle__switch {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: theme-color('light');
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
-  border-radius: 34px;
+  position: var(--cx-position, absolute);
+  cursor: var(--cx-cursor, pointer);
+  top: var(--cx-top, 0);
+  left: var(--cx-left, 0);
+  right: var(--cx-right, 0);
+  bottom: var(--cx-bottom, 0);
+  background-color: var(--cx-background-color, var(--cx-g-color-light));
+  -webkit-transition: var(--cx-webkit-transition, 0.4s);
+  transition: var(--cx-transition, 0.4s);
+  border-radius: var(--cx-border-radius, 34px);
 
   &:before {
-    position: absolute;
+    position: var(--cx-position, absolute);
     content: '';
-    height: 32px;
-    width: 32px;
-    left: 4px;
-    bottom: 4px;
-    background-color: theme-color('inverse');
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-    border-radius: 50%;
+    height: var(--cx-height, 32px);
+    width: var(--cx-width, 32px);
+    left: var(--cx-left, 4px);
+    bottom: var(--cx-bottom, 4px);
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+    -webkit-transition: var(--cx-webkit-transition, 0.4s);
+    transition: var(--cx-transition, 0.4s);
+    border-radius: var(--cx-border-radius, 50%);
   }
 }
 
 .toggle-on,
 .toggle-off {
-  color: theme-color('inverse');
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 50%;
-  @include type('5', 'bold');
+  color: var(--cx-color, var(--cx-g-color-inverse));
+  position: var(--cx-position, absolute);
+  transform: var(--cx-transform, translate(-50%, -50%));
+  top: var(--cx-top, 50%);
+  @include type(5);
+  font-weight: var(--cx-g-font-weight-bold, 700);
 }
 
 .toggle-on {
-  display: none;
-  left: 30%;
+  display: var(--cx-display, none);
+  left: var(--cx-left, 30%);
 }
 
 .toggle-off {
-  right: -7%;
+  right: var(--cx-right, -7%);
 }
 
 input:checked + .form-toggle__switch {
   .toggle-on {
-    display: block;
+    display: var(--cx-display, block);
   }
 
   .toggle-off {
-    display: none;
+    display: var(--cx-display, none);
   }
 }
 
 input[role='switch']:checked + .form-toggle__switch {
-  background-color: theme-color('primary');
+  background-color: var(--cx-background-color, var(--cx-g-color-primary));
   &:before {
-    left: calc(100% - 5px);
-    transform: translateX(-100%);
+    left: var(--cx-left, calc(100% - 5px));
+    transform: var(--cx-transform, translateX(-100%));
   }
 
   &:focus + .form-toggle__switch {
-    box-shadow: 0 0 1px theme-color('info');
+    box-shadow: var(--cx-box-shadow, 0 0 1px var(--cx-g-color-info));
   }
 }
 
 .form-message {
   font-size: $small-font-size;
   &--danger {
-    color: theme-color('danger');
+    color: var(--cx-color, var(--cx-g-color-danger));
   }
 }
 
@@ -259,22 +260,25 @@ input[role='switch']:checked + .form-toggle__switch {
   .ng-dropdown-panel {
     .ng-dropdown-panel-items {
       .ng-option.ng-option-marked {
-        background-color: theme-color('light');
+        background-color: var(--cx-background-color, var(--cx-g-color-light));
       }
     }
   }
 
   .ng-arrow-wrapper {
     .ng-arrow {
-      border-color: theme-color('text') transparent transparent;
-      border-style: solid;
-      border-width: 5px 5px 2.5px;
+      border-color: var(
+        --cx-border-color,
+        var(--cx-g-color-text) transparent transparent
+      );
+      border-style: var(--cx-border-style, solid);
+      border-width: var(--cx-border-width, 5px 5px 2.5px);
     }
   }
 
   .ng-select-container {
-    padding: $input-padding-y 0;
-    line-height: 1.6;
-    height: unset;
+    padding: var(--cx-padding, 0.6875rem 0);
+    line-height: var(--cx-light-height, 1.6);
+    height: var(--cx-height, unset);
   }
 }
