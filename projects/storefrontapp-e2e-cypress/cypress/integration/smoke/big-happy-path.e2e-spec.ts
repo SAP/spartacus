@@ -1,9 +1,9 @@
-import { user, cart, product } from '../sample-data/big-happy-path';
-import { login, register } from '../helpers/auth-forms';
+import { user, cart, product } from '../../sample-data/big-happy-path';
+import { login, register } from '../../helpers/auth-forms';
 import {
   fillPaymentDetails,
   fillShippingAddress
-} from '../helpers/checkout-forms';
+} from '../../helpers/checkout-forms';
 
 context('Big happy path', () => {
   before(() => {
