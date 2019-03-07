@@ -1,4 +1,4 @@
-import { PRODUCT_LISTING } from './../helpers/data-configuration';
+import { PRODUCT_LISTING } from '../../../helpers/data-configuration';
 context('Product search pricing flow', () => {
   before(() => {
     cy.visit('/');
@@ -36,7 +36,7 @@ context('Product search pricing flow', () => {
 
       cy.get('cx-product-list-item:nth-child(1)').should(
         'contain',
-        'DSC-H20 Red'
+        'Cyber-shot W55'
       );
 
       // Sort by price low to high
