@@ -7,5 +7,6 @@ context('Check login', () => {
 
   it('should login successfully', () => {
     cy.get('.cx-login-status__greet').should('contain', 'Test User');
+    cy.selectUserMenuOption('Sign Out');
   });
 });
