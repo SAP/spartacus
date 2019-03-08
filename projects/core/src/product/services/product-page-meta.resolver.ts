@@ -67,7 +67,14 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   resolveImage(product: any): string {
-    return product.images.PRIMARY.zoom.url;
+    if (
+      product.images &&
+      product.images.PRIMARY &&
+      product.images.PRIMARY.zoom &&
+      product.images.PRIMARY.zoom.url
+    ) {
+      return product.images.PRIMARY.zoom.url;
+    }
   }
 
   private resolveFirstCategory(product: Product): string {
