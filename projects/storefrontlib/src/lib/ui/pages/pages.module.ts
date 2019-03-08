@@ -10,10 +10,6 @@ import { ResetPasswordPageModule } from './reset-password-page/reset-password-pa
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
-// ContentPage: my Account Pages
-import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
-import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
-
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
 
