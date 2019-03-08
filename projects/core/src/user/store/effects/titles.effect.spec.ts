@@ -27,11 +27,19 @@ const mockTitlesList: TitleList = {
     {
       code: 'mrs',
       name: 'Mrs.'
+    },
+    {
+      code: 'dr',
+      name: 'Dr.'
+    },
+    {
+      code: 'rev',
+      name: 'Rev.'
     }
   ]
 };
 
-describe('Titles effect', () => {
+fdescribe('Titles effect', () => {
   let service: OccMiscsService;
   let effect: TitlesEffects;
   let actions$: Observable<any>;
