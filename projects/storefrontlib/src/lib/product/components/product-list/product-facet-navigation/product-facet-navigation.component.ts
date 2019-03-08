@@ -3,7 +3,11 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { tap, filter } from 'rxjs/operators';
-import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  Facet
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -22,7 +26,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   searchResult$: Observable<ProductSearchPage>;
   updateParams$: Observable<Params>;
 
-  get visibleFacets() {
+  get visibleFacets(): Facet[] {
     if (!this.searchResult.facets) {
       return [];
     }
