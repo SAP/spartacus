@@ -21,10 +21,8 @@ context('Product details', () => {
   const PRODUCT_NAME = 'Battery Video Light';
 
   before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-      cy.visit('/product/266685');
-    });
+    cy.window().then(win => win.sessionStorage.clear());
+    cy.visit('/product/266685');
   });
 
   it('should contain correct product details', () => {

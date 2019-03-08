@@ -1,6 +1,7 @@
 import { PRODUCT_LISTING } from '../../../helpers/data-configuration';
 context('Product search store flow', () => {
   before(() => {
+    cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
   });
 
