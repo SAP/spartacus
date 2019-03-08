@@ -32,11 +32,4 @@
   </div>
 </div>
 
-<div
-  class="cx-summary-promotions"
-  *ngIf="cart.appliedOrderPromotions?.length > 0"
->
-  <strong *ngFor="let promotion of cart.appliedOrderPromotions">
-    {{ promotion.description }}
-  </strong>
-</div>
+<cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>

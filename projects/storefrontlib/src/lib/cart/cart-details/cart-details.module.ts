@@ -4,6 +4,7 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
 import { UrlTranslationModule, ConfigModule, CmsConfig } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     RouterModule,
     UrlTranslationModule,
+    PromotionsModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
