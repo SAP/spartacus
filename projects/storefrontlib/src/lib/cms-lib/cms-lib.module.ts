@@ -16,6 +16,8 @@ import { AddressBookModule } from './address-book/address-book.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { ProductListModule } from '../product/components/product-list/product-list.module';
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
+import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
+import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -39,7 +41,9 @@ import { ProductTabsModule } from '../product/components/product-tabs/product-ta
     AddressBookModule,
     OrderHistoryModule,
     ProductListModule,
-    ProductTabsModule
+    ProductTabsModule,
+    CartDetailsModule,
+    CartTotalsModule
   ]
 })
 export class CmsLibModule {}
