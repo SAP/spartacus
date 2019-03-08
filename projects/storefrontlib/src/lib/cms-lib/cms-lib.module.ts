@@ -18,6 +18,7 @@ import { ProductListModule } from '../product/components/product-list/product-li
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
 import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
 import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
+import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -43,7 +44,8 @@ import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
     ProductListModule,
     ProductTabsModule,
     CartDetailsModule,
-    CartTotalsModule
+    CartTotalsModule,
+    PaymentMethodsModule
   ]
 })
 export class CmsLibModule {}
