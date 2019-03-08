@@ -89,6 +89,7 @@
     "@angular/compiler-cli": "7.2.0",
     "@angular/language-service": "~7.2.0",
     "@ngrx/store-devtools": "~7.0.0",
+    "@types/i18next": "^12.1.0",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",

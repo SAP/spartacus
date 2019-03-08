@@ -596,6 +596,11 @@
   resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.30.16.tgz#3264d5ef7c3a92fab2a9f00e09e3247866ff3532"
   integrity sha512-6OZ64ahLzYfzuSr71y4jAHZXiwxjvvEM2bfF2tzjIc9KUZVbO30SkYa8WewTsR8aM5BFz/uBiNlZ14eRLXYS0g==
 
+"@types/i18next@^12.1.0":
+  version "12.1.0"
+  resolved "https://registry.yarnpkg.com/@types/i18next/-/i18next-12.1.0.tgz#7c3fd3dbe03f9531147033773bbd0ca4f474a180"
+  integrity sha512-qLyqTkp3ZKHsSoX8CNVYcTyTkxlm0aRCUpaUVetgkSlSpiNCdWryOgaYwgbO04tJIfLgBXPcy0tJ3Nl/RagllA==
+
 "@types/jasmine@*":
   version "3.3.5"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.3.5.tgz#3738ffbf34dffae9ecaac4503d7d969744f0e1d7"
