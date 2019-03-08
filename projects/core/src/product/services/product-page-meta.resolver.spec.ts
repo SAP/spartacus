@@ -39,7 +39,7 @@ class MockRoutingService {
 
 class MockProductService {
   get(code: string) {
-    return of(<Product>{
+    return of(<any>{
       code: code,
       name: 'Product title',
       summary: 'Product summary',
@@ -48,12 +48,19 @@ class MockProductService {
           code: '123'
         }
       ],
+      images: {
+        PRIMARY: {
+          zoom: {
+            url: 'https://storefront.com/image'
+          }
+        }
+      },
       manufacturer: 'Canon'
     });
   }
 }
 
-describe('ProductPageTitleResolver', () => {
+describe('ProductPageMetaResolver', () => {
   let service: PageMetaService;
 
   beforeEach(() => {
@@ -106,7 +113,7 @@ describe('ProductPageTitleResolver', () => {
     expect(result.title).toEqual('Product title | 123 | Canon');
   });
 
-  it('should have product description', () => {
+  it('should resolve product description', () => {
     let result: PageMeta;
     service
       .getMeta()
@@ -116,5 +123,17 @@ describe('ProductPageTitleResolver', () => {
       .unsubscribe();
 
     expect(result.description).toEqual('Product summary');
+  });
+
+  it('should resolve product image', () => {
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.image).toEqual('https://storefront.com/image');
   });
 });
