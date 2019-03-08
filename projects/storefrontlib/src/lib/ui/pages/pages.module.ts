@@ -12,6 +12,7 @@ import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-
 
 // ContentPage: my Account Pages
 import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
+import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
 
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
@@ -34,7 +35,6 @@ const pageModules = [
   OrderConfirmationPageModule,
   ProductPageModule,
   RegisterPageModule,
-  PaymentDetailsPageModule,
   ResetPasswordPageModule,
   StoreFinderPageModule,
   ResetNewPasswordPageModule,
@@ -82,15 +82,9 @@ const pageModules = [
       },
       {
         path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { cxPath: 'product' }
-      },
-      {
-        path:
-          'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'product' }
+        canActivate: [AuthGuard, CmsPageGuards],
+        data: { pageLabel: 'payment-details', cxPath: 'paymentManagement' },
+        component: PageLayoutComponent
       },
       {
         path: null,
