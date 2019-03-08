@@ -28,26 +28,31 @@
                   </div>
                 </div>
                 <div class="col-auto ml-auto ml-lg-0">
-                  <cx-product-view [(mode)]="gridMode"></cx-product-view>
+                  <cx-product-view
+                    (modeChange)="setGridMode($event)"
+                    [mode]="gridMode"
+                  ></cx-product-view>
                 </div>
               </div>
             </div>
             <div class="cx-product-container">
-              <div *ngIf="gridMode === 'grid'" class="row">
-                <cx-product-grid-item
-                  *ngFor="let product of model?.products"
-                  [product]="product"
-                  class="col-12 col-sm-6 col-md-4"
-                ></cx-product-grid-item>
-              </div>
+              <ng-container *ngIf="gridMode === 'grid'">
+                <div class="row">
+                  <cx-product-grid-item
+                    *ngFor="let product of model?.products"
+                    [product]="product"
+                    class="col-12 col-sm-6 col-md-4"
+                  ></cx-product-grid-item>
+                </div>
+              </ng-container>
 
-              <ng-template [ngIf]="gridMode === 'list'">
+              <ng-container *ngIf="gridMode === 'list'">
                 <cx-product-list-item
                   *ngFor="let product of model?.products"
                   [product]="product"
                   class="cx-product-search-list"
                 ></cx-product-list-item>
-              </ng-template>
+              </ng-container>
             </div>
             <div class="cx-sorting bottom">
               <div class="row">
@@ -70,7 +75,10 @@
                   </div>
                 </div>
                 <div class="col-auto ml-auto ml-lg-0">
-                  <cx-product-view [(mode)]="gridMode"></cx-product-view>
+                  <cx-product-view
+                    (modeChange)="setGridMode($event)"
+                    [mode]="gridMode"
+                  ></cx-product-view>
                 </div>
               </div>
             </div>

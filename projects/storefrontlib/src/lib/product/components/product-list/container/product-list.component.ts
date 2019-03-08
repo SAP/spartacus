@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap, filter, take } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
   ProductSearchService,
@@ -8,6 +8,7 @@ import {
   SearchConfig
 } from '@spartacus/core';
 import { PageLayoutService } from '../../../../cms/page-layout/page-layout.service';
+import { ViewModes } from '../product-view/product-view.component';
 
 @Component({
   selector: 'cx-product-list',
@@ -15,9 +16,9 @@ import { PageLayoutService } from '../../../../cms/page-layout/page-layout.servi
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-  query;
-  categoryCode;
-  brandCode;
+  query: string;
+  categoryCode: string;
+  brandCode: string;
   itemPerPage: number;
 
   model$: Observable<ProductSearchPage>;
@@ -25,7 +26,7 @@ export class ProductListComponent implements OnInit {
   categoryTitle: string;
   options: SearchConfig;
   updateParams$: Observable<Params>;
-  gridMode$: Observable<string>;
+  gridMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
 
   constructor(
     protected productSearchService: ProductSearchService,
@@ -80,11 +81,11 @@ export class ProductListComponent implements OnInit {
       })
     );
 
-    this.gridMode$ = this.pageLayoutService.templateName$.pipe(
-      map(template =>
-        template === 'ProductGridPageTemplate' ? 'grid' : 'list'
-      )
-    );
+    this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
+      this.gridMode$.next(
+        template === 'ProductGridPageTemplate' ? ViewModes.Grid : ViewModes.List
+      );
+    });
 
     // clean previous search result
     this.productSearchService.clearSearchResults();
@@ -121,6 +122,10 @@ export class ProductListComponent implements OnInit {
 
   sortList(sortCode: string) {
     this.search(this.query, { sortCode: sortCode });
+  }
+
+  setGridMode(mode: ViewModes) {
+    this.gridMode$.next(mode);
   }
 
   protected search(query: string, options?: SearchConfig) {
