@@ -10,9 +10,6 @@ import { ResetPasswordPageModule } from './reset-password-page/reset-password-pa
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
-// ContentPage: my Account Pages
-import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
-
 // CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
 
@@ -31,7 +28,6 @@ import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 const pageModules = [
   CategoryPageModule,
   CartPageModule,
-  OrderDetailsPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
   RegisterPageModule,
@@ -85,6 +81,12 @@ const pageModules = [
         canActivate: [AuthGuard, CmsPageGuards],
         data: { pageLabel: 'payment-details', cxPath: 'paymentManagement' },
         component: PageLayoutComponent
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'order', cxPath: 'orderDetails' }
       },
       // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {
