@@ -12,6 +12,7 @@ import { CartDetailsComponent } from './cart-details.component';
 import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 class MockCartService {
   removeEntry(): void {}
@@ -38,7 +39,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, PromotionsModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
       providers: [
         CartDataService,
