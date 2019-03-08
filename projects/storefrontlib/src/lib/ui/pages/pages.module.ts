@@ -10,9 +10,6 @@ import { ResetPasswordPageModule } from './reset-password-page/reset-password-pa
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
-// CategoryPage
-import { CategoryPageModule } from './category-page/category-page.module';
-
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
@@ -26,7 +23,6 @@ import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 
 const pageModules = [
-  CategoryPageModule,
   CartPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
