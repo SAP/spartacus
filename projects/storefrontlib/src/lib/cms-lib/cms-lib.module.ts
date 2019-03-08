@@ -15,6 +15,7 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
 import { AddressBookModule } from './address-book/address-book.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
+import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -37,7 +38,8 @@ import { ProductTabsModule } from '../product/components/product-tabs/product-ta
     SiteContextSelectorModule,
     AddressBookModule,
     OrderHistoryModule,
-    ProductTabsModule
+    ProductTabsModule,
+    OrderDetailsModule
   ]
 })
 export class CmsLibModule {}
