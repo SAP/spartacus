@@ -9,7 +9,8 @@ import { RegisterPageModule } from './register-page/register-page.module';
 import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
-import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
+
+// CategoryPage
 import { CategoryPageModule } from './category-page/category-page.module';
 
 // ProductPage
@@ -25,6 +26,7 @@ import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 
 const pageModules = [
+  CategoryPageModule,
   CartPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
