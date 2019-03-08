@@ -14,7 +14,7 @@ class MockPageMetaService {
   }
 }
 
-describe('SeoTitleService', () => {
+fdescribe('SeoTitleService', () => {
   let seoMetaService: SeoMetaService;
 
   let ngTitleService: Title;
@@ -48,7 +48,7 @@ describe('SeoTitleService', () => {
   });
 
   it('Should add description meta tag', () => {
-    incrementSpy = spyOn(ngMetaService, 'addTag');
+    incrementSpy = spyOn(ngMetaService, 'updateTag');
     seoMetaService.init();
     expect(incrementSpy).toHaveBeenCalledWith({
       name: 'description',
@@ -57,7 +57,7 @@ describe('SeoTitleService', () => {
   });
 
   it('Should add `INDEX FOLLOW` in robots meta tag', () => {
-    incrementSpy = spyOn(ngMetaService, 'addTag');
+    incrementSpy = spyOn(ngMetaService, 'updateTag');
     seoMetaService.init();
     expect(incrementSpy).toHaveBeenCalledWith({
       name: 'robots',
