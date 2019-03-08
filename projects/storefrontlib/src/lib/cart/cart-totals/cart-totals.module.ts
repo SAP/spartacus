@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CartSharedModule } from '../cart-shared/cart-shared.module';
-import { CartDetailsComponent } from './cart-details.component';
 import { UrlTranslationModule, ConfigModule, CmsConfig } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
+import { CartTotalsComponent } from './cart-totals.component';
+import { CartSharedModule } from '../cart-shared/cart-shared.module';
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
     RouterModule,
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CartComponent: {
-          selector: 'cx-cart-details'
+        CartTotalsComponent: {
+          selector: 'cx-cart-totals'
         }
       }
-    })
+    }),
+    CartSharedModule
   ],
-  declarations: [CartDetailsComponent],
-  exports: [CartDetailsComponent],
-  entryComponents: [CartDetailsComponent]
+  declarations: [CartTotalsComponent],
+  exports: [CartTotalsComponent],
+  entryComponents: [CartTotalsComponent]
 })
-export class CartDetailsModule {}
+export class CartTotalsModule {}
