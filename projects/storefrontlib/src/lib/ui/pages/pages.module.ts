@@ -10,9 +10,6 @@ import { ResetPasswordPageModule } from './reset-password-page/reset-password-pa
 import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
 import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
 
-// CategoryPage
-import { CategoryPageModule } from './category-page/category-page.module';
-
 // ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 import { RouterModule } from '@angular/router';
@@ -26,7 +23,6 @@ import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 
 const pageModules = [
-  CategoryPageModule,
   CartPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
@@ -75,6 +71,45 @@ const pageModules = [
         canActivate: [NotAuthGuard, CmsPageGuards],
         component: PageLayoutComponent,
         data: { pageLabel: 'login', cxPath: 'login' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'search', cxPath: 'search' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'category' }
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuards],
+        component: PageLayoutComponent,
+        data: { cxPath: 'brand' }
+      },
+      // redirect OLD links
+      {
+        path: 'Open-Catalogue/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
+      },
+      {
+        path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
+      },
+      {
+        path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
+      },
+      {
+        path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' }
       },
       {
         path: null,
