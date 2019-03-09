@@ -1,23 +1,21 @@
 @import '../../theme';
-@import '../../functions';
-@import '../../mixins';
-
-$cx-page-header-background-color: 'background' !default;
 
 .cx-page {
-  padding-bottom: 120px;
-  &__header {
-    @include var-color('background-color', $cx-page-header-background-color);
-    text-align: center;
-    padding-bottom: 25px;
-    padding-top: 25px;
-  }
-  &__title {
-    @include type('4');
-    font-weight: $font-weight-semi;
-    margin: 0 auto;
-  }
-  &__section {
-    padding-top: 60px;
-  }
+  padding-bottom: var(--cx-padding, 120px);
+}
+
+.cx-page__header {
+  background-color: var(--cx-background-color, var(--cx-g-color-background));
+  text-align: var(--cx-text-align, center);
+  padding: var(--cx-padding, 25px 0);
+}
+
+.cx-page__title {
+  @include type('4');
+  font-weight: var(--cx-g-font-weight-normal, 600);
+  margin: var(--cx-margin, 0 auto);
+}
+
+.cx-page__section {
+  padding-top: var(--cx-padding, 60px);
 }

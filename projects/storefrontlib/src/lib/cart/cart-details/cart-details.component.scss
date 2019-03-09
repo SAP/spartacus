@@ -1,0 +1,20 @@
+@import 'theme';
+
+:host {
+  display: block;
+}
+
+.cart-details-wrapper {
+  padding: 2rem 1rem;
+}
+
+.cx-total {
+  @include type('4');
+  margin: var(--cx-margin, 0 0 1rem);
+}
+
+.cx-promotions {
+  @include type('7');
+  color: var(--cx-color, var(--cx-g-color-success));
+  padding: var(--cx-padding, 0.5rem 0);
+}
