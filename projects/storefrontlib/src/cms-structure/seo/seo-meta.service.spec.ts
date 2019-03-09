@@ -14,7 +14,7 @@ class MockPageMetaService {
   }
 }
 
-fdescribe('SeoTitleService', () => {
+describe('SeoTitleService', () => {
   let seoMetaService: SeoMetaService;
 
   let ngTitleService: Title;
