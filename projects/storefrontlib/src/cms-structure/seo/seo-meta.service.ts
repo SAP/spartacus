@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Title, Meta, MetaDefinition } from '@angular/platform-browser';
-import { PageMetaService, PageMeta } from '@spartacus/core';
+import { PageMetaService, PageMeta, PageRobotsMeta } from '@spartacus/core';
 import { filter } from 'rxjs/operators';
 
 @Injectable({
@@ -23,6 +23,8 @@ export class SeoMetaService {
   protected set meta(meta: PageMeta) {
     this.title = meta.title;
     this.description = meta.description;
+    this.image = meta.image;
+    this.robots = meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
   }
 
   protected set title(title: string) {
@@ -31,6 +33,18 @@ export class SeoMetaService {
 
   protected set description(value: string) {
     this.addTag({ name: 'description', content: value });
+  }
+
+  protected set image(imageUrl: string) {
+    if (imageUrl) {
+      this.addTag({ name: 'og:image', content: imageUrl });
+    }
+  }
+
+  protected set robots(value: PageRobotsMeta[]) {
+    if (value) {
+      this.addTag({ name: 'robots', content: value.join(', ') });
+    }
   }
 
   protected addTag(meta: MetaDefinition) {
