@@ -130,7 +130,8 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
         client_secret: 'secret'
       },
       site: {
-        baseSite: 'electronics',
+        baseSite: 'electronics'
+      }
     })
   ],
 ```
