@@ -10,16 +10,12 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { GlobalMessageService } from '../facade/global-message.service';
 import { HttpErrorHandler } from './handlers/http-error.handler';
 import { HttpResponseStatus } from '../models/response-status.model';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(
-    @Inject(HttpErrorHandler) private handlers: HttpErrorHandler[],
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  constructor(@Inject(HttpErrorHandler) private handlers: HttpErrorHandler[]) {}
 
   intercept(
     request: HttpRequest<any>,
