@@ -15,7 +15,11 @@ import { HttpResponseStatus } from '../models/response-status.model';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(@Inject(HttpErrorHandler) private handlers: HttpErrorHandler[]) {}
+  constructor(@Inject(HttpErrorHandler) private handlers: HttpErrorHandler[]) {
+    // We reverse the handlers to allow for custom handlers
+    // that replace standard handlers
+    this.handlers.reverse();
+  }
 
   intercept(
     request: HttpRequest<any>,
