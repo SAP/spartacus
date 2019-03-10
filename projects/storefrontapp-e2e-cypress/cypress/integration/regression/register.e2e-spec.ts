@@ -1,5 +1,5 @@
-import { user } from '../sample-data/big-happy-path';
-import { register } from '../helpers/auth-forms';
+import { user } from '../../sample-data/big-happy-path';
+import { register } from '../../helpers/auth-forms';
 
 describe('Register', () => {
   const loginLink = 'cx-login [role="link"]';
