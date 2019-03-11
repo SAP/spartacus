@@ -1,0 +1,30 @@
+<ng-container *ngIf="(order$ | async) as order">
+  <div *ngFor="let consignment of order.consignments" class="cx-list row">
+    <div class="cx-list-header col-12">
+      <div class="cx-list-status">{{ consignment?.status }}</div>
+      <div *ngIf="consignment?.statusDate" class="cx-list-date">
+        <div>Shipped on &nbsp;</div>
+        <div>{{ consignment?.statusDate | date }}</div>
+      </div>
+    </div>
+    <div class="cx-list-item col-12">
+      <cx-cart-item-list
+        [items]="getConsignmentProducts(consignment)"
+        [isReadOnly]="true"
+      ></cx-cart-item-list>
+    </div>
+  </div>
+
+  <div *ngIf="order.unconsignedEntries?.length" class="cx-list row">
+    <div class="cx-list-header col-12">
+      <div class="cx-list-status">In process...</div>
+    </div>
+    <div class="cx-list-item col-12">
+      <cx-cart-item-list
+        [items]="order?.unconsignedEntries"
+        [isReadOnly]="true"
+      ></cx-cart-item-list>
+    </div>
+  </div>
+
+</ng-container>

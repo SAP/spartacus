@@ -13,8 +13,8 @@ import {
 
 import { of, Observable } from 'rxjs';
 
-import { OrderDetailsComponent } from '../order-details/order-details.component';
-import { CardModule } from '../../../ui/components/card/card.module';
+import { HeadlineComponent } from './headline.component';
+import { CardModule } from '../../../../ui/components/card/card.module';
 
 const mockOrder: Order = {
   code: '1',
@@ -99,8 +99,8 @@ class MockCartItemListComponent {
 }
 
 describe('OrderDetailsComponent', () => {
-  let component: OrderDetailsComponent;
-  let fixture: ComponentFixture<OrderDetailsComponent>;
+  let component: HeadlineComponent;
+  let fixture: ComponentFixture<HeadlineComponent>;
   let userService: UserService;
   let mockRoutingService: RoutingService;
   let el: DebugElement;
@@ -128,13 +128,13 @@ describe('OrderDetailsComponent', () => {
       declarations: [
         MockCartItemListComponent,
         MockOrderSummaryComponent,
-        OrderDetailsComponent
+        HeadlineComponent
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderDetailsComponent);
+    fixture = TestBed.createComponent(HeadlineComponent);
     el = fixture.debugElement;
     userService = TestBed.get(UserService);
 

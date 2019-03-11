@@ -1,0 +1,18 @@
+<ng-container *ngIf="(order$ | async) as order">
+  <div class="cx-order-details container">
+    <div class="cx-header row">
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">Order #</div>
+        <div class="cx-detail-value">{{ order?.code }}</div>
+      </div>
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">Placed</div>
+        <div class="cx-detail-value">{{ order?.created | date }}</div>
+      </div>
+      <div class="cx-detail col-sm-12 col-md-4">
+        <div class="cx-detail-label">Status</div>
+        <div class="cx-detail-value">{{ order?.statusDisplay }}</div>
+      </div>
+    </div>
+  </div>
+</ng-container>
