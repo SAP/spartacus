@@ -4,7 +4,7 @@
   $size_: $font-size-base;
   $weight_: $font-weight-normal;
   $lineheight_: $line-height-base;
-  $marginbottom_: $paragraph-margin-bottom;
+  // $marginbottom_: $paragraph-margin-bottom;
   @if variable-exists(type) {
     $list: map-get($type, $size);
     //do size
@@ -21,10 +21,9 @@
   } @else {
     @warn "Variable $type does not exist";
   }
-  font-size: $size_;
+  font-size: var(--cx-font-size, $size_);
   @include weight($weight_);
-  //add margin-bottom
-  margin-bottom: $marginbottom_;
+  // removing margin as it is assigned per component
   //add line-height
-  line-height: $lineheight_;
+  line-height: var(--cx-line-height, $lineheight_);
 }
