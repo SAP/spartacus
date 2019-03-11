@@ -5,6 +5,11 @@
     --cx-g-color-#{$color}: #{$value};
   }
 
+  --cx-g-font-weight-light: 300;
+  --cx-g-font-weight-normal: 400;
+  --cx-g-font-weight-semi: 600;
+  --cx-g-font-weight-bold: 700;
+
   --cx-g-direction: #{$direction};
 
   --cx-g-transition-duration: 0.5s;
