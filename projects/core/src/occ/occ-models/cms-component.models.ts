@@ -104,3 +104,10 @@ export interface CmsNavigationComponent extends CmsComponent {
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
 }
+
+export interface CmsProductFacetNavigationComponent extends CmsComponent {
+  container?: string;
+  activeFacetValueCode?: string;
+  searchResult?: string;
+  minPerFacet?: string;
+}
