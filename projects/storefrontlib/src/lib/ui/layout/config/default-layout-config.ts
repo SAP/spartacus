@@ -51,11 +51,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       ]
     },
     CartPageTemplate: {
-      slots: [
-        'CenterLeftContentSlot',
-        'EmptyCartMiddleContent',
-        'CenterRightContentSlot'
-      ]
+      slots: ['TopContent', 'CenterRightContentSlot', 'EmptyCartMiddleContent']
     },
     AccountPageTemplate: {
       slots: ['BodyContent', 'SideContent']
@@ -64,7 +60,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       slots: ['LeftContentSlot', 'RightContentSlot']
     },
     ErrorPageTemplate: {
-      slots: ['MiddleContent']
+      slots: ['TopContent', 'MiddleContent', 'BottomContent']
     },
     OrderConfirmationPageTemplate: {
       slots: ['BodyContent', 'SideContent']
