@@ -58,7 +58,7 @@ describe('Payment Methods', () => {
       fillPaymentDetails(user);
 
       // go to payment details page
-      cy.get('cx-review-submit', { timeout: 50000 });
+      cy.get('cx-review-submit').should('exist');
 
       cy.visit('/my-account/payment-details');
       cy.get('.cx-payment .cx-body').then(() => {
