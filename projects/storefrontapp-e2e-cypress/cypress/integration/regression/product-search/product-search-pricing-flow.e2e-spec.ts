@@ -1,8 +1,4 @@
-<<<<<<< HEAD:projects/storefrontapp-e2e-cypress/cypress/integration/product-search-pricing-flow.e2e-spec.ts
-import { PRODUCT_LISTING } from '../helpers/data-configuration';
-=======
 import { PRODUCT_LISTING } from '../../../helpers/data-configuration';
->>>>>>> develop:projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search-pricing-flow.e2e-spec.ts
 context('Product search pricing flow', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
