@@ -53,13 +53,13 @@ describe('Page Effects', () => {
       uid: 'comp1',
       typeCode: 'SimpleBannerComponent',
       uuid: 'compUuid1',
-      flextype: undefined
+      flexType: undefined
     },
     {
       uid: 'comp2',
-      typeCode: 'FlexCmsComponent',
+      typeCode: 'CMSFlexComponent',
       uuid: 'compUuid2',
-      flextype: 'AccountAddressBookComponent'
+      flexType: 'AccountAddressBookComponent'
     }
   ];
 
@@ -101,14 +101,14 @@ describe('Page Effects', () => {
       typeCode: 'SimpleBannerComponent',
       uuid: 'compUuid1',
       catalogUuid: undefined,
-      flextype: undefined
+      flexType: undefined
     },
     {
       uid: 'comp2',
-      typeCode: 'FlexCmsComponent',
+      typeCode: 'CMSFlexComponent',
       uuid: 'compUuid2',
       catalogUuid: undefined,
-      flextype: 'AccountAddressBookComponent'
+      flexType: 'AccountAddressBookComponent'
     }
   ];
 
