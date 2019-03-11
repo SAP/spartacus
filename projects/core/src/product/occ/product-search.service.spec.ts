@@ -12,6 +12,7 @@ import {
 } from '../../occ/occ-models/occ.models';
 
 import { OccProductSearchService } from './product-search.service';
+import { ProductConfig, defaultProductConfig } from '../product-config';
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
@@ -42,7 +43,8 @@ describe('OccProductSearchService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: ProductConfig, useValue: defaultProductConfig }
       ]
     });
 

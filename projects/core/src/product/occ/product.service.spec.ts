@@ -8,6 +8,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { ReviewList } from '../../occ/occ-models/occ.models';
 
 import { OccProductService } from './product.service';
+import { ProductConfig, defaultProductConfig } from '../product-config';
 
 const productCode = 'testCode';
 const product = {
@@ -32,6 +33,7 @@ const MockOccModuleConfig: OccConfig = {
     currency: ''
   }
 };
+
 const endpoint = '/products';
 
 describe('OccProductService', () => {
@@ -43,7 +45,8 @@ describe('OccProductService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: ProductConfig, useValue: defaultProductConfig }
       ]
     });
 

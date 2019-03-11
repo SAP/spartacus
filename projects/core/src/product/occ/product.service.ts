@@ -6,12 +6,17 @@ import { catchError } from 'rxjs/operators';
 
 import { OccConfig } from '../../occ/config/occ-config';
 import { Product, ReviewList, Review } from '../../occ/occ-models/occ.models';
+import { ProductConfig } from '../product-config';
 
 const ENDPOINT_PRODUCT = 'products';
 
 @Injectable()
 export class OccProductService {
-  constructor(private http: HttpClient, private config: OccConfig) {}
+  constructor(
+    private http: HttpClient,
+    private config: OccConfig,
+    private productConfig: ProductConfig
+  ) {}
 
   protected getProductEndpoint(): string {
     return (
@@ -25,12 +30,11 @@ export class OccProductService {
 
   loadProduct(productCode: string): Observable<Product> {
     const params = new HttpParams({
-      fromString:
-        'fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
+      fromString: this.productConfig.product.occFields.loadProduct.join(',')
     });
 
     return this.http
-      .get(this.getProductEndpoint() + `/${productCode}`, { params: params })
+      .get(this.getProductEndpoint() + `/${productCode}`, { params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -38,13 +42,18 @@ export class OccProductService {
     productCode: string,
     maxCount?: number
   ): Observable<ReviewList> {
+    const params = new HttpParams({
+      fromString: this.productConfig.product.occFields.loadProductReviews.join(
+        ','
+      )
+    });
     let url = this.getProductEndpoint() + `/${productCode}/reviews`;
     if (maxCount && maxCount > 0) {
       url += `?maxCount=${maxCount}`;
     }
 
     return this.http
-      .get(url)
+      .get(url, { params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
