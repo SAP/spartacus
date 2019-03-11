@@ -31,12 +31,4 @@ export class CartDetailsComponent implements OnInit {
     const appliedPromotions = cart.appliedOrderPromotions || [];
     return [...potentialPromotions, ...appliedPromotions];
   }
-
-  cartHasPromotions(cart: Cart): boolean {
-    const hasPotentialPromotions =
-      cart.potentialOrderPromotions && cart.potentialOrderPromotions.length > 0;
-    const hasAppliedPromotions =
-      cart.appliedOrderPromotions && cart.appliedOrderPromotions.length > 0;
-    return hasPotentialPromotions || hasAppliedPromotions;
-  }
 }

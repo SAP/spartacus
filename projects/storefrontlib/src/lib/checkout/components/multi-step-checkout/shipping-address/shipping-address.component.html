@@ -59,11 +59,21 @@
     </ng-container>
 
     <ng-template #newAddressForm>
-      <cx-address-form
-        showTitleCode="true"
-        (submitAddress)="addNewAddress($event)"
-        (backToAddress)="hideNewAddressForm()"
-      ></cx-address-form>
+      <ng-container *ngIf="existingAddresses.length; else initialAddressForm">
+        <cx-address-form
+          showTitleCode="true"
+          (backToAddress)="hideNewAddressForm(false)"
+          (submitAddress)="addNewAddress($event)"
+        ></cx-address-form>
+      </ng-container>
+      <ng-template #initialAddressForm>
+        <cx-address-form
+          showTitleCode="true"
+          cancelBtnLabel="Back to cart"
+          (backToAddress)="hideNewAddressForm(true)"
+          (submitAddress)="addNewAddress($event)"
+        ></cx-address-form>
+      </ng-template>
     </ng-template>
   </ng-container>
 
