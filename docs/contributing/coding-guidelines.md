@@ -84,7 +84,7 @@ The one exception is for UI components that are common to all modules, which are
 
 All code must be covered by unit tests.
 
-With regards to end-to-end tests, new, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`, and for page objects, the file names should end with `po.ts`.
+With regards to end-to-end tests, new, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`. Common functions that can be re-used should be extracted into different files, and should be located in the sub-directory named `helpers`. These files should end with the file extension `.ts`.
 
 If you decide to write an end-to-end test based on user-flow, add the word `flow` to the test's name. If you have more than one user-flow test, separate them into individual files, so they can be run in parallel. We also recommend grouping the tests in a sub-directory with a relevant name. For reference, have a look at the end-to-end tests for product search.
 
