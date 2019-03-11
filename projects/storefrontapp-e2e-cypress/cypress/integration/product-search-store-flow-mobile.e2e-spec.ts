@@ -63,8 +63,8 @@ context(
           .should('contain', 'LP-E5');
 
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-        );
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
+        ).click();
         cy.get(resultsTitle).should('contain', '77 results for "canon"');
 
         // Add product to cart from search listing page

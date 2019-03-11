@@ -47,7 +47,7 @@ context(
           .should('contain', '10.2 Megapixel D-SLR with Standard Zoom Lens');
 
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -67,7 +67,7 @@ context(
           .should('contain', 'Accessory kit');
 
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -78,7 +78,7 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '95 results for "sony"');
@@ -86,7 +86,7 @@ context(
           .first()
           .should('contain', '10.2 Megapixel D-SLR with Standard Zoom Lens');
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -97,7 +97,7 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '2 results for "sony"');
@@ -106,7 +106,7 @@ context(
           .should('contain', 'Remote Control Tripod VCT-80AV');
 
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -117,13 +117,13 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '1 results for "sony"');
 
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -134,12 +134,12 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '2 results for "sony"');
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -150,7 +150,7 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '7 results for "sony"');
@@ -159,7 +159,7 @@ context(
           .should('contain', 'NP-FV 70');
 
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -170,12 +170,12 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '1 results for "sony"');
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '131 results for "sony"');
 

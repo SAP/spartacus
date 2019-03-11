@@ -1,7 +1,6 @@
-const productId = '3595723';
-const productId2 = '3325048';
-
 describe('Added to cart modal', () => {
+  const productId = '3595723';
+  const productId2 = '3325048';
   before(() => {
     cy.window().then(win => {
       win.sessionStorage.clear();

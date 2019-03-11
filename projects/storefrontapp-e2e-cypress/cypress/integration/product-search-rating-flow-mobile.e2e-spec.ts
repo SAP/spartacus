@@ -64,7 +64,7 @@ context(
           .within(() => {
             cy.get('.cx-facet-checkbox')
               .first()
-              .click();
+              .click({ force: true });
           });
 
         cy.get(resultsTitle).should('contain', '20 results for "DSC-N1"');
@@ -72,7 +72,7 @@ context(
           .first()
           .should('contain', 'Cyber-shot DSC-W55');
         cy.get(
-          'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
+          'cx-product-facet-navigation .cx-facet-mobile .cx-facet-filter-pill .close:first'
         ).click();
         cy.get(resultsTitle).should('contain', '21 results for "DSC-N1"');
 
