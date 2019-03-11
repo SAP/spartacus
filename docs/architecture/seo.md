@@ -11,7 +11,7 @@ The SEO implementation in Spartacus includes the following:
   - Page Meta Resolvers
   - Title Resolver
   - Description Resolver
-  - image Resolver
+  - Image Resolver
   - Robots Tag
 
 ## Stateful URLs
@@ -82,23 +82,21 @@ Spartacus provides a special resolver for pages that require a specific heading.
 
 However, such a title does not look good in the UI, so a different title is used for that. To support flexibility, Spartacus uses a specific `PageHeadingResolver` that can be implemented in the page resolving logic.
 
-
 ### Description Resolver
 
 Each page on the storefront can contain a `description` tag. The description tag is used in the search engine result page to improve the click-through-rate (CTR). It is not used to improve the page ranking. It is generally considered best practice to create a description tag for each page, although there are occasions when the search engine is more capable of generating the description based on the context.
 
-
 ### Image Resolver
 
-In order to share pages with social media, such as facebook, twitter, pinterest, etc. it is important to provide the right image in the metatags. The Open Graph standard from Facebook is widely adopted for this purpose. The following tag can be used to tell social media to use a specific image:
+To share pages with social media, such as Facebook, Twitter, Pinterest, and so on, it is important to provide the correct image in the meta tags. The Open Graph standard from Facebook is widely adopted for this purpose. The following tag can be used to tell social media to use a specific image:
 
 ```html
  <meta name="og:image" value="https:storefont.com/myimage">
  ```
 
-While it is possible to provide multipe images by replicating the tag with different values (i.e. for a gallery fo images), we only provide a solution for a single image. This is best practice for commerce storefronts. 
+While it is possible to provide multiple images by replicating the tag with different values (for a gallery of images, for example), Spartacus only provides a solution for a single image. This is considered best practice for commerce storefronts.
 
-The `PageImageResolver` can be used to provide a specific image for a specific page. The `ProductPageMetaResolver` has implemented the main product image url for the PDP page. Customers can implement other page providers using the `PageImageResolver` interface. 
+You can use the `PageImageResolver` to provide a specific image for a specific page. The `ProductPageMetaResolver` implements the main product image URL for the product details page. You can implement other page providers using the `PageImageResolver` interface.
 
 ### Robots Tag
 
