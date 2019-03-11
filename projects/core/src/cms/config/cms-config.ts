@@ -8,6 +8,7 @@ export interface StandardCmsComponentConfig {
   CMSLinkComponent?: CmsComponentMapping;
   SimpleResponsiveBannerComponent?: CmsComponentMapping;
   SimpleBannerComponent?: CmsComponentMapping;
+  BannerComponent?: CmsComponentMapping;
   CMSParagraphComponent?: CmsComponentMapping;
   BreadcrumbComponent?: CmsComponentMapping;
   NavigationComponent?: CmsComponentMapping;
