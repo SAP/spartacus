@@ -1,16 +1,18 @@
 @import 'theme';
+
 :host {
-  padding: var(--cx-padding, 1.5rem 0);
   display: block;
 }
-.empty {
-  display: none;
+
+.cart-details-wrapper {
+  padding: 2rem 1rem;
 }
 
 .cx-total {
   @include type('4');
   margin: var(--cx-margin, 0 0 1rem);
 }
+
 .cx-promotions {
   @include type('7');
   color: var(--cx-color, var(--cx-g-color-success));

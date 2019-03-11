@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Item } from '../../cart-shared/cart-item/cart-item.component';
+import { Item } from '../cart-shared/cart-item/cart-item.component';
 import {
   CartDataService,
   CartService,
@@ -9,21 +9,15 @@ import {
 } from '@spartacus/core';
 
 import { CartDetailsComponent } from './cart-details.component';
-import { Pipe, PipeTransform, Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 class MockCartService {
   removeEntry(): void {}
   loadDetails(): void {}
   updateEntry(): void {}
-}
-
-@Pipe({
-  name: 'cxTranslateUrl'
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform() {}
 }
 
 @Component({
@@ -38,14 +32,6 @@ class MockCartItemListComponent {
   @Input()
   cartIsLoading: Observable<boolean>;
 }
-@Component({
-  template: '',
-  selector: 'cx-order-summary'
-})
-class MockOrderSummaryComponent {
-  @Input()
-  cart: Observable<Cart>;
-}
 
 describe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
@@ -53,13 +39,8 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        CartDetailsComponent,
-        MockCartItemListComponent,
-        MockOrderSummaryComponent,
-        MockTranslateUrlPipe
-      ],
+      imports: [RouterTestingModule, PromotionsModule],
+      declarations: [CartDetailsComponent, MockCartItemListComponent],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService }
