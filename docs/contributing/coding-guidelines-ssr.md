@@ -21,6 +21,7 @@ constructor(element: ElementRef, renderer: Renderer2) {
   renderer.setStyle(element.nativeElement, 'font-size', 'x-large');
 }
 ```
+
 ## Using Transfer State Functionality
 
 We recommend using transfer state functionality. The application runs XHR requests on the server, and then again on the client-side (when the application bootstraps). 
