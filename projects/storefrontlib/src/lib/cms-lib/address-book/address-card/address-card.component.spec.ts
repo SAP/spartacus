@@ -2,13 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
-
-import { Address } from '@spartacus/core';
-
-import { AddressBookModule } from '../address-book.module';
+import { Address, UserService } from '@spartacus/core';
 
 import { AddressCardComponent } from './address-card.component';
+
+class MockUserService {}
 
 const mockAddress: Address = {
   id: '123',
@@ -31,7 +29,8 @@ describe('AddressCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddressBookModule, StoreModule.forRoot({})]
+      declarations: [AddressCardComponent],
+      providers: [{ provide: UserService, useClass: MockUserService }]
     }).compileComponents();
   }));
 
