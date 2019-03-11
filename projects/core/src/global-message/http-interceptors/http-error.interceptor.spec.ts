@@ -98,7 +98,7 @@ describe('HttpErrorInterceptor', () => {
 
   describe('Error Handlers', () => {
     function testHandlers(handlerClass, responseStatus) {
-      it('should call handleError on ' + handlerClass.name, function() {
+      it('should call handleError for ' + handlerClass.name, function() {
         http
           .get('/123')
           .pipe(catchError((error: any) => throwError(error)))
