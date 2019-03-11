@@ -29,15 +29,9 @@ if (!environment.production) {
         enabled: true,
         addToHomeScreen: true
       },
-      site: {
-        baseSite: 'electronics-spa'
-      },
       siteContext: {
         urlEncodingParameters: ['LANGUAGE', 'CURRENCY']
       },
-      // productOcc: {
-      //   loadProduct: ['test']
-      // },
       routesConfig: {
         translations: {
           default: {

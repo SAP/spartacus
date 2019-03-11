@@ -14,7 +14,7 @@ import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
 import { SearchPageMetaResolver } from './services/search-page-meta.resolver';
 import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
 import { ProductConfig, defaultProductConfig } from './product-config';
-import { ConfigModule, Config } from '../config';
+import { ConfigModule, Config } from '../config/index';
 
 const pageTitleResolvers = [
   {

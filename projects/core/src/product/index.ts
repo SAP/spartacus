@@ -1,6 +1,7 @@
 export * from './model/search-config';
 export * from './occ/index';
 export * from './occ/product-occ.module';
+export * from './product-config';
 
 export * from './store/product-state';
 export * from './store/converters/index';
