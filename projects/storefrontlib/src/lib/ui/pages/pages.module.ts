@@ -20,6 +20,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
+import { LogoutModule } from '../../../cms-components/index';
 
 const pageModules = [
   CartPageModule,
@@ -35,6 +36,7 @@ const pageModules = [
     CommonModule,
     ...pageModules,
     PageLayoutModule,
+    LogoutModule,
     RouterModule.forChild([
       {
         // This route can be dropped only when we have a mapping path to page label for content pages
