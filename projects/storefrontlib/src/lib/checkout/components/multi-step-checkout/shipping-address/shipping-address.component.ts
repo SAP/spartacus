@@ -110,8 +110,11 @@ export class ShippingAddressComponent implements OnInit {
     this.newAddressFormManuallyOpened = true;
   }
 
-  hideNewAddressForm(): void {
+  hideNewAddressForm(goBack: boolean = false): void {
     this.newAddressFormManuallyOpened = false;
+    if (goBack) {
+      this.back();
+    }
   }
 
   back(): void {
