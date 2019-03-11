@@ -173,7 +173,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  resetPassword(token: string, password: string): Observable<{}> {
+  resetPassword(token: string, newPassword: string): Observable<{}> {
     const url = this.getBaseEndPoint() + RESET_PASSWORD_ENDPOINT;
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ export class OccUserService {
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
     return this.http
-      .post(url, { token: token, newPassword: password }, { headers })
+      .post(url, { token, newPassword }, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
