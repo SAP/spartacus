@@ -11,6 +11,7 @@ The SEO implementation in Spartacus includes the following:
   - Page Meta Resolvers
   - Title Resolver
   - Description Resolver
+  - image Resolver
   - Robots Tag
 
 ## Stateful URLs
@@ -86,6 +87,19 @@ However, such a title does not look good in the UI, so a different title is used
 
 Each page on the storefront can contain a `description` tag. The description tag is used in the search engine result page to improve the click-through-rate (CTR). It is not used to improve the page ranking. It is generally considered best practice to create a description tag for each page, although there are occasions when the search engine is more capable of generating the description based on the context.
 
+
+### Image Resolver
+
+In order to share pages with social media, such as facebook, twitter, pinterest, etc. it is important to provide the right image in the metatags. The Open Graph standard from Facebook is widely adopted for this purpose. The following tag can be used to tell social media to use a specific image:
+
+```html
+ <meta name="og:image" value="https:storefont.com/myimage">
+ ```
+
+While it is possible to provide multipe images by replicating the tag with different values (i.e. for a gallery fo images), we only provide a solution for a single image. This is best practice for commerce storefronts. 
+
+The `PageImageResolver` can be used to provide a specific image for a specific page. The `ProductPageMetaResolver` has implemented the main product image url for the PDP page. Customers can implement other page providers using the `PageImageResolver` interface. 
+
 ### Robots Tag
 
 You can use the `robots` meta tag to control whether or not a page is indexed. The following is an example:
@@ -96,11 +110,11 @@ You can use the `robots` meta tag to control whether or not a page is indexed. T
 
 The following table lists the values that can be used to guide search engines:
 
- | Value    | Description                                                                            |
- | -------- | -------------------------------------------------------------------------------------- |
- | INDEX    | Instructs the search engine to index the page                                          |
+ | Value    | Description                                                                              |
+ | -------- | ---------------------------------------------------------------------------------------- |
+ | INDEX    | Instructs the search engine to index the page                                            |
  | NOINDEX  | Instructs the search engine to **not** index the page                                    |
- | FOLLOW   | Instructs the search engine to follow the links on the page for further indexing       |
+ | FOLLOW   | Instructs the search engine to follow the links on the page for further indexing         |
  | NOFOLLOW | Instructs the search engine to **not** follow the links on the page for further indexing |
 
 Spartacus provides a separate `PageRobotsResolver` interface that you can use to control the `robots` meta tag. The `PageMetaService` uses `FOLLOW, NOINDEX` whenever no value is provided by the `PageMeta`.

@@ -23,6 +23,7 @@ export class SeoMetaService {
   protected set meta(meta: PageMeta) {
     this.title = meta.title;
     this.description = meta.description;
+    this.image = meta.image;
     this.robots = meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
   }
 
@@ -34,13 +35,21 @@ export class SeoMetaService {
     this.addTag({ name: 'description', content: value });
   }
 
+  protected set image(imageUrl: string) {
+    if (imageUrl) {
+      this.addTag({ name: 'og:image', content: imageUrl });
+    }
+  }
+
   protected set robots(value: PageRobotsMeta[]) {
-    this.addTag({ name: 'robots', content: value.join(', ') });
+    if (value) {
+      this.addTag({ name: 'robots', content: value.join(', ') });
+    }
   }
 
   protected addTag(meta: MetaDefinition) {
     if (meta.content) {
-      this.ngMeta.addTag(meta);
+      this.ngMeta.updateTag(meta);
     }
   }
 }
