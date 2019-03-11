@@ -39,15 +39,28 @@ class MockRoutingService {
 
 class MockProductService {
   get(code: string) {
-    return of({
+    return of(<any>{
       code: code,
       name: 'Product title',
-      summary: 'Product summary'
+      summary: 'Product summary',
+      categories: [
+        {
+          code: '123'
+        }
+      ],
+      images: {
+        PRIMARY: {
+          zoom: {
+            url: 'https://storefront.com/image'
+          }
+        }
+      },
+      manufacturer: 'Canon'
     });
   }
 }
 
-describe('ProductPageTitleResolver', () => {
+describe('ProductPageMetaResolver', () => {
   let service: PageMetaService;
 
   beforeEach(() => {
@@ -76,6 +89,18 @@ describe('ProductPageTitleResolver', () => {
     }
   ));
 
+  it('should resolve product page heading', () => {
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.heading).toEqual('Product title');
+  });
+
   it('should resolve product page title', () => {
     let result: PageMeta;
     service
@@ -85,10 +110,10 @@ describe('ProductPageTitleResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Product title');
+    expect(result.title).toEqual('Product title | 123 | Canon');
   });
 
-  it('should have product description', () => {
+  it('should resolve product description', () => {
     let result: PageMeta;
     service
       .getMeta()
@@ -98,5 +123,17 @@ describe('ProductPageTitleResolver', () => {
       .unsubscribe();
 
     expect(result.description).toEqual('Product summary');
+  });
+
+  it('should resolve product image', () => {
+    let result: PageMeta;
+    service
+      .getMeta()
+      .subscribe(value => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result.image).toEqual('https://storefront.com/image');
   });
 });
