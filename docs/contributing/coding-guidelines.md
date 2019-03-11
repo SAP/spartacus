@@ -66,7 +66,7 @@ Also, logged-in users and anonymous users may see different response data. When 
 
 ### Naming Conventions
 
-Component selectors should always start with "cx-".
+If you work for a team inside SAP, then component selectors should always start with `cx-` (such as `cx-banner`, for example). If you are a partner or customer, you should use a different prefix (that is, something other than `cx-`) to avoid conflicts with Spartacus libraries, and third-party libraries that are used by Spartacus.
 
 ### Modules
 
@@ -82,7 +82,7 @@ The one exception is for UI components that are common to all modules, which are
 
 ### Testing
 
-New code must always be covered by unit tests.
+All code must be covered by unit tests.
 
 With regards to end-to-end tests, new, UI-oriented features must always be covered by basic UI end-to-end tests. The file names for the tests should end with `e2e-spec.ts`, and for page objects, the file names should end with `po.ts`.
 
