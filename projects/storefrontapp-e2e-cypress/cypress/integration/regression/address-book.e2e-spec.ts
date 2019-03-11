@@ -52,7 +52,7 @@ describe('Address management page', () => {
     });
   });
 
-  describe.only('when logged in', () => {
+  describe('when logged in', () => {
     before(() => {
       cy.requireLoggedIn();
       cy.visit('/my-account/address-book');
