@@ -45,7 +45,7 @@ const mockTitles: Title[] = [
     name: 'Mrs.'
   }
 ];
-const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitles];
+const expectedTitles: Title[] = [{ code: '', name: 'Title' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
