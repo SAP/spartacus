@@ -4,19 +4,14 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '../../occ/config/occ-config';
 import { Product, ReviewList, Review } from '../../occ/occ-models/occ.models';
-import { ProductConfig } from '../product-config';
+import { OccProductConfig } from './product-config';
 
 const ENDPOINT_PRODUCT = 'products';
 
 @Injectable()
 export class OccProductService {
-  constructor(
-    private http: HttpClient,
-    private config: OccConfig,
-    private productConfig: ProductConfig
-  ) {}
+  constructor(private http: HttpClient, private config: OccProductConfig) {}
 
   protected getProductEndpoint(): string {
     return (
@@ -30,7 +25,7 @@ export class OccProductService {
 
   loadProduct(productCode: string): Observable<Product> {
     const params = new HttpParams({
-      fromString: this.productConfig.product.occFields.loadProduct.join(',')
+      fromString: this.config.occProduct.loadProduct.join(',')
     });
 
     return this.http
@@ -43,9 +38,7 @@ export class OccProductService {
     maxCount?: number
   ): Observable<ReviewList> {
     const params = new HttpParams({
-      fromString: this.productConfig.product.occFields.loadProductReviews.join(
-        ','
-      )
+      fromString: this.config.occProduct.loadProductReviews.join(',')
     });
     let url = this.getProductEndpoint() + `/${productCode}/reviews`;
     if (maxCount && maxCount > 0) {

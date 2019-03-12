@@ -5,12 +5,11 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   SuggestionList,
   ProductSearchPage
 } from '../../occ/occ-models/occ.models';
-import { ProductConfig } from '../product-config';
+import { OccProductConfig } from './product-config';
 
 const ENDPOINT_PRODUCT = 'products';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -19,11 +18,7 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 
 @Injectable()
 export class OccProductSearchService {
-  constructor(
-    private http: HttpClient,
-    private config: OccConfig,
-    private productConfig: ProductConfig
-  ) {}
+  constructor(private http: HttpClient, private config: OccProductConfig) {}
 
   protected getProductEndpoint() {
     return (
@@ -40,7 +35,7 @@ export class OccProductSearchService {
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
     let params = new HttpParams({
-      fromString: this.productConfig.product.occFields.productSearch.join(',')
+      fromString: this.config.occProduct.productSearch.join(',')
     });
     params = params.set('query', fullQuery);
     if (searchConfig.pageSize) {
@@ -63,9 +58,7 @@ export class OccProductSearchService {
     pageSize = 3
   ): Observable<SuggestionList> {
     const params = new HttpParams({
-      fromString: this.productConfig.product.occFields.productSuggestions.join(
-        ','
-      )
+      fromString: this.config.occProduct.productSuggestions.join(',')
     })
       .set('term', term)
       .set('max', pageSize.toString());

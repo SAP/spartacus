@@ -13,7 +13,10 @@ import * as fromEffects from '../effects/product-reviews.effect';
 import { OccProductService } from '../../occ/product.service';
 import { ReviewList } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { ProductConfig, defaultProductConfig } from '../../product-config';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../../occ/product-config';
 
 const reviewData: ReviewList = {
   reviews: [
@@ -46,7 +49,7 @@ describe('Product reviews effect', () => {
       providers: [
         OccProductService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: ProductConfig, useValue: defaultProductConfig },
+        { provide: OccProductConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$)
       ]

@@ -13,8 +13,6 @@ import { PageMetaResolver } from '../cms/page/page-meta.resolver';
 import { ProductPageMetaResolver } from './services/product-page-meta.resolver';
 import { SearchPageMetaResolver } from './services/search-page-meta.resolver';
 import { CategoryPageMetaResolver } from './services/category-page-meta.resolver';
-import { ProductConfig, defaultProductConfig } from './product-config';
-import { ConfigModule, Config } from '../config/index';
 
 const pageTitleResolvers = [
   {
@@ -35,18 +33,12 @@ const pageTitleResolvers = [
 ];
 
 @NgModule({
-  imports: [
-    ProductOccModule,
-    ProductStoreModule,
-    CmsModule,
-    ConfigModule.withConfig(defaultProductConfig)
-  ],
+  imports: [ProductOccModule, ProductStoreModule, CmsModule],
   providers: [
     ProductService,
     ProductSearchService,
     ProductReviewService,
-    ...pageTitleResolvers,
-    { provide: ProductConfig, useExisting: Config }
+    ...pageTitleResolvers
   ]
 })
 export class ProductModule {}

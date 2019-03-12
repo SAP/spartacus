@@ -8,7 +8,7 @@ import { OccConfig } from '../../occ/config/occ-config';
 import { ReviewList } from '../../occ/occ-models/occ.models';
 
 import { OccProductService } from './product.service';
-import { ProductConfig, defaultProductConfig } from '../product-config';
+import { OccProductConfig, defaultOccProductConfig } from './product-config';
 
 const productCode = 'testCode';
 const product = {
@@ -46,7 +46,7 @@ describe('OccProductService', () => {
       providers: [
         OccProductService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: ProductConfig, useValue: defaultProductConfig }
+        { provide: OccProductConfig, useValue: defaultOccProductConfig }
       ]
     });
 

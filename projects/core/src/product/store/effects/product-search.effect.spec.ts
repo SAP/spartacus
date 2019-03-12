@@ -19,7 +19,10 @@ import {
 } from '../../../occ/occ-models/occ.models';
 
 import * as fromEffects from './product-search.effect';
-import { ProductConfig, defaultProductConfig } from '../../product-config';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../../occ/product-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -44,7 +47,7 @@ describe('ProductSearch Effects', () => {
         OccProductSearchService,
         ProductImageConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: ProductConfig, useValue: defaultProductConfig },
+        { provide: OccProductConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$)
       ]
