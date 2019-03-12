@@ -13,7 +13,7 @@ import {
 
 import { of, Observable } from 'rxjs';
 
-import { HeadlineComponent } from './headline.component';
+import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
 import { CardModule } from '../../../../ui/components/card/card.module';
 
 const mockOrder: Order = {
@@ -32,7 +32,7 @@ const mockOrder: Order = {
     }
   },
   deliveryMode: {
-    name: 'Standard shipping',
+    name: 'Standard order-detail-shipping',
     description: '3-5 days'
   },
   paymentInfo: {
@@ -99,8 +99,8 @@ class MockCartItemListComponent {
 }
 
 describe('OrderDetailsComponent', () => {
-  let component: HeadlineComponent;
-  let fixture: ComponentFixture<HeadlineComponent>;
+  let component: OrderDetailHeadlineComponent;
+  let fixture: ComponentFixture<OrderDetailHeadlineComponent>;
   let userService: UserService;
   let mockRoutingService: RoutingService;
   let el: DebugElement;
@@ -128,13 +128,13 @@ describe('OrderDetailsComponent', () => {
       declarations: [
         MockCartItemListComponent,
         MockOrderSummaryComponent,
-        HeadlineComponent
+        OrderDetailHeadlineComponent
       ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeadlineComponent);
+    fixture = TestBed.createComponent(OrderDetailHeadlineComponent);
     el = fixture.debugElement;
     userService = TestBed.get(UserService);
 
@@ -231,7 +231,7 @@ describe('OrderDetailsComponent', () => {
     );
   });
 
-  it('should order details display "shipping" data', () => {
+  it('should order details display "order-detail-shipping" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('.cx-account-summary.row > div:nth-child(4)')

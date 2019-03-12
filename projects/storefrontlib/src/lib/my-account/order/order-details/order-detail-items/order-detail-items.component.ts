@@ -2,13 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   RoutingService,
   Order,
-  Address,
   AuthService,
-  PaymentDetails,
-  DeliveryMode,
-  Consignment,
-  OrderEntry,
-  UserService
+  UserService, Address, PaymentDetails, DeliveryMode, Consignment, OrderEntry
 } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -16,11 +11,11 @@ import { map } from 'rxjs/operators';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'cx-order-details-headline',
-  templateUrl: './headline.component.html',
-  styleUrls: ['./headline.component.scss']
+  selector: 'cx-order-details-items',
+  templateUrl: './order-detail-items.component.html',
+  styleUrls: ['./order-detail-items.component.scss']
 })
-export class HeadlineComponent implements OnInit, OnDestroy {
+export class OrderDetailItemsComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -30,6 +25,7 @@ export class HeadlineComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
   subscription: Subscription;
 
+
   ngOnInit() {
     const userId$: Observable<string> = this.authService
       .getUserToken()
@@ -37,7 +33,7 @@ export class HeadlineComponent implements OnInit, OnDestroy {
 
     const orderCode$: Observable<
       string
-    > = this.routingService
+      > = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.params.orderCode));
 
@@ -74,7 +70,7 @@ export class HeadlineComponent implements OnInit, OnDestroy {
         billingAddress.line2,
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
           billingAddress.postalCode
-        }`,
+          }`,
         billingAddress.phone
       ]
     };

@@ -16,11 +16,11 @@ import { map } from 'rxjs/operators';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'cx-order-details-totals',
-  templateUrl: './totals.component.html',
-  styleUrls: ['./totals.component.scss']
+  selector: 'cx-order-details-headline',
+  templateUrl: './order-detail-headline.component.html',
+  styleUrls: ['./order-detail-headline.component.scss']
 })
-export class TotalsComponent implements OnInit, OnDestroy {
+export class OrderDetailHeadlineComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -37,7 +37,7 @@ export class TotalsComponent implements OnInit, OnDestroy {
 
     const orderCode$: Observable<
       string
-      > = this.routingService
+    > = this.routingService
       .getRouterState()
       .pipe(map(routingData => routingData.state.params.orderCode));
 
@@ -74,7 +74,7 @@ export class TotalsComponent implements OnInit, OnDestroy {
         billingAddress.line2,
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
           billingAddress.postalCode
-          }`,
+        }`,
         billingAddress.phone
       ]
     };

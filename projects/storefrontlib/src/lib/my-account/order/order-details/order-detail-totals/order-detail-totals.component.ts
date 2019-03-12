@@ -2,8 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   RoutingService,
   Order,
+  Address,
   AuthService,
-  UserService, Address, PaymentDetails, DeliveryMode, Consignment, OrderEntry
+  PaymentDetails,
+  DeliveryMode,
+  Consignment,
+  OrderEntry,
+  UserService
 } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -11,11 +16,11 @@ import { map } from 'rxjs/operators';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
-  selector: 'cx-order-details-items',
-  templateUrl: './items.component.html',
-  styleUrls: ['./items.component.scss']
+  selector: 'cx-order-details-totals',
+  templateUrl: './order-detail-totals.component.html',
+  styleUrls: ['./order-detail-totals.component.scss']
 })
-export class ItemsComponent implements OnInit, OnDestroy {
+export class OrderDetailTotalsComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private userService: UserService,
@@ -24,7 +29,6 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   order$: Observable<Order>;
   subscription: Subscription;
-
 
   ngOnInit() {
     const userId$: Observable<string> = this.authService

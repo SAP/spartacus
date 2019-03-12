@@ -17,13 +17,13 @@ import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-order-details-shipping',
-  templateUrl: './shipping.component.html',
-  styleUrls: ['./shipping.component.scss']
+  templateUrl: './order-detail-shipping.component.html',
+  styleUrls: ['./order-detail-shipping.component.scss']
 })
-export class ShippingComponent implements OnInit, OnDestroy {
+export class OrderDetailShippingComponent implements OnInit, OnDestroy {
   constructor(
-    private authService: AuthService,
-    private userService: UserService,
+    private authService:    AuthService,
+    private userService:    UserService,
     private routingService: RoutingService
   ) {}
 
