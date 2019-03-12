@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Product } from '@spartacus/core';
 
 @Component({
@@ -10,9 +10,16 @@ export class YotporeviewComponent implements OnInit {
   @Input()
   product: Product;
 
-  constructor() { }
+  constructor(
+    private elementRef:ElementRef) { }
 
   ngOnInit() {
   }
 
+  ngAfterViewInit() {
+	var s = document.createElement("script");
+	s.type = "text/javascript";
+	s.text = "var yotpo_api=new Yotpo.API(yotpo);yotpo_api.refreshWidgets();";
+	this.elementRef.nativeElement.appendChild(s);
+  }
 }
