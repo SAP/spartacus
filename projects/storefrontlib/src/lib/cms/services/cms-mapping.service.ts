@@ -27,7 +27,7 @@ export class CmsMappingService {
    *
    * CAUTION: The mapped type should not be used for SmartEdit bindings.
    */
-  getComponentMappedType(component: ContentSlotComponentData): string {
+  getMappedType(component: ContentSlotComponentData): string {
     switch (component.typeCode) {
       case JSP_INCLUDE_CMS_COMPONENT_TYPE:
         return component.uid;
@@ -38,20 +38,20 @@ export class CmsMappingService {
     }
   }
 
-  isComponentMappingEnabled(componentId: string): boolean {
+  isMappedTypeEnabled(mappedType: string): boolean {
     const isSSR = isPlatformServer(this.platformId);
     const isComponentDisabledInSSR = (
-      this.config.cmsComponents[componentId] || {}
+      this.config.cmsComponents[mappedType] || {}
     ).disableSSR;
     return !(isSSR && isComponentDisabledInSSR);
   }
 
-  getComponentMappings(pageData: Page): string[] {
+  getMappedTypes(pageData: Page): string[] {
     const mappings = new Set<string>();
     for (const slot of Object.keys(pageData.slots)) {
       for (const component of pageData.slots[slot].components || []) {
-        const mappedType = this.getComponentMappedType(component);
-        if (this.isComponentMappingEnabled(mappedType)) {
+        const mappedType = this.getMappedType(component);
+        if (this.isMappedTypeEnabled(mappedType)) {
           mappings.add(mappedType);
         }
       }
@@ -61,14 +61,14 @@ export class CmsMappingService {
 
   getRoutesFromPageData(pageData: Page): Route[] {
     const routes = [];
-    for (const componentId of this.getComponentMappings(pageData)) {
-      routes.push(...this.getRoutesFromComponent(componentId));
+    for (const componentId of this.getMappedTypes(pageData)) {
+      routes.push(...this.getRoutesForMappedType(componentId));
     }
     return routes;
   }
 
-  private getRoutesFromComponent(componentId: string): Route[] {
-    const mappingConfig = this.config.cmsComponents[componentId];
+  private getRoutesForMappedType(mappedType: string): Route[] {
+    const mappingConfig = this.config.cmsComponents[mappedType];
     return (mappingConfig && mappingConfig.childRoutes) || [];
   }
 }

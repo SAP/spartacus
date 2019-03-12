@@ -88,6 +88,6 @@ export class DynamicSlotComponent implements OnInit {
   }
 
   getComponentMappedType(component: ContentSlotComponentData): string {
-    return this.cmsMapping.getComponentMappedType(component);
+    return this.cmsMapping.getMappedType(component);
   }
 }
