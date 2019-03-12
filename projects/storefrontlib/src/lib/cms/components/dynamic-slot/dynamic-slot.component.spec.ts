@@ -102,15 +102,15 @@ describe('DynamicSlotComponent', () => {
       );
     });
 
-    it('should return "flextype" of the component when component type is "FlexCmsComponent"', () => {
-      component.typeCode = 'FlexCmsComponent';
-      component.flextype = 'testComponentMappedType';
+    it('should return "flexType" of the component when component type is "CMSFlexComponent"', () => {
+      component.typeCode = 'CMSFlexComponent';
+      component.flexType = 'testComponentMappedType';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentMappedType'
       );
     });
 
-    it('should return component type when it is NOT "JspIncludeComponent" nor "FlexCmsComponent"', () => {
+    it('should return component type when it is NOT "JspIncludeComponent" nor "CMSFlexComponent"', () => {
       component.typeCode = 'testComponentType';
       expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentType'
