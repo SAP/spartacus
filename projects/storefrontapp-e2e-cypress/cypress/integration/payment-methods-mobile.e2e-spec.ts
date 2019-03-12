@@ -27,9 +27,9 @@ describe(`${formats.mobile.width + 1}p resolution - Payment Methods`, () => {
     });
 
     it('should see spinner when loading', () => {
-      // cy.get('cx-payment-methods .cx-body').then(() =>
-      //   cy.get('cx-spinner').should('exist')
-      // );
+      cy.get('cx-payment-methods .cx-body').then(() =>
+        cy.get('cx-spinner').should('exist')
+      );
     });
 
     it('should see title and some messages', () => {
