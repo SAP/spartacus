@@ -23,7 +23,7 @@ class MockRouter {
   }
 }
 
-fdescribe('ConfigurableRoutesService', () => {
+describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
   let router: Router;
