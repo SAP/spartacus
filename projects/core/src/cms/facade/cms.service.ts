@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import {
   filter,
   tap,
@@ -11,7 +11,7 @@ import {
   switchMap,
   take,
   multicast,
-  refCount
+  refCount, catchError
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -158,6 +158,16 @@ export class CmsService {
   }
 
   /**
+   * Given pageContext, return the CMS page data
+   * @param pageContext
+   */
+  getPageState(pageContext: PageContext): Observable<Page> {
+    return this.store.pipe(
+      select(fromStore.getPageData(pageContext)),
+    );
+  }
+
+  /**
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */
@@ -171,7 +181,8 @@ export class CmsService {
         }
       }),
       filter(entity => entity.success || entity.error),
-      map(entity => entity.success)
+      map(entity => entity.success),
+      catchError(() => of(false))
     );
   }
 }
