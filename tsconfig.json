@@ -9,15 +9,32 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2015", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
+      "@spartacus/core": [
+        "projects/core/public_api"
+      ],
+      "@spartacus/storefront": [
+        "projects/storefrontlib/src/public_api"
+      ],
+      "scc": [
+        "dist/scc"
+      ],
+      "scc/*": [
+        "dist/scc/*"
+      ]
     }
   },
-  "exclude": ["./dist"]
+  "exclude": [
+    "./dist"
+  ]
 }

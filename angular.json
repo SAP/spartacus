@@ -24,9 +24,14 @@
               "projects/storefrontapp/src/manifest.json",
               "projects/storefrontapp/src/webApplicationInjector.js"
             ],
-            "styles": ["projects/storefrontapp/src/styles.scss"],
+            "styles": [
+              "projects/storefrontapp/src/styles.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
+              "includePaths": [
+                "./projects",
+                "./projects/storefrontstyles/scss"
+              ]
             },
             "ngswConfigPath": "projects/storefrontlib/src/lib/pwa/ngsw-config.json",
             "scripts": []
@@ -123,14 +128,18 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": ["projects/storefrontapp/src/styles.css"],
+            "styles": [
+              "projects/storefrontapp/src/styles.css"
+            ],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json"
             ],
-            "codeCoverageExclude": ["dist/**/*"]
+            "codeCoverageExclude": [
+              "dist/**/*"
+            ]
           }
         },
         "lint": {
@@ -140,7 +149,9 @@
               "projects/storefrontapp/tsconfig.app.json",
               "projects/storefrontapp/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "server": {
@@ -182,7 +193,9 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -206,9 +219,13 @@
             "main": "projects/storefrontlib/src/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
-            "codeCoverageExclude": ["dist/**/*"],
+            "codeCoverageExclude": [
+              "dist/**/*"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["./projects/storefrontstyles/scss"]
+              "includePaths": [
+                "./projects/storefrontstyles/scss"
+              ]
             }
           }
         },
@@ -219,7 +236,9 @@
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
@@ -252,7 +271,44 @@
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**"]
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "scc": {
+      "root": "projects/scc",
+      "sourceRoot": "projects/scc/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/scc/tsconfig.lib.json",
+            "project": "projects/scc/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/scc/src/test.ts",
+            "tsConfig": "projects/scc/tsconfig.spec.json",
+            "karmaConfig": "projects/scc/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/scc/tsconfig.lib.json",
+              "projects/scc/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         }
       }
