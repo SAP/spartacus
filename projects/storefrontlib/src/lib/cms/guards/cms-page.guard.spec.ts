@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { RoutingService, PageType, CmsService } from '@spartacus/core';
+import {
+  RoutingService,
+  PageType,
+  CmsService,
+  CmsActivatedRouteSnapshot
+} from '@spartacus/core';
 
 import { of } from 'rxjs';
 
 import { CmsPageGuards } from './cms-page.guard';
+import { CmsRoutesService } from '@spartacus/storefront';
 
 class MockCmsService {
   hasPage() {}
@@ -16,6 +22,12 @@ class MockRoutingService {
   }
   go() {}
 }
+class MockCmsRoutesService {
+  contentRouteExist() {
+    return true;
+  }
+}
+const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
 describe('CmsPageGuards', () => {
   let routingService: RoutingService;
@@ -25,7 +37,8 @@ describe('CmsPageGuards', () => {
       providers: [
         CmsPageGuards,
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CmsService, useClass: MockCmsService }
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsRoutesService, useClass: MockCmsRoutesService }
       ],
       imports: [RouterTestingModule]
     });
@@ -44,7 +57,7 @@ describe('CmsPageGuards', () => {
 
         let result: boolean;
         cmsPageGuards
-          .canActivate()
+          .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
           .unsubscribe();
 
@@ -59,7 +72,7 @@ describe('CmsPageGuards', () => {
 
         let result: boolean;
         cmsPageGuards
-          .canActivate()
+          .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
           .unsubscribe();
 
@@ -74,7 +87,7 @@ describe('CmsPageGuards', () => {
         spyOn(routingService, 'go');
 
         cmsPageGuards
-          .canActivate()
+          .canActivate(mockRouteSnapshot, undefined)
           .subscribe()
           .unsubscribe();
 

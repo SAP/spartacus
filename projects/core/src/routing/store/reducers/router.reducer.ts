@@ -13,7 +13,7 @@ import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
 import { PageContext } from '../../models/page-context.model';
 import { PageType } from '../../../occ/occ-models/index';
-import { CmsActivatedRouteSnapshot } from '@spartacus/core';
+import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {

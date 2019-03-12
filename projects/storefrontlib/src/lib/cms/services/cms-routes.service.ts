@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import {
-  CmsRoute,
-  CmsService,
-  PageContext,
-  PageType
-} from '@spartacus/core';
+import { CmsRoute, CmsService, PageContext, PageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PageLayoutComponent } from '../page-layout/page-layout.component';

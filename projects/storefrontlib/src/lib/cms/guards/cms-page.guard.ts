@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, RouterStateSnapshot } from '@angular/router';
 
-import { RoutingService, CmsService } from '@spartacus/core';
+import {
+  RoutingService,
+  CmsService,
+  CmsActivatedRouteSnapshot
+} from '@spartacus/core';
 
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
@@ -18,7 +22,7 @@ export class CmsPageGuards implements CanActivate {
   ) {}
 
   canActivate(
-    route: ActivatedRouteSnapshot,
+    route: CmsActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
     return this.routingService.getPageContext().pipe(
@@ -33,7 +37,7 @@ export class CmsPageGuards implements CanActivate {
       switchMap(([hasPage, pageContext]) => {
         if (
           hasPage &&
-          !route.data.cmsContentRoute &&
+          !route.data.cxCmsContext &&
           !this.cmsRoutes.contentRouteExist(pageContext.id)
         ) {
           return this.cmsRoutes.handleContentRoutes(pageContext, state.url);

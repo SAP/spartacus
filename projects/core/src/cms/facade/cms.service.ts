@@ -11,7 +11,8 @@ import {
   switchMap,
   take,
   multicast,
-  refCount, catchError
+  refCount,
+  catchError
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -162,9 +163,7 @@ export class CmsService {
    * @param pageContext
    */
   getPageState(pageContext: PageContext): Observable<Page> {
-    return this.store.pipe(
-      select(fromStore.getPageData(pageContext)),
-    );
+    return this.store.pipe(select(fromStore.getPageData(pageContext)));
   }
 
   /**
