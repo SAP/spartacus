@@ -23,7 +23,7 @@ class MockRouter {
   }
 }
 
-describe('ConfigurableRoutesService', () => {
+fdescribe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
   let router: Router;
@@ -72,6 +72,19 @@ describe('ConfigurableRoutesService', () => {
       loader.routesConfig.translations = { en: {} };
       await service.init();
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
+    });
+
+    it('should keep child routes dor routes that are NOT configurable', async () => {
+      router.config = [
+        { path: 'path1' },
+        { path: 'path2', children: [{ path: 'subPath' }] }
+      ];
+      loader.routesConfig.translations = { en: {} };
+      await service.init();
+      expect(router.config).toEqual([
+        { path: 'path1' },
+        { path: 'path2', children: [{ path: 'subPath' }] }
+      ]);
     });
 
     it('should NOT translate "redirectTo" of routes that are NOT configurable', async () => {
