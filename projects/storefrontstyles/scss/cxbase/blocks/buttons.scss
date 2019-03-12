@@ -1,5 +1,4 @@
 @import '../../theme';
-@import '../../mixins';
 @import '~bootstrap/scss/buttons';
 
 button {
@@ -47,8 +46,8 @@ button {
   }
 
   &-primary {
-    @include var-color('background-color', 'primary');
-    @include var-color('border-color', 'primary');
+    background-color: var(--cx-background-color, var(--cx-g-color-primary));
+    border-color: var(--cx-border-color, var(--cx-g-color-primary));
 
     &:hover {
       // background-color: mix(#000000, theme-color('primary'), 12%);
