@@ -19,6 +19,8 @@
     "@ngrx/effects": "~7.0.0",
     "@ngrx/router-store": "~7.0.0",
     "@ngrx/store": "~7.0.0",
+    "i18next": "^15.0.6",
+    "i18next-xhr-backend": "^2.0.1",
     "ngrx-store-localstorage": "^5.1.0"
   }
 }
