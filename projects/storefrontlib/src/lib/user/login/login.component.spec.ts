@@ -20,7 +20,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 class MockAuthService {
   login = createSpy();
-  logout = createSpy();
   getUserToken(): Observable<UserToken> {
     return of();
   }
@@ -75,7 +74,6 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
 
   let authService: MockAuthService;
-  let routingService: MockRoutingService;
   let userService: MockUserService;
 
   beforeEach(async(() => {
@@ -106,7 +104,6 @@ describe('LoginComponent', () => {
     }).compileComponents();
 
     authService = TestBed.get(AuthService);
-    routingService = TestBed.get(RoutingService);
     userService = TestBed.get(UserService);
   }));
 
@@ -118,15 +115,6 @@ describe('LoginComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should logout and clear user state', () => {
-    component.logout();
-    expect(component.isLogin).toEqual(false);
-    expect(authService.logout).toHaveBeenCalled();
-    expect(routingService.go).toHaveBeenCalledWith({
-      route: ['login']
-    });
   });
 
   it('should load user details when token exists', () => {
