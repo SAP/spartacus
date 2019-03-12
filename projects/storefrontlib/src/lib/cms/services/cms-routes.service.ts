@@ -16,8 +16,8 @@ export class CmsRoutesService {
     private cmsMapping: CmsMappingService
   ) {}
 
-  contentRouteExist(url: string) {
-    return this.router.config.find(
+  contentRouteExist(url: string): boolean {
+    return !!this.router.config.find(
       (route: CmsRoute) =>
         route.data &&
         route.data.cxCmsContext &&
@@ -60,7 +60,6 @@ export class CmsRoutesService {
       };
 
       this.router.resetConfig([newRoute, ...this.router.config]);
-      console.log('resetconfig page', this.router.config);
       return true;
     }
 

@@ -51,7 +51,7 @@ export class CmsMappingService {
     for (const slot of Object.keys(pageData.slots)) {
       for (const component of pageData.slots[slot].components || []) {
         const mappedType = this.getMappedType(component);
-        if (this.isMappedTypeEnabled(mappedType)) {
+        if (mappedType && this.isMappedTypeEnabled(mappedType)) {
           mappings.add(mappedType);
         }
       }
