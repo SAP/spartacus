@@ -1,16 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  RoutingService,
   Order,
   Address,
-  AuthService,
   PaymentDetails,
   DeliveryMode,
   UserService
 } from '@spartacus/core';
 
-import { Observable, Subscription, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -18,35 +15,12 @@ import { Card } from '../../../../ui/components/card/card.component';
   templateUrl: './order-detail-shipping.component.html',
   styleUrls: ['./order-detail-shipping.component.scss']
 })
-export class OrderDetailShippingComponent implements OnInit, OnDestroy {
-  constructor(
-    private authService:    AuthService,
-    private userService:    UserService,
-    private routingService: RoutingService
-  ) {}
+export class OrderDetailShippingComponent implements OnInit {
+  constructor(protected userService: UserService) {}
 
   order$: Observable<Order>;
-  subscription: Subscription;
 
   ngOnInit() {
-    const userId$: Observable<string> = this.authService
-      .getUserToken()
-      .pipe(map(userData => userData.userId));
-
-    const orderCode$: Observable<
-      string
-      > = this.routingService
-      .getRouterState()
-      .pipe(map(routingData => routingData.state.params.orderCode));
-
-    this.subscription = combineLatest(userId$, orderCode$).subscribe(
-      ([userId, orderCode]) => {
-        if (userId && orderCode) {
-          this.userService.loadOrderDetails(userId, orderCode);
-        }
-      }
-    );
-
     this.order$ = this.userService.getOrderDetails();
   }
 
@@ -72,7 +46,7 @@ export class OrderDetailShippingComponent implements OnInit, OnDestroy {
         billingAddress.line2,
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
           billingAddress.postalCode
-          }`,
+        }`,
         billingAddress.phone
       ]
     };
@@ -96,13 +70,5 @@ export class OrderDetailShippingComponent implements OnInit, OnDestroy {
       textBold: shipping.name,
       text: [shipping.description]
     };
-  }
-
-  ngOnDestroy() {
-    this.userService.clearOrderDetails();
-
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

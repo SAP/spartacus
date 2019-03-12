@@ -1,45 +1,5 @@
 @import 'theme';
 
-.cx-header {
-  padding: var(--cx-padding, 1.875rem 0);
-  margin-top: var(--cx-margin, 2.5rem);
-  margin-bottom: var(--cx-margin, 1.875rem);
-  border-width: var(--cx-border-width, 1px);
-  border-style: var(--cx-style, solid);
-  border-color: var(--cx-border-color, var(--cx-g-color-light));
-
-  @include media-breakpoint-down(sm) {
-    border: var(--cx-border, 0 none);
-    margin: var(--cx-margin, 0);
-  }
-}
-
-.cx-detail {
-  border-width: var(--cx-border-width, 0 1px 0 0);
-  border-style: var(--cx-style, solid);
-  border-color: var(--cx-border-color, var(--cx-g-color-light));
-  padding-left: var(--cx-padding, 1.875rem);
-
-  &:last-child {
-    border: var(--cx-border, 0 none);
-  }
-
-  @include media-breakpoint-down(sm) {
-    padding-bottom: var(--cx-padding, 0.625rem);
-    padding-left: var(--cx-padding, 0.3125rem);
-    border-right: var(--cx-border, 0 none);
-  }
-}
-
-.cx-detail-label {
-  @include type('4');
-}
-
-.cx-detail-value {
-  @include type('5');
-  font-weight: var(--cx-g-font-weight-normal, 400);
-}
-
 .cx-list-header {
   display: var(--cx-display, flex);
   justify-content: var(--cx-justify-content, space-between);
@@ -76,55 +36,5 @@
   padding: var(--cx-padding, 0 0 2.5rem 0);
   @include media-breakpoint-down(sm) {
     padding: var(--cx-padding, 0);
-  }
-}
-
-.cx-summary {
-  @include media-breakpoint-down(sm) {
-    padding: var(--cx-padding, 0 0.25rem);
-  }
-}
-
-.cx-account-summary {
-  background-color: var(--cx-background-color, var(--cx-g-color-background));
-  margin-bottom: var(--cx-margin, 3.125rem);
-
-  @include media-breakpoint-down(sm) {
-    margin-bottom: var(--cx-margin, 0);
-  }
-
-  .cx-summary-card {
-    @include media-breakpoint-down(sm) {
-      padding-left: var(--cx-padding, 0);
-      padding-right: var(--cx-padding, 0);
-    }
-  }
-}
-
-.cx-list {
-  .cx-item-list-header {
-    padding: var(--cx-padding, 1.125rem 1.875rem);
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 1.125rem 1.875rem);
-    }
-  }
-
-  .cx-item-list-row {
-    padding: var(--cx-padding, 1.625rem 1.875rem);
-    @include media-breakpoint-down(md) {
-      padding: var(--cx-padding, 1.625rem 1.875rem);
-    }
-
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.625rem 0);
-    }
-  }
-
-  .cx-item-list-items {
-    padding: var(--cx-padding, 0);
-
-    @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 0 0 0 1.25rem);
-    }
   }
 }
