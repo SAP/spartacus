@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 import * as fromEffects from './router.effect';
 import * as fromActions from '../actions/router.action';
 import { Action } from '@ngrx/store';
+import { Logout } from '@spartacus/core';
 
 describe('Router Effects', () => {
   let actions$: Observable<Action>;
@@ -18,9 +19,14 @@ describe('Router Effects', () => {
   let router: Router;
   let location: Location;
 
+  const mockRoutes = [
+    { path: 'test', component: true, data: { cxCmsContext: true } },
+    { path: 'test2', component: true }
+  ] as any;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule.withRoutes(mockRoutes)],
       providers: [fromEffects.RouterEffects, provideMockActions(() => actions$)]
     });
 
@@ -56,6 +62,21 @@ describe('Router Effects', () => {
       spyOn(router, 'navigate');
       effects.navigate$.subscribe(() => {
         expect(router.navigateByUrl).toHaveBeenCalledWith('/test');
+      });
+    });
+  });
+
+  describe('clearCustomRoutes$', () => {
+    it('should remove custom routes', () => {
+      const action = new Logout();
+
+      actions$ = hot('-a', { a: action });
+
+      spyOn(router, 'resetConfig');
+      effects.clearCustomRoutes$.subscribe(() => {
+        expect(router.resetConfig).toHaveBeenCalledWith([
+          { path: 'test2', component: true }
+        ]);
       });
     });
   });

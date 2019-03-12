@@ -39,8 +39,7 @@ export class RouterEffects {
         (route: CmsRoute) => !(route.data && route.data.cxCmsContext)
       );
       if (filteredConfig.length !== this.router.config.length) {
-        this.router.config = filteredConfig;
-        console.log('reset', this.router.config);
+        this.router.resetConfig(filteredConfig);
       }
     })
   );
