@@ -5,7 +5,7 @@ context('Forgot Password Page', () => {
 
   it('should request password reset email', () => {
     cy.get('cx-forgot-password form').within(() => {
-      cy.get('[formcontrolname="userEmail"]').type('test@test.com');
+      cy.get('[formcontrolname="userEmail"]').type(getRandomEmailAddress());
       cy.get('button[type="submit"]').click();
     });
     // After requesting a reset password email, we should be taken back to the login page
@@ -16,4 +16,8 @@ context('Forgot Password Page', () => {
       'An email has been sent to you with information on how to reset your password.'
     );
   });
+
+  function getRandomEmailAddress() {
+    return Math.random().toString(36) + '@e2e-test.com';
+  }
 });
