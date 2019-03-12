@@ -46,7 +46,7 @@ describe('', () => {
       const completion1 = new fromActions.ForgotPasswordEmailRequestSuccess();
       const completion2 = new AddMessage({
         text:
-        'An email has been sent to you with information on how to reset your password.',
+          'An email has been sent to you with information on how to reset your password.',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION
       });
 
