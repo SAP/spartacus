@@ -6,8 +6,6 @@ import {
   AuthService,
   PaymentDetails,
   DeliveryMode,
-  Consignment,
-  OrderEntry,
   UserService
 } from '@spartacus/core';
 
@@ -98,15 +96,6 @@ export class OrderDetailShippingComponent implements OnInit, OnDestroy {
       textBold: shipping.name,
       text: [shipping.description]
     };
-  }
-
-  getConsignmentProducts(consignment: Consignment): OrderEntry[] {
-    const products: OrderEntry[] = [];
-    consignment.entries.forEach(element => {
-      products.push(element.orderEntry);
-    });
-
-    return products;
   }
 
   ngOnDestroy() {
