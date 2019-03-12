@@ -74,7 +74,7 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
     });
 
-    it('should keep child routes dor routes that are NOT configurable', async () => {
+    it('should keep child routes for routes that are NOT configurable', async () => {
       router.config = [
         { path: 'path1' },
         { path: 'path2', children: [{ path: 'subPath' }] }
