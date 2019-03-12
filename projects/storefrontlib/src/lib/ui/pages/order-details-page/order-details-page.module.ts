@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthGuard } from '@spartacus/core';
 import { OrderDetailsPageComponent } from './order-details-page.component';
 import { CmsPageGuards } from '../../../cms/guards/cms-page.guard';
-import { AuthGuard } from '@spartacus/core';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { OrderDetailsModule } from '../../../my-account/order/order-details/order-details.module';
 
