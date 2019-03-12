@@ -7,7 +7,8 @@ import {
   RoutingModule,
   StateModule,
   SmartEditModule,
-  CxApiModule
+  CxApiModule,
+  TranslationModule
 } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
@@ -32,7 +33,8 @@ import { MultiStepCheckoutModule } from './checkout/index';
     ConfigModule.forRoot(),
     CxApiModule,
     SmartEditModule.forRoot(),
-    MultiStepCheckoutModule
+    MultiStepCheckoutModule,
+    TranslationModule.forRoot()
   ],
   exports: [UiModule],
   declarations: []
