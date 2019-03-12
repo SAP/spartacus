@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import {
   CmsConfig,
   ContentSlotComponentData,
@@ -7,12 +7,16 @@ import {
   Page
 } from '@spartacus/core';
 import { Route } from '@angular/router';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CmsMappingService {
-  constructor(private config: CmsConfig) {}
+  constructor(
+    private config: CmsConfig,
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   /**
    * The "JspIncludeComponent" and "FlexCmsComponent" are types of CmsComponent that behave
@@ -34,11 +38,22 @@ export class CmsMappingService {
     }
   }
 
+  isComponentMappingEnabled(componentId: string): boolean {
+    const isSSR = isPlatformServer(this.platformId);
+    const isComponentDisabledInSSR = (
+      this.config.cmsComponents[componentId] || {}
+    ).disableSSR;
+    return !(isSSR && isComponentDisabledInSSR);
+  }
+
   getComponentMappings(pageData: Page): string[] {
     const mappings = new Set<string>();
     for (const slot of Object.keys(pageData.slots)) {
       for (const component of pageData.slots[slot].components || []) {
-        mappings.add(this.getComponentMappedType(component));
+        const mappedType = this.getComponentMappedType(component);
+        if (this.isComponentMappingEnabled(mappedType)) {
+          mappings.add(mappedType);
+        }
       }
     }
     return Array.from(mappings);
@@ -49,7 +64,6 @@ export class CmsMappingService {
     for (const componentId of this.getComponentMappings(pageData)) {
       routes.push(...this.getRoutesFromComponent(componentId));
     }
-    console.log('routes', routes);
     return routes;
   }
 

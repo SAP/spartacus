@@ -21,7 +21,7 @@ export class CmsRoutesService {
       (route: CmsRoute) =>
         route.data &&
         route.data.cxCmsContext &&
-        route.path.startsWith('/') &&
+        url.startsWith('/') &&
         route.path === url.substr(1)
     );
   }
