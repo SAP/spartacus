@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Product, ReviewList, Review } from '../../occ/occ-models/occ.models';
 import { OccProductConfig } from './product-config';
-
-const ENDPOINT_PRODUCT = 'products';
+import { dynamicTemplate } from '../../config/utils/dynamic-template';
 
 @Injectable()
 export class OccProductService {
@@ -15,21 +14,21 @@ export class OccProductService {
 
   protected getProductEndpoint(): string {
     return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      ENDPOINT_PRODUCT
+      (this.config.occProduct.baseUrl || (this.config.server.baseUrl || '')) +
+      (this.config.occProduct.occPrefix || this.config.server.occPrefix) +
+      (this.config.occProduct.baseSite || this.config.site.baseSite) +
+      '/'
     );
   }
 
   loadProduct(productCode: string): Observable<Product> {
-    const params = new HttpParams({
-      fromString: this.config.occProduct.loadProduct.join(',')
-    });
-
     return this.http
-      .get(this.getProductEndpoint() + `/${productCode}`, { params })
+      .get(
+        this.getProductEndpoint() +
+          dynamicTemplate(this.config.occProduct.getProduct, {
+            productCode
+          })
+      )
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
@@ -37,16 +36,15 @@ export class OccProductService {
     productCode: string,
     maxCount?: number
   ): Observable<ReviewList> {
-    const params = new HttpParams({
-      fromString: this.config.occProduct.loadProductReviews.join(',')
-    });
-    let url = this.getProductEndpoint() + `/${productCode}/reviews`;
+    let url =
+      this.getProductEndpoint() +
+      dynamicTemplate(this.config.occProduct.getProduct, { productCode });
     if (maxCount && maxCount > 0) {
       url += `?maxCount=${maxCount}`;
     }
 
     return this.http
-      .get(url, { params })
+      .get(url)
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

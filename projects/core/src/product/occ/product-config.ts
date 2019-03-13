@@ -2,14 +2,9 @@ import { OccConfig } from '../../occ/config/occ-config';
 
 export const defaultOccProductConfig: OccProductConfig = {
   occProduct: {
-    loadProduct: [
-      'fields=DEFAULT',
-      'averageRating',
-      'images(FULL)',
-      'classifications',
-      'numberOfReviews'
-    ],
-    loadProductReviews: [],
+    getProduct:
+      'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews',
+    getProductReviews: 'products/${productCode}/reviews',
     productSearch: [
       'fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating)',
       'facets',
@@ -23,9 +18,13 @@ export const defaultOccProductConfig: OccProductConfig = {
 
 export abstract class OccProductConfig extends OccConfig {
   occProduct?: {
-    loadProduct?: string[];
-    loadProductReviews?: string[];
+    getProduct?: string;
+    getProductReviews?: string;
     productSearch?: string[];
     productSuggestions?: string[];
+
+    baseUrl?: string;
+    occPrefix?: string;
+    baseSite?: string;
   };
 }
