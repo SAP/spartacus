@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { map, multicast, refCount, switchMap, tap } from 'rxjs/operators';
 
 import {
   AuthService,
@@ -13,7 +13,7 @@ import {
 export class OrderDetailsService {
   userId$: Observable<string>;
   orderCode$: Observable<string>;
-  subscription: Subscription;
+  orderLoad$: Observable<string[]>;
 
   constructor(
     private authService: AuthService,
@@ -28,16 +28,21 @@ export class OrderDetailsService {
       .getRouterState()
       .pipe(map(routingData => routingData.state.params.orderCode));
 
-    combineLatest(this.userId$, this.orderCode$).subscribe(
-      ([userId, orderCode]) => {
+    this.orderLoad$ = combineLatest(this.userId$, this.orderCode$).pipe(
+      tap(([userId, orderCode]) => {
         if (userId && orderCode) {
           this.userService.loadOrderDetails(userId, orderCode);
         }
-      }
+      }),
+      // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
+      multicast(() => new ReplaySubject(1)),
+      refCount()
     );
   }
 
   getOrderDetails(): Observable<Order> {
-    return this.userService.getOrderDetails();
+    return this.orderLoad$.pipe(
+      switchMap(() => this.userService.getOrderDetails())
+    );
   }
 }
