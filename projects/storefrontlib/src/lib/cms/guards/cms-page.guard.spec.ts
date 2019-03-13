@@ -26,6 +26,9 @@ class MockCmsRoutesService {
   contentRouteExist() {
     return true;
   }
+  handleContentRoutes() {
+    return of(false);
+  }
 }
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
@@ -92,6 +95,32 @@ describe('CmsPageGuards', () => {
           .unsubscribe();
 
         expect(routingService.go).toHaveBeenCalled();
+      }
+    ));
+
+    it('should switch to handleContentRoutes for generic pages', inject(
+      [CmsService, CmsPageGuards, CmsRoutesService],
+      (
+        cmsService: CmsService,
+        cmsPageGuards: CmsPageGuards,
+        cmsRoutes: CmsRoutesService
+      ) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsRoutes, 'contentRouteExist').and.returnValue(false);
+        spyOn(cmsRoutes, 'handleContentRoutes').and.callThrough();
+
+        let result;
+
+        cmsPageGuards
+          .canActivate(mockRouteSnapshot, { url: '/test' } as any)
+          .subscribe(res => (result = res));
+
+        expect(result).toEqual(false);
+        expect(cmsRoutes.contentRouteExist).toHaveBeenCalledWith('testPageId');
+        expect(cmsRoutes.handleContentRoutes).toHaveBeenCalledWith(
+          { id: 'testPageId', type: 'ContentPage' },
+          '/test'
+        );
       }
     ));
   });
