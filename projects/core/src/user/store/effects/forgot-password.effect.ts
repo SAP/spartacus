@@ -29,8 +29,7 @@ export class ForgotPasswordEffects {
             new fromActions.ForgotPasswordEmailRequestSuccess(),
             new AddMessage({
               text:
-                'Password reset instructions have been sent to your e-mail address. ' +
-                'Please contact customer support if you require additional assistance.',
+                'An email has been sent to you with information on how to reset your password.',
               type: GlobalMessageType.MSG_TYPE_CONFIRMATION
             })
           ]),
