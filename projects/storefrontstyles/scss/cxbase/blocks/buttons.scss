@@ -50,31 +50,23 @@ button {
     border-color: var(--cx-border-color, var(--cx-g-color-primary));
 
     &:hover {
-      // background-color: mix(#000000, theme-color('primary'), 12%);
-      // border-color: mix(#000000, theme-color('primary'), 12%);
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
+      background-color: var(--cx-background-color, var(--cx-g-color-primary));
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
       @include cx-darken(88);
     }
 
     &.active {
-      // background-color: mix(#000000, theme-color('primary'), 12%) !important;
-      // border-color: mix(#000000, theme-color('primary'), 12%) !important;
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
+      background-color: var(--cx-background-color, var(--cx-g-color-primary));
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
       @include cx-darken(88);
     }
 
     &.disabled {
-      // background-color: lighten(theme-color('primary'), 26%);
-      // border-color: lighten(theme-color('primary'), 26%);
-      // opacity: 1;
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
+      background-color: var(--cx-background-color, var(--cx-g-color-primary));
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
 
       &:hover {
-        // border-color: lighten(theme-color('primary'), 26%);
-        @include var-color('border-color', 'primary');
+        border-color: var(--cx-border-color, var(--cx-g-color-primary));
         @include cx-darken(100);
       }
     }
@@ -85,8 +77,8 @@ button {
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      @include var-color('background-color', 'primary');
-      @include var-color('border-color', 'primary');
+      background-color: var(--cx-background-color, var(--cx-g-color-primary));
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
       @include cx-darken(88);
 
       &:focus {
@@ -96,35 +88,27 @@ button {
   }
 
   &-secondary {
-    @include var-color('background-color', 'secondary');
-    @include var-color('border-color', 'secondary');
+    background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+    border-color: var(--cx-border-color, var(--cx-g-color-secondary));
 
     &:hover {
-      // background-color: darken(theme-color('secondary'), 16%);
-      // border-color: darken(theme-color('secondary'), 16%);
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
+      background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+      border-color: var(--cx-border-color, var(--cx-g-color-secondary));
       @include cx-darken(84);
     }
 
     &.active {
-      // background-color: darken(theme-color('secondary'), 16%) !important;
-      // border-color: darken(theme-color('secondary'), 16%) !important;
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
+      background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+      border-color: var(--cx-border-color, var(--cx-g-color-secondary));
       @include cx-darken(84);
     }
 
     &.disabled {
-      // background-color: lighten(theme-color('secondary'), 31%);
-      // border-color: lighten(theme-color('secondary'), 31%);
-      // opacity: 1;
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
+      background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+      border-color: var(--cx-border-color, var(--cx-g-color-secondary));
 
       &:hover {
-        // border-color: lighten(theme-color('secondary'), 31%);
-        @include var-color('border-color', 'secondary');
+        border-color: var(--cx-border-color, var(--cx-g-color-secondary));
         @include cx-darken(100);
       }
     }
@@ -135,8 +119,8 @@ button {
 
     &:not(:disabled):not(.disabled):active,
     &:not(:disabled):not(.disabled).active {
-      @include var-color('background-color', 'secondary');
-      @include var-color('border-color', 'secondary');
+      background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+      border-color: var(--cx-border-color, var(--cx-g-color-secondary));
       @include cx-darken(84);
 
       &:focus {
@@ -159,20 +143,21 @@ button {
   border: 2px solid;
 
   &:hover {
-    color: theme-color('primary');
+    color: var(--cx-color, var(--cx-g-color-primary));
     border: 2px solid theme-color('primary');
     background-color: theme-color('inverse');
   }
 
   &.active {
-    color: theme-color('primary') !important;
+    color: var(--cx-color, var(--cx-g-color-primary));
+    // color: theme-color('primary') !important;
     border: 2px solid !important;
     background-color: theme-color('inverse') !important;
   }
 
   &.disabled {
+    color: var(--cx-color, var(--cx-g-color-light));
     border: 2px solid theme-color('light');
-    color: theme-color('light');
     opacity: 1;
   }
 }
