@@ -37,8 +37,17 @@ describe('Router Reducer', () => {
           { path: 'product/:productCode', component: TestComponent },
           {
             path: 'cmsPage',
+            component: TestComponent
+          },
+          {
+            path: 'dynamically-created',
             component: TestComponent,
-            data: { pageLabel: 'cmsPage' }
+            data: {
+              cxCmsContext: {
+                type: PageType.CONTENT_PAGE,
+                id: 'explicit'
+              }
+            }
           },
           { path: '**', component: TestComponent }
         ]),
@@ -226,6 +235,11 @@ describe('Router Reducer', () => {
     it('for route defined with page label', async () => {
       await zone.run(() => router.navigateByUrl('/cmsPage'));
       expect(context).toEqual({ id: 'cmsPage', type: PageType.CONTENT_PAGE });
+    });
+
+    it('for route with cxCmsContext context', async () => {
+      await zone.run(() => router.navigateByUrl('/dynamically-created'));
+      expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
     });
   });
 });
