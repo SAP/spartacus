@@ -37,7 +37,8 @@ describe('Router Reducer', () => {
           { path: 'product/:productCode', component: TestComponent },
           {
             path: 'cmsPage',
-            component: TestComponent
+            component: TestComponent,
+            data: { pageLabel: 'cmsPage' }
           },
           {
             path: 'dynamically-created',
