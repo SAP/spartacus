@@ -42,14 +42,15 @@ context('Reset Password Page', () => {
     }).as('postResetPassword');
     // Assert there are no messages already.
     cy.get('cx-global-message div.alert').should('not.exist');
-    // The form is submited without any a change password token,
+    // The form is submitted to the Cypress mock endpoint.
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
       cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
       cy.get('button[type="submit"]').click();
     });
+    // The app should go back to the login page.
     cy.url().should('match', /\/login$/);
-    // A global error message should appear.
+    // A global success message should appear.
     cy.get('cx-global-message .alert-info').should(
       'contain',
       'Success! You can now login using your new password.'
