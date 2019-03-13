@@ -185,7 +185,7 @@ export class ConfigurableRoutesService {
       }
       return this.translateRoutes(route.children, childrenTranslations);
     }
-    return null;
+    return route.children;
   }
 
   private translateRoute(

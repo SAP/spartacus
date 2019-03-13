@@ -5,7 +5,7 @@ import { RoutingService, PageType, CmsService } from '@spartacus/core';
 
 import { of } from 'rxjs';
 
-import { CmsPageGuards } from './cms-page.guard';
+import { CmsPageGuard } from './cms-page.guard';
 
 class MockCmsService {
   hasPage() {}
@@ -17,13 +17,13 @@ class MockRoutingService {
   go() {}
 }
 
-describe('CmsPageGuards', () => {
+describe('CmsPageGuard', () => {
   let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CmsPageGuards,
+        CmsPageGuard,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService }
       ],
@@ -38,12 +38,12 @@ describe('CmsPageGuards', () => {
 
   describe('canActivate', () => {
     it('should return true when CmsService hasPage is true for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
 
         let result: boolean;
-        cmsPageGuards
+        cmsPageGuard
           .canActivate()
           .subscribe(value => (result = value))
           .unsubscribe();
@@ -53,12 +53,12 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should return false when CmsService hasPage is false for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
 
         let result: boolean;
-        cmsPageGuards
+        cmsPageGuard
           .canActivate()
           .subscribe(value => (result = value))
           .unsubscribe();
@@ -68,12 +68,12 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should redirect when CmsService hasPage is false for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
         spyOn(routingService, 'go');
 
-        cmsPageGuards
+        cmsPageGuard
           .canActivate()
           .subscribe()
           .unsubscribe();
