@@ -34,7 +34,13 @@ describe('Router Reducer', () => {
         RouterTestingModule.withRoutes([
           { path: '', component: TestComponent },
           { path: 'category/:categoryCode', component: TestComponent },
-          { path: 'product/:productCode', component: TestComponent }
+          { path: 'product/:productCode', component: TestComponent },
+          {
+            path: 'cmsPage',
+            component: TestComponent,
+            data: { pageLabel: 'cmsPage' }
+          },
+          { path: '**', component: TestComponent }
         ]),
         StoreRouterConnectingModule
       ],
@@ -197,6 +203,29 @@ describe('Router Reducer', () => {
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
       cmsRequired: false
+    });
+  });
+
+  describe('should set correct context for content pages', () => {
+    let context;
+
+    beforeEach(async () => {
+      store.subscribe(routerStore => {
+        context = routerStore.router.state.context;
+      });
+    });
+
+    it('for generic page', async () => {
+      await zone.run(() => router.navigateByUrl('/customCmsPage'));
+      expect(context).toEqual({
+        id: '/customCmsPage',
+        type: PageType.CONTENT_PAGE
+      });
+    });
+
+    it('for route defined with page label', async () => {
+      await zone.run(() => router.navigateByUrl('/cmsPage'));
+      expect(context).toEqual({ id: 'cmsPage', type: PageType.CONTENT_PAGE });
     });
   });
 });
