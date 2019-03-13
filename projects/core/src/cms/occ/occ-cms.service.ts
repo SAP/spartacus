@@ -28,12 +28,17 @@ export class OccCmsService {
   }
 
   loadPageData(pageContext: PageContext, fields?: string): Observable<CMSPage> {
-    let httpStringParams = 'pageType=' + pageContext.type;
+    let httpStringParams = '';
 
-    if (pageContext.type === PageType.CONTENT_PAGE) {
-      httpStringParams = httpStringParams + '&pageLabelOrId=' + pageContext.id;
-    } else {
-      httpStringParams = httpStringParams + '&code=' + pageContext.id;
+    if (pageContext.id !== 'smartedit-preview') {
+      httpStringParams = 'pageType=' + pageContext.type;
+
+      if (pageContext.type === PageType.CONTENT_PAGE) {
+        httpStringParams =
+          httpStringParams + '&pageLabelOrId=' + pageContext.id;
+      } else {
+        httpStringParams = httpStringParams + '&code=' + pageContext.id;
+      }
     }
 
     if (fields !== undefined) {
