@@ -161,7 +161,7 @@ export class CustomSerializer
         (state.routeConfig &&
           state.routeConfig.canActivate &&
           state.routeConfig.canActivate.find(
-            x => x && x.guardName === 'CmsPageGuards'
+            x => x && x.guardName === 'CmsPageGuard'
           ))
       ) {
         cmsRequired = true;

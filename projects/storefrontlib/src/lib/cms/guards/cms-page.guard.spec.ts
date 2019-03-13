@@ -10,7 +10,7 @@ import {
 
 import { of } from 'rxjs';
 
-import { CmsPageGuards } from './cms-page.guard';
+import { CmsPageGuard } from './cms-page.guard';
 import { CmsRoutesService } from '@spartacus/storefront';
 
 class MockCmsService {
@@ -32,13 +32,13 @@ class MockCmsRoutesService {
 }
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
-describe('CmsPageGuards', () => {
+describe('CmsPageGuard', () => {
   let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CmsPageGuards,
+        CmsPageGuard,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: CmsRoutesService, useClass: MockCmsRoutesService }
@@ -54,12 +54,12 @@ describe('CmsPageGuards', () => {
 
   describe('canActivate', () => {
     it('should return true when CmsService hasPage is true for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
 
         let result: boolean;
-        cmsPageGuards
+        cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
           .unsubscribe();
@@ -69,12 +69,12 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should return false when CmsService hasPage is false for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
 
         let result: boolean;
-        cmsPageGuards
+        cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
           .unsubscribe();
@@ -84,12 +84,12 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should redirect when CmsService hasPage is false for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
         spyOn(routingService, 'go');
 
-        cmsPageGuards
+        cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe()
           .unsubscribe();
@@ -99,10 +99,10 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should switch to handleContentRoutes for generic pages', inject(
-      [CmsService, CmsPageGuards, CmsRoutesService],
+      [CmsService, CmsPageGuard, CmsRoutesService],
       (
         cmsService: CmsService,
-        cmsPageGuards: CmsPageGuards,
+        cmsPageGuard: CmsPageGuard,
         cmsRoutes: CmsRoutesService
       ) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
@@ -111,7 +111,7 @@ describe('CmsPageGuards', () => {
 
         let result;
 
-        cmsPageGuards
+        cmsPageGuard
           .canActivate(mockRouteSnapshot, { url: '/test' } as any)
           .subscribe(res => (result = res));
 

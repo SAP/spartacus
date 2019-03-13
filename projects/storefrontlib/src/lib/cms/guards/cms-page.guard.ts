@@ -12,8 +12,8 @@ import { switchMap, tap } from 'rxjs/operators';
 import { CmsRoutesService } from '../services/cms-routes.service';
 
 @Injectable()
-export class CmsPageGuards implements CanActivate {
-  static guardName = 'CmsPageGuards';
+export class CmsPageGuard implements CanActivate {
+  static guardName = 'CmsPageGuard';
 
   constructor(
     private routingService: RoutingService,
