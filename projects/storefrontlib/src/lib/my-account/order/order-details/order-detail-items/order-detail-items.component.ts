@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Order, UserService, Consignment, OrderEntry } from '@spartacus/core';
-
 import { Observable } from 'rxjs';
+
+import { Order, Consignment, OrderEntry } from '@spartacus/core';
+
+import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -9,12 +11,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./order-detail-items.component.scss']
 })
 export class OrderDetailItemsComponent implements OnInit {
-  constructor(protected userService: UserService) {}
+  constructor(private orderDetailsService: OrderDetailsService) {}
 
   order$: Observable<Order>;
 
   ngOnInit() {
-    this.order$ = this.userService.getOrderDetails();
+    this.order$ = this.orderDetailsService.getOrderDetails();
   }
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {

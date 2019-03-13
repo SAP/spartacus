@@ -4,11 +4,11 @@ import {
   Address,
   PaymentDetails,
   DeliveryMode,
-  UserService
 } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
 import { Card } from '../../../../ui/components/card/card.component';
+import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-details-shipping',
@@ -16,12 +16,12 @@ import { Card } from '../../../../ui/components/card/card.component';
   styleUrls: ['./order-detail-shipping.component.scss']
 })
 export class OrderDetailShippingComponent implements OnInit {
-  constructor(protected userService: UserService) {}
+  constructor(private orderDetailsService: OrderDetailsService) {}
 
   order$: Observable<Order>;
 
   ngOnInit() {
-    this.order$ = this.userService.getOrderDetails();
+    this.order$ = this.orderDetailsService.getOrderDetails();
   }
 
   getAddressCardContent(address: Address): Card {

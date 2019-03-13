@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { OrderDetailsService } from './order-details.service';
 
 @NgModule({
   imports: [
@@ -30,6 +31,7 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
       }
     })
   ],
+  providers: [OrderDetailsService],
   declarations: [
     OrderDetailHeadlineComponent,
     OrderDetailItemsComponent,
