@@ -14,7 +14,7 @@
 .invalid-feedback {
   text-align: var(--cx-text-align, left);
   &::before {
-    content: '!';
+    content: var(--cx-content, '!');
     color: var(--cx-color, var(--cx-g-color-inverse));
     text-align: var(--cx-text-align, center);
     border-radius: var(--cx-border-radius, 50%);
@@ -97,7 +97,7 @@ label {
     display: var(--cx-display, inline-block);
 
     &:focus {
-      box-shadow: 0px 0px 0px 3px theme-color('light');
+      box-shadow: var(--cx-box-shadow, 0px 0px 0px 3px var(--cx-g-color-light));
       border-color: var(--cx-border-color, var(--cx-g-color-secondary));
     }
   }
@@ -117,7 +117,7 @@ label {
         color: var(--cx-color, var(--cx-g-color-inverse));
         position: var(--cx-position, absolute);
 
-        content: '';
+        content: var(--cx-content, '');
         display: var(--cx-display, inline-block);
         height: var(--cx-height, 6px);
         width: var(--cx-width, 9px);
