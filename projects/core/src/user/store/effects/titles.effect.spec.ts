@@ -27,6 +27,14 @@ const mockTitlesList: TitleList = {
     {
       code: 'mrs',
       name: 'Mrs.'
+    },
+    {
+      code: 'dr',
+      name: 'Dr.'
+    },
+    {
+      code: 'rev',
+      name: 'Rev.'
     }
   ]
 };
