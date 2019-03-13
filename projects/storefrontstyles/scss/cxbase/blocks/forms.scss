@@ -3,7 +3,7 @@
 @import '~bootstrap/scss/custom-forms';
 
 .form-control {
-  margin-bottom: spacer(1);
+  margin-bottom: var(--cx-margin, 0.25rem);
   &:focus {
     border-color: var(--cx-border-color, var(--cx-g-color-secondary));
     box-shadow: var(--cx-box-shadow, none);
