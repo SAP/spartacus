@@ -7,8 +7,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
-export class CmsPageGuards implements CanActivate {
-  static guardName = 'CmsPageGuards';
+export class CmsPageGuard implements CanActivate {
+  static guardName = 'CmsPageGuard';
 
   constructor(
     private routingService: RoutingService,
