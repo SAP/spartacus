@@ -1,41 +1,35 @@
 context('Reset Password Page', () => {
   beforeEach(() => {
-    // Clear the session to make sure no user is athenticated.
+    // Clear the session to make sure no user is authenticated.
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/login/pw/change');
   });
 
   it('should not submit an empty form', () => {
-    // Assert there are no messages already.
+    // Submitting an empty form should not procede. Detailed form validation cases are covered by unit tests.
     cy.get('cx-global-message .alert').should('not.exist');
 
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('button[type="submit"]').click();
     });
-    // Submitting an empty form should not move on to the next page.
-    // Detailed frontent form validation cases are covered by unit tests.
     cy.url().should('match', /\/login\/pw\/change$/);
-    // No global messages should appear.
     cy.get('cx-global-message .alert').should('not.exist');
   });
 
   it('should invalid token result in server error', () => {
-    // Assert there are no error messages already.
+    // The form is submited without any a change password token. An error message should appear and the page should not change.
     cy.get('cx-global-message .alert-danger').should('not.exist');
-    // The form is submited without any a change password token,
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
       cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
       cy.get('button[type="submit"]').click();
     });
     cy.url().should('match', /\/login\/pw\/change$/);
-    // A global error message should appear.
     cy.get('cx-global-message .alert-danger').should('exist');
   });
 
   it('should react as expected on password change success.', () => {
-    // We use a mock a success response to th resetpassword request because the
-    // change password token required is only available from a reset password email.
+    // We use a mock because the change password token required is only available from a reset password email.
     cy.server();
     cy.route({
       method: 'POST',
@@ -43,17 +37,14 @@ context('Reset Password Page', () => {
       status: 202,
       response: {}
     }).as('postResetPassword');
-    // Assert there are no messages already.
     cy.get('cx-global-message .alert-info').should('not.exist');
-    // The form is submitted to the Cypress mock endpoint.
+
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
       cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
       cy.get('button[type="submit"]').click();
     });
-    // The app should go back to the login page.
     cy.url().should('match', /\/login$/);
-    // A global success message should appear.
     cy.get('cx-global-message .alert-info').should(
       'contain',
       'Success! You can now login using your new password.'
