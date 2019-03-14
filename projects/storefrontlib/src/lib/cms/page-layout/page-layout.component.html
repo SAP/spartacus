@@ -1,7 +1,7 @@
 <ng-container *cxOutlet="section || (templateName$ | async)">
   <ng-content></ng-content>
-  <cx-dynamic-slot
+  <cx-page-slot
     *ngFor="let slot of (slots$ | async)"
     [position]="slot"
-  ></cx-dynamic-slot>
+  ></cx-page-slot>
 </ng-container>

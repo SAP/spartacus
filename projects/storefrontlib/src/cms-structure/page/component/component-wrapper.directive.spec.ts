@@ -7,7 +7,7 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CmsComponentData } from '../cms-component-data';
+import { CmsComponentData } from '../model/cms-component-data';
 import {
   CmsComponent,
   CmsService,

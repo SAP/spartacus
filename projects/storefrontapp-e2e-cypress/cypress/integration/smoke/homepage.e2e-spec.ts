@@ -8,7 +8,7 @@ context('Homepage', () => {
   });
 
   it('should have site logo', () => {
-    cy.get('cx-dynamic-slot.SiteLogo').should('be.visible');
+    cy.get('cx-page-slot.SiteLogo').should('be.visible');
   });
 
   it('should have splash banner', () => {
@@ -16,7 +16,7 @@ context('Homepage', () => {
   });
 
   it('should have footer with footer navigation and notice', () => {
-    cy.get('cx-dynamic-slot.Footer').within(() => {
+    cy.get('cx-page-slot.Footer').within(() => {
       cy.get('.navigation-elements').should('have.length', 3);
       cy.get('h1').should('have.length', 3);
       cy.get('cx-generic-link');
