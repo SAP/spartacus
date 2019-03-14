@@ -72,14 +72,6 @@ If you work for a team inside SAP, then component selectors should always start 
 
 Try to keep modules as small as possible. In most cases, one module has only one component. Also, we should always try to reduce module dependencies.
 
-The code structure of each module should be consistent. For example, most modules have the following folders:
-
-- a `store` folder that contains store-related code
-- a `facade` folder that contains all facade code for that particular module
-- an `occ` folder that contains module-specific services that call the OCC APIs to communicate with the back end
-
-The one exception is for UI components that are common to all modules, which are in `storefrontlib/src/lib/ui/components`.
-
 ### Testing
 
 All code must be covered by unit tests.
