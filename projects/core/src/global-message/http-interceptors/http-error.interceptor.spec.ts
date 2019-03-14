@@ -1,26 +1,31 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   HttpTestingController,
   HttpClientTestingModule
 } from '@angular/common/http/testing';
-import {
-  HTTP_INTERCEPTORS,
-  HttpClient,
-  HttpParams,
-  HttpHeaders
-} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import createSpy = jasmine.createSpy;
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 import { HttpErrorInterceptor } from './http-error.interceptor';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-
-const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
+import {
+  HttpErrorHandler,
+  UnknownErrorHandler,
+  ForbiddenHandler,
+  BadGatewayHandler,
+  BadRequestHandler,
+  ConflictHandler,
+  GatewayTimeoutHandler,
+  NotFoundHandler
+} from './handlers';
+import { HttpResponseStatus } from '../models/response-status.model';
 
 describe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
+  let http: HttpClient;
 
   beforeEach(() => {
     mockMessageService = {
@@ -36,129 +41,106 @@ describe('HttpErrorInterceptor', () => {
           useClass: HttpErrorInterceptor,
           multi: true
         },
+        {
+          provide: HttpErrorHandler,
+          useClass: HttpErrorHandler,
+          multi: true
+        },
+        BadGatewayHandler,
+        BadRequestHandler,
+        ConflictHandler,
+        ForbiddenHandler,
+        GatewayTimeoutHandler,
+        NotFoundHandler,
+        UnknownErrorHandler,
+        {
+          provide: HttpErrorHandler,
+          useExisting: UnknownErrorHandler,
+          multi: true
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: BadGatewayHandler,
+          multi: true
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: BadRequestHandler,
+          multi: true
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: ConflictHandler,
+          multi: true
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: ForbiddenHandler,
+          multi: true
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: GatewayTimeoutHandler,
+          multi: true
+        },
+        {
+          provide: HttpErrorHandler,
+          useExisting: NotFoundHandler,
+          multi: true
+        },
         { provide: GlobalMessageService, useValue: mockMessageService }
       ]
     });
 
     httpMock = TestBed.get(HttpTestingController);
+    http = TestBed.get(HttpClient);
   });
 
-  it(`should catch 400 error`, inject([HttpClient], (http: HttpClient) => {
-    const url = OAUTH_ENDPOINT;
-    const params = new HttpParams()
-      .set('refresh_token', 'some_token')
-      .set('grant_type', 'password'); // authorization_code, client_credentials, password
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+  describe('Error Handlers', () => {
+    function testHandlers(handlerClass, responseStatus) {
+      it('should call handleError for ' + handlerClass.name, function() {
+        http
+          .get('/123')
+          .pipe(catchError((error: any) => throwError(error)))
+          .subscribe(_result => {}, error => (this.error = error));
+        const mockReq = httpMock.expectOne(req => {
+          return req.method === 'GET';
+        });
+
+        const handler = TestBed.get(handlerClass);
+
+        spyOn(handler, 'handleError');
+        mockReq.flush({}, { status: responseStatus, statusText: '' });
+
+        expect(handler.handleError).toHaveBeenCalled();
+      });
+    }
+
+    testHandlers(UnknownErrorHandler, HttpResponseStatus.UNKNOWN);
+    testHandlers(BadGatewayHandler, HttpResponseStatus.BAD_GATEWAY);
+    testHandlers(BadRequestHandler, HttpResponseStatus.BAD_REQUEST);
+    testHandlers(ConflictHandler, HttpResponseStatus.CONFLICT);
+    testHandlers(ForbiddenHandler, HttpResponseStatus.FORBIDDEN);
+    testHandlers(GatewayTimeoutHandler, HttpResponseStatus.GATEWAY_TIMEOUT);
+    testHandlers(NotFoundHandler, HttpResponseStatus.NOT_FOUND);
+  });
+
+  describe('GlobalMessageServices', () => {
+    it(`should display "An unknown error occured" in global message service`, () => {
+      http
+        .get('/unknown')
+        .pipe(catchError((error: any) => throwError(error)))
+        .subscribe(_result => {}, error => (this.error = error));
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'GET';
+      });
+
+      mockReq.flush({}, { status: 123, statusText: 'unknown' });
+      expect(mockMessageService.add).toHaveBeenCalledWith({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: 'An unknown error occured'
+      });
     });
-
-    http
-      .post(url, params, { headers })
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(_result => {}, error => (this.error = error));
-
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'POST' && req.url === url;
-    });
-
-    mockReq.flush(
-      {
-        error: 'invalid_grant',
-        error_description: 'Bad credentials'
-      },
-      { status: 400, statusText: 'Error' }
-    );
-    expect(mockMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Bad credentials. Please login again.'
-    });
-    expect(mockMessageService.remove).toHaveBeenCalledWith(
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-  }));
-
-  it(`should catch 403 of error`, inject([HttpClient], (http: HttpClient) => {
-    http
-      .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(_result => {}, error => (this.error = error));
-
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
-
-    mockReq.flush({}, { status: 403, statusText: 'Fobidden' });
-    expect(mockMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'You are not authorized to perform this action.'
-    });
-  }));
-
-  it(`should catch 404 of error`, inject([HttpClient], (http: HttpClient) => {
-    http
-      .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(_result => {}, error => (this.error = error));
-
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
-
-    mockReq.flush({}, { status: 404, statusText: 'Not Found' });
-    expect(mockMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'The requested resource could not be found'
-    });
-  }));
-
-  it(`should catch 409 of error`, inject([HttpClient], (http: HttpClient) => {
-    http
-      .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(_result => {}, error => (this.error = error));
-
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
-
-    mockReq.flush({}, { status: 409, statusText: 'Already Exists' });
-    expect(mockMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Already exists'
-    });
-  }));
-
-  it(`should catch 502 of error`, inject([HttpClient], (http: HttpClient) => {
-    http
-      .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(_result => {}, error => (this.error = error));
-
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
-
-    mockReq.flush({}, { status: 502, statusText: 'Bad Gateway' });
-    expect(mockMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'A server error occurred. Please try again later.'
-    });
-  }));
-
-  it(`should catch 504 of error`, inject([HttpClient], (http: HttpClient) => {
-    http
-      .get('/test')
-      .pipe(catchError((error: any) => throwError(error)))
-      .subscribe(_result => {}, error => (this.error = error));
-
-    const mockReq = httpMock.expectOne(req => {
-      return req.method === 'GET';
-    });
-
-    mockReq.flush({}, { status: 504, statusText: 'Gateway Timeout' });
-    expect(mockMessageService.add).toHaveBeenCalledWith({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'The server did not responded, please try again later.'
-    });
-  }));
+  });
 });
