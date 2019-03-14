@@ -107,11 +107,7 @@
       {{ item.product.stock?.stockLevelStatus }}
     </div>
     <!-- Promotion -->
-    <div
-      class="cx-promo col-12"
-      *ngFor="let promotion of potentialProductPromotions"
-      [innerHTML]="promotion.description"
-    ></div>
+    <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
     <!-- Actions -->
     <div *ngIf="!isReadOnly" class="cx-actions col-12">
       <button

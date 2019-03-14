@@ -13,7 +13,7 @@ import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PipeTransform, Pipe } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CmsComponentData } from '../../cms';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Pipe({
   name: 'cxTranslateUrl'
