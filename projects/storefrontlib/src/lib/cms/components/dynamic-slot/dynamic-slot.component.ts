@@ -20,7 +20,6 @@ import { tap, map } from 'rxjs/operators';
 @Component({
   selector: 'cx-dynamic-slot',
   templateUrl: './dynamic-slot.component.html',
-  styleUrls: ['./dynamic-slot.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DynamicSlotComponent implements OnInit {
