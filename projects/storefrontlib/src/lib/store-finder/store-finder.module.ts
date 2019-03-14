@@ -98,8 +98,16 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     StoreFinderStoreDescriptionComponent,
     ScheduleComponent,
     StoreFinderHeaderComponent,
-    StoreFinderSearchResultComponent
+    StoreFinderSearchResultComponent,
+    StoreFinderComponent
   ],
-  entryComponents: [StoreFinderComponent]
+  entryComponents: [
+    StoreFinderComponent,
+    StoreFinderSearchResultComponent,
+    StoreFinderStoresCountComponent,
+    StoreFinderGridComponent,
+    StoreFinderStoreDescriptionComponent,
+    StoreFinderStoreDescriptionComponent
+  ]
 })
 export class StoreFinderModule {}
