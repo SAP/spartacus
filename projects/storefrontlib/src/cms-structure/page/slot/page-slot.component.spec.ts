@@ -1,9 +1,5 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import {
-  CmsService,
-  ContentSlotData,
-  ContentSlotComponentData
-} from '@spartacus/core';
+import { CmsService, ContentSlotData } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 import { PageSlotComponent } from './page-slot.component';
