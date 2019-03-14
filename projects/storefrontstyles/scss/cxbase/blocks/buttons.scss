@@ -23,13 +23,14 @@ button {
 
 //buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
 .btn {
-  text-transform: $btn-text-transform;
+  text-transform: var(--cx-text-transform, capitalize);
   font-size: $font-size-base * 1.125;
-  line-height: 1.34;
-  padding: 11px 12px;
-  height: 48px;
-  max-height: 48px;
-  min-width: 48px;
+  line-height: var(--cx-line-height, 1.34);
+  padding: var(--cx-padding, 11px 12px);
+  height: var(--cx-height, 48px);
+  max-height: var(--cx-max-height, 48px);
+  min-width: var(--cx-min-width, 48px);
+  border-radius: var(--cx-border-radius, var(--cx-g-buttons-border-radius));
 
   &-sm {
     padding-top: 0;
@@ -82,7 +83,7 @@ button {
       @include cx-darken(88);
 
       &:focus {
-        box-shadow: 0 0 0 0.2em rgba($primary, 0.5);
+        box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-primary), 0.5);
       }
     }
   }
@@ -114,7 +115,8 @@ button {
     }
 
     &:focus {
-      box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
+      //this here below will not work unles cx global colors are initially declared in rbg
+      box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-secondary), 0.5);
     }
 
     &:not(:disabled):not(.disabled):active,
@@ -124,13 +126,14 @@ button {
       @include cx-darken(84);
 
       &:focus {
-        box-shadow: 0 0 0 0.2em rgba($secondary, 0.5);
+        //this here below will not work unles cx global colors are initially declared in rbg
+        box-shadow: 0 0 0 0.2em rgba(var(--cx-g-color-secondary), 0.5);
       }
     }
   }
 
   &-link {
-    color: theme-color('text');
+    color: var(--cx-color, var(--cx-g-color-text));
     font-size: $font-size-base * 1.125;
     text-decoration: underline !important;
     cursor: pointer;
@@ -140,24 +143,29 @@ button {
 
 .btn-action {
   @extend .btn-outline-text !optional;
-  border: 2px solid;
+  border-width: var(--cx-border-width, 2px);
+  border-style: var(--cx-border-style, solid);
 
   &:hover {
     color: var(--cx-color, var(--cx-g-color-primary));
-    border: 2px solid theme-color('primary');
-    background-color: theme-color('inverse');
+    border-width: var(--cx-border-width, 2px);
+    border-style: var(--cx-border-style, solid);
+    border-color: var(--cx-border-color, var(--cx-g-color-primary));
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
   }
 
   &.active {
     color: var(--cx-color, var(--cx-g-color-primary));
-    // color: theme-color('primary') !important;
-    border: 2px solid !important;
-    background-color: theme-color('inverse') !important;
+    border-width: var(--cx-border-width, 2px);
+    border-style: var(--cx-border-style, solid);
+    background-color: var(--cx-background-color, var(--cx-g-color-inverse));
   }
 
   &.disabled {
     color: var(--cx-color, var(--cx-g-color-light));
-    border: 2px solid theme-color('light');
+    border-width: var(--cx-border-width, 2px);
+    border-style: var(--cx-border-style, solid);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
     opacity: 1;
   }
 }
