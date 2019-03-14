@@ -30,7 +30,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() componentUid: string;
   @Input() componentUuid: string;
   @Input() componentCatalogUuid: string;
-  @Input() contextParameters: any;
 
   cmpRef: ComponentRef<any>;
   webElement: any;
@@ -112,7 +111,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   > {
     return {
       uid: this.componentUid,
-      contextParameters: this.contextParameters,
       data$: this.cmsService.getComponentData(this.componentUid)
     };
   }

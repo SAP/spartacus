@@ -75,8 +75,7 @@ describe('ResponsiveBannerComponent', () => {
 
   const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData),
-    uid: 'test',
-    contextParameters: null
+    uid: 'test'
   };
 
   const MockBannerComponentService = new BannerComponentService(

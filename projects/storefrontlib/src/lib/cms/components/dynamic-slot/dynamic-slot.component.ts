@@ -27,7 +27,6 @@ export class DynamicSlotComponent implements OnInit {
   currentSlot$: Observable<ContentSlotData>;
 
   @Input() position: string;
-  @Input() contextParameters: any;
 
   constructor(
     protected cmsService: CmsService,
