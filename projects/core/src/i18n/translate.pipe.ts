@@ -23,7 +23,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
 
   transform(key: any, options: any = {}) {
     this.key = key;
-    return this.service.translateLazy(
+    return this.service.lazyTranslate(
       key,
       options,
       this.onNamespaceLoad.bind(this)

@@ -1,11 +1,13 @@
 import i18next from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
 
-import { InjectionToken, Provider, APP_INITIALIZER } from '@angular/core';
+import { Provider, APP_INITIALIZER, InjectionToken } from '@angular/core';
 import { I18NConfig } from './config/i18n-config';
 import { LanguageService } from '../site-context/facade/language.service';
 
-export const I18NEXT_INSTANCE = new InjectionToken<i18next.i18n>('i18next');
+export const I18NEXT_INSTANCE = new InjectionToken<i18next.i18n>(
+  'i18NextInstance'
+);
 
 export const i18nextProviders: Provider[] = [
   { provide: I18NEXT_INSTANCE, useValue: i18next },
