@@ -20,19 +20,48 @@ export const i18nextProviders: Provider[] = [
 export function initI18Next(
   i18n: i18next.i18n,
   config: TranslationConfig,
-  language: LanguageService
+  languageService: LanguageService
 ): () => Promise<any> {
-  return () =>
-    i18n.use(i18nextXhrBackend).init(
+  return () => {
+    return i18n.use(i18nextXhrBackend).init(
       {
         fallbackLng: config.translation.fallbackLng,
         ns: config.translation.ns,
+        debug: config.translation.debug,
         backend: config.translation.backend
+
+        // Don't use i18next's 'resources' config key, because it will disable loading chunks from backend.
+        // Resources should be added just after initialization, in the callback.
       },
-      // callback invoked after i18next initialization:
       () => {
-        // always update language of i18next on site context change
-        language.getActive().subscribe(lang => i18n.changeLanguage(lang));
+        addTranslations(i18n, config.translation.resources);
+        syncSiteContextWithI18Next(i18n, languageService);
       }
     );
+  };
+}
+
+export function addTranslations(
+  i18n: i18next.i18n,
+  resources: i18next.Resource
+) {
+  Object.keys(resources).forEach(lang => {
+    Object.keys(resources[lang]).forEach(namespace => {
+      i18n.addResourceBundle(
+        lang,
+        namespace,
+        resources[lang][namespace],
+        true,
+        true
+      );
+    });
+  });
+}
+
+export function syncSiteContextWithI18Next(
+  i18n: i18next.i18n,
+  language: LanguageService
+) {
+  // always update language of i18next on site context change
+  language.getActive().subscribe(lang => i18n.changeLanguage(lang));
 }

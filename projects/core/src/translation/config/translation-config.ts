@@ -1,10 +1,20 @@
-export abstract class TranslationConfig {
-  translation: {
-    ns: string[];
-    fallbackLng: string | false;
-    backend: {
-      loadPath: string;
+import { ServerConfig } from '../../config';
+
+export abstract class TranslationConfig extends ServerConfig {
+  translation?: {
+    debug?: boolean;
+    ns?: string[];
+    fallbackLng?: string | false;
+    backend?: {
+      loadPath?: string;
+      crossDomain?: boolean;
     };
-    debug: boolean;
+    resources?: {
+      [lang: string]: {
+        [namespace: string]: {
+          [key: string]: any;
+        };
+      };
+    };
   };
 }

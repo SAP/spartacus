@@ -10,7 +10,6 @@ import { Subscription } from 'rxjs';
 @Pipe({ name: 'translate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
   key: string;
-
   sub = new Subscription();
 
   constructor(
@@ -22,7 +21,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
     );
   }
 
-  transform(key: any, options: any) {
+  transform(key: any, options: any = {}) {
     this.key = key;
     return this.service.translateLazy(
       key,
