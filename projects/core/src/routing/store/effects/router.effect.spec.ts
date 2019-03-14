@@ -20,7 +20,7 @@ describe('Router Effects', () => {
   let location: Location;
 
   const mockRoutes = [
-    { path: 'test', component: true, data: { cxCmsContext: true } },
+    { path: 'test', component: true, data: { cxCmsRouteContext: true } },
     { path: 'test2', component: true }
   ] as any;
 

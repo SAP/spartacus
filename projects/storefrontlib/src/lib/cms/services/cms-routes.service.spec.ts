@@ -21,13 +21,13 @@ describe('CmsRoutesService', () => {
     {
       path: 'testRoute',
       data: {
-        cxCmsContext: { type: PageType.CONTENT_PAGE, id: '/testRoute' }
+        cxCmsRouteContext: { type: PageType.CONTENT_PAGE, id: '/testRoute' }
       }
     }
   ];
 
   const mockCmsMapping = {
-    getRoutesFromPageData: () => [{ path: 'route1' }]
+    getRoutesFromPageData: () => [{ path: 'sub-route' }]
   };
 
   beforeEach(() => {
@@ -61,36 +61,38 @@ describe('CmsRoutesService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('contentRouteExits', () => {
+  describe('cmsRouteExist', () => {
     it('should return true if content route exists', () => {
-      expect(service.contentRouteExist('/testRoute')).toBeTruthy();
+      expect(service.cmsRouteExist('/testRoute')).toBeTruthy();
     });
 
     it('should return false if content route does not exist', () => {
-      expect(service.contentRouteExist('/badRoute')).toBeFalsy();
+      expect(service.cmsRouteExist('/badRoute')).toBeFalsy();
     });
   });
 
-  describe('handleContentRoutes', () => {
-    it('should return false for proper content page', () => {
+  describe('handleCmsRoutesInGuard', () => {
+    it('should return false for content page with cms driven route', () => {
       let result;
       service
-        .handleContentRoutes(mockPageContext, '/testRoute2')
+        .handleCmsRoutesInGuard(mockPageContext, '/testRoute2')
         .subscribe(res => (result = res));
 
       expect(result).toEqual(false);
     });
 
-    it('should add new route for proper content page', () => {
-      service.handleContentRoutes(mockPageContext, '/testRoute2').subscribe();
+    it('should add new route for content page with cms driven route', () => {
+      service
+        .handleCmsRoutesInGuard(mockPageContext, '/testRoute2')
+        .subscribe();
 
       const expectedConfig = [
         {
           path: 'testRoute2',
           component: PageLayoutComponent,
-          children: [{ path: 'route1' }],
+          children: [{ path: 'sub-route' }],
           data: {
-            cxCmsContext: mockPageContext
+            cxCmsRouteContext: mockPageContext
           }
         },
         ...mockRouterConfig
@@ -99,20 +101,22 @@ describe('CmsRoutesService', () => {
       expect(mockRouter.resetConfig).toHaveBeenCalledWith(expectedConfig);
     });
 
-    it('should redirect for proper content page', () => {
-      service.handleContentRoutes(mockPageContext, '/testRoute2').subscribe();
+    it('should redirect for content page with cms driven route', () => {
+      service
+        .handleCmsRoutesInGuard(mockPageContext, '/testRoute2')
+        .subscribe();
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/testRoute2');
     });
 
-    it('should return true for not generic content page', () => {
+    it('should return true for content pages without cms driven route', () => {
       const pageContext = {
         type: PageType.CONTENT_PAGE,
-        id: 'testRote2'
+        id: 'testRoute2'
       };
 
       let result;
       service
-        .handleContentRoutes(pageContext, '/testRoute2')
+        .handleCmsRoutesInGuard(pageContext, '/testRoute2')
         .subscribe(res => (result = res));
 
       expect(result).toEqual(true);

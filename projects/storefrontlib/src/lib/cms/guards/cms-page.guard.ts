@@ -37,10 +37,10 @@ export class CmsPageGuard implements CanActivate {
       switchMap(([hasPage, pageContext]) => {
         if (
           hasPage &&
-          !route.data.cxCmsContext &&
-          !this.cmsRoutes.contentRouteExist(pageContext.id)
+          !route.data.cxCmsRouteContext &&
+          !this.cmsRoutes.cmsRouteExist(pageContext.id)
         ) {
-          return this.cmsRoutes.handleContentRoutes(pageContext, state.url);
+          return this.cmsRoutes.handleCmsRoutesInGuard(pageContext, state.url);
         } else {
           return of(hasPage);
         }

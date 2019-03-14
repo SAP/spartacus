@@ -150,8 +150,8 @@ export class CustomSerializer
     let context: PageContext;
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
-      if (state.data && state.data.cxCmsContext) {
-        context = state.data.cxCmsContext;
+      if (state.data && state.data.cxCmsRouteContext) {
+        context = state.data.cxCmsRouteContext;
       }
 
       // we assume, that any route that has CmsPageGuard or it's child

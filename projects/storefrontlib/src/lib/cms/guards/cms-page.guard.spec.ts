@@ -23,10 +23,10 @@ class MockRoutingService {
   go() {}
 }
 class MockCmsRoutesService {
-  contentRouteExist() {
+  cmsRouteExist() {
     return true;
   }
-  handleContentRoutes() {
+  handleCmsRoutesInGuard() {
     return of(false);
   }
 }
@@ -106,8 +106,8 @@ describe('CmsPageGuard', () => {
         cmsRoutes: CmsRoutesService
       ) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
-        spyOn(cmsRoutes, 'contentRouteExist').and.returnValue(false);
-        spyOn(cmsRoutes, 'handleContentRoutes').and.callThrough();
+        spyOn(cmsRoutes, 'cmsRouteExist').and.returnValue(false);
+        spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.callThrough();
 
         let result;
 
@@ -116,8 +116,8 @@ describe('CmsPageGuard', () => {
           .subscribe(res => (result = res));
 
         expect(result).toEqual(false);
-        expect(cmsRoutes.contentRouteExist).toHaveBeenCalledWith('testPageId');
-        expect(cmsRoutes.handleContentRoutes).toHaveBeenCalledWith(
+        expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('testPageId');
+        expect(cmsRoutes.handleCmsRoutesInGuard).toHaveBeenCalledWith(
           { id: 'testPageId', type: 'ContentPage' },
           '/test'
         );
