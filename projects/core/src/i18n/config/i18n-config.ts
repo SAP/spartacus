@@ -1,10 +1,9 @@
 import { ServerConfig } from '../../config';
 
-export abstract class TranslationConfig extends ServerConfig {
-  translation?: {
-    debug?: boolean;
-    ns?: string[];
-    fallbackLng?: string | false;
+export abstract class I18NConfig extends ServerConfig {
+  i18n?: {
+    preloadNamespaces?: string[];
+    fallbackLang?: string | false;
     backend?: {
       loadPath?: string;
       crossDomain?: boolean;
@@ -16,5 +15,6 @@ export abstract class TranslationConfig extends ServerConfig {
         };
       };
     };
+    debug?: boolean;
   };
 }

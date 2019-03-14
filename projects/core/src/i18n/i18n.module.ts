@@ -1,23 +1,22 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { TranslatePipe } from './translate.pipe';
 import { i18nextProviders } from './i18next';
-import { defaultTranslationConfig } from './config/default-translation-config';
-import { TranslationConfig } from './config/translation-config';
+import { defaultTranslationConfig } from './config/default-i18n-config';
+import { I18NConfig } from './config/i18n-config';
 import { TranslationService } from './translation.service';
 import { provideConfig, Config } from '../config/config.module';
-import { TranslateDirective } from './translate.directive';
 
 @NgModule({
-  declarations: [TranslatePipe, TranslateDirective],
-  exports: [TranslatePipe, TranslateDirective]
+  declarations: [TranslatePipe],
+  exports: [TranslatePipe]
 })
-export class TranslationModule {
+export class I18NModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: TranslationModule,
+      ngModule: I18NModule,
       providers: [
         provideConfig(defaultTranslationConfig),
-        { provide: TranslationConfig, useExisting: Config },
+        { provide: I18NConfig, useExisting: Config },
         TranslationService,
         ...i18nextProviders
       ]
