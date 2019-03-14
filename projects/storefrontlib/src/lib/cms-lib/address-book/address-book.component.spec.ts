@@ -121,6 +121,7 @@ fdescribe('AddressBookComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
 
     isLoading.next(false);
@@ -152,53 +153,6 @@ fdescribe('AddressBookComponent', () => {
 
   it('should be able to add new address', () => {
     el.query(By.css('.btn-action')).nativeElement.click();
-    expect(el.query(By.css('cx-address-form'))).toBeTruthy();
+    expect(component.addAddressButtonHandle).toHaveBeenCalled();
   });
-
-  // it('should show and hide add address form', () => {
-  //   el.query(By.css('.btn-action')).nativeElement.click();
-  //   fixture.detectChanges();
-  //   expect(component.showAddAddressForm).toBe(true);
-  //   checkSectionMsg('Add');
-
-  //   el.query(
-  //     By.css('.cx-address-form__btns .btn-action')
-  //   ).nativeElement.click();
-  //   fixture.detectChanges();
-  //   checkSectionMsg('Saved');
-  // });
-
-  // xit('should show and hide edit address form', () => {
-  //   fixture.whenStable().then(() => {
-  //     // console.log('ELEMENT ELEMENT: ', el);
-  //     const foundElem = el.query(By.css('.cx-address-form__btns .btn-action'));
-
-  //     console.log('!!! FOUND FOUND FOUND ELEM: ', foundElem);
-  //     // foundElem.nativeElement.click();
-  //     // fixture.detectChanges();
-  //     // expect(component.showEditAddressForm).toBe(true);
-  //     // checkSectionMsg('Edit');
-
-  //     el.query(
-  //       By.css('.cx-address-form__btns .btn-action')
-  //     ).nativeElement.click();
-  //     fixture.detectChanges();
-  //     checkSectionMsg('Saved');
-  //   });
-  // });
-
-  // xit('should delete address (with confirmation question)', () => {
-  //   fixture.whenStable().then(() => {
-  //     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
-  //     el.query(
-  //       By.css('.cx-address-card__actions .delete')
-  //     ).nativeElement.click();
-  //     fixture.detectChanges();
-  //     el.query(
-  //       By.css('.cx-address-card__delete .btn-primary')
-  //     ).nativeElement.click();
-  //     fixture.detectChanges();
-  //     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(2);
-  //   });
-  // });
 });
