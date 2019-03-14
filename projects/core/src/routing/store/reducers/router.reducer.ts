@@ -148,8 +148,11 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
     let context: PageContext;
+
     while (state.firstChild) {
       state = state.firstChild as CmsActivatedRouteSnapshot;
+
+      // we use context information embedded in Cms driven routes from any parent route
       if (state.data && state.data.cxCmsRouteContext) {
         context = state.data.cxCmsRouteContext;
       }
@@ -157,12 +160,13 @@ export class CustomSerializer
       // we assume, that any route that has CmsPageGuard or it's child
       // is cmsRequired
       if (
-        context ||
-        (state.routeConfig &&
-          state.routeConfig.canActivate &&
-          state.routeConfig.canActivate.find(
-            x => x && x.guardName === 'CmsPageGuard'
-          ))
+        !cmsRequired &&
+        (context ||
+          (state.routeConfig &&
+            state.routeConfig.canActivate &&
+            state.routeConfig.canActivate.find(
+              x => x && x.guardName === 'CmsPageGuard'
+            )))
       ) {
         cmsRequired = true;
       }
@@ -187,15 +191,9 @@ export class CustomSerializer
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
       } else if (!context) {
-        let stateForContext = state;
-        while (stateForContext.parent && stateForContext.parent.parent) {
-          stateForContext = stateForContext.parent;
-        }
-
-        if (stateForContext.url.length > 0) {
+        if (state.url.length > 0) {
           const pageLabel =
-            '/' +
-            stateForContext.url.map(urlSegment => urlSegment.path).join('/');
+            '/' + state.url.map(urlSegment => urlSegment.path).join('/');
           context = {
             id: pageLabel,
             type: PageType.CONTENT_PAGE
