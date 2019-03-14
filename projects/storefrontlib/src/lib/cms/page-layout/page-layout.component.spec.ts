@@ -34,7 +34,7 @@ export class MockPageTemplateComponent {}
 export class MockHeaderComponent {}
 
 @Component({
-  selector: 'cx-dynamic-slot',
+  selector: 'cx-page-slot',
   template: 'dynamic-slot.component'
 })
 export class MockDynamicSlotComponent {
@@ -121,7 +121,7 @@ describe('PageLayoutComponent', () => {
 
   it('should render two slots based on layout configuration', () => {
     const debugElement = fixture.debugElement;
-    const elements = debugElement.queryAll(By.css('cx-dynamic-slot'));
+    const elements = debugElement.queryAll(By.css('cx-page-slot'));
     expect(elements.length).toBe(2);
   });
 
@@ -163,7 +163,7 @@ describe('SectionLayoutComponent', () => {
 
   it('should render one slot based on layout configuration', () => {
     const debugElement = fixture.debugElement;
-    const elements = debugElement.queryAll(By.css('cx-dynamic-slot'));
+    const elements = debugElement.queryAll(By.css('cx-page-slot'));
     expect(elements.length).toBe(1);
   });
 
