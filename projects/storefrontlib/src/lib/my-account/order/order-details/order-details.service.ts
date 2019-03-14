@@ -13,7 +13,7 @@ import {
 export class OrderDetailsService {
   userId$: Observable<string>;
   orderCode$: Observable<string>;
-  orderLoad$: Observable<string[]>;
+  orderLoad$: Observable<[string, string]>;
 
   constructor(
     private authService: AuthService,
@@ -32,6 +32,8 @@ export class OrderDetailsService {
       tap(([userId, orderCode]) => {
         if (userId && orderCode) {
           this.userService.loadOrderDetails(userId, orderCode);
+        } else {
+          this.userService.clearOrderDetails();
         }
       }),
       // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
