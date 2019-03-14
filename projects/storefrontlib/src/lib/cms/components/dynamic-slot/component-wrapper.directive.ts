@@ -25,20 +25,12 @@ import { isPlatformServer } from '@angular/common';
   selector: '[cxComponentWrapper]'
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
-  @Input()
-  componentType: string;
-  @Input()
-  componentMappedType: string;
-  @Input()
-  componentUid: string;
-  @Input()
-  componentUuid: string;
-  @Input()
-  componentCatalogUuid: string;
-  @Input()
-  componentCssClass: string;
-  @Input()
-  contextParameters: any;
+  @Input() componentType: string;
+  @Input() componentMappedType: string;
+  @Input() componentUid: string;
+  @Input() componentUuid: string;
+  @Input() componentCatalogUuid: string;
+  @Input() contextParameters: any;
 
   cmpRef: ComponentRef<any>;
   webElement: any;
