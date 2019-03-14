@@ -23,27 +23,27 @@ export function initI18Next(
   languageService: LanguageService
 ): () => Promise<any> {
   return () => {
-    return i18n.use(i18nextXhrBackend).init(
-      {
-        fallbackLng: config.translation.fallbackLng,
-        ns: config.translation.ns,
-        debug: config.translation.debug,
-        backend: config.translation.backend
-
-        // Don't use i18next's 'resources' config key, because it will disable loading chunks from backend.
-        // Resources should be added just after initialization, in the callback.
-      },
-      () => {
-        addTranslations(i18n, config.translation.resources);
-        syncSiteContextWithI18Next(i18n, languageService);
-      }
-    );
+    let i18NextConfig: i18next.InitOptions = {
+      fallbackLng: config.translation.fallbackLng,
+      ns: config.translation.ns,
+      debug: config.translation.debug
+    };
+    if (config.translation.backend) {
+      i18n.use(i18nextXhrBackend);
+      i18NextConfig = { ...i18NextConfig, backend: config.translation.backend };
+    }
+    return i18n.init(i18NextConfig, () => {
+      // Don't use i18next's 'resources' config key, because it will disable loading chunks from backend.
+      // Resources should be added, in the callback.
+      addTranslations(i18n, config.translation.resources);
+      syncSiteContextWithI18Next(i18n, languageService);
+    });
   };
 }
 
 export function addTranslations(
   i18n: i18next.i18n,
-  resources: i18next.Resource
+  resources: i18next.Resource = {}
 ) {
   Object.keys(resources).forEach(lang => {
     Object.keys(resources[lang]).forEach(namespace => {
