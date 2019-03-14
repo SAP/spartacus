@@ -16,7 +16,8 @@ import {
   CmsConfig,
   CmsService,
   ComponentMapperService,
-  CxApiService
+  CxApiService,
+  ContentSlotComponentData
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { isPlatformServer } from '@angular/common';
@@ -25,11 +26,9 @@ import { isPlatformServer } from '@angular/common';
   selector: '[cxComponentWrapper]'
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
-  @Input() componentType: string;
+  @Input() cxComponentWrapper: ContentSlotComponentData;
+
   @Input() componentMappedType: string;
-  @Input() componentUid: string;
-  @Input() componentUuid: string;
-  @Input() componentCatalogUuid: string;
 
   cmpRef: ComponentRef<any>;
   webElement: any;
@@ -110,8 +109,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     T
   > {
     return {
-      uid: this.componentUid,
-      data$: this.cmsService.getComponentData(this.componentUid)
+      uid: this.cxComponentWrapper.uid,
+      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid)
     };
   }
 
@@ -136,22 +135,22 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     this.renderer.setAttribute(
       element,
       'data-smartedit-component-id',
-      this.componentUid
+      this.cxComponentWrapper.uid
     );
     this.renderer.setAttribute(
       element,
       'data-smartedit-component-type',
-      this.componentType
+      this.cxComponentWrapper.typeCode
     );
     this.renderer.setAttribute(
       element,
       'data-smartedit-catalog-version-uuid',
-      this.componentCatalogUuid
+      this.cxComponentWrapper.catalogUuid
     );
     this.renderer.setAttribute(
       element,
       'data-smartedit-component-uuid',
-      this.componentUuid
+      this.cxComponentWrapper.uuid
     );
   }
 
