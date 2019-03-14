@@ -7,7 +7,7 @@ import {
 import { of, Observable } from 'rxjs';
 
 import { PageSlotComponent } from './page-slot.component';
-import { ComponentWrapperDirective } from '../../../lib/cms/components/component-wrapper.directive';
+import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { OutletDirective } from '../../../lib/outlet';
 
 class MockCmsService {

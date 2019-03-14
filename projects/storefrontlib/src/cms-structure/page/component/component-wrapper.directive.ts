@@ -18,7 +18,7 @@ import {
   ComponentMapperService,
   CxApiService
 } from '@spartacus/core';
-import { CmsComponentData } from './cms-component-data';
+import { CmsComponentData } from '../../../lib/cms/components/cms-component-data';
 import { isPlatformServer } from '@angular/common';
 
 @Directive({
