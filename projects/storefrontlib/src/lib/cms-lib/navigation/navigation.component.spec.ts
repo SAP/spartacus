@@ -10,7 +10,7 @@ import {
   CmsNavigationComponent,
   Component as SpaComponent
 } from '@spartacus/core';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
 
 @Component({

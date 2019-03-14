@@ -11,5 +11,8 @@
     "assets": ["docs.tgz, docs.zip"],
     "releaseName": "@spartacus/styles@${version}",
     "releaseNotes": "cd ../.. && npm run --silent release-notes:styles -- --from styles-${latestVersion} --to styles-${version}"
+  },
+  "npm": {
+    "tag": "latest"
   }
 }
