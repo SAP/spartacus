@@ -18,27 +18,18 @@ import {
   ComponentMapperService,
   CxApiService
 } from '@spartacus/core';
-import { CmsComponentData } from '../cms-component-data';
+import { CmsComponentData } from '../model/cms-component-data';
 import { isPlatformServer } from '@angular/common';
 
 @Directive({
   selector: '[cxComponentWrapper]'
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
-  @Input()
-  componentType: string;
-  @Input()
-  componentMappedType: string;
-  @Input()
-  componentUid: string;
-  @Input()
-  componentUuid: string;
-  @Input()
-  componentCatalogUuid: string;
-  @Input()
-  componentCssClass: string;
-  @Input()
-  contextParameters: any;
+  @Input() componentType: string;
+  @Input() componentMappedType: string;
+  @Input() componentUid: string;
+  @Input() componentUuid: string;
+  @Input() componentCatalogUuid: string;
 
   cmpRef: ComponentRef<any>;
   webElement: any;
@@ -120,7 +111,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   > {
     return {
       uid: this.componentUid,
-      contextParameters: this.contextParameters,
       data$: this.cmsService.getComponentData(this.componentUid)
     };
   }
