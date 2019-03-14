@@ -28,8 +28,6 @@ import { isPlatformServer } from '@angular/common';
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
 
-  @Input() componentMappedType: string;
-
   cmpRef: ComponentRef<any>;
   webElement: any;
 
@@ -49,7 +47,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.componentMapper.isWebComponent(this.componentMappedType)) {
+    if (this.componentMapper.isWebComponent(this.cxComponentWrapper.flexType)) {
       this.launchWebComponent();
     } else {
       this.launchComponent();
@@ -59,14 +57,14 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   private shouldRenderComponent(): boolean {
     const isSSR = isPlatformServer(this.platformId);
     const isComponentDisabledInSSR = (
-      this.config.cmsComponents[this.componentMappedType] || {}
+      this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
     ).disableSSR;
     return !(isSSR && isComponentDisabledInSSR);
   }
 
   private launchComponent() {
     const factory = this.componentMapper.getComponentFactoryByCode(
-      this.componentMappedType
+      this.cxComponentWrapper.flexType
     );
 
     if (factory) {
@@ -86,7 +84,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private async launchWebComponent() {
     const elementName = await this.componentMapper.initWebComponent(
-      this.componentMappedType,
+      this.cxComponentWrapper.flexType,
       this.renderer
     );
 
@@ -116,8 +114,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private getInjectorForComponent(): Injector {
     const configProviders =
-      (this.config.cmsComponents[this.componentMappedType] || {}).providers ||
-      [];
+      (this.config.cmsComponents[this.cxComponentWrapper.flexType] || {})
+        .providers || [];
     return Injector.create({
       providers: [
         {

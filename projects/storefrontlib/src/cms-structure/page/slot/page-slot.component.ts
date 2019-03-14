@@ -10,9 +10,7 @@ import {
 import {
   CmsService,
   ContentSlotData,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE,
-  ContentSlotComponentData,
-  CMS_FLEX_COMPONENT_TYPE
+  ContentSlotComponentData
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
@@ -95,25 +93,5 @@ export class PageSlotComponent implements OnInit {
       'data-smartedit-component-uuid',
       slot.uuid
     );
-  }
-
-  /**
-   * The "JspIncludeComponent" and "CMSFlexComponent" are types of CmsComponent that behave
-   * as a placeholder component (with no specific data provided).
-   *
-   * While it's not very clean solution, we interpret the "uid" of the "JspIncludeComponent" and "flexType" of "CMSFlexComponent"
-   * as a component type and thanks to that we map it onto the implementation of the Angular (or web) component.
-   *
-   * CAUTION: The mapped type should not be used for SmartEdit bindings.
-   */
-  getComponentMappedType(component: ContentSlotComponentData): string {
-    switch (component.typeCode) {
-      case JSP_INCLUDE_CMS_COMPONENT_TYPE:
-        return component.uid;
-      case CMS_FLEX_COMPONENT_TYPE:
-        return component.flexType;
-      default:
-        return component.typeCode;
-    }
   }
 }
