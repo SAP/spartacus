@@ -10,6 +10,7 @@ import {
   ProductReviewService
 } from '../product/index';
 import { UserService } from '../user/index';
+import { TranslationService } from '../translation/index';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,8 @@ export class CxApiService {
     @Optional() public productSearch: ProductSearchService,
     @Optional() public productReview: ProductReviewService,
     // user
-    @Optional() public user: UserService
+    @Optional() public user: UserService,
+    // translation
+    @Optional() public translation: TranslationService
   ) {}
 }
