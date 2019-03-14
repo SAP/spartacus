@@ -1,7 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { TranslatePipe } from './translate.pipe';
 import { i18nextProviders } from './i18next';
-import { defaultTranslationConfig } from './config/default-i18n-config';
+import { defaultI18NConfig } from './config/default-i18n-config';
 import { I18NConfig } from './config/i18n-config';
 import { TranslationService } from './translation.service';
 import { provideConfig, Config } from '../config/config.module';
@@ -15,7 +15,7 @@ export class I18NModule {
     return {
       ngModule: I18NModule,
       providers: [
-        provideConfig(defaultTranslationConfig),
+        provideConfig(defaultI18NConfig),
         { provide: I18NConfig, useExisting: Config },
         TranslationService,
         ...i18nextProviders
