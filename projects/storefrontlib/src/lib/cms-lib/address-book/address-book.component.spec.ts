@@ -98,12 +98,6 @@ describe('AddressBookComponent', () => {
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
 
-  const checkSectionMsg = (msg: string) => {
-    expect(
-      el.query(By.css('.cx-section__msg')).nativeElement.textContent
-    ).toContain(msg);
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule],
@@ -147,8 +141,10 @@ describe('AddressBookComponent', () => {
     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
   });
 
-  it('should display the saved shipping addresses', () => {
-    checkSectionMsg('Saved shipping addresses');
+  it('should display shipping addresses page title', () => {
+    expect(
+      el.query(By.css('.cx-section__msg')).nativeElement.textContent
+    ).toContain('Saved shipping addresses');
   });
 
   it('should be able to add new address', () => {
