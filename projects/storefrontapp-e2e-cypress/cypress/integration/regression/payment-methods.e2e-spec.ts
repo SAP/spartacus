@@ -86,7 +86,7 @@ describe('Payment Methods', () => {
       cy.get('.card-link').should('exist');
 
       // delete the payment
-      cy.get('.card-link').click();
+      cy.get('.card-link').click({ force: true });
       cy.get('.btn-primary').should('contain', 'delete');
       cy.get('.btn-primary').click();
       cy.get('.cx-payment .cx-body').then(() => {

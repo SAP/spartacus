@@ -1,13 +1,15 @@
+import { formats } from '../../sample-data/viewports';
 import * as addedToCartModal from '../../helpers/added-to-cart-modal';
 
-describe('Added to cart modal', () => {
+describe(`${formats.mobile.width +
+  1}p resolution - Added to cart modal`, () => {
   before(() => {
-    cy.window().then(win => {
-      win.sessionStorage.clear();
-    });
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit(`/product/${addedToCartModal.productId}`);
   });
-
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
+  });
   it('basic modal behavior', () => {
     addedToCartModal.basicBehavior();
   });
@@ -17,6 +19,7 @@ describe('Added to cart modal', () => {
   });
 
   it('adding different products to cart', () => {
+    cy.get('cx-searchbox [aria-label="Search "]').click();
     addedToCartModal.differentProduct();
   });
 

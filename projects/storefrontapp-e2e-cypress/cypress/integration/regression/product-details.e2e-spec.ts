@@ -25,6 +25,10 @@ context('Product details', () => {
     cy.visit('/product/266685');
   });
 
+  beforeEach(() => {
+    cy.viewport(575, 700);
+  });
+
   it('should contain correct product details', () => {
     cy.get(`${summaryContainer} .name`).should('contain', PRODUCT_NAME);
     cy.get(`${summaryContainer} .code`).should('contain', 'ID 266685');
@@ -92,9 +96,6 @@ context('Product details', () => {
   });
 
   it('should contain correct review form', () => {
-    cy.get(tabsHeaderList)
-      .eq(2)
-      .click();
     cy.get(writeAReviewButton).click();
     cy.get(writeAReviewForm).should('be.visible');
     cy.get(writeAReviewForm)
