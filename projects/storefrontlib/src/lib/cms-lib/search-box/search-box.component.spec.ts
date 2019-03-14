@@ -11,7 +11,7 @@ import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 
 import { BootstrapModule } from '../../bootstrap.module';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { SearchBoxComponentService } from './search-box-component.service';
