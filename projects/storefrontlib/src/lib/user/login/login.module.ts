@@ -5,6 +5,7 @@ import { LoginComponent } from './login.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
 import { CmsModule } from '../../cms/cms.module';
 import { BootstrapModule } from '../../bootstrap.module';
+import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import { BootstrapModule } from '../../bootstrap.module';
     CmsModule,
     BootstrapModule,
     UserModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    PageSlotModule
   ],
   declarations: [LoginComponent],
   exports: [LoginComponent]
