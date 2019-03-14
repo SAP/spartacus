@@ -11,7 +11,7 @@ import {
 import { CmsConfig } from '@spartacus/core';
 
 import { ProductCarouselService } from './product-carousel.component.service';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @NgModule({
   imports: [
