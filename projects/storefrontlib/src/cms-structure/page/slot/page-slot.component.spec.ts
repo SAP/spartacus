@@ -2,9 +2,9 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { CmsService, ContentSlotData } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
-import { DynamicSlotComponent } from './dynamic-slot.component';
-import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { OutletDirective } from '../../../outlet';
+import { PageSlotComponent } from './page-slot.component';
+import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
+import { OutletDirective } from '../../../lib/outlet';
 import { CmsMappingService } from '@spartacus/storefront';
 
 class MockCmsService {
@@ -22,16 +22,16 @@ class MockCmsService {
 
 class MockCmsMappingService {}
 
-describe('DynamicSlotComponent', () => {
-  let dynamicSlotComponent: DynamicSlotComponent;
-  let fixture: ComponentFixture<DynamicSlotComponent>;
+describe('PageSlotComponent', () => {
+  let pageSlotComponent: PageSlotComponent;
+  let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [
-        DynamicSlotComponent,
+        PageSlotComponent,
         ComponentWrapperDirective,
         OutletDirective
       ],
@@ -49,16 +49,16 @@ describe('DynamicSlotComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DynamicSlotComponent);
-    dynamicSlotComponent = fixture.componentInstance;
-    dynamicSlotComponent.position = 'left';
+    fixture = TestBed.createComponent(PageSlotComponent);
+    pageSlotComponent = fixture.componentInstance;
+    pageSlotComponent.position = 'left';
     fixture.detectChanges();
 
     cmsService = TestBed.get(CmsService);
   });
 
   it('should be created', () => {
-    expect(dynamicSlotComponent).toBeTruthy();
+    expect(pageSlotComponent).toBeTruthy();
   });
 
   it('should add smart edit slot contract if app launch in smart edit', () => {
@@ -81,9 +81,9 @@ describe('DynamicSlotComponent', () => {
   it('should not add smart edit slot contract if app not launch in smart edit', () => {
     spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
-    fixture = TestBed.createComponent(DynamicSlotComponent);
-    dynamicSlotComponent = fixture.componentInstance;
-    dynamicSlotComponent.position = 'left';
+    fixture = TestBed.createComponent(PageSlotComponent);
+    pageSlotComponent = fixture.componentInstance;
+    pageSlotComponent.position = 'left';
     fixture.detectChanges();
 
     const native = fixture.debugElement.nativeElement;
