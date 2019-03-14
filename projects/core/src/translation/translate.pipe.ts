@@ -7,7 +7,7 @@ import {
 import { TranslationService } from './translation.service';
 import { Subscription } from 'rxjs';
 
-@Pipe({ name: 'translate', pure: false })
+@Pipe({ name: 'cxTranslate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
   key: string;
   sub = new Subscription();
