@@ -1,0 +1,14 @@
+<ng-container *cxOutlet="position">
+  <ng-container *ngFor="let component of (components$ | async)">
+    <ng-container
+      *cxOutlet="getComponentMappedType(component)"
+      cxComponentWrapper
+      [componentType]="component.typeCode"
+      [componentMappedType]="getComponentMappedType(component)"
+      [componentUid]="component.uid"
+      [componentUuid]="component.uuid"
+      [componentCatalogUuid]="component.catalogUuid"
+    >
+    </ng-container>
+  </ng-container>
+</ng-container>
