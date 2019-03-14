@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { of, Observable } from 'rxjs';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import {
   ProductSearchService,
   ProductSearchPage,

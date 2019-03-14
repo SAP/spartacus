@@ -13,6 +13,7 @@ import { LoginModule } from '../../../user/login/login.module';
 import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { SeoModule } from '../../../../cms-structure/index';
+import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { SeoModule } from '../../../../cms-structure/index';
     OutletRefModule,
     PwaModule,
     PageLayoutModule,
-    SeoModule
+    SeoModule,
+    PageSlotModule
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent]

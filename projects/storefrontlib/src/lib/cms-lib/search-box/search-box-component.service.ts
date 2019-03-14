@@ -1,5 +1,5 @@
 import { Injectable, Optional } from '@angular/core';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ProductSearchService } from '@spartacus/core';
 import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
