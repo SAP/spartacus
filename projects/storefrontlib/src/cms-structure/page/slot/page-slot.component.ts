@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
-import { CmsMappingService } from '../../services/cms-mapping.service';
+import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service';
 
 @Component({
   selector: 'cx-page-slot',
