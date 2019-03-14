@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageSlotComponent } from './page-slot.component';
-import { OutletModule } from 'projects/storefrontlib/src/lib/outlet';
+import { OutletModule } from '../../../lib/outlet/outlet.module';
 import { PageComponentModule } from '../component/page-component.module';
 
 @NgModule({
