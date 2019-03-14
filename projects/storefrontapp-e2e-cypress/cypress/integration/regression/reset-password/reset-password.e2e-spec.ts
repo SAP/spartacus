@@ -6,17 +6,20 @@ context('Reset Password Page', () => {
   });
 
   it('should not submit an empty form', () => {
+    // Assert there are no messages already.
+    cy.get('cx-global-message .alert').should('not.exist');
+
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('button[type="submit"]').click();
     });
     // Submitting an empty form should not move on to the next page.
-    // Form validations are covered by unit tests.
+    // Detailed frontent form validation cases are covered by unit tests.
     cy.url().should('match', /\/login\/pw\/change$/);
     // No global messages should appear.
     cy.get('cx-global-message .alert').should('not.exist');
   });
 
-  it('should an invalid token result in server error', () => {
+  it('should invalid token result in server error', () => {
     // Assert there are no error messages already.
     cy.get('cx-global-message .alert-danger').should('not.exist');
     // The form is submited without any a change password token,
@@ -41,7 +44,7 @@ context('Reset Password Page', () => {
       response: {}
     }).as('postResetPassword');
     // Assert there are no messages already.
-    cy.get('cx-global-message div.alert').should('not.exist');
+    cy.get('cx-global-message .alert-info').should('not.exist');
     // The form is submitted to the Cypress mock endpoint.
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
