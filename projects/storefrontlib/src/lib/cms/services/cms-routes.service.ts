@@ -17,12 +17,20 @@ export class CmsRoutesService {
   ) {}
 
   contentRouteExist(url: string): boolean {
-    return !!this.router.config.find(
-      (route: CmsRoute) =>
-        route.data &&
-        route.data.cxCmsContext &&
-        url.startsWith('/') &&
-        route.path === url.substr(1)
+    const isCmsDrivenRoute = url.startsWith('/');
+
+    if (!isCmsDrivenRoute) {
+      return false;
+    }
+
+    const routePath = url.substr(1);
+
+    return (
+      isCmsDrivenRoute &&
+      !!this.router.config.find(
+        (route: CmsRoute) =>
+          route.data && route.data.cxCmsContext && route.path === routePath
+      )
     );
   }
 

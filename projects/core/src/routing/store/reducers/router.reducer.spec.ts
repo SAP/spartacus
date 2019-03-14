@@ -38,11 +38,12 @@ describe('Router Reducer', () => {
           {
             path: 'cmsPage',
             component: TestComponent,
-            data: { pageLabel: 'cmsPage' }
+            data: { pageLabel: 'testPageLabel' }
           },
           {
             path: 'dynamically-created',
             component: TestComponent,
+            children: [{ path: 'sub-route', component: TestComponent }],
             data: {
               cxCmsContext: {
                 type: PageType.CONTENT_PAGE,
@@ -233,13 +234,31 @@ describe('Router Reducer', () => {
       });
     });
 
+    it('for generic page with slashes', async () => {
+      await zone.run(() => router.navigateByUrl('/custom-cms/page'));
+      expect(context).toEqual({
+        id: '/custom-cms/page',
+        type: PageType.CONTENT_PAGE
+      });
+    });
+
     it('for route defined with page label', async () => {
       await zone.run(() => router.navigateByUrl('/cmsPage'));
-      expect(context).toEqual({ id: 'cmsPage', type: PageType.CONTENT_PAGE });
+      expect(context).toEqual({
+        id: 'testPageLabel',
+        type: PageType.CONTENT_PAGE
+      });
     });
 
     it('for route with cxCmsContext context', async () => {
       await zone.run(() => router.navigateByUrl('/dynamically-created'));
+      expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
+    });
+
+    it('for sub route route with cxCmsContext context', async () => {
+      await zone.run(() =>
+        router.navigateByUrl('dynamically-created/sub-route')
+      );
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
     });
   });
