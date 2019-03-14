@@ -93,7 +93,7 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
-fdescribe('AddressBookComponent', () => {
+describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
