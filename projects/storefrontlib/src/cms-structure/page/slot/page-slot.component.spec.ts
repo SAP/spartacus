@@ -87,34 +87,4 @@ describe('PageSlotComponent', () => {
     expect(native.classList.contains('smartEditComponent')).toBeFalsy();
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
   });
-
-  describe('getComponentMappedType', () => {
-    let component: ContentSlotComponentData;
-
-    beforeEach(() => {
-      component = { uid: 'testUid' };
-    });
-
-    it('should return "uid" of the component when component type is "JspIncludeComponent"', () => {
-      component.typeCode = 'JspIncludeComponent';
-      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
-        'testUid'
-      );
-    });
-
-    it('should return "flexType" of the component when component type is "CMSFlexComponent"', () => {
-      component.typeCode = 'CMSFlexComponent';
-      component.flexType = 'testComponentMappedType';
-      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
-        'testComponentMappedType'
-      );
-    });
-
-    it('should return component type when it is NOT "JspIncludeComponent" nor "CMSFlexComponent"', () => {
-      component.typeCode = 'testComponentType';
-      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
-        'testComponentType'
-      );
-    });
-  });
 });
