@@ -26,11 +26,11 @@
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"
       ],
-      "scc": [
-        "dist/scc"
+      "vendor": [
+        "dist/vendor"
       ],
-      "scc/*": [
-        "dist/scc/*"
+      "vendor/*": [
+        "dist/vendor/*"
       ]
     }
   },

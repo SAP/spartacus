@@ -278,33 +278,33 @@
         }
       }
     },
-    "scc": {
-      "root": "projects/scc",
-      "sourceRoot": "projects/scc/src",
+    "vendor": {
+      "root": "projects/vendor",
+      "sourceRoot": "projects/vendor/src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/scc/tsconfig.lib.json",
-            "project": "projects/scc/ng-package.json"
+            "tsConfig": "projects/vendor/tsconfig.lib.json",
+            "project": "projects/vendor/ng-package.json"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/scc/src/test.ts",
-            "tsConfig": "projects/scc/tsconfig.spec.json",
-            "karmaConfig": "projects/scc/karma.conf.js"
+            "main": "projects/vendor/src/test.ts",
+            "tsConfig": "projects/vendor/tsconfig.spec.json",
+            "karmaConfig": "projects/vendor/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/scc/tsconfig.lib.json",
-              "projects/scc/tsconfig.spec.json"
+              "projects/vendor/tsconfig.lib.json",
+              "projects/vendor/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

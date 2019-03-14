@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-scc',
+  selector: 'cx-vendor',
   template: `
     <p>
-      scc works!
+      Vendor works!
     </p>
   `,
   styles: []
 })
-export class SccComponent implements OnInit {
+export class VendorComponent implements OnInit {
 
   constructor() { }
 
