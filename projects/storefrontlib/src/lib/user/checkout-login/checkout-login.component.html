@@ -1,0 +1,47 @@
+<form>
+  <div class="form-group">
+    <label>
+      <span class="label-content">Email address</span>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="userId"
+        placeholder="Enter email"
+      />
+    </label>
+  </div>
+
+  <div class="form-group">
+    <label>
+      <span class="label-content">Confirm Email address</span>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="userIdConf"
+        placeholder="Confirm email"
+      />
+    </label>
+  </div>
+
+  <div class="form-group">
+    <div class="form-check">
+      <label>
+        <input
+          type="checkbox"
+          name="termsandconditions"
+          formControlName="termsandconditions"
+        />
+        <span class="form-check-label">
+          I am confirming that I have read and agreed with the
+          <a href="#" target="_blank">
+            Terms & Conditions
+          </a>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-block btn-primary">
+    Continue
+  </button>
+</form>

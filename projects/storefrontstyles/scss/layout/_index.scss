@@ -45,6 +45,10 @@ cx-page-layout {
   @extend %LoginPageTemplate !optional;
 }
 
+.CheckoutLoginPageTemplate {
+  @extend %LoginPageTemplate !optional;
+}
+
 .AccountPageTemplate {
   --cx-max-width: 100%;
   @extend %LoginPageTemplate !optional;
