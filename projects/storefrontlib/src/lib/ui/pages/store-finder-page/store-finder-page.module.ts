@@ -15,33 +15,33 @@ import { StoreFinderStoreDescriptionComponent } from '../../../store-finder/comp
 
 const routes: Routes = [
   {
-    path: null,
+    path: 'store-finder',
     canActivate: [CmsPageGuard],
-    data: { pageLabel: 'storefinderPage', cxPath: 'storeFinder' },
+    data: { pageLabel: 'storefinderPage' },
     component: StoreFinderPageComponent,
     children: [
       {
-        path: null,
+        path: 'find',
         canActivate: [CmsPageGuard],
-        data: { pageLabel: 'storefinderPage', cxPath: 'searchResults' },
+        data: { pageLabel: 'storefinderPage' },
         component: StoreFinderSearchResultComponent
       },
       {
-        path: null,
+        path: 'view-all',
         canActivate: [CmsPageGuard],
-        data: { pageLabel: 'storefinderPage', cxPath: 'allStores' },
+        data: { pageLabel: 'storefinderPage' },
         component: StoreFinderStoresCountComponent
       },
       {
-        path: null,
+        path: 'country/:country' /*'country/:country/region/:region'*/,
         canActivate: [CmsPageGuard],
-        data: { pageLabel: 'storefinderPage', cxPath: 'listStores' },
+        data: { pageLabel: 'storefinderPage' },
         component: StoreFinderGridComponent
       },
       {
-        path: null,
+        path: 'country/:country/region/:region/:store',
         canActivate: [CmsPageGuard],
-        data: { pageLabel: 'storefinderPage', cxPath: 'storeDescription' },
+        data: { pageLabel: 'storefinderPage' },
         component: StoreFinderStoreDescriptionComponent
       },
       {
