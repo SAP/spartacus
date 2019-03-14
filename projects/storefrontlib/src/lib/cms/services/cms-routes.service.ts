@@ -16,7 +16,7 @@ export class CmsRoutesService {
     private cmsMapping: CmsMappingService
   ) {}
 
-  contentRouteExist(url: string): boolean {
+  cmsRouteExist(url: string): boolean {
     const isCmsDrivenRoute = url.startsWith('/');
 
     if (!isCmsDrivenRoute) {
@@ -29,12 +29,21 @@ export class CmsRoutesService {
       isCmsDrivenRoute &&
       !!this.router.config.find(
         (route: CmsRoute) =>
-          route.data && route.data.cxCmsContext && route.path === routePath
+          route.data && route.data.cxCmsRouteContext && route.path === routePath
       )
     );
   }
 
-  handleContentRoutes(
+  /**
+   * Contains Cms driven routing logic intended for use use in guards, especially in canActivate method.
+   *
+   * Observable<boolean> will emit true, when logic wont have to modify routing (so canActivate could be easily resolved to true)
+   * or will emit false, when routing configuration was updated and redirection to newly generated route was initiated.
+   *
+   * @param pageContext
+   * @param currentUrl
+   */
+  handleCmsRoutesInGuard(
     pageContext: PageContext,
     currentUrl: string
   ): Observable<boolean> {
@@ -63,7 +72,7 @@ export class CmsRoutesService {
         component: PageLayoutComponent,
         children: routes,
         data: {
-          cxCmsContext: pageContext
+          cxCmsRouteContext: pageContext
         }
       };
 

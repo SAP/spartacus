@@ -2,7 +2,7 @@ import { ActivatedRouteSnapshot, Data, Route } from '@angular/router';
 import { PageContext } from './page-context.model';
 
 export interface CmsRouteData extends Data {
-  cxCmsContext?: PageContext;
+  cxCmsRouteContext?: PageContext;
   pageLabel?: string;
 }
 

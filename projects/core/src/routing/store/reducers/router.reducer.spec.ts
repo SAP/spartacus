@@ -45,7 +45,7 @@ describe('Router Reducer', () => {
             component: TestComponent,
             children: [{ path: 'sub-route', component: TestComponent }],
             data: {
-              cxCmsContext: {
+              cxCmsRouteContext: {
                 type: PageType.CONTENT_PAGE,
                 id: 'explicit'
               }
@@ -250,12 +250,12 @@ describe('Router Reducer', () => {
       });
     });
 
-    it('for route with cxCmsContext context', async () => {
+    it('for route with cxCmsRouteContext context', async () => {
       await zone.run(() => router.navigateByUrl('/dynamically-created'));
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
     });
 
-    it('for sub route route with cxCmsContext context', async () => {
+    it('for sub route route with cxCmsRouteContext context', async () => {
       await zone.run(() =>
         router.navigateByUrl('dynamically-created/sub-route')
       );

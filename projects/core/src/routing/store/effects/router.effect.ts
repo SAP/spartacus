@@ -36,7 +36,7 @@ export class RouterEffects {
     ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
     tap(_ => {
       const filteredConfig = this.router.config.filter(
-        (route: CmsRoute) => !(route.data && route.data.cxCmsContext)
+        (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
       );
       if (filteredConfig.length !== this.router.config.length) {
         this.router.resetConfig(filteredConfig);
