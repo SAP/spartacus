@@ -5,10 +5,11 @@ import { defaultTranslationConfig } from './config/default-translation-config';
 import { TranslationConfig } from './config/translation-config';
 import { TranslationService } from './translation.service';
 import { provideConfig, Config } from '../config/config.module';
+import { TranslateDirective } from './translate.directive';
 
 @NgModule({
-  declarations: [TranslatePipe],
-  exports: [TranslatePipe]
+  declarations: [TranslatePipe, TranslateDirective],
+  exports: [TranslatePipe, TranslateDirective]
 })
 export class TranslationModule {
   static forRoot(): ModuleWithProviders {
