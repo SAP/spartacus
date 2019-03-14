@@ -21,7 +21,7 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        SiteContextSelectorComponent: {
+        CMSSiteContextComponent: {
           selector: 'cx-site-context-selector',
           providers: [
             {

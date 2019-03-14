@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CmsBreadcrumbsComponent } from '@spartacus/core';
+import { CmsBreadcrumbsComponent, PageMeta } from '@spartacus/core';
 import { CmsComponentData } from './../../cms/components/cms-component-data';
 
 import { PageMetaService } from '@spartacus/core';
@@ -21,7 +21,7 @@ export class BreadcrumbComponent {
   get title$(): Observable<string> {
     return this.pageMetaService.getMeta().pipe(
       filter(Boolean),
-      map(meta => meta.title)
+      map((meta: PageMeta) => meta.heading || meta.title)
     );
   }
 

@@ -159,33 +159,41 @@ export class CustomSerializer
       state.routeConfig &&
       state.routeConfig.canActivate &&
       state.routeConfig.canActivate.find(
-        x => x && x.guardName === 'CmsPageGuards'
+        x => x && x.guardName === 'CmsPageGuard'
       )
     ) {
       cmsRequired = true;
     }
 
     let context: PageContext;
-    if (params['productCode']) {
-      context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
-    } else if (params['categoryCode']) {
-      context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
-    } else if (params['brandCode']) {
-      context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-    } else if (params['query']) {
-      context = { id: 'search', type: PageType.CONTENT_PAGE };
-    } else if (state.data.pageLabel !== undefined) {
-      context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-    } else if (state.url.length > 0) {
+    // we give smartedit preview page a PageContext
+    if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
-        id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
+        id: 'smartedit-preview',
         type: PageType.CONTENT_PAGE
       };
     } else {
-      context = {
-        id: 'homepage',
-        type: PageType.CONTENT_PAGE
-      };
+      if (params['productCode']) {
+        context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+      } else if (params['categoryCode']) {
+        context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['brandCode']) {
+        context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['query']) {
+        context = { id: 'search', type: PageType.CONTENT_PAGE };
+      } else if (state.data.pageLabel !== undefined) {
+        context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+      } else if (state.url.length > 0) {
+        context = {
+          id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
+          type: PageType.CONTENT_PAGE
+        };
+      } else {
+        context = {
+          id: 'homepage',
+          type: PageType.CONTENT_PAGE
+        };
+      }
     }
 
     return { url, queryParams, params, context, cmsRequired };
