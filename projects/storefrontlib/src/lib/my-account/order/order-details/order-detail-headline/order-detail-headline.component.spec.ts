@@ -1,20 +1,12 @@
-import { Component, Input, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  RoutingService,
-  Cart,
-  PromotionResult,
-  AuthService,
-  UserToken,
-  Order,
-  UserService
-} from '@spartacus/core';
+import { Order } from '@spartacus/core';
 
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
-import { CardModule } from '../../../../ui/components/card/card.module';
+import { OrderDetailsService } from '../order-details.service';
 
 const mockOrder: Order = {
   code: '1',
@@ -55,88 +47,34 @@ const mockOrder: Order = {
         isocode: 'UK'
       }
     }
-  }
+  },
+  created: new Date('2019-02-11T13:02:58+0000')
 };
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
-    return of({ userId: 'test' } as UserToken);
-  }
-}
-
-class MockUserService {
-  getOrderDetails(): Observable<Order> {
-    return of(mockOrder);
-  }
-  loadOrderDetails(_userId: string, _orderCode: string): void {}
-  clearOrderDetails(): void {}
-}
-
-@Component({
-  selector: 'cx-order-summary',
-  template: ''
-})
-class MockOrderSummaryComponent {
-  @Input()
-  cart: Cart;
-}
-
-@Component({
-  selector: 'cx-cart-item-list',
-  template: ''
-})
-class MockCartItemListComponent {
-  @Input()
-  isReadOnly = false;
-  @Input()
-  hasHeader = true;
-  @Input()
-  items = [];
-  @Input()
-  potentialProductPromotions: PromotionResult[] = [];
-  @Input()
-  cartIsLoading = false;
-}
-
-describe('OrderDetailsComponent', () => {
+describe('OrderDetailHeadlineComponent', () => {
   let component: OrderDetailHeadlineComponent;
   let fixture: ComponentFixture<OrderDetailHeadlineComponent>;
-  let userService: UserService;
-  let mockRoutingService: RoutingService;
+  let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
   beforeEach(async(() => {
-    mockRoutingService = <RoutingService>{
-      getRouterState() {
-        return of({
-          state: {
-            params: {
-              orderCode: '1'
-            }
-          }
-        });
+    mockOrderDetailsService = <OrderDetailsService>{
+      getOrderDetails() {
+        return of(mockOrder);
       }
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule],
       providers: [
-        { provide: RoutingService, useValue: mockRoutingService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService }
       ],
-      declarations: [
-        MockCartItemListComponent,
-        MockOrderSummaryComponent,
-        OrderDetailHeadlineComponent
-      ]
+      declarations: [OrderDetailHeadlineComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailHeadlineComponent);
     el = fixture.debugElement;
-    userService = TestBed.get(UserService);
 
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -147,8 +85,6 @@ describe('OrderDetailsComponent', () => {
   });
 
   it('should initialize ', () => {
-    spyOn(userService, 'loadOrderDetails').and.stub();
-
     fixture.detectChanges();
     let order: Order;
     component.order$
@@ -157,12 +93,11 @@ describe('OrderDetailsComponent', () => {
       })
       .unsubscribe();
     expect(order).toEqual(mockOrder);
-    expect(userService.loadOrderDetails).toHaveBeenCalledWith('test', '1');
   });
 
   it('should order details info bar be not null', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-order-details'))).not.toBeNull();
+    expect(el.query(By.css('.cx-header.row'))).toBeTruthy();
   });
 
   it('should order details display correct order ID', () => {
@@ -173,71 +108,19 @@ describe('OrderDetailsComponent', () => {
     expect(element.nativeElement.textContent).toEqual(mockOrder.code);
   });
 
+  it('should order details display correct order date', () => {
+    fixture.detectChanges();
+    const element: DebugElement = el.query(
+      By.css('.cx-header div:nth-child(2) > div.cx-detail-value')
+    );
+    expect(element.nativeElement.textContent).toEqual('Feb 11, 2019');
+  });
+
   it('should order details display correct order status', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('.cx-detail:last-of-type .cx-detail-value')
     );
     expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
-  });
-
-  it('should order details display order summary', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(By.css('cx-order-summary'));
-    expect(element).not.toBeNull();
-  });
-
-  it('should order details display "ship to" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('.cx-card-body__label-container')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.deliveryAddress.firstName &&
-        mockOrder.deliveryAddress.lastName &&
-        mockOrder.deliveryAddress.line1 &&
-        mockOrder.deliveryAddress.line2 &&
-        mockOrder.deliveryAddress.town &&
-        mockOrder.deliveryAddress.postalCode
-    );
-  });
-
-  it('should order details display "bill to" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('.cx-account-summary.row > div:nth-child(2)')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.paymentInfo.billingAddress.firstName &&
-        mockOrder.paymentInfo.billingAddress.lastName &&
-        mockOrder.paymentInfo.billingAddress.line1 &&
-        mockOrder.paymentInfo.billingAddress.line2 &&
-        mockOrder.paymentInfo.billingAddress.town &&
-        mockOrder.paymentInfo.billingAddress.postalCode
-    );
-  });
-
-  it('should order details display "payment" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('.cx-account-summary.row > div:nth-child(3)')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.paymentInfo.accountHolderName &&
-        mockOrder.paymentInfo.cardNumber &&
-        mockOrder.paymentInfo.expiryMonth &&
-        mockOrder.paymentInfo.expiryYear &&
-        mockOrder.paymentInfo.cardType.name
-    );
-  });
-
-  it('should order details display "order-detail-shipping" data', () => {
-    fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('.cx-account-summary.row > div:nth-child(4)')
-    );
-    expect(element.nativeElement.textContent).toContain(
-      mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
-    );
   });
 });
