@@ -2,7 +2,6 @@
   <ng-container *ngFor="let component of (currentSlot$ | async)?.components">
     <ng-container
       *cxOutlet="getComponentMappedType(component)"
-      #containerWrapper
       cxComponentWrapper
       [componentType]="component.typeCode"
       [componentMappedType]="getComponentMappedType(component)"
