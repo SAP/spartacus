@@ -18,11 +18,11 @@ import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-dynamic-slot',
-  templateUrl: './dynamic-slot.component.html',
+  selector: 'cx-page-slot',
+  templateUrl: './page-slot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DynamicSlotComponent implements OnInit {
+export class PageSlotComponent implements OnInit {
   @Input() position: string;
 
   constructor(

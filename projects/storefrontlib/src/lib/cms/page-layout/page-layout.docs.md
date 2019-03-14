@@ -28,7 +28,7 @@ const defaultLayoutConfig: LayoutConfig = {
 ```
 
 ## CSS layout rules
-During the rendering of the slots of the page or section layout, the page template name is added as a CSS class. Additionally, each and every slot can be selected by using the `cx-dynamic-slot` or `position` name of the slot. This allows for decoupled and customizable CSS rules. 
+During the rendering of the slots of the page or section layout, the page template name is added as a CSS class. Additionally, each and every slot can be selected by using the `cx-page-slot` or `position` name of the slot. This allows for decoupled and customizable CSS rules. 
 
 Since the page layout is driven by page template codes and the position names, the layout is tightly coupled to the installation data of the backend. Customers might add or replace page templates and slot positions and will need to take care of the CSS rules in this case. 
 

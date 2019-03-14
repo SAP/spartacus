@@ -1,10 +1,7 @@
-export * from './dynamic-slot/dynamic-slot.component';
-export * from './dynamic-slot/component-wrapper.directive';
+export * from './page-slot/page-slot.component';
+export * from './page-slot/component-wrapper.directive';
 
-import { DynamicSlotComponent } from './dynamic-slot/dynamic-slot.component';
-import { ComponentWrapperDirective } from './dynamic-slot/component-wrapper.directive';
+import { PageSlotComponent } from './page-slot/page-slot.component';
+import { ComponentWrapperDirective } from './page-slot/component-wrapper.directive';
 
-export const components: any[] = [
-  DynamicSlotComponent,
-  ComponentWrapperDirective
-];
+export const components: any[] = [PageSlotComponent, ComponentWrapperDirective];

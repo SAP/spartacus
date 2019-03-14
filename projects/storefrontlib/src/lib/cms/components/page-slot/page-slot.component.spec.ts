@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
-import { DynamicSlotComponent } from './dynamic-slot.component';
+import { PageSlotComponent } from './page-slot.component';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { OutletDirective } from '../../../outlet';
 
@@ -23,16 +23,16 @@ class MockCmsService {
   }
 }
 
-describe('DynamicSlotComponent', () => {
-  let dynamicSlotComponent: DynamicSlotComponent;
-  let fixture: ComponentFixture<DynamicSlotComponent>;
+describe('PageSlotComponent', () => {
+  let pageSlotComponent: PageSlotComponent;
+  let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
       declarations: [
-        DynamicSlotComponent,
+        PageSlotComponent,
         ComponentWrapperDirective,
         OutletDirective
       ],
@@ -46,16 +46,16 @@ describe('DynamicSlotComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DynamicSlotComponent);
-    dynamicSlotComponent = fixture.componentInstance;
-    dynamicSlotComponent.position = 'left';
+    fixture = TestBed.createComponent(PageSlotComponent);
+    pageSlotComponent = fixture.componentInstance;
+    pageSlotComponent.position = 'left';
     fixture.detectChanges();
 
     cmsService = TestBed.get(CmsService);
   });
 
   it('should be created', () => {
-    expect(dynamicSlotComponent).toBeTruthy();
+    expect(pageSlotComponent).toBeTruthy();
   });
 
   it('should add smart edit slot contract if app launch in smart edit', () => {
@@ -78,9 +78,9 @@ describe('DynamicSlotComponent', () => {
   it('should not add smart edit slot contract if app not launch in smart edit', () => {
     spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
-    fixture = TestBed.createComponent(DynamicSlotComponent);
-    dynamicSlotComponent = fixture.componentInstance;
-    dynamicSlotComponent.position = 'left';
+    fixture = TestBed.createComponent(PageSlotComponent);
+    pageSlotComponent = fixture.componentInstance;
+    pageSlotComponent.position = 'left';
     fixture.detectChanges();
 
     const native = fixture.debugElement.nativeElement;
@@ -97,7 +97,7 @@ describe('DynamicSlotComponent', () => {
 
     it('should return "uid" of the component when component type is "JspIncludeComponent"', () => {
       component.typeCode = 'JspIncludeComponent';
-      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
+      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
         'testUid'
       );
     });
@@ -105,14 +105,14 @@ describe('DynamicSlotComponent', () => {
     it('should return "flexType" of the component when component type is "CMSFlexComponent"', () => {
       component.typeCode = 'CMSFlexComponent';
       component.flexType = 'testComponentMappedType';
-      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
+      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentMappedType'
       );
     });
 
     it('should return component type when it is NOT "JspIncludeComponent" nor "CMSFlexComponent"', () => {
       component.typeCode = 'testComponentType';
-      expect(dynamicSlotComponent.getComponentMappedType(component)).toBe(
+      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
         'testComponentType'
       );
     });
