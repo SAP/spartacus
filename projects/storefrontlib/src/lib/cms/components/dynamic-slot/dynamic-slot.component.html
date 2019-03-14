@@ -1,9 +1,5 @@
 <ng-container *cxOutlet="position">
-  <ng-container
-    *ngFor="
-      let component of ((currentSlot$ | async)?.components | slice: 0:limit)
-    "
-  >
+  <ng-container *ngFor="let component of (currentSlot$ | async)?.components">
     <ng-container
       *cxOutlet="getComponentMappedType(component)"
       #containerWrapper
