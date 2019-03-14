@@ -17,7 +17,7 @@ context('Reset Password Page', () => {
   });
 
   it('should invalid token result in server error', () => {
-    // The form is submited without any a change password token. An error message should appear and the page should not change.
+    // The form is submited without a change password token. An error message should appear and the page should not change.
     cy.get('cx-global-message .alert-danger').should('not.exist');
     cy.get('cx-reset-password-form form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
