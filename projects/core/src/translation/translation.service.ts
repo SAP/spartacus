@@ -59,7 +59,9 @@ export class TranslationService {
   }
 
   protected getFallbackValue(key: string): string {
-    return `[${key}]`;
+    return this.config.production
+      ? ` ` // non-breaking space
+      : `[${key}]`;
   }
 
   protected reportMissingKey(key: string) {
