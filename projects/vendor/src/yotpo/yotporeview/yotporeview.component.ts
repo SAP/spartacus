@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { Product } from '@spartacus/core';
 
 @Component({
-  selector: 'lib-yotporeview',
+  selector: 'cx-yotporeview',
   templateUrl: './yotporeview.component.html',
   styleUrls: ['./yotporeview.component.css']
 })
