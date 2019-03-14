@@ -13,7 +13,7 @@ import {
 import { BannerComponentService } from './banner.component.service';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {

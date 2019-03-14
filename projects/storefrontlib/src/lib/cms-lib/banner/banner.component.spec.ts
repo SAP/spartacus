@@ -11,7 +11,7 @@ import {
   CmsBannerComponentMedia
 } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponentService } from './banner.component.service';
 
 const UseCmsModuleConfig: CmsConfig = {
