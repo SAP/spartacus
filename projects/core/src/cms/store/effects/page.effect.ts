@@ -22,7 +22,10 @@ import { RoutingService } from '../../../routing/index';
 import { CMSPage, CmsComponent } from '../../../occ/occ-models/index';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
 import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
-import { JSP_INCLUDE_CMS_COMPONENT_TYPE } from '../../config/cms-config';
+import {
+  JSP_INCLUDE_CMS_COMPONENT_TYPE,
+  CMS_FLEX_COMPONENT_TYPE
+} from '../../config/cms-config';
 import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
 
 @Injectable()
@@ -117,10 +120,10 @@ export class PageEffects {
     if (component.catalogUuid) {
       comp.catalogUuid = this.getCatalogUuid(component);
     }
-    if (component.flexType) {
+    if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
       comp.flexType = component.flexType;
     } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
-      comp.flexType = JSP_INCLUDE_CMS_COMPONENT_TYPE;
+      comp.flexType = component.uid;
     } else {
       comp.flexType = component.typeCode;
     }
