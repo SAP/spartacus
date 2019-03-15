@@ -16,7 +16,8 @@ import {
   CmsConfig,
   CmsService,
   ComponentMapperService,
-  CxApiService
+  CxApiService,
+  ContentSlotComponentData
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { isPlatformServer } from '@angular/common';
@@ -25,11 +26,7 @@ import { isPlatformServer } from '@angular/common';
   selector: '[cxComponentWrapper]'
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
-  @Input() componentType: string;
-  @Input() componentMappedType: string;
-  @Input() componentUid: string;
-  @Input() componentUuid: string;
-  @Input() componentCatalogUuid: string;
+  @Input() cxComponentWrapper: ContentSlotComponentData;
 
   cmpRef: ComponentRef<any>;
   webElement: any;
@@ -50,7 +47,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.componentMapper.isWebComponent(this.componentMappedType)) {
+    if (this.componentMapper.isWebComponent(this.cxComponentWrapper.flexType)) {
       this.launchWebComponent();
     } else {
       this.launchComponent();
@@ -60,14 +57,14 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   private shouldRenderComponent(): boolean {
     const isSSR = isPlatformServer(this.platformId);
     const isComponentDisabledInSSR = (
-      this.config.cmsComponents[this.componentMappedType] || {}
+      this.config.cmsComponents[this.cxComponentWrapper.flexType] || {}
     ).disableSSR;
     return !(isSSR && isComponentDisabledInSSR);
   }
 
   private launchComponent() {
     const factory = this.componentMapper.getComponentFactoryByCode(
-      this.componentMappedType
+      this.cxComponentWrapper.flexType
     );
 
     if (factory) {
@@ -87,7 +84,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private async launchWebComponent() {
     const elementName = await this.componentMapper.initWebComponent(
-      this.componentMappedType,
+      this.cxComponentWrapper.flexType,
       this.renderer
     );
 
@@ -110,15 +107,15 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     T
   > {
     return {
-      uid: this.componentUid,
-      data$: this.cmsService.getComponentData(this.componentUid)
+      uid: this.cxComponentWrapper.uid,
+      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid)
     };
   }
 
   private getInjectorForComponent(): Injector {
     const configProviders =
-      (this.config.cmsComponents[this.componentMappedType] || {}).providers ||
-      [];
+      (this.config.cmsComponents[this.cxComponentWrapper.flexType] || {})
+        .providers || [];
     return Injector.create({
       providers: [
         {
@@ -136,22 +133,22 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     this.renderer.setAttribute(
       element,
       'data-smartedit-component-id',
-      this.componentUid
+      this.cxComponentWrapper.uid
     );
     this.renderer.setAttribute(
       element,
       'data-smartedit-component-type',
-      this.componentType
+      this.cxComponentWrapper.typeCode
     );
     this.renderer.setAttribute(
       element,
       'data-smartedit-catalog-version-uuid',
-      this.componentCatalogUuid
+      this.cxComponentWrapper.catalogUuid
     );
     this.renderer.setAttribute(
       element,
       'data-smartedit-component-uuid',
-      this.componentUuid
+      this.cxComponentWrapper.uuid
     );
   }
 
