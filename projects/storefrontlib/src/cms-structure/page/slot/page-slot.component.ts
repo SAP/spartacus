@@ -96,8 +96,4 @@ export class PageSlotComponent implements OnInit {
       slot.uuid
     );
   }
-
-  getComponentMappedType(component: ContentSlotComponentData): string {
-    return this.cmsMapping.getMappedType(component);
-  }
 }
