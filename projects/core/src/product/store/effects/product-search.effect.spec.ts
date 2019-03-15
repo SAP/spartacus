@@ -58,8 +58,8 @@ describe('ProductSearch Effects', () => {
 
     searchConfig = { pageSize: 10 };
 
-    spyOn(service, 'query').and.returnValue(of(searchResult));
-    spyOn(service, 'queryProductSuggestions').and.returnValue(of(suggestions));
+    spyOn(service, 'loadSearch').and.returnValue(of(searchResult));
+    spyOn(service, 'loadSuggestions').and.returnValue(of(suggestions));
   });
 
   describe('searchProducts$', () => {

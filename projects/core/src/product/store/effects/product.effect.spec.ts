@@ -85,7 +85,7 @@ describe('Product Effects', () => {
     service = TestBed.get(OccProductService);
     effects = TestBed.get(fromEffects.ProductEffects);
 
-    spyOn(service, 'loadProduct').and.returnValue(of(product));
+    spyOn(service, 'load').and.returnValue(of(product));
   });
 
   describe('loadProduct$', () => {

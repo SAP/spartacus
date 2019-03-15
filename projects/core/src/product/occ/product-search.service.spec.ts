@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http/testing';
 
 import { SearchConfig } from '../model/search-config';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   ProductSearchPage,
   SuggestionList
@@ -13,6 +12,7 @@ import {
 
 import { OccProductSearchService } from './product-search.service';
 import { OccProductConfig, defaultOccProductConfig } from './product-config';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
@@ -20,7 +20,7 @@ const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-const MockOccModuleConfig: OccConfig = {
+const MockOccModuleConfig: OccProductConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -32,22 +32,25 @@ const MockOccModuleConfig: OccConfig = {
     currency: ''
   }
 };
-const endpoint = '/products';
 
 describe('OccProductSearchService', () => {
   let service: OccProductSearchService;
   let httpMock: HttpTestingController;
+  let dynamicTemplate: DynamicTemplate;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccProductSearchService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OccProductConfig, useValue: defaultOccProductConfig }
+        {
+          provide: OccProductConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
+        }
       ]
     });
 
+    dynamicTemplate = TestBed.get(DynamicTemplate);
     service = TestBed.get(OccProductSearchService);
     httpMock = TestBed.get(HttpTestingController);
   });
@@ -63,16 +66,15 @@ describe('OccProductSearchService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/search';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `/${dynamicTemplate.resolve(
+              defaultOccProductConfig.occProduct.productSearch,
+              { query: queryText, searchConfig: mockSearchConfig }
+            )}&pageSize=${mockSearchConfig.pageSize.toString()}`
+        );
       });
-      expect(mockReq.request.params.get('query')).toEqual(queryText);
-      expect(mockReq.request.params.get('pageSize')).toEqual(
-        mockSearchConfig.pageSize.toString()
-      );
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)' +
-          ',averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
-      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -89,12 +91,15 @@ describe('OccProductSearchService', () => {
         });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/suggestions';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `/${dynamicTemplate.resolve(
+              defaultOccProductConfig.occProduct.productSuggestions,
+              { term: queryText, max: mockSearchConfig.pageSize }
+            )}`
+        );
       });
-      expect(mockReq.request.params.get('term')).toEqual(queryText);
-      expect(mockReq.request.params.get('max')).toEqual(
-        mockSearchConfig.pageSize.toString()
-      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

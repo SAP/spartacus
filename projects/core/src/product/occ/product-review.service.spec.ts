@@ -5,7 +5,6 @@ import {
 import { TestBed } from '@angular/core/testing';
 
 import { ReviewList } from '../../occ/occ-models/occ.models';
-import { OccConfig } from '../../occ/config/occ-config';
 
 import { OccProductConfig, defaultOccProductConfig } from './product-config';
 import { OccProductReviewsService } from './product-reviews.service';
@@ -18,7 +17,7 @@ const productReviews: ReviewList = {
 
 const endpoint = '/products';
 
-const MockOccModuleConfig: OccConfig = {
+const MockOccModuleConfig: OccProductConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -40,8 +39,10 @@ describe('OccProductReviewsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccProductReviewsService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OccProductConfig, useValue: defaultOccProductConfig }
+        {
+          provide: OccProductConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
+        }
       ]
     });
 
@@ -72,7 +73,7 @@ describe('OccProductReviewsService', () => {
     });
   });
 
-  it('shoud load reviews with maxCount parameter set', () => {
+  it('should load reviews with maxCount parameter set', () => {
     service.loadProductReviews(productCode, maxCount).subscribe(result => {
       expect(result).toEqual(productReviews);
     });

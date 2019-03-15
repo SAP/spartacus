@@ -4,10 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccConfig } from '../../occ/config/occ-config';
-
 import { OccProductService } from './product.service';
 import { OccProductConfig, defaultOccProductConfig } from './product-config';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 const productCode = 'testCode';
 const product = {
@@ -15,7 +14,7 @@ const product = {
   name: 'testProduct'
 };
 
-const MockOccModuleConfig: OccConfig = {
+const MockOccModuleConfig: OccProductConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -28,22 +27,24 @@ const MockOccModuleConfig: OccConfig = {
   }
 };
 
-const endpoint = '/products';
-
 describe('OccProductService', () => {
   let service: OccProductService;
   let httpMock: HttpTestingController;
+  let dynamicTemplate: DynamicTemplate;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         OccProductService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OccProductConfig, useValue: defaultOccProductConfig }
+        {
+          provide: OccProductConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
+        }
       ]
     });
 
+    dynamicTemplate = TestBed.get(DynamicTemplate);
     service = TestBed.get(OccProductService);
     httpMock = TestBed.get(HttpTestingController);
   });
@@ -59,12 +60,15 @@ describe('OccProductService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + `/${productCode}`;
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `/${dynamicTemplate.resolve(
+              defaultOccProductConfig.occProduct.getProduct,
+              { productCode }
+            )}`
+        );
       });
-
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
-      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

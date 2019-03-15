@@ -10,13 +10,13 @@ import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/product-reviews.action';
 import * as fromEffects from '../effects/product-reviews.effect';
-import { OccProductService } from '../../occ/product.service';
 import { ReviewList } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
   OccProductConfig,
   defaultOccProductConfig
 } from '../../occ/product-config';
+import { OccProductReviewsService } from '../../occ';
 
 const reviewData: ReviewList = {
   reviews: [
@@ -40,14 +40,14 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('Product reviews effect', () => {
   let actions$: Observable<Action>;
-  let service: OccProductService;
+  let service: OccProductReviewsService;
   let effects: fromEffects.ProductReviewsEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductService,
+        OccProductReviewsService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccProductConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
@@ -55,7 +55,7 @@ describe('Product reviews effect', () => {
       ]
     });
 
-    service = TestBed.get(OccProductService);
+    service = TestBed.get(OccProductReviewsService);
     effects = TestBed.get(fromEffects.ProductReviewsEffects);
 
     spyOn(service, 'loadProductReviews').and.returnValue(of(reviewData));
