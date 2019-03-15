@@ -78,7 +78,7 @@ header {
   .SiteLogin {
     background-color: var(--cx-background-color, var(--cx-g-color-background));
     color: var(--cx-color, var(--cx-g-color-text));
-    --cx-padding: #{$space / 2} 0;
+    padding: var(--cx-padding, #{$space / 2} 0);
   }
 
   .SiteContext {
