@@ -27,7 +27,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       this.lastKey = key;
       this.lastOptions = options;
 
-      this.lastResult = this.service.lazyTranslate(key, options);
+      this.lastResult = this.service.translateLazy(key, options);
     }
     return this.asyncPipe.transform(this.lastResult);
   }

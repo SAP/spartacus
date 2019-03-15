@@ -6,6 +6,8 @@ import { I18NextService } from './i18next/i18next.service';
 
 @Injectable()
 export class TranslationService {
+  private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
+
   private languageChanged = new Subject<string>();
   languageChanged$ = this.languageChanged.asObservable();
 
@@ -23,7 +25,7 @@ export class TranslationService {
   }
 
   translate(key: string, options: any = {}): string {
-    if (this.exists(key)) {
+    if (this.i18NextService.exists(key, options)) {
       return this.i18NextService.t(key, options);
     } else {
       this.reportMissingKey(key);
@@ -31,19 +33,18 @@ export class TranslationService {
     }
   }
 
-  lazyTranslate(key: string, options: any = {}): Observable<string> {
+  translateLazy(key: string, options: any = {}): Observable<string> {
     const result = new BehaviorSubject<string>(undefined);
     if (this.i18NextService.exists(key, options)) {
       result.next(this.i18NextService.t(key, options));
     } else {
-      this.loadKeyNamespace(key, err => {
-        if (err || !this.i18NextService.exists(key, options)) {
+      this.loadKeyNamespace(key, () => {
+        if (!this.i18NextService.exists(key, options)) {
           this.reportMissingKey(key);
           result.next(this.getFallbackValue(key));
         } else {
           result.next(this.i18NextService.t(key, options));
         }
-        result.complete();
       });
     }
     return result.asObservable().pipe(filter(val => val !== undefined));
@@ -57,9 +58,7 @@ export class TranslationService {
   }
 
   protected getFallbackValue(key: string): string {
-    return this.config.production
-      ? ` ` // non-breaking space
-      : `[${key}]`;
+    return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
   }
 
   protected reportMissingKey(key: string) {
