@@ -23,7 +23,7 @@
     height: var(--cx-height, 20px);
     background-color: var(--cx-background-color, var(--cx-g-color-danger));
     margin-right: var(--cx-margin, 6px);
-    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 700));
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
   }
   &:focus {
     box-shadow: var(--cx-box-shadow, none);
