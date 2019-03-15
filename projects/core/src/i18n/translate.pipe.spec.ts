@@ -37,9 +37,39 @@ fdescribe('TranslatePipe', () => {
   describe('transform', () => {
     it('should return result of service.translateLazy', () => {
       spyOn(service, 'translateLazy').and.returnValue(of('expectedValue'));
-      const result = pipe.transform('testKey');
-      expect(service.translateLazy).toHaveBeenCalledWith('testKey');
+      const result = pipe.transform('testKey', { param: 'param1' });
+      expect(service.translateLazy).toHaveBeenCalledWith('testKey', {
+        param: 'param1'
+      });
       expect(result).toBe('expectedValue');
+    });
+
+    it('should NOT call service.translateLazy twice if pipe.transform was called twice with the same arguments', () => {
+      spyOn(service, 'translateLazy').and.returnValue(of());
+      pipe.transform('testKey', { param: 'param1' });
+      pipe.transform('testKey', { param: 'param1' });
+      expect(service.translateLazy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call service.translateLazy every time pipe.transform was called with different keys', () => {
+      spyOn(service, 'translateLazy').and.returnValue(of());
+      pipe.transform('testKey', { param: 'param1' });
+      pipe.transform('testKeyOther', { param: 'param1' });
+      expect(service.translateLazy).toHaveBeenCalledTimes(2);
+    });
+
+    it('should call service.translateLazy every time pipe.transform was called with different options', () => {
+      spyOn(service, 'translateLazy').and.returnValue(of());
+      pipe.transform('testKey', { param: 'param1' });
+      pipe.transform('testKey', { param: 'param2' });
+      pipe.transform('testKey', { param: 'param2', otherParam: 'otherParam1' });
+      expect(service.translateLazy).toHaveBeenCalledTimes(3);
+    });
+
+    it('should call cd.markForCheck when service.translateLazy emits value', () => {
+      spyOn(service, 'translateLazy').and.returnValue(of('value'));
+      pipe.transform('testKey', { param: 'param1' });
+      expect(cd.markForCheck).toHaveBeenCalled();
     });
   });
 });
