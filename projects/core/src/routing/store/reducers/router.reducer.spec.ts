@@ -34,7 +34,24 @@ describe('Router Reducer', () => {
         RouterTestingModule.withRoutes([
           { path: '', component: TestComponent },
           { path: 'category/:categoryCode', component: TestComponent },
-          { path: 'product/:productCode', component: TestComponent }
+          { path: 'product/:productCode', component: TestComponent },
+          {
+            path: 'cmsPage',
+            component: TestComponent,
+            data: { pageLabel: 'testPageLabel' }
+          },
+          {
+            path: 'dynamically-created',
+            component: TestComponent,
+            children: [{ path: 'sub-route', component: TestComponent }],
+            data: {
+              cxCmsRouteContext: {
+                type: PageType.CONTENT_PAGE,
+                id: 'explicit'
+              }
+            }
+          },
+          { path: '**', component: TestComponent }
         ]),
         StoreRouterConnectingModule
       ],
@@ -197,6 +214,52 @@ describe('Router Reducer', () => {
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
       cmsRequired: false
+    });
+  });
+
+  describe('should set correct context for content pages', () => {
+    let context;
+
+    beforeEach(async () => {
+      store.subscribe(routerStore => {
+        context = routerStore.router.state.context;
+      });
+    });
+
+    it('for generic page', async () => {
+      await zone.run(() => router.navigateByUrl('/customCmsPage'));
+      expect(context).toEqual({
+        id: '/customCmsPage',
+        type: PageType.CONTENT_PAGE
+      });
+    });
+
+    it('for generic page with slashes', async () => {
+      await zone.run(() => router.navigateByUrl('/custom-cms/page'));
+      expect(context).toEqual({
+        id: '/custom-cms/page',
+        type: PageType.CONTENT_PAGE
+      });
+    });
+
+    it('for route defined with page label', async () => {
+      await zone.run(() => router.navigateByUrl('/cmsPage'));
+      expect(context).toEqual({
+        id: 'testPageLabel',
+        type: PageType.CONTENT_PAGE
+      });
+    });
+
+    it('for route with cxCmsRouteContext context', async () => {
+      await zone.run(() => router.navigateByUrl('/dynamically-created'));
+      expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
+    });
+
+    it('for sub route route with cxCmsRouteContext context', async () => {
+      await zone.run(() =>
+        router.navigateByUrl('dynamically-created/sub-route')
+      );
+      expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
     });
   });
 });

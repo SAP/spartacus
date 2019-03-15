@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponent } from './banner.component';
 import { BannerComponentService } from './banner.component.service';
 
@@ -18,6 +18,16 @@ import { BannerComponentService } from './banner.component.service';
       cmsComponents: {
         SimpleResponsiveBannerComponent: {
           selector: 'cx-responsive-banner',
+          providers: [
+            {
+              provide: BannerComponentService,
+              useClass: BannerComponentService,
+              deps: [CmsComponentData, CmsConfig]
+            }
+          ]
+        },
+        BannerComponent: {
+          selector: 'cx-banner',
           providers: [
             {
               provide: BannerComponentService,

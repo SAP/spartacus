@@ -54,6 +54,8 @@ class MockComponentService {
   template: ''
 })
 class MockAddressCardComponent {
+  editMode: true;
+
   @Input()
   userId: string;
 
@@ -96,12 +98,6 @@ describe('AddressBookComponent', () => {
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
 
-  const checkSectionMsg = (msg: string) => {
-    expect(
-      el.query(By.css('.cx-section__msg')).nativeElement.textContent
-    ).toContain(msg);
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule],
@@ -119,6 +115,7 @@ describe('AddressBookComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
     component = fixture.componentInstance;
+    spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
 
     isLoading.next(false);
@@ -144,48 +141,14 @@ describe('AddressBookComponent', () => {
     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
   });
 
-  it('should show and hide add address form', () => {
+  it('should display shipping addresses page title', () => {
+    expect(
+      el.query(By.css('.cx-section__msg')).nativeElement.textContent
+    ).toContain('Saved shipping addresses');
+  });
+
+  it('should be able to add new address', () => {
     el.query(By.css('.btn-action')).nativeElement.click();
-    fixture.detectChanges();
-    expect(component.showAddAddressForm).toBe(true);
-    checkSectionMsg('Add');
-
-    fixture.whenStable().then(() => {
-      el.query(
-        By.css('.cx-address-form__btns .btn-action')
-      ).nativeElement.click();
-      fixture.detectChanges();
-      checkSectionMsg('Saved');
-    });
-  });
-
-  it('should show and hide edit address form', () => {
-    fixture.whenStable().then(() => {
-      el.query(By.css('.cx-address-card__actions .edit')).nativeElement.click();
-      fixture.detectChanges();
-      expect(component.showEditAddressForm).toBe(true);
-      checkSectionMsg('Edit');
-
-      el.query(
-        By.css('.cx-address-form__btns .btn-action')
-      ).nativeElement.click();
-      fixture.detectChanges();
-      checkSectionMsg('Saved');
-    });
-  });
-
-  it('should delete address (with confirmation question)', () => {
-    fixture.whenStable().then(() => {
-      expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
-      el.query(
-        By.css('.cx-address-card__actions .delete')
-      ).nativeElement.click();
-      fixture.detectChanges();
-      el.query(
-        By.css('.cx-address-card__delete .btn-primary')
-      ).nativeElement.click();
-      fixture.detectChanges();
-      expect(el.queryAll(By.css('cx-address-card')).length).toEqual(2);
-    });
+    expect(component.addAddressButtonHandle).toHaveBeenCalled();
   });
 });

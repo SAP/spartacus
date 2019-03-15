@@ -3,6 +3,8 @@
 @import './page-templates/content-page-1';
 @import './page-templates/category-page';
 @import './page-templates/product-detail';
+@import './page-templates/product-list';
+@import './page-templates/search-results-list';
 @import './page-templates/cart-page';
 @import './page-templates/login-page';
 @import './page-templates/error-page';
@@ -21,6 +23,14 @@ cx-page-layout {
 
 .CategoryPageTemplate {
   @extend %CategoryPageTemplate !optional;
+}
+
+.ProductListPageTemplate {
+  @extend %ProductListPageTemplate !optional;
+}
+
+.SearchResultsListPageTemplate {
+  @extend %SearchResultsListPageTemplate !optional;
 }
 
 .ProductDetailsPageTemplate {

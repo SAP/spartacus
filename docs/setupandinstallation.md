@@ -86,7 +86,7 @@ $ yarn add @spartacus/styles
 2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
 
    ```typescript
-   imports: [BrowserModule, StorefrontModule],
+   imports: [BrowserModule, AppRoutingModule, StorefrontModule],
    ```
 
 Your file should look like this:
@@ -130,7 +130,8 @@ To configure the storefront, use the `withConfig` method on the StorefrontModule
         client_secret: 'secret'
       },
       site: {
-        baseSite: 'electronics',
+        baseSite: 'electronics'
+      }
     })
   ],
 ```

@@ -5,7 +5,7 @@ export const defaultStorefrontRoutesTranslations: {
   [languageCode: string]: StorefrontRoutesTranslations;
 } = {
   default: {
-    home: { paths: ['', 'cx-preview'] },
+    home: { paths: [''] },
     cart: { paths: ['cart'] },
     search: { paths: ['search/:query'] },
     login: { paths: ['login'] },
@@ -23,19 +23,6 @@ export const defaultStorefrontRoutesTranslations: {
       paramsMapping: { categoryCode: 'code' }
     },
     brand: { paths: ['Brands/:brandName/c/:brandCode'] },
-    storeFinder: {
-      paths: ['store-finder'],
-      children: {
-        searchResults: { paths: ['find-stores'] },
-        allStores: { paths: ['view-all-stores'] },
-        listStores: {
-          paths: ['country/:country/region/:region', 'country/:country']
-        },
-        storeDescription: {
-          paths: ['country/:country/region/:region/:store']
-        }
-      }
-    },
     termsAndConditions: { paths: ['termsAndConditions'] },
     orders: { paths: ['my-account/orders'] },
     orderDetails: {
