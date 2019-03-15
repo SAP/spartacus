@@ -23,7 +23,7 @@
     height: var(--cx-height, 20px);
     background-color: var(--cx-background-color, var(--cx-g-color-danger));
     margin-right: var(--cx-margin, 6px);
-    font-weight: var(--cx-g-font-weight-normal, 700);
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 700));
   }
   &:focus {
     box-shadow: var(--cx-box-shadow, none);
@@ -43,9 +43,9 @@ input[type='radio'] {
   cursor: var(--cx-cursor, pointer);
   line-height: var(--cx-line-height, 1.42857);
   appearance: var(--cx-appearance, none);
-  -webkit-appearance: textfield;
-  -moz-appearance: textfield;
-  font-size: inherit;
+  -webkit-appearance: var(--cx-webkit-appearance, textfield);
+  -moz-appearance: var(--cx-moz-appearance, textfield);
+  font-size: var(--cx-font-size, inherit);
   box-sizing: var(--cx-box-sizing, border-box);
   outline: var(--cx-outline, none);
   border-style: var(--cx-border-style, solid);
@@ -61,7 +61,7 @@ label {
     display: var(--cx-display, block);
     margin-bottom: $label-margin-bottom;
     &.bold {
-      font-weight: var(--cx-g-font-weight-semi, 600);
+      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
     }
   }
 }
@@ -70,7 +70,7 @@ label {
   margin-bottom: var(--cx-margin, 18px);
 
   label {
-    font-weight: var(--cx-g-font-weight-normal, 400);
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 400));
   }
 
   .form-check-label {
@@ -121,8 +121,8 @@ label {
         display: var(--cx-display, inline-block);
         height: var(--cx-height, 6px);
         width: var(--cx-width, 9px);
-        top: var(--cx-top, 7px);
-        left: var(--cx-left, 6px);
+        top: var(--cx-top, 5px);
+        left: var(--cx-left, 5px);
         border-width: var(--cx-border-width, 0 0 2px 2px);
         border-style: var(--cx-border-style, solid);
         border-color: var(--cx-border-color, var(--cx-g-color-inverse));
@@ -149,7 +149,7 @@ input[type='radio'] {
   position: var(--cx-position, absolute);
 
   &::after {
-    content: '';
+    content: var(--cx-content, '');
     position: var(--cx-position, absolute);
     display: var(--cx-display, inline-block);
     height: var(--cx-height, 10px);
@@ -194,7 +194,7 @@ input[type='radio'] {
 
   &:before {
     position: var(--cx-position, absolute);
-    content: '';
+    content: var(--cx-content, '');
     height: var(--cx-height, 32px);
     width: var(--cx-width, 32px);
     left: var(--cx-left, 4px);
@@ -213,7 +213,7 @@ input[type='radio'] {
   transform: var(--cx-transform, translate(-50%, -50%));
   top: var(--cx-top, 50%);
   @include type(5);
-  font-weight: var(--cx-g-font-weight-bold, 700);
+  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold, 700));
 }
 
 .toggle-on {
@@ -248,7 +248,7 @@ input[role='switch']:checked + .form-toggle__switch {
 }
 
 .form-message {
-  font-size: $small-font-size;
+  @include type(7);
   &--danger {
     color: var(--cx-color, var(--cx-g-color-danger));
   }
