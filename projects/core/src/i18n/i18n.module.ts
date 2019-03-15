@@ -5,10 +5,11 @@ import { defaultI18NConfig } from './config/default-i18n-config';
 import { I18NConfig } from './config/i18n-config';
 import { TranslationService } from './translation.service';
 import { provideConfig, Config } from '../config/config.module';
+import { SpikeTranslatePipe } from './spike-translate.pipe';
 
 @NgModule({
-  declarations: [TranslatePipe],
-  exports: [TranslatePipe]
+  declarations: [TranslatePipe, SpikeTranslatePipe], //spike
+  exports: [TranslatePipe, SpikeTranslatePipe] //spike
 })
 export class I18NModule {
   static forRoot(): ModuleWithProviders {

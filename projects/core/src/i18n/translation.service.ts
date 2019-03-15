@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { I18NEXT_INSTANCE } from './i18next-providers';
-import { Subject } from 'rxjs';
+import { Subject, Observable, BehaviorSubject } from 'rxjs';
 import i18next from 'i18next';
 import { ServerConfig } from '../config/server-config/server-config';
+import { filter } from 'rxjs/internal/operators/filter';
 
 @Injectable()
 export class TranslationService {
@@ -18,8 +19,8 @@ export class TranslationService {
     });
   }
 
-  exists(key: string): boolean {
-    return this.i18Next.exists.call(this.i18Next, key);
+  exists(key: string, options: any = {}): boolean {
+    return this.i18Next.exists.call(this.i18Next, key, options);
   }
 
   translate(key: string, options: any = {}): string {
@@ -36,6 +37,8 @@ export class TranslationService {
     options: any = {},
     onNamespaceLoad?: Function
   ): string {
+    // console.error(`lazyTranslate called with key ${key}`); //spike remove
+
     if (this.exists(key)) {
       return this.i18Next.t.call(this.i18Next, key, options);
     } else {
@@ -49,6 +52,34 @@ export class TranslationService {
       });
       return this.getFallbackValue(key);
     }
+  }
+
+  // spike todo reuse observables for the same key
+  // spike todo refresh observables on language change
+  // spike todo for reusing it probably should be behavior subject or subject with some share/replay?
+  // SPIKE - we do not support refreshing those observables on language change.
+
+  spikeLazyTranslate(key: string, options: any = {}): Observable<string> {
+    console.error(`spikeLazyTranslate called with key ${key}`); //spike remove
+
+    const result = new BehaviorSubject<string>(undefined);
+    if (this.exists(key, options)) {
+      result.next(this.translateI18Next(key, options));
+    } else {
+      this.loadKeyNamespace(key, err => {
+        if (err || !this.exists(key, options)) {
+          this.reportMissingKey(key);
+          result.next(this.getFallbackValue(key));
+        } else {
+          result.next(this.translateI18Next(key, options));
+          result.complete();
+        }
+      });
+    }
+    return result.asObservable().pipe(filter(Boolean)); // spike todo check filter(!== undefined)
+  }
+  private translateI18Next(key: string, options: any = {}): string {
+    return this.i18Next.t.call(this.i18Next, key, options);
   }
 
   loadNamespaces(
