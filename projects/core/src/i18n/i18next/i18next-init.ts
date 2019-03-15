@@ -17,8 +17,8 @@ export function i18NextInit(
       i18NextConfig = { ...i18NextConfig, backend: config.i18n.backend };
     }
     return i18next.init(i18NextConfig, () => {
-      // Don't use i18next's 'resources' config key, because it will disable loading chunks from backend.
-      // Resources should be added, in the callback.
+      // Don't use i18next's 'resources' config key for adding static translations,
+      // because it will disable loading chunks from backend. We add resources here, in the init's callback.
       i18NextAddTranslations(config.i18n.resources);
       syncI18NextWithSiteContext(languageService);
     });
@@ -40,6 +40,6 @@ export function i18NextAddTranslations(resources: i18next.Resource = {}) {
 }
 
 export function syncI18NextWithSiteContext(language: LanguageService) {
-  // always update language of i18next on site context change
+  // always update language of i18next on site context (language) change
   language.getActive().subscribe(lang => i18next.changeLanguage(lang));
 }
