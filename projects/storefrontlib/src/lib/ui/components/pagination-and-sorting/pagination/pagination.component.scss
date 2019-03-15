@@ -1,6 +1,4 @@
-@import 'mixins';
-
 ngb-pagination .pagination .page-item.active .page-link {
-  @include var-color('background-color', 'primary');
-  @include var-color('border-color', 'primary');
+  background-color: var(--cx-background-color, var(--cx-g-color-primary));
+  border-color: var(--cx-border-color, var(--cx-g-color-primary));
 }
