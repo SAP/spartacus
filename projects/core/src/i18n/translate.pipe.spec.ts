@@ -5,7 +5,7 @@ import { Subject, of } from 'rxjs';
 import { TranslatePipe } from '.';
 import { ChangeDetectorRef } from '@angular/core';
 
-fdescribe('TranslatePipe', () => {
+describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
   let service: TranslationService;
   let cd: ChangeDetectorRef;

@@ -10,6 +10,7 @@ import {
   ProductSearchService,
   ProductReviewService
 } from '../product/index';
+import { TranslationService } from '../i18n/translation.service';
 
 class MockAuthService {}
 class MockCmsService {}
@@ -19,6 +20,7 @@ class MockLanguageService {}
 class MockProductService {}
 class MockProductSearchService {}
 class MockProductReviewService {}
+class MockTranslationService {}
 
 describe('CxApiService', () => {
   let authService: AuthService;
@@ -29,6 +31,7 @@ describe('CxApiService', () => {
   let productService: ProductService;
   let productSearchService: ProductSearchService;
   let productReviewService: ProductReviewService;
+  let translationService: MockTranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,7 +44,8 @@ describe('CxApiService', () => {
         { provide: LanguageService, useClass: MockLanguageService },
         { provide: ProductService, useClass: MockProductService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
-        { provide: ProductReviewService, useClass: MockProductReviewService }
+        { provide: ProductReviewService, useClass: MockProductReviewService },
+        { provide: TranslationService, useClass: MockTranslationService }
       ]
     });
 
@@ -53,6 +57,7 @@ describe('CxApiService', () => {
     productService = TestBed.get(ProductService);
     productSearchService = TestBed.get(ProductSearchService);
     productReviewService = TestBed.get(ProductReviewService);
+    translationService = TestBed.get(TranslationService);
   });
 
   it('should be created', inject([CxApiService], (service: CxApiService) => {
@@ -70,6 +75,7 @@ describe('CxApiService', () => {
       expect(service.product).toEqual(productService);
       expect(service.productSearch).toEqual(productSearchService);
       expect(service.productReview).toEqual(productReviewService);
+      expect(service.translation).toEqual(translationService);
     }
   ));
 });
