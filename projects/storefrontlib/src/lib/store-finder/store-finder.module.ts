@@ -54,7 +54,11 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
               component: StoreFinderStoresCountComponent
             },
             {
-              path: 'country/:country' /* 'country/:country/region/:region', */,
+              path: 'country/:country',
+              component: StoreFinderGridComponent
+            },
+            {
+              path: 'country/:country/region/:region',
               component: StoreFinderGridComponent
             },
             {
