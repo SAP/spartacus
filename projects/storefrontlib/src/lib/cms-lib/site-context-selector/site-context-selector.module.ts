@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
