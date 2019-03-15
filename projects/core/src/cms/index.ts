@@ -1,5 +1,6 @@
 export * from './config/cms-config';
 export { defaultCmsModuleConfig } from './config/default-cms-config';
+export * from './config/cms-content.config';
 
 export * from './model/page.model';
 export * from './model/node-item.model';
@@ -20,3 +21,5 @@ export * from './services/index';
 
 export * from './page/index';
 export * from './page/page.module';
+
+export * from './populators/index';

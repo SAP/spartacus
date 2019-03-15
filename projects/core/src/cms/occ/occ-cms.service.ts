@@ -1,7 +1,7 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
 import { PageContext } from '../../routing/index';
@@ -11,12 +11,17 @@ import {
   CmsComponent,
   CmsComponentList
 } from '../../occ/occ-models/index';
+import { OccCmsConvertor } from '../populators/occ-cms.converter';
 
 @Injectable()
 export class OccCmsService {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private config: CmsConfig) {}
+  constructor(
+    private http: HttpClient,
+    private config: CmsConfig,
+    private convertor: OccCmsConvertor
+  ) {}
 
   protected getBaseEndPoint(): string {
     return (
@@ -52,7 +57,10 @@ export class OccCmsService {
           fromString: httpStringParams
         })
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(
+        map(page => this.convertor.convert(page)),
+        catchError((error: any) => throwError(error.json()))
+      );
   }
 
   loadComponent<T extends CmsComponent>(
