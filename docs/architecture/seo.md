@@ -22,7 +22,7 @@ To serve stateful URLs for everything, Spartacus allow deep links to address any
 
 ## Configurable URLs
 
-You can configure URLs for content pages by using the `pagelabel` in the CMS (back end). These page labels cannot be localized.
+You can configure URLs for content pages by using the `pageLabel` in the CMS (back end). These page labels cannot be localized.
 
 You can configure URLs for non-content pages in Spartacus. These are mainly related to product and category pages. You can configure attributes, such as the product name, to be part of the URL. For example, the default configuration for a product page is `storefront.com/product/1234`, but you can configure the URL to include product-related data, such as the product or category title.
 
