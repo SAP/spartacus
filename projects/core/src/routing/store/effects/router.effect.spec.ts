@@ -66,14 +66,14 @@ describe('Router Effects', () => {
     });
   });
 
-  describe('clearCustomRoutes$', () => {
-    it('should remove custom routes', () => {
+  describe('clearCmsRoutes$', () => {
+    it('should remove cms driven routes', () => {
       const action = new Logout();
 
       actions$ = hot('-a', { a: action });
 
       spyOn(router, 'resetConfig');
-      effects.clearCustomRoutes$.subscribe(() => {
+      effects.clearCmsRoutes$.subscribe(() => {
         expect(router.resetConfig).toHaveBeenCalledWith([
           { path: 'test2', component: true }
         ]);
