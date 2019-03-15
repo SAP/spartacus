@@ -9,7 +9,7 @@
 
   @include media-breakpoint-down(md) {
     color: var(--cx-color, var(--cx-g-color-text));
-    padding: var(--cx-padding, 0.5rem 1rem 0 1rem);
+    padding: var(--cx-padding, 0.5rem 1rem 0);
     @include type();
   }
 }
