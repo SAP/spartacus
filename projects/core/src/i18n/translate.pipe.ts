@@ -5,50 +5,34 @@ import {
   OnDestroy
 } from '@angular/core';
 import { TranslationService } from './translation.service';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
+import { shallowEqualObjects } from './utils/shallow-equal-objects';
 
 @Pipe({ name: 'cxTranslate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
-  private lastValue: string;
-
-  private sub = new Subscription();
-  private isStale: boolean;
-
-  constructor(
-    private service: TranslationService,
-    private cd: ChangeDetectorRef
-  ) {
-    this.sub = this.service.languageChanged$.subscribe(() =>
-      this.onLanguageChange()
-    );
+  private lastOptions: object;
+  private lastResult: Observable<string>;
+  private asyncPipe: AsyncPipe;
+  constructor(private service: TranslationService, cd: ChangeDetectorRef) {
+    this.asyncPipe = new AsyncPipe(cd);
   }
 
-  transform(key: any, options: any = {}): string {
-    if (this.lastKey !== key || this.isStale) {
+  transform(key: any, options: object = {}): string {
+    if (
+      key !== this.lastKey ||
+      !shallowEqualObjects(options, this.lastOptions)
+    ) {
       this.lastKey = key;
-      this.isStale = false;
+      this.lastOptions = options;
 
-      this.lastValue = this.service.lazyTranslate(key, options, () =>
-        this.onNamespaceLoad(key)
-      );
+      this.lastResult = this.service.lazyTranslate(key, options);
     }
-    return this.lastValue;
-  }
-
-  private onLanguageChange() {
-    this.isStale = true;
-    this.cd.markForCheck();
-  }
-
-  private onNamespaceLoad(key: string) {
-    if (this.service.exists(key)) {
-      this.isStale = true;
-      this.cd.markForCheck();
-    }
+    return this.asyncPipe.transform(this.lastResult);
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.asyncPipe.ngOnDestroy();
   }
 }

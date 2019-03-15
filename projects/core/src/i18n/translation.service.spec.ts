@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
-import { I18NEXT_INSTANCE } from './i18next-providers';
+import { I18NEXT_INSTANCE } from './i18next/i18next-providers';
 import createSpy = jasmine.createSpy;
 import { ServerConfig } from '../config';
 import { Subject } from 'rxjs';
