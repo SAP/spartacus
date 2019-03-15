@@ -1,47 +1,46 @@
 @import 'theme';
 
-.cx-item-counter {
+.cx-counter-wrapper {
+  display: var(--cx-display, inline-flex);
+  flex-direction: var(--cx-flex-direction, column);
+}
+
+.cx-counter {
   border-radius: var(--cx-border-radius, 4px);
-  border: $cx-item-counter-border;
   border-width: var(--cx-border-width, 1px);
   border-style: var(--cx-border-style, solid);
   border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
 
-  &__wrapper {
-    display: var(--cx-display, inline-flex);
-    flex-direction: var(--cx-flex-direction, column);
+.cx-counter-value {
+  border: var(--cx-border, none);
+  text-align: var(--cx-text-align, center);
+  border-width: var(--cx-border-width, 0 1px 0 1px);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+  padding: var(--cx-padding, 12px 9px 12px 9px);
+  max-height: var(--cx-max-height, 46px);
+  min-width: var(--cx-min-width, 48px);
+  max-width: var(--cx-max-width, 78px);
+}
+
+.cx-counter-action {
+  max-height: var(--cx-max-height, 48px);
+  min-width: var(--cx-minwidth, 40px);
+  border: var(--cx-border, none);
+  cursor: var(--cx-cursor, pointer);
+  color: var(--cx-color, var(--cx-g-color-text));
+  background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+  margin: var(--cx-margin, 0);
+  @include type(3);
+
+  &:hover {
+    color: var(--cx-color, var(--cx-g-color-primary));
   }
 
-  &__value {
-    border: var(--cx-border, none);
-    text-align: var(--cx-text-align, center);
-    border-width: var(--cx-border-width, 0 1px 0 1px);
-    border-style: var(--cx-border-style, solid);
-    border-color: var(--cx-border-color, var(--cx-g-color-light));
-    padding: var(--cx-padding, 12px 9px 12px 9px);
-    max-height: var(--cx-max-height, 46px);
-    min-width: var(--cx-min-width, 48px);
-    max-width: var(--cx-max-width, 78px);
-  }
-
-  &__action {
-    max-height: var(--cx-max-height, 48px);
-    min-width: var(--cx-minwidth, 40px);
-    border: var(--cx-border, none);
-    cursor: var(--cx-cursor, pointer);
-    color: var(--cx-color, var(--cx-g-color-text));
-    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
-    margin: var(--cx-margin, 0);
-    @include type(3);
-
-    &:hover {
-      color: var(--cx-color, var(--cx-g-color-primary));
-    }
-
-    &:disabled {
-      color: var(--cx-color, var(--cx-g-color-light));
-      opacity: var(--cx-opacity, 1);
-      cursor: var(--cx-cursor, not-allowed);
-    }
+  &:disabled {
+    color: var(--cx-color, var(--cx-g-color-light));
+    opacity: var(--cx-opacity, 1);
+    cursor: var(--cx-cursor, not-allowed);
   }
 }
