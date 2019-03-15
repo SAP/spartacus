@@ -58,8 +58,6 @@ const mockOrder: Order = {
     }
   ]
 };
-const expectedAddressDisplayed =
-  ' John Smith Buckingham Street 51ALondon, UK, MA8902(+11) 111 111 111';
 
 describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
@@ -111,39 +109,57 @@ describe('OrderDetailShippingComponent', () => {
     expect(el.query(By.css('.cx-account-summary'))).toBeTruthy();
   });
 
-  it('should order details shipping display ship to', () => {
+  it('should order details display "ship to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(1) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual(expectedAddressDisplayed);
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.deliveryAddress.firstName &&
+      mockOrder.deliveryAddress.lastName &&
+      mockOrder.deliveryAddress.line1 &&
+      mockOrder.deliveryAddress.line2 &&
+      mockOrder.deliveryAddress.town &&
+      mockOrder.deliveryAddress.postalCode
+    );
   });
 
-  it('should order details shipping display bill to', () => {
+  it('should order details display "bill to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(2) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual(expectedAddressDisplayed);
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.paymentInfo.billingAddress.firstName &&
+      mockOrder.paymentInfo.billingAddress.lastName &&
+      mockOrder.paymentInfo.billingAddress.line1 &&
+      mockOrder.paymentInfo.billingAddress.line2 &&
+      mockOrder.paymentInfo.billingAddress.town &&
+      mockOrder.paymentInfo.billingAddress.postalCode
+    );
   });
 
-  it('should order details shipping display payment', () => {
+  it('should order details display "payment" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(3) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual(
-      ' John Smith Visa************6206Expires: 12 / 2026'
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.paymentInfo.accountHolderName &&
+      mockOrder.paymentInfo.cardNumber &&
+      mockOrder.paymentInfo.expiryMonth &&
+      mockOrder.paymentInfo.expiryYear &&
+      mockOrder.paymentInfo.cardType.name
     );
   });
 
-  it('should order details shipping display shipping method', () => {
+  it('should order details display "shipping" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
       By.css('div:nth-child(4) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual(
-      ' Standard order-detail-shipping 3-5 days'
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.deliveryMode.name && mockOrder.deliveryMode.description
     );
   });
 });
