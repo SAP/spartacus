@@ -11,19 +11,19 @@
     @include media-breakpoint-down(md) {
       border-bottom: 1px solid;
       border-color: var(--cx-border-color, var(--cx-g-color-background));
-      padding: 0.5rem 0;
+      padding: var(--cx-padding, 0.5rem 0);
     }
   }
   &-link {
     color: var(--cx-color, var(--cx-g-color-inverse));
-    text-transform: capitalize;
-    padding: 0.2rem 0;
+    text-transform: var(--cx-text-transform, capitalize);
+    padding: var(--cx-padding, 0.2rem 0);
     &:focus {
       color: var(--cx-color, var(--cx-g-color-primary));
     }
     &:hover {
       color: var(--cx-color, var(--cx-g-color-primary));
-      cursor: pointer;
+      cursor: var(--cx-cursor, pointer);
     }
 
     @include media-breakpoint-down(md) {
@@ -32,9 +32,9 @@
         border-color: var(--cx-border-color, var(--cx-g-color-secondary));
         border-style: solid;
         border-width: 3px;
-        display: block;
-        width: 1rem;
-        height: 1rem;
+        display: var(--cx-display, block);
+        width: var(--cx-width, 1rem);
+        height: var(--cx-height, 1rem);
         border-right-color: currentColor;
         border-top-color: currentColor;
         border-left-color: transparent;
@@ -52,30 +52,30 @@
       }
 
       color: var(--cx-color, var(--cx-g-color-text));
-      display: flex;
-      justify-content: space-between;
-      padding: 0.5rem 1rem;
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-between);
+      padding: var(--cx-padding, 0.5rem 1rem);
     }
 
     @include media-breakpoint-only(lg) {
-      padding: 0.5rem 0;
+      padding: var(--cx-padding, 0.5rem 0);
     }
   }
   &-child-list {
-    border-radius: 0;
-    text-transform: capitalize;
-    padding: 0;
+    border-radius: var(--cx-border-radius, 0);
+    text-transform: var(--cx-text-transform, capitalize);
+    padding: var(--cx-padding, 0);
     @include media-breakpoint-down(md) {
-      position: relative;
+      position: var(--cx-position, relative);
       border: 0 none;
-      width: 100%;
+      width: var(--cx-width, 100%);
       top: 0 !important;
     }
   }
   &-child-item {
     border-bottom: 1px solid;
     border-color: var(--cx-border-color, var(--cx-g-color-background));
-    padding: 0.45rem 1rem;
+    padding: var(--cx-padding, 0.45rem 1rem);
     &:hover {
       background-color: var(
         --cx-background-color,
@@ -94,40 +94,40 @@
     @include type('7');
     &:hover {
       color: var(--cx-color, var(--cx-g-color-primary));
-      text-decoration: none;
+      text-decoration: var(--cx-text-decoration, none);
     }
   }
   &-child-list-columns {
-    border-radius: 0;
-    padding: 0.75rem;
+    border-radius: var(--cx-border-radius, 0);
+    padding: var(--cx-padding, 0.75rem);
     &.show {
-      display: flex;
+      display: var(--cx-display, flex);
     }
     @include media-breakpoint-down(md) {
-      flex-direction: column;
-      position: static;
-      width: 100%;
+      flex-direction: var(--cx-flex-direction, column);
+      position: var(--cx-position, static);
+      width: var(--cx-width, 100%);
       border: none;
-      margin: 0;
+      margin: var(--cx-margin, 0);
     }
   }
   //column option
   &-column-title {
-    text-transform: capitalize;
+    text-transform: var(--cx-text-transform, capitalize);
     @include type('7');
     font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
-    display: block;
-    width: 100%;
-    padding: 0.25rem 1.5rem;
+    display: var(--cx-display, block);
+    width: var(--cx-width, 100%);
+    padding: var(--cx-padding, 0.25rem 1.5rem);
   }
   &-child-column {
-    margin-right: 0 3rem 0 0;
+    margin: var(--cx-margin, 0 3rem 0 0);
     @include media-breakpoint-down(md) {
-      margin: 1rem unset 0 0;
+      margin: var(--cx-margin, 1rem unset 0 0);
     }
   }
   &-child-column-item {
-    padding: 0.25rem 1.5rem;
+    padding: var(--cx-padding, 0.25rem 1.5rem);
     @include type('7');
     &:hover {
       background-color: var(
