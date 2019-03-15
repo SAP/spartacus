@@ -12,26 +12,20 @@ import {
 } from '../../occ/occ-models/occ.models';
 
 import { OccProductConfig } from './product-config';
+import { ProductOccService } from './product-occ.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20
 };
 
 @Injectable()
-export class OccProductSearchService {
+export class OccProductSearchService extends ProductOccService {
   constructor(
     private http: HttpClient,
     private config: OccProductConfig,
     private dynamicTemplate: DynamicTemplate
-  ) {}
-
-  private getEndpoint() {
-    return (
-      (this.config.occProduct.baseUrl || (this.config.server.baseUrl || '')) +
-      (this.config.occProduct.occPrefix || this.config.server.occPrefix) +
-      (this.config.occProduct.baseSite || this.config.site.baseSite) +
-      '/'
-    );
+  ) {
+    super(config);
   }
 
   protected getSearchEndpoint(
@@ -40,7 +34,7 @@ export class OccProductSearchService {
   ): string {
     let params = new HttpParams();
     let url =
-      this.getEndpoint() +
+      this.getProductEndpoint() +
       this.dynamicTemplate.resolve(this.config.occProduct.productSearch, {
         query
       });
@@ -60,7 +54,7 @@ export class OccProductSearchService {
 
   protected getSuggestionEndpoint(term: string, max: string): string {
     return (
-      this.getEndpoint() +
+      this.getProductEndpoint() +
       this.dynamicTemplate.resolve(this.config.occProduct.productSuggestions, {
         term,
         max

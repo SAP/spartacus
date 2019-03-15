@@ -19,9 +19,5 @@ export abstract class OccProductConfig extends OccConfig {
     productReviews?: string;
     productSearch?: string;
     productSuggestions?: string;
-
-    baseUrl?: string;
-    occPrefix?: string;
-    baseSite?: string;
   };
 }

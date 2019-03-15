@@ -8,22 +8,16 @@ import { ReviewList, Review } from '../../occ/occ-models/occ.models';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 import { OccProductConfig } from './product-config';
+import { ProductOccService } from './product-occ.service';
 
 @Injectable()
-export class OccProductReviewsService {
+export class OccProductReviewsService extends ProductOccService {
   constructor(
     private http: HttpClient,
     private config: OccProductConfig,
     private dynamicTemplate: DynamicTemplate
-  ) {}
-
-  private getProductEndpoint(): string {
-    return (
-      (this.config.occProduct.baseUrl || (this.config.server.baseUrl || '')) +
-      (this.config.occProduct.occPrefix || this.config.server.occPrefix) +
-      (this.config.occProduct.baseSite || this.config.site.baseSite) +
-      '/'
-    );
+  ) {
+    super(config);
   }
 
   protected getEndpoint(code: string, maxCount?: number): string {

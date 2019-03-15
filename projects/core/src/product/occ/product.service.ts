@@ -7,22 +7,16 @@ import { catchError } from 'rxjs/operators';
 import { Product } from '../../occ/occ-models/occ.models';
 import { OccProductConfig } from './product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { ProductOccService } from './product-occ.service';
 
 @Injectable()
-export class OccProductService {
+export class OccProductService extends ProductOccService {
   constructor(
     private http: HttpClient,
     private config: OccProductConfig,
     private dynamicTemplate: DynamicTemplate
-  ) {}
-
-  private getProductEndpoint(): string {
-    return (
-      (this.config.occProduct.baseUrl || (this.config.server.baseUrl || '')) +
-      (this.config.occProduct.occPrefix || this.config.server.occPrefix) +
-      (this.config.occProduct.baseSite || this.config.site.baseSite) +
-      '/'
-    );
+  ) {
+    super(config);
   }
 
   protected getEndpoint(code: string): string {
