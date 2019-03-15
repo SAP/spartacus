@@ -116,11 +116,11 @@ describe('OrderDetailShippingComponent', () => {
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
-      mockOrder.deliveryAddress.lastName &&
-      mockOrder.deliveryAddress.line1 &&
-      mockOrder.deliveryAddress.line2 &&
-      mockOrder.deliveryAddress.town &&
-      mockOrder.deliveryAddress.postalCode
+        mockOrder.deliveryAddress.lastName &&
+        mockOrder.deliveryAddress.line1 &&
+        mockOrder.deliveryAddress.line2 &&
+        mockOrder.deliveryAddress.town &&
+        mockOrder.deliveryAddress.postalCode
     );
   });
 
@@ -131,11 +131,11 @@ describe('OrderDetailShippingComponent', () => {
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.billingAddress.firstName &&
-      mockOrder.paymentInfo.billingAddress.lastName &&
-      mockOrder.paymentInfo.billingAddress.line1 &&
-      mockOrder.paymentInfo.billingAddress.line2 &&
-      mockOrder.paymentInfo.billingAddress.town &&
-      mockOrder.paymentInfo.billingAddress.postalCode
+        mockOrder.paymentInfo.billingAddress.lastName &&
+        mockOrder.paymentInfo.billingAddress.line1 &&
+        mockOrder.paymentInfo.billingAddress.line2 &&
+        mockOrder.paymentInfo.billingAddress.town &&
+        mockOrder.paymentInfo.billingAddress.postalCode
     );
   });
 
@@ -146,10 +146,10 @@ describe('OrderDetailShippingComponent', () => {
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.accountHolderName &&
-      mockOrder.paymentInfo.cardNumber &&
-      mockOrder.paymentInfo.expiryMonth &&
-      mockOrder.paymentInfo.expiryYear &&
-      mockOrder.paymentInfo.cardType.name
+        mockOrder.paymentInfo.cardNumber &&
+        mockOrder.paymentInfo.expiryMonth &&
+        mockOrder.paymentInfo.expiryYear &&
+        mockOrder.paymentInfo.cardType.name
     );
   });
 
