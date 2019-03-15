@@ -1,14 +1,11 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import {
-  CmsService,
-  ContentSlotData,
-  ContentSlotComponentData
-} from '@spartacus/core';
+import { CmsService, ContentSlotData } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 import { PageSlotComponent } from './page-slot.component';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { OutletDirective } from '../../../lib/outlet';
+import { CmsMappingService } from '@spartacus/storefront';
 
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
@@ -22,6 +19,8 @@ class MockCmsService {
     return true;
   }
 }
+
+class MockCmsMappingService {}
 
 describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
@@ -40,6 +39,10 @@ describe('PageSlotComponent', () => {
         {
           provide: CmsService,
           useClass: MockCmsService
+        },
+        {
+          provide: CmsMappingService,
+          useClass: MockCmsMappingService
         }
       ]
     }).compileComponents();
@@ -86,35 +89,5 @@ describe('PageSlotComponent', () => {
     const native = fixture.debugElement.nativeElement;
     expect(native.classList.contains('smartEditComponent')).toBeFalsy();
     expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
-  });
-
-  describe('getComponentMappedType', () => {
-    let component: ContentSlotComponentData;
-
-    beforeEach(() => {
-      component = { uid: 'testUid' };
-    });
-
-    it('should return "uid" of the component when component type is "JspIncludeComponent"', () => {
-      component.typeCode = 'JspIncludeComponent';
-      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
-        'testUid'
-      );
-    });
-
-    it('should return "flexType" of the component when component type is "CMSFlexComponent"', () => {
-      component.typeCode = 'CMSFlexComponent';
-      component.flexType = 'testComponentMappedType';
-      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
-        'testComponentMappedType'
-      );
-    });
-
-    it('should return component type when it is NOT "JspIncludeComponent" nor "CMSFlexComponent"', () => {
-      component.typeCode = 'testComponentType';
-      expect(pageSlotComponent.getComponentMappedType(component)).toBe(
-        'testComponentType'
-      );
-    });
   });
 });
