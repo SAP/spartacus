@@ -32,7 +32,7 @@ export class RouterEffects {
   );
 
   @Effect({ dispatch: false })
-  clearCustomRoutes$: Observable<Action> = this.actions$.pipe(
+  clearCmsRoutes$: Observable<Action> = this.actions$.pipe(
     ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
     tap(_ => {
       const filteredConfig = this.router.config.filter(
