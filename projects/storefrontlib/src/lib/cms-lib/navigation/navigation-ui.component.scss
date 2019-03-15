@@ -6,19 +6,6 @@
 //   display: block;
 // }
 
-//navigation color variables
-$cx-navigation-item-border-bottom-color: 'background' !default;
-$cx-navigation-link-color: 'inverse' !default;
-$cx-navigation-link-focus-color: 'primary' !default;
-$cx-navigation-link-hover-color: 'primary' !default;
-$cx-navigation-link-md-color: 'text' !default;
-$cx-navigation-child-item-border-color: 'background' !default;
-$cx-navigation-child-item-hover-background-color: 'transparent' !default;
-$cx-navigation-child-link-color: 'text' !default;
-$cx-navigation-child-link-hover-color: 'primary' !default;
-$cx-navigation-link-md-arrow-color: 'secondary' !default;
-$cx-navigation-child-column-item-background-color: 'transparent' !default;
-
 //navigation variables
 $cx-navigation-text-case: capitalize !default;
 $cx-navigation-item-trbl-padding: 0.5rem 0 !default;
@@ -52,29 +39,26 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
   &-item {
     @include media-breakpoint-down(md) {
       border-bottom: $cx-navigation-item-border;
-      @include var-color(
-        'border-bottom-color',
-        $cx-navigation-item-border-bottom-color
-      );
+      border-color: var(--cx-border-color, var(--cx-g-color-background));
       padding: $cx-navigation-item-trbl-padding;
     }
   }
   &-link {
-    @include var-color('color', $cx-navigation-link-color);
+    color: var(--cx-color, var(--cx-g-color-inverse));
     text-transform: $cx-navigation-text-case;
     padding: $cx-navigation-link-trbl-padding;
     &:focus {
-      @include var-color('color', $cx-navigation-link-focus-color);
+      color: var(--cx-color, var(--cx-g-color-primary));
     }
     &:hover {
-      @include var-color('color', $cx-navigation-link-hover-color);
+      color: var(--cx-color, var(--cx-g-color-primary));
       cursor: $cx-navigation-link-hover-cursor;
     }
 
     @include media-breakpoint-down(md) {
       &::after {
         margin-right: $cx-navigation-link-md-trbl-margin;
-        @include var-color('border-color', $cx-navigation-link-md-arrow-color);
+        border-color: var(--cx-border-color, var(--cx-g-color-secondary));
         border-style: solid;
         border-width: 3px;
         display: block;
@@ -96,7 +80,7 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
         }
       }
 
-      @include var-color('color', $cx-navigation-link-md-color);
+      color: var(--cx-color, var(--cx-g-color-text));
       display: flex;
       justify-content: space-between;
       padding: $cx-navigation-link-md-trbl-padding;
@@ -119,15 +103,12 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
   }
   &-child-item {
     border-bottom: $cx-navigation-child-item-border;
-    @include var-color(
-      'border-bottom-color',
-      $cx-navigation-child-item-border-color
-    );
+    border-color: var(--cx-border-color, var(--cx-g-color-background));
     padding: $cx-navigation-child-item-trbl-padding;
     &:hover {
-      @include var-color(
-        'background-color',
-        $cx-navigation-child-item-hover-background-color
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
       );
     }
     &:last-child {
@@ -138,10 +119,10 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
     }
   }
   &-child-link {
-    @include var-color('color', $cx-navigation-child-link-color);
+    color: var(--cx-color, var(--cx-g-color-text));
     @include type('7');
     &:hover {
-      @include var-color('color', $cx-navigation-child-link-hover-color);
+      color: var(--cx-color, var(--cx-g-color-primary));
       text-decoration: $cx-navigation-child-link-hover-text-decoration;
     }
   }
@@ -177,9 +158,9 @@ $cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
     padding: $cx-navigation-child-column-item-trbl-padding;
     @include type('7');
     &:hover {
-      @include var-color(
-        'background-color',
-        $cx-navigation-child-column-item-background-color
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
       );
     }
   }
