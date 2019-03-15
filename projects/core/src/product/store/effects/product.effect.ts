@@ -20,7 +20,7 @@ export class ProductEffects {
     mergeMap(group =>
       group.pipe(
         switchMap(productCode => {
-          return this.occProductService.loadProduct(productCode).pipe(
+          return this.occProductService.load(productCode).pipe(
             map(product => {
               this.productImageConverter.convertProduct(product);
               this.productReferenceConverterService.convertProduct(product);

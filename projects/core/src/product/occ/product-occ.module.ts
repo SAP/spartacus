@@ -7,6 +7,7 @@ import { OccProductSearchService } from './product-search.service';
 import { OccModule } from '../../occ/occ.module';
 import { defaultOccProductConfig, OccProductConfig } from './product-config';
 import { ConfigModule, Config } from '../../config/index';
+import { OccProductReviewsService } from './product-reviews.service';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { ConfigModule, Config } from '../../config/index';
   providers: [
     OccProductService,
     OccProductSearchService,
+    OccProductReviewsService,
     { provide: OccProductConfig, useExisting: Config }
   ]
 })

@@ -5,7 +5,6 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccConfig } from '../../occ/config/occ-config';
-import { ReviewList } from '../../occ/occ-models/occ.models';
 
 import { OccProductService } from './product.service';
 import { OccProductConfig, defaultOccProductConfig } from './product-config';
@@ -14,11 +13,6 @@ const productCode = 'testCode';
 const product = {
   code: 'testCode',
   name: 'testProduct'
-};
-
-const maxCount = 2;
-const productReviews: ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }]
 };
 
 const MockOccModuleConfig: OccConfig = {
@@ -60,7 +54,7 @@ describe('OccProductService', () => {
 
   describe('load product details', () => {
     it('should load product details for given product code', () => {
-      service.loadProduct(productCode).subscribe(result => {
+      service.load(productCode).subscribe(result => {
         expect(result).toEqual(product);
       });
 
@@ -76,40 +70,5 @@ describe('OccProductService', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(product);
     });
-  });
-
-  describe('load product reviews', () => {
-    it('should load reviews for given product code', () => {
-      service.loadProductReviews(productCode).subscribe(result => {
-        expect(result).toEqual(productReviews);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url === endpoint + `/${productCode}/reviews`
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(productReviews);
-    });
-  });
-
-  it('shoud load reviews with maxCount parameter set', () => {
-    service.loadProductReviews(productCode, maxCount).subscribe(result => {
-      expect(result).toEqual(productReviews);
-    });
-
-    const mockReq = httpMock.expectOne(req => {
-      return (
-        req.method === 'GET' &&
-        req.url === endpoint + `/${productCode}/reviews?maxCount=${maxCount}`
-      );
-    });
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(productReviews);
   });
 });

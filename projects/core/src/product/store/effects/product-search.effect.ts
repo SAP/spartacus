@@ -19,7 +19,7 @@ export class ProductsSearchEffects {
     ofType(productsSearchActions.SEARCH_PRODUCTS),
     switchMap((action: productsSearchActions.SearchProducts) => {
       return this.occProductSearchService
-        .query(action.payload.queryText, action.payload.searchConfig)
+        .loadSearch(action.payload.queryText, action.payload.searchConfig)
         .pipe(
           map(data => {
             this.productImageConverter.convertList(data.products);
@@ -51,7 +51,7 @@ export class ProductsSearchEffects {
     ),
     switchMap(payload => {
       return this.occProductSearchService
-        .queryProductSuggestions(payload.term, payload.searchConfig.pageSize)
+        .loadSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
           map(data => {
             if (data.suggestions === undefined) {

@@ -58,7 +58,7 @@ describe('OccProductSearchService', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.query(queryText, mockSearchConfig).subscribe(result => {
+      service.loadSearch(queryText, mockSearchConfig).subscribe(result => {
         expect(result).toEqual(searchResults);
       });
 
@@ -83,7 +83,7 @@ describe('OccProductSearchService', () => {
   describe('query product suggestions', () => {
     it('should return suggestions for given term', () => {
       service
-        .queryProductSuggestions(queryText, mockSearchConfig.pageSize)
+        .loadSuggestions(queryText, mockSearchConfig.pageSize)
         .subscribe(suggestionList => {
           expect(suggestionList).toEqual(suggestions);
         });
