@@ -115,7 +115,7 @@ export class PageEffects {
     };
 
     if (component.catalogUuid) {
-      comp.catalogUuid = component.catalogUuid;
+      comp.catalogUuid = this.getCatalogUuid(component);
     }
     if (component.flexType) {
       comp.flexType = component.flexType;
