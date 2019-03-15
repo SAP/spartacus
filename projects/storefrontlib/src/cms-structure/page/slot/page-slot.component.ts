@@ -14,6 +14,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service';
 
 @Component({
   selector: 'cx-page-slot',
@@ -26,7 +27,8 @@ export class PageSlotComponent implements OnInit {
   constructor(
     protected cmsService: CmsService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef
+    protected hostElement: ElementRef,
+    protected cmsMapping: CmsMappingService
   ) {}
 
   ngOnInit() {

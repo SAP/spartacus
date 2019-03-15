@@ -5,6 +5,7 @@ import { of, Observable } from 'rxjs';
 import { PageSlotComponent } from './page-slot.component';
 import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
 import { OutletDirective } from '../../../lib/outlet';
+import { CmsMappingService } from '@spartacus/storefront';
 
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
@@ -18,6 +19,8 @@ class MockCmsService {
     return true;
   }
 }
+
+class MockCmsMappingService {}
 
 describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
@@ -36,6 +39,10 @@ describe('PageSlotComponent', () => {
         {
           provide: CmsService,
           useClass: MockCmsService
+        },
+        {
+          provide: CmsMappingService,
+          useClass: MockCmsMappingService
         }
       ]
     }).compileComponents();
