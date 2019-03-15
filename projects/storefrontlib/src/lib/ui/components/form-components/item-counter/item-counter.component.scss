@@ -1,72 +1,47 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/button-group';
-
-// cx-item-counter color variables
-$cx-item-counter-border-color: 'light' !default;
-$cx-item-counter-border: 1px solid !default;
-$cx-item-counter-border-radius: 4px !default;
-
-$cx-item-counter-value-border: 1px solid !default;
-$cx-item-counter-value-trbl-padding: 12px 9px 12px 9px !default;
-$cx-item-counter-value-height: 46px !default;
-$cx-item-counter-value-width: 48px !default;
-$cx-item-counter-value-max-width: 78px !default;
-
-$cx-item-counter-action-height: 48px !default;
-$cx-item-counter-action-width: 40px !default;
-$cx-item-counter-action-color: 'text' !default;
-$cx-item-counter-action-background-color: 'transparent' !default;
-$cx-item-counter-action-disabled-color: 'light' !default;
-$cx-item-counter-action-trbl-margin: 0 0 0 0 !default;
-
-$cx-item-counter-action-trbl-margin: 0 !default;
 
 .cx-item-counter {
-  border-radius: $cx-item-counter-border-radius;
+  border-radius: var(--cx-border-radius, 4px);
   border: $cx-item-counter-border;
-  @include var-color('border-color', $cx-item-counter-border-color);
+  border-width: var(--cx-border-width, 1px);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
 
   &__wrapper {
-    display: inline-flex;
-    flex-direction: column;
+    display: var(--cx-display, inline-flex);
+    flex-direction: var(--cx-flex-direction, column);
   }
 
   &__value {
-    border: none;
-    text-align: center;
-    border-left: $cx-item-counter-value-border;
-    border-right: $cx-item-counter-value-border;
-    @include var-color('border-left-color', $cx-item-counter-border-color);
-    @include var-color('border-right-color', $cx-item-counter-border-color);
-    padding: $cx-item-counter-value-trbl-padding;
-    max-height: $cx-item-counter-value-height;
-    min-width: $cx-item-counter-value-width;
-    max-width: $cx-item-counter-value-max-width;
+    border: var(--cx-border, none);
+    text-align: var(--cx-text-align, center);
+    border-width: var(--cx-border-width, 0 1px 0 1px);
+    border-style: var(--cx-border-style, solid);
+    border-color: var(--cx-border-color, var(--cx-g-color-light));
+    padding: var(--cx-padding, 12px 9px 12px 9px);
+    max-height: var(--cx-max-height, 46px);
+    min-width: var(--cx-min-width, 48px);
+    max-width: var(--cx-max-width, 78px);
   }
 
   &__action {
-    max-height: $cx-item-counter-action-height;
-    min-width: $cx-item-counter-action-width;
-    border: none;
-    cursor: pointer;
-    @include var-color('color', $cx-item-counter-action-color);
-    @include var-color(
-      'background-color',
-      $cx-item-counter-action-background-color
-    );
-    @include type('3');
-    margin: $cx-item-counter-action-trbl-margin;
+    max-height: var(--cx-max-height, 48px);
+    min-width: var(--cx-minwidth, 40px);
+    border: var(--cx-border, none);
+    cursor: var(--cx-cursor, pointer);
+    color: var(--cx-color, var(--cx-g-color-text));
+    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+    margin: var(--cx-margin, 0);
+    @include type(3);
 
     &:hover {
-      color: $primary;
+      color: var(--cx-color, var(--cx-g-color-primary));
     }
 
     &:disabled {
-      @include var-color('color', $cx-item-counter-action-disabled-color);
-      opacity: 1;
-      cursor: not-allowed;
+      color: var(--cx-color, var(--cx-g-color-light));
+      opacity: var(--cx-opacity, 1);
+      cursor: var(--cx-cursor, not-allowed);
     }
   }
 }
