@@ -74,7 +74,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
       },
       layoutSlots: {
         StoreFinderPageTemplate: {
-          slots: ['MiddleContent']
+          slots: ['MiddleContent', 'SideContent']
         }
       }
     })
