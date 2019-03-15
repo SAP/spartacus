@@ -104,7 +104,7 @@ describe('OrderDetailTotalsComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should order details display order summary', () => {
+  it('should order details order summary be rendered', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(By.css('cx-order-summary'));
     expect(element).toBeTruthy();

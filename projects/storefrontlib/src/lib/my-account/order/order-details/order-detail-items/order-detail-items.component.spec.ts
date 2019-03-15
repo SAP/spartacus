@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { PromotionResult, Order } from '@spartacus/core';
 import { CardModule } from '../../../../ui/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderDetailItemsComponent } from '@spartacus/storefront';
+import { OrderDetailItemsComponent } from './order-detail-items.component';
 
 const mockOrder: Order = {
   code: '1',
@@ -121,7 +121,7 @@ describe('OrderDetailItemsComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should order details item be not null', () => {
+  it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
   });

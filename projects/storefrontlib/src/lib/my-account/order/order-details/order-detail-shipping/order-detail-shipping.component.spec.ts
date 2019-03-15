@@ -1,12 +1,12 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Order } from '@spartacus/core';
-
 import { of } from 'rxjs';
 
-import { OrderDetailHeadlineComponent } from './order-detail-headline.component';
+import { Order } from '@spartacus/core';
+import { CardModule } from '../../../../ui/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
+import { OrderDetailShippingComponent } from './order-detail-shipping.component';
 
 const mockOrder: Order = {
   code: '1',
@@ -48,12 +48,22 @@ const mockOrder: Order = {
       }
     }
   },
-  created: new Date('2019-02-11T13:02:58+0000')
+  created: new Date('2019-02-11T13:02:58+0000'),
+  consignments: [
+    {
+      code: 'a00000341',
+      status: 'SHIPPED',
+      statusDate: new Date('2019-02-11T13:05:12+0000'),
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }]
+    }
+  ]
 };
+const expectedAddressDisplayed =
+  ' John Smith Buckingham Street 51ALondon, UK, MA8902(+11) 111 111 111';
 
-describe('OrderDetailHeadlineComponent', () => {
-  let component: OrderDetailHeadlineComponent;
-  let fixture: ComponentFixture<OrderDetailHeadlineComponent>;
+describe('OrderDetailShippingComponent', () => {
+  let component: OrderDetailShippingComponent;
+  let fixture: ComponentFixture<OrderDetailShippingComponent>;
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
@@ -65,15 +75,16 @@ describe('OrderDetailHeadlineComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [CardModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService }
       ],
-      declarations: [OrderDetailHeadlineComponent]
+      declarations: [OrderDetailShippingComponent]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderDetailHeadlineComponent);
+    fixture = TestBed.createComponent(OrderDetailShippingComponent);
     el = fixture.debugElement;
 
     component = fixture.componentInstance;
@@ -95,32 +106,44 @@ describe('OrderDetailHeadlineComponent', () => {
     expect(order).toEqual(mockOrder);
   });
 
-  it('should order details info bar be rendered', () => {
+  it('should order details shipping be rendered', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-header.row'))).toBeTruthy();
+    expect(el.query(By.css('.cx-account-summary'))).toBeTruthy();
   });
 
-  it('should order details display correct order ID', () => {
+  it('should order details shipping display ship to', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-detail:first-of-type .cx-detail-value')
+      By.css('div:nth-child(1) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual(mockOrder.code);
+    expect(element.nativeElement.textContent).toEqual(expectedAddressDisplayed);
   });
 
-  it('should order details display correct order date', () => {
+  it('should order details shipping display bill to', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-header div:nth-child(2) > div.cx-detail-value')
+      By.css('div:nth-child(2) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual('Feb 11, 2019');
+    expect(element.nativeElement.textContent).toEqual(expectedAddressDisplayed);
   });
 
-  it('should order details display correct order status', () => {
+  it('should order details shipping display payment', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('.cx-detail:last-of-type .cx-detail-value')
+      By.css('div:nth-child(3) > cx-card .cx-card-body__label-container')
     );
-    expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
+    expect(element.nativeElement.textContent).toEqual(
+      ' John Smith Visa************6206Expires: 12 / 2026'
+    );
+  });
+
+  it('should order details shipping display shipping method', () => {
+    fixture.detectChanges();
+    const element: DebugElement = el.query(
+      By.css('div:nth-child(4) > cx-card .cx-card-body__label-container')
+    );
+    expect(element.nativeElement.textContent).toEqual(
+      ' Standard order-detail-shipping 3-5 days'
+    );
   });
 });
