@@ -6,6 +6,7 @@ import { StoreFinderSearchComponent } from './store-finder-search.component';
 
 import { RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 const query = 'address';
 
@@ -14,6 +15,12 @@ const keyEvent = {
 };
 const badKeyEvent = {
   key: 'Enter95'
+};
+
+const mockActivatedRoute = {
+  snapshot: {
+    params: {}
+  }
 };
 
 @Pipe({
@@ -37,7 +44,8 @@ describe('StoreFinderSearchComponent', () => {
         {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() }
-        }
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute }
       ]
     }).compileComponents();
   }));
@@ -58,8 +66,9 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
     expect(routingService.go).toHaveBeenCalledWith(
-      { route: ['storeFinder', 'searchResults'] },
-      { query }
+      ['find'],
+      { query },
+      { relativeTo: mockActivatedRoute }
     );
   });
 
@@ -67,8 +76,9 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
     expect(routingService.go).toHaveBeenCalledWith(
-      { route: ['storeFinder', 'searchResults'] },
-      { query }
+      ['find'],
+      { query },
+      { relativeTo: mockActivatedRoute }
     );
   });
 
@@ -80,8 +90,11 @@ describe('StoreFinderSearchComponent', () => {
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
     expect(routingService.go).toHaveBeenCalledWith(
-      { route: ['storeFinder', 'searchResults'] },
-      { useMyLocation: true }
+      ['find'],
+      {
+        useMyLocation: true
+      },
+      { relativeTo: mockActivatedRoute }
     );
   });
 });
