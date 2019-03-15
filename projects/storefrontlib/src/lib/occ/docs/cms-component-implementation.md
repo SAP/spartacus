@@ -63,7 +63,7 @@ Web components will not have access to the application DI system, regardless of 
 
 A special effort was made to provide web components with both the component-related data, as well as a generic API to tje core services of Spartacus. The input needed for this is `cxApi`.
 
-## Customing Services
+## Customizing Services
 
 Spartacus CMS components that use (complex) business logic will delegate this to a service. This simplifies extensibility, and is also recommended for the following reasons:
 
@@ -111,8 +111,7 @@ ConfigModule.withConfig({
 });
 ```
 
-
-# Placeholder components
+# Placeholder Components
 
 For Angular (or web-) components that don't need any data from CMS (for example *login*) the CMS component of type `CMSFlexComponent` can be used as a placeholder. This CMS component contains the special attribute `flexType` that will be used in the Spartacus' CMS mapping instead of the original component type.
 
