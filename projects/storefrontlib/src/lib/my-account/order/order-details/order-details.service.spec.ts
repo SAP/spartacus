@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 
 import {
@@ -72,6 +72,8 @@ const mockRouter = {
   }
 };
 
+const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
+
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
     return of({ userId: 'test' } as UserToken);
@@ -88,7 +90,7 @@ class MockUserService {
 
 class MockRoutingService {
   getRouterState(): Observable<any> {
-    return of(mockRouter);
+    return routerSubject.asObservable();
   }
 }
 
@@ -129,11 +131,11 @@ describe('OrderDetailsService', () => {
 
   it('should load order details', () => {
     spyOn(authService, 'getUserToken');
-    spyOn(routingService, 'getRouterState').and.returnValue(of(mockRouter));
+    spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
-    spyOn(userService, 'getOrderDetails');
-    service = TestBed.get(OrderDetailsService);
+    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
+    routerSubject.next(mockRouter);
 
     let orderDetails;
     service
@@ -147,13 +149,11 @@ describe('OrderDetailsService', () => {
 
   it('should clean order details', () => {
     spyOn(authService, 'getUserToken');
-    spyOn(routingService, 'getRouterState').and.returnValue(
-      of(mockRouterWithoutOrderCode)
-    );
+    spyOn(routingService, 'getRouterState');
     spyOn(userService, 'loadOrderDetails');
     spyOn(userService, 'clearOrderDetails');
-    spyOn(userService, 'getOrderDetails');
-    service = TestBed.get(OrderDetailsService);
+    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
+    routerSubject.next(mockRouterWithoutOrderCode);
 
     let orderDetails;
     service
