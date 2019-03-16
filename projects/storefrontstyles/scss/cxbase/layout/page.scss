@@ -12,7 +12,7 @@
 
 .cx-page__title {
   @include type('4');
-  font-weight: var(--cx-g-font-weight-normal, 600);
+  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
   margin: var(--cx-margin, 0 auto);
 }
 
