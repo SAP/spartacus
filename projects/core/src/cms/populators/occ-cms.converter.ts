@@ -7,9 +7,7 @@ export class OccCmsConvertor {
   constructor(@Inject(Populator) private populators: Populator[]) {}
 
   convert(page: CMSPage): CMSPage {
-    console.log('page before', page);
     this.populators.forEach(p => p.populate(page));
-    console.log('page after', page);
     return page;
   }
 }
