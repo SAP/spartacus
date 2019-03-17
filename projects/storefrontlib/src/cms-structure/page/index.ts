@@ -9,4 +9,5 @@ export * from './slot/page-slot.component';
 export * from './component/page-component.module';
 export * from './component/component-wrapper.directive';
 
+// configs
 export * from './config/header.config';

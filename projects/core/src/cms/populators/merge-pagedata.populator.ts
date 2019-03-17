@@ -5,7 +5,7 @@ import { CmsContentConfig } from '../config/cms-content.config';
 
 @Injectable()
 export class MergePageDataPopulator extends Populator {
-  constructor(protected config: CmsContentConfig) {
+  constructor(protected cmsData: CmsContentConfig) {
     super();
   }
 
@@ -14,11 +14,10 @@ export class MergePageDataPopulator extends Populator {
   }
 
   private mergeSlots(target: CMSPage): void {
-    console.log(this.config);
-    if (!this.config.global || !this.config.global.slots) {
+    if (!this.cmsData.cmsData || !this.cmsData.cmsData.slots) {
       return;
     }
-    this.config.global.slots.forEach(slot => this.mergeSlot(target, slot));
+    this.cmsData.cmsData.slots.forEach(slot => this.mergeSlot(target, slot));
   }
 
   private mergeSlot(target: CMSPage, slot: ContentSlot) {

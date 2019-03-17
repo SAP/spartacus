@@ -2,7 +2,7 @@ import { CmsContentConfig } from '@spartacus/core';
 
 export function defaultRetailCmsContentConfig(): CmsContentConfig {
   return {
-    global: {
+    cmsData: {
       slots: [
         {
           position: 'SiteContext',
