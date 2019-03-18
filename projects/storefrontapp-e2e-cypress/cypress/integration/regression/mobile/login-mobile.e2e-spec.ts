@@ -6,7 +6,7 @@ function clickHamburger() {
 }
 
 function waitForHomePage() {
-  cy.get('cx-dynamic-slot .ElectronicsHompageSplashBannerComponent').should(
+  cy.get('cx-page-slot .ElectronicsHompageSplashBannerComponent').should(
     'exist'
   );
   clickHamburger();
