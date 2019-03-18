@@ -11,7 +11,7 @@ import {
   CmsComponent,
   CmsComponentList
 } from '../../occ/occ-models/index';
-import { OccCmsConvertor } from '../populators/occ-cms.converter';
+import { OccCmsConvertor } from '../converter/occ-cms.converter';
 
 @Injectable()
 export class OccCmsService {
