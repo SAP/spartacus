@@ -9,7 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {
   StorefrontComponent,
   StorefrontModule,
-  defaultRetailCmsContentConfig
+  defaultCmsContentConfig
 } from '@spartacus/storefront';
 
 import { environment } from '../environments/environment';
@@ -48,7 +48,7 @@ if (!environment.production) {
       }
     }),
 
-    ConfigModule.withConfigFactory(defaultRetailCmsContentConfig),
+    ConfigModule.withConfigFactory(defaultCmsContentConfig),
     ...devImports
   ],
 

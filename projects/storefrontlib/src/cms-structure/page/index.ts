@@ -10,4 +10,4 @@ export * from './component/page-component.module';
 export * from './component/component-wrapper.directive';
 
 // configs
-export * from './config/header.config';
+export * from './config/default-cms-content.config';

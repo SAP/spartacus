@@ -1,6 +1,6 @@
 import { CmsContentConfig } from '@spartacus/core';
 
-export function defaultRetailCmsContentConfig(): CmsContentConfig {
+export function defaultCmsContentConfig(): CmsContentConfig {
   return {
     cmsData: {
       pages: [
@@ -11,13 +11,21 @@ export function defaultRetailCmsContentConfig(): CmsContentConfig {
           typeCode: 'ContentPage',
           contentSlots: {
             contentSlot: [
+              // force empty slot, overriding global slots
+              // {
+              //   position: 'BottomHeaderSlot',
+              //   components: {
+              //     component: []
+              //   }
+              // },
               {
                 position: 'EmptyCartMiddleContent',
                 components: {
                   component: [
                     {
                       typeCode: 'CMSParagraphComponent',
-                      content: 'empty cart...',
+                      content: `<h2>Your shopping cart is empty</h2>
+                        <p>Suggestions</p><ul><li>Browse our products by selecting a category above</li></ul>`,
                       uid: 'xyz'
                     }
                   ]
@@ -53,6 +61,17 @@ export function defaultRetailCmsContentConfig(): CmsContentConfig {
                 typeCode: 'CMSLinkComponent',
                 linkName: 'Find a Store',
                 url: '/store-finder'
+              }
+            ]
+          }
+        },
+        {
+          position: 'BottomHeaderSlot',
+          components: {
+            component: [
+              {
+                typeCode: 'BreadcrumbComponent',
+                uid: 'breadcrumbComponent'
               }
             ]
           }
