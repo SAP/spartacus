@@ -9,16 +9,29 @@ import * as fromSelectors from '../selectors/page.selectors';
 import { EntityLoaderState, LoaderState } from '../../../state';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { CmsComponent, PageType } from '../../../occ/occ-models/index';
+import { PageType } from '../../../occ/occ-models/index';
 import { PageContext } from '../../../routing/models/page-context.model';
+import { ContentSlotComponentData } from '@spartacus/core';
 
 describe('Cms PageData Selectors', () => {
   let store: Store<StateWithCms>;
 
-  const components: CmsComponent[] = [
-    { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
-    { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-    { uid: 'comp3', typeCode: 'NavigationComponent' }
+  const components: ContentSlotComponentData[] = [
+    {
+      uid: 'comp1',
+      typeCode: 'SimpleBannerComponent',
+      flexType: 'SimpleBannerComponent'
+    },
+    {
+      uid: 'comp2',
+      typeCode: 'CMSLinkComponent',
+      flexType: 'CMSLinkComponent'
+    },
+    {
+      uid: 'comp3',
+      typeCode: 'NavigationComponent',
+      flexType: 'NavigationComponent'
+    }
   ];
   const page: Page = {
     pageId: 'homepage',
@@ -149,6 +162,24 @@ describe('Cms PageData Selectors', () => {
         .unsubscribe();
 
       expect(result).toEqual(page);
+    });
+  });
+
+  describe('getPageComponentTypes', () => {
+    it('should return components', () => {
+      store.dispatch(new fromActions.LoadPageDataSuccess(pageContext, page));
+
+      let result: string[];
+      store
+        .pipe(select(fromSelectors.getPageComponentTypes(pageContext)))
+        .subscribe(value => (result = value))
+        .unsubscribe();
+
+      expect(result).toEqual([
+        'SimpleBannerComponent',
+        'CMSLinkComponent',
+        'NavigationComponent'
+      ]);
     });
   });
 

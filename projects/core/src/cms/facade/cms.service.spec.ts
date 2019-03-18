@@ -212,6 +212,31 @@ describe('CmsService', () => {
     }
   ));
 
+  it('getPageComponentTypes should return correct components', inject(
+    [CmsService],
+    (service: CmsService) => {
+      const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
+      const pageData: Page = {
+        slots: {
+          a: {
+            components: [{ flexType: 'test1' }, { flexType: 'test2' }]
+          },
+          b: {
+            components: [{ flexType: 'test2' }, { flexType: 'test3' }]
+          }
+        },
+        uuid: 'pageData'
+      };
+      store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
+
+      let result;
+      service
+        .getPageComponentTypes(pageContext)
+        .subscribe(res => (result = res));
+      expect(result).toEqual(['test1', 'test2', 'test3']);
+    }
+  ));
+
   describe('hasPage()', () => {
     it('should dispatch a load action if the load was not attempted', inject(
       [CmsService],
