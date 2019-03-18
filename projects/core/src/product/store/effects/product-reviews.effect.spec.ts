@@ -16,7 +16,7 @@ import {
   OccProductConfig,
   defaultOccProductConfig
 } from '../../config/product-config';
-import { OccProductReviewsService } from '../../occ';
+import { ProductReviewsLoaderService } from '../../occ';
 
 const reviewData: ReviewList = {
   reviews: [
@@ -40,14 +40,14 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('Product reviews effect', () => {
   let actions$: Observable<Action>;
-  let service: OccProductReviewsService;
+  let service: ProductReviewsLoaderService;
   let effects: fromEffects.ProductReviewsEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductReviewsService,
+        ProductReviewsLoaderService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccProductConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
@@ -55,7 +55,7 @@ describe('Product reviews effect', () => {
       ]
     });
 
-    service = TestBed.get(OccProductReviewsService);
+    service = TestBed.get(ProductReviewsLoaderService);
     effects = TestBed.get(fromEffects.ProductReviewsEffects);
 
     spyOn(service, 'load').and.returnValue(of(reviewData));

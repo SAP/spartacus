@@ -11,7 +11,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from '../actions/product-search.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { SearchConfig } from '../../model/search-config';
-import { OccProductSearchService } from '../../occ/product-search.service';
+import { ProductSearchLoaderService } from '../../occ/product-search.service';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
   SuggestionList,
@@ -33,7 +33,7 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('ProductSearch Effects', () => {
   let actions$: Observable<Action>;
-  let service: OccProductSearchService;
+  let service: ProductSearchLoaderService;
   let effects: fromEffects.ProductsSearchEffects;
   let searchConfig: SearchConfig;
 
@@ -44,7 +44,7 @@ describe('ProductSearch Effects', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductSearchService,
+        ProductSearchLoaderService,
         ProductImageConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccProductConfig, useValue: defaultOccProductConfig },
@@ -53,7 +53,7 @@ describe('ProductSearch Effects', () => {
       ]
     });
 
-    service = TestBed.get(OccProductSearchService);
+    service = TestBed.get(ProductSearchLoaderService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
     searchConfig = { pageSize: 10 };

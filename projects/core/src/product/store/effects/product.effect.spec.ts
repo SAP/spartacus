@@ -11,7 +11,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from '../actions/product.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
-import { OccProductService } from '../../occ/product.service';
+import { ProductLoaderService } from '../../occ/product.service';
 import { Product } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { PageType } from '../../../occ/occ-models/occ.models';
@@ -47,7 +47,7 @@ class MockRoutingService {
 
 describe('Product Effects', () => {
   let actions$: Observable<fromActions.ProductAction>;
-  let service: OccProductService;
+  let service: ProductLoaderService;
   let effects: fromEffects.ProductEffects;
 
   const productCode = 'testCode';
@@ -72,7 +72,7 @@ describe('Product Effects', () => {
         StoreModule.forRoot({ product: () => mockProductState })
       ],
       providers: [
-        OccProductService,
+        ProductLoaderService,
         ProductImageConverterService,
         ProductReferenceConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
@@ -82,7 +82,7 @@ describe('Product Effects', () => {
         { provide: RoutingService, useClass: MockRoutingService }
       ]
     });
-    service = TestBed.get(OccProductService);
+    service = TestBed.get(ProductLoaderService);
     effects = TestBed.get(fromEffects.ProductEffects);
 
     spyOn(service, 'load').and.returnValue(of(product));

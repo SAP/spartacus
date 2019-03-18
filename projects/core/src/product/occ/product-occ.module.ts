@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
-import { OccProductService } from './product.service';
-import { OccProductSearchService } from './product-search.service';
+import { ProductLoaderService } from './product.service';
+import { ProductSearchLoaderService } from './product-search.service';
 import { OccModule } from '../../occ/occ.module';
 import {
   defaultOccProductConfig,
   OccProductConfig
 } from '../config/product-config';
 import { ConfigModule, Config } from '../../config/index';
-import { OccProductReviewsService } from './product-reviews.service';
+import { ProductReviewsLoaderService } from './product-reviews.service';
 
 @NgModule({
   imports: [
@@ -20,9 +20,9 @@ import { OccProductReviewsService } from './product-reviews.service';
     ConfigModule.withConfig(defaultOccProductConfig)
   ],
   providers: [
-    OccProductService,
-    OccProductSearchService,
-    OccProductReviewsService,
+    ProductLoaderService,
+    ProductSearchLoaderService,
+    ProductReviewsLoaderService,
     { provide: OccProductConfig, useExisting: Config }
   ]
 })

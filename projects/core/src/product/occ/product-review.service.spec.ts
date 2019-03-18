@@ -10,7 +10,7 @@ import {
   OccProductConfig,
   defaultOccProductConfig
 } from '../config/product-config';
-import { OccProductReviewsService } from './product-reviews.service';
+import { ProductReviewsLoaderService } from './product-reviews.service';
 
 const productCode = 'testCode';
 const maxCount = 2;
@@ -33,15 +33,15 @@ const MockOccModuleConfig: OccProductConfig = {
   }
 };
 
-describe('OccProductReviewsService', () => {
-  let service: OccProductReviewsService;
+describe('ProductReviewsLoaderService', () => {
+  let service: ProductReviewsLoaderService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductReviewsService,
+        ProductReviewsLoaderService,
         {
           provide: OccProductConfig,
           useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
@@ -49,7 +49,7 @@ describe('OccProductReviewsService', () => {
       ]
     });
 
-    service = TestBed.get(OccProductReviewsService);
+    service = TestBed.get(ProductReviewsLoaderService);
     httpMock = TestBed.get(HttpTestingController);
   });
 

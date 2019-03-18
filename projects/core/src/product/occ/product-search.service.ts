@@ -19,13 +19,24 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 };
 
 @Injectable()
-export class OccProductSearchService extends ProductOccService {
-  constructor(
-    private http: HttpClient,
-    private config: OccProductConfig,
-    private dynamicTemplate: DynamicTemplate
-  ) {
+export class ProductSearchLoaderService extends ProductOccService {
+  constructor(private http: HttpClient, private config: OccProductConfig) {
     super(config);
+  }
+
+  loadSearch(
+    fullQuery: string,
+    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+  ): Observable<ProductSearchPage> {
+    return this.http
+      .get(this.getSearchEndpoint(fullQuery, searchConfig))
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  loadSuggestions(term: string, pageSize = 3): Observable<SuggestionList> {
+    return this.http
+      .get(this.getSuggestionEndpoint(term, pageSize.toString()))
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   protected getSearchEndpoint(
@@ -35,7 +46,7 @@ export class OccProductSearchService extends ProductOccService {
     let params = new HttpParams();
     let url =
       this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.endpoints.productSearch, {
+      DynamicTemplate.resolve(this.config.endpoints.productSearch, {
         query
       });
 
@@ -55,25 +66,10 @@ export class OccProductSearchService extends ProductOccService {
   protected getSuggestionEndpoint(term: string, max: string): string {
     return (
       this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.endpoints.productSuggestions, {
+      DynamicTemplate.resolve(this.config.endpoints.productSuggestions, {
         term,
         max
       })
     );
-  }
-
-  loadSearch(
-    fullQuery: string,
-    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
-  ): Observable<ProductSearchPage> {
-    return this.http
-      .get(this.getSearchEndpoint(fullQuery, searchConfig))
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  loadSuggestions(term: string, pageSize = 3): Observable<SuggestionList> {
-    return this.http
-      .get(this.getSuggestionEndpoint(term, pageSize.toString()))
-      .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

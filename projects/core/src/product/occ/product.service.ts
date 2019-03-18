@@ -10,27 +10,23 @@ import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { ProductOccService } from './product-occ.service';
 
 @Injectable()
-export class OccProductService extends ProductOccService {
-  constructor(
-    private http: HttpClient,
-    private config: OccProductConfig,
-    private dynamicTemplate: DynamicTemplate
-  ) {
+export class ProductLoaderService extends ProductOccService {
+  constructor(private http: HttpClient, private config: OccProductConfig) {
     super(config);
-  }
-
-  protected getEndpoint(code: string): string {
-    return (
-      this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.endpoints.product, {
-        productCode: code
-      })
-    );
   }
 
   load(productCode: string): Observable<Product> {
     return this.http
       .get(this.getEndpoint(productCode))
       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  protected getEndpoint(code: string): string {
+    return (
+      this.getProductEndpoint() +
+      DynamicTemplate.resolve(this.config.endpoints.product, {
+        productCode: code
+      })
+    );
   }
 }

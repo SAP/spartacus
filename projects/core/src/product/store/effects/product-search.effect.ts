@@ -7,7 +7,7 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { OccProductSearchService } from '../../occ/product-search.service';
+import { ProductSearchLoaderService } from '../../occ/product-search.service';
 
 @Injectable()
 export class ProductsSearchEffects {
@@ -70,7 +70,7 @@ export class ProductsSearchEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductSearchService: OccProductSearchService,
+    private occProductSearchService: ProductSearchLoaderService,
     private productImageConverter: ProductImageConverterService
   ) {}
 }

@@ -4,7 +4,7 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccProductService } from './product.service';
+import { ProductLoaderService } from './product.service';
 import {
   OccProductConfig,
   defaultOccProductConfig
@@ -30,16 +30,15 @@ const MockOccModuleConfig: OccProductConfig = {
   }
 };
 
-describe('OccProductService', () => {
-  let service: OccProductService;
+describe('ProductLoaderService', () => {
+  let service: ProductLoaderService;
   let httpMock: HttpTestingController;
-  let dynamicTemplate: DynamicTemplate;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductService,
+        ProductLoaderService,
         {
           provide: OccProductConfig,
           useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
@@ -47,8 +46,7 @@ describe('OccProductService', () => {
       ]
     });
 
-    dynamicTemplate = TestBed.get(DynamicTemplate);
-    service = TestBed.get(OccProductService);
+    service = TestBed.get(ProductLoaderService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -66,7 +64,7 @@ describe('OccProductService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `/${dynamicTemplate.resolve(
+            `/${DynamicTemplate.resolve(
               defaultOccProductConfig.endpoints.product,
               { productCode }
             )}`

@@ -10,7 +10,7 @@ import {
   SuggestionList
 } from '../../occ/occ-models/occ.models';
 
-import { OccProductSearchService } from './product-search.service';
+import { ProductSearchLoaderService } from './product-search.service';
 import {
   OccProductConfig,
   defaultOccProductConfig
@@ -36,16 +36,15 @@ const MockOccModuleConfig: OccProductConfig = {
   }
 };
 
-describe('OccProductSearchService', () => {
-  let service: OccProductSearchService;
+describe('ProductSearchLoaderService', () => {
+  let service: ProductSearchLoaderService;
   let httpMock: HttpTestingController;
-  let dynamicTemplate: DynamicTemplate;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductSearchService,
+        ProductSearchLoaderService,
         {
           provide: OccProductConfig,
           useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
@@ -53,8 +52,7 @@ describe('OccProductSearchService', () => {
       ]
     });
 
-    dynamicTemplate = TestBed.get(DynamicTemplate);
-    service = TestBed.get(OccProductSearchService);
+    service = TestBed.get(ProductSearchLoaderService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -72,7 +70,7 @@ describe('OccProductSearchService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `/${dynamicTemplate.resolve(
+            `/${DynamicTemplate.resolve(
               defaultOccProductConfig.endpoints.productSearch,
               { query: queryText, searchConfig: mockSearchConfig }
             )}&pageSize=${mockSearchConfig.pageSize.toString()}`
@@ -97,7 +95,7 @@ describe('OccProductSearchService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `/${dynamicTemplate.resolve(
+            `/${DynamicTemplate.resolve(
               defaultOccProductConfig.endpoints.productSuggestions,
               { term: queryText, max: mockSearchConfig.pageSize }
             )}`

@@ -5,33 +5,15 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { ReviewList, Review } from '../../occ/occ-models/occ.models';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 import { OccProductConfig } from '../config/product-config';
 import { ProductOccService } from './product-occ.service';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 @Injectable()
-export class OccProductReviewsService extends ProductOccService {
-  constructor(
-    private http: HttpClient,
-    private config: OccProductConfig,
-    private dynamicTemplate: DynamicTemplate
-  ) {
+export class ProductReviewsLoaderService extends ProductOccService {
+  constructor(private http: HttpClient, private config: OccProductConfig) {
     super(config);
-  }
-
-  protected getEndpoint(code: string, maxCount?: number): string {
-    let url =
-      this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.endpoints.productReviews, {
-        productCode: code
-      });
-
-    if (maxCount && maxCount > 0) {
-      url += `?maxCount=${maxCount}`;
-    }
-
-    return url;
   }
 
   load(productCode: string, maxCount?: number): Observable<ReviewList> {
@@ -54,5 +36,19 @@ export class OccProductReviewsService extends ProductOccService {
     return this.http
       .post(this.getEndpoint(productCode), body.toString(), { headers })
       .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  protected getEndpoint(code: string, maxCount?: number): string {
+    let url =
+      this.getProductEndpoint() +
+      DynamicTemplate.resolve(this.config.endpoints.productReviews, {
+        productCode: code
+      });
+
+    if (maxCount && maxCount > 0) {
+      url += `?maxCount=${maxCount}`;
+    }
+
+    return url;
   }
 }

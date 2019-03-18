@@ -7,7 +7,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { ErrorModel } from '../../../occ/occ-models/occ.models';
-import { OccProductReviewsService } from '../../occ/product-reviews.service';
+import { ProductReviewsLoaderService } from '../../occ/product-reviews.service';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -66,6 +66,6 @@ export class ProductReviewsEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductReviewsService: OccProductReviewsService
+    private occProductReviewsService: ProductReviewsLoaderService
   ) {}
 }
