@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
+import { NavigationStart } from '@angular/router';
 
 import { Effect, Actions, ofType } from '@ngrx/effects';
+import * as fromRouterStore from '@ngrx/router-store';
 
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import {
+  map,
+  catchError,
+  switchMap,
+  skipLast,
+  filter,
+  withLatestFrom
+} from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
@@ -66,6 +75,35 @@ export class ProductsSearchEffects {
           )
         );
     })
+  );
+
+  @Effect()
+  getProductsAfterNavigateBackOrForward: Observable<any> = this.actions$.pipe(
+    ofType(fromRouterStore.ROUTER_REQUEST),
+    map((action: fromRouterStore.RouterRequestAction) => action.payload.event),
+    filter(event => event.navigationTrigger === 'popstate'),
+    withLatestFrom(
+      this.actions$.pipe(
+        ofType(productsSearchActions.SEARCH_PRODUCTS),
+        skipLast(1)
+      )
+    ),
+    map(
+      ([, searchProductAction]: [
+        NavigationStart,
+        productsSearchActions.SearchProducts | never[]
+      ]) => {
+        if (
+          searchProductAction instanceof productsSearchActions.SearchProducts
+        ) {
+          return new productsSearchActions.SearchProducts(
+            searchProductAction.payload
+          );
+        } else {
+          return new productsSearchActions.SearchProductsFail({});
+        }
+      }
+    )
   );
 
   constructor(
