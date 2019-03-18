@@ -96,7 +96,7 @@ To share pages with social media, such as Facebook, Twitter, Pinterest, and so o
 
 While it is possible to provide multiple images by replicating the tag with different values (for a gallery of images, for example), Spartacus only provides a solution for a single image. This is considered best practice for commerce storefronts.
 
-You can use the `PageImageResolver` to provide a specific image for a specific page. The `ProductPageMetaResolver` implements the main product image URL for the product details page. You can implement other page providers using the `PageImageResolver` interface.
+You can implement the `PageImageResolver` to resolve a specific image for a specific page. The `ProductPageMetaResolver` demonstrates an implementation of the `PageImageResolver` by providing the main product image URL for the product details page.
 
 ### Robots Tag
 
