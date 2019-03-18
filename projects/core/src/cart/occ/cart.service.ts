@@ -24,7 +24,8 @@ const DETAILS_PARAMS =
   'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,' +
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
-  'deliveryItemsQuantity,totalTax(formattedValue),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue)';
+  'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
+  'appliedVouchers,productDiscounts(formattedValue)';
 
 @Injectable()
 export class OccCartService {
@@ -50,6 +51,7 @@ export class OccCartService {
       : new HttpParams({
           fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)'
         });
+    console.log('in all carts');
     return this.http
       .get<CartList>(url, { params: params })
       .pipe(catchError((error: any) => throwError(error)));
@@ -69,7 +71,10 @@ export class OccCartService {
           fromString: 'fields=' + BASIC_PARAMS
         });
 
+    console.log('in cart');
+
     if (cartId === 'current') {
+      console.log('current');
       return this.loadAllCarts(userId, details).pipe(
         map(cartsData => {
           if (cartsData && cartsData.carts) {
@@ -83,6 +88,7 @@ export class OccCartService {
         })
       );
     } else {
+      console.log('out current');
       return this.http
         .get<Cart>(url, { params: params })
         .pipe(catchError((error: any) => throwError(error)));
