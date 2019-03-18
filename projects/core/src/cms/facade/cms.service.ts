@@ -167,6 +167,16 @@ export class CmsService {
   }
 
   /**
+   * Given pageContext, return the CMS page data
+   * @param pageContext
+   */
+  getPageComponentTypes(pageContext: PageContext): Observable<string[]> {
+    return this.store.pipe(
+      select(fromStore.getPageComponentTypes(pageContext))
+    );
+  }
+
+  /**
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */

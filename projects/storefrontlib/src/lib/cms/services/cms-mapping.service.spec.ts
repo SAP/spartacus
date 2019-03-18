@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { CmsMappingService } from './cms-mapping.service';
-import { CmsConfig, Page } from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 import { PLATFORM_ID } from '@angular/core';
 
 let service: CmsMappingService;
@@ -25,30 +25,11 @@ const mockConfig: CmsConfig = {
   }
 };
 
-const mockPageData: Page = {
-  slots: {
-    slot1: {
-      components: [
-        {
-          flexType: 'testCode'
-        },
-        {
-          flexType: 'exampleMapping1'
-        }
-      ]
-    },
-    slot2: {
-      components: [
-        {
-          flexType: 'exampleMapping2'
-        },
-        {
-          flexType: 'exampleMapping1'
-        }
-      ]
-    }
-  }
-};
+const mockComponents: string[] = [
+  'testCode',
+  'exampleMapping1',
+  'exampleMapping2'
+];
 
 describe('CmsMappingService', () => {
   beforeEach(() => {
@@ -72,19 +53,9 @@ describe('CmsMappingService', () => {
     });
   });
 
-  describe('getMappedTypes', () => {
-    it('should return mappedTypes from pageData', () => {
-      expect(service.getFlexTypesFromPage(mockPageData)).toEqual([
-        'testCode',
-        'exampleMapping1',
-        'exampleMapping2'
-      ]);
-    });
-  });
-
   describe('getRoutesFromPageData', () => {
     it('should get routes from page data', () => {
-      expect(service.getRoutesFromPage(mockPageData)).toEqual([
+      expect(service.getRoutesFromComponents(mockComponents)).toEqual([
         {
           path: 'route1'
         },

@@ -27,7 +27,7 @@ describe('CmsRoutesService', () => {
   ];
 
   const mockCmsMapping = {
-    getRoutesFromPage: () => [{ path: 'sub-route' }]
+    getRoutesFromComponents: () => [{ path: 'sub-route' }]
   };
 
   beforeEach(() => {
@@ -38,7 +38,7 @@ describe('CmsRoutesService', () => {
     };
 
     const mockCmsService = {
-      getPageState: () => of({})
+      getPageComponentTypes: () => of([])
     };
 
     TestBed.configureTestingModule({

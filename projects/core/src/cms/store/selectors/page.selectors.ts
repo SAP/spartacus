@@ -32,6 +32,20 @@ export const getIndexByType = (
   return { entities: {} };
 };
 
+export const getPageComponentTypesSelector: (page: Page) => string[] = (
+  page: Page
+) => {
+  const mappings = new Set<string>();
+  if (page && page.slots) {
+    for (const slot of Object.keys(page.slots)) {
+      for (const component of page.slots[slot].components || []) {
+        mappings.add(component.flexType);
+      }
+    }
+  }
+  return Array.from(mappings);
+};
+
 export const getPageState: MemoizedSelector<
   StateWithCms,
   PageState
@@ -80,6 +94,14 @@ export const getPageData = (
     getIndexEntity(pageContext),
     (entities: { [id: string]: Page }, entity: LoaderState<string>) =>
       entities[entity.value]
+  );
+
+export const getPageComponentTypes = (
+  pageContext: PageContext
+): MemoizedSelector<StateWithCms, string[]> =>
+  createSelector(
+    getPageData(pageContext),
+    pageData => getPageComponentTypesSelector(pageData)
   );
 
 export const currentSlotSelectorFactory = (

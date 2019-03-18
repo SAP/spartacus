@@ -1,5 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { CmsConfig, Page } from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
@@ -19,22 +19,12 @@ export class CmsMappingService {
     return !(isSSR && isComponentDisabledInSSR);
   }
 
-  getFlexTypesFromPage(pageData: Page): string[] {
-    const mappings = new Set<string>();
-    for (const slot of Object.keys(pageData.slots)) {
-      for (const component of pageData.slots[slot].components || []) {
-        if (this.isFlexTypeEnabled(component.flexType)) {
-          mappings.add(component.flexType);
-        }
-      }
-    }
-    return Array.from(mappings);
-  }
-
-  getRoutesFromPage(pageData: Page): Route[] {
+  getRoutesFromComponents(componentTypes: string[]): Route[] {
     const routes = [];
-    for (const componentId of this.getFlexTypesFromPage(pageData)) {
-      routes.push(...this.getRoutesForComponent(componentId));
+    for (const componentId of componentTypes) {
+      if (this.isFlexTypeEnabled(componentId)) {
+        routes.push(...this.getRoutesForComponent(componentId));
+      }
     }
     return routes;
   }
