@@ -1,23 +1,4 @@
-//style with variables
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/nav';
-
-//search-box color variables
-$cx-search-box-group-background-color: 'secondary' !default;
-$cx-search-box-group-xs-background-color: 'transparent' !default;
-$cx-search-box-input-placeholder-color: 'inverse' !default;
-$cx-search-box-input-background-color: 'transparent' !default;
-$cx-search-box-input-mobile-background-color: 'secondary' !default;
-$cx-search-box-input-focus-background-color: 'transparent' !default;
-$cx-search-box-input-mobile-focus-background-color: 'secondary' !default;
-$cx-search-box-input-color: 'inverse' !default;
-$cx-search-box-input-focus-color: 'inverse' !default;
-$cx-search-box-button-background-color: 'transparent' !default;
-$cx-search-box-button-icon-fill-color: 'inverse' !default;
-$cx-search-box-item-background-color: 'primary' !default;
 
 //search-box variables
 $cx-search-box-group-trbl-margin: auto !default;
@@ -42,18 +23,15 @@ $cx-search-box-search-icon-height: 28px !default;
   }
 
   &__group {
-    @include var-color(
-      'background-color',
-      $cx-search-box-group-background-color
-    );
+    background-color: var(--cx-background-color, var(--cx-g-color-secondary));
     padding: $cx-search-box-input-trbl-padding;
     display: flex;
     margin: $cx-search-box-group-trbl-margin;
 
     @include media-breakpoint-down(xs) {
-      @include var-color(
-        'background-color',
-        $cx-search-box-group-xs-background-color
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
       );
     }
   }
@@ -65,14 +43,11 @@ $cx-search-box-search-icon-height: 28px !default;
 
   &__input {
     @include placeholder {
-      @include var-color('color', $cx-search-box-input-placeholder-color);
+      color: var(--cx-color, var(--cx-g-color-inverse));
     }
 
-    @include var-color(
-      'background-color',
-      $cx-search-box-input-background-color
-    );
-    @include var-color('color', $cx-search-box-input-color);
+    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+    color: var(--cx-color, var(--cx-g-color-inverse));
     border: $cx-search-box-input-border;
     border-radius: $cx-search-box-input-radius;
     margin-bottom: $cx-search-box-input-margin-bottom;
@@ -80,11 +55,11 @@ $cx-search-box-search-icon-height: 28px !default;
 
     &[aria-label='search'] {
       &:focus {
-        @include var-color(
-          'background-color',
-          $cx-search-box-input-focus-background-color
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-transparent)
         );
-        @include var-color('color', $cx-search-box-input-focus-color);
+        color: var(--cx-color, var(--cx-g-color-inverse));
         box-shadow: none;
       }
 
@@ -105,11 +80,12 @@ $cx-search-box-search-icon-height: 28px !default;
       }
 
       @include media-breakpoint-down(xs) {
-        @include var-color(
-          'background-color',
-          $cx-search-box-input-mobile-background-color
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-secondary)
         );
-        @include var-color('color', $cx-search-box-input-color);
+        color: var(--cx-color, var(--cx-g-color-inverse));
+
         display: none;
         position: absolute;
         left: 0;
@@ -117,11 +93,11 @@ $cx-search-box-search-icon-height: 28px !default;
         width: 100%;
 
         &:focus {
-          @include var-color(
-            'background-color',
-            $cx-search-box-input-mobile-focus-background-color
+          background-color: var(
+            --cx-background-color,
+            var(--cx-g-color-secondary)
           );
-          @include var-color('color', $cx-search-box-input-color);
+          color: var(--cx-color, var(--cx-g-color-inverse));
         }
 
         & + .dropdown-menu {
@@ -157,16 +133,13 @@ $cx-search-box-search-icon-height: 28px !default;
       }
     }
 
-    @include var-color(
-      'background-color',
-      $cx-search-box-button-background-color
-    );
+    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
   }
 
   &__icon {
     width: $cx-search-box-search-icon-width;
     height: $cx-search-box-search-icon-height;
-    @include var-color('fill', $cx-search-box-button-icon-fill-color);
+    fill: var(--cx-fill, var(--cx-g-color-inverse));
     pointer-events: none;
   }
 
@@ -219,9 +192,6 @@ $cx-search-box-search-icon-height: 28px !default;
   }
 
   .dropdown-menu .dropdown-item.active {
-    @include var-color(
-      'background-color',
-      $cx-search-box-item-background-color
-    );
+    background-color: var(--cx-background-color, var(--cx-g-color-primary));
   }
 }
