@@ -1,9 +1,8 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
-import { CmsConfig } from '../config/cms-config';
 import { PageContext } from '../../routing/index';
 import {
   CMSPage,
@@ -11,17 +10,21 @@ import {
   CmsComponent,
   CmsComponentList
 } from '../../occ/occ-models/index';
-import { OccCmsConvertor } from '../converter/occ-cms.converter';
+import { CmsLoader } from '../services/cms.loader';
+import { OccCmsConvertor } from '../converter';
+import { CmsContentConfig } from '../config/cms-content.config';
 
 @Injectable()
-export class OccCmsService {
+export class OccCmsService extends CmsLoader {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient,
-    private config: CmsConfig,
-    private convertor: OccCmsConvertor
-  ) {}
+    protected config: CmsContentConfig,
+    protected adapter: OccCmsConvertor
+  ) {
+    super(adapter, config);
+  }
 
   protected getBaseEndPoint(): string {
     return (
@@ -57,10 +60,7 @@ export class OccCmsService {
           fromString: httpStringParams
         })
       })
-      .pipe(
-        map(page => this.convertor.convert(page)),
-        catchError((error: any) => throwError(error.json()))
-      );
+      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   loadComponent<T extends CmsComponent>(

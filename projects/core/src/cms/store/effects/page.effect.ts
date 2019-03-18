@@ -17,7 +17,7 @@ import * as componentActions from '../actions/component.action';
 import * as pageActions from '../actions/page.action';
 import { ContentSlotData } from '../../model/content-slot-data.model';
 import { Page } from '../../model/page.model';
-import { OccCmsService } from '../../occ/occ-cms.service';
+
 import { RoutingService } from '../../../routing/index';
 import { CMSPage, CmsComponent } from '../../../occ/occ-models/index';
 import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
@@ -27,6 +27,7 @@ import {
   CMS_FLEX_COMPONENT_TYPE
 } from '../../config/cms-config';
 import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
+import { CmsLoader } from '../../services/cms.loader';
 
 @Injectable()
 export class PageEffects {
@@ -51,7 +52,7 @@ export class PageEffects {
     ofType(pageActions.LOAD_PAGE_DATA),
     map((action: pageActions.LoadPageData) => action.payload),
     switchMap(pageContext =>
-      this.occCmsService.loadPageData(pageContext).pipe(
+      this.cmsLoader.get(pageContext).pipe(
         mergeMap(data => {
           const page = this.getPageData(data);
           return [
@@ -68,7 +69,7 @@ export class PageEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: OccCmsService,
+    private cmsLoader: CmsLoader,
     private routingService: RoutingService
   ) {}
 
