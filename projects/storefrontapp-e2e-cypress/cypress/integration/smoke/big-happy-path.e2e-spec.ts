@@ -7,12 +7,12 @@ context('Big happy path', () => {
   });
 
   it('should register successfully', () => {
-    bigHappyPath.signInAndRegister();
-    bigHappyPath.verifyUser();
+    bigHappyPath.registerUser();
+    bigHappyPath.signOutUser();
   });
 
   it('should go to product page from category page', () => {
-    bigHappyPath.changePage();
+    bigHappyPath.goToProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
@@ -36,7 +36,7 @@ context('Big happy path', () => {
   });
 
   it('should display summary page', () => {
-    bigHappyPath.displaySummaryPage();
+    bigHappyPath.verifyOrderConfirmationPage();
   });
 
   it('should be able to check order in order history', () => {

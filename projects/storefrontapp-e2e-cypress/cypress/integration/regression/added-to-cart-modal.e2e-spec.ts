@@ -9,15 +9,15 @@ describe('Added to cart modal', () => {
   });
 
   it('basic modal behavior', () => {
-    addedToCartModal.basicBehavior();
+    addedToCartModal.verifyItemCounterOnPDP();
   });
 
   it('adding same product twice to cart', () => {
-    addedToCartModal.productTwice();
+    addedToCartModal.addSameProductTwice();
   });
 
   it('adding different products to cart', () => {
-    addedToCartModal.differentProduct();
+    addedToCartModal.addDifferentProducts();
   });
 
   it('refreshing page should not show modal', () => {
@@ -25,6 +25,6 @@ describe('Added to cart modal', () => {
   });
 
   it('total price is correctly estimated', () => {
-    addedToCartModal.totalPrice();
+    addedToCartModal.increaseProductQtyOnPDP();
   });
 });

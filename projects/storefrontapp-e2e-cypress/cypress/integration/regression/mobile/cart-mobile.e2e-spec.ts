@@ -1,5 +1,5 @@
-import * as cart from '../../helpers/cart';
-import { formats } from '../../sample-data/viewports';
+import * as cart from '../../../helpers/cart';
+import { formats } from '../../../sample-data/viewports';
 
 function clickSearchIcon() {
   cy.get('cx-searchbox [aria-label="Search "]').click();
@@ -31,23 +31,23 @@ describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
   });
 
   it('should display empty cart if no items added and when items are removed', () => {
-    cart.displayEmptyCart();
+    cart.removeAllItemsFromCart();
   });
 
   it('should add product to cart as anonymous and merge when logged in', () => {
-    cart.usingRequiredLoggedIn();
+    cart.loginRegisteredUser();
 
     clickSearchIcon();
-    cart.viewProductInModal();
+    cart.addProductWhenLoggedIn();
 
     clickHamburger();
     cart.logOutAndNavigateToEmptyCart();
 
     clickSearchIcon();
-    cart.addProductToCartAsRandom();
+    cart.addProductAsAnonymous();
 
     clickHamburger();
-    cart.verifyCartAsUser();
+    cart.verifyMergedCartWhenLoggedIn();
 
     clickHamburger();
     cart.logOutAndEmptyCart();
@@ -55,7 +55,7 @@ describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
 
   it('should add product to cart and manipulate quantity', () => {
     clickSearchIcon();
-    cart.manipulateQuantity();
+    cart.manipulateCartQuantity();
   });
 
   it('should be unable to add out of stock products to cart', () => {

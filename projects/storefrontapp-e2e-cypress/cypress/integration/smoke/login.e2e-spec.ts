@@ -5,18 +5,18 @@ describe('Login', () => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
 
-    login.loginPageAndRegister();
+    login.registerUser();
 
-    login.verifyUser();
+    login.signOutUser();
   });
 
   it('should login successfully with correct credentials', () => {
-    login.loginPageAndLogin();
+    login.loginUser();
 
-    login.verifyUser();
+    login.signOutUser();
   });
 
   it('login should fail if password is wrong', () => {
-    login.verifyFakeLogin();
+    login.loginWithBathCredentials();
   });
 });

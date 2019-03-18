@@ -15,25 +15,25 @@ describe('Cart', () => {
   });
 
   it('should display empty cart if no items added and when items are removed', () => {
-    cart.displayEmptyCart();
+    cart.removeAllItemsFromCart();
   });
 
   it('should add product to cart as anonymous and merge when logged in', () => {
-    cart.usingRequiredLoggedIn();
+    cart.loginRegisteredUser();
 
-    cart.viewProductInModal();
+    cart.addProductWhenLoggedIn();
 
     cart.logOutAndNavigateToEmptyCart();
 
-    cart.addProductToCartAsRandom();
+    cart.addProductAsAnonymous();
 
-    cart.verifyCartAsUser();
+    cart.verifyMergedCartWhenLoggedIn();
 
     cart.logOutAndEmptyCart();
   });
 
   it('should add product to cart and manipulate quantity', () => {
-    cart.manipulateQuantity();
+    cart.manipulateCartQuantity();
   });
 
   it('should be unable to add out of stock products to cart', () => {

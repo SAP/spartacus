@@ -1,6 +1,6 @@
 import { PRODUCT_LISTING } from './data-configuration';
 
-export function productSearch() {
+export function productPricingFlow() {
   // Click on a Category
   cy.get('header').within(() => {
     cy.get('.nav-link')

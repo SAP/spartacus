@@ -3,7 +3,7 @@ import { register } from './auth-forms';
 
 export const loginLink = 'cx-login [role="link"]';
 
-export function loginPageAndRegister() {
+export function registerUser() {
   cy.get(loginLink).click();
   cy.get('cx-page-layout')
     .getByText('Register')
@@ -13,14 +13,10 @@ export function loginPageAndRegister() {
 
 export function signOut() {
   cy.selectUserMenuOption('Sign Out');
-
-  // attempt to register the same user again
-  cy.visit('/');
 }
 
 export function verifyFailedRegistration() {
+  cy.visit('/');
   cy.get('cx-global-message .alert-danger').should('contain', user.email);
-
-  // the url should be still the same
   cy.url().should('match', /\/register/);
 }

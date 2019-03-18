@@ -1,5 +1,5 @@
-import { formats } from '../../sample-data/viewports';
-import * as addedToCartModal from '../../helpers/added-to-cart-modal';
+import { formats } from '../../../sample-data/viewports';
+import * as addedToCartModal from '../../../helpers/added-to-cart-modal';
 
 describe(`${formats.mobile.width +
   1}p resolution - Added to cart modal`, () => {
@@ -11,16 +11,16 @@ describe(`${formats.mobile.width +
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
   it('basic modal behavior', () => {
-    addedToCartModal.basicBehavior();
+    addedToCartModal.verifyItemCounterOnPDP();
   });
 
   it('adding same product twice to cart', () => {
-    addedToCartModal.productTwice();
+    addedToCartModal.addSameProductTwice();
   });
 
   it('adding different products to cart', () => {
     cy.get('cx-searchbox [aria-label="Search "]').click();
-    addedToCartModal.differentProduct();
+    addedToCartModal.addDifferentProducts();
   });
 
   it('refreshing page should not show modal', () => {
@@ -28,6 +28,6 @@ describe(`${formats.mobile.width +
   });
 
   it('total price is correctly estimated', () => {
-    addedToCartModal.totalPrice();
+    addedToCartModal.increaseProductQtyOnPDP();
   });
 });

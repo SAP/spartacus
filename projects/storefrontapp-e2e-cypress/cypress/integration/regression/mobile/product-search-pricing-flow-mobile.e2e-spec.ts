@@ -27,7 +27,7 @@ context(
       it('should be able to search with price', () => {
         waitForHomePage();
 
-        productSearchPricingFlow.productSearch();
+        productSearchPricingFlow.productPricingFlow();
       });
     });
   }

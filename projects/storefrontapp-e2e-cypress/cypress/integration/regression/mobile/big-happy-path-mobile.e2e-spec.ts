@@ -1,5 +1,5 @@
-import { formats } from '../../sample-data/viewports';
-import * as bigHappyPath from '../../helpers/big-happy-path';
+import { formats } from '../../../sample-data/viewports';
+import * as bigHappyPath from '../../../helpers/big-happy-path';
 
 function clickHamburger() {
   cy.get('cx-header [aria-label="Menu"]').click();
@@ -26,15 +26,15 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   it('should register successfully', () => {
     waitForHomePage();
 
-    bigHappyPath.signInAndRegister();
+    bigHappyPath.registerUser();
 
     waitForHomePage();
 
-    bigHappyPath.verifyUser();
+    bigHappyPath.signOutUser();
   });
 
   it('should go to product page from category page', () => {
-    bigHappyPath.changePage();
+    bigHappyPath.goToProductDetailsPage();
   });
 
   it('should add product to cart and go to checkout', () => {
@@ -58,7 +58,7 @@ context(`${formats.mobile.width + 1}p resolution - Big happy path`, () => {
   });
 
   it('should display summary page', () => {
-    bigHappyPath.displaySummaryPage();
+    bigHappyPath.verifyOrderConfirmationPage();
   });
 
   it('should be able to check order in order history', () => {

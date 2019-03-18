@@ -1,5 +1,5 @@
-import * as login from '../../helpers/login';
-import { formats } from '../../sample-data/viewports';
+import * as register from '../../../helpers/register';
+import { formats } from '../../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-header [aria-label="Menu"]').click();
@@ -12,36 +12,28 @@ function waitForHomePage() {
   clickHamburger();
 }
 
-describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
+describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
   before(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
-
-    waitForHomePage();
-
-    login.loginPageAndRegister();
-
-    waitForHomePage();
-
-    login.verifyUser();
   });
-
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
-  it('should login successfully with correct credentials', () => {
-    clickHamburger();
+  it('should contain error when trying to register with the same email', () => {
+    waitForHomePage();
 
-    login.loginPageAndLogin();
+    register.registerUser();
 
     waitForHomePage();
 
-    login.verifyUser();
-  });
+    register.signOut();
 
-  it('login should fail if password is wrong', () => {
-    login.verifyFakeLogin();
+    clickHamburger();
+    register.registerUser();
+
+    register.verifyFailedRegistration();
   });
 });

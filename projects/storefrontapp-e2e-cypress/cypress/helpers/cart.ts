@@ -55,7 +55,7 @@ export function addProductToCartViaSearchPage() {
   });
 }
 
-export function displayEmptyCart() {
+export function removeAllItemsFromCart() {
   getCartItem('PowerShot A480').within(() => {
     cy.getByText('Remove').click();
   });
@@ -72,13 +72,13 @@ export function displayEmptyCart() {
   );
 }
 
-export function usingRequiredLoggedIn() {
+export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(standardUser);
   cy.visit('/login');
 }
 
-export function viewProductInModal() {
+export function addProductWhenLoggedIn() {
   cy.get('cx-searchbox input').type(PRODUCT_CODE_2);
   cy.get('.dropdown-item.active').click();
   cy.get('cx-product-summary cx-add-to-cart button').click();
@@ -101,7 +101,7 @@ export function logOutAndNavigateToEmptyCart() {
   );
 }
 
-export function addProductToCartAsRandom() {
+export function addProductAsAnonymous() {
   cy.get('cx-searchbox input').type(`${PRODUCT_CODE_3}{enter}`);
   cy.get('cx-product-list')
     .contains('cx-product-list-item', 'EASYSHARE M381')
@@ -117,7 +117,7 @@ export function addProductToCartAsRandom() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 }
 
-export function verifyCartAsUser() {
+export function verifyMergedCartWhenLoggedIn() {
   cy.get('cx-login [role="link"]').click();
   login(
     standardUser.registrationData.email,
@@ -154,7 +154,7 @@ export function logOutAndEmptyCart() {
   );
 }
 
-export function manipulateQuantity() {
+export function manipulateCartQuantity() {
   cy.visit(`/product/${PRODUCT_CODE_2}`);
   cy.get('cx-product-summary cx-add-to-cart button').click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(

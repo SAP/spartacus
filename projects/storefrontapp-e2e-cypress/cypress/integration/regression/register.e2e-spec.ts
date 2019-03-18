@@ -7,10 +7,10 @@ describe('Register', () => {
   });
 
   it('should contain error when trying to register with the same email', () => {
-    register.loginPageAndRegister();
+    register.registerUser();
 
     register.signOut();
-    register.loginPageAndRegister();
+    register.registerUser();
 
     register.verifyFailedRegistration();
   });

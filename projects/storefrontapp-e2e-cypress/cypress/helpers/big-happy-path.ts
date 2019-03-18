@@ -6,19 +6,19 @@ export function signOut() {
   cy.selectUserMenuOption('Sign Out');
 }
 
-export function signInAndRegister() {
+export function registerUser() {
   cy.getByText(/Sign in \/ Register/i).click();
   cy.getByText('Register').click();
   register(user);
+  cy.get('.cx-login-status__greet').should('contain', user.fullName);
 }
 
-export function verifyUser() {
-  cy.get('.cx-login-status__greet').should('contain', user.fullName);
+export function signOutUser() {
   signOut();
   cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
 }
 
-export function changePage() {
+export function goToProductDetailsPage() {
   // click big banner
   cy.get('.Section1 cx-responsive-banner')
     .first()
@@ -41,6 +41,7 @@ export function addProductToCart() {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.getByText(/proceed to checkout/i).click();
   });
+  // Verify the user is prompted to login
   login(user.email, user.password);
 }
 
@@ -94,7 +95,7 @@ export function placeOrder() {
   cy.get('.cx-place-order button.btn-primary').click();
 }
 
-export function displaySummaryPage() {
+export function verifyOrderConfirmationPage() {
   cy.get('.cx-page__title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
   cy.get('.cx-order-review-summary .row').within(() => {

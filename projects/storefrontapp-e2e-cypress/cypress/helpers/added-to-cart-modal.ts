@@ -1,7 +1,7 @@
 export const productId = '3595723';
 export const productId2 = '3325048';
 
-export function basicBehavior() {
+export function verifyItemCounterOnPDP() {
   // Type 1000 in the input to see if the value will change to maximum 'max stock'
   cy.get('cx-product-summary .cx-item-counter__value')
     .type('{selectall}{backspace}')
@@ -73,7 +73,7 @@ export function basicBehavior() {
   cy.get('cx-added-to-cart-dialog').should('not.exist');
 }
 
-export function productTwice() {
+export function addSameProductTwice() {
   // increase the quantity to 3 items of the same product
   cy.get('cx-product-summary .cx-item-counter.btn-group button')
     .contains('+')
@@ -95,7 +95,7 @@ export function productTwice() {
   cy.get('cx-added-to-cart-dialog').should('not.exist');
 }
 
-export function differentProduct() {
+export function addDifferentProducts() {
   // uncomment this section after fixing cart resetting on each full page load (issue 787)
   // cy.visit('/');
 
@@ -184,7 +184,7 @@ export function refreshPage() {
   cy.get('cx-added-to-cart-dialog').should('not.exist');
 }
 
-export function totalPrice() {
+export function increaseProductQtyOnPDP() {
   // helper function to prettify the text
   function extractPriceFromText(text) {
     return parseFloat(
