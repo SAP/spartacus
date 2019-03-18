@@ -13,7 +13,7 @@ const nonBreakingSpace = String.fromCharCode(160);
 describe('TranslationService', () => {
   let service: TranslationService;
   let config: ServerConfig;
-  let i18NextService_instance;
+  let i18NextService;
   let mockI18NextLanguage;
 
   beforeEach(() => {
@@ -44,7 +44,7 @@ describe('TranslationService', () => {
     });
 
     service = TestBed.get(TranslationService);
-    i18NextService_instance = TestBed.get(I18NextService);
+    i18NextService = TestBed.get(I18NextService);
     config = TestBed.get(ServerConfig);
   });
 
@@ -55,34 +55,28 @@ describe('TranslationService', () => {
   describe('exists', () => {
     it('should call i18NextService.exists', () => {
       service.exists(testKey, testOptions);
-      expect(i18NextService_instance.exists).toHaveBeenCalledWith(
-        testKey,
-        testOptions
-      );
+      expect(i18NextService.exists).toHaveBeenCalledWith(testKey, testOptions);
     });
   });
 
   describe('translate', () => {
     describe(', when key exists,', () => {
       beforeEach(() => {
-        i18NextService_instance.exists.and.returnValue(true);
+        i18NextService.exists.and.returnValue(true);
       });
 
       it('should return result of i18NextService.t', () => {
-        i18NextService_instance.t.and.returnValue('value');
+        i18NextService.t.and.returnValue('value');
         const result = service.translate(testKey, testOptions);
 
-        expect(i18NextService_instance.t).toHaveBeenCalledWith(
-          testKey,
-          testOptions
-        );
+        expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
         expect(result).toBe('value');
       });
     });
 
     describe(', when key does NOT exist,', () => {
       beforeEach(() => {
-        i18NextService_instance.exists.and.returnValue(false);
+        i18NextService.exists.and.returnValue(false);
         spyOn(console, 'warn');
       });
 
@@ -109,7 +103,7 @@ describe('TranslationService', () => {
       const namespaces = ['namespace1', 'namespace2'];
       const testCallback = () => {};
       service.loadNamespaces(namespaces, testCallback);
-      expect(i18NextService_instance.loadNamespaces).toHaveBeenCalledWith(
+      expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(
         namespaces,
         testCallback
       );
@@ -119,28 +113,25 @@ describe('TranslationService', () => {
   describe('translateLazy', () => {
     describe(', when key exists,', () => {
       beforeEach(() => {
-        i18NextService_instance.exists.and.returnValue(true);
+        i18NextService.exists.and.returnValue(true);
       });
 
       it('should emit result of i18NextService.t', () => {
-        i18NextService_instance.t.and.returnValue('value');
+        i18NextService.t.and.returnValue('value');
         let result;
         service
           .translateLazy(testKey, testOptions)
           .pipe(take(1))
           .subscribe(x => (result = x));
 
-        expect(i18NextService_instance.t).toHaveBeenCalledWith(
-          testKey,
-          testOptions
-        );
+        expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
         expect(result).toBe('value');
       });
     });
 
     describe(', when key does NOT exist,', () => {
       beforeEach(() => {
-        i18NextService_instance.exists.and.returnValue(false);
+        i18NextService.exists.and.returnValue(false);
         spyOn(console, 'warn');
       });
 
@@ -159,9 +150,12 @@ describe('TranslationService', () => {
       });
 
       it('should load namespace of key', () => {
-        service.translateLazy(testKey, testOptions);
+        service
+          .translateLazy(testKey, testOptions)
+          .pipe(take(1))
+          .subscribe();
 
-        expect(i18NextService_instance.loadNamespaces).toHaveBeenCalledWith(
+        expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(
           'testNamespace',
           jasmine.any(Function)
         );
@@ -170,15 +164,18 @@ describe('TranslationService', () => {
 
     describe(', when key does NOT exist even after namespace was loaded,', () => {
       beforeEach(() => {
-        i18NextService_instance.exists.and.returnValues(false, false);
+        i18NextService.exists.and.returnValues(false, false);
         spyOn(console, 'warn');
-        i18NextService_instance.loadNamespaces.and.callFake(
+        i18NextService.loadNamespaces.and.callFake(
           (_namespaces, onNamespaceLoad) => onNamespaceLoad()
         );
       });
 
       it('should report missing key', () => {
-        service.translateLazy(testKey, testOptions);
+        service
+          .translateLazy(testKey, testOptions)
+          .pipe(take(1))
+          .subscribe();
         expect(console.warn).toHaveBeenCalled();
       });
 
@@ -205,9 +202,9 @@ describe('TranslationService', () => {
 
     describe(', when key does NOT exist firstly, but it comes with loaded namespace,', () => {
       beforeEach(() => {
-        i18NextService_instance.exists.and.returnValues(false, true);
+        i18NextService.exists.and.returnValues(false, true);
         spyOn(console, 'warn');
-        i18NextService_instance.loadNamespaces.and.callFake(
+        i18NextService.loadNamespaces.and.callFake(
           (_namespaces, onNamespaceLoad) => {
             onNamespaceLoad();
           }
@@ -215,22 +212,22 @@ describe('TranslationService', () => {
       });
 
       it('should NOT report missing key', () => {
-        service.translateLazy(testKey, testOptions);
+        service
+          .translateLazy(testKey, testOptions)
+          .pipe(take(1))
+          .subscribe();
         expect(console.warn).not.toHaveBeenCalled();
       });
 
       it('should return result of i18NextService.t', () => {
         let result;
-        i18NextService_instance.t.and.returnValue('value');
+        i18NextService.t.and.returnValue('value');
         service
           .translateLazy(testKey, testOptions)
           .pipe(take(1))
           .subscribe(x => (result = x));
 
-        expect(i18NextService_instance.t).toHaveBeenCalledWith(
-          testKey,
-          testOptions
-        );
+        expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
         expect(result).toBe('value');
       });
     });
