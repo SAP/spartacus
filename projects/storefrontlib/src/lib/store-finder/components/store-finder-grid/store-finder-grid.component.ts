@@ -41,32 +41,15 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
 
   viewStore(location: any): void {
     if (this.route.snapshot.params.region) {
-      this.routingService.go({
-        route: [
-          'storeFinder',
-          {
-            name: 'storeDescription',
-            params: {
-              country: this.route.snapshot.params.country,
-              store: location.name
-            }
-          }
-        ]
-      });
+      this.routingService.go(
+        ['region', this.route.snapshot.params.region, location.name],
+        undefined,
+        { relativeTo: this.route }
+      );
       return;
     }
-    this.routingService.go({
-      route: [
-        'storeFinder',
-        {
-          name: 'storeDescription',
-          params: {
-            region: '',
-            country: this.route.snapshot.params.country,
-            store: location.name
-          }
-        }
-      ]
+    this.routingService.go(['region', '', location.name], undefined, {
+      relativeTo: this.route
     });
   }
 
