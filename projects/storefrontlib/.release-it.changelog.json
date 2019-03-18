@@ -15,7 +15,7 @@
   },
   "github": {
     "release": true,
-    "assets": ["docs.tgz, docs.zip"],
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/storefront@${version}",
     "releaseNotes": "cd ../../ && npm run --silent release-notes:lib -- --from storefront-${latestVersion} --to storefront-${version}"
   }

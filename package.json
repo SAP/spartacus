@@ -23,7 +23,7 @@
     "e2e:cy:start-run-regression": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:regression",
     "e2e:cy:start-run-regression-ci": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:regression:ci",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
-    "generate:docs": "npx compodoc -p tsconfig.compodoc.json",
+    "generate:docs": "npx compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "lint": "ng lint",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "ng": "ng",

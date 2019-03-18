@@ -15,7 +15,7 @@
   },
   "github": {
     "release": true,
-    "assets": ["docs.tgz, docs.zip"],
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/core@${version}",
     "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --from core-${latestVersion} --to core-${version}"
   }
