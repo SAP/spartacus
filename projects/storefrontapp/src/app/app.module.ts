@@ -6,7 +6,11 @@ import {
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+import {
+  StorefrontComponent,
+  StorefrontModule,
+  translations
+} from '@spartacus/storefront';
 
 import { environment } from '../environments/environment';
 
@@ -40,6 +44,9 @@ if (!environment.production) {
             }
           }
         }
+      },
+      i18n: {
+        resources: translations
       }
     }),
     ...devImports
