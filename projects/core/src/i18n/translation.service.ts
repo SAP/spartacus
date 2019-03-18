@@ -7,17 +7,10 @@ import { I18NextService } from './i18next/i18next.service';
 export class TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
 
-  private languageChanged = new Subject<string>();
-  languageChanged$ = this.languageChanged.asObservable();
-
   constructor(
     private i18NextService: I18NextService,
     private config: ServerConfig
-  ) {
-    this.i18NextService.on('languageChanged', lang => {
-      this.languageChanged.next(lang);
-    });
-  }
+  ) {}
 
   exists(key: string, options: any = {}): boolean {
     return this.i18NextService.exists(key, options);

@@ -19,17 +19,10 @@ describe('TranslationService', () => {
   beforeEach(() => {
     mockI18NextLanguage = new Subject();
 
-    const fakeI18NOn = (event, callback) => {
-      if (event === 'languageChanged') {
-        mockI18NextLanguage.subscribe(callback);
-      }
-    };
-
     const mockI18NextService = {
       t: createSpy('i18Next.t'),
       exists: createSpy('i18Next.exists'),
-      loadNamespaces: createSpy('i18Next.loadNamespaces'),
-      on: createSpy('i18Next.on').and.callFake(fakeI18NOn)
+      loadNamespaces: createSpy('i18Next.loadNamespaces')
     };
 
     TestBed.configureTestingModule({
@@ -230,20 +223,6 @@ describe('TranslationService', () => {
         expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
         expect(result).toBe('value');
       });
-    });
-  });
-
-  describe('languageChanged$', () => {
-    it('should emit value on every change of language in i18NextService', () => {
-      let result;
-      const sub = service.languageChanged$.subscribe(lang => (result = lang));
-      mockI18NextLanguage.next('lang1');
-      expect(result).toBe('lang1');
-
-      mockI18NextLanguage.next('lang2');
-      expect(result).toBe('lang2');
-
-      sub.unsubscribe();
     });
   });
 });
