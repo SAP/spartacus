@@ -2,6 +2,9 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/vendor",
   "lib": {
+    "umdModuleIds": {
+      "@spartacus/core": "core"
+    },
     "entryFile": "./public_api.ts"
   }
 }

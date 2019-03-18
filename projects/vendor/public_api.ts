@@ -2,6 +2,5 @@
  * Public API Surface of vendor
  */
 
-export * from './src/vendor.service';
-export * from './src/vendor.component';
-export * from './src/vendor.module';
+export * from './src/yotpo/yotpo.module';
+export * from './src/yotpo/yotporeview/yotporeview.component';

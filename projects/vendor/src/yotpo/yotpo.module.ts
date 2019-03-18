@@ -6,7 +6,7 @@ import { YotporeviewComponent } from './yotporeview/yotporeview.component';
   imports: [
     CommonModule
   ],
-  exports: [YotporeviewsComponent],
+  exports: [YotporeviewComponent],
   declarations: [YotporeviewComponent]
 })
 export class YotpoModule { }

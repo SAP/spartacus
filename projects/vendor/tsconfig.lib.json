@@ -12,10 +12,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "types": [],
-    "lib": [
-      "dom",
-      "es2018"
-    ]
+    "lib": ["dom", "es2015"],
+    "paths": {
+      "@spartacus/core": ["dist/core"]
+    }
   },
   "angularCompilerOptions": {
     "annotateForClosureCompiler": true,

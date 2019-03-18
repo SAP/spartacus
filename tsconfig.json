@@ -25,12 +25,6 @@
       ],
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"
-      ],
-      "vendor": [
-        "dist/vendor"
-      ],
-      "vendor/*": [
-        "dist/vendor/*"
       ]
     }
   },
