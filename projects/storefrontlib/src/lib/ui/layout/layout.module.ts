@@ -9,13 +9,8 @@ import { BreakpointService } from './breakpoint/breakpoint.service';
 import { defaultLayoutConfig } from './config/default-layout-config';
 import { LayoutConfig } from './config/layout-config';
 import { MainModule } from './main/main.module';
-import { StoreFinderPageLayoutModule } from './store-finder-page-layout/store-finder-page-layout.module';
 
-const layoutModules = [
-  StoreFinderPageLayoutModule,
-  OutletRefModule,
-  StyleRefModule
-];
+const layoutModules = [OutletRefModule, StyleRefModule];
 
 @NgModule({
   imports: [

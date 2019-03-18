@@ -1,10 +1,10 @@
 <ng-container *ngIf="(user$ | async) as user">
   <ng-container *ngIf="user?.name">
     <div class="cx-login-status__greet">Hi, {{ user.name }}</div>
-    <cx-dynamic-slot
+    <cx-page-slot
       position="HeaderLinks"
       class="cx-login-status__dropdown"
-    ></cx-dynamic-slot>
+    ></cx-page-slot>
   </ng-container>
 
   <ng-container *ngIf="!user?.name">

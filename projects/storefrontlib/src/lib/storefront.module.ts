@@ -19,6 +19,7 @@ import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { MultiStepCheckoutModule } from './checkout/index';
+import { StoreFinderModule } from './store-finder/store-finder.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { MultiStepCheckoutModule } from './checkout/index';
     RoutingModule,
     AuthModule.forRoot(),
     OccModule,
+    StoreFinderModule,
     CmsLibModule,
     CmsModule,
     UiModule,

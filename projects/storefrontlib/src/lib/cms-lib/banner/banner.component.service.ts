@@ -8,7 +8,7 @@ import {
   CmsConfig,
   CmsResponsiveBannerComponentMedia
 } from '@spartacus/core';
-import { CmsComponentData } from './../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ResponsiveBannerFormat } from './responsive-banner-format.model';
 
 @Injectable()

@@ -11,6 +11,7 @@ import { LoginModule } from '../../../user/login/login.module';
 import { HeaderComponent } from './header.component';
 
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
+import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { HeaderSkipperComponent } from './header-skipper/header-skipper.componen
     LoginModule,
     RouterModule,
     PwaModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    PageSlotModule
   ],
   declarations: [HeaderComponent, HeaderSkipperComponent],
   exports: [HeaderComponent]
