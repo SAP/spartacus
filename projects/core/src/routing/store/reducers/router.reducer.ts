@@ -1,9 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Params
-} from '@angular/router';
+import { RouterStateSnapshot, Params } from '@angular/router';
 
 import {
   createSelector,
@@ -17,6 +13,7 @@ import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
 import { PageContext } from '../../models/page-context.model';
 import { PageType } from '../../../occ/occ-models/index';
+import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -148,24 +145,34 @@ export class CustomSerializer
     const { url } = routerState;
     const { queryParams } = routerState.root;
 
-    let state: ActivatedRouteSnapshot = routerState.root;
+    let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
+    let cmsRequired = false;
+    let context: PageContext;
+
     while (state.firstChild) {
-      state = state.firstChild;
+      state = state.firstChild as CmsActivatedRouteSnapshot;
+
+      // we use context information embedded in Cms driven routes from any parent route
+      if (state.data && state.data.cxCmsRouteContext) {
+        context = state.data.cxCmsRouteContext;
+      }
+
+      // we assume, that any route that has CmsPageGuard or it's child
+      // is cmsRequired
+      if (
+        !cmsRequired &&
+        (context ||
+          (state.routeConfig &&
+            state.routeConfig.canActivate &&
+            state.routeConfig.canActivate.find(
+              x => x && x.guardName === 'CmsPageGuard'
+            )))
+      ) {
+        cmsRequired = true;
+      }
     }
     const { params } = state;
 
-    let cmsRequired = false;
-    if (
-      state.routeConfig &&
-      state.routeConfig.canActivate &&
-      state.routeConfig.canActivate.find(
-        x => x && x.guardName === 'CmsPageGuard'
-      )
-    ) {
-      cmsRequired = true;
-    }
-
-    let context: PageContext;
     // we give smartedit preview page a PageContext
     if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
@@ -183,16 +190,20 @@ export class CustomSerializer
         context = { id: 'search', type: PageType.CONTENT_PAGE };
       } else if (state.data.pageLabel !== undefined) {
         context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-      } else if (state.url.length > 0) {
-        context = {
-          id: '/' + state.url.map(urlSegment => urlSegment.path).join('/'),
-          type: PageType.CONTENT_PAGE
-        };
-      } else {
-        context = {
-          id: 'homepage',
-          type: PageType.CONTENT_PAGE
-        };
+      } else if (!context) {
+        if (state.url.length > 0) {
+          const pageLabel =
+            '/' + state.url.map(urlSegment => urlSegment.path).join('/');
+          context = {
+            id: pageLabel,
+            type: PageType.CONTENT_PAGE
+          };
+        } else {
+          context = {
+            id: 'homepage',
+            type: PageType.CONTENT_PAGE
+          };
+        }
       }
     }
 

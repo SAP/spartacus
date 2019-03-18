@@ -3,7 +3,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 import { CmsNavigationComponent, CmsService } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { Observable } from 'rxjs';
 
 @Injectable()

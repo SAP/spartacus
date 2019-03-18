@@ -7,13 +7,14 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CmsComponentData } from '../cms-component-data';
+import { CmsComponentData } from '../model/cms-component-data';
 import {
   CmsComponent,
   CmsService,
   ComponentMapperService,
   CmsConfig,
-  CxApiService
+  CxApiService,
+  ContentSlotComponentData
 } from '@spartacus/core';
 
 const testText = 'test text';
@@ -61,11 +62,17 @@ class MockCmsService {
 
 @Component({
   template:
-    '<ng-container cxComponentWrapper componentType="cms_typeCode" componentMappedType="CMSTestComponent" ' +
-    'componentUid="test_uid" componentUuid="test_uuid" componentCatalogUuid="test_catalogUuid">' +
-    '</ng-container>'
+    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>'
 })
-class TestWrapperComponent {}
+class TestWrapperComponent {
+  component: ContentSlotComponentData = {
+    typeCode: 'cms_typeCode',
+    flexType: 'CMSTestComponent',
+    uid: 'test_uid',
+    uuid: 'test_uuid',
+    catalogUuid: 'test_catalogUuid'
+  };
+}
 
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;

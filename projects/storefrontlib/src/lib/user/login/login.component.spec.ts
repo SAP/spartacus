@@ -54,7 +54,7 @@ const mockUserDetails: User = {
 };
 
 @Component({
-  selector: 'cx-dynamic-slot',
+  selector: 'cx-page-slot',
   template: ''
 })
 class MockDynamicSlotComponent {
@@ -137,7 +137,7 @@ describe('LoginComponent', () => {
 
       expect(
         fixture.debugElement.query(
-          By.css('cx-dynamic-slot[position="HeaderLinks"]')
+          By.css('cx-page-slot[position="HeaderLinks"]')
         )
       ).not.toBeNull();
     });

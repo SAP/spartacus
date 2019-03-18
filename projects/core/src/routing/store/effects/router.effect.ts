@@ -7,6 +7,9 @@ import { Action } from '@ngrx/store';
 import * as RouterActions from '../actions/router.action';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { LOGIN, LOGOUT } from '../../../auth/store/actions/login-logout.action';
+import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
+import { CmsRoute } from '../../models/cms-route';
 
 @Injectable()
 export class RouterEffects {
@@ -25,6 +28,19 @@ export class RouterEffects {
     map((action: RouterActions.Go) => action.payload),
     tap(url => {
       this.router.navigateByUrl(url);
+    })
+  );
+
+  @Effect({ dispatch: false })
+  clearCmsRoutes$: Observable<Action> = this.actions$.pipe(
+    ofType(LANGUAGE_CHANGE, LOGOUT, LOGIN),
+    tap(_ => {
+      const filteredConfig = this.router.config.filter(
+        (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
+      );
+      if (filteredConfig.length !== this.router.config.length) {
+        this.router.resetConfig(filteredConfig);
+      }
     })
   );
 

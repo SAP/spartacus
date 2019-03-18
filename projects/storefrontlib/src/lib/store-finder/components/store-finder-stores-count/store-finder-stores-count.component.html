@@ -9,20 +9,7 @@
       *ngFor="let country of locations?.countriesAndRegionsStoreCount"
       class="cx-set"
     >
-      <a
-        [routerLink]="
-          {
-            route: [
-              'storeFinder',
-              {
-                name: 'listStores',
-                params: { country: country.isoCode }
-              }
-            ]
-          } | cxTranslateUrl
-        "
-        class="btn-link"
-      >
+      <a [routerLink]="['../country', country.isoCode]" class="btn-link">
         <div class="cx-title">
           <span
             [ngClass]="
