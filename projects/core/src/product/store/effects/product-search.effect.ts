@@ -82,7 +82,7 @@ export class ProductsSearchEffects {
     ofType(fromRouterStore.ROUTER_REQUEST),
     map((action: fromRouterStore.RouterRequestAction) => action.payload.event),
     filter(event => event.navigationTrigger === 'popstate'),
-    // should also filter route only for {category, brand, search}
+    // TODO: filter should allow for route {category, brand, search} only
     withLatestFrom(
       this.actions$.pipe(
         ofType(productsSearchActions.SEARCH_PRODUCTS),
