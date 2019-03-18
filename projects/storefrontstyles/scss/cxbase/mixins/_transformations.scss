@@ -1,5 +1,3 @@
-@import 'var-color';
-
 @mixin cx-lighten($percentage) {
   -webkit-filter: brightness(calc(#{$percentage} / 10));
   filter: brightness(calc(#{$percentage} / 10));

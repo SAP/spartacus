@@ -86,7 +86,7 @@ $ yarn add @spartacus/styles
 2. Add the `StorefrontModule` to the import section of the `NgModule` decorator:
 
    ```typescript
-   imports: [BrowserModule, StorefrontModule],
+   imports: [BrowserModule, AppRoutingModule, StorefrontModule],
    ```
 
 Your file should look like this:
