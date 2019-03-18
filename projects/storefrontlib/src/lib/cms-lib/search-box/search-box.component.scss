@@ -2,14 +2,14 @@
 
 .cx-search-box {
   @include media-breakpoint-down(xs) {
-    margin: 0;
+    margin: var(--cx-margin, 0);
   }
 
   &__group {
     background-color: var(--cx-background-color, var(--cx-g-color-secondary));
-    padding: 0;
-    display: flex;
-    margin: auto;
+    padding: var(--cx-padding, 0);
+    display: var(--cx-display, flex);
+    margin: var(--cx-margin, auto);
 
     @include media-breakpoint-down(xs) {
       background-color: var(
@@ -20,8 +20,8 @@
   }
 
   &__form {
-    display: inline-block;
-    vertical-align: middle;
+    display: var(--cx-display, inline-block);
+    vertical-align: var(--cx-vertical-align, middle);
   }
 
   &__input {
@@ -31,10 +31,10 @@
 
     background-color: var(--cx-background-color, var(--cx-g-color-transparent));
     color: var(--cx-color, var(--cx-g-color-inverse));
+    border-radius: var(--cx-border-radius, 0);
     border: 0 none;
-    border-radius: 0;
     margin-bottom: 0;
-    z-index: 1;
+    z-index: var(--cx-z-index, 1);
 
     &[aria-label='search'] {
       &:focus {
@@ -43,23 +43,23 @@
           var(--cx-g-color-transparent)
         );
         color: var(--cx-color, var(--cx-g-color-inverse));
-        box-shadow: none;
+        box-shadow: var(--cx-box-shadow, none);
       }
 
       @include media-breakpoint-down(xl) {
-        width: 22rem;
+        width: var(--cx-width, 22rem);
       }
 
       @include media-breakpoint-down(lg) {
-        width: 18rem;
+        width: var(--cx-width, 18rem);
       }
 
       @include media-breakpoint-down(md) {
-        width: 16rem;
+        width: var(--cx-width, 16rem);
       }
 
       @include media-breakpoint-down(sm) {
-        width: 7rem;
+        width: var(--cx-width, 7rem);
       }
 
       @include media-breakpoint-down(xs) {
@@ -68,12 +68,11 @@
           var(--cx-g-color-secondary)
         );
         color: var(--cx-color, var(--cx-g-color-inverse));
-
-        display: none;
-        position: absolute;
-        left: 0;
-        top: 56px;
-        width: 100%;
+        display: var(--cx-display, none);
+        position: var(--cx-position, absolute);
+        left: var(--cx-left, 0);
+        top: var(--cx-top, 56px);
+        width: var(--cx-width, 100%);
 
         &:focus {
           background-color: var(
@@ -84,35 +83,35 @@
         }
 
         & + .dropdown-menu {
-          width: 100%;
+          width: var(--cx-width, 100%);
+          border-radius: var(--cx-border-radius, 0);
           margin-top: 0;
-          border-radius: 0;
           border: 0;
         }
       }
     }
 
     &.show-mobile {
-      display: block;
+      display: var(--cx-display, block);
     }
   }
 
   &__button {
     border: 0 none;
-    padding: 5px;
-    margin: 5px;
+    padding: var(--cx-padding, 5px);
+    margin: var(--cx-margin, 5px);
 
     &-desktop {
       @include media-breakpoint-down(xs) {
-        display: none;
+        display: var(--cx-display, none);
       }
     }
 
     &-mobile {
-      display: none;
+      display: var(--cx-display, none);
 
       @include media-breakpoint-down(xs) {
-        display: block;
+        display: var(--cx-display, block);
       }
     }
 
@@ -120,56 +119,56 @@
   }
 
   &__icon {
-    width: 28px;
-    height: 28px;
+    width: var(--cx-width, 28px);
+    height: var(--cx-height, 28px);
     fill: var(--cx-fill, var(--cx-g-color-inverse));
-    pointer-events: none;
+    pointer-events: var(--cx-pointer-events, none);
   }
 
   &__dropdown-content {
     @include media-breakpoint-down(xl) {
-      width: 22rem;
+      width: var(--cx-width, 22rem);
     }
 
     @include media-breakpoint-down(lg) {
-      width: 18rem;
+      width: var(--cx-width, 18rem);
     }
 
     @include media-breakpoint-down(md) {
-      width: 16rem;
+      width: var(--cx-width, 16rem);
     }
 
     @include media-breakpoint-down(sm) {
-      width: 7rem;
+      width: var(--cx-width, 7rem);
     }
 
     @include media-breakpoint-down(xs) {
-      width: auto;
+      width: var(--cx-width, auto);
     }
 
     &-product {
-      display: flex;
+      display: var(--cx-display, flex);
 
       cx-picture {
-        min-width: 80px;
-        width: 80px;
-        flex-shrink: 0;
+        min-width: var(--cx-min-width, 80px);
+        width: var(--cx-width, 80px);
+        flex-shrink: var(--cx-flex-shrink, 0);
       }
 
       &-name {
-        padding: 0 15px;
-        flex-grow: 1;
-        flex-shrink: 1;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
+        padding: var(--cx-padding, 0 15px);
+        flex-grow: var(--cx-flex-grow, 1);
+        flex-shrink: var(--cx-flex-shrink, 1);
+        height: var(--cx-height, 80px);
+        display: var(--cx-display, flex);
+        align-items: var(--cx-align-items, center);
+        overflow: var(--cx-overflow, hidden);
       }
 
       &-price {
-        text-align: right;
-        align-self: center;
-        flex-shrink: 0;
+        text-align: var(--cx-text-align, right);
+        align-self: var(--cx-align-self, center);
+        flex-shrink: var(--cx-flex-shrink, 0);
       }
     }
   }
