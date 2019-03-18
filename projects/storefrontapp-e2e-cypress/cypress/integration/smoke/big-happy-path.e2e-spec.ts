@@ -35,7 +35,7 @@ context('Big happy path', () => {
   });
 
   it('should add product to cart and got to checkout', () => {
-    cy.get('.cx-item-counter')
+    cy.get('.cx-counter')
       .getByText('+')
       .click();
     cy.get('cx-add-to-cart button').click();
