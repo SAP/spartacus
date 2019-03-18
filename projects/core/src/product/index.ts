@@ -11,3 +11,5 @@ export * from './facade/index';
 export * from './product.module';
 
 export * from './services/index';
+
+export * from './config/product-config';

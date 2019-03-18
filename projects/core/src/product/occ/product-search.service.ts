@@ -11,7 +11,7 @@ import {
   ProductSearchPage
 } from '../../occ/occ-models/occ.models';
 
-import { OccProductConfig } from './product-config';
+import { OccProductConfig } from '../config/product-config';
 import { ProductOccService } from './product-occ.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {

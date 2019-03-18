@@ -5,7 +5,7 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Product } from '../../occ/occ-models/occ.models';
-import { OccProductConfig } from './product-config';
+import { OccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { ProductOccService } from './product-occ.service';
 

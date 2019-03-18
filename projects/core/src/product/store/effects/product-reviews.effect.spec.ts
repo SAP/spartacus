@@ -15,7 +15,7 @@ import { OccConfig } from '../../../occ/config/occ-config';
 import {
   OccProductConfig,
   defaultOccProductConfig
-} from '../../occ/product-config';
+} from '../../config/product-config';
 import { OccProductReviewsService } from '../../occ';
 
 const reviewData: ReviewList = {

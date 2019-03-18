@@ -11,7 +11,10 @@ import {
 } from '../../occ/occ-models/occ.models';
 
 import { OccProductSearchService } from './product-search.service';
-import { OccProductConfig, defaultOccProductConfig } from './product-config';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 const queryText = 'test';

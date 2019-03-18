@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { ReviewList, Review } from '../../occ/occ-models/occ.models';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
-import { OccProductConfig } from './product-config';
+import { OccProductConfig } from '../config/product-config';
 import { ProductOccService } from './product-occ.service';
 
 @Injectable()

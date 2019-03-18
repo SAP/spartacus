@@ -22,7 +22,7 @@ import * as fromEffects from './product-search.effect';
 import {
   OccProductConfig,
   defaultOccProductConfig
-} from '../../occ/product-config';
+} from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

@@ -21,7 +21,7 @@ import * as fromEffects from './product.effect';
 import {
   OccProductConfig,
   defaultOccProductConfig
-} from '../../occ/product-config';
+} from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {

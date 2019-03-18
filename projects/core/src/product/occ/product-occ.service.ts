@@ -1,4 +1,4 @@
-import { OccProductConfig } from './product-config';
+import { OccProductConfig } from '../config/product-config';
 
 export abstract class ProductOccService {
   constructor(private occConfig: OccProductConfig) {}

@@ -5,7 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { OccProductService } from './product.service';
 import { OccProductSearchService } from './product-search.service';
 import { OccModule } from '../../occ/occ.module';
-import { defaultOccProductConfig, OccProductConfig } from './product-config';
+import {
+  defaultOccProductConfig,
+  OccProductConfig
+} from '../config/product-config';
 import { ConfigModule, Config } from '../../config/index';
 import { OccProductReviewsService } from './product-reviews.service';
 

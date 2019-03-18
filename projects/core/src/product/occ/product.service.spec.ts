@@ -5,7 +5,10 @@ import {
 } from '@angular/common/http/testing';
 
 import { OccProductService } from './product.service';
-import { OccProductConfig, defaultOccProductConfig } from './product-config';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 const productCode = 'testCode';

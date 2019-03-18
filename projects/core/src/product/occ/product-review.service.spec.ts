@@ -6,7 +6,10 @@ import { TestBed } from '@angular/core/testing';
 
 import { ReviewList } from '../../occ/occ-models/occ.models';
 
-import { OccProductConfig, defaultOccProductConfig } from './product-config';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../config/product-config';
 import { OccProductReviewsService } from './product-reviews.service';
 
 const productCode = 'testCode';
