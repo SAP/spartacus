@@ -31,8 +31,8 @@
   <!-- CART ITEM SECTION -->
   <ng-container *ngIf="(cart$ | async) as cart">
     <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
-      Cart total ({{ cart.totalItems }} items):
-      {{ cart.subTotal?.formattedValue }}
+      Cart total ({{ cart.deliveryItemsQuantity }} items):
+      {{ cart.totalPrice?.formattedValue }}
     </div>
     <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       Order Items
