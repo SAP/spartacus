@@ -49,7 +49,7 @@ export class CmsRoutesService {
   ): Observable<boolean> {
     return this.cmsService.getPageState(pageContext).pipe(
       map(pageData => {
-        const componentRoutes = this.cmsMapping.getRoutesFromPageData(pageData);
+        const componentRoutes = this.cmsMapping.getRoutesFromPage(pageData);
         if (componentRoutes.length) {
           if (this.updateRouting(pageContext, componentRoutes)) {
             this.router.navigateByUrl(currentUrl);
