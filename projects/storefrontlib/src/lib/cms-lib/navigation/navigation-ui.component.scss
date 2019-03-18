@@ -32,14 +32,14 @@
         margin-right: 20px;
         border-style: var(--cx-border-style, solid);
         border-width: var(--cx-border-width, 3px);
-        border-color: var(--cx-border-color, var(--cx-g-color-secondary));
+        border-color: var(
+          --cx-border-color,
+          currentColor currentColor var(--cx-g-color-transparent)
+            var(--cx-g-color-transparent)
+        );
         display: var(--cx-display, block);
         width: var(--cx-width, 1rem);
         height: var(--cx-height, 1rem);
-        border-right-color: currentColor;
-        border-top-color: currentColor;
-        border-left-color: transparent;
-        border-bottom-color: transparent;
       }
       &[aria-expanded='false'] {
         &::after {
