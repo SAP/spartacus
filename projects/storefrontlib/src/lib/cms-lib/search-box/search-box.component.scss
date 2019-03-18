@@ -1,22 +1,5 @@
 @import 'theme';
 
-//search-box variables
-$cx-search-box-group-trbl-margin: auto !default;
-$cx-search-box-input-border: 0 none !default;
-$cx-search-box-input-width-xl: 22rem !default;
-$cx-search-box-input-width-lg: 18rem !default;
-$cx-search-box-input-width-md: 16rem !default;
-$cx-search-box-input-width-sm: 7rem !default;
-$cx-search-box-input-width-xs: auto !default;
-$cx-search-box-input-radius: 0 !default;
-$cx-search-box-input-margin-bottom: 0 !default;
-$cx-search-box-input-trbl-padding: 0 !default;
-$cx-search-box-button-border: 0 none !default;
-$cx-search-box-button-padding: 5px !default;
-$cx-search-box-button-margin: 5px !default;
-$cx-search-box-search-icon-width: 28px !default;
-$cx-search-box-search-icon-height: 28px !default;
-
 .cx-search-box {
   @include media-breakpoint-down(xs) {
     margin: 0;
@@ -24,9 +7,9 @@ $cx-search-box-search-icon-height: 28px !default;
 
   &__group {
     background-color: var(--cx-background-color, var(--cx-g-color-secondary));
-    padding: $cx-search-box-input-trbl-padding;
+    padding: 0;
     display: flex;
-    margin: $cx-search-box-group-trbl-margin;
+    margin: auto;
 
     @include media-breakpoint-down(xs) {
       background-color: var(
@@ -48,9 +31,9 @@ $cx-search-box-search-icon-height: 28px !default;
 
     background-color: var(--cx-background-color, var(--cx-g-color-transparent));
     color: var(--cx-color, var(--cx-g-color-inverse));
-    border: $cx-search-box-input-border;
-    border-radius: $cx-search-box-input-radius;
-    margin-bottom: $cx-search-box-input-margin-bottom;
+    border: 0 none;
+    border-radius: 0;
+    margin-bottom: 0;
     z-index: 1;
 
     &[aria-label='search'] {
@@ -64,19 +47,19 @@ $cx-search-box-search-icon-height: 28px !default;
       }
 
       @include media-breakpoint-down(xl) {
-        width: $cx-search-box-input-width-xl;
+        width: 22rem;
       }
 
       @include media-breakpoint-down(lg) {
-        width: $cx-search-box-input-width-lg;
+        width: 18rem;
       }
 
       @include media-breakpoint-down(md) {
-        width: $cx-search-box-input-width-md;
+        width: 16rem;
       }
 
       @include media-breakpoint-down(sm) {
-        width: $cx-search-box-input-width-sm;
+        width: 7rem;
       }
 
       @include media-breakpoint-down(xs) {
@@ -115,9 +98,9 @@ $cx-search-box-search-icon-height: 28px !default;
   }
 
   &__button {
-    border: $cx-search-box-button-border;
-    padding: $cx-search-box-button-padding;
-    margin: $cx-search-box-button-margin;
+    border: 0 none;
+    padding: 5px;
+    margin: 5px;
 
     &-desktop {
       @include media-breakpoint-down(xs) {
@@ -137,31 +120,31 @@ $cx-search-box-search-icon-height: 28px !default;
   }
 
   &__icon {
-    width: $cx-search-box-search-icon-width;
-    height: $cx-search-box-search-icon-height;
+    width: 28px;
+    height: 28px;
     fill: var(--cx-fill, var(--cx-g-color-inverse));
     pointer-events: none;
   }
 
   &__dropdown-content {
     @include media-breakpoint-down(xl) {
-      width: $cx-search-box-input-width-xl;
+      width: 22rem;
     }
 
     @include media-breakpoint-down(lg) {
-      width: $cx-search-box-input-width-lg;
+      width: 18rem;
     }
 
     @include media-breakpoint-down(md) {
-      width: $cx-search-box-input-width-md;
+      width: 16rem;
     }
 
     @include media-breakpoint-down(sm) {
-      width: $cx-search-box-input-width-sm;
+      width: 7rem;
     }
 
     @include media-breakpoint-down(xs) {
-      width: $cx-search-box-input-width-xs;
+      width: auto;
     }
 
     &-product {
