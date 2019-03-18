@@ -8,4 +8,3 @@ export * from './breakpoint/breakpoint.service';
 // tmp: we remove those once we render them all with page layout component
 export * from './main/storefront.component';
 export * from './header/header.component';
-export * from './store-finder-page-layout/store-finder-page-layout.component';

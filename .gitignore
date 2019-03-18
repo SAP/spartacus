@@ -6,6 +6,10 @@
 /out-tsc
 /documentation
 
+# docs archives
+docs.tgz
+docs.zip
+
 # dependencies
 node_modules/
 package-lock.json
