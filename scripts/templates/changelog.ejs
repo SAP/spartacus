@@ -84,5 +84,11 @@
   <% } %>
 </tbody>
 </table>
-----
-
+<% if(breakingChanges.length) { %>
+  # Breaking changes
+  <ul>
+  <% for (const change of breakingChanges) {
+    %><%- include('./breaking-change', change) %><%
+  } %>
+  </ul>
+<% } %>
