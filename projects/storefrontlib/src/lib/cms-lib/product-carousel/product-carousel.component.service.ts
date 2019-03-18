@@ -16,7 +16,7 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Injectable()
 export class ProductCarouselService {

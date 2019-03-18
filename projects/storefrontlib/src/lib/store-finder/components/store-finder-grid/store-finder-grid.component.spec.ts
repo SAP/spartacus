@@ -112,18 +112,10 @@ describe('StoreFinderGridComponent', () => {
 
     component.viewStore(location);
 
-    expect(mockRoutingService.go).toHaveBeenCalledWith({
-      route: [
-        'storeFinder',
-        {
-          name: 'storeDescription',
-          params: {
-            region: '',
-            country: countryIsoCode,
-            store: location.name
-          }
-        }
-      ]
-    });
+    expect(mockRoutingService.go).toHaveBeenCalledWith(
+      ['region', '', location.name],
+      undefined,
+      { relativeTo: { snapshot: { params: { country: countryIsoCode } } } }
+    );
   });
 });
