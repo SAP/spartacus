@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CmsBreadcrumbsComponent, PageMeta } from '@spartacus/core';
-import { CmsComponentData } from './../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 import { PageMetaService } from '@spartacus/core';
 import { map, filter } from 'rxjs/operators';
