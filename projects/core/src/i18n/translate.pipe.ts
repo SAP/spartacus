@@ -13,7 +13,7 @@ import { shallowEqualObjects } from './utils/shallow-equal-objects';
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
   private lastOptions: object;
-  private lastResult: Observable<string>;
+  private lastObservable: Observable<string>;
   private asyncPipe: AsyncPipe;
   constructor(private service: TranslationService, cd: ChangeDetectorRef) {
     this.asyncPipe = new AsyncPipe(cd);
@@ -27,9 +27,9 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       this.lastKey = key;
       this.lastOptions = options;
 
-      this.lastResult = this.service.translateLazy(key, options);
+      this.lastObservable = this.service.translateLazy(key, options);
     }
-    return this.asyncPipe.transform(this.lastResult);
+    return this.asyncPipe.transform(this.lastObservable);
   }
 
   ngOnDestroy(): void {
