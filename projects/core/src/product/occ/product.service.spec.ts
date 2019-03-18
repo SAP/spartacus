@@ -64,7 +64,7 @@ describe('OccProductService', () => {
           req.method === 'GET' &&
           req.url ===
             `/${dynamicTemplate.resolve(
-              defaultOccProductConfig.occProduct.getProduct,
+              defaultOccProductConfig.endpoints.product,
               { productCode }
             )}`
         );

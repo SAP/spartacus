@@ -22,7 +22,7 @@ export class OccProductService extends ProductOccService {
   protected getEndpoint(code: string): string {
     return (
       this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.occProduct.getProduct, {
+      this.dynamicTemplate.resolve(this.config.endpoints.product, {
         productCode: code
       })
     );

@@ -35,7 +35,7 @@ export class OccProductSearchService extends ProductOccService {
     let params = new HttpParams();
     let url =
       this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.occProduct.productSearch, {
+      this.dynamicTemplate.resolve(this.config.endpoints.productSearch, {
         query
       });
 
@@ -55,7 +55,7 @@ export class OccProductSearchService extends ProductOccService {
   protected getSuggestionEndpoint(term: string, max: string): string {
     return (
       this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.occProduct.productSuggestions, {
+      this.dynamicTemplate.resolve(this.config.endpoints.productSuggestions, {
         term,
         max
       })

@@ -58,7 +58,7 @@ describe('Product reviews effect', () => {
     service = TestBed.get(OccProductReviewsService);
     effects = TestBed.get(fromEffects.ProductReviewsEffects);
 
-    spyOn(service, 'loadProductReviews').and.returnValue(of(reviewData));
+    spyOn(service, 'load').and.returnValue(of(reviewData));
   });
 
   describe('loadProductReveiws$', () => {

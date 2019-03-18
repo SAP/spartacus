@@ -23,7 +23,7 @@ export class OccProductReviewsService extends ProductOccService {
   protected getEndpoint(code: string, maxCount?: number): string {
     let url =
       this.getProductEndpoint() +
-      this.dynamicTemplate.resolve(this.config.occProduct.productReviews, {
+      this.dynamicTemplate.resolve(this.config.endpoints.productReviews, {
         productCode: code
       });
 
@@ -34,16 +34,13 @@ export class OccProductReviewsService extends ProductOccService {
     return url;
   }
 
-  loadProductReviews(
-    productCode: string,
-    maxCount?: number
-  ): Observable<ReviewList> {
+  load(productCode: string, maxCount?: number): Observable<ReviewList> {
     return this.http
       .get(this.getEndpoint(productCode, maxCount))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  postProductReview(productCode: string, review: any): Observable<Review> {
+  post(productCode: string, review: any): Observable<Review> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });

@@ -70,7 +70,7 @@ describe('OccProductSearchService', () => {
           req.method === 'GET' &&
           req.url ===
             `/${dynamicTemplate.resolve(
-              defaultOccProductConfig.occProduct.productSearch,
+              defaultOccProductConfig.endpoints.productSearch,
               { query: queryText, searchConfig: mockSearchConfig }
             )}&pageSize=${mockSearchConfig.pageSize.toString()}`
         );
@@ -95,7 +95,7 @@ describe('OccProductSearchService', () => {
           req.method === 'GET' &&
           req.url ===
             `/${dynamicTemplate.resolve(
-              defaultOccProductConfig.occProduct.productSuggestions,
+              defaultOccProductConfig.endpoints.productSuggestions,
               { term: queryText, max: mockSearchConfig.pageSize }
             )}`
         );

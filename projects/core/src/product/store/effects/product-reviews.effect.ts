@@ -19,7 +19,7 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),
     mergeMap(productCode => {
-      return this.occProductReviewsService.loadProductReviews(productCode).pipe(
+      return this.occProductReviewsService.load(productCode).pipe(
         map(data => {
           return new productReviewsActions.LoadProductReviewsSuccess({
             productCode,
@@ -46,7 +46,7 @@ export class ProductReviewsEffects {
     map((action: productReviewsActions.PostProductReview) => action.payload),
     mergeMap(payload => {
       return this.occProductReviewsService
-        .postProductReview(payload.productCode, payload.review)
+        .post(payload.productCode, payload.review)
         .pipe(
           map(reviewResponse => {
             return new productReviewsActions.PostProductReviewSuccess(

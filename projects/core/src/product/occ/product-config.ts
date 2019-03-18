@@ -1,8 +1,8 @@
 import { OccConfig } from '../../occ/config/occ-config';
 
 export const defaultOccProductConfig: OccProductConfig = {
-  occProduct: {
-    getProduct:
+  endpoints: {
+    product:
       'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews',
     productReviews: 'products/${productCode}/reviews',
     // tslint:disable:max-line-length
@@ -14,8 +14,8 @@ export const defaultOccProductConfig: OccProductConfig = {
 };
 
 export abstract class OccProductConfig extends OccConfig {
-  occProduct?: {
-    getProduct?: string;
+  endpoints?: {
+    product?: string;
     productReviews?: string;
     productSearch?: string;
     productSuggestions?: string;

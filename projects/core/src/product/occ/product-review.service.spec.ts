@@ -56,7 +56,7 @@ describe('OccProductReviewsService', () => {
 
   describe('load product reviews', () => {
     it('should load reviews for given product code', () => {
-      service.loadProductReviews(productCode).subscribe(result => {
+      service.load(productCode).subscribe(result => {
         expect(result).toEqual(productReviews);
       });
 
@@ -74,7 +74,7 @@ describe('OccProductReviewsService', () => {
   });
 
   it('should load reviews with maxCount parameter set', () => {
-    service.loadProductReviews(productCode, maxCount).subscribe(result => {
+    service.load(productCode, maxCount).subscribe(result => {
       expect(result).toEqual(productReviews);
     });
 
