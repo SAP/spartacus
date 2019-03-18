@@ -31,7 +31,7 @@ describe('CxApiService', () => {
   let productService: ProductService;
   let productSearchService: ProductSearchService;
   let productReviewService: ProductReviewService;
-  let translationService: MockTranslationService;
+  let translationService: TranslationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

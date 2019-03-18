@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
-import { LanguageService, I18NConfig } from '@spartacus/core';
+import { I18NConfig } from '../config/i18n-config';
+import { LanguageService } from '../../site-context/facade/language.service';
 
 export function i18NextInit(
   config: I18NConfig,
