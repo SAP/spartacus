@@ -5,5 +5,8 @@
     "tagName": "styles-${version}",
     "commitMessage": "Bumping styles version to ${version}",
     "tagAnnotation": "Bumping styles version to ${version}"
+  },
+  "npm": {
+    "tag": "latest"
   }
 }

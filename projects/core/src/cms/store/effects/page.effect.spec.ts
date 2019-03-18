@@ -100,14 +100,12 @@ describe('Page Effects', () => {
       uid: 'comp1',
       typeCode: 'SimpleBannerComponent',
       uuid: 'compUuid1',
-      catalogUuid: undefined,
-      flexType: undefined
+      flexType: 'SimpleBannerComponent'
     },
     {
       uid: 'comp2',
       typeCode: 'CMSFlexComponent',
       uuid: 'compUuid2',
-      catalogUuid: undefined,
       flexType: 'AccountAddressBookComponent'
     }
   ];
