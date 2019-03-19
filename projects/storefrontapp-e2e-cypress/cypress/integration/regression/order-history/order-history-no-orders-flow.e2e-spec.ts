@@ -1,5 +1,5 @@
-import { user } from '../sample-data/big-happy-path';
-import { register, login } from '../helpers/auth-forms';
+import { user } from '../../../sample-data/big-happy-path';
+import { register, login } from '../../../helpers/auth-forms';
 
 describe('Order History with no orders', () => {
   const loginLink = 'cx-login [role="link"]';
