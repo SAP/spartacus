@@ -4,23 +4,20 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { OccConfig } from '../../occ/config/occ-config';
 import { Product, ReviewList, Review } from '../../occ/occ-models/occ.models';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const ENDPOINT_PRODUCT = 'products';
 
 @Injectable()
 export class OccProductService {
-  constructor(private http: HttpClient, private config: OccConfig) {}
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   protected getProductEndpoint(): string {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      ENDPOINT_PRODUCT
-    );
+    return this.occEndpoints.getEndpoint(ENDPOINT_PRODUCT);
   }
 
   loadProduct(productCode: string): Observable<Product> {

@@ -5,11 +5,11 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   SuggestionList,
   ProductSearchPage
 } from '../../occ/occ-models/occ.models';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const ENDPOINT_PRODUCT = 'products';
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -18,16 +18,14 @@ const DEFAULT_SEARCH_CONFIG: SearchConfig = {
 
 @Injectable()
 export class OccProductSearchService {
-  constructor(private http: HttpClient, private config: OccConfig) {}
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   protected getProductEndpoint() {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      ENDPOINT_PRODUCT
-    );
+    return;
+    this.occEndpoints.getEndpoint(ENDPOINT_PRODUCT);
   }
 
   query(

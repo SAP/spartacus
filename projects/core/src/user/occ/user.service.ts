@@ -10,7 +10,6 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN
 } from '../../occ/utils/interceptor-util';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   User,
   Address,
@@ -18,6 +17,7 @@ import {
   AddressList,
   PaymentDetailsList
 } from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -27,7 +27,10 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(protected http: HttpClient, protected config: OccConfig) {}
+  constructor(
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   public loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
@@ -158,12 +161,6 @@ export class OccUserService {
   }
 
   protected getUserEndpoint() {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      USER_ENDPOINT
-    );
+    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
   }
 }
