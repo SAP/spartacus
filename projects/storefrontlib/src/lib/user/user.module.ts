@@ -5,8 +5,8 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
-import { RegisterComponent } from './register/register.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import { RegisterComponentModule } from './register/register.module';
 import { LoginFormModule } from './login-form/login-form.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
@@ -20,10 +20,9 @@ import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
     RouterModule,
     UserModule,
     UrlTranslationModule,
+    RegisterComponentModule,
     ResetPasswordModule,
     ForgotPasswordModule
-  ],
-  declarations: [RegisterComponent],
-  exports: [RegisterComponent]
+  ]
 })
 export class UserComponentModule {}
