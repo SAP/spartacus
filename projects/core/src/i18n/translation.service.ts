@@ -16,16 +16,7 @@ export class TranslationService {
     return this.i18NextService.exists(key, options);
   }
 
-  translate(key: string, options: any = {}): string {
-    if (this.i18NextService.exists(key, options)) {
-      return this.i18NextService.t(key, options);
-    } else {
-      this.reportMissingKey(key);
-      return this.getFallbackValue(key);
-    }
-  }
-
-  translateLazy(key: string, options: any = {}): Observable<string> {
+  translate(key: string, options: any = {}): Observable<string> {
     return new Observable<string>(subscriber => {
       if (this.i18NextService.exists(key, options)) {
         subscriber.next(this.i18NextService.t(key, options));
