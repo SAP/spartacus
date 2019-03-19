@@ -12,8 +12,8 @@ context('Product details', () => {
 
 context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
   before(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/product/266685');
   });
 

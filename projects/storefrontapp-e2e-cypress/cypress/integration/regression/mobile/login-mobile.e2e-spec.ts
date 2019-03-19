@@ -14,8 +14,8 @@ function waitForHomePage() {
 
 describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
   before(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
 
     waitForHomePage();
@@ -42,6 +42,7 @@ describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
   });
 
   it('login should fail if password is wrong', () => {
+    clickHamburger();
     login.loginWithBathCredentials();
   });
 });

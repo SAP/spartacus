@@ -3,29 +3,29 @@ export const productId2 = '3325048';
 
 export function verifyItemCounterOnPDP() {
   // Type 1000 in the input to see if the value will change to maximum 'max stock'
-  cy.get('cx-product-summary .cx-item-counter__value')
+  cy.get('cx-product-summary .cx-counter-value')
     .type('{selectall}{backspace}')
     .type('1000')
     .should('have.value', '22');
 
   // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-  cy.get('cx-product-summary .cx-item-counter__action')
+  cy.get('cx-product-summary .cx-counter-action')
     .contains('+')
     .should('be.disabled');
 
   // Type 0 in the input to see if the value will change to minimum '1'
-  cy.get('cx-product-summary .cx-item-counter__value')
+  cy.get('cx-product-summary .cx-counter-value')
     .type('{selectall}{backspace}')
     .type('0')
     .should('have.value', '1');
 
   // check if the '-' button is disabled when the quantity is the minimum '1'
-  cy.get('cx-product-summary .cx-item-counter__action')
+  cy.get('cx-product-summary .cx-counter-action')
     .contains('-')
     .should('be.disabled');
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-product-summary .cx-item-counter__action')
+  cy.get('cx-product-summary .cx-counter-action')
     .contains('+')
     .click();
 
@@ -39,7 +39,7 @@ export function verifyItemCounterOnPDP() {
   });
 
   // quantity is correctly updated
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value').should(
+  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
     'have.value',
     '2'
   );
@@ -75,13 +75,13 @@ export function verifyItemCounterOnPDP() {
 
 export function addSameProductTwice() {
   // increase the quantity to 3 items of the same product
-  cy.get('cx-product-summary .cx-item-counter.btn-group button')
+  cy.get('cx-product-summary cx-item-counter')
     .contains('+')
     .click();
   cy.get('cx-product-summary cx-add-to-cart button').click();
 
   // quantity is correctly updated
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value').should(
+  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
     'have.value',
     '5'
   );
@@ -107,7 +107,7 @@ export function addDifferentProducts() {
   cy.get('cx-product-summary cx-add-to-cart button').click();
 
   // quantity is correctly updated
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value').should(
+  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
     'have.value',
     '1'
   );
@@ -143,7 +143,7 @@ export function addDifferentProducts() {
   // check the item quantity of the product
   cy.get('cx-cart-item-list .cx-item-list-items')
     .contains('.cx-info', 'DSC-W180')
-    .find('.cx-item-counter__value')
+    .find('.cx-counter-value')
     .should('have.value', '1');
 
   // check the item price of the product
@@ -198,7 +198,7 @@ export function increaseProductQtyOnPDP() {
   cy.visit(`/product/${productId}`);
 
   // increase the quantity to 2 and add it to cart
-  cy.get('cx-product-summary .cx-item-counter.btn-group button')
+  cy.get('cx-product-summary cx-item-counter')
     .contains('+')
     .click();
   cy.get('cx-product-summary cx-add-to-cart button').click();
@@ -206,7 +206,7 @@ export function increaseProductQtyOnPDP() {
   // check if the item price * quantity matches the total
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-price .cx-value').then($itemPrice => {
-      cy.get('.cx-quantity .cx-item-counter__value').then($itemQuantity => {
+      cy.get('.cx-quantity .cx-counter-value').then($itemQuantity => {
         cy.get('.cx-total .cx-value').then($itemTotalPrice => {
           expect(extractPriceFromText($itemTotalPrice.text())).equal(
             extractPriceFromText($itemPrice.text()) *

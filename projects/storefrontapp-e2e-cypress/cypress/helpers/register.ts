@@ -13,10 +13,10 @@ export function registerUser() {
 
 export function signOut() {
   cy.selectUserMenuOption('Sign Out');
+  cy.visit('/');
 }
 
 export function verifyFailedRegistration() {
-  cy.visit('/');
   cy.get('cx-global-message .alert-danger').should('contain', user.email);
   cy.url().should('match', /\/register/);
 }

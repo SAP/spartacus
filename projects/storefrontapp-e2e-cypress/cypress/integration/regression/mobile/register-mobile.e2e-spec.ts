@@ -14,8 +14,8 @@ function waitForHomePage() {
 
 describe(`${formats.mobile.width + 1}p resolution - Register`, () => {
   before(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.window().then(win => win.sessionStorage.clear());
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
   });
   beforeEach(() => {
