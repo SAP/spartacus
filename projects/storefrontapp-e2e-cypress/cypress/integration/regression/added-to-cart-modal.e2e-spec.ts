@@ -11,29 +11,29 @@ describe('Added to cart modal', () => {
 
   it('basic modal behavior', () => {
     // Type 1000 in the input to see if the value will change to maximum 'max stock'
-    cy.get('cx-product-summary .cx-item-counter__value')
+    cy.get('cx-product-summary .cx-counter-value')
       .type('{selectall}{backspace}')
       .type('1000')
       .should('have.value', '22');
 
     // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-    cy.get('cx-product-summary .cx-item-counter__action')
+    cy.get('cx-product-summary .cx-counter-action')
       .contains('+')
       .should('be.disabled');
 
     // Type 0 in the input to see if the value will change to minimum '1'
-    cy.get('cx-product-summary .cx-item-counter__value')
+    cy.get('cx-product-summary .cx-counter-value')
       .type('{selectall}{backspace}')
       .type('0')
       .should('have.value', '1');
 
     // check if the '-' button is disabled when the quantity is the minimum '1'
-    cy.get('cx-product-summary .cx-item-counter__action')
+    cy.get('cx-product-summary .cx-counter-action')
       .contains('-')
       .should('be.disabled');
 
     // increase the quantity to 2 and add it to cart
-    cy.get('cx-product-summary .cx-item-counter__action')
+    cy.get('cx-product-summary .cx-counter-action')
       .contains('+')
       .click();
 
@@ -47,9 +47,10 @@ describe('Added to cart modal', () => {
     });
 
     // quantity is correctly updated
-    cy.get(
-      'cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value'
-    ).should('have.value', '2');
+    cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+      'have.value',
+      '2'
+    );
     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
       'contain',
       '2 items'
@@ -82,15 +83,16 @@ describe('Added to cart modal', () => {
 
   it('adding same product twice to cart', () => {
     // increase the quantity to 3 items of the same product
-    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+    cy.get('cx-product-summary .cx-counter.btn-group button')
       .contains('+')
       .click();
     cy.get('cx-product-summary cx-add-to-cart button').click();
 
     // quantity is correctly updated
-    cy.get(
-      'cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value'
-    ).should('have.value', '5');
+    cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+      'have.value',
+      '5'
+    );
     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
       'contain',
       '5 items'
@@ -113,9 +115,10 @@ describe('Added to cart modal', () => {
     cy.get('cx-product-summary cx-add-to-cart button').click();
 
     // quantity is correctly updated
-    cy.get(
-      'cx-added-to-cart-dialog .cx-quantity .cx-item-counter__value'
-    ).should('have.value', '1');
+    cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+      'have.value',
+      '1'
+    );
     cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
       'contain',
       '6 items'
@@ -148,7 +151,7 @@ describe('Added to cart modal', () => {
     // check the item quantity of the product
     cy.get('cx-cart-item-list .cx-item-list-items')
       .contains('.cx-info', 'DSC-W180')
-      .find('.cx-item-counter__value')
+      .find('.cx-counter-value')
       .should('have.value', '1');
 
     // check the item price of the product
@@ -203,7 +206,7 @@ describe('Added to cart modal', () => {
     cy.visit(`/product/${productId}`);
 
     // increase the quantity to 2 and add it to cart
-    cy.get('cx-product-summary .cx-item-counter.btn-group button')
+    cy.get('cx-product-summary .cx-counter.btn-group button')
       .contains('+')
       .click();
     cy.get('cx-product-summary cx-add-to-cart button').click();
@@ -211,7 +214,7 @@ describe('Added to cart modal', () => {
     // check if the item price * quantity matches the total
     cy.get('cx-added-to-cart-dialog').within(() => {
       cy.get('.cx-price .cx-value').then($itemPrice => {
-        cy.get('.cx-quantity .cx-item-counter__value').then($itemQuantity => {
+        cy.get('.cx-quantity .cx-counter-value').then($itemQuantity => {
           cy.get('.cx-total .cx-value').then($itemTotalPrice => {
             expect(extractPriceFromText($itemTotalPrice.text())).equal(
               extractPriceFromText($itemPrice.text()) *
