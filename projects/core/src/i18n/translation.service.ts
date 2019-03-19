@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ServerConfig } from '../config/server-config/server-config';
 import { I18NextService } from './i18next/i18next.service';
 

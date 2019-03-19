@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
-import { Subject, of } from 'rxjs';
+import { of } from 'rxjs';
 import { TranslatePipe } from '.';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -9,13 +9,10 @@ describe('TranslatePipe', () => {
   let pipe: TranslatePipe;
   let service: TranslationService;
   let cd: ChangeDetectorRef;
-  let mockServiceLanguageChanged$: Subject<string>;
 
   beforeEach(() => {
-    mockServiceLanguageChanged$ = new Subject();
     const mockTranslateService = {
-      translateLazy: () => {},
-      languageChanged$: mockServiceLanguageChanged$
+      translateLazy: () => {}
     };
 
     TestBed.configureTestingModule({

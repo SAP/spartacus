@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
 import { ServerConfig } from '../config';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { I18NextService } from './i18next/i18next.service';
 
 const testKey = 'testNamespace:testKey';
@@ -14,11 +12,8 @@ describe('TranslationService', () => {
   let service: TranslationService;
   let config: ServerConfig;
   let i18NextService;
-  let mockI18NextLanguage;
 
   beforeEach(() => {
-    mockI18NextLanguage = new Subject();
-
     const mockI18NextService = {
       t: createSpy('i18Next.t'),
       exists: createSpy('i18Next.exists'),
@@ -39,10 +34,6 @@ describe('TranslationService', () => {
     service = TestBed.get(TranslationService);
     i18NextService = TestBed.get(I18NextService);
     config = TestBed.get(ServerConfig);
-  });
-
-  afterEach(() => {
-    mockI18NextLanguage.complete();
   });
 
   describe('exists', () => {
@@ -114,7 +105,6 @@ describe('TranslationService', () => {
         let result;
         service
           .translateLazy(testKey, testOptions)
-          .pipe(take(1))
           .subscribe(x => (result = x));
 
         expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
@@ -128,13 +118,12 @@ describe('TranslationService', () => {
         spyOn(console, 'warn');
       });
 
-      it('should not emit any value until namespace is laded', () => {
-        let result = 'initial value';
+      it('should emit non-breaking space until namespace is laded', () => {
+        let result;
         service
           .translateLazy(testKey, testOptions)
-          .pipe(take(1))
           .subscribe(x => (result = x));
-        expect(result).toBe(`initial value`);
+        expect(result).toBe(nonBreakingSpace);
       });
 
       it('should NOT report missing key', () => {
@@ -143,10 +132,7 @@ describe('TranslationService', () => {
       });
 
       it('should load namespace of key', () => {
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe();
+        service.translateLazy(testKey, testOptions).subscribe();
 
         expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(
           'testNamespace',
@@ -165,10 +151,7 @@ describe('TranslationService', () => {
       });
 
       it('should report missing key', () => {
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe();
+        service.translateLazy(testKey, testOptions).subscribe();
         expect(console.warn).toHaveBeenCalled();
       });
 
@@ -176,7 +159,6 @@ describe('TranslationService', () => {
         let result;
         service
           .translateLazy(testKey, testOptions)
-          .pipe(take(1))
           .subscribe(x => (result = x));
         expect(result).toBe(`[testNamespace:testKey]`);
       });
@@ -186,7 +168,6 @@ describe('TranslationService', () => {
         let result;
         service
           .translateLazy(testKey, testOptions)
-          .pipe(take(1))
           .subscribe(x => (result = x));
 
         expect(result).toBe(nonBreakingSpace);
@@ -205,10 +186,7 @@ describe('TranslationService', () => {
       });
 
       it('should NOT report missing key', () => {
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe();
+        service.translateLazy(testKey, testOptions).subscribe();
         expect(console.warn).not.toHaveBeenCalled();
       });
 
@@ -217,7 +195,6 @@ describe('TranslationService', () => {
         i18NextService.t.and.returnValue('value');
         service
           .translateLazy(testKey, testOptions)
-          .pipe(take(1))
           .subscribe(x => (result = x));
 
         expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
