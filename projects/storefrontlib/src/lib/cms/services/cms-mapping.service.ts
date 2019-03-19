@@ -12,7 +12,7 @@ export class CmsMappingService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  isTypeEnabled(flexType: string): boolean {
+  isComponentEnabled(flexType: string): boolean {
     const isSSR = isPlatformServer(this.platformId);
     const isComponentDisabledInSSR = (this.config.cmsComponents[flexType] || {})
       .disableSSR;
@@ -22,7 +22,7 @@ export class CmsMappingService {
   getRoutesForComponents(componentTypes: string[]): Route[] {
     const routes = [];
     for (const componentType of componentTypes) {
-      if (this.isTypeEnabled(componentType)) {
+      if (this.isComponentEnabled(componentType)) {
         routes.push(...this.getRoutesForComponent(componentType));
       }
     }

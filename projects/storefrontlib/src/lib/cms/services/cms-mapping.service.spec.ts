@@ -43,13 +43,13 @@ describe('CmsMappingService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('isMappedTypeEnabled', () => {
+  describe('isComponentEnabled', () => {
     it('should return true for disableSrr not set', () => {
-      expect(service.isTypeEnabled('exampleMapping1')).toBeTruthy();
+      expect(service.isComponentEnabled('exampleMapping1')).toBeTruthy();
     });
 
     it('should return true for disableSrr set when in browser', () => {
-      expect(service.isTypeEnabled('exampleMapping2')).toBeTruthy();
+      expect(service.isComponentEnabled('exampleMapping2')).toBeTruthy();
     });
   });
 
@@ -79,10 +79,10 @@ describe('with SSR', () => {
   });
 
   it('should return true for disableSrr not set', () => {
-    expect(service.isTypeEnabled('exampleMapping1')).toBeTruthy();
+    expect(service.isComponentEnabled('exampleMapping1')).toBeTruthy();
   });
 
   it('should return false for disableSrr set', () => {
-    expect(service.isTypeEnabled('exampleMapping2')).toBeFalsy();
+    expect(service.isComponentEnabled('exampleMapping2')).toBeFalsy();
   });
 });
