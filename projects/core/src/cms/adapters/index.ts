@@ -1,11 +1,17 @@
 import { Provider } from '@angular/core';
 import { Adapter } from './adapter';
-import { PageDataFallbackAdapter } from './fallback-pagedata.adapter';
+// import { PageDataFallbackAdapter } from './fallback-pagedata.adapter';
+import { OccAdapter } from './occ.adapter';
 
 export const adapters: Provider[] = [
+  // {
+  //   provide: Adapter,
+  //   useClass: PageDataFallbackAdapter,
+  //   multi: true
+  // },
   {
     provide: Adapter,
-    useClass: PageDataFallbackAdapter,
+    useClass: OccAdapter,
     multi: true
   }
 ];
