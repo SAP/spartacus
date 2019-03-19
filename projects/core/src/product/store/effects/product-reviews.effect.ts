@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
-import { OccProductService } from './../../occ/product.service';
 import { ErrorModel } from '../../../occ/occ-models/occ.models';
+import { ProductReviewsLoaderService } from '../../occ/product-reviews.service';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -19,7 +19,7 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),
     mergeMap(productCode => {
-      return this.occProductService.loadProductReviews(productCode).pipe(
+      return this.occProductReviewsService.load(productCode).pipe(
         map(data => {
           return new productReviewsActions.LoadProductReviewsSuccess({
             productCode,
@@ -45,8 +45,8 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.POST_PRODUCT_REVIEW),
     map((action: productReviewsActions.PostProductReview) => action.payload),
     mergeMap(payload => {
-      return this.occProductService
-        .postProductReview(payload.productCode, payload.review)
+      return this.occProductReviewsService
+        .post(payload.productCode, payload.review)
         .pipe(
           map(reviewResponse => {
             return new productReviewsActions.PostProductReviewSuccess(
@@ -66,6 +66,6 @@ export class ProductReviewsEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductService: OccProductService
+    private occProductReviewsService: ProductReviewsLoaderService
   ) {}
 }
