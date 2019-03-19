@@ -57,7 +57,7 @@ context('Check login', () => {
   });
 
   it('should add product to cart', () => {
-    cy.get('.cx-item-counter')
+    cy.get('.cx-counter')
       .getByText('+')
       .click();
     cy.get('cx-add-to-cart button').click();
