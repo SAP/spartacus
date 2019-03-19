@@ -10,9 +10,6 @@ import {
   defaultCmsModuleConfig
 } from '@spartacus/core';
 
-// components
-import { components } from './components/index';
-
 // guards
 import { guards } from './guards/index';
 
@@ -28,7 +25,7 @@ import { OutletDirective } from '../outlet/outlet.directive';
     CmsCoreModule
   ],
   providers: [...guards, { provide: CmsConfig, useExisting: Config }],
-  declarations: [...components],
-  exports: [...components, OutletDirective]
+  declarations: [],
+  exports: [OutletDirective]
 })
 export class CmsModule {}

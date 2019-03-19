@@ -74,6 +74,19 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
     });
 
+    it('should keep child routes for routes that are NOT configurable', async () => {
+      router.config = [
+        { path: 'path1' },
+        { path: 'path2', children: [{ path: 'subPath' }] }
+      ];
+      loader.routesConfig.translations = { en: {} };
+      await service.init();
+      expect(router.config).toEqual([
+        { path: 'path1' },
+        { path: 'path2', children: [{ path: 'subPath' }] }
+      ]);
+    });
+
     it('should NOT translate "redirectTo" of routes that are NOT configurable', async () => {
       router.config = [
         { path: 'path1', redirectTo: 'path100' },

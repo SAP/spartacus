@@ -1,11 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { RoutingService, PageType, CmsService } from '@spartacus/core';
+import {
+  RoutingService,
+  PageType,
+  CmsService,
+  CmsActivatedRouteSnapshot
+} from '@spartacus/core';
 
 import { of } from 'rxjs';
 
-import { CmsPageGuards } from './cms-page.guard';
+import { CmsPageGuard } from './cms-page.guard';
+import { CmsRoutesService } from '@spartacus/storefront';
 
 class MockCmsService {
   hasPage() {}
@@ -16,16 +22,26 @@ class MockRoutingService {
   }
   go() {}
 }
+class MockCmsRoutesService {
+  cmsRouteExist() {
+    return true;
+  }
+  handleCmsRoutesInGuard() {
+    return of(false);
+  }
+}
+const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
-describe('CmsPageGuards', () => {
+describe('CmsPageGuard', () => {
   let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CmsPageGuards,
+        CmsPageGuard,
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: CmsService, useClass: MockCmsService }
+        { provide: CmsService, useClass: MockCmsService },
+        { provide: CmsRoutesService, useClass: MockCmsRoutesService }
       ],
       imports: [RouterTestingModule]
     });
@@ -38,13 +54,13 @@ describe('CmsPageGuards', () => {
 
   describe('canActivate', () => {
     it('should return true when CmsService hasPage is true for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
 
         let result: boolean;
-        cmsPageGuards
-          .canActivate()
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
           .unsubscribe();
 
@@ -53,13 +69,13 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should return false when CmsService hasPage is false for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
 
         let result: boolean;
-        cmsPageGuards
-          .canActivate()
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
           .unsubscribe();
 
@@ -68,17 +84,43 @@ describe('CmsPageGuards', () => {
     ));
 
     it('should redirect when CmsService hasPage is false for the page context', inject(
-      [CmsService, CmsPageGuards],
-      (cmsService: CmsService, cmsPageGuards: CmsPageGuards) => {
+      [CmsService, CmsPageGuard],
+      (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
         spyOn(routingService, 'go');
 
-        cmsPageGuards
-          .canActivate()
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
           .subscribe()
           .unsubscribe();
 
         expect(routingService.go).toHaveBeenCalled();
+      }
+    ));
+
+    it('should switch to handleContentRoutes for generic pages', inject(
+      [CmsService, CmsPageGuard, CmsRoutesService],
+      (
+        cmsService: CmsService,
+        cmsPageGuard: CmsPageGuard,
+        cmsRoutes: CmsRoutesService
+      ) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsRoutes, 'cmsRouteExist').and.returnValue(false);
+        spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.callThrough();
+
+        let result;
+
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, { url: '/test' } as any)
+          .subscribe(res => (result = res));
+
+        expect(result).toEqual(false);
+        expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('testPageId');
+        expect(cmsRoutes.handleCmsRoutesInGuard).toHaveBeenCalledWith(
+          { id: 'testPageId', type: 'ContentPage' },
+          '/test'
+        );
       }
     ));
   });

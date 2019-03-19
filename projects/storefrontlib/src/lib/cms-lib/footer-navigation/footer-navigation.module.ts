@@ -11,7 +11,7 @@ import {
 import { FooterNavigationComponent } from './footer-navigation.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @NgModule({
   imports: [

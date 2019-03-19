@@ -41,6 +41,11 @@
 # Commits
 <table>
 <tbody>
+  <tr>
+    <td><b>Commit</b>
+    <td><b>Description</b>
+    <td><b>Notes</b>
+  </tr>
 <%
   // Get unique scopes.
   const scopes = commits.map(x => x.scope)
@@ -63,11 +68,6 @@
         continue;
     }
 %>
-    <tr>
-      <td><b>Commit</b>
-      <td><b>Description</b>
-      <td><b>Notes</b>
-    </tr>
   <%
       let nbRows = 0;
       for (const commit of scopeCommits) {
