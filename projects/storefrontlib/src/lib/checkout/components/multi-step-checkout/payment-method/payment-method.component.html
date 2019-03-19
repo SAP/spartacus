@@ -29,6 +29,7 @@
           <div class="cx-payment-card">
             <cx-card
               [border]="true"
+              [fitToContainer]="true"
               [content]="cards[i]"
               (sendCard)="paymentMethodSelected(method, i)"
             ></cx-card>
