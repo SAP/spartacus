@@ -23,7 +23,7 @@ export function goToProductDetailsPage() {
   cy.get('.Section1 cx-responsive-banner')
     .first()
     .find('img')
-    .click();
+    .click({ force: true });
   // click small banner number 6 (would be good if label or alt text would be available)
   cy.get('.Section2 cx-responsive-banner:nth-of-type(6) img').click();
   cy.get('cx-product-summary').within(() => {
@@ -33,7 +33,7 @@ export function goToProductDetailsPage() {
 }
 
 export function addProductToCart() {
-  cy.get('.cx-item-counter')
+  cy.get('cx-item-counter')
     .getByText('+')
     .click();
   cy.get('cx-add-to-cart button').click();
