@@ -77,10 +77,20 @@ describe('TranslationService', () => {
         spyOn(console, 'warn');
       });
 
-      it('should emit non-breaking space until namespace is laded', () => {
+      it('should emit non-breaking space if whitespaceUnitlLoaded is true', () => {
         let result;
-        service.translate(testKey, testOptions).subscribe(x => (result = x));
+        service
+          .translate(testKey, testOptions, true)
+          .subscribe(x => (result = x));
         expect(result).toBe(nonBreakingSpace);
+      });
+
+      it('should NOT emit any value if whitespaceUnitlLoaded is false', () => {
+        let result = 'initial value';
+        service
+          .translate(testKey, testOptions, false)
+          .subscribe(x => (result = x));
+        expect(result).toBe('initial value');
       });
 
       it('should NOT report missing key', () => {

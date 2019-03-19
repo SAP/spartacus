@@ -35,9 +35,11 @@ describe('TranslatePipe', () => {
     it('should return result of service.translate', () => {
       spyOn(service, 'translate').and.returnValue(of('expectedValue'));
       const result = pipe.transform('testKey', { param: 'param1' });
-      expect(service.translate).toHaveBeenCalledWith('testKey', {
-        param: 'param1'
-      });
+      expect(service.translate).toHaveBeenCalledWith(
+        'testKey',
+        { param: 'param1' },
+        true
+      );
       expect(result).toBe('expectedValue');
     });
 

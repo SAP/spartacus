@@ -27,7 +27,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       this.lastKey = key;
       this.lastOptions = options;
 
-      this.lastObservable = this.service.translate(key, options);
+      this.lastObservable = this.service.translate(key, options, true);
     }
     return this.asyncPipe.transform(this.lastObservable);
   }
