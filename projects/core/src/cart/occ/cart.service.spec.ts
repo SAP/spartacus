@@ -61,7 +61,7 @@ const MockOccModuleConfig: OccConfig = {
   }
 };
 
-fdescribe('OccCartService', () => {
+describe('OccCartService', () => {
   let service: OccCartService;
   let httpMock: HttpTestingController;
 
