@@ -1,13 +1,10 @@
 # HTTP Error Handling
 
-Like any decoupled JS application, Spartacus relies heavily on back end APIs to fuel the storefront. The back end APIs are used over HTTP. Whenever an HTTP request is done, there are several things that can go wrong. From simple network connectivity issues to very specific errors at the back end. In order to handle the back end responses, an HTTP response contains a status.
+Spartacus is a decoupled JavaScript application that relies extensively on APIs to communicate with the back end. This communication takes place over HTTP, and whenever a request is made, there are many things that could go wrong, from simple network connectivity issues to very specific errors in the back end. As a result, every HTTP response from the back end contains a status. In some cases the status provides details about the error, while in other cases, the status just contains a status code (such as, 404 Not Found). Different errors are typically handled in different ways. Quite a number of errors should be shown to the end user, while others might only end up in the console logs.
 
-Some of the http responses might provide more details on the error, where others only provide a status (code).
-Different errors are typically handled in different ways. Quite a number of errors should be shown to the end users, where others might only end up in the console logs.
+Spartacus provides a number of "handlers" for standard error handling. You can customize these by overriding existing error handlers, or by adding new ones. Spartacus evaluates error handlers in an HTTP interceptor, and uses the first one that corresponds to the error response.
 
-Spartacus has implemented a number of standard error *handlers*. These handlers provide the standard error handling in Spartacus. This error handling is coupled to the Spartacus UI and would be a potential area of customization by customers. In order to allow for custom error handler, Spartacus provides a way to override existing handlers and add new handlers. The handlers are evaluated in an http interceptor, the (first) corresponding handlers is used to *handle* the error response.
-
-In order to allow for full flexibility, error handlers can be customized or added, using the standard Angular dependency injection (DI) system.
+For full flexibility, you can use the standard Angular dependency injection (DI) system to customize or add error handlers.
 
 ## Status Codes
 
@@ -22,13 +19,11 @@ Spartacus supports standard error handlers for the following error status codes:
 
 If no handler is available, the `UNKNOWN` handler is returned.
 
-Custom status codes can be added in custom code.
+You can write custom code to add your own, custom status codes.
 
-## Provide (custom) Error Handlers
+## Providing Custom Error Handlers
 
-### Example
-
-The example below shows a standard implementation for a forbidden status code.
+The following example shows a standard implementation for a forbidden status code.
 
 ```typescript
 @Injectable({
@@ -57,8 +52,8 @@ The handler is registered in the DI system with the following snippet:
 },
 ```
 
-The handler is provided as a multi provider for the `HttpErrorHandler` abstract super class. The `useExisting` property is explicetly used so that custom variants of the `ForbiddenHandler` can be injected.
+The handler is provided as a multi-provider for the `HttpErrorHandler` abstract super class. The `useExisting` property is explicitly used so that custom variants of the `ForbiddenHandler` can be injected.
 
-Custom error handlers can be added in a similar fashion, either by adding new error handlers or by replacing existing.
+Custom error handlers can be added in a similar fashion, either by adding new error handlers or by replacing existing ones.
 
-If multiple handlers are provided, the first handler with a match on the `responseStatus` will be used. In order to always use the custom provided handlers, the handlers are sorted in reverse order initially at runtime.
+If multiple handlers are provided, the first handler with a match on the `responseStatus` is used. To ensure that custom-provided handlers are always used, the handlers are initially sorted in reverse order at runtime.
