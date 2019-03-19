@@ -20,7 +20,14 @@ import { StoreFinderSearchResultComponent } from './components/store-finder-sear
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
 import { SpinnerModule } from '../ui/components/spinner/spinner.module';
-import { StoreFinderCoreModule, UrlTranslationModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  StoreFinderCoreModule,
+  UrlTranslationModule
+} from '@spartacus/core';
+import { StoreFinderComponent } from './components/store-finder/store-finder.component';
+import { LayoutConfig } from '../ui/layout/config/layout-config';
 
 @NgModule({
   imports: [
@@ -32,7 +39,45 @@ import { StoreFinderCoreModule, UrlTranslationModule } from '@spartacus/core';
     BootstrapModule,
     SpinnerModule,
     UrlTranslationModule,
-    StoreFinderCoreModule
+    StoreFinderCoreModule,
+    ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
+      cmsComponents: {
+        StoreFinderComponent: {
+          selector: 'cx-store-finder',
+          childRoutes: [
+            {
+              path: 'find',
+              component: StoreFinderSearchResultComponent
+            },
+            {
+              path: 'view-all',
+              component: StoreFinderStoresCountComponent
+            },
+            {
+              path: 'country/:country',
+              component: StoreFinderGridComponent
+            },
+            {
+              path: 'country/:country/region/:region',
+              component: StoreFinderGridComponent
+            },
+            {
+              path: 'country/:country/region/:region/:store',
+              component: StoreFinderStoreDescriptionComponent
+            },
+            {
+              path: 'country/:country/:store',
+              component: StoreFinderStoreDescriptionComponent
+            }
+          ]
+        }
+      },
+      layoutSlots: {
+        StoreFinderPageTemplate: {
+          slots: ['MiddleContent', 'SideContent']
+        }
+      }
+    })
   ],
   declarations: [
     StoreFinderSearchComponent,
@@ -44,7 +89,8 @@ import { StoreFinderCoreModule, UrlTranslationModule } from '@spartacus/core';
     StoreFinderStoreDescriptionComponent,
     ScheduleComponent,
     StoreFinderHeaderComponent,
-    StoreFinderSearchResultComponent
+    StoreFinderSearchResultComponent,
+    StoreFinderComponent
   ],
   exports: [
     StoreFinderSearchComponent,
@@ -56,7 +102,16 @@ import { StoreFinderCoreModule, UrlTranslationModule } from '@spartacus/core';
     StoreFinderStoreDescriptionComponent,
     ScheduleComponent,
     StoreFinderHeaderComponent,
-    StoreFinderSearchResultComponent
+    StoreFinderSearchResultComponent,
+    StoreFinderComponent
+  ],
+  entryComponents: [
+    StoreFinderComponent,
+    StoreFinderSearchResultComponent,
+    StoreFinderStoresCountComponent,
+    StoreFinderGridComponent,
+    StoreFinderStoreDescriptionComponent,
+    StoreFinderStoreDescriptionComponent
   ]
 })
 export class StoreFinderModule {}

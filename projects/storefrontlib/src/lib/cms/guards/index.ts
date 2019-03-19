@@ -1,5 +1,5 @@
-import { CmsPageGuards } from './cms-page.guard';
+import { CmsPageGuard } from './cms-page.guard';
 
-export const guards: any[] = [CmsPageGuards];
+export const guards: any[] = [CmsPageGuard];
 
 export * from './cms-page.guard';

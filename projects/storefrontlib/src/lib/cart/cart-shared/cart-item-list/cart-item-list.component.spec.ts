@@ -8,6 +8,7 @@ import { ComponentsModule } from '../../../ui/components/components.module';
 
 import { CartItemListComponent } from './cart-item-list.component';
 import { Pipe, PipeTransform } from '@angular/core';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 class MockCartService {
   removeEntry() {}
@@ -52,7 +53,12 @@ describe('CartItemListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ComponentsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [
+        ComponentsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        PromotionsModule
+      ],
       declarations: [
         CartItemListComponent,
         CartItemComponent,

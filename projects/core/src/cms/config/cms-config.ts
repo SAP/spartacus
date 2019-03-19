@@ -2,6 +2,7 @@ import { StaticProvider } from '@angular/core';
 
 import { AuthConfig } from '../../auth/config/auth-config';
 import { OccConfig } from '../../occ/config/occ-config';
+import { Routes } from '@angular/router';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -32,6 +33,7 @@ export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
 export interface CmsComponentMapping {
   selector?: string;
   providers?: StaticProvider[];
+  childRoutes?: Routes;
   disableSSR?: boolean;
 }
 

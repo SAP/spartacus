@@ -1,6 +1,6 @@
-<div class="cx-item-counter__wrapper">
+<div class="cx-counter-wrapper">
   <div
-    class="cx-item-counter btn-group"
+    class="cx-counter btn-group"
     role="group"
     tabindex="0"
     aria-label="Add more items"
@@ -11,7 +11,7 @@
   >
     <button
       type="button"
-      class="cx-item-counter__action"
+      class="cx-counter-action"
       (click)="decrement()"
       [disabled]="cartIsLoading || value <= min"
     >
@@ -19,7 +19,7 @@
     </button>
     <input
       #itemCounterInput
-      class="cx-item-counter__value"
+      class="cx-counter-value"
       type="text"
       name="value"
       cxOnlyNumber
@@ -27,12 +27,12 @@
       [value]="value"
       *ngIf="isValueChangeable"
     />
-    <div class="cx-item-counter__value" *ngIf="!isValueChangeable">
+    <div class="cx-counter-value" *ngIf="!isValueChangeable">
       {{ value }}
     </div>
     <button
       type="button"
-      class="cx-item-counter__action"
+      class="cx-counter-action"
       (click)="increment()"
       [disabled]="cartIsLoading || value >= max"
     >

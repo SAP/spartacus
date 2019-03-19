@@ -1,16 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 
-import { of, Observable } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
+import { Observable, of } from 'rxjs';
 
 import { take } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import { RoutingService, PageContext } from '../../routing';
+import { PageContext, RoutingService } from '../../routing';
 import { LoaderState } from '../../state';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { NodeItem } from '../model/node-item.model';
@@ -21,6 +19,8 @@ import * as fromReducers from '../store/reducers';
 import { PageType } from '../../occ/occ-models/occ.models';
 
 import { CmsService } from './cms.service';
+import createSpy = jasmine.createSpy;
+import { LoadPageDataSuccess } from '../store';
 
 class MockRoutingService {
   getPageContext(): Observable<PageContext> {
@@ -193,6 +193,22 @@ describe('CmsService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromActions.LoadComponent('test_uid')
       );
+    }
+  ));
+
+  it('getPageState should select correct page state', inject(
+    [CmsService],
+    (service: CmsService) => {
+      const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
+      const pageData: Page = {
+        uuid: 'pageData',
+        slots: {}
+      };
+      store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
+
+      let result;
+      service.getPageState(pageContext).subscribe(res => (result = res));
+      expect(result).toEqual(pageData);
     }
   ));
 
