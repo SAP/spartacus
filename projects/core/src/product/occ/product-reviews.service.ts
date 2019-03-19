@@ -46,7 +46,8 @@ export class ProductReviewsLoaderService extends ProductOccService {
       });
 
     if (maxCount && maxCount > 0) {
-      url += `${url.indexOf('?') === -1 ? '?' : '?'}maxCount=${maxCount}`;
+      url += url.indexOf('?') === -1 ? '?' : '&';
+      url += `maxCount=${maxCount}`;
     }
 
     return url;
