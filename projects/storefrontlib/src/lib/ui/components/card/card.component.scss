@@ -44,7 +44,8 @@
   display: var(--cx-display, flex);
   justify-content: var(--cx-justify-content, flex-end);
   padding: var(--cx-padding, 1.25rem 0 0 0);
-  .card-link {
-    padding: var(--cx-padding, 0 0 0 1rem);
-  }
+}
+
+.cx-card-link {
+  padding: var(--cx-padding, 0 0 0 1rem);
 }
