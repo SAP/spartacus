@@ -45,17 +45,17 @@ describe('CmsMappingService', () => {
 
   describe('isMappedTypeEnabled', () => {
     it('should return true for disableSrr not set', () => {
-      expect(service.isFlexTypeEnabled('exampleMapping1')).toBeTruthy();
+      expect(service.isTypeEnabled('exampleMapping1')).toBeTruthy();
     });
 
     it('should return true for disableSrr set when in browser', () => {
-      expect(service.isFlexTypeEnabled('exampleMapping2')).toBeTruthy();
+      expect(service.isTypeEnabled('exampleMapping2')).toBeTruthy();
     });
   });
 
   describe('getRoutesFromPageData', () => {
     it('should get routes from page data', () => {
-      expect(service.getRoutesFromComponents(mockComponents)).toEqual([
+      expect(service.getRoutesForComponents(mockComponents)).toEqual([
         {
           path: 'route1'
         },
@@ -79,10 +79,10 @@ describe('with SSR', () => {
   });
 
   it('should return true for disableSrr not set', () => {
-    expect(service.isFlexTypeEnabled('exampleMapping1')).toBeTruthy();
+    expect(service.isTypeEnabled('exampleMapping1')).toBeTruthy();
   });
 
   it('should return false for disableSrr set', () => {
-    expect(service.isFlexTypeEnabled('exampleMapping2')).toBeFalsy();
+    expect(service.isTypeEnabled('exampleMapping2')).toBeFalsy();
   });
 });

@@ -12,25 +12,25 @@ export class CmsMappingService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  isFlexTypeEnabled(flexType: string): boolean {
+  isTypeEnabled(flexType: string): boolean {
     const isSSR = isPlatformServer(this.platformId);
     const isComponentDisabledInSSR = (this.config.cmsComponents[flexType] || {})
       .disableSSR;
     return !(isSSR && isComponentDisabledInSSR);
   }
 
-  getRoutesFromComponents(componentTypes: string[]): Route[] {
+  getRoutesForComponents(componentTypes: string[]): Route[] {
     const routes = [];
-    for (const componentId of componentTypes) {
-      if (this.isFlexTypeEnabled(componentId)) {
-        routes.push(...this.getRoutesForComponent(componentId));
+    for (const componentType of componentTypes) {
+      if (this.isTypeEnabled(componentType)) {
+        routes.push(...this.getRoutesForComponent(componentType));
       }
     }
     return routes;
   }
 
-  private getRoutesForComponent(flexType: string): Route[] {
-    const mappingConfig = this.config.cmsComponents[flexType];
+  private getRoutesForComponent(componentType: string): Route[] {
+    const mappingConfig = this.config.cmsComponents[componentType];
     return (mappingConfig && mappingConfig.childRoutes) || [];
   }
 }

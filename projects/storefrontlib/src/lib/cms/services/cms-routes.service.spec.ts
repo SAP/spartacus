@@ -27,7 +27,7 @@ describe('CmsRoutesService', () => {
   ];
 
   const mockCmsMapping = {
-    getRoutesFromComponents: () => [{ path: 'sub-route' }]
+    getRoutesForComponents: () => [{ path: 'sub-route' }]
   };
 
   beforeEach(() => {

@@ -35,15 +35,15 @@ export const getIndexByType = (
 export const getPageComponentTypesSelector: (page: Page) => string[] = (
   page: Page
 ) => {
-  const mappings = new Set<string>();
+  const componentTypes = new Set<string>();
   if (page && page.slots) {
     for (const slot of Object.keys(page.slots)) {
       for (const component of page.slots[slot].components || []) {
-        mappings.add(component.flexType);
+        componentTypes.add(component.flexType);
       }
     }
   }
-  return Array.from(mappings);
+  return Array.from(componentTypes);
 };
 
 export const getPageState: MemoizedSelector<

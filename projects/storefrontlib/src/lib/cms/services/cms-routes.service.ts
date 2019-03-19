@@ -49,7 +49,7 @@ export class CmsRoutesService {
   ): Observable<boolean> {
     return this.cmsService.getPageComponentTypes(pageContext).pipe(
       map(pageComponents => {
-        const componentRoutes = this.cmsMapping.getRoutesFromComponents(
+        const componentRoutes = this.cmsMapping.getRoutesForComponents(
           pageComponents
         );
         if (componentRoutes.length) {

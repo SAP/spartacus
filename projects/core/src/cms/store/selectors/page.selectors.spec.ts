@@ -19,17 +19,14 @@ describe('Cms PageData Selectors', () => {
   const components: ContentSlotComponentData[] = [
     {
       uid: 'comp1',
-      typeCode: 'SimpleBannerComponent',
       flexType: 'SimpleBannerComponent'
     },
     {
       uid: 'comp2',
-      typeCode: 'CMSLinkComponent',
       flexType: 'CMSLinkComponent'
     },
     {
       uid: 'comp3',
-      typeCode: 'NavigationComponent',
       flexType: 'NavigationComponent'
     }
   ];
