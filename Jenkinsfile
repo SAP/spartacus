@@ -1,9 +1,9 @@
 import de.hybris.platform.acceleratorpipeline.spartacuspipeline.steps.BuildSteps
 
 node('swarm') {
-    triggers {
-        pollSCM('H/5 * * * *')
-    }
+    properties([
+        pipelineTriggers([pollScm('H/5 * * * *')])
+    ])
     stage('e2e tests') {
         new BuildSteps().execute()
     }
