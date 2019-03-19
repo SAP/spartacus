@@ -1,41 +1,51 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { PageContext } from '../../routing/models/page-context.model';
 import { map, tap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { OccCmsConvertor } from '../converter';
+
 import { CMSPage } from '../../occ/occ-models/occ.models';
 import { CmsContentConfig } from '../config/cms-content.config';
+import { Page } from '../model/page.model';
+import { Adapter } from '../adapters/index';
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class CmsLoader {
   constructor(
-    protected adapter: OccCmsConvertor,
-    protected cmsData: CmsContentConfig
+    protected cmsData: CmsContentConfig,
+    @Inject(Adapter) protected adapters: Adapter[]
   ) {}
 
-  get(pageContext: PageContext): Observable<any> {
+  /**
+   * Get the UI page data.
+   */
+  get(pageContext: PageContext): Observable<Page> {
     return this.preload(pageContext).pipe(
+      tap(p => console.log('preload', p)),
       map(pageData => {
         this.adapt(pageContext, pageData);
         return pageData;
-      }),
-      tap(data => console.log(data))
+      })
     );
   }
 
+  /**
+   * The preload method allows to load page data from
+   * configuration.
+   *
+   * TOOD: implement strategy for fallback or merge
+   */
   protected preload(pageContext: PageContext): Observable<any> {
-    console.log('page context', pageContext);
     const page = this.getPreconfiguredPage(pageContext);
     if (page) {
       return of(page);
     } else {
-      return this.loadPageData(pageContext);
+      return this.loadPage(pageContext);
     }
   }
 
-  protected loadPageData(pageContext: PageContext): Observable<any> {
+  protected loadPage(pageContext: PageContext): Observable<any> {
     return this.preload(pageContext);
   }
 
@@ -44,6 +54,6 @@ export abstract class CmsLoader {
   }
 
   adapt(_pageContext: PageContext, page: CMSPage): void {
-    this.adapter.convert(page);
+    this.adapters.forEach(p => p.convert(page));
   }
 }

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Populator } from './populator';
+import { Adapter } from './adapter';
 import { CMSPage, ContentSlot } from '../../occ/occ-models/occ.models';
 import { CmsContentConfig } from '../config/cms-content.config';
 
 @Injectable()
-export class PageDataFallbackPopulator extends Populator {
+export class PageDataFallbackAdapter extends Adapter {
   constructor(protected cmsData: CmsContentConfig) {
     super();
   }
@@ -13,7 +13,7 @@ export class PageDataFallbackPopulator extends Populator {
    * Adds any missing slot to the page data if available
    * in the configuration set.
    */
-  populate(page: CMSPage): void {
+  convert(page: CMSPage): void {
     this.addMissingSlots(page);
   }
 

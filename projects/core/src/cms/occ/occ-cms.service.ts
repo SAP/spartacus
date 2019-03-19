@@ -1,5 +1,5 @@
 import { throwError, Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
@@ -11,8 +11,8 @@ import {
   CmsComponentList
 } from '../../occ/occ-models/index';
 import { CmsLoader } from '../services/cms.loader';
-import { OccCmsConvertor } from '../converter';
 import { CmsContentConfig } from '../config/cms-content.config';
+import { Adapter } from '../adapters';
 
 @Injectable()
 export class OccCmsService extends CmsLoader {
@@ -21,9 +21,9 @@ export class OccCmsService extends CmsLoader {
   constructor(
     private http: HttpClient,
     protected config: CmsContentConfig,
-    protected adapter: OccCmsConvertor
+    @Inject(Adapter) protected adapters: Adapter[]
   ) {
-    super(adapter, config);
+    super(config, adapters);
   }
 
   protected getBaseEndPoint(): string {
@@ -35,7 +35,7 @@ export class OccCmsService extends CmsLoader {
     );
   }
 
-  loadPageData(pageContext: PageContext, fields?: string): Observable<CMSPage> {
+  loadPage(pageContext: PageContext, fields?: string): Observable<CMSPage> {
     let httpStringParams = '';
 
     if (pageContext.id !== 'smartedit-preview') {

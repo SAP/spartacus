@@ -131,7 +131,7 @@ describe('OccCmsService', () => {
         type: PageType.CONTENT_PAGE
       };
 
-      service.loadPageData(context).subscribe(result => {
+      service.loadPage(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -154,7 +154,7 @@ describe('OccCmsService', () => {
         type: PageType.CONTENT_PAGE
       };
 
-      service.loadPageData(context, 'BASIC').subscribe(result => {
+      service.loadPage(context, 'BASIC').subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -177,7 +177,7 @@ describe('OccCmsService', () => {
         id: '123',
         type: PageType.PRODUCT_PAGE
       };
-      service.loadPageData(context).subscribe(result => {
+      service.loadPage(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 

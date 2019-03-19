@@ -4,7 +4,7 @@ import { CmsService } from './facade/index';
 import { CmsStoreModule } from './store/cms-store.module';
 import { CmsOccModule } from './occ/cms-occ.module';
 import { CmsPageTitleModule } from './page/page.module';
-import { OccCmsConvertor, populators } from './converter/index';
+import { adapters } from './adapters/index';
 import { CmsContentConfig } from './config/cms-content.config';
 import { Config } from '../config/index';
 
@@ -12,8 +12,7 @@ import { Config } from '../config/index';
   imports: [CmsOccModule, CmsStoreModule, CmsPageTitleModule],
   providers: [
     CmsService,
-    OccCmsConvertor,
-    ...populators,
+    ...adapters,
     { provide: CmsContentConfig, useExisting: Config }
   ]
 })
