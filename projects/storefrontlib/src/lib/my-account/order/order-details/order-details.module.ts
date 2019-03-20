@@ -9,6 +9,13 @@ import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
 import { OrderDetailsService } from './order-details.service';
 
+const moduleComponents = [
+  OrderDetailHeadlineComponent,
+  OrderDetailItemsComponent,
+  OrderDetailTotalsComponent,
+  OrderDetailShippingComponent
+];
+
 @NgModule({
   imports: [
     CartSharedModule,
@@ -32,23 +39,8 @@ import { OrderDetailsService } from './order-details.service';
     })
   ],
   providers: [OrderDetailsService],
-  declarations: [
-    OrderDetailHeadlineComponent,
-    OrderDetailItemsComponent,
-    OrderDetailTotalsComponent,
-    OrderDetailShippingComponent
-  ],
-  exports: [
-    OrderDetailHeadlineComponent,
-    OrderDetailItemsComponent,
-    OrderDetailTotalsComponent,
-    OrderDetailShippingComponent
-  ],
-  entryComponents: [
-    OrderDetailHeadlineComponent,
-    OrderDetailItemsComponent,
-    OrderDetailTotalsComponent,
-    OrderDetailShippingComponent
-  ]
+  declarations: [...moduleComponents],
+  exports: [...moduleComponents],
+  entryComponents: [...moduleComponents]
 })
 export class OrderDetailsModule {}
