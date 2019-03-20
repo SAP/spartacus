@@ -1,0 +1,27 @@
+{
+  "register": {
+    "createAccount": "Create an account",
+    "title": "Title",
+    "selectTitle": "Select Title",
+    "firstName": "First name",
+    "firstNamePlaceholder": "First Name",
+    "lastName": "Last name",
+    "lastNamePlaceholder": "Last Name",
+    "emailAddress": "Email address",
+    "emailAddressPlaceholder": "Email Address",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "passwordMustBeSixCharactersMinimumWithOneUppercase": "Password must be six characters minimum, with one uppercase",
+    "letterOneNumberOneSymbol": "letter, one number, one symbol",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "bothPasswordMustMatch": "Both password must match",
+    "useMyPersonalDataToReceiveEmailNewslettersFor": "Use my personal data to receive e-mail newsletters for",
+    "marketingCampaignsToChangeYourSettingsGotoConsent": "marketing campaigns. To change your settings, go to Consent",
+    "managmentInMyAccount": "Management in My Account.",
+    "iAmConfirmingThatIHaveReadAndAgreedWithThe": "I am confirming that I have read and agreed with the",
+    "termsAndConditions": "Terms & Conditions",
+    "register": "Register",
+    "iAlreadyHaveAnAccount": "I already have an account. Sign In"
+  }
+}
