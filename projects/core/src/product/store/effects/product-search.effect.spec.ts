@@ -11,7 +11,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from '../actions/product-search.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
 import { SearchConfig } from '../../model/search-config';
-import { OccProductSearchService } from '../../occ/product-search.service';
+import { ProductSearchLoaderService } from '../../occ/product-search.service';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
   SuggestionList,
@@ -19,6 +19,10 @@ import {
 } from '../../../occ/occ-models/occ.models';
 
 import * as fromEffects from './product-search.effect';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -29,7 +33,7 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('ProductSearch Effects', () => {
   let actions$: Observable<Action>;
-  let service: OccProductSearchService;
+  let service: ProductSearchLoaderService;
   let effects: fromEffects.ProductsSearchEffects;
   let searchConfig: SearchConfig;
 
@@ -40,21 +44,22 @@ describe('ProductSearch Effects', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductSearchService,
+        ProductSearchLoaderService,
         ProductImageConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: OccProductConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$)
       ]
     });
 
-    service = TestBed.get(OccProductSearchService);
+    service = TestBed.get(ProductSearchLoaderService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
 
     searchConfig = { pageSize: 10 };
 
-    spyOn(service, 'query').and.returnValue(of(searchResult));
-    spyOn(service, 'queryProductSuggestions').and.returnValue(of(suggestions));
+    spyOn(service, 'loadSearch').and.returnValue(of(searchResult));
+    spyOn(service, 'loadSuggestions').and.returnValue(of(suggestions));
   });
 
   describe('searchProducts$', () => {
