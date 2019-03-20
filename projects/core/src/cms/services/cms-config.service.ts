@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   CmsStructureConfig,
   CmsPageSlotConfig,
-  CmsPageConfig
+  CmsPageConfig,
+  CmsPageSlotsConfig
 } from '../config/cms-structure.config';
 import { CmsStructureModel } from '../model/page.model';
 import { Observable, of } from 'rxjs';
@@ -102,7 +103,7 @@ export abstract class CmsStructureConfigService {
    */
   private mergeSlots(
     pageStructure: CmsStructureModel,
-    slots?: { [key: string]: CmsPageSlotConfig }
+    slots?: CmsPageSlotsConfig
   ): Observable<CmsStructureModel> {
     if (
       !slots &&

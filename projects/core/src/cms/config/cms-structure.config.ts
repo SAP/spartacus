@@ -2,9 +2,9 @@ import { CmsConfig } from './cms-config';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 
 /**
- * The `PageConfig` is used to build pages by configuration.
- * The config is designed to have an as clean as possible
- * configuration for CMS pages. Ordinary attributes that are not
+ * The `CmsPageConfig` is used to build pages by configuration.
+ * The interfaces are designed to have a clean configuration for
+ * static CMS structure. Ordinary attributes that are not
  * required for configurable pages have been left out and
  * will not be serialized in the adapter logic.
  */
@@ -41,6 +41,14 @@ export interface CmsPageConfig {
 }
 
 /**
+ * The `CmsPageSlotCsonfig` (plural) holds `CmsPageSlotConfig` objects
+ * by a key.
+ */
+export interface CmsPageSlotsConfig {
+  [key: string]: CmsPageSlotConfig;
+}
+
+/**
  * The `CmsPageSlotConfig` is a simplified configuration model
  * that can be used to configure slots in static configuration,
  * rather than loading from a backend.
@@ -60,6 +68,6 @@ export interface CmsPageSlotConfig {
 export abstract class CmsStructureConfig extends CmsConfig {
   cmsStructure: {
     pages?: CmsPageConfig[];
-    slots?: { [key: string]: CmsPageSlotConfig };
+    slots?: CmsPageSlotsConfig;
   };
 }
