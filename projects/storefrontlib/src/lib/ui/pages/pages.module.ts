@@ -20,6 +20,7 @@ import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { GuardsModule } from './guards/guards.module';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 import { LogoutModule } from '../../../cms-components/index';
+import { CheckoutGuard } from '../../checkout/guards/checkout.guard';
 
 const pageModules = [
   CartPageModule,
@@ -60,7 +61,7 @@ const pageModules = [
       },
       {
         path: null,
-        canActivate: [AuthGuard, CmsPageGuard, CartNotEmptyGuard],
+        canActivate: [CheckoutGuard, CmsPageGuard, CartNotEmptyGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
       },
