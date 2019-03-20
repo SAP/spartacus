@@ -1,5 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
-import { BaseSiteService } from '../../site-context/facade/base-site.service';
+import { Injectable } from '@angular/core';
 import { OccConfig } from '../config/occ-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
@@ -9,32 +8,17 @@ import { HttpParamsOptions } from '@angular/common/http/src/params';
   providedIn: 'root'
 })
 export class OccEndpointsService {
-  private activeBaseSite = this.config.site.baseSite;
-
-  constructor(
-    @Optional() private baseSiteService: BaseSiteService,
-    private config: OccConfig
-  ) {
-    if (this.baseSiteService) {
-      this.baseSiteService
-        .getActive()
-        .subscribe(value => (this.activeBaseSite = value));
-    }
-  }
+  constructor(private config: OccConfig) {}
 
   getBaseEndpoint(): string {
-    if (!this.config || !this.config.server) {
-      return '';
-    }
-
     return (
       (this.config.server.baseUrl || '') +
       this.config.server.occPrefix +
-      this.activeBaseSite
+      this.config.site.baseSite
     );
   }
 
-  getEndpoint(endpoint: string = ''): string {
+  getEndpoint(endpoint: string): string {
     return this.getBaseEndpoint() + '/' + endpoint;
   }
 
@@ -44,11 +28,7 @@ export class OccEndpointsService {
     }
 
     if (urlParams) {
-      endpoint = DynamicTemplate.resolve(
-        endpoint,
-        urlParams
-      );
-      console.log('urlParams', endpoint);
+      endpoint = DynamicTemplate.resolve(endpoint, urlParams);
     }
 
     if (queryParams) {
@@ -74,8 +54,6 @@ export class OccEndpointsService {
       });
 
       endpoint += '?' + httpParams.toString();
-
-      console.log('queryParams', endpoint);
     }
 
     return this.getEndpoint(endpoint);
