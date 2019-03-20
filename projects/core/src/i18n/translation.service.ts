@@ -44,7 +44,7 @@ export class TranslationService {
         if (whitespaceUntilLoaded) {
           subscriber.next(this.NON_BREAKING_SPACE);
         }
-        this.loadKeyNamespace(key, () => {
+        this.loadKeyNamespace(key).then(() => {
           if (!this.i18NextService.exists(key, options)) {
             this.reportMissingKey(key);
             subscriber.next(this.getFallbackValue(key));
@@ -62,13 +62,9 @@ export class TranslationService {
    * Loads namespaces
    *
    * @param namespaces array of namespaces to be loaded
-   * @param callback will be called after all namespaces are loaded
    */
-  loadNamespaces(
-    namespaces: string | string[],
-    callback?: Function
-  ): Promise<any> {
-    return this.i18NextService.loadNamespaces(namespaces, callback);
+  loadNamespaces(namespaces: string | string[]): Promise<any> {
+    return this.i18NextService.loadNamespaces(namespaces);
   }
 
   /**
@@ -89,11 +85,11 @@ export class TranslationService {
     }
   }
 
-  private loadKeyNamespace(key: string, onNamespaceLoad: Function) {
+  private loadKeyNamespace(key: string): Promise<void> {
     // CAUTION - this assumes ':' as namespace separator
     const namespace = key.includes(':') ? key.split(':')[0] : undefined;
     if (namespace !== undefined) {
-      this.loadNamespaces(namespace, onNamespaceLoad);
+      return this.loadNamespaces(namespace);
     }
   }
 }
