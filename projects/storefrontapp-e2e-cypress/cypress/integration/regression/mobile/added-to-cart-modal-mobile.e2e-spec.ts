@@ -11,7 +11,6 @@ describe(`${formats.mobile.width +
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
   it('basic modal behavior', () => {
-    // testing the build
     addedToCartModal.verifyItemCounterOnPDP();
   });
 
