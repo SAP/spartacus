@@ -25,7 +25,7 @@ export abstract class BaseyotpoComponent implements OnInit {
   ngAfterViewInit() {
 	var s = document.createElement("script");
 	s.type = "text/javascript";
-	s.text = "function callYotpo() { if (typeof Yotpo.API === 'function') { var yotpo_api=new Yotpo.API(yotpo);yotpo_api.refreshWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();";
+	s.text = "function callYotpo() { if (yotpo && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();";
 	this.elementRef.nativeElement.appendChild(s);
   }
 
