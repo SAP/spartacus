@@ -14,10 +14,4 @@ export const defaultOccProductConfig: OccProductConfig = {
 };
 
 export abstract class OccProductConfig extends OccConfig {
-  endpoints?: {
-    product?: string;
-    productReviews?: string;
-    productSearch?: string;
-    productSuggestions?: string;
-  };
 }

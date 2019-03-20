@@ -2,8 +2,6 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
-import { OccConfig } from '../../occ/config/occ-config';
 import { Order, OrderHistoryList } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
