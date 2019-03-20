@@ -11,7 +11,7 @@ import {
 } from '../config/cms-config';
 
 @Injectable()
-export class OccAdapter extends Adapter {
+export class OccAdapter extends Adapter<CMSPage, CmsStructureModel> {
   constructor(protected cmsData: CmsContentConfig) {
     super();
   }

@@ -23,7 +23,7 @@ export class OccCmsService extends CmsLoader<CMSPage> {
     private http: HttpClient,
     protected config: CmsContentConfig,
     protected cmsConfigService: CmsConfigService,
-    @Inject(Adapter) protected adapters: Adapter[]
+    @Inject(Adapter) protected adapters: Adapter<CMSPage, any>[]
   ) {
     super(cmsConfigService, adapters);
   }

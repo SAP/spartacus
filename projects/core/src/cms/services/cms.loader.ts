@@ -11,10 +11,10 @@ import { CmsConfigService } from './cms-config.service';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class CmsLoader<T> {
+export abstract class CmsLoader<S> {
   constructor(
     protected cmsConfigService: CmsConfigService,
-    @Inject(Adapter) protected adapters: Adapter[]
+    @Inject(Adapter) protected adapters: Adapter<S, CmsStructureModel>[]
   ) {}
 
   /**
@@ -24,7 +24,7 @@ export abstract class CmsLoader<T> {
    *
    * @param pageContext The `PageContext` holding the page Id.
    */
-  abstract loadPage(_pageContext: PageContext): Observable<T>;
+  abstract loadPage(_pageContext: PageContext): Observable<S>;
 
   /**
    * Get's the page structure. The page structure will be loaded from
@@ -59,7 +59,7 @@ export abstract class CmsLoader<T> {
   adapt(page: CMSPage): CmsStructureModel {
     const target: CmsStructureModel = { page: null, components: [] };
     if (this.adapters) {
-      this.adapters.forEach(p => p.convert(page, target));
+      this.adapters.forEach(p => p.convert(<S>page, target));
     }
     return target;
   }
