@@ -57,7 +57,9 @@ export abstract class CmsStructureConfigService {
    */
   private getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
     return of(
-      this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
+      this.cmsDataConfig.cmsStructure.pages
+        ? this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
+        : null
     );
   }
 
