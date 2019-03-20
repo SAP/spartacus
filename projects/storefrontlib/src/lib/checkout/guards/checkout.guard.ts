@@ -13,10 +13,6 @@ import {
   CartService
 } from '@spartacus/core';
 
-// import { RoutingService } from '../../routing/facade/routing.service';
-// import { AuthService } from '../../auth/facade/auth.service';
-// import { UserToken } from '../../auth/models/token-types.model';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +32,7 @@ export class CheckoutGuard implements CanActivate {
     return this.authService.getUserToken().pipe(
       map((token: UserToken) => {
         if (!token.access_token) {
-          console.log(token, this.authService, this.cartService);
+          console.log(this.cartService);
           this.routingService.go({ route: ['login'] }, { forced: true });
           this.routingService.saveRedirectUrl(state.url);
         }
