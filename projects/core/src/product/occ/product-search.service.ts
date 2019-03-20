@@ -5,45 +5,51 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
-import { OccConfig } from '../../occ/config/occ-config';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import {
   SuggestionList,
   ProductSearchPage
 } from '../../occ/occ-models/occ.models';
 
-const ENDPOINT_PRODUCT = 'products';
+import { OccProductConfig } from '../config/product-config';
+import { ProductOccService } from './product-occ.service';
+
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20
 };
 
 @Injectable()
-export class OccProductSearchService {
-  constructor(private http: HttpClient, private config: OccConfig) {}
-
-  protected getProductEndpoint() {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      ENDPOINT_PRODUCT
-    );
+export class ProductSearchLoaderService extends ProductOccService {
+  constructor(private http: HttpClient, private config: OccProductConfig) {
+    super(config);
   }
 
-  query(
+  loadSearch(
     fullQuery: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
-    let params = new HttpParams({
-      fromString:
-        '&fields=' +
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),' +
-        'facets,' +
-        'breadcrumbs,' +
-        'pagination(DEFAULT),' +
-        'sorts(DEFAULT)'
-    });
-    params = params.set('query', fullQuery);
+    return this.http
+      .get(this.getSearchEndpoint(fullQuery, searchConfig))
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  loadSuggestions(term: string, pageSize = 3): Observable<SuggestionList> {
+    return this.http
+      .get(this.getSuggestionEndpoint(term, pageSize.toString()))
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  protected getSearchEndpoint(
+    query: string,
+    searchConfig: SearchConfig
+  ): string {
+    let params = new HttpParams();
+    let url =
+      this.getProductEndpoint() +
+      DynamicTemplate.resolve(this.config.endpoints.productSearch, {
+        query
+      });
+
     if (searchConfig.pageSize) {
       params = params.set('pageSize', searchConfig.pageSize.toString());
     }
@@ -54,21 +60,16 @@ export class OccProductSearchService {
       params = params.set('sort', searchConfig.sortCode);
     }
 
-    return this.http
-      .get(this.getProductEndpoint() + '/search', { params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return (url += `&${params.toString()}`);
   }
 
-  queryProductSuggestions(
-    term: string,
-    pageSize = 3
-  ): Observable<SuggestionList> {
-    return this.http
-      .get(this.getProductEndpoint() + '/suggestions', {
-        params: new HttpParams()
-          .set('term', term)
-          .set('max', pageSize.toString())
+  protected getSuggestionEndpoint(term: string, max: string): string {
+    return (
+      this.getProductEndpoint() +
+      DynamicTemplate.resolve(this.config.endpoints.productSuggestions, {
+        term,
+        max
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    );
   }
 }
