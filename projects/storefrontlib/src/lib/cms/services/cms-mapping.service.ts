@@ -29,8 +29,25 @@ export class CmsMappingService {
     return routes;
   }
 
+  getNamespacesI18NForComponents(componentTypes: string[]): string[] {
+    const namespaces = new Set<string>();
+    for (const componentType of componentTypes) {
+      if (this.isComponentEnabled(componentType)) {
+        this.getNamespaces18NForComponent(componentType).forEach(namespace =>
+          namespaces.add(namespace)
+        );
+      }
+    }
+    return Array.from(namespaces);
+  }
+
   private getRoutesForComponent(componentType: string): Route[] {
     const mappingConfig = this.config.cmsComponents[componentType];
     return (mappingConfig && mappingConfig.childRoutes) || [];
+  }
+
+  private getNamespaces18NForComponent(componentType: string): string[] {
+    const mappingConfig = this.config.cmsComponents[componentType];
+    return (mappingConfig && mappingConfig.namespacesI18N) || [];
   }
 }

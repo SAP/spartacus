@@ -12,6 +12,7 @@ import { of } from 'rxjs';
 
 import { CmsPageGuard } from './cms-page.guard';
 import { CmsRoutesService } from '@spartacus/storefront';
+import { CmsI18NService } from '../services/cms-i18n.service';
 
 class MockCmsService {
   hasPage() {}
@@ -30,6 +31,10 @@ class MockCmsRoutesService {
     return of(false);
   }
 }
+class MockCmsI18NService {
+  loadNamespaces() {}
+}
+
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
 describe('CmsPageGuard', () => {
@@ -41,7 +46,8 @@ describe('CmsPageGuard', () => {
         CmsPageGuard,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: CmsRoutesService, useClass: MockCmsRoutesService }
+        { provide: CmsRoutesService, useClass: MockCmsRoutesService },
+        { provide: CmsI18NService, useClass: MockCmsI18NService }
       ],
       imports: [RouterTestingModule]
     });
@@ -95,6 +101,28 @@ describe('CmsPageGuard', () => {
           .unsubscribe();
 
         expect(routingService.go).toHaveBeenCalled();
+      }
+    ));
+
+    it('should load i18n namespaces', inject(
+      [CmsService, CmsI18NService, CmsPageGuard],
+      (
+        cmsService: CmsService,
+        cmsI18N: CmsI18NService,
+        cmsPageGuard: CmsPageGuard
+      ) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+        spyOn(cmsI18N, 'loadNamespaces');
+
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
+          .subscribe()
+          .unsubscribe();
+
+        expect(cmsI18N.loadNamespaces).toHaveBeenCalledWith({
+          id: 'testPageId',
+          type: PageType.CONTENT_PAGE
+        });
       }
     ));
 
