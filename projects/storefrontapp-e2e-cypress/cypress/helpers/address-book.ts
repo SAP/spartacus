@@ -35,101 +35,90 @@ export const assertAddressForm = (address: ShippingAddressData): void => {
   });
 };
 
-export function addressPage() {
-  describe('when anonymous user', () => {
-    it('should NOT be able to open address book page if not logged in', () => {
-      cy.visit('/my-account/address-book');
-      cy.location('pathname').should('contain', '/login');
-    });
+export function accessPageAsAnonymous() {
+  cy.visit('/my-account/address-book');
+  cy.location('pathname').should('contain', '/login');
+}
+
+export function displayAddressForm() {
+  cy.get('cx-address-form').should('exist');
+}
+
+export function createNewAddress() {
+  fillShippingAddress(newAddress);
+}
+
+export function verifyNewAddress() {
+  cy.get('cx-address-card').should('have.length', 1);
+  assertAddressForm(newAddress);
+}
+
+export function editAddress() {
+  cy.get('.edit').click();
+  cy.get('cx-address-form').within(() => {
+    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+    cy.get('[formcontrolname="firstName"]')
+      .clear()
+      .type(editedAddress.firstName);
+    cy.get('[formcontrolname="lastName"]')
+      .clear()
+      .type(editedAddress.lastName);
+    cy.get('[formcontrolname="phone"]')
+      .clear()
+      .type(editedAddress.phone);
+
+    cy.get('button.btn-primary').click();
   });
+}
 
-  describe('when logged in', () => {
-    before(() => {
-      cy.requireLoggedIn();
-      cy.visit('/my-account/address-book');
-    });
+export function verifyEditedAddress() {
+  cy.get('cx-address-card').should('have.length', 1);
+  assertAddressForm(editedAddress);
+}
 
-    it('should display a new address form when no address exists', () => {
-      cy.get('cx-address-form').should('exist');
-    });
+export function addSecondAddress() {
+  const secondAddress = {
+    ...newAddress,
+    firstName: 'N',
+    lastName: 'Z'
+  };
+  cy.get('button')
+    .contains(' Add new address ')
+    .click();
+  fillShippingAddress(secondAddress);
+  cy.get('cx-address-card').should('have.length', 2);
+}
 
-    it('should create a new address', () => {
-      fillShippingAddress(newAddress);
-    });
+export function setSecondAddressToDefault() {
+  cy.get('.set-default').click();
 
-    it('should display the newly added address card in the address book', () => {
-      cy.get('cx-address-card').should('have.length', 1);
-      assertAddressForm(newAddress);
-    });
+  const firstCard = cy.get('cx-address-card').first();
+  firstCard.should('contain', '✓ DEFAULT');
+  firstCard.should('contain', 'N Z');
+}
 
-    it('should edit the existing address', () => {
-      cy.get('.edit').click();
-      cy.get('cx-address-form').within(() => {
-        cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-        cy.get('[formcontrolname="firstName"]')
-          .clear()
-          .type(editedAddress.firstName);
-        cy.get('[formcontrolname="lastName"]')
-          .clear()
-          .type(editedAddress.lastName);
-        cy.get('[formcontrolname="phone"]')
-          .clear()
-          .type(editedAddress.phone);
+export function deleteExistingAddress() {
+  let firstCard = cy.get('cx-address-card').first();
 
-        cy.get('button.btn-primary').click();
-      });
-    });
+  firstCard.find('.delete').click();
+  cy.get('.cx-address-card__delete-msg').should(
+    'have.text',
+    ' Are you sure you want to delete this address? '
+  );
 
-    it('should display the edited address card in the address book', () => {
-      cy.get('cx-address-card').should('have.length', 1);
-      assertAddressForm(editedAddress);
-    });
+  // click cancel
+  cy.get('.btn-secondary').should('contain', 'cancel');
+  cy.get('.btn-secondary').click();
+  cy.get('.cx-address-card__delete-msg').should(
+    'not.contain',
+    'Are you sure you want to delete this address?'
+  );
 
-    it('should add a second address', () => {
-      const secondAddress = {
-        ...newAddress,
-        firstName: 'N',
-        lastName: 'Z'
-      };
-      cy.get('button')
-        .contains(' Add new address ')
-        .click();
-      fillShippingAddress(secondAddress);
-      cy.get('cx-address-card').should('have.length', 2);
-    });
+  // click delete
+  firstCard = cy.get('cx-address-card').first();
+  firstCard.find('.delete').click();
+  cy.get('.cx-address-card--delete-mode button.btn-primary').click();
+  cy.get('cx-global-message').contains('Address deleted successfully!');
 
-    it('should set the second address as the default one', () => {
-      cy.get('.set-default').click();
-
-      const firstCard = cy.get('cx-address-card').first();
-      firstCard.should('contain', '✓ DEFAULT');
-      firstCard.should('contain', 'N Z');
-    });
-
-    it('should delete the existing address', () => {
-      let firstCard = cy.get('cx-address-card').first();
-
-      firstCard.find('.delete').click();
-      cy.get('.cx-address-card__delete-msg').should(
-        'have.text',
-        ' Are you sure you want to delete this address? '
-      );
-
-      // click cancel
-      cy.get('.btn-secondary').should('contain', 'cancel');
-      cy.get('.btn-secondary').click();
-      cy.get('.cx-address-card__delete-msg').should(
-        'not.contain',
-        'Are you sure you want to delete this address?'
-      );
-
-      // click delete
-      firstCard = cy.get('cx-address-card').first();
-      firstCard.find('.delete').click();
-      cy.get('.cx-address-card--delete-mode button.btn-primary').click();
-      cy.get('cx-global-message').contains('Address deleted successfully!');
-
-      cy.get('cx-address-card').should('have.length', 1);
-    });
-  });
+  cy.get('cx-address-card').should('have.length', 1);
 }

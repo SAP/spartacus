@@ -12,19 +12,39 @@ context('Product search', () => {
   });
 
   describe('Search results', () => {
-    productSearchFlow.searchResult();
+    it('should be able to search and get results', () => {
+      productSearchFlow.searchResult();
+    });
   });
 
   describe('Pagination', () => {
-    productSearchFlow.pagination();
+    it('should navigate to the next page and display results', () => {
+      productSearchFlow.nextPage();
+    });
+
+    it('should be able navigate to the specified page number and display results', () => {
+      productSearchFlow.choosePage();
+    });
+
+    it('should navigate to the previous page and display results', () => {
+      productSearchFlow.previousPage();
+    });
   });
 
   describe('product list view mode', () => {
-    productSearchFlow.viewMode();
+    it('should be able to switch to grid mode', () => {
+      productSearchFlow.viewMode();
+    });
   });
 
   describe('Facets', () => {
-    productSearchFlow.facets();
+    it('should filter results using facet filtering', () => {
+      productSearchFlow.filterUsingFacetFiltering();
+    });
+
+    it('should be able to clear active facet', () => {
+      productSearchFlow.clearActiveFacet();
+    });
   });
 
   describe('Sorting', () => {
@@ -33,6 +53,28 @@ context('Product search', () => {
       enterProduct();
     });
 
-    productSearchFlow.sorting();
+    it('should be able to sort by lowest price', () => {
+      productSearchFlow.sortByLowestPrice();
+    });
+
+    it('should be able to sort by highest price', () => {
+      productSearchFlow.sortByHighestPrice();
+    });
+
+    it('should be able to sort by name ascending', () => {
+      productSearchFlow.sortByNameAscending();
+    });
+
+    it('should be able to sort by name descending', () => {
+      productSearchFlow.sortByNameDescending();
+    });
+
+    it('should be able to sort by relevance', () => {
+      productSearchFlow.sortByRelevance();
+    });
+
+    it('should be able to sort by top rated', () => {
+      productSearchFlow.sortByTopRated();
+    });
   });
 });

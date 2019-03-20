@@ -46,7 +46,7 @@ export function productStoreFlow(mobile?: string) {
   cy.get(resultsTitle).should('contain', '45 results for "canon"');
   cy.get('cx-product-list-item')
     .first()
-    .should('contain', 'LP-E5');
+    .should('contain', 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black');
 
   if (mobile) {
     cy.get(

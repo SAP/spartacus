@@ -24,10 +24,6 @@ context('Store finder', () => {
     cy.visit('/store-finder');
   });
 
-  beforeEach(() => {
-    cy.viewport(575, 700);
-  });
-
   it('should show stores that matches search query', () => {
     cy.get('cx-store-finder-search').within(() => {
       cy.get('input').type('Tokyo');
