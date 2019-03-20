@@ -53,7 +53,10 @@ export class OccEndpointsService {
         }
       });
 
-      endpoint += '?' + httpParams.toString();
+      const params = httpParams.toString();
+      if (params.length) {
+        endpoint += '?' + params;
+      }
     }
 
     return this.getEndpoint(endpoint);

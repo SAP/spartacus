@@ -19,7 +19,10 @@ const COUNTRIES_TYPE_BILLING = 'BILLING';
 
 @Injectable()
 export class OccMiscsService {
-  constructor(private http: HttpClient, private occEndpoints: OccEndpointsService) {}
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   loadDeliveryCountries(): Observable<CountryList> {
     return this.http
@@ -51,7 +54,9 @@ export class OccMiscsService {
 
   loadRegions(countryIsoCode: string): Observable<RegionList> {
     return this.http
-      .get<RegionList>(this.occEndpoints.getEndpoint(this.buildRegionsUrl(countryIsoCode)))
+      .get<RegionList>(
+        this.occEndpoints.getEndpoint(this.buildRegionsUrl(countryIsoCode))
+      )
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

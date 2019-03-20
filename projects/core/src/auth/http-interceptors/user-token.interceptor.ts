@@ -16,7 +16,10 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 export class UserTokenInterceptor implements HttpInterceptor {
   userToken: UserToken;
 
-  constructor(private authService: AuthService, private occEndpoints: OccEndpointsService) {
+  constructor(
+    private authService: AuthService,
+    private occEndpoints: OccEndpointsService
+  ) {
     this.authService.getUserToken().subscribe((token: UserToken) => {
       this.userToken = token;
     });

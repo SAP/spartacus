@@ -7,6 +7,6 @@ export abstract class OccConfig extends ServerConfig {
     currency?: string;
   };
   endpoints?: {
-    [endpoint: string]: string
+    [endpoint: string]: string;
   };
 }
