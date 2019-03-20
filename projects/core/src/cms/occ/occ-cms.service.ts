@@ -13,17 +13,19 @@ import {
 import { CmsLoader } from '../services/cms.loader';
 import { CmsContentConfig } from '../config/cms-content.config';
 import { Adapter } from '../adapters';
+import { CmsConfigService } from '../services/cms-config.service';
 
 @Injectable()
-export class OccCmsService extends CmsLoader {
+export class OccCmsService extends CmsLoader<CMSPage> {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient,
     protected config: CmsContentConfig,
+    protected cmsConfigService: CmsConfigService,
     @Inject(Adapter) protected adapters: Adapter[]
   ) {
-    super(config, adapters);
+    super(cmsConfigService, adapters);
   }
 
   protected getBaseEndPoint(): string {

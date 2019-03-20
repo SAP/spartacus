@@ -5,78 +5,88 @@ export function defaultCmsContentConfig(): CmsContentConfig {
     cmsData: {
       pages: [
         {
-          uid: 'cartPage',
+          ignoreBackend: true,
+          pageId: 'cartPage',
+          type: 'ContentPage',
+          // uid: 'cartPage',
           template: 'CartPageTemplate',
           title: 'Cart',
-          typeCode: 'ContentPage',
-          contentSlots: {
-            contentSlot: [
-              // force empty slot, overriding global slots
-              // {
-              //   position: 'BottomHeaderSlot',
-              //   components: {
-              //     component: []
-              //   }
-              // },
-              {
-                position: 'EmptyCartMiddleContent',
-                components: {
-                  component: [
-                    {
-                      typeCode: 'CMSParagraphComponent',
-                      content: `<h2>Your shopping cart is empty</h2>
-                        <p>Suggestions</p><ul><li>Browse our products by selecting a category above</li></ul>`,
-                      uid: 'xyz'
-                    }
-                  ]
+          slots: {
+            // SiteContext: {},
+            EmptyCartMiddleContent: {
+              components: [
+                {
+                  flexType: 'CMSParagraphComponent',
+                  typeCode: 'CMSParagraphComponent',
+                  content: `<h2>Your shopping cart is empty</h2>
+                    <p>Suggestions</p><ul><li>Browse our products by selecting a category above</li></ul>`,
+                  uid: 'xyz'
                 }
-              }
-            ]
+              ]
+            }
           }
         }
       ],
-      slots: [
-        {
-          position: 'SiteContext',
-          components: {
-            component: [
-              {
-                typeCode: 'CMSSiteContextComponent',
-                uid: 'LanguageComponent',
-                context: 'LANGUAGE'
-              },
-              {
-                typeCode: 'CMSSiteContextComponent',
-                uid: 'CurrencyComponent',
-                context: 'CURRENCY'
-              }
-            ]
-          }
+      slots: {
+        SiteContext: {
+          components: [
+            {
+              typeCode: 'CMSSiteContextComponent',
+              flexType: 'CMSSiteContextComponent',
+              uid: 'LanguageComponent',
+              context: 'LANGUAGE'
+            },
+            {
+              typeCode: 'CMSSiteContextComponent',
+              flexType: 'CMSSiteContextComponent',
+              uid: 'CurrencyComponent',
+              context: 'CURRENCY'
+            }
+          ]
         },
-        {
-          position: 'SiteLinks',
-          components: {
-            component: [
-              {
-                typeCode: 'CMSLinkComponent',
-                linkName: 'Find a Store',
-                url: '/store-finder'
-              }
-            ]
-          }
+        SiteLinks: {
+          components: [
+            {
+              typeCode: 'CMSLinkComponent',
+              flexType: 'CMSLinkComponent',
+              linkName: 'Find a Store',
+              url: '/store-finder'
+            }
+          ]
         },
-        {
-          position: 'BottomHeaderSlot',
-          components: {
-            component: [
-              {
-                typeCode: 'BreadcrumbComponent',
-                uid: 'breadcrumbComponent'
-              }
-            ]
-          }
+        BottomHeaderSlot: {
+          components: [
+            {
+              typeCode: 'BreadcrumbComponent',
+              flexType: 'BreadcrumbComponent',
+              uid: 'breadcrumbComponent'
+            }
+          ]
         }
-      ]
+        // {
+        //   position: 'SiteLinks',
+        //   components: {
+        //     component: [
+        //       {
+        //         typeCode: 'CMSLinkComponent',
+        //         linkName: 'Find a Store',
+        //         url: '/store-finder'
+        //       }
+        //     ]
+        //   }
+        // },
+        // {
+        //   position: 'BottomHeaderSlot',
+        //   components: {
+        //     component: [
+        //       {
+        //         typeCode: 'BreadcrumbComponent',
+        //         uid: 'breadcrumbComponent'
+        //       }
+        //     ]
+        //   }
+        // }
+      }
     }
   };
 }

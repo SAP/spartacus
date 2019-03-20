@@ -19,8 +19,8 @@ export interface UiComponent extends CmsComponent {
 }
 
 export interface CmsStructureModel {
-  page: Page;
-  components: UiComponent[];
+  page?: Page;
+  components?: UiComponent[];
 }
 
 /**

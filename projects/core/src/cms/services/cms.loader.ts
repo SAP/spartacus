@@ -1,66 +1,79 @@
 import { Injectable, Inject } from '@angular/core';
 import { PageContext } from '../../routing/models/page-context.model';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { CMSPage } from '../../occ/occ-models/occ.models';
-import { CmsContentConfig } from '../config/cms-content.config';
-import { Page, CmsStructureModel } from '../model/page.model';
+import { CmsStructureModel } from '../model/page.model';
 import { Adapter } from '../adapters/index';
-import { CmsComponent } from '../../occ/occ-models/index';
+import { CmsConfigService } from './cms-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class CmsLoader {
+export abstract class CmsLoader<T> {
   constructor(
-    protected cmsData: CmsContentConfig,
+    protected cmsConfigService: CmsConfigService,
     @Inject(Adapter) protected adapters: Adapter[]
   ) {}
 
   /**
-   * Get the UI page data.
+   * Abstract method that provides the page structure for a given page.
+   * The page can be loaded from alternative sources, as long as the structure
+   * converts to the `CmsStructureModel` (see the `adapt` logic in this class).
+   *
+   * @param pageContext The `PageContext` holding the page Id.
    */
-  get(pageContext: PageContext): Observable<[Page, CmsComponent[]]> {
-    return (
-      this.loadPage(pageContext)
-        // return this.preload(pageContext)
-        .pipe(
-          //   tap(p => console.log('preload', p)),
-          map(pageData => {
-            return this.adapt(pageContext, pageData);
-            // return pageData;
-          })
-        )
+  abstract loadPage(_pageContext: PageContext): Observable<T>;
+
+  /**
+   * Get's the page structure. The page structure will be loaded from
+   * the backend, unless there's a page being forced in the configuration.
+   * See the `CmsConfigService` for more information on this topic.
+   *
+   * In addition, the `CmsConfigService` is used to merge default
+   * page structure into the page structure.
+   */
+  get(pageContext: PageContext): Observable<CmsStructureModel> {
+    return this.cmsConfigService.loadPageFromConfig(pageContext.id).pipe(
+      switchMap(loadFromConfig => {
+        if (!loadFromConfig) {
+          return this.loadPage(pageContext).pipe(map(page => this.adapt(page)));
+        } else {
+          return of({});
+        }
+      }),
+      switchMap(page => this.mergeDefaultPageStructure(pageContext, page))
     );
   }
 
   /**
-   * The preload method allows to load page data from
-   * configuration.
    *
-   * TOOD: implement strategy for fallback or merge
+   * The adapters can be used to serialize the backend reponse to
+   * the UI model. Customers can inject multiple adapters in order to
+   * convert to the target model, or override the adapt method in
+   * their implementation.
+   *
+   * @param page the source that can be converted
    */
-  protected preload(pageContext: PageContext): Observable<any> {
-    const page = this.getPreconfiguredPage(pageContext);
-    if (page) {
-      return of(page);
-    } else {
-      return this.loadPage(pageContext);
-    }
-  }
-
-  protected loadPage(pageContext: PageContext): Observable<any> {
-    return this.preload(pageContext);
-  }
-
-  private getPreconfiguredPage(pageContext: PageContext): any {
-    return this.cmsData.cmsData.pages.find(page => page.uid === pageContext.id);
-  }
-
-  adapt(_pageContext: PageContext, page: CMSPage): any {
+  adapt(page: CMSPage): CmsStructureModel {
     const target: CmsStructureModel = { page: null, components: [] };
-    this.adapters.forEach(p => p.convert(page, target));
+    if (this.adapters) {
+      this.adapters.forEach(p => p.convert(page, target));
+    }
     return target;
+  }
+
+  /**
+   *
+   * Merge default page structure inot the given `CmsStructureModel`.
+   * This is benefitial for a fast setup of the UI without necessary
+   * finegrained CMS setup.
+   */
+  private mergeDefaultPageStructure(
+    pageContext: PageContext,
+    pageStructure: CmsStructureModel
+  ): Observable<CmsStructureModel> {
+    return this.cmsConfigService.serialize(pageContext.id, pageStructure);
   }
 }
