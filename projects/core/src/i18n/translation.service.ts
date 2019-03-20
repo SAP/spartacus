@@ -12,26 +12,39 @@ export class TranslationService {
     private config: ServerConfig
   ) {}
 
+  /**
+   * Checks if given key with options exists
+   *
+   * @param key
+   * @param options
+   */
   exists(key: string, options: any = {}): boolean {
     return this.i18NextService.exists(key, options);
   }
 
-  translate(key: string, options: any = {}): string {
-    if (this.i18NextService.exists(key, options)) {
-      return this.i18NextService.t(key, options);
-    } else {
-      this.reportMissingKey(key);
-      return this.getFallbackValue(key);
-    }
-  }
-
-  translateLazy(key: string, options: any = {}): Observable<string> {
+  /**
+   * Translates given key with options.
+   * If key is missing, it tries to load the namespace and emits a value when namespace is loaded.
+   * If key is missing after loaded namespace, a fallback value is emitted.
+   *
+   * @param key translation key with preceding namespace
+   * @param options values for interpolation in translation
+   * @param whitespaceUntilLoaded if true, immediately emits a non-breaking space
+   */
+  translate(
+    key: string,
+    options: any = {},
+    whitespaceUntilLoaded: boolean = false
+  ): Observable<string> {
     return new Observable<string>(subscriber => {
       if (this.i18NextService.exists(key, options)) {
         subscriber.next(this.i18NextService.t(key, options));
         subscriber.complete();
       } else {
-        this.loadKeyNamespace(key, () => {
+        if (whitespaceUntilLoaded) {
+          subscriber.next(this.NON_BREAKING_SPACE);
+        }
+        this.loadKeyNamespace(key).then(() => {
           if (!this.i18NextService.exists(key, options)) {
             this.reportMissingKey(key);
             subscriber.next(this.getFallbackValue(key));
@@ -45,28 +58,48 @@ export class TranslationService {
     });
   }
 
-  loadNamespaces(
-    namespaces: string | string[],
-    callback?: Function
-  ): Promise<any> {
-    return this.i18NextService.loadNamespaces(namespaces, callback);
+  /**
+   * Loads namespaces
+   *
+   * @param namespaces array of namespaces to be loaded
+   */
+  loadNamespaces(namespaces: string | string[]): Promise<any> {
+    return this.i18NextService.loadNamespaces(namespaces);
   }
 
+  /**
+   * Returns a fallback value in case when the given key is missing
+   * @param key
+   */
   protected getFallbackValue(key: string): string {
     return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
   }
 
-  protected reportMissingKey(key: string) {
+  private loadKeyNamespace(key: string): Promise<void> {
+    // CAUTION - this assumes ':' as namespace separator
+    const namespace = this.getKeyNamespace(key);
+    if (namespace !== undefined) {
+      return this.loadNamespaces(namespace);
+    }
+    this.reportMissingKeyNamespace(key);
+    return Promise.resolve();
+  }
+
+  private getKeyNamespace(key: string): string {
+    return key.includes(':') ? key.split(':')[0] : undefined;
+  }
+
+  private reportMissingKey(key: string) {
     if (!this.config.production) {
       console.warn(`Translation key missing '${key}'`);
     }
   }
 
-  private loadKeyNamespace(key: string, onNamespaceLoad: Function) {
-    // CAUTION - this assumes ':' as namespace separator
-    const namespace = key.includes(':') ? key.split(':')[0] : undefined;
-    if (namespace !== undefined) {
-      this.loadNamespaces(namespace, onNamespaceLoad);
+  private reportMissingKeyNamespace(key: string) {
+    if (!this.config.production) {
+      console.warn(
+        `Translation key without namespace '${key}' - cannot load key's namespace.`
+      );
     }
   }
 }

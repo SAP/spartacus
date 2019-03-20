@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
 import { ServerConfig } from '../config';
-import { Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { I18NextService } from './i18next/i18next.service';
 
 const testKey = 'testNamespace:testKey';
@@ -14,11 +12,8 @@ describe('TranslationService', () => {
   let service: TranslationService;
   let config: ServerConfig;
   let i18NextService;
-  let mockI18NextLanguage;
 
   beforeEach(() => {
-    mockI18NextLanguage = new Subject();
-
     const mockI18NextService = {
       t: createSpy('i18Next.t'),
       exists: createSpy('i18Next.exists'),
@@ -41,14 +36,21 @@ describe('TranslationService', () => {
     config = TestBed.get(ServerConfig);
   });
 
-  afterEach(() => {
-    mockI18NextLanguage.complete();
-  });
-
   describe('exists', () => {
     it('should call i18NextService.exists', () => {
       service.exists(testKey, testOptions);
       expect(i18NextService.exists).toHaveBeenCalledWith(testKey, testOptions);
+    });
+  });
+
+  describe('loadNamespaces', () => {
+    it('should return result of i18NextService.loadNamespaces', () => {
+      const expectedResult = new Promise(() => {});
+      i18NextService.loadNamespaces.and.returnValue(expectedResult);
+      const namespaces = ['namespace1', 'namespace2'];
+      const result = service.loadNamespaces(namespaces);
+      expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(namespaces);
+      expect(result).toBe(expectedResult);
     });
   });
 
@@ -58,64 +60,10 @@ describe('TranslationService', () => {
         i18NextService.exists.and.returnValue(true);
       });
 
-      it('should return result of i18NextService.t', () => {
-        i18NextService.t.and.returnValue('value');
-        const result = service.translate(testKey, testOptions);
-
-        expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
-        expect(result).toBe('value');
-      });
-    });
-
-    describe(', when key does NOT exist,', () => {
-      beforeEach(() => {
-        i18NextService.exists.and.returnValue(false);
-        spyOn(console, 'warn');
-      });
-
-      it('should return key in brackets for non-production', () => {
-        const result = service.translate(testKey, testOptions);
-        expect(result).toBe(`[testNamespace:testKey]`);
-      });
-
-      it('should return non-breaking space for production', () => {
-        config.production = true;
-        const result = service.translate(testKey, testOptions);
-        expect(result).toBe(nonBreakingSpace);
-      });
-
-      it('should report missing key for non-production', () => {
-        service.translate(testKey, testOptions);
-        expect(console.warn).toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('loadNamespaces', () => {
-    it('should call i18NextService.loadNamespaces', () => {
-      const namespaces = ['namespace1', 'namespace2'];
-      const testCallback = () => {};
-      service.loadNamespaces(namespaces, testCallback);
-      expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(
-        namespaces,
-        testCallback
-      );
-    });
-  });
-
-  describe('translateLazy', () => {
-    describe(', when key exists,', () => {
-      beforeEach(() => {
-        i18NextService.exists.and.returnValue(true);
-      });
-
       it('should emit result of i18NextService.t', () => {
         i18NextService.t.and.returnValue('value');
         let result;
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe(x => (result = x));
+        service.translate(testKey, testOptions).subscribe(x => (result = x));
 
         expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
         expect(result).toBe('value');
@@ -125,32 +73,36 @@ describe('TranslationService', () => {
     describe(', when key does NOT exist,', () => {
       beforeEach(() => {
         i18NextService.exists.and.returnValue(false);
+        i18NextService.loadNamespaces.and.returnValue(new Promise(() => {}));
         spyOn(console, 'warn');
       });
 
-      it('should not emit any value until namespace is laded', () => {
+      it('should emit non-breaking space if whitespaceUntilLoaded is true', () => {
+        let result;
+        service
+          .translate(testKey, testOptions, true)
+          .subscribe(x => (result = x));
+        expect(result).toBe(nonBreakingSpace);
+      });
+
+      it('should NOT emit any value if whitespaceUntilLoaded is false', () => {
         let result = 'initial value';
         service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
+          .translate(testKey, testOptions, false)
           .subscribe(x => (result = x));
-        expect(result).toBe(`initial value`);
+        expect(result).toBe('initial value');
       });
 
       it('should NOT report missing key', () => {
-        service.translateLazy(testKey, testOptions);
+        service.translate(testKey, testOptions).subscribe();
         expect(console.warn).not.toHaveBeenCalled();
       });
 
       it('should load namespace of key', () => {
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe();
+        service.translate(testKey, testOptions).subscribe();
 
         expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(
-          'testNamespace',
-          jasmine.any(Function)
+          'testNamespace'
         );
       });
     });
@@ -158,70 +110,54 @@ describe('TranslationService', () => {
     describe(', when key does NOT exist even after namespace was loaded,', () => {
       beforeEach(() => {
         i18NextService.exists.and.returnValues(false, false);
+        i18NextService.loadNamespaces.and.returnValue(Promise.resolve());
         spyOn(console, 'warn');
-        i18NextService.loadNamespaces.and.callFake(
-          (_namespaces, onNamespaceLoad) => onNamespaceLoad()
-        );
       });
 
-      it('should report missing key', () => {
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe();
-        expect(console.warn).toHaveBeenCalled();
+      it('should report missing key', done => {
+        service.translate(testKey, testOptions).subscribe(() => {
+          expect(console.warn).toHaveBeenCalled();
+          done();
+        });
       });
 
-      it('should emit key in brackets for non-production', () => {
-        let result;
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe(x => (result = x));
-        expect(result).toBe(`[testNamespace:testKey]`);
+      it('should emit key in brackets for non-production', done => {
+        service.translate(testKey, testOptions).subscribe(result => {
+          expect(result).toBe(`[testNamespace:testKey]`);
+          done();
+        });
       });
 
-      it('should return non-breaking space for production', () => {
+      it('should return non-breaking space for production', done => {
         config.production = true;
-        let result;
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe(x => (result = x));
-
-        expect(result).toBe(nonBreakingSpace);
+        service.translate(testKey, testOptions).subscribe(result => {
+          expect(result).toBe(nonBreakingSpace);
+          done();
+        });
       });
     });
 
     describe(', when key does NOT exist firstly, but it comes with loaded namespace,', () => {
       beforeEach(() => {
         i18NextService.exists.and.returnValues(false, true);
+        i18NextService.loadNamespaces.and.returnValue(Promise.resolve());
         spyOn(console, 'warn');
-        i18NextService.loadNamespaces.and.callFake(
-          (_namespaces, onNamespaceLoad) => {
-            onNamespaceLoad();
-          }
-        );
       });
 
-      it('should NOT report missing key', () => {
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe();
-        expect(console.warn).not.toHaveBeenCalled();
+      it('should NOT report missing key', done => {
+        service.translate(testKey, testOptions).subscribe(() => {
+          expect(console.warn).not.toHaveBeenCalled();
+          done();
+        });
       });
 
-      it('should return result of i18NextService.t', () => {
-        let result;
+      it('should return result of i18NextService.t', done => {
         i18NextService.t.and.returnValue('value');
-        service
-          .translateLazy(testKey, testOptions)
-          .pipe(take(1))
-          .subscribe(x => (result = x));
-
-        expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
-        expect(result).toBe('value');
+        service.translate(testKey, testOptions).subscribe(result => {
+          expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
+          expect(result).toBe('value');
+          done();
+        });
       });
     });
   });
