@@ -110,7 +110,7 @@ describe('Added to cart modal', () => {
     // search for new product and select it, and add to cart
     cy.get('cx-searchbox [aria-label="search"]').type(productId2);
     cy.get('cx-searchbox')
-      .contains('.cx-search-box__dropdown-content-product', 'DSC-W180')
+      .contains('.cx-product', 'DSC-W180')
       .click();
     cy.get('cx-product-summary cx-add-to-cart button').click();
 
