@@ -13,7 +13,7 @@ import {
 import { CmsLoader } from '../services/cms.loader';
 import { CmsContentConfig } from '../config/cms-content.config';
 import { Adapter } from '../adapters';
-import { CmsConfigService } from '../services/cms-config.service';
+import { CmsStructureConfigService } from '../services/cms-config.service';
 
 @Injectable()
 export class OccCmsService extends CmsLoader<CMSPage> {
@@ -22,10 +22,10 @@ export class OccCmsService extends CmsLoader<CMSPage> {
   constructor(
     private http: HttpClient,
     protected config: CmsContentConfig,
-    protected cmsConfigService: CmsConfigService,
+    protected cmsStructureConfigService: CmsStructureConfigService,
     @Inject(Adapter) protected adapters: Adapter<CMSPage, any>[]
   ) {
-    super(cmsConfigService, adapters);
+    super(cmsStructureConfigService, adapters);
   }
 
   protected getBaseEndPoint(): string {

@@ -8,18 +8,33 @@ import { CmsStructureModel } from '../model/page.model';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
+/**
+ * Service that provides access to CMS structure from a static
+ * configuration or configuration file. This class uses static
+ * configuration is designed in async fashion so that configuratiosn
+ * can be loaded from a file or stream.
+ *
+ * The intend of the `CmsStructureConfigService` however is to provide
+ * fast loading pages and default cms structure for comodoty commerce.
+ */
 @Injectable({
   providedIn: 'root'
 })
-export abstract class CmsConfigService {
+export abstract class CmsStructureConfigService {
   constructor(protected cmsDataConfig: CmsContentConfig) {}
 
-  serialize(
+  /**
+   * Merge the cms structure to the pageStructure. The page structure
+   * can either hold complete page structures or global structures that
+   * might apply to all pages (such has header coponents).
+   */
+  mergeConfig(
     pageId: string,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
-    return this.serializeConfiguredPage(pageId, pageStructure)
-    .pipe(switchMap(page => this.serializeConfiguredSlots(page)));
+    return this.mergePage(pageId, pageStructure).pipe(
+      switchMap(page => this.mergeSlots(page))
+    );
   }
 
   /**
@@ -29,10 +44,7 @@ export abstract class CmsConfigService {
    * and follow best practice.
    *
    * By default, configurable pages are driven by static configuration,
-   * in order to allow for fast ll=oading pages (preventing networ delays).
-   *
-   * The `loadPageFromConfig` method is however designed in an async way and
-   * allows for loading configuration from files rather then static files.
+   * in order to allow for fast loading pages (preventing networ delays)
    */
   loadPageFromConfig(pageId: string): Observable<boolean> {
     return this.getPageFromConfig(pageId).pipe(
@@ -40,7 +52,19 @@ export abstract class CmsConfigService {
     );
   }
 
-  private serializeConfiguredPage(
+  /**
+   * returns an observable with the `PageConfig`.
+   */
+  private getPageFromConfig(pageId: string): Observable<PageConfig> {
+    return of(this.cmsDataConfig.cmsData.pages.find(p => p.pageId === pageId));
+  }
+
+  /**
+   * Merge page data from the configuration into the given structure, if any.
+   * If the given page structure is empty, a page is created and the page slots are
+   * are merged into the page.
+   */
+  private mergePage(
     pageId: string,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
@@ -57,7 +81,7 @@ export abstract class CmsConfigService {
           if (!pageStructure.page.slots) {
             pageStructure.page.slots = {};
           }
-          return this.serializeConfiguredSlots(pageStructure, page.slots);
+          return this.mergeSlots(pageStructure, page.slots);
         } else {
           return of(pageStructure);
         }
@@ -65,14 +89,14 @@ export abstract class CmsConfigService {
     );
   }
 
-  private getPageFromConfig(pageId: string): Observable<PageConfig> {
-    return of(this.cmsDataConfig.cmsData.pages.find(p => p.pageId === pageId));
-  }
-
   /**
-   * Find configured slots and compare them with the slots provided in the content
+   * Adds any pre-configured slots for pages that do not use them.
+   * If pages have a slot for the given position, the configiuration
+   * is ingored. Even if the slot does not have inner structure (such as
+   * components), so that the cms structure is able to override the (static)
+   * configuration.
    */
-  private serializeConfiguredSlots(
+  private mergeSlots(
     pageStructure: CmsStructureModel,
     slots?: { [key: string]: ContentSlotDataConfig }
   ): Observable<CmsStructureModel> {
@@ -90,11 +114,10 @@ export abstract class CmsConfigService {
           pageStructure.page.slots[position] = slots[position];
           pageStructure.page.slots[position].uid = position;
 
+          // add slot components
           if (!pageStructure.components) {
             pageStructure.components = [];
           }
-
-          // add slot components
           if (slots[position].components) {
             slots[position].components.forEach(c => {
               pageStructure.components.push(c);

@@ -6,14 +6,18 @@ import { Observable, of } from 'rxjs';
 import { CMSPage } from '../../occ/occ-models/occ.models';
 import { CmsStructureModel } from '../model/page.model';
 import { Adapter } from '../adapters/index';
-import { CmsConfigService } from './cms-config.service';
+import { CmsStructureConfigService } from './cms-config.service';
 
+/**
+ * Abstract class that can be used to implement custom loader logic
+ * in order to load CMS structure from third-party CMS system.
+ */
 @Injectable({
   providedIn: 'root'
 })
 export abstract class CmsLoader<S> {
   constructor(
-    protected cmsConfigService: CmsConfigService,
+    protected cmsStructureConfigService: CmsStructureConfigService,
     @Inject(Adapter) protected adapters: Adapter<S, CmsStructureModel>[]
   ) {}
 
@@ -35,16 +39,20 @@ export abstract class CmsLoader<S> {
    * page structure into the page structure.
    */
   get(pageContext: PageContext): Observable<CmsStructureModel> {
-    return this.cmsConfigService.loadPageFromConfig(pageContext.id).pipe(
-      switchMap(loadFromConfig => {
-        if (!loadFromConfig) {
-          return this.loadPage(pageContext).pipe(map(page => this.adapt(page)));
-        } else {
-          return of({});
-        }
-      }),
-      switchMap(page => this.mergeDefaultPageStructure(pageContext, page))
-    );
+    return this.cmsStructureConfigService
+      .loadPageFromConfig(pageContext.id)
+      .pipe(
+        switchMap(loadFromConfig => {
+          if (!loadFromConfig) {
+            return this.loadPage(pageContext).pipe(
+              map(page => this.adapt(page))
+            );
+          } else {
+            return of({});
+          }
+        }),
+        switchMap(page => this.mergeDefaultPageStructure(pageContext, page))
+      );
   }
 
   /**
@@ -74,6 +82,9 @@ export abstract class CmsLoader<S> {
     pageContext: PageContext,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
-    return this.cmsConfigService.serialize(pageContext.id, pageStructure);
+    return this.cmsStructureConfigService.mergeConfig(
+      pageContext.id,
+      pageStructure
+    );
   }
 }

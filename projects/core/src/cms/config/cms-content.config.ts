@@ -2,17 +2,17 @@ import { CmsConfig } from './cms-config';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 
 export interface PageConfig {
+  /**
+   * When the `ignoreBackend` is set to true, the CMS backend
+   * will not be consumed. This saves network latency and is
+   * useful for commodity commerce pages.
+   * */
   ignoreBackend?: boolean;
 
   pageId?: string;
   type?: string;
   title?: string;
   template?: string;
-  // uuid?: string;
-  // catalogUuid?: string;
-  // name?: string;
-
-  // loadTime?: number;
   slots: { [key: string]: ContentSlotDataConfig };
 }
 
