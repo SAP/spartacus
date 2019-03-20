@@ -1,4 +1,4 @@
-<ng-container>
+<ng-container *ngIf="(product$ | async) as product">
 <div class="yotpo yotpo-main-widget"
 attr.data-product-id="{{product?.code}}"
 attr.data-price="{{product?.price?.value}}"

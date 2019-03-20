@@ -1,5 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { BaseyotpoComponent } from './../baseyotpo/baseyotpo.component';
+import { ProductService, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-yotporeview',
@@ -7,5 +8,7 @@ import { BaseyotpoComponent } from './../baseyotpo/baseyotpo.component';
   styleUrls: ['./yotporeview.component.css']
 })
 export class YotporeviewComponent extends BaseyotpoComponent {
-  constructor(protected elementRef:ElementRef) { super(elementRef); }
+  constructor(protected elementRef:ElementRef, 
+		protected routingService: RoutingService,
+		protected productService: ProductService) { super(elementRef, routingService, productService); }
 }

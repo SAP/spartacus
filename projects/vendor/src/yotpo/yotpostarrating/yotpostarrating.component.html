@@ -1,5 +1,5 @@
-<ng-container>
-<div class="yotpo bottomLine"
+<ng-container *ngIf="(product$ | async) as product">
+<div class="yotpo bottomLine" 
 attr.data-product-id="{{product?.code}}"
 attr.data-url="{{product?.url}}">
 </div>
