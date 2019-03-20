@@ -28,8 +28,3 @@ addons:
   chrome: stable
   sonarcloud:
     organization: sap
-  artifacts:
-    paths:
-      - protractor.log.json
-    target_paths:
-      - /$TRAVIS_REPO_SLUG/$TRAVIS_BRANCH/$TRAVIS_COMMIT/
