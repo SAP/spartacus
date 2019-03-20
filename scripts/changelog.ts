@@ -87,15 +87,15 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
               toSha = chunk.hash as string;
             }
             const notes: any = chunk.notes;
-            if (notes.length) {
-              notes.forEach(note => {
-                if (note.title === 'BREAKING CHANGE') {
+            if (Array.isArray(notes)) {
+              notes
+                .filter(note => note.title === 'BREAKING CHANGE')
+                .forEach(note => {
                   breakingChanges.push({
                     content: note.text,
                     commit: chunk
                   });
-                }
-              });
+                });
             }
             commits.push(chunk);
             cb();
