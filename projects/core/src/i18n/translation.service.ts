@@ -68,28 +68,38 @@ export class TranslationService {
   }
 
   /**
-   * Returns a fallback value in case when the key is missing
+   * Returns a fallback value in case when the given key is missing
    * @param key
    */
   protected getFallbackValue(key: string): string {
     return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
   }
 
-  /**
-   * Reports that the key is missing
-   * @param key
-   */
-  protected reportMissingKey(key: string) {
+  private loadKeyNamespace(key: string): Promise<void> {
+    // CAUTION - this assumes ':' as namespace separator
+    const namespace = this.getKeyNamespace(key);
+    if (namespace !== undefined) {
+      return this.loadNamespaces(namespace);
+    }
+    this.reportMissingKeyNamespace(key);
+    return Promise.resolve();
+  }
+
+  private getKeyNamespace(key: string): string {
+    return key.includes(':') ? key.split(':')[0] : undefined;
+  }
+
+  private reportMissingKey(key: string) {
     if (!this.config.production) {
       console.warn(`Translation key missing '${key}'`);
     }
   }
 
-  private loadKeyNamespace(key: string): Promise<void> {
-    // CAUTION - this assumes ':' as namespace separator
-    const namespace = key.includes(':') ? key.split(':')[0] : undefined;
-    if (namespace !== undefined) {
-      return this.loadNamespaces(namespace);
+  private reportMissingKeyNamespace(key: string) {
+    if (!this.config.production) {
+      console.warn(
+        `Translation key without namespace '${key}' - cannot load key's namespace.`
+      );
     }
   }
 }
