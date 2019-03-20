@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  CmsContentConfig,
-  ContentSlotDataConfig,
-  PageConfig
-} from '../config/cms-content.config';
+  CmsStructureConfig,
+  CmsPageSlotConfig,
+  CmsPageConfig
+} from '../config/cms-structure.config';
 import { CmsStructureModel } from '../model/page.model';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -21,7 +21,7 @@ import { map, switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export abstract class CmsStructureConfigService {
-  constructor(protected cmsDataConfig: CmsContentConfig) {}
+  constructor(protected cmsDataConfig: CmsStructureConfig) {}
 
   /**
    * Merge the cms structure to the pageStructure. The page structure
@@ -55,8 +55,10 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an observable with the `PageConfig`.
    */
-  private getPageFromConfig(pageId: string): Observable<PageConfig> {
-    return of(this.cmsDataConfig.cmsData.pages.find(p => p.pageId === pageId));
+  private getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
+    return of(
+      this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
+    );
   }
 
   /**
@@ -98,14 +100,14 @@ export abstract class CmsStructureConfigService {
    */
   private mergeSlots(
     pageStructure: CmsStructureModel,
-    slots?: { [key: string]: ContentSlotDataConfig }
+    slots?: { [key: string]: CmsPageSlotConfig }
   ): Observable<CmsStructureModel> {
     if (
       !slots &&
-      this.cmsDataConfig.cmsData &&
-      this.cmsDataConfig.cmsData.slots
+      this.cmsDataConfig.cmsStructure &&
+      this.cmsDataConfig.cmsStructure.slots
     ) {
-      slots = this.cmsDataConfig.cmsData.slots;
+      slots = this.cmsDataConfig.cmsStructure.slots;
     }
     if (slots) {
       for (const position of Object.keys(slots)) {

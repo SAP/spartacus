@@ -11,7 +11,7 @@ import {
   CmsComponentList
 } from '../../occ/occ-models/index';
 import { CmsLoader } from '../services/cms.loader';
-import { CmsContentConfig } from '../config/cms-content.config';
+import { CmsStructureConfig } from '../config/cms-structure.config';
 import { Adapter } from '../adapters';
 import { CmsStructureConfigService } from '../services/cms-config.service';
 
@@ -21,7 +21,7 @@ export class OccCmsService extends CmsLoader<CMSPage> {
 
   constructor(
     private http: HttpClient,
-    protected config: CmsContentConfig,
+    protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
     @Inject(Adapter) protected adapters: Adapter<CMSPage, any>[]
   ) {

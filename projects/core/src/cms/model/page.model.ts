@@ -14,13 +14,12 @@ export interface Page {
   slots: { [key: string]: ContentSlotData };
 }
 
-export interface UiComponent extends CmsComponent {
-  _: void;
-}
-
+/**
+ * Represents the cms structure for pages, slots and components.
+ */
 export interface CmsStructureModel {
   page?: Page;
-  components?: UiComponent[];
+  components?: CmsComponent[];
 }
 
 /**

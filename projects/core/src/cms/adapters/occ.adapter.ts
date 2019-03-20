@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from './adapter';
-import { CmsContentConfig } from '../config/cms-content.config';
+import { CmsStructureConfig } from '../config/cms-structure.config';
 import { CMSPage } from '../../occ/index';
 import { CmsStructureModel } from '../model/page.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -12,7 +12,7 @@ import {
 
 @Injectable()
 export class OccAdapter extends Adapter<CMSPage, CmsStructureModel> {
-  constructor(protected cmsData: CmsContentConfig) {
+  constructor(protected cmsData: CmsStructureConfig) {
     super();
   }
 

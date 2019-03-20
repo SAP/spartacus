@@ -5,7 +5,7 @@ import { CmsStoreModule } from './store/cms-store.module';
 import { CmsOccModule } from './occ/cms-occ.module';
 import { CmsPageTitleModule } from './page/page.module';
 import { cmsAdapters } from './adapters/index';
-import { CmsContentConfig } from './config/cms-content.config';
+import { CmsStructureConfig } from './config/cms-structure.config';
 import { Config } from '../config/index';
 
 @NgModule({
@@ -13,7 +13,7 @@ import { Config } from '../config/index';
   providers: [
     CmsService,
     ...cmsAdapters,
-    { provide: CmsContentConfig, useExisting: Config }
+    { provide: CmsStructureConfig, useExisting: Config }
   ]
 })
 export class CmsModule {}

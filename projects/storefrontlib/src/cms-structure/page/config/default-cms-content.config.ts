@@ -1,8 +1,8 @@
-import { CmsContentConfig } from '@spartacus/core';
+import { CmsStructureConfig } from '@spartacus/core';
 
-export function defaultCmsContentConfig(): CmsContentConfig {
+export function defaultCmsContentConfig(): CmsStructureConfig {
   return {
-    cmsData: {
+    cmsStructure: {
       pages: [
         {
           ignoreBackend: true,
