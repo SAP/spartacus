@@ -32,7 +32,7 @@ export class ReviewSubmitComponent implements OnInit {
   @Input()
   deliveryAddress: Address;
   @Input()
-  shippingMethod: string;
+  deliveryMode: string;
   @Input()
   paymentDetails: PaymentDetails;
 
@@ -94,11 +94,11 @@ export class ReviewSubmitComponent implements OnInit {
     };
   }
 
-  getShippingMethodCard(deliveryMode: DeliveryMode): Card {
+  getDeliveryModeCard(deliveryMode: DeliveryMode): Card {
     if (deliveryMode) {
       return {
         title: 'Shipping Method',
-        textBold: this.shippingMethod,
+        textBold: this.deliveryMode,
         text: [deliveryMode.description]
       };
     }
