@@ -1,6 +1,6 @@
-import { I18NConfig } from './i18n-config';
+import { I18nConfig } from './i18n-config';
 
-export const defaultI18NConfig: I18NConfig = {
+export const defaultI18nConfig: I18nConfig = {
   i18n: {
     fallbackLang: false,
     debug: false
