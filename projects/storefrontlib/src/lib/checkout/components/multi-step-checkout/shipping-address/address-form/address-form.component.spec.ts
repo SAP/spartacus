@@ -365,7 +365,7 @@ describe('AddressFormComponent', () => {
       ).toEqual('Back to cart');
     });
 
-    it('should show the "Choose Address", if there is no "cancelBtnLable" input provided', () => {
+    it('should show the "Choose Address", if there is no "cancelBtnLabel" input provided', () => {
       component.cancelBtnLabel = undefined;
       fixture.detectChanges();
       expect(
