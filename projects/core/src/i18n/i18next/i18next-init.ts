@@ -9,6 +9,7 @@ export function i18NextInit(
 ): () => Promise<any> {
   return () => {
     let i18NextConfig: i18next.InitOptions = {
+      ns: [], // don't preload any namespaces
       fallbackLng: config.i18n.fallbackLang,
       debug: config.i18n.debug
     };
