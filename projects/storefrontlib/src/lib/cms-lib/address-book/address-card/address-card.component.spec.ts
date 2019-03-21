@@ -50,7 +50,7 @@ describe('AddressCardComponent', () => {
   it('should display address data', () => {
     component.address = mockAddress;
     fixture.detectChanges();
-    const element = el.query(By.css('.address_data'));
+    const element = el.query(By.css('.cx-address-data'));
     expect(element.nativeElement.textContent).toContain(
       mockAddress.firstName &&
         mockAddress.lastName &&
