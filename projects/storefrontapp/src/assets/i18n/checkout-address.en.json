@@ -1,0 +1,12 @@
+{
+  "labels": {
+    "shippingAddress": "Shipping Address",
+    "selectYourShippingAddress": "Select your Shipping Address",
+    "defaultShippingMethod": "Default Shipping Address"
+  },
+  "actions": {
+    "addNewAddress": "Add New Address",
+    "backToCart": "Back to cart",
+    "useThisPayment": "Ship tp this address"
+  }
+}

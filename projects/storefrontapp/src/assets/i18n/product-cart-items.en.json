@@ -4,7 +4,8 @@
     "description": "Description",
     "itemPrice": "Item price",
     "quantity": "Qty",
-    "total": "Total"
+    "total": "Total",
+    "cartTotal": "Cart total"
   },
   "actions": {
     "remove": "Remove"

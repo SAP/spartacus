@@ -1,0 +1,10 @@
+// Hardcoded in ts
+{
+  "labels": {
+    "shipTo": "Ship to",
+    "shippingMethod": "Shipping Method",
+    "billTo": "Bill to",
+    "payment": "Payment",
+    "expires": "Expires:"
+  }
+}

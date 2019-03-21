@@ -1,0 +1,13 @@
+{
+  "labels": {
+    "payment": "Payment",
+    "choosePaymentMethod": "Choose a payment method",
+    "expires": "Expires:",
+    "expiresIn": "Expires in ",
+    "defaultPaymentMethod": "Default Payment Method"
+  },
+  "actions": {
+    "useThisPayment": "Use this payment",
+    "addNewPayment": "Add New Payment"
+  }
+}
