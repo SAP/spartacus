@@ -1,15 +1,17 @@
 {
   "labels": {
     "id": "ID",
-    "quantity": "Qty",
-    "productDetails": "Product Details",
-    "specification": "Specs",
-    "reviews": "Reviews",
-    "shipping": "Shipping"
+    "quantity": "Qty"
   },
   "actions": {
     "addToCart": "Add to cart",
     "share": "Share",
     "showReviews": "Show reviews"
+  },
+  "tabs": {
+    "productDetails": "Product Details",
+    "specification": "Specs",
+    "reviews": "Reviews",
+    "shipping": "Shipping"
   }
 }
