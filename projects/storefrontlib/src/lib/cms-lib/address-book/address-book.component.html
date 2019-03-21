@@ -5,7 +5,7 @@
       !(showAddAddressForm || showEditAddressForm)
     "
   >
-    <p class="cx-section__msg">Saved shipping addresses</p>
+    <p class="cx-section-msg">Saved shipping addresses</p>
 
     <div class="row">
       <div class="col-md-6">
@@ -34,7 +34,7 @@
 
   <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
     <section>
-      <p class="cx-section__msg">Add a new shipping address</p>
+      <p class="cx-section-msg">Add a new shipping address</p>
       <cx-address-form
         showTitleCode="true"
         actionBtnLabel="Add address"
@@ -48,7 +48,7 @@
 
   <ng-container *ngIf="showEditAddressForm">
     <section>
-      <p class="cx-section__msg">Edit shipping address</p>
+      <p class="cx-section-msg">Edit shipping address</p>
       <cx-address-form
         showTitleCode="true"
         actionBtnLabel="Update address"
@@ -62,7 +62,7 @@
 </div>
 
 <ng-template #loading>
-  <div class="col-md-12 cx-address-deck__spinner">
+  <div class="col-md-12 cx-address-spinner">
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
