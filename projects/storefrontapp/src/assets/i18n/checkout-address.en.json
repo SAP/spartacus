@@ -6,7 +6,6 @@
   },
   "actions": {
     "addNewAddress": "Add New Address",
-    "backToCart": "Back to cart",
     "useThisPayment": "Ship tp this address"
   }
 }

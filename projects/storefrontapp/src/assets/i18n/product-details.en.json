@@ -1,16 +1,14 @@
 {
   "labels": {
     "id": "ID",
-    "quantity": "Qty"
-  },
-  "actions": {
-    "share": "Share",
-    "showReviews": "Show reviews"
-  },
-  "tabs": {
+    "quantity": "Qty",
     "productDetails": "Product Details",
     "specification": "Specs",
     "reviews": "Reviews",
     "shipping": "Shipping"
+  },
+  "actions": {
+    "share": "Share",
+    "showReviews": "Show reviews"
   }
 }
