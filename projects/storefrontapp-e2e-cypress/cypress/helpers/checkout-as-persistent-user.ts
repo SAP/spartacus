@@ -1,7 +1,7 @@
 import { product } from '../sample-data/big-happy-path';
 
 export function loginSuccessfully() {
-  cy.get('.cx-login-status__greet').should('contain', 'Test User');
+  cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
 export function addShippingAddress() {

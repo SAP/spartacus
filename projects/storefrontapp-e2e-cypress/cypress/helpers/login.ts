@@ -1,7 +1,7 @@
 import { user } from '../sample-data/big-happy-path';
 import { register, login } from './auth-forms';
 
-export const userGreetSelector = 'cx-login .cx-login-status__greet';
+export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
 
 export function registerUser() {

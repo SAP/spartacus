@@ -10,12 +10,12 @@ export function registerUser() {
   cy.getByText(/Sign in \/ Register/i).click();
   cy.getByText('Register').click();
   register(user);
-  cy.get('.cx-login-status__greet').should('contain', user.fullName);
+  cy.get('.cx-login-greet').should('contain', user.fullName);
 }
 
 export function signOutUser() {
   signOut();
-  cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
+  cy.get('.cx-login-greet').should('not.contain', user.fullName);
 }
 
 export function goToProductDetailsPage() {
