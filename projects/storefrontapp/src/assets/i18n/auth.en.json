@@ -1,0 +1,68 @@
+{
+  "register": {
+    "actions": {
+      "confirmPassword": "Confirm password",
+      "confirmPasswordPlaceholder": "Confirm Password",
+      "managmentInMyAccount": "Management in My Account.",
+      "termsAndConditions": "Terms & Conditions",
+      "iAlreadyHaveAnAccount": "I already have an account. Sign In",
+      "register": "Register"
+    },
+    "labels": {
+      "createAccount": "Create an account",
+      "title": "Title",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "emailAddress": "Email address",
+      "password": "Password"
+    },
+    "placeholders": {
+      "selectTitle": "Select Title",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "emailAddress": "Email Address",
+      "password": "Password"
+    },
+    "validations": {
+      "passwordMinRequirements": "Password must be six characters minimum, with one uppercase letter, one number, one symbol",
+      "bothPasswordMustMatch": "Both password must match"
+    },
+    "conditions": {
+      "useMyPersonalDataToReceiveEmailNewslettersFor": "Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.",
+      "iAmConfirmingThatIHaveReadAndAgreedWith": "I am confirming that I have read and agreed with the"
+    }
+  },
+  "login": {
+    "actions": {
+      "forgotPassword": "Forgot password?",
+      "signIn": "Sign In",
+      "register": "Register"
+    },
+    "labels": {
+      "dontHaveAccount": "Don’t have an account",
+      "emailAddress": "Email address",
+      "password": "Password"
+    },
+    "placeholders": {
+      "emailAddress": "Enter email",
+      "password": "Password"
+    },
+    "validations": {
+      "wrongEmailFormat": "This is not a valid email format."
+    }
+  },
+  "updateForgottenPassword": {
+    "actions": {
+      "submit": "Submit",
+      "cancel": "Cancel"
+    },
+    "labels": {
+      "resetPassword": "Reset password",
+      "enterEmailAddressAssociatedWithYourAccount": "Enter the email address associated with your account",
+      "emailAddress": "Email address"
+    },
+    "placeholders": {
+      "emailAddress": "Enter email"
+    }
+  }
+}
