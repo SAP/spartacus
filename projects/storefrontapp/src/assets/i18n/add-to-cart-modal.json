@@ -1,0 +1,12 @@
+{
+  "labels": {
+    "itemsAddedToYourCart": "Item(s) added to your cart",
+    "cartTotal": "Cart total",
+    "items": "items",
+    "updatingCart": "Updating cart..."
+  },
+  "actions": {
+    "viewCart": "view cart",
+    "proceedToCheckout": "proceed to checkout"
+  }
+}

@@ -1,5 +1,6 @@
 {
   "labels": {
+    "id": "ID",
     "description": "Description",
     "itemPrice": "Item price",
     "quantity": "Qty",
