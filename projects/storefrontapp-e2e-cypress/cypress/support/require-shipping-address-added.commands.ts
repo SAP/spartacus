@@ -1,18 +1,16 @@
-// import { generateMail } from '../helpers/user';
 import { user } from '../sample-data/big-happy-path';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have placed the order. Returns order object.
+       * Make sure you have shipping address added. Returns address object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requirePlacedOrder(); // default values
-        cy.requirePlacedOrder(user, product, cart);
+        cy.requireShippingAddressAdded(auth, address);
         ```
        */
       requireShippingAddressAdded: (
@@ -23,48 +21,33 @@ declare global {
   }
 }
 
-Cypress.Commands.add('requireShippingAddressAdded', (address, res) => {
+Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   const apiUrl = Cypress.env('API_URL');
-  // const email = res.email;
+
+  // format the request body
   address.firstName = user.firstName;
   address.lastName = user.lastName;
   address.town = address.city;
   address.postalCode = address.postal;
-  address.titleCode = 'Mr';
+  address.titleCode = 'mr';
   address.country = {
     isocode: 'US',
-    name: 'United States'
+    name: user.address.country
   };
   address.defaultAddress = false;
+
   function addAddress() {
-    console.log(address, user);
     return cy.request({
       method: 'POST',
       url: `${apiUrl}/rest/v2/electronics/users/current/carts/current/addresses/delivery`,
       body: address,
       form: false,
       headers: {
-        Authorization: `bearer ${res.userToken.token.access_token}`
+        Authorization: `bearer ${auth.userToken.token.access_token}`
       }
     });
   }
 
-  // function setAddress(addressId: string) {
-  //   console.log(addressId);
-  //   return cy.request({
-  //     method: 'PUT',
-  //     url: `${apiUrl}/rest/v2/electronics/users/current/carts/current/addresses/delivery?addressId=${addressId}`,
-  //     form: false,
-  //     headers: {
-  //       Authorization: `bearer ${res.userToken.token.access_token}`
-  //     }
-  //   });
-  // }
-
   cy.server();
-  addAddress().then(resp => {
-    // console.log(resp);
-    // setAddress(resp.body.id).then(() => cy.wrap({}));
-    return cy.wrap(resp);
-  });
+  addAddress().then(resp => cy.wrap(resp));
 });
