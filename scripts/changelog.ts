@@ -30,6 +30,7 @@ export interface ChangelogOptions {
 export default function run(args: ChangelogOptions, logger: logging.Logger) {
   const commits: JsonObject[] = [];
   let toSha: string | null = null;
+  const breakingChanges: JsonObject[] = [];
 
   const githubToken = (
     args.githubToken ||
@@ -85,7 +86,17 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
             if (tags && tags.find(x => x == args.to)) {
               toSha = chunk.hash as string;
             }
-
+            const notes: any = chunk.notes;
+            if (Array.isArray(notes)) {
+              notes
+                .filter(note => note.title === 'BREAKING CHANGE')
+                .forEach(note => {
+                  breakingChanges.push({
+                    content: note.text,
+                    commit: chunk
+                  });
+                });
+            }
             commits.push(chunk);
             cb();
           } catch (err) {
@@ -107,7 +118,8 @@ export default function run(args: ChangelogOptions, logger: logging.Logger) {
             v
           ),
         commits,
-        packages
+        packages,
+        breakingChanges
       });
 
       if (args.stdout || !githubToken) {
