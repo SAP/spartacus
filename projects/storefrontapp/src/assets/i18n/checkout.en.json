@@ -1,11 +1,10 @@
 {
   "labels": {
-    "needHelpWithYourCheckoutProcess": "Need Help with your checkout process?",
-    "contactUsOrCall": "Contact Us or Call phone number.",
     "selected": "SELECTED"
   },
   "actions": {
     "back": "Back",
+    "backToCart": "Back to cart",
     "continue": "Continue"
   }
 }
