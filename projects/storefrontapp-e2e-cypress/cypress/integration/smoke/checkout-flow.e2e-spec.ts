@@ -1,11 +1,11 @@
-import { user, cart, product } from '../../sample-data/big-happy-path';
+import { user, cart, product } from '../../sample-data/checkout-flow';
 import { login, register } from '../../helpers/auth-forms';
 import {
   fillPaymentDetails,
   fillShippingAddress
 } from '../../helpers/checkout-forms';
 
-context('Big happy path', () => {
+context('Checkout flow', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
