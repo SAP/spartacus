@@ -9,8 +9,13 @@
   </div>
   <div class="cx-summary-row">
     <div class="col-6 cx-summary-label">Estimated shipping:</div>
-    <!-- TODO: Implement shipping price -->
-    <div class="col-6 cx-summary-amount">Free</div>
+    <div class="col-6 cx-summary-amount">
+      {{
+        cart.deliveryCost?.formattedValue
+          ? cart.deliveryCost.formattedValue
+          : 'TBD'
+      }}
+    </div>
   </div>
   <div class="cx-summary-row cx-summary-savings">
     <div class="col-6 cx-summary-label">Discount:</div>
