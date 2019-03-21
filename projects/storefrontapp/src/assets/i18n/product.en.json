@@ -1,6 +1,11 @@
 {
-  "description": "DESCRIPTION",
-  "itemPrice": "ITEM PRICE",
-  "quantity": "QTY",
-  "total": "TOTAL"
+  "labels": {
+    "description": "Description",
+    "itemPrice": "Item price",
+    "quantity": "Qty",
+    "total": "Total"
+  },
+  "actions": {
+    "remove": "Remove"
+  }
 }
