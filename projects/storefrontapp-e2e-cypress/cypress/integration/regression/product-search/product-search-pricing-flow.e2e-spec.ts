@@ -12,7 +12,7 @@ context('Product search pricing flow', () => {
         cy.get('.nav-link')
           .contains('Digital Cameras')
           .click();
-        cy.get('.cx-navigation__child-link')
+        cy.get('.cx-nav-child-link')
           .contains('Compact Cameras')
           .click();
       });
