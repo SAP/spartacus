@@ -1,25 +1,19 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-$cx-star-rating-rating-star-color: 'light' !default;
-$cx-star-rating-rating-full-color: 'primary' !default;
-$cx-star-rating-rating-half-color: 'primary' !default;
-$cx-star-rating-rating-trbl-margin: 0 5px 0 0 !default;
-// styling for ngb-rating
+
 .star {
-  position: relative;
-  display: inline-block;
-  @include var-color('color', $cx-star-rating-rating-star-color);
-  margin: $cx-star-rating-rating-trbl-margin;
+  position: var(--cx-position, relative);
+  display: var(--cx-display, inline-block);
+  color: var(--cx-color, var(--cx-g-color-light));
+  margin: var(--cx-margin, 0 5px 0 0);
 }
 
 .full {
-  @include var-color('color', $cx-star-rating-rating-full-color);
+  color: var(--cx-color, var(--cx-g-color-primary));
 }
 
 .half {
-  position: absolute;
-  display: inline-block;
-  overflow: hidden;
-  @include var-color('color', $cx-star-rating-rating-half-color);
+  position: var(--cx-position, absolute);
+  display: var(--cx-display, inline-block);
+  overflow: var(--cx-overflow, hidden);
+  color: var(--cx-color, var(--cx-g-color-primary));
 }
