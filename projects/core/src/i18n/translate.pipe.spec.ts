@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { TranslatePipe } from '.';
 import { ChangeDetectorRef } from '@angular/core';
 
-describe('TranslatePipe', () => {
+fdescribe('TranslatePipe', () => {
   let pipe: TranslatePipe;
   let service: TranslationService;
   let cd: ChangeDetectorRef;
@@ -65,10 +65,14 @@ describe('TranslatePipe', () => {
       expect(service.translate).toHaveBeenCalledTimes(3);
     });
 
-    it('should call cd.markForCheck when service.translate emits value', () => {
-      spyOn(service, 'translate').and.returnValue(of('value'));
+    it('should call cd.markForCheck every time when service.translate emits value', () => {
+      spyOn(service, 'translate').and.returnValues(
+        of('value1', 'value2'),
+        of('value3')
+      );
       pipe.transform('testKey', { param: 'param1' });
-      expect(cd.markForCheck).toHaveBeenCalled();
+      pipe.transform('testKey', { param: 'param2' });
+      expect(cd.markForCheck).toHaveBeenCalledTimes(3);
     });
   });
 });

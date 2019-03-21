@@ -1,23 +1,24 @@
 import {
-  Pipe,
-  PipeTransform,
   ChangeDetectorRef,
-  OnDestroy
+  OnDestroy,
+  Pipe,
+  PipeTransform
 } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
-import { Observable } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
 import { shallowEqualObjects } from './utils/shallow-equal-objects';
 
 @Pipe({ name: 'cxTranslate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
   private lastKey: string;
   private lastOptions: object;
-  private lastObservable: Observable<string>;
-  private asyncPipe: AsyncPipe;
-  constructor(private service: TranslationService, cd: ChangeDetectorRef) {
-    this.asyncPipe = new AsyncPipe(cd);
-  }
+  private value: string;
+  private sub: Subscription;
+
+  constructor(
+    private service: TranslationService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   transform(key: any, options: object = {}): string {
     if (
@@ -27,12 +28,22 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
       this.lastKey = key;
       this.lastOptions = options;
 
-      this.lastObservable = this.service.translate(key, options, true);
+      if (this.sub) {
+        this.sub.unsubscribe();
+      }
+      this.sub = this.service
+        .translate(key, options, true)
+        .subscribe(val => this.markForCheck(val));
     }
-    return this.asyncPipe.transform(this.lastObservable);
+    return this.value;
+  }
+
+  private markForCheck(value: string) {
+    this.value = value;
+    this.cd.markForCheck();
   }
 
   ngOnDestroy(): void {
-    this.asyncPipe.ngOnDestroy();
+    this.sub.unsubscribe();
   }
 }
