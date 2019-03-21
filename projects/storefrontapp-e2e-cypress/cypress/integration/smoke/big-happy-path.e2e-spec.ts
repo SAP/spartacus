@@ -15,9 +15,9 @@ context('Big happy path', () => {
     cy.getByText(/Sign in \/ Register/i).click();
     cy.getByText('Register').click();
     register(user);
-    cy.get('.cx-login-status__greet').should('contain', user.fullName);
+    cy.get('.cx-login-greet').should('contain', user.fullName);
     cy.selectUserMenuOption('Sign Out');
-    cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
+    cy.get('.cx-login-greet').should('not.contain', user.fullName);
   });
 
   it('should go to product page from category page', () => {
