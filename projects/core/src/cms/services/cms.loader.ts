@@ -1,12 +1,13 @@
 import { Injectable, Inject } from '@angular/core';
 import { PageContext } from '../../routing/models/page-context.model';
-import { map, switchMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
 
 import { CMSPage } from '../../occ/occ-models/occ.models';
 import { CmsStructureModel } from '../model/page.model';
 import { Adapter } from '../adapters/index';
 import { CmsStructureConfigService } from './cms-config.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /**
  * Abstract class that can be used to implement custom loader logic
@@ -45,7 +46,17 @@ export abstract class CmsLoader<S> {
         switchMap(loadFromConfig => {
           if (!loadFromConfig) {
             return this.loadPage(pageContext).pipe(
-              map(page => this.adapt(page))
+              map(page => this.adapt(page)),
+              catchError(error => {
+                if (
+                  error instanceof HttpErrorResponse &&
+                  error.status === 400
+                ) {
+                  return of({});
+                } else {
+                  return throwError(error);
+                }
+              })
             );
           } else {
             return of({});

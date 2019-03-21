@@ -55,14 +55,12 @@ export class OccCmsService extends CmsLoader<CMSPage> {
       httpStringParams = httpStringParams + '&fields=' + fields;
     }
 
-    return this.http
-      .get(this.getBaseEndPoint() + `/pages`, {
-        headers: this.headers,
-        params: new HttpParams({
-          fromString: httpStringParams
-        })
+    return this.http.get(this.getBaseEndPoint() + `/pages`, {
+      headers: this.headers,
+      params: new HttpParams({
+        fromString: httpStringParams
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    });
   }
 
   loadComponent<T extends CmsComponent>(

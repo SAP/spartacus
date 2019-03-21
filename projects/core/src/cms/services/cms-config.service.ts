@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   CmsStructureConfig,
-  CmsPageSlotConfig,
   CmsPageConfig,
   CmsPageSlotsConfig
 } from '../config/cms-structure.config';
