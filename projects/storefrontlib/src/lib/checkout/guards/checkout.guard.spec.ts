@@ -116,7 +116,10 @@ describe('CheckoutGuard', () => {
       .subscribe()
       .unsubscribe();
 
-    expect(service.go).toHaveBeenCalledWith({ route: ['login'] });
+    expect(service.go).toHaveBeenCalledWith(
+      { route: ['login'] },
+      { forced: true }
+    );
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });
