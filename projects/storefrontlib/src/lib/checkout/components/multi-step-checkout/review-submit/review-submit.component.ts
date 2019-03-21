@@ -1,9 +1,6 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  Input,
-  OnInit
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap, switchMap } from 'rxjs/operators';
 
 import {
   CheckoutService,
@@ -16,10 +13,6 @@ import {
   Country,
   PaymentDetails
 } from '@spartacus/core';
-
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
@@ -29,17 +22,12 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewSubmitComponent implements OnInit {
-  @Input()
-  deliveryAddress: Address;
-  @Input()
-  shippingMethod: string;
-  @Input()
-  paymentDetails: PaymentDetails;
-
   entries$: Observable<OrderEntry[]>;
   cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<Country>;
+  deliveryAddress$: Observable<Address>;
+  paymentDetails$: Observable<PaymentDetails>;
 
   constructor(
     protected checkoutService: CheckoutService,
@@ -50,6 +38,8 @@ export class ReviewSubmitComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.cartService.getActive();
     this.entries$ = this.cartService.getEntries();
+    this.deliveryAddress$ = this.checkoutService.getDeliveryAddress();
+    this.paymentDetails$ = this.checkoutService.getPaymentDetails();
 
     this.deliveryMode$ = this.checkoutService.getSelectedDeliveryMode().pipe(
       tap(selected => {
@@ -59,37 +49,37 @@ export class ReviewSubmitComponent implements OnInit {
       })
     );
 
-    this.countryName$ = this.userService
-      .getCountry(this.deliveryAddress.country.isocode)
-      .pipe(
-        tap(country => {
-          if (country === null) {
-            this.userService.loadDeliveryCountries();
-          }
-        })
-      );
+    this.countryName$ = this.deliveryAddress$.pipe(
+      switchMap((address: Address) =>
+        this.userService.getCountry(address.country.isocode)
+      ),
+      tap((country: Country) => {
+        if (country === null) {
+          this.userService.loadDeliveryCountries();
+        }
+      })
+    );
   }
 
-  getShippingAddressCard(countryName: string): Card {
+  getShippingAddressCard(deliveryAddress: Address, countryName: string): Card {
     if (!countryName) {
-      countryName = this.deliveryAddress.country.isocode;
+      countryName = deliveryAddress.country.isocode;
     }
 
     let region = '';
-    if (this.deliveryAddress.region && this.deliveryAddress.region.isocode) {
-      region = this.deliveryAddress.region.isocode + ', ';
+    if (deliveryAddress.region && deliveryAddress.region.isocode) {
+      region = deliveryAddress.region.isocode + ', ';
     }
 
     return {
       title: 'Ship To',
-      textBold:
-        this.deliveryAddress.firstName + ' ' + this.deliveryAddress.lastName,
+      textBold: deliveryAddress.firstName + ' ' + deliveryAddress.lastName,
       text: [
-        this.deliveryAddress.line1,
-        this.deliveryAddress.line2,
-        this.deliveryAddress.town + ', ' + region + countryName,
-        this.deliveryAddress.postalCode,
-        this.deliveryAddress.phone
+        deliveryAddress.line1,
+        deliveryAddress.line2,
+        deliveryAddress.town + ', ' + region + countryName,
+        deliveryAddress.postalCode,
+        deliveryAddress.phone
       ]
     };
   }
@@ -98,22 +88,22 @@ export class ReviewSubmitComponent implements OnInit {
     if (deliveryMode) {
       return {
         title: 'Shipping Method',
-        textBold: this.shippingMethod,
+        textBold: deliveryMode.name,
         text: [deliveryMode.description]
       };
     }
   }
 
-  getPaymentMethodCard(): Card {
+  getPaymentMethodCard(paymentDetails: PaymentDetails): Card {
     return {
       title: 'Payment',
-      textBold: this.paymentDetails.accountHolderName,
+      textBold: paymentDetails.accountHolderName,
       text: [
-        this.paymentDetails.cardNumber,
+        paymentDetails.cardNumber,
         'Expires: ' +
-          this.paymentDetails.expiryMonth +
+          paymentDetails.expiryMonth +
           '/' +
-          this.paymentDetails.expiryYear
+          paymentDetails.expiryYear
       ]
     };
   }
