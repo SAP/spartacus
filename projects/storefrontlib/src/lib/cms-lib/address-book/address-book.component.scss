@@ -9,5 +9,10 @@
 }
 
 .cx-address-card {
-  display: var(--cx-display, block);
+  // display: var(--cx-display, block);
+  padding-bottom: var(--cx-padding, 30px);
+}
+
+.cx-form {
+  padding-top: var(--cx-padding, 30px);
 }
