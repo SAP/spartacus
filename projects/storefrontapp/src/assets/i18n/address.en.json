@@ -14,7 +14,11 @@
   "actions": {
     "saveAsDefault": "Save as default",
     "chooseAddress": "Choose address",
-    "continue": "Continue"
+    "continue": "Continue",
+    "setAsDefault": "set as default",
+    "backToAddressList": "Back to address list",
+    "addAddress": "Add address",
+    "updateAddress": "Update address"
   },
   "placeholders": {
     "firstName": "First Name",

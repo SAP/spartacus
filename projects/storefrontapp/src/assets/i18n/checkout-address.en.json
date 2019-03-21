@@ -6,6 +6,6 @@
   },
   "actions": {
     "addNewAddress": "Add New Address",
-    "useThisPayment": "Ship tp this address"
+    "useThisPayment": "Ship to this address"
   }
 }
