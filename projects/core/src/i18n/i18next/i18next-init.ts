@@ -10,7 +10,6 @@ export function i18NextInit(
   return () => {
     let i18NextConfig: i18next.InitOptions = {
       fallbackLng: config.i18n.fallbackLang,
-      ns: config.i18n.preloadNamespaces,
       debug: config.i18n.debug
     };
     if (config.i18n.backend) {
