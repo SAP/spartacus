@@ -102,7 +102,8 @@ describe('TranslationService', () => {
         service.translate(testKey, testOptions).subscribe();
 
         expect(i18NextService.loadNamespaces).toHaveBeenCalledWith(
-          'testNamespace'
+          'testNamespace',
+          jasmine.any(Function)
         );
       });
     });
@@ -110,54 +111,51 @@ describe('TranslationService', () => {
     describe(', when key does NOT exist even after namespace was loaded,', () => {
       beforeEach(() => {
         i18NextService.exists.and.returnValues(false, false);
-        i18NextService.loadNamespaces.and.returnValue(Promise.resolve());
+        i18NextService.loadNamespaces.and.callFake(
+          (_namespaces, onNamespaceLoad) => onNamespaceLoad()
+        );
         spyOn(console, 'warn');
       });
 
-      it('should report missing key', done => {
-        service.translate(testKey, testOptions).subscribe(() => {
-          expect(console.warn).toHaveBeenCalled();
-          done();
-        });
+      it('should report missing key', () => {
+        service.translate(testKey, testOptions).subscribe();
+        expect(console.warn).toHaveBeenCalled();
       });
 
-      it('should emit key in brackets for non-production', done => {
-        service.translate(testKey, testOptions).subscribe(result => {
-          expect(result).toBe(`[testNamespace:testKey]`);
-          done();
-        });
+      it('should emit key in brackets for non-production', () => {
+        let result;
+        service.translate(testKey, testOptions).subscribe(x => (result = x));
+        expect(result).toBe(`[testNamespace:testKey]`);
       });
 
-      it('should return non-breaking space for production', done => {
+      it('should return non-breaking space for production', () => {
         config.production = true;
-        service.translate(testKey, testOptions).subscribe(result => {
-          expect(result).toBe(nonBreakingSpace);
-          done();
-        });
+        let result;
+        service.translate(testKey, testOptions).subscribe(x => (result = x));
+        expect(result).toBe(nonBreakingSpace);
       });
     });
 
     describe(', when key does NOT exist firstly, but it comes with loaded namespace,', () => {
       beforeEach(() => {
         i18NextService.exists.and.returnValues(false, true);
-        i18NextService.loadNamespaces.and.returnValue(Promise.resolve());
+        i18NextService.loadNamespaces.and.callFake(
+          (_namespaces, onNamespaceLoad) => onNamespaceLoad()
+        );
         spyOn(console, 'warn');
       });
 
-      it('should NOT report missing key', done => {
-        service.translate(testKey, testOptions).subscribe(() => {
-          expect(console.warn).not.toHaveBeenCalled();
-          done();
-        });
+      it('should NOT report missing key', () => {
+        service.translate(testKey, testOptions).subscribe();
+        expect(console.warn).not.toHaveBeenCalled();
       });
 
-      it('should return result of i18NextService.t', done => {
+      it('should return result of i18NextService.t', () => {
         i18NextService.t.and.returnValue('value');
-        service.translate(testKey, testOptions).subscribe(result => {
-          expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
-          expect(result).toBe('value');
-          done();
-        });
+        let result;
+        service.translate(testKey, testOptions).subscribe(x => (result = x));
+        expect(i18NextService.t).toHaveBeenCalledWith(testKey, testOptions);
+        expect(result).toBe('value');
       });
     });
   });
