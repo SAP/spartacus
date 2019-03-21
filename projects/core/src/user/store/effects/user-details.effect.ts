@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, exhaustMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, concatMap } from 'rxjs/operators';
 
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import { OccUserService } from '../../occ/index';
@@ -36,8 +36,8 @@ export class UserDetailsEffects {
   > = this.actions$.pipe(
     ofType(fromUserDetailsAction.UPDATE_USER_DETAILS),
     map((action: fromUserDetailsAction.UpdateUserDetails) => action.payload),
-    // TODO:#1145 - test how the update behaves with `exhaustMap` and with `switchMap`
-    exhaustMap(payload =>
+    // TODO:#1145 - test how the update behaves with `concatMap` and with `switchMap`
+    concatMap(payload =>
       this.occUserService
         .updateUserDetails(payload.username, payload.userDetails)
         .pipe(
