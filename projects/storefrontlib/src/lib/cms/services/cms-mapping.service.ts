@@ -1,11 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import {
-  CmsConfig,
-  ContentSlotComponentData,
-  CMS_FLEX_COMPONENT_TYPE,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE,
-  Page
-} from '@spartacus/core';
+import { CmsConfig } from '@spartacus/core';
 import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
@@ -18,57 +12,25 @@ export class CmsMappingService {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-  /**
-   * The "JspIncludeComponent" and "FlexCmsComponent" are types of CmsComponent that behave
-   * as a placeholder component (with no specific data provided).
-   *
-   * While it's not very clean solution, we interpret the "uid" of the "JspIncludeComponent" and "flextype" of "FlexCmsComponent"
-   * as a component type and thanks to that we map it onto the implementation of the Angular (or web) component.
-   *
-   * CAUTION: The mapped type should not be used for SmartEdit bindings.
-   */
-  getMappedType(component: ContentSlotComponentData): string {
-    switch (component.typeCode) {
-      case JSP_INCLUDE_CMS_COMPONENT_TYPE:
-        return component.uid;
-      case CMS_FLEX_COMPONENT_TYPE:
-        return component.flexType;
-      default:
-        return component.typeCode;
-    }
-  }
-
-  isMappedTypeEnabled(mappedType: string): boolean {
+  isComponentEnabled(flexType: string): boolean {
     const isSSR = isPlatformServer(this.platformId);
-    const isComponentDisabledInSSR = (
-      this.config.cmsComponents[mappedType] || {}
-    ).disableSSR;
+    const isComponentDisabledInSSR = (this.config.cmsComponents[flexType] || {})
+      .disableSSR;
     return !(isSSR && isComponentDisabledInSSR);
   }
 
-  getMappedTypes(pageData: Page): string[] {
-    const mappings = new Set<string>();
-    for (const slot of Object.keys(pageData.slots)) {
-      for (const component of pageData.slots[slot].components || []) {
-        const mappedType = this.getMappedType(component);
-        if (mappedType && this.isMappedTypeEnabled(mappedType)) {
-          mappings.add(mappedType);
-        }
-      }
-    }
-    return Array.from(mappings);
-  }
-
-  getRoutesFromPageData(pageData: Page): Route[] {
+  getRoutesForComponents(componentTypes: string[]): Route[] {
     const routes = [];
-    for (const componentId of this.getMappedTypes(pageData)) {
-      routes.push(...this.getRoutesForMappedType(componentId));
+    for (const componentType of componentTypes) {
+      if (this.isComponentEnabled(componentType)) {
+        routes.push(...this.getRoutesForComponent(componentType));
+      }
     }
     return routes;
   }
 
-  private getRoutesForMappedType(mappedType: string): Route[] {
-    const mappingConfig = this.config.cmsComponents[mappedType];
+  private getRoutesForComponent(componentType: string): Route[] {
+    const mappingConfig = this.config.cmsComponents[componentType];
     return (mappingConfig && mappingConfig.childRoutes) || [];
   }
 }
