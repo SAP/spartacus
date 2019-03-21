@@ -21,6 +21,7 @@ context('Big happy path', () => {
   });
 
   it('should go to product page from category page', () => {
+    cy.visit('/');
     // click big banner
     cy.get('.Section1 cx-responsive-banner')
       .first()
