@@ -1,8 +1,8 @@
-import { user } from '../../sample-data/big-happy-path';
+import { user } from '../../sample-data/checkout-flow';
 import { register, login } from '../../helpers/auth-forms';
 
 describe('Login', () => {
-  const userGreetSelector = 'cx-login .cx-login-status__greet';
+  const userGreetSelector = 'cx-login .cx-login-greet';
   const loginLinkSelector = 'cx-login [role="link"]';
 
   before(() => {

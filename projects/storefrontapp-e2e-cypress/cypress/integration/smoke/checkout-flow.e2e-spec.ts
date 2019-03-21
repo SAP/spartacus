@@ -1,11 +1,11 @@
-import { user, cart, product } from '../../sample-data/big-happy-path';
+import { user, cart, product } from '../../sample-data/checkout-flow';
 import { login, register } from '../../helpers/auth-forms';
 import {
   fillPaymentDetails,
   fillShippingAddress
 } from '../../helpers/checkout-forms';
 
-context('Big happy path', () => {
+context('Checkout flow', () => {
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
@@ -15,12 +15,13 @@ context('Big happy path', () => {
     cy.getByText(/Sign in \/ Register/i).click();
     cy.getByText('Register').click();
     register(user);
-    cy.get('.cx-login-status__greet').should('contain', user.fullName);
+    cy.get('.cx-login-greet').should('contain', user.fullName);
     cy.selectUserMenuOption('Sign Out');
-    cy.get('.cx-login-status__greet').should('not.contain', user.fullName);
+    cy.get('.cx-login-greet').should('not.contain', user.fullName);
   });
 
   it('should go to product page from category page', () => {
+    cy.visit('/');
     // click big banner
     cy.get('.Section1 cx-responsive-banner')
       .first()
