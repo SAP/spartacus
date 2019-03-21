@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
+import { LoaderState } from '../../state';
+import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import {
@@ -17,7 +19,6 @@ import {
 } from '../../occ/occ-models/index';
 
 import { UserService } from './user.service';
-import { UserRegisterFormData } from '../model/user.model';
 
 describe('UserService', () => {
   let service: UserService;
@@ -398,5 +399,72 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.ClearUserOrders()
     );
+  });
+
+  describe('update personal details', () => {
+    const username = 'xxx';
+    const userDetails: User = {
+      uid: username
+    };
+
+    it('should dispatch UpdateUserDetails action', () => {
+      service.updatePersonalDetails(username, userDetails);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateUserDetails({ username, userDetails })
+      );
+    });
+
+    it('should return the loading state', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: LoaderState<void>;
+      service
+        .getUpdatePersonalDetailsResultState()
+        .subscribe(state => (result = state))
+        .unsubscribe();
+
+      expect(result).toEqual({
+        loading: false,
+        error: false,
+        success: true,
+        value: undefined
+      });
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultError()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultSuccess()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
   });
 });

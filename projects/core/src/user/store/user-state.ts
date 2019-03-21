@@ -14,6 +14,7 @@ export const USER_FEATURE = 'user';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
+export const USER_UPDATE_DETAILS = '[User] User Update Details Loader Type';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -65,4 +66,8 @@ export interface TitlesState {
 
 export interface UserDetailsState {
   details: User;
+  update: {
+    details: LoaderState<void>;
+    // TODO: add password and email here
+  };
 }

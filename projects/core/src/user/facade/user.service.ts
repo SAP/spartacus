@@ -5,6 +5,8 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
+import { LoaderState } from '../../state';
+import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import {
   Order,
@@ -16,7 +18,6 @@ import {
   Region,
   OrderHistoryList
 } from '../../occ/occ-models/index';
-import { UserRegisterFormData } from '../model/user.model';
 
 @Injectable()
 export class UserService {
@@ -328,5 +329,43 @@ export class UserService {
    */
   clearOrderList() {
     this.store.dispatch(new fromStore.ClearUserOrders());
+  }
+
+  /**
+   * Updates the user's details
+   * @param userDetails to be updated
+   */
+  updatePersonalDetails(username: string, userDetails: User): void {
+    this.store.dispatch(
+      new fromStore.UpdateUserDetails({ username, userDetails })
+    );
+  }
+
+  /**
+   * Returns the whole update user's personal details loader state
+   */
+  getUpdatePersonalDetailsResultState(): Observable<LoaderState<void>> {
+    return this.store.pipe(select(fromStore.getUpdateDetailsState));
+  }
+
+  /**
+   * Returns the update user's personal details loading flag
+   */
+  getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getUpdateDetailsLoading));
+  }
+
+  /**
+   * Returns the update user's personal details error flag
+   */
+  getUpdatePersonalDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getUpdateDetailsError));
+  }
+
+  /**
+   * Returns the update user's personal details success flag
+   */
+  getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getUpdateDetailsSuccess));
   }
 }

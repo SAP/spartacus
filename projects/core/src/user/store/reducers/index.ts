@@ -1,12 +1,18 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
+import {
+  ActionReducerMap,
+  MetaReducer,
+  ActionReducer,
+  combineReducers
+} from '@ngrx/store';
 
 import {
   UserState,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  USER_ADDRESSES
+  USER_ADDRESSES,
+  USER_UPDATE_DETAILS
 } from '../user-state';
 import { LOGOUT } from '../../../auth/index';
 import {
@@ -28,7 +34,12 @@ import * as fromUserOrdersReducer from './user-orders.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
-    account: fromUserDetailsReducer.reducer,
+    account: combineReducers({
+      details: fromUserDetailsReducer.reducer,
+      update: combineReducers({
+        details: loaderReducer<void>(USER_UPDATE_DETAILS)
+      })
+    }),
     addresses: loaderReducer<Address[]>(
       USER_ADDRESSES,
       fromAddressesReducer.reducer

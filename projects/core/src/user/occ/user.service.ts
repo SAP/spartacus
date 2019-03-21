@@ -5,11 +5,6 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { UserRegisterFormData } from '../model/user.model';
-
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN
-} from '../../occ/utils/interceptor-util';
 import { OccConfig } from '../../occ/config/occ-config';
 import {
   User,
@@ -18,6 +13,10 @@ import {
   AddressList,
   PaymentDetailsList
 } from '../../occ/occ-models/index';
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN
+} from '../../occ/utils/interceptor-util';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -26,14 +25,20 @@ const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 
 @Injectable()
 export class OccUserService {
-  // some extending from baseservice is not working here...
   constructor(protected http: HttpClient, protected config: OccConfig) {}
 
-  public loadUser(userId: string): Observable<User> {
+  loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get<User>(url)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateUserDetails(username: string, user: User): Observable<{}> {
+    const url = this.getUserEndpoint() + username;
+    return this.http
+      .patch(url, user)
+      .pipe(catchError(error => throwError(error)));
   }
 
   verifyAddress(

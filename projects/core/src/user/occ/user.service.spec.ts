@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { OccUserService } from './user.service';
 import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
+
+import { OccConfig } from '../../occ/config/occ-config';
 import {
   User,
   Address,
@@ -12,7 +13,8 @@ import {
   PaymentDetails,
   PaymentDetailsList
 } from '../../occ/occ-models/index';
-import { OccConfig } from '../../occ/config/occ-config';
+
+import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -59,7 +61,7 @@ describe('OccUserService', () => {
   });
 
   describe('load user details', () => {
-    it('should load user details for given username abd access token', () => {
+    it('should load user details for given username and access token', () => {
       service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
@@ -71,6 +73,23 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
+    });
+  });
+
+  describe('update user details', () => {
+    it('should update user details for the given username', () => {
+      const userUpdates: User = {
+        title: 'mr'
+      };
+      service.updateUserDetails(username, userUpdates).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(userUpdates);
     });
   });
 
