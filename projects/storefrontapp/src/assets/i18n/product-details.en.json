@@ -4,7 +4,6 @@
     "quantity": "Qty"
   },
   "actions": {
-    "addToCart": "Add to cart",
     "share": "Share",
     "showReviews": "Show reviews"
   },
