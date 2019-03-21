@@ -1,0 +1,10 @@
+{
+  "labels": {
+    "order": "Order #",
+    "placed": "Placed",
+    "status": "Status",
+    "shipped": "SHIPPED",
+    "shippedOn": "Shipped on",
+    "inProcess": "In process..."
+  }
+}
