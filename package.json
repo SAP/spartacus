@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
-    "build:core:lib": "ng build core && ng build storefrontlib",
+    "build:core:lib": "ng build core && ng build storefrontlib && yarn generate:translations",
     "build:qa": "ng build -c=qa",
     "e2e": "ng e2e",
     "e2e:no-serve": "ng e2e --devServerTarget=",
@@ -24,6 +24,7 @@
     "e2e:cy:start-run-regression-ci": "start-server-and-test start:ci http-get://localhost:4200 e2e:cy:run:regression:ci",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
+    "generate:translations": "ts-node ./scripts/generate-translations",
     "lint": "ng lint",
     "mockserver": "cd ./projects/backend/mockgenerator && npm run start",
     "ng": "ng",
