@@ -40,7 +40,7 @@ export abstract class CmsLoader<T> {
    */
   get(pageContext: PageContext): Observable<CmsStructureModel> {
     return this.cmsStructureConfigService
-      .loadPageFromConfig(pageContext.id)
+      .shouldIgnoreBackend(pageContext.id)
       .pipe(
         switchMap(loadFromConfig => {
           if (!loadFromConfig) {

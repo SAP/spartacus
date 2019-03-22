@@ -39,14 +39,14 @@ export abstract class CmsStructureConfigService {
 
   /**
    *
-   * Returns boolean observable to indicate whether the page should be
-   * loaded from config. This is useful for pages which are comoditie
+   * Returns boolean observable to indicate whether the page should not be
+   * loaded from the backend. This is useful for pages which are comoditized
    * and follow best practice.
    *
    * By default, configurable pages are driven by static configuration,
-   * in order to allow for fast loading pages (preventing networ delays)
+   * in order to allow for fast loading pages (preventing network delays).
    */
-  loadPageFromConfig(pageId: string): Observable<boolean> {
+  shouldIgnoreBackend(pageId: string): Observable<boolean> {
     return this.getPageFromConfig(pageId).pipe(
       map(page => page && page.ignoreBackend)
     );
@@ -58,7 +58,7 @@ export abstract class CmsStructureConfigService {
   private getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
     return of(
       this.cmsDataConfig.cmsStructure.pages
-        ? this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
+        ? this.cmsDataConfig.cmsStructure.pages.find(p => p.path === pageId)
         : null
     );
   }
