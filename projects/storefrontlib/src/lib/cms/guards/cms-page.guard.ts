@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 
 import { combineLatest, Observable, of } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, map } from 'rxjs/operators';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsI18nService } from '../services/cms-i18n.service';
 
@@ -31,21 +31,29 @@ export class CmsPageGuard implements CanActivate {
       switchMap(pageContext =>
         combineLatest(this.cmsService.hasPage(pageContext), of(pageContext))
       ),
-      tap(([hasPage, pageContext]) => {
-        if (!hasPage && pageContext.id !== '/notFound') {
-          this.routingService.go(['notFound']);
-        }
-      }),
-      tap(([_, pageContext]) => this.cmsI18n.loadNamespaces(pageContext)),
       switchMap(([hasPage, pageContext]) => {
-        if (
-          hasPage &&
-          !route.data.cxCmsRouteContext &&
-          !this.cmsRoutes.cmsRouteExist(pageContext.id)
-        ) {
-          return this.cmsRoutes.handleCmsRoutesInGuard(pageContext, state.url);
+        if (hasPage) {
+          return this.cmsService.getPageComponentTypes(pageContext).pipe(
+            tap(componentTypes => this.cmsI18n.loadNamespaces(componentTypes)),
+            map(componentTypes => {
+              if (
+                !route.data.cxCmsRouteContext &&
+                !this.cmsRoutes.cmsRouteExist(pageContext.id)
+              ) {
+                return this.cmsRoutes.handleCmsRoutesInGuard(
+                  pageContext,
+                  componentTypes,
+                  state.url
+                );
+              }
+              return true;
+            })
+          );
         } else {
-          return of(hasPage);
+          if (pageContext.id !== '/notFound') {
+            this.routingService.go(['notFound']);
+          }
+          return of(false);
         }
       })
     );
