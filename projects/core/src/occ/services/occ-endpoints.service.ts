@@ -11,6 +11,10 @@ export class OccEndpointsService {
   constructor(private config: OccConfig) {}
 
   getBaseEndpoint(): string {
+    if (!this.config || !this.config.server) {
+      return '';
+    }
+
     return (
       (this.config.server.baseUrl || '') +
       this.config.server.occPrefix +
