@@ -53,8 +53,8 @@
             <cx-shipping-address
               [selectedAddress]="deliveryAddress"
               (addAddress)="addAddress($event)"
-            >
-            </cx-shipping-address>
+              (goToStep)="goToStep($event)"
+            ></cx-shipping-address>
           </div>
           <div *ngIf="nav.status.active && step === 2">
             <cx-delivery-mode
