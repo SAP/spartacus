@@ -109,6 +109,7 @@
   &-child-list-columns {
     border-radius: var(--cx-border-radius, 0);
     padding: var(--cx-padding, 0.75rem);
+    margin: var(--cx-margin, 0);
     &.show {
       display: var(--cx-display, flex);
     }
@@ -131,7 +132,7 @@
     padding: var(--cx-padding, 0.25rem 1.5rem);
   }
   &-child-column {
-    margin: var(--cx-margin, 0 3rem 0 0);
+    margin: var(--cx-margin, 0);
     @include media-breakpoint-down(md) {
       margin: var(--cx-margin, 1rem unset 0 0);
     }
