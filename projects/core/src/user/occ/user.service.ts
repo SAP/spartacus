@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -23,6 +23,8 @@ const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
 const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
+const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
+const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 
 @Injectable()
 export class OccUserService {
@@ -157,6 +159,33 @@ export class OccUserService {
 
     return this.http
       .post<User>(url, user, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
+    const url = this.getBaseEndPoint() + FORGOT_PASSWORD_ENDPOINT;
+    const httpParams: HttpParams = new HttpParams().set(
+      'userId',
+      userEmailAddress
+    );
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    return this.http
+      .post(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<{}> {
+    const url = this.getBaseEndPoint() + RESET_PASSWORD_ENDPOINT;
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+    return this.http
+      .post(url, { token, newPassword }, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
