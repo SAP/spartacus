@@ -3,8 +3,18 @@ import { Observable } from 'rxjs';
 import { ServerConfig } from '../config/server-config/server-config';
 import { I18nextService } from './i18next/i18next.service';
 
+export interface ITranslationService {
+  exists: (key: string, options?: any) => boolean;
+  translate: (
+    key: string,
+    options?: any,
+    whitespaceUntilLoaded?: boolean
+  ) => Observable<string>;
+  loadNamespaces: (namespaces: string | string[]) => Promise<any>;
+}
+
 @Injectable()
-export class TranslationService {
+export class TranslationService implements ITranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
 
   constructor(
