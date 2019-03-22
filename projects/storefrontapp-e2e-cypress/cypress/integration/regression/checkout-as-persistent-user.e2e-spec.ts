@@ -1,9 +1,11 @@
 import { product } from '../../sample-data/checkout-flow';
 
 context('Check login', () => {
+  const testUser = 'test-user-cypress@ydev.hybris.com';
+
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
-    cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
+    cy.login(testUser, 'Password123.');
     cy.visit('/');
   });
 
@@ -11,39 +13,7 @@ context('Check login', () => {
     cy.get('.cx-login-greet').should('contain', 'Test User');
   });
 
-  it('should add a shipping address', () => {
-    cy.request({
-      method: 'POST',
-      url: `${Cypress.env(
-        'API_URL'
-      )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
-      headers: {
-        Authorization: `bearer ${
-          JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-            'access_token'
-          ]
-        }`
-      },
-      body: {
-        defaultAddress: false,
-        titleCode: 'mr',
-        firstName: 'Test',
-        lastName: 'User',
-        line1: '999 de Maisonneuve',
-        line2: '',
-        town: 'Montreal',
-        region: { isocode: 'US-AK' },
-        country: { isocode: 'US' },
-        postalCode: 'H4B3L4',
-        phone: ''
-      }
-    }).then(response => {
-      expect(response.status).to.eq(201);
-    });
-  });
-
   it('should go to product page from category page', () => {
-    // click big banner
     cy.get('.Section1 cx-responsive-banner')
       .first()
       .find('img')
@@ -74,7 +44,7 @@ context('Check login', () => {
         method: 'POST',
         url: `${Cypress.env(
           'API_URL'
-        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+        )}/rest/v2/electronics-spa/users/${testUser}/carts/${cartid}/paymentdetails`,
         headers: {
           Authorization: `bearer ${
             JSON.parse(sessionStorage.getItem('auth')).userToken.token[
@@ -169,15 +139,6 @@ context('Check login', () => {
     });
     cy.get('cx-cart-item .cx-code').should('contain', product.code);
     cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
-  });
-
-  it('should delete shipping address', () => {
-    cy.visit('/my-account/address-book');
-    cy.getByText('delete')
-      .first()
-      .click();
-    cy.get('.cx-address-card--delete-mode button.btn-primary').click();
-    cy.get('cx-global-message').contains('Address deleted successfully!');
   });
 
   it('should delete payment method', () => {
