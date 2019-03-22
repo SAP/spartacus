@@ -8,12 +8,14 @@ import { LoginModule } from './login/login.module';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
 import { RegisterComponentModule } from './register/register.module';
 import { LoginFormModule } from './login-form/login-form.module';
+import { CheckoutLoginModule } from './checkout-login/checkout-login.module';
 import { ResetPasswordModule } from './reset-password/reset-password.module';
 import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    CheckoutLoginModule,
     LoginModule,
     LoginFormModule,
     ReactiveFormsModule,
