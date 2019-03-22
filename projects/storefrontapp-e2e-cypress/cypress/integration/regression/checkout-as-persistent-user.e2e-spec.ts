@@ -1,4 +1,4 @@
-import { product } from '../../sample-data/big-happy-path';
+import { product } from '../../sample-data/checkout-flow';
 
 context('Check login', () => {
   before(() => {
@@ -8,7 +8,7 @@ context('Check login', () => {
   });
 
   it('should login successfully', () => {
-    cy.get('.cx-login-status__greet').should('contain', 'Test User');
+    cy.get('.cx-login-greet').should('contain', 'Test User');
   });
 
   it('should add a shipping address', () => {
