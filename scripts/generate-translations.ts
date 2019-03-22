@@ -3,7 +3,7 @@ import * as rimraf from 'rimraf';
 import { translations } from '../projects/storefrontlib/src/translations/index';
 
 const libDist = './dist/storefrontlib/';
-const translationsDist = libDist + 'translations/';
+const translationsDist = libDist + 'i18n-assets/';
 function createDir(dir) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
