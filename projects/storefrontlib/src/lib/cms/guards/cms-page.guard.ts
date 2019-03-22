@@ -34,7 +34,9 @@ export class CmsPageGuard implements CanActivate {
       switchMap(([hasPage, pageContext]) => {
         if (hasPage) {
           return this.cmsService.getPageComponentTypes(pageContext).pipe(
-            tap(componentTypes => this.cmsI18n.loadNamespaces(componentTypes)),
+            tap(componentTypes =>
+              this.cmsI18n.loadNamespacesForComponents(componentTypes)
+            ),
             map(componentTypes => {
               if (
                 !route.data.cxCmsRouteContext &&

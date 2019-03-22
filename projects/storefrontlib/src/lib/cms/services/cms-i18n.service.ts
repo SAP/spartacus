@@ -11,7 +11,7 @@ export class CmsI18nService {
     private translationService: TranslationService
   ) {}
 
-  loadNamespaces(componentTypes: string[]) {
+  loadNamespacesForComponents(componentTypes: string[]) {
     const i18nNamespaces = this.cmsMapping.getI18nNamespacesForComponents(
       componentTypes
     );

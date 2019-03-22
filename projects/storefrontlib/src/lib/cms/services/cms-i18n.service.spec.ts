@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CmsService, PageType, TranslationService } from '@spartacus/core';
+import { TranslationService } from '@spartacus/core';
 import { CmsMappingService } from '@spartacus/storefront';
-import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { CmsI18nService } from './cms-i18n.service';
 
@@ -10,15 +9,8 @@ describe('CmsI18nService', () => {
   let service: CmsI18nService;
   let translation: TranslationService;
 
-  const mockPageContext = {
-    type: PageType.CONTENT_PAGE,
-    id: 'testId'
-  };
   const mockCmsMapping = {
     getI18nNamespacesForComponents: () => ['namespace1', 'namespace2']
-  };
-  const mockCmsService = {
-    getPageComponentTypes: () => of([])
   };
   const mockTranslation = {
     loadNamespaces: createSpy('loadNamespaces')
@@ -28,7 +20,6 @@ describe('CmsI18nService', () => {
     TestBed.configureTestingModule({
       providers: [
         CmsI18nService,
-        { provide: CmsService, useValue: mockCmsService },
         { provide: CmsMappingService, useValue: mockCmsMapping },
         { provide: TranslationService, useValue: mockTranslation }
       ]
@@ -41,9 +32,9 @@ describe('CmsI18nService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('loadNamespaces', () => {
-    it('should load namespaces for given page context', () => {
-      service.loadNamespaces(mockPageContext);
+  describe('loadNamespacesForComponents', () => {
+    it('should load i18n namespaces for given component types', () => {
+      service.loadNamespacesForComponents([]);
 
       expect(translation.loadNamespaces).toHaveBeenCalledWith([
         'namespace1',
