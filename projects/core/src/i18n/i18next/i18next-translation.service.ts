@@ -13,25 +13,10 @@ export class I18nextTranslationService implements TranslationService {
     private config: ServerConfig
   ) {}
 
-  /**
-   * Checks if given key with options exists
-   *
-   * @param key
-   * @param options
-   */
   exists(key: string, options: any = {}): boolean {
     return this.i18nextService.exists(key, options);
   }
 
-  /**
-   * Translates given key with options.
-   * If key is missing, it tries to load the namespace and emits a value when namespace is loaded.
-   * If key is missing after loaded namespace, a fallback value is emitted
-   *
-   * @param key translation key with preceding namespace
-   * @param options values for interpolation in translation
-   * @param whitespaceUntilLoaded if true, immediately emits a non-breaking space
-   */
   translate(
     key: string,
     options: any = {},
@@ -66,11 +51,6 @@ export class I18nextTranslationService implements TranslationService {
     });
   }
 
-  /**
-   * Loads namespaces
-   *
-   * @param namespaces array of namespaces to be loaded
-   */
   loadNamespaces(namespaces: string | string[]): Promise<any> {
     return this.i18nextService.loadNamespaces(namespaces);
   }
@@ -79,7 +59,7 @@ export class I18nextTranslationService implements TranslationService {
    * Returns a fallback value in case when the given key is missing
    * @param key
    */
-  private getFallbackValue(key: string): string {
+  protected getFallbackValue(key: string): string {
     return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
   }
 
