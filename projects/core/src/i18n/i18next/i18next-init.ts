@@ -2,6 +2,7 @@ import i18next from 'i18next';
 import i18nextXhrBackend from 'i18next-xhr-backend';
 import { I18nConfig } from '../config/i18n-config';
 import { LanguageService } from '../../site-context/facade/language.service';
+import { TranslationResources } from '../translation-resources';
 
 export function i18nextInit(
   config: I18nConfig,
@@ -26,7 +27,7 @@ export function i18nextInit(
   };
 }
 
-export function i18nextAddTranslations(resources: i18next.Resource = {}) {
+export function i18nextAddTranslations(resources: TranslationResources = {}) {
   Object.keys(resources).forEach(lang => {
     Object.keys(resources[lang]).forEach(namespace => {
       i18next.addResourceBundle(
