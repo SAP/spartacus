@@ -29,7 +29,10 @@ export function productPricingFlow() {
   cy.get('.page-item:last-of-type .page-link:first').click();
   cy.get('.page-item.active > .page-link').should('contain', '2');
 
-  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-T90');
+  cy.get('cx-product-list-item:nth-child(1)').should(
+    'contain',
+    'Cyber-shot W55'
+  );
 
   // Sort by price low to high
   cy.get('cx-sorting .ng-select:first').ngSelect(
