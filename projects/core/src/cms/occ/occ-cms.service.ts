@@ -14,6 +14,7 @@ import { CmsLoader } from '../services/cms.loader';
 import { CmsStructureConfig } from '../config/cms-structure.config';
 import { Adapter } from '../adapters';
 import { CmsStructureConfigService } from '../services/cms-config.service';
+import { CmsStructureModel } from '../model/page.model';
 
 @Injectable()
 export class OccCmsService extends CmsLoader<CMSPage> {
@@ -23,9 +24,9 @@ export class OccCmsService extends CmsLoader<CMSPage> {
     private http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
-    @Inject(Adapter) protected adapters: Adapter<CMSPage, any>[]
+    @Inject(Adapter) protected adapter: Adapter<CMSPage, CmsStructureModel>
   ) {
-    super(cmsStructureConfigService, adapters);
+    super(cmsStructureConfigService, adapter);
   }
 
   protected getBaseEndPoint(): string {

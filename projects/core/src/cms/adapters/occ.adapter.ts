@@ -11,16 +11,18 @@ import {
 } from '../config/cms-config';
 
 @Injectable()
-export class OccAdapter extends Adapter<CMSPage, CmsStructureModel> {
+export class OccCmsAdapter extends Adapter<CMSPage, CmsStructureModel> {
   constructor(protected cmsData: CmsStructureConfig) {
     super();
   }
 
-  convert(source: CMSPage, target: CmsStructureModel): void {
+  adapt(source: CMSPage): CmsStructureModel {
+    const target = {};
     this.serializePageData(source, target);
     this.serializePageSlotData(source, target);
     this.serializePageComponentData(source, target);
     this.serializeComponentData(source, target);
+    return target;
   }
 
   private serializePageData(source: any, target: CmsStructureModel): void {

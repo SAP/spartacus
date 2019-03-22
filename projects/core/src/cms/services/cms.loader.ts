@@ -3,7 +3,6 @@ import { PageContext } from '../../routing/models/page-context.model';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 
-import { CMSPage } from '../../occ/occ-models/occ.models';
 import { CmsStructureModel } from '../model/page.model';
 import { Adapter } from '../adapters/index';
 import { CmsStructureConfigService } from './cms-config.service';
@@ -16,10 +15,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class CmsLoader<S> {
+export abstract class CmsLoader<T> {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    @Inject(Adapter) protected adapters: Adapter<S, CmsStructureModel>[]
+    @Inject(Adapter) protected adapter: Adapter<T, CmsStructureModel>
   ) {}
 
   /**
@@ -29,7 +28,7 @@ export abstract class CmsLoader<S> {
    *
    * @param pageContext The `PageContext` holding the page Id.
    */
-  abstract loadPage(_pageContext: PageContext): Observable<S>;
+  abstract loadPage(_pageContext: PageContext): Observable<T>;
 
   /**
    * Get's the page structure. The page structure will be loaded from
@@ -75,12 +74,11 @@ export abstract class CmsLoader<S> {
    *
    * @param page the source that can be converted
    */
-  adapt(page: CMSPage): CmsStructureModel {
-    const target: CmsStructureModel = { page: null, components: [] };
-    if (this.adapters) {
-      this.adapters.forEach(p => p.convert(<S>page, target));
+  adapt(page: T): CmsStructureModel {
+    if (this.adapter) {
+      return this.adapter.adapt(<T>page);
     }
-    return target;
+    return <CmsStructureModel>page;
   }
 
   /**

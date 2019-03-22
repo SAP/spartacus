@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 
+// TODO: move class
 @Injectable({
   providedIn: 'root'
 })
 export abstract class Adapter<S, T> {
-  abstract convert(source: S, target: T): void;
+  // TODO: add documentation
+  abstract adapt(source: S): T;
 }
