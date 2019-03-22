@@ -19,7 +19,10 @@ export class OccEndpointsService {
   }
 
   getEndpoint(endpoint: string): string {
-    return this.getBaseEndpoint() + '/' + endpoint;
+    if (!endpoint.startsWith('/')) {
+      endpoint = '/' + endpoint;
+    }
+    return this.getBaseEndpoint() + endpoint;
   }
 
   getUrl(endpoint: string, urlParams?: object, queryParams?: object) {

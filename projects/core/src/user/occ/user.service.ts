@@ -163,7 +163,7 @@ export class OccUserService {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
-    const url = this.getBaseEndPoint() + FORGOT_PASSWORD_ENDPOINT;
+    const url = this.occEndpoints.getEndpoint(FORGOT_PASSWORD_ENDPOINT);
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
       userEmailAddress
@@ -178,7 +178,7 @@ export class OccUserService {
   }
 
   resetPassword(token: string, newPassword: string): Observable<{}> {
-    const url = this.getBaseEndPoint() + RESET_PASSWORD_ENDPOINT;
+    const url = this.occEndpoints.getEndpoint(RESET_PASSWORD_ENDPOINT);
     let headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
