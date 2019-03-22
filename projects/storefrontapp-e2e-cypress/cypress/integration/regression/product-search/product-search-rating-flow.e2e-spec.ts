@@ -22,7 +22,7 @@ context('Product search rating flow', () => {
 
       cy.get('cx-product-list-item')
         .first()
-        .should('contain', 'DSC-N1');
+        .should('contain', 'Li-Ion f Series G');
 
       // Navigate to next page
       cy.get('.page-item:last-of-type .page-link:first').click();
@@ -35,7 +35,7 @@ context('Product search rating flow', () => {
         PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
       );
       cy.get('.page-item.active > .page-link').should('contain', '2');
-      cy.get('cx-product-list-item:first').should('contain', 'DSC-W180');
+      cy.get('cx-product-list-item:first').should('contain', 'DSC-H20_MD');
 
       // Navigate to previous page
       cy.get('.page-item:first-of-type .page-link:first').click();

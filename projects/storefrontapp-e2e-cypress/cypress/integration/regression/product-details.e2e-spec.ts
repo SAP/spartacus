@@ -77,7 +77,7 @@ context('Product details', () => {
     cy.get(tabsHeaderList)
       .eq(3)
       .click();
-    cy.get(activeTabContainer).should('contain', 'Lorem ipsum dolor sit amet,');
+    cy.get(activeTabContainer).should('contain', '');
   });
 
   it('should contain correct review tab', () => {

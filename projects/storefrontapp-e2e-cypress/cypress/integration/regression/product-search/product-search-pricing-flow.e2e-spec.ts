@@ -29,7 +29,7 @@ context('Product search pricing flow', () => {
 
       cy.get('cx-product-list-item')
         .first()
-        .should('contain', 'DSC-HX1');
+        .should('contain', 'DSC-S930');
 
       // Navigate to next page
       cy.get('.page-item:last-of-type .page-link:first').click();
@@ -37,7 +37,7 @@ context('Product search pricing flow', () => {
 
       cy.get('cx-product-list-item:nth-child(1)').should(
         'contain',
-        'DSC-H20 Red'
+        'Cyber-shot W55'
       );
 
       // Sort by price low to high

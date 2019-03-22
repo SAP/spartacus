@@ -27,10 +27,7 @@ context('Product search store flow', () => {
       cy.get('.page-item:last-of-type .page-link:first').click();
       cy.get('.page-item.active > .page-link').should('contain', '2');
 
-      cy.get('cx-product-list-item:nth-child(1)').should(
-        'contain',
-        'EOS 500D + 18-200mm IS'
-      );
+      cy.get('cx-product-list-item:nth-child(1)').should('contain', 'EOS 500D');
 
       // Sort by name descending
       cy.get('cx-sorting .ng-select:first').ngSelect(
@@ -52,7 +49,7 @@ context('Product search store flow', () => {
       cy.get(resultsTitle).should('contain', '45 results for "canon"');
       cy.get('cx-product-list-item')
         .first()
-        .should('contain', 'LP-E5');
+        .should('contain', 'Web Camera');
 
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'

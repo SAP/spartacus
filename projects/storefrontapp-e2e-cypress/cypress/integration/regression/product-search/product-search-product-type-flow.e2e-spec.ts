@@ -56,7 +56,7 @@ context('Product search product type flow', () => {
       cy.get(resultsTitle).should('contain', '16 results for "sony"');
       cy.get('cx-product-list-item')
         .first()
-        .should('contain', 'Accessory kit');
+        .should('contain', 'MSHX8A');
 
       cy.get(
         'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
