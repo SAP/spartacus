@@ -169,10 +169,10 @@ describe('ItemCounterComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('input.cx-item-counter__value'))
+      fixture.debugElement.query(By.css('input.cx-counter-value'))
     ).toBeFalsy();
     expect(
-      fixture.debugElement.query(By.css('div.cx-item-counter__value'))
+      fixture.debugElement.query(By.css('div.cx-counter-value'))
     ).toBeTruthy();
   });
 
@@ -181,10 +181,10 @@ describe('ItemCounterComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.query(By.css('input.cx-item-counter__value'))
+      fixture.debugElement.query(By.css('input.cx-counter-value'))
     ).toBeTruthy();
     expect(
-      fixture.debugElement.query(By.css('div.cx-item-counter__value'))
+      fixture.debugElement.query(By.css('div.cx-counter-value'))
     ).toBeFalsy();
   });
 
