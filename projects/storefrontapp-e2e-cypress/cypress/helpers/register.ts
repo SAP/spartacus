@@ -1,4 +1,4 @@
-import { user } from '../sample-data/big-happy-path';
+import { user } from '../sample-data/checkout-flow';
 import { register } from './auth-forms';
 
 export const loginLink = 'cx-login [role="link"]';

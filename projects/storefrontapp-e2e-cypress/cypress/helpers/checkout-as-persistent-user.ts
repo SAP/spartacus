@@ -1,4 +1,4 @@
-import { product } from '../sample-data/big-happy-path';
+import { product } from '../sample-data/checkout-flow';
 
 export function loginSuccessfully() {
   cy.get('.cx-login-greet').should('contain', 'Test User');

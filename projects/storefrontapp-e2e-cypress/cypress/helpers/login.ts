@@ -1,4 +1,4 @@
-import { user } from '../sample-data/big-happy-path';
+import { user } from '../sample-data/checkout-flow';
 import { register, login } from './auth-forms';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
