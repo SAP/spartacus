@@ -10,7 +10,7 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { CmsRoutesService } from '../services/cms-routes.service';
-import { CmsI18NService } from '../services/cms-i18n.service';
+import { CmsI18nService } from '../services/cms-i18n.service';
 
 @Injectable()
 export class CmsPageGuard implements CanActivate {
@@ -20,7 +20,7 @@ export class CmsPageGuard implements CanActivate {
     private routingService: RoutingService,
     private cmsService: CmsService,
     private cmsRoutes: CmsRoutesService,
-    private cmsI18N: CmsI18NService
+    private cmsI18n: CmsI18nService
   ) {}
 
   canActivate(
@@ -36,7 +36,7 @@ export class CmsPageGuard implements CanActivate {
           this.routingService.go(['notFound']);
         }
       }),
-      tap(([_, pageContext]) => this.cmsI18N.loadNamespaces(pageContext)),
+      tap(([_, pageContext]) => this.cmsI18n.loadNamespaces(pageContext)),
       switchMap(([hasPage, pageContext]) => {
         if (
           hasPage &&

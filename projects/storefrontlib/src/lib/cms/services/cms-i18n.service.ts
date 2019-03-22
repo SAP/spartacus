@@ -6,7 +6,7 @@ import { CmsMappingService } from './cms-mapping.service';
 @Injectable({
   providedIn: 'root'
 })
-export class CmsI18NService {
+export class CmsI18nService {
   constructor(
     private cmsService: CmsService,
     private cmsMapping: CmsMappingService,

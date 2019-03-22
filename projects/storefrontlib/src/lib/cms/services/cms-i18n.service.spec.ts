@@ -4,10 +4,10 @@ import { CmsService, PageType, TranslationService } from '@spartacus/core';
 import { CmsMappingService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
-import { CmsI18NService } from './cms-i18n.service';
+import { CmsI18nService } from './cms-i18n.service';
 
-describe('CmsI18NService', () => {
-  let service: CmsI18NService;
+describe('CmsI18nService', () => {
+  let service: CmsI18nService;
   let translation: TranslationService;
 
   const mockPageContext = {
@@ -27,13 +27,13 @@ describe('CmsI18NService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CmsI18NService,
+        CmsI18nService,
         { provide: CmsService, useValue: mockCmsService },
         { provide: CmsMappingService, useValue: mockCmsMapping },
         { provide: TranslationService, useValue: mockTranslation }
       ]
     });
-    service = TestBed.get(CmsI18NService);
+    service = TestBed.get(CmsI18nService);
     translation = TestBed.get(TranslationService);
   });
 
