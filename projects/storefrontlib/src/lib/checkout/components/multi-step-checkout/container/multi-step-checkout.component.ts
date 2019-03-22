@@ -38,6 +38,13 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   shippingMethod: string;
   subscriptions: Subscription[] = [];
 
+  /* New vars used for guarding (will be removed after implementing guard components and cms pheckout pages) */
+  shippingAddress: Address;
+  paymentMethod: PaymentDetails;
+  shippingMode: string;
+  subs: Subscription[] = [];
+  /* End of new vars */
+
   cart$: Observable<Cart>;
   tAndCToggler = false;
 
@@ -62,6 +69,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
     this.cart$ = this.cartService.getActive();
     this.processSteps();
+    this.subs.push(
+      this.checkoutService
+        .getDeliveryAddress()
+        .subscribe(deliveryAddress => (this.shippingAddress = deliveryAddress))
+    );
   }
 
   processSteps(): void {
@@ -144,6 +156,24 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.nextStep(backStep);
   }
 
+  goToStep(step: number): void {
+    if (step === 1) {
+      this.nextStep(step);
+    } else if (step === 2) {
+      if (this.shippingAddress) {
+        this.nextStep(step);
+      }
+    } else if (step === 3) {
+      if (this.shippingAddress && this.shippingMode) {
+        this.nextStep(step);
+      }
+    } else if (step === 4) {
+      if (this.shippingAddress && this.shippingMode && this.paymentMethod) {
+        this.nextStep(step);
+      }
+    }
+  }
+
   nextStep(step: number): void {
     const previousStep = step - 1;
 
@@ -165,25 +195,25 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = false;
   }
 
-  addAddress({
-    newAddress,
-    address
-  }: {
-    newAddress: boolean;
-    address: Address;
-  }): void {
-    if (newAddress) {
-      this.checkoutService.createAndSetAddress(address);
-      return;
-    }
-    // if the selected address is the same as the cart's one
-    if (this.deliveryAddress && address.id === this.deliveryAddress.id) {
-      this.nextStep(2);
-      return;
-    }
-    this.checkoutService.setDeliveryAddress(address);
-    return;
-  }
+  // addAddress({
+  //   newAddress,
+  //   address
+  // }: {
+  //   newAddress: boolean;
+  //   address: Address;
+  // }): void {
+  //   if (newAddress) {
+  //     this.checkoutService.createAndSetAddress(address);
+  //     return;
+  //   }
+  //   // if the selected address is the same as the cart's one
+  //   if (this.deliveryAddress && address.id === this.deliveryAddress.id) {
+  //     this.nextStep(2);
+  //     return;
+  //   }
+  //   this.checkoutService.setDeliveryAddress(address);
+  //   return;
+  // }
 
   setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
     // if the selected shipping method is the same as the cart's one
