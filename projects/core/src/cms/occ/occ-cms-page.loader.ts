@@ -2,7 +2,7 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { IdList } from './../model/idList.model';
+import { IdList } from '../model/idList.model';
 import { PageContext } from '../../routing/index';
 import {
   CMSPage,
@@ -10,14 +10,14 @@ import {
   CmsComponent,
   CmsComponentList
 } from '../../occ/occ-models/index';
-import { CmsLoader } from '../services/cms.loader';
+import { CmsPageLoader } from '../services/cms-page.loader';
 import { CmsStructureConfig } from '../config/cms-structure.config';
 import { Adapter } from '../adapters';
-import { CmsStructureConfigService } from '../services/cms-config.service';
+import { CmsStructureConfigService } from '../services/cms-structure-config.service';
 import { CmsStructureModel } from '../model/page.model';
 
 @Injectable()
-export class OccCmsService extends CmsLoader<CMSPage> {
+export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
@@ -38,7 +38,7 @@ export class OccCmsService extends CmsLoader<CMSPage> {
     );
   }
 
-  loadPage(pageContext: PageContext, fields?: string): Observable<CMSPage> {
+  load(pageContext: PageContext, fields?: string): Observable<CMSPage> {
     let httpStringParams = '';
 
     if (pageContext.id !== 'smartedit-preview') {

@@ -4,8 +4,8 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccCmsService } from './occ-cms.service';
-import { IdList } from './../model/idList.model';
+import { OccCmsPageLoader } from './occ-cms-page.loader';
+import { IdList } from '../model/idList.model';
 import { CmsConfig } from '../config/cms-config';
 import {
   CmsComponent,
@@ -56,19 +56,19 @@ const MockCmsModuleConfig: CmsConfig = {
 const endpoint = '/cms';
 
 describe('OccCmsService', () => {
-  let service: OccCmsService;
+  let service: OccCmsPageLoader;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCmsService,
+        OccCmsPageLoader,
         { provide: CmsConfig, useValue: MockCmsModuleConfig }
       ]
     });
 
-    service = TestBed.get(OccCmsService);
+    service = TestBed.get(OccCmsPageLoader);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -131,7 +131,7 @@ describe('OccCmsService', () => {
         type: PageType.CONTENT_PAGE
       };
 
-      service.loadPage(context).subscribe(result => {
+      service.load(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -154,7 +154,7 @@ describe('OccCmsService', () => {
         type: PageType.CONTENT_PAGE
       };
 
-      service.loadPage(context, 'BASIC').subscribe(result => {
+      service.load(context, 'BASIC').subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -177,7 +177,7 @@ describe('OccCmsService', () => {
         id: '123',
         type: PageType.PRODUCT_PAGE
       };
-      service.loadPage(context).subscribe(result => {
+      service.load(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 

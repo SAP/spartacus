@@ -1,12 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
-import { PageContext } from '../../routing/models/page-context.model';
-import { catchError, map, switchMap } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
-
-import { CmsStructureModel } from '../model/page.model';
-import { Adapter } from '../adapters/index';
-import { CmsStructureConfigService } from './cms-config.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import { PageContext } from '../../routing/models/page-context.model';
+import { Adapter } from '../adapters/index';
+import { CmsStructureModel } from '../model/page.model';
+import { CmsStructureConfigService } from './cms-structure-config.service';
 
 /**
  * Abstract class that can be used to implement custom loader logic
@@ -15,28 +14,25 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class CmsLoader<T> {
+export abstract class CmsPageLoader<T> {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
     @Inject(Adapter) protected adapter: Adapter<T, CmsStructureModel>
   ) {}
 
   /**
-   * Abstract method that provides the page structure for a given page.
+   * Abstract method must be used to load the page structure for a given `PageContext`.
    * The page can be loaded from alternative sources, as long as the structure
-   * converts to the `CmsStructureModel` (see the `adapt` logic in this class).
+   * converts to the `CmsStructureModel`.
    *
    * @param pageContext The `PageContext` holding the page Id.
    */
-  abstract loadPage(_pageContext: PageContext): Observable<T>;
+  abstract load(_pageContext: PageContext): Observable<T>;
 
   /**
-   * Get's the page structure. The page structure will be loaded from
-   * the backend, unless there's a page being forced in the configuration.
-   * See the `CmsConfigService` for more information on this topic.
-   *
-   * In addition, the `CmsConfigService` is used to merge default
-   * page structure into the page structure.
+   * Returns an observable with the page structure. The page structure is
+   * typically loaded from a backend, but can also be returned from static
+   * configuration (see `CmsStructureConfigService`).
    */
   get(pageContext: PageContext): Observable<CmsStructureModel> {
     return this.cmsStructureConfigService
@@ -44,7 +40,7 @@ export abstract class CmsLoader<T> {
       .pipe(
         switchMap(loadFromConfig => {
           if (!loadFromConfig) {
-            return this.loadPage(pageContext).pipe(
+            return this.load(pageContext).pipe(
               map(page => this.adapt(page)),
               catchError(error => {
                 if (

@@ -15,7 +15,7 @@ import { LanguageChange } from '../../../site-context';
 import { CmsConfig } from '../../config/cms-config';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
 import { Page } from '../../model/page.model';
-import { OccCmsService } from '../../occ/occ-cms.service';
+import { OccCmsPageLoader } from '../../occ/occ-cms-page.loader';
 import { PageType, CmsComponent } from '../../../occ/occ-models';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
@@ -44,7 +44,7 @@ class RoutingServiceMock {
 
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
-  let occService: OccCmsService;
+  let occService: OccCmsPageLoader;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
 
@@ -137,7 +137,7 @@ describe('Page Effects', () => {
         StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       providers: [
-        OccCmsService,
+        OccCmsPageLoader,
         { provide: RoutingService, useClass: RoutingServiceMock },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.PageEffects,
@@ -145,7 +145,7 @@ describe('Page Effects', () => {
       ]
     });
 
-    occService = TestBed.get(OccCmsService);
+    occService = TestBed.get(OccCmsPageLoader);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;

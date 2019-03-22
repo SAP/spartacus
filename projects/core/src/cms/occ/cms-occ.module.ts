@@ -4,17 +4,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ComponentMapperService } from '../services/component-mapper.service';
 
-import { OccCmsService } from './occ-cms.service';
-import { CmsLoader } from '../services/cms.loader';
+import { OccCmsPageLoader } from './occ-cms-page.loader';
+import { CmsPageLoader } from '../services/cms-page.loader';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    OccCmsService,
+    OccCmsPageLoader,
     ComponentMapperService,
     {
-      provide: CmsLoader,
-      useClass: OccCmsService
+      provide: CmsPageLoader,
+      useClass: OccCmsPageLoader
     }
   ]
 })

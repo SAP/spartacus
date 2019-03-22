@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 import { PageType } from '../../../occ/occ-models/index';
 import { RoutingService } from '../../../routing/index';
-import { OccCmsService } from '../../occ/occ-cms.service';
+import { OccCmsPageLoader } from '../../occ/occ-cms-page.loader';
 import { CmsConfig } from '../../config/cms-config';
 import * as fromEffects from './navigation-entry-item.effect';
 import * as fromActions from '../actions/navigation-entry-item.action';
@@ -33,7 +33,7 @@ class MockRoutingService {
 
 describe('Navigation Entry Items Effects', () => {
   let actions$: Observable<any>;
-  let service: OccCmsService;
+  let service: OccCmsPageLoader;
   let effects: fromEffects.NavigationEntryItemEffects;
 
   const listComponents: any = {
@@ -67,7 +67,7 @@ describe('Navigation Entry Items Effects', () => {
         StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       providers: [
-        OccCmsService,
+        OccCmsPageLoader,
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$),
@@ -75,7 +75,7 @@ describe('Navigation Entry Items Effects', () => {
       ]
     });
 
-    service = TestBed.get(OccCmsService);
+    service = TestBed.get(OccCmsPageLoader);
     effects = TestBed.get(fromEffects.NavigationEntryItemEffects);
 
     spyOn(service, 'loadListComponents').and.returnValue(of(listComponents));
