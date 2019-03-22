@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import createSpy = jasmine.createSpy;
 import { ServerConfig } from '../../config';
 import { I18nextService } from './i18next.service';
-import { I18nextTranslationService } from '../i18next-translation.service';
+import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testNamespace:testKey';
 const testOptions = 'testOptions';
