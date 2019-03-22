@@ -1,5 +1,5 @@
 import { formats } from '../../../sample-data/viewports';
-import * as bigHappyPath from '../../../helpers/big-happy-path';
+import * as bigHappyPath from '../../../helpers/checkout-flow';
 
 function clickHamburger() {
   cy.get('cx-header [aria-label="Menu"]').click();
