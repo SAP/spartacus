@@ -4,10 +4,12 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccConfig } from '../../occ/config/occ-config';
-import { ReviewList } from '../../occ/occ-models/occ.models';
-
-import { OccProductService } from './product.service';
+import { ProductLoaderService } from './product.service';
+import {
+  OccProductConfig,
+  defaultOccProductConfig
+} from '../config/product-config';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
 
 const productCode = 'testCode';
 const product = {
@@ -15,12 +17,7 @@ const product = {
   name: 'testProduct'
 };
 
-const maxCount = 2;
-const productReviews: ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }]
-};
-
-const MockOccModuleConfig: OccConfig = {
+const MockOccModuleConfig: OccProductConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -32,22 +29,24 @@ const MockOccModuleConfig: OccConfig = {
     currency: ''
   }
 };
-const endpoint = '/products';
 
-describe('OccProductService', () => {
-  let service: OccProductService;
+describe('ProductLoaderService', () => {
+  let service: ProductLoaderService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
+        ProductLoaderService,
+        {
+          provide: OccProductConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
+        }
       ]
     });
 
-    service = TestBed.get(OccProductService);
+    service = TestBed.get(ProductLoaderService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -57,56 +56,24 @@ describe('OccProductService', () => {
 
   describe('load product details', () => {
     it('should load product details for given product code', () => {
-      service.loadProduct(productCode).subscribe(result => {
+      service.load(productCode).subscribe(result => {
         expect(result).toEqual(product);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + `/${productCode}`;
-      });
-
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'DEFAULT,averageRating,images(FULL),classifications,numberOfReviews'
-      );
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(product);
-    });
-  });
-
-  describe('load product reviews', () => {
-    it('should load reviews for given product code', () => {
-      service.loadProductReviews(productCode).subscribe(result => {
-        expect(result).toEqual(productReviews);
       });
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === endpoint + `/${productCode}/reviews`
+          req.url ===
+            `/${DynamicTemplate.resolve(
+              defaultOccProductConfig.endpoints.product,
+              { productCode }
+            )}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(productReviews);
+      mockReq.flush(product);
     });
-  });
-
-  it('shoud load reviews with maxCount parameter set', () => {
-    service.loadProductReviews(productCode, maxCount).subscribe(result => {
-      expect(result).toEqual(productReviews);
-    });
-
-    const mockReq = httpMock.expectOne(req => {
-      return (
-        req.method === 'GET' &&
-        req.url === endpoint + `/${productCode}/reviews?maxCount=${maxCount}`
-      );
-    });
-    expect(mockReq.cancelled).toBeFalsy();
-    expect(mockReq.request.responseType).toEqual('json');
-    mockReq.flush(productReviews);
   });
 });

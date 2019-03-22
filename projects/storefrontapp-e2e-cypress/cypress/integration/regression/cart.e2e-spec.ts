@@ -33,7 +33,7 @@ describe('Cart', () => {
 
     getCartItem('PowerShot A480').within(() => {
       cy.get('.cx-price>.cx-value').should('contain', '$99.85');
-      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-counter-value').should('have.value', '1');
       cy.get('.cx-total>.cx-value').should('contain', '$99.85');
     });
   });
@@ -56,7 +56,7 @@ describe('Cart', () => {
 
     getCartItem('Photosmart E317 Digital Camera').within(() => {
       cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-counter-value').should('have.value', '1');
       cy.get('.cx-total>.cx-value').should('contain', '$114.12');
     });
   });
@@ -136,12 +136,12 @@ describe('Cart', () => {
     cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
     getCartItem('Photosmart E317 Digital Camera').within(() => {
-      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-counter-value').should('have.value', '1');
       cy.get('.cx-total>.cx-value').should('contain', '$114.12');
     });
 
     getCartItem('EASYSHARE M381').within(() => {
-      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-counter-value').should('have.value', '1');
       cy.get('.cx-total>.cx-value').should('contain', '$370.72');
     });
 
@@ -170,10 +170,10 @@ describe('Cart', () => {
 
     getCartItem('Photosmart E317 Digital Camera').within(() => {
       cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-      cy.get('.cx-item-counter__value').should('have.value', '1');
+      cy.get('.cx-counter-value').should('have.value', '1');
       cy.get('.cx-total>.cx-value').should('contain', '$114.12');
 
-      cy.get('.cx-item-counter__action')
+      cy.get('.cx-counter-action')
         .contains('+')
         .click();
     });
@@ -190,10 +190,10 @@ describe('Cart', () => {
 
     getCartItem('Photosmart E317 Digital Camera').within(() => {
       cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-      cy.get('.cx-item-counter__value').should('have.value', '2');
+      cy.get('.cx-counter-value').should('have.value', '2');
       cy.get('.cx-total>.cx-value').should('contain', '$228.24');
 
-      cy.get('.cx-item-counter__action')
+      cy.get('.cx-counter-action')
         .contains('+')
         .click();
     });
@@ -210,7 +210,7 @@ describe('Cart', () => {
 
     getCartItem('Photosmart E317 Digital Camera').within(() => {
       cy.get('.cx-price>.cx-value').should('contain', '$114.12');
-      cy.get('.cx-item-counter__value').should('have.value', '3');
+      cy.get('.cx-counter-value').should('have.value', '3');
       cy.get('.cx-total>.cx-value').should('contain', '$342.36');
     });
   });

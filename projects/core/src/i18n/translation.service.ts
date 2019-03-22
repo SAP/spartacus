@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ServerConfig } from '../config/server-config/server-config';
-import { I18NextService } from './i18next/i18next.service';
+import { I18nextService } from './i18next/i18next.service';
 
 @Injectable()
 export class TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
 
   constructor(
-    private i18NextService: I18NextService,
+    private i18nextService: I18nextService,
     private config: ServerConfig
   ) {}
 
@@ -19,13 +19,13 @@ export class TranslationService {
    * @param options
    */
   exists(key: string, options: any = {}): boolean {
-    return this.i18NextService.exists(key, options);
+    return this.i18nextService.exists(key, options);
   }
 
   /**
    * Translates given key with options.
    * If key is missing, it tries to load the namespace and emits a value when namespace is loaded.
-   * If key is missing after loaded namespace, a fallback value is emitted.
+   * If key is missing after loaded namespace, a fallback value is emitted
    *
    * @param key translation key with preceding namespace
    * @param options values for interpolation in translation
@@ -36,21 +36,28 @@ export class TranslationService {
     options: any = {},
     whitespaceUntilLoaded: boolean = false
   ): Observable<string> {
+    // If we've already loaded the namespace (or failed to load), we should immediately emit the value
+    // (or the fallback value in case the key is missing).
+
+    // Moreover, we SHOULD emit a value (or a fallback value) synchronously (not in a promise/setTimeout).
+    // Otherwise, we the will trigger additional deferred change detection in a view that consumes the returned observable,
+    // which together with `switchMap` operator may lead to an infinite loop.
+
     return new Observable<string>(subscriber => {
-      if (this.i18NextService.exists(key, options)) {
-        subscriber.next(this.i18NextService.t(key, options));
+      if (this.i18nextService.exists(key, options)) {
+        subscriber.next(this.i18nextService.t(key, options));
         subscriber.complete();
       } else {
         if (whitespaceUntilLoaded) {
           subscriber.next(this.NON_BREAKING_SPACE);
         }
-        this.loadKeyNamespace(key).then(() => {
-          if (!this.i18NextService.exists(key, options)) {
+        this.loadKeyNamespace(key, () => {
+          if (!this.i18nextService.exists(key, options)) {
             this.reportMissingKey(key);
             subscriber.next(this.getFallbackValue(key));
             subscriber.complete();
           } else {
-            subscriber.next(this.i18NextService.t(key, options));
+            subscriber.next(this.i18nextService.t(key, options));
             subscriber.complete();
           }
         });
@@ -64,7 +71,7 @@ export class TranslationService {
    * @param namespaces array of namespaces to be loaded
    */
   loadNamespaces(namespaces: string | string[]): Promise<any> {
-    return this.i18NextService.loadNamespaces(namespaces);
+    return this.i18nextService.loadNamespaces(namespaces);
   }
 
   /**
@@ -75,17 +82,22 @@ export class TranslationService {
     return this.config.production ? this.NON_BREAKING_SPACE : `[${key}]`;
   }
 
-  private loadKeyNamespace(key: string): Promise<void> {
-    // CAUTION - this assumes ':' as namespace separator
+  /**
+   * Loads the namespace of the given key
+   * @param key
+   */
+  private loadKeyNamespace(key: string, callback: Function) {
     const namespace = this.getKeyNamespace(key);
     if (namespace !== undefined) {
-      return this.loadNamespaces(namespace);
+      this.i18nextService.loadNamespaces(namespace, callback);
+    } else {
+      this.reportMissingKeyNamespace(key);
+      callback();
     }
-    this.reportMissingKeyNamespace(key);
-    return Promise.resolve();
   }
 
   private getKeyNamespace(key: string): string {
+    // CAUTION - this assumes ':' as namespace separator
     return key.includes(':') ? key.split(':')[0] : undefined;
   }
 

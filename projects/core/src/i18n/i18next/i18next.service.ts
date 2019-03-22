@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import i18next from 'i18next';
 
 @Injectable()
-export class I18NextService {
+export class I18nextService {
   exists(key: string, options: any = {}): boolean {
     return i18next.exists.call(i18next, key, options);
   }

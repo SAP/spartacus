@@ -8,7 +8,7 @@ import {
   StateModule,
   SmartEditModule,
   CxApiModule,
-  I18NModule
+  I18nModule
 } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
@@ -36,7 +36,7 @@ import { StoreFinderModule } from './store-finder/store-finder.module';
     CxApiModule,
     SmartEditModule.forRoot(),
     MultiStepCheckoutModule,
-    I18NModule.forRoot()
+    I18nModule.forRoot()
   ],
   exports: [UiModule],
   declarations: []

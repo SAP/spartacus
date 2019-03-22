@@ -1,8 +1,8 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { TranslatePipe } from './translate.pipe';
-import { i18NextProviders } from './i18next/i18next-providers';
-import { defaultI18NConfig } from './config/default-i18n-config';
-import { I18NConfig } from './config/i18n-config';
+import { i18nextProviders } from './i18next/i18next-providers';
+import { defaultI18nConfig } from './config/default-i18n-config';
+import { I18nConfig } from './config/i18n-config';
 import { TranslationService } from './translation.service';
 import { provideConfig, Config } from '../config/config.module';
 
@@ -10,15 +10,15 @@ import { provideConfig, Config } from '../config/config.module';
   declarations: [TranslatePipe],
   exports: [TranslatePipe]
 })
-export class I18NModule {
+export class I18nModule {
   static forRoot(): ModuleWithProviders {
     return {
-      ngModule: I18NModule,
+      ngModule: I18nModule,
       providers: [
-        provideConfig(defaultI18NConfig),
-        { provide: I18NConfig, useExisting: Config },
+        provideConfig(defaultI18nConfig),
+        { provide: I18nConfig, useExisting: Config },
         TranslationService,
-        ...i18NextProviders
+        ...i18nextProviders
       ]
     };
   }
