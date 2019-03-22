@@ -45,7 +45,7 @@ export class MockComponentWrapperDirective {
   @Input() cxComponentWrapper: ContentSlotComponentData;
 }
 
-fdescribe('ProductTabsComponent in product', () => {
+describe('ProductTabsComponent in product', () => {
   let productTabsComponent: ProductTabsComponent;
   let fixture: ComponentFixture<ProductTabsComponent>;
 
