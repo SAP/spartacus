@@ -16,7 +16,8 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
-          selector: 'cx-cart-details'
+          selector: 'cx-cart-details',
+          i18nNamespaces: ['cart']
         }
       }
     })

@@ -9,6 +9,7 @@ import { PageType, ProductSearchPage } from '../../occ/occ-models/occ.models';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { ProductSearchService } from '../facade/product-search.service';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class CategoryPageMetaResolver extends PageMetaResolver
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
-    protected cms: CmsService
+    protected cms: CmsService,
+    protected translation: TranslationService
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -32,12 +34,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         // are rendered or if this is an ordinary content page
         if (this.hasProductListComponent(page)) {
           return this.productSearchService.getSearchResults().pipe(
-            map(data => {
-              if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-                return {
-                  title: this.resolveTitle(data)
-                };
-              }
+            filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
+            switchMap(data => {
+              return this.resolveTitle(data).pipe(map(title => ({ title })));
             })
           );
         } else {
@@ -49,10 +48,11 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(data: ProductSearchPage) {
-    return `${data.pagination.totalResults} results for ${
-      data.breadcrumbs[0].facetValueName
-    }`;
+  resolveTitle(data: ProductSearchPage): Observable<string> {
+    return this.translation.translate('example:categoryPage.heading', {
+      count: data.pagination.totalResults,
+      query: data.breadcrumbs[0].facetValueName
+    });
   }
 
   protected hasProductListComponent(page: Page): boolean {

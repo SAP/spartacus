@@ -13,6 +13,7 @@ import {
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
 import { CategoryPageMetaResolver } from './category-page-meta.resolver';
+import { I18nTestingModule } from '../../i18n';
 
 const mockPageWithProductList: Page = {
   type: PageType.CATEGORY_PAGE,
@@ -75,7 +76,7 @@ describe('CategoryPageTitleResolver', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [I18nTestingModule],
       providers: [
         PageMetaService,
         ContentPageTitleResolver,
@@ -122,7 +123,9 @@ describe('CategoryPageTitleResolver', () => {
         })
         .unsubscribe();
 
-      expect(result.title).toEqual('6 results for Hand-held Camcorders');
+      expect(result.title).toEqual(
+        'example:categoryPage.heading count:6 query:Hand-held Camcorders'
+      );
     });
   });
 

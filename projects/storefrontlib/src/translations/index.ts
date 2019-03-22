@@ -3,6 +3,14 @@ import { TranslationResources } from '@spartacus/core';
 
 export const translations: TranslationResources = {
   en: {
-    common
+    common,
+
+    example: {
+      greeting: 'Hi, {{name}}',
+      categoryPage: {
+        heading: '{{count}} result for {{query}}',
+        heading_plural: '{{count}} results for {{query}}'
+      }
+    }
   }
 };
