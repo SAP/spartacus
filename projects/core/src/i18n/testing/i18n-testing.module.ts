@@ -5,4 +5,4 @@ import { MockTranslatePipe } from './mock-translate.pipe';
   declarations: [MockTranslatePipe],
   exports: [MockTranslatePipe]
 })
-export class I18NTestingModule {}
+export class I18nTestingModule {}
