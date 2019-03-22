@@ -129,7 +129,7 @@ describe('CmsPageGuard', () => {
       }
     ));
 
-    fit('should switch to handleContentRoutes for generic pages', inject(
+    it('should switch to handleContentRoutes for generic pages', inject(
       [CmsService, CmsPageGuard, CmsRoutesService],
       (
         cmsService: CmsService,
@@ -141,7 +141,6 @@ describe('CmsPageGuard', () => {
         spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.callThrough();
 
         let result;
-        debugger;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, { url: '/test' } as any)
           .subscribe(res => (result = res));
