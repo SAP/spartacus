@@ -25,6 +25,7 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromResetPasswordReducer from './reset-password.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -45,7 +46,8 @@ export function getReducers(): ActionReducerMap<UserState> {
     order: fromOrderDetailsReducer.reducer,
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
-    regions: fromRegionsReducer.reducer
+    regions: fromRegionsReducer.reducer,
+    resetPassword: fromResetPasswordReducer.reducer
   };
 }
 
