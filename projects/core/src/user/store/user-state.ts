@@ -29,6 +29,7 @@ export interface UserState {
   order: OrderDetailsState;
   titles: TitlesState;
   regions: RegionsState;
+  resetPassword: boolean;
 }
 
 export interface OrderDetailsState {

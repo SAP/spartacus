@@ -1,4 +1,4 @@
-import { product } from '../../sample-data/big-happy-path';
+import { product } from '../../sample-data/checkout-flow';
 
 context('Check login', () => {
   before(() => {
