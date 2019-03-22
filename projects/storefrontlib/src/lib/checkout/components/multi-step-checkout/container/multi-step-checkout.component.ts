@@ -144,6 +144,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.nextStep(backStep);
   }
 
+  goToStep(step: number): void {
+    this.nextStep(step);
+  }
+
   nextStep(step: number): void {
     const previousStep = step - 1;
 

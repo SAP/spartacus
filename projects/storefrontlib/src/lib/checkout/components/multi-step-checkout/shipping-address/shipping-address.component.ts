@@ -33,6 +33,8 @@ export class ShippingAddressComponent implements OnInit {
   selectedAddress: Address;
   @Output()
   addAddress = new EventEmitter<any>();
+  @Output()
+  goToStep = new EventEmitter<any>();
 
   constructor(
     protected userService: UserService,
@@ -100,10 +102,12 @@ export class ShippingAddressComponent implements OnInit {
 
   next(): void {
     this.addAddress.emit({ address: this.selectedAddress, newAddress: false });
+    this.goToStep.emit(2);
   }
 
   addNewAddress(address: Address): void {
     this.addAddress.emit({ address: address, newAddress: true });
+    this.goToStep.emit(2);
   }
 
   showNewAddressForm(): void {
