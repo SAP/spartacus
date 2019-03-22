@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { OccConfig } from '../config/occ-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
@@ -8,7 +9,21 @@ import { HttpParamsOptions } from '@angular/common/http/src/params';
   providedIn: 'root'
 })
 export class OccEndpointsService {
-  constructor(private config: OccConfig) {}
+  private activeBaseSite: string;
+
+  constructor(
+    private config: OccConfig,
+    @Optional() private baseSiteService: BaseSiteService
+  ) {
+    if (this.baseSiteService) {
+      this.baseSiteService
+        .getActive()
+        .subscribe(value => (this.activeBaseSite = value));
+    } else {
+      this.activeBaseSite =
+        (this.config.site && this.config.site.baseSite) || '';
+    }
+  }
 
   getBaseEndpoint(): string {
     if (!this.config || !this.config.server) {
@@ -18,7 +33,7 @@ export class OccEndpointsService {
     return (
       (this.config.server.baseUrl || '') +
       this.config.server.occPrefix +
-      this.config.site.baseSite
+      this.activeBaseSite
     );
   }
 
