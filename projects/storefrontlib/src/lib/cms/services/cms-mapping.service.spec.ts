@@ -9,13 +9,13 @@ const mockConfig: CmsConfig = {
   cmsComponents: {
     exampleMapping1: {
       selector: 'selector-1',
-      namespacesI18N: ['namespace-1']
+      i18nNamespaces: ['namespace-1']
     },
     exampleMapping2: {
       selector: 'selector-2',
       disableSSR: true,
       childRoutes: [{ path: 'route1' }, { path: 'route2' }],
-      namespacesI18N: ['namespace-1', 'namespace-2']
+      i18nNamespaces: ['namespace-1', 'namespace-2']
     }
   }
 };
@@ -57,9 +57,9 @@ describe('CmsMappingService', () => {
     });
   });
 
-  describe('getNamespacesI18NForComponents', () => {
+  describe('getI18nNamespacesForComponents', () => {
     it('should i18n namespaces from page data', () => {
-      expect(service.getNamespacesI18NForComponents(mockComponents)).toEqual([
+      expect(service.getI18nNamespacesForComponents(mockComponents)).toEqual([
         'namespace-1',
         'namespace-2'
       ]);

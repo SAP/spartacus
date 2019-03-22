@@ -29,7 +29,7 @@ export class CmsMappingService {
     return routes;
   }
 
-  getNamespacesI18NForComponents(componentTypes: string[]): string[] {
+  getI18nNamespacesForComponents(componentTypes: string[]): string[] {
     const namespaces = new Set<string>();
     for (const componentType of componentTypes) {
       if (this.isComponentEnabled(componentType)) {
@@ -48,6 +48,6 @@ export class CmsMappingService {
 
   private getNamespaces18NForComponent(componentType: string): string[] {
     const mappingConfig = this.config.cmsComponents[componentType];
-    return (mappingConfig && mappingConfig.namespacesI18N) || [];
+    return (mappingConfig && mappingConfig.i18nNamespaces) || [];
   }
 }

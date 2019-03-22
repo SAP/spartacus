@@ -18,10 +18,10 @@ export class CmsI18NService {
       .getPageComponentTypes(pageContext)
       .pipe(take(1))
       .subscribe(pageComponents => {
-        const namespacesI18N = this.cmsMapping.getNamespacesI18NForComponents(
+        const i18nNamespaces = this.cmsMapping.getI18nNamespacesForComponents(
           pageComponents
         );
-        this.translationService.loadNamespaces(namespacesI18N);
+        this.translationService.loadNamespaces(i18nNamespaces);
       });
   }
 }

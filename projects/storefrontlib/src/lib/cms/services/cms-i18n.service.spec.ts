@@ -15,7 +15,7 @@ describe('CmsI18NService', () => {
     id: 'testId'
   };
   const mockCmsMapping = {
-    getNamespacesI18NForComponents: () => ['namespace1', 'namespace2']
+    getI18nNamespacesForComponents: () => ['namespace1', 'namespace2']
   };
   const mockCmsService = {
     getPageComponentTypes: () => of([])
