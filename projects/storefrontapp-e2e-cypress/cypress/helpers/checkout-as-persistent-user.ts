@@ -9,7 +9,7 @@ export function addShippingAddress() {
     method: 'POST',
     url: `${Cypress.env(
       'API_URL'
-    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
     headers: {
       Authorization: `bearer ${
         JSON.parse(sessionStorage.getItem('auth')).userToken.token[
@@ -67,7 +67,7 @@ export function addPaymentMethod() {
       method: 'POST',
       url: `${Cypress.env(
         'API_URL'
-      )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
+      )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/carts/${cartid}/paymentdetails`,
       headers: {
         Authorization: `bearer ${
           JSON.parse(sessionStorage.getItem('auth')).userToken.token[
