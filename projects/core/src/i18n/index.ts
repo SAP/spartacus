@@ -1,3 +1,4 @@
+export * from './translation-resources';
 export * from './translate.pipe';
 export * from './translation.service';
 export * from './i18n.module';
