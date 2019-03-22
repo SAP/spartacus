@@ -1,12 +1,7 @@
 import common from './en/common.en';
+import { TranslationResources } from '@spartacus/core';
 
-export const translations: {
-  [lang: string]: {
-    [namespace: string]: {
-      [key: string]: any;
-    };
-  };
-} = {
+export const translations: TranslationResources = {
   en: {
     common
   }

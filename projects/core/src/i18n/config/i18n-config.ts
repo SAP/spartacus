@@ -1,4 +1,5 @@
 import { ServerConfig } from '../../config';
+import { TranslationResources } from '../translation-resources';
 
 export abstract class I18nConfig extends ServerConfig {
   i18n?: {
@@ -7,13 +8,7 @@ export abstract class I18nConfig extends ServerConfig {
       loadPath?: string;
       crossDomain?: boolean;
     };
-    resources?: {
-      [lang: string]: {
-        [namespace: string]: {
-          [key: string]: any;
-        };
-      };
-    };
+    resources?: TranslationResources;
     debug?: boolean;
   };
 }
