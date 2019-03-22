@@ -14,12 +14,14 @@ import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { SeoModule } from '../../../../cms-structure/index';
 import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
+import { UserComponentModule } from '../../../user/user.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     GlobalMessageComponentModule,
+    UserComponentModule,
     CmsModule,
     LoginModule,
     HeaderModule,
