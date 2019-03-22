@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
-import { ServerConfig } from '../config';
-import { I18nextService } from './i18next/i18next.service';
+import { ServerConfig } from '../../config';
+import { I18nextService } from './i18next.service';
+import { I18nextTranslationService } from '../i18next-translation.service';
 
 const testKey = 'testNamespace:testKey';
 const testOptions = 'testOptions';
 const nonBreakingSpace = String.fromCharCode(160);
 
-describe('TranslationService', () => {
-  let service: TranslationService;
+describe('I18nextTranslationService', () => {
+  let service: I18nextTranslationService;
   let config: ServerConfig;
   let i18nextService;
 
@@ -27,11 +27,11 @@ describe('TranslationService', () => {
           useValue: mockI18nextService
         },
         { provide: ServerConfig, useValue: { production: false } },
-        TranslationService
+        I18nextTranslationService
       ]
     });
 
-    service = TestBed.get(TranslationService);
+    service = TestBed.get(I18nextTranslationService);
     i18nextService = TestBed.get(I18nextService);
     config = TestBed.get(ServerConfig);
   });
