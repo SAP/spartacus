@@ -12,9 +12,9 @@ import {
 } from '../../occ/occ-models/index';
 import { CmsPageLoader } from '../services/cms-page.loader';
 import { CmsStructureConfig } from '../config/cms-structure.config';
-import { Adapter } from '../adapters';
+
 import { CmsStructureConfigService } from '../services/cms-structure-config.service';
-import { CmsStructureModel } from '../model/page.model';
+import { CmsPageAdapter } from '../services/cms-page.adapter';
 
 @Injectable()
 export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
@@ -24,7 +24,7 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     private http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
-    @Inject(Adapter) protected adapter: Adapter<CMSPage, CmsStructureModel>
+    protected adapter: CmsPageAdapter<CMSPage>
   ) {
     super(cmsStructureConfigService, adapter);
   }

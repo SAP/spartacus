@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { PageContext } from '../../routing/models/page-context.model';
-import { Adapter } from '../adapters/index';
+import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsStructureModel } from '../model/page.model';
 import { CmsStructureConfigService } from './cms-structure-config.service';
 
@@ -17,7 +17,7 @@ import { CmsStructureConfigService } from './cms-structure-config.service';
 export abstract class CmsPageLoader<T> {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    @Inject(Adapter) protected adapter: Adapter<T, CmsStructureModel>
+    protected adapter: CmsPageAdapter<T>
   ) {}
 
   /**

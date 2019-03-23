@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Adapter } from './adapter';
+import { CmsPageAdapter } from '../services/cms-page.adapter';
 import { CmsStructureConfig } from '../config/cms-structure.config';
 import { CMSPage } from '../../occ/index';
 import { CmsStructureModel } from '../model/page.model';
@@ -11,7 +11,7 @@ import {
 } from '../config/cms-config';
 
 @Injectable()
-export class OccCmsAdapter extends Adapter<CMSPage, CmsStructureModel> {
+export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
   constructor(protected cmsData: CmsStructureConfig) {
     super();
   }
