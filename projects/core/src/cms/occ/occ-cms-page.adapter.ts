@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CmsPageAdapter } from '../services/cms-page.adapter';
-import { CmsStructureConfig } from '../config/cms-structure.config';
 import { CMSPage } from '../../occ/index';
-import { CmsStructureModel } from '../model/page.model';
-import { ContentSlotData } from '../model/content-slot-data.model';
-import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import {
   CMS_FLEX_COMPONENT_TYPE,
   JSP_INCLUDE_CMS_COMPONENT_TYPE
 } from '../config/cms-config';
+import { CmsStructureConfig } from '../config/cms-structure.config';
+import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
+import { ContentSlotData } from '../model/content-slot-data.model';
+import { CmsStructureModel } from '../model/page.model';
+import { CmsPageAdapter } from '../services/cms-page.adapter';
 
 @Injectable()
 export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {

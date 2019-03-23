@@ -1,20 +1,19 @@
-import { throwError, Observable } from 'rxjs';
-import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IdList } from '../model/idList.model';
-import { PageContext } from '../../routing/index';
 import {
-  CMSPage,
-  PageType,
   CmsComponent,
-  CmsComponentList
+  CmsComponentList,
+  CMSPage,
+  PageType
 } from '../../occ/occ-models/index';
-import { CmsPageLoader } from '../services/cms-page.loader';
+import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config/cms-structure.config';
-
-import { CmsStructureConfigService } from '../services/cms-structure-config.service';
+import { IdList } from '../model/idList.model';
 import { CmsPageAdapter } from '../services/cms-page.adapter';
+import { CmsPageLoader } from '../services/cms-page.loader';
+import { CmsStructureConfigService } from '../services/cms-structure-config.service';
 
 @Injectable()
 export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
