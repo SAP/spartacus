@@ -27,8 +27,8 @@ import { ReviewSubmitComponent } from './review-submit.component';
 const mockCart: Cart = {
   guid: 'test',
   code: 'test',
-  totalItems: 123,
-  subTotal: { formattedValue: '$999.98' },
+  deliveryItemsQuantity: 123,
+  totalPrice: { formattedValue: '$999.98' },
   potentialProductPromotions: [
     { description: 'Promotion 1' },
     { description: 'Promotion 2' }

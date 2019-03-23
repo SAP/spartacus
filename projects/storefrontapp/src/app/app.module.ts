@@ -30,6 +30,9 @@ if (!environment.production) {
       server: {
         baseUrl: environment.occBaseUrl
       },
+      site: {
+        baseSite: 'electronics-spa'
+      },
       pwa: {
         enabled: true,
         addToHomeScreen: true
