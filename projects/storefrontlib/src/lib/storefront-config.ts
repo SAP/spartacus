@@ -4,8 +4,7 @@ import {
   StateConfig,
   ConfigurableRoutesConfig,
   CmsConfig,
-  SiteContextConfig,
-  OccProductConfig
+  SiteContextConfig
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 import { LayoutConfig } from './ui/layout/config/layout-config';
@@ -18,5 +17,4 @@ export interface StorefrontModuleConfig
     PWAModuleConfig,
     SiteContextConfig,
     LayoutConfig,
-    ConfigurableRoutesConfig,
-    OccProductConfig {}
+    ConfigurableRoutesConfig {}

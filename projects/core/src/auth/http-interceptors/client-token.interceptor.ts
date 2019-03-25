@@ -9,22 +9,20 @@ import {
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 
-import { AuthConfig } from '../config/auth-config';
 import { AuthService } from '../facade/auth.service';
 import {
   USE_CLIENT_TOKEN,
   InterceptorUtil
 } from '../../occ/utils/interceptor-util';
 import { ClientToken } from '../models/token-types.model';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable()
 export class ClientTokenInterceptor implements HttpInterceptor {
-  baseReqString =
-    (this.config.server.baseUrl || '') +
-    this.config.server.occPrefix +
-    this.config.site.baseSite;
-
-  constructor(private config: AuthConfig, private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
@@ -33,7 +31,10 @@ export class ClientTokenInterceptor implements HttpInterceptor {
     return this.getClientToken(request).pipe(
       take(1),
       switchMap((token: ClientToken) => {
-        if (token && request.url.indexOf(this.baseReqString) > -1) {
+        if (
+          token &&
+          request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1
+        ) {
           request = request.clone({
             setHeaders: {
               Authorization: `${token.token_type} ${token.access_token}`

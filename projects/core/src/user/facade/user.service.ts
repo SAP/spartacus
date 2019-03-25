@@ -41,7 +41,7 @@ export class UserService {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  register(userRegisterFormData: UserRegisterFormData) {
+  register(userRegisterFormData: UserRegisterFormData): void {
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
@@ -319,14 +319,14 @@ export class UserService {
   /**
    * Retrieves billing countries
    */
-  loadBillingCountries() {
-    return this.store.dispatch(new fromStore.LoadBillingCountries());
+  loadBillingCountries(): void {
+    this.store.dispatch(new fromStore.LoadBillingCountries());
   }
 
   /**
    * Cleaning order list
    */
-  clearOrderList() {
+  clearOrderList(): void {
     this.store.dispatch(new fromStore.ClearUserOrders());
   }
 
@@ -335,14 +335,14 @@ export class UserService {
    * @param token
    * @param password
    */
-  resetPassword(token: string, password: string) {
+  resetPassword(token: string, password: string): void {
     this.store.dispatch(new fromStore.ResetPassword({ token, password }));
   }
 
   /*
    * Request an email to reset a forgotten password.
    */
-  requestForgotPasswordEmail(userEmailAddress: string) {
+  requestForgotPasswordEmail(userEmailAddress: string): void {
     this.store.dispatch(
       new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
     );

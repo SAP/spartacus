@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { IdList } from './../model/idList.model';
 import {
   CmsComponent,
   CmsComponentList,
@@ -10,10 +11,10 @@ import {
 } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config/cms-structure.config';
-import { IdList } from '../model/idList.model';
 import { CmsPageAdapter } from '../services/cms-page.adapter';
 import { CmsPageLoader } from '../services/cms-page.loader';
 import { CmsStructureConfigService } from '../services/cms-structure-config.service';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable()
 export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
@@ -23,18 +24,14 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     private http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsPageAdapter<CMSPage>
+    protected adapter: CmsPageAdapter<CMSPage>,
+    private occEndpoints: OccEndpointsService
   ) {
     super(cmsStructureConfigService, adapter);
   }
 
   protected getBaseEndPoint(): string {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/cms'
-    );
+    return this.occEndpoints.getEndpoint('cms');
   }
 
   load(pageContext: PageContext, fields?: string): Observable<CMSPage> {
@@ -133,9 +130,5 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     }
 
     return requestParams;
-  }
-
-  get baseUrl(): string {
-    return this.config.server.baseUrl || '';
   }
 }

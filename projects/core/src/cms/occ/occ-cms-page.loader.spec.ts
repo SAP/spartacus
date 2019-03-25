@@ -6,6 +6,7 @@ import {
 
 import { OccCmsPageLoader } from './occ-cms-page.loader';
 import { IdList } from '../model/idList.model';
+
 import {
   CmsComponent,
   CMSPage,
@@ -16,6 +17,7 @@ import { PageContext } from '../../routing/index';
 import { HttpRequest } from '@angular/common/http';
 import { CmsStructureConfigService, CmsPageAdapter } from '../services';
 import { CmsStructureConfig } from '../config';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -62,6 +64,12 @@ class CmsStructureConfigServiceMock {}
 
 class AdapterMock {}
 
+class OccEndpointsServiceMock {
+  getEndpoint(): string {
+    return '';
+  }
+}
+
 const endpoint = '/cms';
 
 describe('OccCmsPageLoader', () => {
@@ -73,6 +81,7 @@ describe('OccCmsPageLoader', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsPageLoader,
+        { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: CmsStructureConfig,
           useValue: CmsStructureConfigMock
@@ -94,7 +103,7 @@ describe('OccCmsPageLoader', () => {
   });
 
   describe('Load cms component', () => {
-    it('Should get cms component data without parameter fields', () => {
+    fit('Should get cms component data without parameter fields', () => {
       const context: PageContext = {
         id: 'testProductCode',
         type: PageType.PRODUCT_PAGE
