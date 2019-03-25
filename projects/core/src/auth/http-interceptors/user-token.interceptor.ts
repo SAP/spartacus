@@ -29,11 +29,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (
-      this.userToken &&
-      request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1 &&
-      !request.headers.get('Authorization')
-    ) {
+    if (this.userToken && this.isOccRequestWithoutAuth(request)) {
       request = request.clone({
         setHeaders: {
           Authorization: `${this.userToken.token_type} ${
@@ -44,5 +40,12 @@ export class UserTokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request);
+  }
+
+  private isOccRequestWithoutAuth(request: HttpRequest<any>): boolean {
+    return (
+      request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1 &&
+      !request.headers.get('Authorization')
+    );
   }
 }

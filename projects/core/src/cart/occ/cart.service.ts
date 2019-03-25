@@ -34,7 +34,7 @@ export class OccCartService {
     private occEndpoints: OccEndpointsService
   ) {}
 
-  protected getCartEndpoint(userId: string) {
+  protected getCartEndpoint(userId: string): string {
     const cartEndpoint = 'users/' + userId + '/carts/';
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
