@@ -22,6 +22,7 @@ import {
 } from '@spartacus/core';
 import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
+import { PageComponentModule } from '../../../../cms-structure/page/component/page-component.module';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     AddToCartModule,
     OutletModule,
     ProductReviewsModule,
+    PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSTabParagraphContainer: {

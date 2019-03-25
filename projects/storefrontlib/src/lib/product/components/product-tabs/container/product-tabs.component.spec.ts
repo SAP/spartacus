@@ -2,7 +2,7 @@ import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Product } from '@spartacus/core';
+import { Product, ContentSlotComponentData } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -42,10 +42,7 @@ export class MockProductAttributesComponent {
   selector: '[cxComponentWrapper]'
 })
 export class MockComponentWrapperDirective {
-  @Input()
-  componentType: string;
-  @Input()
-  componentUid: string;
+  @Input() cxComponentWrapper: ContentSlotComponentData;
 }
 
 describe('ProductTabsComponent in product', () => {
