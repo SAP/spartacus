@@ -27,6 +27,8 @@ const endpoint = '/users';
 const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
+const forgotPasswordEndpoint = '/forgottenpasswordtokens';
+const resetPasswordEndpoint = '/resetpassword';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -225,6 +227,49 @@ describe('OccUserService', () => {
         );
       });
 
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush('');
+    });
+  });
+
+  describe('forgot password: ', () => {
+    it('should request a forgot password email for userId', () => {
+      const testUserId = 'test@test.com';
+      service
+        .requestForgotPasswordEmail(testUserId)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url === `${forgotPasswordEndpoint}` &&
+          req.serializeBody() === `userId=${testUserId}`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      mockReq.flush('');
+    });
+  });
+
+  describe('reset password: ', () => {
+    it('should be able to reset a new password', () => {
+      const token = 'test token';
+      const newPassword = 'new password';
+
+      service
+        .resetPassword(token, newPassword)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === `${resetPasswordEndpoint}`;
+      });
+
+      expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
+      expect(mockReq.request.body).toEqual({
+        token: 'test token',
+        newPassword: 'new password'
+      });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
