@@ -1,227 +1,175 @@
-//style with variables
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/forms';
-@import '~bootstrap/scss/nav';
 
-//search-box color variables
-$cx-search-box-group-background-color: 'secondary' !default;
-$cx-search-box-group-xs-background-color: 'transparent' !default;
-$cx-search-box-input-placeholder-color: 'inverse' !default;
-$cx-search-box-input-background-color: 'transparent' !default;
-$cx-search-box-input-mobile-background-color: 'secondary' !default;
-$cx-search-box-input-focus-background-color: 'transparent' !default;
-$cx-search-box-input-mobile-focus-background-color: 'secondary' !default;
-$cx-search-box-input-color: 'inverse' !default;
-$cx-search-box-input-focus-color: 'inverse' !default;
-$cx-search-box-button-background-color: 'transparent' !default;
-$cx-search-box-button-icon-fill-color: 'inverse' !default;
-$cx-search-box-item-background-color: 'primary' !default;
-
-//search-box variables
-$cx-search-box-group-trbl-margin: auto !default;
-$cx-search-box-input-border: 0 none !default;
-$cx-search-box-input-width-xl: 22rem !default;
-$cx-search-box-input-width-lg: 18rem !default;
-$cx-search-box-input-width-md: 16rem !default;
-$cx-search-box-input-width-sm: 7rem !default;
-$cx-search-box-input-width-xs: auto !default;
-$cx-search-box-input-radius: 0 !default;
-$cx-search-box-input-margin-bottom: 0 !default;
-$cx-search-box-input-trbl-padding: 0 !default;
-$cx-search-box-button-border: 0 none !default;
-$cx-search-box-button-padding: 5px !default;
-$cx-search-box-button-margin: 5px !default;
-$cx-search-box-search-icon-width: 28px !default;
-$cx-search-box-search-icon-height: 28px !default;
-
-.cx-search-box {
+:host {
+  display: var(--cx-display, block);
   @include media-breakpoint-down(xs) {
-    margin: 0;
+    margin: var(--cx-margin, 0);
+  }
+}
+
+.cx-form-group {
+  background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+  padding: var(--cx-padding, 0);
+  display: var(--cx-display, flex);
+  margin: var(--cx-margin, auto);
+
+  @include media-breakpoint-down(xs) {
+    background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+  }
+}
+
+.cx-form {
+  display: var(--cx-display, inline-block);
+  vertical-align: var(--cx-vertical-align, middle);
+}
+
+.cx-input {
+  @include placeholder {
+    color: var(--cx-color, var(--cx-g-color-inverse));
   }
 
-  &__group {
-    @include var-color(
-      'background-color',
-      $cx-search-box-group-background-color
-    );
-    padding: $cx-search-box-input-trbl-padding;
-    display: flex;
-    margin: $cx-search-box-group-trbl-margin;
+  background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+  color: var(--cx-color, var(--cx-g-color-inverse));
+  border-radius: var(--cx-border-radius, 0);
+  border-style: var(--cx-border-style, none);
+  border-width: var(--cx-border-width, 0);
+  margin: var(--cx-margin, 0);
+  z-index: var(--cx-z-index, 1);
 
-    @include media-breakpoint-down(xs) {
-      @include var-color(
-        'background-color',
-        $cx-search-box-group-xs-background-color
+  &[aria-label='search'] {
+    &:focus {
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
       );
-    }
-  }
-
-  &__form {
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  &__input {
-    @include placeholder {
-      @include var-color('color', $cx-search-box-input-placeholder-color);
+      color: var(--cx-color, var(--cx-g-color-inverse));
+      box-shadow: var(--cx-box-shadow, none);
     }
 
-    @include var-color(
-      'background-color',
-      $cx-search-box-input-background-color
-    );
-    @include var-color('color', $cx-search-box-input-color);
-    border: $cx-search-box-input-border;
-    border-radius: $cx-search-box-input-radius;
-    margin-bottom: $cx-search-box-input-margin-bottom;
-    z-index: 1;
-
-    &[aria-label='search'] {
-      &:focus {
-        @include var-color(
-          'background-color',
-          $cx-search-box-input-focus-background-color
-        );
-        @include var-color('color', $cx-search-box-input-focus-color);
-        box-shadow: none;
-      }
-
-      @include media-breakpoint-down(xl) {
-        width: $cx-search-box-input-width-xl;
-      }
-
-      @include media-breakpoint-down(lg) {
-        width: $cx-search-box-input-width-lg;
-      }
-
-      @include media-breakpoint-down(md) {
-        width: $cx-search-box-input-width-md;
-      }
-
-      @include media-breakpoint-down(sm) {
-        width: $cx-search-box-input-width-sm;
-      }
-
-      @include media-breakpoint-down(xs) {
-        @include var-color(
-          'background-color',
-          $cx-search-box-input-mobile-background-color
-        );
-        @include var-color('color', $cx-search-box-input-color);
-        display: none;
-        position: absolute;
-        left: 0;
-        top: 56px;
-        width: 100%;
-
-        &:focus {
-          @include var-color(
-            'background-color',
-            $cx-search-box-input-mobile-focus-background-color
-          );
-          @include var-color('color', $cx-search-box-input-color);
-        }
-
-        & + .dropdown-menu {
-          width: 100%;
-          margin-top: 0;
-          border-radius: 0;
-          border: 0;
-        }
-      }
-    }
-
-    &.show-mobile {
-      display: block;
-    }
-  }
-
-  &__button {
-    border: $cx-search-box-button-border;
-    padding: $cx-search-box-button-padding;
-    margin: $cx-search-box-button-margin;
-
-    &-desktop {
-      @include media-breakpoint-down(xs) {
-        display: none;
-      }
-    }
-
-    &-mobile {
-      display: none;
-
-      @include media-breakpoint-down(xs) {
-        display: block;
-      }
-    }
-
-    @include var-color(
-      'background-color',
-      $cx-search-box-button-background-color
-    );
-  }
-
-  &__icon {
-    width: $cx-search-box-search-icon-width;
-    height: $cx-search-box-search-icon-height;
-    @include var-color('fill', $cx-search-box-button-icon-fill-color);
-    pointer-events: none;
-  }
-
-  &__dropdown-content {
     @include media-breakpoint-down(xl) {
-      width: $cx-search-box-input-width-xl;
+      width: var(--cx-width, 22rem);
     }
 
     @include media-breakpoint-down(lg) {
-      width: $cx-search-box-input-width-lg;
+      width: var(--cx-width, 18rem);
     }
 
     @include media-breakpoint-down(md) {
-      width: $cx-search-box-input-width-md;
+      width: var(--cx-width, 16rem);
     }
 
     @include media-breakpoint-down(sm) {
-      width: $cx-search-box-input-width-sm;
+      width: var(--cx-width, 7rem);
     }
 
     @include media-breakpoint-down(xs) {
-      width: $cx-search-box-input-width-xs;
-    }
+      background-color: var(--cx-background-color, var(--cx-g-color-secondary));
+      color: var(--cx-color, var(--cx-g-color-inverse));
+      display: var(--cx-display, none);
+      position: var(--cx-position, absolute);
+      left: var(--cx-left, 0);
+      top: var(--cx-top, 56px);
+      width: var(--cx-width, 100%);
 
-    &-product {
-      display: flex;
-
-      cx-picture {
-        min-width: 80px;
-        width: 80px;
-        flex-shrink: 0;
+      &:focus {
+        background-color: var(
+          --cx-background-color,
+          var(--cx-g-color-secondary)
+        );
+        color: var(--cx-color, var(--cx-g-color-inverse));
       }
 
-      &-name {
-        padding: 0 15px;
-        flex-grow: 1;
-        flex-shrink: 1;
-        height: 80px;
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-      }
-
-      &-price {
-        text-align: right;
-        align-self: center;
-        flex-shrink: 0;
+      & + .dropdown-menu {
+        width: var(--cx-width, 100%);
+        border-radius: var(--cx-border-radius, 0);
+        border-style: var(--cx-border-style, none);
+        border-width: var(--cx-border-width, 0);
+        margin: var(--cx-margin, 0);
       }
     }
   }
 
-  .dropdown-menu .dropdown-item.active {
-    @include var-color(
-      'background-color',
-      $cx-search-box-item-background-color
-    );
+  &.show-mobile {
+    display: var(--cx-display, block);
   }
+}
+
+.cx-button {
+  border-style: var(--cx-border-style, none);
+  border-width: var(--cx-border-width, 0);
+  padding: var(--cx-padding, 5px);
+  margin: var(--cx-margin, 5px);
+  background-color: var(--cx-background-color, var(--cx-g-color-transparent));
+
+  &-desktop {
+    @include media-breakpoint-down(xs) {
+      display: var(--cx-display, none);
+    }
+  }
+
+  &-mobile {
+    display: var(--cx-display, none);
+    @include media-breakpoint-down(xs) {
+      display: var(--cx-display, block);
+    }
+  }
+}
+
+.cx-icon {
+  width: var(--cx-width, 28px);
+  height: var(--cx-height, 28px);
+  fill: var(--cx-fill, var(--cx-g-color-inverse));
+  pointer-events: var(--cx-pointer-events, none);
+}
+
+.cx-dropdown-content {
+  @include media-breakpoint-down(xl) {
+    width: var(--cx-width, 22rem);
+  }
+
+  @include media-breakpoint-down(lg) {
+    width: var(--cx-width, 18rem);
+  }
+
+  @include media-breakpoint-down(md) {
+    width: var(--cx-width, 16rem);
+  }
+
+  @include media-breakpoint-down(sm) {
+    width: var(--cx-width, 7rem);
+  }
+
+  @include media-breakpoint-down(xs) {
+    width: var(--cx-width, auto);
+  }
+}
+
+.cx-product {
+  display: var(--cx-display, flex);
+
+  cx-picture {
+    min-width: var(--cx-min-width, 80px);
+    width: var(--cx-width, 80px);
+    flex-shrink: var(--cx-flex-shrink, 0);
+  }
+
+  &-name {
+    padding: var(--cx-padding, 0 15px);
+    flex-grow: var(--cx-flex-grow, 1);
+    flex-shrink: var(--cx-flex-shrink, 1);
+    height: var(--cx-height, 80px);
+    display: var(--cx-display, flex);
+    align-items: var(--cx-align-items, center);
+    overflow: var(--cx-overflow, hidden);
+  }
+
+  &-price {
+    text-align: var(--cx-text-align, right);
+    align-self: var(--cx-align-self, center);
+    flex-shrink: var(--cx-flex-shrink, 0);
+  }
+}
+
+.dropdown-menu .dropdown-item.active {
+  background-color: var(--cx-background-color, var(--cx-g-color-primary));
 }

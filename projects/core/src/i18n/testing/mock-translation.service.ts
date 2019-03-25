@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ITranslationService } from '../translation.service';
+import { TranslationService } from '../translation.service';
 import { mockTranslate } from './mock-translate';
 
 @Injectable()
-export class MockTranslationService implements ITranslationService {
-  exists(_key: string, _options: any = {}): boolean {
-    return true;
-  }
-
+export class MockTranslationService implements TranslationService {
   translate(
     key: string,
     options: any = {},

@@ -6,4 +6,7 @@ export abstract class OccConfig extends ServerConfig {
     language?: string;
     currency?: string;
   };
+  endpoints?: {
+    [endpoint: string]: string;
+  };
 }
