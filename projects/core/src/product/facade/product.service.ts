@@ -74,7 +74,7 @@ export class ProductService {
    * whenever selected by the `get`, but in some cases an
    * explicit reload might be needed.
    */
-  reload(productCode: string) {
+  reload(productCode: string): void {
     this.store.dispatch(new fromStore.LoadProduct(productCode));
   }
 }

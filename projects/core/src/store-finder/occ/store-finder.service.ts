@@ -81,7 +81,7 @@ export class OccStoreFinderService {
     );
   }
 
-  protected getStoresEndpoint(url?: string) {
+  protected getStoresEndpoint(url?: string): string {
     const baseUrl = this.occEndpoints.getEndpoint(STORES_ENDPOINT);
 
     return url ? baseUrl + '/' + url : baseUrl;

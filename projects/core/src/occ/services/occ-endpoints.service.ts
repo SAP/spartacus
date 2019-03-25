@@ -44,7 +44,7 @@ export class OccEndpointsService {
     return this.getBaseEndpoint() + endpoint;
   }
 
-  getUrl(endpoint: string, urlParams?: object, queryParams?: object) {
+  getUrl(endpoint: string, urlParams?: object, queryParams?: object): string {
     if (this.config.endpoints[endpoint]) {
       endpoint = this.config.endpoints[endpoint];
     }

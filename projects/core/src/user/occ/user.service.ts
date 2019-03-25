@@ -189,7 +189,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  protected getUserEndpoint() {
+  protected getUserEndpoint(): string {
     return this.occEndpoints.getEndpoint(USER_ENDPOINT);
   }
 }

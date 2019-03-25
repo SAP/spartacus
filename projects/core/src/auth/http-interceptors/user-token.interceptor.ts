@@ -31,7 +31,7 @@ export class UserTokenInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (
       this.userToken &&
-      request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1 &&
+      this.isOccUrl(request.url) &&
       !request.headers.get('Authorization')
     ) {
       request = request.clone({
@@ -44,5 +44,9 @@ export class UserTokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request);
+  }
+
+  private isOccUrl(url: string): boolean {
+    return url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1;
   }
 }
