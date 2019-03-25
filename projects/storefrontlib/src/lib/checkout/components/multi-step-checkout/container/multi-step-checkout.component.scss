@@ -15,6 +15,7 @@
     flex-direction: var(--cx-flex-direction, row);
     list-style: var(--cx-list-style, none);
     padding: var(--cx-padding, 0);
+    //fix this margin below and all similar
     margin-bottom: 0;
   }
 
@@ -70,7 +71,7 @@
   .cx-list-media {
     display: var(--cx-display, none);
     @include type('3');
-    text-transform: var(--cx-text-transform, uppercase);
+    text-transform: var(--cx-text-transform, capitalize);
     justify-content: var(--cx-justify-content, space-between);
     align-items: var(--cx-align-items, center);
     line-height: var(--cx-line-height, 4.75rem);
@@ -80,7 +81,7 @@
     margin-bottom: 0;
 
     button {
-      text-transform: var(--cx-text-transform, uppercase);
+      text-transform: var(--cx-text-transform, capitalize);
       font-weight: $font-weight-bold;
     }
 
