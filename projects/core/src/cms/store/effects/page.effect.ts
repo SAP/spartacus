@@ -44,19 +44,19 @@ export class PageEffects {
   loadPageData$: Observable<Action> = this.actions$.pipe(
     ofType(pageActions.LOAD_PAGE_DATA),
     map((action: pageActions.LoadPageData) => action.payload),
-    switchMap(pageContext =>
-      this.cmsPageLoader.get(pageContext).pipe(
+    switchMap(pageContext => {
+      return this.cmsPageLoader.get(pageContext).pipe(
         mergeMap((cmsStructure: CmsStructureModel) => {
           return [
             new pageActions.LoadPageDataSuccess(pageContext, cmsStructure.page),
             new componentActions.GetComponentFromPage(cmsStructure.components)
           ];
         }),
-        catchError(error =>
-          of(new pageActions.LoadPageDataFail(pageContext, error))
-        )
-      )
-    )
+        catchError(error => {
+          return of(new pageActions.LoadPageDataFail(pageContext, error));
+        })
+      );
+    })
   );
 
   constructor(

@@ -6,7 +6,6 @@ import {
 
 import { OccCmsPageLoader } from './occ-cms-page.loader';
 import { IdList } from '../model/idList.model';
-import { CmsConfig } from '../config/cms-config';
 import {
   CmsComponent,
   CMSPage,
@@ -15,6 +14,8 @@ import {
 } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 import { HttpRequest } from '@angular/common/http';
+import { CmsStructureConfigService, CmsPageAdapter } from '../services';
+import { CmsStructureConfig } from '../config';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -40,7 +41,7 @@ const componentList: CmsComponentList = {
   pagination: { count: 10 }
 };
 
-const MockCmsModuleConfig: CmsConfig = {
+const CmsStructureConfigMock: CmsStructureConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -50,12 +51,20 @@ const MockCmsModuleConfig: CmsConfig = {
     baseSite: '',
     language: '',
     currency: ''
+  },
+  cmsStructure: {
+    pages: [],
+    slots: {}
   }
 };
 
+class CmsStructureConfigServiceMock {}
+
+class AdapterMock {}
+
 const endpoint = '/cms';
 
-describe('OccCmsService', () => {
+describe('OccCmsPageLoader', () => {
   let service: OccCmsPageLoader;
   let httpMock: HttpTestingController;
 
@@ -64,7 +73,15 @@ describe('OccCmsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsPageLoader,
-        { provide: CmsConfig, useValue: MockCmsModuleConfig }
+        {
+          provide: CmsStructureConfig,
+          useValue: CmsStructureConfigMock
+        },
+        {
+          provide: CmsStructureConfigService,
+          useClass: CmsStructureConfigServiceMock
+        },
+        { provide: CmsPageAdapter, useClass: AdapterMock }
       ]
     });
 
