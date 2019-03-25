@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, Action } from '@ngrx/store';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
@@ -147,13 +147,10 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = 'error';
-        spyOn<any>(cmsPageLoader, 'get').and.throwError(error);
+        spyOn<any>(cmsPageLoader, 'get').and.returnValue(throwError(error));
         const action = new fromActions.LoadPageData(context);
 
-        const completion = new fromActions.LoadPageDataFail(
-          context,
-          new Error(error)
-        );
+        const completion = new fromActions.LoadPageDataFail(context, error);
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {

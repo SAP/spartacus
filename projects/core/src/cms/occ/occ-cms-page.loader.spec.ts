@@ -64,13 +64,13 @@ class CmsStructureConfigServiceMock {}
 
 class AdapterMock {}
 
+const endpoint = '/cms';
+
 class OccEndpointsServiceMock {
   getEndpoint(): string {
-    return '';
+    return endpoint;
   }
 }
-
-const endpoint = '/cms';
 
 describe('OccCmsPageLoader', () => {
   let service: OccCmsPageLoader;
@@ -103,7 +103,7 @@ describe('OccCmsPageLoader', () => {
   });
 
   describe('Load cms component', () => {
-    fit('Should get cms component data without parameter fields', () => {
+    it('Should get cms component data without parameter fields', () => {
       const context: PageContext = {
         id: 'testProductCode',
         type: PageType.PRODUCT_PAGE
