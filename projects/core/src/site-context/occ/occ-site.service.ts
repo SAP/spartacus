@@ -2,35 +2,27 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { OccConfig } from '../../occ/config/occ-config';
 import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OccSiteService {
-  constructor(private http: HttpClient, private config: OccConfig) {}
-
-  protected getBaseEndPoint(): string {
-    if (!this.config || !this.config.server) {
-      return '';
-    }
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite
-    );
-  }
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   loadLanguages(): Observable<LanguageList> {
     return this.http
-      .get(this.getBaseEndPoint() + '/languages')
+      .get(this.occEndpoints.getEndpoint('languages'))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   loadCurrencies(): Observable<CurrencyList> {
     return this.http
-      .get(this.getBaseEndPoint() + '/currencies')
+      .get(this.occEndpoints.getEndpoint('currencies'))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }
