@@ -40,7 +40,6 @@ export class GetComponentFromPage<
   readonly type = GET_COMPONENET_FROM_PAGE;
   constructor(public payload: T[]) {
     super(COMPONENT_ENTITY, payload.map(cmp => cmp.uid));
-    console.log('constructor', payload);
   }
 }
 
