@@ -21,7 +21,7 @@ import { tap, takeWhile } from 'rxjs/operators';
 })
 export class DeliveryModeComponent implements OnInit {
   @Input()
-  selectedShippingMethod: string;
+  selectedDeliveryMode: string;
 
   @Output()
   selectMode = new EventEmitter<any>();
@@ -46,9 +46,9 @@ export class DeliveryModeComponent implements OnInit {
           if (Object.keys(supportedModes).length === 0) {
             this.service.loadSupportedDeliveryModes();
           } else {
-            if (this.selectedShippingMethod) {
+            if (this.selectedDeliveryMode) {
               this.mode.controls['deliveryModeId'].setValue(
-                this.selectedShippingMethod
+                this.selectedDeliveryMode
               );
             }
           }

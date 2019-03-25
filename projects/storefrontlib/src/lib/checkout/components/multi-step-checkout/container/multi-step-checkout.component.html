@@ -58,7 +58,7 @@
           </div>
           <div *ngIf="nav.status.active && step === 2">
             <cx-delivery-mode
-              [selectedShippingMethod]="shippingMethod"
+              [selectedDeliveryMode]="deliveryMode"
               (selectMode)="setDeliveryMode($event)"
               (backStep)="setStep(1)"
             ></cx-delivery-mode>
@@ -73,7 +73,7 @@
           <div *ngIf="nav.status.active && step === 4">
             <cx-review-submit
               [deliveryAddress]="deliveryAddress"
-              [shippingMethod]="shippingMethod"
+              [deliveryMode]="deliveryMode"
               [paymentDetails]="paymentDetails"
             >
             </cx-review-submit>
