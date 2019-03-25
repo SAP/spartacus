@@ -5,7 +5,6 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
-import { LoaderState } from '../../state';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import {
@@ -339,13 +338,6 @@ export class UserService {
     this.store.dispatch(
       new fromStore.UpdateUserDetails({ username, userDetails })
     );
-  }
-
-  /**
-   * Returns the whole update user's personal details loader state
-   */
-  getUpdatePersonalDetailsResultState(): Observable<LoaderState<void>> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsState));
   }
 
   /**

@@ -69,6 +69,5 @@ export interface UserDetailsState {
   details: User;
   update: {
     details: LoaderState<void>;
-    // TODO: add password and email here
   };
 }
