@@ -30,8 +30,7 @@ export const defaultStorefrontRoutesTranslations: {
       paramsMapping: { orderCode: 'code' }
     },
     addressBook: { paths: ['my-account/address-book'] },
-    paymentManagement: { paths: ['my-account/payment-details'] },
-    pageNotFound: { paths: ['notFound'] }
+    paymentManagement: { paths: ['my-account/payment-details'] }
   },
 
   en: {} as any

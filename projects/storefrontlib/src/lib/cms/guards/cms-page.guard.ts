@@ -30,8 +30,8 @@ export class CmsPageGuard implements CanActivate {
         combineLatest(this.cmsService.hasPage(pageContext), of(pageContext))
       ),
       tap(([hasPage, pageContext]) => {
-        if (!hasPage && pageContext.id !== '/notFound') {
-          this.routingService.go(['notFound']);
+        if (!hasPage && pageContext.id !== '/not-found') {
+          this.routingService.go(['/not-found']);
         }
       }),
       switchMap(([hasPage, pageContext]) => {
