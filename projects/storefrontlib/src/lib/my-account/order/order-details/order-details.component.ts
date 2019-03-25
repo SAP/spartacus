@@ -92,11 +92,11 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingMethodCardContent(shipping: DeliveryMode): Card {
+  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
-      textBold: shipping.name,
-      text: [shipping.description]
+      textBold: deliveryMode.name,
+      text: [deliveryMode.description]
     };
   }
 

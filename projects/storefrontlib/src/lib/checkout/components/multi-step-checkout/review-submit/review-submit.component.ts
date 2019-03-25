@@ -84,7 +84,7 @@ export class ReviewSubmitComponent implements OnInit {
     };
   }
 
-  getShippingMethodCard(deliveryMode: DeliveryMode): Card {
+  getDeliveryModeCard(deliveryMode: DeliveryMode): Card {
     if (deliveryMode) {
       return {
         title: 'Shipping Method',
