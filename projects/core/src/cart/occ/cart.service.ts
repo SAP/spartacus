@@ -1,6 +1,5 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   CartList,
   Cart,
@@ -13,6 +12,7 @@ import { CustomEncoder } from './custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -29,17 +29,14 @@ const DETAILS_PARAMS =
 
 @Injectable()
 export class OccCartService {
-  constructor(protected http: HttpClient, protected config: OccConfig) {}
+  constructor(
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
-  protected getCartEndpoint(userId: string) {
+  protected getCartEndpoint(userId: string): string {
     const cartEndpoint = 'users/' + userId + '/carts/';
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      cartEndpoint
-    );
+    return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
   public loadAllCarts(userId: string, details?: boolean): Observable<CartList> {
