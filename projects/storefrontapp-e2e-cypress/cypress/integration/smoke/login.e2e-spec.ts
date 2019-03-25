@@ -1,48 +1,22 @@
-import { user } from '../../sample-data/checkout-flow';
-import { register, login } from '../../helpers/auth-forms';
+import * as login from '../../helpers/login';
 
 describe('Login', () => {
-  const userGreetSelector = 'cx-login .cx-login-greet';
-  const loginLinkSelector = 'cx-login [role="link"]';
-
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.visit('/');
 
-    cy.get(loginLinkSelector).click();
-    cy.get('cx-page-layout')
-      .getByText('Register')
-      .click();
-    register(user);
+    login.registerUser();
 
-    cy.get(userGreetSelector).should('contain', user.fullName);
-
-    cy.selectUserMenuOption('Sign Out');
-
-    cy.get(userGreetSelector).should('not.exist');
+    login.signOutUser();
   });
 
   it('should login successfully with correct credentials', () => {
-    cy.get(loginLinkSelector).click();
-    login(user.email, user.password);
+    login.loginUser();
 
-    cy.get(userGreetSelector).should('contain', user.fullName);
-
-    cy.selectUserMenuOption('Sign Out');
-
-    cy.get(userGreetSelector).should('not.exist');
+    login.signOutUser();
   });
 
   it('login should fail if password is wrong', () => {
-    cy.get(loginLinkSelector).click();
-
-    login(user.email, 'Password321');
-
-    cy.get(userGreetSelector).should('not.exist');
-
-    cy.get('cx-global-message .alert-danger').should(
-      'contain',
-      'Bad credentials. Please login again'
-    );
+    login.loginWithBathCredentials();
   });
 });
