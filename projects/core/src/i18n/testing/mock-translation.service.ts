@@ -5,10 +5,6 @@ import { mockTranslate } from './mock-translate';
 
 @Injectable()
 export class MockTranslationService implements TranslationService {
-  exists(_key: string, _options: any = {}): boolean {
-    return true;
-  }
-
   translate(
     key: string,
     options: any = {},

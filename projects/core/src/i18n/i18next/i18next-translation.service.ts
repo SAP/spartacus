@@ -10,10 +10,6 @@ export class I18nextTranslationService implements TranslationService {
 
   constructor(private config: ServerConfig) {}
 
-  exists(key: string, options: any = {}): boolean {
-    return i18next.exists(key, options);
-  }
-
   translate(
     key: string,
     options: any = {},

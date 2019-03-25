@@ -2,14 +2,6 @@ import { Observable } from 'rxjs';
 
 export abstract class TranslationService {
   /**
-   * Checks if given key with options exists
-   *
-   * @param key
-   * @param options
-   */
-  exists: (key: string, options?: any) => boolean;
-
-  /**
    * Translates given key with options.
    * If key is missing, it tries to load the namespace and emits a value when namespace is loaded.
    * If key is missing after loaded namespace, a fallback value is emitted

@@ -23,14 +23,6 @@ describe('I18nextTranslationService', () => {
     config = TestBed.get(ServerConfig);
   });
 
-  describe('exists', () => {
-    it('should call i18next.exists', () => {
-      spyOn(i18next, 'exists');
-      service.exists(testKey, testOptions);
-      expect(i18next.exists).toHaveBeenCalledWith(testKey, testOptions);
-    });
-  });
-
   describe('loadNamespaces', () => {
     it('should return result of i18next.loadNamespaces', () => {
       const expectedResult = new Promise(() => {});
