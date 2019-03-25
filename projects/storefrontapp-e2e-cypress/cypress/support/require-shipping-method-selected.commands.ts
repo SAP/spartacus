@@ -1,4 +1,4 @@
-import { delivery } from '../sample-data/big-happy-path';
+import { delivery } from '../sample-data/checkout-flow';
 
 declare global {
   namespace Cypress {
