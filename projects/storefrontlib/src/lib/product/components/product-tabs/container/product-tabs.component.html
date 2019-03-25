@@ -40,9 +40,10 @@
       <div class="container">
         <h2>Shipping</h2>
         <ng-container
-          cxComponentWrapper
-          componentMappedType="CMSTabParagraphComponent"
-          componentUid="deliveryTab"
+          [cxComponentWrapper]="{
+            flexType: 'CMSTabParagraphComponent',
+            uid: 'deliveryTab'
+          }"
         ></ng-container>
       </div>
     </div>

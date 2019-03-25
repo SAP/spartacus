@@ -1,14 +1,23 @@
-import * as productSearchFlow from '../../helpers/product-search';
-// import { formats } from '../../sample-data/viewports';
+import * as productSearchFlow from '../../../helpers/product-search';
+import { formats } from '../../../sample-data/viewports';
+
+function clickSearchIcon() {
+  cy.get('cx-searchbox [aria-label="Search "]').click();
+}
 
 function enterProduct() {
+  clickSearchIcon();
   cy.get('cx-searchbox input').type('camera{enter}');
 }
 
-context('Product search', () => {
+context(`${formats.mobile.width + 1}p resolution - Product search`, () => {
   before(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.visit('/');
     enterProduct();
+  });
+  beforeEach(() => {
+    cy.viewport(formats.mobile.width, formats.mobile.height);
   });
 
   describe('Search results', () => {
@@ -43,12 +52,13 @@ context('Product search', () => {
     });
 
     it('should be able to clear active facet', () => {
-      productSearchFlow.clearActiveFacet();
+      productSearchFlow.clearActiveFacet('.cx-facet-mobile');
     });
   });
 
   describe('Sorting', () => {
     before(() => {
+      cy.viewport(formats.mobile.width, formats.mobile.height);
       cy.visit('/');
       enterProduct();
     });
