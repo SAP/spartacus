@@ -15,6 +15,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import * as fromCmsReducer from '../../../cms/store/reducers/index';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
+import { OccConfig } from '@spartacus/core';
 
 const router = {
   state: {
@@ -69,6 +70,7 @@ describe('Navigation Entry Items Effects', () => {
       providers: [
         OccCmsService,
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
+        { provide: OccConfig, useValue: {} },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService }

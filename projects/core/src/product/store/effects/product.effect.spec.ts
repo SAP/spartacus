@@ -18,10 +18,7 @@ import { PageType } from '../../../occ/occ-models/occ.models';
 import { RoutingService } from '../../../routing/facade/routing.service';
 
 import * as fromEffects from './product.effect';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../../config/product-config';
+import { defaultOccProductConfig } from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -76,7 +73,7 @@ describe('Product Effects', () => {
         ProductImageConverterService,
         ProductReferenceConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OccProductConfig, useValue: defaultOccProductConfig },
+        { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService }

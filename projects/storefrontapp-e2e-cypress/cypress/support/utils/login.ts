@@ -1,7 +1,7 @@
 export const apiUrl = Cypress.env('API_URL');
 export const config = {
   tokenUrl: `${apiUrl}/authorizationserver/oauth/token`,
-  newUserUrl: `${apiUrl}/rest/v2/electronics/users/?lang=en&curr=USD`,
+  newUserUrl: `${apiUrl}/rest/v2/electronics-spa/users/?lang=en&curr=USD`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
     client_secret: Cypress.env('CLIENT_SECRET')

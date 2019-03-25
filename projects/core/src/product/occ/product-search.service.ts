@@ -1,28 +1,27 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { SearchConfig } from '../model/search-config';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import {
   SuggestionList,
   ProductSearchPage
 } from '../../occ/occ-models/occ.models';
 
-import { OccProductConfig } from '../config/product-config';
-import { ProductOccService } from './product-occ.service';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20
 };
 
 @Injectable()
-export class ProductSearchLoaderService extends ProductOccService {
-  constructor(private http: HttpClient, private config: OccProductConfig) {
-    super(config);
-  }
+export class ProductSearchLoaderService {
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   loadSearch(
     fullQuery: string,
@@ -43,33 +42,23 @@ export class ProductSearchLoaderService extends ProductOccService {
     query: string,
     searchConfig: SearchConfig
   ): string {
-    let params = new HttpParams();
-    let url =
-      this.getProductEndpoint() +
-      DynamicTemplate.resolve(this.config.endpoints.productSearch, {
+    return this.occEndpoints.getUrl(
+      'productSearch',
+      {
         query
-      });
-
-    if (searchConfig.pageSize) {
-      params = params.set('pageSize', searchConfig.pageSize.toString());
-    }
-    if (searchConfig.currentPage) {
-      params = params.set('currentPage', searchConfig.currentPage.toString());
-    }
-    if (searchConfig.sortCode) {
-      params = params.set('sort', searchConfig.sortCode);
-    }
-
-    return (url += `&${params.toString()}`);
+      },
+      {
+        pageSize: searchConfig.pageSize,
+        currentPage: searchConfig.currentPage,
+        sort: searchConfig.sortCode
+      }
+    );
   }
 
   protected getSuggestionEndpoint(term: string, max: string): string {
-    return (
-      this.getProductEndpoint() +
-      DynamicTemplate.resolve(this.config.endpoints.productSuggestions, {
-        term,
-        max
-      })
-    );
+    return this.occEndpoints.getUrl('productSuggestions', {
+      term,
+      max
+    });
   }
 }
