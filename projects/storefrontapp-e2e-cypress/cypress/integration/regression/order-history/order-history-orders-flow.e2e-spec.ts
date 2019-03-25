@@ -1,8 +1,6 @@
 import { user } from '../../../sample-data/big-happy-path';
 
 describe('Order History with orders', () => {
-  // let orderNumber: string;
-
   before(() => {
     cy.window().then(win => win.sessionStorage.clear());
     cy.requireLoggedIn();
