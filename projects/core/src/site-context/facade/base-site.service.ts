@@ -7,9 +7,7 @@ import { getActiveBaseSite } from '../store/selectors/base-site.selectors';
 import { StateWithSiteContext } from '../store/state';
 import { SetActiveBaseSite } from '../store/actions/base-site.action';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class BaseSiteService implements SiteContext<string> {
   constructor(private store: Store<StateWithSiteContext>) {}
 
