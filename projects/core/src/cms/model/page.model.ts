@@ -1,5 +1,7 @@
 import { ContentSlotData } from './content-slot-data.model';
 
+import { CmsComponent } from '../../occ/occ-models/index';
+
 export interface Page {
   uuid?: string;
   pageId?: string;
@@ -10,6 +12,14 @@ export interface Page {
   template?: string;
   loadTime?: number;
   slots: { [key: string]: ContentSlotData };
+}
+
+/**
+ * Represents the cms structure for pages, slots and components.
+ */
+export interface CmsStructureModel {
+  page?: Page;
+  components?: CmsComponent[];
 }
 
 /**
