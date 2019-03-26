@@ -1,7 +1,7 @@
 import * as fromBaseSite from './base-site.reducer';
 import { BaseSiteAction, SetActiveBaseSite } from '@spartacus/core';
 
-describe('Currencies Reducer', () => {
+describe('BaseSite Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
       const { initialState } = fromBaseSite;
