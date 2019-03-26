@@ -11,11 +11,9 @@ import {
 } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchLoaderService } from './product-search.service';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../config/product-config';
+import { defaultOccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { OccConfig } from '@spartacus/core';
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
@@ -23,7 +21,7 @@ const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5
 };
-const MockOccModuleConfig: OccProductConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -46,7 +44,7 @@ describe('ProductSearchLoaderService', () => {
       providers: [
         ProductSearchLoaderService,
         {
-          provide: OccProductConfig,
+          provide: OccConfig,
           useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
         }
       ]

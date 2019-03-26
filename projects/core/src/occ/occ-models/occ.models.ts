@@ -441,7 +441,7 @@ export interface ComponentList {
   /**
    * @member {Component[]} [component]
    */
-  component?: Component[];
+  component?: Component[] | any[];
 }
 
 /**
