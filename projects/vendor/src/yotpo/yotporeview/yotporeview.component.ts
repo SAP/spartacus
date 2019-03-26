@@ -5,7 +5,7 @@ import { ProductService, RoutingService } from '@spartacus/core';
 @Component({
   selector: 'cx-yotporeview',
   templateUrl: './yotporeview.component.html',
-  styleUrls: ['./yotporeview.component.css']
+  styleUrls: []
 })
 export class YotporeviewComponent extends BaseyotpoComponent {
   constructor(protected elementRef:ElementRef, 

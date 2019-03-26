@@ -1,9 +1,9 @@
-import { OnInit, ElementRef } from '@angular/core';
+import { OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product, ProductService, RoutingService } from '@spartacus/core';
 import { filter, map, switchMap } from 'rxjs/operators';
 
-export abstract class BaseyotpoComponent implements OnInit {
+export abstract class BaseyotpoComponent implements OnInit, AfterViewInit {
   product$: Observable<Product>;
 
   constructor(protected elementRef:ElementRef, 

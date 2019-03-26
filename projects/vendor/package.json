@@ -4,6 +4,6 @@
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0",
-    "@spartacus/core": "^0.1.0-prealpha"
+    "@spartacus/core": "^0.1.0-alpha"
   }
 }
