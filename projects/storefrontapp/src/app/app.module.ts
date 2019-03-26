@@ -6,9 +6,15 @@ import {
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+import {
+  StorefrontComponent,
+  StorefrontModule,
+  translations,
+  defaultCmsContentConfig
+} from '@spartacus/storefront';
 
 import { environment } from '../environments/environment';
+import { ConfigModule } from '@spartacus/core';
 
 const devImports = [];
 
@@ -30,7 +36,14 @@ if (!environment.production) {
         addToHomeScreen: true
       },
       siteContext: {
-        urlEncodingParameters: ['LANGUAGE', 'CURRENCY']
+        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+        parameters: {
+          BASE_SITE: {
+            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            defaultValue: 'electronics-spa',
+            persistence: 'route'
+          }
+        }
       },
       routesConfig: {
         translations: {
@@ -40,8 +53,13 @@ if (!environment.production) {
             }
           }
         }
+      },
+      i18n: {
+        resources: translations
       }
     }),
+
+    ConfigModule.withConfigFactory(defaultCmsContentConfig),
     ...devImports
   ],
 

@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule, Action } from '@ngrx/store';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 
 import { hot, cold } from 'jasmine-marbles';
 
@@ -12,14 +12,13 @@ import * as fromActions from '../actions';
 import { Logout, Login } from '../../../auth';
 import { PageContext, RoutingService } from '../../../routing';
 import { LanguageChange } from '../../../site-context';
-import { CmsConfig } from '../../config/cms-config';
-import { defaultCmsModuleConfig } from '../../config/default-cms-config';
-import { Page } from '../../model/page.model';
-import { OccCmsService } from '../../occ/occ-cms.service';
-import { PageType, CmsComponent } from '../../../occ/occ-models';
+
+import { Page, CmsStructureModel } from '../../model/page.model';
+import { PageType } from '../../../occ/occ-models';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import * as fromEffects from './page.effect';
+import { CmsPageLoader } from '../../services';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -36,6 +35,60 @@ const mockRouterState = {
   }
 };
 
+const pageMock: Page = {
+  uuid: 'mockPageUuid',
+  loadTime: 1000000000000,
+  name: 'testPage',
+  pageId: 'testPageId',
+  type: 'ContentPage',
+  template: 'testTemplate',
+  title: 'testPageTitle',
+  catalogUuid: 'mockPageCatalogUuid',
+  slots: {
+    testPosition: {
+      uid: 'mockContentSlotUid',
+      uuid: 'mockSlotUuid',
+      catalogUuid: 'mockSlotCatalogUuid',
+      components: [
+        {
+          uid: 'comp1',
+          typeCode: 'SimpleBannerComponent',
+          uuid: 'compUuid1',
+          flexType: 'SimpleBannerComponent'
+        },
+        {
+          uid: 'comp2',
+          typeCode: 'CMSFlexComponent',
+          uuid: 'compUuid2',
+          flexType: 'AccountAddressBookComponent'
+        }
+      ]
+    }
+  }
+};
+
+const componentsMock = [
+  {
+    uid: 'comp1',
+    typeCode: 'SimpleBannerComponent'
+  },
+  {
+    uid: 'comp2',
+    typeCode: 'CMSFlexComponent'
+  }
+];
+
+const pageStructure: CmsStructureModel = {
+  page: pageMock,
+  components: componentsMock
+};
+
+class CmsPageLoaderMock {
+  get(): Observable<any> {
+    return of(pageStructure);
+  }
+}
+
 class RoutingServiceMock {
   getRouterState(): Observable<any> {
     return of(mockRouterState);
@@ -44,90 +97,9 @@ class RoutingServiceMock {
 
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
-  let occService: OccCmsService;
+  let cmsPageLoader: CmsPageLoader<any>;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
-
-  const cmsComponentData: any[] = [
-    {
-      uid: 'comp1',
-      typeCode: 'SimpleBannerComponent',
-      uuid: 'compUuid1',
-      flexType: undefined
-    },
-    {
-      uid: 'comp2',
-      typeCode: 'CMSFlexComponent',
-      uuid: 'compUuid2',
-      flexType: 'AccountAddressBookComponent'
-    }
-  ];
-
-  const cmsPageData: any = {
-    uuid: 'mockPageUuid',
-    uid: 'testPageId',
-    name: 'testPage',
-    template: 'testTemplate',
-    title: 'testPageTitle',
-    typeCode: 'ContentPage',
-    contentSlots: {
-      contentSlot: [
-        {
-          slotId: 'mockContentSlotUid',
-          slotUuid: 'mockSlotUuid',
-          components: {
-            component: cmsComponentData
-          },
-          position: 'testPosition',
-          properties: {
-            smartedit: {
-              catalogVersionUuid: 'mockSlotCatalogUuid'
-            }
-          }
-        }
-      ]
-    },
-    properties: {
-      smartedit: {
-        classes:
-          'smartedit-page-uid-homepage smartedit-catalog-version-uuid-mockPageCatalogUuid'
-      }
-    }
-  };
-
-  const comps: any[] = [
-    {
-      uid: 'comp1',
-      typeCode: 'SimpleBannerComponent',
-      uuid: 'compUuid1',
-      flexType: 'SimpleBannerComponent'
-    },
-    {
-      uid: 'comp2',
-      typeCode: 'CMSFlexComponent',
-      uuid: 'compUuid2',
-      flexType: 'AccountAddressBookComponent'
-    }
-  ];
-
-  const page: Page = {
-    uuid: 'mockPageUuid',
-    loadTime: 1000000000000,
-    name: 'testPage',
-    pageId: 'testPageId',
-    type: 'ContentPage',
-    template: 'testTemplate',
-    title: 'testPageTitle',
-    catalogUuid: 'mockPageCatalogUuid',
-    slots: {
-      testPosition: {
-        uid: 'mockContentSlotUid',
-        uuid: 'mockSlotUuid',
-        catalogUuid: 'mockSlotCatalogUuid',
-        components: comps
-      }
-    }
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -137,20 +109,57 @@ describe('Page Effects', () => {
         StoreModule.forFeature('cms', fromCmsReducer.getReducers())
       ],
       providers: [
-        OccCmsService,
         { provide: RoutingService, useClass: RoutingServiceMock },
-        { provide: CmsConfig, useValue: defaultCmsModuleConfig },
+        { provide: CmsPageLoader, useClass: CmsPageLoaderMock },
         fromEffects.PageEffects,
         provideMockActions(() => actions$)
       ]
     });
 
-    occService = TestBed.get(OccCmsService);
+    cmsPageLoader = TestBed.get(CmsPageLoader);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;
+  });
 
-    spyOn(occService, 'loadPageData').and.returnValue(of(cmsPageData));
+  describe('loadPageData$', () => {
+    describe('when LoadPageData is dispatched', () => {
+      it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
+        spyOn(cmsPageLoader, 'get').and.returnValue(of(pageStructure));
+        const action = new fromActions.LoadPageData(context);
+
+        const completion1 = new fromActions.LoadPageDataSuccess(
+          context,
+          pageMock
+        );
+        const completion2 = new fromActions.GetComponentFromPage(
+          componentsMock
+        );
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-(bc)', {
+          b: completion1,
+          c: completion2
+        });
+
+        expect(effects.loadPageData$).toBeObservable(expected);
+      });
+
+      it('should dispatch LoadPageDataFail action', () => {
+        const error = 'error';
+        spyOn<any>(cmsPageLoader, 'get').and.returnValue(throwError(error));
+        const action = new fromActions.LoadPageData(context);
+
+        const completion = new fromActions.LoadPageDataFail(context, error);
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: completion
+        });
+
+        expect(effects.loadPageData$).toBeObservable(expected);
+      });
+    });
   });
 
   describe('refreshPage$', () => {
@@ -197,49 +206,6 @@ describe('Page Effects', () => {
         const expected = cold('-b', { b: completion });
 
         expect(effects.refreshPage$).toBeObservable(expected);
-      });
-    });
-  });
-
-  describe('loadPageData$', () => {
-    describe('when LoadPageData is dispatched', () => {
-      it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
-        const mockedComponents: CmsComponent[] = [{ name: 'aComponent' }];
-        spyOn<any>(effects, 'getComponents').and.returnValue(mockedComponents);
-
-        const action = new fromActions.LoadPageData(context);
-
-        const completion1 = new fromActions.LoadPageDataSuccess(context, page);
-        const completion2 = new fromActions.GetComponentFromPage(
-          mockedComponents
-        );
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-(bc)', {
-          b: completion1,
-          c: completion2
-        });
-
-        expect(effects.loadPageData$).toBeObservable(expected);
-      });
-
-      it('should dispatch LoadPageDataFail action', () => {
-        const error = 'error';
-        spyOn<any>(effects, 'getPageData').and.throwError(error);
-
-        const action = new fromActions.LoadPageData(context);
-
-        const completion = new fromActions.LoadPageDataFail(
-          context,
-          new Error(error)
-        );
-
-        actions$ = hot('-a', { a: action });
-        const expected = cold('-b', {
-          b: completion
-        });
-
-        expect(effects.loadPageData$).toBeObservable(expected);
       });
     });
   });

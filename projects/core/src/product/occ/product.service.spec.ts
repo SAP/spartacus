@@ -5,11 +5,9 @@ import {
 } from '@angular/common/http/testing';
 
 import { ProductLoaderService } from './product.service';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../config/product-config';
+import { defaultOccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { OccConfig } from '@spartacus/core';
 
 const productCode = 'testCode';
 const product = {
@@ -17,7 +15,7 @@ const product = {
   name: 'testProduct'
 };
 
-const MockOccModuleConfig: OccProductConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -40,7 +38,7 @@ describe('ProductLoaderService', () => {
       providers: [
         ProductLoaderService,
         {
-          provide: OccProductConfig,
+          provide: OccConfig,
           useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
         }
       ]
