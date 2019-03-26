@@ -24,7 +24,8 @@ export function reducer(
     case fromAction.MERGE_CART_SUCCESS: {
       return {
         ...state,
-        cartMergeComplete: true
+        cartMergeComplete: true,
+        refresh: true
       };
     }
 
