@@ -25,9 +25,6 @@ if (!environment.production) {
       server: {
         baseUrl: environment.occBaseUrl
       },
-      site: {
-        baseSite: 'electronics-spa'
-      },
       pwa: {
         enabled: true,
         addToHomeScreen: true
@@ -37,6 +34,7 @@ if (!environment.production) {
         parameters: {
           BASE_SITE: {
             values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            defaultValue: 'electronics-spa',
             persistence: 'route'
           }
         }
