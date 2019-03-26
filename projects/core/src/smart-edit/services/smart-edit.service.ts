@@ -4,6 +4,8 @@ import { takeWhile } from 'rxjs/operators';
 
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
+import { PageType } from '../../occ/occ-models/index';
+import { Page } from '../../cms/model/page.model';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
@@ -11,6 +13,7 @@ import { WindowRef } from '../../window/window-ref';
 })
 export class SmartEditService {
   private _cmsTicketId: string;
+  private hasPreviewPage = false;
 
   constructor(
     private cmsService: CmsService,
@@ -60,6 +63,9 @@ export class SmartEditService {
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage && this._cmsTicketId) {
+        // before adding contract, we need redirect to preview page
+        this.goToPreviewPage(cmsPage);
+
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)
@@ -73,6 +79,23 @@ export class SmartEditService {
         );
       }
     });
+  }
+
+  private goToPreviewPage(cmsPage: Page) {
+    // the first page is the smartedit preview page
+    if (!this.hasPreviewPage) {
+      this.hasPreviewPage = true;
+
+      if (cmsPage.type === PageType.PRODUCT_PAGE) {
+        this.routingService.go({
+          route: [{ name: 'product', params: { code: 2053367 } }]
+        });
+      } else if (cmsPage.type === PageType.CATEGORY_PAGE) {
+        this.routingService.go({
+          route: [{ name: 'category', params: { code: 575 } }]
+        });
+      }
+    }
   }
 
   protected renderComponent(
