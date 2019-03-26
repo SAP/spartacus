@@ -4,9 +4,9 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 
-import { OccCmsService } from './occ-cms.service';
-import { IdList } from './../model/idList.model';
-import { CmsConfig } from '../config/cms-config';
+import { OccCmsPageLoader } from './occ-cms-page.loader';
+import { IdList } from '../model/idList.model';
+
 import {
   CmsComponent,
   CMSPage,
@@ -15,6 +15,9 @@ import {
 } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 import { HttpRequest } from '@angular/common/http';
+import { CmsStructureConfigService, CmsPageAdapter } from '../services';
+import { CmsStructureConfig } from '../config';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -40,7 +43,7 @@ const componentList: CmsComponentList = {
   pagination: { count: 10 }
 };
 
-const MockCmsModuleConfig: CmsConfig = {
+const CmsStructureConfigMock: CmsStructureConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -50,25 +53,48 @@ const MockCmsModuleConfig: CmsConfig = {
     baseSite: '',
     language: '',
     currency: ''
+  },
+  cmsStructure: {
+    pages: [],
+    slots: {}
   }
 };
 
+class CmsStructureConfigServiceMock {}
+
+class AdapterMock {}
+
 const endpoint = '/cms';
 
-describe('OccCmsService', () => {
-  let service: OccCmsService;
+class OccEndpointsServiceMock {
+  getEndpoint(): string {
+    return endpoint;
+  }
+}
+
+describe('OccCmsPageLoader', () => {
+  let service: OccCmsPageLoader;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCmsService,
-        { provide: CmsConfig, useValue: MockCmsModuleConfig }
+        OccCmsPageLoader,
+        { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
+        {
+          provide: CmsStructureConfig,
+          useValue: CmsStructureConfigMock
+        },
+        {
+          provide: CmsStructureConfigService,
+          useClass: CmsStructureConfigServiceMock
+        },
+        { provide: CmsPageAdapter, useClass: AdapterMock }
       ]
     });
 
-    service = TestBed.get(OccCmsService);
+    service = TestBed.get(OccCmsPageLoader);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -131,7 +157,7 @@ describe('OccCmsService', () => {
         type: PageType.CONTENT_PAGE
       };
 
-      service.loadPageData(context).subscribe(result => {
+      service.load(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -154,7 +180,7 @@ describe('OccCmsService', () => {
         type: PageType.CONTENT_PAGE
       };
 
-      service.loadPageData(context, 'BASIC').subscribe(result => {
+      service.load(context, 'BASIC').subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -177,7 +203,7 @@ describe('OccCmsService', () => {
         id: '123',
         type: PageType.PRODUCT_PAGE
       };
-      service.loadPageData(context).subscribe(result => {
+      service.load(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 

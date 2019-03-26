@@ -1,6 +1,6 @@
 import { OccConfig } from '../../occ/config/occ-config';
 
-export const defaultOccProductConfig: OccProductConfig = {
+export const defaultOccProductConfig: OccConfig = {
   endpoints: {
     product:
       'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews',
@@ -12,12 +12,3 @@ export const defaultOccProductConfig: OccProductConfig = {
     productSuggestions: 'products/suggestions?term=${term}&max=${max}'
   }
 };
-
-export abstract class OccProductConfig extends OccConfig {
-  endpoints?: {
-    product?: string;
-    productReviews?: string;
-    productSearch?: string;
-    productSuggestions?: string;
-  };
-}
