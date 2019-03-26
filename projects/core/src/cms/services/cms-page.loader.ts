@@ -63,10 +63,8 @@ export abstract class CmsPageLoader<T> {
 
   /**
    *
-   * The adapters can be used to serialize the backend reponse to
-   * the UI model. Customers can inject multiple adapters in order to
-   * convert to the target model, or override the adapt method in
-   * their implementation.
+   * An adapter can be injected to convert the backend reponse to
+   * the UI model.
    *
    * @param page the source that can be converted
    */
