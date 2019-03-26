@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { CmsRoute, CmsService, PageContext, PageType } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { CmsRoute, PageContext, PageType } from '@spartacus/core';
 import { PageLayoutComponent } from '../page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
 
@@ -10,11 +8,7 @@ import { CmsMappingService } from './cms-mapping.service';
   providedIn: 'root'
 })
 export class CmsRoutesService {
-  constructor(
-    private router: Router,
-    private cmsService: CmsService,
-    private cmsMapping: CmsMappingService
-  ) {}
+  constructor(private router: Router, private cmsMapping: CmsMappingService) {}
 
   cmsRouteExist(url: string): boolean {
     const isCmsDrivenRoute = url.startsWith('/');
@@ -37,30 +31,27 @@ export class CmsRoutesService {
   /**
    * Contains Cms driven routing logic intended for use use in guards, especially in canActivate method.
    *
-   * Observable<boolean> will emit true, when logic wont have to modify routing (so canActivate could be easily resolved to true)
-   * or will emit false, when routing configuration was updated and redirection to newly generated route was initiated.
+   * Will return true, when logic wont have to modify routing (so canActivate could be easily resolved to true)
+   * or will return false, when routing configuration was updated and redirection to newly generated route was initiated.
    *
    * @param pageContext
    * @param currentUrl
    */
   handleCmsRoutesInGuard(
     pageContext: PageContext,
+    componentTypes: string[],
     currentUrl: string
-  ): Observable<boolean> {
-    return this.cmsService.getPageComponentTypes(pageContext).pipe(
-      map(pageComponents => {
-        const componentRoutes = this.cmsMapping.getRoutesForComponents(
-          pageComponents
-        );
-        if (componentRoutes.length) {
-          if (this.updateRouting(pageContext, componentRoutes)) {
-            this.router.navigateByUrl(currentUrl);
-            return false;
-          }
-        }
-        return true;
-      })
+  ): boolean {
+    const componentRoutes = this.cmsMapping.getRoutesForComponents(
+      componentTypes
     );
+    if (componentRoutes.length) {
+      if (this.updateRouting(pageContext, componentRoutes)) {
+        this.router.navigateByUrl(currentUrl);
+        return false;
+      }
+    }
+    return true;
   }
 
   private updateRouting(pageContext: PageContext, routes: Route[]): boolean {
