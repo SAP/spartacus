@@ -3,12 +3,14 @@ import { ActionReducerMap } from '@ngrx/store';
 
 import * as fromLanguages from './languages.reducer';
 import * as fromCurrencies from './currencies.reducer';
+import * as fromBaseSite from './base-site.reducer';
 import { SiteContextState } from '../state';
 
 export function getReducers(): ActionReducerMap<SiteContextState> {
   return {
     languages: fromLanguages.reducer,
-    currencies: fromCurrencies.reducer
+    currencies: fromCurrencies.reducer,
+    baseSite: fromBaseSite.reducer
   };
 }
 
