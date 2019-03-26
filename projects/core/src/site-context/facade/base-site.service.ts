@@ -1,29 +1,38 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SiteContext } from './site-context.interface';
-import { OccConfig } from '../../occ/config/occ-config';
+import { select, Store } from '@ngrx/store';
+import { filter, map, tap } from 'rxjs/operators';
+import { getActiveBaseSite } from '../store/selectors/base-site.selectors';
+import { StateWithSiteContext } from '../store/state';
+import { SetActiveBaseSite } from '../store/actions/base-site.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseSiteService implements SiteContext<string> {
-  private baseSite: BehaviorSubject<string>;
+  constructor(private store: Store<StateWithSiteContext>) {}
 
-  constructor(config: OccConfig) {
-    this.baseSite = new BehaviorSubject<string>(
-      config.site && config.site.baseSite
+  /**
+   * Represents the current baseSite.
+   */
+  getActive(): Observable<string> {
+    return this.store.pipe(
+      select(getActiveBaseSite),
+      tap(x => console.log('acti', x)),
+      filter(Boolean)
     );
   }
 
-  getActive(): Observable<string> {
-    return this.baseSite;
-  }
-
+  /**
+   * We currently doesn't support switching baseSite at run time
+   */
   getAll(): Observable<string[]> {
-    return of(['electronics-spa', 'apparel-de', 'apparel-uk']);
+    return this.getActive().pipe(map(baseSite => [baseSite]));
   }
 
   setActive(siteContext: string) {
-    this.baseSite.next(siteContext);
+    console.log('sadsa', siteContext);
+    this.store.dispatch(new SetActiveBaseSite(siteContext));
   }
 }

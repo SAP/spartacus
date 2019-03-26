@@ -15,8 +15,7 @@ export class OccEndpointsService {
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
-    this.activeBaseSite =
-      (this.config.site && this.config.site.baseSite) || '';
+    this.activeBaseSite = (this.config.site && this.config.site.baseSite) || '';
 
     if (this.baseSiteService) {
       this.baseSiteService
