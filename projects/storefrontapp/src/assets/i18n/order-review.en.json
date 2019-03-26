@@ -4,7 +4,6 @@
     "shippingMethod": "Shipping Method",
     "billTo": "Bill to",
     "payment": "Payment",
-    "expires": "Expires:",
-    "expiresIn": "Expires in"
+    "cardExpires": "Expires:"
   }
 }

@@ -1,9 +1,8 @@
 {
   "labels": {
-    "order": "Order #",
+    "orderId": "Order #",
     "placed": "Placed",
     "status": "Status",
-    "shipped": "SHIPPED",
     "shippedOn": "Shipped on",
     "inProcess": "In process..."
   }

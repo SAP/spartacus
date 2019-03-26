@@ -1,7 +1,7 @@
 {
   "labels": {
     "paymentMethods": "Payment methods",
-    "accountHolderName": "New payment methods are added during checkout.",
+    "newPaymentMethodsAreAddedDuringCheckout": "New payment methods are added during checkout.",
     "default": "DEFAULT"
   },
   "actions": {

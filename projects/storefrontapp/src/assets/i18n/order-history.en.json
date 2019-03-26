@@ -1,11 +1,11 @@
 {
   "labels": {
     "orderHistory": "Order history",
-    "order": "Order #",
+    "orderId": "Order #",
     "placed": "Date",
     "status": "Status",
-    "shipped": "Total",
-    "shippedOn": "We have no order records for this account."
+    "total": "Total",
+    "weHaveNoOrderRecordForThisAccount": "We have no order records for this account."
   },
   "actions": {
     "startShopping": "Start Shopping"

@@ -2,7 +2,7 @@
   "labels": {
     "review": "Review",
     "orderItems": "Order Items",
-    "confirmThatIHaveReadAndAgreeWith": "I confirm that I have read and agree with the"
+    "confirmThatRead": "I am confirming that I have read and agreed with the"
   },
   "actions": {
     "placeOrder": "Place Order",
