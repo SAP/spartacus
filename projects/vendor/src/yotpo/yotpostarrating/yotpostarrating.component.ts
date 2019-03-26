@@ -1,19 +1,24 @@
-import { Component, ElementRef } from '@angular/core';
-import { BaseyotpoComponent } from './../baseyotpo/baseyotpo.component';
-import { ProductService, RoutingService, WindowRef } from '@spartacus/core';
-import { YotpoConfig } from '../yotpoconfig/yotpo-config';
+import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { BaseyotpoService } from './../baseyotpo/baseyotpo.service';
+import { Observable } from 'rxjs';
+import { Product } from '@spartacus/core';
 
 @Component({
   selector: 'cx-yotpostarrating',
   templateUrl: './yotpostarrating.component.html',
   styleUrls: []
 })
-export class YotpostarratingComponent extends BaseyotpoComponent {
-  constructor(protected config: YotpoConfig, protected windowRef: WindowRef,
-    protected elementRef: ElementRef,
-    protected routingService: RoutingService,
-    protected productService: ProductService
-  ) {
-    super(config, windowRef, elementRef, routingService, productService);
+export class YotpostarratingComponent implements OnInit, AfterViewInit {
+  product$: Observable<Product>;
+  
+  constructor(protected baseyotpoService:BaseyotpoService, protected elementRef: ElementRef) { }
+
+  ngOnInit() {
+    this.product$ = this.baseyotpoService.getProduct();
   }
+
+  ngAfterViewInit() {
+    this.baseyotpoService.afterViewInit(this.elementRef);
+  }
+
 }
