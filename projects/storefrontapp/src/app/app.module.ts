@@ -9,6 +9,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {
   StorefrontComponent,
   StorefrontModule,
+  translations,
   defaultCmsContentConfig
 } from '@spartacus/storefront';
 
@@ -52,6 +53,9 @@ if (!environment.production) {
             }
           }
         }
+      },
+      i18n: {
+        resources: translations
       }
     }),
 
