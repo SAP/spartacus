@@ -15,13 +15,13 @@ export class OccEndpointsService {
     private config: OccConfig,
     @Optional() private baseSiteService: BaseSiteService
   ) {
+    this.activeBaseSite =
+      (this.config.site && this.config.site.baseSite) || '';
+
     if (this.baseSiteService) {
       this.baseSiteService
         .getActive()
         .subscribe(value => (this.activeBaseSite = value));
-    } else {
-      this.activeBaseSite =
-        (this.config.site && this.config.site.baseSite) || '';
     }
   }
 
