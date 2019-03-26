@@ -13,14 +13,14 @@ import {
 } from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../occ/occ-cms.service';
+import { OccCmsPageLoader } from '../../occ/occ-cms-page.loader';
 import { RoutingService } from '../../../routing/index';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
-    private occCmsService: OccCmsService,
+    private occCmsService: OccCmsPageLoader,
     private routingService: RoutingService
   ) {}
 
