@@ -10,7 +10,7 @@ import { hot, cold } from 'jasmine-marbles';
 import * as fromActions from '../actions/component.action';
 import { CmsConfig } from '../../config/cms-config';
 import { defaultCmsModuleConfig } from '../../config/default-cms-config';
-import { OccCmsService } from '../../occ/occ-cms.service';
+import { OccCmsPageLoader } from '../../occ/occ-cms-page.loader';
 import { RoutingService } from '../../../routing/index';
 import { PageType, CmsComponent } from '../../../occ/occ-models/index';
 
@@ -40,7 +40,7 @@ class MockOccCmsService {
 
 describe('Component Effects', () => {
   let actions$: Observable<any>;
-  let service: OccCmsService;
+  let service: OccCmsPageLoader;
   let effects: fromEffects.ComponentEffects;
 
   const component: CmsComponent = {
@@ -52,7 +52,7 @@ describe('Component Effects', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
-        { provide: OccCmsService, useClass: MockOccCmsService },
+        { provide: OccCmsPageLoader, useClass: MockOccCmsService },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
@@ -60,7 +60,7 @@ describe('Component Effects', () => {
       ]
     });
 
-    service = TestBed.get(OccCmsService);
+    service = TestBed.get(OccCmsPageLoader);
     effects = TestBed.get(fromEffects.ComponentEffects);
   });
 
