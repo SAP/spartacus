@@ -13,7 +13,7 @@ export function reducer(
     }
 
     case fromActions.LOAD_USER_ADDRESSES_SUCCESS: {
-      return action.payload ? action.payload : state;
+      return action.payload ? action.payload : initialState;
     }
   }
   return state;

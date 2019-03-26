@@ -5,15 +5,14 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Product } from '../../occ/occ-models/occ.models';
-import { OccProductConfig } from '../config/product-config';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
-import { ProductOccService } from './product-occ.service';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable()
-export class ProductLoaderService extends ProductOccService {
-  constructor(private http: HttpClient, private config: OccProductConfig) {
-    super(config);
-  }
+export class ProductLoaderService {
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   load(productCode: string): Observable<Product> {
     return this.http
@@ -22,11 +21,8 @@ export class ProductLoaderService extends ProductOccService {
   }
 
   protected getEndpoint(code: string): string {
-    return (
-      this.getProductEndpoint() +
-      DynamicTemplate.resolve(this.config.endpoints.product, {
-        productCode: code
-      })
-    );
+    return this.occEndpoints.getUrl('product', {
+      productCode: code
+    });
   }
 }

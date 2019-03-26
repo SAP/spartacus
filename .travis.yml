@@ -13,13 +13,6 @@ branches:
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
 script: ./build.sh sonar
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: dist/storefrontapp
-  on:
-    branch: develop
 notifications:
   email:
     on_failure: always
