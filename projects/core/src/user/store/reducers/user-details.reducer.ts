@@ -13,9 +13,13 @@ export function reducer(
     }
 
     case fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS: {
-      return {
+      const updatedDetails: User = {
         ...state,
         ...action.userUpdates
+      };
+      return {
+        ...updatedDetails,
+        name: `${updatedDetails.firstName} ${updatedDetails.lastName}`
       };
     }
   }

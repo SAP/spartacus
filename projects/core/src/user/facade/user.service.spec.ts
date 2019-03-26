@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
-import { LoaderState } from '../../state';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
@@ -412,23 +411,6 @@ describe('UserService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.UpdateUserDetails({ username, userDetails })
       );
-    });
-
-    it('should return the loading state', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
-
-      let result: LoaderState<void>;
-      service
-        .getUpdatePersonalDetailsResultState()
-        .subscribe(state => (result = state))
-        .unsubscribe();
-
-      expect(result).toEqual({
-        loading: false,
-        error: false,
-        success: true,
-        value: undefined
-      });
     });
 
     it('should return the loading flag', () => {
