@@ -6,7 +6,7 @@ import {
 
 import { OccCmsService } from './occ-cms.service';
 import { IdList } from './../model/idList.model';
-import { CmsConfig } from '../config/cms-config';
+
 import {
   CmsComponent,
   CMSPage,
@@ -15,6 +15,7 @@ import {
 } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 import { HttpRequest } from '@angular/common/http';
+import { OccConfig } from '@spartacus/core';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -40,7 +41,7 @@ const componentList: CmsComponentList = {
   pagination: { count: 10 }
 };
 
-const MockCmsModuleConfig: CmsConfig = {
+const MockCmsModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
     occPrefix: ''
@@ -64,7 +65,7 @@ describe('OccCmsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCmsService,
-        { provide: CmsConfig, useValue: MockCmsModuleConfig }
+        { provide: OccConfig, useValue: MockCmsModuleConfig }
       ]
     });
 
