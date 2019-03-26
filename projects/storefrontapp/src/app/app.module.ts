@@ -30,15 +30,19 @@ if (!environment.production) {
       server: {
         baseUrl: environment.occBaseUrl
       },
-      site: {
-        baseSite: 'electronics-spa'
-      },
       pwa: {
         enabled: true,
         addToHomeScreen: true
       },
       siteContext: {
-        urlEncodingParameters: ['LANGUAGE', 'CURRENCY']
+        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+        parameters: {
+          BASE_SITE: {
+            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            defaultValue: 'electronics-spa',
+            persistence: 'route'
+          }
+        }
       },
       routesConfig: {
         translations: {
