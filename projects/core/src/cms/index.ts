@@ -1,5 +1,4 @@
-export * from './config/cms-config';
-export { defaultCmsModuleConfig } from './config/default-cms-config';
+export * from './config/index';
 
 export * from './model/page.model';
 export * from './model/node-item.model';

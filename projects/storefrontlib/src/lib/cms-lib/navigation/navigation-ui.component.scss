@@ -1,8 +1,4 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-@import '~bootstrap/scss/nav';
-@import '~bootstrap/scss/dropdown';
 
 //this hack here for now, until we decide how we go about keyboard navigation
 // .dropdown:hover>.dropdown-menu,
@@ -10,180 +6,144 @@
 //   display: block;
 // }
 
-//navigation color variables
-$cx-navigation-item-border-bottom-color: 'background' !default;
-$cx-navigation-link-color: 'inverse' !default;
-$cx-navigation-link-focus-color: 'primary' !default;
-$cx-navigation-link-hover-color: 'primary' !default;
-$cx-navigation-link-md-color: 'text' !default;
-$cx-navigation-child-item-border-color: 'background' !default;
-$cx-navigation-child-item-hover-background-color: 'transparent' !default;
-$cx-navigation-child-link-color: 'text' !default;
-$cx-navigation-child-link-hover-color: 'primary' !default;
-$cx-navigation-link-md-arrow-color: 'secondary' !default;
-$cx-navigation-child-column-item-background-color: 'transparent' !default;
-
-//navigation variables
-$cx-navigation-text-case: capitalize !default;
-$cx-navigation-item-trbl-padding: 0.5rem 0 !default;
-$cx-navigation-item-border: 1px solid !default;
-$cx-navigation-link-trbl-padding: 0.2rem 0 !default;
-$cx-navigation-link-md-trbl-padding: 0.5rem 1rem !default;
-$cx-navigation-link-md-trbl-margin: 20px !default;
-$cx-navigation-link-lg-trbl-padding: 0.5rem 0 !default;
-$cx-navigation-link-hover-cursor: pointer;
-$cx-navigation-child-list-border-radius: 0 !default;
-$cx-navigation-child-list-text-case: capitalize !default;
-$cx-navigation-child-list-trbl-padding: 0 !default;
-$cx-navigation-child-list-md-border: 0 none !default;
-$cx-navigation-child-item-trbl-padding: 0.45rem 1rem;
-$cx-navigation-child-item-border: 1px solid !default;
-$cx-navigation-child-item-last-child-border: none !default;
-$cx-navigation-child-item-md-border: none !default;
-$cx-navigation-child-link-hover-text-decoration: none !default;
-$cx-navigation-child-list-columns-border-radius: 0 !default;
-$cx-navigation-child-list-columns-trbl-padding: 0.75rem !default;
-$cx-navigation-child-list-columns-md-border: none !default;
-$cx-navigation-child-list-columns-md-trbl-margin: 0 !default;
-$cx-navigation-column-title-text-case: capitalize !default;
-$cx-navigation-column-title-font-weight: bold !default;
-$cx-navigation-column-title-trbl-padding: 0.25rem 1.5rem !default;
-$cx-navigation-child-column-trbl-margin: 0 3rem 0 0 !default;
-$cx-navigation-child-column-md-trbl-margin: 1rem unset 0 0 !default;
-$cx-navigation-child-column-item-trbl-padding: 0.25rem 1.5rem !default;
-
-.cx-navigation {
-  &__item {
+.cx-nav {
+  &-item {
     @include media-breakpoint-down(md) {
-      border-bottom: $cx-navigation-item-border;
-      @include var-color(
-        'border-bottom-color',
-        $cx-navigation-item-border-bottom-color
-      );
-      padding: $cx-navigation-item-trbl-padding;
+      border-style: var(--cx-border-style, solid);
+      border-width: var(--cx-border-width, 0 0 1px);
+      border-color: var(--cx-border-color, var(--cx-g-color-background));
+      padding: var(--cx-padding, 0.5rem 0);
     }
   }
-  &__link {
-    @include var-color('color', $cx-navigation-link-color);
-    text-transform: $cx-navigation-text-case;
-    padding: $cx-navigation-link-trbl-padding;
+  &-link {
+    color: var(--cx-color, var(--cx-g-color-inverse));
+    text-transform: var(--cx-text-transform, capitalize);
+    padding: var(--cx-padding, 0.2rem 0);
     &:focus {
-      @include var-color('color', $cx-navigation-link-focus-color);
+      color: var(--cx-color, var(--cx-g-color-primary));
     }
     &:hover {
-      @include var-color('color', $cx-navigation-link-hover-color);
-      cursor: $cx-navigation-link-hover-cursor;
+      color: var(--cx-color, var(--cx-g-color-primary));
+      cursor: var(--cx-cursor, pointer);
     }
 
     @include media-breakpoint-down(md) {
       &::after {
-        margin-right: $cx-navigation-link-md-trbl-margin;
-        @include var-color('border-color', $cx-navigation-link-md-arrow-color);
-        border-style: solid;
-        border-width: 3px;
-        display: block;
-        width: 1rem;
-        height: 1rem;
-        border-right-color: currentColor;
-        border-top-color: currentColor;
-        border-left-color: transparent;
-        border-bottom-color: transparent;
+        margin-right: 20px;
+        border-style: var(--cx-border-style, solid);
+        border-width: var(--cx-border-width, 3px);
+        border-color: var(
+          --cx-border-color,
+          currentColor currentColor var(--cx-g-color-transparent)
+            var(--cx-g-color-transparent)
+        );
+        display: var(--cx-display, block);
+        width: var(--cx-width, 1rem);
+        height: var(--cx-height, 1rem);
       }
       &[aria-expanded='false'] {
         &::after {
-          transform: rotate(45deg);
+          transform: var(--cx-transform, rotate(45deg));
         }
       }
       &[aria-expanded='true'] {
         &::after {
-          transform: rotate(-45deg);
+          transform: var(--cx-transform, rotate(-45deg));
         }
       }
 
-      @include var-color('color', $cx-navigation-link-md-color);
-      display: flex;
-      justify-content: space-between;
-      padding: $cx-navigation-link-md-trbl-padding;
+      color: var(--cx-color, var(--cx-g-color-text));
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-between);
+      padding: var(--cx-padding, 0.5rem 1rem);
     }
 
     @include media-breakpoint-only(lg) {
-      padding: $cx-navigation-link-lg-trbl-padding;
+      padding: var(--cx-padding, 0.5rem 0);
     }
   }
-  &__child-list {
-    border-radius: $cx-navigation-child-list-border-radius;
-    text-transform: $cx-navigation-child-list-text-case;
-    padding: $cx-navigation-child-list-trbl-padding;
+  &-child-list {
+    border-radius: var(--cx-border-radius, 0);
+    text-transform: var(--cx-text-transform, capitalize);
+    padding: var(--cx-padding, 0);
     @include media-breakpoint-down(md) {
-      position: relative;
-      border: $cx-navigation-child-list-md-border;
-      width: 100%;
-      top: 0 !important;
+      position: var(--cx-position, relative);
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-background)
+      );
+      border-style: var(--cx-border-style, none);
+      border-width: var(--cx-border-width, 0);
+      width: var(--cx-width, 100%);
+      top: var(--cx-top, 0) !important;
     }
   }
-  &__child-item {
-    border-bottom: $cx-navigation-child-item-border;
-    @include var-color(
-      'border-bottom-color',
-      $cx-navigation-child-item-border-color
-    );
-    padding: $cx-navigation-child-item-trbl-padding;
+  &-child-item {
+    border-style: var(--cx-border-style, solid);
+    border-width: var(--cx-border-width, 0 0 1px);
+    border-color: var(--cx-border-color, var(--cx-g-color-background));
+    padding: var(--cx-padding, 0.45rem 1rem);
     &:hover {
-      @include var-color(
-        'background-color',
-        $cx-navigation-child-item-hover-background-color
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
       );
     }
     &:last-child {
-      border-bottom: $cx-navigation-child-item-last-child-border;
+      border-style: var(--cx-border-style, none);
+      border-width: var(--cx-border-width, 0);
     }
     @include media-breakpoint-down(md) {
-      border-bottom: $cx-navigation-child-item-md-border;
+      border-style: var(--cx-border-style, none);
+      border-width: var(--cx-border-width, 0);
     }
   }
-  &__child-link {
-    @include var-color('color', $cx-navigation-child-link-color);
+  &-child-link {
     @include type('7');
+    color: var(--cx-color, var(--cx-g-color-text));
     &:hover {
-      @include var-color('color', $cx-navigation-child-link-hover-color);
-      text-decoration: $cx-navigation-child-link-hover-text-decoration;
+      color: var(--cx-color, var(--cx-g-color-primary));
+      text-decoration: var(--cx-text-decoration, none);
     }
   }
-  &__child-list-columns {
-    border-radius: $cx-navigation-child-list-columns-border-radius;
-    padding: $cx-navigation-child-list-columns-trbl-padding;
+  &-child-list-columns {
+    border-radius: var(--cx-border-radius, 0);
+    padding: var(--cx-padding, 0.75rem);
+    margin: var(--cx-margin, 0);
     &.show {
-      display: flex;
+      display: var(--cx-display, flex);
     }
     @include media-breakpoint-down(md) {
-      flex-direction: column;
-      position: static;
-      width: 100%;
-      border: $cx-navigation-child-list-columns-md-border;
-      margin: $cx-navigation-child-list-columns-md-trbl-margin;
+      flex-direction: var(--cx-flex-direction, column);
+      position: var(--cx-position, static);
+      width: var(--cx-width, 100%);
+      border-style: var(--cx-border-style, none);
+      border-width: var(--cx-border-width, 0);
+      margin: var(--cx-margin, 0);
     }
   }
   //column option
-  &__column-title {
-    text-transform: $cx-navigation-column-title-text-case;
-    @include type('7', $cx-navigation-column-title-font-weight);
-    display: block;
-    width: 100%;
-    padding: $cx-navigation-column-title-trbl-padding;
+  &-column-title {
+    @include type('7');
+    text-transform: var(--cx-text-transform, capitalize);
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-bold));
+    display: var(--cx-display, block);
+    width: var(--cx-width, 100%);
+    padding: var(--cx-padding, 0.25rem 1.5rem);
   }
-  &__child-column {
-    margin-right: $cx-navigation-child-column-trbl-margin;
+  &-child-column {
+    margin: var(--cx-margin, 0);
     @include media-breakpoint-down(md) {
-      margin: $cx-navigation-child-column-md-trbl-margin;
+      margin: var(--cx-margin, 1rem unset 0 0);
     }
   }
-  &__child-column-item {
-    padding: $cx-navigation-child-column-item-trbl-padding;
+  &-child-column-item {
     @include type('7');
+    padding: var(--cx-padding, 0.25rem 1.5rem);
     &:hover {
-      @include var-color(
-        'background-color',
-        $cx-navigation-child-column-item-background-color
+      background-color: var(
+        --cx-background-color,
+        var(--cx-g-color-transparent)
       );
     }
   }

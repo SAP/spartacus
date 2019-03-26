@@ -15,7 +15,7 @@ export class StoreFinderListComponent {
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
 
-  selectedStore: number;
+  selectedStore = 0;
 
   constructor(
     private storeDataService: StoreDataService,
