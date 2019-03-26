@@ -20,6 +20,7 @@ class MockTranslateUrlPipe implements PipeTransform {
 
 import { LoginFormComponent } from './login-form.component';
 import { ActivatedRoute } from '@angular/router';
+import { By } from '@angular/platform-browser';
 
 class MockAuthService {
   authorize = createSpy();
@@ -48,13 +49,12 @@ class MockActivatedRoute {
   };
 }
 
-fdescribe('LoginFormComponent', () => {
+describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
   let routingService: MockRoutingService;
-  let activatedRoute: MockActivatedRoute;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -74,7 +74,6 @@ fdescribe('LoginFormComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
     routingService = TestBed.get(RoutingService);
-    activatedRoute = TestBed.get(ActivatedRoute);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -167,8 +166,27 @@ fdescribe('LoginFormComponent', () => {
   });
 
   describe('guest checkout', () => {
-    it('should show "Register" when forced flag is false', () => {});
+    it('should show "Register" when forced flag is false', () => {
+      const registerLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-register')
+      ).nativeElement;
+      const guestLink = fixture.debugElement.query(By.css('.btn-guest'));
 
-    it('should show "Guest checkout" when forced flag is true', () => {});
+      expect(guestLink).toBeFalsy();
+      expect(registerLinkElement.textContent).toContain('Register');
+    });
+
+    it('should show "Guest checkout" when forced flag is true', () => {
+      component.loginAsGuest = true;
+      fixture.detectChanges();
+
+      const guestLinkElement: HTMLElement = fixture.debugElement.query(
+        By.css('.btn-guest')
+      ).nativeElement;
+      const registerLink = fixture.debugElement.query(By.css('.btn-register'));
+
+      expect(registerLink).toBeFalsy();
+      expect(guestLinkElement.textContent).toContain('Guest Checkout');
+    });
   });
 });
