@@ -2,6 +2,8 @@ import { TestBed, inject } from '@angular/core/testing';
 
 import { StoreModule, Store } from '@ngrx/store';
 
+import { of } from 'rxjs';
+
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
@@ -414,7 +416,9 @@ describe('UserService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+      spyOn(service, 'getUpdatePersonalDetailsResultLoading').and.returnValue(
+        of(true)
+      );
 
       let result: boolean;
       service
@@ -422,11 +426,13 @@ describe('UserService', () => {
         .subscribe(loading => (result = loading))
         .unsubscribe();
 
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+      spyOn(service, 'getUpdatePersonalDetailsResultError').and.returnValue(
+        of(true)
+      );
 
       let result: boolean;
       service
@@ -434,7 +440,7 @@ describe('UserService', () => {
         .subscribe(loading => (result = loading))
         .unsubscribe();
 
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
     it('should return the success flag', () => {

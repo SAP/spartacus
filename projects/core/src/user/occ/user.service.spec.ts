@@ -91,6 +91,7 @@ describe('OccUserService', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userUpdates);
       mockReq.flush(userUpdates);
     });
   });
