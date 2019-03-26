@@ -48,7 +48,8 @@ describe('User Details Reducer', () => {
       const state = fromUserDetailsReducer.reducer(mockUserDetails, action);
       expect(state).toEqual({
         ...mockUserDetails,
-        ...updatedUser
+        ...updatedUser,
+        name: `${updatedUser.firstName} ${updatedUser.lastName}`
       });
     });
   });
