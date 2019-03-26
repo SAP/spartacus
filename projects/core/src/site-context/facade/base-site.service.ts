@@ -22,7 +22,7 @@ export class BaseSiteService implements SiteContext<string> {
   }
 
   /**
-   * We currently doesn't support switching baseSite at run time
+   * We currently don't support switching baseSite at run time
    */
   getAll(): Observable<string[]> {
     return this.getActive().pipe(map(baseSite => [baseSite]));
