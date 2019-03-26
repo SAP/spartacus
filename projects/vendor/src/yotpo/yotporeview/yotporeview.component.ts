@@ -8,7 +8,11 @@ import { ProductService, RoutingService } from '@spartacus/core';
   styleUrls: []
 })
 export class YotporeviewComponent extends BaseyotpoComponent {
-  constructor(protected elementRef:ElementRef, 
-		protected routingService: RoutingService,
-		protected productService: ProductService) { super(elementRef, routingService, productService); }
+  constructor(
+    protected elementRef: ElementRef,
+    protected routingService: RoutingService,
+    protected productService: ProductService
+  ) {
+    super(elementRef, routingService, productService);
+  }
 }

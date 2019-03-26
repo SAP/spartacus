@@ -8,9 +8,8 @@ describe('YotpostarratingComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ YotpostarratingComponent ]
-    })
-    .compileComponents();
+      declarations: [YotpostarratingComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,10 +4,8 @@ import { YotporeviewComponent } from './yotporeview/yotporeview.component';
 import { YotpostarratingComponent } from './yotpostarrating/yotpostarrating.component';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   exports: [YotporeviewComponent, YotpostarratingComponent],
   declarations: [YotporeviewComponent, YotpostarratingComponent]
 })
-export class YotpoModule { }
+export class YotpoModule {}

@@ -8,9 +8,8 @@ describe('BaseyotpoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BaseyotpoComponent ]
-    })
-    .compileComponents();
+      declarations: [BaseyotpoComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

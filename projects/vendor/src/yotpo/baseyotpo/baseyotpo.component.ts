@@ -6,9 +6,11 @@ import { filter, map, switchMap } from 'rxjs/operators';
 export abstract class BaseyotpoComponent implements OnInit, AfterViewInit {
   product$: Observable<Product>;
 
-  constructor(protected elementRef:ElementRef, 
-		protected routingService: RoutingService,
-		protected productService: ProductService) { }
+  constructor(
+    protected elementRef: ElementRef,
+    protected routingService: RoutingService,
+    protected productService: ProductService
+  ) {}
 
   ngOnInit() {
     this.product$ = this.getProduct();
@@ -23,10 +25,10 @@ export abstract class BaseyotpoComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-	var s = document.createElement("script");
-	s.type = "text/javascript";
-	s.text = "function callYotpo() { if (yotpo && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();";
-	this.elementRef.nativeElement.appendChild(s);
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.text =
+      "function callYotpo() { if (yotpo && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();";
+    this.elementRef.nativeElement.appendChild(s);
   }
-
 }
