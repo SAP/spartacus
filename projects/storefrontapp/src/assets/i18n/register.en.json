@@ -12,7 +12,9 @@
     "firstName": "First name",
     "lastName": "Last name",
     "emailAddress": "Email address",
-    "password": "Password"
+    "password": "Password",
+    "emailMarketing": "Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.",
+    "confirmThatRead": "I am confirming that I have read and agreed with the"
   },
   "placeholders": {
     "selectTitle": "Select Title",
@@ -25,9 +27,5 @@
   "validations": {
     "passwordMinRequirements": "Password must be six characters minimum, with one uppercase letter, one number, one symbol",
     "bothPasswordMustMatch": "Both password must match"
-  },
-  "consents": {
-    "emailMarketing": "Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.",
-    "confirmThatRead": "I am confirming that I have read and agreed with the"
   }
 }

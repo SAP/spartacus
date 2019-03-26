@@ -5,7 +5,7 @@
     "placed": "Date",
     "status": "Status",
     "total": "Total",
-    "weHaveNoOrderRecordForThisAccount": "We have no order records for this account."
+    "noOrders": "We have no order records for this account."
   },
   "actions": {
     "startShopping": "Start Shopping"
