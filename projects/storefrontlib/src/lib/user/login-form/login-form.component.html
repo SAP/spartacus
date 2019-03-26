@@ -60,7 +60,7 @@
   <ng-container *ngIf="!loginAsGuest">
     <a
       [routerLink]="{ route: ['register'] } | cxTranslateUrl"
-      class="btn btn-block btn-secondary"
+      class="btn btn-block btn-secondary btn-register"
       >Register</a
     >
   </ng-container>
@@ -68,7 +68,7 @@
   <ng-container *ngIf="loginAsGuest">
     <a
       [routerLink]="{ route: ['checkoutLogin'] } | cxTranslateUrl"
-      class="btn btn-block btn-secondary"
+      class="btn btn-block btn-secondary btn-guest"
       >Guest Checkout</a
     >
   </ng-container>

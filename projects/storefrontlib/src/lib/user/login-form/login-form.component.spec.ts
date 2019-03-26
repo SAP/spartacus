@@ -19,6 +19,7 @@ class MockTranslateUrlPipe implements PipeTransform {
 }
 
 import { LoginFormComponent } from './login-form.component';
+import { ActivatedRoute } from '@angular/router';
 
 class MockAuthService {
   authorize = createSpy();
@@ -39,12 +40,21 @@ class MockGlobalMessageService {
   remove = createSpy();
 }
 
-describe('LoginFormComponent', () => {
+class MockActivatedRoute {
+  snapshot = {
+    queryParams: {
+      forced: false
+    }
+  };
+}
+
+fdescribe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
 
   let authService: MockAuthService;
   let routingService: MockRoutingService;
+  let activatedRoute: MockActivatedRoute;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -53,7 +63,8 @@ describe('LoginFormComponent', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService }
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: ActivatedRoute, useClass: MockActivatedRoute }
       ]
     }).compileComponents();
   }));
@@ -63,6 +74,7 @@ describe('LoginFormComponent', () => {
     component = fixture.componentInstance;
     authService = TestBed.get(AuthService);
     routingService = TestBed.get(RoutingService);
+    activatedRoute = TestBed.get(ActivatedRoute);
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -152,5 +164,11 @@ describe('LoginFormComponent', () => {
       control.setValue(null);
       expect(control.valid).toBeFalsy();
     });
+  });
+
+  describe('guest checkout', () => {
+    it('should show "Register" when forced flag is false', () => {});
+
+    it('should show "Guest checkout" when forced flag is true', () => {});
   });
 });
