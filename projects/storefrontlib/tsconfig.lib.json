@@ -14,7 +14,8 @@
     "types": [],
     "lib": ["dom", "es2015"],
     "paths": {
-      "@spartacus/core": ["dist/core"]
+      "@spartacus/core": ["dist/core"],
+      "vendor": ["dist/vendor"]
     }
   },
   "angularCompilerOptions": {

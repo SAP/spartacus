@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { BaseyotpoComponent } from './../baseyotpo/baseyotpo.component';
-import { ProductService, RoutingService } from '@spartacus/core';
+import { ProductService, RoutingService, WindowRef } from '@spartacus/core';
+import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 
 @Component({
   selector: 'cx-yotpostarrating',
@@ -8,11 +9,11 @@ import { ProductService, RoutingService } from '@spartacus/core';
   styleUrls: []
 })
 export class YotpostarratingComponent extends BaseyotpoComponent {
-  constructor(
+  constructor(protected config: YotpoConfig, protected windowRef: WindowRef,
     protected elementRef: ElementRef,
     protected routingService: RoutingService,
     protected productService: ProductService
   ) {
-    super(elementRef, routingService, productService);
+    super(config, windowRef, elementRef, routingService, productService);
   }
 }
