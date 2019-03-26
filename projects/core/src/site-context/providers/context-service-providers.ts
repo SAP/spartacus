@@ -6,10 +6,12 @@ import { BaseSiteService } from '../facade/base-site.service';
 
 export function inititializeContext(
   config: OccConfig,
+  baseSiteService: BaseSiteService,
   langService: LanguageService,
   currService: CurrencyService
 ) {
   return () => {
+    baseSiteService.initialize(config.site.baseSite);
     langService.initialize(config.site.language);
     currService.initialize(config.site.currency);
   };
@@ -22,7 +24,7 @@ export const contextServiceProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: inititializeContext,
-    deps: [OccConfig, LanguageService, CurrencyService],
+    deps: [OccConfig, BaseSiteService, LanguageService, CurrencyService],
     multi: true
   }
 ];
