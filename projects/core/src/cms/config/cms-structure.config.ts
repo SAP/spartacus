@@ -41,8 +41,7 @@ export interface CmsPageConfig {
 }
 
 /**
- * The `CmsPageSlotCsonfig` (plural) holds `CmsPageSlotConfig` objects
- * by a key.
+ * The `CmsPageSlotsConfig` (plural) holds `CmsPageSlotConfig` objects.
  */
 export interface CmsPageSlotsConfig {
   [key: string]: CmsPageSlotConfig;
