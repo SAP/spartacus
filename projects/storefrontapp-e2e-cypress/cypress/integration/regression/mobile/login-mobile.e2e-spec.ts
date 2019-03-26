@@ -29,6 +29,7 @@ describe(`${formats.mobile.width + 1}p resolution - Login`, () => {
 
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
+    cy.visit('/');
   });
 
   it('should login successfully with correct credentials', () => {
