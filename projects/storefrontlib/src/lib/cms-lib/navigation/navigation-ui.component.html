@@ -1,4 +1,4 @@
-<div *ngIf="node" class="cx-navigation__item nav-item" ngbDropdown>
+<div *ngIf="node" class="cx-nav-item nav-item" ngbDropdown>
   <a
     *ngIf="node.children && !node.title; else nodeWithChildren"
     ngbDropdownToggle
@@ -9,7 +9,7 @@
     <span
       *ngIf="node.children; else noChildren"
       ngbDropdownToggle
-      class="cx-navigation__link nav-link"
+      class="cx-nav-link nav-link"
       role="link"
       id="{{ node.title }}"
       >{{ node.title }}</span
@@ -18,7 +18,7 @@
   <ng-template #noChildren>
     <a
       [routerLink]="{ url: node.url } | cxTranslateUrl"
-      class="cx-navigation__link nav-link"
+      class="cx-nav-link nav-link"
       id="{{ node.title }}"
       >{{ node.title }}
     </a>
@@ -27,24 +27,24 @@
     <ng-container *ngSwitchCase="'list'">
       <div
         ngbDropdownMenu
-        class="cx-navigation__child-list"
+        class="cx-nav-child-list"
         [attr.aria-label]="node.title"
         role="list"
       >
         <div
           role="listitem"
           *ngFor="let subCategory of node.children"
-          class="dropdown-item cx-navigation__child-item"
+          class="dropdown-item cx-nav-child-item"
         >
           <ng-container *ngIf="subCategory.url">
             <a
               [routerLink]="{ url: subCategory.url } | cxTranslateUrl"
-              class="cx-navigation__child-link"
+              class="cx-nav-child-link"
               >{{ subCategory.title }}
             </a>
           </ng-container>
           <ng-container *ngIf="!subCategory.url">
-            <a class="cx-navigation__child-link">{{ subCategory.title }} </a>
+            <a class="cx-nav-child-link">{{ subCategory.title }} </a>
           </ng-container>
           <a
             [routerLink]="{ url: subCategoryChild.url } | cxTranslateUrl"
@@ -58,35 +58,35 @@
     <ng-container *ngSwitchCase="'column'">
       <div
         ngbDropdownMenu
-        class="cx-navigation__child-list-columns"
+        class="cx-nav-child-list-columns"
         [attr.aria-label]="node.title"
       >
         <div
-          class="cx-navigation__child-column"
+          class="cx-nav-child-column"
           *ngFor="let subCategory of node.children"
         >
           <ng-container *ngIf="subCategory.url">
             <a
               role="link"
               [routerLink]="{ url: subCategory.url } | cxTranslateUrl"
-              class="cx-navigation__child-link cx-navigation__column-title"
+              class="cx-nav-child-link cx-nav-column-title"
               >{{ subCategory.title }}
             </a>
           </ng-container>
           <ng-container *ngIf="!subCategory.url">
-            <a class="cx-navigation__child-link cx-navigation__column-title"
+            <a class="cx-nav-child-link cx-nav-column-title"
               >{{ subCategory.title }}
             </a>
           </ng-container>
 
           <div
             *ngFor="let subCategoryChild of subCategory.children"
-            class="dropdown-item cx-navigation__child-column-item"
+            class="dropdown-item cx-nav-child-column-item"
           >
             <a
               role="link"
               [routerLink]="{ url: subCategoryChild.url } | cxTranslateUrl"
-              class="cx-navigation__child-link"
+              class="cx-nav-child-link"
               >{{ subCategoryChild.title }}
             </a>
           </div>
