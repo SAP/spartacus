@@ -18,7 +18,6 @@ import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.modul
     UrlTranslationModule,
     PageSlotModule,
     I18nModule,
-    UrlTranslationModule
   ],
   declarations: [LoginComponent],
   exports: [LoginComponent]
