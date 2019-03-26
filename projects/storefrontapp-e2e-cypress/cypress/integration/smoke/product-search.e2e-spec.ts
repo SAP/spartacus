@@ -1,117 +1,80 @@
-import { PRODUCT_LISTING } from '../../helpers/data-configuration';
-const resultsTitleSelector = 'cx-breadcrumb h1';
-const productItemSelector = 'cx-product-list cx-product-list-item';
-const firstProductItemSelector = `${productItemSelector}:first`;
+import * as productSearchFlow from '../../helpers/product-search';
+// import { formats } from '../../sample-data/viewports';
+
+function enterProduct() {
+  cy.get('cx-searchbox input').type('camera{enter}');
+}
 
 context('Product search', () => {
   before(() => {
     cy.visit('/');
+    enterProduct();
   });
 
   describe('Search results', () => {
     it('should be able to search and get results', () => {
-      cy.get('cx-searchbox input').type('camera{enter}');
-      cy.get(resultsTitleSelector).should(
-        'contain',
-        '144 results for "camera"'
-      );
-      cy.get(productItemSelector).should(
-        'have.length',
-        PRODUCT_LISTING.PRODUCTS_PER_PAGE
-      );
-      cy.get(firstProductItemSelector).within(() => {
-        cy.get('a.cx-product-name').should('be.visible');
-      });
+      productSearchFlow.searchResult();
     });
   });
 
   describe('Pagination', () => {
-    const pageLinkSelector = '.page-item.active > .page-link';
-
     it('should navigate to the next page and display results', () => {
-      cy.get('.page-item:last-of-type .page-link:first').click();
-      cy.get(pageLinkSelector).should('contain', '2');
+      productSearchFlow.nextPage();
     });
 
     it('should be able navigate to the specified page number and display results', () => {
-      cy.get('.page-item:nth-child(4) .page-link:first').click();
-      cy.get(pageLinkSelector).should('contain', '3');
+      productSearchFlow.choosePage();
     });
 
     it('should navigate to the previous page and display results', () => {
-      cy.get('.page-item:first-of-type .page-link:first').click();
-      cy.get(pageLinkSelector).should('contain', '2');
+      productSearchFlow.previousPage();
     });
   });
 
   describe('product list view mode', () => {
     it('should be able to switch to grid mode', () => {
-      cy.get('cx-product-view > div > div:first').click();
-      cy.get('cx-product-list cx-product-grid-item').should(
-        'have.length',
-        PRODUCT_LISTING.PRODUCTS_PER_PAGE
-      );
+      productSearchFlow.viewMode();
     });
   });
 
   describe('Facets', () => {
     it('should filter results using facet filtering', () => {
-      cy.get('cx-product-facet-navigation .cx-facet-checkbox:first').click();
-      cy.get(resultsTitleSelector).should('contain', '79 results for "camera"');
+      productSearchFlow.filterUsingFacetFiltering();
     });
 
     it('should be able to clear active facet', () => {
-      cy.get(
-        'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-      ).click();
-      cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
+      productSearchFlow.clearActiveFacet();
     });
   });
 
   describe('Sorting', () => {
-    const sortingOptionSelector = 'cx-sorting .ng-select:first';
-    const firstProductPriceSelector = `${firstProductItemSelector} .cx-product-price`;
-    const firstProductNameSelector = `${firstProductItemSelector} a.cx-product-name`;
-
     before(() => {
       cy.visit('/');
-      cy.get('cx-searchbox input').type('camera{enter}');
+      enterProduct();
     });
 
     it('should be able to sort by lowest price', () => {
-      cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
-      cy.get(firstProductPriceSelector).should('contain', '$1.58');
+      productSearchFlow.sortByLowestPrice();
     });
 
     it('should be able to sort by highest price', () => {
-      cy.get(sortingOptionSelector).ngSelect('Price (highest first)');
-      cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
+      productSearchFlow.sortByHighestPrice();
     });
 
     it('should be able to sort by name ascending', () => {
-      cy.get(sortingOptionSelector).ngSelect('Name (ascending)');
-      cy.get(firstProductNameSelector).should(
-        'contain',
-        '10.2 Megapixel D-SLR'
-      );
+      productSearchFlow.sortByNameAscending();
     });
 
     it('should be able to sort by name descending', () => {
-      cy.get(sortingOptionSelector).ngSelect('Name (descending)');
-      cy.get(firstProductNameSelector).should(
-        'contain',
-        'Wide Strap for EOS 450D'
-      );
+      productSearchFlow.sortByNameDescending();
     });
 
     it('should be able to sort by relevance', () => {
-      cy.get(sortingOptionSelector).ngSelect('Relevance');
-      cy.get(firstProductNameSelector).should('not.be.empty');
+      productSearchFlow.sortByRelevance();
     });
 
     it('should be able to sort by top rated', () => {
-      cy.get(sortingOptionSelector).ngSelect('Top Rated');
-      cy.get(firstProductNameSelector).should('not.be.empty');
+      productSearchFlow.sortByTopRated();
     });
   });
 });

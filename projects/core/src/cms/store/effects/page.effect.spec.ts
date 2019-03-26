@@ -20,6 +20,7 @@ import { PageType, CmsComponent } from '../../../occ/occ-models';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import * as fromEffects from './page.effect';
+import { OccConfig } from '@spartacus/core';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -140,6 +141,7 @@ describe('Page Effects', () => {
         OccCmsService,
         { provide: RoutingService, useClass: RoutingServiceMock },
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
+        { provide: OccConfig, useValue: {} },
         fromEffects.PageEffects,
         provideMockActions(() => actions$)
       ]
