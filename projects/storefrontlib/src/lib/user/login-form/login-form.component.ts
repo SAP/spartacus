@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService, RoutingService } from '@spartacus/core';
 
@@ -17,12 +18,14 @@ import { CustomFormValidators } from '../../ui/validators/custom-form-validators
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
   form: FormGroup;
+  loginAsGuest = false;
 
   constructor(
     private auth: AuthService,
     private routing: RoutingService,
     private globalMessageService: GlobalMessageService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -52,6 +55,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: ['', Validators.required]
     });
+
+    this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
   }
 
   login(): void {
