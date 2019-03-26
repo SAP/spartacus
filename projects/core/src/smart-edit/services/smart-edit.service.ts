@@ -13,7 +13,7 @@ import { WindowRef } from '../../window/window-ref';
 })
 export class SmartEditService {
   private _cmsTicketId: string;
-  private hasPreviewPage = false;
+  private getPreviewPage = false;
 
   constructor(
     private cmsService: CmsService,
@@ -83,8 +83,8 @@ export class SmartEditService {
 
   private goToPreviewPage(cmsPage: Page) {
     // the first page is the smartedit preview page
-    if (!this.hasPreviewPage) {
-      this.hasPreviewPage = true;
+    if (!this.getPreviewPage) {
+      this.getPreviewPage = true;
 
       if (cmsPage.type === PageType.PRODUCT_PAGE) {
         this.routingService.go({
