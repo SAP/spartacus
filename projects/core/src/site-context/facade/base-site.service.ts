@@ -40,11 +40,4 @@ export class BaseSiteService implements SiteContext<string> {
         }
       });
   }
-
-  /**
-   * Initials the active baseSite.
-   */
-  initialize(defaultBaseSite: string) {
-    this.setActive(defaultBaseSite);
-  }
 }
