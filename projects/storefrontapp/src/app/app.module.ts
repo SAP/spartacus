@@ -33,7 +33,13 @@ if (!environment.production) {
         addToHomeScreen: true
       },
       siteContext: {
-        urlEncodingParameters: ['LANGUAGE', 'CURRENCY']
+        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+        parameters: {
+          BASE_SITE: {
+            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            persistence: 'route'
+          }
+        }
       },
       routesConfig: {
         translations: {
