@@ -189,9 +189,7 @@ describe('OrderDetailsComponent', () => {
 
   it('should order details display "ship to" data', () => {
     fixture.detectChanges();
-    const element: DebugElement = el.query(
-      By.css('.cx-card-body__label-container')
-    );
+    const element: DebugElement = el.query(By.css('.cx-card-label-container'));
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
         mockOrder.deliveryAddress.lastName &&

@@ -63,6 +63,8 @@ class MockCardComponent {
   @Input()
   border: boolean;
   @Input()
+  fitToContainer: boolean;
+  @Input()
   content: Card;
 }
 
