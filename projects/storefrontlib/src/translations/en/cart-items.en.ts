@@ -2,6 +2,7 @@ export default {
   labels: {
     id: 'ID',
     description: 'Description',
+    item: 'Item',
     itemPrice: 'Item price',
     quantity: 'Qty',
     total: 'Total',

@@ -11,5 +11,8 @@ export default {
   },
   placeholders: {
     emailAddress: 'Enter email'
+  },
+  validations: {
+    enterValidEmail: 'Please enter a valid email.'
   }
 };

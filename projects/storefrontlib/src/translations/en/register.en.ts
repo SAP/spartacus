@@ -3,7 +3,7 @@ export default {
     confirmPassword: 'Confirm password',
     managmentInMyAccount: 'Management in My Account.',
     termsAndConditions: 'Terms & Conditions',
-    iAlreadyHaveAnAccount: 'I already have an account. Sign In',
+    signIn: 'I already have an account. Sign In',
     register: 'Register'
   },
   labels: {
@@ -13,6 +13,7 @@ export default {
     lastName: 'Last name',
     emailAddress: 'Email address',
     password: 'Password',
+    /* tslint:disable:max-line-length */
     emailMarketing:
       'Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.',
     confirmThatRead: 'I am confirming that I have read and agreed with the'

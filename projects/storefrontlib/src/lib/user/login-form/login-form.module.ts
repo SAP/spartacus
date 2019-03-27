@@ -7,7 +7,8 @@ import {
   UserModule,
   UrlTranslationModule,
   ConfigModule,
-  CmsConfig
+  CmsConfig,
+  I18nModule
 } from '@spartacus/core';
 import { CmsModule } from '../../cms/cms.module';
 import { BootstrapModule } from '../../bootstrap.module';
@@ -28,7 +29,8 @@ import { BootstrapModule } from '../../bootstrap.module';
           selector: 'cx-login-form'
         }
       }
-    })
+    }),
+    I18nModule
   ],
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],
