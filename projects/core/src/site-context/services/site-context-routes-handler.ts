@@ -91,7 +91,6 @@ export class SiteContextRoutesHandler implements OnDestroy {
 
   private setContextParamsFromRoute(url: string) {
     const { params } = this.serializer.urlExtractContextParameters(url);
-    console.log(params);
     Object.keys(params).forEach(param =>
       this.siteContextParams.setValue(param, params[param])
     );
