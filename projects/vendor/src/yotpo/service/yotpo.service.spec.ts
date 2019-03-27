@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BaseyotpoService } from './baseyotpo.service';
+import { YotpoService } from './baseyotpo.service';
 
-describe('BaseyotpoService', () => {
+describe('YotpoService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: BaseyotpoService = TestBed.get(BaseyotpoService);
+    const service: YotpoService = TestBed.get(YotpoService);
     expect(service).toBeTruthy();
   });
 });
