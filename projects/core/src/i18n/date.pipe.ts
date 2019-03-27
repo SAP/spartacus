@@ -2,11 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe as NativeDatePipe } from '@angular/common';
 import { getLocaleId } from '@angular/common';
 import { LanguageService } from '../site-context/facade/language.service';
-import { ServerConfig } from '../config';
+import { I18nConfig } from './config/i18n-config';
 
 @Pipe({ name: 'cxDate' })
 export class DatePipe extends NativeDatePipe implements PipeTransform {
-  constructor(private language: LanguageService, private config: ServerConfig) {
+  constructor(private language: LanguageService, private config: I18nConfig) {
     super(null);
   }
 
