@@ -23,23 +23,20 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
   private serializePageData(source: any, target: CmsStructureModel): void {
     target.page = {
       loadTime: Date.now(),
-      uuid: source.uuid,
       name: source.name,
       type: source.typeCode,
       title: source.title,
-      catalogUuid: this.getCatalogUuid(source),
       pageId: source.uid,
       template: source.template,
-      slots: {}
+      slots: {},
+      properties: source.properties
     };
   }
 
   private serializePageSlotData(source: any, target: CmsStructureModel): void {
     for (const slot of source.contentSlots.contentSlot) {
       target.page.slots[slot.position] = {
-        uid: slot.slotId,
-        uuid: slot.slotUuid,
-        catalogUuid: this.getCatalogUuid(slot),
+        properties: slot.properties,
         components: []
       } as ContentSlotData;
     }
@@ -57,14 +54,10 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
         for (const component of slot.components.component) {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
-            typeCode: component.typeCode
+            typeCode: component.typeCode,
+            properties: component.properties
           };
-          if (component.uuid) {
-            comp.uuid = component.uuid;
-          }
-          if (component.catalogUuid) {
-            comp.catalogUuid = this.getCatalogUuid(component);
-          }
+
           if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
             comp.flexType = component.flexType;
           } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
@@ -87,7 +80,7 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
         Array.isArray(slot.components.component)
       ) {
         for (const component of slot.components.component as any) {
-          // we dont put smartedit properties into store
+          // we dont put properties into component state
           if (component.properties) {
             component.properties = undefined;
           }
