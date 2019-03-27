@@ -2,10 +2,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { DatePipe as NativeDatePipe } from '@angular/common';
 import { getLocaleId } from '@angular/common';
 import { LanguageService } from '../site-context/facade/language.service';
+import { ServerConfig } from '../config';
 
 @Pipe({ name: 'cxDate' })
 export class DatePipe extends NativeDatePipe implements PipeTransform {
-  constructor(private language: LanguageService) {
+  constructor(private language: LanguageService, private config: ServerConfig) {
     super(null);
   }
 
@@ -19,7 +20,7 @@ export class DatePipe extends NativeDatePipe implements PipeTransform {
       getLocaleId(lang);
       return lang;
     } catch {
-      // fallback when active language is not registered via registerLocaleData (https://angular.io/api/common/registerLocaleData)
+      this.reportMissingLocaleData(lang);
       return 'en';
     }
   }
@@ -31,5 +32,13 @@ export class DatePipe extends NativeDatePipe implements PipeTransform {
       .subscribe(lang => (result = lang))
       .unsubscribe();
     return result;
+  }
+
+  private reportMissingLocaleData(lang: string) {
+    if (!this.config.production) {
+      console.warn(
+        `cxDate pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+      );
+    }
   }
 }
