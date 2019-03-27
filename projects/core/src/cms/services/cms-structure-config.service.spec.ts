@@ -8,7 +8,7 @@ import {
 
 let mockPageStructure: CmsStructureModel;
 
-fdescribe('CmsStructureConfigService', () => {
+describe('CmsStructureConfigService', () => {
   describe('Without configuration', () => {
     let service: CmsStructureConfigService;
 
