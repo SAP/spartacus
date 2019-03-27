@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { StoreModule } from '@ngrx/store';
 
-import { StateModule } from '../../state';
+import { StateModule } from '../../state/state.module';
 
 import { PROCESS_STATE } from './process-state';
 

@@ -1,4 +1,4 @@
-import { LoaderState } from '../../state';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 export const PROCESS_STATE = 'process';
 

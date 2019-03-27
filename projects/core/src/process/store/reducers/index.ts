@@ -3,7 +3,7 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 
 import { ProcessState } from '../process-state';
-import { loaderReducer } from '../../../state';
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<ProcessState> {
   return { updateUserDetails: loaderReducer('to-be-changed') };
