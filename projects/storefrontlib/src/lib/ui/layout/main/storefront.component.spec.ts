@@ -16,7 +16,7 @@ class MockHeaderComponent {}
 class MockGlobalMessagerComponent {}
 
 @Component({
-  selector: 'cx-dynamic-slot',
+  selector: 'cx-page-slot',
   template: ''
 })
 class DynamicSlotComponent {}

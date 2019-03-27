@@ -2,6 +2,7 @@ import { StaticProvider } from '@angular/core';
 
 import { AuthConfig } from '../../auth/config/auth-config';
 import { OccConfig } from '../../occ/config/occ-config';
+import { Routes } from '@angular/router';
 
 export interface StandardCmsComponentConfig {
   CMSSiteContextComponent?: CmsComponentMapping;
@@ -24,6 +25,8 @@ export interface StandardCmsComponentConfig {
 
 export interface JspIncludeCmsComponentConfig {
   AccountAddressBookComponent?: CmsComponentMapping;
+  ForgotPasswordComponent?: CmsComponentMapping;
+  ResetPasswordComponent?: CmsComponentMapping;
 }
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
@@ -32,7 +35,9 @@ export const CMS_FLEX_COMPONENT_TYPE = 'CMSFlexComponent';
 export interface CmsComponentMapping {
   selector?: string;
   providers?: StaticProvider[];
+  childRoutes?: Routes;
   disableSSR?: boolean;
+  i18nNamespaces?: string[];
 }
 
 export interface CMSComponentConfig

@@ -7,7 +7,8 @@ import {
   RoutingModule,
   StateModule,
   SmartEditModule,
-  CxApiModule
+  CxApiModule,
+  I18nModule
 } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
@@ -18,6 +19,7 @@ import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { MultiStepCheckoutModule } from './checkout/index';
+import { StoreFinderModule } from './store-finder/store-finder.module';
 
 @NgModule({
   imports: [
@@ -25,6 +27,7 @@ import { MultiStepCheckoutModule } from './checkout/index';
     RoutingModule,
     AuthModule.forRoot(),
     OccModule,
+    StoreFinderModule,
     CmsLibModule,
     CmsModule,
     UiModule,
@@ -32,7 +35,8 @@ import { MultiStepCheckoutModule } from './checkout/index';
     ConfigModule.forRoot(),
     CxApiModule,
     SmartEditModule.forRoot(),
-    MultiStepCheckoutModule
+    MultiStepCheckoutModule,
+    I18nModule.forRoot()
   ],
   exports: [UiModule],
   declarations: []

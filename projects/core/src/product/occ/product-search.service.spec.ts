@@ -5,13 +5,15 @@ import {
 } from '@angular/common/http/testing';
 
 import { SearchConfig } from '../model/search-config';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   ProductSearchPage,
   SuggestionList
 } from '../../occ/occ-models/occ.models';
 
-import { OccProductSearchService } from './product-search.service';
+import { ProductSearchLoaderService } from './product-search.service';
+import { defaultOccProductConfig } from '../config/product-config';
+import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { OccConfig } from '@spartacus/core';
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
@@ -31,22 +33,24 @@ const MockOccModuleConfig: OccConfig = {
     currency: ''
   }
 };
-const endpoint = '/products';
 
-describe('OccProductSearchService', () => {
-  let service: OccProductSearchService;
+describe('ProductSearchLoaderService', () => {
+  let service: ProductSearchLoaderService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccProductSearchService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
+        ProductSearchLoaderService,
+        {
+          provide: OccConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
+        }
       ]
     });
 
-    service = TestBed.get(OccProductSearchService);
+    service = TestBed.get(ProductSearchLoaderService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -56,21 +60,20 @@ describe('OccProductSearchService', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.query(queryText, mockSearchConfig).subscribe(result => {
+      service.loadSearch(queryText, mockSearchConfig).subscribe(result => {
         expect(result).toEqual(searchResults);
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/search';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `/${DynamicTemplate.resolve(
+              defaultOccProductConfig.endpoints.productSearch,
+              { query: queryText, searchConfig: mockSearchConfig }
+            )}&pageSize=${mockSearchConfig.pageSize.toString()}`
+        );
       });
-      expect(mockReq.request.params.get('query')).toEqual(queryText);
-      expect(mockReq.request.params.get('pageSize')).toEqual(
-        mockSearchConfig.pageSize.toString()
-      );
-      expect(mockReq.request.params.get('fields')).toEqual(
-        'products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL)' +
-          ',averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)'
-      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -81,18 +84,21 @@ describe('OccProductSearchService', () => {
   describe('query product suggestions', () => {
     it('should return suggestions for given term', () => {
       service
-        .queryProductSuggestions(queryText, mockSearchConfig.pageSize)
+        .loadSuggestions(queryText, mockSearchConfig.pageSize)
         .subscribe(suggestionList => {
           expect(suggestionList).toEqual(suggestions);
         });
 
       const mockReq = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/suggestions';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            `/${DynamicTemplate.resolve(
+              defaultOccProductConfig.endpoints.productSuggestions,
+              { term: queryText, max: mockSearchConfig.pageSize }
+            )}`
+        );
       });
-      expect(mockReq.request.params.get('term')).toEqual(queryText);
-      expect(mockReq.request.params.get('max')).toEqual(
-        mockSearchConfig.pageSize.toString()
-      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

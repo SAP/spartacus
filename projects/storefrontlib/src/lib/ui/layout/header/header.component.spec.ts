@@ -18,7 +18,7 @@ class MockLanguageSelectorComponent {}
 class MockCurrencySelectorComponent {}
 
 @Component({
-  selector: 'cx-dynamic-slot',
+  selector: 'cx-page-slot',
   template: ''
 })
 class MockDynamicSlotComponent {
@@ -83,7 +83,7 @@ describe('HeaderComponent', () => {
       it('should contain site logo', () => {
         expect(
           fixture.debugElement.query(
-            By.css('cx-dynamic-slot[position="SiteLogo"]')
+            By.css('cx-page-slot[position="SiteLogo"]')
           )
         ).not.toBeNull();
       });
@@ -91,7 +91,7 @@ describe('HeaderComponent', () => {
       it('should contain the searchbox', () => {
         expect(
           fixture.debugElement.query(
-            By.css('cx-dynamic-slot[position="SearchBox"]')
+            By.css('cx-page-slot[position="SearchBox"]')
           )
         ).not.toBeNull();
       });
@@ -99,7 +99,7 @@ describe('HeaderComponent', () => {
       it('should contain the mini cart', () => {
         expect(
           fixture.debugElement.query(
-            By.css('cx-dynamic-slot[position="MiniCart"]')
+            By.css('cx-page-slot[position="MiniCart"]')
           )
         ).not.toBeNull();
       });
@@ -107,7 +107,7 @@ describe('HeaderComponent', () => {
       it('should contain the navigation bar', () => {
         expect(
           fixture.debugElement.query(
-            By.css('cx-dynamic-slot[position="NavigationBar"]')
+            By.css('cx-page-slot[position="NavigationBar"]')
           )
         ).not.toBeNull();
       });

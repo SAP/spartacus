@@ -13,7 +13,7 @@ import {
 import { ProductCarouselService } from './product-carousel.component.service';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 import { ProductCarouselComponent } from './product-carousel.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Pipe({
   name: 'cxTranslateUrl'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -10,7 +10,6 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN
 } from '../../occ/utils/interceptor-util';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   User,
   Address,
@@ -18,16 +17,22 @@ import {
   AddressList,
   PaymentDetailsList
 } from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
 const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
+const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
+const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(protected http: HttpClient, protected config: OccConfig) {}
+  constructor(
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   public loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
@@ -157,13 +162,34 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  protected getUserEndpoint() {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      USER_ENDPOINT
+  requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
+    const url = this.occEndpoints.getEndpoint(FORGOT_PASSWORD_ENDPOINT);
+    const httpParams: HttpParams = new HttpParams().set(
+      'userId',
+      userEmailAddress
     );
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    return this.http
+      .post(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  resetPassword(token: string, newPassword: string): Observable<{}> {
+    const url = this.occEndpoints.getEndpoint(RESET_PASSWORD_ENDPOINT);
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+
+    return this.http
+      .post(url, { token, newPassword }, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  protected getUserEndpoint(): string {
+    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
   }
 }
