@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { StoreModule } from '@ngrx/store';
 
-import { PROCESS_STATE } from '../process-state';
+import { PROCESS_FEATURE } from '../process-state';
 import * as fromReducers from '../reducers';
 
 describe('Process selectors', () => {
@@ -12,7 +12,7 @@ describe('Process selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PROCESS_STATE, fromReducers.getReducers())
+        StoreModule.forFeature(PROCESS_FEATURE, fromReducers.getReducers())
       ]
     });
   });

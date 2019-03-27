@@ -1,9 +1,9 @@
 import { LoaderState } from '../../state/utils/loader/loader-state';
 
-export const PROCESS_STATE = 'process';
+export const PROCESS_FEATURE = 'process';
 
 export interface StateWithProcess {
-  [PROCESS_STATE]: ProcessState;
+  [PROCESS_FEATURE]: ProcessState;
 }
 
 export interface ProcessState {

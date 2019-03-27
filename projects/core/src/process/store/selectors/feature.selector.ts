@@ -3,10 +3,10 @@ import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
 import {
   StateWithProcess,
   ProcessState,
-  PROCESS_STATE
+  PROCESS_FEATURE
 } from '../process-state';
 
 export const getProcessState: MemoizedSelector<
   StateWithProcess,
   ProcessState
-> = createFeatureSelector<ProcessState>(PROCESS_STATE);
+> = createFeatureSelector<ProcessState>(PROCESS_FEATURE);
