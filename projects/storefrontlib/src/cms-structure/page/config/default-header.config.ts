@@ -23,7 +23,68 @@ export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
         typeCode: 'CMSLinkComponent',
         flexType: 'CMSLinkComponent',
         linkName: 'Find a Store',
-        url: '/store-finder'
+        url: '/store-finder',
+        uid: 'storefinder'
+      }
+    ]
+  },
+  SiteLogo: {
+    components: [
+      {
+        typeCode: 'CMSParagraphComponent',
+        flexType: 'CMSParagraphComponent',
+        content: '<b>BRAND</b>',
+        uid: 'logo'
+      }
+    ]
+  },
+  SearchBox: {
+    components: [
+      {
+        typeCode: 'SearchBoxComponent',
+        flexType: 'SearchBoxComponent',
+        uid: 'SearchBoxComponent'
+      }
+    ]
+  },
+  MiniCart: {
+    components: [
+      {
+        typeCode: 'MiniCartComponent',
+        flexType: 'MiniCartComponent',
+        uid: 'MiniCartComponent'
+      }
+    ]
+  },
+  SiteLogin: {
+    components: [
+      {
+        typeCode: 'LoginComponent',
+        flexType: 'LoginComponent',
+        uid: 'LoginComponent'
+      }
+    ]
+  },
+  NavigationBar: {
+    components: [
+      {
+        uid: 'CategoryNavigationComponent',
+        typeCode: 'CategoryNavigationComponent',
+        flexType: 'CategoryNavigationComponent',
+        navigationNode: {
+          uid: 'ElectronicsCategoryNavNode',
+          children: [
+            {
+              uid: 'DigitalCamerasNavNode',
+              entries: [
+                {
+                  itemId: 'DigitalCamerasCategoryLink',
+                  itemType: 'CMSLinkComponent'
+                }
+              ]
+            }
+          ]
+        }
       }
     ]
   },

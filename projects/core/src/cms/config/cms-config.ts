@@ -21,6 +21,7 @@ export interface StandardCmsComponentConfig {
   SearchBoxComponent?: CmsComponentMapping;
   ProductReferencesComponent?: CmsComponentMapping;
   CMSTabParagraphComponent?: CmsComponentMapping;
+  LoginComponent?: CmsComponentMapping;
 }
 
 export interface JspIncludeCmsComponentConfig {

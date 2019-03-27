@@ -8,7 +8,6 @@ import { CmsModule } from '../../../cms/cms.module';
 import { GlobalMessageComponentModule } from '../../../global-message/global-message.module';
 import { PwaModule } from './../../../pwa/pwa.module';
 import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
-import { LoginModule } from '../../../user/login/login.module';
 
 import { StorefrontComponent } from './storefront.component';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
@@ -23,7 +22,6 @@ import { UserComponentModule } from '../../../user/user.module';
     GlobalMessageComponentModule,
     UserComponentModule,
     CmsModule,
-    LoginModule,
     HeaderModule,
     UiFrameworkModule,
     OutletRefModule,

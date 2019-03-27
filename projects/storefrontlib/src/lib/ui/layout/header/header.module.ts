@@ -6,7 +6,6 @@ import { UrlTranslationModule } from '@spartacus/core';
 
 import { CmsModule } from '../../../cms/cms.module';
 import { PwaModule } from '../../../pwa/pwa.module';
-import { LoginModule } from '../../../user/login/login.module';
 
 import { HeaderComponent } from './header.component';
 
@@ -17,7 +16,6 @@ import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.mo
   imports: [
     CommonModule,
     CmsModule,
-    LoginModule,
     RouterModule,
     PwaModule,
     UrlTranslationModule,

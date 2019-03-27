@@ -20,6 +20,8 @@ import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
 import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
+import { LoginModule } from '../user';
+
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -47,7 +49,8 @@ import { PaymentMethodsModule } from '../my-account/payment-methods/payment-meth
     CartDetailsModule,
     CartTotalsModule,
     OrderDetailsModule,
-    PaymentMethodsModule
+    PaymentMethodsModule,
+    LoginModule
   ]
 })
 export class CmsLibModule {}
