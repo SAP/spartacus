@@ -1,8 +1,8 @@
 import { TranslationResources } from '@spartacus/core';
 import addToCart from './en/add-to-cart.en';
 import address from './en/address.en';
-import addressBook from './en/address-book.en.en';
-import cart from './en/cart.en.en';
+import addressBook from './en/address-book.en';
+import cart from './en/cart.en';
 import cartItems from './en/cart-items.en';
 import checkout from './en/checkout.en';
 import checkoutAddress from './en/checkout-address.en';
