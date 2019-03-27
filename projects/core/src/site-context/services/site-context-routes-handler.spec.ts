@@ -7,7 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
-describe('SiteContextRoutesHandlerService', () => {
+fdescribe('SiteContextRoutesHandlerService', () => {
   let mockRouterEvents;
   let mockRouter;
   let mockLocation;
@@ -76,6 +76,14 @@ describe('SiteContextRoutesHandlerService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should set context parameter on route init', () => {
+    service.init();
+    expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
+      'language',
+      'test'
+    );
   });
 
   it('should set context parameter on route navigation', () => {
