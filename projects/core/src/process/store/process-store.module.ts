@@ -4,12 +4,12 @@ import { StoreModule } from '@ngrx/store';
 
 import { StateModule } from '../../state/state.module';
 
-import { PROCESS_STATE } from './process-state';
+import { PROCESS_FEATURE } from './process-state';
 
 import { reducerToken, reducerProvider } from './reducers/index';
 
 @NgModule({
-  imports: [StateModule, StoreModule.forFeature(PROCESS_STATE, reducerToken)],
+  imports: [StateModule, StoreModule.forFeature(PROCESS_FEATURE, reducerToken)],
   providers: [reducerProvider]
 })
 export class ProcessStoreModule {}
