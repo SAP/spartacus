@@ -67,7 +67,4 @@ export interface TitlesState {
 
 export interface UserDetailsState {
   details: User;
-  update: {
-    details: LoaderState<void>;
-  };
 }

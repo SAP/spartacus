@@ -7,6 +7,7 @@ import { tap, map } from 'rxjs/operators';
 
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
+import * as fromProcessStore from '../../process/store/index';
 import {
   Order,
   User,
@@ -20,7 +21,11 @@ import {
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    private store: Store<
+      fromStore.StateWithUser | fromProcessStore.StateWithProcess
+    >
+  ) {}
 
   /**
    * Returns a user
@@ -344,21 +349,25 @@ export class UserService {
    * Returns the update user's personal details loading flag
    */
   getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsLoading));
+    return this.store.pipe(
+      select(fromProcessStore.getUpdateUserDetailsLoading)
+    );
   }
 
   /**
    * Returns the update user's personal details error flag
    */
   getUpdatePersonalDetailsResultError(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsError));
+    return this.store.pipe(select(fromProcessStore.getUpdateUserDetailsError));
   }
 
   /**
    * Returns the update user's personal details success flag
    */
   getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsSuccess));
+    return this.store.pipe(
+      select(fromProcessStore.getUpdateUserDetailsSuccess)
+    );
   }
 
   /**

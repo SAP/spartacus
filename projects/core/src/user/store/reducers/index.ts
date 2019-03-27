@@ -11,8 +11,7 @@ import {
   UserState,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  USER_ADDRESSES,
-  USER_UPDATE_DETAILS
+  USER_ADDRESSES
 } from '../user-state';
 import { LOGOUT } from '../../../auth/index';
 import {
@@ -36,10 +35,7 @@ import * as fromResetPasswordReducer from './reset-password.reducer';
 export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: combineReducers({
-      details: fromUserDetailsReducer.reducer,
-      update: combineReducers({
-        details: loaderReducer<void>(USER_UPDATE_DETAILS)
-      })
+      details: fromUserDetailsReducer.reducer
     }),
     addresses: loaderReducer<Address[]>(
       USER_ADDRESSES,

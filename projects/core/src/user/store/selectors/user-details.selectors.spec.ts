@@ -6,7 +6,6 @@ import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { LoaderState } from '../../../state';
 import { User } from '../../../occ/occ-models/index';
 
 const mockUserDetails: User = {
@@ -15,11 +14,6 @@ const mockUserDetails: User = {
   lastName: 'Last',
   name: 'First Last',
   uid: 'UID'
-};
-
-const mockUpdatedUserDetails: User = {
-  firstName: 'New First',
-  lastName: 'New Last'
 };
 
 describe('User Details Selectors', () => {
@@ -49,75 +43,6 @@ describe('User Details Selectors', () => {
       store.dispatch(new fromActions.LoadUserDetailsSuccess(mockUserDetails));
 
       expect(result).toEqual(mockUserDetails);
-    });
-  });
-
-  describe('getUpdateDetailsState', () => {
-    it('should return loader state for update user', () => {
-      store.dispatch(
-        new fromActions.UpdateUserDetailsSuccess(mockUpdatedUserDetails)
-      );
-
-      let result: LoaderState<void>;
-      store
-        .pipe(select(fromSelectors.getUpdateDetailsState))
-        .subscribe(state => (result = state))
-        .unsubscribe();
-
-      expect(result).toEqual({
-        loading: false,
-        success: true,
-        error: false,
-        value: undefined
-      });
-    });
-  });
-
-  describe('getUpdateDetailsLoading', () => {
-    it('should return loading flag for user update state', () => {
-      store.dispatch(
-        new fromActions.UpdateUserDetailsSuccess(mockUpdatedUserDetails)
-      );
-
-      let result: boolean;
-      store
-        .pipe(select(fromSelectors.getUpdateDetailsLoading))
-        .subscribe(state => (result = state))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-    });
-  });
-
-  describe('getUpdateDetailsError', () => {
-    it('should return error flag for user update state', () => {
-      store.dispatch(
-        new fromActions.UpdateUserDetailsSuccess(mockUpdatedUserDetails)
-      );
-
-      let result: boolean;
-      store
-        .pipe(select(fromSelectors.getUpdateDetailsError))
-        .subscribe(state => (result = state))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-    });
-  });
-
-  describe('getUpdateDetailsSuccess', () => {
-    it('should return success flag for user update state', () => {
-      store.dispatch(
-        new fromActions.UpdateUserDetailsSuccess(mockUpdatedUserDetails)
-      );
-
-      let result: boolean;
-      store
-        .pipe(select(fromSelectors.getUpdateDetailsSuccess))
-        .subscribe(state => (result = state))
-        .unsubscribe();
-
-      expect(result).toEqual(true);
     });
   });
 });
