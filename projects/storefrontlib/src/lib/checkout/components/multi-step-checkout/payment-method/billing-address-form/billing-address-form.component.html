@@ -1,47 +1,55 @@
 <div [formGroup]="billingAddress">
   <div class="form-group">
     <label>
-      <span class="label-content required">{{'address:labels.firstName' | cxTranslate}}</span>
+      <span class="label-content required">{{
+        'address:labels.firstName' | cxTranslate
+      }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{'address:placeholders.firstName' | cxTranslate}}"
+        placeholder="{{ 'address:placeholders.firstName' | cxTranslate }}"
         formControlName="firstName"
       />
     </label>
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content required">{{'address:labels.lastName' | cxTranslate}}</span>
+      <span class="label-content required">{{
+        'address:labels.lastName' | cxTranslate
+      }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{'address:placeholders.lastName' | cxTranslate}}"
+        placeholder="{{ 'address:placeholders.lastName' | cxTranslate }}"
         formControlName="lastName"
       />
     </label>
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content required">{{'address:labels.address1' | cxTranslate}}</span>
+      <span class="label-content required">{{
+        'address:labels.address1' | cxTranslate
+      }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{'address:placeholders.streetAddress' | cxTranslate}}"
+        placeholder="{{ 'address:placeholders.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
     </label>
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content">{{'address:labels.address2' | cxTranslate}}</span>
+      <span class="label-content">{{
+        'address:labels.address2' | cxTranslate
+      }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{'address:placeholders.aptSuite' | cxTranslate}}"
+        placeholder="{{ 'address:placeholders.aptSuite' | cxTranslate }}"
         formControlName="line2"
       />
     </label>
@@ -50,14 +58,16 @@
     <ng-container *ngIf="(countries$ | async) as countries">
       <div *ngIf="countries.length !== 0">
         <label aria-required="true">
-          <span class="label-content required">{{'address:labels.country' | cxTranslate}}</span>
+          <span class="label-content required">{{
+            'address:labels.country' | cxTranslate
+          }}</span>
           <ng-select
             [searchable]="false"
             [clearable]="false"
             [items]="countries"
             bindLabel="name"
             bindValue="isocode"
-            placeholder="{{'address:placeholders.selectOne' | cxTranslate}}"
+            placeholder="{{ 'address:placeholders.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
           >
           </ng-select>
@@ -68,24 +78,28 @@
   <div class="row">
     <div class="form-group col-md-6">
       <label>
-        <span class="label-content required">{{'address:labels.city' | cxTranslate}}</span>
+        <span class="label-content required">{{
+          'address:labels.city' | cxTranslate
+        }}</span>
         <input
           type="text"
           class="form-control"
           required
-          placeholder="{{'address:placeholders.city' | cxTranslate}}"
+          placeholder="{{ 'address:placeholders.city' | cxTranslate }}"
           formControlName="town"
         />
       </label>
     </div>
     <div class="form-group col-md-6">
       <label>
-        <span class="label-content required">{{'address:labels.zipCode' | cxTranslate}}</span>
+        <span class="label-content required">{{
+          'address:labels.zipCode' | cxTranslate
+        }}</span>
         <input
           type="text"
           class="form-control"
           required
-          placeholder="{{'address:placeholders.zipCode' | cxTranslate}}"
+          placeholder="{{ 'address:placeholders.zipCode' | cxTranslate }}"
           formControlName="postalCode"
         />
       </label>

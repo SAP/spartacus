@@ -6,6 +6,6 @@ export default {
   actions: {
     showLess: 'Show less...',
     showMore: 'Show more...',
-    filterBy: 'Filter by',
+    filterBy: 'Filter by'
   }
 };
