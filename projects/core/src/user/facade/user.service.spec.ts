@@ -399,4 +399,34 @@ describe('UserService', () => {
       new fromStore.ClearUserOrders()
     );
   });
+
+  it('should be able to reset password', () => {
+    service.resetPassword('test token', 'test password');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ResetPassword({
+        token: 'test token',
+        password: 'test password'
+      })
+    );
+  });
+
+  it('should be able to request a forgot password email', () => {
+    service.requestForgotPasswordEmail('test@test.com');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ForgotPasswordEmailRequest('test@test.com')
+    );
+  });
+
+  it('should be able to return whether user password is succesfully reset', () => {
+    store.dispatch(new fromStore.ResetPasswordSuccess());
+
+    let isResst: boolean;
+    service
+      .isPasswordReset()
+      .subscribe(data => {
+        isResst = data;
+      })
+      .unsubscribe();
+    expect(isResst).toBeTruthy();
+  });
 });

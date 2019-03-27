@@ -157,21 +157,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   goToStep(step: number): void {
-    if (step === 1) {
-      this.nextStep(step);
-    } else if (step === 2) {
-      if (this.shippingAddress) {
-        this.nextStep(step);
-      }
-    } else if (step === 3) {
-      if (this.shippingAddress && this.shippingMode) {
-        this.nextStep(step);
-      }
-    } else if (step === 4) {
-      if (this.shippingAddress && this.shippingMode && this.paymentMethod) {
-        this.nextStep(step);
-      }
-    }
+    this.nextStep(step);
   }
 
   nextStep(step: number): void {
