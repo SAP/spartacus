@@ -1,10 +1,4 @@
-import {
-  NgModule,
-  ModuleWithProviders,
-  InjectionToken,
-  APP_INITIALIZER,
-  Optional
-} from '@angular/core';
+import { NgModule, ModuleWithProviders } from '@angular/core';
 import { TranslatePipe } from './translate.pipe';
 import { i18nextProviders } from './i18next/i18next-providers';
 import { defaultI18nConfig } from './config/default-i18n-config';
