@@ -1,8 +1,8 @@
 <ng-container *ngIf="!isWritingReview; else writeReview">
   <div class="header">
-    <h3>Overall Rating</h3>
+    <h3>{{ 'productReview:labels.overallRating' | cxTranslate }}</h3>
     <button class="btn btn-primary" (click)="initiateWriteReview()">
-      Write a Review
+      {{ 'productReview:actions.writeReview' | cxTranslate }}
     </button>
     <cx-star-rating
       class="rating"
@@ -35,14 +35,14 @@
           (click)="maxListItems = reviews.length"
           *ngIf="maxListItems === initialMaxListItems"
         >
-          More
+          {{ 'productReview:actions.more' | cxTranslate }}
         </button>
         <button
           class="btn btn-primary"
           (click)="maxListItems = initialMaxListItems"
           *ngIf="maxListItems !== initialMaxListItems"
         >
-          Less
+          {{ 'productReview:actions.less' | cxTranslate }}
         </button>
       </div>
     </ng-container>
@@ -53,13 +53,17 @@
   <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
     <div class="form-group">
       <label>
-        <span class="label-content">Review Title</span>
+        <span class="label-content">{{
+          'productReview:labels.reviewTitle' | cxTranslate
+        }}</span>
         <input type="text" class="form-control" formControlName="title" />
       </label>
     </div>
     <div class="form-group">
       <label>
-        <span class="label-content">Write your comments</span>
+        <span class="label-content">{{
+          'productReview:labels.writeYourComments' | cxTranslate
+        }}</span>
         <textarea
           class="form-control"
           rows="3"
@@ -69,13 +73,15 @@
     </div>
     <div class="form-group">
       <label>
-        <span class="label-content">Rating</span>
+        <span class="label-content">{{ 'productReview:labels.rating' | cxTranslate }}</span>
         <cx-star-rating formControlName="rating" [steps]="0.5"></cx-star-rating>
       </label>
     </div>
     <div class="form-group">
       <label>
-        <span class="label-content">Reviewer name (optional)</span>
+        <span class="label-content">{{
+          'productReview:labels.reviewerName' | cxTranslate
+        }}</span>
         <input
           type="text"
           class="form-control"
@@ -90,7 +96,7 @@
           class="btn btn-block btn-secondary"
           (click)="cancelWriteReview()"
         >
-          Cancel
+          {{ 'productReview:actions.cancel' | cxTranslate }}
         </button>
       </div>
       <div class="col-12 col-md-4">
@@ -100,7 +106,7 @@
           [ngClass]="{ 'submit-btn': reviewForm.valid }"
           [disabled]="!reviewForm.valid"
         >
-          Submit
+          {{ 'productReview:actions.submit' | cxTranslate }}
         </button>
       </div>
     </div>

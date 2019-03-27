@@ -34,7 +34,7 @@
   <ng-container *ngIf="(cart$ | async) as cart">
     <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
-        'cartItems.labels.cartTotal'
+        'cartItems:labels.cartTotal'
           | cxTranslate: { count: cart.deliveryItemsQuantity }
       }}:
       {{ cart.totalPrice?.formattedValue }}
