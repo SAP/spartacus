@@ -9,7 +9,7 @@
           [content]="
             getShippingAddressCard(
               deliveryAddress$ | async,
-              (countryName$ | async)?.name
+              countryName$ | async
             )
           "
         ></cx-card>

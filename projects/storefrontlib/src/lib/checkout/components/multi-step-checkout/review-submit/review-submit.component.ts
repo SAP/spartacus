@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
+import { tap, switchMap, map } from 'rxjs/operators';
 
 import {
   CheckoutService,
@@ -25,7 +25,7 @@ export class ReviewSubmitComponent implements OnInit {
   entries$: Observable<OrderEntry[]>;
   cart$: Observable<Cart>;
   deliveryMode$: Observable<DeliveryMode>;
-  countryName$: Observable<Country>;
+  countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;
   paymentDetails$: Observable<PaymentDetails>;
 
@@ -42,7 +42,7 @@ export class ReviewSubmitComponent implements OnInit {
     this.paymentDetails$ = this.checkoutService.getPaymentDetails();
 
     this.deliveryMode$ = this.checkoutService.getSelectedDeliveryMode().pipe(
-      tap(selected => {
+      tap((selected: DeliveryMode) => {
         if (selected === null) {
           this.checkoutService.loadSupportedDeliveryModes();
         }
@@ -57,7 +57,8 @@ export class ReviewSubmitComponent implements OnInit {
         if (country === null) {
           this.userService.loadDeliveryCountries();
         }
-      })
+      }),
+      map((country: Country) => country.name)
     );
   }
 
