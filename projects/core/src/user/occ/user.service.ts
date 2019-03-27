@@ -25,6 +25,7 @@ const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
+const UPDATE_PASSWORD_ENDPOINT = '/password';
 
 @Injectable()
 export class OccUserService {
@@ -191,5 +192,18 @@ export class OccUserService {
 
   protected getUserEndpoint(): string {
     return this.occEndpoints.getEndpoint(USER_ENDPOINT);
+  }
+
+  updatePassword(userId: string, oldPassword: string, newPassword: string) {
+    const url = this.getUserEndpoint() + userId + UPDATE_PASSWORD_ENDPOINT;
+    const httpParams: HttpParams = new HttpParams()
+      .set('old', oldPassword)
+      .set('new', newPassword);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    return this.http
+      .put(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 }

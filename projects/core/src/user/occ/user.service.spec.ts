@@ -27,6 +27,7 @@ const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
+const updatePasswordEndpoint = '/password';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -39,7 +40,7 @@ const MockOccModuleConfig: OccConfig = {
   }
 };
 
-describe('OccUserService', () => {
+fdescribe('OccUserService', () => {
   let service: OccUserService;
   let httpMock: HttpTestingController;
 
@@ -253,6 +254,30 @@ describe('OccUserService', () => {
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush('');
+    });
+  });
+
+  describe('update password: ', () => {
+    it('should update the password for userId', () => {
+      const userId = 'test@test.com';
+      const oldPassword = 'OldPass123!';
+      const newPassword = 'NewPass456!';
+
+      service
+        .updatePassword(userId, oldPassword, newPassword)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        console.log(req);
+        console.log('ser body: ', req.serializeBody());
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updatePasswordEndpoint}` &&
+          req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
   });
