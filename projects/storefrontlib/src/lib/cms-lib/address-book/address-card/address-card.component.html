@@ -1,10 +1,10 @@
 <div class="cx-address-card card">
   <div class="card-header" *ngIf="address?.defaultAddress && !editMode">
-    &#10003; DEFAULT
+    &#10003; {{'addressBook:labels.default' | cxTranslate}}
   </div>
   <div class="card-body" [class.cx-address-card--delete-mode]="editMode">
     <div *ngIf="editMode" class="cx-address-card__delete-msg">
-      Are you sure you want to delete this address?
+      {{'addressBook:labels.areYouSureToDeleteAddress' | cxTranslate}}
     </div>
     <div class="address_data">
       <div class="cx-address-card__label--bold">
@@ -26,7 +26,7 @@
     <div *ngIf="editMode" class="row cx-address-card__delete">
       <div class="col-md-6">
         <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
-          cancel
+          {{'addressBook:actions.cancel' | cxTranslate}}
         </button>
       </div>
       <div class="col-md-6">
@@ -34,7 +34,7 @@
           (click)="deleteAddress(address.id)"
           class="btn btn-block btn-primary"
         >
-          delete
+          {{'addressBook:actions.delete' | cxTranslate}}
         </button>
       </div>
     </div>
@@ -43,10 +43,10 @@
         *ngIf="!address?.defaultAddress"
         (click)="setAddressAsDefault(address.id)"
         class="card-link btn-link set-default"
-        >set as default</a
+        >{{'address:actions.setAsDefault' | cxTranslate}}</a
       >
-      <a (click)="openEditFormEvent()" class="card-link btn-link edit">edit</a>
-      <a (click)="setEditMode()" class="card-link btn-link delete">delete</a>
+      <a (click)="openEditFormEvent()" class="card-link btn-link edit">{{'addressBook:actions.edit' | cxTranslate}}</a>
+      <a (click)="setEditMode()" class="card-link btn-link delete">{{'addressBook:actions.delete' | cxTranslate}}</a>
     </div>
   </div>
 </div>

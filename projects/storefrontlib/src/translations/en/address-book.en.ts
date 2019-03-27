@@ -9,6 +9,7 @@ export default {
   actions: {
     addNewAddress: 'Add new address',
     cancel: 'cancel',
-    delete: 'delete'
+    delete: 'delete',
+    edit: 'edit'
   }
 };

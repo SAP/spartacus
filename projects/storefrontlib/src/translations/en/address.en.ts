@@ -1,7 +1,7 @@
 export default {
   labels: {
-    tile: 'Title',
-    firstName: 'Select your Shipping Address',
+    title: 'Title',
+    firstName: 'First name',
     lastName: 'Last name',
     address1: 'Address 1',
     address2: 'Address 2 (optional)',
