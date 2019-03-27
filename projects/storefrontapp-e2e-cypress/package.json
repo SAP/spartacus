@@ -7,7 +7,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run --spec cypress/integration/smoke/**/*",
-    "cy:run:regression": "cypress run --spec cypress/integration/regression/**/*"
+    "cy:run:regression": "cypress run --config numTestsKeptInMemory=0 --spec cypress/integration/regression/**/*"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
