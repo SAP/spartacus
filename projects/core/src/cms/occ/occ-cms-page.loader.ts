@@ -1,33 +1,40 @@
-import { throwError, Observable } from 'rxjs';
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { IdList } from './../model/idList.model';
-import { CmsConfig } from '../config/cms-config';
-import { PageContext } from '../../routing/index';
 import {
-  CMSPage,
-  PageType,
   CmsComponent,
-  CmsComponentList
+  CmsComponentList,
+  CMSPage,
+  PageType
 } from '../../occ/occ-models/index';
+import { PageContext } from '../../routing/index';
+import { CmsStructureConfig } from '../config/cms-structure.config';
+import { CmsPageAdapter } from '../services/cms-page.adapter';
+import { CmsPageLoader } from '../services/cms-page.loader';
+import { CmsStructureConfigService } from '../services/cms-structure-config.service';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable()
-export class OccCmsService {
+export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private http: HttpClient, private config: CmsConfig) {}
-
-  protected getBaseEndPoint(): string {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/cms'
-    );
+  constructor(
+    private http: HttpClient,
+    protected config: CmsStructureConfig,
+    protected cmsStructureConfigService: CmsStructureConfigService,
+    protected adapter: CmsPageAdapter<CMSPage>,
+    private occEndpoints: OccEndpointsService
+  ) {
+    super(cmsStructureConfigService, adapter);
   }
 
-  loadPageData(pageContext: PageContext, fields?: string): Observable<CMSPage> {
+  protected getBaseEndPoint(): string {
+    return this.occEndpoints.getEndpoint('cms');
+  }
+
+  load(pageContext: PageContext, fields?: string): Observable<CMSPage> {
     let httpStringParams = '';
 
     if (pageContext.id !== 'smartedit-preview') {
@@ -45,14 +52,12 @@ export class OccCmsService {
       httpStringParams = httpStringParams + '&fields=' + fields;
     }
 
-    return this.http
-      .get(this.getBaseEndPoint() + `/pages`, {
-        headers: this.headers,
-        params: new HttpParams({
-          fromString: httpStringParams
-        })
+    return this.http.get(this.getBaseEndPoint() + `/pages`, {
+      headers: this.headers,
+      params: new HttpParams({
+        fromString: httpStringParams
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    });
   }
 
   loadComponent<T extends CmsComponent>(
@@ -125,9 +130,5 @@ export class OccCmsService {
     }
 
     return requestParams;
-  }
-
-  get baseUrl(): string {
-    return this.config.server.baseUrl || '';
   }
 }
