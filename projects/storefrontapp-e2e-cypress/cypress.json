@@ -2,7 +2,6 @@
   "defaultCommandTimeout": 10000,
   "baseUrl": "http://localhost:4200",
   "projectId": "k3nmep",
-  "video": false,
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
