@@ -7,7 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import createSpy = jasmine.createSpy;
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
-fdescribe('SiteContextRoutesHandlerService', () => {
+describe('SiteContextRoutesHandlerService', () => {
   let mockRouterEvents;
   let mockRouter;
   let mockLocation;
