@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { TranslationService } from './translation.service';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
-import { TranslatePipe } from '.';
+import { TranslatePipe } from './translate.pipe';
 import { ChangeDetectorRef } from '@angular/core';
 
 describe('TranslatePipe', () => {

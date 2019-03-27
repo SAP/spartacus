@@ -4,7 +4,6 @@ import { DatePipe } from './date.pipe';
 import { LanguageService } from '../site-context';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
-import localeJa from '@angular/common/locales/ja';
 
 const mockDate = '2017-01-11T10:14:39+0000';
 const mockDateFormat = 'longDate';
