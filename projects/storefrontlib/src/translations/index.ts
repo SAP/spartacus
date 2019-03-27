@@ -7,7 +7,6 @@ import cartItems from './en/cart-items.en';
 import checkout from './en/checkout.en';
 import checkoutAddress from './en/checkout-address.en';
 import checkoutOrderConfirmation from './en/checkout-order-confirmation.en';
-import checkoutPayment from './en/checkout-payment.en';
 import checkoutReview from './en/checkout-review.en';
 import checkoutShipping from './en/checkout-shipping.en';
 import forgottenPassword from './en/forgotten-password.en';
@@ -17,6 +16,7 @@ import orderCost from './en/order-cost.en';
 import orderDetails from './en/order-details.en';
 import orderHistory from './en/order-history.en';
 import orderReview from './en/order-review.en';
+import payment from './en/payment.en';
 import paymentMethods from './en/payment-methods.en';
 import productDetails from './en/product-details.en';
 import productList from './en/product-list.en';
@@ -34,7 +34,6 @@ export const translations: TranslationResources = {
     checkout,
     checkoutAddress,
     checkoutOrderConfirmation,
-    checkoutPayment,
     checkoutReview,
     checkoutShipping,
     forgottenPassword,
@@ -44,6 +43,7 @@ export const translations: TranslationResources = {
     orderDetails,
     orderHistory,
     orderReview,
+    payment,
     paymentMethods,
     productDetails,
     productList,
