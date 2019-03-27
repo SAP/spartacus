@@ -34,3 +34,7 @@ export const product = {
 export const cart = {
   total: '$2,635.07'
 };
+
+export const delivery = {
+  mode: 'standard-gross'
+};
