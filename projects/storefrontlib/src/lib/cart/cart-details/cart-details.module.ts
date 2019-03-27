@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+import {
+  UrlTranslationModule,
+  ConfigModule,
+  CmsConfig,
+  I18nModule
+} from '@spartacus/core';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
-import { UrlTranslationModule, ConfigModule, CmsConfig } from '@spartacus/core';
-import { RouterModule } from '@angular/router';
 import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
@@ -19,7 +25,8 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
           selector: 'cx-cart-details'
         }
       }
-    })
+    }),
+    I18nModule
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],

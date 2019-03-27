@@ -28,7 +28,10 @@
 
       <div class="cx-media">
         <div class="cx-list-media">
-          Cart total ({{ cart.totalItems }} items):
+          {{
+            'cartItems.labels.cartTotal'
+              | cxTranslate: { count: cart.totalItems }
+          }}:
           {{ cart.subTotal?.formattedValue }}
         </div>
 
@@ -95,14 +98,15 @@
               (change)="toggleTAndC()"
             />
             <span class="form-check-label">
-              I confirm that I have read and agree with the
+              {{ 'checkoutReview:labels.confirmThatRead' | cxTranslate }}
               <a
                 [routerLink]="
                   { route: ['termsAndConditions'] } | cxTranslateUrl
                 "
                 class="cx-tc-link"
-                >Terms & Conditions</a
               >
+                {{ 'checkoutReview:actions.termsAndConditions' | cxTranslate }}
+              </a>
             </span>
           </label>
         </div>
@@ -111,10 +115,10 @@
           (click)="placeOrder()"
           class="btn btn-primary btn-block"
         >
-          Place Order
+          {{ 'checkoutReview:actions.placeOrder' | cxTranslate }}
         </button>
         <button class="btn btn-action btn-block" (click)="setStep(3)">
-          Back
+          {{ 'checkout:actions.back' | cxTranslate }}
         </button>
       </div>
     </div>

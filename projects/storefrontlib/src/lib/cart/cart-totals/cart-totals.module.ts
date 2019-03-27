@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UrlTranslationModule, ConfigModule, CmsConfig } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
+
+import {
+  UrlTranslationModule,
+  ConfigModule,
+  CmsConfig,
+  I18nModule
+} from '@spartacus/core';
 import { CartTotalsComponent } from './cart-totals.component';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 
@@ -17,7 +23,8 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
         }
       }
     }),
-    CartSharedModule
+    CartSharedModule,
+    I18nModule
   ],
   declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],
