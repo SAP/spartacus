@@ -25,7 +25,7 @@ export class SearchBoxComponentService {
     displaySuggestions: true,
     maxSuggestions: 5,
     minCharactersBeforeRequest: 3,
-    displayProducts: false
+    displayProducts: true
   };
 
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
