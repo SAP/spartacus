@@ -1,11 +1,11 @@
-import { LoaderState } from '../../state/utils/loader/loader-state';
+import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 
 export const PROCESS_FEATURE = 'process';
 
-export interface StateWithProcess {
-  [PROCESS_FEATURE]: ProcessState;
+export interface StateWithProcess<T> {
+  [PROCESS_FEATURE]: EntityLoaderState<ProcessState<T>>;
 }
 
-export interface ProcessState {
-  updateUserDetails: LoaderState<void>;
+export interface ProcessState<T> {
+  [key: string]: T;
 }

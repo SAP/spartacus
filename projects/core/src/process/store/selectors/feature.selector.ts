@@ -6,7 +6,9 @@ import {
   PROCESS_FEATURE
 } from '../process-state';
 
-export const getProcessState: MemoizedSelector<
-  StateWithProcess,
-  ProcessState
-> = createFeatureSelector<ProcessState>(PROCESS_FEATURE);
+export function getProcessState<T>(): MemoizedSelector<
+  StateWithProcess<T>,
+  ProcessState<T>
+> {
+  return createFeatureSelector<ProcessState<T>>(PROCESS_FEATURE);
+}

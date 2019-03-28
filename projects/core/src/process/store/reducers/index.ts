@@ -3,15 +3,15 @@ import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 
 import { ProcessState } from '../process-state';
-import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+// import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
-export function getReducers(): ActionReducerMap<ProcessState> {
-  return { updateUserDetails: loaderReducer('to-be-changed') };
+export function getReducers<T>(): ActionReducerMap<ProcessState<T>> {
+  return {};
 }
 
 export const reducerToken: InjectionToken<
-  ActionReducerMap<ProcessState>
-> = new InjectionToken<ActionReducerMap<ProcessState>>('ProcessReducers');
+  ActionReducerMap<ProcessState<any>>
+> = new InjectionToken<ActionReducerMap<ProcessState<any>>>('ProcessReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
