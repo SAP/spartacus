@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CmsConfig } from '@spartacus/core';
-import { Route } from '@angular/router';
+import { CanActivate, Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
 @Injectable({
@@ -29,6 +29,16 @@ export class CmsMappingService {
     return routes;
   }
 
+  getGuardsForComponents(componentTypes: string[]): any[] {
+    const guards = new Set<CanActivate>();
+    for (const componentType of componentTypes) {
+      this.getGuardsForComponent(componentType).forEach(guard =>
+        guards.add(guard)
+      );
+    }
+    return Array.from(guards);
+  }
+
   getI18nNamespacesForComponents(componentTypes: string[]): string[] {
     const namespaces = new Set<string>();
     for (const componentType of componentTypes) {
@@ -44,6 +54,11 @@ export class CmsMappingService {
   private getRoutesForComponent(componentType: string): Route[] {
     const mappingConfig = this.config.cmsComponents[componentType];
     return (mappingConfig && mappingConfig.childRoutes) || [];
+  }
+
+  private getGuardsForComponent(componentType: string): CanActivate[] {
+    const mappingConfig = this.config.cmsComponents[componentType];
+    return (mappingConfig && mappingConfig.guards) || [];
   }
 
   private getNamespaces18NForComponent(componentType: string): string[] {
