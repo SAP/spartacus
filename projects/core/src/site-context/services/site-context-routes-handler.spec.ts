@@ -78,6 +78,14 @@ describe('SiteContextRoutesHandlerService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should set context parameter from route on init', () => {
+    service.init();
+    expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
+      'language',
+      'test'
+    );
+  });
+
   it('should set context parameter on route navigation', () => {
     mockRouterEvents.next(new NavigationStart(1, 'en'));
     expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
