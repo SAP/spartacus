@@ -1,17 +1,20 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, combineReducers } from '@ngrx/store';
 
-import { ProcessState } from '../process-state';
-// import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 
-export function getReducers<T>(): ActionReducerMap<ProcessState<T>> {
-  return {};
+export function getReducers<T>(): ActionReducerMap<EntityLoaderState<T>> {
+  return {
+    entities: combineReducers({})
+  };
 }
 
 export const reducerToken: InjectionToken<
-  ActionReducerMap<ProcessState<any>>
-> = new InjectionToken<ActionReducerMap<ProcessState<any>>>('ProcessReducers');
+  ActionReducerMap<EntityLoaderState<any>>
+> = new InjectionToken<ActionReducerMap<EntityLoaderState<any>>>(
+  'ProcessReducers'
+);
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

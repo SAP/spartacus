@@ -1,14 +1,11 @@
 import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
 
-import {
-  StateWithProcess,
-  ProcessState,
-  PROCESS_FEATURE
-} from '../process-state';
+import { StateWithProcess, PROCESS_FEATURE } from '../process-state';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
 
 export function getProcessState<T>(): MemoizedSelector<
   StateWithProcess<T>,
-  ProcessState<T>
+  EntityLoaderState<T>
 > {
-  return createFeatureSelector<ProcessState<T>>(PROCESS_FEATURE);
+  return createFeatureSelector<EntityLoaderState<T>>(PROCESS_FEATURE);
 }
