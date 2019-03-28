@@ -31,10 +31,15 @@ export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
   SiteLogo: {
     components: [
       {
-        typeCode: 'CMSParagraphComponent',
-        flexType: 'CMSParagraphComponent',
-        content: '<b>BRAND</b>',
-        uid: 'logo'
+        typeCode: 'SimpleBannerComponent',
+        flexType: 'SimpleBannerComponent',
+        uid: 'logo',
+        media: {
+          mime: 'svg/image/svg+xml',
+          url:
+            'https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg'
+        },
+        urlLink: '/'
       }
     ]
   },
