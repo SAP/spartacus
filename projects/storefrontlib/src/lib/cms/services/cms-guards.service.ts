@@ -44,7 +44,9 @@ export class CmsGuardsService {
   }
 }
 
-export function wrapIntoObservable<T>(value: T | Promise<T> | Observable<T>) {
+function wrapIntoObservable<T>(
+  value: T | Promise<T> | Observable<T>
+): Observable<T> {
   if (isObservable(value)) {
     return value;
   }
@@ -56,14 +58,14 @@ export function wrapIntoObservable<T>(value: T | Promise<T> | Observable<T>) {
   return of(value);
 }
 
-export function isPromise(obj: any): obj is Promise<any> {
+function isPromise(obj: any): obj is Promise<any> {
   return !!obj && typeof obj.then === 'function';
 }
 
-export function isCanActivate(guard: any): guard is CanActivate {
+function isCanActivate(guard: any): guard is CanActivate {
   return guard && isFunction<CanActivate>(guard.canActivate);
 }
 
-export function isFunction<T>(v: any): v is T {
+function isFunction<T>(v: any): v is T {
   return typeof v === 'function';
 }
