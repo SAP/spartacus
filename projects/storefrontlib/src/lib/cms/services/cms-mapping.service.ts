@@ -56,7 +56,7 @@ export class CmsMappingService {
     return (mappingConfig && mappingConfig.childRoutes) || [];
   }
 
-  private getGuardsForComponent(componentType: string): CanActivate[] {
+  private getGuardsForComponent(componentType: string): any[] {
     const mappingConfig = this.config.cmsComponents[componentType];
     return (mappingConfig && mappingConfig.guards) || [];
   }

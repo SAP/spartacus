@@ -13,6 +13,8 @@ import { of } from 'rxjs';
 import { CmsPageGuard } from './cms-page.guard';
 import { CmsRoutesService } from '@spartacus/storefront';
 import { CmsI18nService } from '../services/cms-i18n.service';
+import { CmsGuardsService } from '../services/cms-guards.service';
+import { UrlTree } from '@angular/router';
 
 const mockPageComponentTypes = ['component1', 'component2'];
 class MockCmsService {
@@ -41,6 +43,12 @@ class MockCmsI18nService {
   );
 }
 
+class MockCmsGuardsService {
+  cmsPageCanActivate() {
+    return of(true);
+  }
+}
+
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
 describe('CmsPageGuard', () => {
@@ -53,7 +61,8 @@ describe('CmsPageGuard', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService },
         { provide: CmsRoutesService, useClass: MockCmsRoutesService },
-        { provide: CmsI18nService, useClass: MockCmsI18nService }
+        { provide: CmsI18nService, useClass: MockCmsI18nService },
+        { provide: CmsGuardsService, useClass: MockCmsGuardsService }
       ],
       imports: [RouterTestingModule]
     });
@@ -69,7 +78,7 @@ describe('CmsPageGuard', () => {
       [CmsService, CmsPageGuard],
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
-        let result: boolean;
+        let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
@@ -84,7 +93,7 @@ describe('CmsPageGuard', () => {
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
 
-        let result: boolean;
+        let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
