@@ -116,7 +116,6 @@ export abstract class CmsStructureConfigService {
         if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
           // add slot
           pageStructure.page.slots[position] = slots[position];
-          pageStructure.page.slots[position].uid = position;
 
           // add slot components
           if (!pageStructure.components) {

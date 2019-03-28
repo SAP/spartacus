@@ -89,22 +89,4 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
       }
     }
   }
-
-  private getCatalogUuid(cmsItem: any): string {
-    if (cmsItem.properties && cmsItem.properties.smartedit) {
-      const smartEditProp = cmsItem.properties.smartedit;
-      if (smartEditProp.catalogVersionUuid) {
-        return smartEditProp.catalogVersionUuid;
-      } else if (smartEditProp.classes) {
-        let catalogUuid: string;
-        const seClass = smartEditProp.classes.split(' ');
-        seClass.forEach(item => {
-          if (item.indexOf('smartedit-catalog-version-uuid') > -1) {
-            catalogUuid = item.substr('smartedit-catalog-version-uuid-'.length);
-          }
-        });
-        return catalogUuid;
-      }
-    }
-  }
 }

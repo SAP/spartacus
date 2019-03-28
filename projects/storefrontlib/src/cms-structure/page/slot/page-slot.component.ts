@@ -71,29 +71,10 @@ export class PageSlotComponent implements OnInit {
   }
 
   private addSmartEditContract(slot: ContentSlotData): void {
-    this.renderer.addClass(
+    this.cmsService.addDynamicAttributes(
+      slot.properties,
       this.hostElement.nativeElement,
-      'smartEditComponent'
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-component-type',
-      'ContentSlot'
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-component-id',
-      slot.uid
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-catalog-version-uuid',
-      slot.catalogUuid
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-component-uuid',
-      slot.uuid
+      this.renderer
     );
   }
 }

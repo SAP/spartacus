@@ -93,8 +93,12 @@ describe('SmartEditService', () => {
         of(undefined),
         of({
           pageId: 'testPageId',
-          uuid: 'testPageUuid',
-          catalogUuid: 'testPageCatalogUuid'
+          properties: {
+            smartedit: {
+              classes:
+                'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid'
+            }
+          }
         })
       );
       spyOn(routingService, 'getRouterState').and.returnValue(

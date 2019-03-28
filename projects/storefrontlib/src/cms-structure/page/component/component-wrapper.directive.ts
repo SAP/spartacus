@@ -129,26 +129,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private addSmartEditContract(element: Element) {
-    element.classList.add('smartEditComponent');
-    this.renderer.setAttribute(
+    this.cmsService.addDynamicAttributes(
+      this.cxComponentWrapper.properties,
       element,
-      'data-smartedit-component-id',
-      this.cxComponentWrapper.uid
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-component-type',
-      this.cxComponentWrapper.typeCode
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-catalog-version-uuid',
-      this.cxComponentWrapper.catalogUuid
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-component-uuid',
-      this.cxComponentWrapper.uuid
+      this.renderer
     );
   }
 
