@@ -3,7 +3,8 @@ export default {
     greeting: 'Hi,'
   },
   actions: {
-    signInRegister: 'Sign In / Register'
+    signInRegister: 'Sign In / Register',
+    reorder: 'Reorder'
   },
   placeholders: {
     searchHere: 'Search here...'
