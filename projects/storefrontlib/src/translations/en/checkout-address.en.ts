@@ -6,6 +6,6 @@ export default {
   },
   actions: {
     addNewAddress: 'Add New Address',
-    useThisPayment: 'Ship to this address'
+    shipToThisAddress: 'Ship to this address'
   }
 };
