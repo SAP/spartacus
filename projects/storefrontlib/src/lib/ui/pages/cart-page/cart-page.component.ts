@@ -4,7 +4,7 @@ import { Cart, CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-page',
-  templateUrl: './cart-page.component.html'
+  templateUrl: './cart-page.component.html',
 })
 export class CartPageComponent implements OnInit {
   cart$: Observable<Cart>;

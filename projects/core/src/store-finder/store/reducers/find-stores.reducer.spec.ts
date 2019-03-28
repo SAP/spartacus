@@ -20,7 +20,7 @@ describe('Find Stores Reducer', () => {
       const { initialState } = fromReducers;
       const loadAction = new fromActions.FindStores({
         queryText: 'test',
-        searchConfig
+        searchConfig,
       });
 
       const loadingState = fromReducers.reducer(initialState, loadAction);

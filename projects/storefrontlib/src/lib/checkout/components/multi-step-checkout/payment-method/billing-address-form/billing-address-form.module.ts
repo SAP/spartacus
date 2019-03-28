@@ -12,9 +12,9 @@ import { BillingAddressFormComponent } from './billing-address-form.component';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    NgSelectModule
+    NgSelectModule,
   ],
   declarations: [BillingAddressFormComponent],
-  exports: [BillingAddressFormComponent]
+  exports: [BillingAddressFormComponent],
 })
 export class BillingAddressFormModule {}

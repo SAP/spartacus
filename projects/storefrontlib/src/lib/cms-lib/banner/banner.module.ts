@@ -22,9 +22,9 @@ import { BannerComponentService } from './banner.component.service';
             {
               provide: BannerComponentService,
               useClass: BannerComponentService,
-              deps: [CmsComponentData, CmsConfig]
-            }
-          ]
+              deps: [CmsComponentData, CmsConfig],
+            },
+          ],
         },
         BannerComponent: {
           selector: 'cx-banner',
@@ -32,9 +32,9 @@ import { BannerComponentService } from './banner.component.service';
             {
               provide: BannerComponentService,
               useClass: BannerComponentService,
-              deps: [CmsComponentData, CmsConfig]
-            }
-          ]
+              deps: [CmsComponentData, CmsConfig],
+            },
+          ],
         },
         SimpleBannerComponent: {
           selector: 'cx-banner',
@@ -42,16 +42,16 @@ import { BannerComponentService } from './banner.component.service';
             {
               provide: BannerComponentService,
               useClass: BannerComponentService,
-              deps: [CmsComponentData, CmsConfig]
-            }
-          ]
-        }
-      }
+              deps: [CmsComponentData, CmsConfig],
+            },
+          ],
+        },
+      },
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [BannerComponent, ResponsiveBannerComponent],
   exports: [BannerComponent, ResponsiveBannerComponent],
-  entryComponents: [BannerComponent, ResponsiveBannerComponent]
+  entryComponents: [BannerComponent, ResponsiveBannerComponent],
 })
 export class BannerModule {}

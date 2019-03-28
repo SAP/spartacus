@@ -6,6 +6,6 @@ import { StyleRefDirective } from './style-ref.directive';
 @NgModule({
   imports: [CommonModule],
   declarations: [StyleRefDirective],
-  exports: [StyleRefDirective]
+  exports: [StyleRefDirective],
 })
 export class StyleRefModule {}

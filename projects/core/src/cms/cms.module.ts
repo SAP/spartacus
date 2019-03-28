@@ -10,6 +10,6 @@ import { Config } from '../config/index';
 
 @NgModule({
   imports: [CmsOccModule, CmsStoreModule, CmsPageTitleModule],
-  providers: [CmsService, { provide: CmsStructureConfig, useExisting: Config }]
+  providers: [CmsService, { provide: CmsStructureConfig, useExisting: Config }],
 })
 export class CmsModule {}

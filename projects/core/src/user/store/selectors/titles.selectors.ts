@@ -4,7 +4,7 @@ import {
   UserState,
   TitlesState,
   StateWithUser,
-  TitleEntities
+  TitleEntities,
 } from '../user-state';
 import { Title } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';

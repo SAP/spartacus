@@ -13,28 +13,28 @@ export const user = {
     line2: 'Betelgeuse',
     country: 'United States',
     state: 'Connecticut',
-    postal: '06247'
+    postal: '06247',
   },
   payment: {
     card: 'Visa',
     number: '4111111111111111',
     expires: {
       month: '07',
-      year: '2022'
+      year: '2022',
     },
-    cvv: '123'
-  }
+    cvv: '123',
+  },
 };
 
 export const product = {
   name: 'Alpha 350',
-  code: '1446509'
+  code: '1446509',
 };
 
 export const cart = {
-  total: '$2,635.07'
+  total: '$2,635.07',
 };
 
 export const delivery = {
-  mode: 'standard-gross'
+  mode: 'standard-gross',
 };

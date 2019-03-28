@@ -6,9 +6,9 @@ export function defaultCmsContentConfig(): CmsStructureConfig {
   return {
     cmsStructure: {
       slots: {
-        ...defaultPageHeaderConfig
+        ...defaultPageHeaderConfig,
       },
-      pages: [defaultCartPageConfig]
-    }
+      pages: [defaultCartPageConfig],
+    },
   };
 }

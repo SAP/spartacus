@@ -9,17 +9,17 @@ const mockAddresses: Address[] = [
   {
     id: '111',
     line1: 'Street Name 111',
-    country: { isocode: 'PL' }
+    country: { isocode: 'PL' },
   },
   {
     id: '222',
     line1: 'Street Name 222',
-    country: { isocode: 'PL' }
-  }
+    country: { isocode: 'PL' },
+  },
 ];
 
 const mockUser: User = {
-  uid: '1234'
+  uid: '1234',
 };
 
 class MockUserService {
@@ -47,9 +47,9 @@ describe('AddressBookComponentService', () => {
         AddressBookComponentService,
         {
           provide: UserService,
-          useClass: MockUserService
-        }
-      ]
+          useClass: MockUserService,
+        },
+      ],
     });
 
     service = TestBed.get(AddressBookComponentService);

@@ -9,7 +9,7 @@ import { I18nextTranslationService } from './i18next/i18next-translation.service
 
 @NgModule({
   declarations: [TranslatePipe],
-  exports: [TranslatePipe]
+  exports: [TranslatePipe],
 })
 export class I18nModule {
   static forRoot(): ModuleWithProviders {
@@ -19,8 +19,8 @@ export class I18nModule {
         provideConfig(defaultI18nConfig),
         { provide: I18nConfig, useExisting: Config },
         { provide: TranslationService, useClass: I18nextTranslationService },
-        ...i18nextProviders
-      ]
+        ...i18nextProviders,
+      ],
     };
   }
 }

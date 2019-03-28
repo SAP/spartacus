@@ -4,7 +4,7 @@ import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmsMappingService {
   constructor(

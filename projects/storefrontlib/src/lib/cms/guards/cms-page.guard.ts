@@ -4,7 +4,7 @@ import { CanActivate, RouterStateSnapshot } from '@angular/router';
 import {
   RoutingService,
   CmsService,
-  CmsActivatedRouteSnapshot
+  CmsActivatedRouteSnapshot,
 } from '@spartacus/core';
 
 import { combineLatest, Observable, of } from 'rxjs';

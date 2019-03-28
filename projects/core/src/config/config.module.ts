@@ -2,12 +2,12 @@ import {
   InjectionToken,
   ModuleWithProviders,
   NgModule,
-  Provider
+  Provider,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   defaultServerConfig,
-  ServerConfig
+  ServerConfig,
 } from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
 import { serverConfigValidator } from './server-config/server-config-validator';
@@ -15,7 +15,7 @@ import {
   ConfigValidator,
   ConfigValidatorToken,
   provideConfigValidator,
-  validateConfig
+  validateConfig,
 } from './utils/config-validator';
 
 export const Config = new InjectionToken('Configuration');
@@ -33,7 +33,7 @@ export function provideConfigFactory(
     provide: ConfigChunk,
     useFactory: configFactory,
     multi: true,
-    deps: deps
+    deps: deps,
   };
 }
 
@@ -50,13 +50,13 @@ export function configurationFactory(
 
 @NgModule({
   imports: [CommonModule],
-  declarations: []
+  declarations: [],
 })
 export class ConfigModule {
   static withConfig(config: object): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
-      providers: [provideConfig(config)]
+      providers: [provideConfig(config)],
     };
   }
 
@@ -66,7 +66,7 @@ export class ConfigModule {
   ): ModuleWithProviders {
     return {
       ngModule: ConfigModule,
-      providers: [provideConfigFactory(configFactory, deps)]
+      providers: [provideConfigFactory(configFactory, deps)],
     };
   }
 
@@ -80,10 +80,10 @@ export class ConfigModule {
         {
           provide: Config,
           useFactory: configurationFactory,
-          deps: [ConfigChunk, ConfigValidatorToken]
+          deps: [ConfigChunk, ConfigValidatorToken],
         },
-        provideConfigValidator(serverConfigValidator)
-      ]
+        provideConfigValidator(serverConfigValidator),
+      ],
     };
   }
 }

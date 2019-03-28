@@ -9,17 +9,17 @@ import {
   CmsLinkComponent,
   Component as SpaComponent,
   TranslateUrlOptions,
-  CmsConfig
+  CmsConfig,
 } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    CMSLinkComponent: { selector: 'LinkComponent' }
-  }
+    CMSLinkComponent: { selector: 'LinkComponent' },
+  },
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(options: TranslateUrlOptions): string | string[] {
@@ -37,11 +37,11 @@ describe('LinkComponent', () => {
     typeCode: 'CMSLinkComponent',
     name: 'TestCMSLinkComponent',
     linkName: 'Arbitrary link name',
-    url: '/store-finder'
+    url: '/store-finder',
   };
 
   const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: of(componentData)
+    data$: of(componentData),
   };
 
   beforeEach(async(() => {
@@ -52,9 +52,9 @@ describe('LinkComponent', () => {
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData
-        }
-      ]
+          useValue: MockCmsComponentData,
+        },
+      ],
     }).compileComponents();
   }));
 

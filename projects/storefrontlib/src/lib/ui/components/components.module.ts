@@ -28,7 +28,7 @@ import { GenericLinkComponent } from './generic-link/generic-link.component';
     CardModule,
     PaginationAndSortingModule,
     SpinnerModule,
-    GenericLinkModule
+    GenericLinkModule,
   ],
   exports: [
     PictureComponent,
@@ -38,7 +38,7 @@ import { GenericLinkComponent } from './generic-link/generic-link.component';
     PaginationComponent,
     SortingComponent,
     SpinnerComponent,
-    GenericLinkComponent
-  ]
+    GenericLinkComponent,
+  ],
 })
 export class ComponentsModule {}

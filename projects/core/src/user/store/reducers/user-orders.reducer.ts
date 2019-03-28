@@ -4,7 +4,7 @@ import { OrderHistoryList } from '../../../occ';
 export const initialState: OrderHistoryList = {
   orders: [],
   pagination: {},
-  sorts: []
+  sorts: [],
 };
 
 export function reducer(

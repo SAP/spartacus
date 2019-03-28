@@ -8,7 +8,7 @@ import { AddToHomeScreenComponent } from './add-to-home-screen.component';
 
 @Component({
   selector: 'cx-add-to-home',
-  template: 'test-add-to-home'
+  template: 'test-add-to-home',
 })
 class ExampleAddToHomeScreenComponent extends AddToHomeScreenComponent {
   constructor(protected addToHomeScreenService: AddToHomeScreenService) {
@@ -32,9 +32,9 @@ describe('AddToHomeScreenComponent', () => {
       providers: [
         {
           provide: AddToHomeScreenService,
-          useClass: MockAddToHomeScreenService
-        }
-      ]
+          useClass: MockAddToHomeScreenService,
+        },
+      ],
     }).compileComponents();
 
     mockAddToHomeScreenService = TestBed.get(AddToHomeScreenService);
