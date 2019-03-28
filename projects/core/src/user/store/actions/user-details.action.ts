@@ -2,11 +2,12 @@ import { Action } from '@ngrx/store';
 
 import { USER_UPDATE_DETAILS } from '../user-state';
 import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction
+  EntityLoadAction,
+  EntityFailAction,
+  EntitySuccessAction
 } from '../../../state';
 import { User } from '../../../occ/occ-models/index';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';
@@ -31,24 +32,24 @@ export class LoadUserDetailsSuccess implements Action {
   constructor(public payload: User) {}
 }
 
-export class UpdateUserDetails extends LoaderLoadAction {
+export class UpdateUserDetails extends EntityLoadAction {
   readonly type = UPDATE_USER_DETAILS;
   constructor(public payload: { username: string; userDetails: User }) {
-    super(USER_UPDATE_DETAILS);
+    super(PROCESS_FEATURE, USER_UPDATE_DETAILS);
   }
 }
 
-export class UpdateUserDetailsFail extends LoaderFailAction {
+export class UpdateUserDetailsFail extends EntityFailAction {
   readonly type = UPDATE_USER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(USER_UPDATE_DETAILS, payload);
+    super(PROCESS_FEATURE, USER_UPDATE_DETAILS, payload);
   }
 }
 
-export class UpdateUserDetailsSuccess extends LoaderSuccessAction {
+export class UpdateUserDetailsSuccess extends EntitySuccessAction {
   readonly type = UPDATE_USER_DETAILS_SUCCESS;
   constructor(public userUpdates: User) {
-    super(USER_UPDATE_DETAILS);
+    super(PROCESS_FEATURE, USER_UPDATE_DETAILS);
   }
 }
 
