@@ -42,8 +42,7 @@ export abstract class YotpoService {
     const s = document.createElement('script');
     s.type = 'text/javascript';
     // tslint:disable-next-line
-    s.text =
-      "function callYotpo() { if (typeof yotpo !== 'undefined' && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();";
+    s.text = `function callYotpo() { if (typeof yotpo !== 'undefined' && yotpo.initialized && yotpo.state=='ready') { yotpo.initWidgets(); } else { setTimeout(function() { callYotpo(); }, 1000);} } callYotpo();`;
     elementRef.nativeElement.appendChild(s);
   }
 }
