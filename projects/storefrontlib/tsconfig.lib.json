@@ -15,7 +15,7 @@
     "lib": ["dom", "es2015"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "vendor": ["dist/vendor"]
+      "@spartacus/vendor": ["dist/vendor"]
     }
   },
   "angularCompilerOptions": {

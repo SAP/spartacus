@@ -10,7 +10,7 @@
       "ngrx-store-localstorage": "ngrxStoreLocalstorage",
       "@ng-select/ng-select": "ngSelect",
       "@spartacus/core": "core",
-      "vendor": "vendor"
+      "@spartacus/vendor": "vendor"
     },
     "entryFile": "src/public_api.ts",
     "styleIncludePaths": ["../", "../storefrontstyles/scss"]
