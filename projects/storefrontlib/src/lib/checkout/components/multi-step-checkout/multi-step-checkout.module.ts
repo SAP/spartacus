@@ -9,6 +9,8 @@ import { ReviewSubmitModule } from './review-submit/review-submit.module';
 
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
+import { PlaceOrderModule } from './place-order/place-order.module';
+
 import {
   UrlTranslationModule,
   ConfigModule,
@@ -25,6 +27,7 @@ import {
     DeliveryModeModule,
     PaymentMethodModule,
     ReviewSubmitModule,
+    PlaceOrderModule,
     RouterModule,
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
