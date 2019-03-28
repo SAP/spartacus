@@ -9,6 +9,7 @@ import {
 
 import {
   CmsService,
+  DynamicAttributeService,
   ContentSlotData,
   ContentSlotComponentData
 } from '@spartacus/core';
@@ -26,6 +27,7 @@ export class PageSlotComponent implements OnInit {
 
   constructor(
     protected cmsService: CmsService,
+    protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected hostElement: ElementRef,
     protected cmsMapping: CmsMappingService
@@ -71,7 +73,7 @@ export class PageSlotComponent implements OnInit {
   }
 
   private addSmartEditContract(slot: ContentSlotData): void {
-    this.cmsService.addDynamicAttributes(
+    this.dynamicAttributeService.addDynamicAttributes(
       slot.properties,
       this.hostElement.nativeElement,
       this.renderer

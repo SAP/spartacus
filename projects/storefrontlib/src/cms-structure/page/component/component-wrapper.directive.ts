@@ -15,6 +15,7 @@ import {
   CmsComponent,
   CmsConfig,
   CmsService,
+  DynamicAttributeService,
   ComponentMapperService,
   CxApiService,
   ContentSlotComponentData
@@ -36,6 +37,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private componentMapper: ComponentMapperService,
     private injector: Injector,
     private cmsService: CmsService,
+    private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     private config: CmsConfig,
@@ -129,7 +131,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private addSmartEditContract(element: Element) {
-    this.cmsService.addDynamicAttributes(
+    this.dynamicAttributeService.addDynamicAttributes(
       this.cxComponentWrapper.properties,
       element,
       this.renderer

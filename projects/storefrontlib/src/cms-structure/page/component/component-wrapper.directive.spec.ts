@@ -20,7 +20,8 @@ import {
   ComponentMapperService,
   CmsConfig,
   CxApiService,
-  ContentSlotComponentData
+  ContentSlotComponentData,
+  DynamicAttributeService
 } from '@spartacus/core';
 
 const testText = 'test text';
@@ -64,7 +65,10 @@ class MockCmsService {
   isLaunchInSmartEdit(): boolean {
     return true;
   }
-  addDynamicAttributes(): void {}
+}
+
+class MockDynamicAttributeService {
+  addDynamicAttributes() {}
 }
 
 @Component({
@@ -87,6 +91,7 @@ class TestWrapperComponent {
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
   let cmsService: CmsService;
+  let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
 
   let testBedConfig: TestModuleMetadata;
@@ -100,6 +105,10 @@ describe('ComponentWrapperDirective', () => {
         Renderer2,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: DynamicAttributeService,
+          useClass: MockDynamicAttributeService
+        },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
       ]
     };
@@ -150,6 +159,7 @@ describe('ComponentWrapperDirective', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
         cmsService = TestBed.get(CmsService);
+        dynamicAttributeService = TestBed.get(DynamicAttributeService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
@@ -164,12 +174,17 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should add smartedit contract if app launch in smart edit', () => {
-        spyOn(cmsService, 'addDynamicAttributes').and.callThrough();
+        spyOn(
+          dynamicAttributeService,
+          'addDynamicAttributes'
+        ).and.callThrough();
 
         fixture.detectChanges();
         const el = fixture.debugElement;
         const compEl = el.query(By.css('cx-test')).nativeElement;
-        expect(cmsService.addDynamicAttributes).toHaveBeenCalledWith(
+        expect(
+          dynamicAttributeService.addDynamicAttributes
+        ).toHaveBeenCalledWith(
           {
             smartedit: {
               test: 'test'
@@ -181,14 +196,19 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should not add smartedit contract if app launch in smart edit', () => {
-        spyOn(cmsService, 'addDynamicAttributes').and.callThrough();
+        spyOn(
+          dynamicAttributeService,
+          'addDynamicAttributes'
+        ).and.callThrough();
         spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
         fixture = TestBed.createComponent(TestWrapperComponent);
         fixture.detectChanges();
         const el = fixture.debugElement;
         const compEl = el.query(By.css('cx-test')).nativeElement;
-        expect(cmsService.addDynamicAttributes).not.toHaveBeenCalledWith(
+        expect(
+          dynamicAttributeService.addDynamicAttributes
+        ).not.toHaveBeenCalledWith(
           {
             smartedit: {
               test: 'test'

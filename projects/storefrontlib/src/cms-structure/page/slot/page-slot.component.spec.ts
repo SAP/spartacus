@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { Renderer2 } from '@angular/core';
-import { CmsService, ContentSlotData } from '@spartacus/core';
+import {
+  CmsService,
+  ContentSlotData,
+  DynamicAttributeService
+} from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 import { PageSlotComponent } from './page-slot.component';
@@ -21,6 +25,9 @@ class MockCmsService {
   isLaunchInSmartEdit(): boolean {
     return true;
   }
+}
+
+class MockDynamicAttributeService {
   addDynamicAttributes() {}
 }
 
@@ -30,6 +37,7 @@ describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
+  let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
 
   beforeEach(async(() => {
@@ -49,6 +57,10 @@ describe('PageSlotComponent', () => {
         {
           provide: CmsMappingService,
           useClass: MockCmsMappingService
+        },
+        {
+          provide: DynamicAttributeService,
+          useClass: MockDynamicAttributeService
         }
       ]
     }).compileComponents();
@@ -60,6 +72,7 @@ describe('PageSlotComponent', () => {
     pageSlotComponent.position = 'left';
 
     cmsService = TestBed.get(CmsService);
+    dynamicAttributeService = TestBed.get(DynamicAttributeService);
     renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
   });
 
@@ -68,11 +81,11 @@ describe('PageSlotComponent', () => {
   });
 
   it('should add smart edit slot contract if app launch in smart edit', () => {
-    spyOn(cmsService, 'addDynamicAttributes').and.callThrough();
+    spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
 
     fixture.detectChanges();
     const native = fixture.debugElement.nativeElement;
-    expect(cmsService.addDynamicAttributes).toHaveBeenCalledWith(
+    expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
       {
         smartedit: {
           test: 'test'
@@ -84,12 +97,14 @@ describe('PageSlotComponent', () => {
   });
 
   it('should not add smart edit slot contract if app not launch in smart edit', () => {
-    spyOn(cmsService, 'addDynamicAttributes').and.callThrough();
+    spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
     spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
     fixture.detectChanges();
     const native = fixture.debugElement.nativeElement;
-    expect(cmsService.addDynamicAttributes).not.toHaveBeenCalledWith(
+    expect(
+      dynamicAttributeService.addDynamicAttributes
+    ).not.toHaveBeenCalledWith(
       {
         smartedit: {
           test: 'test'
