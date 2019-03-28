@@ -44,9 +44,9 @@ class MockCmsI18nService {
 }
 
 class MockCmsGuardsService {
-  cmsPageCanActivate() {
-    return of(true);
-  }
+  cmsPageCanActivate = jasmine
+    .createSpy('cmsPageCanActivate')
+    .and.returnValue(of(true));
 }
 
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
@@ -134,6 +134,28 @@ describe('CmsPageGuard', () => {
 
         expect(cmsI18n.loadNamespacesForComponents).toHaveBeenCalledWith(
           mockPageComponentTypes
+        );
+      }
+    ));
+
+    it('should process cms guards', inject(
+      [CmsService, CmsGuardsService, CmsPageGuard],
+      (
+        cmsService: CmsService,
+        cmsGuards: CmsGuardsService,
+        cmsPageGuard: CmsPageGuard
+      ) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
+          .subscribe()
+          .unsubscribe();
+
+        expect(cmsGuards.cmsPageCanActivate).toHaveBeenCalledWith(
+          mockPageComponentTypes,
+          mockRouteSnapshot,
+          undefined
         );
       }
     ));
