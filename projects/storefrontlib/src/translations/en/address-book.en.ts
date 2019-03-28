@@ -6,6 +6,6 @@ export default {
     areYouSureToDeleteAddress: 'Are you sure you want to delete this address?'
   },
   actions: {
-    addNewAddress: 'Add new address',
+    addNewAddress: 'Add new address'
   }
 };

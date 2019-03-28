@@ -202,7 +202,7 @@
               (change)="toggleDefaultAddress()"
             />
             <span class="form-check-label">{{
-              'address:actions.setAsDefault' | cxTranslate
+              'common:actions.setAsDefault' | cxTranslate
             }}</span>
           </label>
         </div>
@@ -221,7 +221,7 @@
         [disabled]="address.invalid"
         (click)="verifyAddress()"
       >
-        {{ actionBtnLabel || ('address:actions.continue' | cxTranslate) }}
+        {{ actionBtnLabel || ('common:actions.continue' | cxTranslate) }}
       </button>
     </div>
   </div>

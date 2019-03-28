@@ -16,7 +16,7 @@ export default {
     findStore: 'Find store',
     useMyLocation: 'Use my location',
     viewAllStores: 'View all stores',
-    contactUs: 'Contact us',
+    contactUs: 'Contact us'
   },
   placeholders: {
     searchBox: 'Enter postal code, town or address'

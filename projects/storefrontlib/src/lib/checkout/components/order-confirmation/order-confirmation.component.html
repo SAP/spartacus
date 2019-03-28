@@ -1,9 +1,7 @@
 <div class="cx-page" *ngIf="(order$ | async) as order">
   <header class="cx-page__header">
     <h1 class="cx-page__title">
-      {{
-        'checkoutOrderConfirmation:labels.confirmationOfOrder' | cxTranslate
-      }}
+      {{ 'checkoutOrderConfirmation:labels.confirmationOfOrder' | cxTranslate }}
       {{ order.code }}
     </h1>
   </header>

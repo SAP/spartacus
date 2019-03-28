@@ -98,7 +98,7 @@
           class="btn btn-block btn-secondary"
           (click)="cancelWriteReview()"
         >
-          {{ 'productReview:actions.cancel' | cxTranslate }}
+          {{ 'common:actions.cancel' | cxTranslate }}
         </button>
       </div>
       <div class="col-12 col-md-4">
@@ -108,7 +108,7 @@
           [ngClass]="{ 'submit-btn': reviewForm.valid }"
           [disabled]="!reviewForm.valid"
         >
-          {{ 'productReview:actions.submit' | cxTranslate }}
+          {{ 'common:actions.submit' | cxTranslate }}
         </button>
       </div>
     </div>

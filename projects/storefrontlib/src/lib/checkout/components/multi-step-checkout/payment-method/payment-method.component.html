@@ -43,7 +43,7 @@
       <div class="row cx-checkout-btns">
         <div class="col-md-12 col-lg-6">
           <button class="btn btn-block btn-action" (click)="back()">
-            {{ 'checkout:actions.back' | cxTranslate }}
+            {{ 'common:actions.back' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
@@ -52,7 +52,7 @@
             [disabled]="!selectedPayment"
             (click)="next()"
           >
-            {{ 'checkout:actions.continue' | cxTranslate }}
+            {{ 'common:actions.continue' | cxTranslate }}
           </button>
         </div>
       </div>

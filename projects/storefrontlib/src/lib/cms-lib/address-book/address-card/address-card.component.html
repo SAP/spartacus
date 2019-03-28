@@ -26,7 +26,7 @@
     <div *ngIf="editMode" class="row cx-address-card__delete">
       <div class="col-md-6">
         <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
-          {{ 'addressBook:actions.cancel' | cxTranslate }}
+          {{ 'common:actions.cancel' | cxTranslate }}
         </button>
       </div>
       <div class="col-md-6">
@@ -34,7 +34,7 @@
           (click)="deleteAddress(address.id)"
           class="btn btn-block btn-primary"
         >
-          {{ 'addressBook:actions.delete' | cxTranslate }}
+          {{ 'common:actions.delete' | cxTranslate }}
         </button>
       </div>
     </div>
@@ -43,13 +43,13 @@
         *ngIf="!address?.defaultAddress"
         (click)="setAddressAsDefault(address.id)"
         class="card-link btn-link set-default"
-        >{{ 'address:actions.setAsDefault' | cxTranslate }}</a
+        >{{ 'common:actions.setAsDefault' | cxTranslate }}</a
       >
       <a (click)="openEditFormEvent()" class="card-link btn-link edit">{{
-        'addressBook:actions.edit' | cxTranslate
+        'common:actions.edit' | cxTranslate
       }}</a>
       <a (click)="setEditMode()" class="card-link btn-link delete">{{
-        'addressBook:actions.delete' | cxTranslate
+        'common:actions.delete' | cxTranslate
       }}</a>
     </div>
   </div>

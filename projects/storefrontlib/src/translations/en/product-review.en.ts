@@ -9,6 +9,6 @@ export default {
   actions: {
     writeReview: 'Write a Review',
     more: 'More',
-    less: 'Less',
+    less: 'Less'
   }
 };
