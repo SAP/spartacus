@@ -6,7 +6,9 @@ import { Injectable, Renderer2 } from '@angular/core';
 export class DynamicAttributeService {
   /**
    * Add dynamic attributes to DOM. These attributes are extracted from the properties of cms items received from backend.
-   * @param cmsItem : can be page, slot or cms component
+   * There can by many different groups of properties, one of them is smaredit. But EC allows addons to create different groups.
+   * For example, personalization may add `script` group etc.
+   * @param cmsItem : can be slot or cms component
    */
   addDynamicAttributes(
     properties: any,
@@ -23,7 +25,10 @@ export class DynamicAttributeService {
         Object.keys(groupProps).forEach(propName => {
           const propValue = groupProps[propName];
           if (propName === 'classes') {
-            element.classList.add(propValue);
+            const classes = propValue.split(' ');
+            classes.forEach(classItem => {
+              element.classList.add(classItem);
+            });
           } else {
             renderer.setAttribute(
               element,
