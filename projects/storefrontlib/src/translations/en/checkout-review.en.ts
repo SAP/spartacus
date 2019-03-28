@@ -6,7 +6,7 @@ export default {
   },
   actions: {
     placeOrder: 'Place Order',
-    edit: 'edit',
+    // edit: 'edit',
     termsAndConditions: 'Terms & Conditions'
   }
 };

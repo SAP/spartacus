@@ -10,7 +10,5 @@ export default {
     writeReview: 'Write a Review',
     more: 'More',
     less: 'Less',
-    cancel: 'Cancel',
-    submit: 'Submit'
   }
 };

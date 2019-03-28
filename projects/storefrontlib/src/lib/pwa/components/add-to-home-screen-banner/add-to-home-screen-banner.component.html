@@ -2,14 +2,14 @@
   <div class="cx-add-to-home-screen-banner">
     <div class="cx-add-to-home-screen-banner-inner">
       <p>
-        Add SAP storefront to your device homescreen for a faster return visit
+        {{ 'pwa:labels.addSapStorefront' | cxTranslate }}
       </p>
       <ul>
-        <li>No installation needed</li>
-        <li>Fast access to application</li>
+        <li>{{ 'pwa:labels.noInstallationNeeded' | cxTranslate }}</li>
+        <li>{{ 'pwa:labels.fastAccessToApplication' | cxTranslate }}</li>
       </ul>
       <button (click)="prompt()" class="btn btn-primary">
-        Add to home screen
+        {{ 'pwa:actions.addToHomeScreen' | cxTranslate }}
       </button>
     </div>
   </div>

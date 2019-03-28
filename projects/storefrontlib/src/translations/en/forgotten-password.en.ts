@@ -1,8 +1,4 @@
 export default {
-  actions: {
-    submit: 'Submit',
-    cancel: 'Cancel'
-  },
   labels: {
     resetPassword: 'Reset password',
     enterEmailAddressAssociatedWithYourAccount:

@@ -9,6 +9,7 @@ import checkoutAddress from './en/checkout-address.en';
 import checkoutOrderConfirmation from './en/checkout-order-confirmation.en';
 import checkoutReview from './en/checkout-review.en';
 import checkoutShipping from './en/checkout-shipping.en';
+import common from './en/common.en';
 import forgottenPassword from './en/forgotten-password.en';
 import header from './en/header.en';
 import login from './en/login.en';
@@ -21,6 +22,7 @@ import paymentMethods from './en/payment-methods.en';
 import productDetails from './en/product-details.en';
 import productList from './en/product-list.en';
 import productReview from './en/product-review.en';
+import pwa from './en/pwa.en';
 import register from './en/register.en';
 import storeFinder from './en/store-finder.en';
 
@@ -36,6 +38,7 @@ export const translations: TranslationResources = {
     checkoutOrderConfirmation,
     checkoutReview,
     checkoutShipping,
+    common,
     forgottenPassword,
     header,
     login,
@@ -48,6 +51,7 @@ export const translations: TranslationResources = {
     productDetails,
     productList,
     productReview,
+    pwa,
     register,
     storeFinder
   }
