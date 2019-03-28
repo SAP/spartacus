@@ -1,6 +1,6 @@
 export default {
   labels: {
-    greeting: 'Hi,'
+    userGreeting: 'Hi, {{name}}'
   },
   actions: {
     signInRegister: 'Sign In / Register',

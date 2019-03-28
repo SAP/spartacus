@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { OrderDetailsComponent } from './order-details.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -14,7 +14,8 @@ import { CmsConfig, ConfigModule } from '@spartacus/core';
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: { selector: 'cx-order-details' }
       }
-    })
+    }),
+    I18nModule
   ],
   declarations: [OrderDetailsComponent],
   exports: [OrderDetailsComponent],
