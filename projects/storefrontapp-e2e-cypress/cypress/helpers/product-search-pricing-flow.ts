@@ -1,6 +1,13 @@
 import { PRODUCT_LISTING } from './data-configuration';
 
 export function productPricingFlow() {
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/products/search*').as('query');
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/products/search?fields=*&sort=price-asc*'
+  ).as('query_price_asc');
+
   // Click on a Category
   cy.get('header').within(() => {
     cy.get('.nav-link')
@@ -29,6 +36,8 @@ export function productPricingFlow() {
   cy.get('.page-item:last-of-type .page-link:first').click();
   cy.get('.page-item.active > .page-link').should('contain', '2');
 
+  cy.wait('@query');
+
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
     'PowerShot A480'
@@ -38,9 +47,12 @@ export function productPricingFlow() {
   cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC
   );
+
+  cy.wait('@query_price_asc');
+
   cy.get('.page-item.active > .page-link').should('contain', '2');
   cy.get('cx-product-list-item:first .cx-product-name').should(
     'contain',
-    'PowerShot A480'
+    'DSC-W180'
   );
 }
