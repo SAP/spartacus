@@ -4,6 +4,7 @@ import { DatePipe } from './date.pipe';
 import { LanguageService } from '../site-context';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { I18nConfig } from './config/i18n-config';
 
 const mockDate = '2017-01-11T10:14:39+0000';
 const mockDateFormat = 'longDate';
@@ -20,10 +21,8 @@ describe('DatePipe', () => {
     TestBed.configureTestingModule({
       providers: [
         DatePipe,
-        {
-          provide: LanguageService,
-          useValue: mockLanguageService
-        }
+        { provide: LanguageService, useValue: mockLanguageService },
+        { provide: I18nConfig, useValue: { production: false } }
       ]
     });
 
