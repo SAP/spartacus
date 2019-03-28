@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { Renderer2 } from '@angular/core';
 import { CmsService, ContentSlotData } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
@@ -10,14 +11,17 @@ import { CmsMappingService } from '@spartacus/storefront';
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
     return of({
-      uid: 'slot_uid',
-      catalogUuid: 'slot_catalogUuid',
-      uuid: 'slot_uuid'
+      properties: {
+        smartedit: {
+          test: 'test'
+        }
+      }
     });
   }
   isLaunchInSmartEdit(): boolean {
     return true;
   }
+  addDynamicAttributes() {}
 }
 
 class MockCmsMappingService {}
@@ -26,6 +30,7 @@ describe('PageSlotComponent', () => {
   let pageSlotComponent: PageSlotComponent;
   let fixture: ComponentFixture<PageSlotComponent>;
   let cmsService: CmsService;
+  let renderer: Renderer2;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -36,6 +41,7 @@ describe('PageSlotComponent', () => {
         OutletDirective
       ],
       providers: [
+        Renderer2,
         {
           provide: CmsService,
           useClass: MockCmsService
@@ -52,9 +58,9 @@ describe('PageSlotComponent', () => {
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
     pageSlotComponent.position = 'left';
-    fixture.detectChanges();
 
     cmsService = TestBed.get(CmsService);
+    renderer = fixture.componentRef.injector.get<Renderer2>(Renderer2 as any);
   });
 
   it('should be created', () => {
@@ -62,32 +68,35 @@ describe('PageSlotComponent', () => {
   });
 
   it('should add smart edit slot contract if app launch in smart edit', () => {
+    spyOn(cmsService, 'addDynamicAttributes').and.callThrough();
+
+    fixture.detectChanges();
     const native = fixture.debugElement.nativeElement;
-    expect(native.getAttribute('data-smartedit-component-type')).toEqual(
-      'ContentSlot'
+    expect(cmsService.addDynamicAttributes).toHaveBeenCalledWith(
+      {
+        smartedit: {
+          test: 'test'
+        }
+      },
+      native,
+      renderer
     );
-    expect(native.getAttribute('data-smartedit-component-id')).toEqual(
-      'slot_uid'
-    );
-    expect(native.getAttribute('data-smartedit-catalog-version-uuid')).toEqual(
-      'slot_catalogUuid'
-    );
-    expect(native.getAttribute('data-smartedit-component-uuid')).toEqual(
-      'slot_uuid'
-    );
-    expect(native.classList.contains('smartEditComponent')).toBeTruthy();
   });
 
   it('should not add smart edit slot contract if app not launch in smart edit', () => {
+    spyOn(cmsService, 'addDynamicAttributes').and.callThrough();
     spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
-    fixture = TestBed.createComponent(PageSlotComponent);
-    pageSlotComponent = fixture.componentInstance;
-    pageSlotComponent.position = 'left';
     fixture.detectChanges();
-
     const native = fixture.debugElement.nativeElement;
-    expect(native.classList.contains('smartEditComponent')).toBeFalsy();
-    expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
+    expect(cmsService.addDynamicAttributes).not.toHaveBeenCalledWith(
+      {
+        smartedit: {
+          test: 'test'
+        }
+      },
+      native,
+      renderer
+    );
   });
 });
