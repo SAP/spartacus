@@ -25,7 +25,7 @@
       <div class="cx-list-header col-12">
         <div class="cx-list-status">{{ consignment?.status }}</div>
         <div *ngIf="consignment?.statusDate" class="cx-list-date">
-          <div>{{ 'orderDetails:labels.shippedOn' | cxTranslate }}</div>
+          <div>{{ 'orderDetails:labels.shippedOn' | cxTranslate }}&nbsp;</div>
           <div>{{ consignment?.statusDate | date }}</div>
         </div>
       </div>
