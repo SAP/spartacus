@@ -5,7 +5,8 @@ export default {
     termsAndConditions: 'Terms & Conditions',
     signIn: 'I already have an account. Sign In',
     register: 'Register',
-    confirmNewPassword: 'Confirm New Password'
+    confirmNewPassword: 'Confirm New Password',
+    resetPassword: 'Reset Password'
   },
   labels: {
     createAccount: 'Create an account',
