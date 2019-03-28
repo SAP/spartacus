@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { USER_UPDATE_DETAILS } from '../user-state';
+import { USER_UPDATE_PROCESS } from '../user-state';
 import {
   EntityLoadAction,
   EntityFailAction,
@@ -35,21 +35,21 @@ export class LoadUserDetailsSuccess implements Action {
 export class UpdateUserDetails extends EntityLoadAction {
   readonly type = UPDATE_USER_DETAILS;
   constructor(public payload: { username: string; userDetails: User }) {
-    super(PROCESS_FEATURE, USER_UPDATE_DETAILS);
+    super(PROCESS_FEATURE, USER_UPDATE_PROCESS);
   }
 }
 
 export class UpdateUserDetailsFail extends EntityFailAction {
   readonly type = UPDATE_USER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, USER_UPDATE_DETAILS, payload);
+    super(PROCESS_FEATURE, USER_UPDATE_PROCESS, payload);
   }
 }
 
 export class UpdateUserDetailsSuccess extends EntitySuccessAction {
   readonly type = UPDATE_USER_DETAILS_SUCCESS;
   constructor(public userUpdates: User) {
-    super(PROCESS_FEATURE, USER_UPDATE_DETAILS);
+    super(PROCESS_FEATURE, USER_UPDATE_PROCESS);
   }
 }
 
