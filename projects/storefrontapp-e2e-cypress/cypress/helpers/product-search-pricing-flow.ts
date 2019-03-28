@@ -23,7 +23,7 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item')
     .first()
-    .should('contain', 'DSC-S930');
+    .should('contain', 'DSC-WX1');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();
@@ -31,7 +31,7 @@ export function productPricingFlow() {
 
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
-    'Cyber-shot W55'
+    'PowerShot A480'
   );
 
   // Sort by price low to high
@@ -39,10 +39,8 @@ export function productPricingFlow() {
     PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC
   );
   cy.get('.page-item.active > .page-link').should('contain', '2');
-  cy.get('cx-product-list-item').should('contain', 'DSC-W180');
-
-  // Add product to cart from search listing page
-  cy.get('cx-add-to-cart:first button').click({ force: true });
-  cy.get('.cx-dialog-header .close').click();
-  cy.get('cx-mini-cart .count').should('contain', '1');
+  cy.get('cx-product-list-item:first .cx-product-name').should(
+    'contain',
+    'PowerShot A480'
+  );
 }

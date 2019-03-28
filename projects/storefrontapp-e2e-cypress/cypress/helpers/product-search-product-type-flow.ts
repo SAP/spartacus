@@ -3,7 +3,21 @@ import { PRODUCT_LISTING } from './data-configuration';
 export const resultsTitle = 'cx-breadcrumb h1';
 
 export function productTypeFlow(mobile?: string) {
-  // Search for a product
+  cy.server();
+  cy.route('GET', '/rest/v2/electronics-spa/products/search*').as('query');
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/products/search?fields=*&query=sony:relevance:price*'
+  ).as('price_query');
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/products/search?fields=*&query=sony:relevance:category*'
+  ).as('category_query');
+  cy.route(
+    'GET',
+    '/rest/v2/electronics-spa/products/search?fields=*&query=sony:relevance:Colour*'
+  ).as('color_query');
+
   cy.get('cx-searchbox input').type('sony{enter}');
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
@@ -27,6 +41,8 @@ export function productTypeFlow(mobile?: string) {
         .click({ force: true });
     });
 
+  cy.wait('@query');
+
   cy.get(resultsTitle).should('contain', '86 results for "sony"');
   cy.get('cx-product-list-item')
     .first()
@@ -35,12 +51,14 @@ export function productTypeFlow(mobile?: string) {
   if (mobile) {
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
+    ).click({ force: true });
   } else {
     cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
+      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
+    ).click({ force: true });
   }
+
+  cy.wait('@query');
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
@@ -54,6 +72,10 @@ export function productTypeFlow(mobile?: string) {
         .click({ force: true });
     });
 
+  cy.wait('@price_query')
+    .its('url')
+    .should('include', 'sony:relevance:price');
+
   cy.get(resultsTitle).should('contain', '16 results for "sony"');
   cy.get('cx-product-list-item')
     .first()
@@ -62,12 +84,15 @@ export function productTypeFlow(mobile?: string) {
   if (mobile) {
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
+    ).click({ force: true });
   } else {
     cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
+      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
+    ).click({ force: true });
   }
+
+  cy.wait('@query');
+
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by category
@@ -80,90 +105,27 @@ export function productTypeFlow(mobile?: string) {
         .click({ force: true });
     });
 
+  cy.wait('@category_query')
+    .its('url')
+    .should('include', 'sony:relevance:category');
+
   cy.get(resultsTitle).should('contain', '95 results for "sony"');
+
   cy.get('cx-product-list-item')
     .first()
     .should('contain', '10.2 Megapixel D-SLR with Standard Zoom Lens');
   if (mobile) {
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
+    ).click({ force: true });
   } else {
     cy.get(
       'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
+    ).click({ force: true });
   }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
-  // Filter by mounting
-  cy.get('.cx-facet-header')
-    .contains('Mounting')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  cy.wait('@query');
 
-  cy.get(resultsTitle).should('contain', '2 results for "sony"');
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', 'Remote Control Tripod VCT-80AV');
-
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
-
-  // Filter by lens type
-  cy.get('.cx-facet-header')
-    .contains('Lens type')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
-
-  cy.get(resultsTitle).should('contain', '1 results for "sony"');
-
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
-
-  // Filter by megapixels
-  cy.get('.cx-facet-header')
-    .contains('Megapixels')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
-
-  cy.get(resultsTitle).should('contain', '1 results for "sony"');
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by color
@@ -176,6 +138,10 @@ export function productTypeFlow(mobile?: string) {
         .click({ force: true });
     });
 
+  cy.wait('@color_query')
+    .its('url')
+    .should('include', 'sony:relevance:Colour');
+
   cy.get(resultsTitle).should('contain', '7 results for "sony"');
   cy.get('cx-product-list-item')
     .first()
@@ -184,38 +150,14 @@ export function productTypeFlow(mobile?: string) {
   if (mobile) {
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
+    ).click({ force: true });
   } else {
     cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
+      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
+    ).click({ force: true });
   }
+
+  cy.wait('@query');
+
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
-
-  // Filter by resolution
-  cy.get('.cx-facet-header')
-    .contains('Resolution')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
-
-  cy.get(resultsTitle).should('contain', '1 results for "sony"');
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
-
-  // Add product to cart from search listing page
-  cy.get('cx-add-to-cart:first button').click({ force: true });
-  cy.get('.cx-dialog-header .close').click();
-  cy.get('cx-mini-cart .count').should('contain', '1');
 }
