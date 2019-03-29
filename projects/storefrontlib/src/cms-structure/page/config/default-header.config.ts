@@ -1,39 +1,38 @@
-import { CmsPageSlotsConfig } from '@spartacus/core';
+import { CmsPageSlotsConfig, ContentSlotComponentData } from '@spartacus/core';
+
+export const headerComponents: {
+  [key: string]: ContentSlotComponentData | any;
+} = {
+  LanguageComponent: {
+    typeCode: 'CMSSiteContextComponent',
+    flexType: 'CMSSiteContextComponent',
+    context: 'LANGUAGE',
+  },
+  CurrencyComponent: {
+    typeCode: 'CMSSiteContextComponent',
+    flexType: 'CMSSiteContextComponent',
+    context: 'CURRENCY',
+  },
+  storeFinder: {
+    typeCode: 'CMSLinkComponent',
+    flexType: 'CMSLinkComponent',
+    linkName: 'Find a Store',
+    url: '/store-finder',
+  },
+  breadcrumbComponent: {
+    typeCode: 'BreadcrumbComponent',
+    flexType: 'BreadcrumbComponent',
+  },
+};
 
 export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
   SiteContext: {
-    components: [
-      {
-        typeCode: 'CMSSiteContextComponent',
-        flexType: 'CMSSiteContextComponent',
-        uid: 'LanguageComponent',
-        context: 'LANGUAGE',
-      },
-      {
-        typeCode: 'CMSSiteContextComponent',
-        flexType: 'CMSSiteContextComponent',
-        uid: 'CurrencyComponent',
-        context: 'CURRENCY',
-      },
-    ],
+    componentIds: ['LanguageComponent', 'CurrencyComponent'],
   },
   SiteLinks: {
-    components: [
-      {
-        typeCode: 'CMSLinkComponent',
-        flexType: 'CMSLinkComponent',
-        linkName: 'Find a Store',
-        url: '/store-finder',
-      },
-    ],
+    componentIds: ['storeFinder'],
   },
   BottomHeaderSlot: {
-    components: [
-      {
-        typeCode: 'BreadcrumbComponent',
-        flexType: 'BreadcrumbComponent',
-        uid: 'breadcrumbComponent',
-      },
-    ],
+    componentIds: ['breadcrumbComponent'],
   },
 };

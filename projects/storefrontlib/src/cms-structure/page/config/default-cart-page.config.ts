@@ -1,4 +1,21 @@
-import { CmsPageConfig } from '@spartacus/core';
+import { CmsPageConfig, ContentSlotComponentData } from '@spartacus/core';
+
+export const cartComponents: {
+  [key: string]: ContentSlotComponentData | any;
+} = {
+  emptyCartText: {
+    flexType: 'CMSParagraphComponent',
+    typeCode: 'CMSParagraphComponent',
+    content: `
+      <h2>Your shopping cart is empty</h2>
+      <p>Suggestions</p>
+      <ul>
+          <li>
+          Browse our products by selecting a category above
+          </li>
+      </ul>`,
+  },
+};
 
 export const defaultCartPageConfig: CmsPageConfig = {
   ignoreBackend: false,
@@ -8,21 +25,7 @@ export const defaultCartPageConfig: CmsPageConfig = {
   title: 'Cart',
   slots: {
     EmptyCartMiddleContent: {
-      components: [
-        {
-          flexType: 'CMSParagraphComponent',
-          typeCode: 'CMSParagraphComponent',
-          content: `
-                    <h2>Your shopping cart is empty</h2>
-                    <p>Suggestions</p>
-                    <ul>
-                        <li>
-                        Browse our products by selecting a category above
-                        </li>
-                    </ul>`,
-          uid: 'xyz',
-        },
-      ],
+      componentIds: ['emptyCartText'],
     },
   },
 };
