@@ -45,7 +45,9 @@ export class CheckoutEffects {
 
   @Effect()
   setDeliveryAddress$: Observable<
-    fromActions.SetDeliveryAddressSuccess | fromActions.SetDeliveryAddressFail
+    | fromActions.SetDeliveryAddressSuccess
+    | fromActions.LoadSupportedDeliveryModes
+    | fromActions.SetDeliveryAddressFail
   > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
@@ -53,7 +55,13 @@ export class CheckoutEffects {
       return this.occCartService
         .setDeliveryAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
-          map(() => new fromActions.SetDeliveryAddressSuccess(payload.address)),
+          mergeMap(() => [
+            new fromActions.SetDeliveryAddressSuccess(payload.address),
+            new fromActions.LoadSupportedDeliveryModes({
+              userId: payload.userId,
+              cartId: payload.cartId
+            })
+          ]),
           catchError(error => of(new fromActions.SetDeliveryAddressFail(error)))
         );
     })
