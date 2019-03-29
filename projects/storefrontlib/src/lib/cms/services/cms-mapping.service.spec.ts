@@ -10,12 +10,14 @@ const mockConfig: CmsConfig = {
     exampleMapping1: {
       selector: 'selector-1',
       i18nNamespaces: ['namespace-1'],
+      guards: ['guard1', 'guard2'],
     },
     exampleMapping2: {
       selector: 'selector-2',
       disableSSR: true,
       childRoutes: [{ path: 'route1' }, { path: 'route2' }],
       i18nNamespaces: ['namespace-1', 'namespace-2'],
+      guards: ['guard1'],
     },
   },
 };
@@ -53,6 +55,15 @@ describe('CmsMappingService', () => {
       expect(service.getRoutesForComponents(mockComponents)).toEqual([
         { path: 'route1' },
         { path: 'route2' },
+      ]);
+    });
+  });
+
+  describe('getGuardsForComponents', () => {
+    it('should get routes from page data', () => {
+      expect(service.getGuardsForComponents(mockComponents)).toEqual([
+        'guard1',
+        'guard2',
       ]);
     });
   });
