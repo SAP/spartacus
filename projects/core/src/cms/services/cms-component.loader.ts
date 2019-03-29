@@ -27,9 +27,9 @@ export abstract class CmsComponentLoader<T> {
    * @param pageContext The `PageContext` holding the page Id.
    */
   abstract load(
-    _id: string,
-    _pageContext: PageContext,
-    _fields?: string
+    id: string,
+    pageContext: PageContext,
+    fields?: string
   ): Observable<T>;
 
   /**
