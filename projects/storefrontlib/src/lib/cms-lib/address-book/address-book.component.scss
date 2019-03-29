@@ -1,17 +1,17 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
-
-$cx-address-deck-padding: 1.25rem 0 0 0 !default;
-$cx-address-deck-spinner-padding: 5rem 0 5rem 0 !default;
 
 .cx-address-deck {
-  padding: $cx-address-deck-padding;
-  &__spinner {
-    padding: $cx-address-deck-spinner-padding;
-  }
+  padding: var(--cx-padding, 1.25rem 0 0 0);
+}
+
+.cx-address-deck-spinner {
+  padding: var(--cx-padding, 5rem 0 5rem 0);
 }
 
 .cx-address-card {
-  display: block;
+  padding-bottom: var(--cx-padding, 30px);
+}
+
+.cx-form {
+  padding-top: var(--cx-padding, 30px);
 }
