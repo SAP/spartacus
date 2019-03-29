@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CmsService, ContentSlotData } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-
-import { PageSlotComponent } from './page-slot.component';
-import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
-import { OutletDirective } from '../../../lib/outlet';
 import { CmsMappingService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../../lib/outlet';
+import { ComponentWrapperDirective } from '../component/component-wrapper.directive';
+import { PageSlotComponent } from './page-slot.component';
 
 class MockCmsService {
   getContentSlot(): Observable<ContentSlotData> {
@@ -80,6 +79,22 @@ describe('PageSlotComponent', () => {
 
   it('should not add smart edit slot contract if app not launch in smart edit', () => {
     spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
+
+    fixture = TestBed.createComponent(PageSlotComponent);
+    pageSlotComponent = fixture.componentInstance;
+    pageSlotComponent.position = 'left';
+    fixture.detectChanges();
+
+    const native = fixture.debugElement.nativeElement;
+    expect(native.classList.contains('smartEditComponent')).toBeFalsy();
+    expect(native.getAttribute('data-smartedit-component-id')).toEqual(null);
+  });
+
+  it('should not add smart edit slot contract if the slot is statically added', () => {
+    spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(true);
+    spyOn(cmsService, 'getContentSlot').and.returnValue(
+      of({ uid: 'slot_uid' })
+    );
 
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
