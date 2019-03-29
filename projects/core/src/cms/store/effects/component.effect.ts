@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CmsComponent } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
 import {
   catchError,
@@ -11,6 +10,7 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import { CmsComponent } from '../../../occ/occ-models/cms-component.models';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentLoader } from '../../services/cms-component.loader';
 import * as componentActions from '../actions/component.action';

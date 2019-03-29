@@ -2,12 +2,12 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { CmsComponent, CMSPage, PageType } from '../../occ/occ-models/index';
+import { CmsComponent, PageType } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config/cms-structure.config';
+import { CmsComponentAdapter } from '../services/cms-component.adapter';
 import { CmsComponentLoader } from '../services/cms-component.loader';
-import { CmsPageAdapter } from '../services/cms-page.adapter';
 import { CmsStructureConfigService } from '../services/cms-structure-config.service';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class OccCmsComponentLoader extends CmsComponentLoader<any> {
     private http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsPageAdapter<CMSPage>,
+    protected adapter: CmsComponentAdapter<CmsComponent>,
     private occEndpoints: OccEndpointsService
   ) {
     super(cmsStructureConfigService, adapter);

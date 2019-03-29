@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../occ';
 import { PageContext } from '../../routing/models/page-context.model';
-import { CmsPageAdapter } from './cms-page.adapter';
+import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsStructureConfigService } from './cms-structure-config.service';
 
 /**
@@ -16,7 +16,7 @@ import { CmsStructureConfigService } from './cms-structure-config.service';
 export abstract class CmsComponentLoader<T> {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsPageAdapter<T>
+    protected adapter: CmsComponentAdapter<T>
   ) {}
 
   /**
@@ -30,7 +30,7 @@ export abstract class CmsComponentLoader<T> {
     _id: string,
     _pageContext: PageContext,
     _fields?: string
-  ): Observable<CmsComponent>;
+  ): Observable<T>;
 
   /**
    */
@@ -38,9 +38,27 @@ export abstract class CmsComponentLoader<T> {
     return this.cmsStructureConfigService
       .getComponentFromConfig(id)
       .pipe(
-        switchMap(component =>
-          component ? of(component) : this.load(id, pageContext)
+        switchMap(configuredComponent =>
+          configuredComponent
+            ? of(configuredComponent)
+            : this.load(id, pageContext).pipe(
+                map(component => this.adapt(component))
+              )
         )
       );
+  }
+
+  /**
+   *
+   * An adapter can be injected to convert the backend reponse to
+   * the UI model.
+   *
+   * @param component the source that can be converted
+   */
+  adapt(component: T): CmsComponent {
+    if (this.adapter) {
+      return this.adapter.adapt(<T>component);
+    }
+    return <CmsComponent>component;
   }
 }
