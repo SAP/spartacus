@@ -1,14 +1,16 @@
+import { ElementRef } from '@angular/core';
 import {
   Product,
   ProductService,
-  RoutingService, PageType} from '@spartacus/core';
+  RoutingService,
+  PageType
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
 import { TestBed } from '@angular/core/testing';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 
 import { YotpoService } from './yotpo.service';
-
 
 class MockYotpoConfig extends YotpoConfig {
   vendor = {
@@ -17,8 +19,8 @@ class MockYotpoConfig extends YotpoConfig {
     }
   };
 }
-
-const mockProduct: Product = { code: '123456' };
+const productCode = '123456';
+const mockProduct: Product = { code: productCode };
 
 class MockProductService {
   get(): Observable<Product> {
@@ -30,7 +32,7 @@ const router = {
   state: {
     url: '/',
     queryParams: {},
-    params: { productCode: '123456' },
+    params: { productCode: productCode },
     context: { id: '1', type: PageType.PRODUCT_PAGE },
     cmsRequired: false
   }
@@ -42,11 +44,20 @@ class MockRoutingService {
   }
 }
 
+class NativeElementMock {
+  appendChild() {}
+}
+
+const nativeElement: NativeElementMock = new NativeElementMock();
+const elementRef: ElementRef = { nativeElement: nativeElement };
+
 describe('YotpoService', () => {
   let service: YotpoService;
-  beforeEach(() => { 
-      TestBed.configureTestingModule({ providers: [ YotpoService,
-        { provide: YotpoConfig, useClass: MockYotpoConfig }, 
+  beforeEach(() => {
+    const bed = TestBed.configureTestingModule({
+      providers: [
+        YotpoService,
+        { provide: YotpoConfig, useClass: MockYotpoConfig },
         {
           provide: ProductService,
           useClass: MockProductService
@@ -55,12 +66,34 @@ describe('YotpoService', () => {
           provide: RoutingService,
           useClass: MockRoutingService
         }
-      ]});
+      ]
+    });
 
-  service = TestBed.get(YotpoService);
+    service = bed.get(YotpoService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should fetch product data', () => {
+    let result: Product;
+    service.getProduct().subscribe(product => (result = product));
+    expect(result).toEqual(mockProduct);
+  });
+
+  it('should add Yotpo init widgets script', () => {
+    var yotpoScriptTester = {
+      asymmetricMatch: function(actual) {
+        return (
+          actual.type === 'text/javascript' &&
+          actual.text.includes('yotpo.initWidgets()')
+        );
+      }
+    };
+
+    spyOn(nativeElement, 'appendChild');
+    service.addYotpoInitWidgetsScript(elementRef);
+    expect(nativeElement.appendChild).toHaveBeenCalledWith(yotpoScriptTester);
   });
 });
