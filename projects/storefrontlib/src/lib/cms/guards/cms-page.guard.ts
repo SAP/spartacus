@@ -40,7 +40,6 @@ export class CmsPageGuard implements CanActivate {
         if (hasPage) {
           return this.cmsService.getPageComponentTypes(pageContext).pipe(
             switchMap(componentTypes =>
-              // authorization logic
               this.cmsGuards
                 .cmsPageCanActivate(componentTypes, route, state)
                 .pipe(withLatestFrom(of(componentTypes)))

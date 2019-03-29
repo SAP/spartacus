@@ -34,7 +34,7 @@ export class CmsGuardsService {
       });
 
       return concat(...canActivateObservables).pipe(
-        skipWhile(canActivate => canActivate === true),
+        skipWhile((canActivate: boolean | UrlTree) => canActivate === true),
         endWith(true),
         first()
       );

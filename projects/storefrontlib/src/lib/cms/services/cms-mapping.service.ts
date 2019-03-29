@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { CmsConfig } from '@spartacus/core';
-import { CanActivate, Route } from '@angular/router';
+import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
 @Injectable({
@@ -30,7 +30,7 @@ export class CmsMappingService {
   }
 
   getGuardsForComponents(componentTypes: string[]): any[] {
-    const guards = new Set<CanActivate>();
+    const guards = new Set<any>();
     for (const componentType of componentTypes) {
       this.getGuardsForComponent(componentType).forEach(guard =>
         guards.add(guard)
