@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { CartService, OrderEntry, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  OrderEntry,
+  PromotionResult,
+} from '@spartacus/core';
 
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -85,6 +90,7 @@ describe('AddedToCartDialogComponent', () => {
         RouterTestingModule,
         NgbModule,
         SpinnerModule,
+        I18nTestingModule,
       ],
       declarations: [
         AddedToCartDialogComponent,

@@ -3,7 +3,7 @@ import { SimpleChange } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 import { ScheduleComponent } from './schedule.component';
-import { StoreDataService } from '@spartacus/core';
+import { I18nTestingModule, StoreDataService } from '@spartacus/core';
 
 const WEEK_DAYS_NUMBER = 7;
 
@@ -68,6 +68,7 @@ describe('ScheduleComponent', () => {
 
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [ScheduleComponent],
       providers: [
         { provide: StoreDataService, useClass: StoreDataServiceMock },

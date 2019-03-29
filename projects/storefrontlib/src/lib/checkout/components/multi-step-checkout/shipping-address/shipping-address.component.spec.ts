@@ -9,6 +9,7 @@ import {
   Address,
   CartDataService,
   UserService,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ShippingAddressComponent } from './shipping-address.component';
@@ -89,6 +90,7 @@ describe('ShippingAddressComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         ShippingAddressComponent,
         MockAddressFormComponent,

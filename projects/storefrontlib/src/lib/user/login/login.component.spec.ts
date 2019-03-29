@@ -9,6 +9,7 @@ import {
   UserToken,
   UserService,
   User,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -78,7 +79,7 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         LoginComponent,
         MockDynamicSlotComponent,

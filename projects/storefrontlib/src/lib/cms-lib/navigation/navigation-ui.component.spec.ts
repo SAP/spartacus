@@ -3,7 +3,7 @@ import { NavigationUIComponent } from './navigation-ui.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { Pipe, PipeTransform } from '@angular/core';
-import { TranslateUrlOptions } from '@spartacus/core';
+import { I18nTestingModule, TranslateUrlOptions } from '@spartacus/core';
 import { DebugElement, ElementRef } from '@angular/core';
 import { NavigationNode } from '../navigation/navigation-node.model';
 @Pipe({
@@ -22,7 +22,7 @@ describe('Navigation UI Component', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [NavigationUIComponent, MockTranslateUrlPipe],
       providers: [],
     }).compileComponents();

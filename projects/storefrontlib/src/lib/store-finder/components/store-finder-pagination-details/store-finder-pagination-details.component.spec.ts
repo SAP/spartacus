@@ -1,7 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
-import { PaginationModel } from '@spartacus/core';
+import { I18nTestingModule, PaginationModel } from '@spartacus/core';
 
 describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
@@ -15,6 +15,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [StoreFinderPaginationDetailsComponent],
     }).compileComponents();
   }));

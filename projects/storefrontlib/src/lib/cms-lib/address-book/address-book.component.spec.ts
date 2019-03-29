@@ -9,7 +9,7 @@ import {
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 
-import { Address, User } from '@spartacus/core';
+import { Address, I18nTestingModule, User } from '@spartacus/core';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -100,7 +100,7 @@ describe('AddressBookComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule],
+      imports: [SpinnerModule, I18nTestingModule],
       providers: [
         {
           provide: AddressBookComponentService,

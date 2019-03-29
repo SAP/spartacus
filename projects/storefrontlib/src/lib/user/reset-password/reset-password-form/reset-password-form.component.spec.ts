@@ -5,7 +5,11 @@ import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-import { UserService, RoutingService } from '@spartacus/core';
+import {
+  UserService,
+  RoutingService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
@@ -45,7 +49,7 @@ describe('ResetPasswordFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [ResetPasswordFormComponent],
       providers: [
         { provide: UserService, useClass: MockUserService },

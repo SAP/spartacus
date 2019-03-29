@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardComponent, Card, CardLinkAction } from './card.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('CardComponent', () => {
   let component: CardComponent;
@@ -11,6 +12,7 @@ describe('CardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [CardComponent],
     }).compileComponents();
   }));

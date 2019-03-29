@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, DebugElement } from '@angular/core';
 
-import { PaymentDetails, User } from '@spartacus/core';
+import { I18nTestingModule, PaymentDetails, User } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
@@ -49,6 +49,7 @@ describe('PaymentMethodsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
