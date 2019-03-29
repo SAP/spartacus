@@ -7,9 +7,9 @@ const mockProperties = {
   smartedit: {
     componentId: 'testId',
     catalogVersionUuid: 'test uuid',
-    classes: 'some classes'
+    classes: 'some classes',
   },
-  group: { prop1: 'groupProp1', prop2: 'groupProp2' }
+  group: { prop1: 'groupProp1', prop2: 'groupProp2' },
 };
 
 describe('DynamicAttributeService', () => {
@@ -18,7 +18,7 @@ describe('DynamicAttributeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DynamicAttributeService]
+      providers: [DynamicAttributeService],
     });
 
     service = TestBed.get(DynamicAttributeService);
