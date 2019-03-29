@@ -1,19 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-
+import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/component.action';
-import { CmsConfig } from '../../config/cms-config';
-import { defaultCmsModuleConfig } from '../../config/default-cms-config';
-import { OccCmsPageLoader } from '../../occ/occ-cms-page.loader';
+import { CmsComponent, PageType } from '../../../occ/occ-models/index';
 import { RoutingService } from '../../../routing/index';
-import { PageType, CmsComponent } from '../../../occ/occ-models/index';
-
+import { CmsComponentLoader } from '../../services/cms-component.loader';
+import * as fromActions from '../actions/component.action';
 import * as fromEffects from './component.effect';
 
 const router = {
@@ -32,15 +25,15 @@ class MockRoutingService {
   }
 }
 
-class MockOccCmsService {
-  loadComponent() {
+class MockCmsComponentLoader {
+  get(_uid, _pageContext): Observable<any> {
     return of({});
   }
 }
 
 describe('Component Effects', () => {
   let actions$: Observable<any>;
-  let service: OccCmsPageLoader;
+  let service: CmsComponentLoader<any>;
   let effects: fromEffects.ComponentEffects;
 
   const component: CmsComponent = {
@@ -52,15 +45,14 @@ describe('Component Effects', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
-        { provide: OccCmsPageLoader, useClass: MockOccCmsService },
-        { provide: CmsConfig, useValue: defaultCmsModuleConfig },
+        { provide: CmsComponentLoader, useClass: MockCmsComponentLoader },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    service = TestBed.get(OccCmsPageLoader);
+    service = TestBed.get(CmsComponentLoader);
     effects = TestBed.get(fromEffects.ComponentEffects);
   });
 
@@ -68,7 +60,7 @@ describe('Component Effects', () => {
     it('should return a component from LoadComponentSuccess', () => {
       const action = new fromActions.LoadComponent('comp1');
       const completion = new fromActions.LoadComponentSuccess(component);
-      spyOn(service, 'loadComponent').and.returnValue(of(component));
+      spyOn(service, 'get').and.returnValue(of(component));
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -79,9 +71,7 @@ describe('Component Effects', () => {
     it('should process only one ongoing request for multiple load component dispatches for the same uid', () => {
       const action = new fromActions.LoadComponent('comp1');
       const completion = new fromActions.LoadComponentSuccess(component);
-      spyOn(service, 'loadComponent').and.returnValue(
-        cold('---c', { c: component })
-      );
+      spyOn(service, 'get').and.returnValue(cold('---c', { c: component }));
 
       actions$ = hot('-aaa------a', { a: action });
       const expected = cold('------b------b', { b: completion });
