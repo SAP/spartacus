@@ -3,7 +3,7 @@ import {
   ElementFinder,
   by,
   element,
-  ElementArrayFinder
+  ElementArrayFinder,
 } from 'protractor';
 import { AppPage } from './app.po';
 import { E2EUtil } from '../e2e-util';

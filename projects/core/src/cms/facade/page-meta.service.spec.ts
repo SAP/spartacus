@@ -10,13 +10,13 @@ import { CmsService } from './cms.service';
 
 const mockPage: Page = {
   type: PageType.CONTENT_PAGE,
-  slots: {}
+  slots: {},
 };
 
 const anotherMockPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'template',
-  slots: {}
+  slots: {},
 };
 
 class MockCmsService {
@@ -34,13 +34,13 @@ class ContentPageResolver extends PageMetaResolver {
 
   resolve(): Observable<PageMeta> {
     return of({
-      title: 'content page title'
+      title: 'content page title',
     });
   }
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 class AnotherPageResolver extends PageMetaResolver {
   constructor(protected cms: CmsService) {
@@ -51,7 +51,7 @@ class AnotherPageResolver extends PageMetaResolver {
 
   resolve(): Observable<PageMeta> {
     return of({
-      title: 'special page title'
+      title: 'special page title',
     });
   }
 }
@@ -70,14 +70,14 @@ describe('PageTitleService', () => {
         {
           provide: PageMetaResolver,
           useExisting: ContentPageResolver,
-          multi: true
+          multi: true,
         },
         {
           provide: PageMetaResolver,
           useExisting: AnotherPageResolver,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.get(PageMetaService);

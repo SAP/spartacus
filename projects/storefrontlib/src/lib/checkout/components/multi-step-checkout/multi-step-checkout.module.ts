@@ -13,7 +13,7 @@ import {
   UrlTranslationModule,
   ConfigModule,
   CmsConfig,
-  CheckoutModule
+  CheckoutModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -29,12 +29,12 @@ import {
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' }
-      }
+        MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' },
+      },
     }),
-    CheckoutModule
+    CheckoutModule,
   ],
   declarations: [MultiStepCheckoutComponent],
-  entryComponents: [MultiStepCheckoutComponent]
+  entryComponents: [MultiStepCheckoutComponent],
 })
 export class MultiStepCheckoutModule {}

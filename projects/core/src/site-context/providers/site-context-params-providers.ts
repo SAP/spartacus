@@ -20,6 +20,6 @@ export const siteContextParamsProviders: Provider[] = [
     provide: APP_INITIALIZER,
     useFactory: initSiteContextRoutesHandler,
     deps: [SiteContextRoutesHandler],
-    multi: true
-  }
+    multi: true,
+  },
 ];

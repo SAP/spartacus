@@ -16,7 +16,7 @@ const CUSTOM_TEXT = 'customized';
     <ng-container *cxOutlet="'${OUTLET_NAME}'">
       <div id="debugEl">${STANDARD_TEXT}</div>
     </ng-container>
-  `
+  `,
 })
 class TestContainerComponent {}
 
@@ -30,9 +30,9 @@ describe('OutletDirective', () => {
       declarations: [
         TestContainerComponent,
         OutletDirective,
-        OutletRefDirective
+        OutletRefDirective,
       ],
-      providers: [OutletService]
+      providers: [OutletService],
     }).compileComponents();
   }));
 

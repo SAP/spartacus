@@ -6,6 +6,6 @@ import { UserOccModule } from './occ/user-occ.module';
 
 @NgModule({
   imports: [UserOccModule, UserStoreModule],
-  providers: [UserService]
+  providers: [UserService],
 })
 export class UserModule {}

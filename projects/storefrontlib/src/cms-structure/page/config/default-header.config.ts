@@ -7,15 +7,15 @@ export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
         typeCode: 'CMSSiteContextComponent',
         flexType: 'CMSSiteContextComponent',
         uid: 'LanguageComponent',
-        context: 'LANGUAGE'
+        context: 'LANGUAGE',
       },
       {
         typeCode: 'CMSSiteContextComponent',
         flexType: 'CMSSiteContextComponent',
         uid: 'CurrencyComponent',
-        context: 'CURRENCY'
-      }
-    ]
+        context: 'CURRENCY',
+      },
+    ],
   },
   SiteLinks: {
     components: [
@@ -23,17 +23,17 @@ export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
         typeCode: 'CMSLinkComponent',
         flexType: 'CMSLinkComponent',
         linkName: 'Find a Store',
-        url: '/store-finder'
-      }
-    ]
+        url: '/store-finder',
+      },
+    ],
   },
   BottomHeaderSlot: {
     components: [
       {
         typeCode: 'BreadcrumbComponent',
         flexType: 'BreadcrumbComponent',
-        uid: 'breadcrumbComponent'
-      }
-    ]
-  }
+        uid: 'breadcrumbComponent',
+      },
+    ],
+  },
 };

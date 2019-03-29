@@ -9,6 +9,6 @@ import { CartSharedModule } from '../../../../cart/cart-shared/cart-shared.modul
   imports: [CommonModule, CardModule, CartSharedModule],
   declarations: [ReviewSubmitComponent],
   entryComponents: [ReviewSubmitComponent],
-  exports: [ReviewSubmitComponent]
+  exports: [ReviewSubmitComponent],
 })
 export class ReviewSubmitModule {}

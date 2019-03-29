@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import {
@@ -14,7 +14,7 @@ import {
   Cart,
   DeliveryMode,
   Country,
-  PaymentDetails
+  PaymentDetails,
 } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
@@ -26,7 +26,7 @@ import { Card } from '../../../../ui/components/card/card.component';
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
   styleUrls: ['./review-submit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
   @Input()
@@ -89,8 +89,8 @@ export class ReviewSubmitComponent implements OnInit {
         this.deliveryAddress.line2,
         this.deliveryAddress.town + ', ' + region + countryName,
         this.deliveryAddress.postalCode,
-        this.deliveryAddress.phone
-      ]
+        this.deliveryAddress.phone,
+      ],
     };
   }
 
@@ -99,7 +99,7 @@ export class ReviewSubmitComponent implements OnInit {
       return {
         title: 'Shipping Method',
         textBold: this.shippingMethod,
-        text: [deliveryMode.description]
+        text: [deliveryMode.description],
       };
     }
   }
@@ -113,8 +113,8 @@ export class ReviewSubmitComponent implements OnInit {
         'Expires: ' +
           this.paymentDetails.expiryMonth +
           '/' +
-          this.paymentDetails.expiryYear
-      ]
+          this.paymentDetails.expiryYear,
+      ],
     };
   }
 }

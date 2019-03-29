@@ -43,7 +43,7 @@ export class CategoriesGenerator extends ClientGenerator {
               site,
               {
                 pageType: CommerceWebservicesV2Models.PageType.CategoryPage,
-                code: id
+                code: id,
               },
               (error, service, resource, response) => {
                 if (!error) {

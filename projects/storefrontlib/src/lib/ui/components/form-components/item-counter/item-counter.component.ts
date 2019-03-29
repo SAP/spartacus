@@ -8,12 +8,12 @@ import {
   Output,
   ViewChild,
   OnChanges,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
@@ -21,14 +21,14 @@ const COUNTER_CONTROL_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   /* tslint:disable-next-line */
   useExisting: forwardRef(() => ItemCounterComponent),
-  multi: true
+  multi: true,
 };
 
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
   styleUrls: ['./item-counter.component.scss'],
-  providers: [COUNTER_CONTROL_ACCESSOR]
+  providers: [COUNTER_CONTROL_ACCESSOR],
 })
 export class ItemCounterComponent
   implements OnInit, ControlValueAccessor, OnChanges {
@@ -56,7 +56,7 @@ export class ItemCounterComponent
 
   isValueOutOfRange = false;
   inputValue: FormControl = new FormControl({
-    disabled: this.isValueChangeable
+    disabled: this.isValueChangeable,
   });
 
   ngOnInit() {
@@ -72,12 +72,12 @@ export class ItemCounterComponent
     if (this.cartIsLoading) {
       this.inputValue.disable({
         onlySelf: true,
-        emitEvent: false
+        emitEvent: false,
       });
     } else {
       this.inputValue.enable({
         onlySelf: true,
-        emitEvent: false
+        emitEvent: false,
       });
     }
   }
@@ -123,7 +123,7 @@ export class ItemCounterComponent
   onKeyDown(event: KeyboardEvent): void {
     const handlers = {
       ArrowDown: () => this.decrement(),
-      ArrowUp: () => this.increment()
+      ArrowUp: () => this.increment(),
     };
 
     if (handlers[event.code]) {

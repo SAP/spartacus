@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
 
 const mockRoutesConfigLoader = {
-  routesConfig: { translations: { default: {} } }
+  routesConfig: { translations: { default: {} } },
 };
 
 describe('RouteRecognizerService', () => {
@@ -21,9 +21,9 @@ describe('RouteRecognizerService', () => {
         UrlParsingService,
         {
           provide: RoutesConfigLoader,
-          useValue: mockRoutesConfigLoader
-        }
-      ]
+          useValue: mockRoutesConfigLoader,
+        },
+      ],
     });
 
     loader = TestBed.get(RoutesConfigLoader);
@@ -34,7 +34,7 @@ describe('RouteRecognizerService', () => {
     function test_recognizeByDefaultUrl({
       url,
       defaultTranslations,
-      expectedResult
+      expectedResult,
     }: {
       url: string;
       defaultTranslations: RoutesTranslations;
@@ -52,9 +52,9 @@ describe('RouteRecognizerService', () => {
         url: '/path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] }
+          page2: { paths: ['path2'] },
         },
-        expectedResult: [{ name: 'page2', params: {} }]
+        expectedResult: [{ name: 'page2', params: {} }],
       });
     });
 
@@ -63,9 +63,9 @@ describe('RouteRecognizerService', () => {
         url: 'path2',
         defaultTranslations: {
           page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] }
+          page2: { paths: ['path2'] },
         },
-        expectedResult: [{ name: 'page2', params: {} }]
+        expectedResult: [{ name: 'page2', params: {} }],
       });
     });
 
@@ -74,9 +74,9 @@ describe('RouteRecognizerService', () => {
         url: 'unknown-path',
         defaultTranslations: {
           page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] }
+          page2: { paths: ['path2'] },
         },
-        expectedResult: null
+        expectedResult: null,
       });
     });
 
@@ -91,14 +91,14 @@ describe('RouteRecognizerService', () => {
                 paths: ['path2'],
                 children: {
                   page3: {
-                    paths: ['path3']
-                  }
-                }
-              }
-            }
-          }
+                    paths: ['path3'],
+                  },
+                },
+              },
+            },
+          },
         },
-        expectedResult: null
+        expectedResult: null,
       });
     });
 
@@ -107,11 +107,11 @@ describe('RouteRecognizerService', () => {
         url: 'path2/value1/value2',
         defaultTranslations: {
           page1: { paths: ['path1/:param1/:param2'] },
-          page2: { paths: ['path2/:param1/:param2'] }
+          page2: { paths: ['path2/:param1/:param2'] },
         },
         expectedResult: [
-          { name: 'page2', params: { param1: 'value1', param2: 'value2' } }
-        ]
+          { name: 'page2', params: { param1: 'value1', param2: 'value2' } },
+        ],
       });
     });
 
@@ -120,11 +120,11 @@ describe('RouteRecognizerService', () => {
         url: 'path/value1/path/value2',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
-          page2: { paths: ['path/:param1/path/:param2/:param3'] }
+          page2: { paths: ['path/:param1/path/:param2/:param3'] },
         },
         expectedResult: [
-          { name: 'page1', params: { param1: 'value1', param2: 'value2' } }
-        ]
+          { name: 'page1', params: { param1: 'value1', param2: 'value2' } },
+        ],
       });
     });
 
@@ -133,7 +133,7 @@ describe('RouteRecognizerService', () => {
         url: 'path/value1/path/value2/value3',
         defaultTranslations: {
           page1: { paths: ['path/:param1/path', 'path/:param1/path/:param2'] },
-          page2: { paths: ['path/:param1/path/:param2/:param3'] }
+          page2: { paths: ['path/:param1/path/:param2/:param3'] },
         },
         expectedResult: [
           {
@@ -141,10 +141,10 @@ describe('RouteRecognizerService', () => {
             params: {
               param1: 'value1',
               param2: 'value2',
-              param3: 'value3'
-            }
-          }
-        ]
+              param3: 'value3',
+            },
+          },
+        ],
       });
     });
 
@@ -156,15 +156,15 @@ describe('RouteRecognizerService', () => {
             paths: ['path1'],
             children: {
               page2: {
-                paths: ['path2']
-              }
-            }
-          }
+                paths: ['path2'],
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: {} },
-          { name: 'page2', params: {} }
-        ]
+          { name: 'page2', params: {} },
+        ],
       });
     });
 
@@ -179,17 +179,17 @@ describe('RouteRecognizerService', () => {
                 paths: ['path2'],
                 children: {
                   page3: {
-                    paths: ['path3']
-                  }
-                }
-              }
-            }
-          }
+                    paths: ['path3'],
+                  },
+                },
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: {} },
-          { name: 'page2', params: {} }
-        ]
+          { name: 'page2', params: {} },
+        ],
       });
     });
 
@@ -204,18 +204,18 @@ describe('RouteRecognizerService', () => {
                 paths: ['path2'],
                 children: {
                   page3: {
-                    paths: ['path3']
-                  }
-                }
-              }
-            }
-          }
+                    paths: ['path3'],
+                  },
+                },
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: {} },
           { name: 'page2', params: {} },
-          { name: 'page3', params: {} }
-        ]
+          { name: 'page3', params: {} },
+        ],
       });
     });
 
@@ -227,15 +227,15 @@ describe('RouteRecognizerService', () => {
             paths: ['path1/:param1'],
             children: {
               page2: {
-                paths: ['path2/:param2']
-              }
-            }
-          }
+                paths: ['path2/:param2'],
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: { param1: 'value1' } },
-          { name: 'page2', params: { param2: 'value2' } }
-        ]
+          { name: 'page2', params: { param2: 'value2' } },
+        ],
       });
     });
 
@@ -250,17 +250,17 @@ describe('RouteRecognizerService', () => {
                 paths: ['path2/:param2'],
                 children: {
                   page3: {
-                    paths: ['path3/:param3']
-                  }
-                }
-              }
-            }
-          }
+                    paths: ['path3/:param3'],
+                  },
+                },
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: { param1: 'value1' } },
-          { name: 'page2', params: { param2: 'value2' } }
-        ]
+          { name: 'page2', params: { param2: 'value2' } },
+        ],
       });
     });
 
@@ -275,18 +275,18 @@ describe('RouteRecognizerService', () => {
                 paths: ['path2/:param2'],
                 children: {
                   page3: {
-                    paths: ['path3/:param3']
-                  }
-                }
-              }
-            }
-          }
+                    paths: ['path3/:param3'],
+                  },
+                },
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: { param1: 'value1' } },
           { name: 'page2', params: { param2: 'value2' } },
-          { name: 'page3', params: { param3: 'value3' } }
-        ]
+          { name: 'page3', params: { param3: 'value3' } },
+        ],
       });
     });
 
@@ -301,20 +301,20 @@ describe('RouteRecognizerService', () => {
                 paths: ['path2/:param2'],
                 children: {
                   page3: {
-                    paths: ['path3/:param3']
-                  }
-                }
+                    paths: ['path3/:param3'],
+                  },
+                },
               },
               page20: {
-                paths: ['path2/:param2/path3']
-              }
-            }
-          }
+                paths: ['path2/:param2/path3'],
+              },
+            },
+          },
         },
         expectedResult: [
           { name: 'page1', params: { param1: 'value1' } },
-          { name: 'page20', params: { param2: 'value2' } }
-        ]
+          { name: 'page20', params: { param2: 'value2' } },
+        ],
       });
     });
   });

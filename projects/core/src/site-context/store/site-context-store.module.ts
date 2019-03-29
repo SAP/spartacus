@@ -14,7 +14,7 @@ import { StateConfig } from '../../state/config/state-config';
 export function siteContextStoreConfigFactory(): StateConfig {
   // if we want to reuse SITE_CONTEXT_FEATURE const in config, we have to use factory instead of plain object
   const config = {
-    state: { ssrTransfer: { keys: { [SITE_CONTEXT_FEATURE]: true } } }
+    state: { ssrTransfer: { keys: { [SITE_CONTEXT_FEATURE]: true } } },
   };
   return config;
 }
@@ -25,8 +25,8 @@ export function siteContextStoreConfigFactory(): StateConfig {
     HttpClientModule,
     StoreModule.forFeature(SITE_CONTEXT_FEATURE, reducerToken),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(siteContextStoreConfigFactory)
+    ConfigModule.withConfigFactory(siteContextStoreConfigFactory),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class SiteContextStoreModule {}
