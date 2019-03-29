@@ -114,9 +114,13 @@ describe('Checkout effect', () => {
         address: address
       });
       const completion = new fromActions.SetDeliveryAddressSuccess(address);
+      const completion2 = new fromActions.LoadSupportedDeliveryModes({
+        userId,
+        cartId
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion, c: completion2 });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
