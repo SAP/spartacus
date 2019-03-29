@@ -18,7 +18,7 @@ describe('Navigation Entry Item Reducer', () => {
     it('should populate the component state nodes', () => {
       const mockComponents: CmsComponent[] = [
         { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },
-        { uid: 'comp2', typeCode: 'SimpleBannerComponent2' }
+        { uid: 'comp2', typeCode: 'SimpleBannerComponent2' },
       ];
 
       const mockPayload = { nodeId: 'testId', components: mockComponents };
@@ -27,13 +27,13 @@ describe('Navigation Entry Item Reducer', () => {
         testId: {
           comp1_AbstractCMSComponent: {
             uid: 'comp1',
-            typeCode: 'SimpleBannerComponent1'
+            typeCode: 'SimpleBannerComponent1',
           },
           comp2_AbstractCMSComponent: {
             uid: 'comp2',
-            typeCode: 'SimpleBannerComponent2'
-          }
-        }
+            typeCode: 'SimpleBannerComponent2',
+          },
+        },
       };
 
       const { initialState } = fromComponent;

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   ProductService,
   ProductSearchService,
-  ProductReviewService
+  ProductReviewService,
 } from './facade/index';
 import { ProductStoreModule } from './store/product-store.module';
 import { ProductOccModule } from './occ/product-occ.module';
@@ -18,18 +18,18 @@ const pageTitleResolvers = [
   {
     provide: PageMetaResolver,
     useExisting: ProductPageMetaResolver,
-    multi: true
+    multi: true,
   },
   {
     provide: PageMetaResolver,
     useExisting: CategoryPageMetaResolver,
-    multi: true
+    multi: true,
   },
   {
     provide: PageMetaResolver,
     useExisting: SearchPageMetaResolver,
-    multi: true
-  }
+    multi: true,
+  },
 ];
 
 @NgModule({
@@ -38,7 +38,7 @@ const pageTitleResolvers = [
     ProductService,
     ProductSearchService,
     ProductReviewService,
-    ...pageTitleResolvers
-  ]
+    ...pageTitleResolvers,
+  ],
 })
 export class ProductModule {}

@@ -21,9 +21,9 @@ describe('ExternalJsFileLoader', () => {
         ExternalJsFileLoader,
         {
           provide: DOCUMENT,
-          useClass: DocumentMock
-        }
-      ]
+          useClass: DocumentMock,
+        },
+      ],
     });
 
     externalJsFileLoader = bed.get(ExternalJsFileLoader);

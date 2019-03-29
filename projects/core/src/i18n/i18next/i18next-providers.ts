@@ -8,6 +8,6 @@ export const i18nextProviders: Provider[] = [
     provide: APP_INITIALIZER,
     useFactory: i18nextInit,
     deps: [I18nConfig, LanguageService],
-    multi: true
-  }
+    multi: true,
+  },
 ];

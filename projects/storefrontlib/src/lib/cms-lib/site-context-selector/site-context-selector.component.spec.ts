@@ -10,7 +10,7 @@ import {
   Component,
   Language,
   contextServiceMapProvider,
-  LANGUAGE_CONTEXT_ID
+  LANGUAGE_CONTEXT_ID,
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
@@ -20,7 +20,7 @@ import { By } from '@angular/platform-browser';
 import { SiteContextComponentService } from './site-context-component.service';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -34,7 +34,7 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
 
   const mockLanguages: Language[] = [
     { active: true, isocode: 'ja', name: 'Japanese', nativeName: 'Japanese' },
-    { active: true, isocode: 'en', name: 'English', nativeName: 'English' }
+    { active: true, isocode: 'en', name: 'English', nativeName: 'English' },
   ];
 
   const mockActiveLang = 'en';
@@ -49,21 +49,21 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     },
     setActive(isocode: string): void {
       this.active = isocode;
-    }
+    },
   };
 
   const mockComponentData: CmsSiteContextSelectorComponent = {
     uid: 'LanguageComponent',
     typeCode: 'SiteContextSelectorComponent',
-    context: LANGUAGE_CONTEXT_ID
+    context: LANGUAGE_CONTEXT_ID,
   };
 
   const MockCmsService = {
-    getComponentData: () => of(mockComponentData)
+    getComponentData: () => of(mockComponentData),
   };
 
   const MockCmsComponentData = <CmsComponentData<Component>>{
-    data$: of(mockComponentData)
+    data$: of(mockComponentData),
   };
 
   beforeEach(async(() => {
@@ -74,28 +74,28 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
         { provide: CmsService, useValue: MockCmsService },
         {
           provide: LanguageService,
-          useValue: MockLanguageService
+          useValue: MockLanguageService,
         },
         {
           provide: CurrencyService,
-          useValue: {}
+          useValue: {},
         },
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData
+          useValue: MockCmsComponentData,
         },
-        contextServiceMapProvider
-      ]
+        contextServiceMapProvider,
+      ],
     })
       .overrideComponent(SiteContextSelectorComponent, {
         set: {
           providers: [
             {
               provide: SiteContextComponentService,
-              useClass: SiteContextComponentService
-            }
-          ]
-        }
+              useClass: SiteContextComponentService,
+            },
+          ],
+        },
       })
       .compileComponents();
   }));

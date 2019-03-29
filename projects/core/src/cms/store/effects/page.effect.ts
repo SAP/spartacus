@@ -10,7 +10,7 @@ import {
   switchMap,
   mergeMap,
   filter,
-  take
+  take,
 } from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';
@@ -49,7 +49,7 @@ export class PageEffects {
         mergeMap((cmsStructure: CmsStructureModel) => {
           return [
             new pageActions.LoadPageDataSuccess(pageContext, cmsStructure.page),
-            new componentActions.GetComponentFromPage(cmsStructure.components)
+            new componentActions.GetComponentFromPage(cmsStructure.components),
           ];
         }),
         catchError(error => {

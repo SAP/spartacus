@@ -2,7 +2,7 @@ import * as fromGlobalMessage from './global-message.reducer';
 import * as fromActions from './../actions/index';
 import {
   GlobalMessage,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../../models/global-message.model';
 import { GlobalMessageState, GlobalMessageAction } from '..';
 
@@ -23,7 +23,7 @@ describe('Cart reducer', () => {
 
       const mockMessage: GlobalMessage = {
         text: 'Test message',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       };
 
       const action = new fromActions.AddMessage(mockMessage);
@@ -38,13 +38,13 @@ describe('Cart reducer', () => {
     it('Should remove the message from the state by index', () => {
       const initialState: GlobalMessageState = {
         entities: {
-          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Test message']
-        }
+          [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Test message'],
+        },
       };
 
       const action = new fromActions.RemoveMessage({
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-        index: 0
+        index: 0,
       });
 
       const state = fromGlobalMessage.reducer(initialState, action);
@@ -60,8 +60,8 @@ describe('Cart reducer', () => {
       const initialState: GlobalMessageState = {
         entities: {
           [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test', 'test2'],
-          [GlobalMessageType.MSG_TYPE_ERROR]: ['test']
-        }
+          [GlobalMessageType.MSG_TYPE_ERROR]: ['test'],
+        },
       };
 
       const action = new fromActions.RemoveMessagesByType(

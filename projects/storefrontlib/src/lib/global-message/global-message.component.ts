@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  GlobalMessageEntities
+  GlobalMessageEntities,
 } from '@spartacus/core';
 
 @Component({
   selector: 'cx-global-message',
   templateUrl: './global-message.component.html',
-  styleUrls: ['./global-message.component.scss']
+  styleUrls: ['./global-message.component.scss'],
 })
 export class GlobalMessageComponent implements OnInit {
   messages$: Observable<GlobalMessageEntities>;

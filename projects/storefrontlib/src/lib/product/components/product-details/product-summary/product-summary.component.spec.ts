@@ -11,7 +11,7 @@ describe('ProductSummaryComponent in product', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AddToCartModule, FormComponentsModule],
-      declarations: [ProductSummaryComponent, OutletDirective]
+      declarations: [ProductSummaryComponent, OutletDirective],
     }).compileComponents();
   }));
 

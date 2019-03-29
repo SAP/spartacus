@@ -5,7 +5,7 @@ import { Location } from '../model';
 const location: Location = {
   geoPoint: {
     latitude: 35.528984,
-    longitude: 139.700168
+    longitude: 139.700168,
   },
 
   openingHours: {
@@ -15,92 +15,92 @@ const location: Location = {
         closingTime: {
           formattedHour: '20:00',
           hour: 8,
-          minute: 0
+          minute: 0,
         },
         openingTime: {
           formattedHour: '01:02',
           hour: 1,
-          minute: 2
+          minute: 2,
         },
         closed: false,
-        weekDay: 'Mon'
+        weekDay: 'Mon',
       },
       {
         closingTime: {
           formattedHour: '20:00',
           hour: 8,
-          minute: 0
+          minute: 0,
         },
         openingTime: {
           formattedHour: '03:04',
           hour: 3,
-          minute: 4
+          minute: 4,
         },
         closed: false,
-        weekDay: 'Tue'
+        weekDay: 'Tue',
       },
       {
         closingTime: {
           formattedHour: '20:00',
           hour: 8,
-          minute: 0
+          minute: 0,
         },
         openingTime: {
           formattedHour: '05:06',
           hour: 5,
-          minute: 6
+          minute: 6,
         },
         closed: false,
-        weekDay: 'Wed'
+        weekDay: 'Wed',
       },
       {
         closingTime: {
           formattedHour: '20:00',
           hour: 8,
-          minute: 0
+          minute: 0,
         },
         openingTime: {
           formattedHour: '07:08',
           hour: 7,
-          minute: 8
+          minute: 8,
         },
         closed: false,
-        weekDay: 'Thu'
+        weekDay: 'Thu',
       },
       {
         closingTime: {
           formattedHour: '20:00',
           hour: 8,
-          minute: 0
+          minute: 0,
         },
         openingTime: {
           formattedHour: '09:10',
           hour: 9,
-          minute: 10
+          minute: 10,
         },
         closed: false,
-        weekDay: 'Fri'
+        weekDay: 'Fri',
       },
       {
         closingTime: {
           formattedHour: '20:00',
           hour: 8,
-          minute: 0
+          minute: 0,
         },
         openingTime: {
           formattedHour: '11:12',
           hour: 11,
-          minute: 12
+          minute: 12,
         },
         closed: false,
-        weekDay: 'Sat'
+        weekDay: 'Sat',
       },
       {
         closed: true,
-        weekDay: 'Sun'
-      }
-    ]
-  }
+        weekDay: 'Sun',
+      },
+    ],
+  },
 };
 
 describe('StoreDataService', () => {
@@ -108,7 +108,7 @@ describe('StoreDataService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StoreDataService]
+      providers: [StoreDataService],
     });
 
     service = TestBed.get(StoreDataService);

@@ -1,13 +1,13 @@
 import { GlobalMessageAction } from '../actions/global-message.actions';
 import {
   GlobalMessage,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../../models/global-message.model';
 import * as fromAction from '../actions/index';
 import { GlobalMessageState } from '../global-message-state';
 
 export const initialState: GlobalMessageState = {
-  entities: {}
+  entities: {},
 };
 
 export function reducer(
@@ -23,8 +23,8 @@ export function reducer(
           ...state,
           entities: {
             ...state.entities,
-            [message.type]: [message.text]
-          }
+            [message.type]: [message.text],
+          },
         };
       } else {
         const msgs = state.entities[message.type];
@@ -34,8 +34,8 @@ export function reducer(
             ...state,
             entities: {
               ...state.entities,
-              [message.type]: [...msgs, message.text]
-            }
+              [message.type]: [...msgs, message.text],
+            },
           };
         }
       }
@@ -60,19 +60,19 @@ export function reducer(
         ...state,
         entities: {
           ...state.entities,
-          [msgType]: messages
-        }
+          [msgType]: messages,
+        },
       };
     }
 
     case fromAction.REMOVE_MESSAGES_BY_TYPE: {
       const entities = {
         ...state.entities,
-        [action.payload]: []
+        [action.payload]: [],
       };
       return {
         ...state,
-        entities
+        entities,
       };
     }
   }

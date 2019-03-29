@@ -5,7 +5,7 @@ import { OnlyNumberDirective } from './only-number.directive';
 @Component({
   template: `
     <input type="text" cxOnlyNumber value="5" />
-  `
+  `,
 })
 class TestHoverFocusComponent {}
 
@@ -15,7 +15,7 @@ describe('Directive: OnlyNumber', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestHoverFocusComponent, OnlyNumberDirective]
+      declarations: [TestHoverFocusComponent, OnlyNumberDirective],
     });
     fixture = TestBed.createComponent(TestHoverFocusComponent);
     inputEl = fixture.debugElement.query(By.css('input'));
@@ -30,7 +30,7 @@ describe('Directive: OnlyNumber', () => {
   it('should set correct value on keyup', () => {
     const event = value => ({
       key: value,
-      target: { value }
+      target: { value },
     });
 
     inputEl.triggerEventHandler('keyup', event('3'));
@@ -44,7 +44,7 @@ describe('Directive: OnlyNumber', () => {
   it('should set correct value on paste', () => {
     const event = {
       clipboardData: { getData: () => 'asd123' },
-      preventDefault: () => {}
+      preventDefault: () => {},
     };
 
     inputEl.triggerEventHandler('paste', event);
@@ -64,7 +64,7 @@ describe('Directive: OnlyNumber', () => {
     const event = value => ({
       key: value,
       target: { value },
-      preventDefault: () => {}
+      preventDefault: () => {},
     });
 
     const myEvent = event('A');
@@ -78,7 +78,7 @@ describe('Directive: OnlyNumber', () => {
     const event = value => ({
       key: value,
       target: { value },
-      preventDefault: () => {}
+      preventDefault: () => {},
     });
 
     const myEvent = event('3');

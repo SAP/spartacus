@@ -3,7 +3,7 @@ import {
   async,
   ComponentFixture,
   TestBed,
-  TestModuleMetadata
+  TestModuleMetadata,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
@@ -14,7 +14,7 @@ import {
   ComponentMapperService,
   CmsConfig,
   CxApiService,
-  ContentSlotComponentData
+  ContentSlotComponentData,
 } from '@spartacus/core';
 
 const testText = 'test text';
@@ -23,7 +23,7 @@ const testText = 'test text';
   selector: 'cx-test',
   template: `
     <div id="debugEl1">${testText}</div>
-  `
+  `,
 })
 export class TestComponent {
   constructor(
@@ -35,7 +35,7 @@ export class TestComponent {
 @NgModule({
   declarations: [TestComponent],
   entryComponents: [TestComponent],
-  exports: [TestComponent]
+  exports: [TestComponent],
 })
 export class TestModule {}
 
@@ -46,11 +46,11 @@ const MockCmsModuleConfig: CmsConfig = {
       providers: [
         {
           provide: 'testService',
-          useValue: 'testValue'
-        }
-      ]
-    }
-  }
+          useValue: 'testValue',
+        },
+      ],
+    },
+  },
 };
 
 class MockCmsService {
@@ -62,7 +62,7 @@ class MockCmsService {
 
 @Component({
   template:
-    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>'
+    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>',
 })
 class TestWrapperComponent {
   component: ContentSlotComponentData = {
@@ -70,7 +70,7 @@ class TestWrapperComponent {
     flexType: 'CMSTestComponent',
     uid: 'test_uid',
     uuid: 'test_uuid',
-    catalogUuid: 'test_catalogUuid'
+    catalogUuid: 'test_catalogUuid',
   };
 }
 
@@ -88,8 +88,8 @@ describe('ComponentWrapperDirective', () => {
         ComponentMapperService,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
-      ]
+        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
+      ],
     };
   });
 
@@ -99,7 +99,7 @@ describe('ComponentWrapperDirective', () => {
     beforeEach(async(() => {
       testBedConfig.providers.push({
         provide: PLATFORM_ID,
-        useValue: 'server'
+        useValue: 'server',
       });
       TestBed.configureTestingModule(testBedConfig).compileComponents();
     }));

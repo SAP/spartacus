@@ -7,8 +7,8 @@ import { ContentPageMetaResolver } from './content-page-meta.resolver';
     {
       provide: PageMetaResolver,
       useExisting: ContentPageMetaResolver,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CmsPageTitleModule {}

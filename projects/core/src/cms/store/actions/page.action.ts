@@ -1,7 +1,7 @@
 import {
   EntitySuccessAction,
   EntityLoadAction,
-  EntityFailAction
+  EntityFailAction,
 } from '../../../state';
 import { Page } from '../../model/page.model';
 import { PageContext } from '../../../routing/index';
