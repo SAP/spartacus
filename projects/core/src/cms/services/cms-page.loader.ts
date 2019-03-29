@@ -27,7 +27,7 @@ export abstract class CmsPageLoader<T> {
    *
    * @param pageContext The `PageContext` holding the page Id.
    */
-  abstract load(_pageContext: PageContext): Observable<T>;
+  abstract load(pageContext: PageContext): Observable<T>;
 
   /**
    * Returns an observable with the page structure. The page structure is
