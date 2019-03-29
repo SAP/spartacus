@@ -126,32 +126,46 @@ export abstract class CmsStructureConfigService {
     ) {
       slots = this.cmsDataConfig.cmsStructure.slots;
     }
+
     if (slots) {
       for (const position of Object.keys(slots)) {
         if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
           // the global slot isn't yet part of the page structure
           pageStructure.page.slots[position] = {
-            uid: position,
-            components: []
+            uid: position
           };
 
           if (!pageStructure.components) {
             pageStructure.components = [];
           }
-          for (const componentId of slots[position].componentIds) {
-            const c = this.cmsDataConfig.cmsStructure.components[componentId];
-            pageStructure.page.slots[position].components.push(
-              Object.assign(
-                { uid: componentId },
-                {
-                  flexType: c.flexType,
-                  typeCode: c.typeCode
+          if (slots[position] && slots[position].componentIds) {
+            for (const componentId of slots[position].componentIds) {
+              if (
+                this.cmsDataConfig.cmsStructure &&
+                this.cmsDataConfig.cmsStructure.components
+              ) {
+                const c = this.cmsDataConfig.cmsStructure.components[
+                  componentId
+                ];
+                if (c) {
+                  if (!pageStructure.page.slots[position].components) {
+                    pageStructure.page.slots[position].components = [];
+                  }
+                  pageStructure.page.slots[position].components.push(
+                    Object.assign(
+                      { uid: componentId },
+                      {
+                        flexType: c.flexType,
+                        typeCode: c.typeCode
+                      }
+                    )
+                  );
+                  pageStructure.components.push(
+                    Object.assign(Object.assign({ uid: componentId }, c))
+                  );
                 }
-              )
-            );
-            pageStructure.components.push(
-              Object.assign(Object.assign({ uid: componentId }, c))
-            );
+              }
+            }
           }
         }
       }

@@ -50,11 +50,7 @@ describe('CmsStructureConfigService', () => {
       pageId: 'cartPage',
       slots: {
         EmptyCartMiddleContent: {
-          componentIds: [
-            {
-              flexType: 'CMSParagraphComponent'
-            }
-          ]
+          componentIds: ['CMSParagraphComponent']
         }
       }
     };
@@ -75,13 +71,15 @@ describe('CmsStructureConfigService', () => {
 
     const globalSlotConfig: CmsStructureConfig = {
       cmsStructure: {
+        components: {
+          CMSLinkComponent: {
+            flexType: 'CMSLinkComponent',
+            typeCode: 'CMSLinkComponent'
+          }
+        },
         slots: {
           GobalSlot: {
-            componentIds: [
-              {
-                typeCode: 'CMSLinkComponent'
-              }
-            ]
+            componentIds: ['CMSLinkComponent']
           }
         },
         pages: [cartPageConfig, ingoredPageConfig, pageWithGobalSlotConfig]
