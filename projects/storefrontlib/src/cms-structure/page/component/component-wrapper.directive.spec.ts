@@ -3,7 +3,7 @@ import {
   Inject,
   NgModule,
   PLATFORM_ID,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import {
   async,
@@ -21,10 +21,7 @@ import {
   CmsConfig,
   CxApiService,
   ContentSlotComponentData,
-<<<<<<< HEAD
-  DynamicAttributeService
-=======
->>>>>>> develop
+  DynamicAttributeService,
 } from '@spartacus/core';
 
 const testText = 'test text';
@@ -85,9 +82,9 @@ class TestWrapperComponent {
     uid: 'test_uid',
     properties: {
       smartedit: {
-        test: 'test'
-      }
-    }
+        test: 'test',
+      },
+    },
   };
 }
 
@@ -110,10 +107,10 @@ describe('ComponentWrapperDirective', () => {
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: DynamicAttributeService,
-          useClass: MockDynamicAttributeService
+          useClass: MockDynamicAttributeService,
         },
-        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
-      ]
+        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
+      ],
     };
   });
 
@@ -190,8 +187,8 @@ describe('ComponentWrapperDirective', () => {
         ).toHaveBeenCalledWith(
           {
             smartedit: {
-              test: 'test'
-            }
+              test: 'test',
+            },
           },
           compEl,
           renderer
@@ -214,8 +211,8 @@ describe('ComponentWrapperDirective', () => {
         ).not.toHaveBeenCalledWith(
           {
             smartedit: {
-              test: 'test'
-            }
+              test: 'test',
+            },
           },
           compEl,
           renderer
