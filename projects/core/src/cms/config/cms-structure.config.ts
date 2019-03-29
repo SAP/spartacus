@@ -1,5 +1,5 @@
-import { CmsConfig } from './cms-config';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
+import { CmsConfig } from './cms-config';
 
 /**
  * The `CmsPageConfig` is used to build pages by configuration.
@@ -54,7 +54,7 @@ export interface CmsPageSlotsConfig {
  */
 export interface CmsPageSlotConfig {
   uid?: string;
-  components?: (ContentSlotComponentData | any)[];
+  componentIds?: string[];
 }
 
 /**
@@ -66,6 +66,7 @@ export interface CmsPageSlotConfig {
  */
 export abstract class CmsStructureConfig extends CmsConfig {
   cmsStructure: {
+    components?: { [key: string]: ContentSlotComponentData | any };
     pages?: CmsPageConfig[];
     slots?: CmsPageSlotsConfig;
   };
