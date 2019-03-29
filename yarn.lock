@@ -172,7 +172,7 @@
   dependencies:
     tslib "^1.9.0"
 
-"@angular/compiler-cli@7.3.7":
+"@angular/compiler-cli@7.2.11":
   version "7.2.11"
   resolved "https://registry.yarnpkg.com/@angular/compiler-cli/-/compiler-cli-7.2.11.tgz#0835a17dd9cea4bb03c5073d943a5074fed539ff"
   integrity sha512-JlyJcRdD0oltKbFKGA83g4+vitF4e7ReqAHYTGbNTDIicWhCXYwwGAqj0HYAUHsv9KnP9F5ojZOJ7FRIN7mPgw==
