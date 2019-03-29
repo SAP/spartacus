@@ -1,5 +1,5 @@
-import * as productSearchFlow from '../../../helpers/product-search';
-import { formats } from '../../../sample-data/viewports';
+import * as productSearchFlow from '../../helpers/product-search';
+import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
   cy.get('cx-searchbox [aria-label="Search "]').click();
