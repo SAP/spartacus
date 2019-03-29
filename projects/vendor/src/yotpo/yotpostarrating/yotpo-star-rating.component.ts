@@ -12,15 +12,15 @@ export class YotpostarratingComponent implements OnInit, AfterViewInit {
   product$: Observable<Product>;
 
   constructor(
-    protected YotpoService: YotpoService,
+    protected yotpoService: YotpoService,
     protected elementRef: ElementRef
   ) {}
 
   ngOnInit() {
-    this.product$ = this.YotpoService.getProduct();
+    this.product$ = this.yotpoService.getProduct();
   }
 
   ngAfterViewInit() {
-    this.YotpoService.addYotpoInitWidgetsScript(this.elementRef);
+    this.yotpoService.addYotpoInitWidgetsScript(this.elementRef);
   }
 }
