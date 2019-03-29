@@ -119,6 +119,7 @@ export abstract class CmsStructureConfigService {
     pageStructure: CmsStructureModel,
     slots?: CmsPageSlotsConfig
   ): Observable<CmsStructureModel> {
+    // if no slots have been given, we use the global configured slots
     if (
       !slots &&
       this.cmsDataConfig.cmsStructure &&
@@ -127,49 +128,56 @@ export abstract class CmsStructureConfigService {
       slots = this.cmsDataConfig.cmsStructure.slots;
     }
 
-    if (slots) {
-      for (const position of Object.keys(slots)) {
-        if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
-          // the global slot isn't yet part of the page structure
-          pageStructure.page.slots[position] = {
-            uid: position
-          };
+    if (!slots) {
+      return of(pageStructure);
+    }
 
+    for (const position of Object.keys(slots)) {
+      if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
+        // the global slot isn't yet part of the page structure
+        pageStructure.page.slots[position] = {
+          uid: position
+        };
+
+        for (const c of this.getComponentsByPosition(slots, position)) {
+          if (!pageStructure.page.slots[position].components) {
+            pageStructure.page.slots[position].components = [];
+          }
+          pageStructure.page.slots[position].components.push({
+            uid: c.uid,
+            flexType: c.flexType,
+            typeCode: c.typeCode
+          });
           if (!pageStructure.components) {
             pageStructure.components = [];
           }
-          if (slots[position] && slots[position].componentIds) {
-            for (const componentId of slots[position].componentIds) {
-              if (
-                this.cmsDataConfig.cmsStructure &&
-                this.cmsDataConfig.cmsStructure.components
-              ) {
-                const c = this.cmsDataConfig.cmsStructure.components[
-                  componentId
-                ];
-                if (c) {
-                  if (!pageStructure.page.slots[position].components) {
-                    pageStructure.page.slots[position].components = [];
-                  }
-                  pageStructure.page.slots[position].components.push(
-                    Object.assign(
-                      { uid: componentId },
-                      {
-                        flexType: c.flexType,
-                        typeCode: c.typeCode
-                      }
-                    )
-                  );
-                  pageStructure.components.push(
-                    Object.assign(Object.assign({ uid: componentId }, c))
-                  );
-                }
-              }
-            }
+
+          pageStructure.components.push(c);
+        }
+      }
+    }
+
+    return of(pageStructure);
+  }
+
+  private getComponentsByPosition(
+    slots: CmsPageSlotsConfig,
+    position: string
+  ): ContentSlotComponentData[] {
+    const components = [];
+    if (slots[position] && slots[position].componentIds) {
+      for (const componentId of slots[position].componentIds) {
+        if (
+          this.cmsDataConfig.cmsStructure &&
+          this.cmsDataConfig.cmsStructure.components
+        ) {
+          const c = this.cmsDataConfig.cmsStructure.components[componentId];
+          if (c) {
+            components.push(Object.assign({ uid: componentId }, c));
           }
         }
       }
     }
-    return of(pageStructure);
+    return components;
   }
 }
