@@ -49,7 +49,7 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-primary"
-            [disabled]="!selectedAddress"
+            [disabled]="!selectedAddress || !selectedAddress.id"
             (click)="next()"
           >
             Continue
