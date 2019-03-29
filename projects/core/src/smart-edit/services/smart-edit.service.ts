@@ -9,7 +9,7 @@ import { Page } from '../../cms/model/page.model';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmartEditService {
   private _cmsTicketId: string;

@@ -6,10 +6,10 @@ export const initialState: CheckoutStepsState = {
   address: {},
   deliveryMode: {
     supported: {},
-    selected: ''
+    selected: '',
   },
   paymentDetails: {},
-  orderDetails: {}
+  orderDetails: {},
 };
 
 export function reducer(
@@ -23,7 +23,7 @@ export function reducer(
 
       return {
         ...state,
-        address
+        address,
       };
     }
 
@@ -37,11 +37,11 @@ export function reducer(
         (modes: { [code: string]: DeliveryMode }, mode: DeliveryMode) => {
           return {
             ...modes,
-            [mode.code]: mode
+            [mode.code]: mode,
           };
         },
         {
-          ...state.deliveryMode.supported
+          ...state.deliveryMode.supported,
         }
       );
 
@@ -49,8 +49,8 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          supported
-        }
+          supported,
+        },
       };
     }
 
@@ -61,8 +61,8 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          selected
-        }
+          selected,
+        },
       };
     }
 
@@ -70,7 +70,7 @@ export function reducer(
     case fromAction.SET_PAYMENT_DETAILS_SUCCESS: {
       return {
         ...state,
-        paymentDetails: action.payload
+        paymentDetails: action.payload,
       };
     }
 
@@ -79,7 +79,7 @@ export function reducer(
       if (paymentDetails['hasError']) {
         return {
           ...state,
-          paymentDetails
+          paymentDetails,
         };
       }
 
@@ -91,7 +91,7 @@ export function reducer(
 
       return {
         ...state,
-        orderDetails
+        orderDetails,
       };
     }
 
@@ -105,7 +105,7 @@ export function reducer(
         case 1: {
           return {
             ...state,
-            address: {}
+            address: {},
           };
         }
 
@@ -115,15 +115,15 @@ export function reducer(
             deliveryMode: {
               ...state.deliveryMode,
               supported: {},
-              selected: ''
-            }
+              selected: '',
+            },
           };
         }
 
         case 3: {
           return {
             ...state,
-            paymentDetails: {}
+            paymentDetails: {},
           };
         }
       }
@@ -137,8 +137,8 @@ export function reducer(
         ...state,
         deliveryMode: {
           ...state.deliveryMode,
-          supported: {}
-        }
+          supported: {},
+        },
       };
     }
   }

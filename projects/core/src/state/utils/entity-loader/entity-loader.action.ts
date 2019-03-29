@@ -6,7 +6,7 @@ import {
   LoaderMeta,
   loadMeta,
   resetMeta,
-  successMeta
+  successMeta,
 } from '../loader/loader.action';
 
 export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
@@ -27,7 +27,7 @@ export function entityLoadMeta(
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -38,7 +38,7 @@ export function entityFailMeta(
 ): EntityLoaderMeta {
   return {
     ...failMeta(entityType, error),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -48,7 +48,7 @@ export function entitySuccessMeta(
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -58,7 +58,7 @@ export function entityResetMeta(
 ): EntityLoaderMeta {
   return {
     ...resetMeta(entityType),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 

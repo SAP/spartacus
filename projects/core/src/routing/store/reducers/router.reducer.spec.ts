@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 
 import {
   RouterStateSerializer,
-  StoreRouterConnectingModule
+  StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import * as fromNgrxRouter from '@ngrx/router-store';
@@ -17,7 +17,7 @@ import * as fromReducer from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
-  template: 'test-cmp'
+  template: 'test-cmp',
 })
 class TestComponent {}
 
@@ -38,7 +38,7 @@ describe('Router Reducer', () => {
           {
             path: 'cmsPage',
             component: TestComponent,
-            data: { pageLabel: 'testPageLabel' }
+            data: { pageLabel: 'testPageLabel' },
           },
           {
             path: 'dynamically-created',
@@ -47,21 +47,21 @@ describe('Router Reducer', () => {
             data: {
               cxCmsRouteContext: {
                 type: PageType.CONTENT_PAGE,
-                id: 'explicit'
-              }
-            }
+                id: 'explicit',
+              },
+            },
           },
-          { path: '**', component: TestComponent }
+          { path: '**', component: TestComponent },
         ]),
-        StoreRouterConnectingModule
+        StoreRouterConnectingModule,
       ],
       providers: [
         fromReducer.reducerProvider,
         {
           provide: RouterStateSerializer,
-          useClass: fromReducer.CustomSerializer
-        }
-      ]
+          useClass: fromReducer.CustomSerializer,
+        },
+      ],
     });
 
     zone = TestBed.get(NgZone);
@@ -105,14 +105,14 @@ describe('Router Reducer', () => {
           queryParams: {},
           params: {},
           context: { id: 'homepage' },
-          cmsRequired: true
+          cmsRequired: true,
         },
         event: {
           id: 1,
           url: '/',
-          urlAfterRedirects: '/'
-        }
-      }
+          urlAfterRedirects: '/',
+        },
+      },
     };
 
     it(`should not clear redirect URL if user is at
@@ -122,7 +122,7 @@ describe('Router Reducer', () => {
 
       const action = {
         ...templateAction,
-        type: fromNgrxRouter.ROUTER_NAVIGATION
+        type: fromNgrxRouter.ROUTER_NAVIGATION,
       };
 
       action.payload.routerState.url = '/login';
@@ -151,7 +151,7 @@ describe('Router Reducer', () => {
         const { initialState } = fromReducer;
         const action = {
           ...templateAction,
-          type: fromNgrxRouter.ROUTER_NAVIGATION
+          type: fromNgrxRouter.ROUTER_NAVIGATION,
         };
         const state = fromReducer.reducer(initialState, action);
         expect(state.state).toBe(action.payload.routerState);
@@ -163,7 +163,7 @@ describe('Router Reducer', () => {
         const { initialState } = fromReducer;
         const action = {
           ...templateAction,
-          type: fromNgrxRouter.ROUTER_ERROR
+          type: fromNgrxRouter.ROUTER_ERROR,
         };
         const state = fromReducer.reducer(initialState, action);
         expect(state.state).toBe(action.payload.routerState);
@@ -175,7 +175,7 @@ describe('Router Reducer', () => {
         const { initialState } = fromReducer;
         const action = {
           ...templateAction,
-          type: fromNgrxRouter.ROUTER_CANCEL
+          type: fromNgrxRouter.ROUTER_CANCEL,
         };
         const state = fromReducer.reducer(initialState, action);
         expect(state.state).toBe(action.payload.routerState);
@@ -195,7 +195,7 @@ describe('Router Reducer', () => {
       queryParams: {},
       params: {},
       context: { id: 'homepage', type: PageType.CONTENT_PAGE },
-      cmsRequired: false
+      cmsRequired: false,
     });
 
     await zone.run(() => router.navigateByUrl('category/1234'));
@@ -204,7 +204,7 @@ describe('Router Reducer', () => {
       queryParams: {},
       params: { categoryCode: '1234' },
       context: { id: '1234', type: PageType.CATEGORY_PAGE },
-      cmsRequired: false
+      cmsRequired: false,
     });
 
     await zone.run(() => router.navigateByUrl('product/1234'));
@@ -213,7 +213,7 @@ describe('Router Reducer', () => {
       queryParams: {},
       params: { productCode: '1234' },
       context: { id: '1234', type: PageType.PRODUCT_PAGE },
-      cmsRequired: false
+      cmsRequired: false,
     });
   });
 
@@ -230,7 +230,7 @@ describe('Router Reducer', () => {
       await zone.run(() => router.navigateByUrl('/customCmsPage'));
       expect(context).toEqual({
         id: '/customCmsPage',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       });
     });
 
@@ -238,7 +238,7 @@ describe('Router Reducer', () => {
       await zone.run(() => router.navigateByUrl('/custom-cms/page'));
       expect(context).toEqual({
         id: '/custom-cms/page',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       });
     });
 
@@ -246,7 +246,7 @@ describe('Router Reducer', () => {
       await zone.run(() => router.navigateByUrl('/cmsPage'));
       expect(context).toEqual({
         id: 'testPageLabel',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       });
     });
 

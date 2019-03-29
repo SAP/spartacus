@@ -12,11 +12,11 @@ import { PipeTransform, Pipe } from '@angular/core';
 import {
   GoogleMapRendererService,
   StoreFinderService,
-  StoreDataService
+  StoreDataService,
 } from '@spartacus/core';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -26,8 +26,8 @@ const storeId = 'shop_new_york_1';
 
 const mockActivatedRoute = {
   snapshot: {
-    params: {}
-  }
+    params: {},
+  },
 };
 
 class MapRendererServiceMock {
@@ -60,15 +60,15 @@ describe('StoreFinderStoreDescriptionComponent', () => {
         ScheduleComponent,
         StoreFinderMapComponent,
         MockTranslateUrlPipe,
-        SpinnerComponent
+        SpinnerComponent,
       ],
       providers: [
         StoreDataService,
         { provide: StoreDataService, useClass: StoreDataServiceMock },
         { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
-      ]
+        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock },
+      ],
     }).compileComponents();
   }));
 
@@ -83,7 +83,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   it('should call storeFinderService with store id', () => {
     route.snapshot.params = {
-      store: storeId
+      store: storeId,
     };
     fixture.detectChanges();
 

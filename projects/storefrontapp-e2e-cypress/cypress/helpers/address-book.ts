@@ -10,13 +10,13 @@ export const newAddress: ShippingAddressData = {
     line1: 'xxx1',
     line2: 'xxx2',
     postal: '21000',
-    state: 'Quebec'
-  }
+    state: 'Quebec',
+  },
 };
 export const editedAddress: ShippingAddressData = {
   ...newAddress,
   firstName: 'Baz',
-  lastName: 'Qux'
+  lastName: 'Qux',
 };
 
 export const assertAddressForm = (address: ShippingAddressData): void => {
@@ -80,7 +80,7 @@ export function addSecondAddress() {
   const secondAddress = {
     ...newAddress,
     firstName: 'N',
-    lastName: 'Z'
+    lastName: 'Z',
   };
   cy.get('button')
     .contains(' Add new address ')

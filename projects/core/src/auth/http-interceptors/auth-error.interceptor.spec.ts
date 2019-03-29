@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
   HttpClientTestingModule,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
 import {
   HTTP_INTERCEPTORS,
@@ -10,7 +10,7 @@ import {
   HttpHandler,
   HttpRequest,
   HttpHeaders,
-  HttpParams
+  HttpParams,
 } from '@angular/common/http';
 
 import { throwError, Observable, of } from 'rxjs';
@@ -58,22 +58,22 @@ describe('AuthErrorInterceptor', () => {
       providers: [
         {
           provide: UserErrorHandlingService,
-          useClass: MockUserErrorHandlingService
+          useClass: MockUserErrorHandlingService,
         },
         {
           provide: ClientErrorHandlingService,
-          useClass: MockClientErrorHandlingService
+          useClass: MockClientErrorHandlingService,
         },
         {
           provide: AuthService,
-          useClass: MockAuthService
+          useClass: MockAuthService,
         },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthErrorInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     userErrorHandlingService = TestBed.get(UserErrorHandlingService);
@@ -96,7 +96,7 @@ describe('AuthErrorInterceptor', () => {
     (http: HttpClient) => {
       const headers = new HttpHeaders().set(USE_CLIENT_TOKEN, 'true');
       const options = {
-        headers
+        headers,
       };
       http.get('/test', options).subscribe(result => {
         expect(result).toBeTruthy();
@@ -110,9 +110,9 @@ describe('AuthErrorInterceptor', () => {
           errors: [
             {
               type: 'InvalidTokenError',
-              message: 'Invalid access token: some token'
-            }
-          ]
+              message: 'Invalid access token: some token',
+            },
+          ],
         },
         { status: 401, statusText: 'Error' }
       );
@@ -138,9 +138,9 @@ describe('AuthErrorInterceptor', () => {
           errors: [
             {
               type: 'InvalidTokenError',
-              message: 'Invalid access token: some token'
-            }
-          ]
+              message: 'Invalid access token: some token',
+            },
+          ],
         },
         { status: 401, statusText: 'Error' }
       );
@@ -164,7 +164,7 @@ describe('AuthErrorInterceptor', () => {
       mockReq.flush(
         {
           error: 'invalid_token',
-          error_description: 'Invalid refresh token (expired): 1234567890'
+          error_description: 'Invalid refresh token (expired): 1234567890',
         },
         { status: 401, statusText: 'Error' }
       );
@@ -180,7 +180,7 @@ describe('AuthErrorInterceptor', () => {
       .set('refresh_token', 'some_token')
       .set('grant_type', 'refresh_token'); // authorization_code, client_credentials, password
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     spyOn(authService, 'logout').and.stub();

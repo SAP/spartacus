@@ -14,7 +14,7 @@ class ActivatedRouteMock {
   queryParams = {
     subscribe: (observer: Function) => {
       this.paramsSubscriptionHandler = observer;
-    }
+    },
   };
 }
 const queryText = 'query-text';
@@ -22,7 +22,7 @@ const queryText = 'query-text';
 const mockStoreFinderService = {
   getStoresLoading: jasmine.createSpy(),
   getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
-  findStoresAction: jasmine.createSpy().and.returnValue(of({}))
+  findStoresAction: jasmine.createSpy().and.returnValue(of({})),
 };
 
 describe('StoreFinderListComponent', () => {
@@ -38,8 +38,8 @@ describe('StoreFinderListComponent', () => {
       declarations: [StoreFinderSearchResultComponent],
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },
-        { provide: ActivatedRoute, useClass: ActivatedRouteMock }
-      ]
+        { provide: ActivatedRoute, useClass: ActivatedRouteMock },
+      ],
     }).compileComponents();
   }));
 
@@ -66,7 +66,7 @@ describe('StoreFinderListComponent', () => {
   it('should find stores with my geolocation', () => {
     // given component is called with quuery-text params
     activatedRoute.paramsSubscriptionHandler({
-      useMyLocation: 'true'
+      useMyLocation: 'true',
     });
 
     // then verify storefinder
@@ -78,12 +78,12 @@ describe('StoreFinderListComponent', () => {
     const pageNumber = 4;
     component.searchQuery = {
       queryText: '',
-      useMyLocation: true
+      useMyLocation: true,
     };
 
     component.geolocation = {
       longitude: 0,
-      latitude: 0
+      latitude: 0,
     };
 
     // when

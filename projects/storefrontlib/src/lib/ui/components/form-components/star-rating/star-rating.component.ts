@@ -3,7 +3,7 @@ import {
   Component,
   Input,
   ChangeDetectionStrategy,
-  forwardRef
+  forwardRef,
 } from '@angular/core';
 
 @Component({
@@ -15,9 +15,9 @@ import {
     {
       provide: NG_VALUE_ACCESSOR,
       multi: true,
-      useExisting: forwardRef(() => StarRatingComponent)
-    }
-  ]
+      useExisting: forwardRef(() => StarRatingComponent),
+    },
+  ],
 })
 export class StarRatingComponent implements ControlValueAccessor {
   @Input()

@@ -7,7 +7,7 @@ import { ProductTabsOutlets } from '../../../product-outlets.model';
 @Component({
   selector: 'cx-product-tabs',
   templateUrl: './product-tabs.component.html',
-  styleUrls: ['./product-tabs.component.scss']
+  styleUrls: ['./product-tabs.component.scss'],
 })
 export class ProductTabsComponent implements OnInit {
   static outlets = ProductTabsOutlets;
@@ -53,7 +53,7 @@ export class ProductTabsComponent implements OnInit {
         tab.scrollIntoView({
           behavior: 'smooth',
           block: 'start',
-          inline: 'nearest'
+          inline: 'nearest',
         });
       }
     } else {

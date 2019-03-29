@@ -2,7 +2,7 @@ import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
 import {
   SiteContextState,
   SITE_CONTEXT_FEATURE,
-  StateWithSiteContext
+  StateWithSiteContext,
 } from '../state';
 
 export const getSiteContextState: MemoizedSelector<

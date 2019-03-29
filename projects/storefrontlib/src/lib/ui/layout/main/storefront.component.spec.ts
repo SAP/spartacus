@@ -5,31 +5,31 @@ import { StorefrontComponent } from './storefront.component';
 
 @Component({
   selector: 'cx-header',
-  template: ''
+  template: '',
 })
 class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-global-message',
-  template: ''
+  template: '',
 })
 class MockGlobalMessagerComponent {}
 
 @Component({
   selector: 'cx-page-slot',
-  template: ''
+  template: '',
 })
 class DynamicSlotComponent {}
 
 @Component({
   selector: 'cx-footer',
-  template: ''
+  template: '',
 })
 class MockFooterComponent {}
 
 @Component({
   selector: 'cx-page-layout',
-  template: ''
+  template: '',
 })
 class MockPageLayoutComponent {}
 
@@ -46,8 +46,8 @@ describe('StorefrontComponent', () => {
         MockGlobalMessagerComponent,
         MockFooterComponent,
         DynamicSlotComponent,
-        MockPageLayoutComponent
-      ]
+        MockPageLayoutComponent,
+      ],
     }).compileComponents();
   }));
 

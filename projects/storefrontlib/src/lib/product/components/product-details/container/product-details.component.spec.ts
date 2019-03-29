@@ -21,7 +21,7 @@ class MockCurrentProductService {
 
 @Component({
   selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>'
+  template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
   @Input()
@@ -34,7 +34,7 @@ export class MockAddToCartComponent {
 
 @Component({
   selector: 'cx-product-images',
-  template: 'product-images.component'
+  template: 'product-images.component',
 })
 export class MockProductImagesComponent {
   @Input()
@@ -43,7 +43,7 @@ export class MockProductImagesComponent {
 
 @Component({
   selector: 'cx-product-summary',
-  template: 'product-summary.component'
+  template: 'product-summary.component',
 })
 export class MockProductSummaryComponent {
   @Input() product: any;
@@ -62,14 +62,14 @@ describe('ProductDetailsComponent in product', () => {
         MockProductImagesComponent,
         MockProductSummaryComponent,
         MockAddToCartComponent,
-        OutletDirective
+        OutletDirective,
       ],
       providers: [
         {
           provide: CurrentProductService,
-          useClass: MockCurrentProductService
-        }
-      ]
+          useClass: MockCurrentProductService,
+        },
+      ],
     }).compileComponents();
   }));
 

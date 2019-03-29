@@ -16,17 +16,17 @@ export function reducer(
           (compItems: { [uid_type: string]: any }, component: any) => {
             return {
               ...compItems,
-              [`${component.uid}_AbstractCMSComponent`]: component
+              [`${component.uid}_AbstractCMSComponent`]: component,
             };
           },
           {
-            ...{}
+            ...{},
           }
         );
 
         return {
           ...state,
-          ...newItem
+          ...newItem,
         };
       }
     }
