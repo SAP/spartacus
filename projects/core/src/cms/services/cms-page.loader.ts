@@ -85,7 +85,7 @@ export abstract class CmsPageLoader<T> {
     pageContext: PageContext,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
-    return this.cmsStructureConfigService.mergeConfig(
+    return this.cmsStructureConfigService.mergePageStructure(
       pageContext.id,
       pageStructure
     );

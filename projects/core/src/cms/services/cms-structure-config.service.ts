@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  CmsStructureConfig,
-  CmsPageConfig,
-  CmsPageSlotsConfig
-} from '../config/cms-structure.config';
-import { CmsStructureModel } from '../model/page.model';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import {
+  CmsPageConfig,
+  CmsPageSlotsConfig,
+  CmsStructureConfig
+} from '../config/cms-structure.config';
+import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
+import { CmsStructureModel } from '../model/page.model';
 
 /**
  * Service that provides access to CMS structure from a static
@@ -28,7 +29,7 @@ export abstract class CmsStructureConfigService {
    * can either hold complete page structures or global structures that
    * might apply to all pages (such has header coponents).
    */
-  mergeConfig(
+  mergePageStructure(
     pageId: string,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
@@ -48,7 +49,21 @@ export abstract class CmsStructureConfigService {
    */
   shouldIgnoreBackend(pageId: string): Observable<boolean> {
     return this.getPageFromConfig(pageId).pipe(
-      map(page => page && !!page.ignoreBackend)
+      map(page => !!page && !!page.ignoreBackend)
+    );
+  }
+
+  /**
+   * returns an Obserable component data from the static configuration.
+   */
+  getComponentFromConfig(
+    componentId: string
+  ): Observable<ContentSlotComponentData | any> {
+    return of(
+      this.cmsDataConfig.cmsStructure &&
+        this.cmsDataConfig.cmsStructure.components
+        ? this.cmsDataConfig.cmsStructure.components[componentId]
+        : null
     );
   }
 
@@ -114,18 +129,29 @@ export abstract class CmsStructureConfigService {
     if (slots) {
       for (const position of Object.keys(slots)) {
         if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
-          // add slot
-          pageStructure.page.slots[position] = slots[position];
-          pageStructure.page.slots[position].uid = position;
+          // the global slot isn't yet part of the page structure
+          pageStructure.page.slots[position] = {
+            uid: position,
+            components: []
+          };
 
-          // add slot components
           if (!pageStructure.components) {
             pageStructure.components = [];
           }
-          if (slots[position].components) {
-            slots[position].components.forEach(c => {
-              pageStructure.components.push(c);
-            });
+          for (const componentId of slots[position].componentIds) {
+            const c = this.cmsDataConfig.cmsStructure.components[componentId];
+            pageStructure.page.slots[position].components.push(
+              Object.assign(
+                { uid: componentId },
+                {
+                  flexType: c.flexType,
+                  typeCode: c.typeCode
+                }
+              )
+            );
+            pageStructure.components.push(
+              Object.assign(Object.assign({ uid: componentId }, c))
+            );
           }
         }
       }

@@ -33,9 +33,11 @@ describe('CmsStructureConfigService', () => {
 
     it('should return page as-is', () => {
       let result: CmsStructureModel;
-      service.mergeConfig('mockPage', mockPageStructure).subscribe(res => {
-        result = res;
-      });
+      service
+        .mergePageStructure('mockPage', mockPageStructure)
+        .subscribe(res => {
+          result = res;
+        });
 
       expect(result).toEqual(mockPageStructure);
     });
@@ -48,7 +50,7 @@ describe('CmsStructureConfigService', () => {
       pageId: 'cartPage',
       slots: {
         EmptyCartMiddleContent: {
-          components: [
+          componentIds: [
             {
               flexType: 'CMSParagraphComponent'
             }
@@ -75,7 +77,7 @@ describe('CmsStructureConfigService', () => {
       cmsStructure: {
         slots: {
           GobalSlot: {
-            components: [
+            componentIds: [
               {
                 typeCode: 'CMSLinkComponent'
               }
@@ -113,9 +115,11 @@ describe('CmsStructureConfigService', () => {
 
     it('should merge global slots and page slots', () => {
       let result: CmsStructureModel;
-      service.mergeConfig('cartPage', mockPageStructure).subscribe(res => {
-        result = res;
-      });
+      service
+        .mergePageStructure('cartPage', mockPageStructure)
+        .subscribe(res => {
+          result = res;
+        });
 
       expect(Object.keys(result.page.slots)).toContain(
         'EmptyCartMiddleContent'
@@ -127,7 +131,7 @@ describe('CmsStructureConfigService', () => {
     it('should add global slots to empty page', () => {
       let result: CmsStructureModel;
       service
-        .mergeConfig('nonExistingPage', mockPageStructure)
+        .mergePageStructure('nonExistingPage', mockPageStructure)
         .subscribe(res => (result = res));
 
       expect(Object.keys(result.page.slots)).toContain('GobalSlot');
@@ -137,7 +141,7 @@ describe('CmsStructureConfigService', () => {
     it('should not add global slots if slots are allready defined by page', () => {
       let result: CmsStructureModel;
       service
-        .mergeConfig('hasGobalSlot', mockPageStructure)
+        .mergePageStructure('hasGobalSlot', mockPageStructure)
         .subscribe(res => (result = res));
 
       expect(Object.keys(result.page.slots['GobalSlot'])).not.toContain(
