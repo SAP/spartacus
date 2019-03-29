@@ -5,11 +5,11 @@ export const defaultLayoutConfig: LayoutConfig = {
     xs: 576,
     sm: 768,
     md: 992,
-    lg: 1200
+    lg: 1200,
   },
   layoutSlots: {
     footer: {
-      slots: ['Footer']
+      slots: ['Footer'],
     },
     LandingPage2Template: {
       slots: [
@@ -19,25 +19,25 @@ export const defaultLayoutConfig: LayoutConfig = {
         'Section2C',
         'Section3',
         'Section4',
-        'Section5'
-      ]
+        'Section5',
+      ],
     },
     ContentPage1Template: {
-      slots: ['Section2A', 'Section2B']
+      slots: ['Section2A', 'Section2B'],
     },
     CategoryPageTemplate: {
-      slots: ['Section1', 'Section2', 'Section3']
+      slots: ['Section1', 'Section2', 'Section3'],
     },
     ProductListPageTemplate: {
-      slots: ['ProductListSlot', 'ProductLeftRefinements']
+      slots: ['ProductListSlot', 'ProductLeftRefinements'],
     },
     SearchResultsListPageTemplate: {
       slots: [
         'Section2',
         'SearchResultsListSlot',
         'ProductLeftRefinements',
-        'Section4'
-      ]
+        'Section4',
+      ],
     },
     ProductDetailsPageTemplate: {
       slots: [
@@ -47,29 +47,29 @@ export const defaultLayoutConfig: LayoutConfig = {
         'UpSelling',
         'CrossSelling',
         'Tabs',
-        'PlaceholderContentSlot'
-      ]
+        'PlaceholderContentSlot',
+      ],
     },
     CartPageTemplate: {
-      slots: ['TopContent', 'CenterRightContentSlot', 'EmptyCartMiddleContent']
+      slots: ['TopContent', 'CenterRightContentSlot', 'EmptyCartMiddleContent'],
     },
     AccountPageTemplate: {
-      slots: ['BodyContent', 'SideContent']
+      slots: ['BodyContent', 'SideContent'],
     },
     LoginPageTemplate: {
-      slots: ['LeftContentSlot', 'RightContentSlot']
+      slots: ['LeftContentSlot', 'RightContentSlot'],
     },
     ErrorPageTemplate: {
-      slots: ['TopContent', 'MiddleContent', 'BottomContent']
+      slots: ['TopContent', 'MiddleContent', 'BottomContent'],
     },
     OrderConfirmationPageTemplate: {
-      slots: ['BodyContent', 'SideContent']
+      slots: ['BodyContent', 'SideContent'],
     },
     MultiStepCheckoutSummaryPageTemplate: {
-      slots: ['BodyContent', 'SideContent']
+      slots: ['BodyContent', 'SideContent'],
     },
     CheckoutLoginPageTemplate: {
-      slots: ['RightContentSlot']
-    }
-  }
+      slots: ['RightContentSlot'],
+    },
+  },
 };

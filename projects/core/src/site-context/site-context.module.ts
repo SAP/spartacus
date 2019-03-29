@@ -16,20 +16,20 @@ import { interceptors } from './occ/index';
     ConfigModule.withConfigFactory(defaultSiteContextConfigFactory),
     StateModule,
     SiteContextOccModule,
-    SiteContextStoreModule
+    SiteContextStoreModule,
   ],
   providers: [
     contextServiceMapProvider,
     ...contextServiceProviders,
     ...siteContextParamsProviders,
-    { provide: SiteContextConfig, useExisting: Config }
-  ]
+    { provide: SiteContextConfig, useExisting: Config },
+  ],
 })
 export class SiteContextModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SiteContextModule,
-      providers: [...interceptors]
+      providers: [...interceptors],
     };
   }
 }

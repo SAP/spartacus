@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 
 import {
   GlobalMessage,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../models/global-message.model';
 import {
   GlobalMessageEntities,
@@ -13,7 +13,7 @@ import {
   getGlobalMessageEntities,
   AddMessage,
   RemoveMessage,
-  RemoveMessagesByType
+  RemoveMessagesByType,
 } from '../store/index';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class GlobalMessageService {
       this.store.dispatch(
         new RemoveMessage({
           type: type,
-          index: index
+          index: index,
         })
       );
     } else {

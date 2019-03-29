@@ -14,12 +14,12 @@ import { ProductReviewsLoaderService } from './product-reviews.service';
     CommonModule,
     HttpClientModule,
     OccModule,
-    ConfigModule.withConfig(defaultOccProductConfig)
+    ConfigModule.withConfig(defaultOccProductConfig),
   ],
   providers: [
     ProductLoaderService,
     ProductSearchLoaderService,
-    ProductReviewsLoaderService
-  ]
+    ProductReviewsLoaderService,
+  ],
 })
 export class ProductOccModule {}

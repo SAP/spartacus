@@ -17,23 +17,23 @@ export const defaultStorefrontRoutesTranslations: {
     orderConfirmation: { paths: ['order-confirmation'] },
     product: {
       paths: ['product/:productCode'],
-      paramsMapping: { productCode: 'code' }
+      paramsMapping: { productCode: 'code' },
     },
     category: {
       paths: ['category/:categoryCode'],
-      paramsMapping: { categoryCode: 'code' }
+      paramsMapping: { categoryCode: 'code' },
     },
     brand: { paths: ['Brands/:brandName/c/:brandCode'] },
     termsAndConditions: { paths: ['termsAndConditions'] },
     orders: { paths: ['my-account/orders'] },
     orderDetails: {
       paths: ['my-account/orders/:orderCode'],
-      paramsMapping: { orderCode: 'code' }
+      paramsMapping: { orderCode: 'code' },
     },
     addressBook: { paths: ['my-account/address-book'] },
     paymentManagement: { paths: ['my-account/payment-details'] },
-    pageNotFound: { paths: ['notFound'] }
+    pageNotFound: { paths: ['notFound'] },
   },
 
-  en: {} as any
+  en: {} as any,
 };

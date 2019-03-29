@@ -12,7 +12,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -44,8 +44,8 @@ class MockGlobalMessageService {
 class MockActivatedRoute {
   snapshot = {
     queryParams: {
-      forced: false
-    }
+      forced: false,
+    },
   };
 }
 
@@ -64,8 +64,8 @@ describe('LoginFormComponent', () => {
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: ActivatedRoute, useClass: MockActivatedRoute }
-      ]
+        { provide: ActivatedRoute, useClass: MockActivatedRoute },
+      ],
     }).compileComponents();
   }));
 

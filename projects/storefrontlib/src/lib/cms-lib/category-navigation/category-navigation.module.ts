@@ -21,15 +21,15 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
             {
               provide: NavigationComponentService,
               useClass: NavigationComponentService,
-              deps: [CmsService, CmsComponentData]
-            }
-          ]
-        }
-      }
-    })
+              deps: [CmsService, CmsComponentData],
+            },
+          ],
+        },
+      },
+    }),
   ],
   declarations: [CategoryNavigationComponent],
   entryComponents: [CategoryNavigationComponent],
-  exports: [CategoryNavigationComponent]
+  exports: [CategoryNavigationComponent],
 })
 export class CategoryNavigationModule {}

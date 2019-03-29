@@ -7,7 +7,7 @@ import {
   CmsComponent,
   CmsComponentList,
   CMSPage,
-  PageType
+  PageType,
 } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config/cms-structure.config';
@@ -55,8 +55,8 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     return this.http.get(this.getBaseEndPoint() + `/pages`, {
       headers: this.headers,
       params: new HttpParams({
-        fromString: httpStringParams
-      })
+        fromString: httpStringParams,
+      }),
     });
   }
 
@@ -69,8 +69,8 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
       .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: this.getRequestParams(pageContext, fields)
-        })
+          fromString: this.getRequestParams(pageContext, fields),
+        }),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
@@ -100,8 +100,8 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
       .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: requestParams
-        })
+          fromString: requestParams,
+        }),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }

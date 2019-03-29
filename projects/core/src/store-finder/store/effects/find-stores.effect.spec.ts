@@ -18,8 +18,8 @@ import * as fromEffects from './find-stores.effect';
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
-  }
+    occPrefix: '',
+  },
 };
 
 describe('FindStores Effects', () => {
@@ -29,7 +29,7 @@ describe('FindStores Effects', () => {
   let searchConfig: StoreFinderSearchConfig;
   const longitudeLatitude: LongitudeLatitude = {
     longitude: 10.1,
-    latitude: 20.2
+    latitude: 20.2,
   };
 
   const singleStoreResult = {};
@@ -42,8 +42,8 @@ describe('FindStores Effects', () => {
         OccStoreFinderService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.FindStoresEffect,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(OccStoreFinderService);
@@ -58,7 +58,7 @@ describe('FindStores Effects', () => {
     it('should return searchResult from FindStoresSuccess', () => {
       const action = new fromActions.FindStores({
         queryText: 'test',
-        searchConfig
+        searchConfig,
       });
       const completion = new fromActions.FindStoresSuccess(searchResult);
 
@@ -88,7 +88,7 @@ describe('FindStores Effects', () => {
       const action = new fromActions.FindStores({
         queryText: '',
         longitudeLatitude,
-        searchConfig
+        searchConfig,
       });
       const completion = new fromActions.FindStoresSuccess(searchResult);
 

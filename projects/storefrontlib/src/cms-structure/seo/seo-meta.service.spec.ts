@@ -9,7 +9,7 @@ class MockPageMetaService {
     return of(<PageMeta>{
       title: 'Test title',
       description: 'Test description',
-      robots: [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW]
+      robots: [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW],
     });
   }
 }
@@ -28,8 +28,8 @@ describe('SeoTitleService', () => {
         SeoMetaService,
         Title,
         Meta,
-        { provide: PageMetaService, useClass: MockPageMetaService }
-      ]
+        { provide: PageMetaService, useClass: MockPageMetaService },
+      ],
     });
 
     seoMetaService = TestBed.get(SeoMetaService);
@@ -52,7 +52,7 @@ describe('SeoTitleService', () => {
     seoMetaService.init();
     expect(incrementSpy).toHaveBeenCalledWith({
       name: 'description',
-      content: 'Test description'
+      content: 'Test description',
     });
   });
 
@@ -61,7 +61,7 @@ describe('SeoTitleService', () => {
     seoMetaService.init();
     expect(incrementSpy).toHaveBeenCalledWith({
       name: 'robots',
-      content: 'INDEX, FOLLOW'
+      content: 'INDEX, FOLLOW',
     });
   });
 });

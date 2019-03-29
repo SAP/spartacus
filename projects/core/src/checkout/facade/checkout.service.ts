@@ -13,7 +13,7 @@ import {
   Order,
   DeliveryMode,
   AddressValidation,
-  Address
+  Address,
 } from '../../occ/occ-models/index';
 
 @Injectable()
@@ -100,7 +100,7 @@ export class CheckoutService {
         new fromCheckoutStore.AddDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          address: address
+          address: address,
         })
       );
     }
@@ -114,7 +114,7 @@ export class CheckoutService {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.LoadSupportedDeliveryModes({
           userId: this.cartData.userId,
-          cartId: this.cartData.cartId
+          cartId: this.cartData.cartId,
         })
       );
     }
@@ -130,7 +130,7 @@ export class CheckoutService {
         new fromCheckoutStore.SetDeliveryMode({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          selectedModeId: mode
+          selectedModeId: mode,
         })
       );
     }
@@ -153,7 +153,7 @@ export class CheckoutService {
         new fromCheckoutStore.CreatePaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          paymentDetails
+          paymentDetails,
         })
       );
     }
@@ -167,7 +167,7 @@ export class CheckoutService {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.PlaceOrder({
           userId: this.cartData.userId,
-          cartId: this.cartData.cartId
+          cartId: this.cartData.cartId,
         })
       );
     }
@@ -182,7 +182,7 @@ export class CheckoutService {
       this.checkoutStore.dispatch(
         new fromCheckoutStore.VerifyAddress({
           userId: this.cartData.userId,
-          address
+          address,
         })
       );
     }
@@ -198,7 +198,7 @@ export class CheckoutService {
         new fromCheckoutStore.SetDeliveryAddress({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
-          address: address
+          address: address,
         })
       );
     }
@@ -214,7 +214,7 @@ export class CheckoutService {
         new fromCheckoutStore.SetPaymentDetails({
           userId: this.cartData.userId,
           cartId: this.cartData.cart.code,
-          paymentDetails: paymentDetails
+          paymentDetails: paymentDetails,
         })
       );
     }

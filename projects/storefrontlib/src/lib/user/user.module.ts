@@ -24,7 +24,7 @@ import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
     UrlTranslationModule,
     RegisterComponentModule,
     ResetPasswordModule,
-    ForgotPasswordModule
-  ]
+    ForgotPasswordModule,
+  ],
 })
 export class UserComponentModule {}

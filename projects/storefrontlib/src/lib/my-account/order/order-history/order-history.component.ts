@@ -5,7 +5,7 @@ import {
   RoutingService,
   UserService,
   OrderHistoryList,
-  Order
+  Order,
 } from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
-  styleUrls: ['./order-history.component.scss']
+  styleUrls: ['./order-history.component.scss'],
 })
 export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
@@ -33,7 +33,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   sortType: string;
   sortLabels = {
     byDate: 'Date',
-    byOrderNumber: 'Order Number'
+    byOrderNumber: 'Order Number',
   };
 
   ngOnInit() {
@@ -66,7 +66,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   changeSortCode(sortCode: string): void {
     const event: { sortCode: string; currentPage: number } = {
       sortCode,
-      currentPage: 0
+      currentPage: 0,
     };
     this.sortType = sortCode;
     this.fetchOrders(event);
@@ -75,14 +75,14 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
   pageChange(page: number): void {
     const event: { sortCode: string; currentPage: number } = {
       sortCode: this.sortType,
-      currentPage: page
+      currentPage: page,
     };
     this.fetchOrders(event);
   }
 
   goToOrderDetail(order: Order): void {
     this.routing.go({
-      route: [{ name: 'orderDetails', params: order }]
+      route: [{ name: 'orderDetails', params: order }],
     });
   }
 

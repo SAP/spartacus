@@ -11,7 +11,7 @@ export class StoreDataService {
     3: 'Wed',
     4: 'Thu',
     5: 'Fri',
-    6: 'Sat'
+    6: 'Sat',
   };
 
   /**

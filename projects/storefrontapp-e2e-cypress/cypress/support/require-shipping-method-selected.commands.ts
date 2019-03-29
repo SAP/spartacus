@@ -27,8 +27,8 @@ Cypress.Commands.add('requireShippingMethodSelected', auth => {
       }`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`
-      }
+        Authorization: `bearer ${auth.userToken.token.access_token}`,
+      },
     });
   }
 

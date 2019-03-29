@@ -18,9 +18,9 @@ describe('Product Reviews selectors', () => {
       id: '8796130902065',
       principal: {
         name: 'Ken Reviewer',
-        uid: 'keenreviewer2@hybris.com'
+        uid: 'keenreviewer2@hybris.com',
       },
-      rating: 3
+      rating: 3,
     },
     {
       comment: 'Lorem ipsum 2',
@@ -28,10 +28,10 @@ describe('Product Reviews selectors', () => {
       id: '123456789',
       principal: {
         name: 'Kenneth Reviewer',
-        uid: 'keenreviewer1@hybris.com'
+        uid: 'keenreviewer1@hybris.com',
       },
-      rating: 5
-    }
+      rating: 5,
+    },
   ];
 
   let store: Store<StateWithProduct>;
@@ -40,8 +40,8 @@ describe('Product Reviews selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('products', fromStore.getReducers())
-      ]
+        StoreModule.forFeature('products', fromStore.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);

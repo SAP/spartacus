@@ -7,13 +7,13 @@ import { TestBed } from '@angular/core/testing';
 
 import {
   GlobalMessage,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../../models/global-message.model';
 import {
   GLOBAL_MESSAGE_FEATURE,
   StateWithGlobalMessage,
   GlobalMessageState,
-  GlobalMessageEntities
+  GlobalMessageEntities,
 } from '../global-message-state';
 
 describe('Global Messages selectors', () => {
@@ -21,7 +21,7 @@ describe('Global Messages selectors', () => {
 
   const testMessage: GlobalMessage = {
     text: 'test',
-    type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+    type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
   };
 
   beforeEach(() => {
@@ -31,8 +31,8 @@ describe('Global Messages selectors', () => {
         StoreModule.forFeature(
           GLOBAL_MESSAGE_FEATURE,
           fromReducers.getReducers()
-        )
-      ]
+        ),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -64,7 +64,7 @@ describe('Global Messages selectors', () => {
       store.dispatch(new fromActions.AddMessage(testMessage));
 
       expect(result).toEqual({
-        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test']
+        [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['test'],
       });
     });
   });

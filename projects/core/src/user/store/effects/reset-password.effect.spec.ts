@@ -28,8 +28,8 @@ describe('', () => {
       providers: [
         ResetPasswordEffects,
         { provide: OccUserService, useClass: MockOccUserService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(ResetPasswordEffects);
@@ -42,12 +42,12 @@ describe('', () => {
     it('should be able to reset password', () => {
       const action = new fromActions.ResetPassword({
         token: 'teset token',
-        password: 'test password'
+        password: 'test password',
       });
       const completion1 = new fromActions.ResetPasswordSuccess();
       const completion2 = new AddMessage({
         text: 'Success! You can now login using your new password.',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 
       actions$ = hot('-a', { a: action });

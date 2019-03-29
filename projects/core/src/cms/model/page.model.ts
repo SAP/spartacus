@@ -60,5 +60,5 @@ export enum PageRobotsMeta {
   INDEX = 'INDEX',
   NOINDEX = 'NOINDEX',
   FOLLOW = 'FOLLOW',
-  NOFOLLOW = 'NOFOLLOW'
+  NOFOLLOW = 'NOFOLLOW',
 }

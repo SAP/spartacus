@@ -18,8 +18,8 @@ const routes: Routes = [
     path: null,
     canActivate: [AuthGuard, CmsPageGuard, OrderConfirmationPageGuard],
     component: OrderConfirmationPageComponent,
-    data: { pageLabel: 'orderConfirmationPage', cxPath: 'orderConfirmation' }
-  }
+    data: { pageLabel: 'orderConfirmationPage', cxPath: 'orderConfirmation' },
+  },
 ];
 
 @NgModule({
@@ -28,10 +28,10 @@ const routes: Routes = [
     OrderConfirmationModule,
     PageLayoutModule,
     OutletRefModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   providers: [OrderConfirmationPageGuard],
   declarations: [OrderConfirmationPageComponent],
-  exports: [OrderConfirmationPageComponent]
+  exports: [OrderConfirmationPageComponent],
 })
 export class OrderConfirmationPageModule {}

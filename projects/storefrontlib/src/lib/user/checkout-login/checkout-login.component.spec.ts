@@ -7,7 +7,7 @@ describe('CheckoutLoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CheckoutLoginComponent]
+      declarations: [CheckoutLoginComponent],
     }).compileComponents();
   }));
 
