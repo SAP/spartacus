@@ -1,5 +1,5 @@
-import * as productSearchPricingFlow from '../../../helpers/product-search-pricing-flow';
-import { formats } from '../../../sample-data/viewports';
+import * as productSearchPricingFlow from '../../helpers/product-search-pricing-flow';
+import { formats } from '../../sample-data/viewports';
 
 function clickHamburger() {
   cy.get('cx-header [aria-label="Menu"]').click();
