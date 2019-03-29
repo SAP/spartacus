@@ -18,6 +18,8 @@ import {
   Title,
   Country
 } from '../../occ/occ-models/index';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 
 import { UserService } from './user.service';
 
@@ -29,7 +31,11 @@ describe('UserService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers())
+        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        )
       ],
       providers: [UserService]
     });
