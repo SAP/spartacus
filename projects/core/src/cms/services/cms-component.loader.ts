@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../occ/occ-models/index';
@@ -16,7 +16,7 @@ import { CmsStructureConfigService } from './cms-structure-config.service';
 export abstract class CmsComponentLoader<T> {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsComponentAdapter<T>
+    @Optional() protected adapter: CmsComponentAdapter<T>
   ) {}
 
   /**

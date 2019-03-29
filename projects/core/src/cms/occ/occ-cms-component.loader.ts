@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CmsComponent, PageType } from '../../occ/occ-models/index';
@@ -18,7 +18,7 @@ export class OccCmsComponentLoader extends CmsComponentLoader<any> {
     private http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsComponentAdapter<CmsComponent>,
+    @Optional() protected adapter: CmsComponentAdapter<CmsComponent>,
     private occEndpoints: OccEndpointsService
   ) {
     super(cmsStructureConfigService, adapter);
