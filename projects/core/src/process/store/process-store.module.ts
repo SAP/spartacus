@@ -10,6 +10,6 @@ import { reducerToken, reducerProvider } from './reducers/index';
 
 @NgModule({
   imports: [StateModule, StoreModule.forFeature(PROCESS_FEATURE, reducerToken)],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class ProcessStoreModule {}

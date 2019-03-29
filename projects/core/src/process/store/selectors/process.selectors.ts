@@ -6,7 +6,7 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderLoadingSelector,
   loaderSuccessSelector,
-  loaderErrorSelector
+  loaderErrorSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getProcessState } from './feature.selector';
