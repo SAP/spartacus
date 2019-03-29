@@ -3,7 +3,7 @@
 @include checkout-media-style();
 
 .cx-shipping-address-card {
-  padding-bottom: var(--cxpadding, 30px);
+  padding-bottom: var(--cx-padding, 30px);
 
   .cx-shipping-address-card-inner {
     height: var(--cx-height, 100%);
