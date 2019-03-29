@@ -48,7 +48,7 @@ export abstract class CmsStructureConfigService {
    */
   shouldIgnoreBackend(pageId: string): Observable<boolean> {
     return this.getPageFromConfig(pageId).pipe(
-      map(page => page && page.ignoreBackend)
+      map(page => page && !!page.ignoreBackend)
     );
   }
 
@@ -57,7 +57,7 @@ export abstract class CmsStructureConfigService {
    */
   private getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
     return of(
-      this.cmsDataConfig.cmsStructure.pages
+      this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
         ? this.cmsDataConfig.cmsStructure.pages.find(p => p.pageId === pageId)
         : null
     );
