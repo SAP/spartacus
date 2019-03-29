@@ -8,7 +8,7 @@ import { StoreDataService, StoreFinderService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-store-description',
   templateUrl: './store-finder-store-description.component.html',
-  styleUrls: ['./store-finder-store-description.component.scss']
+  styleUrls: ['./store-finder-store-description.component.scss'],
 })
 export class StoreFinderStoreDescriptionComponent
   extends AbstractStoreItemComponent

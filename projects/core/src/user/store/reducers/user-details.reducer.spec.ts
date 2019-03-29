@@ -20,7 +20,7 @@ describe('User Details Reducer', () => {
         firstName: 'First',
         lastName: 'Last',
         name: 'First Last',
-        uid: 'UID'
+        uid: 'UID',
       };
 
       const { initialState } = fromUserDetailsReducer;

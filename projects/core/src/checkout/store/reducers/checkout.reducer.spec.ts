@@ -24,7 +24,7 @@ describe('Checkout reducer', () => {
         line1: 'Toyosaki 2 create on cart',
         town: 'Montreal',
         postalCode: 'L6M1P9',
-        country: { isocode: 'CA' }
+        country: { isocode: 'CA' },
       };
 
       const { initialState } = fromCheckout;
@@ -52,12 +52,12 @@ describe('Checkout reducer', () => {
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
       const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
       };
 
       const entities = {
         code1: modes.deliveryModes[0],
-        code2: modes.deliveryModes[1]
+        code2: modes.deliveryModes[1],
       };
 
       const { initialState } = fromCheckout;
@@ -84,7 +84,7 @@ describe('Checkout reducer', () => {
     it('should create payment details for cart', () => {
       const { initialState } = fromCheckout;
       const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails'
+        id: 'mockPaymentDetails',
       };
 
       const createPaymentDetailsAction = new fromActions.CreatePaymentDetailsSuccess(
@@ -122,7 +122,7 @@ describe('Checkout reducer', () => {
     it('should place order', () => {
       const { initialState } = fromCheckout;
       const orderDetails: Order = {
-        code: 'testOrder123'
+        code: 'testOrder123',
       };
 
       const action = new fromActions.PlaceOrderSuccess(orderDetails);

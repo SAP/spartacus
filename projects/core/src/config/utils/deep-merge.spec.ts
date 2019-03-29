@@ -12,7 +12,7 @@ describe('deepMerge utility', () => {
     const a = {
       a: 'val a',
       b: 'val b',
-      c: { d: { f: 'val f', h: 'val h' }, e: 'val e' }
+      c: { d: { f: 'val f', h: 'val h' }, e: 'val e' },
     };
     const b = { c: { d: { f: 'override' } } };
     const merged = deepMerge(a, b);
@@ -20,7 +20,7 @@ describe('deepMerge utility', () => {
       jasmine.objectContaining({
         a: 'val a',
         b: 'val b',
-        c: { d: { f: 'override', h: 'val h' }, e: 'val e' }
+        c: { d: { f: 'override', h: 'val h' }, e: 'val e' },
       })
     );
   });

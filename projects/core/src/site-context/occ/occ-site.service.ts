@@ -6,7 +6,7 @@ import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OccSiteService {
   constructor(

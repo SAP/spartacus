@@ -8,7 +8,7 @@ import { LanguageService, CurrencyService } from '../site-context/index';
 import {
   ProductService,
   ProductSearchService,
-  ProductReviewService
+  ProductReviewService,
 } from '../product/index';
 import { TranslationService } from '../i18n/translation.service';
 
@@ -45,8 +45,8 @@ describe('CxApiService', () => {
         { provide: ProductService, useClass: MockProductService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
         { provide: ProductReviewService, useClass: MockProductReviewService },
-        { provide: TranslationService, useClass: MockTranslationService }
-      ]
+        { provide: TranslationService, useClass: MockTranslationService },
+      ],
     });
 
     authService = TestBed.get(AuthService);

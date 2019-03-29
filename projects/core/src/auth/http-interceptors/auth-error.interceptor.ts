@@ -3,7 +3,7 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpEvent,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
 
@@ -15,7 +15,7 @@ import { ClientErrorHandlingService } from '../services/client-error/client-erro
 import { UserErrorHandlingService } from '../services/user-error/user-error-handling.service';
 import {
   InterceptorUtil,
-  USE_CLIENT_TOKEN
+  USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';

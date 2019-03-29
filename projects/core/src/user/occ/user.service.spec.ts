@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { OccUserService } from './user.service';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import {
   User,
@@ -10,7 +10,7 @@ import {
   AddressValidation,
   AddressList,
   PaymentDetails,
-  PaymentDetailsList
+  PaymentDetailsList,
 } from '../../occ/occ-models/index';
 import { OccConfig } from '../../occ/config/occ-config';
 
@@ -19,7 +19,7 @@ const password = '1234';
 
 const user: User = {
   customerId: username,
-  displayUid: password
+  displayUid: password,
 };
 const endpoint = '/users';
 const addressVerificationEndpoint = '/addresses/verification';
@@ -32,12 +32,12 @@ const updatePasswordEndpoint = '/password';
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
-    baseSite: ''
-  }
+    baseSite: '',
+  },
 };
 
 fdescribe('OccUserService', () => {
@@ -49,8 +49,8 @@ fdescribe('OccUserService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccUserService);
@@ -81,10 +81,10 @@ fdescribe('OccUserService', () => {
     it('should load address verification results for given user id and address', () => {
       const address: Address = {
         companyName: 'ACME',
-        defaultAddress: true
+        defaultAddress: true,
       };
       const suggestedAddresses: AddressValidation = {
-        suggestedAddresses: [address]
+        suggestedAddresses: [address],
       };
 
       service.verifyAddress(username, address).subscribe(result => {
@@ -107,13 +107,13 @@ fdescribe('OccUserService', () => {
   describe('load user addresses', () => {
     it('should load user addresses for a given user id', () => {
       const mockAddress1: Address = {
-        companyName: 'mockCompany1'
+        companyName: 'mockCompany1',
       };
       const mockAddress2: Address = {
-        companyName: 'mockCompany2'
+        companyName: 'mockCompany2',
       };
       const mockUserAddresses: AddressList = {
-        addresses: [mockAddress1, mockAddress2]
+        addresses: [mockAddress1, mockAddress2],
       };
 
       service.loadUserAddresses(username).subscribe(result => {
@@ -136,13 +136,13 @@ fdescribe('OccUserService', () => {
   describe('load user payment methods', () => {
     it('should load user payment methods for a given user id', () => {
       const mockPayment1: PaymentDetails = {
-        accountHolderName: 'mockAccountHolderName1'
+        accountHolderName: 'mockAccountHolderName1',
       };
       const mockPayment2: PaymentDetails = {
-        accountHolderName: 'mockAccountHolderName2'
+        accountHolderName: 'mockAccountHolderName2',
       };
       const mockUserPaymentMethods: PaymentDetailsList = {
-        payments: [mockPayment1, mockPayment2]
+        payments: [mockPayment1, mockPayment2],
       };
 
       service.loadUserPaymentMethods(username).subscribe(result => {
@@ -167,7 +167,7 @@ fdescribe('OccUserService', () => {
     it('should set default payment method for given user', () => {
       const mockPayment: PaymentDetails = {
         defaultPayment: true,
-        id: '123'
+        id: '123',
       };
 
       service
@@ -194,7 +194,7 @@ fdescribe('OccUserService', () => {
   describe('delete user payment method', () => {
     it('should delete payment method for given user', () => {
       const mockPayment: PaymentDetails = {
-        id: '123'
+        id: '123',
       };
 
       service
@@ -250,7 +250,7 @@ fdescribe('OccUserService', () => {
       expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
       expect(mockReq.request.body).toEqual({
         token: 'test token',
-        newPassword: 'new password'
+        newPassword: 'new password',
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

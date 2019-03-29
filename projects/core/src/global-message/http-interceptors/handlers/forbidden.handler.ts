@@ -4,7 +4,7 @@ import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ForbiddenHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.FORBIDDEN;
@@ -12,7 +12,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'You are not authorized to perform this action.'
+      text: 'You are not authorized to perform this action.',
     });
   }
 }

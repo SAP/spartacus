@@ -5,6 +5,6 @@ export const defaultStoreFinderConfig: StoreFinderConfig = {
     apiUrl: 'https://maps.googleapis.com/maps/api/js',
     apiKey: '',
     scale: 12,
-    selectedMarkerScale: 16
-  }
+    selectedMarkerScale: 16,
+  },
 };

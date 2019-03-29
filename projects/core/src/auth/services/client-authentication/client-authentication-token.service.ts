@@ -27,7 +27,7 @@ export class ClientAuthenticationTokenService {
       .set('grant_type', 'client_credentials');
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
     return this.http
       .post<ClientToken>(url, params, { headers })

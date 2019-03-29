@@ -12,8 +12,8 @@ describe('ClientToken Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('auth', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('auth', fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);

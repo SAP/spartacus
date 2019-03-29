@@ -8,6 +8,6 @@ import { DeliveryModeComponent } from './delivery-mode.component';
   imports: [CommonModule, ReactiveFormsModule],
   declarations: [DeliveryModeComponent],
   entryComponents: [DeliveryModeComponent],
-  exports: [DeliveryModeComponent]
+  exports: [DeliveryModeComponent],
 })
 export class DeliveryModeModule {}

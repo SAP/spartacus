@@ -11,7 +11,7 @@ export function getReducers(): ActionReducerMap<ProductsState> {
   return {
     search: fromProductsSearch.reducer,
     details: entityLoaderReducer<Product>(PRODUCT_DETAIL_ENTITY),
-    reviews: fromProductReviews.reducer
+    reviews: fromProductReviews.reducer,
   };
 }
 
@@ -21,7 +21,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearProductsState(

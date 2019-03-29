@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { PaginationModel } from '@spartacus/core';
 
@@ -14,7 +14,7 @@ import { PaginationModel } from '@spartacus/core';
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class PaginationComponent implements OnInit {
   @Input()

@@ -12,8 +12,8 @@ import { OnlyNumberDirective } from './../../directives/only-number/only-number.
   declarations: [
     StarRatingComponent,
     ItemCounterComponent,
-    OnlyNumberDirective
+    OnlyNumberDirective,
   ],
-  exports: [StarRatingComponent, ItemCounterComponent]
+  exports: [StarRatingComponent, ItemCounterComponent],
 })
 export class FormComponentsModule {}
