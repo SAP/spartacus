@@ -1,18 +1,20 @@
-import { TestBed } from '@angular/core/testing';
-import { OccUserService } from './user.service';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+
+import { OccConfig } from '../../occ/config/occ-config';
 import {
-  User,
   Address,
-  AddressValidation,
   AddressList,
+  AddressValidation,
   PaymentDetails,
   PaymentDetailsList,
+  User,
 } from '../../occ/occ-models/index';
-import { OccConfig } from '../../occ/config/occ-config';
+
+import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -40,7 +42,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-fdescribe('OccUserService', () => {
+describe('OccUserService', () => {
   let service: OccUserService;
   let httpMock: HttpTestingController;
 
