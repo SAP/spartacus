@@ -4,8 +4,8 @@ import { CheckoutService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-class MockCheckoutService {
-  placeOrder: () => {};
+const checkoutServiceStub = {
+  placeOrder(): void {}
 }
 
 @Pipe({
@@ -27,7 +27,7 @@ fdescribe('PlaceOrderComponent', () => {
         PlaceOrderComponent
       ],
       providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService}
+        { provide: CheckoutService, useValue: checkoutServiceStub}
       ]
     }).compileComponents();
   }));
@@ -39,5 +39,11 @@ fdescribe('PlaceOrderComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  })
+  });
+
+  it('should bla', () => {
+    spyOn(checkoutServiceStub, 'placeOrder');
+    expect(component).toBeTruthy();
+  });
+
 });
