@@ -9,7 +9,7 @@ import {
   filter,
   mergeMap,
   take,
-  groupBy
+  groupBy,
 } from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';

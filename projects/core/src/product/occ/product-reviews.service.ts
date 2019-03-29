@@ -21,7 +21,7 @@ export class ProductReviewsLoaderService {
 
   post(productCode: string, review: any): Observable<Review> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     const body = new URLSearchParams();
@@ -39,7 +39,7 @@ export class ProductReviewsLoaderService {
     return this.occEndpoints.getUrl(
       'productReviews',
       {
-        productCode: code
+        productCode: code,
       },
       { maxCount }
     );

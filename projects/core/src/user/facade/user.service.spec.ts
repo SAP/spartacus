@@ -1,22 +1,19 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { StoreModule, Store } from '@ngrx/store';
-
+import { inject, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
+import {
+  Address,
+  Country,
+  Order,
+  OrderHistoryList,
+  PaymentDetails,
+  PaymentDetailsList,
+  Region,
+  Title,
+  User,
+} from '../../occ/occ-models/index';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
-import {
-  Address,
-  Order,
-  User,
-  PaymentDetailsList,
-  Region,
-  OrderHistoryList,
-  PaymentDetails,
-  Title,
-  Country
-} from '../../occ/occ-models/index';
-
 import { UserService } from './user.service';
 
 describe('UserService', () => {
@@ -27,9 +24,9 @@ describe('UserService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers())
+        StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
       ],
-      providers: [UserService]
+      providers: [UserService],
     });
 
     store = TestBed.get(Store);
@@ -72,7 +69,7 @@ describe('UserService', () => {
       firstName: 'firstName',
       lastName: 'lastName',
       uid: 'uid',
-      password: 'password'
+      password: 'password',
     };
     service.register(userRegisterFormData);
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -100,7 +97,7 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadOrderDetails({
         userId: 'userId',
-        orderCode: 'orderCode'
+        orderCode: 'orderCode',
       })
     );
   });
@@ -117,7 +114,7 @@ describe('UserService', () => {
       new fromStore.LoadUserOrdersSuccess({
         orders: [],
         pagination: {},
-        sorts: []
+        sorts: [],
       })
     );
 
@@ -131,7 +128,7 @@ describe('UserService', () => {
     expect(orderList).toEqual({
       orders: [],
       pagination: {},
-      sorts: []
+      sorts: [],
     });
   });
 
@@ -157,7 +154,7 @@ describe('UserService', () => {
 
   it('should be able to get user payment methods', () => {
     const paymentsList: PaymentDetailsList = {
-      payments: [{ id: 'method1' }, { id: 'method2' }]
+      payments: [{ id: 'method1' }, { id: 'method2' }],
     };
     store.dispatch(
       new fromStore.LoadUserPaymentMethodsSuccess(paymentsList.payments)
@@ -191,7 +188,7 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.SetDefaultUserPaymentMethod({
         userId: 'userId',
-        paymentMethodId: 'paymentMethodId'
+        paymentMethodId: 'paymentMethodId',
       })
     );
   });
@@ -201,7 +198,7 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.DeleteUserPaymentMethod({
         userId: 'userId',
-        paymentMethodId: 'paymentMethodId'
+        paymentMethodId: 'paymentMethodId',
       })
     );
   });
@@ -213,7 +210,7 @@ describe('UserService', () => {
         userId: 'userId',
         pageSize: 10,
         currentPage: 1,
-        sort: 'byDate'
+        sort: 'byDate',
       })
     );
   });
@@ -228,7 +225,7 @@ describe('UserService', () => {
   it('should be able to get user addresses', () => {
     const mockUserAddresses: Address[] = [
       { id: 'address1' },
-      { id: 'address2' }
+      { id: 'address2' },
     ];
     store.dispatch(new fromStore.LoadUserAddressesSuccess(mockUserAddresses));
 
@@ -246,7 +243,7 @@ describe('UserService', () => {
     store.dispatch(
       new fromStore.LoadTitlesSuccess([
         { code: 't1', name: 't1' },
-        { code: 't2', name: 't2' }
+        { code: 't2', name: 't2' },
       ])
     );
     let titles: Title[];
@@ -258,7 +255,7 @@ describe('UserService', () => {
       .unsubscribe();
     expect(titles).toEqual([
       { code: 't1', name: 't1' },
-      { code: 't2', name: 't2' }
+      { code: 't2', name: 't2' },
     ]);
   });
 
@@ -278,7 +275,7 @@ describe('UserService', () => {
     store.dispatch(
       new fromStore.LoadDeliveryCountriesSuccess([
         { isocode: 'c1', name: 'n1' },
-        { isocode: 'c2', name: 'n2' }
+        { isocode: 'c2', name: 'n2' },
       ])
     );
     let countries: Country[];
@@ -290,7 +287,7 @@ describe('UserService', () => {
       .unsubscribe();
     expect(countries).toEqual([
       { isocode: 'c1', name: 'n1' },
-      { isocode: 'c2', name: 'n2' }
+      { isocode: 'c2', name: 'n2' },
     ]);
   });
 
@@ -298,7 +295,7 @@ describe('UserService', () => {
     store.dispatch(
       new fromStore.LoadDeliveryCountriesSuccess([
         { isocode: 'c1', name: 'n1' },
-        { isocode: 'c2', name: 'n2' }
+        { isocode: 'c2', name: 'n2' },
       ])
     );
 
@@ -329,21 +326,21 @@ describe('UserService', () => {
       town: 'town',
       region: { isocode: 'JP-27' },
       postalCode: 'zip',
-      country: { isocode: 'JP' }
+      country: { isocode: 'JP' },
     };
 
     service.addUserAddress('testUserId', mockAddress);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.AddUserAddress({
         userId: 'testUserId',
-        address: mockAddress
+        address: mockAddress,
       })
     );
   });
 
   it('should be able to update user address', () => {
     const mockAddressUpdate = {
-      town: 'Test Town'
+      town: 'Test Town',
     };
 
     service.updateUserAddress('testUserId', '123', mockAddressUpdate);
@@ -351,7 +348,7 @@ describe('UserService', () => {
       new fromStore.UpdateUserAddress({
         userId: 'testUserId',
         addressId: '123',
-        address: mockAddressUpdate
+        address: mockAddressUpdate,
       })
     );
   });
@@ -361,7 +358,7 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.DeleteUserAddress({
         userId: 'testUserId',
-        addressId: '123'
+        addressId: '123',
       })
     );
   });
@@ -373,8 +370,8 @@ describe('UserService', () => {
         userId: 'testUserId',
         addressId: '123',
         address: {
-          defaultAddress: true
-        }
+          defaultAddress: true,
+        },
       })
     );
   });
@@ -403,7 +400,7 @@ describe('UserService', () => {
   describe('update personal details', () => {
     const username = 'xxx';
     const userDetails: User = {
-      uid: username
+      uid: username,
     };
 
     it('should dispatch UpdateUserDetails action', () => {
@@ -455,7 +452,7 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.ResetPassword({
         token: 'test token',
-        password: 'test password'
+        password: 'test password',
       })
     );
   });

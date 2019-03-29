@@ -11,7 +11,7 @@ import {
   CheckoutService,
   Country,
   UserService,
-  GlobalMessageService
+  GlobalMessageService,
 } from '@spartacus/core';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
@@ -23,8 +23,8 @@ import { PaymentFormComponent } from './payment-form.component';
 const mockBillingCountries: Country[] = [
   {
     isocode: 'CA',
-    name: 'Canada'
-  }
+    name: 'Canada',
+  },
 ];
 
 const mockBillingAddress: Address = {
@@ -34,7 +34,7 @@ const mockBillingAddress: Address = {
   line2: '420',
   town: 'Montreal',
   postalCode: 'H3A',
-  country: { isocode: 'CA' }
+  country: { isocode: 'CA' },
 };
 
 const mockAddress: Address = {
@@ -46,23 +46,23 @@ const mockAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockCardTypes: CardType[] = [
   {
     code: 'amex',
-    name: 'American Express'
+    name: 'American Express',
   },
   {
     code: 'maestro',
-    name: 'Maestro'
-  }
+    name: 'Maestro',
+  },
 ];
 
 @Component({
   selector: 'cx-billing-address-form',
-  template: ''
+  template: '',
 })
 class MockBillingAddressFormComponent {
   @Input()
@@ -73,7 +73,7 @@ class MockBillingAddressFormComponent {
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -127,16 +127,16 @@ describe('PaymentFormComponent', () => {
       declarations: [
         PaymentFormComponent,
         MockCardComponent,
-        MockBillingAddressFormComponent
+        MockBillingAddressFormComponent,
       ],
       providers: [
         { provide: CheckoutService, useValue: mockCheckoutService },
         { provide: UserService, useValue: mockUserService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
-      ]
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+      ],
     })
       .overrideComponent(PaymentFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   }));
@@ -146,7 +146,7 @@ describe('PaymentFormComponent', () => {
     component = fixture.componentInstance;
     controls = {
       payment: component.payment.controls,
-      billingAddress: component.billingAddress.controls
+      billingAddress: component.billingAddress.controls,
     };
 
     spyOn(component.addPaymentInfo, 'emit').and.callThrough();
@@ -223,7 +223,7 @@ describe('PaymentFormComponent', () => {
     component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       paymentDetails: component.payment.value,
-      billingAddress: null
+      billingAddress: null,
     });
   });
 
@@ -257,7 +257,7 @@ describe('PaymentFormComponent', () => {
       'line2',
       'town, JP-27, JP',
       'zip',
-      undefined
+      undefined,
     ]);
   });
 

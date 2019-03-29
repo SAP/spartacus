@@ -28,8 +28,8 @@ describe('', () => {
       providers: [
         ForgotPasswordEffects,
         { provide: OccUserService, useClass: MockOccUserService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(ForgotPasswordEffects);
@@ -47,7 +47,7 @@ describe('', () => {
       const completion2 = new AddMessage({
         text:
           'An email has been sent to you with information on how to reset your password.',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 
       actions$ = hot('-a', { a: action });

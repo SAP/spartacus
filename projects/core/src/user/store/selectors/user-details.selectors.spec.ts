@@ -1,25 +1,23 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Store, StoreModule, select } from '@ngrx/store';
-
-import { StateWithUser, USER_FEATURE } from '../user-state';
+import { select, Store, StoreModule } from '@ngrx/store';
+import { User } from '../../../occ/occ-models/index';
+import { LoaderState } from '../../../state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
-import { LoaderState } from '../../../state';
-import { User } from '../../../occ/occ-models/index';
+import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 const mockUpdatedUserDetails: User = {
   firstName: 'New First',
-  lastName: 'New Last'
+  lastName: 'New Last',
 };
 
 describe('User Details Selectors', () => {
@@ -29,8 +27,8 @@ describe('User Details Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -68,7 +66,7 @@ describe('User Details Selectors', () => {
         loading: false,
         success: true,
         error: false,
-        value: undefined
+        value: undefined,
       });
     });
   });

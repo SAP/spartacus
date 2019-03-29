@@ -5,7 +5,7 @@ import {
   ExpectedConditions,
   promise,
   element,
-  by
+  by,
 } from 'protractor';
 
 export class E2EUtil {

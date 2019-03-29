@@ -12,7 +12,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -53,8 +53,8 @@ describe('LoginFormComponent', () => {
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService }
-      ]
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
     }).compileComponents();
   }));
 

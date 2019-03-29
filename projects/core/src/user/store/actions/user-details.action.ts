@@ -1,12 +1,11 @@
 import { Action } from '@ngrx/store';
-
-import { USER_UPDATE_DETAILS } from '../user-state';
-import {
-  LoaderLoadAction,
-  LoaderFailAction,
-  LoaderSuccessAction
-} from '../../../state';
 import { User } from '../../../occ/occ-models/index';
+import {
+  LoaderFailAction,
+  LoaderLoadAction,
+  LoaderSuccessAction,
+} from '../../../state';
+import { USER_UPDATE_DETAILS } from '../user-state';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';

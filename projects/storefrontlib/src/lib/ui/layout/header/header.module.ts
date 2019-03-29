@@ -21,9 +21,9 @@ import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.mo
     RouterModule,
     PwaModule,
     UrlTranslationModule,
-    PageSlotModule
+    PageSlotModule,
   ],
   declarations: [HeaderComponent, HeaderSkipperComponent],
-  exports: [HeaderComponent]
+  exports: [HeaderComponent],
 })
 export class HeaderModule {}

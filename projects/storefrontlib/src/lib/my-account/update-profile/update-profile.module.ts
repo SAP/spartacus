@@ -11,14 +11,14 @@ import { UpdateProfileComponent } from './update-profile.component';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UpdateProfileComponent: { selector: 'cx-update-profile' }
-      }
+        UpdateProfileComponent: { selector: 'cx-update-profile' },
+      },
     }),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [UpdateProfileComponent],
   exports: [UpdateProfileComponent],
-  entryComponents: [UpdateProfileComponent]
+  entryComponents: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

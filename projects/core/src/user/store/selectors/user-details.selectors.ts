@@ -1,14 +1,12 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-
-import { UserDetailsState, UserState, StateWithUser } from '../user-state';
-import {
-  LoaderState,
-  loaderLoadingSelector,
-  loaderErrorSelector,
-  loaderSuccessSelector
-} from '../../../state';
 import { User } from '../../../occ/occ-models/index';
-
+import {
+  loaderErrorSelector,
+  loaderLoadingSelector,
+  LoaderState,
+  loaderSuccessSelector,
+} from '../../../state';
+import { StateWithUser, UserDetailsState, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
 export const getDetailsState: MemoizedSelector<

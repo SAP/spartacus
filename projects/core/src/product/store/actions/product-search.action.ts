@@ -4,7 +4,7 @@ import { SearchConfig } from '../../model/search-config';
 import {
   Suggestion,
   ProductSearchPage,
-  ErrorModel
+  ErrorModel,
 } from '../../../occ/occ-models';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';

@@ -8,7 +8,7 @@ import {
   CmsConfig,
   Component as SpaComponent,
   CmsBannerComponent,
-  CmsBannerComponentMedia
+  CmsBannerComponentMedia,
 } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -16,15 +16,15 @@ import { BannerComponentService } from './banner.component.service';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    SimpleBannerComponent: { selector: 'BannerComponent' }
+    SimpleBannerComponent: { selector: 'BannerComponent' },
   },
   server: {
-    baseUrl: 'https://localhost:9002'
-  }
+    baseUrl: 'https://localhost:9002',
+  },
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -45,14 +45,14 @@ describe('BannerComponent', () => {
       code: '/images/theme/logo_hybris.jpg',
       mime: 'image/svg+xml',
       altText: 'hybris Accelerator',
-      url: '/medias/logo-hybris.jpg'
+      url: '/medias/logo-hybris.jpg',
     },
-    urlLink: '/logo'
+    urlLink: '/logo',
   };
 
   const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData),
-    uid: 'test'
+    uid: 'test',
   };
 
   const MockBannerComponentService = new BannerComponentService(
@@ -66,14 +66,14 @@ describe('BannerComponent', () => {
       declarations: [
         BannerComponent,
         GenericLinkComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         {
           provide: BannerComponentService,
-          useValue: MockBannerComponentService
-        }
-      ]
+          useValue: MockBannerComponentService,
+        },
+      ],
     }).compileComponents();
   }));
 

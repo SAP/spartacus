@@ -16,9 +16,9 @@ describe('ConfigurableRoutesModule', () => {
       providers: [
         {
           provide: ConfigurableRoutesService,
-          useClass: MockConfigurableRoutesService
-        }
-      ]
+          useClass: MockConfigurableRoutesService,
+        },
+      ],
     });
 
     mockService = TestBed.get(ConfigurableRoutesService);

@@ -7,7 +7,7 @@ import {
   Region,
   Order,
   Country,
-  Title
+  Title,
 } from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';

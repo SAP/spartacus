@@ -18,7 +18,7 @@ export class ComponentGenerator extends ClientGenerator {
             site,
             {
               pageLabelOrId: CONTENT_PAGES[page],
-              pageType: CommerceWebservicesV2Models.PageType.ContentPage
+              pageType: CommerceWebservicesV2Models.PageType.ContentPage,
             },
             (error, service, resource, response) => {
               if (!error) {
@@ -53,7 +53,7 @@ export class ComponentGenerator extends ClientGenerator {
           if (!error) {
             const responseBody = JSON.parse(response.bodyAsText);
             components[`${site}-components`] = {
-              component: responseBody.component
+              component: responseBody.component,
             };
             resolve(components);
           } else reject();
@@ -76,7 +76,7 @@ export class ComponentGenerator extends ClientGenerator {
         site,
         {
           pageLabelOrId: CONTENT_PAGES[page],
-          pageType: CommerceWebservicesV2Models.PageType.ContentPage
+          pageType: CommerceWebservicesV2Models.PageType.ContentPage,
         },
         (error, service, resource, response) => {
           if (!error) {
@@ -108,7 +108,7 @@ export class ComponentGenerator extends ClientGenerator {
             site,
             {
               pageLabelOrId: CONTENT_PAGES[page],
-              pageType: CommerceWebservicesV2Models.PageType.ContentPage
+              pageType: CommerceWebservicesV2Models.PageType.ContentPage,
             },
             (error, service, resource, response) => {
               if (!error) {
