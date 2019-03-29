@@ -1,6 +1,6 @@
 <div class="cx-address-card card">
   <div class="card-header" *ngIf="address?.defaultAddress && !editMode">
-    &#10003; {{ 'addressBook:labels.default' | cxTranslate }}
+    &#10003; {{ 'common:labels.default' | cxTranslate }}
   </div>
   <div class="card-body" [class.cx-address-card--delete-mode]="editMode">
     <div *ngIf="editMode" class="cx-address-card__delete-msg">

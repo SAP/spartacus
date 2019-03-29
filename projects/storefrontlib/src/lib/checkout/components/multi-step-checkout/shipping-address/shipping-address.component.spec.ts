@@ -54,7 +54,9 @@ const mockAddresses: Address[] = [mockAddress1, mockAddress2];
   selector: 'cx-address-form',
   template: '',
 })
-class MockAddressFormComponent {}
+class MockAddressFormComponent {
+  @Input() cancelBtnLabel: string;
+}
 
 @Component({
   selector: 'cx-spinner',

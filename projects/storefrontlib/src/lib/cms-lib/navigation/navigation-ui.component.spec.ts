@@ -43,7 +43,7 @@ describe('Navigation UI Component', () => {
       navigationComponent.node = mockData;
       fixture.detectChanges();
       const link = getLink().nativeElement;
-      expect(link.textContent).toContain('Reorder');
+      expect(link.textContent).toContain('  ');
     });
 
     it('should render correct title if provided', () => {
