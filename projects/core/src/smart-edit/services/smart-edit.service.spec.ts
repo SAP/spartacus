@@ -130,15 +130,15 @@ describe('SmartEditService', () => {
         of(undefined),
         of({
           pageId: 'testPageId',
-          type: 'ContentPage'
+          type: 'ContentPage',
         })
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
           state: {
             url: '/test',
-            queryParams: { cmsTicketId: 'mockCmsTicketId' }
-          }
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
         })
       );
       service['getCmsTicket']();
@@ -151,21 +151,21 @@ describe('SmartEditService', () => {
         of(undefined),
         of({
           pageId: 'testPageId',
-          type: 'ProductPage'
+          type: 'ProductPage',
         })
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
           state: {
             url: '/test',
-            queryParams: { cmsTicketId: 'mockCmsTicketId' }
-          }
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
         })
       );
       service['getCmsTicket']();
       service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
-        route: [{ name: 'product', params: { code: 2053367 } }]
+        route: [{ name: 'product', params: { code: 2053367 } }],
       });
     });
 
@@ -174,21 +174,21 @@ describe('SmartEditService', () => {
         of(undefined),
         of({
           pageId: 'testPageId',
-          type: 'CategoryPage'
+          type: 'CategoryPage',
         })
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
           state: {
             url: '/test',
-            queryParams: { cmsTicketId: 'mockCmsTicketId' }
-          }
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
         })
       );
       service['getCmsTicket']();
       service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
-        route: [{ name: 'category', params: { code: 575 } }]
+        route: [{ name: 'category', params: { code: 575 } }],
       });
     });
   });
