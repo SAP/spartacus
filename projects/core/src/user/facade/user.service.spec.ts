@@ -1,5 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { of } from 'rxjs';
 import {
   Address,
   Country,
@@ -11,6 +12,8 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
@@ -25,6 +28,10 @@ describe('UserService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [UserService],
     });
@@ -411,7 +418,9 @@ describe('UserService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+      spyOn(service, 'getUpdatePersonalDetailsResultLoading').and.returnValue(
+        of(true)
+      );
 
       let result: boolean;
       service
@@ -419,11 +428,13 @@ describe('UserService', () => {
         .subscribe(loading => (result = loading))
         .unsubscribe();
 
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+      spyOn(service, 'getUpdatePersonalDetailsResultError').and.returnValue(
+        of(true)
+      );
 
       let result: boolean;
       service
@@ -431,7 +442,7 @@ describe('UserService', () => {
         .subscribe(loading => (result = loading))
         .unsubscribe();
 
-      expect(result).toEqual(false);
+      expect(result).toEqual(true);
     });
 
     it('should return the success flag', () => {

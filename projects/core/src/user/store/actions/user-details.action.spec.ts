@@ -1,6 +1,11 @@
 import { User } from '../../../occ/occ-models/index';
-import { failMeta, loadMeta, successMeta } from '../../../state';
-import { USER_UPDATE_DETAILS } from '../user-state';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta,
+} from '../../../state';
+import { USER_UPDATE_PROCESS } from '../user-state';
 import * as fromUserDetailsAction from './user-details.action';
 
 const mockUserDetails: User = {
@@ -64,7 +69,7 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS,
         payload: { username, userDetails },
-        meta: loadMeta(USER_UPDATE_DETAILS),
+        meta: entityLoadMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS),
       });
     });
   });
@@ -77,7 +82,7 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS_FAIL,
         payload: error,
-        meta: failMeta(USER_UPDATE_DETAILS, error),
+        meta: entityFailMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS, error),
       });
     });
   });
@@ -94,7 +99,8 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS,
         userUpdates,
-        meta: successMeta(USER_UPDATE_DETAILS),
+        meta: entitySuccessMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS),
+        payload: undefined,
       });
     });
   });

@@ -1,26 +1,34 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
+import { map, tap } from 'rxjs/operators';
+import {
+  Address,
+  Country,
+  Order,
+  OrderHistoryList,
+  PaymentDetails,
+  Region,
+  Title,
+  User,
+} from '../../occ/occ-models/index';
+import * as fromProcessStore from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
-import {
-  Order,
-  User,
-  PaymentDetails,
-  Address,
-  Title,
-  Country,
-  Region,
-  OrderHistoryList,
-} from '../../occ/occ-models/index';
+import { USER_UPDATE_PROCESS } from '../store/user-state';
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    private store: Store<
+      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
+    >
+  ) {}
 
   /**
    * Returns a user
@@ -344,21 +352,25 @@ export class UserService {
    * Returns the update user's personal details loading flag
    */
   getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsLoading));
+    return this.store.pipe(
+      select(getProcessLoadingFactory(USER_UPDATE_PROCESS))
+    );
   }
 
   /**
    * Returns the update user's personal details error flag
    */
   getUpdatePersonalDetailsResultError(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsError));
+    return this.store.pipe(select(getProcessErrorFactory(USER_UPDATE_PROCESS)));
   }
 
   /**
    * Returns the update user's personal details success flag
    */
   getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getUpdateDetailsSuccess));
+    return this.store.pipe(
+      select(getProcessSuccessFactory(USER_UPDATE_PROCESS))
+    );
   }
 
   /**

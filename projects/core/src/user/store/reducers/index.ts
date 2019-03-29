@@ -17,7 +17,6 @@ import {
   USER_ADDRESSES,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  USER_UPDATE_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromDeliveryCountries from './delivery-countries.reducer';
@@ -34,9 +33,6 @@ export function getReducers(): ActionReducerMap<UserState> {
   return {
     account: combineReducers({
       details: fromUserDetailsReducer.reducer,
-      update: combineReducers({
-        details: loaderReducer<void>(USER_UPDATE_DETAILS),
-      }),
     }),
     addresses: loaderReducer<Address[]>(
       USER_ADDRESSES,
