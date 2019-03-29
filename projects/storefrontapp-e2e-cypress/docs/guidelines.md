@@ -25,7 +25,7 @@ As a first argument you pass your unique string to differentiate between users. 
 
 ## Tests that require user login
 
-Registering and logging in with user interface takes some time. Instead we recommend to use theour command `requireLoggedIn` command. It will create new user or login as existing one (if you want to share the same user between multiple tests).
+Registering and logging in with user interface takes some time. Instead we recommend to use the command `requireLoggedIn` command. It will create new user or login as existing one (if you want to share the same user between multiple tests).
 
 Command `requireLoggedIn` accepts 2 arguments. First one is user object. You only pass it for tests that intend to share the same user. As a second argument you pass options object. There is one option available `freshUserOnTestRefresh` that will force creating new user (might be helpful for development) instead of using already created.
 
