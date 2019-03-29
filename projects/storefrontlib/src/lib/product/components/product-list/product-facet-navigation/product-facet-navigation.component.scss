@@ -24,13 +24,13 @@
 
   .form-check {
     padding: var(--cx-padding, 0);
-    margin: var(--cx-margin, 0 0 15px 0);
+    margin: var(--cx-margin, 0 0 20px 0);
   }
 
   .cx-facet-label {
     color: var(--cx-color, var(--cx-g-color-secondary));
-    @include type('6');
-    font-weight: $font-weight-normal;
+    @include type(6);
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 400));
     position: var(--cx-position, relative);
     margin: var(--cx-margin, 0);
     display: var(--cx-display, flex);
@@ -39,7 +39,7 @@
     cursor: var(--cx-cursor, pointer);
 
     &:hover .cx-facet-checkbox:not(:checked) {
-      background-color: var(--cx-g-color-light);
+      background-color: var(--cx-background-color, var(--cx-g-color-light));
     }
 
     .cx-facet-text {
@@ -56,12 +56,12 @@
   border-width: var(--cx-border-width, 0 0 1px 0);
   border-style: var(--cx-border-style, solid);
   border-color: var(--cx-border-color, var(--cx-g-color-light));
-  @include type('4');
+  @include type(4);
   color: var(--cx-color, var(--cx-g-color-text));
   padding: var(--cx-padding, 0 0 10px 0);
   margin: var(--cx-margin, 0 0 17px 0);
   display: var(--cx-display, block);
-  font-weight: $font-weight-semi;
+  font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
 
   .cx-facet-header-link {
     &:after {
@@ -70,7 +70,7 @@
       line-height: var(--cx-line-height, 0);
       position: var(--cx-position, relative);
       top: var(--cx-top, 10px);
-      font-weight: $font-weight-normal;
+      font-weight: var(--cx-font-weight, var(--cx-g-font-weight-normal, 400));
       color: var(--cx-color, var(--cx-g-color-secondary));
     }
 
@@ -98,7 +98,7 @@
 }
 
 .cx-facet-filter-header {
-  @include type('3');
+  @include type(3);
   color: var(--cx-color, var(--cx-g-color-text));
   padding: var(--cx-padding, 0 0 10px 0);
   margin: var(--cx-margin, 0 0 20px 0);
@@ -128,7 +128,7 @@
 }
 
 .cx-facet-modal-title {
-  @include type('3');
+  @include type(3);
 }
 
 .cx-facet-mobile {
@@ -150,8 +150,8 @@
   }
 
   .cx-facet-modal-label {
-    @include type('4');
-    font-weight: $font-weight-semi;
+    @include type(4);
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi, 600));
     margin: var(--cx-margin, 0 0 27px 0);
   }
 }
