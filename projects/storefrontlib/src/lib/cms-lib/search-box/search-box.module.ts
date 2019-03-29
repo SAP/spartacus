@@ -9,7 +9,7 @@ import {
   ProductSearchService,
   RoutingService,
   UrlTranslationModule,
-  StripHtmlModule
+  StripHtmlModule,
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 
@@ -38,16 +38,16 @@ import { SearchBoxComponent } from './search-box.component';
             {
               provide: SearchBoxComponentService,
               useClass: SearchBoxComponentService,
-              deps: [CmsComponentData, ProductSearchService, RoutingService]
-            }
-          ]
-        }
-      }
+              deps: [CmsComponentData, ProductSearchService, RoutingService],
+            },
+          ],
+        },
+      },
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [SearchBoxComponent],
   entryComponents: [SearchBoxComponent],
-  exports: [SearchBoxComponent]
+  exports: [SearchBoxComponent],
 })
 export class SearchBoxModule {}

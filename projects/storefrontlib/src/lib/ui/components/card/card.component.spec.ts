@@ -11,7 +11,7 @@ describe('CardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CardComponent]
+      declarations: [CardComponent],
     }).compileComponents();
   }));
 
@@ -37,7 +37,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-border'));
     }
     const mockCard: Card = {
-      text: ['hello']
+      text: ['hello'],
     };
     component.border = true;
     component.content = mockCard;
@@ -50,7 +50,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-fit-to-container'));
     }
     const mockCard: Card = {
-      text: ['hello']
+      text: ['hello'],
     };
     component.fitToContainer = true;
     component.content = mockCard;
@@ -63,7 +63,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.card-header')).nativeElement.textContent;
     }
     const mockCard: Card = {
-      header: 'Header text'
+      header: 'Header text',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -75,7 +75,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-title')).nativeElement.textContent;
     }
     const mockCard: Card = {
-      title: 'Title text'
+      title: 'Title text',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -88,7 +88,7 @@ describe('CardComponent', () => {
         .textContent;
     }
     const mockCard: Card = {
-      textBold: 'Bold text'
+      textBold: 'Bold text',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -100,7 +100,7 @@ describe('CardComponent', () => {
       return elem.queryAll(By.css('.cx-card-label'));
     }
     const mockCard: Card = {
-      text: ['First line', 'Second line']
+      text: ['First line', 'Second line'],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -114,7 +114,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-img-container img')).nativeElement;
     }
     const mockCard: Card = {
-      img: '/test.png'
+      img: '/test.png',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -131,7 +131,7 @@ describe('CardComponent', () => {
         .nativeElement;
     }
     const mockCard: Card = {
-      deleteMsg: 'Delete msg'
+      deleteMsg: 'Delete msg',
     };
     component.editMode = true;
     component.content = mockCard;
@@ -149,7 +149,7 @@ describe('CardComponent', () => {
         .nativeElement;
     }
     const mockCard: Card = {
-      deleteMsg: 'Delete msg'
+      deleteMsg: 'Delete msg',
     };
     component.editMode = true;
     component.content = mockCard;
@@ -165,7 +165,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'delete', name: 'Delete' }]
+      actions: [{ event: 'delete', name: 'Delete' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -180,7 +180,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'default', name: 'Set as default' }]
+      actions: [{ event: 'default', name: 'Set as default' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -195,7 +195,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'send', name: 'Save address' }]
+      actions: [{ event: 'send', name: 'Save address' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -210,7 +210,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'edit', name: 'Edit address' }]
+      actions: [{ event: 'edit', name: 'Edit address' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -226,7 +226,7 @@ describe('CardComponent', () => {
     }
     const link: CardLinkAction = { link: '/test.html', name: 'Go to test' };
     const mockCard: Card = {
-      actions: [link]
+      actions: [link],
     };
     component.content = mockCard;
     fixture.detectChanges();

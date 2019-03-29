@@ -9,12 +9,12 @@ import { ConfigModule, CmsConfig } from '@spartacus/core';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSTabParagraphComponent: { selector: 'cx-tab-paragraph-container' }
-      }
-    })
+        CMSTabParagraphComponent: { selector: 'cx-tab-paragraph-container' },
+      },
+    }),
   ],
   declarations: [TabParagraphContainerComponent],
   entryComponents: [TabParagraphContainerComponent],
-  exports: [TabParagraphContainerComponent]
+  exports: [TabParagraphContainerComponent],
 })
 export class TabParagraphContainerModule {}

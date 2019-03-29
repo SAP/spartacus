@@ -29,37 +29,37 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   const mockFacetsValues = [
     {
-      name: 'Test Facet 01'
+      name: 'Test Facet 01',
     },
     {
-      name: 'Test Facet 02'
+      name: 'Test Facet 02',
     },
     {
-      name: 'Test Facet 03'
-    }
+      name: 'Test Facet 03',
+    },
   ];
 
   const mockFacets = [
     {
       name: 'Test Facet 01',
       values: mockFacetsValues,
-      visible: true
+      visible: true,
     },
     {
       name: 'Test Facet 02',
       values: mockFacetsValues,
-      visible: true
+      visible: true,
     },
     {
       name: 'Test Facet 03',
       values: mockFacetsValues,
-      visible: true
+      visible: true,
     },
     {
       name: 'Test Facet 04',
       values: mockFacetsValues,
-      visible: false
-    }
+      visible: false,
+    },
   ];
 
   beforeEach(async(() => {
@@ -69,18 +69,18 @@ describe('ProductFacetNavigationComponent in product-list', () => {
       providers: [
         {
           provide: ProductSearchService,
-          useClass: MockProductSearchService
+          useClass: MockProductSearchService,
         },
         {
           provide: ActivatedRoute,
-          useClass: MockActivatedRoute
-        }
-      ]
+          useClass: MockActivatedRoute,
+        },
+      ],
     })
       .overrideComponent(ProductFacetNavigationComponent, {
         set: {
-          changeDetection: ChangeDetectionStrategy.Default
-        }
+          changeDetection: ChangeDetectionStrategy.Default,
+        },
       })
       .compileComponents();
   }));
@@ -109,7 +109,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
       component.ngOnInit();
       spyOn(service, 'getSearchResults').and.returnValue(
         of({
-          facets: mockFacets
+          facets: mockFacets,
         })
       );
       fixture.detectChanges();

@@ -4,7 +4,7 @@ import { Currency } from '../../../occ/occ-models/occ.models';
 
 export const initialState: CurrenciesState = {
   entities: null,
-  activeCurrency: null
+  activeCurrency: null,
 };
 
 export function reducer(
@@ -18,17 +18,17 @@ export function reducer(
         (currEntities: { [isocode: string]: Currency }, currency: Currency) => {
           return {
             ...currEntities,
-            [currency.isocode]: currency
+            [currency.isocode]: currency,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 
@@ -37,7 +37,7 @@ export function reducer(
 
       return {
         ...state,
-        activeCurrency: isocode
+        activeCurrency: isocode,
       };
     }
   }

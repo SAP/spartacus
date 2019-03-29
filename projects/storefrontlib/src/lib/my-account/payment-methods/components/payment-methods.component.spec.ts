@@ -13,7 +13,7 @@ import { PaymentMethodsComponent } from './payment-methods.component';
 
 @Component({
   template: '<div>Spinner</div>',
-  selector: 'cx-spinner'
+  selector: 'cx-spinner',
 })
 class MockCxSpinnerComponent {}
 
@@ -23,7 +23,7 @@ const mockPayment: PaymentDetails = {
   cardNumber: '4111 1111 1111 1111',
   expiryMonth: '11',
   expiryYear: '2020',
-  id: '2'
+  id: '2',
 };
 
 class MockUserService {
@@ -52,9 +52,9 @@ describe('PaymentMethodsComponent', () => {
       declarations: [
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
-        CardComponent
+        CardComponent,
       ],
-      providers: [{ provide: UserService, useClass: MockUserService }]
+      providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
   }));
 

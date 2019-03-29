@@ -5,13 +5,13 @@ import { GlobalMessageComponent } from './global-message.component';
 import {
   GlobalMessageType,
   GlobalMessageService,
-  GlobalMessageEntities
+  GlobalMessageEntities,
 } from '@spartacus/core';
 
 const mockMessages = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
   [GlobalMessageType.MSG_TYPE_INFO]: ['Info'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
+  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error'],
 };
 
 class MockMessageService {
@@ -30,8 +30,8 @@ describe('GlobalMessageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [GlobalMessageComponent],
       providers: [
-        { provide: GlobalMessageService, useClass: MockMessageService }
-      ]
+        { provide: GlobalMessageService, useClass: MockMessageService },
+      ],
     }).compileComponents();
   }));
 

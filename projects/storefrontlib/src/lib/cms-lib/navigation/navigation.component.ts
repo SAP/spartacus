@@ -8,7 +8,7 @@ import { NavigationNode } from './navigation-node.model';
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent {
   @Input() dropdownMode = 'list';

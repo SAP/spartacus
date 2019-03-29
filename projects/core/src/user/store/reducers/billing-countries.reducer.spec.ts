@@ -19,17 +19,17 @@ describe('Billing Countries Reducer', () => {
       const mockCountries: Country[] = [
         {
           isocode: 'AL',
-          name: 'Albania'
+          name: 'Albania',
         },
         {
           isocode: 'AD',
-          name: 'Andorra'
-        }
+          name: 'Andorra',
+        },
       ];
 
       const mockCountriesList = {
         AL: mockCountries[0],
-        AD: mockCountries[1]
+        AD: mockCountries[1],
       };
 
       const { initialState } = fromReducer;

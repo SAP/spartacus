@@ -20,7 +20,7 @@ class MockCurrentProductService {
 
 @Component({
   selector: 'cx-product-reviews',
-  template: 'product-reviews'
+  template: 'product-reviews',
 })
 class MockProductReviewsComponent {
   @Input()
@@ -31,7 +31,7 @@ class MockProductReviewsComponent {
 
 @Component({
   selector: 'cx-product-attributes',
-  template: 'product-attributes.component'
+  template: 'product-attributes.component',
 })
 export class MockProductAttributesComponent {
   @Input()
@@ -39,7 +39,7 @@ export class MockProductAttributesComponent {
 }
 
 @Directive({
-  selector: '[cxComponentWrapper]'
+  selector: '[cxComponentWrapper]',
 })
 export class MockComponentWrapperDirective {
   @Input() cxComponentWrapper: ContentSlotComponentData;
@@ -57,14 +57,14 @@ describe('ProductTabsComponent in product', () => {
         MockProductAttributesComponent,
         MockProductReviewsComponent,
         MockComponentWrapperDirective,
-        OutletDirective
+        OutletDirective,
       ],
       providers: [
         {
           provide: CurrentProductService,
-          useClass: MockCurrentProductService
-        }
-      ]
+          useClass: MockCurrentProductService,
+        },
+      ],
     }).compileComponents();
   }));
 

@@ -9,9 +9,9 @@ import { PageLayoutComponent } from '../../../lib/cms/index';
       {
         path: 'logout',
         canActivate: [LogoutGuard],
-        component: PageLayoutComponent
-      }
-    ])
-  ]
+        component: PageLayoutComponent,
+      },
+    ]),
+  ],
 })
 export class LogoutModule {}

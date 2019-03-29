@@ -15,10 +15,10 @@ import { BillingAddressFormModule } from '../billing-address-form/billing-addres
     NgSelectModule,
     BootstrapModule,
     CardModule,
-    BillingAddressFormModule
+    BillingAddressFormModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
-  exports: [PaymentFormComponent]
+  exports: [PaymentFormComponent],
 })
 export class PaymentFormModule {}

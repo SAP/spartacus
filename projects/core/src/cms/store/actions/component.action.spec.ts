@@ -4,7 +4,7 @@ import { COMPONENT_ENTITY } from '../cms-state';
 import {
   entityFailMeta,
   entityLoadMeta,
-  entitySuccessMeta
+  entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 
 describe('Cms Component Actions', () => {
@@ -18,7 +18,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT,
           payload: payload,
-          meta: entityLoadMeta(COMPONENT_ENTITY, test_uid)
+          meta: entityLoadMeta(COMPONENT_ENTITY, test_uid),
         });
       });
     });
@@ -31,7 +31,7 @@ describe('Cms Component Actions', () => {
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_FAIL,
           payload,
-          meta: entityFailMeta(COMPONENT_ENTITY, test_uid, payload)
+          meta: entityFailMeta(COMPONENT_ENTITY, test_uid, payload),
         });
       });
     });
@@ -40,14 +40,14 @@ describe('Cms Component Actions', () => {
       it('should create an action', () => {
         const component: CmsComponent = {
           uid: 'comp1',
-          typeCode: 'SimpleBannerComponent'
+          typeCode: 'SimpleBannerComponent',
         };
         const action = new fromComponent.LoadComponentSuccess(component);
 
         expect({ ...action }).toEqual({
           type: fromComponent.LOAD_COMPONENT_SUCCESS,
           payload: component,
-          meta: entitySuccessMeta(COMPONENT_ENTITY, 'comp1')
+          meta: entitySuccessMeta(COMPONENT_ENTITY, 'comp1'),
         });
       });
     });
@@ -60,12 +60,12 @@ describe('Cms Component Actions', () => {
         const component2: CmsComponent = { uid: 'uid2' };
         const action = new fromComponent.GetComponentFromPage([
           component1,
-          component2
+          component2,
         ]);
         expect({ ...action }).toEqual({
           type: fromComponent.GET_COMPONENET_FROM_PAGE,
           payload: [component1, component2],
-          meta: entitySuccessMeta(COMPONENT_ENTITY, ['uid1', 'uid2'])
+          meta: entitySuccessMeta(COMPONENT_ENTITY, ['uid1', 'uid2']),
         });
       });
     });

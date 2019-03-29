@@ -4,7 +4,7 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of, Observable } from 'rxjs';
@@ -25,11 +25,11 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
-  defaultAddress: false
+  defaultAddress: false,
 };
 
 const mockUser: User = {
-  uid: '1234'
+  uid: '1234',
 };
 
 const isLoading = new BehaviorSubject<boolean>(false);
@@ -51,7 +51,7 @@ class MockComponentService {
 
 @Component({
   selector: 'cx-address-card',
-  template: ''
+  template: '',
 })
 class MockAddressCardComponent {
   editMode: true;
@@ -68,7 +68,7 @@ class MockAddressCardComponent {
 
 @Component({
   selector: 'cx-address-form',
-  template: ''
+  template: '',
 })
 class MockAddressFormComponent {
   @Input()
@@ -102,13 +102,16 @@ describe('AddressBookComponent', () => {
     TestBed.configureTestingModule({
       imports: [SpinnerModule],
       providers: [
-        { provide: AddressBookComponentService, useClass: MockComponentService }
+        {
+          provide: AddressBookComponentService,
+          useClass: MockComponentService,
+        },
       ],
       declarations: [
         AddressBookComponent,
         MockAddressCardComponent,
-        MockAddressFormComponent
-      ]
+        MockAddressFormComponent,
+      ],
     }).compileComponents();
   }));
 
