@@ -17,7 +17,7 @@ import { ConfigModule } from '../../config/config.module';
 export function cmsStoreConfigFactory(): StateConfig {
   // if we want to reuse CMS_FEATURE const in config, we have to use factory instead of plain object
   const config = {
-    state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } }
+    state: { ssrTransfer: { keys: { [CMS_FEATURE]: true } } },
   };
   return config;
 }
@@ -29,8 +29,8 @@ export function cmsStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(CMS_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(cmsStoreConfigFactory)
+    ConfigModule.withConfigFactory(cmsStoreConfigFactory),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class CmsStoreModule {}

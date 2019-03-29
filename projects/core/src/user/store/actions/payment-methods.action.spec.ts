@@ -3,7 +3,7 @@ import { PaymentDetailsList } from '../../../occ/occ-models/index';
 import {
   loadMeta,
   failMeta,
-  successMeta
+  successMeta,
 } from '../../../state/utils/loader/loader.action';
 
 import * as fromUserPaymentMethodsAction from './payment-methods.action';
@@ -20,7 +20,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS,
         payload: userId,
-        meta: loadMeta(USER_PAYMENT_METHODS)
+        meta: loadMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -35,14 +35,14 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_FAIL,
         payload: error,
-        meta: failMeta(USER_PAYMENT_METHODS, error)
+        meta: failMeta(USER_PAYMENT_METHODS, error),
       });
     });
   });
 
   describe('LoadUserPaymentMethodsSuccess Action', () => {
     const mockUserPaymentMethods: PaymentDetailsList = {
-      payments: [{ id: 'payment1' }, { id: 'payment2' }]
+      payments: [{ id: 'payment1' }, { id: 'payment2' }],
     };
 
     it('should create the action', () => {
@@ -53,7 +53,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.LOAD_USER_PAYMENT_METHODS_SUCCESS,
         payload: mockUserPaymentMethods.payments,
-        meta: successMeta(USER_PAYMENT_METHODS)
+        meta: successMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -66,7 +66,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD,
         payload: false,
-        meta: loadMeta(USER_PAYMENT_METHODS)
+        meta: loadMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -79,7 +79,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_FAIL,
         payload: false,
-        meta: failMeta(USER_PAYMENT_METHODS)
+        meta: failMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -93,7 +93,7 @@ describe('User Payment Methods Actions', () => {
         type:
           fromUserPaymentMethodsAction.SET_DEFAULT_USER_PAYMENT_METHOD_SUCCESS,
         payload: false,
-        meta: successMeta(USER_PAYMENT_METHODS)
+        meta: successMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -106,7 +106,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD,
         payload: false,
-        meta: loadMeta(USER_PAYMENT_METHODS)
+        meta: loadMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -119,7 +119,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_FAIL,
         payload: false,
-        meta: failMeta(USER_PAYMENT_METHODS)
+        meta: failMeta(USER_PAYMENT_METHODS),
       });
     });
   });
@@ -132,7 +132,7 @@ describe('User Payment Methods Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserPaymentMethodsAction.DELETE_USER_PAYMENT_METHOD_SUCCESS,
         payload: false,
-        meta: successMeta(USER_PAYMENT_METHODS)
+        meta: successMeta(USER_PAYMENT_METHODS),
       });
     });
   });

@@ -3,7 +3,7 @@ import { Renderer2 } from '@angular/core';
 import {
   CmsService,
   ContentSlotData,
-  DynamicAttributeService
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
@@ -17,9 +17,9 @@ class MockCmsService {
     return of({
       properties: {
         smartedit: {
-          test: 'test'
-        }
-      }
+          test: 'test',
+        },
+      },
     });
   }
   isLaunchInSmartEdit(): boolean {
@@ -46,23 +46,23 @@ describe('PageSlotComponent', () => {
       declarations: [
         PageSlotComponent,
         ComponentWrapperDirective,
-        OutletDirective
+        OutletDirective,
       ],
       providers: [
         Renderer2,
         {
           provide: CmsService,
-          useClass: MockCmsService
+          useClass: MockCmsService,
         },
         {
           provide: CmsMappingService,
-          useClass: MockCmsMappingService
+          useClass: MockCmsMappingService,
         },
         {
           provide: DynamicAttributeService,
-          useClass: MockDynamicAttributeService
-        }
-      ]
+          useClass: MockDynamicAttributeService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -88,8 +88,8 @@ describe('PageSlotComponent', () => {
     expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
       {
         smartedit: {
-          test: 'test'
-        }
+          test: 'test',
+        },
       },
       native,
       renderer
@@ -107,8 +107,8 @@ describe('PageSlotComponent', () => {
     ).not.toHaveBeenCalledWith(
       {
         smartedit: {
-          test: 'test'
-        }
+          test: 'test',
+        },
       },
       native,
       renderer

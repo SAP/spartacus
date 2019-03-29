@@ -25,17 +25,17 @@ import { OutletModule } from '../../../outlet/index';
     CartSharedModule,
     CmsModule,
     AddToCartModule,
-    OutletModule
+    OutletModule,
   ],
   declarations: [
     ProductDetailsComponent,
     ProductSummaryComponent,
-    ProductImagesComponent
+    ProductImagesComponent,
   ],
   exports: [
     ProductDetailsComponent,
     ProductSummaryComponent,
-    ProductImagesComponent
-  ]
+    ProductImagesComponent,
+  ],
 })
 export class ProductDetailsModule {}

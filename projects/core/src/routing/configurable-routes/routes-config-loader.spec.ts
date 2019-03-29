@@ -21,16 +21,16 @@ class MockConfigurableRoutesModuleConfig {
       default: {
         page1: {
           paths: ['default-path1'],
-          paramsMapping: { param1: 'mappedParam1' }
+          paramsMapping: { param1: 'mappedParam1' },
         },
         page2: { paths: ['default-path2', 'default-path20'] },
-        page3: { paths: ['default-path3'] }
+        page3: { paths: ['default-path3'] },
       },
       en: {
         page1: { paths: ['en-path1', 'en-path10'] },
-        page2: { paths: ['en-path2'] }
-      }
-    }
+        page2: { paths: ['en-path2'] },
+      },
+    },
   };
 }
 
@@ -39,15 +39,15 @@ const mockFetchedRoutesConfig: RoutesConfig = {
     default: {
       page1: {
         paths: ['fetched-default-path1'],
-        paramsMapping: { param1: 'fetched-mappedParam1' }
-      }
+        paramsMapping: { param1: 'fetched-mappedParam1' },
+      },
     },
     en: {
       page1: {
-        paths: ['fetched-en-path1', 'fetched-en-path10']
-      }
-    }
-  }
+        paths: ['fetched-en-path1', 'fetched-en-path10'],
+      },
+    },
+  },
 };
 
 describe('RoutesConfigLoader', () => {
@@ -63,13 +63,13 @@ describe('RoutesConfigLoader', () => {
         { provide: ServerConfig, useClass: MockServerConfig },
         {
           provide: ConfigurableRoutesConfig,
-          useClass: MockConfigurableRoutesModuleConfig
+          useClass: MockConfigurableRoutesModuleConfig,
         },
         {
           provide: ConfigurableRoutesService,
-          useValue: { init: jasmine.createSpy() }
-        }
-      ]
+          useValue: { init: jasmine.createSpy() },
+        },
+      ],
     });
 
     loader = TestBed.get(RoutesConfigLoader);
@@ -105,25 +105,25 @@ describe('RoutesConfigLoader', () => {
             default: {
               page1: {
                 paths: ['fetched-default-path1'],
-                paramsMapping: { param1: 'fetched-mappedParam1' }
+                paramsMapping: { param1: 'fetched-mappedParam1' },
               },
               page2: {
-                paths: ['default-path2', 'default-path20']
+                paths: ['default-path2', 'default-path20'],
               },
-              page3: { paths: ['default-path3'] }
+              page3: { paths: ['default-path3'] },
             },
             en: {
               page1: {
                 paths: ['fetched-en-path1', 'fetched-en-path10'],
-                paramsMapping: { param1: 'fetched-mappedParam1' }
+                paramsMapping: { param1: 'fetched-mappedParam1' },
               },
               page2: {
-                paths: ['en-path2']
+                paths: ['en-path2'],
               },
-              page3: { paths: ['default-path3'] }
-            }
+              page3: { paths: ['default-path3'] },
+            },
           },
-          fetch: true
+          fetch: true,
         });
       });
     });
@@ -154,20 +154,20 @@ describe('RoutesConfigLoader', () => {
               default: {
                 page1: {
                   paths: ['default-path1'],
-                  paramsMapping: { param1: 'mappedParam1' }
+                  paramsMapping: { param1: 'mappedParam1' },
                 },
                 page2: { paths: ['default-path2', 'default-path20'] },
-                page3: { paths: ['default-path3'] }
+                page3: { paths: ['default-path3'] },
               },
               en: {
                 page1: {
                   paths: ['en-path1', 'en-path10'],
-                  paramsMapping: { param1: 'mappedParam1' }
+                  paramsMapping: { param1: 'mappedParam1' },
                 },
                 page2: { paths: ['en-path2'] },
-                page3: { paths: ['default-path3'] }
-              }
-            }
+                page3: { paths: ['default-path3'] },
+              },
+            },
           })
         );
       });

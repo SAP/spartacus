@@ -18,7 +18,7 @@ export class NavigationEntryItemEffects {
     map(payload => {
       return {
         ids: this.getIdListByItemType(payload.items),
-        nodeId: payload.nodeId
+        nodeId: payload.nodeId,
       };
     }),
     mergeMap(data => {
@@ -42,7 +42,7 @@ export class NavigationEntryItemEffects {
                   res =>
                     new navigationItemActions.LoadNavigationItemsSuccess({
                       nodeId: data.nodeId,
-                      components: res.component
+                      components: res.component,
                     })
                 ),
                 catchError(error =>

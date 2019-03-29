@@ -14,12 +14,12 @@ import { OccCmsPageLoader } from './occ-cms-page.loader';
     ComponentMapperService,
     {
       provide: CmsPageLoader,
-      useClass: OccCmsPageLoader
+      useClass: OccCmsPageLoader,
     },
     {
       provide: CmsPageAdapter,
-      useClass: OccCmsPageAdapter
-    }
-  ]
+      useClass: OccCmsPageAdapter,
+    },
+  ],
 })
 export class CmsOccModule {}

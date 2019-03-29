@@ -29,8 +29,8 @@ describe('SmartEditService', () => {
       providers: [
         SmartEditService,
         { provide: CmsService, useClass: MockCmsService },
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
 
     service = TestBed.get(SmartEditService);
@@ -49,8 +49,8 @@ describe('SmartEditService', () => {
         of({
           state: {
             url: '/test',
-            queryParams: { cmsTicketId: 'mockCmsTicketId' }
-          }
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
         })
       );
       service['getCmsTicket']();
@@ -65,8 +65,8 @@ describe('SmartEditService', () => {
         of({
           state: {
             url: '/test',
-            queryParams: { cmsTicketId: 'mockCmsTicketId' }
-          }
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
         })
       );
       service['getCmsTicket']();
@@ -78,8 +78,8 @@ describe('SmartEditService', () => {
         of({
           state: {
             url: '/test',
-            queryParams: {}
-          }
+            queryParams: {},
+          },
         })
       );
       service['getCmsTicket']();
@@ -96,17 +96,17 @@ describe('SmartEditService', () => {
           properties: {
             smartedit: {
               classes:
-                'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid'
-            }
-          }
+                'smartedit-page-uid-testPageId smartedit-page-uuid-testPageUuid smartedit-catalog-version-uuid-testPageCatalogUuid',
+            },
+          },
         })
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
           state: {
             url: '/test',
-            queryParams: { cmsTicketId: 'mockCmsTicketId' }
-          }
+            queryParams: { cmsTicketId: 'mockCmsTicketId' },
+          },
         })
       );
       service['getCmsTicket']();

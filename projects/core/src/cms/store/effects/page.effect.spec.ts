@@ -26,13 +26,13 @@ export function mockDateNow(): number {
 
 const context: PageContext = {
   id: 'homepage',
-  type: PageType.CONTENT_PAGE
+  type: PageType.CONTENT_PAGE,
 };
 const mockRouterState = {
   state: {
     cmsRequired: true,
-    context
-  }
+    context,
+  },
 };
 
 const pageMock: Page = {
@@ -48,32 +48,32 @@ const pageMock: Page = {
         {
           uid: 'comp1',
           typeCode: 'SimpleBannerComponent',
-          flexType: 'SimpleBannerComponent'
+          flexType: 'SimpleBannerComponent',
         },
         {
           uid: 'comp2',
           typeCode: 'CMSFlexComponent',
-          flexType: 'AccountAddressBookComponent'
-        }
-      ]
-    }
-  }
+          flexType: 'AccountAddressBookComponent',
+        },
+      ],
+    },
+  },
 };
 
 const componentsMock = [
   {
     uid: 'comp1',
-    typeCode: 'SimpleBannerComponent'
+    typeCode: 'SimpleBannerComponent',
   },
   {
     uid: 'comp2',
-    typeCode: 'CMSFlexComponent'
-  }
+    typeCode: 'CMSFlexComponent',
+  },
 ];
 
 const pageStructure: CmsStructureModel = {
   page: pageMock,
-  components: componentsMock
+  components: componentsMock,
 };
 
 class CmsPageLoaderMock {
@@ -99,14 +99,14 @@ describe('Page Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
       ],
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
         { provide: CmsPageLoader, useClass: CmsPageLoaderMock },
         fromEffects.PageEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     cmsPageLoader = TestBed.get(CmsPageLoader);
@@ -132,7 +132,7 @@ describe('Page Effects', () => {
         actions$ = hot('-a', { a: action });
         const expected = cold('-(bc)', {
           b: completion1,
-          c: completion2
+          c: completion2,
         });
 
         expect(effects.loadPageData$).toBeObservable(expected);
@@ -147,7 +147,7 @@ describe('Page Effects', () => {
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
-          b: completion
+          b: completion,
         });
 
         expect(effects.loadPageData$).toBeObservable(expected);

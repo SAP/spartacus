@@ -29,8 +29,8 @@ export class ClientErrorHandlingService {
   ): HttpRequest<any> {
     request = request.clone({
       setHeaders: {
-        Authorization: `${token.token_type} ${token.access_token}`
-      }
+        Authorization: `${token.token_type} ${token.access_token}`,
+      },
     });
     return request;
   }

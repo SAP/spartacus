@@ -25,6 +25,6 @@ export const contextServiceProviders: Provider[] = [
     provide: APP_INITIALIZER,
     useFactory: inititializeContext,
     deps: [OccConfig, BaseSiteService, LanguageService, CurrencyService],
-    multi: true
-  }
+    multi: true,
+  },
 ];

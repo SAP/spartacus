@@ -27,7 +27,7 @@ describe('Product Search Reducer', () => {
       const { initialState } = fromProductSearch;
       const loadAction = new fromActions.SearchProducts({
         queryText: 'test',
-        searchConfig: mockSearchConfig
+        searchConfig: mockSearchConfig,
       });
       const loadingState = fromProductSearch.reducer(initialState, loadAction);
       const resultAction = new fromActions.SearchProductsSuccess(results);
@@ -47,7 +47,7 @@ describe('Product Search Reducer', () => {
       const loadAction = new fromActions.SearchProducts(
         {
           queryText: 'test',
-          searchConfig: mockSearchConfig
+          searchConfig: mockSearchConfig,
         },
         true
       );

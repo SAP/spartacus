@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   CmsStructureConfig,
   CmsPageConfig,
-  CmsPageSlotsConfig
+  CmsPageSlotsConfig,
 } from '../config/cms-structure.config';
 import { CmsStructureModel } from '../model/page.model';
 import { Observable, of } from 'rxjs';
@@ -18,7 +18,7 @@ import { map, switchMap } from 'rxjs/operators';
  * fast loading pages and default cms structure for comodoty commerce.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class CmsStructureConfigService {
   constructor(protected cmsDataConfig: CmsStructureConfig) {}
@@ -78,7 +78,7 @@ export abstract class CmsStructureConfigService {
           // serialize page data
           if (!pageStructure.page) {
             pageStructure.page = {
-              ...page
+              ...page,
             };
             pageStructure.page.slots = {};
           }

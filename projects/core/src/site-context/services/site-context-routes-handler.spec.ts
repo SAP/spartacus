@@ -24,28 +24,28 @@ describe('SiteContextRoutesHandlerService', () => {
       events: mockRouterEvents,
       url: 'test',
       parseUrl: createSpy().and.callFake(url => url + '_a'),
-      serializeUrl: createSpy().and.callFake(url => url + '_b')
+      serializeUrl: createSpy().and.callFake(url => url + '_b'),
     };
 
     mockLocation = {
-      replaceState: createSpy()
+      replaceState: createSpy(),
     };
 
     activeLanguage = new BehaviorSubject('en');
 
     mockLanguageService = {
-      getActive: createSpy().and.returnValue(activeLanguage)
+      getActive: createSpy().and.returnValue(activeLanguage),
     };
 
     mockSiteContextParamsService = {
       getContextParameters: () => ['language'],
       getSiteContextService: () => mockLanguageService,
       getParamValues: () => ['en', 'de'],
-      setValue: createSpy('setValue')
+      setValue: createSpy('setValue'),
     };
 
     mockSiteContextUrlSerializer = {
-      urlExtractContextParameters: url => ({ params: { language: url } })
+      urlExtractContextParameters: url => ({ params: { language: url } }),
     };
 
     TestBed.configureTestingModule({
@@ -53,21 +53,21 @@ describe('SiteContextRoutesHandlerService', () => {
         SiteContextRoutesHandler,
         {
           provide: SiteContextParamsService,
-          useValue: mockSiteContextParamsService
+          useValue: mockSiteContextParamsService,
         },
         {
           provide: Router,
-          useValue: mockRouter
+          useValue: mockRouter,
         },
         {
           provide: Location,
-          useValue: mockLocation
+          useValue: mockLocation,
         },
         {
           provide: SiteContextUrlSerializer,
-          useValue: mockSiteContextUrlSerializer
-        }
-      ]
+          useValue: mockSiteContextUrlSerializer,
+        },
+      ],
     });
 
     service = TestBed.get(SiteContextRoutesHandler);

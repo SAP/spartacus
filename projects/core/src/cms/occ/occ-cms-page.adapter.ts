@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CMSPage } from '../../occ/index';
 import {
   CMS_FLEX_COMPONENT_TYPE,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE
+  JSP_INCLUDE_CMS_COMPONENT_TYPE,
 } from '../config/cms-config';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -29,15 +29,15 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
       pageId: source.uid,
       template: source.template,
       slots: {},
-      properties: source.properties
+      properties: source.properties,
     };
   }
 
   private serializePageSlotData(source: any, target: CmsStructureModel): void {
     for (const slot of source.contentSlots.contentSlot) {
       target.page.slots[slot.position] = {
+        components: [],
         properties: slot.properties,
-        components: []
       } as ContentSlotData;
     }
   }
@@ -55,7 +55,7 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
-            properties: component.properties
+            properties: component.properties,
           };
 
           if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {

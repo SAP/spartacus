@@ -4,7 +4,7 @@ import createSpy = jasmine.createSpy;
 import {
   GlobalMessageService,
   GlobalMessageType,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { AddToHomeScreenService } from './add-to-home-screen.service';
 import { PWAModuleConfig } from '../pwa.module-config';
@@ -16,8 +16,8 @@ class MockGlobalMessageService {
 const MockPWaModuleConfig: PWAModuleConfig = {
   pwa: {
     enabled: true,
-    addToHomeScreen: true
-  }
+    addToHomeScreen: true,
+  },
 };
 describe('AddToHomeScreenService', () => {
   let addToHomeService: AddToHomeScreenService;
@@ -30,8 +30,8 @@ describe('AddToHomeScreenService', () => {
         AddToHomeScreenService,
         WindowRef,
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: PWAModuleConfig, useValue: MockPWaModuleConfig }
-      ]
+        { provide: PWAModuleConfig, useValue: MockPWaModuleConfig },
+      ],
     });
 
     addToHomeService = TestBed.get(AddToHomeScreenService);
@@ -62,7 +62,7 @@ describe('AddToHomeScreenService', () => {
     expect(addToHomeService.disableAddToHomeScreen).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalledWith({
       type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      text: 'SAP Storefront was added to your home screen'
+      text: 'SAP Storefront was added to your home screen',
     });
   });
 

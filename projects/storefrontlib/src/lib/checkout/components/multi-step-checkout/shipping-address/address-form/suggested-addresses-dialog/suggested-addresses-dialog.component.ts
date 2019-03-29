@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -13,7 +13,7 @@ import { Address } from '@spartacus/core';
   selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
   styleUrls: ['./suggested-addresses-dialog.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuggestedAddressDialogComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) {}

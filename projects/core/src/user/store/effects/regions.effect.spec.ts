@@ -22,13 +22,13 @@ const mockRegionsList: RegionList = {
   regions: [
     {
       isocode: 'CA-ON',
-      name: 'Ontarion'
+      name: 'Ontarion',
     },
     {
       isocode: 'CA-QC',
-      name: 'Quebec'
-    }
-  ]
+      name: 'Quebec',
+    },
+  ],
 };
 
 describe('', () => {
@@ -41,8 +41,8 @@ describe('', () => {
       providers: [
         RegionsEffects,
         { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(RegionsEffects);

@@ -7,6 +7,6 @@ import { OutletService } from './outlet.service';
   imports: [CommonModule],
   declarations: [OutletDirective],
   providers: [OutletService],
-  exports: [OutletDirective]
+  exports: [OutletDirective],
 })
 export class OutletModule {}

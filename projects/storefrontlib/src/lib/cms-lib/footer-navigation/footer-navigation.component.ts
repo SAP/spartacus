@@ -5,6 +5,6 @@ import { NavigationComponent } from '../navigation/navigation.component';
   selector: 'cx-footer-navigation',
   templateUrl: './footer-navigation.component.html',
   styleUrls: ['./footer-navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterNavigationComponent extends NavigationComponent {}
