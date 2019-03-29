@@ -1,17 +1,21 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducer, ActionReducerMap } from '@ngrx/store';
 
-import { ProcessState } from '../process-state';
-import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
+import { entityLoaderReducer } from 'projects/core/src/state';
 
-export function getReducers(): ActionReducerMap<ProcessState> {
-  return { updateUserDetails: loaderReducer('to-be-changed') };
+import { PROCESS_FEATURE } from '../process-state';
+import { EntityLoaderState } from '../../../state/utils/entity-loader/entity-loader-state';
+
+export function getReducers<T>(): ActionReducer<EntityLoaderState<T>> {
+  return entityLoaderReducer(PROCESS_FEATURE);
 }
 
 export const reducerToken: InjectionToken<
-  ActionReducerMap<ProcessState>
-> = new InjectionToken<ActionReducerMap<ProcessState>>('ProcessReducers');
+  ActionReducerMap<EntityLoaderState<any>>
+> = new InjectionToken<ActionReducerMap<EntityLoaderState<any>>>(
+  'ProcessReducers'
+);
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
