@@ -17,11 +17,21 @@ import {
   Region,
   OrderHistoryList
 } from '../../occ/occ-models/index';
-import { entitySelector } from '../../state/utils/entity/entity.selectors';
+import {
+  getProcessLoadingFactory,
+  getSelectedProductSuccessFactory,
+  getSelectedProductErrorFactory
+} from '../../process/store/selectors/process.selectors';
+import { USER_UPDATE_PROCESS } from '../store/user-state';
+import * as fromProcessStore from '../../process/store/process-state';
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    private store: Store<
+      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
+    >
+  ) {}
 
   /**
    * Returns a user
@@ -345,21 +355,27 @@ export class UserService {
    * Returns the update user's personal details loading flag
    */
   getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
-    return this.store.pipe(select(entitySelector));
+    return this.store.pipe(
+      select(getProcessLoadingFactory(USER_UPDATE_PROCESS))
+    );
   }
 
   /**
    * Returns the update user's personal details error flag
    */
   getUpdatePersonalDetailsResultError(): Observable<boolean> {
-    return this.store.pipe(select(entitySelector));
+    return this.store.pipe(
+      select(getSelectedProductErrorFactory(USER_UPDATE_PROCESS))
+    );
   }
 
   /**
    * Returns the update user's personal details success flag
    */
   getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
-    return this.store.pipe(select(entitySelector));
+    return this.store.pipe(
+      select(getSelectedProductSuccessFactory(USER_UPDATE_PROCESS))
+    );
   }
 
   /**
