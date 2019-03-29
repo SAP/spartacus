@@ -14,9 +14,9 @@ import {
 } from '../../occ/occ-models/index';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
+  getProcessErrorFactory,
   getProcessLoadingFactory,
-  getSelectedProductErrorFactory,
-  getSelectedProductSuccessFactory,
+  getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
@@ -361,9 +361,7 @@ export class UserService {
    * Returns the update user's personal details error flag
    */
   getUpdatePersonalDetailsResultError(): Observable<boolean> {
-    return this.store.pipe(
-      select(getSelectedProductErrorFactory(USER_UPDATE_PROCESS))
-    );
+    return this.store.pipe(select(getProcessErrorFactory(USER_UPDATE_PROCESS)));
   }
 
   /**
@@ -371,7 +369,7 @@ export class UserService {
    */
   getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getSelectedProductSuccessFactory(USER_UPDATE_PROCESS))
+      select(getProcessSuccessFactory(USER_UPDATE_PROCESS))
     );
   }
 
