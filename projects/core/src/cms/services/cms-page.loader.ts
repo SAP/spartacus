@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { PageContext } from '../../routing/models/page-context.model';
@@ -17,7 +17,7 @@ import { CmsStructureConfigService } from './cms-structure-config.service';
 export abstract class CmsPageLoader<T> {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsPageAdapter<T>
+    @Optional() protected adapter: CmsPageAdapter<T>
   ) {}
 
   /**
@@ -27,7 +27,7 @@ export abstract class CmsPageLoader<T> {
    *
    * @param pageContext The `PageContext` holding the page Id.
    */
-  abstract load(_pageContext: PageContext): Observable<T>;
+  abstract load(pageContext: PageContext): Observable<T>;
 
   /**
    * Returns an observable with the page structure. The page structure is
@@ -85,7 +85,7 @@ export abstract class CmsPageLoader<T> {
     pageContext: PageContext,
     pageStructure: CmsStructureModel
   ): Observable<CmsStructureModel> {
-    return this.cmsStructureConfigService.mergeConfig(
+    return this.cmsStructureConfigService.mergePageStructure(
       pageContext.id,
       pageStructure
     );

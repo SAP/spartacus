@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
-import * as fromAction from '../actions/titles.action';
 import { OccMiscsService } from '../../../occ/miscs/miscs.service';
-import { Title } from 'projects/core/src/occ/occ-models/occ.models';
+import { Title } from '../../../occ/occ-models/occ.models';
+import * as fromAction from '../actions/titles.action';
 
 @Injectable()
 export class TitlesEffects {
