@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
-  NavigationExtras
+  NavigationExtras,
 } from '@angular/router';
 
 import { of, Observable } from 'rxjs';
@@ -20,7 +20,7 @@ const mockUserToken = {
   refresh_token: 'test',
   expires_in: 1,
   scope: ['test'],
-  userId: 'test'
+  userId: 'test',
 } as UserToken;
 
 class AuthServiceStub {
@@ -52,22 +52,22 @@ describe('AuthGuard', () => {
         AuthGuard,
         {
           provide: RoutingService,
-          useClass: RoutingServiceStub
+          useClass: RoutingServiceStub,
         },
         {
           provide: ActivatedRouteSnapshot,
-          useClass: ActivatedRouteSnapshotStub
+          useClass: ActivatedRouteSnapshotStub,
         },
         {
           provide: RouterStateSnapshot,
-          useClass: RouterStateSnapshotStub
+          useClass: RouterStateSnapshotStub,
         },
         {
           provide: AuthService,
-          useClass: AuthServiceStub
-        }
+          useClass: AuthServiceStub,
+        },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
     authGuard = TestBed.get(AuthGuard);
     service = TestBed.get(RoutingService);

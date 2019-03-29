@@ -4,7 +4,7 @@ import { CART_DATA } from '../cart-state';
 import {
   loadMeta,
   failMeta,
-  successMeta
+  successMeta,
 } from '../../../state/utils/loader/loader.action';
 
 const cart: Cart = {
@@ -13,12 +13,12 @@ const cart: Cart = {
   totalItems: 0,
   totalPrice: {
     currencyIso: 'USD',
-    value: 0
+    value: 0,
   },
   totalPriceWithTax: {
     currencyIso: 'USD',
-    value: 0
-  }
+    value: 0,
+  },
 };
 
 describe('Cart Actions', () => {
@@ -30,7 +30,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCart.CREATE_CART,
           payload: userId,
-          meta: loadMeta(CART_DATA)
+          meta: loadMeta(CART_DATA),
         });
       });
     });
@@ -43,7 +43,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCart.CREATE_CART_FAIL,
           payload: error,
-          meta: failMeta(CART_DATA, error)
+          meta: failMeta(CART_DATA, error),
         });
       });
     });
@@ -54,7 +54,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCart.CREATE_CART_SUCCESS,
           payload: cart,
-          meta: successMeta(CART_DATA)
+          meta: successMeta(CART_DATA),
         });
       });
     });
@@ -67,12 +67,12 @@ describe('Cart Actions', () => {
         const cartId = 'testCartId';
         const action = new fromCart.LoadCart({
           userId: userId,
-          cartId: cartId
+          cartId: cartId,
         });
         expect({ ...action }).toEqual({
           type: fromCart.LOAD_CART,
           payload: { userId: userId, cartId: cartId },
-          meta: loadMeta(CART_DATA)
+          meta: loadMeta(CART_DATA),
         });
       });
     });
@@ -85,7 +85,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCart.LOAD_CART_FAIL,
           payload: error,
-          meta: failMeta(CART_DATA, error)
+          meta: failMeta(CART_DATA, error),
         });
       });
     });
@@ -96,7 +96,7 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: fromCart.LOAD_CART_SUCCESS,
           payload: cart,
-          meta: successMeta(CART_DATA)
+          meta: successMeta(CART_DATA),
         });
       });
     });
@@ -109,11 +109,11 @@ describe('Cart Actions', () => {
         const cartId = 'testCartId';
         const action = new fromCart.MergeCart({
           userId: userId,
-          cartId: cartId
+          cartId: cartId,
         });
         expect({ ...action }).toEqual({
           type: fromCart.MERGE_CART,
-          payload: { userId: userId, cartId: cartId }
+          payload: { userId: userId, cartId: cartId },
         });
       });
     });

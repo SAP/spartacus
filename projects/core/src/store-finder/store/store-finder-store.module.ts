@@ -17,8 +17,8 @@ import { StoreFinderOccModule } from '../occ/store-finder-occ.module';
     HttpClientModule,
     StoreFinderOccModule,
     StoreModule.forFeature(STORE_FINDER_FEATURE, reducerToken),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class StoreFinderStoreModule {}

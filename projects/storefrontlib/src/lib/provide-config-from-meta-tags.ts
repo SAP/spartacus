@@ -1,7 +1,7 @@
 import { Provider } from '@angular/core';
 import {
   provideConfigFactory,
-  serverConfigFromMetaTagFactory
+  serverConfigFromMetaTagFactory,
 } from '@spartacus/core';
 import { Meta } from '@angular/platform-browser';
 

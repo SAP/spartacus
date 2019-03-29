@@ -18,7 +18,7 @@ import {
   ConfigModule,
   ProductService,
   RoutingService,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
@@ -40,18 +40,18 @@ import { PageComponentModule } from '../../../../cms-structure/page/component/pa
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSTabParagraphContainer: {
-          selector: 'cx-product-tabs'
-        }
-      }
-    })
+          selector: 'cx-product-tabs',
+        },
+      },
+    }),
   ],
   declarations: [ProductAttributesComponent, ProductTabsComponent],
   exports: [
     ProductAttributesComponent,
     ProductReviewsComponent,
-    ProductTabsComponent
+    ProductTabsComponent,
   ],
   entryComponents: [ProductTabsComponent],
-  providers: [ProductService, WindowRef, RoutingService]
+  providers: [ProductService, WindowRef, RoutingService],
 })
 export class ProductTabsModule {}

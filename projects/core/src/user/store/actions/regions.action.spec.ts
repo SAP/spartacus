@@ -6,7 +6,7 @@ describe('Regions Actions', () => {
       const action = new fromAction.LoadRegions('CA');
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS,
-        payload: 'CA'
+        payload: 'CA',
       });
     });
   });
@@ -18,7 +18,7 @@ describe('Regions Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -28,17 +28,17 @@ describe('Regions Actions', () => {
       const regions = [
         {
           isocode: 'CA-ON',
-          name: 'Ontario'
+          name: 'Ontario',
         },
         {
           isocode: 'CA-QC',
-          name: 'Quebec'
-        }
+          name: 'Quebec',
+        },
       ];
       const action = new fromAction.LoadRegionsSuccess(regions);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_REGIONS_SUCCESS,
-        payload: regions
+        payload: regions,
       });
     });
   });

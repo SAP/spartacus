@@ -43,7 +43,7 @@ $theme-colors: (
   'background': $background,
   'inverse': $inverse,
   'text': $text,
-  'transparent': $transparent
+  'transparent': $transparent,
 );
 
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225
@@ -70,7 +70,7 @@ $type: (
   '5': $h5-font-size $font-weight-bold,
   '6': $h5-font-size $font-weight-semi,
   '7': $small-font-size $font-weight-normal,
-  '8': $small-font-size $font-weight-bold
+  '8': $small-font-size $font-weight-bold,
 );
 
 //bring in variable defaults

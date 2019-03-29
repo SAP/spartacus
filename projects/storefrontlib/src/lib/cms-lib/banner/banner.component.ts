@@ -6,7 +6,7 @@ import { BannerComponentService } from './banner.component.service';
   selector: 'cx-banner',
   templateUrl: './banner.component.html',
   styleUrls: ['./banner.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent {
   constructor(public service: BannerComponentService) {}

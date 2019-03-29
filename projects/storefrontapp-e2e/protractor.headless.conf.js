@@ -9,7 +9,7 @@ exports.config = {
   suites: {
     smoke: './src/smoke/*.e2e-spec.ts',
     regression: './src/regression/*.e2e-spec.ts',
-    all: './src/**/*.e2e-spec.ts'
+    all: './src/**/*.e2e-spec.ts',
   },
   capabilities: {
     browserName: 'chrome',
@@ -21,29 +21,29 @@ exports.config = {
         'disable-gpu',
         'window-size=1024,768',
         'disable-infobars',
-        'disable-web-security'
-      ]
-    }
+        'disable-web-security',
+      ],
+    },
   },
   resultJsonOutputFile: 'protractor.log.json',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function() {}
+    print: function() {},
   },
   onPrepare() {
     require('ts-node').register({
-      project: require('path').join(__dirname, './tsconfig.e2e.json')
+      project: require('path').join(__dirname, './tsconfig.e2e.json'),
     });
     jasmine.getEnv().addReporter(
       new SpecReporter({
         spec: {
-          displayStacktrace: true
-        }
+          displayStacktrace: true,
+        },
       })
     );
 
     // Add custom locators
     require('./src/custom-locators').addCustomLocators(by);
-  }
+  },
 };

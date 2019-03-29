@@ -19,12 +19,12 @@ describe('Regions Reducer', () => {
       const mockRegions: Region[] = [
         {
           isocode: 'CA-ON',
-          name: 'Ontario'
+          name: 'Ontario',
         },
         {
           isocode: 'CA-QC',
-          name: 'Quebec'
-        }
+          name: 'Quebec',
+        },
       ];
 
       const { initialState } = fromReducer;

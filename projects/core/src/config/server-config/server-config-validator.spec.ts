@@ -4,7 +4,7 @@ import { ServerConfig } from './server-config';
 describe('serverConfigValidator', () => {
   it('should warn about undefined baseUrl', () => {
     const invalidConfig: ServerConfig = {
-      server: {}
+      server: {},
     };
     expect(serverConfigValidator(invalidConfig)).toBeTruthy();
   });
@@ -12,8 +12,8 @@ describe('serverConfigValidator', () => {
   it('should not warn about undefined baseUrl', () => {
     const invalidConfig: ServerConfig = {
       server: {
-        baseUrl: ''
-      }
+        baseUrl: '',
+      },
     };
     expect(serverConfigValidator(invalidConfig)).toBeFalsy();
   });

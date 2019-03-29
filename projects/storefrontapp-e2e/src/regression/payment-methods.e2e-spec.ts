@@ -96,7 +96,7 @@ describe('Payment management page', () => {
     paymentForm = paymentMethod.paymentForm;
     await paymentForm.waitForReady();
     await paymentForm.fillIn({
-      cardYear: '2023'
+      cardYear: '2023',
     });
     await paymentForm.nextButton.click();
 

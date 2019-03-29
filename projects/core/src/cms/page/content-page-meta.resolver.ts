@@ -8,7 +8,7 @@ import { PageMeta, Page } from '../model/page.model';
 import { PageTitleResolver } from './page.resolvers';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContentPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver {
@@ -22,7 +22,7 @@ export class ContentPageMetaResolver extends PageMetaResolver
       filter(Boolean),
       map(page => {
         return {
-          title: this.resolveTitle(page)
+          title: this.resolveTitle(page),
         };
       })
     );

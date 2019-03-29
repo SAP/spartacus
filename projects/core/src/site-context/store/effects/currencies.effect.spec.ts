@@ -17,7 +17,7 @@ describe('Currencies Effects', () => {
   let effects: fromEffects.CurrenciesEffects;
 
   const currencies: Currency[] = [
-    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   ];
 
   const data = { currencies };
@@ -28,8 +28,8 @@ describe('Currencies Effects', () => {
       providers: [
         OccSiteService,
         fromEffects.CurrenciesEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(OccSiteService);

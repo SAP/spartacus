@@ -1,6 +1,6 @@
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -13,7 +13,7 @@ import { OccConfig } from '@spartacus/core';
 const productCode = 'testCode';
 const maxCount = 2;
 const productReviews: ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }]
+  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }],
 };
 
 const endpoint = '/products';
@@ -21,14 +21,14 @@ const endpoint = '/products';
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductReviewsLoaderService', () => {
@@ -42,9 +42,9 @@ describe('ProductReviewsLoaderService', () => {
         ProductReviewsLoaderService,
         {
           provide: OccConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductReviewsLoaderService);
