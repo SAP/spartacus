@@ -15,7 +15,7 @@ export function addShippingAddress() {
         JSON.parse(sessionStorage.getItem('auth')).userToken.token[
           'access_token'
         ]
-      }`
+      }`,
     },
     body: {
       defaultAddress: false,
@@ -28,8 +28,8 @@ export function addShippingAddress() {
       region: { isocode: 'US-AK' },
       country: { isocode: 'US' },
       postalCode: 'H4B3L4',
-      phone: ''
-    }
+      phone: '',
+    },
   }).then(response => {
     expect(response.status).to.eq(201);
   });
@@ -73,7 +73,7 @@ export function addPaymentMethod() {
           JSON.parse(sessionStorage.getItem('auth')).userToken.token[
             'access_token'
           ]
-        }`
+        }`,
       },
       body: {
         accountHolderName: 'test user',
@@ -91,9 +91,9 @@ export function addPaymentMethod() {
           line2: '',
           town: 'Montreal',
           postalCode: 'H4B3L4',
-          country: { isocode: 'US' }
-        }
-      }
+          country: { isocode: 'US' },
+        },
+      },
     }).then(response => {
       expect(response.status).to.eq(201);
     });
@@ -107,7 +107,7 @@ export function selectShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').contains(' Default Shipping Address ');
+  cy.get('.cx-card-title').contains(' Default Shipping Address ');
   cy.getByText(/Ship to this address/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
@@ -124,7 +124,7 @@ export function selectPaymentMethod() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').contains(' Default Payment Method ');
+  cy.get('.cx-card-title').contains(' Default Payment Method ');
   cy.getByText(/Use this payment/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
@@ -134,11 +134,11 @@ export function verifyAndPlaceOrder() {
   cy.get('.cx-review-title').should('contain', 'Review');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
-    .find('.cx-card-body__container')
+    .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
-    .find('.cx-card-body__container')
+    .find('.cx-card-container')
     .within(() => {
       cy.getByText('standard-gross');
     });

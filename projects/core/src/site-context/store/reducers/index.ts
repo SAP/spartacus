@@ -10,7 +10,7 @@ export function getReducers(): ActionReducerMap<SiteContextState> {
   return {
     languages: fromLanguages.reducer,
     currencies: fromCurrencies.reducer,
-    baseSite: fromBaseSite.reducer
+    baseSite: fromBaseSite.reducer,
   };
 }
 
@@ -22,5 +22,5 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };

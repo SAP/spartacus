@@ -11,7 +11,7 @@ import { ProductSearchService } from '../facade/product-search.service';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver {
@@ -35,14 +35,14 @@ export class CategoryPageMetaResolver extends PageMetaResolver
             map(data => {
               if (data.breadcrumbs && data.breadcrumbs.length > 0) {
                 return {
-                  title: this.resolveTitle(data)
+                  title: this.resolveTitle(data),
                 };
               }
             })
           );
         } else {
           return of({
-            title: page.title || page.name
+            title: page.title || page.name,
           });
         }
       })

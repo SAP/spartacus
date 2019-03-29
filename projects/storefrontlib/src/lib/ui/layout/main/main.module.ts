@@ -30,9 +30,9 @@ import { UserComponentModule } from '../../../user/user.module';
     PwaModule,
     PageLayoutModule,
     SeoModule,
-    PageSlotModule
+    PageSlotModule,
   ],
   declarations: [StorefrontComponent],
-  exports: [StorefrontComponent]
+  exports: [StorefrontComponent],
 })
 export class MainModule {}

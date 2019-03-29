@@ -5,7 +5,7 @@ import { PaymentDetails } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
-  loaderLoadingSelector
+  loaderLoadingSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getUserState } from './feature.selector';

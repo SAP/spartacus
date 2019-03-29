@@ -35,7 +35,7 @@ context('Reset Password Page', () => {
       method: 'POST',
       url: '**/resetpassword*',
       status: 202,
-      response: {}
+      response: {},
     }).as('postResetPassword');
     cy.get('cx-global-message .alert-info').should('not.exist');
 

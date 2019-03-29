@@ -10,7 +10,7 @@ import {
   UrlTranslationModule,
   ConfigModule,
   CmsConfig,
-  UserService
+  UserService,
 } from '@spartacus/core';
 
 @NgModule({
@@ -18,19 +18,19 @@ import {
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountOrderHistoryComponent: { selector: 'cx-order-history' }
-      }
+        AccountOrderHistoryComponent: { selector: 'cx-order-history' },
+      },
     }),
     RouterModule,
     FormsModule,
     NgSelectModule,
     BootstrapModule,
     PaginationAndSortingModule,
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent],
   providers: [UserService],
-  entryComponents: [OrderHistoryComponent]
+  entryComponents: [OrderHistoryComponent],
 })
 export class OrderHistoryModule {}

@@ -34,8 +34,8 @@ export class CheckoutEffects {
               new fromActions.SetDeliveryAddress({
                 userId: payload.userId,
                 cartId: payload.cartId,
-                address: address
-              })
+                address: address,
+              }),
             ];
           }),
           catchError(error => of(new fromActions.AddDeliveryAddressFail(error)))
@@ -120,7 +120,7 @@ export class CheckoutEffects {
                 data.parameters.entry,
                 labelsMap
               ),
-              mappingLabels: labelsMap
+              mappingLabels: labelsMap,
             };
           }),
           mergeMap(sub => {
@@ -149,7 +149,9 @@ export class CheckoutEffects {
                             new fromUserActions.LoadUserPaymentMethods(
                               payload.userId
                             ),
-                            new fromActions.CreatePaymentDetailsSuccess(details)
+                            new fromActions.CreatePaymentDetailsSuccess(
+                              details
+                            ),
                           ];
                         }),
                         catchError(error =>
@@ -213,8 +215,8 @@ export class CheckoutEffects {
             new fromActions.PlaceOrderSuccess(data),
             new AddMessage({
               text: 'Order placed successfully',
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-            })
+              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            }),
           ]),
           catchError(error => of(new fromActions.PlaceOrderFail(error)))
         );

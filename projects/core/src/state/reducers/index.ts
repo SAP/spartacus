@@ -14,7 +14,7 @@ export const stateMetaReducers: Provider[] = [
     provide: META_REDUCER,
     useFactory: getStorageSyncReducer,
     deps: [WindowRef, [new Optional(), Config]],
-    multi: true
+    multi: true,
   },
   {
     provide: META_REDUCER,
@@ -22,9 +22,9 @@ export const stateMetaReducers: Provider[] = [
     deps: [
       PLATFORM_ID,
       [new Optional(), TransferState],
-      [new Optional(), Config]
+      [new Optional(), Config],
     ],
-    multi: true
-  }
+    multi: true,
+  },
 ];
 export { getStateSlice } from '../utils/get-state-slice';

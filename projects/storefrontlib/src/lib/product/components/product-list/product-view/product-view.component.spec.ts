@@ -10,7 +10,7 @@ describe('ProductViewComponent in product-list', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgSelectModule, FormsModule],
-      declarations: [ProductViewComponent]
+      declarations: [ProductViewComponent],
     }).compileComponents();
   }));
 

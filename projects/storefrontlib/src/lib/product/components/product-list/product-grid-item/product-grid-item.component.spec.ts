@@ -5,14 +5,14 @@ import {
   Input,
   Component,
   Pipe,
-  PipeTransform
+  PipeTransform,
 } from '@angular/core';
 
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
   selector: 'cx-add-to-cart',
-  template: '<button>add to cart</button>'
+  template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
   @Input()
@@ -25,7 +25,7 @@ export class MockAddToCartComponent {
 
 @Component({
   selector: 'cx-star-rating',
-  template: '*****'
+  template: '*****',
 })
 export class MockStarRatingComponent {
   @Input()
@@ -38,7 +38,7 @@ export class MockStarRatingComponent {
 
 @Component({
   selector: 'cx-picture',
-  template: 'mock picture component'
+  template: 'mock picture component',
 })
 export class MockPictureComponent {
   @Input()
@@ -52,14 +52,14 @@ export class MockPictureComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Pipe({
-  name: 'stripHtml'
+  name: 'stripHtml',
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
@@ -74,14 +74,14 @@ describe('ProductGridItemComponent in product-list', () => {
     code: '1',
     averageRating: 4.5,
     stock: {
-      stockLevelStatus: 'inStock'
+      stockLevelStatus: 'inStock',
     },
     price: {
-      formattedValue: '$100,00'
+      formattedValue: '$100,00',
     },
     images: {
-      PRIMARY: {}
-    }
+      PRIMARY: {},
+    },
   };
 
   beforeEach(async(() => {
@@ -93,11 +93,11 @@ describe('ProductGridItemComponent in product-list', () => {
         MockAddToCartComponent,
         MockStarRatingComponent,
         MockTranslateUrlPipe,
-        MockStripHtmlPipe
-      ]
+        MockStripHtmlPipe,
+      ],
     })
       .overrideComponent(ProductGridItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   }));

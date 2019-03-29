@@ -8,8 +8,8 @@ import { StateModule } from '../../state/state.module';
 @NgModule({
   imports: [
     StateModule,
-    StoreModule.forFeature(GLOBAL_MESSAGE_FEATURE, reducerToken)
+    StoreModule.forFeature(GLOBAL_MESSAGE_FEATURE, reducerToken),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class GlobalMessageStoreModule {}

@@ -6,7 +6,7 @@ import {
   NavigationError,
   NavigationStart,
   Router,
-  RouterEvent
+  RouterEvent,
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SiteContextRoutesHandler implements OnDestroy {
   constructor(

@@ -7,7 +7,7 @@ import * as fromUserAddressesAction from '../actions/user-addresses.action';
 import { AddressList, User } from '../../../occ/occ-models/index';
 import {
   GlobalMessageService,
-  GlobalMessageType
+  GlobalMessageType,
 } from '../../../global-message/index';
 import { UserService } from '../../facade/index';
 import { OccUserService } from '../../occ/index';
@@ -149,7 +149,7 @@ export class UserAddressesEffects {
 
     this.messageService.add({
       type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      text
+      text,
     });
   }
 

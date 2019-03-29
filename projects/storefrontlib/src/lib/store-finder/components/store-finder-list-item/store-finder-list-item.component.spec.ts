@@ -15,14 +15,14 @@ describe('StoreFinderListItemComponent', () => {
     closingTime: {
       formattedHour: '20:00',
       hour: 8,
-      minute: 0
+      minute: 0,
     },
     openingTime: {
       formattedHour: '09:00',
       hour: 9,
-      minute: 0
+      minute: 0,
     },
-    closed: false
+    closed: false,
   };
 
   const sampleStore: any = {
@@ -32,61 +32,61 @@ describe('StoreFinderListItemComponent', () => {
       line2: '26-01',
       phone: '+81 5141 3298',
       postalCode: '150-8512',
-      town: 'Tokio'
+      town: 'Tokio',
     },
     displayName: 'Tokio Cerulean Tower Tokyu Hotel',
     geoPoint: {
       latitude: 35.656347,
-      longitude: 139.69956
+      longitude: 139.69956,
     },
     openingHours: {
       weekDayOpeningList: [
         {
           ...weekday,
-          weekDay: 'Mon'
+          weekDay: 'Mon',
         },
         {
           ...weekday,
-          weekDay: 'Tue'
+          weekDay: 'Tue',
         },
         {
           ...weekday,
-          weekDay: 'Wed'
+          weekDay: 'Wed',
         },
         {
           ...weekday,
-          weekDay: 'Thu'
+          weekDay: 'Thu',
         },
         {
           ...weekday,
-          weekDay: 'Fri'
+          weekDay: 'Fri',
         },
         {
           closingTime: {
             formattedHour: '20:00',
             hour: 8,
-            minute: 0
+            minute: 0,
           },
           openingTime: {
             formattedHour: '10:00',
             hour: 10,
-            minute: 0
+            minute: 0,
           },
           closed: false,
-          weekDay: 'Sat'
+          weekDay: 'Sat',
         },
         {
           closed: true,
-          weekDay: 'Sun'
-        }
-      ]
-    }
+          weekDay: 'Sun',
+        },
+      ],
+    },
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, ReactiveFormsModule, NgbTabsetModule],
       declarations: [StoreFinderListItemComponent],
-      providers: [StoreFinderService, StoreDataService]
+      providers: [StoreFinderService, StoreDataService],
     }).compileComponents();
   }));
 

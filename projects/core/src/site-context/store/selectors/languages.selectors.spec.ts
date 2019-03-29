@@ -11,19 +11,22 @@ describe('Languages Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
   const languages: Language[] = [
-    { active: true, isocode: 'ja', name: 'Japanese' }
+    { active: true, isocode: 'ja', name: 'Japanese' },
   ];
 
   const entities = {
-    ja: languages[0]
+    ja: languages[0],
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          SITE_CONTEXT_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

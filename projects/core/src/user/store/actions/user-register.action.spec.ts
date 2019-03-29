@@ -9,13 +9,13 @@ describe('User Register Actions', () => {
         firstName: '',
         lastName: '',
         password: '',
-        uid: ''
+        uid: '',
       };
 
       const action = new fromUserRegister.RegisterUser(user);
       expect({ ...action }).toEqual({
         type: fromUserRegister.REGISTER_USER,
-        payload: user
+        payload: user,
       });
     });
   });
@@ -27,7 +27,7 @@ describe('User Register Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserRegister.REGISTER_USER_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -37,7 +37,7 @@ describe('User Register Actions', () => {
       const action = new fromUserRegister.RegisterUserSuccess();
 
       expect({ ...action }).toEqual({
-        type: fromUserRegister.REGISTER_USER_SUCCESS
+        type: fromUserRegister.REGISTER_USER_SUCCESS,
       });
     });
   });

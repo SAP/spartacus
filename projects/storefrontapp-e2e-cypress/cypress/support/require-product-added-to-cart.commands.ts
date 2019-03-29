@@ -25,12 +25,12 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
       method: 'POST',
       url: `${apiUrl}/rest/v2/electronics/users/current/carts`,
       body: {
-        fields: 'DEFAULT'
+        fields: 'DEFAULT',
       },
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`
-      }
+        Authorization: `bearer ${auth.userToken.token.access_token}`,
+      },
     });
   }
 
@@ -40,12 +40,12 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
       url: `${apiUrl}/rest/v2/electronics/users/current/carts/${cartCode}/entries`,
       body: {
         code: productData.code,
-        qty: 1
+        qty: 1,
       },
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`
-      }
+        Authorization: `bearer ${auth.userToken.token.access_token}`,
+      },
     });
   }
 

@@ -27,8 +27,8 @@ export class ResetPasswordEffects {
           new fromActions.ResetPasswordSuccess(),
           new AddMessage({
             text: 'Success! You can now login using your new password.',
-            type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-          })
+            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          }),
         ]),
         catchError(error => of(new fromActions.ResetPasswordFail(error)))
       );

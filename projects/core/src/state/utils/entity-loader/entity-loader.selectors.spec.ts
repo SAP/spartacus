@@ -2,7 +2,7 @@ import { EntityLoaderState } from './entity-loader-state';
 import {
   entityErrorSelector,
   entityLoadingSelector,
-  entityValueSelector
+  entityValueSelector,
 } from './entity-loader.selectors';
 
 describe('EntityLoader selectors', () => {
@@ -15,9 +15,9 @@ describe('EntityLoader selectors', () => {
         loading: true,
         error: false,
         success: false,
-        value: testValue
-      }
-    }
+        value: testValue,
+      },
+    },
   };
 
   it('loaderValueSelector should return value', () => {

@@ -13,14 +13,14 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartTotalsComponent: {
-          selector: 'cx-cart-totals'
-        }
-      }
+          selector: 'cx-cart-totals',
+        },
+      },
     }),
-    CartSharedModule
+    CartSharedModule,
   ],
   declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],
-  entryComponents: [CartTotalsComponent]
+  entryComponents: [CartTotalsComponent],
 })
 export class CartTotalsModule {}

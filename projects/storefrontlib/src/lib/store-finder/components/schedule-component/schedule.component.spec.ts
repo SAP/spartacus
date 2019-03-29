@@ -69,7 +69,9 @@ describe('ScheduleComponent', () => {
   beforeEach(() => {
     const bed = TestBed.configureTestingModule({
       declarations: [ScheduleComponent],
-      providers: [{ provide: StoreDataService, useClass: StoreDataServiceMock }]
+      providers: [
+        { provide: StoreDataService, useClass: StoreDataServiceMock },
+      ],
     });
 
     fixture = bed.createComponent(ScheduleComponent);
@@ -89,7 +91,7 @@ describe('ScheduleComponent', () => {
     // when location is changed
     component.location = { openingHours: {} };
     component.ngOnChanges({
-      location: new SimpleChange(undefined, {}, false)
+      location: new SimpleChange(undefined, {}, false),
     });
     fixture.detectChanges();
 
@@ -119,7 +121,7 @@ describe('ScheduleComponent', () => {
 
     // when
     component.ngOnChanges({
-      location: new SimpleChange(undefined, {}, false)
+      location: new SimpleChange(undefined, {}, false),
     });
     fixture.detectChanges();
 
