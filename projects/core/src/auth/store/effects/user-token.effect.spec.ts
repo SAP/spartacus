@@ -17,7 +17,7 @@ const testToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 };
 
 class UserAuthenticationTokenServiceMock {
@@ -41,10 +41,10 @@ describe('UserToken effect', () => {
         UserTokenEffects,
         {
           provide: UserAuthenticationTokenService,
-          useClass: UserAuthenticationTokenServiceMock
+          useClass: UserAuthenticationTokenServiceMock,
         },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     userTokenEffect = TestBed.get(UserTokenEffects);
@@ -58,7 +58,7 @@ describe('UserToken effect', () => {
     it('should load a user token', () => {
       const action = new fromActions.LoadUserToken({
         userId: 'xxx',
-        password: 'xxx'
+        password: 'xxx',
       });
       const completion = new fromActions.LoadUserTokenSuccess(testToken);
 
@@ -73,7 +73,7 @@ describe('UserToken effect', () => {
     it('should refresh a user token', () => {
       const action = new fromActions.RefreshUserToken({
         userId: 'xxx',
-        refreshToken: '123'
+        refreshToken: '123',
       });
       const completion = new fromActions.RefreshUserTokenSuccess(testToken);
 

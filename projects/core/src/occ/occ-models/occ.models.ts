@@ -2868,7 +2868,7 @@ export interface VoucherList {
  */
 export enum PriceType {
   BUY = 'BUY',
-  FROM = 'FROM'
+  FROM = 'FROM',
 }
 
 /**
@@ -2883,7 +2883,7 @@ export enum PriceType {
  */
 export enum ImageType {
   PRIMARY = 'PRIMARY',
-  GALLERY = 'GALLERY'
+  GALLERY = 'GALLERY',
 }
 
 /**
@@ -2899,7 +2899,7 @@ export enum ImageType {
 export enum Fields {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -2915,7 +2915,7 @@ export enum Fields {
 export enum Fields1 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -2931,7 +2931,7 @@ export enum Fields1 {
 export enum Fields2 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -2947,7 +2947,7 @@ export enum Fields2 {
 export enum Fields3 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -2963,7 +2963,7 @@ export enum Fields3 {
 export enum Fields4 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -2979,7 +2979,7 @@ export enum Fields4 {
 export enum Fields5 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -2995,7 +2995,7 @@ export enum Fields5 {
 export enum Fields6 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3013,7 +3013,7 @@ export enum PageType {
   CONTENT_PAGE = 'ContentPage',
   PRODUCT_PAGE = 'ProductPage',
   CATEGORY_PAGE = 'CategoryPage',
-  CATALOG_PAGE = 'CatalogPage'
+  CATALOG_PAGE = 'CatalogPage',
 }
 
 /**
@@ -3029,7 +3029,7 @@ export enum PageType {
 export enum Fields7 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3045,7 +3045,7 @@ export enum Fields7 {
 export enum Fields8 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3061,7 +3061,7 @@ export enum Fields8 {
 export enum Fields9 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3077,7 +3077,7 @@ export enum Fields9 {
 export enum Fields10 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3093,7 +3093,7 @@ export enum Fields10 {
 export enum Fields11 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3109,7 +3109,7 @@ export enum Fields11 {
 export enum Fields12 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3125,7 +3125,7 @@ export enum Fields12 {
 export enum Fields13 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3141,7 +3141,7 @@ export enum Fields13 {
 export enum Fields14 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3157,7 +3157,7 @@ export enum Fields14 {
 export enum Fields15 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3173,7 +3173,7 @@ export enum Fields15 {
 export enum Fields16 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3189,7 +3189,7 @@ export enum Fields16 {
 export enum SortEnum {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3205,7 +3205,7 @@ export enum SortEnum {
 export enum Fields17 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3221,7 +3221,7 @@ export enum Fields17 {
 export enum Fields18 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3237,7 +3237,7 @@ export enum Fields18 {
 export enum Fields19 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3253,7 +3253,7 @@ export enum Fields19 {
 export enum Fields20 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3269,7 +3269,7 @@ export enum Fields20 {
 export enum Fields21 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3285,7 +3285,7 @@ export enum Fields21 {
 export enum Fields22 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3301,7 +3301,7 @@ export enum Fields22 {
 export enum Fields23 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3317,7 +3317,7 @@ export enum Fields23 {
 export enum Fields24 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3333,7 +3333,7 @@ export enum Fields24 {
 export enum Fields25 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3349,7 +3349,7 @@ export enum Fields25 {
 export enum Fields26 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3365,7 +3365,7 @@ export enum Fields26 {
 export enum Fields27 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3381,7 +3381,7 @@ export enum Fields27 {
 export enum Fields28 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3397,7 +3397,7 @@ export enum Fields28 {
 export enum Fields29 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3413,7 +3413,7 @@ export enum Fields29 {
 export enum Fields30 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3429,7 +3429,7 @@ export enum Fields30 {
 export enum Fields31 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3445,7 +3445,7 @@ export enum Fields31 {
 export enum Fields32 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3461,7 +3461,7 @@ export enum Fields32 {
 export enum Fields33 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3477,7 +3477,7 @@ export enum Fields33 {
 export enum Fields34 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3493,7 +3493,7 @@ export enum Fields34 {
 export enum Fields35 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3509,7 +3509,7 @@ export enum Fields35 {
 export enum Fields36 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3525,7 +3525,7 @@ export enum Fields36 {
 export enum Fields37 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3541,7 +3541,7 @@ export enum Fields37 {
 export enum Fields38 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3557,7 +3557,7 @@ export enum Fields38 {
 export enum Fields39 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3573,7 +3573,7 @@ export enum Fields39 {
 export enum Fields40 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3589,7 +3589,7 @@ export enum Fields40 {
 export enum Fields41 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3605,7 +3605,7 @@ export enum Fields41 {
 export enum Fields42 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3621,7 +3621,7 @@ export enum Fields42 {
 export enum Fields43 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3637,7 +3637,7 @@ export enum Fields43 {
 export enum Fields44 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3653,7 +3653,7 @@ export enum Fields44 {
 export enum Fields45 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3669,7 +3669,7 @@ export enum Fields45 {
 export enum Fields46 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3685,7 +3685,7 @@ export enum Fields46 {
 export enum Fields47 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3701,7 +3701,7 @@ export enum Fields47 {
 export enum Fields48 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3717,7 +3717,7 @@ export enum Fields48 {
 export enum Fields49 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3733,7 +3733,7 @@ export enum Fields49 {
 export enum Fields50 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3749,7 +3749,7 @@ export enum Fields50 {
 export enum Fields51 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3765,7 +3765,7 @@ export enum Fields51 {
 export enum Fields52 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3781,7 +3781,7 @@ export enum Fields52 {
 export enum Fields53 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3797,7 +3797,7 @@ export enum Fields53 {
 export enum Fields54 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3813,7 +3813,7 @@ export enum Fields54 {
 export enum Fields55 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3829,7 +3829,7 @@ export enum Fields55 {
 export enum Fields56 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3845,7 +3845,7 @@ export enum Fields56 {
 export enum Fields57 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3861,7 +3861,7 @@ export enum Fields57 {
 export enum Fields58 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3877,7 +3877,7 @@ export enum Fields58 {
 export enum Fields59 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3893,7 +3893,7 @@ export enum Fields59 {
 export enum Fields60 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3909,7 +3909,7 @@ export enum Fields60 {
 export enum Fields61 {
   BASIC = 'BASIC',
   DEFAULT = 'DEFAULT',
-  FULL = 'FULL'
+  FULL = 'FULL',
 }
 
 /**
@@ -3925,5 +3925,5 @@ export enum Fields61 {
 export enum Type {
   All = 'all',
   Product = 'product',
-  Order = 'order'
+  Order = 'order',
 }

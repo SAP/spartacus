@@ -4,7 +4,7 @@ import { OutletPosition } from '../outlet.model';
 import { OutletService } from '../outlet.service';
 
 @Directive({
-  selector: '[cxOutletRef]'
+  selector: '[cxOutletRef]',
 })
 export class OutletRefDirective implements OnInit {
   @Input()

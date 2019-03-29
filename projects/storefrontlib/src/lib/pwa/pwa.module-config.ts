@@ -10,6 +10,6 @@ export abstract class PWAModuleConfig extends ServerConfig {
 export const defaultPWAModuleConfig: PWAModuleConfig = {
   pwa: {
     enabled: false,
-    addToHomeScreen: false
-  }
+    addToHomeScreen: false,
+  },
 };

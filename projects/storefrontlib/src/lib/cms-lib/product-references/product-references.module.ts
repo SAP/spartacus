@@ -15,12 +15,12 @@ import { CmsConfig } from '@spartacus/core';
     ProductCarouselModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ProductReferencesComponent: { selector: 'cx-product-references' }
-      }
-    })
+        ProductReferencesComponent: { selector: 'cx-product-references' },
+      },
+    }),
   ],
   declarations: [ProductReferencesComponent],
   entryComponents: [ProductReferencesComponent],
-  exports: [ProductReferencesComponent]
+  exports: [ProductReferencesComponent],
 })
 export class ProductReferencesModule {}

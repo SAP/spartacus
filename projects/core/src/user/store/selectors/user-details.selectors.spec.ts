@@ -12,7 +12,7 @@ const mockUserDetails: User = {
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 describe('User Details Selectors', () => {
@@ -22,8 +22,8 @@ describe('User Details Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);

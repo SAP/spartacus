@@ -6,7 +6,7 @@ import {
   TranslateUrlOptions,
   Component as SpaComponent,
   Cart,
-  CmsMiniCartComponent
+  CmsMiniCartComponent,
 } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
@@ -16,7 +16,7 @@ import { By } from '@angular/platform-browser';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(options: TranslateUrlOptions): string | string[] {
@@ -31,12 +31,12 @@ const testCart: Cart = {
   deliveryItemsQuantity: 1,
   totalPrice: {
     currencyIso: 'USD',
-    value: 10.0
+    value: 10.0,
   },
   totalPriceWithTax: {
     currencyIso: 'USD',
-    value: 10.0
-  }
+    value: 10.0,
+  },
 };
 
 const mockComponentData: CmsMiniCartComponent = {
@@ -46,8 +46,8 @@ const mockComponentData: CmsMiniCartComponent = {
   shownProductCount: '3',
   lightboxBannerComponent: {
     uid: 'banner',
-    typeCode: 'SimpleBannerComponent'
-  }
+    typeCode: 'SimpleBannerComponent',
+  },
 };
 
 class MockCartService {
@@ -57,7 +57,7 @@ class MockCartService {
 }
 
 const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
-  data$: of(mockComponentData)
+  data$: of(mockComponentData),
 };
 
 describe('MiniCartComponent', () => {
@@ -70,8 +70,8 @@ describe('MiniCartComponent', () => {
       declarations: [MiniCartComponent, MockTranslateUrlPipe],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CartService, useClass: MockCartService }
-      ]
+        { provide: CartService, useClass: MockCartService },
+      ],
     }).compileComponents();
   }));
 

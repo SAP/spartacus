@@ -14,13 +14,13 @@ import { Login, Logout } from '../store/actions/login-logout.action';
 import {
   LoadUserToken,
   RefreshUserToken,
-  LoadUserTokenSuccess
+  LoadUserTokenSuccess,
 } from '../store/actions/user-token.action';
 import { getClientTokenState } from '../store/selectors/client-token.selectors';
 import { getUserToken } from '../store/selectors/user-token.selectors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(private store: Store<StateWithAuth>) {}
@@ -34,7 +34,7 @@ export class AuthService {
     this.store.dispatch(
       new LoadUserToken({
         userId: userId,
-        password: password
+        password: password,
       })
     );
   }
@@ -54,7 +54,7 @@ export class AuthService {
     this.store.dispatch(
       new RefreshUserToken({
         userId: token.userId,
-        refreshToken: token.refresh_token
+        refreshToken: token.refresh_token,
       })
     );
   }

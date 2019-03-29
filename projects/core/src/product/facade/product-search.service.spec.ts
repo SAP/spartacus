@@ -26,11 +26,11 @@ describe('ProductSearchService', () => {
     }
   }
   const mockSearchResults: ProductSearchPage = {
-    products: [{ code: '1' }, { code: '2' }, { code: '3' }]
+    products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
   const mockAuxSearchResults: ProductSearchPage = {
-    products: [{ code: 'aux1' }, { code: 'aux2' }]
+    products: [{ code: 'aux1' }, { code: 'aux2' }],
   };
 
   const mockSelect = (
@@ -52,15 +52,15 @@ describe('ProductSearchService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers())
+        StoreModule.forFeature('product', fromStore.getReducers()),
       ],
       providers: [
         ProductSearchService,
         {
           provide: Router,
-          useClass: MockRouter
-        }
-      ]
+          useClass: MockRouter,
+        },
+      ],
     });
 
     store = TestBed.get(Store);
@@ -112,7 +112,7 @@ describe('ProductSearchService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.SearchProducts({
           queryText: 'test query',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         })
       );
     });
@@ -126,7 +126,7 @@ describe('ProductSearchService', () => {
         new fromStore.SearchProducts(
           {
             queryText: 'test query',
-            searchConfig: searchConfig
+            searchConfig: searchConfig,
           },
           true
         )
@@ -141,7 +141,7 @@ describe('ProductSearchService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.GetProductSuggestions({
           term: 'test term',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         })
       );
     });

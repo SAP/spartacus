@@ -14,7 +14,7 @@ function createCart(req, res) {
   const isCartRoute = /(.+)-carts$/.test(uri.pathname);
   if (isCartRoute && req.method === 'POST') {
     const {
-      query: { currency }
+      query: { currency },
     } = uri;
     const guid = uuidv4();
     req.body = {
@@ -27,13 +27,13 @@ function createCart(req, res) {
       totalPrice: {
         currencyIso: currency,
         formattedValue: '$0.00',
-        value: 0.0
+        value: 0.0,
       },
       totalPriceWithTax: {
         currencyIso: currency,
-        value: 0.0
+        value: 0.0,
       },
-      'electronics-entries': []
+      'electronics-entries': [],
     };
   }
 }
@@ -43,7 +43,7 @@ function addCartEntry(req, res) {
   const isCartEntryRoute = /(.+)entries$/.test(uri.pathname);
   if (isCartEntryRoute && req.method === 'POST') {
     const {
-      query: { quantity, code }
+      query: { quantity, code },
     } = uri;
     req.body = {
       entry: {
@@ -54,19 +54,19 @@ function addCartEntry(req, res) {
           name: faker.commerce.productName(),
           purchasable: true,
           stock: {
-            stockLevel: 4
+            stockLevel: 4,
           },
-          url: '/product-url'
+          url: '/product-url',
         },
         quantity: quantity,
         totalPrice: {
           currencyIso: 'USD',
-          value: 260.87
-        }
+          value: 260.87,
+        },
       },
       quantity: quantity,
       quantityAdded: quantity,
-      statusCode: 'success'
+      statusCode: 'success',
     };
   }
 }

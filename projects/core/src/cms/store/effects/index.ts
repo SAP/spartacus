@@ -5,7 +5,7 @@ import { NavigationEntryItemEffects } from './navigation-entry-item.effect';
 export const effects: any[] = [
   PageEffects,
   ComponentEffects,
-  NavigationEntryItemEffects
+  NavigationEntryItemEffects,
 ];
 
 export * from './page.effect';

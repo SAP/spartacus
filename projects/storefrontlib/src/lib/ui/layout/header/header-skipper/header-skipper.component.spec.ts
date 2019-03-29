@@ -8,7 +8,7 @@ describe('HeaderSkipperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderSkipperComponent]
+      declarations: [HeaderSkipperComponent],
     }).compileComponents();
   }));
 

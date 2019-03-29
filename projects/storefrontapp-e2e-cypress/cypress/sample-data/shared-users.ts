@@ -6,6 +6,6 @@ export const standardUser: AccountData = {
     firstName: 'Winston',
     lastName: 'Rumfoord',
     password: 'Password123.',
-    titleCode: 'mr'
-  }
+    titleCode: 'mr',
+  },
 };

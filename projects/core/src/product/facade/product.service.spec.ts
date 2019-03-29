@@ -20,9 +20,9 @@ describe('ProductService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers())
+        StoreModule.forFeature('product', fromStore.getReducers()),
       ],
-      providers: [ProductService]
+      providers: [ProductService],
     });
 
     service = TestBed.get(ProductService);
@@ -41,7 +41,7 @@ describe('ProductService', () => {
     it('should be able to get product by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          value: mockProduct
+          value: mockProduct,
         })
       );
       let result: Product;
@@ -59,7 +59,7 @@ describe('ProductService', () => {
     it('should be able to get loading flag by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          loading: true
+          loading: true,
         })
       );
       let isLoading: boolean;
@@ -74,7 +74,7 @@ describe('ProductService', () => {
     it('should be able to get loading flag by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          error: true
+          error: true,
         })
       );
       let hasError: boolean;
@@ -89,7 +89,7 @@ describe('ProductService', () => {
     it('should be able to get loading flag by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          success: true
+          success: true,
         })
       );
       let isSuccess: boolean;

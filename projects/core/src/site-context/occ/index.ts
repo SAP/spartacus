@@ -11,6 +11,6 @@ export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: SiteContextInterceptor,
-    multi: true
-  }
+    multi: true,
+  },
 ];

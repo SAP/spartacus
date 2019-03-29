@@ -6,7 +6,7 @@ const WAITING_CLASS = 'waiting';
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
-  styleUrls: ['./product-images.component.scss']
+  styleUrls: ['./product-images.component.scss'],
 })
 export class ProductImagesComponent implements OnChanges {
   outlets = ProductDetailOutlets;

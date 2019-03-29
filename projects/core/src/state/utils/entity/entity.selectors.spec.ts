@@ -4,8 +4,8 @@ import { entitySelector } from './entity.selectors';
 describe('Entity selectors', () => {
   const TestState: EntityState<string> = {
     entities: {
-      testId: 'testData'
-    }
+      testId: 'testData',
+    },
   };
 
   it('entitySelector should return state', () => {

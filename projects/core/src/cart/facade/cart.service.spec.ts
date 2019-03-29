@@ -39,24 +39,24 @@ describe('CartService', () => {
     refresh_token: 'xxx',
     expires_in: 1000,
     scope: ['xxx'],
-    userId: 'xxx'
+    userId: 'xxx',
   };
   const mockCartEntry: OrderEntry = {
     entryNumber: 0,
-    product: { code: productCode }
+    product: { code: productCode },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromCart.getReducers())
+        StoreModule.forFeature('cart', fromCart.getReducers()),
       ],
       providers: [
         CartService,
         { provide: CartDataService, useClass: CartDataServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub }
-      ]
+        { provide: AuthService, useClass: AuthServiceStub },
+      ],
     });
 
     service = TestBed.get(CartService);
@@ -100,7 +100,7 @@ describe('CartService', () => {
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromCart.LoadCart({
               userId: cartData.userId,
-              cartId: 'current'
+              cartId: 'current',
             })
           );
         });
@@ -115,7 +115,7 @@ describe('CartService', () => {
           expect(store.dispatch).toHaveBeenCalledWith(
             new fromCart.MergeCart({
               userId: cartData.userId,
-              cartId: cartData.cart.guid
+              cartId: cartData.cart.guid,
             })
           );
         });
@@ -136,7 +136,7 @@ describe('CartService', () => {
           new fromCart.LoadCart({
             userId: cartData.userId,
             cartId: cartData.cartId,
-            details: true
+            details: true,
           })
         );
       });
@@ -194,7 +194,7 @@ describe('CartService', () => {
         new fromCart.LoadCart({
           userId: userId,
           cartId: 'current',
-          details: true
+          details: true,
         })
       );
     });
@@ -211,7 +211,7 @@ describe('CartService', () => {
         new fromCart.LoadCart({
           userId: ANONYMOUS_USERID,
           cartId: cart.guid,
-          details: true
+          details: true,
         })
       );
     });
@@ -241,7 +241,7 @@ describe('CartService', () => {
           userId: userId,
           cartId: cart.code,
           productCode: productCode,
-          quantity: 2
+          quantity: 2,
         })
       );
     });
@@ -257,7 +257,7 @@ describe('CartService', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromCart.CreateCart({
-          userId: userId
+          userId: userId,
         })
       );
     });
@@ -277,7 +277,7 @@ describe('CartService', () => {
           userId: userId,
           cartId: cart.code,
           entry: '1',
-          qty: 1
+          qty: 1,
         })
       );
     });
@@ -293,7 +293,7 @@ describe('CartService', () => {
         new fromCart.RemoveEntry({
           userId: userId,
           cartId: cart.code,
-          entry: '1'
+          entry: '1',
         })
       );
     });
@@ -312,7 +312,7 @@ describe('CartService', () => {
         new fromCart.RemoveEntry({
           userId: userId,
           cartId: cart.code,
-          entry: mockCartEntry.entryNumber
+          entry: mockCartEntry.entryNumber,
         })
       );
     });
@@ -362,8 +362,8 @@ describe('CartService', () => {
       const testCart: Cart = <Cart>{
         entries: [
           { product: { code: 'code1' } },
-          { product: { code: 'code2' } }
-        ]
+          { product: { code: 'code2' } },
+        ],
       };
       store.dispatch(new fromCart.LoadCartSuccess(testCart));
 

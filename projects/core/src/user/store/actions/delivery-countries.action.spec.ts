@@ -6,7 +6,7 @@ describe('Delivery Countries Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.LoadDeliveryCountries();
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_DELIVERY_COUNTRIES
+        type: fromAction.LOAD_DELIVERY_COUNTRIES,
       });
     });
   });
@@ -18,7 +18,7 @@ describe('Delivery Countries Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_DELIVERY_COUNTRIES_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -28,17 +28,17 @@ describe('Delivery Countries Actions', () => {
       const countries: Country[] = [
         {
           isocode: 'AL',
-          name: 'Albania'
+          name: 'Albania',
         },
         {
           isocode: 'AD',
-          name: 'Andorra'
-        }
+          name: 'Andorra',
+        },
       ];
       const action = new fromAction.LoadDeliveryCountriesSuccess(countries);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_DELIVERY_COUNTRIES_SUCCESS,
-        payload: countries
+        payload: countries,
       });
     });
   });

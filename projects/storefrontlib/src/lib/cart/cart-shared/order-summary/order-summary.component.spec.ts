@@ -9,7 +9,7 @@ describe('OrderSummary', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [PromotionsModule],
-      declarations: [OrderSummaryComponent]
+      declarations: [OrderSummaryComponent],
     }).compileComponents();
   }));
 

@@ -15,8 +15,8 @@ exports.banner = function(width, height, link, name, imageUrl) {
       code: imageUrl,
       mime: getMime(imageUrl),
       altText: name | 'alt',
-      url: imageUrl
+      url: imageUrl,
     },
-    urlLink: link
+    urlLink: link,
   };
 };
