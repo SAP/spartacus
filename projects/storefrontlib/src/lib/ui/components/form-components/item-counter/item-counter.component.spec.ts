@@ -3,7 +3,7 @@ import {
   ComponentFixture,
   TestBed,
   tick,
-  fakeAsync
+  fakeAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ItemCounterComponent } from './item-counter.component';
@@ -23,7 +23,7 @@ const testData = [
   { incomingValue: 1, adjustedValue: 1, isOutOfRange: false },
   { incomingValue: 2, adjustedValue: 2, isOutOfRange: false },
   { incomingValue: 5, adjustedValue: 5, isOutOfRange: false },
-  { incomingValue: 6, adjustedValue: 5, isOutOfRange: true }
+  { incomingValue: 6, adjustedValue: 5, isOutOfRange: true },
 ];
 
 describe('ItemCounterComponent', () => {
@@ -41,8 +41,8 @@ describe('ItemCounterComponent', () => {
         { provide: Function },
         { provide: KeyboardEvent, useClass: MockEvent },
         { provide: FocusEvent, useClass: MockEvent },
-        { provide: MockEvent }
-      ]
+        { provide: MockEvent },
+      ],
     }).compileComponents();
   }));
 
@@ -235,7 +235,7 @@ describe('ItemCounterComponent', () => {
 
     const event = value => ({
       key: value,
-      target: { value }
+      target: { value },
     });
     const inputEl = fixture.debugElement.query(By.css('input'));
     inputEl.triggerEventHandler('input', event('5'));

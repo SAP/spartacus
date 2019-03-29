@@ -10,10 +10,10 @@ describe('CmsI18nService', () => {
   let translation: TranslationService;
 
   const mockCmsMapping = {
-    getI18nNamespacesForComponents: () => ['namespace1', 'namespace2']
+    getI18nNamespacesForComponents: () => ['namespace1', 'namespace2'],
   };
   const mockTranslation = {
-    loadNamespaces: createSpy('loadNamespaces')
+    loadNamespaces: createSpy('loadNamespaces'),
   };
 
   beforeEach(() => {
@@ -21,8 +21,8 @@ describe('CmsI18nService', () => {
       providers: [
         CmsI18nService,
         { provide: CmsMappingService, useValue: mockCmsMapping },
-        { provide: TranslationService, useValue: mockTranslation }
-      ]
+        { provide: TranslationService, useValue: mockTranslation },
+      ],
     });
     service = TestBed.get(CmsI18nService);
     translation = TestBed.get(TranslationService);
@@ -38,7 +38,7 @@ describe('CmsI18nService', () => {
 
       expect(translation.loadNamespaces).toHaveBeenCalledWith([
         'namespace1',
-        'namespace2'
+        'namespace2',
       ]);
     });
   });

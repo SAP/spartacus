@@ -1,14 +1,12 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
-import { StateWithProcess } from '../process-state';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
+  loaderErrorSelector,
   loaderLoadingSelector,
   loaderSuccessSelector,
-  loaderErrorSelector
 } from '../../../state/utils/loader/loader.selectors';
-
+import { StateWithProcess } from '../process-state';
 import { getProcessState } from './feature.selector';
 
 export function getProcessStateFactory<T>(

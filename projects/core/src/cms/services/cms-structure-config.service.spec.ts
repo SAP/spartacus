@@ -3,7 +3,7 @@ import {
   CmsPageConfig,
   CmsStructureConfig,
   CmsStructureConfigService,
-  CmsStructureModel
+  CmsStructureModel,
 } from '@spartacus/core';
 
 let mockPageStructure: CmsStructureModel;
@@ -14,14 +14,14 @@ describe('CmsStructureConfigService', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [CmsStructureConfigService, CmsStructureConfig]
+        providers: [CmsStructureConfigService, CmsStructureConfig],
       });
 
       mockPageStructure = {
         page: {
           pageId: 'mockPage',
-          slots: {}
-        }
+          slots: {},
+        },
       };
 
       service = TestBed.get(CmsStructureConfigService);
@@ -50,25 +50,25 @@ describe('CmsStructureConfigService', () => {
         EmptyCartMiddleContent: {
           components: [
             {
-              flexType: 'CMSParagraphComponent'
-            }
-          ]
-        }
-      }
+              flexType: 'CMSParagraphComponent',
+            },
+          ],
+        },
+      },
     };
 
     const ingoredPageConfig: CmsPageConfig = {
       ignoreBackend: true,
       pageId: 'customPage',
-      slots: {}
+      slots: {},
     };
 
     const pageWithGobalSlotConfig: CmsPageConfig = {
       ignoreBackend: true,
       pageId: 'hasGobalSlot',
       slots: {
-        GobalSlot: {}
-      }
+        GobalSlot: {},
+      },
     };
 
     const globalSlotConfig: CmsStructureConfig = {
@@ -77,13 +77,13 @@ describe('CmsStructureConfigService', () => {
           GobalSlot: {
             components: [
               {
-                typeCode: 'CMSLinkComponent'
-              }
-            ]
-          }
+                typeCode: 'CMSLinkComponent',
+              },
+            ],
+          },
         },
-        pages: [cartPageConfig, ingoredPageConfig, pageWithGobalSlotConfig]
-      }
+        pages: [cartPageConfig, ingoredPageConfig, pageWithGobalSlotConfig],
+      },
     };
 
     beforeEach(() => {
@@ -92,16 +92,16 @@ describe('CmsStructureConfigService', () => {
           CmsStructureConfigService,
           {
             provide: CmsStructureConfig,
-            useValue: globalSlotConfig
-          }
-        ]
+            useValue: globalSlotConfig,
+          },
+        ],
       });
 
       mockPageStructure = {
         page: {
           pageId: 'mockPage',
-          slots: {}
-        }
+          slots: {},
+        },
       };
 
       service = TestBed.get(CmsStructureConfigService);

@@ -1,7 +1,7 @@
 import {
   makeStateKey,
   StateKey,
-  TransferState
+  TransferState,
 } from '@angular/platform-browser';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { deepMerge } from '../../config/utils/deep-merge';

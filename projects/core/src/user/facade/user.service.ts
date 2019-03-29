@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
-import { UserRegisterFormData } from '../model/user.model';
-import * as fromStore from '../store/index';
+import { map, tap } from 'rxjs/operators';
 import {
-  Order,
-  User,
-  PaymentDetails,
   Address,
-  Title,
   Country,
+  Order,
+  OrderHistoryList,
+  PaymentDetails,
   Region,
-  OrderHistoryList
+  Title,
+  User,
 } from '../../occ/occ-models/index';
+import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
+  getSelectedProductErrorFactory,
   getSelectedProductSuccessFactory,
-  getSelectedProductErrorFactory
 } from '../../process/store/selectors/process.selectors';
+import { UserRegisterFormData } from '../model/user.model';
+import * as fromStore from '../store/index';
 import { USER_UPDATE_PROCESS } from '../store/user-state';
-import * as fromProcessStore from '../../process/store/process-state';
 
 @Injectable()
 export class UserService {
@@ -73,7 +70,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
         userId: userId,
-        orderCode: orderCode
+        orderCode: orderCode,
       })
     );
   }
@@ -145,7 +142,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
         userId: userId,
-        paymentMethodId
+        paymentMethodId,
       })
     );
   }
@@ -160,7 +157,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
         userId: userId,
-        paymentMethodId
+        paymentMethodId,
       })
     );
   }
@@ -183,7 +180,7 @@ export class UserService {
         userId: userId,
         pageSize: pageSize,
         currentPage: currentPage,
-        sort: sort
+        sort: sort,
       })
     );
   }
@@ -205,7 +202,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.AddUserAddress({
         userId: userId,
-        address: address
+        address: address,
       })
     );
   }
@@ -220,7 +217,7 @@ export class UserService {
       new fromStore.UpdateUserAddress({
         userId: userId,
         addressId: addressId,
-        address: { defaultAddress: true }
+        address: { defaultAddress: true },
       })
     );
   }
@@ -236,7 +233,7 @@ export class UserService {
       new fromStore.UpdateUserAddress({
         userId: userId,
         addressId: addressId,
-        address: address
+        address: address,
       })
     );
   }
@@ -250,7 +247,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
         userId: userId,
-        addressId: addressId
+        addressId: addressId,
       })
     );
   }

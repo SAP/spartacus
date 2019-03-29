@@ -4,7 +4,7 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import {
   RoutesTranslations,
   RouteTranslation,
-  RoutesConfig
+  RoutesConfig,
 } from './routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 

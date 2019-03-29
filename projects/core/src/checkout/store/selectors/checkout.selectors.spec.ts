@@ -11,7 +11,7 @@ import {
   Order,
   Address,
   DeliveryModeList,
-  DeliveryMode
+  DeliveryMode,
 } from '../../../occ/occ-models/index';
 
 describe('Checkout Selectors', () => {
@@ -21,8 +21,8 @@ describe('Checkout Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -39,7 +39,7 @@ describe('Checkout Selectors', () => {
         line1: 'Toyosaki 2 create on cart',
         town: 'Montreal',
         postalCode: 'L6M1P9',
-        country: { isocode: 'CA' }
+        country: { isocode: 'CA' },
       };
 
       let result: Address;
@@ -58,20 +58,20 @@ describe('Checkout Selectors', () => {
   describe('getDeliveryMode', () => {
     it('should return the cart delivery mode', () => {
       const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
       };
 
       const emptyEntities = {
         supported: {},
-        selected: ''
+        selected: '',
       };
 
       const entities = {
         supported: {
           code1: modes.deliveryModes[0],
-          code2: modes.deliveryModes[1]
+          code2: modes.deliveryModes[1],
         },
-        selected: ''
+        selected: '',
       };
 
       let result;
@@ -90,7 +90,7 @@ describe('Checkout Selectors', () => {
   describe('getSupportedDeliveryModes', () => {
     it('should return all supported cart delivery modes', () => {
       const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
       };
 
       let result: DeliveryMode[];
@@ -109,7 +109,7 @@ describe('Checkout Selectors', () => {
   describe('getSelectedDeliveryMode', () => {
     it('should return selected cart delivery mode', () => {
       const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
       };
 
       let result: DeliveryMode;
@@ -129,7 +129,7 @@ describe('Checkout Selectors', () => {
   describe('getSelectedCode', () => {
     it('should return selected delivery mode code', () => {
       const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
       };
 
       let result: string;
@@ -150,7 +150,7 @@ describe('Checkout Selectors', () => {
     it('should return payment details', () => {
       let result: PaymentDetails;
       const paymentDetails: PaymentDetails = {
-        id: 'mockPaymentDetails'
+        id: 'mockPaymentDetails',
       };
 
       store
@@ -171,7 +171,7 @@ describe('Checkout Selectors', () => {
     it('should return order details', () => {
       let result: Order;
       const orderDetails: Order = {
-        code: 'testOrder123'
+        code: 'testOrder123',
       };
 
       store

@@ -30,7 +30,7 @@ export class CartEffects {
         details:
           payload && payload.details !== undefined
             ? payload.details
-            : this.cartData.getDetails
+            : this.cartData.getDetails,
       };
 
       if (this.isMissingData(loadCartParams)) {
@@ -78,7 +78,7 @@ export class CartEffects {
             if (payload.toMergeCartGuid) {
               return [
                 new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess()
+                new fromActions.MergeCartSuccess(),
               ];
             }
             return [new fromActions.CreateCartSuccess(cart)];
@@ -98,7 +98,7 @@ export class CartEffects {
           return new fromActions.CreateCart({
             userId: payload.userId,
             oldCartId: payload.cartId,
-            toMergeCartGuid: currentCart ? currentCart.guid : undefined
+            toMergeCartGuid: currentCart ? currentCart.guid : undefined,
           });
         })
       );

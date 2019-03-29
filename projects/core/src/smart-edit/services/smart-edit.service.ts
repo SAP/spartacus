@@ -7,7 +7,7 @@ import { CmsService } from '../../cms/facade/cms.service';
 import { WindowRef } from '../../window/window-ref';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SmartEditService {
   private _cmsTicketId: string;

@@ -15,8 +15,8 @@ describe('Card Types Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -28,12 +28,12 @@ describe('Card Types Selectors', () => {
       const cardTypes: CardType[] = [
         {
           code: 'amex',
-          name: 'American Express'
+          name: 'American Express',
         },
         {
           code: 'maestro',
-          name: 'Maestro'
-        }
+          name: 'Maestro',
+        },
       ];
 
       let result: CardType[];

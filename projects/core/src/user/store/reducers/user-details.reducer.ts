@@ -1,5 +1,5 @@
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { User } from '../../../occ/occ-models/index';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 
 export const initialState: User = <User>{};
 
@@ -15,11 +15,11 @@ export function reducer(
     case fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS: {
       const updatedDetails: User = {
         ...state,
-        ...action.userUpdates
+        ...action.userUpdates,
       };
       return {
         ...updatedDetails,
-        name: `${updatedDetails.firstName} ${updatedDetails.lastName}`
+        name: `${updatedDetails.firstName} ${updatedDetails.lastName}`,
       };
     }
   }

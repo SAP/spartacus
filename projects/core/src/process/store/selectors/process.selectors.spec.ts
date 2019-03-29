@@ -15,8 +15,8 @@ describe('Cms Component Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PROCESS_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(PROCESS_FEATURE, fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
   });
@@ -37,7 +37,7 @@ describe('Cms Component Selectors', () => {
         loading: false,
         success: true,
         error: false,
-        value: undefined
+        value: undefined,
       });
     });
   });

@@ -1,16 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of, throwError } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromUserDetailsAction from '../actions/user-details.action';
-import { OccUserService } from '../../occ/index';
+import { Observable, of, throwError } from 'rxjs';
 import { User } from '../../../occ/occ-models';
-
+import { OccUserService } from '../../occ/index';
+import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsEffect from './user-details.effect';
 
 class MockOccUserService {
@@ -26,7 +21,7 @@ const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 describe('User Details effect', () => {
@@ -39,8 +34,8 @@ describe('User Details effect', () => {
       providers: [
         fromUserDetailsEffect.UserDetailsEffects,
         { provide: OccUserService, useClass: MockOccUserService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);
@@ -69,12 +64,12 @@ describe('User Details effect', () => {
 
       const username = 'xxx';
       const userDetails: User = {
-        title: 'mr'
+        title: 'mr',
       };
 
       const action = new fromUserDetailsAction.UpdateUserDetails({
         username,
-        userDetails
+        userDetails,
       });
       const completion = new fromUserDetailsAction.UpdateUserDetailsSuccess(
         userDetails
@@ -94,12 +89,12 @@ describe('User Details effect', () => {
 
       const username = 'xxx';
       const userDetails: User = {
-        title: 'mr'
+        title: 'mr',
       };
 
       const action = new fromUserDetailsAction.UpdateUserDetails({
         username,
-        userDetails
+        userDetails,
       });
       const completion = new fromUserDetailsAction.UpdateUserDetailsFail(error);
 

@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
-
 import { ProcessStoreModule } from './store/process-store.module';
 
 @NgModule({
-  imports: [ProcessStoreModule]
+  imports: [ProcessStoreModule],
 })
 export class ProcessModule {}

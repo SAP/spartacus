@@ -9,7 +9,7 @@ import { Item } from '../../cart-shared/cart-item/cart-item.component';
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
   styleUrls: ['./cart-item-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class CartItemListComponent implements OnInit {
   @Input()
@@ -50,7 +50,7 @@ export class CartItemListComponent implements OnInit {
 
   updateEntry({
     item,
-    updatedQuantity
+    updatedQuantity,
   }: {
     item: any;
     updatedQuantity: number;
@@ -84,7 +84,7 @@ export class CartItemListComponent implements OnInit {
   private createEntryFormGroup(entry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
-      quantity: entry.quantity
+      quantity: entry.quantity,
     });
   }
 

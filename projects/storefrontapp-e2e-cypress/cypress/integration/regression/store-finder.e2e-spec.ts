@@ -2,14 +2,14 @@ const STORES = [
   {
     name: 'Nakano',
     addressLine1: 'Waseda Dori',
-    addressLine2: 'Tokio'
+    addressLine2: 'Tokio',
   },
   {
-    name: 'Yokohama Hotel JAL City Kannai Yokohama'
+    name: 'Yokohama Hotel JAL City Kannai Yokohama',
   },
   {
-    name: 'Kobe Bay Sheraton Hotel and Towers'
-  }
+    name: 'Kobe Bay Sheraton Hotel and Towers',
+  },
 ];
 
 context('Store finder', () => {

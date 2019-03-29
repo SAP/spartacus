@@ -9,6 +9,6 @@ export const defaultOccProductConfig: OccConfig = {
     productSearch:
       'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)&query=${query}',
     // tslint:enable
-    productSuggestions: 'products/suggestions?term=${term}&max=${max}'
-  }
+    productSuggestions: 'products/suggestions?term=${term}&max=${max}',
+  },
 };

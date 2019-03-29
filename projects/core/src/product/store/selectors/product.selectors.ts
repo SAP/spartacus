@@ -9,7 +9,7 @@ import {
   loaderErrorSelector,
   loaderLoadingSelector,
   loaderSuccessSelector,
-  loaderValueSelector
+  loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getProductsState } from './feature.selector';

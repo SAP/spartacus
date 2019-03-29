@@ -1,20 +1,19 @@
-import {
-  entitySuccessMeta,
-  entityFailMeta,
-  entityLoadMeta
-} from '../../../state';
 import { User } from '../../../occ/occ-models/index';
-
-import * as fromUserDetailsAction from './user-details.action';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta,
+} from '../../../state';
 import { USER_UPDATE_PROCESS } from '../user-state';
+import * as fromUserDetailsAction from './user-details.action';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 describe('User Details Actions', () => {
@@ -26,7 +25,7 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS,
-        payload: mockUserDetails.name
+        payload: mockUserDetails.name,
       });
     });
   });
@@ -38,7 +37,7 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -51,7 +50,7 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS,
-        payload: mockUserDetails
+        payload: mockUserDetails,
       });
     });
   });
@@ -60,17 +59,17 @@ describe('User Details Actions', () => {
     it('should create the action', () => {
       const username = 'xxx';
       const userDetails: User = {
-        title: 'mr'
+        title: 'mr',
       };
       const action = new fromUserDetailsAction.UpdateUserDetails({
         username,
-        userDetails
+        userDetails,
       });
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS,
         payload: { username, userDetails },
-        meta: entityLoadMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS)
+        meta: entityLoadMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS),
       });
     });
   });
@@ -83,7 +82,7 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS_FAIL,
         payload: error,
-        meta: entityFailMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS, error)
+        meta: entityFailMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS, error),
       });
     });
   });
@@ -91,7 +90,7 @@ describe('User Details Actions', () => {
   describe('UpdateUserDetailsSuccess Action', () => {
     it('should create the action', () => {
       const userUpdates: User = {
-        title: 'mr'
+        title: 'mr',
       };
       const action = new fromUserDetailsAction.UpdateUserDetailsSuccess(
         userUpdates
@@ -101,7 +100,7 @@ describe('User Details Actions', () => {
         type: fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS,
         userUpdates,
         meta: entitySuccessMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS),
-        payload: undefined
+        payload: undefined,
       });
     });
   });

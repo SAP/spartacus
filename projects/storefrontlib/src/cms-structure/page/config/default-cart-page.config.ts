@@ -20,9 +20,9 @@ export const defaultCartPageConfig: CmsPageConfig = {
                         Browse our products by selecting a category above
                         </li>
                     </ul>`,
-          uid: 'xyz'
-        }
-      ]
-    }
-  }
+          uid: 'xyz',
+        },
+      ],
+    },
+  },
 };

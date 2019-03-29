@@ -20,14 +20,14 @@ export class ProductSearchService {
   search(query: string, searchConfig?: SearchConfig): void {
     const urlTree = this.router.createUrlTree([], {
       queryParams: { ...searchConfig, query },
-      preserveFragment: false
+      preserveFragment: false,
     });
 
     this.router.navigateByUrl(urlTree);
     this.store.dispatch(
       new fromStore.SearchProducts({
         queryText: query,
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
       })
     );
   }
@@ -56,7 +56,7 @@ export class ProductSearchService {
       new fromStore.SearchProducts(
         {
           queryText: query,
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         },
         true
       )
@@ -67,7 +67,7 @@ export class ProductSearchService {
     this.store.dispatch(
       new fromStore.GetProductSuggestions({
         term: query,
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
       })
     );
   }

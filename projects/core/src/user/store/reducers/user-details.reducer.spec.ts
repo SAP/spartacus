@@ -1,6 +1,5 @@
-import * as fromUserDetailsAction from '../actions/user-details.action';
 import { User } from '../../../occ/occ-models/index';
-
+import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
 
 describe('User Details Reducer', () => {
@@ -19,7 +18,7 @@ describe('User Details Reducer', () => {
     firstName: 'First',
     lastName: 'Last',
     name: 'First Last',
-    uid: 'UID'
+    uid: 'UID',
   };
 
   describe('LOAD_USER_DETAILS_SUCCESS action', () => {
@@ -38,7 +37,7 @@ describe('User Details Reducer', () => {
     it('should merge the existing user with the user updates', () => {
       const updatedUser: User = {
         firstName: 'New First',
-        lastName: 'New Last'
+        lastName: 'New Last',
       };
 
       const action = new fromUserDetailsAction.UpdateUserDetailsSuccess(
@@ -49,7 +48,7 @@ describe('User Details Reducer', () => {
       expect(state).toEqual({
         ...mockUserDetails,
         ...updatedUser,
-        name: `${updatedUser.firstName} ${updatedUser.lastName}`
+        name: `${updatedUser.firstName} ${updatedUser.lastName}`,
       });
     });
   });

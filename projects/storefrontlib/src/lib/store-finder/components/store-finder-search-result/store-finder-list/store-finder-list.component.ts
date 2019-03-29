@@ -7,7 +7,7 @@ import { StoreDataService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
-  styleUrls: ['./store-finder-list.component.scss']
+  styleUrls: ['./store-finder-list.component.scss'],
 })
 export class StoreFinderListComponent {
   @Input()

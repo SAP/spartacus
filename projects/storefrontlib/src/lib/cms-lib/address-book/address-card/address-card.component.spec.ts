@@ -19,7 +19,7 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
-  defaultAddress: false
+  defaultAddress: false,
 };
 
 describe('AddressCardComponent', () => {
@@ -30,7 +30,7 @@ describe('AddressCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddressCardComponent],
-      providers: [{ provide: UserService, useClass: MockUserService }]
+      providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
   }));
 

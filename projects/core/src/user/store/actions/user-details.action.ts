@@ -1,13 +1,12 @@
 import { Action } from '@ngrx/store';
-
-import { USER_UPDATE_PROCESS } from '../user-state';
-import {
-  EntityLoadAction,
-  EntityFailAction,
-  EntitySuccessAction
-} from '../../../state';
 import { User } from '../../../occ/occ-models/index';
 import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  EntityFailAction,
+  EntityLoadAction,
+  EntitySuccessAction,
+} from '../../../state';
+import { USER_UPDATE_PROCESS } from '../user-state';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';

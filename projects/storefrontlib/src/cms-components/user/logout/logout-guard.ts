@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { AuthService, CmsService, PageType } from '@spartacus/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LogoutGuard implements CanActivate {
   static GUARD_NAME = 'LogoutGuard';
@@ -16,7 +16,7 @@ export class LogoutGuard implements CanActivate {
 
     return this.cms.hasPage({
       id: '/logout',
-      type: PageType.CONTENT_PAGE
+      type: PageType.CONTENT_PAGE,
     });
   }
 
