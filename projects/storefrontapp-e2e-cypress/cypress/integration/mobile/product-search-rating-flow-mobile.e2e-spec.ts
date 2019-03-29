@@ -1,5 +1,5 @@
-import * as productSearchRatingFlow from '../../../helpers/product-search-rating-flow';
-import { formats } from '../../../sample-data/viewports';
+import * as productSearchRatingFlow from '../../helpers/product-search-rating-flow';
+import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
   cy.get('cx-searchbox [aria-label="Search "]').click();
