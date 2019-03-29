@@ -6,7 +6,7 @@ import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsMappingService } from './cms-mapping.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmsGuardsService {
   constructor(

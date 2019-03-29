@@ -5,7 +5,7 @@ import {
   RoutingService,
   PageType,
   CmsService,
-  CmsActivatedRouteSnapshot
+  CmsActivatedRouteSnapshot,
 } from '@spartacus/core';
 
 import { of } from 'rxjs';
@@ -62,9 +62,9 @@ describe('CmsPageGuard', () => {
         { provide: CmsService, useClass: MockCmsService },
         { provide: CmsRoutesService, useClass: MockCmsRoutesService },
         { provide: CmsI18nService, useClass: MockCmsI18nService },
-        { provide: CmsGuardsService, useClass: MockCmsGuardsService }
+        { provide: CmsGuardsService, useClass: MockCmsGuardsService },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
 
     routingService = TestBed.get(RoutingService);

@@ -3,7 +3,7 @@ import { ElementRef, OnInit, Input, Directive } from '@angular/core';
 import { OutletStyleService } from '../outlet-style.service';
 
 @Directive({
-  selector: '[cxCssRef]'
+  selector: '[cxCssRef]',
 })
 export class StyleRefDirective implements OnInit {
   @Input() cxCssRef: string;

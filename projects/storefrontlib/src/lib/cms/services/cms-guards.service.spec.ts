@@ -6,7 +6,7 @@ import {
   ActivatedRouteSnapshot,
   CanActivate,
   RouterStateSnapshot,
-  UrlTree
+  UrlTree,
 } from '@angular/router';
 import { of } from 'rxjs';
 
@@ -54,13 +54,13 @@ describe('CmsGuardsService', () => {
       providers: [
         {
           provide: CmsMappingService,
-          useClass: MockCmsMappingService
+          useClass: MockCmsMappingService,
         },
         PositiveGuard,
         PositiveGuardObservable,
         NegativeGuard,
-        UrlTreeGuard
-      ]
+        UrlTreeGuard,
+      ],
     });
     service = TestBed.get(CmsGuardsService);
   });

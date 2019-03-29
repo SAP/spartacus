@@ -6,7 +6,7 @@ import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-stor
 @Component({
   selector: 'cx-store-finder-list-item',
   templateUrl: './store-finder-list-item.component.html',
-  styleUrls: ['./store-finder-list-item.component.scss']
+  styleUrls: ['./store-finder-list-item.component.scss'],
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Input()

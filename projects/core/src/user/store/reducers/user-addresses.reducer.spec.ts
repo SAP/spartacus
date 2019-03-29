@@ -18,7 +18,7 @@ describe('User Addresses Reducer', () => {
     it('should populate the user addresses state entities', () => {
       const mockUserAddresses: Address[] = [
         { id: 'address1' },
-        { id: 'address2' }
+        { id: 'address2' },
       ];
 
       const { initialState } = fromUserAddressesReducer;

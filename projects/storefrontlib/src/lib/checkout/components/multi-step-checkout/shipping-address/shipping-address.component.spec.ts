@@ -8,7 +8,7 @@ import {
   RoutingService,
   Address,
   CartDataService,
-  UserService
+  UserService,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ShippingAddressComponent } from './shipping-address.component';
@@ -32,7 +32,7 @@ const mockAddress1: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockAddress2: Address = {
@@ -44,26 +44,26 @@ const mockAddress2: Address = {
   town: 'other town',
   region: { isocode: 'JP-27' },
   postalCode: 'other zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockAddresses: Address[] = [mockAddress1, mockAddress2];
 
 @Component({
   selector: 'cx-address-form',
-  template: ''
+  template: '',
 })
 class MockAddressFormComponent {}
 
 @Component({
   selector: 'cx-spinner',
-  template: ''
+  template: '',
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -82,10 +82,10 @@ describe('ShippingAddressComponent', () => {
 
   beforeEach(async(() => {
     mockRouting = {
-      go: createSpy('go')
+      go: createSpy('go'),
     };
     const mockCartDataService = {
-      userId: 'testUser'
+      userId: 'testUser',
     };
 
     TestBed.configureTestingModule({
@@ -93,13 +93,13 @@ describe('ShippingAddressComponent', () => {
         ShippingAddressComponent,
         MockAddressFormComponent,
         MockCardComponent,
-        MockSpinnerComponent
+        MockSpinnerComponent,
       ],
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useValue: mockRouting },
-        { provide: CartDataService, useValue: mockCartDataService }
-      ]
+        { provide: CartDataService, useValue: mockCartDataService },
+      ],
     }).compileComponents();
   }));
 
@@ -153,10 +153,10 @@ describe('ShippingAddressComponent', () => {
       'second line',
       'town, JP-27, JP',
       'zip',
-      undefined
+      undefined,
     ]);
     expect(card.actions).toEqual([
-      { name: 'Ship to this address', event: 'send' }
+      { name: 'Ship to this address', event: 'send' },
     ]);
   });
 
@@ -178,7 +178,7 @@ describe('ShippingAddressComponent', () => {
     component.next();
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress1,
-      newAddress: false
+      newAddress: false,
     });
   });
 
@@ -186,7 +186,7 @@ describe('ShippingAddressComponent', () => {
     component.addNewAddress(mockAddress1);
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress1,
-      newAddress: true
+      newAddress: true,
     });
   });
 
@@ -203,7 +203,7 @@ describe('ShippingAddressComponent', () => {
   it('should call back()', () => {
     component.back();
     expect(mockRouting.go).toHaveBeenCalledWith({
-      route: ['cart']
+      route: ['cart'],
     });
   });
 

@@ -9,7 +9,7 @@ describe('Product Review Actions', () => {
         const action = new fromActions.LoadProductReviews(productCode);
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS,
-          payload: productCode
+          payload: productCode,
         });
       });
     });
@@ -20,7 +20,7 @@ describe('Product Review Actions', () => {
         const action = new fromActions.LoadProductReviewsFail(payload);
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS_FAIL,
-          payload
+          payload,
         });
       });
     });
@@ -32,22 +32,22 @@ describe('Product Review Actions', () => {
           reviews: [
             {
               id: '1',
-              rating: 3
+              rating: 3,
             },
             {
               id: '2',
-              rating: 5
-            }
-          ]
+              rating: 5,
+            },
+          ],
         };
 
         const action = new fromActions.LoadProductReviewsSuccess({
           productCode,
-          list: list.reviews
+          list: list.reviews,
         });
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REVIEWS_SUCCESS,
-          payload: { productCode, list: list.reviews }
+          payload: { productCode, list: list.reviews },
         });
       });
     });

@@ -8,14 +8,14 @@ const MockLayoutConfig: LayoutConfig = {
     xs: 576,
     sm: 768,
     md: 992,
-    lg: 1200
-  }
+    lg: 1200,
+  },
 };
 
 const MockWindowRef = {
   nativeWindow: {
-    innerWidth: 1000
-  }
+    innerWidth: 1000,
+  },
 };
 
 describe('BreakpointService', () => {
@@ -24,8 +24,8 @@ describe('BreakpointService', () => {
       providers: [
         { provide: WindowRef, useValue: MockWindowRef },
         { provide: LayoutConfig, useValue: MockLayoutConfig },
-        BreakpointService
-      ]
+        BreakpointService,
+      ],
     });
   });
 
@@ -44,7 +44,7 @@ describe('BreakpointService', () => {
         BREAKPOINT.sm,
         BREAKPOINT.md,
         BREAKPOINT.lg,
-        BREAKPOINT.xl
+        BREAKPOINT.xl,
       ]);
     }
   ));

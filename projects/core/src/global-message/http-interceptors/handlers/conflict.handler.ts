@@ -4,7 +4,7 @@ import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConflictHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.CONFLICT;
@@ -12,7 +12,7 @@ export class ConflictHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Already exists'
+      text: 'Already exists',
     });
   }
 }

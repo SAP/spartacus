@@ -47,7 +47,7 @@ import { PaymentMethodsModule } from '../my-account/payment-methods/payment-meth
     CartDetailsModule,
     CartTotalsModule,
     OrderDetailsModule,
-    PaymentMethodsModule
-  ]
+    PaymentMethodsModule,
+  ],
 })
 export class CmsLibModule {}

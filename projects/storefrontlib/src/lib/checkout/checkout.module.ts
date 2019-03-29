@@ -10,8 +10,8 @@ import { CheckoutModule } from '@spartacus/core';
     CommonModule,
     MultiStepCheckoutModule,
     CartComponentModule,
-    CheckoutModule
+    CheckoutModule,
   ],
-  providers: [...guards]
+  providers: [...guards],
 })
 export class CheckoutComponentModule {}

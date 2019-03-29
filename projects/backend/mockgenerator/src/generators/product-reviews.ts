@@ -6,7 +6,7 @@ export class ProductReviewsGenerator extends ClientGenerator {
   async generateForSite(site: string) {
     const reviews = this.generateProductReviews();
     return {
-      [ENDPOINTS.PRODUCTS_REVIEWS]: { reviews }
+      [ENDPOINTS.PRODUCTS_REVIEWS]: { reviews },
     };
   }
 
@@ -22,7 +22,7 @@ export class ProductReviewsGenerator extends ClientGenerator {
         principal: { name, uid: email },
         name,
         uid: faker.internet.email(),
-        rating: faker.random.number()
+        rating: faker.random.number(),
       }));
   }
 }

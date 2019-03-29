@@ -8,14 +8,14 @@ import { NavigationComponent } from './navigation.component';
 import { NavigationComponentService } from './navigation.component.service';
 import {
   CmsNavigationComponent,
-  Component as SpaComponent
+  Component as SpaComponent,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
-  template: ''
+  template: '',
 })
 class MockNavigationUIComponent {
   @Input()
@@ -40,9 +40,9 @@ describe('CmsNavigationComponent in CmsLib', () => {
             {
               itemId: 'MockLink001',
               itemSuperType: 'AbstractCMSComponent',
-              itemType: 'CMSLinkComponent'
-            }
-          ]
+              itemType: 'CMSLinkComponent',
+            },
+          ],
         },
         {
           uid: 'MockChildNode002',
@@ -50,31 +50,34 @@ describe('CmsNavigationComponent in CmsLib', () => {
             {
               itemId: 'MockLink002',
               itemSuperType: 'AbstractCMSComponent',
-              itemType: 'CMSLinkComponent'
-            }
-          ]
-        }
-      ]
-    }
+              itemType: 'CMSLinkComponent',
+            },
+          ],
+        },
+      ],
+    },
   };
 
   const componentData$ = new BehaviorSubject(componentData);
 
   const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: componentData$.asObservable()
+    data$: componentData$.asObservable(),
   };
 
   const mockNavigationService = {
     getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null))
+    getComponentData: createSpy().and.returnValue(of(null)),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: NavigationComponentService, useValue: mockNavigationService }
+        {
+          provide: NavigationComponentService,
+          useValue: mockNavigationService,
+        },
       ],
-      declarations: [NavigationComponent, MockNavigationUIComponent]
+      declarations: [NavigationComponent, MockNavigationUIComponent],
     }).compileComponents();
   }));
 

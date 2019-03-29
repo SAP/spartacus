@@ -11,20 +11,20 @@ import { ActivatedRoute } from '@angular/router';
 const query = 'address';
 
 const keyEvent = {
-  key: 'Enter'
+  key: 'Enter',
 };
 const badKeyEvent = {
-  key: 'Enter95'
+  key: 'Enter95',
 };
 
 const mockActivatedRoute = {
   snapshot: {
-    params: {}
-  }
+    params: {},
+  },
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -43,10 +43,10 @@ describe('StoreFinderSearchComponent', () => {
       providers: [
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() }
+          useValue: { go: jasmine.createSpy() },
         },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute }
-      ]
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
     }).compileComponents();
   }));
 
@@ -92,7 +92,7 @@ describe('StoreFinderSearchComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith(
       ['find'],
       {
-        useMyLocation: true
+        useMyLocation: true,
       },
       { relativeTo: mockActivatedRoute }
     );

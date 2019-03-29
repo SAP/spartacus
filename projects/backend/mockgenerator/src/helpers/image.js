@@ -9,5 +9,5 @@ createImage = function(width, height) {
 
 module.exports = {
   getMime,
-  createImage
+  createImage,
 };

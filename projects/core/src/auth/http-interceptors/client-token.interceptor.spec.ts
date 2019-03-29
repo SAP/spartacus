@@ -2,7 +2,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
   HttpTestingController,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
@@ -19,7 +19,7 @@ const testToken = {
   access_token: 'abc-123',
   token_type: 'bearer',
   expires_in: 1000,
-  scope: ''
+  scope: '',
 } as ClientToken;
 
 class MockAuthService {
@@ -31,11 +31,11 @@ class MockAuthService {
 const MockAuthModuleConfig: OccConfig = {
   server: {
     baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+    occPrefix: '/rest/v2/',
   },
   site: {
-    baseSite: 'electronics'
-  }
+    baseSite: 'electronics',
+  },
 };
 
 describe('ClientTokenInterceptor', () => {
@@ -51,9 +51,9 @@ describe('ClientTokenInterceptor', () => {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: ClientTokenInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
     httpMock = TestBed.get(HttpTestingController);
     authService = TestBed.get(AuthService);

@@ -3,6 +3,6 @@ import { NgModule } from '@angular/core';
 import { StripHtmlModule } from './strip-html/strip-html.module';
 
 @NgModule({
-  imports: [StripHtmlModule]
+  imports: [StripHtmlModule],
 })
 export class PipeModule {}

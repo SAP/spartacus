@@ -10,28 +10,28 @@ const mockConfig: CmsConfig = {
     exampleMapping1: {
       selector: 'selector-1',
       i18nNamespaces: ['namespace-1'],
-      guards: ['guard1', 'guard2']
+      guards: ['guard1', 'guard2'],
     },
     exampleMapping2: {
       selector: 'selector-2',
       disableSSR: true,
       childRoutes: [{ path: 'route1' }, { path: 'route2' }],
       i18nNamespaces: ['namespace-1', 'namespace-2'],
-      guards: ['guard1']
-    }
-  }
+      guards: ['guard1'],
+    },
+  },
 };
 
 const mockComponents: string[] = [
   'testCode',
   'exampleMapping1',
-  'exampleMapping2'
+  'exampleMapping2',
 ];
 
 describe('CmsMappingService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CmsConfig, useValue: mockConfig }]
+      providers: [{ provide: CmsConfig, useValue: mockConfig }],
     });
     service = TestBed.get(CmsMappingService);
   });
@@ -54,7 +54,7 @@ describe('CmsMappingService', () => {
     it('should get routes from page data', () => {
       expect(service.getRoutesForComponents(mockComponents)).toEqual([
         { path: 'route1' },
-        { path: 'route2' }
+        { path: 'route2' },
       ]);
     });
   });
@@ -63,7 +63,7 @@ describe('CmsMappingService', () => {
     it('should get routes from page data', () => {
       expect(service.getGuardsForComponents(mockComponents)).toEqual([
         'guard1',
-        'guard2'
+        'guard2',
       ]);
     });
   });
@@ -72,7 +72,7 @@ describe('CmsMappingService', () => {
     it('should i18n namespaces from page data', () => {
       expect(service.getI18nNamespacesForComponents(mockComponents)).toEqual([
         'namespace-1',
-        'namespace-2'
+        'namespace-2',
       ]);
     });
   });
@@ -83,8 +83,8 @@ describe('with SSR', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
-        { provide: PLATFORM_ID, useValue: 'server' }
-      ]
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
     });
     service = TestBed.get(CmsMappingService);
   });

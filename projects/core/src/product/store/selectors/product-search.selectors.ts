@@ -3,12 +3,12 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   ProductsSearchState,
   ProductsState,
-  StateWithProduct
+  StateWithProduct,
 } from '../product-state';
 import * as fromProductSearch from '../reducers/product-search.reducer';
 import {
   ProductSearchPage,
-  Suggestion
+  Suggestion,
 } from '../../../occ/occ-models/occ.models';
 
 import { getProductsState } from './feature.selector';

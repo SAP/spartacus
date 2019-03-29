@@ -8,6 +8,6 @@ import { PageComponentModule } from '../component/page-component.module';
   imports: [CommonModule, OutletModule, PageComponentModule],
   providers: [],
   declarations: [PageSlotComponent],
-  exports: [PageSlotComponent]
+  exports: [PageSlotComponent],
 })
 export class PageSlotModule {}

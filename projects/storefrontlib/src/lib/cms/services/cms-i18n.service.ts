@@ -3,7 +3,7 @@ import { CmsMappingService } from './cms-mapping.service';
 import { TranslationService } from '@spartacus/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmsI18nService {
   constructor(
