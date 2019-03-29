@@ -15,8 +15,8 @@ export function initSeoService(injector: Injector) {
       provide: APP_INITIALIZER,
       useFactory: initSeoService,
       deps: [Injector],
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class SeoModule {}

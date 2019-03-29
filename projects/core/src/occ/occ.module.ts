@@ -6,6 +6,6 @@ import { defaultOccConfig } from './config/default-occ-config';
 
 @NgModule({
   imports: [ConfigModule.withConfig(defaultOccConfig)],
-  providers: [{ provide: OccConfig, useExisting: Config }]
+  providers: [{ provide: OccConfig, useExisting: Config }],
 })
 export class OccModule {}

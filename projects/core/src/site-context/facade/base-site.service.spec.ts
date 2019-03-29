@@ -23,15 +23,15 @@ describe('BaseSiteService', () => {
       imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        SiteContextStoreModule
+        SiteContextStoreModule,
       ],
       providers: [
         BaseSiteService,
         {
           provide: OccConfig,
-          useValue: {}
-        }
-      ]
+          useValue: {},
+        },
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

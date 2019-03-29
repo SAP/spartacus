@@ -10,7 +10,7 @@ import { PageMeta } from '../model/page.model';
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
   title: 'Page title',
-  slots: {}
+  slots: {},
 };
 
 class MockCmsService {
@@ -31,9 +31,9 @@ describe('ContentPageTitleResolver', () => {
         {
           provide: PageMetaResolver,
           useExisting: ContentPageMetaResolver,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.get(PageMetaService);

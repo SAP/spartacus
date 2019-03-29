@@ -5,5 +5,5 @@ export abstract class ConfigurableRoutesConfig {
 }
 
 export const defaultConfigurableRoutesConfig: ConfigurableRoutesConfig = {
-  routesConfig: defaultRoutesConfig
+  routesConfig: defaultRoutesConfig,
 };

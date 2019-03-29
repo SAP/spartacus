@@ -21,16 +21,16 @@ class MockMiscsService {
 const mockCountries: Country[] = [
   {
     isocode: 'AL',
-    name: 'Albania'
+    name: 'Albania',
   },
   {
     isocode: 'AD',
-    name: 'Andorra'
-  }
+    name: 'Andorra',
+  },
 ];
 
 const mockCountriesList: CountryList = {
-  countries: mockCountries
+  countries: mockCountries,
 };
 
 describe('Delivery Countries effect', () => {
@@ -43,8 +43,8 @@ describe('Delivery Countries effect', () => {
       providers: [
         DeliveryCountriesEffects,
         { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(DeliveryCountriesEffects);

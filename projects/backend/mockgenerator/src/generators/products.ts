@@ -12,7 +12,7 @@ export class ProductsGenerator extends ClientGenerator {
     let {
       products,
       productPages,
-      searchProducts
+      searchProducts,
     } = await this.fetchProductsForSite(site);
     if (this.options && this.options.anonymize) {
       products = this.anonymize(products);
@@ -22,7 +22,7 @@ export class ProductsGenerator extends ClientGenerator {
     return {
       [`${site}-${ENDPOINTS.PRODUCTS}`]: products,
       [`${site}-${ENDPOINTS.SEARCH_PRODUCTS}`]: searchProducts,
-      ...productPages
+      ...productPages,
     };
   }
 
@@ -43,7 +43,7 @@ export class ProductsGenerator extends ClientGenerator {
     for (const { code } of searchProducts) {
       console.log(`Product: ${code} (${site})`);
       const product = await this.client.getProductByCode(code, site, {
-        fields
+        fields,
       } as any);
       products.push(product);
 
@@ -64,7 +64,7 @@ export class ProductsGenerator extends ClientGenerator {
       const { products, pagination } = await this.client.searchProducts(site, {
         fields,
         pageSize: PRODUCT_PAGE_SIZE,
-        currentPage: i
+        currentPage: i,
       });
       if (GET_FULL_CATALOG) {
         totalPages = pagination.totalPages;
@@ -77,7 +77,7 @@ export class ProductsGenerator extends ClientGenerator {
   anonymize = (data: Product[]) =>
     data.map(product => ({
       ...product,
-      name: faker.commerce.productName()
+      name: faker.commerce.productName(),
     }));
 
   anonymizeSearchProducts = (
@@ -88,7 +88,7 @@ export class ProductsGenerator extends ClientGenerator {
       const anonymizedProduct = products.find(p => p.code === product.code);
       return {
         ...product,
-        name: anonymizedProduct.name
+        name: anonymizedProduct.name,
       };
     });
   };
@@ -99,7 +99,7 @@ export class ProductsGenerator extends ClientGenerator {
         site,
         {
           code,
-          pageType: CommerceWebservicesV2Models.PageType.ProductPage
+          pageType: CommerceWebservicesV2Models.PageType.ProductPage,
         },
         (error, service, resource, response) =>
           error ? console.log(error) : resolve(JSON.parse(response.bodyAsText))

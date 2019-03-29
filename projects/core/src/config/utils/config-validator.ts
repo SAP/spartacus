@@ -12,7 +12,7 @@ export function provideConfigValidator(
   return {
     provide: ConfigValidatorToken,
     useValue: configValidator,
-    multi: true
+    multi: true,
   };
 }
 

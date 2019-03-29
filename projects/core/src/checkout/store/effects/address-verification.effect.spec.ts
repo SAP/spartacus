@@ -15,7 +15,7 @@ import { AddressVerificationEffect } from './address-verification.effect';
 
 const addressValidation: AddressValidation = {
   decision: 'test address validation',
-  suggestedAddresses: [{ id: 'address1' }]
+  suggestedAddresses: [{ id: 'address1' }],
 };
 
 class MockUserService {
@@ -32,8 +32,8 @@ describe('Address Verification effect', () => {
       providers: [
         AddressVerificationEffect,
         { provide: OccUserService, useClass: MockUserService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(AddressVerificationEffect);
@@ -45,11 +45,11 @@ describe('Address Verification effect', () => {
   describe('verifyAddress$', () => {
     it('should load the address verification results', () => {
       const address: Address = {
-        id: 'testAddress1'
+        id: 'testAddress1',
       };
       const payload = {
         userId: 'userId',
-        address
+        address,
       };
       const action = new fromActions.VerifyAddress(payload);
       const completion = new fromActions.VerifyAddressSuccess(

@@ -7,22 +7,22 @@ const createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-test',
-  template: 'test'
+  template: 'test',
 })
 export class TestComponent {}
 
 @NgModule({
   declarations: [TestComponent],
   entryComponents: [TestComponent],
-  exports: [TestComponent]
+  exports: [TestComponent],
 })
 export class TestModule {}
 
 const MockCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     CMSTestComponent: { selector: 'cx-test' },
-    CMSWebComponent: { selector: 'path/to/file.js#cms-component' }
-  }
+    CMSWebComponent: { selector: 'path/to/file.js#cms-component' },
+  },
 };
 
 describe('ComponentMapperService', () => {
@@ -35,8 +35,8 @@ describe('ComponentMapperService', () => {
         ComponentMapperService,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         Renderer2,
-        { provide: PLATFORM_ID, useValue: 'no-browser' }
-      ]
+        { provide: PLATFORM_ID, useValue: 'no-browser' },
+      ],
     });
 
     mapperService = TestBed.get(ComponentMapperService);
@@ -83,7 +83,7 @@ describe('ComponentMapperService', () => {
 
     const mockRenderer: Renderer2 = {
       createElement: createSpy().and.returnValue(mockScriptElement),
-      appendChild: createSpy()
+      appendChild: createSpy(),
     } as any;
 
     it('should return selector', async () => {

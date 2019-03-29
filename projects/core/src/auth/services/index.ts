@@ -7,5 +7,5 @@ export const services: any[] = [
   ClientAuthenticationTokenService,
   ClientErrorHandlingService,
   UserAuthenticationTokenService,
-  UserErrorHandlingService
+  UserErrorHandlingService,
 ];

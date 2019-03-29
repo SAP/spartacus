@@ -4,7 +4,7 @@ import {
   Input,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { tap, takeWhile } from 'rxjs/operators';
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
   styleUrls: ['./delivery-mode.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeliveryModeComponent implements OnInit {
   @Input()
@@ -32,7 +32,7 @@ export class DeliveryModeComponent implements OnInit {
   leave = false;
 
   mode: FormGroup = this.fb.group({
-    deliveryModeId: ['', Validators.required]
+    deliveryModeId: ['', Validators.required],
   });
 
   constructor(private fb: FormBuilder, private service: CheckoutService) {}

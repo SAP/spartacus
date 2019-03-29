@@ -6,7 +6,7 @@ import {
   CmsBannerComponent,
   CmsBannerComponentMedia,
   CmsConfig,
-  CmsResponsiveBannerComponentMedia
+  CmsResponsiveBannerComponentMedia,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ResponsiveBannerFormat } from './responsive-banner-format.model';
@@ -26,7 +26,7 @@ export class BannerComponentService {
     { code: 'mobile', width: 200 },
     { code: 'tablet', width: 500 },
     { code: 'desktop', width: 800 },
-    { code: 'widescreen', width: 1200 }
+    { code: 'widescreen', width: 1200 },
   ];
 
   static hasMedia(data): boolean {

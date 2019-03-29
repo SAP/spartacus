@@ -5,6 +5,6 @@ import { PaymentMethodsModule } from './payment-methods/payment-methods.module';
 @NgModule({
   imports: [OrderModule, PaymentMethodsModule],
   declarations: [],
-  exports: [OrderModule, PaymentMethodsModule]
+  exports: [OrderModule, PaymentMethodsModule],
 })
 export class MyAccountModule {}

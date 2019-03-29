@@ -5,7 +5,7 @@ import {
   debounceTime,
   startWith,
   map,
-  distinctUntilChanged
+  distinctUntilChanged,
 } from 'rxjs/operators';
 import { LayoutConfig, BREAKPOINT } from '../config/layout-config';
 
@@ -31,7 +31,7 @@ export class BreakpointService {
       BREAKPOINT.sm,
       BREAKPOINT.md,
       BREAKPOINT.lg,
-      BREAKPOINT.xl
+      BREAKPOINT.xl,
     ];
   }
 

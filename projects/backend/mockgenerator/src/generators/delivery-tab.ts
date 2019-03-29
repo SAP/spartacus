@@ -14,8 +14,8 @@ export class DeliveryTabGenerator extends ClientGenerator {
         name: 'Delivery tab',
         container: 'false',
         title: 'Delivery',
-        content: `<div class="tab-delivery">${faker.lorem.sentences(5)}</div>`
-      }
+        content: `<div class="tab-delivery">${faker.lorem.sentences(5)}</div>`,
+      },
     };
   }
 }
