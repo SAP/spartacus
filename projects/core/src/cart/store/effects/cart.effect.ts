@@ -75,7 +75,7 @@ export class CartEffects {
                 this.productImageConverter.convertProduct(entry.product);
               }
             }
-            if (payload.toMergeCartGuid) {
+            if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),
                 new fromActions.MergeCartSuccess(),
