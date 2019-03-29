@@ -1,23 +1,22 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 
-import { throwError, Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { UserRegisterFormData } from '../model/user.model';
-
+import {
+  Address,
+  AddressList,
+  AddressValidation,
+  PaymentDetailsList,
+  User,
+} from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-import {
-  User,
-  Address,
-  AddressValidation,
-  AddressList,
-  PaymentDetailsList,
-} from '../../occ/occ-models/index';
-import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -200,7 +199,7 @@ export class OccUserService {
       .set('old', oldPassword)
       .set('new', newPassword);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
     return this.http
       .put(url, httpParams, { headers })
