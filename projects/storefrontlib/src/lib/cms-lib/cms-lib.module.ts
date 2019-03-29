@@ -14,7 +14,12 @@ import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
 import { AddressBookModule } from './address-book/address-book.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
+import { ProductListModule } from '../product/components/product-list/product-list.module';
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
+import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
+import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
+import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
+import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
 
@@ -37,7 +42,12 @@ import { ProductTabsModule } from '../product/components/product-tabs/product-ta
     SiteContextSelectorModule,
     AddressBookModule,
     OrderHistoryModule,
-    ProductTabsModule
+    ProductListModule,
+    ProductTabsModule,
+    CartDetailsModule,
+    CartTotalsModule,
+    OrderDetailsModule,
+    PaymentMethodsModule
   ]
 })
 export class CmsLibModule {}

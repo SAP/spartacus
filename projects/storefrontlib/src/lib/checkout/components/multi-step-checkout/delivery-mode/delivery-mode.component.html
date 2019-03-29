@@ -1,53 +1,53 @@
-<div class="cx-delivery container">
+<div [formGroup]="mode">
   <div class="row">
     <div class="col-md-12 col-lg-9">
-      <h3 class="cx-delivery-title d-none d-lg-block d-xl-block">
+      <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
         Shipping Method
       </h3>
-      <div [formGroup]="mode">
-        <div
-          class="form-check"
-          *ngFor="let mode of (supportedDeliveryModes$ | async)"
-        >
-          <input
-            class="form-check-input"
-            role="radio"
-            type="radio"
-            tabindex="0"
-            id="deliveryMode-{{ mode.code }}"
-            aria-checked="true"
-            [value]="mode.code"
-            formControlName="deliveryModeId"
-          />
-          <label
-            class="cx-delivery-label form-check-label
+
+      <div
+        class="form-check"
+        *ngFor="let mode of (supportedDeliveryModes$ | async)"
+      >
+        <input
+          class="form-check-input"
+          role="radio"
+          type="radio"
+          tabindex="0"
+          id="deliveryMode-{{ mode.code }}"
+          aria-checked="true"
+          [value]="mode.code"
+          formControlName="deliveryModeId"
+        />
+        <label
+          class="cx-delivery-label form-check-label
             form-radio-label"
-            for="deliveryMode-{{ mode.code }}"
-          >
-            <div class="cx-delivery-shipping">{{ mode.name }}</div>
-            <div class="cx-delivery-price">
-              {{ mode.deliveryCost.formattedValue }}
-            </div>
-            <div class="cx-delivery-details">{{ mode.description }}</div>
-          </label>
-        </div>
-        <div class="row cx-btns">
-          <div class="col-sm-12 col-md-6">
-            <button class="btn btn-block btn-action" (click)="back()">
-              Back
-            </button>
+          for="deliveryMode-{{ mode.code }}"
+        >
+          <div class="cx-delivery-shipping">{{ mode.name }}</div>
+          <div class="cx-delivery-price">
+            {{ mode.deliveryCost.formattedValue }}
           </div>
-          <div class="col-sm-12 col-md-6">
-            <button
-              class="btn btn-block btn-primary"
-              [disabled]="deliveryModeInvalid"
-              (click)="next()"
-            >
-              Continue
-            </button>
-          </div>
-        </div>
+          <div class="cx-delivery-details">{{ mode.description }}</div>
+        </label>
       </div>
+    </div>
+  </div>
+
+  <div class="row cx-checkout-btns">
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-action" (click)="back()">
+        Back
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="deliveryModeInvalid"
+        (click)="next()"
+      >
+        Continue
+      </button>
     </div>
   </div>
 </div>

@@ -14,11 +14,6 @@
   text-align: var(--cx-text-align, end);
   padding: var(--cx-padding, 0);
 }
-.cx-summary-promotions {
-  @include type('7');
-  color: var(--cx-color, var(--cx-g-color-success));
-  padding: var(--cx-padding, 0.5rem 0);
-}
 .cx-summary-row {
   padding: var(--cx-padding, 0.5rem 0);
   display: var(--cx-display, flex);

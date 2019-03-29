@@ -45,7 +45,7 @@ const mockTitles: Title[] = [
     name: 'Mrs.'
   }
 ];
-const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitles];
+const expectedTitles: Title[] = [{ code: '', name: 'Title' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
@@ -353,6 +353,24 @@ describe('AddressFormComponent', () => {
       controls['postalCode'].setValue('test postalCode');
 
       expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+  });
+
+  describe('UI cancel button', () => {
+    it('should show the "Back to cart", if it is provided as an input', () => {
+      component.cancelBtnLabel = 'Back to cart';
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.btn-action').innerText
+      ).toEqual('Back to cart');
+    });
+
+    it('should show the "Choose Address", if there is no "cancelBtnLabel" input provided', () => {
+      component.cancelBtnLabel = undefined;
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.btn-action').innerText
+      ).toEqual('Choose Address');
     });
   });
 

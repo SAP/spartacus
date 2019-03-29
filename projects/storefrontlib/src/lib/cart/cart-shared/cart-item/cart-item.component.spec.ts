@@ -4,6 +4,7 @@ import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemComponent } from './cart-item.component';
 import { Pipe, PipeTransform } from '@angular/core';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 @Pipe({
   name: 'cxTranslateUrl'
@@ -18,7 +19,12 @@ describe('CartItemComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule, ComponentsModule],
+      imports: [
+        RouterTestingModule,
+        ReactiveFormsModule,
+        ComponentsModule,
+        PromotionsModule
+      ],
       declarations: [CartItemComponent, MockTranslateUrlPipe],
       providers: [
         {

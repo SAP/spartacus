@@ -8,14 +8,20 @@ import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageMeta } from '../../cms/model/page.model';
 import {
   PageTitleResolver,
-  PageDescriptionResolver
+  PageDescriptionResolver,
+  PageHeadingResolver,
+  PageImageResolver
 } from '../../cms/page/page.resolvers';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductPageMetaResolver extends PageMetaResolver
-  implements PageTitleResolver, PageDescriptionResolver {
+  implements
+    PageHeadingResolver,
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageImageResolver {
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService
@@ -32,9 +38,11 @@ export class ProductPageMetaResolver extends PageMetaResolver
         this.productService.get(code).pipe(
           filter(Boolean),
           map((p: Product) => {
-            return {
+            return <PageMeta>{
+              heading: this.resolveHeading(p),
               title: this.resolveTitle(p),
-              description: this.resolveDescription(p)
+              description: this.resolveDescription(p),
+              image: this.resolveImage(p)
             };
           })
         )
@@ -42,11 +50,40 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(product: Product) {
+  resolveHeading(product: Product): string {
     return product.name;
   }
 
-  resolveDescription(product: Product) {
+  resolveTitle(product: Product): string {
+    let title = product.name;
+    title += this.resolveFirstCategory(product);
+    title += this.resolveManufactorer(product);
+
+    return title;
+  }
+
+  resolveDescription(product: Product): string {
     return product.summary;
+  }
+
+  resolveImage(product: any): string {
+    if (
+      product.images &&
+      product.images.PRIMARY &&
+      product.images.PRIMARY.zoom &&
+      product.images.PRIMARY.zoom.url
+    ) {
+      return product.images.PRIMARY.zoom.url;
+    }
+  }
+
+  private resolveFirstCategory(product: Product): string {
+    return product.categories && product.categories.length > 0
+      ? ` | ${product.categories[0].code}`
+      : '';
+  }
+
+  private resolveManufactorer(product: Product): string {
+    return product.manufacturer ? ` | ${product.manufacturer}` : '';
   }
 }

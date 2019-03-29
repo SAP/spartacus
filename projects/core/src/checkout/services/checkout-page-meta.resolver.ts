@@ -5,8 +5,11 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { PageType } from '../../occ/occ-models/occ.models';
 import { CartService } from '../../cart/facade/cart.service';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
-import { PageTitleResolver } from '../../cms/page/page.resolvers';
-import { PageMeta } from '../../cms/model/page.model';
+import {
+  PageTitleResolver,
+  PageRobotsResolver
+} from '../../cms/page/page.resolvers';
+import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 
 import { Cart } from '../../occ/occ-models/index';
 
@@ -14,7 +17,7 @@ import { Cart } from '../../occ/occ-models/index';
   providedIn: 'root'
 })
 export class CheckoutPageMetaResolver extends PageMetaResolver
-  implements PageTitleResolver {
+  implements PageTitleResolver, PageRobotsResolver {
   constructor(
     protected routingService: RoutingService,
     protected cartService: CartService
@@ -28,7 +31,8 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
     return this.cartService.getActive().pipe(
       map(cart => {
         return {
-          title: this.resolveTitle(cart)
+          title: this.resolveTitle(cart),
+          robots: this.resolveRobots()
         };
       })
     );
@@ -36,5 +40,9 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
 
   resolveTitle(cart: Cart) {
     return `Checkout ${cart.totalItems} items`;
+  }
+
+  resolveRobots(): PageRobotsMeta[] {
+    return [PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX];
   }
 }

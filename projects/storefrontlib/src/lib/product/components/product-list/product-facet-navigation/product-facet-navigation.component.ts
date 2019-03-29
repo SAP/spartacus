@@ -1,13 +1,14 @@
-import {
-  Component,
-  Input,
-  Output,
-  OnInit,
-  EventEmitter,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { tap, filter } from 'rxjs/operators';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  Facet
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -16,38 +17,49 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductFacetNavigationComponent implements OnInit {
-  @Input()
-  activeFacetValueCode;
-  @Input()
-  searchResult;
-  @Input()
+  activeFacetValueCode: string;
+  searchResult: ProductSearchPage;
   minPerFacet = 6;
-
-  @Output()
-  filter: EventEmitter<any> = new EventEmitter<any>();
-
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
+  searchResult$: Observable<ProductSearchPage>;
+  updateParams$: Observable<Params>;
 
-  get visibleFacets() {
+  get visibleFacets(): Facet[] {
     if (!this.searchResult.facets) {
       return [];
     }
     return this.searchResult.facets.filter(facet => facet.visible);
   }
 
-  constructor(private modalService: NgbModal) {
+  constructor(
+    private modalService: NgbModal,
+    private activatedRoute: ActivatedRoute,
+    private productSearchService: ProductSearchService
+  ) {
     this.showAllPerFacetMap = new Map<String, boolean>();
     this.queryCodec = new HttpUrlEncodingCodec();
   }
 
   ngOnInit() {
-    if (this.searchResult.facets) {
-      this.searchResult.facets.forEach(el => {
-        this.showAllPerFacetMap.set(el.name, false);
-      });
-    }
+    this.updateParams$ = this.activatedRoute.params.pipe(
+      tap(params => {
+        this.activeFacetValueCode = params.categoryCode || params.brandCode;
+      })
+    );
+
+    this.searchResult$ = this.productSearchService.getSearchResults().pipe(
+      tap(searchResult => {
+        this.searchResult = searchResult;
+        if (this.searchResult.facets) {
+          this.searchResult.facets.forEach(el => {
+            this.showAllPerFacetMap.set(el.name, false);
+          });
+        }
+      }),
+      filter(searchResult => Object.keys(searchResult).length > 0)
+    );
   }
 
   openFilterModal(content) {
@@ -55,7 +67,7 @@ export class ProductFacetNavigationComponent implements OnInit {
   }
 
   toggleValue(query: string) {
-    this.filter.emit(this.queryCodec.decodeValue(query));
+    this.productSearchService.search(this.queryCodec.decodeValue(query));
   }
 
   showLess(facetName: String) {

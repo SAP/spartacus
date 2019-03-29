@@ -131,7 +131,7 @@ describe('DeliveryModeComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-btns .btn-primary'));
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
 
     it('should be disabled when delivery mode is not selected', () => {
       component.mode.controls['deliveryModeId'].setValue(null);
@@ -155,7 +155,7 @@ describe('DeliveryModeComponent', () => {
 
   describe('UI back button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-btns .btn-action'));
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');

@@ -20,21 +20,12 @@ function build_app {
     echo "-----"
     echo "Building SPA app"
     ng build storefrontapp -c=ci --base-href "https://sap.github.io/cloud-commerce-spartacus-storefront/"
-
 }
-
-function zip_docs {
-    zip -r docs.zip documentation
-    tar -zcvf docs.tar.gz documentation
-}
-
 
 function generate_docs {
     echo "-----"
     echo "Generating docs"
-    yarn doc:generate
-
-    zip_docs
+    yarn generate:docs
 
     mv documentation dist/storefrontapp/docs
 }

@@ -14,7 +14,7 @@ import {
 } from '@spartacus/core';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { Pipe, PipeTransform, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { SiteContextComponentService } from './site-context-component.service';

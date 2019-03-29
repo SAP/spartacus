@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
-import { RegisterComponent } from './register/register.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import { RegisterComponentModule } from './register/register.module';
 import { LoginFormModule } from './login-form/login-form.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
+import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 
 @NgModule({
   imports: [
@@ -18,9 +19,10 @@ import { LoginFormModule } from './login-form/login-form.module';
     ReactiveFormsModule,
     RouterModule,
     UserModule,
-    UrlTranslationModule
-  ],
-  declarations: [RegisterComponent, ResetPasswordComponent],
-  exports: [RegisterComponent, ResetPasswordComponent]
+    UrlTranslationModule,
+    RegisterComponentModule,
+    ResetPasswordModule,
+    ForgotPasswordModule
+  ]
 })
 export class UserComponentModule {}

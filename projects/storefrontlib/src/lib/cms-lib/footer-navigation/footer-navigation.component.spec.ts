@@ -18,7 +18,7 @@ import {
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { FooterNavigationComponent } from './footer-navigation.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({

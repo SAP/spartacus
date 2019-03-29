@@ -9,6 +9,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { ComponentsModule } from './../../ui/components/components.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
+import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { CartItemListComponent } from './cart-item-list/cart-item-list.component
     ReactiveFormsModule,
     ComponentsModule,
     UrlTranslationModule,
-    NgbModule
+    NgbModule,
+    PromotionsModule
   ],
   declarations: [
     CartItemComponent,

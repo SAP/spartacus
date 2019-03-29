@@ -1,5 +1,12 @@
 <ng-container *ngIf="locations">
   <div class="container">
+    <div class="row" *ngIf="locations?.pagination">
+      <div class="col-md-12">
+        <cx-store-finder-pagination-details
+          [pagination]="locations.pagination"
+        ></cx-store-finder-pagination-details>
+      </div>
+    </div>
     <div *ngIf="locations?.stores" class="row cx-columns">
       <div class="col-md-4 cx-address-col">
         <ol class="cx-list">
