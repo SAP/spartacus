@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { CART_DATA } from '../cart-state';
 

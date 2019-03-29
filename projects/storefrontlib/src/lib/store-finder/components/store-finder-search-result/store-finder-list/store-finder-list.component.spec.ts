@@ -44,10 +44,10 @@ describe('StoreFinderDisplayListComponent', () => {
       providers: [
         {
           provide: GoogleMapRendererService,
-          useClass: GoogleMapRendererServiceMock
+          useClass: GoogleMapRendererServiceMock,
         },
-        { provide: StoreDataService, useClass: StoreDataServiceMock }
-      ]
+        { provide: StoreDataService, useClass: StoreDataServiceMock },
+      ],
     }).compileComponents();
   }));
 

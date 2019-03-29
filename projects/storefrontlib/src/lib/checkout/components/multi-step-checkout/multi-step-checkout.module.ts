@@ -7,7 +7,7 @@ import {
   ConfigModule,
   CmsConfig,
   CheckoutModule,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 import { DeliveryModeModule } from './delivery-mode/delivery-mode.module';
@@ -28,13 +28,13 @@ import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' }
-      }
+        MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' },
+      },
     }),
     CheckoutModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [MultiStepCheckoutComponent],
-  entryComponents: [MultiStepCheckoutComponent]
+  entryComponents: [MultiStepCheckoutComponent],
 })
 export class MultiStepCheckoutModule {}

@@ -8,12 +8,12 @@ export default {
       'To ensure delivery accuracy, we suggest the change selected below.',
     chooseAddressToUse: 'Please choose which address you would like to use:',
     suggestedAddress: 'Suggested address',
-    enteredAddress: 'Entered address'
+    enteredAddress: 'Entered address',
   },
   actions: {
     addNewAddress: 'Add New Address',
     shipToThisAddress: 'Ship to this address',
     editAddress: 'Edit address',
-    saveAddress: 'Save address'
-  }
+    saveAddress: 'Save address',
+  },
 };

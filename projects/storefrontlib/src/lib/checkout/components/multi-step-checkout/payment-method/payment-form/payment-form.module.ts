@@ -17,10 +17,10 @@ import { BillingAddressFormModule } from '../billing-address-form/billing-addres
     BootstrapModule,
     CardModule,
     BillingAddressFormModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
-  exports: [PaymentFormComponent]
+  exports: [PaymentFormComponent],
 })
 export class PaymentFormModule {}

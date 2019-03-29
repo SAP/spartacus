@@ -14,9 +14,9 @@ import { BillingAddressFormComponent } from './billing-address-form.component';
     FormsModule,
     RouterModule,
     NgSelectModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [BillingAddressFormComponent],
-  exports: [BillingAddressFormComponent]
+  exports: [BillingAddressFormComponent],
 })
 export class BillingAddressFormModule {}

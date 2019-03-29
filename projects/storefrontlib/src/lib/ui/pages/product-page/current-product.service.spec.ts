@@ -3,7 +3,7 @@ import {
   PageType,
   Product,
   ProductService,
-  RoutingService
+  RoutingService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
@@ -15,8 +15,8 @@ const router = {
     queryParams: {},
     params: { productCode: '123456' },
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 class MockRoutingService {
@@ -43,13 +43,13 @@ describe('CurrentProductService', () => {
         CurrentProductService,
         {
           provide: ProductService,
-          useClass: MockProductService
+          useClass: MockProductService,
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService
-        }
-      ]
+          useClass: MockRoutingService,
+        },
+      ],
     });
 
     service = TestBed.get(CurrentProductService);

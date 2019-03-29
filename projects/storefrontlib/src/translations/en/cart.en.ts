@@ -1,9 +1,9 @@
 export default {
   labels: {
     shoppingCart: 'Shopping Cart',
-    id: 'ID'
+    id: 'ID',
   },
   actions: {
-    proceedToCheckout: 'Proceed to Checkout'
-  }
+    proceedToCheckout: 'Proceed to Checkout',
+  },
 };

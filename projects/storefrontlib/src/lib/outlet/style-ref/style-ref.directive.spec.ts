@@ -14,7 +14,7 @@ const STYLE_ID = 'stylesheet';
     <ng-container *cxOutlet="'${OUTLET_NAME}'">
       <div id="debugEl"></div>
     </ng-container>
-  `
+  `,
 })
 class TestContainerComponent {}
 
@@ -27,9 +27,9 @@ describe('StyleOutlet', () => {
       declarations: [
         TestContainerComponent,
         StyleRefDirective,
-        OutletDirective
+        OutletDirective,
       ],
-      providers: [OutletStyleService]
+      providers: [OutletStyleService],
     }).compileComponents();
   }));
 

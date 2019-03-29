@@ -12,13 +12,13 @@ import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountOrderDetailsHeadlineComponent: { selector: 'cx-order-details' }
-      }
+        AccountOrderDetailsHeadlineComponent: { selector: 'cx-order-details' },
+      },
     }),
-    I18nModule
+    I18nModule,
   ],
   declarations: [OrderDetailsComponent],
   exports: [OrderDetailsComponent],
-  entryComponents: [OrderDetailsComponent]
+  entryComponents: [OrderDetailsComponent],
 })
 export class OrderDetailsModule {}

@@ -4,6 +4,6 @@ export default {
     placed: 'Placed',
     status: 'Status',
     shippedOn: 'Shipped on',
-    inProcess: 'In process...'
-  }
+    inProcess: 'In process...',
+  },
 };

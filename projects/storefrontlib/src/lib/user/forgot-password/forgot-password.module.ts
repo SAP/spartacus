@@ -9,7 +9,7 @@ import {
   ConfigModule,
   CmsConfig,
   UrlTranslationModule,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -20,13 +20,13 @@ import {
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ForgotPasswordComponent: { selector: 'cx-forgot-password' }
-      }
+        ForgotPasswordComponent: { selector: 'cx-forgot-password' },
+      },
     }),
-    I18nModule
+    I18nModule,
   ],
   declarations: [ForgotPasswordComponent],
   exports: [ForgotPasswordComponent],
-  entryComponents: [ForgotPasswordComponent]
+  entryComponents: [ForgotPasswordComponent],
 })
 export class ForgotPasswordModule {}

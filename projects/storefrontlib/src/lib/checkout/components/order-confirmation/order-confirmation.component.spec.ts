@@ -41,14 +41,14 @@ class MockCheckoutService {
     return of({
       code: 'test-code-412',
       deliveryAddress: {
-        country: {}
+        country: {},
       },
       deliveryMode: {},
       paymentInfo: {
         billingAddress: {
-          country: {}
-        }
-      }
+          country: {},
+        },
+      },
     });
   }
 }
@@ -64,9 +64,9 @@ describe('OrderConfirmationComponent', () => {
         MockReviewSubmitComponent,
         MockCardComponent,
         MockOrderSummaryComponent,
-        MockAddtoHomeScreenBannerComponent
+        MockAddtoHomeScreenBannerComponent,
       ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
   }));
 

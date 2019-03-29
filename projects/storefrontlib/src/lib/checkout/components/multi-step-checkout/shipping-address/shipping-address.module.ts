@@ -15,10 +15,10 @@ import { SpinnerModule } from './../../../../ui/components/spinner/spinner.modul
     AddressFormModule,
     CardModule,
     SpinnerModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [ShippingAddressComponent],
   entryComponents: [ShippingAddressComponent],
-  exports: [ShippingAddressComponent]
+  exports: [ShippingAddressComponent],
 })
 export class ShippingAddressModule {}

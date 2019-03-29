@@ -6,7 +6,7 @@ export default {
     signIn: 'I already have an account. Sign In',
     register: 'Register',
     confirmNewPassword: 'Confirm New Password',
-    resetPassword: 'Reset Password'
+    resetPassword: 'Reset Password',
   },
   labels: {
     createAccount: 'Create an account',
@@ -19,7 +19,7 @@ export default {
     /* tslint:disable:max-line-length */
     emailMarketing:
       'Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.',
-    confirmThatRead: 'I am confirming that I have read and agreed with the'
+    confirmThatRead: 'I am confirming that I have read and agreed with the',
   },
   placeholders: {
     selectTitle: 'Select Title',
@@ -27,11 +27,11 @@ export default {
     lastName: 'Last Name',
     emailAddress: 'Email Address',
     password: 'Password',
-    confirmPassword: 'Confirm Password'
+    confirmPassword: 'Confirm Password',
   },
   validations: {
     passwordMinRequirements:
       'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
-    bothPasswordMustMatch: 'Both password must match'
-  }
+    bothPasswordMustMatch: 'Both password must match',
+  },
 };

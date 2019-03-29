@@ -13,7 +13,7 @@ const testToken: ClientToken = {
   access_token: 'xxx',
   token_type: 'xxx',
   expires_in: 1,
-  scope: 'xxx'
+  scope: 'xxx',
 };
 
 class ClientAuthenticationTokenServiceMock {
@@ -31,10 +31,10 @@ describe('ClientTokenEffect', () => {
         fromStore.ClientTokenEffect,
         {
           provide: ClientAuthenticationTokenService,
-          useClass: ClientAuthenticationTokenServiceMock
+          useClass: ClientAuthenticationTokenServiceMock,
         },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     clientTokenEffect = TestBed.get(fromStore.ClientTokenEffect);

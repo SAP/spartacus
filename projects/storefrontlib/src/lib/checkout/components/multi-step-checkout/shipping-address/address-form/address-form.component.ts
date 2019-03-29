@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ import {
   GlobalMessageType,
   Region,
   Title,
-  UserService
+  UserService,
 } from '@spartacus/core';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
@@ -29,7 +29,7 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
   styleUrls: ['./address-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
@@ -69,13 +69,13 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     line2: [''],
     town: ['', Validators.required],
     region: this.fb.group({
-      isocode: [null, Validators.required]
+      isocode: [null, Validators.required],
     }),
     country: this.fb.group({
-      isocode: [null, Validators.required]
+      isocode: [null, Validators.required],
     }),
     postalCode: ['', Validators.required],
-    phone: ''
+    phone: '',
   });
 
   constructor(
@@ -141,12 +141,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           ) {
             this.globalMessageService.add({
               type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Title is required'
+              text: 'Title is required',
             });
           } else {
             this.globalMessageService.add({
               type: GlobalMessageType.MSG_TYPE_ERROR,
-              text: 'Invalid Address'
+              text: 'Invalid Address',
             });
           }
           this.checkoutService.clearAddressVerificationResults();
@@ -213,7 +213,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               {
                 titleCode: this.address.value.titleCode,
                 phone: this.address.value.phone,
-                selected: true
+                selected: true,
               },
               address
             );
@@ -226,7 +226,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           this.checkoutService.clearAddressVerificationResults();
           const address = Object.assign(
             {
-              selected: true
+              selected: true,
             },
             this.address.value
           );

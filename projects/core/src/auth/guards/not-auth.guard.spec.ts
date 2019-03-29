@@ -18,7 +18,7 @@ const mockUserToken = {
   refresh_token: 'test',
   expires_in: 1,
   scope: ['test'],
-  userId: 'test'
+  userId: 'test',
 } as UserToken;
 
 class AuthServiceStub {
@@ -45,9 +45,9 @@ describe('NotAuthGuard', () => {
       providers: [
         NotAuthGuard,
         { provide: RoutingService, useClass: RoutingServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub }
+        { provide: AuthService, useClass: AuthServiceStub },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
     authService = TestBed.get(AuthService);
     authGuard = TestBed.get(NotAuthGuard);

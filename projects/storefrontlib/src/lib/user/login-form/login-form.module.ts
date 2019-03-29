@@ -8,7 +8,7 @@ import {
   UrlTranslationModule,
   ConfigModule,
   CmsConfig,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { CmsModule } from '../../cms/cms.module';
 import { BootstrapModule } from '../../bootstrap.module';
@@ -26,14 +26,14 @@ import { BootstrapModule } from '../../bootstrap.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerLoginComponent: {
-          selector: 'cx-login-form'
-        }
-      }
+          selector: 'cx-login-form',
+        },
+      },
     }),
-    I18nModule
+    I18nModule,
   ],
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],
-  entryComponents: [LoginFormComponent]
+  entryComponents: [LoginFormComponent],
 })
 export class LoginFormModule {}

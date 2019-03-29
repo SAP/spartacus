@@ -8,8 +8,8 @@ import { CmsParagraphComponent, Component, CmsConfig } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    CMSLinkComponent: { selector: 'ParagraphComponent' }
-  }
+    CMSLinkComponent: { selector: 'ParagraphComponent' },
+  },
 };
 
 describe('CmsParagraphComponent in CmsLib', () => {
@@ -24,13 +24,13 @@ describe('CmsParagraphComponent in CmsLib', () => {
     name: 'TestCMSParagraphComponent',
     container: 'false',
     title: 'Paragraph',
-    content: 'Arbitrary paragraph content'
+    content: 'Arbitrary paragraph content',
   };
 
   const data$ = new BehaviorSubject<CmsParagraphComponent>({});
 
   const MockCmsComponentData = <CmsComponentData<Component>>{
-    data$: data$.asObservable()
+    data$: data$.asObservable(),
   };
 
   beforeEach(async(() => {
@@ -40,9 +40,9 @@ describe('CmsParagraphComponent in CmsLib', () => {
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData
-        }
-      ]
+          useValue: MockCmsComponentData,
+        },
+      ],
     }).compileComponents();
   }));
 

@@ -10,6 +10,6 @@ import { CartSharedModule } from '../../../../cart/cart-shared/cart-shared.modul
   imports: [CommonModule, CardModule, CartSharedModule, I18nModule],
   declarations: [ReviewSubmitComponent],
   entryComponents: [ReviewSubmitComponent],
-  exports: [ReviewSubmitComponent]
+  exports: [ReviewSubmitComponent],
 })
 export class ReviewSubmitModule {}

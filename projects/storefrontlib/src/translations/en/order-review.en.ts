@@ -4,6 +4,6 @@ export default {
     shippingMethod: 'Shipping Method',
     billTo: 'Bill to',
     payment: 'Payment',
-    cardExpires: 'Expires:'
-  }
+    cardExpires: 'Expires:',
+  },
 };

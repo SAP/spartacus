@@ -6,7 +6,7 @@ import {
   UrlTranslationModule,
   ConfigModule,
   CmsConfig,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { CartTotalsComponent } from './cart-totals.component';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
@@ -19,15 +19,15 @@ import { CartSharedModule } from '../cart-shared/cart-shared.module';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartTotalsComponent: {
-          selector: 'cx-cart-totals'
-        }
-      }
+          selector: 'cx-cart-totals',
+        },
+      },
     }),
     CartSharedModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [CartTotalsComponent],
   exports: [CartTotalsComponent],
-  entryComponents: [CartTotalsComponent]
+  entryComponents: [CartTotalsComponent],
 })
 export class CartTotalsModule {}

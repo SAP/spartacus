@@ -9,7 +9,7 @@ import {
   ProductService,
   RoutingService,
   WindowRef,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 // guards
@@ -39,19 +39,19 @@ import { PageComponentModule } from '../../../../cms-structure/page/component/pa
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSTabParagraphContainer: {
-          selector: 'cx-product-tabs'
-        }
-      }
+          selector: 'cx-product-tabs',
+        },
+      },
     }),
-    I18nModule
+    I18nModule,
   ],
   declarations: [ProductAttributesComponent, ProductTabsComponent],
   exports: [
     ProductAttributesComponent,
     ProductReviewsComponent,
-    ProductTabsComponent
+    ProductTabsComponent,
   ],
   entryComponents: [ProductTabsComponent],
-  providers: [ProductService, WindowRef, RoutingService]
+  providers: [ProductService, WindowRef, RoutingService],
 })
 export class ProductTabsModule {}

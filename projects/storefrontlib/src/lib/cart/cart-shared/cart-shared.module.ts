@@ -20,13 +20,13 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     UrlTranslationModule,
     NgbModule,
     PromotionsModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [
     CartItemComponent,
     OrderSummaryComponent,
-    CartItemListComponent
+    CartItemListComponent,
   ],
-  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent]
+  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent],
 })
 export class CartSharedModule {}

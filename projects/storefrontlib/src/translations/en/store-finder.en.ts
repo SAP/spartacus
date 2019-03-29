@@ -10,15 +10,15 @@ export default {
     storeHours: 'Store hours',
     storeFeatures: 'Store features',
     fromStoresFound: 'from {{ count }} store found',
-    fromStoresFound_plural: 'from {{ count }} stores found'
+    fromStoresFound_plural: 'from {{ count }} stores found',
   },
   actions: {
     findStore: 'Find store',
     useMyLocation: 'Use my location',
     viewAllStores: 'View all stores',
-    contactUs: 'Contact us'
+    contactUs: 'Contact us',
   },
   placeholders: {
-    searchBox: 'Enter postal code, town or address'
-  }
+    searchBox: 'Enter postal code, town or address',
+  },
 };

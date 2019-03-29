@@ -12,17 +12,17 @@ export default {
     securityCode: 'Security code (CVV)',
     saveAsDefault: 'Save as default',
     billingAddress: 'Billing address',
-    sameAsShippingAddress: 'Same as shipping address'
+    sameAsShippingAddress: 'Same as shipping address',
   },
   placeholders: {
     selectOne: 'Select One...',
     accountHolderName: 'Account Holder Name',
     monthMask: 'MM',
-    yearMask: 'YYYY'
+    yearMask: 'YYYY',
   },
   actions: {
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
-    changePayment: 'Change Payment'
-  }
+    changePayment: 'Change Payment',
+  },
 };

@@ -5,6 +5,6 @@ export default {
     estimatedShipping: 'Estimated shipping:',
     discount: 'Discount:',
     salesTax: 'Sales Tax:',
-    total: 'Total:'
-  }
+    total: 'Total:',
+  },
 };

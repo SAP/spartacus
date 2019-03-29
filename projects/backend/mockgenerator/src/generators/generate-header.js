@@ -6,21 +6,21 @@ exports.generateHeaderSlots = function() {
     {
       position: 'SiteLogo',
       components: {
-        component: [generateLogoConmponent()]
-      }
+        component: [generateLogoConmponent()],
+      },
     },
     {
       position: 'SearchBox',
       components: {
-        component: [generateSearchBoxComponent()]
-      }
+        component: [generateSearchBoxComponent()],
+      },
     },
     {
       position: 'MiniCart',
       components: {
-        component: [generateMinicart()]
-      }
-    }
+        component: [generateMinicart()],
+      },
+    },
   ];
 };
 
@@ -29,9 +29,9 @@ exports.generateFooterSlots = function() {
     {
       position: 'Footer',
       components: {
-        component: []
-      }
-    }
+        component: [],
+      },
+    },
   ];
 };
 
@@ -58,7 +58,7 @@ generateSearchBoxComponent = function() {
     maxProducts: '5',
     maxSuggestions: '5',
     minCharactersBeforeRequest: '3',
-    waitTimeBeforeRequest: '500'
+    waitTimeBeforeRequest: '500',
   };
 };
 
@@ -70,7 +70,7 @@ generateMinicart = function() {
     shownProductCount: '3',
     lightboxBannerComponent: {
       uid: 'banner',
-      typeCode: 'SimpleBannerComponent'
-    }
+      typeCode: 'SimpleBannerComponent',
+    },
   };
 };

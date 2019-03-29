@@ -53,6 +53,6 @@ export const translations: TranslationResources = {
     productReview,
     pwa,
     register,
-    storeFinder
-  }
+    storeFinder,
+  },
 };

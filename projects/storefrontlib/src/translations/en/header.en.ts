@@ -1,12 +1,12 @@
 export default {
   labels: {
-    userGreeting: 'Hi, {{name}}'
+    userGreeting: 'Hi, {{name}}',
   },
   actions: {
     signInRegister: 'Sign In / Register',
-    reorder: 'Reorder'
+    reorder: 'Reorder',
   },
   placeholders: {
-    searchHere: 'Search here...'
-  }
+    searchHere: 'Search here...',
+  },
 };

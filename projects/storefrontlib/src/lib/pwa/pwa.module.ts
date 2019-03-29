@@ -2,7 +2,7 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   ServiceWorkerModule,
-  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions
+  ɵangular_packages_service_worker_service_worker_b as RegistrationOptions,
 } from '@angular/service-worker';
 
 import { Config, ConfigModule, I18nModule } from '@spartacus/core';
@@ -28,24 +28,24 @@ export function pwaFactory(addToHomeScreenService) {
     CommonModule,
     ConfigModule.withConfig(defaultPWAModuleConfig),
     ServiceWorkerModule.register('/ngsw-worker.js'),
-    I18nModule
+    I18nModule,
   ],
   providers: [
     { provide: PWAModuleConfig, useExisting: Config },
     {
       provide: RegistrationOptions,
       useFactory: pwaConfigurationFactory,
-      deps: [Config]
+      deps: [Config],
     },
     {
       provide: APP_INITIALIZER,
       useFactory: pwaFactory,
       deps: [AddToHomeScreenService],
-      multi: true
+      multi: true,
     },
-    AddToHomeScreenService
+    AddToHomeScreenService,
   ],
   declarations: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
-  exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent]
+  exports: [AddToHomeScreenBtnComponent, AddToHomeScreenBannerComponent],
 })
 export class PwaModule {}

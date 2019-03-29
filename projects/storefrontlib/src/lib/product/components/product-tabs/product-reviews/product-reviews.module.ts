@@ -12,9 +12,9 @@ import { FormComponentsModule } from './../../../../ui/components/form-component
     ReactiveFormsModule,
     FormsModule,
     FormComponentsModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [ProductReviewsComponent],
-  exports: [ProductReviewsComponent]
+  exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}

@@ -6,7 +6,7 @@ import { tap, filter } from 'rxjs/operators';
 import {
   ProductSearchService,
   ProductSearchPage,
-  Facet
+  Facet,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
   styleUrls: ['./product-facet-navigation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent implements OnInit {
   activeFacetValueCode: string;

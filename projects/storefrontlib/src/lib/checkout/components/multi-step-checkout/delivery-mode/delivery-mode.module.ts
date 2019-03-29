@@ -9,6 +9,6 @@ import { DeliveryModeComponent } from './delivery-mode.component';
   imports: [CommonModule, ReactiveFormsModule, I18nModule],
   declarations: [DeliveryModeComponent],
   entryComponents: [DeliveryModeComponent],
-  exports: [DeliveryModeComponent]
+  exports: [DeliveryModeComponent],
 })
 export class DeliveryModeModule {}

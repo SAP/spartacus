@@ -3,9 +3,9 @@ export default {
     savedShippingAddress: 'Saved shipping addresses',
     addNewShippingAddress: 'Add a new shipping address',
     editShippingAddress: 'Edit shipping address',
-    areYouSureToDeleteAddress: 'Are you sure you want to delete this address?'
+    areYouSureToDeleteAddress: 'Are you sure you want to delete this address?',
   },
   actions: {
-    addNewAddress: 'Add new address'
-  }
+    addNewAddress: 'Add new address',
+  },
 };

@@ -9,7 +9,7 @@ export default {
     city: 'City',
     state: 'State',
     zipCode: 'Zip code',
-    phoneNumber: 'Phone number (optional)'
+    phoneNumber: 'Phone number (optional)',
   },
   actions: {
     saveAsDefault: 'Save as default',
@@ -18,7 +18,7 @@ export default {
     setAsDefault: 'set as default',
     backToAddressList: 'Back to address list',
     addAddress: 'Add address',
-    updateAddress: 'Update address'
+    updateAddress: 'Update address',
   },
   placeholders: {
     firstName: 'First Name',
@@ -28,6 +28,6 @@ export default {
     selectOne: 'Select One...',
     city: 'City',
     zipCode: 'Postal Code/Zip',
-    phoneNumber: '(555) 555 - 0123'
-  }
+    phoneNumber: '(555) 555 - 0123',
+  },
 };

@@ -3,7 +3,7 @@ export default {
     loading: 'Loading...',
     default: 'DEFAULT',
     selected: 'SELECTED',
-    userGreeting: 'Hi, {{name}}'
+    userGreeting: 'Hi, {{name}}',
   },
   actions: {
     cancel: 'Cancel',
@@ -18,9 +18,9 @@ export default {
     skipToNavigation: 'Skip to navigation',
     skipToShoppingCart: 'Skip to shopping cart',
     skipToMainContent: 'Skip to main content',
-    skipToFooter: 'Skip to Footer'
+    skipToFooter: 'Skip to Footer',
   },
   placeholders: {
-    searchHere: 'Search here...'
-  }
+    searchHere: 'Search here...',
+  },
 };

@@ -12,7 +12,7 @@ describe('SuggestedAddressDialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule],
       declarations: [SuggestedAddressDialogComponent],
-      providers: [NgbActiveModal]
+      providers: [NgbActiveModal],
     }).compileComponents();
   }));
 

@@ -68,7 +68,7 @@ export function entityReducer<T>(
     if (Object.keys(entityUpdates).length > 0) {
       return {
         ...state,
-        entities: { ...state.entities, ...entityUpdates }
+        entities: { ...state.entities, ...entityUpdates },
       };
     }
 

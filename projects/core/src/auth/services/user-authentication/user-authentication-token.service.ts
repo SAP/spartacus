@@ -21,7 +21,7 @@ export class UserAuthenticationTokenService {
       .set('username', userId)
       .set('password', password);
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -43,7 +43,7 @@ export class UserAuthenticationTokenService {
       .set('refresh_token', encodeURI(refreshToken))
       .set('grant_type', 'refresh_token');
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http

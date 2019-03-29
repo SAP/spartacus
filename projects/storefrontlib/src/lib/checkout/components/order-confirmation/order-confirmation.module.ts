@@ -17,9 +17,9 @@ import { PwaModule } from '../../../pwa/pwa.module';
     CardModule,
     PwaModule,
     CheckoutModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [OrderConfirmationComponent],
-  exports: [OrderConfirmationComponent]
+  exports: [OrderConfirmationComponent],
 })
 export class OrderConfirmationModule {}

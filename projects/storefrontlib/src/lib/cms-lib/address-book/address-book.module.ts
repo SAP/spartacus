@@ -10,7 +10,7 @@ import {
   UserService,
   ConfigModule,
   CmsConfig,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
@@ -25,20 +25,20 @@ import { AddressBookComponentService } from './address-book.component.service';
             {
               provide: AddressBookComponentService,
               useClass: AddressBookComponentService,
-              deps: [UserService]
-            }
-          ]
-        }
-      }
+              deps: [UserService],
+            },
+          ],
+        },
+      },
     }),
     CardModule,
     AddressFormModule,
     SpinnerModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
   providers: [UserService, AddressBookComponentService],
-  entryComponents: [AddressBookComponent]
+  entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}

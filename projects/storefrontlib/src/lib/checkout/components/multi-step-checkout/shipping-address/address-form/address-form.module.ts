@@ -15,10 +15,10 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
     FormsModule,
     RouterModule,
     NgSelectModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   entryComponents: [SuggestedAddressDialogComponent],
-  exports: [AddressFormComponent]
+  exports: [AddressFormComponent],
 })
 export class AddressFormModule {}

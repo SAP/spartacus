@@ -7,7 +7,7 @@ const token: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 };
 
 describe('User Token Actions', () => {
@@ -15,13 +15,13 @@ describe('User Token Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {
         userId: 'xxx@xxx.xxx',
-        password: '1234'
+        password: '1234',
       };
 
       const action = new fromUserToken.LoadUserToken(tokenRequest);
       expect({ ...action }).toEqual({
         type: fromUserToken.LOAD_USER_TOKEN,
-        payload: tokenRequest
+        payload: tokenRequest,
       });
     });
   });
@@ -33,7 +33,7 @@ describe('User Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserToken.LOAD_USER_TOKEN_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -44,7 +44,7 @@ describe('User Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserToken.LOAD_USER_TOKEN_SUCCESS,
-        payload: token
+        payload: token,
       });
     });
   });
@@ -53,13 +53,13 @@ describe('User Token Actions', () => {
     it('should create the action', () => {
       const refreshTokenRequest = {
         userId: 'xxx@xxx.xxx',
-        refreshToken: '1234'
+        refreshToken: '1234',
       };
 
       const action = new fromUserToken.RefreshUserToken(refreshTokenRequest);
       expect({ ...action }).toEqual({
         type: fromUserToken.REFRESH_USER_TOKEN,
-        payload: refreshTokenRequest
+        payload: refreshTokenRequest,
       });
     });
   });
@@ -71,7 +71,7 @@ describe('User Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserToken.REFRESH_USER_TOKEN_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -82,7 +82,7 @@ describe('User Token Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserToken.REFRESH_USER_TOKEN_SUCCESS,
-        payload: token
+        payload: token,
       });
     });
   });

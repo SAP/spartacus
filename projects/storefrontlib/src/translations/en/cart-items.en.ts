@@ -7,6 +7,6 @@ export default {
     quantity: 'Qty',
     total: 'Total',
     cartTotal: 'Cart total ({{count}} item)',
-    cartTotal_plural: 'Cart total ({{count}} items)'
-  }
+    cartTotal_plural: 'Cart total ({{count}} items)',
+  },
 };

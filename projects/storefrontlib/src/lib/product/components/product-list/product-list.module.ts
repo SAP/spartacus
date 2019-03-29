@@ -7,7 +7,7 @@ import {
   StripHtmlModule,
   ConfigModule,
   CmsConfig,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
@@ -28,8 +28,8 @@ import { ProductViewComponent } from './product-view/product-view.component';
       cmsComponents: {
         CMSProductListComponent: { selector: 'cx-product-list' },
         SearchResultsListComponent: { selector: 'cx-product-list' },
-        ProductRefinementComponent: { selector: 'cx-product-facet-navigation' }
-      }
+        ProductRefinementComponent: { selector: 'cx-product-facet-navigation' },
+      },
     }),
     RouterModule,
     MediaModule,
@@ -39,20 +39,20 @@ import { ProductViewComponent } from './product-view/product-view.component';
     PaginationAndSortingModule,
     StripHtmlModule,
     UrlTranslationModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [
     ProductListComponent,
     ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
-    ProductViewComponent
+    ProductViewComponent,
   ],
   exports: [
     ProductListComponent,
     ProductListItemComponent,
-    ProductGridItemComponent
+    ProductGridItemComponent,
   ],
-  entryComponents: [ProductListComponent, ProductFacetNavigationComponent]
+  entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })
 export class ProductListModule {}

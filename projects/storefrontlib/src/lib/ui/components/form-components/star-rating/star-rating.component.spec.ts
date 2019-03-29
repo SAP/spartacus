@@ -9,7 +9,7 @@ describe('StarRatingComponent in product', () => {
     TestBed.configureTestingModule({
       imports: [NgbRatingModule],
       declarations: [StarRatingComponent],
-      providers: [NgbRatingConfig]
+      providers: [NgbRatingConfig],
     }).compileComponents();
   }));
 

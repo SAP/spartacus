@@ -5,10 +5,10 @@ export default {
     productDetails: 'Product Details',
     specification: 'Specs',
     reviews: 'Reviews',
-    shipping: 'Shipping'
+    shipping: 'Shipping',
   },
   actions: {
     share: 'Share',
-    showReviews: 'Show reviews'
-  }
+    showReviews: 'Show reviews',
+  },
 };

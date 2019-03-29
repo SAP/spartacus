@@ -8,7 +8,7 @@ import {
   CmsService,
   ConfigModule,
   UrlTranslationModule,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
@@ -28,17 +28,17 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
             {
               provide: NavigationComponentService,
               useClass: NavigationComponentService,
-              deps: [CmsService, CmsComponentData]
-            }
-          ]
-        }
-      }
+              deps: [CmsService, CmsComponentData],
+            },
+          ],
+        },
+      },
     }),
     UrlTranslationModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [NavigationComponent, NavigationUIComponent],
   entryComponents: [NavigationComponent],
-  exports: [NavigationComponent, NavigationUIComponent]
+  exports: [NavigationComponent, NavigationUIComponent],
 })
 export class NavigationModule {}

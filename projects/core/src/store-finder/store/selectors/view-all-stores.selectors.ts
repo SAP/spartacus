@@ -2,13 +2,13 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   StoresState,
   StateWithStoreFinder,
-  ViewAllStoresState
+  ViewAllStoresState,
 } from '../store-finder-state';
 import { getStoreFinderState } from './feature.selector';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderLoadingSelector,
-  loaderValueSelector
+  loaderValueSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 export const getViewAllStoresState: MemoizedSelector<

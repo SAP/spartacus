@@ -22,8 +22,8 @@ const router = {
     queryParams: {},
     params: {},
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 class MockRoutingService {
@@ -45,7 +45,7 @@ describe('Component Effects', () => {
 
   const component: CmsComponent = {
     uid: 'comp1',
-    typeCode: 'SimpleBannerComponent'
+    typeCode: 'SimpleBannerComponent',
   };
 
   beforeEach(() => {
@@ -56,8 +56,8 @@ describe('Component Effects', () => {
         { provide: CmsConfig, useValue: defaultCmsModuleConfig },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
 
     service = TestBed.get(OccCmsPageLoader);

@@ -4,6 +4,6 @@ export default {
     thankYou: 'Thank you for your order!',
     invoiceHasBeenSentByEmail:
       'An invoice has been sent by email. You should receive it soon.',
-    orderItems: 'Order Items'
-  }
+    orderItems: 'Order Items',
+  },
 };

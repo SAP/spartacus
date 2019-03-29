@@ -11,7 +11,7 @@ import {
   RoutingService,
   UrlTranslationModule,
   StripHtmlModule,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -37,17 +37,17 @@ import { SearchBoxComponent } from './search-box.component';
             {
               provide: SearchBoxComponentService,
               useClass: SearchBoxComponentService,
-              deps: [CmsComponentData, ProductSearchService, RoutingService]
-            }
-          ]
-        }
-      }
+              deps: [CmsComponentData, ProductSearchService, RoutingService],
+            },
+          ],
+        },
+      },
     }),
     UrlTranslationModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [SearchBoxComponent],
   entryComponents: [SearchBoxComponent],
-  exports: [SearchBoxComponent]
+  exports: [SearchBoxComponent],
 })
 export class SearchBoxModule {}

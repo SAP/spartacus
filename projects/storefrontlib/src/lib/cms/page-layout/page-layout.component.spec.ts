@@ -11,8 +11,8 @@ import { OutletDirective } from '../../outlet';
 const slots = {
   Section1: {
     uid: 'Section1',
-    components: []
-  }
+    components: [],
+  },
 };
 
 @Component({
@@ -21,7 +21,7 @@ const slots = {
     <cx-page-layout>
       <div class="content">content projection</div>
     </cx-page-layout>
-  `
+  `,
 })
 export class MockPageTemplateComponent {}
 
@@ -29,13 +29,13 @@ export class MockPageTemplateComponent {}
   selector: 'cx-page-header-test',
   template: `
     <cx-page-layout section="header"> </cx-page-layout>
-  `
+  `,
 })
 export class MockHeaderComponent {}
 
 @Component({
   selector: 'cx-page-slot',
-  template: 'dynamic-slot.component'
+  template: 'dynamic-slot.component',
 })
 export class MockDynamicSlotComponent {
   @Input()
@@ -49,15 +49,15 @@ export class MockCmsService {
       template: 'LandingPage2Template',
       slots: {
         Section1: {
-          uid: 'Section1'
+          uid: 'Section1',
         },
         Section2A: {
-          uid: 'Section1'
+          uid: 'Section1',
         },
         LogoSlot: {
-          uid: 'LogoSlot'
-        }
-      }
+          uid: 'LogoSlot',
+        },
+      },
     });
   }
   getContentSlot(position): Observable<ContentSlotData> {
@@ -87,15 +87,15 @@ export class MockPageLayoutService {
     MockDynamicSlotComponent,
     MockPageTemplateComponent,
     MockHeaderComponent,
-    OutletDirective
+    OutletDirective,
   ],
   providers: [
     {
       provide: CmsService,
-      useClass: MockCmsService
+      useClass: MockCmsService,
     },
-    { provide: PageLayoutService, useClass: MockPageLayoutService }
-  ]
+    { provide: PageLayoutService, useClass: MockPageLayoutService },
+  ],
 })
 export class TestModule {}
 
@@ -105,7 +105,7 @@ describe('PageLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TestModule]
+      imports: [TestModule],
     }).compileComponents();
   }));
 
@@ -147,7 +147,7 @@ describe('SectionLayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [TestModule]
+      imports: [TestModule],
     }).compileComponents();
   }));
 
