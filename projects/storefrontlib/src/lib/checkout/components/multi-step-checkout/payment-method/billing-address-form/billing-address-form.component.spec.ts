@@ -3,7 +3,7 @@ import {
   ReactiveFormsModule,
   FormsModule,
   FormGroup,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CommonModule } from '@angular/common';
@@ -21,11 +21,11 @@ describe('BillingAddressFormComponent', () => {
 
   const mockInputBillingAddress = new FormGroup({
     country: new FormGroup({
-      isocode: new FormControl()
-    })
+      isocode: new FormControl(),
+    }),
   });
   const mockCountry: Country = {
-    isocode: 'CA'
+    isocode: 'CA',
   };
 
   beforeEach(async(() => {
@@ -35,12 +35,12 @@ describe('BillingAddressFormComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         RouterModule,
-        NgSelectModule
+        NgSelectModule,
       ],
-      declarations: [BillingAddressFormComponent]
+      declarations: [BillingAddressFormComponent],
     })
       .overrideComponent(BillingAddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
   }));

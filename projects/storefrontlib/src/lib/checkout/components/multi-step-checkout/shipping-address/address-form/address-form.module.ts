@@ -12,10 +12,10 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
-    NgSelectModule
+    NgSelectModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
   entryComponents: [SuggestedAddressDialogComponent],
-  exports: [AddressFormComponent]
+  exports: [AddressFormComponent],
 })
 export class AddressFormModule {}

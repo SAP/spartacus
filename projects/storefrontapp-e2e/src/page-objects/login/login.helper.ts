@@ -75,7 +75,7 @@ export class LoginHelper {
       console.log('Created new user', userEmail, userPassword);
       return {
         email: userEmail,
-        password: userPassword
+        password: userPassword,
       };
     } else {
       // prettier-ignore

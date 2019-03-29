@@ -12,7 +12,7 @@ import { CmsStructureConfigService } from './cms-structure-config.service';
  * in order to load CMS structure from third-party CMS system.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class CmsPageLoader<T> {
   constructor(

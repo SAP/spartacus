@@ -3,7 +3,7 @@ import * as fromAction from '../actions/billing-countries.action';
 import { CLEAR_MISCS_DATA, ClearMiscsData } from '../actions/index';
 
 export const initialState: BillingCountriesState = {
-  entities: {}
+  entities: {},
 };
 
 export function reducer(
@@ -17,17 +17,17 @@ export function reducer(
         (countryEntities: { [isocode: string]: any }, name: any) => {
           return {
             ...countryEntities,
-            [name.isocode]: name
+            [name.isocode]: name,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 

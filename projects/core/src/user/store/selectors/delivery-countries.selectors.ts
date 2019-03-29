@@ -3,7 +3,7 @@ import {
   UserState,
   DeliveryCountriesState,
   StateWithUser,
-  DeliveryCountryEntities
+  DeliveryCountryEntities,
 } from '../user-state';
 import { Country } from '../../../occ/occ-models/index';
 import { getUserState } from './feature.selector';

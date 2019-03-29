@@ -4,7 +4,7 @@ import { LongitudeLatitude } from '../../model/longitude-latitude';
 import {
   loadMeta,
   failMeta,
-  successMeta
+  successMeta,
 } from '../../../state/utils/loader/loader.action';
 import { STORE_FINDER_DATA } from '../store-finder-state';
 
@@ -14,7 +14,7 @@ describe('Find Stores Actions', () => {
       const action = new fromActions.OnHold();
       expect({ ...action }).toEqual({
         type: fromActions.ON_HOLD,
-        meta: loadMeta(STORE_FINDER_DATA)
+        meta: loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -24,7 +24,7 @@ describe('Find Stores Actions', () => {
       const searchConfig: StoreFinderSearchConfig = { pageSize: 10 };
       const longitudeLatitude: LongitudeLatitude = {
         longitude: 10.1,
-        latitude: 20.2
+        latitude: 20.2,
       };
       const payload = { queryText: 'test', longitudeLatitude, searchConfig };
       const action = new fromActions.FindStores(payload);
@@ -32,7 +32,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES,
         meta: loadMeta(STORE_FINDER_DATA),
-        payload
+        payload,
       });
     });
   });
@@ -41,7 +41,7 @@ describe('Find Stores Actions', () => {
     it('should create FindStores action with only coordinates', () => {
       const longitudeLatitude: LongitudeLatitude = {
         longitude: 10.1,
-        latitude: 20.2
+        latitude: 20.2,
       };
       const payload = { queryText: '', longitudeLatitude };
       const action = new fromActions.FindStores(payload);
@@ -49,7 +49,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES,
         payload,
-        meta: loadMeta(STORE_FINDER_DATA)
+        meta: loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -62,7 +62,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES_FAIL,
         payload,
-        meta: failMeta(STORE_FINDER_DATA, payload)
+        meta: failMeta(STORE_FINDER_DATA, payload),
       });
     });
   });
@@ -75,7 +75,7 @@ describe('Find Stores Actions', () => {
       expect({ ...action }).toEqual({
         type: fromActions.FIND_STORES_SUCCESS,
         payload,
-        meta: successMeta(STORE_FINDER_DATA)
+        meta: successMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -87,11 +87,11 @@ describe('Find Stores Actions', () => {
       const action = new fromActions.FindStoreById(payload);
 
       expect({
-        ...action
+        ...action,
       }).toEqual({
         type: fromActions.FIND_STORE_BY_ID,
         payload,
-        meta: loadMeta(STORE_FINDER_DATA)
+        meta: loadMeta(STORE_FINDER_DATA),
       });
     });
   });
@@ -102,11 +102,11 @@ describe('Find Stores Actions', () => {
       const action = new fromActions.FindStoreByIdFail(payload);
 
       expect({
-        ...action
+        ...action,
       }).toEqual({
         type: fromActions.FIND_STORE_BY_ID_FAIL,
         payload,
-        meta: failMeta(STORE_FINDER_DATA, payload)
+        meta: failMeta(STORE_FINDER_DATA, payload),
       });
     });
   });
@@ -117,11 +117,11 @@ describe('Find Stores Actions', () => {
       const action = new fromActions.FindStoreByIdSuccess(payload);
 
       expect({
-        ...action
+        ...action,
       }).toEqual({
         type: fromActions.FIND_STORE_BY_ID_SUCCESS,
         payload,
-        meta: successMeta(STORE_FINDER_DATA)
+        meta: successMeta(STORE_FINDER_DATA),
       });
     });
   });

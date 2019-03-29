@@ -4,7 +4,7 @@ import { map, switchMap } from 'rxjs/operators';
 import {
   CmsPageConfig,
   CmsPageSlotsConfig,
-  CmsStructureConfig
+  CmsStructureConfig,
 } from '../config/cms-structure.config';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { CmsStructureModel } from '../model/page.model';
@@ -19,7 +19,7 @@ import { CmsStructureModel } from '../model/page.model';
  * fast loading pages and default cms structure for comodoty commerce.
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export abstract class CmsStructureConfigService {
   constructor(protected cmsDataConfig: CmsStructureConfig) {}
@@ -93,7 +93,7 @@ export abstract class CmsStructureConfigService {
           // serialize page data
           if (!pageStructure.page) {
             pageStructure.page = {
-              ...page
+              ...page,
             };
             pageStructure.page.slots = {};
           }
@@ -136,7 +136,7 @@ export abstract class CmsStructureConfigService {
       if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
         // the global slot isn't yet part of the page structure
         pageStructure.page.slots[position] = {
-          uid: position
+          uid: position,
         };
 
         for (const c of this.getComponentsByPosition(slots, position)) {
@@ -146,7 +146,7 @@ export abstract class CmsStructureConfigService {
           pageStructure.page.slots[position].components.push({
             uid: c.uid,
             flexType: c.flexType,
-            typeCode: c.typeCode
+            typeCode: c.typeCode,
           });
           if (!pageStructure.components) {
             pageStructure.components = [];

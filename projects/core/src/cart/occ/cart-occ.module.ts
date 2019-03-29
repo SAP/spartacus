@@ -7,6 +7,6 @@ import { OccModule } from '../../occ/occ.module';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
-  providers: [OccCartService]
+  providers: [OccCartService],
 })
 export class CartOccModule {}

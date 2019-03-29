@@ -26,7 +26,7 @@ const mockPaymentMethod1: PaymentDetails = {
   cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '01',
   expiryYear: '3000',
-  cvn: '111'
+  cvn: '111',
 };
 
 const mockPaymentMethod2: PaymentDetails = {
@@ -35,29 +35,29 @@ const mockPaymentMethod2: PaymentDetails = {
   cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '02',
   expiryYear: '3000',
-  cvn: '222'
+  cvn: '222',
 };
 
 const mockPaymentMethods: PaymentDetails[] = [
   mockPaymentMethod1,
-  mockPaymentMethod2
+  mockPaymentMethod2,
 ];
 
 @Component({
   selector: 'cx-payment-form',
-  template: ''
+  template: '',
 })
 class MockPaymentFormComponent {}
 
 @Component({
   selector: 'cx-spinner',
-  template: ''
+  template: '',
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -73,7 +73,7 @@ describe('PaymentMethodComponent', () => {
 
   beforeEach(async(() => {
     const mockCartDataService = {
-      userId: 'testUser'
+      userId: 'testUser',
     };
 
     TestBed.configureTestingModule({
@@ -81,12 +81,12 @@ describe('PaymentMethodComponent', () => {
         PaymentMethodComponent,
         MockPaymentFormComponent,
         MockCardComponent,
-        MockSpinnerComponent
+        MockSpinnerComponent,
       ],
       providers: [
         { provide: UserService, useClass: MockUserService },
-        { provide: CartDataService, useValue: mockCartDataService }
-      ]
+        { provide: CartDataService, useValue: mockCartDataService },
+      ],
     }).compileComponents();
   }));
 
@@ -153,19 +153,19 @@ describe('PaymentMethodComponent', () => {
     component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
-      newPayment: false
+      newPayment: false,
     });
   });
 
   it('should call addNewPaymentMethod()', () => {
     component.addNewPaymentMethod({
       paymentDetails: mockPaymentMethod1,
-      billingAddress: null
+      billingAddress: null,
     });
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
       billingAddress: null,
-      newPayment: true
+      newPayment: true,
     });
   });
 

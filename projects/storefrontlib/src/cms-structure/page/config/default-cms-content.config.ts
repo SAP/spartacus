@@ -13,9 +13,9 @@ export function defaultCmsContentConfig(): CmsStructureConfig {
     cmsStructure: {
       components: { ...headerComponents, ...cartComponents },
       slots: {
-        ...defaultPageHeaderConfig
+        ...defaultPageHeaderConfig,
       },
-      pages: [defaultCartPageConfig]
-    }
+      pages: [defaultCartPageConfig],
+    },
   };
 }

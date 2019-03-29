@@ -6,33 +6,33 @@ export const headerComponents: {
   LanguageComponent: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
-    context: 'LANGUAGE'
+    context: 'LANGUAGE',
   },
   CurrencyComponent: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
-    context: 'CURRENCY'
+    context: 'CURRENCY',
   },
   storeFinder: {
     typeCode: 'CMSLinkComponent',
     flexType: 'CMSLinkComponent',
     linkName: 'Find a Store',
-    url: '/store-finder'
+    url: '/store-finder',
   },
   breadcrumbComponent: {
     typeCode: 'BreadcrumbComponent',
-    flexType: 'BreadcrumbComponent'
-  }
+    flexType: 'BreadcrumbComponent',
+  },
 };
 
 export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
   SiteContext: {
-    componentIds: ['LanguageComponent', 'CurrencyComponent']
+    componentIds: ['LanguageComponent', 'CurrencyComponent'],
   },
   SiteLinks: {
-    componentIds: ['storeFinder']
+    componentIds: ['storeFinder'],
   },
   BottomHeaderSlot: {
-    componentIds: ['breadcrumbComponent']
-  }
+    componentIds: ['breadcrumbComponent'],
+  },
 };

@@ -13,8 +13,8 @@ export const cartComponents: {
           <li>
           Browse our products by selecting a category above
           </li>
-      </ul>`
-  }
+      </ul>`,
+  },
 };
 
 export const defaultCartPageConfig: CmsPageConfig = {
@@ -25,7 +25,7 @@ export const defaultCartPageConfig: CmsPageConfig = {
   title: 'Cart',
   slots: {
     EmptyCartMiddleContent: {
-      componentIds: ['emptyCartText']
-    }
-  }
+      componentIds: ['emptyCartText'],
+    },
+  },
 };

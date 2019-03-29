@@ -18,7 +18,7 @@ describe('User Payment Methods Reducer', () => {
     it('should populate the user Payment Methods state entities', () => {
       const mockUserPaymentMethods: PaymentDetails[] = [
         { id: 'payment1' },
-        { id: 'payment2' }
+        { id: 'payment2' },
       ];
 
       const { initialState } = fromUserPaymentMethodsReducer;

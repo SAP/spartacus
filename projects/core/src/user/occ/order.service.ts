@@ -23,11 +23,11 @@ export class OccOrderService {
   public placeOrder(userId: string, cartId: string): Observable<Order> {
     const url = this.getOrderEndpoint(userId);
     const params = new HttpParams({
-      fromString: 'cartId=' + cartId + '&' + FULL_PARAMS
+      fromString: 'cartId=' + cartId + '&' + FULL_PARAMS,
     });
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -64,12 +64,12 @@ export class OccOrderService {
     const orderUrl = url + '/' + orderCode;
 
     const params = new HttpParams({
-      fromString: FULL_PARAMS
+      fromString: FULL_PARAMS,
     });
 
     return this.http
       .get<Order>(orderUrl, {
-        params: params
+        params: params,
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }

@@ -8,7 +8,7 @@ import {
   AuthService,
   UserToken,
   Order,
-  UserService
+  UserService,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -28,12 +28,12 @@ const mockOrder: Order = {
     postalCode: 'MA8902',
     town: 'London',
     country: {
-      isocode: 'UK'
-    }
+      isocode: 'UK',
+    },
   },
   deliveryMode: {
     name: 'Standard shipping',
-    description: '3-5 days'
+    description: '3-5 days',
   },
   paymentInfo: {
     accountHolderName: 'John Smith',
@@ -41,7 +41,7 @@ const mockOrder: Order = {
     expiryMonth: '12',
     expiryYear: '2026',
     cardType: {
-      name: 'Visa'
+      name: 'Visa',
     },
     billingAddress: {
       firstName: 'John',
@@ -52,10 +52,10 @@ const mockOrder: Order = {
       postalCode: 'MA8902',
       town: 'London',
       country: {
-        isocode: 'UK'
-      }
-    }
-  }
+        isocode: 'UK',
+      },
+    },
+  },
 };
 
 class MockAuthService {
@@ -74,7 +74,7 @@ class MockUserService {
 
 @Component({
   selector: 'cx-order-summary',
-  template: ''
+  template: '',
 })
 class MockOrderSummaryComponent {
   @Input()
@@ -83,7 +83,7 @@ class MockOrderSummaryComponent {
 
 @Component({
   selector: 'cx-cart-item-list',
-  template: ''
+  template: '',
 })
 class MockCartItemListComponent {
   @Input()
@@ -111,11 +111,11 @@ describe('OrderDetailsComponent', () => {
         return of({
           state: {
             params: {
-              orderCode: '1'
-            }
-          }
+              orderCode: '1',
+            },
+          },
         });
-      }
+      },
     };
 
     TestBed.configureTestingModule({
@@ -123,13 +123,13 @@ describe('OrderDetailsComponent', () => {
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService }
+        { provide: AuthService, useClass: MockAuthService },
       ],
       declarations: [
         MockCartItemListComponent,
         MockOrderSummaryComponent,
-        OrderDetailsComponent
-      ]
+        OrderDetailsComponent,
+      ],
     }).compileComponents();
   }));
 

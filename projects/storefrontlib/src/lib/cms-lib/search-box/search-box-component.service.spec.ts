@@ -6,7 +6,7 @@ import {
   ProductSearchService,
   ProductSearchPage,
   Suggestion,
-  Component as SpaComponent
+  Component as SpaComponent,
 } from '@spartacus/core';
 import { RoutingService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -28,19 +28,19 @@ class MockProductSearchService {
 const mockRouterState = {
   state: {
     params: {
-      query: 'test'
-    }
-  }
+      query: 'test',
+    },
+  },
 };
 
 const routingServiceMock = {
   go: createSpy('go'),
   getRouterState() {
     return of(mockRouterState);
-  }
+  },
 };
 const componentDataMock = <CmsComponentData<SpaComponent>>{
-  data$: of({})
+  data$: of({}),
 };
 
 describe('SearchBoxComponentService', () => {
@@ -49,18 +49,18 @@ describe('SearchBoxComponentService', () => {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: componentDataMock
+          useValue: componentDataMock,
         },
         {
           provide: RoutingService,
-          useValue: routingServiceMock
+          useValue: routingServiceMock,
         },
         {
           provide: ProductSearchService,
-          useClass: MockProductSearchService
+          useClass: MockProductSearchService,
         },
-        SearchBoxComponentService
-      ]
+        SearchBoxComponentService,
+      ],
     });
   });
 
@@ -82,9 +82,9 @@ describe('SearchBoxComponentService', () => {
         route: [
           {
             name: 'search',
-            params: { query: mockQueryString }
-          }
-        ]
+            params: { query: mockQueryString },
+          },
+        ],
       });
     }
   ));

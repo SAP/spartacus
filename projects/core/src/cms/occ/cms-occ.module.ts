@@ -16,7 +16,7 @@ import { OccCmsComponentLoader } from './occ-cms-component.loader';
     ComponentMapperService,
     {
       provide: CmsPageLoader,
-      useClass: OccCmsPageLoader
+      useClass: OccCmsPageLoader,
     },
     {
       provide: CmsComponentLoader,
@@ -24,8 +24,8 @@ import { OccCmsComponentLoader } from './occ-cms-component.loader';
     },
     {
       provide: CmsPageAdapter,
-      useClass: OccCmsPageAdapter
-    }
-  ]
+      useClass: OccCmsPageAdapter,
+    },
+  ],
 })
 export class CmsOccModule {}

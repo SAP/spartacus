@@ -9,7 +9,7 @@ import {
   map,
   mergeMap,
   switchMap,
-  take
+  take,
 } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentLoader } from '../../services/cms-component.loader';

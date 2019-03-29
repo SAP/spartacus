@@ -36,7 +36,7 @@ describe('UserErrorHandlingService', () => {
     refresh_token: 'xxx',
     expires_in: 1000,
     scope: ['xxx'],
-    userId: 'xxx'
+    userId: 'xxx',
   } as UserToken;
 
   const newToken = {
@@ -45,7 +45,7 @@ describe('UserErrorHandlingService', () => {
     refresh_token: '5678',
     expires_in: 1000,
     scope: ['xxx'],
-    userId: 'xxx'
+    userId: 'xxx',
   } as UserToken;
 
   let service: UserErrorHandlingService;
@@ -60,11 +60,11 @@ describe('UserErrorHandlingService', () => {
         UserErrorHandlingService,
         {
           provide: AuthService,
-          useClass: AuthServiceStub
+          useClass: AuthServiceStub,
         },
         { provide: HttpHandler, useClass: MockHttpHandler },
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
 
     routingService = TestBed.get(RoutingService);
@@ -85,7 +85,7 @@ describe('UserErrorHandlingService', () => {
         .unsubscribe();
 
       expect(routingService.go).toHaveBeenCalledWith({
-        route: ['login']
+        route: ['login'],
       });
     });
 
