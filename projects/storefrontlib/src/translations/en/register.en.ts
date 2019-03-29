@@ -16,6 +16,7 @@ export default {
     emailAddress: 'Email address',
     password: 'Password',
     newPassword: 'New Password',
+    confirmPassword: 'Confirm password',
     /* tslint:disable:max-line-length */
     emailMarketing:
       'Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.',
