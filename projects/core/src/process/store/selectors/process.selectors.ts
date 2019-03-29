@@ -1,48 +1,46 @@
-import { MemoizedSelector, createSelector } from '@ngrx/store';
-
-import { StateWithProcess } from '../process-state';
+import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { entityStateSelector } from '../../../state/utils/entity-loader/entity-loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
+  loaderErrorSelector,
   loaderLoadingSelector,
   loaderSuccessSelector,
-  loaderErrorSelector,
 } from '../../../state/utils/loader/loader.selectors';
-
+import { StateWithProcess } from '../process-state';
 import { getProcessState } from './feature.selector';
 
 export function getProcessStateFactory<T>(
-  updateStateName: string
+  processName: string
 ): MemoizedSelector<StateWithProcess<T>, LoaderState<T>> {
   return createSelector(
     getProcessState(),
-    details => entityStateSelector(details, updateStateName)
+    entityState => entityStateSelector(entityState, processName)
   );
 }
 
 export function getProcessLoadingFactory<T>(
-  updateStateName: string
+  processName: string
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
   return createSelector(
-    getProcessStateFactory(updateStateName),
-    productState => loaderLoadingSelector(productState)
+    getProcessStateFactory(processName),
+    loaderState => loaderLoadingSelector(loaderState)
   );
 }
 
-export function getSelectedProductSuccessFactory<T>(
-  updateStateName: string
+export function getProcessSuccessFactory<T>(
+  processName: string
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
   return createSelector(
-    getProcessStateFactory(updateStateName),
-    productState => loaderSuccessSelector(productState)
+    getProcessStateFactory(processName),
+    loaderState => loaderSuccessSelector(loaderState)
   );
 }
 
-export function getSelectedProductErrorFactory<T>(
-  updateStateName: string
+export function getProcessErrorFactory<T>(
+  processName: string
 ): MemoizedSelector<StateWithProcess<T>, boolean> {
   return createSelector(
-    getProcessStateFactory(updateStateName),
-    productState => loaderErrorSelector(productState)
+    getProcessStateFactory(processName),
+    loaderState => loaderErrorSelector(loaderState)
   );
 }
