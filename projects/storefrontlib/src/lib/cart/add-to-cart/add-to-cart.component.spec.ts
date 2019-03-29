@@ -38,14 +38,14 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule
+        NgbModule,
       ],
       declarations: [AddToCartComponent],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService },
-        { provide: NgbModal, useValue: { open: () => {} } }
-      ]
+        { provide: NgbModal, useValue: { open: () => {} } },
+      ],
     }).compileComponents();
   }));
 

@@ -5,7 +5,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   selector: 'cx-product-references',
   templateUrl: './product-references.component.html',
   styleUrls: ['./product-references.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReferencesComponent {} /*extends AbstractProductComponent {
 

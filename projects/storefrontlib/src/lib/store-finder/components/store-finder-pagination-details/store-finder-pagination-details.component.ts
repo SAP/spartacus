@@ -4,7 +4,7 @@ import { PaginationModel } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-pagination-details',
   templateUrl: './store-finder-pagination-details.component.html',
-  styleUrls: ['./store-finder-pagination-details.component.scss']
+  styleUrls: ['./store-finder-pagination-details.component.scss'],
 })
 export class StoreFinderPaginationDetailsComponent {
   @Input()

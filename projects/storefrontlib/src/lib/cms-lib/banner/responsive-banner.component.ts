@@ -6,7 +6,7 @@ import { BannerComponent } from './banner.component';
   selector: 'cx-responsive-banner',
   templateUrl: './responsive-banner.component.html',
   styleUrls: ['./responsive-banner.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResponsiveBannerComponent extends BannerComponent {
   getClass(): string {

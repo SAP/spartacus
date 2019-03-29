@@ -10,11 +10,11 @@ import {
   PageTitleResolver,
   PageDescriptionResolver,
   PageHeadingResolver,
-  PageImageResolver
+  PageImageResolver,
 } from '../../cms/page/page.resolvers';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductPageMetaResolver extends PageMetaResolver
   implements
@@ -42,7 +42,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
               heading: this.resolveHeading(p),
               title: this.resolveTitle(p),
               description: this.resolveDescription(p),
-              image: this.resolveImage(p)
+              image: this.resolveImage(p),
             };
           })
         )

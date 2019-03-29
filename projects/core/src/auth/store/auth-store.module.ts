@@ -16,9 +16,9 @@ export function authStoreConfigFactory(): StateConfig {
   const config = {
     state: {
       storageSync: {
-        keys: [{ [AUTH_FEATURE]: ['userToken', 'clientToken'] }]
-      }
-    }
+        keys: [{ [AUTH_FEATURE]: ['userToken', 'clientToken'] }],
+      },
+    },
   };
   return config;
 }
@@ -30,8 +30,8 @@ export function authStoreConfigFactory(): StateConfig {
     StateModule,
     StoreModule.forFeature(AUTH_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    ConfigModule.withConfigFactory(authStoreConfigFactory)
+    ConfigModule.withConfigFactory(authStoreConfigFactory),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class AuthStoreModule {}

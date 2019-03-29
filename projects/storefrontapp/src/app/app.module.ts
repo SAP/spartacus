@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
-  BrowserTransferStateModule
+  BrowserTransferStateModule,
 } from '@angular/platform-browser';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -10,7 +10,7 @@ import {
   StorefrontComponent,
   StorefrontModule,
   translations,
-  defaultCmsContentConfig
+  defaultCmsContentConfig,
 } from '@spartacus/storefront';
 
 import { environment } from '../environments/environment';
@@ -29,11 +29,11 @@ if (!environment.production) {
     StorefrontModule.withConfig({
       production: environment.production,
       server: {
-        baseUrl: environment.occBaseUrl
+        baseUrl: environment.occBaseUrl,
       },
       pwa: {
         enabled: true,
-        addToHomeScreen: true
+        addToHomeScreen: true,
       },
       siteContext: {
         urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
@@ -41,28 +41,28 @@ if (!environment.production) {
           BASE_SITE: {
             values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
             defaultValue: 'electronics-spa',
-            persistence: 'route'
-          }
-        }
+            persistence: 'route',
+          },
+        },
       },
       routesConfig: {
         translations: {
           default: {
             product: {
-              paths: ['product/:productCode', 'product/:name/:productCode']
-            }
-          }
-        }
+              paths: ['product/:productCode', 'product/:name/:productCode'],
+            },
+          },
+        },
       },
       i18n: {
-        resources: translations
-      }
+        resources: translations,
+      },
     }),
 
     ConfigModule.withConfigFactory(defaultCmsContentConfig),
-    ...devImports
+    ...devImports,
   ],
 
-  bootstrap: [StorefrontComponent]
+  bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

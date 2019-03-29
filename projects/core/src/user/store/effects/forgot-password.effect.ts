@@ -30,8 +30,8 @@ export class ForgotPasswordEffects {
             new AddMessage({
               text:
                 'An email has been sent to you with information on how to reset your password.',
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-            })
+              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            }),
           ]),
           catchError(error =>
             of(new fromActions.ForgotPasswordEmailRequestFail(error))

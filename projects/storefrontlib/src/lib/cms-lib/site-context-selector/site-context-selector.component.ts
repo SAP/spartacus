@@ -7,7 +7,7 @@ import { SiteContext } from '@spartacus/core';
   selector: 'cx-site-context-selector',
   templateUrl: './site-context-selector.component.html',
   styleUrls: ['./site-context-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SiteContextSelectorComponent {
   siteContextService: SiteContext<any>;

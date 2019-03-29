@@ -5,7 +5,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import {
   ProductSearchService,
   ProductSearchPage,
-  SearchConfig
+  SearchConfig,
 } from '@spartacus/core';
 import { PageLayoutService } from '../../../../cms/page-layout/page-layout.service';
 import { ViewModes } from '../product-view/product-view.component';
@@ -13,7 +13,7 @@ import { ViewModes } from '../product-view/product-view.component';
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
   query: string;
@@ -53,13 +53,13 @@ export class ProductListComponent implements OnInit {
   createOptionsByUrlParams(): SearchConfig {
     const { queryParams } = this.activatedRoute.snapshot;
     const newConfig = {
-      ...queryParams
+      ...queryParams,
     };
     delete newConfig.query;
     const options = {
       ...this.searchConfig,
       ...newConfig,
-      pageSize: this.itemPerPage || 10
+      pageSize: this.itemPerPage || 10,
     };
     if (this.categoryCode) {
       options.categoryCode = this.categoryCode;
@@ -134,7 +134,7 @@ export class ProductListComponent implements OnInit {
         // Overide default options
         this.searchConfig = {
           ...this.searchConfig,
-          ...options
+          ...options,
         };
       }
 

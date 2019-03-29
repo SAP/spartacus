@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-billing-address-form',
   templateUrl: './billing-address-form.component.html',
   styleUrls: ['./billing-address-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BillingAddressFormComponent {
   @Input()

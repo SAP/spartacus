@@ -10,7 +10,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
   styleUrls: ['./mini-cart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
   cart$: Observable<Cart>;

@@ -14,11 +14,11 @@ import { UserService } from '@spartacus/core';
     RouterModule,
     PaymentFormModule,
     CardModule,
-    SpinnerModule
+    SpinnerModule,
   ],
   providers: [UserService],
   declarations: [PaymentMethodComponent],
   entryComponents: [PaymentMethodComponent],
-  exports: [PaymentMethodComponent]
+  exports: [PaymentMethodComponent],
 })
 export class PaymentMethodModule {}

@@ -16,12 +16,12 @@ const layoutModules = [OutletRefModule, StyleRefModule];
   imports: [
     MainModule,
     ...layoutModules,
-    ConfigModule.withConfig(defaultLayoutConfig)
+    ConfigModule.withConfig(defaultLayoutConfig),
   ],
   providers: [
     { provide: LayoutConfig, useExisting: Config },
-    BreakpointService
+    BreakpointService,
   ],
-  exports: [MainModule, ...layoutModules]
+  exports: [MainModule, ...layoutModules],
 })
 export class LayoutModule {}

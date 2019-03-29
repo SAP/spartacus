@@ -4,7 +4,7 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  Input
+  Input,
 } from '@angular/core';
 
 import { PaymentDetails, Address } from '@spartacus/core';
@@ -22,7 +22,7 @@ import { Card } from '../../../../ui/components/card/card.component';
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
   styleUrls: ['./payment-method.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentMethodComponent implements OnInit {
   newPaymentFormManuallyOpened = false;
@@ -75,10 +75,10 @@ export class PaymentMethodComponent implements OnInit {
       textBold: payment.accountHolderName,
       text: [
         payment.cardNumber,
-        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear
+        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear,
       ],
       img: ccImage,
-      actions: [{ name: 'Use this payment', event: 'send' }]
+      actions: [{ name: 'Use this payment', event: 'send' }],
     };
 
     this.cards.push(card);
@@ -101,13 +101,13 @@ export class PaymentMethodComponent implements OnInit {
   next(): void {
     this.addPaymentInfo.emit({
       payment: this.selectedPayment,
-      newPayment: false
+      newPayment: false,
     });
   }
 
   addNewPaymentMethod({
     paymentDetails,
-    billingAddress
+    billingAddress,
   }: {
     paymentDetails: PaymentDetails;
     billingAddress: Address;
@@ -115,7 +115,7 @@ export class PaymentMethodComponent implements OnInit {
     this.addPaymentInfo.emit({
       payment: paymentDetails,
       billingAddress,
-      newPayment: true
+      newPayment: true,
     });
   }
 

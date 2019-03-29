@@ -15,8 +15,8 @@ describe('Address Verification Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(CHECKOUT_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -27,7 +27,7 @@ describe('Address Verification Selectors', () => {
     it('should return all address verification results', () => {
       const addressValidation: AddressValidation = {
         decision: 'test address validation',
-        suggestedAddresses: [{ id: 'address1' }]
+        suggestedAddresses: [{ id: 'address1' }],
       };
 
       let result: string | AddressValidation;

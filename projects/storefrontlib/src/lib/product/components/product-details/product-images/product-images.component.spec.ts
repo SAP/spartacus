@@ -7,26 +7,26 @@ import { OutletDirective } from 'projects/storefrontlib/src/lib/outlet';
 
 const firstImage = {
   zoom: {
-    url: '123'
-  }
+    url: '123',
+  },
 };
 const secondImage = {
   zoom: {
-    url: '456'
-  }
+    url: '456',
+  },
 };
 const mockDataWithMultiplePictures = {
   images: {
     PRIMARY: firstImage,
-    GALLERY: [firstImage, secondImage]
-  }
+    GALLERY: [firstImage, secondImage],
+  },
 };
 
 const mockDataWithOnePicture = {
   images: {
     PRIMARY: firstImage,
-    GALLERY: [firstImage]
-  }
+    GALLERY: [firstImage],
+  },
 };
 
 describe('ProductImagesComponent', () => {
@@ -36,7 +36,7 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductImagesComponent, PictureComponent, OutletDirective]
+      declarations: [ProductImagesComponent, PictureComponent, OutletDirective],
     }).compileComponents();
   }));
 
