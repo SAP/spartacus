@@ -139,20 +139,20 @@ export abstract class CmsStructureConfigService {
           uid: position,
         };
 
-        for (const c of this.getComponentsByPosition(slots, position)) {
+        for (const component of this.getComponentsByPosition(slots, position)) {
           if (!pageStructure.page.slots[position].components) {
             pageStructure.page.slots[position].components = [];
           }
           pageStructure.page.slots[position].components.push({
-            uid: c.uid,
-            flexType: c.flexType,
-            typeCode: c.typeCode,
+            uid: component.uid,
+            flexType: component.flexType,
+            typeCode: component.typeCode,
           });
           if (!pageStructure.components) {
             pageStructure.components = [];
           }
 
-          pageStructure.components.push(c);
+          pageStructure.components.push(component);
         }
       }
     }
@@ -171,9 +171,11 @@ export abstract class CmsStructureConfigService {
           this.cmsDataConfig.cmsStructure &&
           this.cmsDataConfig.cmsStructure.components
         ) {
-          const c = this.cmsDataConfig.cmsStructure.components[componentId];
-          if (c) {
-            components.push(Object.assign({ uid: componentId }, c));
+          const component = this.cmsDataConfig.cmsStructure.components[
+            componentId
+          ];
+          if (component) {
+            components.push({ uid: componentId, ...component });
           }
         }
       }
