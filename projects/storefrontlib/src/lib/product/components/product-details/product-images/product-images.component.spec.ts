@@ -1,9 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductImagesComponent } from '../product-images/product-images.component';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OutletDirective } from 'projects/storefrontlib/src/lib/outlet';
+import { OutletDirective } from '../../../../outlet/index';
+import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
+import { ProductImagesComponent } from '../product-images/product-images.component';
 
 const firstImage = {
   zoom: {

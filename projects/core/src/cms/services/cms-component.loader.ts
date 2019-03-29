@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CmsComponent } from '../../occ';
+import { CmsComponent } from '../../occ/occ-models/index';
 import { PageContext } from '../../routing/models/page-context.model';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsStructureConfigService } from './cms-structure-config.service';
