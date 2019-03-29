@@ -1,11 +1,11 @@
 import { CmsStructureConfig } from '@spartacus/core';
 import {
   cartComponents,
-  defaultCartPageConfig
+  defaultCartPageConfig,
 } from './default-cart-page.config';
 import {
   defaultPageHeaderConfig,
-  headerComponents
+  headerComponents,
 } from './default-header.config';
 
 export function defaultCmsContentConfig(): CmsStructureConfig {

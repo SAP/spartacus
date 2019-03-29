@@ -1,6 +1,6 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CmsComponent, PageType } from '../../occ/occ-models/index';
@@ -13,7 +13,7 @@ import { OccCmsComponentLoader } from './occ-cms-component.loader';
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-  { uid: 'comp3', typeCode: 'NavigationComponent' }
+  { uid: 'comp3', typeCode: 'NavigationComponent' },
 ];
 
 const component: CmsComponent = components[1];
@@ -21,18 +21,18 @@ const component: CmsComponent = components[1];
 const CmsStructureConfigMock: CmsStructureConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
+    currency: '',
   },
   cmsStructure: {
     pages: [],
-    slots: {}
-  }
+    slots: {},
+  },
 };
 
 class CmsStructureConfigServiceMock {}
@@ -57,13 +57,13 @@ describe('OccCmsComponentLoader', () => {
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: CmsStructureConfig,
-          useValue: CmsStructureConfigMock
+          useValue: CmsStructureConfigMock,
         },
         {
           provide: CmsStructureConfigService,
-          useClass: CmsStructureConfigServiceMock
-        }
-      ]
+          useClass: CmsStructureConfigServiceMock,
+        },
+      ],
     });
 
     service = TestBed.get(OccCmsComponentLoader);
@@ -77,7 +77,7 @@ describe('OccCmsComponentLoader', () => {
   it('Should get cms component data', () => {
     const context: PageContext = {
       id: 'testProductCode',
-      type: PageType.PRODUCT_PAGE
+      type: PageType.PRODUCT_PAGE,
     };
 
     service.load('comp1', context).subscribe(result => {

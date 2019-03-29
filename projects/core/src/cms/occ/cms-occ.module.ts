@@ -20,7 +20,7 @@ import { OccCmsComponentLoader } from './occ-cms-component.loader';
     },
     {
       provide: CmsComponentLoader,
-      useClass: OccCmsComponentLoader
+      useClass: OccCmsComponentLoader,
     },
     {
       provide: CmsPageAdapter,

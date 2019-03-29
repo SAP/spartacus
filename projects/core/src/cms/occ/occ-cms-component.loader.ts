@@ -36,8 +36,8 @@ export class OccCmsComponentLoader extends CmsComponentLoader<any> {
       .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: this.getRequestParams(pageContext)
-        })
+          fromString: this.getRequestParams(pageContext),
+        }),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
