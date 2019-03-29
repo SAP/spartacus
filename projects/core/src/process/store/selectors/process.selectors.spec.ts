@@ -9,10 +9,9 @@ import * as fromReducers from '../reducers';
 import * as fromSelectors from './process.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 
-const MOCK_ENTITY = 'mock-enitity';
 const MOCK_UPDATE_STATE = 'update-mock';
 
-fdescribe('Cms Component Selectors', () => {
+describe('Cms Component Selectors', () => {
   let store: Store<StateWithProcess<void>>;
 
   beforeEach(() => {
@@ -23,13 +22,12 @@ fdescribe('Cms Component Selectors', () => {
       ]
     });
     store = TestBed.get(Store);
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   describe('getProcessStateFactory', () => {
     it('should return requested process slice of the state', () => {
       store.dispatch(
-        new fromActions.EntitySuccessAction(MOCK_ENTITY, MOCK_UPDATE_STATE)
+        new fromActions.EntitySuccessAction(PROCESS_FEATURE, MOCK_UPDATE_STATE)
       );
 
       let result: LoaderState<void>;
@@ -50,7 +48,7 @@ fdescribe('Cms Component Selectors', () => {
   describe('getProcessLoadingFactory', () => {
     it('should return loading flag', () => {
       store.dispatch(
-        new fromActions.EntityLoadAction(MOCK_ENTITY, MOCK_UPDATE_STATE)
+        new fromActions.EntityLoadAction(PROCESS_FEATURE, MOCK_UPDATE_STATE)
       );
 
       let result: boolean;
@@ -66,7 +64,7 @@ fdescribe('Cms Component Selectors', () => {
   describe('getSelectedProductSuccessFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new fromActions.EntitySuccessAction(MOCK_ENTITY, MOCK_UPDATE_STATE)
+        new fromActions.EntitySuccessAction(PROCESS_FEATURE, MOCK_UPDATE_STATE)
       );
 
       let result: boolean;
@@ -86,7 +84,7 @@ fdescribe('Cms Component Selectors', () => {
   describe('getSelectedProductErrorFactory', () => {
     it('should return success flag', () => {
       store.dispatch(
-        new fromActions.EntityFailAction(MOCK_ENTITY, MOCK_UPDATE_STATE)
+        new fromActions.EntityFailAction(PROCESS_FEATURE, MOCK_UPDATE_STATE)
       );
 
       let result: boolean;
