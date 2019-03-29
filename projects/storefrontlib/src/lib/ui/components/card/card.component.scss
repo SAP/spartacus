@@ -1,69 +1,51 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// cx-card color variables
-$cx-card-border-color: 'light' !default;
-$cx-card-delete-mode-background-color: 'background' !default;
-$cx-card-delete-msg-color: 'danger' !default;
+.cx-card-border {
+  border-width: var(--cx-border-width, 1px);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
 
-// cx-card variables
-$cx-card-border: 1px solid !default;
-$cx-card-body-delete-padding: 1rem 0 0 0 !default;
-$cx-card-body-delete-msg-padding: 0 0 1.25rem 0 !default;
-$cx-card-body-actions-container-padding: 1.25rem 0 0 0 !default;
-$cx-card-body-actions-container-card-link-padding: 0 0 0 1rem !default;
+.cx-card-container {
+  display: var(--cx-display, flex);
+}
 
-.cx-card {
-  &--border {
-    border: $cx-card-border;
-    @include var-color('border-color', $cx-card-border-color);
-  }
+.cx-card-label-container {
+  flex-grow: var(--cx-flex-grow, 2);
+}
 
-  &-body {
-    &__delete {
-      padding: $cx-card-body-delete-padding;
-      &-msg {
-        @include var-color('color', $cx-card-delete-msg-color);
-        padding: $cx-card-body-delete-msg-padding;
-      }
-    }
+.cx-card-fit-to-container {
+  width: var(--cx-width, 100%);
+  height: var(--cx-height, 100%);
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
+}
 
-    &__container {
-      display: flex;
-    }
+.cx-card-body {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
+  justify-content: var(--cx-justify-content, space-between);
+}
 
-    &__label-container {
-      flex-grow: 2;
-    }
+.cx-card-delete {
+  background-color: var(--cx-background-color, var(--cx-g-color-background));
+}
 
-    &__actions-container {
-      display: flex;
-      justify-content: flex-end;
-      padding: $cx-card-body-actions-container-padding;
-      .card-link {
-        padding: $cx-card-body-actions-container-card-link-padding;
-      }
-    }
-  }
+.cx-card-body-delete {
+  padding: var(--cx-padding, 1rem 0 0 0);
+}
 
-  &--fit-to-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+.cx-card-delete-msg {
+  color: var(--cx-color, var(--cx-g-color-danger));
+  padding: var(--cx-padding, 0 0 1.25rem 0);
+}
 
-    & .cx-card-body {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-  }
+.cx-card-actions {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-end);
+  padding: var(--cx-padding, 1.25rem 0 0 0);
+}
 
-  &--delete-mode {
-    @include var-color(
-      'background-color',
-      $cx-card-delete-mode-background-color
-    );
-  }
+.cx-card-link {
+  padding: var(--cx-padding, 0 0 0 1rem);
 }
