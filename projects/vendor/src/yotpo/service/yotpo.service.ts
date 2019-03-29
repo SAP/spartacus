@@ -12,7 +12,7 @@ import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 @Injectable({
   providedIn: 'root'
 })
-export abstract class YotpoService {
+export class YotpoService {
   constructor(
     protected config: YotpoConfig,
     protected windowRef: WindowRef,
