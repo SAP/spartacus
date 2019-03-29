@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
-import { StoreModule, Store, select } from '@ngrx/store';
-
+import { select, Store, StoreModule } from '@ngrx/store';
 import * as fromActions from '../../../state/utils/entity-loader/entity-loader.action';
-import { PROCESS_FEATURE, StateWithProcess } from '../process-state';
-import * as fromReducers from '../reducers';
-
-import * as fromSelectors from './process.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { PROCESS_FEATURE, StateWithProcess } from '../process-state';
+import * as fromReducers from '../reducers/index';
+import * as fromSelectors from './process.selectors';
 
 const MOCK_UPDATE_STATE = 'update-mock';
 
