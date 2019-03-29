@@ -6,7 +6,7 @@ export const initialState: CartState = {
   content: {},
   entries: {},
   refresh: false,
-  cartMergeComplete: false
+  cartMergeComplete: false,
 };
 
 export function reducer(
@@ -17,14 +17,14 @@ export function reducer(
     case fromAction.MERGE_CART: {
       return {
         ...state,
-        cartMergeComplete: false
+        cartMergeComplete: false,
       };
     }
 
     case fromAction.MERGE_CART_SUCCESS: {
       return {
         ...state,
-        cartMergeComplete: true
+        cartMergeComplete: true,
       };
     }
 
@@ -46,13 +46,13 @@ export function reducer(
               [entry.product.code]: state.entries[entry.product.code]
                 ? {
                     ...state.entries[entry.product.code],
-                    ...entry
+                    ...entry,
                   }
-                : entry
+                : entry,
             };
           },
           {
-            ...entries
+            ...entries,
           }
         );
         delete content['entries'];
@@ -61,7 +61,7 @@ export function reducer(
         ...state,
         content,
         entries,
-        refresh: false
+        refresh: false,
       };
     }
 
@@ -70,7 +70,7 @@ export function reducer(
     case fromAction.ADD_ENTRY_SUCCESS: {
       return {
         ...state,
-        refresh: true
+        refresh: true,
       };
     }
   }

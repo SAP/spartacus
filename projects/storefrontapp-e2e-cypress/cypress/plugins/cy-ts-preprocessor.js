@@ -2,7 +2,7 @@ const wp = require('@cypress/webpack-preprocessor');
 
 const webpackOptions = {
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -13,17 +13,17 @@ const webpackOptions = {
           {
             loader: 'ts-loader',
             options: {
-              transpileOnly: true
-            }
-          }
-        ]
-      }
-    ]
-  }
+              transpileOnly: true,
+            },
+          },
+        ],
+      },
+    ],
+  },
 };
 
 const options = {
-  webpackOptions
+  webpackOptions,
 };
 
 module.exports = wp(options);

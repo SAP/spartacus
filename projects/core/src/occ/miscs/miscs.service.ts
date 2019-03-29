@@ -6,7 +6,7 @@ import {
   CountryList,
   TitleList,
   CardTypeList,
-  RegionList
+  RegionList,
 } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../services/occ-endpoints.service';
 
@@ -27,7 +27,7 @@ export class OccMiscsService {
   loadDeliveryCountries(): Observable<CountryList> {
     return this.http
       .get<CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
-        params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING)
+        params: new HttpParams().set('type', COUNTRIES_TYPE_SHIPPING),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
@@ -35,7 +35,7 @@ export class OccMiscsService {
   loadBillingCountries(): Observable<CountryList> {
     return this.http
       .get<CountryList>(this.occEndpoints.getEndpoint(ENDPOINT_COUNTRIES), {
-        params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING)
+        params: new HttpParams().set('type', COUNTRIES_TYPE_BILLING),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }

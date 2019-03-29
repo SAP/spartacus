@@ -7,7 +7,7 @@ import {
   OccConfig,
   OccUserService,
   OccMiscsService,
-  OccOrderService
+  OccOrderService,
 } from '@spartacus/core';
 
 @NgModule({
@@ -16,7 +16,7 @@ import {
     OccUserService,
     OccMiscsService,
     OccOrderService,
-    { provide: OccConfig, useExisting: Config }
-  ]
+    { provide: OccConfig, useExisting: Config },
+  ],
 })
 export class OccModule {}

@@ -32,8 +32,8 @@ const mockContentSlot: ContentSlotData = {
   components: [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
     { uid: 'comp2', typeCode: 'CMSLinkComponent' },
-    { uid: 'comp3', typeCode: 'NavigationComponent' }
-  ]
+    { uid: 'comp3', typeCode: 'NavigationComponent' },
+  ],
 };
 
 describe('CmsService', () => {
@@ -43,19 +43,19 @@ describe('CmsService', () => {
   const page: Page = {
     pageId: 'homepage',
     name: 'testPage',
-    slots: {}
+    slots: {},
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
       ],
       providers: [
         CmsService,
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
 
     store = TestBed.get(Store);
@@ -117,7 +117,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const testUid = 'test_uid';
       const mockNodeItem: NodeItem = {
-        testUid: 'test'
+        testUid: 'test',
       };
       const mockSelect = createSpy('select').and.returnValue(() =>
         of(mockNodeItem)
@@ -141,7 +141,7 @@ describe('CmsService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadNavigationItems({
           nodeId: 'rootId',
-          items: []
+          items: [],
         })
       );
     }
@@ -152,7 +152,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const pageContext: PageContext = {
         id: 'homepage',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       };
       spyOn(routingService, 'getPageContext').and.returnValue(of(pageContext));
 
@@ -175,7 +175,7 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const pageContext: PageContext = {
         id: 'homepage',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       };
       spyOn(routingService, 'getPageContext').and.returnValue(of(pageContext));
 
@@ -202,7 +202,7 @@ describe('CmsService', () => {
       const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
       const pageData: Page = {
         uuid: 'pageData',
-        slots: {}
+        slots: {},
       };
       store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
 
@@ -219,13 +219,13 @@ describe('CmsService', () => {
       const pageData: Page = {
         slots: {
           a: {
-            components: [{ flexType: 'test1' }, { flexType: 'test2' }]
+            components: [{ flexType: 'test1' }, { flexType: 'test2' }],
           },
           b: {
-            components: [{ flexType: 'test2' }, { flexType: 'test3' }]
-          }
+            components: [{ flexType: 'test2' }, { flexType: 'test3' }],
+          },
         },
-        uuid: 'pageData'
+        uuid: 'pageData',
       };
       store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
 
@@ -249,7 +249,7 @@ describe('CmsService', () => {
 
         const pageContext: PageContext = {
           type: PageType.CONTENT_PAGE,
-          id: 'homepage'
+          id: 'homepage',
         };
 
         service
@@ -274,7 +274,7 @@ describe('CmsService', () => {
 
         const pageContext: PageContext = {
           type: PageType.CONTENT_PAGE,
-          id: 'homepage'
+          id: 'homepage',
         };
 
         service
@@ -299,7 +299,7 @@ describe('CmsService', () => {
 
         const pageContext: PageContext = {
           type: PageType.CONTENT_PAGE,
-          id: 'homepage'
+          id: 'homepage',
         };
 
         let result: boolean;
@@ -317,7 +317,7 @@ describe('CmsService', () => {
       (service: CmsService) => {
         const mockedEntity: LoaderState<string> = {
           success: false,
-          error: true
+          error: true,
         };
         const mockSelect = createSpy('select').and.returnValue(() =>
           of(mockedEntity)
@@ -326,7 +326,7 @@ describe('CmsService', () => {
 
         const pageContext: PageContext = {
           type: PageType.CONTENT_PAGE,
-          id: 'homepage'
+          id: 'homepage',
         };
 
         let result: boolean;

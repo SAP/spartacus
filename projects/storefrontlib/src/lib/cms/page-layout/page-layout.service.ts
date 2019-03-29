@@ -7,7 +7,7 @@ import {
   BREAKPOINT,
   LayoutConfig,
   LayoutSlotConfig,
-  SlotConfig
+  SlotConfig,
 } from '../../ui/layout/config/layout-config';
 
 @Injectable()

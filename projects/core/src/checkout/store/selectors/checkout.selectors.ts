@@ -7,7 +7,7 @@ import {
   DeliveryMode,
   Address,
   Order,
-  PaymentDetails
+  PaymentDetails,
 } from '../../../occ/occ-models/index';
 
 export const getCheckoutStepsState: MemoizedSelector<

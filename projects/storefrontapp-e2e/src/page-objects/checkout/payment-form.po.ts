@@ -66,7 +66,7 @@ export class PaymentForm {
       cardType: PaymentForm.CARD_TYPE,
       cardMonth: PaymentForm.CARD_MONTH,
       cardYear: PaymentForm.CARD_YEAR,
-      cardCCV: PaymentForm.CARD_CCV
+      cardCCV: PaymentForm.CARD_CCV,
     };
     const dataForFill: PaymentMethod = { ...defaultData, ...userOverrides };
     await this.accountHolderName.sendKeys(dataForFill.cardHolder);

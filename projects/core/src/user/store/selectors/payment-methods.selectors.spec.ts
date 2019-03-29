@@ -11,7 +11,7 @@ import { PaymentDetails } from '../../../occ/occ-models/occ.models';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 
 const mockUserPaymentMethods: PaymentDetailsList = {
-  payments: [{ id: 'payment1' }, { id: 'payment2' }]
+  payments: [{ id: 'payment1' }, { id: 'payment2' }],
 };
 
 describe('User Payment Methods Selectors', () => {
@@ -21,8 +21,8 @@ describe('User Payment Methods Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -41,7 +41,7 @@ describe('User Payment Methods Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: []
+        value: [],
       });
     });
   });

@@ -3,7 +3,7 @@ import { Store, Action, select } from '@ngrx/store';
 import {
   StateWithStoreFinder,
   FindStoresState,
-  ViewAllStoresState
+  ViewAllStoresState,
 } from '../store/store-finder-state';
 
 import * as fromStore from '../store/index';
@@ -67,7 +67,7 @@ export class StoreFinderService {
         queryText: queryText,
         longitudeLatitude: longitudeLatitude,
         searchConfig: searchConfig,
-        countryIsoCode: countryIsoCode
+        countryIsoCode: countryIsoCode,
       })
     );
   }
@@ -99,7 +99,7 @@ export class StoreFinderService {
         (pos: Position) => {
           const longitudeLatitude: LongitudeLatitude = {
             longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude
+            latitude: pos.coords.latitude,
           };
           this.clearWatchGeolocation(
             new fromStore.FindStores({ queryText, longitudeLatitude })

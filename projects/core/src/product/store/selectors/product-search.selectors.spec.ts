@@ -8,7 +8,7 @@ import * as fromReducers from '../reducers';
 import { SearchConfig } from '../../model/search-config';
 import {
   ProductSearchPage,
-  Suggestion
+  Suggestion,
 } from '../../../occ/occ-models/occ.models';
 
 import * as fromSelectors from './product-search.selectors';
@@ -23,8 +23,8 @@ describe('ProductSearch Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(PRODUCT_FEATURE, fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
@@ -43,7 +43,7 @@ describe('ProductSearch Selectors', () => {
       store.dispatch(
         new fromActions.SearchProducts({
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         })
       );
       store.dispatch(new fromActions.SearchProductsSuccess(searchResults));
@@ -66,7 +66,7 @@ describe('ProductSearch Selectors', () => {
         new fromActions.SearchProducts(
           {
             queryText: 'test',
-            searchConfig: searchConfig
+            searchConfig: searchConfig,
           },
           true
         )

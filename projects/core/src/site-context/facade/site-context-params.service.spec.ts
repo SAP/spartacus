@@ -7,7 +7,7 @@ import {
   LANGUAGE_CONTEXT_ID,
   LanguageService,
   SiteContext,
-  SiteContextConfig
+  SiteContextConfig,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -19,21 +19,21 @@ describe('SiteContextParamsService', () => {
         [LANGUAGE_CONTEXT_ID]: {
           persistence: 'route',
           defaultValue: 'en',
-          values: ['en', 'de', 'ja', 'zh']
+          values: ['en', 'de', 'ja', 'zh'],
         },
         [CURRENCY_CONTEXT_ID]: {
           persistence: 'route',
           defaultValue: 'USD',
-          values: ['USD', 'JPY']
+          values: ['USD', 'JPY'],
         },
         site: {
           persistence: 'session',
           defaultValue: 'electronics',
-          values: ['electronics', 'apparel-de']
-        }
+          values: ['electronics', 'apparel-de'],
+        },
       },
-      urlEncodingParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID]
-    }
+      urlEncodingParameters: [LANGUAGE_CONTEXT_ID, CURRENCY_CONTEXT_ID],
+    },
   };
 
   let mockLanguageService: SiteContext<any>;
@@ -44,7 +44,7 @@ describe('SiteContextParamsService', () => {
     mockLanguageService = {
       getAll: () => of([]),
       getActive: createSpy().and.returnValue(of('de')),
-      setActive: createSpy()
+      setActive: createSpy(),
     };
 
     TestBed.configureTestingModule({
@@ -52,8 +52,8 @@ describe('SiteContextParamsService', () => {
         contextServiceMapProvider,
         SiteContextParamsService,
         { provide: SiteContextConfig, useValue: siteContextConfig },
-        { provide: LanguageService, useValue: mockLanguageService }
-      ]
+        { provide: LanguageService, useValue: mockLanguageService },
+      ],
     });
 
     service = TestBed.get(SiteContextParamsService);

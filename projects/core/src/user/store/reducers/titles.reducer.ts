@@ -3,7 +3,7 @@ import * as fromAction from '../actions/index';
 import { Title } from '../../../occ';
 
 export const initialState: TitlesState = {
-  entities: {}
+  entities: {},
 };
 
 export function reducer(
@@ -17,17 +17,17 @@ export function reducer(
         (titleEntities: { [code: string]: Title }, name: Title) => {
           return {
             ...titleEntities,
-            [name.code]: name
+            [name.code]: name,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 

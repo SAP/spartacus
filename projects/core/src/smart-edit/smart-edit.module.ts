@@ -7,7 +7,7 @@ export class SmartEditModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SmartEditModule,
-      providers: [...interceptors]
+      providers: [...interceptors],
     };
   }
 }

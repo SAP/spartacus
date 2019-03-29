@@ -15,12 +15,12 @@ import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ForgotPasswordComponent: { selector: 'cx-forgot-password' }
-      }
-    })
+        ForgotPasswordComponent: { selector: 'cx-forgot-password' },
+      },
+    }),
   ],
   declarations: [ForgotPasswordComponent],
   exports: [ForgotPasswordComponent],
-  entryComponents: [ForgotPasswordComponent]
+  entryComponents: [ForgotPasswordComponent],
 })
 export class ForgotPasswordModule {}

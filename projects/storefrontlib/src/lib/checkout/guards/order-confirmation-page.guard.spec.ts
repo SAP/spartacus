@@ -22,11 +22,11 @@ describe(`OrderConfirmationPageGuard`, () => {
         OrderConfirmationPageGuard,
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() }
+          useValue: { go: jasmine.createSpy() },
         },
-        { provide: CheckoutService, useClass: MockCheckoutService }
+        { provide: CheckoutService, useClass: MockCheckoutService },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
 
     routingService = TestBed.get(RoutingService);
@@ -41,7 +41,7 @@ describe(`OrderConfirmationPageGuard`, () => {
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
         expect(routingService.go).toHaveBeenCalledWith({
-          route: ['orders']
+          route: ['orders'],
         });
         done();
       });

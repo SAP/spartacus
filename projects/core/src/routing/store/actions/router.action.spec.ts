@@ -4,12 +4,12 @@ describe('Router Actions', () => {
   describe('Go Action', () => {
     it('should create an action', () => {
       const payload: { path: string[] } = {
-        path: ['test']
+        path: ['test'],
       };
       const action = new fromRouter.Go(payload);
       expect({ ...action }).toEqual({
         type: fromRouter.GO,
-        payload: payload
+        payload: payload,
       });
     });
   });
@@ -20,7 +20,7 @@ describe('Router Actions', () => {
       const action = new fromRouter.GoByUrl(payload);
       expect({ ...action }).toEqual({
         type: fromRouter.GO_BY_URL,
-        payload: payload
+        payload: payload,
       });
     });
   });
@@ -29,7 +29,7 @@ describe('Router Actions', () => {
     it('should create an action', () => {
       const action = new fromRouter.Back();
       expect({ ...action }).toEqual({
-        type: fromRouter.BACK
+        type: fromRouter.BACK,
       });
     });
   });
@@ -38,7 +38,7 @@ describe('Router Actions', () => {
     it('should create an action', () => {
       const action = new fromRouter.Forward();
       expect({ ...action }).toEqual({
-        type: fromRouter.FORWARD
+        type: fromRouter.FORWARD,
       });
     });
   });
@@ -48,7 +48,7 @@ describe('Router Actions', () => {
       const action = new fromRouter.SaveRedirectUrl('/test');
       expect({ ...action }).toEqual({
         type: fromRouter.SAVE_REDIRECT_URL,
-        payload: '/test'
+        payload: '/test',
       });
     });
   });
@@ -57,7 +57,7 @@ describe('Router Actions', () => {
     it('should create an action', () => {
       const action = new fromRouter.ClearRedirectUrl();
       expect({ ...action }).toEqual({
-        type: fromRouter.CLEAR_REDIRECT_URL
+        type: fromRouter.CLEAR_REDIRECT_URL,
       });
     });
   });

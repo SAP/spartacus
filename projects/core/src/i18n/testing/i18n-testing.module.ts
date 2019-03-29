@@ -6,6 +6,8 @@ import { MockTranslationService } from './mock-translation.service';
 @NgModule({
   declarations: [MockTranslatePipe],
   exports: [MockTranslatePipe],
-  providers: [{ provide: TranslationService, useClass: MockTranslationService }]
+  providers: [
+    { provide: TranslationService, useClass: MockTranslationService },
+  ],
 })
 export class I18nTestingModule {}

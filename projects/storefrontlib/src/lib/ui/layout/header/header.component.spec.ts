@@ -7,19 +7,19 @@ import { HeaderComponent } from './header.component';
 
 @Component({
   selector: 'cx-language-selector',
-  template: ''
+  template: '',
 })
 class MockLanguageSelectorComponent {}
 
 @Component({
   selector: 'cx-currency-selector',
-  template: ''
+  template: '',
 })
 class MockCurrencySelectorComponent {}
 
 @Component({
   selector: 'cx-page-slot',
-  template: ''
+  template: '',
 })
 class MockDynamicSlotComponent {
   @Input()
@@ -28,13 +28,13 @@ class MockDynamicSlotComponent {
 
 @Component({
   selector: 'cx-login',
-  template: ''
+  template: '',
 })
 class MockLoginComponent {}
 
 @Component({
   selector: 'cx-mobile-menu',
-  template: ''
+  template: '',
 })
 class MockMobileMenuComponent {}
 
@@ -52,8 +52,8 @@ describe('HeaderComponent', () => {
         MockCurrencySelectorComponent,
         MockLoginComponent,
         MockMobileMenuComponent,
-        HeaderSkipperComponent
-      ]
+        HeaderSkipperComponent,
+      ],
     }).compileComponents();
   }));
 

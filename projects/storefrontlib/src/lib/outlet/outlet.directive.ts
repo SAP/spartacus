@@ -4,7 +4,7 @@ import {
   TemplateRef,
   ViewContainerRef,
   OnInit,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 
 import { OutletStyleService } from './outlet-style.service';
@@ -12,7 +12,7 @@ import { OutletPosition } from './outlet.model';
 import { OutletService } from './outlet.service';
 
 @Directive({
-  selector: '[cxOutlet]'
+  selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnInit {
   @Input()
@@ -46,7 +46,7 @@ export class OutletDirective implements OnInit {
     const template = this.outletService.get(this.cxOutlet, position);
     if (template || replace) {
       const ref = this.vcr.createEmbeddedView(template || this.templateRef, {
-        $implicit: this.context
+        $implicit: this.context,
       });
       nodes.push(...ref.rootNodes);
     }

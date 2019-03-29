@@ -1,7 +1,7 @@
 import { Injectable, ElementRef } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OutletStyleService {
   private templateRefs = {};

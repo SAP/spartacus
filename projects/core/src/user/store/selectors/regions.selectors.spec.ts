@@ -14,8 +14,8 @@ describe('Regions Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -27,12 +27,12 @@ describe('Regions Selectors', () => {
       const mockRegions: Region[] = [
         {
           isocode: 'CA-ON',
-          name: 'Ontario'
+          name: 'Ontario',
         },
         {
           isocode: 'CA-QC',
-          name: 'Quebec'
-        }
+          name: 'Quebec',
+        },
       ];
 
       let result: Region[];

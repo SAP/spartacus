@@ -4,7 +4,7 @@ import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import {
   entityFailMeta,
   entityLoadMeta,
-  entitySuccessMeta
+  entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 
 describe('Product Actions', () => {
@@ -16,7 +16,7 @@ describe('Product Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT,
           payload: productCode,
-          meta: entityLoadMeta(PRODUCT_DETAIL_ENTITY, productCode)
+          meta: entityLoadMeta(PRODUCT_DETAIL_ENTITY, productCode),
         });
       });
     });
@@ -30,7 +30,7 @@ describe('Product Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT_FAIL,
           payload,
-          meta: entityFailMeta(PRODUCT_DETAIL_ENTITY, productCode, payload)
+          meta: entityFailMeta(PRODUCT_DETAIL_ENTITY, productCode, payload),
         });
       });
     });
@@ -43,7 +43,7 @@ describe('Product Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProduct.LOAD_PRODUCT_SUCCESS,
           payload,
-          meta: entitySuccessMeta(PRODUCT_DETAIL_ENTITY, payload.code)
+          meta: entitySuccessMeta(PRODUCT_DETAIL_ENTITY, payload.code),
         });
       });
     });

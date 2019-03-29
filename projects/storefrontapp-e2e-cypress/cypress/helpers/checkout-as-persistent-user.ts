@@ -42,7 +42,7 @@ export function addPaymentMethod() {
           JSON.parse(sessionStorage.getItem('auth')).userToken.token[
             'access_token'
           ]
-        }`
+        }`,
       },
       body: {
         accountHolderName: 'test user',
@@ -60,9 +60,9 @@ export function addPaymentMethod() {
           line2: '',
           town: 'Montreal',
           postalCode: 'H4B3L4',
-          country: { isocode: 'US' }
-        }
-      }
+          country: { isocode: 'US' },
+        },
+      },
     }).then(response => {
       expect(response.status).to.eq(201);
     });
