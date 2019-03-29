@@ -57,14 +57,13 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
         for (const component of slot.components.component) {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
-            typeCode: component.typeCode
+            typeCode: component.typeCode,
+            catalogUuid: this.getCatalogUuid(component)
           };
           if (component.uuid) {
             comp.uuid = component.uuid;
           }
-          if (component.catalogUuid) {
-            comp.catalogUuid = this.getCatalogUuid(component);
-          }
+
           if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
             comp.flexType = component.flexType;
           } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
