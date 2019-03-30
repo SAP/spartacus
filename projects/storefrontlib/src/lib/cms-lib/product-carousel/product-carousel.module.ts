@@ -6,7 +6,7 @@ import { MediaModule } from '../../ui/components/media/media.module';
 import {
   ConfigModule,
   UrlTranslationModule,
-  ProductService
+  ProductService,
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 
@@ -26,16 +26,16 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
             {
               provide: ProductCarouselService,
               useClass: ProductCarouselService,
-              deps: [CmsComponentData, ProductService]
-            }
-          ]
-        }
-      }
+              deps: [CmsComponentData, ProductService],
+            },
+          ],
+        },
+      },
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [ProductCarouselComponent],
   entryComponents: [ProductCarouselComponent],
-  exports: [ProductCarouselComponent]
+  exports: [ProductCarouselComponent],
 })
 export class ProductCarouselModule {}

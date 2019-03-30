@@ -48,7 +48,7 @@ export class UserPaymentMethodsEffects {
               ),
               new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
                 payload.userId
-              )
+              ),
             ];
           }),
           catchError(error =>
@@ -79,7 +79,7 @@ export class UserPaymentMethodsEffects {
               ),
               new fromUserPaymentMethodsAction.LoadUserPaymentMethods(
                 payload.userId
-              )
+              ),
             ];
           }),
           catchError(error =>

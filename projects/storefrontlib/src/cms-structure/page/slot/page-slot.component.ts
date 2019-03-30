@@ -4,13 +4,13 @@ import {
   Input,
   ChangeDetectionStrategy,
   Renderer2,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 
 import {
   CmsService,
   ContentSlotData,
-  ContentSlotComponentData
+  ContentSlotComponentData,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service
 @Component({
   selector: 'cx-page-slot',
   templateUrl: './page-slot.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageSlotComponent implements OnInit {
   @Input() position: string;

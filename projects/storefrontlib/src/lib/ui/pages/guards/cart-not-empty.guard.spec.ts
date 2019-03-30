@@ -36,14 +36,14 @@ describe('CartNotEmptyGuard', () => {
         CartNotEmptyGuard,
         {
           provide: RoutingService,
-          useValue: mockRoutingService
+          useValue: mockRoutingService,
         },
         {
           provide: CartService,
-          useClass: CartServiceStub
-        }
+          useClass: CartServiceStub,
+        },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
 
     cartNotEmptyGuard = TestBed.get(CartNotEmptyGuard);
@@ -148,7 +148,7 @@ describe('CartNotEmptyGuard', () => {
             .subscribe()
             .unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
-            route: ['home']
+            route: ['home'],
           });
         });
 
@@ -175,7 +175,7 @@ describe('CartNotEmptyGuard', () => {
             .subscribe()
             .unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
-            route: ['home']
+            route: ['home'],
           });
         });
 

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './login.component';
 import {
-  UserModule,
-  UrlTranslationModule,
+  CmsConfig,
   ConfigModule,
-  CmsConfig
+  UrlTranslationModule,
+  UserModule,
 } from '@spartacus/core';
 // import { CmsModule } from '../../cms/cms.module';
 // import { BootstrapModule } from '../../bootstrap.module';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
+import { LoginComponent } from './login.component';
 
 @NgModule({
   imports: [
@@ -24,13 +24,13 @@ import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.modul
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         LoginComponent: {
-          selector: 'cx-login'
-        }
-      }
-    })
+          selector: 'cx-login',
+        },
+      },
+    }),
   ],
   declarations: [LoginComponent],
   entryComponents: [LoginComponent],
-  exports: [LoginComponent]
+  exports: [LoginComponent],
 })
 export class LoginModule {}

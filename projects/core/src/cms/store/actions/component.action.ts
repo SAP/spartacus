@@ -2,7 +2,7 @@ import { CmsComponent } from '../../../occ/occ-models/index';
 import {
   EntityFailAction,
   EntityLoadAction,
-  EntitySuccessAction
+  EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
 import { COMPONENT_ENTITY } from '../cms-state';
 

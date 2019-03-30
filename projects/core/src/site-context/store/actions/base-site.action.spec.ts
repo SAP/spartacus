@@ -6,7 +6,7 @@ describe('Currencies Actions', () => {
       const action = new fromBaseSite.SetActiveBaseSite('USD');
       expect({ ...action }).toEqual({
         type: fromBaseSite.SET_ACTIVE_BASE_SITE,
-        payload: 'USD'
+        payload: 'USD',
       });
     });
   });
@@ -15,7 +15,7 @@ describe('Currencies Actions', () => {
     it('should create an action', () => {
       const action = new fromBaseSite.BaseSiteChange();
       expect({ ...action }).toEqual({
-        type: fromBaseSite.BASE_SITE_CHANGE
+        type: fromBaseSite.BASE_SITE_CHANGE,
       });
     });
   });

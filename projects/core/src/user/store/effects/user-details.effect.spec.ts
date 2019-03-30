@@ -18,7 +18,7 @@ const mockUserDetails: User = {
   displayUid: 'Display Uid',
   firstName: 'First',
   lastName: 'Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 describe('User Details effect', () => {
@@ -31,8 +31,8 @@ describe('User Details effect', () => {
       providers: [
         fromUserDetailsEffect.UserDetailsEffects,
         { provide: OccUserService, useClass: MockOccUserService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     userDetailsEffect = TestBed.get(fromUserDetailsEffect.UserDetailsEffects);

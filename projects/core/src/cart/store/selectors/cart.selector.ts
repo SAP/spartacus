@@ -1,19 +1,19 @@
 import {
   MemoizedSelector,
   createSelector,
-  createFeatureSelector
+  createFeatureSelector,
 } from '@ngrx/store';
 import { Cart, OrderEntry } from '../../../occ/occ-models/index';
 import {
   CartState,
   CartsState,
   StateWithCart,
-  CART_FEATURE
+  CART_FEATURE,
 } from '../cart-state';
 import {
   loaderSuccessSelector,
   loaderValueSelector,
-  loaderLoadingSelector
+  loaderLoadingSelector,
 } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 

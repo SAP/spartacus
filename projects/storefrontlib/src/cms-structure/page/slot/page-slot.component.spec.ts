@@ -12,7 +12,7 @@ class MockCmsService {
     return of({
       uid: 'slot_uid',
       catalogUuid: 'slot_catalogUuid',
-      uuid: 'slot_uuid'
+      uuid: 'slot_uuid',
     });
   }
   isLaunchInSmartEdit(): boolean {
@@ -33,18 +33,18 @@ describe('PageSlotComponent', () => {
       declarations: [
         PageSlotComponent,
         ComponentWrapperDirective,
-        OutletDirective
+        OutletDirective,
       ],
       providers: [
         {
           provide: CmsService,
-          useClass: MockCmsService
+          useClass: MockCmsService,
         },
         {
           provide: CmsMappingService,
-          useClass: MockCmsMappingService
-        }
-      ]
+          useClass: MockCmsMappingService,
+        },
+      ],
     }).compileComponents();
   }));
 

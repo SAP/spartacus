@@ -6,7 +6,7 @@ import { switchMap, filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   isLogin = false;

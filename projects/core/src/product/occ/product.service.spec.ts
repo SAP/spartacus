@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { ProductLoaderService } from './product.service';
@@ -12,20 +12,20 @@ import { OccConfig } from '@spartacus/core';
 const productCode = 'testCode';
 const product = {
   code: 'testCode',
-  name: 'testProduct'
+  name: 'testProduct',
 };
 
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductLoaderService', () => {
@@ -39,9 +39,9 @@ describe('ProductLoaderService', () => {
         ProductLoaderService,
         {
           provide: OccConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductLoaderService);

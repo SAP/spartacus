@@ -9,16 +9,16 @@ export const interceptors: Provider[] = [
   {
     provide: HTTP_INTERCEPTORS,
     useClass: ClientTokenInterceptor,
-    multi: true
+    multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
     useClass: UserTokenInterceptor,
-    multi: true
+    multi: true,
   },
   {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthErrorInterceptor,
-    multi: true
-  }
+    multi: true,
+  },
 ];

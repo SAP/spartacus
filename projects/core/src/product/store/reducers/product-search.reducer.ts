@@ -5,7 +5,7 @@ import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
 export const initialState: ProductsSearchState = {
   results: {},
   suggestions: [],
-  auxResults: {}
+  auxResults: {},
 };
 
 export function reducer(
@@ -18,7 +18,7 @@ export function reducer(
       const res = action.auxiliary ? { auxResults: results } : { results };
       return {
         ...state,
-        ...res
+        ...res,
       };
     }
 
@@ -27,7 +27,7 @@ export function reducer(
 
       return {
         ...state,
-        suggestions
+        suggestions,
       };
     }
 

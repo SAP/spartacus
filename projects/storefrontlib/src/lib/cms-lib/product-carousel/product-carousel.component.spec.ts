@@ -8,7 +8,7 @@ import {
   ProductService,
   Product,
   Component,
-  CmsProductCarouselComponent
+  CmsProductCarouselComponent,
 } from '@spartacus/core';
 import { ProductCarouselService } from './product-carousel.component.service';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
@@ -16,7 +16,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -33,19 +33,19 @@ const mockComponentData: CmsProductCarouselComponent = {
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
   name: 'Mock Product Carousel',
-  container: 'false'
+  container: 'false',
 };
 
 const mockProduct: Product = {
   code: '111111',
   name: 'Camera',
   price: {
-    formattedValue: '$100.00'
-  }
+    formattedValue: '$100.00',
+  },
 };
 
 const MockCmsComponentData = <CmsComponentData<Component>>{
-  data$: of(mockComponentData)
+  data$: of(mockComponentData),
 };
 
 class MockProductService {
@@ -98,22 +98,22 @@ describe('ProductCarouselComponent', () => {
       declarations: [
         ProductCarouselComponent,
         PictureComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: ProductService, useClass: MockProductService }
-      ]
+        { provide: ProductService, useClass: MockProductService },
+      ],
     })
       .overrideComponent(ProductCarouselComponent, {
         set: {
           providers: [
             {
               provide: ProductCarouselService,
-              useClass: MockProductCarouselService
-            }
-          ]
-        }
+              useClass: MockProductCarouselService,
+            },
+          ],
+        },
       })
       .compileComponents();
   }));

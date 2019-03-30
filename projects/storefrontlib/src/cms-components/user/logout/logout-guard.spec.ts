@@ -14,7 +14,7 @@ class MockAuthService {
 
 @Component({
   selector: 'cx-page-layout',
-  template: 'mock'
+  template: 'mock',
 })
 class MockPageLayoutComponent {}
 
@@ -38,16 +38,16 @@ describe('LogoutGuard', () => {
           {
             path: 'logout',
             component: MockPageLayoutComponent,
-            canActivate: [LogoutGuard]
-          }
-        ])
+            canActivate: [LogoutGuard],
+          },
+        ]),
       ],
       declarations: [MockPageLayoutComponent],
       providers: [
         LogoutGuard,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: CmsService, useClass: MockCmsService }
-      ]
+        { provide: CmsService, useClass: MockCmsService },
+      ],
     });
     authService = TestBed.get(AuthService);
     logoutGuard = TestBed.get(LogoutGuard);

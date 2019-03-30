@@ -12,7 +12,7 @@ import {
   take,
   multicast,
   refCount,
-  catchError
+  catchError,
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -26,7 +26,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmsService {
   private _launchInSmartEdit = false;
@@ -133,7 +133,7 @@ export class CmsService {
     this.store.dispatch(
       new fromStore.LoadNavigationItems({
         nodeId: rootUid,
-        items: itemList
+        items: itemList,
       })
     );
   }
