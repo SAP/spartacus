@@ -5,7 +5,7 @@ import {
   entityLoadMeta,
   entitySuccessMeta,
 } from '../../../state';
-import { USER_UPDATE_PROCESS } from '../user-state';
+import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
 import * as fromUserDetailsAction from './user-details.action';
 
 const mockUserDetails: User = {
@@ -69,7 +69,7 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS,
         payload: { username, userDetails },
-        meta: entityLoadMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS),
+        meta: entityLoadMeta(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID),
       });
     });
   });
@@ -82,7 +82,11 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS_FAIL,
         payload: error,
-        meta: entityFailMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS, error),
+        meta: entityFailMeta(
+          PROCESS_FEATURE,
+          UPDATE_USER_DETAILS_PROCESS_ID,
+          error
+        ),
       });
     });
   });
@@ -99,7 +103,10 @@ describe('User Details Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS,
         userUpdates,
-        meta: entitySuccessMeta(PROCESS_FEATURE, USER_UPDATE_PROCESS),
+        meta: entitySuccessMeta(
+          PROCESS_FEATURE,
+          UPDATE_USER_DETAILS_PROCESS_ID
+        ),
         payload: undefined,
       });
     });

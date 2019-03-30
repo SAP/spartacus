@@ -20,7 +20,7 @@ import {
 } from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
-import { USER_UPDATE_PROCESS } from '../store/user-state';
+import { UPDATE_USER_DETAILS_PROCESS_ID } from '../store/user-state';
 
 @Injectable()
 export class UserService {
@@ -353,7 +353,7 @@ export class UserService {
    */
   getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(USER_UPDATE_PROCESS))
+      select(getProcessLoadingFactory(UPDATE_USER_DETAILS_PROCESS_ID))
     );
   }
 
@@ -361,7 +361,9 @@ export class UserService {
    * Returns the update user's personal details error flag
    */
   getUpdatePersonalDetailsResultError(): Observable<boolean> {
-    return this.store.pipe(select(getProcessErrorFactory(USER_UPDATE_PROCESS)));
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
   }
 
   /**
@@ -369,7 +371,7 @@ export class UserService {
    */
   getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(USER_UPDATE_PROCESS))
+      select(getProcessSuccessFactory(UPDATE_USER_DETAILS_PROCESS_ID))
     );
   }
 

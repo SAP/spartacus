@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { of } from 'rxjs';
 import {
   Address,
   Country,
@@ -418,9 +417,7 @@ describe('UserService', () => {
     });
 
     it('should return the loading flag', () => {
-      spyOn(service, 'getUpdatePersonalDetailsResultLoading').and.returnValue(
-        of(true)
-      );
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
 
       let result: boolean;
       service
@@ -428,13 +425,11 @@ describe('UserService', () => {
         .subscribe(loading => (result = loading))
         .unsubscribe();
 
-      expect(result).toEqual(true);
+      expect(result).toEqual(false);
     });
 
     it('should return the error flag', () => {
-      spyOn(service, 'getUpdatePersonalDetailsResultError').and.returnValue(
-        of(true)
-      );
+      store.dispatch(new fromStore.UpdateUserDetailsFail('error'));
 
       let result: boolean;
       service
