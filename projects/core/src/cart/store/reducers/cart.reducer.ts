@@ -25,6 +25,7 @@ export function reducer(
       return {
         ...state,
         cartMergeComplete: true,
+        refresh: true,
       };
     }
 
