@@ -1,0 +1,9 @@
+@import './components/index';
+
+$selectors: cx-mini-cart, cx-searchbox, cx-site-context-selector;
+
+@each $selector in $selectors {
+  #{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}
