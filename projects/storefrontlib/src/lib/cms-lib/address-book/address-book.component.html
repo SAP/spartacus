@@ -5,8 +5,6 @@
       !(showAddAddressForm || showEditAddressForm)
     "
   >
-    <p class="cx-section__msg">Saved shipping addresses</p>
-
     <div class="row">
       <div class="col-md-6">
         <button
@@ -22,7 +20,10 @@
       class="row cx-address-deck"
       *ngIf="!(addressesStateLoading$ | async); else loading"
     >
-      <div *ngFor="let address of (addresses$ | async)" class="col-md-6">
+      <div
+        *ngFor="let address of (addresses$ | async)"
+        class="col-md-6 cx-address-card"
+      >
         <cx-address-card
           (editEvent)="editAddressButtonHandle(address)"
           [userId]="userId"
@@ -34,8 +35,9 @@
 
   <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
     <section>
-      <p class="cx-section__msg">Add a new shipping address</p>
+      <p class="cx-section-msg">Add a new shipping address</p>
       <cx-address-form
+        class="cx-form"
         showTitleCode="true"
         actionBtnLabel="Add address"
         cancelBtnLabel="Back to address list"
@@ -48,7 +50,7 @@
 
   <ng-container *ngIf="showEditAddressForm">
     <section>
-      <p class="cx-section__msg">Edit shipping address</p>
+      <p class="cx-section-msg">Edit shipping address</p>
       <cx-address-form
         showTitleCode="true"
         actionBtnLabel="Update address"
@@ -62,7 +64,7 @@
 </div>
 
 <ng-template #loading>
-  <div class="col-md-12 cx-address-deck__spinner">
+  <div class="col-md-12 cx-address-spinner">
     <cx-spinner></cx-spinner>
   </div>
 </ng-template>
