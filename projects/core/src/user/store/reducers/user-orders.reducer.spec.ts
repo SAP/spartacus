@@ -3,7 +3,7 @@ import {
   OrderHistory,
   PaginationModel,
   SortModel,
-  OrderHistoryList
+  OrderHistoryList,
 } from '../../../occ';
 
 import * as fromUserOrdersReducer from './user-orders.reducer';
@@ -25,13 +25,13 @@ describe('User Orders Reducer', () => {
       const pagination: PaginationModel = {
         currentPage: 1,
         totalPages: 5,
-        pageSize: 5
+        pageSize: 5,
       };
       const sorts: SortModel[] = [{ code: 'byDate' }];
       const mockUserOrders: OrderHistoryList = {
         orders,
         pagination,
-        sorts
+        sorts,
       };
 
       const { initialState } = fromUserOrdersReducer;

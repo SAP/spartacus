@@ -6,7 +6,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   selector: 'cx-link',
   templateUrl: './link.component.html',
   styleUrls: ['./link.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkComponent {
   constructor(public component: CmsComponentData<CmsLinkComponent>) {}

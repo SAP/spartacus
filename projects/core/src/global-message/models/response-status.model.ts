@@ -5,5 +5,5 @@ export enum HttpResponseStatus {
   NOT_FOUND = 404,
   CONFLICT = 409,
   BAD_GATEWAY = 502,
-  GATEWAY_TIMEOUT = 504
+  GATEWAY_TIMEOUT = 504,
 }

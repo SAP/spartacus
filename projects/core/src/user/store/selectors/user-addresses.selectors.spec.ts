@@ -17,8 +17,8 @@ describe('User Addresses Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -37,7 +37,7 @@ describe('User Addresses Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: []
+        value: [],
       });
     });
   });

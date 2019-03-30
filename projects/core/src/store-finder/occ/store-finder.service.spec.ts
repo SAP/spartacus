@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { OccConfig } from '../../occ';
@@ -15,7 +15,7 @@ const searchResults = { stores: [{ name: 'test' }] };
 const mockSearchConfig: StoreFinderSearchConfig = { pageSize: 5 };
 const longitudeLatitude: LongitudeLatitude = {
   longitude: 10.1,
-  latitude: 20.2
+  latitude: 20.2,
 };
 
 const storeCountResponseBody = { CA: 50 };
@@ -25,12 +25,12 @@ const storeId = 'test';
 export class MockOccModuleConfig {
   server = {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   };
   site = {
     baseSite: '',
     language: '',
-    currency: ''
+    currency: '',
   };
 }
 
@@ -43,8 +43,8 @@ describe('OccStoreFinderService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccStoreFinderService,
-        { provide: OccConfig, useClass: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useClass: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccStoreFinderService);
@@ -69,7 +69,7 @@ describe('OccStoreFinderService', () => {
         url:
           '/stores?fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL))' +
           ',geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email),%20features)' +
-          ',pagination(DEFAULT),sorts(DEFAULT)&query=test&pageSize=5'
+          ',pagination(DEFAULT),sorts(DEFAULT)&query=test&pageSize=5',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -91,7 +91,7 @@ describe('OccStoreFinderService', () => {
         url:
           '/stores?fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL))' +
           ',geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email),%20features)' +
-          ',pagination(DEFAULT),sorts(DEFAULT)&longitude=10.1&latitude=20.2&pageSize=5'
+          ',pagination(DEFAULT),sorts(DEFAULT)&longitude=10.1&latitude=20.2&pageSize=5',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -118,7 +118,7 @@ describe('OccStoreFinderService', () => {
       httpMock
         .expectOne({
           method: 'GET',
-          url: '/stores/' + storeId + '?fields=FULL'
+          url: '/stores/' + storeId + '?fields=FULL',
         })
         .flush(searchResults.stores[0]);
     });

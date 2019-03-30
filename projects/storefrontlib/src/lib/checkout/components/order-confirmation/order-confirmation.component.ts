@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
 import {
@@ -10,7 +10,7 @@ import {
   CheckoutService,
   Address,
   PaymentDetails,
-  DeliveryMode
+  DeliveryMode,
 } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
@@ -21,7 +21,7 @@ import { Card } from '../../../ui/components/card/card.component';
   selector: 'cx-order-confirmation',
   templateUrl: './order-confirmation.component.html',
   styleUrls: ['./order-confirmation.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
@@ -46,8 +46,8 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
         `${deliveryAddress.town}, ${deliveryAddress.country.isocode}, ${
           deliveryAddress.postalCode
         }`,
-        deliveryAddress.phone
-      ]
+        deliveryAddress.phone,
+      ],
     };
   }
 
@@ -55,7 +55,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     return {
       title: 'Shipping Method',
       textBold: deliveryMode.name,
-      text: [deliveryMode.description]
+      text: [deliveryMode.description],
     };
   }
 
@@ -69,8 +69,8 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
           billingAddress.postalCode
         }`,
-        billingAddress.phone
-      ]
+        billingAddress.phone,
+      ],
     };
   }
 
@@ -80,8 +80,8 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
       textBold: paymentInfo.accountHolderName,
       text: [
         paymentInfo.cardNumber,
-        `Expires in ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`
-      ]
+        `Expires in ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`,
+      ],
     };
   }
 }

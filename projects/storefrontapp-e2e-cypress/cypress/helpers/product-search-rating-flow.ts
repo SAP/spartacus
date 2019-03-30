@@ -22,14 +22,14 @@ export function productRatingFlow(mobile?: string) {
   cy.get('.page-item:last-of-type .page-link:first').click();
   cy.get('.page-item.active > .page-link').should('contain', '2');
 
-  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-WX1');
+  cy.get('cx-product-list-item:nth-child(1)').should('contain', 'DSC-W180');
 
   // Sort by top rated
   cy.get('cx-sorting .ng-select:first').ngSelect(
     PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
   );
   cy.get('.page-item.active > .page-link').should('contain', '2');
-  cy.get('cx-product-list-item:first').should('contain', 'DSC-H20_MD');
+  cy.get('cx-product-list-item:first').should('contain', 'DSC-WX1');
 
   // Navigate to previous page
   cy.get('.page-item:first-of-type .page-link:first').click();

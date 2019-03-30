@@ -13,8 +13,11 @@ describe('BaseSite Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          SITE_CONTEXT_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
     store = TestBed.get(Store);
   });

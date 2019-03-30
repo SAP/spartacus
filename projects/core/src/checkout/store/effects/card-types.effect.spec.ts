@@ -21,13 +21,13 @@ const mockCardTypesList: CardTypeList = {
   cardTypes: [
     {
       code: 'amex',
-      name: 'American Express'
+      name: 'American Express',
     },
     {
       code: 'maestro',
-      name: 'Maestro'
-    }
-  ]
+      name: 'Maestro',
+    },
+  ],
 };
 
 describe('Card Types effect', () => {
@@ -40,8 +40,8 @@ describe('Card Types effect', () => {
       providers: [
         CardTypesEffects,
         { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(CardTypesEffects);

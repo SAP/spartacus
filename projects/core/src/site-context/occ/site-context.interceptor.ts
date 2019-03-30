@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -40,8 +40,8 @@ export class SiteContextInterceptor implements HttpInterceptor {
       request = request.clone({
         setParams: {
           lang: this.activeLang,
-          curr: this.activeCurr
-        }
+          curr: this.activeCurr,
+        },
       });
     }
 

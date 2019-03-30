@@ -5,7 +5,7 @@ import {
   createFeatureSelector,
   MetaReducer,
   ActionReducer,
-  MemoizedSelector
+  MemoizedSelector,
 } from '@ngrx/store';
 
 import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
@@ -13,7 +13,7 @@ import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/store/actions/index';
 import {
   CURRENCY_CHANGE,
-  LANGUAGE_CHANGE
+  LANGUAGE_CHANGE,
 } from '../../../site-context/store/actions/index';
 
 import * as fromAddressVerification from './address-verification.reducer';
@@ -24,7 +24,7 @@ export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
     steps: fromCheckout.reducer,
     cardTypes: fromCardTypes.reducer,
-    addressVerification: fromAddressVerification.reducer
+    addressVerification: fromAddressVerification.reducer,
   };
 }
 
@@ -34,7 +34,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export const getCheckoutState: MemoizedSelector<

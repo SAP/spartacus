@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { SearchConfig } from '../model/search-config';
 import {
   ProductSearchPage,
-  SuggestionList
+  SuggestionList,
 } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchLoaderService } from './product-search.service';
@@ -19,19 +19,19 @@ const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
 const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
-  pageSize: 5
+  pageSize: 5,
 };
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductSearchLoaderService', () => {
@@ -45,9 +45,9 @@ describe('ProductSearchLoaderService', () => {
         ProductSearchLoaderService,
         {
           provide: OccConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductSearchLoaderService);

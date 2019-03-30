@@ -2,7 +2,7 @@ import {
   Product,
   ProductSearchPage,
   Review,
-  Suggestion
+  Suggestion,
 } from '../../occ/occ-models/occ.models';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 

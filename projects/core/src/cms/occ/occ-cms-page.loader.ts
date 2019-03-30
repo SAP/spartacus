@@ -1,20 +1,19 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { IdList } from './../model/idList.model';
 import {
-  CmsComponent,
   CmsComponentList,
   CMSPage,
-  PageType
+  PageType,
 } from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config/cms-structure.config';
+import { IdList } from '../model/idList.model';
 import { CmsPageAdapter } from '../services/cms-page.adapter';
 import { CmsPageLoader } from '../services/cms-page.loader';
 import { CmsStructureConfigService } from '../services/cms-structure-config.service';
-import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 @Injectable()
 export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
@@ -24,7 +23,7 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     private http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsPageAdapter<CMSPage>,
+    @Optional() protected adapter: CmsPageAdapter<CMSPage>,
     private occEndpoints: OccEndpointsService
   ) {
     super(cmsStructureConfigService, adapter);
@@ -55,24 +54,9 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     return this.http.get(this.getBaseEndPoint() + `/pages`, {
       headers: this.headers,
       params: new HttpParams({
-        fromString: httpStringParams
-      })
+        fromString: httpStringParams,
+      }),
     });
-  }
-
-  loadComponent<T extends CmsComponent>(
-    id: string,
-    pageContext: PageContext,
-    fields?: string
-  ): Observable<T> {
-    return this.http
-      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
-        headers: this.headers,
-        params: new HttpParams({
-          fromString: this.getRequestParams(pageContext, fields)
-        })
-      })
-      .pipe(catchError((error: any) => throwError(error.json())));
   }
 
   loadListComponents(
@@ -100,8 +84,8 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
       .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
-          fromString: requestParams
-        })
+          fromString: requestParams,
+        }),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }

@@ -10,7 +10,7 @@ import {
   ConfigModule,
   CmsConfig,
   UrlTranslationModule,
-  CartModule
+  CartModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -22,13 +22,13 @@ import {
     CartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        MiniCartComponent: { selector: 'cx-mini-cart' }
-      }
+        MiniCartComponent: { selector: 'cx-mini-cart' },
+      },
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
-  exports: [MiniCartComponent]
+  exports: [MiniCartComponent],
 })
 export class MiniCartModule {}

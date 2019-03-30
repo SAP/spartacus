@@ -23,7 +23,7 @@ export const effects: any[] = [
   OrderDetailsEffect,
   BillingCountriesEffect,
   ResetPasswordEffects,
-  ForgotPasswordEffects
+  ForgotPasswordEffects,
 ];
 
 export * from './user-details.effect';

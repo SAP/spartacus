@@ -11,7 +11,7 @@ import {
   NgbCollapseModule,
   NgbModalModule,
   NgbPaginationModule,
-  NgbPaginationConfig
+  NgbPaginationConfig,
 } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import {
     NgbTabsetModule,
     NgbAccordionModule,
     NgbRatingModule,
-    NgbCollapseModule
+    NgbCollapseModule,
   ],
   exports: [
     NgbDropdownModule,
@@ -32,13 +32,13 @@ import {
     NgbTypeaheadModule,
     NgbCollapseModule,
     NgbModalModule,
-    NgbPaginationModule
+    NgbPaginationModule,
   ],
   providers: [
     NgbTabsetConfig,
     NgbAccordionConfig,
     NgbRatingConfig,
-    NgbPaginationConfig
-  ]
+    NgbPaginationConfig,
+  ],
 })
 export class BootstrapModule {}
