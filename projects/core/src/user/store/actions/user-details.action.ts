@@ -6,7 +6,7 @@ import {
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state';
-import { USER_UPDATE_PROCESS } from '../user-state';
+import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
 
 export const LOAD_USER_DETAILS = '[User] Load User Details';
 export const LOAD_USER_DETAILS_FAIL = '[User] Load User Details Fail';
@@ -34,21 +34,21 @@ export class LoadUserDetailsSuccess implements Action {
 export class UpdateUserDetails extends EntityLoadAction {
   readonly type = UPDATE_USER_DETAILS;
   constructor(public payload: { username: string; userDetails: User }) {
-    super(PROCESS_FEATURE, USER_UPDATE_PROCESS);
+    super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
   }
 }
 
 export class UpdateUserDetailsFail extends EntityFailAction {
   readonly type = UPDATE_USER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(PROCESS_FEATURE, USER_UPDATE_PROCESS, payload);
+    super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID, payload);
   }
 }
 
 export class UpdateUserDetailsSuccess extends EntitySuccessAction {
   readonly type = UPDATE_USER_DETAILS_SUCCESS;
   constructor(public userUpdates: User) {
-    super(PROCESS_FEATURE, USER_UPDATE_PROCESS);
+    super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
   }
 }
 
