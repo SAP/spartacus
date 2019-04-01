@@ -1,38 +1,51 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <label>
-      <span class="label-content">Title</span>
-      <select formControlName="titleCode" class="form-control">
-        <option value="">None</option>
-        <option *ngFor="let title of titles" [value]="title.code">{{
-          title.name
-        }}</option>
-      </select>
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      <span class="label-content">First Name</span>
-      <input
-        type="text"
-        class="form-control"
-        name="firstName"
-        placeholder="First Name"
-        formControlName="firstName"
-      />
-    </label>
-  </div>
-  <div class="form-group">
-    <label>
-      <span class="label-content">Last Name</span>
-      <input
-        type="text"
-        class="form-control"
-        name="lastName"
-        placeholder="Last Name"
-        formControlName="lastName"
-      />
-    </label>
-    <button class="btn btn-block btn-primary" type="submit">Submit</button>
-  </div>
-</form>
+<div class="col-md-6">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label>
+        <span class="label-content">Title</span>
+        <select formControlName="titleCode" class="form-control">
+          <option value="">None</option>
+          <option *ngFor="let title of titles" [value]="title.code">{{
+            title.name
+          }}</option>
+        </select>
+      </label>
+    </div>
+    <div class="form-group">
+      <label>
+        <span class="label-content">First Name</span>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          placeholder="First Name"
+          formControlName="firstName"
+          [class.is-invalid]="isNotValid('firstName')"
+        />
+        <div class="invalid-feedback">
+          <span>First name is required.</span>
+        </div>
+      </label>
+    </div>
+    <div class="form-group">
+      <label>
+        <span class="label-content">Last Name</span>
+        <input
+          type="text"
+          class="form-control"
+          name="lastName"
+          placeholder="Last Name"
+          formControlName="lastName"
+          [class.is-invalid]="isNotValid('lastName')"
+        />
+        <div class="invalid-feedback">
+          <span>Last name is required.</span>
+        </div>
+      </label>
+    </div>
+
+    <div class="form-group">
+      <button class="btn btn-block btn-primary" type="submit">Submit</button>
+    </div>
+  </form>
+</div>

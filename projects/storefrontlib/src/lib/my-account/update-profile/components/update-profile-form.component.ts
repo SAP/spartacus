@@ -39,6 +39,14 @@ export class UpdateProfileFormComponent implements OnInit {
     this.form.patchValue(this.user);
   }
 
+  isNotValid(formControlName: string): boolean {
+    return (
+      this.form.get(formControlName).invalid &&
+      (this.form.get(formControlName).touched ||
+        this.form.get(formControlName).dirty)
+    );
+  }
+
   onSubmit(): void {
     this.submited.emit({ uid: this.user.uid, form: this.form });
   }

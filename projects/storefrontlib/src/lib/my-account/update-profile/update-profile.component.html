@@ -6,7 +6,7 @@
 
 <ng-template #updateForm>
   <cx-update-profile-form
-    class="container"
+    class="d-flex justify-content-center container"
     [user]="user$ | async"
     [titles]="titles$ | async"
     (submited)="onSubmit($event)"
