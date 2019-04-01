@@ -6,6 +6,7 @@
 
 <ng-template #updateForm>
   <cx-update-profile-form
+    class="container"
     [user]="user$ | async"
     [titles]="titles$ | async"
     (submited)="onSubmit($event)"
