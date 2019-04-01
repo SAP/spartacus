@@ -4,7 +4,7 @@ import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BadGatewayHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_GATEWAY;
@@ -12,7 +12,7 @@ export class BadGatewayHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'A server error occurred. Please try again later.'
+      text: 'A server error occurred. Please try again later.',
     });
   }
 }

@@ -20,11 +20,11 @@ describe('Cms Page Data Reducer', () => {
     it('should populate the page state', () => {
       const pageContext: PageContext = {
         id: 'homepage',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       };
       const page = {
         pageId: 'homepage',
-        name: 'testPage'
+        name: 'testPage',
       } as Page;
 
       const { initialState } = fromPage;
@@ -33,8 +33,8 @@ describe('Cms Page Data Reducer', () => {
 
       expect(state).toEqual({
         entities: {
-          [page.pageId]: page
-        }
+          [page.pageId]: page,
+        },
       });
     });
   });

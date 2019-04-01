@@ -6,6 +6,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [CommonModule, RouterModule],
   declarations: [GenericLinkComponent],
-  exports: [GenericLinkComponent]
+  exports: [GenericLinkComponent],
 })
 export class GenericLinkModule {}

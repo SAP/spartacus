@@ -3,7 +3,7 @@ import {
   FormBuilder,
   FormGroup,
   Validators,
-  AbstractControl
+  AbstractControl,
 } from '@angular/forms';
 import { RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -13,7 +13,7 @@ import { CustomFormValidators } from '../../../ui/validators/custom-form-validat
 @Component({
   selector: 'cx-reset-password-form',
   templateUrl: './reset-password-form.component.html',
-  styleUrls: ['./reset-password-form.component.scss']
+  styleUrls: ['./reset-password-form.component.scss'],
 })
 export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   token: string;
@@ -24,9 +24,9 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     {
       password: [
         '',
-        [Validators.required, CustomFormValidators.passwordValidator]
+        [Validators.required, CustomFormValidators.passwordValidator],
       ],
-      repassword: ['', [Validators.required]]
+      repassword: ['', [Validators.required]],
     },
     { validator: this.matchPassword }
   );

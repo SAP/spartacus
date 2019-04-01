@@ -10,7 +10,7 @@ import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-summary',
-  template: ''
+  template: '',
 })
 class MockOrderSummaryComponent {
   @Input()
@@ -29,12 +29,12 @@ const mockOrder: Order = {
     postalCode: 'MA8902',
     town: 'London',
     country: {
-      isocode: 'UK'
-    }
+      isocode: 'UK',
+    },
   },
   deliveryMode: {
     name: 'Standard order-detail-shipping',
-    description: '3-5 days'
+    description: '3-5 days',
   },
   paymentInfo: {
     accountHolderName: 'John Smith',
@@ -42,7 +42,7 @@ const mockOrder: Order = {
     expiryMonth: '12',
     expiryYear: '2026',
     cardType: {
-      name: 'Visa'
+      name: 'Visa',
     },
     billingAddress: {
       firstName: 'John',
@@ -53,11 +53,11 @@ const mockOrder: Order = {
       postalCode: 'MA8902',
       town: 'London',
       country: {
-        isocode: 'UK'
-      }
-    }
+        isocode: 'UK',
+      },
+    },
   },
-  created: new Date('2019-02-11T13:02:58+0000')
+  created: new Date('2019-02-11T13:02:58+0000'),
 };
 
 describe('OrderDetailTotalsComponent', () => {
@@ -70,14 +70,14 @@ describe('OrderDetailTotalsComponent', () => {
     mockOrderDetailsService = <OrderDetailsService>{
       getOrderDetails() {
         return of(mockOrder);
-      }
+      },
     };
 
     TestBed.configureTestingModule({
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService }
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
-      declarations: [OrderDetailTotalsComponent, MockOrderSummaryComponent]
+      declarations: [OrderDetailTotalsComponent, MockOrderSummaryComponent],
     }).compileComponents();
   }));
 

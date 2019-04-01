@@ -19,19 +19,19 @@ import { AddressBookComponentService } from './address-book.component.service';
             {
               provide: AddressBookComponentService,
               useClass: AddressBookComponentService,
-              deps: [UserService]
-            }
-          ]
-        }
-      }
+              deps: [UserService],
+            },
+          ],
+        },
+      },
     }),
     CardModule,
     AddressFormModule,
-    SpinnerModule
+    SpinnerModule,
   ],
   declarations: [AddressBookComponent, AddressCardComponent],
   exports: [AddressBookComponent, AddressCardComponent],
   providers: [UserService, AddressBookComponentService],
-  entryComponents: [AddressBookComponent]
+  entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}

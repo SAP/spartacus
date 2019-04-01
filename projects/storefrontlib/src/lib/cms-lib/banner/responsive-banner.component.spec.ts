@@ -8,7 +8,7 @@ import {
   TranslateUrlOptions,
   Component as SpaComponent,
   CmsBannerComponent,
-  CmsResponsiveBannerComponentMedia
+  CmsResponsiveBannerComponentMedia,
 } from '@spartacus/core';
 import { BannerComponentService } from './banner.component.service';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
@@ -17,15 +17,15 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    SimpleResponsiveBannerComponent: { selector: 'ResponsiveBannerComponent' }
+    SimpleResponsiveBannerComponent: { selector: 'ResponsiveBannerComponent' },
   },
   server: {
-    baseUrl: 'https://localhost:9002'
-  }
+    baseUrl: 'https://localhost:9002',
+  },
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(options: TranslateUrlOptions): string {
@@ -49,33 +49,33 @@ describe('ResponsiveBannerComponent', () => {
         code: 'Elec_770x350_HomeSpeed_EN_01_770W.jpg',
         mime: 'image/jpeg',
         altText: 'Save Big On Select SLR & DSLR Cameras',
-        url: '/medias/Elec-770x350-HomeSpeed-EN-01-770W.jpg'
+        url: '/medias/Elec-770x350-HomeSpeed-EN-01-770W.jpg',
       },
       desktop: {
         code: 'Elec_960x330_HomeSpeed_EN_01_960W.jpg',
         mime: 'image/jpeg',
         altText: 'Save Big On Select SLR & DSLR Cameras',
-        url: '/medias/Elec-960x330-HomeSpeed-EN-01-960W.jpg'
+        url: '/medias/Elec-960x330-HomeSpeed-EN-01-960W.jpg',
       },
       mobile: {
         code: 'Elec_480x320_HomeSpeed_EN_01_480W.jpg',
         mime: 'image/jpeg',
         altText: 'Save Big On Select SLR & DSLR Cameras',
-        url: '/medias/Elec-480x320-HomeSpeed-EN-01-480W.jpg'
+        url: '/medias/Elec-480x320-HomeSpeed-EN-01-480W.jpg',
       },
       widescreen: {
         code: 'Elec_1400x440_HomeSpeed_EN_01_1400W.jpg',
         mime: 'image/jpeg',
         altText: 'Save Big On Select SLR & DSLR Cameras',
-        url: '/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg'
-      }
+        url: '/medias/Elec-1400x440-HomeSpeed-EN-01-1400W.jpg',
+      },
     },
-    urlLink: '/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578'
+    urlLink: '/OpenCatalogue/Cameras/Digital-Cameras/Digital-SLR/c/578',
   };
 
   const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData),
-    uid: 'test'
+    uid: 'test',
   };
 
   const MockBannerComponentService = new BannerComponentService(
@@ -89,14 +89,14 @@ describe('ResponsiveBannerComponent', () => {
       declarations: [
         ResponsiveBannerComponent,
         GenericLinkComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         {
           provide: BannerComponentService,
-          useValue: MockBannerComponentService
-        }
-      ]
+          useValue: MockBannerComponentService,
+        },
+      ],
     }).compileComponents();
   }));
 

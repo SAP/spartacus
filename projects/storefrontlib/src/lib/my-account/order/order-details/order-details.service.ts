@@ -6,7 +6,7 @@ import {
   AuthService,
   Order,
   RoutingService,
-  UserService
+  UserService,
 } from '@spartacus/core';
 
 @Injectable()

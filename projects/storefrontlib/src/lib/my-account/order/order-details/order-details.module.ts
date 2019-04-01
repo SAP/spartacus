@@ -13,7 +13,7 @@ const moduleComponents = [
   OrderDetailHeadlineComponent,
   OrderDetailItemsComponent,
   OrderDetailTotalsComponent,
-  OrderDetailShippingComponent
+  OrderDetailShippingComponent,
 ];
 
 @NgModule({
@@ -24,23 +24,23 @@ const moduleComponents = [
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: {
-          selector: 'cx-order-details-headline'
+          selector: 'cx-order-details-headline',
         },
         AccountOrderDetailsItemsComponent: {
-          selector: 'cx-order-details-items'
+          selector: 'cx-order-details-items',
         },
         AccountOrderDetailsTotalsComponent: {
-          selector: 'cx-order-details-totals'
+          selector: 'cx-order-details-totals',
         },
         AccountOrderDetailsShippingComponent: {
-          selector: 'cx-order-details-shipping'
-        }
-      }
-    })
+          selector: 'cx-order-details-shipping',
+        },
+      },
+    }),
   ],
   providers: [OrderDetailsService],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents]
+  entryComponents: [...moduleComponents],
 })
 export class OrderDetailsModule {}

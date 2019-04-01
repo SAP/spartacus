@@ -6,7 +6,7 @@ const mockUserDetails: User = {
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 describe('User Details Actions', () => {
@@ -18,7 +18,7 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS,
-        payload: mockUserDetails.name
+        payload: mockUserDetails.name,
       });
     });
   });
@@ -30,7 +30,7 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -43,7 +43,7 @@ describe('User Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS,
-        payload: mockUserDetails
+        payload: mockUserDetails,
       });
     });
   });

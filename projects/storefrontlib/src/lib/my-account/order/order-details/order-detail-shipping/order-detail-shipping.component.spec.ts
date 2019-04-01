@@ -20,12 +20,12 @@ const mockOrder: Order = {
     postalCode: 'MA8902',
     town: 'London',
     country: {
-      isocode: 'UK'
-    }
+      isocode: 'UK',
+    },
   },
   deliveryMode: {
     name: 'Standard order-detail-shipping',
-    description: '3-5 days'
+    description: '3-5 days',
   },
   paymentInfo: {
     accountHolderName: 'John Smith',
@@ -33,7 +33,7 @@ const mockOrder: Order = {
     expiryMonth: '12',
     expiryYear: '2026',
     cardType: {
-      name: 'Visa'
+      name: 'Visa',
     },
     billingAddress: {
       firstName: 'John',
@@ -44,9 +44,9 @@ const mockOrder: Order = {
       postalCode: 'MA8902',
       town: 'London',
       country: {
-        isocode: 'UK'
-      }
-    }
+        isocode: 'UK',
+      },
+    },
   },
   created: new Date('2019-02-11T13:02:58+0000'),
   consignments: [
@@ -54,9 +54,9 @@ const mockOrder: Order = {
       code: 'a00000341',
       status: 'SHIPPED',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }]
-    }
-  ]
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+  ],
 };
 
 describe('OrderDetailShippingComponent', () => {
@@ -69,15 +69,15 @@ describe('OrderDetailShippingComponent', () => {
     mockOrderDetailsService = <OrderDetailsService>{
       getOrderDetails() {
         return of(mockOrder);
-      }
+      },
     };
 
     TestBed.configureTestingModule({
       imports: [CardModule],
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService }
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
-      declarations: [OrderDetailShippingComponent]
+      declarations: [OrderDetailShippingComponent],
     }).compileComponents();
   }));
 
@@ -112,7 +112,7 @@ describe('OrderDetailShippingComponent', () => {
   it('should order details display "ship to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('div:nth-child(1) > cx-card .cx-card-body__label-container')
+      By.css('div:nth-child(1) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryAddress.firstName &&
@@ -127,7 +127,7 @@ describe('OrderDetailShippingComponent', () => {
   it('should order details display "bill to" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('div:nth-child(2) > cx-card .cx-card-body__label-container')
+      By.css('div:nth-child(2) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.billingAddress.firstName &&
@@ -142,7 +142,7 @@ describe('OrderDetailShippingComponent', () => {
   it('should order details display "payment" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('div:nth-child(3) > cx-card .cx-card-body__label-container')
+      By.css('div:nth-child(3) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.paymentInfo.accountHolderName &&
@@ -156,7 +156,7 @@ describe('OrderDetailShippingComponent', () => {
   it('should order details display "shipping" data', () => {
     fixture.detectChanges();
     const element: DebugElement = el.query(
-      By.css('div:nth-child(4) > cx-card .cx-card-body__label-container')
+      By.css('div:nth-child(4) > cx-card .cx-card-label-container')
     );
     expect(element.nativeElement.textContent).toContain(
       mockOrder.deliveryMode.name && mockOrder.deliveryMode.description

@@ -20,12 +20,12 @@ const mockOrder: Order = {
     postalCode: 'MA8902',
     town: 'London',
     country: {
-      isocode: 'UK'
-    }
+      isocode: 'UK',
+    },
   },
   deliveryMode: {
     name: 'Standard order-detail-shipping',
-    description: '3-5 days'
+    description: '3-5 days',
   },
   paymentInfo: {
     accountHolderName: 'John Smith',
@@ -33,7 +33,7 @@ const mockOrder: Order = {
     expiryMonth: '12',
     expiryYear: '2026',
     cardType: {
-      name: 'Visa'
+      name: 'Visa',
     },
     billingAddress: {
       firstName: 'John',
@@ -44,9 +44,9 @@ const mockOrder: Order = {
       postalCode: 'MA8902',
       town: 'London',
       country: {
-        isocode: 'UK'
-      }
-    }
+        isocode: 'UK',
+      },
+    },
   },
   created: new Date('2019-02-11T13:02:58+0000'),
   consignments: [
@@ -54,14 +54,14 @@ const mockOrder: Order = {
       code: 'a00000341',
       status: 'SHIPPED',
       statusDate: new Date('2019-02-11T13:05:12+0000'),
-      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }]
-    }
-  ]
+      entries: [{ orderEntry: {}, quantity: 1, shippedQuantity: 1 }],
+    },
+  ],
 };
 
 @Component({
   selector: 'cx-cart-item-list',
-  template: ''
+  template: '',
 })
 class MockCartItemListComponent {
   @Input()
@@ -86,15 +86,15 @@ describe('OrderDetailItemsComponent', () => {
     mockOrderDetailsService = <OrderDetailsService>{
       getOrderDetails() {
         return of(mockOrder);
-      }
+      },
     };
 
     TestBed.configureTestingModule({
       imports: [CardModule],
       providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService }
+        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
-      declarations: [OrderDetailItemsComponent, MockCartItemListComponent]
+      declarations: [OrderDetailItemsComponent, MockCartItemListComponent],
     }).compileComponents();
   }));
 

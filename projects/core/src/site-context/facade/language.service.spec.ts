@@ -14,7 +14,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { SiteContextStoreModule } from '../store/site-context-store.module';
 
 const mockLanguages: Language[] = [
-  { active: true, isocode: 'ja', name: 'Japanese' }
+  { active: true, isocode: 'ja', name: 'Japanese' },
 ];
 
 const mockActiveLang = 'ja';
@@ -35,12 +35,12 @@ describe('LanguageService', () => {
       imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        SiteContextStoreModule
+        SiteContextStoreModule,
       ],
       providers: [
         { provide: OccConfig, useValue: defaultOccConfig },
-        LanguageService
-      ]
+        LanguageService,
+      ],
     });
 
     store = TestBed.get(Store);

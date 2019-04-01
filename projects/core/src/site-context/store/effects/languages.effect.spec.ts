@@ -17,7 +17,7 @@ describe('Languages Effects', () => {
   let effects: fromEffects.LanguagesEffects;
 
   const languages: Language[] = [
-    { active: true, isocode: 'ja', name: 'Japanese' }
+    { active: true, isocode: 'ja', name: 'Japanese' },
   ];
 
   const data = { languages };
@@ -28,8 +28,8 @@ describe('Languages Effects', () => {
       providers: [
         OccSiteService,
         fromEffects.LanguagesEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(OccSiteService);

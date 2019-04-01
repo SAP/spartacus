@@ -8,7 +8,7 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-shipping',
   templateUrl: './order-detail-shipping.component.html',
-  styleUrls: ['./order-detail-shipping.component.scss']
+  styleUrls: ['./order-detail-shipping.component.scss'],
 })
 export class OrderDetailShippingComponent implements OnInit {
   constructor(private orderDetailsService: OrderDetailsService) {}
@@ -27,8 +27,8 @@ export class OrderDetailShippingComponent implements OnInit {
         address.line1,
         address.line2,
         `${address.town}, ${address.country.isocode}, ${address.postalCode}`,
-        address.phone
-      ]
+        address.phone,
+      ],
     };
   }
 
@@ -42,8 +42,8 @@ export class OrderDetailShippingComponent implements OnInit {
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
           billingAddress.postalCode
         }`,
-        billingAddress.phone
-      ]
+        billingAddress.phone,
+      ],
     };
   }
 
@@ -54,8 +54,8 @@ export class OrderDetailShippingComponent implements OnInit {
       text: [
         payment.cardType.name,
         payment.cardNumber,
-        `Expires: ${payment.expiryMonth} / ${payment.expiryYear}`
-      ]
+        `Expires: ${payment.expiryMonth} / ${payment.expiryYear}`,
+      ],
     };
   }
 
@@ -63,7 +63,7 @@ export class OrderDetailShippingComponent implements OnInit {
     return {
       title: 'Shipping Method',
       textBold: shipping.name,
-      text: [shipping.description]
+      text: [shipping.description],
     };
   }
 }

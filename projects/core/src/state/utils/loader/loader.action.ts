@@ -23,8 +23,8 @@ export function loadMeta(entityType: string): LoaderMeta {
   return {
     entityType: entityType,
     loader: {
-      load: true
-    }
+      load: true,
+    },
   };
 }
 
@@ -32,8 +32,8 @@ export function failMeta(entityType: string, error?: any): LoaderMeta {
   return {
     entityType: entityType,
     loader: {
-      error: error ? error : true
-    }
+      error: error ? error : true,
+    },
   };
 }
 
@@ -41,15 +41,15 @@ export function successMeta(entityType: string): LoaderMeta {
   return {
     entityType: entityType,
     loader: {
-      success: true
-    }
+      success: true,
+    },
   };
 }
 
 export function resetMeta(entityType: string): LoaderMeta {
   return {
     entityType: entityType,
-    loader: {}
+    loader: {},
   };
 }
 

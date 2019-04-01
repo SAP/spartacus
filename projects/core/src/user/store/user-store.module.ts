@@ -17,8 +17,8 @@ import { StateModule } from '../../state/state.module';
     StateModule,
     StoreModule.forFeature(USER_FEATURE, reducerToken, { metaReducers }),
     EffectsModule.forFeature(effects),
-    RouterModule
+    RouterModule,
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class UserStoreModule {}

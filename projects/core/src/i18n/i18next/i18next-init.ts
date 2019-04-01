@@ -12,7 +12,7 @@ export function i18nextInit(
     let i18nextConfig: i18next.InitOptions = {
       ns: [], // don't preload any namespaces
       fallbackLng: config.i18n.fallbackLang,
-      debug: config.i18n.debug
+      debug: config.i18n.debug,
     };
     if (config.i18n.backend) {
       i18next.use(i18nextXhrBackend);

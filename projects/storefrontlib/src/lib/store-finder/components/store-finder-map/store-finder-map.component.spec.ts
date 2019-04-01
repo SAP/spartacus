@@ -22,8 +22,8 @@ describe('StoreFinderMapComponent', () => {
     TestBed.configureTestingModule({
       declarations: [StoreFinderMapComponent],
       providers: [
-        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock }
-      ]
+        { provide: GoogleMapRendererService, useClass: MapRendererServiceMock },
+      ],
     });
 
     fixture = TestBed.createComponent(StoreFinderMapComponent);
@@ -46,7 +46,7 @@ describe('StoreFinderMapComponent', () => {
     // when locations are changed
     component.locations = [location];
     component.ngOnChanges({
-      locations: new SimpleChange(null, location, false)
+      locations: new SimpleChange(null, location, false),
     });
 
     // then call map renderer service
@@ -64,7 +64,7 @@ describe('StoreFinderMapComponent', () => {
     // when locations are changed
     component.locations = [location];
     component.ngOnChanges({
-      notLocation: new SimpleChange(undefined, null, false)
+      notLocation: new SimpleChange(undefined, null, false),
     });
 
     // then call map renderer service

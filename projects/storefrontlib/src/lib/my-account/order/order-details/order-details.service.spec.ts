@@ -6,7 +6,7 @@ import {
   Order,
   RoutingService,
   UserService,
-  UserToken
+  UserToken,
 } from '@spartacus/core';
 import { OrderDetailsService } from './order-details.service';
 
@@ -22,12 +22,12 @@ const mockOrder: Order = {
     postalCode: 'MA8902',
     town: 'London',
     country: {
-      isocode: 'UK'
-    }
+      isocode: 'UK',
+    },
   },
   deliveryMode: {
     name: 'Standard order-detail-shipping',
-    description: '3-5 days'
+    description: '3-5 days',
   },
   paymentInfo: {
     accountHolderName: 'John Smith',
@@ -35,7 +35,7 @@ const mockOrder: Order = {
     expiryMonth: '12',
     expiryYear: '2026',
     cardType: {
-      name: 'Visa'
+      name: 'Visa',
     },
     billingAddress: {
       firstName: 'John',
@@ -46,10 +46,10 @@ const mockOrder: Order = {
       postalCode: 'MA8902',
       town: 'London',
       country: {
-        isocode: 'UK'
-      }
-    }
-  }
+        isocode: 'UK',
+      },
+    },
+  },
 };
 
 const mockRouterWithoutOrderCode = {
@@ -57,8 +57,8 @@ const mockRouterWithoutOrderCode = {
     url: '/',
     queryParams: {},
     params: {},
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 const mockRouter = {
@@ -66,10 +66,10 @@ const mockRouter = {
     url: '/',
     queryParams: {},
     params: {
-      orderCode: '1'
+      orderCode: '1',
     },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
@@ -106,17 +106,17 @@ describe('OrderDetailsService', () => {
         OrderDetailsService,
         {
           provide: AuthService,
-          useClass: MockAuthService
+          useClass: MockAuthService,
         },
         {
           provide: UserService,
-          useClass: MockUserService
+          useClass: MockUserService,
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService
-        }
-      ]
+          useClass: MockRoutingService,
+        },
+      ],
     });
 
     service = TestBed.get(OrderDetailsService);

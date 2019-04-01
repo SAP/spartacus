@@ -3,7 +3,7 @@ import { PaymentDetails } from '../../../occ/occ-models/index';
 import {
   LoaderLoadAction,
   LoaderFailAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 
 export const LOAD_USER_PAYMENT_METHODS = '[User] Load User Payment Methods';
