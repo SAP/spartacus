@@ -11,7 +11,6 @@ import checkoutReview from './en/checkout-review.en';
 import checkoutShipping from './en/checkout-shipping.en';
 import common from './en/common.en';
 import forgottenPassword from './en/forgotten-password.en';
-import header from './en/header.en';
 import login from './en/login.en';
 import orderCost from './en/order-cost.en';
 import orderDetails from './en/order-details.en';
@@ -40,7 +39,6 @@ export const translations: TranslationResources = {
     checkoutShipping,
     common,
     forgottenPassword,
-    header,
     login,
     orderCost,
     orderDetails,

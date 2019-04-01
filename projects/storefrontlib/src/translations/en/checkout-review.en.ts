@@ -6,7 +6,6 @@ export default {
   },
   actions: {
     placeOrder: 'Place Order',
-    // edit: 'edit',
     termsAndConditions: 'Terms & Conditions',
   },
 };
