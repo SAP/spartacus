@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { ConfigModule, CmsConfig } from '@spartacus/core';
-
+import { CmsConfig, ConfigModule } from '@spartacus/core';
+import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { UpdateProfileComponent } from './update-profile.component';
 
 @NgModule({
@@ -16,6 +15,7 @@ import { UpdateProfileComponent } from './update-profile.component';
     }),
     FormsModule,
     ReactiveFormsModule,
+    SpinnerModule,
   ],
   declarations: [UpdateProfileComponent],
   exports: [UpdateProfileComponent],
