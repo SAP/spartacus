@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
@@ -21,6 +22,7 @@ const moduleComponents = [
     CartSharedModule,
     CardModule,
     CommonModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: {
