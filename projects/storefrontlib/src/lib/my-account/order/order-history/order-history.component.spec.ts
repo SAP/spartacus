@@ -9,6 +9,7 @@ import {
   UserToken,
   UserService,
   OrderHistoryList,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -74,7 +75,11 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PaginationAndSortingModule],
+      imports: [
+        RouterTestingModule,
+        PaginationAndSortingModule,
+        I18nTestingModule,
+      ],
       declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

@@ -26,7 +26,7 @@
         <div class="name">
           {{ review.alias ? review.alias : review.principal?.name }}
         </div>
-        <div class="date">{{ review.date | date }}</div>
+        <div class="date">{{ review.date | cxDate }}</div>
         <div class="text">{{ review.comment }}</div>
       </div>
       <div *ngIf="reviews.length > initialMaxListItems">
