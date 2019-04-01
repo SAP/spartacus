@@ -29,15 +29,12 @@ class MockCartService {
   loadDetails(): void {}
 }
 
-// const deliveryAddress = new BehaviorSubject<Address>(null);
-
 class MockCheckoutService {
+  createAndSetAddress = createSpy();
+  setDeliveryAddress = createSpy();
   getDeliveryAddress(): Observable<Address> {
     return of(null);
   }
-  setDeliveryAddress(): void {}
-
-  createAndSetAddress(): void {}
 }
 
 const mockAddress1: Address = {
@@ -97,6 +94,7 @@ describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockRouting: any;
+  let mockCheckoutService: MockCheckoutService;
   let userService: UserService;
 
   beforeEach(async(() => {
@@ -126,6 +124,8 @@ describe('ShippingAddressComponent', () => {
         set: { changeDetection: ChangeDetectionStrategy.Default }
       })
       .compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -188,6 +188,24 @@ describe('ShippingAddressComponent', () => {
     expect(mockRouting.go).toHaveBeenCalledWith({
       route: ['cart']
     });
+  });
+
+  it('new created address should be set', () => {
+    component.addAddress({ address: mockAddress1, newAddress: true });
+    expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
+      mockAddress1
+    );
+    expect(component.goTo).toBe(2);
+  });
+
+  it('should call addAddress() with address selected from existing addresses', () => {
+    component.addAddress({ address: mockAddress1, newAddress: false });
+    expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
+      mockAddress1
+    );
+    expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
+      mockAddress1
+    );
   });
 
   describe('UI continue button', () => {

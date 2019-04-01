@@ -285,32 +285,10 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.navs[3].progressBar).toBeFalsy();
   });
 
-  // xit('should call addAddress() with new created address', () => {
-  //   component.addAddress({ address: mockAddress, newAddress: true });
-  //   expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
-  //     mockAddress
-  //   );
-  // });
-
-  // xit('should call addAddress() with address selected from existing addresses', () => {
-  //   component.addAddress({ address: mockAddress, newAddress: false });
-  //   expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
-  //     mockAddress
-  //   );
-  //   expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
-  //     mockAddress
-  //   );
-  // });
-
-  // xit('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
-  //   component.deliveryAddress = mockAddress;
-  //   component.addAddress({ address: mockAddress, newAddress: false });
-
-  //   expect(component.nextStep).toHaveBeenCalledWith(2);
-  //   expect(mockCheckoutService.setDeliveryAddress).not.toHaveBeenCalledWith(
-  //     mockAddress
-  //   );
-  // });
+  it('should call nextStep when invoking goToStep', () => {
+    component.goToStep(2);
+    expect(component.nextStep).toHaveBeenCalledWith(2);
+  });
 
   it('should call setDeliveryMode()', () => {
     const deliveryMode = {
