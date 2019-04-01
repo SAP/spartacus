@@ -6,7 +6,12 @@
     <div class="col-md-12 col-lg-6 col-xl-4">
       <div class="cx-review-summary-card cx-review-card-address">
         <cx-card
-          [content]="getShippingAddressCard((countryName$ | async)?.name)"
+          [content]="
+            getShippingAddressCard(
+              deliveryAddress$ | async,
+              countryName$ | async
+            )
+          "
         ></cx-card>
       </div>
     </div>
@@ -23,7 +28,9 @@
     <!-- PAYMENT METHOD SECTION -->
     <div class="col-md-12 col-lg-6 col-xl-4">
       <div class="cx-review-summary-card cx-review-card-payment">
-        <cx-card [content]="getPaymentMethodCard()"></cx-card>
+        <cx-card
+          [content]="getPaymentMethodCard(paymentDetails$ | async)"
+        ></cx-card>
       </div>
     </div>
   </div>

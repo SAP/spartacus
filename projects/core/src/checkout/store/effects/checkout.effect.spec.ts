@@ -116,7 +116,7 @@ describe('Checkout effect', () => {
       const completion = new fromActions.SetDeliveryAddressSuccess(address);
       const completion2 = new fromActions.LoadSupportedDeliveryModes({
         userId,
-        cartId
+        cartId,
       });
 
       actions$ = hot('-a', { a: action });
