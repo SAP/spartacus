@@ -144,12 +144,6 @@ describe('AddressBookComponent', () => {
     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
   });
 
-  it('should display shipping addresses page title', () => {
-    expect(
-      el.query(By.css('.cx-section__msg')).nativeElement.textContent
-    ).toContain(' addressBook:labels.savedShippingAddress ');
-  });
-
   it('should be able to add new address', () => {
     el.query(By.css('.btn-action')).nativeElement.click();
     expect(component.addAddressButtonHandle).toHaveBeenCalled();

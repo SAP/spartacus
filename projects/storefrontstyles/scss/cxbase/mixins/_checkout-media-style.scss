@@ -33,18 +33,18 @@
       padding: var(--cx-padding, 1.25rem 0);
     }
     @include media-breakpoint-down(sm) {
-      padding: var(--cx-padding, 1.25rem);
+      padding: var(--cx-padding, 1.25rem 0);
     }
 
     .btn-action {
       @include media-breakpoint-down(md) {
-        margin: var(--cx-maring, 0 0 1rem);
+        margin: var(--cx-margin, 0 0 1rem);
       }
     }
   }
 
   .cx-checkout-title {
-    text-transform: var(--cx-text-transform, uppercase);
+    text-transform: var(--cx-text-transform, capitalize);
     margin: var(--cx-margin, 0 auto);
     padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
   }
