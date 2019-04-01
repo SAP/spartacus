@@ -34,7 +34,6 @@ export class UserDetailsEffects {
     })
   );
 
-  // TODO:#1146 - update test
   @Effect()
   updateUserDetails$: Observable<
     | fromUserDetailsAction.UpdateUserDetailsSuccess
