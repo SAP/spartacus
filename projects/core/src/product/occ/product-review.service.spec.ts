@@ -1,36 +1,34 @@
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { ReviewList } from '../../occ/occ-models/occ.models';
 
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../config/product-config';
+import { defaultOccProductConfig } from '../config/product-config';
 import { ProductReviewsLoaderService } from './product-reviews.service';
+import { OccConfig } from '@spartacus/core';
 
 const productCode = 'testCode';
 const maxCount = 2;
 const productReviews: ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }]
+  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }],
 };
 
 const endpoint = '/products';
 
-const MockOccModuleConfig: OccProductConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductReviewsLoaderService', () => {
@@ -43,10 +41,10 @@ describe('ProductReviewsLoaderService', () => {
       providers: [
         ProductReviewsLoaderService,
         {
-          provide: OccProductConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          provide: OccConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductReviewsLoaderService);
@@ -59,9 +57,9 @@ describe('ProductReviewsLoaderService', () => {
 
   describe('load product reviews', () => {
     it('should load reviews for given product code', () => {
-      service.load(productCode).subscribe(result => {
-        expect(result).toEqual(productReviews);
-      });
+      let loadResult;
+
+      service.load(productCode).subscribe(res => (loadResult = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -73,6 +71,8 @@ describe('ProductReviewsLoaderService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(productReviews);
+
+      expect(loadResult).toEqual(productReviews);
     });
   });
 

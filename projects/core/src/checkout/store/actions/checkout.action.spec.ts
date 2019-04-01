@@ -5,11 +5,11 @@ const userId = 'testUserId';
 const cartId = 'testCartId';
 const selectedModeId = 'selectedModeId';
 const paymentDetails: PaymentDetails = {
-  id: 'mockPaymentDetails'
+  id: 'mockPaymentDetails',
 };
 
 const orderDetails: Order = {
-  code: 'testOrder123'
+  code: 'testOrder123',
 };
 
 const address: Address = {
@@ -19,11 +19,11 @@ const address: Address = {
   line1: 'Toyosaki 2 create on cart',
   town: 'Montreal',
   postalCode: 'L6M1P9',
-  country: { isocode: 'CA' }
+  country: { isocode: 'CA' },
 };
 
 const modes: DeliveryModeList = {
-  deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+  deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
 };
 
 describe('Checkout Actions', () => {
@@ -32,13 +32,13 @@ describe('Checkout Actions', () => {
       const payload = {
         userId: userId,
         cartId: cartId,
-        address: address
+        address: address,
       };
 
       const action = new fromAction.AddDeliveryAddress(payload);
       expect({ ...action }).toEqual({
         type: fromAction.ADD_DELIVERY_ADDRESS,
-        payload: payload
+        payload: payload,
       });
     });
   });
@@ -50,7 +50,7 @@ describe('Checkout Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.ADD_DELIVERY_ADDRESS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -60,7 +60,7 @@ describe('Checkout Actions', () => {
       const action = new fromAction.AddDeliveryAddressSuccess(address);
       expect({ ...action }).toEqual({
         type: fromAction.ADD_DELIVERY_ADDRESS_SUCCESS,
-        payload: address
+        payload: address,
       });
     });
   });
@@ -70,13 +70,13 @@ describe('Checkout Actions', () => {
       const payload = {
         userId: userId,
         cartId: cartId,
-        address: address
+        address: address,
       };
 
       const action = new fromAction.SetDeliveryAddress(payload);
       expect({ ...action }).toEqual({
         type: fromAction.SET_DELIVERY_ADDRESS,
-        payload: payload
+        payload: payload,
       });
     });
   });
@@ -88,7 +88,7 @@ describe('Checkout Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.SET_DELIVERY_ADDRESS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -98,7 +98,7 @@ describe('Checkout Actions', () => {
       const action = new fromAction.SetDeliveryAddressSuccess(address);
       expect({ ...action }).toEqual({
         type: fromAction.SET_DELIVERY_ADDRESS_SUCCESS,
-        payload: address
+        payload: address,
       });
     });
   });
@@ -108,13 +108,13 @@ describe('Checkout Actions', () => {
       it('should create the action', () => {
         const payload = {
           userId: userId,
-          cartId: cartId
+          cartId: cartId,
         };
 
         const action = new fromAction.LoadSupportedDeliveryModes(payload);
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_SUPPORTED_DELIVERY_MODES,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -126,7 +126,7 @@ describe('Checkout Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_SUPPORTED_DELIVERY_MODES_FAIL,
-          payload: error
+          payload: error,
         });
       });
     });
@@ -136,7 +136,7 @@ describe('Checkout Actions', () => {
         const action = new fromAction.LoadSupportedDeliveryModesSuccess(modes);
         expect({ ...action }).toEqual({
           type: fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS,
-          payload: modes
+          payload: modes,
         });
       });
     });
@@ -148,13 +148,13 @@ describe('Checkout Actions', () => {
         const payload = {
           userId: userId,
           cartId: cartId,
-          selectedModeId: selectedModeId
+          selectedModeId: selectedModeId,
         };
 
         const action = new fromAction.SetDeliveryMode(payload);
         expect({ ...action }).toEqual({
           type: fromAction.SET_DELIVERY_MODE,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -166,7 +166,7 @@ describe('Checkout Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromAction.SET_DELIVERY_MODE_FAIL,
-          payload: error
+          payload: error,
         });
       });
     });
@@ -176,7 +176,7 @@ describe('Checkout Actions', () => {
         const action = new fromAction.SetDeliveryModeSuccess(selectedModeId);
         expect({ ...action }).toEqual({
           type: fromAction.SET_DELIVERY_MODE_SUCCESS,
-          payload: selectedModeId
+          payload: selectedModeId,
         });
       });
     });
@@ -188,13 +188,13 @@ describe('Checkout Actions', () => {
         const payload = {
           userId: userId,
           cartId: cartId,
-          paymentDetails: paymentDetails
+          paymentDetails: paymentDetails,
         };
 
         const action = new fromAction.CreatePaymentDetails(payload);
         expect({ ...action }).toEqual({
           type: fromAction.CREATE_PAYMENT_DETAILS,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -206,7 +206,7 @@ describe('Checkout Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromAction.CREATE_PAYMENT_DETAILS_FAIL,
-          payload: error
+          payload: error,
         });
       });
     });
@@ -218,7 +218,7 @@ describe('Checkout Actions', () => {
         );
         expect({ ...action }).toEqual({
           type: fromAction.CREATE_PAYMENT_DETAILS_SUCCESS,
-          payload: paymentDetails
+          payload: paymentDetails,
         });
       });
     });
@@ -230,13 +230,13 @@ describe('Checkout Actions', () => {
         const payload = {
           userId: userId,
           cartId: cartId,
-          paymentDetails: paymentDetails
+          paymentDetails: paymentDetails,
         };
 
         const action = new fromAction.SetPaymentDetails(payload);
         expect({ ...action }).toEqual({
           type: fromAction.SET_PAYMENT_DETAILS,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -248,7 +248,7 @@ describe('Checkout Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromAction.SET_PAYMENT_DETAILS_FAIL,
-          payload: error
+          payload: error,
         });
       });
     });
@@ -258,7 +258,7 @@ describe('Checkout Actions', () => {
         const action = new fromAction.SetPaymentDetailsSuccess(paymentDetails);
         expect({ ...action }).toEqual({
           type: fromAction.SET_PAYMENT_DETAILS_SUCCESS,
-          payload: paymentDetails
+          payload: paymentDetails,
         });
       });
     });
@@ -269,13 +269,13 @@ describe('Checkout Actions', () => {
       it('should create the action', () => {
         const payload = {
           userId: userId,
-          cartId: cartId
+          cartId: cartId,
         };
 
         const action = new fromAction.PlaceOrder(payload);
         expect({ ...action }).toEqual({
           type: fromAction.PLACE_ORDER,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -287,7 +287,7 @@ describe('Checkout Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromAction.PLACE_ORDER_FAIL,
-          payload: error
+          payload: error,
         });
       });
     });
@@ -297,7 +297,7 @@ describe('Checkout Actions', () => {
         const action = new fromAction.PlaceOrderSuccess(orderDetails);
         expect({ ...action }).toEqual({
           type: fromAction.PLACE_ORDER_SUCCESS,
-          payload: orderDetails
+          payload: orderDetails,
         });
       });
     });
@@ -309,7 +309,7 @@ describe('Checkout Actions', () => {
         const action = new fromAction.ClearCheckoutStep(2);
         expect({ ...action }).toEqual({
           type: fromAction.CLEAR_CHECKOUT_STEP,
-          payload: 2
+          payload: 2,
         });
       });
     });
@@ -320,7 +320,7 @@ describe('Checkout Actions', () => {
       it('should create the action', () => {
         const action = new fromAction.ClearCheckoutData();
         expect({ ...action }).toEqual({
-          type: fromAction.CLEAR_CHECKOUT_DATA
+          type: fromAction.CLEAR_CHECKOUT_DATA,
         });
       });
     });
@@ -331,7 +331,7 @@ describe('Checkout Actions', () => {
       it('should create the action', () => {
         const action = new fromAction.ClearSupportedDeliveryModes();
         expect({ ...action }).toEqual({
-          type: fromAction.CLEAR_SUPPORTED_DELIVERY_MODES
+          type: fromAction.CLEAR_SUPPORTED_DELIVERY_MODES,
         });
       });
     });

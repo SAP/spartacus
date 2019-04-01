@@ -4,7 +4,7 @@ import {
   StateWithSiteContext,
   LanguagesState,
   LanguagesEntities,
-  SiteContextState
+  SiteContextState,
 } from '../state';
 
 import { getSiteContextState } from './site-context.selector';

@@ -5,7 +5,7 @@ import {
   createSelector,
   createFeatureSelector,
   ActionReducerMap,
-  MemoizedSelector
+  MemoizedSelector,
 } from '@ngrx/store';
 import * as fromNgrxRouter from '@ngrx/router-store';
 
@@ -28,10 +28,10 @@ export const initialState: RouterState = {
     queryParams: {},
     params: {},
     context: {
-      id: ''
+      id: '',
     },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 export interface ActivatedRouterStateSnapshot {
@@ -48,7 +48,7 @@ export interface State {
 
 export function getReducers(): ActionReducerMap<State> {
   return {
-    router: reducer
+    router: reducer,
   };
 }
 
@@ -60,13 +60,13 @@ export function reducer(
     case fromActions.SAVE_REDIRECT_URL: {
       return {
         ...state,
-        redirectUrl: action.payload
+        redirectUrl: action.payload,
       };
     }
     case fromActions.CLEAR_REDIRECT_URL: {
       return {
         ...state,
-        redirectUrl: ''
+        redirectUrl: '',
       };
     }
     case fromNgrxRouter.ROUTER_NAVIGATION:
@@ -92,7 +92,7 @@ export function reducer(
       return {
         redirectUrl: redirectUrl,
         state: action.payload.routerState,
-        navigationId: action.payload.event.id
+        navigationId: action.payload.event.id,
       };
     }
     default: {
@@ -107,7 +107,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export const getRouterFeatureState: MemoizedSelector<
@@ -177,7 +177,7 @@ export class CustomSerializer
     if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
         id: 'smartedit-preview',
-        type: PageType.CONTENT_PAGE
+        type: PageType.CONTENT_PAGE,
       };
     } else {
       if (params['productCode']) {
@@ -196,12 +196,12 @@ export class CustomSerializer
             '/' + state.url.map(urlSegment => urlSegment.path).join('/');
           context = {
             id: pageLabel,
-            type: PageType.CONTENT_PAGE
+            type: PageType.CONTENT_PAGE,
           };
         } else {
           context = {
             id: 'homepage',
-            type: PageType.CONTENT_PAGE
+            type: PageType.CONTENT_PAGE,
           };
         }
       }

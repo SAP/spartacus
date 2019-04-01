@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
-  BrowserTransferStateModule
+  BrowserTransferStateModule,
 } from '@angular/platform-browser';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { StorefrontComponent, StorefrontModule } from '@spartacus/storefront';
+import {
+  StorefrontComponent,
+  StorefrontModule,
+  translations,
+  defaultCmsContentConfig,
+} from '@spartacus/storefront';
 
 import { environment } from '../environments/environment';
+import { ConfigModule } from '@spartacus/core';
 
 const devImports = [];
 
@@ -23,31 +29,40 @@ if (!environment.production) {
     StorefrontModule.withConfig({
       production: environment.production,
       server: {
-        baseUrl: environment.occBaseUrl
-      },
-      site: {
-        baseSite: 'electronics-spa'
+        baseUrl: environment.occBaseUrl,
       },
       pwa: {
         enabled: true,
-        addToHomeScreen: true
+        addToHomeScreen: true,
       },
       siteContext: {
-        urlEncodingParameters: ['LANGUAGE', 'CURRENCY']
+        urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
+        parameters: {
+          BASE_SITE: {
+            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            defaultValue: 'electronics-spa',
+            persistence: 'route',
+          },
+        },
       },
       routesConfig: {
         translations: {
           default: {
             product: {
-              paths: ['product/:productCode', 'product/:name/:productCode']
-            }
-          }
-        }
-      }
+              paths: ['product/:productCode', 'product/:name/:productCode'],
+            },
+          },
+        },
+      },
+      i18n: {
+        resources: translations,
+      },
     }),
-    ...devImports
+
+    ConfigModule.withConfigFactory(defaultCmsContentConfig),
+    ...devImports,
   ],
 
-  bootstrap: [StorefrontComponent]
+  bootstrap: [StorefrontComponent],
 })
 export class AppModule {}

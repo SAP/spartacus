@@ -34,8 +34,8 @@ export class CheckoutEffects {
               new fromActions.SetDeliveryAddress({
                 userId: payload.userId,
                 cartId: payload.cartId,
-                address: address
-              })
+                address: address,
+              }),
             ];
           }),
           catchError(error => of(new fromActions.AddDeliveryAddressFail(error)))
@@ -45,7 +45,9 @@ export class CheckoutEffects {
 
   @Effect()
   setDeliveryAddress$: Observable<
-    fromActions.SetDeliveryAddressSuccess | fromActions.SetDeliveryAddressFail
+    | fromActions.SetDeliveryAddressSuccess
+    | fromActions.LoadSupportedDeliveryModes
+    | fromActions.SetDeliveryAddressFail
   > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
@@ -53,7 +55,13 @@ export class CheckoutEffects {
       return this.occCartService
         .setDeliveryAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
-          map(() => new fromActions.SetDeliveryAddressSuccess(payload.address)),
+          mergeMap(() => [
+            new fromActions.SetDeliveryAddressSuccess(payload.address),
+            new fromActions.LoadSupportedDeliveryModes({
+              userId: payload.userId,
+              cartId: payload.cartId
+            })
+          ]),
           catchError(error => of(new fromActions.SetDeliveryAddressFail(error)))
         );
     })
@@ -120,7 +128,7 @@ export class CheckoutEffects {
                 data.parameters.entry,
                 labelsMap
               ),
-              mappingLabels: labelsMap
+              mappingLabels: labelsMap,
             };
           }),
           mergeMap(sub => {
@@ -149,7 +157,9 @@ export class CheckoutEffects {
                             new fromUserActions.LoadUserPaymentMethods(
                               payload.userId
                             ),
-                            new fromActions.CreatePaymentDetailsSuccess(details)
+                            new fromActions.CreatePaymentDetailsSuccess(
+                              details
+                            ),
                           ];
                         }),
                         catchError(error =>
@@ -213,8 +223,8 @@ export class CheckoutEffects {
             new fromActions.PlaceOrderSuccess(data),
             new AddMessage({
               text: 'Order placed successfully',
-              type: GlobalMessageType.MSG_TYPE_CONFIRMATION
-            })
+              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            }),
           ]),
           catchError(error => of(new fromActions.PlaceOrderFail(error)))
         );

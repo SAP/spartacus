@@ -11,9 +11,9 @@ const locations = [
   {
     geoPoint: {
       latitude: 0,
-      longitude: 0
-    }
-  }
+      longitude: 0,
+    },
+  },
 ];
 const selectedIndex = function() {};
 
@@ -59,13 +59,13 @@ describe('GoogleMapRendererService', () => {
         { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         {
           provide: StoreDataService,
-          useClass: StoreDataServiceMock
+          useClass: StoreDataServiceMock,
         },
         {
           provide: StoreFinderConfig,
-          useValue: config
-        }
-      ]
+          useValue: config,
+        },
+      ],
     });
 
     mapDomElement = document.createElement('div');

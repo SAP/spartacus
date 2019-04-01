@@ -22,21 +22,21 @@ const mockTitlesList: TitleList = {
   titles: [
     {
       code: 'mr',
-      name: 'Mr.'
+      name: 'Mr.',
     },
     {
       code: 'mrs',
-      name: 'Mrs.'
+      name: 'Mrs.',
     },
     {
       code: 'dr',
-      name: 'Dr.'
+      name: 'Dr.',
     },
     {
       code: 'rev',
-      name: 'Rev.'
-    }
-  ]
+      name: 'Rev.',
+    },
+  ],
 };
 
 describe('Titles effect', () => {
@@ -49,8 +49,8 @@ describe('Titles effect', () => {
       providers: [
         TitlesEffects,
         { provide: OccMiscsService, useClass: MockMiscsService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(TitlesEffects);

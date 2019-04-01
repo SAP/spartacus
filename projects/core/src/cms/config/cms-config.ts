@@ -37,6 +37,8 @@ export interface CmsComponentMapping {
   providers?: StaticProvider[];
   childRoutes?: Routes;
   disableSSR?: boolean;
+  i18nNamespaces?: string[];
+  guards?: any[];
 }
 
 export interface CMSComponentConfig

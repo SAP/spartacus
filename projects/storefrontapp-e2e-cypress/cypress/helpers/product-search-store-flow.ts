@@ -23,7 +23,7 @@ export function productStoreFlow(mobile?: string) {
 
   cy.get('cx-product-list-item:nth-child(1)').should(
     'contain',
-    'EOS 500D + EF-S 18-55IS + EF-S 55-250IS, kit'
+    '500D + 18-55mm IS + EF-S 55-250 IS'
   );
 
   // Sort by name descending

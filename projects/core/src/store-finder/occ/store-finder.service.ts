@@ -4,15 +4,17 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { StoreFinderSearchConfig, LongitudeLatitude } from './../model/index';
-
-import { OccConfig } from '../../occ/config/occ-config';
 import { StoreFinderSearchPage } from '../../occ/occ-models';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const STORES_ENDPOINT = 'stores';
 
 @Injectable()
 export class OccStoreFinderService {
-  constructor(private http: HttpClient, private occModuleConfig: OccConfig) {}
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   findStores(
     query: string,
@@ -50,7 +52,7 @@ export class OccStoreFinderService {
         'fields=stores(name,displayName,openingHours(weekDayOpeningList(FULL),specialDayOpeningList(FULL)),' +
         'geoPoint(latitude,longitude),address(line1,line2,town,region(FULL),postalCode,phone,country,email), features),' +
         'pagination(DEFAULT),' +
-        'sorts(DEFAULT)'
+        'sorts(DEFAULT)',
     });
 
     if (longitudeLatitude) {
@@ -79,13 +81,8 @@ export class OccStoreFinderService {
     );
   }
 
-  protected getStoresEndpoint(url?: string) {
-    const baseUrl =
-      this.occModuleConfig.server.baseUrl +
-      this.occModuleConfig.server.occPrefix +
-      this.occModuleConfig.site.baseSite +
-      '/' +
-      STORES_ENDPOINT;
+  protected getStoresEndpoint(url?: string): string {
+    const baseUrl = this.occEndpoints.getEndpoint(STORES_ENDPOINT);
 
     return url ? baseUrl + '/' + url : baseUrl;
   }

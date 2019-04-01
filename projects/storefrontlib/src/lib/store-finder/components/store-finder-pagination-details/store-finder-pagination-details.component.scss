@@ -1,0 +1,9 @@
+@import 'theme';
+
+.cx-pagination-details {
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 1rem 0);
+  @include media-breakpoint-up(md) {
+    text-align: var(--cx-text-align, left);
+  }
+}

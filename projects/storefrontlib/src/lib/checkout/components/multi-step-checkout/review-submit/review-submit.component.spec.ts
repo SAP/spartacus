@@ -14,7 +14,7 @@ import {
   Address,
   PromotionResult,
   DeliveryMode,
-  Country
+  Country,
 } from '@spartacus/core';
 import { Item } from '../../../../cart';
 import { Card } from '../../../../ui/components/card/card.component';
@@ -27,8 +27,8 @@ const mockCart: Cart = {
   totalPrice: { formattedValue: '$999.98' },
   potentialProductPromotions: [
     { description: 'Promotion 1' },
-    { description: 'Promotion 2' }
-  ]
+    { description: 'Promotion 2' },
+  ],
 };
 
 const mockAddress: Address = {
@@ -40,7 +40,7 @@ const mockAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP', name: 'Japan' }
+  country: { isocode: 'JP', name: 'Japan' },
 };
 const addressBS = new BehaviorSubject<Country>(mockAddress.country);
 
@@ -56,14 +56,14 @@ const mockPaymentDetails: PaymentDetails = {
   cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '01',
   expiryYear: '2022',
-  cvn: '123'
+  cvn: '123',
 };
 
 const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
-  template: ''
+  template: '',
 })
 class MockCartItemListComponent {
   @Input()
@@ -76,7 +76,7 @@ class MockCartItemListComponent {
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -122,12 +122,12 @@ fdescribe('ReviewSubmitComponent', () => {
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
-        MockCardComponent
+        MockCardComponent,
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useClass: MockUserService },
-        { provide: CartService, useClass: MockCartService }
+        { provide: CartService, useClass: MockCartService },
       ]
     }).compileComponents();
   }));
@@ -235,7 +235,7 @@ fdescribe('ReviewSubmitComponent', () => {
       'line2',
       'town, JP-27, Canada',
       'zip',
-      undefined
+      undefined,
     ]);
   });
 
@@ -295,7 +295,7 @@ fdescribe('ReviewSubmitComponent', () => {
       fixture.detectChanges();
       expect(getCartItemList().items).toEqual([
         { entryNumber: 123 },
-        { entryNumber: 456 }
+        { entryNumber: 456 },
       ]);
       expect(getCartItemList().isReadOnly).toBe(true);
     });
@@ -304,7 +304,7 @@ fdescribe('ReviewSubmitComponent', () => {
       fixture.detectChanges();
       expect(getCartItemList().potentialProductPromotions).toEqual([
         { description: 'Promotion 1' },
-        { description: 'Promotion 2' }
+        { description: 'Promotion 2' },
       ]);
     });
   });

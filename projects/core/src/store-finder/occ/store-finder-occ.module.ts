@@ -7,6 +7,6 @@ import { OccStoreFinderService } from './store-finder.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
-  providers: [OccStoreFinderService]
+  providers: [OccStoreFinderService],
 })
 export class StoreFinderOccModule {}

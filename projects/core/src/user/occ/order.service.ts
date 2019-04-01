@@ -2,35 +2,32 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-
-import { OccConfig } from '../../occ/config/occ-config';
 import { Order, OrderHistoryList } from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
 const FULL_PARAMS = 'fields=FULL';
 
 @Injectable()
 export class OccOrderService {
-  constructor(protected http: HttpClient, protected config: OccConfig) {}
+  constructor(
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   protected getOrderEndpoint(userId: string): string {
-    const orderEndpoint = '/users/' + userId + '/orders';
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      orderEndpoint
-    );
+    const orderEndpoint = 'users/' + userId + '/orders';
+    return this.occEndpoints.getEndpoint(orderEndpoint);
   }
 
   public placeOrder(userId: string, cartId: string): Observable<Order> {
     const url = this.getOrderEndpoint(userId);
     const params = new HttpParams({
-      fromString: 'cartId=' + cartId + '&' + FULL_PARAMS
+      fromString: 'cartId=' + cartId + '&' + FULL_PARAMS,
     });
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -67,12 +64,12 @@ export class OccOrderService {
     const orderUrl = url + '/' + orderCode;
 
     const params = new HttpParams({
-      fromString: FULL_PARAMS
+      fromString: FULL_PARAMS,
     });
 
     return this.http
       .get<Order>(orderUrl, {
-        params: params
+        params: params,
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }

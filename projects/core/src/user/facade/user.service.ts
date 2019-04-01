@@ -14,7 +14,7 @@ import {
   Title,
   Country,
   Region,
-  OrderHistoryList
+  OrderHistoryList,
 } from '../../occ/occ-models/index';
 import { UserRegisterFormData } from '../model/user.model';
 
@@ -41,7 +41,7 @@ export class UserService {
    *
    * @param submitFormData as UserRegisterFormData
    */
-  register(userRegisterFormData: UserRegisterFormData) {
+  register(userRegisterFormData: UserRegisterFormData): void {
     this.store.dispatch(new fromStore.RegisterUser(userRegisterFormData));
   }
 
@@ -62,7 +62,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.LoadOrderDetails({
         userId: userId,
-        orderCode: orderCode
+        orderCode: orderCode,
       })
     );
   }
@@ -134,7 +134,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.SetDefaultUserPaymentMethod({
         userId: userId,
-        paymentMethodId
+        paymentMethodId,
       })
     );
   }
@@ -149,7 +149,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.DeleteUserPaymentMethod({
         userId: userId,
-        paymentMethodId
+        paymentMethodId,
       })
     );
   }
@@ -172,7 +172,7 @@ export class UserService {
         userId: userId,
         pageSize: pageSize,
         currentPage: currentPage,
-        sort: sort
+        sort: sort,
       })
     );
   }
@@ -194,7 +194,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.AddUserAddress({
         userId: userId,
-        address: address
+        address: address,
       })
     );
   }
@@ -209,7 +209,7 @@ export class UserService {
       new fromStore.UpdateUserAddress({
         userId: userId,
         addressId: addressId,
-        address: { defaultAddress: true }
+        address: { defaultAddress: true },
       })
     );
   }
@@ -225,7 +225,7 @@ export class UserService {
       new fromStore.UpdateUserAddress({
         userId: userId,
         addressId: addressId,
-        address: address
+        address: address,
       })
     );
   }
@@ -239,7 +239,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.DeleteUserAddress({
         userId: userId,
-        addressId: addressId
+        addressId: addressId,
       })
     );
   }
@@ -319,14 +319,14 @@ export class UserService {
   /**
    * Retrieves billing countries
    */
-  loadBillingCountries() {
-    return this.store.dispatch(new fromStore.LoadBillingCountries());
+  loadBillingCountries(): void {
+    this.store.dispatch(new fromStore.LoadBillingCountries());
   }
 
   /**
    * Cleaning order list
    */
-  clearOrderList() {
+  clearOrderList(): void {
     this.store.dispatch(new fromStore.ClearUserOrders());
   }
 
@@ -335,14 +335,14 @@ export class UserService {
    * @param token
    * @param password
    */
-  resetPassword(token: string, password: string) {
+  resetPassword(token: string, password: string): void {
     this.store.dispatch(new fromStore.ResetPassword({ token, password }));
   }
 
   /*
    * Request an email to reset a forgotten password.
    */
-  requestForgotPasswordEmail(userEmailAddress: string) {
+  requestForgotPasswordEmail(userEmailAddress: string): void {
     this.store.dispatch(
       new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
     );

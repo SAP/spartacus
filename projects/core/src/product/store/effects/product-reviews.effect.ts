@@ -23,13 +23,13 @@ export class ProductReviewsEffects {
         map(data => {
           return new productReviewsActions.LoadProductReviewsSuccess({
             productCode,
-            list: data.reviews
+            list: data.reviews,
           });
         }),
         catchError(_error =>
           of(
             new productReviewsActions.LoadProductReviewsFail({
-              message: productCode
+              message: productCode,
             } as ErrorModel)
           )
         )

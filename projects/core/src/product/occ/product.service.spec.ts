@@ -1,33 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { ProductLoaderService } from './product.service';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../config/product-config';
+import { defaultOccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { OccConfig } from '@spartacus/core';
 
 const productCode = 'testCode';
 const product = {
   code: 'testCode',
-  name: 'testProduct'
+  name: 'testProduct',
 };
 
-const MockOccModuleConfig: OccProductConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductLoaderService', () => {
@@ -40,10 +38,10 @@ describe('ProductLoaderService', () => {
       providers: [
         ProductLoaderService,
         {
-          provide: OccProductConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          provide: OccConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductLoaderService);

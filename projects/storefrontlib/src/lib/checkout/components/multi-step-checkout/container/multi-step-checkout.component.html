@@ -51,8 +51,6 @@
           <!-- Content -->
           <div *ngIf="nav.status.active && step === 1">
             <cx-shipping-address
-              [selectedAddress]="deliveryAddress"
-              (addAddress)="addAddress($event)"
               (goToStep)="goToStep($event)"
             ></cx-shipping-address>
           </div>
@@ -97,6 +95,7 @@
                   { route: ['termsAndConditions'] } | cxTranslateUrl
                 "
                 class="cx-tc-link"
+                target="_blank"
                 >Terms & Conditions</a
               >
             </span>

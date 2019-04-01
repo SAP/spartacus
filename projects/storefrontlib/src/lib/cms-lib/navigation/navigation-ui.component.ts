@@ -5,7 +5,7 @@ import { NavigationNode } from './navigation-node.model';
   selector: 'cx-navigation-ui',
   templateUrl: './navigation-ui.component.html',
   styleUrls: ['./navigation-ui.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationUIComponent {
   @Input()

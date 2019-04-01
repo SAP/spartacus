@@ -12,30 +12,27 @@ import * as fromActions from '../actions/product-reviews.action';
 import * as fromEffects from '../effects/product-reviews.effect';
 import { ReviewList } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../../config/product-config';
+import { defaultOccProductConfig } from '../../config/product-config';
 import { ProductReviewsLoaderService } from '../../occ';
 
 const reviewData: ReviewList = {
   reviews: [
     {
       id: '1',
-      rating: 3
+      rating: 3,
     },
     {
       id: '2',
-      rating: 5
-    }
-  ]
+      rating: 5,
+    },
+  ],
 };
 
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
-  }
+    occPrefix: '',
+  },
 };
 
 describe('Product reviews effect', () => {
@@ -49,10 +46,10 @@ describe('Product reviews effect', () => {
       providers: [
         ProductReviewsLoaderService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OccProductConfig, useValue: defaultOccProductConfig },
+        { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(ProductReviewsLoaderService);
@@ -67,7 +64,7 @@ describe('Product reviews effect', () => {
       const action = new fromActions.LoadProductReviews(productCode);
       const completion = new fromActions.LoadProductReviewsSuccess({
         productCode,
-        list: reviewData.reviews
+        list: reviewData.reviews,
       });
 
       actions$ = hot('-a', { a: action });

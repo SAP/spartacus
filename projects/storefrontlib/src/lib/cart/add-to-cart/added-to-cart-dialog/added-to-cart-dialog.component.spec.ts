@@ -16,7 +16,7 @@ import {
   DebugElement,
   Input,
   Pipe,
-  PipeTransform
+  PipeTransform,
 } from '@angular/core';
 
 class MockNgbActiveModal {
@@ -40,14 +40,14 @@ const mockOrderEntry: OrderEntry[] = [
     quantity: 1,
     entryNumber: 1,
     product: {
-      code: 'CODE1111'
-    }
-  }
+      code: 'CODE1111',
+    },
+  },
 ];
 
 @Component({
   selector: 'cx-cart-item',
-  template: ''
+  template: '',
 })
 class MockCartItemComponent {
   @Input()
@@ -65,7 +65,7 @@ class MockCartItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -84,23 +84,23 @@ describe('AddedToCartDialogComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         NgbModule,
-        SpinnerModule
+        SpinnerModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
         MockCartItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         {
           provide: NgbActiveModal,
-          useClass: MockNgbActiveModal
+          useClass: MockNgbActiveModal,
         },
         {
           provide: CartService,
-          useClass: MockCartService
-        }
-      ]
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -158,8 +158,8 @@ describe('AddedToCartDialogComponent', () => {
     component.cart$ = of({
       deliveryItemsQuantity: 1,
       totalPrice: {
-        formattedValue: '$100.00'
-      }
+        formattedValue: '$100.00',
+      },
     });
     component.loaded$ = of(true);
     fixture.detectChanges();

@@ -47,7 +47,7 @@ const mockUserAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 describe('User Addresses effect', () => {
@@ -62,8 +62,8 @@ describe('User Addresses effect', () => {
         { provide: OccUserService, useClass: MockOccUserService },
         { provide: UserService, useClass: MockUserService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     userAddressesEffect = TestBed.get(
@@ -96,7 +96,7 @@ describe('User Addresses effect', () => {
     it('should add user address', () => {
       const action = new fromUserAddressesAction.AddUserAddress({
         userId: '123',
-        address: mockUserAddress
+        address: mockUserAddress,
       });
       const completion = new fromUserAddressesAction.AddUserAddressSuccess({});
 
@@ -112,8 +112,8 @@ describe('User Addresses effect', () => {
         userId: '123',
         addressId: '123',
         address: {
-          firstName: 'test'
-        }
+          firstName: 'test',
+        },
       });
       const completion = new fromUserAddressesAction.UpdateUserAddressSuccess(
         {}
@@ -129,7 +129,7 @@ describe('User Addresses effect', () => {
     it('should delete user address', () => {
       const action = new fromUserAddressesAction.DeleteUserAddress({
         userId: '123',
-        addressId: 'address123'
+        addressId: 'address123',
       });
       const completion = new fromUserAddressesAction.DeleteUserAddressSuccess(
         {}

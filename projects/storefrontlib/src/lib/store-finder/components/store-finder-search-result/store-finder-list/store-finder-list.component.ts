@@ -7,7 +7,7 @@ import { StoreDataService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-list',
   templateUrl: './store-finder-list.component.html',
-  styleUrls: ['./store-finder-list.component.scss']
+  styleUrls: ['./store-finder-list.component.scss'],
 })
 export class StoreFinderListComponent {
   @Input()
@@ -15,7 +15,7 @@ export class StoreFinderListComponent {
   @ViewChild('storeMap')
   storeMap: StoreFinderMapComponent;
 
-  selectedStore: number;
+  selectedStore = 0;
 
   constructor(
     private storeDataService: StoreDataService,
