@@ -8,6 +8,18 @@ export const defaultLayoutConfig: LayoutConfig = {
     lg: 1200,
   },
   layoutSlots: {
+    'header-top': {
+      slots: ['SiteContext', 'SiteLinks'],
+    },
+    'header-body': {
+      slots: [
+        'SiteLogo',
+        'SearchBox',
+        'SiteLogin',
+        'MiniCart',
+        'NavigationBar',
+      ],
+    },
     footer: {
       slots: ['Footer'],
     },
