@@ -4,6 +4,7 @@ import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
   EntityLoadAction,
+  EntityResetAction,
   EntitySuccessAction,
 } from '../../../state';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
@@ -15,6 +16,7 @@ export const LOAD_USER_DETAILS_SUCCESS = '[User] Load User Details Success';
 export const UPDATE_USER_DETAILS = '[User] Update User Details';
 export const UPDATE_USER_DETAILS_FAIL = '[User] Update User Details Fail';
 export const UPDATE_USER_DETAILS_SUCCESS = '[User] Update User Details Success';
+export const RESET_USER_DETAILS = '[User] Reset User Details';
 
 export class LoadUserDetails implements Action {
   readonly type = LOAD_USER_DETAILS;
@@ -52,6 +54,13 @@ export class UpdateUserDetailsSuccess extends EntitySuccessAction {
   }
 }
 
+export class ResetUpdateUserDetails extends EntityResetAction {
+  readonly type = RESET_USER_DETAILS;
+  constructor() {
+    super(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID);
+  }
+}
+
 // action types
 export type UserDetailsAction =
   | LoadUserDetails
@@ -59,4 +68,5 @@ export type UserDetailsAction =
   | LoadUserDetailsSuccess
   | UpdateUserDetails
   | UpdateUserDetailsFail
-  | UpdateUserDetailsSuccess;
+  | UpdateUserDetailsSuccess
+  | ResetUpdateUserDetails;

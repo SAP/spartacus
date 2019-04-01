@@ -376,6 +376,13 @@ export class UserService {
   }
 
   /**
+   * Resets the update user details processing state
+   */
+  resetUpdatePersonalDetailsProcessingState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateUserDetails());
+  }
+
+  /**
    * Reset new password
    * @param token
    * @param password

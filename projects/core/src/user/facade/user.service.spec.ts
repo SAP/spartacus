@@ -451,6 +451,13 @@ describe('UserService', () => {
 
       expect(result).toEqual(true);
     });
+
+    it('should dispatch a reset action', () => {
+      service.resetUpdatePersonalDetailsProcessingState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateUserDetails()
+      );
+    });
   });
 
   it('should be able to reset password', () => {
