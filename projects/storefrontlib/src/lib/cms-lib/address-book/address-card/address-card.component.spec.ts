@@ -19,7 +19,7 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
-  defaultAddress: false
+  defaultAddress: false,
 };
 
 describe('AddressCardComponent', () => {
@@ -30,7 +30,7 @@ describe('AddressCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AddressCardComponent],
-      providers: [{ provide: UserService, useClass: MockUserService }]
+      providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
   }));
 
@@ -49,7 +49,7 @@ describe('AddressCardComponent', () => {
   it('should display address data', () => {
     component.address = mockAddress;
     fixture.detectChanges();
-    const element = el.query(By.css('.address_data'));
+    const element = el.query(By.css('.cx-address-data'));
     expect(element.nativeElement.textContent).toContain(
       mockAddress.firstName &&
         mockAddress.lastName &&

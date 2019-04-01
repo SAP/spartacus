@@ -8,7 +8,7 @@ import { Cart, OrderEntry, CartService } from '@spartacus/core';
   selector: 'cx-cart-totals',
   templateUrl: './cart-totals.component.html',
   styleUrls: ['./cart-totals.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartTotalsComponent implements OnInit {
   cart$: Observable<Cart>;

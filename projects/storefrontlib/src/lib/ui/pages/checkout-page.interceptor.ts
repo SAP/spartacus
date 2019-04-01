@@ -4,7 +4,7 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -38,10 +38,10 @@ export class HardcodedCheckoutComponent implements HttpInterceptor {
           component: [
             {
               uid: 'MultiStepCheckoutComponent',
-              typeCode: 'JspIncludeComponent'
-            }
-          ]
-        }
+              typeCode: 'JspIncludeComponent',
+            },
+          ],
+        },
       });
     }
 

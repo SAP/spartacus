@@ -8,7 +8,7 @@ import {
   PageMetaResolver,
   CmsService,
   PageMetaService,
-  PageMeta
+  PageMeta,
 } from '../../cms';
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
@@ -17,14 +17,14 @@ import { SearchPageMetaResolver } from './search-page-meta.resolver';
 const mockSearchPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'SearchResultsListPageTemplate',
-  slots: {}
+  slots: {},
 };
 
 const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
   template: 'AnyOrdinaryPage',
   title: 'content page title',
-  slots: {}
+  slots: {},
 };
 
 class MockCmsService {
@@ -42,7 +42,7 @@ class FakeContentPageTitleResolver extends PageMetaResolver {
 
   resolve(): Observable<PageMeta> {
     return of({
-      title: 'content page title'
+      title: 'content page title',
     });
   }
 }
@@ -51,8 +51,8 @@ class MockProductSearchService {
   getSearchResults() {
     return of({
       pagination: {
-        totalResults: 3
-      }
+        totalResults: 3,
+      },
     });
   }
 }
@@ -62,9 +62,9 @@ class MockRoutingService {
     return of({
       state: {
         params: {
-          query: 'Canon'
-        }
-      }
+          query: 'Canon',
+        },
+      },
     });
   }
 }
@@ -86,14 +86,14 @@ describe('SearchPageTitleResolver', () => {
         {
           provide: PageMetaResolver,
           useExisting: FakeContentPageTitleResolver,
-          multi: true
+          multi: true,
         },
         {
           provide: PageMetaResolver,
           useExisting: SearchPageMetaResolver,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.get(PageMetaService);

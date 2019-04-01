@@ -17,41 +17,41 @@ const products = (function() {
         formattedValue: faker.commerce.price(),
         currencyIso: 'USD',
         priceType: 'BUY',
-        value: faker.commerce.price()
+        value: faker.commerce.price(),
       },
       images: [
         {
           url: faker.random.image(),
           format: 'thumbnail',
-          imageType: 'PRIMARY'
+          imageType: 'PRIMARY',
         },
         {
           altText: faker.commerce.productName(),
           url: faker.random.image(),
           format: 'product',
-          imageType: 'PRIMARY'
+          imageType: 'PRIMARY',
         },
         {
           altText: faker.commerce.productName(),
           url: faker.random.image(),
           format: 'zoom',
           imageType: 'GALLERY',
-          galleryIndex: 0
+          galleryIndex: 0,
         },
         {
           altText: faker.commerce.productName(),
           url: faker.random.image(),
           format: 'product',
           imageType: 'GALLERY',
-          galleryIndex: 0
+          galleryIndex: 0,
         },
         {
           altText: faker.commerce.productName(),
           url: faker.internet.avatar(),
           format: 'thumbnail',
           imageType: 'GALLERY',
-          galleryIndex: 0
-        }
+          galleryIndex: 0,
+        },
       ],
       url: `/products/${code}`,
       classifications: [
@@ -64,18 +64,18 @@ const products = (function() {
               featureUnit: {
                 name: '.',
                 symbol: '.',
-                unitType: '300'
+                unitType: '300',
               },
               featureValues: [
                 {
-                  value: faker.internet.mac()
-                }
+                  value: faker.internet.mac(),
+                },
               ],
               name: 'Processor model',
-              range: false
-            }
+              range: false,
+            },
           ],
-          name: 'Processor'
+          name: 'Processor',
         },
         {
           code: '1093',
@@ -86,18 +86,18 @@ const products = (function() {
               featureUnit: {
                 name: 'gram',
                 symbol: 'g',
-                unitType: faker.random.number({ min: 12, max: 98 })
+                unitType: faker.random.number({ min: 12, max: 98 }),
               },
               featureValues: [
-                { value: faker.random.number({ min: 100, max: 1000 }) }
+                { value: faker.random.number({ min: 100, max: 1000 }) },
               ],
               name: 'Weight',
-              range: false
-            }
+              range: false,
+            },
           ],
-          name: 'Weight & dimensions'
-        }
-      ]
+          name: 'Weight & dimensions',
+        },
+      ],
     };
     productList.push(product);
   }
@@ -105,7 +105,7 @@ const products = (function() {
   return {
     get list() {
       return productList;
-    }
+    },
   };
 })();
 module.exports = products.list;

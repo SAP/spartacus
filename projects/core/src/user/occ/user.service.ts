@@ -5,18 +5,19 @@ import { throwError, Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { UserRegisterFormData } from '../model/user.model';
-import { OccConfig } from '../../occ/config/occ-config';
+
+import {
+  InterceptorUtil,
+  USE_CLIENT_TOKEN,
+} from '../../occ/utils/interceptor-util';
 import {
   User,
   Address,
   AddressValidation,
   AddressList,
-  PaymentDetailsList
+  PaymentDetailsList,
 } from '../../occ/occ-models/index';
-import {
-  InterceptorUtil,
-  USE_CLIENT_TOKEN
-} from '../../occ/utils/interceptor-util';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -28,7 +29,10 @@ const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 @Injectable()
 export class OccUserService {
   // some extending from baseservice is not working here...
-  constructor(protected http: HttpClient, protected config: OccConfig) {}
+  constructor(
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
   public loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
@@ -44,7 +48,7 @@ export class OccUserService {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_VERIFICATION_ENDPOINT;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -55,7 +59,7 @@ export class OccUserService {
   loadUserAddresses(userId: string): Observable<AddressList> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -66,7 +70,7 @@ export class OccUserService {
   addUserAddress(userId: string, address: Address): Observable<{}> {
     const url = this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -82,7 +86,7 @@ export class OccUserService {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -94,7 +98,7 @@ export class OccUserService {
     const url =
       this.getUserEndpoint() + userId + ADDRESSES_ENDPOINT + '/' + addressId;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -105,7 +109,7 @@ export class OccUserService {
   loadUserPaymentMethods(userId: string): Observable<PaymentDetailsList> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}?saved=true`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -119,7 +123,7 @@ export class OccUserService {
   ): Observable<{}> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -133,7 +137,7 @@ export class OccUserService {
   ): Observable<{}> {
     const url = `${this.getUserEndpoint()}${userId}${PAYMENT_DETAILS_ENDPOINT}/${paymentMethodID}`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
     return this.http
@@ -149,7 +153,7 @@ export class OccUserService {
   registerUser(user: UserRegisterFormData): Observable<User> {
     const url: string = this.getUserEndpoint();
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
@@ -159,13 +163,13 @@ export class OccUserService {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<{}> {
-    const url = this.getBaseEndPoint() + FORGOT_PASSWORD_ENDPOINT;
+    const url = this.occEndpoints.getEndpoint(FORGOT_PASSWORD_ENDPOINT);
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
       userEmailAddress
     );
     let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     return this.http
@@ -174,9 +178,9 @@ export class OccUserService {
   }
 
   resetPassword(token: string, newPassword: string): Observable<{}> {
-    const url = this.getBaseEndPoint() + RESET_PASSWORD_ENDPOINT;
+    const url = this.occEndpoints.getEndpoint(RESET_PASSWORD_ENDPOINT);
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
@@ -185,24 +189,7 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  protected getUserEndpoint() {
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      USER_ENDPOINT
-    );
-  }
-
-  protected getBaseEndPoint(): string {
-    if (!this.config || !this.config.server) {
-      return '';
-    }
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite
-    );
+  protected getUserEndpoint(): string {
+    return this.occEndpoints.getEndpoint(USER_ENDPOINT);
   }
 }

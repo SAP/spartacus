@@ -1,39 +1,37 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { SearchConfig } from '../model/search-config';
 import {
   ProductSearchPage,
-  SuggestionList
+  SuggestionList,
 } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchLoaderService } from './product-search.service';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../config/product-config';
+import { defaultOccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { OccConfig } from '@spartacus/core';
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
 const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
-  pageSize: 5
+  pageSize: 5,
 };
-const MockOccModuleConfig: OccProductConfig = {
+const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductSearchLoaderService', () => {
@@ -46,10 +44,10 @@ describe('ProductSearchLoaderService', () => {
       providers: [
         ProductSearchLoaderService,
         {
-          provide: OccProductConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          provide: OccConfig,
+          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductSearchLoaderService);

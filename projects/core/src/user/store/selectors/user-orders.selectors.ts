@@ -5,7 +5,7 @@ import { OrderHistoryList } from '../../../occ/occ-models/index';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
 import {
   loaderValueSelector,
-  loaderSuccessSelector
+  loaderSuccessSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 import { getUserState } from './feature.selector';

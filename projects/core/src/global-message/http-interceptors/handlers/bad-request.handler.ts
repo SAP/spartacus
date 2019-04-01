@@ -7,7 +7,7 @@ import { HttpResponseStatus } from '../../models/response-status.model';
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
@@ -20,7 +20,7 @@ export class BadRequestHandler extends HttpErrorHandler {
       if (request.body.get('grant_type') === 'password') {
         this.globalMessageService.add({
           type: GlobalMessageType.MSG_TYPE_ERROR,
-          text: this.getErrorMessage(response) + '. Please login again.'
+          text: this.getErrorMessage(response) + '. Please login again.',
         });
         this.globalMessageService.remove(
           GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -31,7 +31,7 @@ export class BadRequestHandler extends HttpErrorHandler {
       // see https://jira.hybris.com/browse/CMSX-8516
       this.globalMessageService.add({
         type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: this.getErrorMessage(response)
+        text: this.getErrorMessage(response),
       });
     }
   }

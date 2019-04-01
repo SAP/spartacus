@@ -4,7 +4,7 @@ import {
   CX_KEY,
   getBrowserTransferStateReducer,
   getServerTransferStateReducer,
-  getTransferStateReducer
+  getTransferStateReducer,
 } from './transfer-state.reducer';
 
 describe('TransferStateReducer', () => {
@@ -21,9 +21,9 @@ describe('TransferStateReducer', () => {
         {
           state: {
             ssrTransfer: {
-              keys: {}
-            }
-          }
+              keys: {},
+            },
+          },
         } as StateConfig
       );
 
@@ -36,11 +36,11 @@ describe('TransferStateReducer', () => {
 
     beforeEach(() => {
       transferStateMock = {
-        set: jasmine.createSpy()
+        set: jasmine.createSpy(),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
       metaReducer = getServerTransferStateReducer(transferStateMock, {
-        test: true
+        test: true,
       });
       reducer = metaReducer(subReducer);
     });
@@ -76,11 +76,11 @@ describe('TransferStateReducer', () => {
       serverState = { test: 'state' };
       transferStateMock = {
         get: jasmine.createSpy().and.returnValue(serverState),
-        hasKey: jasmine.createSpy().and.returnValue(true)
+        hasKey: jasmine.createSpy().and.returnValue(true),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
       metaReducer = getBrowserTransferStateReducer(transferStateMock, {
-        test: true
+        test: true,
       });
       reducer = metaReducer(subReducer);
     });

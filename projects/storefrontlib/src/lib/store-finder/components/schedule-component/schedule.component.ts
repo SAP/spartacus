@@ -6,7 +6,7 @@ const WEEK_DAYS_NUMBER = 7;
 @Component({
   selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.scss']
+  styleUrls: ['./schedule.component.scss'],
 })
 export class ScheduleComponent implements OnChanges {
   @Input()

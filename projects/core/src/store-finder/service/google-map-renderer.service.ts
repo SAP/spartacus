@@ -73,7 +73,7 @@ export class GoogleMapRendererService {
     const mapProp = {
       center: mapCenter,
       zoom: this.config.googleMaps.scale,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     this.googleMap = new google.maps.Map(mapElement, mapProp);
   }
@@ -94,7 +94,7 @@ export class GoogleMapRendererService {
           this.storeDataService.getStoreLatitude(element),
           this.storeDataService.getStoreLongitude(element)
         ),
-        label: index + 1 + ''
+        label: index + 1 + '',
       });
       this.markers.push(marker);
       marker.setMap(this.googleMap);

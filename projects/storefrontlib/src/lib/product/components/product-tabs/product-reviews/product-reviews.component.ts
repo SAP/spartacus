@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   styleUrls: ['./product-reviews.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReviewsComponent implements OnChanges, OnInit {
   @Input()
@@ -74,7 +74,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
       headline: reviewFormControls.title.value,
       comment: reviewFormControls.comment.value,
       rating: reviewFormControls.rating.value,
-      alias: reviewFormControls.reviewerName.value
+      alias: reviewFormControls.reviewerName.value,
     };
 
     this.reviewService.add(this.product.code, review);
@@ -88,7 +88,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
       title: ['', Validators.required],
       comment: ['', Validators.required],
       rating: [0, [Validators.min(1), Validators.max(5)]],
-      reviewerName: ''
+      reviewerName: '',
     });
   }
 }

@@ -15,20 +15,17 @@ import { ProductSearchLoaderService } from '../../occ/product-search.service';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
   SuggestionList,
-  ProductSearchPage
+  ProductSearchPage,
 } from '../../../occ/occ-models/occ.models';
 
 import * as fromEffects from './product-search.effect';
-import {
-  OccProductConfig,
-  defaultOccProductConfig
-} from '../../config/product-config';
+import { defaultOccProductConfig } from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
-  }
+    occPrefix: '',
+  },
 };
 
 describe('ProductSearch Effects', () => {
@@ -47,10 +44,10 @@ describe('ProductSearch Effects', () => {
         ProductSearchLoaderService,
         ProductImageConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OccProductConfig, useValue: defaultOccProductConfig },
+        { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductsSearchEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(ProductSearchLoaderService);
@@ -66,7 +63,7 @@ describe('ProductSearch Effects', () => {
     it('should return searchResult from SearchProductsSuccess', () => {
       const action = new fromActions.SearchProducts({
         queryText: 'test',
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
       });
       const completion = new fromActions.SearchProductsSuccess(searchResult);
 
@@ -82,7 +79,7 @@ describe('ProductSearch Effects', () => {
       const action = new fromActions.SearchProducts(
         {
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         },
         true
       );
@@ -102,7 +99,7 @@ describe('ProductSearch Effects', () => {
     it('should return suggestions from GetProductSuggestionsSuccess', () => {
       const action = new fromActions.GetProductSuggestions({
         term: 'test',
-        searchConfig: searchConfig
+        searchConfig: searchConfig,
       });
       const completion = new fromActions.GetProductSuggestionsSuccess(
         suggestions.suggestions

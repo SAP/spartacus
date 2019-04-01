@@ -7,21 +7,21 @@ import { Observable, of } from 'rxjs';
 import { Input, Component, Pipe, PipeTransform } from '@angular/core';
 
 const cartMock: Cart = {
-  name: 'cart-mock'
+  name: 'cart-mock',
 };
 
 const entriesMock: OrderEntry[] = [
   {
-    entryNumber: 1
+    entryNumber: 1,
   },
   {
-    entryNumber: 2
-  }
+    entryNumber: 2,
+  },
 ];
 
 @Component({
   template: '',
-  selector: 'cx-order-summary'
+  selector: 'cx-order-summary',
 })
 class MockOrderSummaryComponent {
   @Input()
@@ -29,7 +29,7 @@ class MockOrderSummaryComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -54,14 +54,14 @@ describe('CartTotalsComponent', () => {
       declarations: [
         CartTotalsComponent,
         MockOrderSummaryComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         {
           provide: CartService,
-          useClass: MockCartService
-        }
-      ]
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
   }));
 
