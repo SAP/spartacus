@@ -6,9 +6,9 @@ import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
 import {
-  I18nTestingModule,
   StoreDataService,
   StoreFinderService,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 describe('StoreFinderListItemComponent', () => {

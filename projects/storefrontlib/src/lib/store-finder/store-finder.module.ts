@@ -40,6 +40,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     SpinnerModule,
     UrlTranslationModule,
     StoreFinderCoreModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {
@@ -78,7 +79,6 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
         },
       },
     }),
-    I18nModule,
   ],
   declarations: [
     StoreFinderSearchComponent,
