@@ -15,15 +15,15 @@ describe('DatePipe', () => {
 
   beforeEach(() => {
     const mockLanguageService = {
-      getActive: () => {}
+      getActive: () => {},
     };
 
     TestBed.configureTestingModule({
       providers: [
         DatePipe,
         { provide: LanguageService, useValue: mockLanguageService },
-        { provide: I18nConfig, useValue: { production: false } }
-      ]
+        { provide: I18nConfig, useValue: { production: false } },
+      ],
     });
 
     pipe = TestBed.get(DatePipe);

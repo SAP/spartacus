@@ -8,7 +8,7 @@ import { StoreFinderListItemComponent } from './store-finder-list-item.component
 import {
   StoreDataService,
   StoreFinderService,
-  I18nTestingModule
+  I18nTestingModule,
 } from '@spartacus/core';
 
 describe('StoreFinderListItemComponent', () => {
@@ -92,7 +92,7 @@ describe('StoreFinderListItemComponent', () => {
         CommonModule,
         ReactiveFormsModule,
         NgbTabsetModule,
-        I18nTestingModule
+        I18nTestingModule,
       ],
       declarations: [StoreFinderListItemComponent],
       providers: [StoreFinderService, StoreDataService],
