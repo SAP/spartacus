@@ -112,7 +112,7 @@ class MockCartService {
   }
 }
 
-fdescribe('ReviewSubmitComponent', () => {
+describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let mockCheckoutService: MockCheckoutService;
