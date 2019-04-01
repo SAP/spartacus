@@ -3,6 +3,7 @@ import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   entityFailMeta,
   entityLoadMeta,
+  entityResetMeta,
   entitySuccessMeta,
 } from '../../../state';
 import { UPDATE_USER_DETAILS_PROCESS_ID } from '../user-state';
@@ -108,6 +109,17 @@ describe('User Details Actions', () => {
           UPDATE_USER_DETAILS_PROCESS_ID
         ),
         payload: undefined,
+      });
+    });
+  });
+
+  describe('ResetUpdateUserDetails Action', () => {
+    it('should create the action', () => {
+      const action = new fromUserDetailsAction.ResetUpdateUserDetails();
+
+      expect({ ...action }).toEqual({
+        type: fromUserDetailsAction.RESET_USER_DETAILS,
+        meta: entityResetMeta(PROCESS_FEATURE, UPDATE_USER_DETAILS_PROCESS_ID),
       });
     });
   });
