@@ -1,5 +1,5 @@
-import * as cart from '../../../helpers/cart';
-import { formats } from '../../../sample-data/viewports';
+import * as cart from '../../helpers/cart';
+import { formats } from '../../sample-data/viewports';
 
 function clickSearchIcon() {
   cy.get('cx-searchbox [aria-label="Search "]').click();
