@@ -10,8 +10,8 @@ describe('TranslateUrlPipe', () => {
     TestBed.configureTestingModule({
       providers: [
         TranslateUrlPipe,
-        { provide: UrlTranslationService, useValue: { translate: () => {} } }
-      ]
+        { provide: UrlTranslationService, useValue: { translate: () => {} } },
+      ],
     });
     pipe = TestBed.get(TranslateUrlPipe);
     service = TestBed.get(UrlTranslationService);

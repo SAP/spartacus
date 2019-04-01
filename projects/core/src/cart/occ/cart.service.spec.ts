@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import {
@@ -11,7 +11,7 @@ import {
   PaymentDetails,
   OccConfig,
   Address,
-  DeliveryModeList
+  DeliveryModeList,
 } from '../../occ';
 import { ProductImageConverterService } from '../../product';
 
@@ -22,19 +22,19 @@ const cartId = '456';
 const toMergeCart = { guid: '123456' };
 const cartData: Cart = {
   store: 'electronics',
-  guid: '1212121'
+  guid: '1212121',
 };
 const cartDataList: CartList = {
-  carts: [cartData]
+  carts: [cartData],
 };
 const mergedCart: Cart = {
-  name: 'mergedCart'
+  name: 'mergedCart',
 };
 const cartModified: CartModification = {
-  deliveryModeChanged: true
+  deliveryModeChanged: true,
 };
 const mockPaymentDetails: PaymentDetails = {
-  accountHolderName: 'mockPaymentDetails'
+  accountHolderName: 'mockPaymentDetails',
 };
 
 const usersEndpoint = '/users';
@@ -53,12 +53,12 @@ const DETAILS_PARAMS =
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
-    baseSite: ''
-  }
+    baseSite: '',
+  },
 };
 
 describe('OccCartService', () => {
@@ -71,8 +71,8 @@ describe('OccCartService', () => {
       providers: [
         OccCartService,
         ProductImageConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccCartService);
@@ -316,7 +316,7 @@ describe('OccCartService', () => {
     it('should create address for cart for given user id, cart id and address', () => {
       const mockAddress: Address = {
         firstName: 'Mock',
-        lastName: 'Address'
+        lastName: 'Address',
       };
 
       service
@@ -377,7 +377,7 @@ describe('OccCartService', () => {
   describe('get all supported delivery modes for cart', () => {
     it('should get all supported delivery modes for cart for given user id and cart id', () => {
       const mockDeliveryModes: DeliveryModeList = {
-        deliveryModes: [{ name: 'mockDeliveryMode' }]
+        deliveryModes: [{ name: 'mockDeliveryMode' }],
       };
       service.getSupportedDeliveryModes(userId, cartId).subscribe(result => {
         expect(result).toEqual(mockDeliveryModes);
@@ -483,7 +483,7 @@ describe('OccCartService', () => {
   describe('create subscription with payment provider with single param', () => {
     it('should create subscription with payment provider for given url and parameters', () => {
       const params = {
-        param: 'mockParam'
+        param: 'mockParam',
       };
       const mockUrl = 'mockUrl';
       const mockPaymentProvider = 'mockPaymentProvider';
@@ -513,7 +513,7 @@ describe('OccCartService', () => {
     it('should create subscription with payment provider for given url and parameters', () => {
       const params = {
         param1: 'mockParam1',
-        param2: 'mockParam2'
+        param2: 'mockParam2',
       };
       const mockUrl = 'mockUrl';
       const mockPaymentProvider = 'mockPaymentProvider';
@@ -543,7 +543,7 @@ describe('OccCartService', () => {
   describe('create payment details with single param', () => {
     it('should create payment details for given user id, cart id and parameters', () => {
       const params = {
-        param: 'mockParam'
+        param: 'mockParam',
       };
 
       service.createPaymentDetails(userId, cartId, params).subscribe(result => {
@@ -576,7 +576,7 @@ describe('OccCartService', () => {
     it('should create payment details for given user id, cart id and parameters', () => {
       const params = {
         param1: 'mockParam1',
-        param2: 'mockParam2'
+        param2: 'mockParam2',
       };
 
       service.createPaymentDetails(userId, cartId, params).subscribe(result => {

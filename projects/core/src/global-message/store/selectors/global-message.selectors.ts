@@ -3,7 +3,7 @@ import { getGlobalMessageState } from './feature.selector';
 import {
   StateWithGlobalMessage,
   GlobalMessageState,
-  GlobalMessageEntities
+  GlobalMessageEntities,
 } from '../global-message-state';
 
 export const getGlobalMessageEntities: MemoizedSelector<

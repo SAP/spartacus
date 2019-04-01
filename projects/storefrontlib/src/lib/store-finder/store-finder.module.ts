@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 import { CmsModule } from '../cms/cms.module';
 
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
-// tslint:disable-next-line:max-line-length
 import { StoreFinderListComponent } from './components/store-finder-search-result/store-finder-list/store-finder-list.component';
 import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
 import { StoreFinderListItemComponent } from './components/store-finder-list-item/store-finder-list-item.component';
@@ -16,6 +15,8 @@ import { StoreFinderStoresCountComponent } from './components/store-finder-store
 import { StoreFinderGridComponent } from './components/store-finder-grid/store-finder-grid.component';
 import { StoreFinderHeaderComponent } from './components/store-finder-header/store-finder-header.component';
 import { StoreFinderSearchResultComponent } from './components/store-finder-search-result/store-finder-search-result.component';
+// tslint:disable-next-line:max-line-length
+import { StoreFinderPaginationDetailsComponent } from './components/store-finder-pagination-details/store-finder-pagination-details.component';
 
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
@@ -24,7 +25,8 @@ import {
   CmsConfig,
   ConfigModule,
   StoreFinderCoreModule,
-  UrlTranslationModule
+  UrlTranslationModule,
+  I18nModule,
 } from '@spartacus/core';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
 import { LayoutConfig } from '../ui/layout/config/layout-config';
@@ -40,6 +42,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     SpinnerModule,
     UrlTranslationModule,
     StoreFinderCoreModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {
@@ -47,37 +50,37 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
           childRoutes: [
             {
               path: 'find',
-              component: StoreFinderSearchResultComponent
+              component: StoreFinderSearchResultComponent,
             },
             {
               path: 'view-all',
-              component: StoreFinderStoresCountComponent
+              component: StoreFinderStoresCountComponent,
             },
             {
               path: 'country/:country',
-              component: StoreFinderGridComponent
+              component: StoreFinderGridComponent,
             },
             {
               path: 'country/:country/region/:region',
-              component: StoreFinderGridComponent
+              component: StoreFinderGridComponent,
             },
             {
               path: 'country/:country/region/:region/:store',
-              component: StoreFinderStoreDescriptionComponent
+              component: StoreFinderStoreDescriptionComponent,
             },
             {
               path: 'country/:country/:store',
-              component: StoreFinderStoreDescriptionComponent
-            }
-          ]
-        }
+              component: StoreFinderStoreDescriptionComponent,
+            },
+          ],
+        },
       },
       layoutSlots: {
         StoreFinderPageTemplate: {
-          slots: ['MiddleContent', 'SideContent']
-        }
-      }
-    })
+          slots: ['MiddleContent', 'SideContent'],
+        },
+      },
+    }),
   ],
   declarations: [
     StoreFinderSearchComponent,
@@ -90,7 +93,8 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     ScheduleComponent,
     StoreFinderHeaderComponent,
     StoreFinderSearchResultComponent,
-    StoreFinderComponent
+    StoreFinderComponent,
+    StoreFinderPaginationDetailsComponent,
   ],
   exports: [
     StoreFinderSearchComponent,
@@ -103,7 +107,8 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     ScheduleComponent,
     StoreFinderHeaderComponent,
     StoreFinderSearchResultComponent,
-    StoreFinderComponent
+    StoreFinderComponent,
+    StoreFinderPaginationDetailsComponent,
   ],
   entryComponents: [
     StoreFinderComponent,
@@ -111,7 +116,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     StoreFinderStoresCountComponent,
     StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
-    StoreFinderStoreDescriptionComponent
-  ]
+    StoreFinderStoreDescriptionComponent,
+  ],
 })
 export class StoreFinderModule {}

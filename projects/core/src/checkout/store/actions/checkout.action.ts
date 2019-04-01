@@ -3,7 +3,7 @@ import {
   Address,
   DeliveryModeList,
   PaymentDetails,
-  Order
+  Order,
 } from '../../../occ/occ-models/index';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';

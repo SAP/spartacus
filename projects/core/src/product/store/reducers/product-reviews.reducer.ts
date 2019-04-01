@@ -4,7 +4,7 @@ import { Review } from '../../../occ/occ-models';
 
 export const initialState: ProductReviewsState = {
   productCode: '',
-  list: []
+  list: [],
 };
 
 export function reducer(
@@ -19,7 +19,7 @@ export function reducer(
       return {
         ...state,
         productCode,
-        list
+        list,
       };
     }
   }

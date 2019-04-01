@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
-  ElementRef
+  ElementRef,
 } from '@angular/core';
 
 import { WindowRef } from '@spartacus/core';
@@ -12,7 +12,7 @@ import { ProductCarouselService } from './product-carousel.component.service';
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
   styleUrls: ['./product-carousel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent implements OnInit {
   private window: Window;

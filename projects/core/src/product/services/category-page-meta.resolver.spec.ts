@@ -8,7 +8,7 @@ import {
   PageMetaResolver,
   CmsService,
   PageMetaService,
-  PageMeta
+  PageMeta,
 } from '../../cms';
 import { ProductSearchService } from '../facade';
 import { RoutingService } from '../../routing';
@@ -20,17 +20,17 @@ const mockPageWithProductList: Page = {
     slotA: {
       components: [
         {
-          typeCode: 'CMSProductListComponent'
-        }
-      ]
-    }
-  }
+          typeCode: 'CMSProductListComponent',
+        },
+      ],
+    },
+  },
 };
 
 const mockProductWithContent: Page = {
   type: PageType.CATEGORY_PAGE,
   title: 'content page title',
-  slots: {}
+  slots: {},
 };
 
 class MockCmsService {
@@ -48,7 +48,7 @@ class ContentPageTitleResolver extends PageMetaResolver {
 
   resolve(): Observable<PageMeta> {
     return of({
-      title: 'content page title'
+      title: 'content page title',
     });
   }
 }
@@ -58,12 +58,12 @@ class MockProductSearchService {
     return of({
       breadcrumbs: [
         {
-          facetValueName: 'Hand-held Camcorders'
-        }
+          facetValueName: 'Hand-held Camcorders',
+        },
       ],
       pagination: {
-        totalResults: 6
-      }
+        totalResults: 6,
+      },
     });
   }
 }
@@ -85,14 +85,14 @@ describe('CategoryPageTitleResolver', () => {
         {
           provide: PageMetaResolver,
           useExisting: ContentPageTitleResolver,
-          multi: true
+          multi: true,
         },
         {
           provide: PageMetaResolver,
           useExisting: CategoryPageMetaResolver,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.get(PageMetaService);

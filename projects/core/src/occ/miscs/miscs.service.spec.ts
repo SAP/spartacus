@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import {
@@ -9,7 +9,7 @@ import {
   CountryList,
   TitleList,
   CardTypeList,
-  RegionList
+  RegionList,
 } from '../../occ';
 
 import { OccMiscsService } from './miscs.service';
@@ -17,14 +17,14 @@ import { OccMiscsService } from './miscs.service';
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
+    occPrefix: '',
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('OccMiscsService', () => {
@@ -36,8 +36,8 @@ describe('OccMiscsService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccMiscsService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccMiscsService);
@@ -55,13 +55,13 @@ describe('OccMiscsService', () => {
       countries: [
         {
           isocode: 'AL',
-          name: 'Albania'
+          name: 'Albania',
         },
         {
           isocode: 'AD',
-          name: 'Andorra'
-        }
-      ]
+          name: 'Andorra',
+        },
+      ],
     };
 
     service.loadDeliveryCountries().subscribe(result => {
@@ -84,13 +84,13 @@ describe('OccMiscsService', () => {
       titles: [
         {
           code: 'mr',
-          name: 'Mr.'
+          name: 'Mr.',
         },
         {
           code: 'mrs',
-          name: 'Mrs.'
-        }
-      ]
+          name: 'Mrs.',
+        },
+      ],
     };
 
     service.loadTitles().subscribe(result => {
@@ -113,13 +113,13 @@ describe('OccMiscsService', () => {
       cardTypes: [
         {
           code: 'amex',
-          name: 'American Express'
+          name: 'American Express',
         },
         {
           code: 'maestro',
-          name: 'Maestro'
-        }
-      ]
+          name: 'Maestro',
+        },
+      ],
     };
 
     service.loadCardTypes().subscribe(result => {
@@ -142,17 +142,17 @@ describe('OccMiscsService', () => {
       regions: [
         {
           isocode: 'CA-AB',
-          name: 'Alberta'
+          name: 'Alberta',
         },
         {
           isocode: 'CA-BC',
-          name: 'British Columbia'
+          name: 'British Columbia',
         },
         {
           isocode: 'CA-MB',
-          name: 'Manitoba'
-        }
-      ]
+          name: 'Manitoba',
+        },
+      ],
     };
 
     service.loadRegions('CA').subscribe(result => {

@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'cx-store-finder-search',
   templateUrl: './store-finder-search.component.html',
-  styleUrls: ['./store-finder-search.component.scss']
+  styleUrls: ['./store-finder-search.component.scss'],
 })
 export class StoreFinderSearchComponent {
   searchBox: FormControl = new FormControl();

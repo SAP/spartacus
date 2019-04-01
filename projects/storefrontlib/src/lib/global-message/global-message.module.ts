@@ -9,6 +9,6 @@ import { GlobalMessageComponent } from './global-message.component';
 @NgModule({
   imports: [CommonModule, HttpClientModule, GlobalMessageModule.forRoot()],
   declarations: [GlobalMessageComponent],
-  exports: [GlobalMessageComponent]
+  exports: [GlobalMessageComponent],
 })
 export class GlobalMessageComponentModule {}

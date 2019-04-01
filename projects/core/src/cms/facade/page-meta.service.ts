@@ -6,7 +6,7 @@ import { CmsService } from './cms.service';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PageMetaService {
   constructor(

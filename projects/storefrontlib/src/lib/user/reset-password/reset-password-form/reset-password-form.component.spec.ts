@@ -19,8 +19,8 @@ class MockUserService {
 const router = {
   state: {
     url: '/test',
-    queryParams: { token: 'test token' }
-  }
+    queryParams: { token: 'test token' },
+  },
 };
 class MockRoutingService {
   getRouterState() {
@@ -49,8 +49,8 @@ describe('ResetPasswordFormComponent', () => {
       declarations: [ResetPasswordFormComponent],
       providers: [
         { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     }).compileComponents();
   }));
 

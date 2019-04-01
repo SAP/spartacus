@@ -14,7 +14,7 @@ import { SiteContextStoreModule } from '../store/site-context-store.module';
 import { EffectsModule } from '@ngrx/effects';
 
 const mockCurrencies: Currency[] = [
-  { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+  { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
 ];
 
 const mockActiveCurr = 'USD';
@@ -36,12 +36,12 @@ describe('CurrencyService', () => {
       imports: [
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        SiteContextStoreModule
+        SiteContextStoreModule,
       ],
       providers: [
         { provide: OccConfig, useValue: defaultOccConfig },
-        CurrencyService
-      ]
+        CurrencyService,
+      ],
     });
 
     store = TestBed.get(Store);

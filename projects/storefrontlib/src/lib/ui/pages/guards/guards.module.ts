@@ -4,6 +4,6 @@ import { RoutingModule, CartModule } from '@spartacus/core';
 
 @NgModule({
   imports: [RoutingModule, CartModule],
-  providers: [CartNotEmptyGuard]
+  providers: [CartNotEmptyGuard],
 })
 export class GuardsModule {}

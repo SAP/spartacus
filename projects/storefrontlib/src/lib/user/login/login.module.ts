@@ -15,9 +15,9 @@ import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.modul
     BootstrapModule,
     UserModule,
     UrlTranslationModule,
-    PageSlotModule
+    PageSlotModule,
   ],
   declarations: [LoginComponent],
-  exports: [LoginComponent]
+  exports: [LoginComponent],
 })
 export class LoginModule {}

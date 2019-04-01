@@ -7,7 +7,7 @@ import {
   PageMetaResolver,
   CmsService,
   PageMetaService,
-  PageMeta
+  PageMeta,
 } from '../../cms';
 import { ProductService } from '../facade';
 import { RoutingService } from '../../routing';
@@ -16,7 +16,7 @@ import { ProductPageMetaResolver } from './product-page-meta.resolver';
 const mockProductPage: Page = {
   type: PageType.PRODUCT_PAGE,
   title: 'content page title',
-  slots: {}
+  slots: {},
 };
 
 class MockCmsService {
@@ -30,9 +30,9 @@ class MockRoutingService {
     return of({
       state: {
         params: {
-          productCode: '1234'
-        }
-      }
+          productCode: '1234',
+        },
+      },
     });
   }
 }
@@ -45,17 +45,17 @@ class MockProductService {
       summary: 'Product summary',
       categories: [
         {
-          code: '123'
-        }
+          code: '123',
+        },
       ],
       images: {
         PRIMARY: {
           zoom: {
-            url: 'https://storefront.com/image'
-          }
-        }
+            url: 'https://storefront.com/image',
+          },
+        },
       },
-      manufacturer: 'Canon'
+      manufacturer: 'Canon',
     });
   }
 }
@@ -74,9 +74,9 @@ describe('ProductPageMetaResolver', () => {
         {
           provide: PageMetaResolver,
           useExisting: ProductPageMetaResolver,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     service = TestBed.get(PageMetaService);

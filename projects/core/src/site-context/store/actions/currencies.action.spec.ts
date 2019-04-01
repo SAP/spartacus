@@ -7,7 +7,7 @@ describe('Currencies Actions', () => {
       it('should create an action', () => {
         const action = new fromCurrency.LoadCurrencies();
         expect({ ...action }).toEqual({
-          type: fromCurrency.LOAD_CURRENCIES
+          type: fromCurrency.LOAD_CURRENCIES,
         });
       });
     });
@@ -19,7 +19,7 @@ describe('Currencies Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromCurrency.LOAD_CURRENCIES_FAIL,
-          payload
+          payload,
         });
       });
     });
@@ -27,13 +27,13 @@ describe('Currencies Actions', () => {
     describe('LoadCurrenciesSuccess', () => {
       it('should create an action', () => {
         const payload: Currency[] = [
-          { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+          { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
         ];
         const action = new fromCurrency.LoadCurrenciesSuccess(payload);
 
         expect({ ...action }).toEqual({
           type: fromCurrency.LOAD_CURRENCIES_SUCCESS,
-          payload
+          payload,
         });
       });
     });
@@ -44,7 +44,7 @@ describe('Currencies Actions', () => {
       const action = new fromCurrency.SetActiveCurrency('USD');
       expect({ ...action }).toEqual({
         type: fromCurrency.SET_ACTIVE_CURRENCY,
-        payload: 'USD'
+        payload: 'USD',
       });
     });
   });
@@ -53,7 +53,7 @@ describe('Currencies Actions', () => {
     it('should create an action', () => {
       const action = new fromCurrency.CurrencyChange();
       expect({ ...action }).toEqual({
-        type: fromCurrency.CURRENCY_CHANGE
+        type: fromCurrency.CURRENCY_CHANGE,
       });
     });
   });

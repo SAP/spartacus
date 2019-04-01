@@ -4,7 +4,7 @@ import {
   ActionReducer,
   ActionReducerMap,
   MetaReducer,
-  Action
+  Action,
 } from '@ngrx/store';
 
 import { CLIENT_TOKEN_DATA } from '../auth-state';
@@ -18,7 +18,7 @@ import * as fromUserTokenReducer from './user-token.reducer';
 export function getReducers(): ActionReducerMap<AuthState> {
   return {
     userToken: fromUserTokenReducer.reducer,
-    clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA)
+    clientToken: loaderReducer<ClientToken>(CLIENT_TOKEN_DATA),
   };
 }
 
@@ -28,7 +28,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearAuthState(
@@ -38,7 +38,7 @@ export function clearAuthState(
     if (action.type === LOGOUT) {
       state = {
         ...state,
-        userToken: undefined
+        userToken: undefined,
       };
     }
     return reducer(state, action);

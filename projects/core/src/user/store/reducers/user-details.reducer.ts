@@ -3,7 +3,7 @@ import { UserDetailsState } from '../user-state';
 import { User } from '../../../occ/occ-models/index';
 
 export const initialState: UserDetailsState = {
-  details: <User>{}
+  details: <User>{},
 };
 
 export function reducer(
@@ -16,7 +16,7 @@ export function reducer(
 
       return {
         ...state,
-        details
+        details,
       };
     }
   }

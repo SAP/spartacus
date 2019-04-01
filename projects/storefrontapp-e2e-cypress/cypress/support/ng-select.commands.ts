@@ -17,7 +17,7 @@ declare namespace Cypress {
 Cypress.Commands.add(
   'ngSelect',
   {
-    prevSubject: 'element'
+    prevSubject: 'element',
   },
   (element, option) => {
     cy.wrap(element).click();

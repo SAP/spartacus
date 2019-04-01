@@ -4,7 +4,7 @@ import {
   Renderer2,
   ElementRef,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { PageLayoutService } from './page-layout.service';
 import { tap } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-page-layout',
   templateUrl: './page-layout.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageLayoutComponent implements OnInit {
   @Input() section: string;

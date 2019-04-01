@@ -8,7 +8,8 @@ import {
   RoutingService,
   UserToken,
   UserService,
-  OrderHistoryList
+  OrderHistoryList,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -23,21 +24,21 @@ const mockOrders: OrderHistoryList = {
       code: '1',
       placed: new Date('2018-01-01'),
       statusDisplay: 'test',
-      total: { formattedValue: '1' }
+      total: { formattedValue: '1' },
     },
     {
       code: '2',
       placed: new Date('2018-01-02'),
       statusDisplay: 'test2',
-      total: { formattedValue: '2' }
-    }
+      total: { formattedValue: '2' },
+    },
   ],
   pagination: { totalResults: 1, sort: 'byDate' },
-  sorts: [{ code: 'byDate', selected: true }]
+  sorts: [{ code: 'byDate', selected: true }],
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -74,13 +75,17 @@ describe('OrderHistoryComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PaginationAndSortingModule],
+      imports: [
+        RouterTestingModule,
+        PaginationAndSortingModule,
+        I18nTestingModule,
+      ],
       declarations: [OrderHistoryComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService }
-      ]
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     }).compileComponents();
 
     userService = TestBed.get(UserService);
@@ -100,7 +105,7 @@ describe('OrderHistoryComponent', () => {
     const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: {},
-      sorts: []
+      sorts: [],
     };
     spyOn(userService, 'getOrderHistoryList').and.returnValue(
       of(initialOrderListState)
@@ -148,9 +153,9 @@ describe('OrderHistoryComponent', () => {
         route: [
           {
             name: 'orderDetails',
-            params: mockOrders.orders[1]
-          }
-        ]
+            params: mockOrders.orders[1],
+          },
+        ],
       });
     });
   });
@@ -159,7 +164,7 @@ describe('OrderHistoryComponent', () => {
     const initialOrderListState: OrderHistoryList = {
       orders: [],
       pagination: { totalResults: 0, sort: 'byDate' },
-      sorts: [{ code: 'byDate', selected: true }]
+      sorts: [{ code: 'byDate', selected: true }],
     };
     spyOn(userService, 'getOrderHistoryList').and.returnValue(
       of(initialOrderListState)

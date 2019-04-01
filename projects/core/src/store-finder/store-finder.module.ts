@@ -4,7 +4,7 @@ import { StoreFinderService } from './facade/store-finder.service';
 import { StoreDataService } from './facade/store-data.service';
 import {
   GoogleMapRendererService,
-  ExternalJsFileLoader
+  ExternalJsFileLoader,
 } from './service/index';
 import { StoreFinderOccModule } from './occ/store-finder-occ.module';
 import { ConfigModule } from '../config';
@@ -15,14 +15,14 @@ import { StoreFinderConfig } from './config/store-finder-config';
   imports: [
     ConfigModule.withConfig(defaultStoreFinderConfig),
     StoreFinderStoreModule,
-    StoreFinderOccModule
+    StoreFinderOccModule,
   ],
   providers: [
     StoreFinderService,
     StoreDataService,
     GoogleMapRendererService,
     ExternalJsFileLoader,
-    { provide: StoreFinderConfig, useValue: defaultStoreFinderConfig }
-  ]
+    { provide: StoreFinderConfig, useValue: defaultStoreFinderConfig },
+  ],
 })
 export class StoreFinderCoreModule {}
