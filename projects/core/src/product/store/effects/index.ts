@@ -5,7 +5,7 @@ import { ProductReviewsEffects } from './product-reviews.effect';
 export const effects: any[] = [
   ProductsSearchEffects,
   ProductEffects,
-  ProductReviewsEffects
+  ProductReviewsEffects,
 ];
 
 export * from './product-search.effect';

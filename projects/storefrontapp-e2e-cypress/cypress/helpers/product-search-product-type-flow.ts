@@ -3,7 +3,10 @@ import { PRODUCT_LISTING } from './data-configuration';
 export const resultsTitle = 'cx-breadcrumb h1';
 
 export function productTypeFlow(mobile?: string) {
-  // Search for a product
+  cy.server();
+
+  createDefaultQueryRoute('query');
+
   cy.get('cx-searchbox input').type('sony{enter}');
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
@@ -13,209 +16,125 @@ export function productTypeFlow(mobile?: string) {
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', '10.2 Megapixel D-SLR with Standard Zoom Lens');
+  checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
   // Filter by brand
-  cy.get('.cx-facet-header')
-    .contains('Brand')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  createQueryRoute('brand', 'brand_query');
+
+  clickFacet('Brand');
+
+  cy.wait('@brand_query');
 
   cy.get(resultsTitle).should('contain', '86 results for "sony"');
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', '10.2 Megapixel D-SLR with Standard Zoom Lens');
 
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
+  createDefaultQueryRoute('query1');
+
+  clearSelectedFacet(mobile);
+
+  cy.wait('@query1');
 
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by price
-  cy.get('.cx-facet-header')
-    .contains('Price')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  createQueryRoute('price', 'price_query');
+
+  clickFacet('Price');
+
+  cy.wait('@price_query')
+    .its('url')
+    .should('include', 'sony:relevance:price');
 
   cy.get(resultsTitle).should('contain', '16 results for "sony"');
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', 'MSHX8A');
 
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
+  checkFirstItem('MSHX8A');
+
+  createDefaultQueryRoute('query2');
+
+  clearSelectedFacet(mobile);
+
+  cy.wait('@query2');
+
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by category
-  cy.get('.cx-facet-header')
-    .contains('Category')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  createQueryRoute('category', 'category_query');
+
+  clickFacet('Category');
+
+  cy.wait('@category_query')
+    .its('url')
+    .should('include', 'sony:relevance:category');
 
   cy.get(resultsTitle).should('contain', '95 results for "sony"');
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', '10.2 Megapixel D-SLR with Standard Zoom Lens');
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
-  // Filter by mounting
-  cy.get('.cx-facet-header')
-    .contains('Mounting')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  checkFirstItem('10.2 Megapixel D-SLR with Standard Zoom Lens');
 
-  cy.get(resultsTitle).should('contain', '2 results for "sony"');
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', 'Remote Control Tripod VCT-80AV');
+  createDefaultQueryRoute('query3');
 
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+  clearSelectedFacet(mobile);
 
-  // Filter by lens type
-  cy.get('.cx-facet-header')
-    .contains('Lens type')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  cy.wait('@query3');
 
-  cy.get(resultsTitle).should('contain', '1 results for "sony"');
-
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
-
-  // Filter by megapixels
-  cy.get('.cx-facet-header')
-    .contains('Megapixels')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
-
-  cy.get(resultsTitle).should('contain', '1 results for "sony"');
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
   cy.get(resultsTitle).should('contain', '131 results for "sony"');
 
   // Filter by color
-  cy.get('.cx-facet-header')
-    .contains('Color')
-    .parents('.cx-facet-group')
-    .within(() => {
-      cy.get('.cx-facet-checkbox')
-        .first()
-        .click({ force: true });
-    });
+  createQueryRoute('Colour', 'color_query');
+
+  clickFacet('Color');
+
+  cy.wait('@color_query')
+    .its('url')
+    .should('include', 'sony:relevance:Colour');
 
   cy.get(resultsTitle).should('contain', '7 results for "sony"');
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', 'NP-FV 70');
 
+  checkFirstItem('NP-FV 70');
+
+  createDefaultQueryRoute('query4');
+
+  clearSelectedFacet(mobile);
+
+  cy.wait('@query4');
+
+  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+}
+
+function clearSelectedFacet(mobile: string) {
   if (mobile) {
     cy.get(
       `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
+    ).click({ force: true });
   } else {
     cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
+      'cx-product-facet-navigation .cx-facet-filter-container .cx-facet-filter-pill .close:first'
+    ).click({ force: true });
   }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+}
 
-  // Filter by resolution
+function clickFacet(header: string) {
   cy.get('.cx-facet-header')
-    .contains('Resolution')
+    .contains(header)
     .parents('.cx-facet-group')
     .within(() => {
       cy.get('.cx-facet-checkbox')
         .first()
         .click({ force: true });
     });
+}
 
-  cy.get(resultsTitle).should('contain', '1 results for "sony"');
-  if (mobile) {
-    cy.get(
-      `cx-product-facet-navigation ${mobile} .cx-facet-filter-pill .close:first`
-    ).click();
-  } else {
-    cy.get(
-      'cx-product-facet-navigation .cx-facet-filter-pill .close:first'
-    ).click();
-  }
-  cy.get(resultsTitle).should('contain', '131 results for "sony"');
+function checkFirstItem(title: string): void {
+  cy.get('cx-product-list-item')
+    .first()
+    .should('contain', title);
+}
 
-  // Add product to cart from search listing page
-  cy.get('cx-add-to-cart:first button').click({ force: true });
-  cy.get('.cx-dialog-header .close').click();
-  cy.get('cx-mini-cart .count').should('contain', '1');
+function createDefaultQueryRoute(alias: string): void {
+  cy.route('GET', '/rest/v2/electronics-spa/products/search*').as(alias);
+}
+
+function createQueryRoute(param: string, alias: string): void {
+  cy.route(
+    'GET',
+    `/rest/v2/electronics-spa/products/search?fields=*&query=sony:relevance:${param}*`
+  ).as(alias);
 }

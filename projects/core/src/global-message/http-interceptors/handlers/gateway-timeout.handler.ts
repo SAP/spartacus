@@ -4,7 +4,7 @@ import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GatewayTimeoutHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.GATEWAY_TIMEOUT;
@@ -12,7 +12,7 @@ export class GatewayTimeoutHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'The server did not responded, please try again later.'
+      text: 'The server did not responded, please try again later.',
     });
   }
 }

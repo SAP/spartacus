@@ -4,7 +4,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -18,7 +18,7 @@ import {
   UserService,
   GlobalMessageService,
   GlobalMessageType,
-  AddressValidation
+  AddressValidation,
 } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -35,7 +35,7 @@ type yearType = { id: number; name: number };
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
   styleUrls: ['./payment-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
   private checkboxSub: Subscription;
@@ -59,11 +59,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     accountHolderName: ['', Validators.required],
     cardNumber: ['', Validators.required],
     cardType: this.fb.group({
-      code: ['', Validators.required]
+      code: ['', Validators.required],
     }),
     expiryMonth: ['', Validators.required],
     expiryYear: ['', Validators.required],
-    cvn: ['', Validators.required]
+    cvn: ['', Validators.required],
   });
 
   billingAddress: FormGroup = this.fb.group({
@@ -73,9 +73,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     line2: [''],
     town: ['', Validators.required],
     country: this.fb.group({
-      isocode: ['', Validators.required]
+      isocode: ['', Validators.required],
     }),
-    postalCode: ['', Validators.required]
+    postalCode: ['', Validators.required],
   });
 
   infoIconImgSrc = infoIconImgSrc;
@@ -128,7 +128,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         } else if (results.decision === 'REJECT') {
           this.globalMessageService.add({
             type: GlobalMessageType.MSG_TYPE_ERROR,
-            text: 'Invalid Address'
+            text: 'Invalid Address',
           });
           this.checkoutService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
@@ -207,8 +207,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         address.line2,
         address.town + ', ' + region + address.country.isocode,
         address.postalCode,
-        address.phone
-      ]
+        address.phone,
+      ],
     };
   }
 
@@ -251,7 +251,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       paymentDetails: this.payment.value,
       billingAddress: this.sameAsShippingAddress
         ? null
-        : this.billingAddress.value
+        : this.billingAddress.value,
     });
   }
 

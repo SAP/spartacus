@@ -6,14 +6,14 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Component
+  Component,
 } from '@angular/core';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 
 import {
   Component as SpaComponent,
-  TranslateUrlOptions
+  TranslateUrlOptions,
 } from '@spartacus/core';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { NavigationComponent } from '../navigation/navigation.component';
@@ -23,7 +23,7 @@ import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
-  template: ''
+  template: '',
 })
 class MockNavigationUIComponent {
   @Input()
@@ -34,7 +34,7 @@ class MockNavigationUIComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
 class MockGenericLinkComponent {
   @Input()
@@ -60,22 +60,22 @@ describe('FooterNavigationComponent', () => {
     {
       title: 'Test child 1',
       url: '/test1',
-      target: true
+      target: true,
     },
     {
       title: 'Test child 2',
       url: '/',
-      target: false
-    }
+      target: false,
+    },
   ];
 
   const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: of()
+    data$: of(),
   };
 
   const mockNavigationService = {
     getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null))
+    getComponentData: createSpy().and.returnValue(of(null)),
   };
 
   beforeEach(async(() => {
@@ -86,11 +86,14 @@ describe('FooterNavigationComponent', () => {
         NavigationComponent,
         MockNavigationUIComponent,
         MockGenericLinkComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
-        { provide: NavigationComponentService, useValue: mockNavigationService }
-      ]
+        {
+          provide: NavigationComponentService,
+          useValue: mockNavigationService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -102,9 +105,9 @@ describe('FooterNavigationComponent', () => {
         {
           title: 'Test 1',
           url: '/',
-          children: mockLinks
-        }
-      ]
+          children: mockLinks,
+        },
+      ],
     });
 
     fixture.detectChanges();

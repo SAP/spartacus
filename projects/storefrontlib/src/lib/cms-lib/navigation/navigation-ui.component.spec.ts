@@ -7,7 +7,7 @@ import { TranslateUrlOptions } from '@spartacus/core';
 import { DebugElement, ElementRef } from '@angular/core';
 import { NavigationNode } from '../navigation/navigation-node.model';
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(options: TranslateUrlOptions): string | string[] {
@@ -24,7 +24,7 @@ describe('Navigation UI Component', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [NavigationUIComponent, MockTranslateUrlPipe],
-      providers: []
+      providers: [],
     }).compileComponents();
   });
 
@@ -38,7 +38,7 @@ describe('Navigation UI Component', () => {
     it('should render "Reorder" if title is missing', () => {
       const getLink = (): ElementRef => element.query(By.css('a'));
       const mockData: any = {
-        children: []
+        children: [],
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
@@ -51,7 +51,7 @@ describe('Navigation UI Component', () => {
       const mockData: any = {
         title: 'Test 1',
         url: '/test-url',
-        children: []
+        children: [],
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
@@ -64,7 +64,7 @@ describe('Navigation UI Component', () => {
       const getLink = (): ElementRef => element.query(By.css('a.cx-nav-link'));
       const mockData = {
         title: 'Test 1',
-        url: '/test-url'
+        url: '/test-url',
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
@@ -86,13 +86,13 @@ describe('Navigation UI Component', () => {
         children: [
           {
             url: '/subtest',
-            title: 'Sublink'
+            title: 'Sublink',
           },
           {
             url: '/subtest2',
-            title: 'Sublink2'
-          }
-        ]
+            title: 'Sublink2',
+          },
+        ],
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
@@ -128,15 +128,15 @@ describe('Navigation UI Component', () => {
             children: [
               {
                 url: '/subsubtest',
-                title: 'Subsubtest'
+                title: 'Subsubtest',
               },
               {
                 url: '/subsubtest2',
-                title: 'Subsubtest2'
-              }
-            ]
-          }
-        ]
+                title: 'Subsubtest2',
+              },
+            ],
+          },
+        ],
       };
       navigationComponent.node = mockData;
       fixture.detectChanges();
@@ -167,9 +167,9 @@ describe('Navigation UI Component', () => {
         children: [
           {
             url: '/subtest',
-            title: 'Sublink'
-          }
-        ]
+            title: 'Sublink',
+          },
+        ],
       };
       navigationComponent.node = mockData;
       navigationComponent.dropdownMode = 'column';

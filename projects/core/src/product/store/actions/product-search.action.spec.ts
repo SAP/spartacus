@@ -12,26 +12,26 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const payload = {
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         };
         const action = new fromProductSearch.SearchProducts(payload);
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS,
           payload: payload,
-          auxiliary: undefined
+          auxiliary: undefined,
         });
       });
 
       it('should create an action for auxiliary search', () => {
         const payload = {
           queryText: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         };
         const action = new fromProductSearch.SearchProducts(payload, true);
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS,
           payload: payload,
-          auxiliary: true
+          auxiliary: true,
         });
       });
     });
@@ -44,7 +44,7 @@ describe('Product Search Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_FAIL,
           payload,
-          auxiliary: undefined
+          auxiliary: undefined,
         });
       });
     });
@@ -57,7 +57,7 @@ describe('Product Search Actions', () => {
         expect({ ...action }).toEqual({
           type: fromProductSearch.SEARCH_PRODUCTS_SUCCESS,
           payload,
-          auxiliary: undefined
+          auxiliary: undefined,
         });
       });
     });
@@ -68,12 +68,12 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const payload = {
           term: 'test',
-          searchConfig: searchConfig
+          searchConfig: searchConfig,
         };
         const action = new fromProductSearch.GetProductSuggestions(payload);
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -86,7 +86,7 @@ describe('Product Search Actions', () => {
         );
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_SUCCESS,
-          payload: payload
+          payload: payload,
         });
       });
     });
@@ -98,7 +98,7 @@ describe('Product Search Actions', () => {
 
         expect({ ...action }).toEqual({
           type: fromProductSearch.GET_PRODUCT_SUGGESTIONS_FAIL,
-          payload
+          payload,
         });
       });
     });
@@ -109,7 +109,7 @@ describe('Product Search Actions', () => {
       it('should create an action', () => {
         const action = new fromProductSearch.CleanProductSearchState();
         expect({ ...action }).toEqual({
-          type: fromProductSearch.CLEAN_PRODUCT_SEARCH
+          type: fromProductSearch.CLEAN_PRODUCT_SEARCH,
         });
       });
     });

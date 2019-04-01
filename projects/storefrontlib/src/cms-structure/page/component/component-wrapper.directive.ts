@@ -9,7 +9,7 @@ import {
   Renderer2,
   ViewContainerRef,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   CmsComponent,
@@ -17,13 +17,13 @@ import {
   CmsService,
   ComponentMapperService,
   CxApiService,
-  ContentSlotComponentData
+  ContentSlotComponentData,
 } from '@spartacus/core';
 import { CmsComponentData } from '../model/cms-component-data';
 import { isPlatformServer } from '@angular/common';
 
 @Directive({
-  selector: '[cxComponentWrapper]'
+  selector: '[cxComponentWrapper]',
 })
 export class ComponentWrapperDirective implements OnInit, OnDestroy {
   @Input() cxComponentWrapper: ContentSlotComponentData;
@@ -93,7 +93,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
       this.webElement.cxApi = {
         ...this.injector.get(CxApiService),
-        CmsComponentData: this.getCmsDataForComponent()
+        CmsComponentData: this.getCmsDataForComponent(),
       };
 
       this.renderer.appendChild(
@@ -108,7 +108,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   > {
     return {
       uid: this.cxComponentWrapper.uid,
-      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid)
+      data$: this.cmsService.getComponentData(this.cxComponentWrapper.uid),
     };
   }
 
@@ -120,11 +120,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       providers: [
         {
           provide: CmsComponentData,
-          useValue: this.getCmsDataForComponent()
+          useValue: this.getCmsDataForComponent(),
         },
-        ...configProviders
+        ...configProviders,
       ],
-      parent: this.injector
+      parent: this.injector,
     });
   }
 

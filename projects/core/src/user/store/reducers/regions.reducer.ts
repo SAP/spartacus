@@ -3,7 +3,7 @@ import * as fromAction from '../actions/index';
 import { Region } from '../../../occ/occ-models';
 
 export const initialState: RegionsState = {
-  entities: []
+  entities: [],
 };
 
 export function reducer(
@@ -16,7 +16,7 @@ export function reducer(
       if (entities) {
         return {
           ...state,
-          entities
+          entities,
         };
       }
       return initialState;
@@ -24,13 +24,13 @@ export function reducer(
 
     case fromAction.LOAD_REGIONS: {
       return {
-        ...state
+        ...state,
       };
     }
 
     case fromAction.CLEAR_MISCS_DATA: {
       return {
-        ...initialState
+        ...initialState,
       };
     }
   }

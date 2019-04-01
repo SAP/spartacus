@@ -11,14 +11,14 @@ const itemsData: any = {
     uid: 'MockLink001',
     url: '/testLink1',
     linkName: 'test link 1',
-    target: false
+    target: false,
   },
   MockLink002_AbstractCMSComponent: {
     uid: 'MockLink002',
     url: '/testLink2',
     linkName: 'test link 2',
-    target: true
-  }
+    target: true,
+  },
 };
 
 const componentData: CmsNavigationComponent = {
@@ -33,9 +33,9 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink001',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
+            itemType: 'CMSLinkComponent',
+          },
+        ],
       },
       {
         uid: 'MockChildNode002',
@@ -43,23 +43,23 @@ const componentData: CmsNavigationComponent = {
           {
             itemId: 'MockLink002',
             itemSuperType: 'AbstractCMSComponent',
-            itemType: 'CMSLinkComponent'
-          }
-        ]
-      }
-    ]
-  }
+            itemType: 'CMSLinkComponent',
+          },
+        ],
+      },
+    ],
+  },
 };
 
 const mappedComponentData: any[] = [
   {
     superType: 'AbstractCMSComponent',
-    id: 'MockLink001'
+    id: 'MockLink001',
   },
   {
     superType: 'AbstractCMSComponent',
-    id: 'MockLink002'
-  }
+    id: 'MockLink002',
+  },
 ];
 
 const componentDataMock = { data$: of({}) };
@@ -68,8 +68,8 @@ const componentData$ = new BehaviorSubject(componentData);
 const resultNode: any = {
   children: [
     { title: 'test link 1', url: '/testLink1', target: false },
-    { title: 'test link 2', url: '/testLink2', target: true }
-  ]
+    { title: 'test link 2', url: '/testLink2', target: true },
+  ],
 };
 describe('NavigationComponentService', () => {
   let navigationService: NavigationComponentService;
@@ -79,14 +79,14 @@ describe('NavigationComponentService', () => {
     mockCmsService = {
       loadNavigationItems: createSpy(),
       getNavigationEntryItems: createSpy().and.returnValue(of(undefined)),
-      getComponentData: createSpy().and.returnValue(of(componentData))
+      getComponentData: createSpy().and.returnValue(of(componentData)),
     };
     TestBed.configureTestingModule({
       providers: [
         NavigationComponentService,
         { provide: CmsService, useValue: mockCmsService },
-        { provide: CmsComponentData, useValue: componentDataMock }
-      ]
+        { provide: CmsComponentData, useValue: componentDataMock },
+      ],
     });
 
     navigationService = TestBed.get(NavigationComponentService);

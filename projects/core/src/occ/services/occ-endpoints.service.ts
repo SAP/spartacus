@@ -6,7 +6,7 @@ import { HttpParams } from '@angular/common/http';
 import { HttpParamsOptions } from '@angular/common/http/src/params';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OccEndpointsService {
   private activeBaseSite: string;

@@ -7,14 +7,14 @@ import { StripHtmlPipe } from './strip-html.pipe';
 describe('StripHtmlPipe', () => {
   const mockProduct: Product = {
     code: 'testId',
-    name: '8GB Super Fast <em class="search-results-highlight">Card</em>'
+    name: '8GB Super Fast <em class="search-results-highlight">Card</em>',
   };
 
   let pipe: StripHtmlPipe;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [StripHtmlPipe]
+      providers: [StripHtmlPipe],
     });
     pipe = TestBed.get(StripHtmlPipe);
   });
