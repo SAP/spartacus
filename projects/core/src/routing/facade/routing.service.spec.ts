@@ -25,8 +25,8 @@ describe('RoutingService', () => {
       imports: [StoreModule.forRoot({})],
       providers: [
         RoutingService,
-        { provide: UrlTranslationService, useValue: { translate: () => {} } }
-      ]
+        { provide: UrlTranslationService, useValue: { translate: () => {} } },
+      ],
     });
 
     store = TestBed.get(Store);
@@ -48,7 +48,7 @@ describe('RoutingService', () => {
         new fromStore.Go({
           path: ['/search', 'query'],
           query: undefined,
-          extras: undefined
+          extras: undefined,
         })
       );
     });
@@ -57,17 +57,17 @@ describe('RoutingService', () => {
       spyOn(urlTranslator, 'translate').and.returnValue([
         '',
         'translated',
-        'path'
+        'path',
       ]);
       service.go({ route: ['testRoute'] });
       expect(urlTranslator.translate).toHaveBeenCalledWith({
-        route: ['testRoute']
+        route: ['testRoute'],
       });
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
           path: ['', 'translated', 'path'],
           query: undefined,
-          extras: undefined
+          extras: undefined,
         })
       );
     });
@@ -97,7 +97,7 @@ describe('RoutingService', () => {
         new fromStore.Go({
           path: ['/'],
           query: undefined,
-          extras: undefined
+          extras: undefined,
         })
       );
     });
@@ -152,7 +152,7 @@ describe('RoutingService', () => {
   it('shoud return only page context from the state', () => {
     const pageContext: PageContext = {
       id: 'homepage',
-      type: PageType.CATALOG_PAGE
+      type: PageType.CATALOG_PAGE,
     };
     const mockRouterState = createSpy().and.returnValue(() => of(pageContext));
     spyOnProperty(NgrxStore, 'select').and.returnValue(mockRouterState);

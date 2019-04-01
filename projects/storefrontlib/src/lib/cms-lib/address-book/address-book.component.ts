@@ -8,7 +8,7 @@ import { AddressBookComponentService } from './address-book.component.service';
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
-  styleUrls: ['./address-book.component.scss']
+  styleUrls: ['./address-book.component.scss'],
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;

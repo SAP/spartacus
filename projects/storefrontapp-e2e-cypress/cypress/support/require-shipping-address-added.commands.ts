@@ -32,7 +32,7 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
   address.titleCode = 'mr';
   address.country = {
     isocode: 'US',
-    name: user.address.country
+    name: user.address.country,
   };
   address.defaultAddress = false;
 
@@ -43,8 +43,8 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
       body: address,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`
-      }
+        Authorization: `bearer ${auth.userToken.token.access_token}`,
+      },
     });
   }
 

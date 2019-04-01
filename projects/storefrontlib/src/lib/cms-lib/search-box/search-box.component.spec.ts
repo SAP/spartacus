@@ -18,14 +18,14 @@ import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Pipe({
-  name: 'stripHtml'
+  name: 'stripHtml',
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
@@ -48,19 +48,19 @@ describe('SearchBoxComponent in CmsLib', () => {
     maxProducts: 5,
     maxSuggestions: 5,
     minCharactersBeforeRequest: 3,
-    waitTimeBeforeRequest: 500
+    waitTimeBeforeRequest: 500,
   };
 
   const MockCmsService = {
-    getComponentData: () => of(mockSearchBoxComponentData)
+    getComponentData: () => of(mockSearchBoxComponentData),
   };
 
   const mockKeyEvent1 = <KeyboardEvent>{
-    key: 'Enter'
+    key: 'Enter',
   };
 
   const mockKeyEvent2 = <KeyboardEvent>{
-    key: 'Enter123'
+    key: 'Enter123',
   };
 
   class SearchBoxComponentServiceSpy {
@@ -76,37 +76,37 @@ describe('SearchBoxComponent in CmsLib', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
       ],
       declarations: [
         SearchBoxComponent,
         PictureComponent,
         MockTranslateUrlPipe,
-        MockStripHtmlPipe
+        MockStripHtmlPipe,
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
           provide: ProductSearchService,
-          useValue: {}
+          useValue: {},
         },
         {
           provide: CmsComponentData,
           useValue: {
-            data$: of({})
-          }
-        }
-      ]
+            data$: of({}),
+          },
+        },
+      ],
     })
       .overrideComponent(SearchBoxComponent, {
         set: {
           providers: [
             {
               provide: SearchBoxComponentService,
-              useClass: SearchBoxComponentServiceSpy
-            }
-          ]
-        }
+              useClass: SearchBoxComponentServiceSpy,
+            },
+          ],
+        },
       })
 
       .compileComponents();

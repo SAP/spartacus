@@ -12,13 +12,13 @@ import { CmsConfig, ConfigModule, UserService } from '@spartacus/core';
     SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        AccountPaymentDetailsComponent: { selector: 'cx-payment-methods' }
-      }
-    })
+        AccountPaymentDetailsComponent: { selector: 'cx-payment-methods' },
+      },
+    }),
   ],
   providers: [UserService],
   declarations: [PaymentMethodsComponent],
   exports: [PaymentMethodsComponent],
-  entryComponents: [PaymentMethodsComponent]
+  entryComponents: [PaymentMethodsComponent],
 })
 export class PaymentMethodsModule {}

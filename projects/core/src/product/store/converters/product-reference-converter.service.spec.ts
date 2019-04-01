@@ -4,7 +4,7 @@ import { ProductReferenceConverterService } from './product-reference-converter.
 describe('ProductReferenceConverterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductReferenceConverterService]
+      providers: [ProductReferenceConverterService],
     });
   });
 

@@ -12,7 +12,7 @@ import {
   Address,
   PromotionResult,
   DeliveryMode,
-  Country
+  Country,
 } from '@spartacus/core';
 
 import { BehaviorSubject, of, Observable } from 'rxjs';
@@ -31,8 +31,8 @@ const mockCart: Cart = {
   totalPrice: { formattedValue: '$999.98' },
   potentialProductPromotions: [
     { description: 'Promotion 1' },
-    { description: 'Promotion 2' }
-  ]
+    { description: 'Promotion 2' },
+  ],
 };
 
 const mockDeliveryAddress: Address = {
@@ -44,7 +44,7 @@ const mockDeliveryAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockShippingMethod = 'standard-gross';
@@ -55,14 +55,14 @@ const mockPaymentDetails: PaymentDetails = {
   cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '01',
   expiryYear: '2022',
-  cvn: '123'
+  cvn: '123',
 };
 
 const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
-  template: ''
+  template: '',
 })
 class MockCartItemListComponent {
   @Input()
@@ -75,7 +75,7 @@ class MockCartItemListComponent {
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -100,7 +100,7 @@ describe('ReviewSubmitComponent', () => {
   beforeEach(async(() => {
     mockUserService = {
       getCountry: createSpy().and.returnValue(of(null)),
-      loadDeliveryCountries: createSpy()
+      loadDeliveryCountries: createSpy(),
     };
 
     mockCartService = {
@@ -109,20 +109,20 @@ describe('ReviewSubmitComponent', () => {
       },
       getEntries(): BehaviorSubject<OrderEntry[]> {
         return new BehaviorSubject(mockEntries);
-      }
+      },
     };
 
     TestBed.configureTestingModule({
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
-        MockCardComponent
+        MockCardComponent,
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useValue: mockUserService },
-        { provide: CartService, useValue: mockCartService }
-      ]
+        { provide: CartService, useValue: mockCartService },
+      ],
     }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);
@@ -187,14 +187,14 @@ describe('ReviewSubmitComponent', () => {
       'line2',
       'town, JP-27, Canada',
       'zip',
-      undefined
+      undefined,
     ]);
   });
 
   it('should call getShippingMethodCard(deliveryMode) to get shipping method card data', () => {
     const selectedMode: DeliveryMode = {
       code: 'standard-gross',
-      description: 'Standard Delivery description'
+      description: 'Standard Delivery description',
     };
     const card = component.getShippingMethodCard(selectedMode);
     expect(card.title).toEqual('Shipping Method');
@@ -288,7 +288,7 @@ describe('ReviewSubmitComponent', () => {
       fixture.detectChanges();
       expect(getCartItemList().items).toEqual([
         { entryNumber: 123 },
-        { entryNumber: 456 }
+        { entryNumber: 456 },
       ]);
       expect(getCartItemList().isReadOnly).toBe(true);
     });
@@ -300,7 +300,7 @@ describe('ReviewSubmitComponent', () => {
       fixture.detectChanges();
       expect(getCartItemList().potentialProductPromotions).toEqual([
         { description: 'Promotion 1' },
-        { description: 'Promotion 2' }
+        { description: 'Promotion 2' },
       ]);
     });
   });

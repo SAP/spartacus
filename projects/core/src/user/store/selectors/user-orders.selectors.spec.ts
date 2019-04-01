@@ -12,16 +12,16 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 const emptyOrder: OrderHistoryList = {
   orders: [],
   pagination: {},
-  sorts: []
+  sorts: [],
 };
 
 const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {
     currentPage: 1,
-    pageSize: 5
+    pageSize: 5,
   },
-  sorts: [{ code: 'byPage' }]
+  sorts: [{ code: 'byPage' }],
 };
 
 describe('User Orders Selectors', () => {
@@ -31,8 +31,8 @@ describe('User Orders Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -51,7 +51,7 @@ describe('User Orders Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: emptyOrder
+        value: emptyOrder,
       });
     });
   });

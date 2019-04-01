@@ -11,19 +11,22 @@ describe('Currencies Selectors', () => {
   let store: Store<StateWithSiteContext>;
 
   const currencies: Currency[] = [
-    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' }
+    { active: false, isocode: 'USD', name: 'US Dollar', symbol: '$' },
   ];
 
   const entities: { [key: string]: Currency } = {
-    USD: currencies[0]
+    USD: currencies[0],
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(SITE_CONTEXT_FEATURE, fromReducers.getReducers())
-      ]
+        StoreModule.forFeature(
+          SITE_CONTEXT_FEATURE,
+          fromReducers.getReducers()
+        ),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();

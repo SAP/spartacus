@@ -21,7 +21,7 @@ function storageConfig(
   return {
     keys: config.state.storageSync.keys,
     rehydrate: true,
-    storage: storage ? storage : winRef.sessionStorage
+    storage: storage ? storage : winRef.sessionStorage,
   };
 }
 

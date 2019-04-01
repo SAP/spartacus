@@ -2,7 +2,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
   Pipe,
-  PipeTransform
+  PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';

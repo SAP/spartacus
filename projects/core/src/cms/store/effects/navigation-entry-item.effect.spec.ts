@@ -21,8 +21,8 @@ const router = {
     queryParams: {},
     params: {},
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 const listComponents: any = {
@@ -31,21 +31,21 @@ const listComponents: any = {
       uid: 'MockLink001',
       url: '/testLink1',
       linkName: 'test link 1',
-      target: false
+      target: false,
     },
     {
       uid: 'MockLink002',
       url: '/testLink2',
       linkName: 'test link 2',
-      target: true
-    }
+      target: true,
+    },
   ],
   pagination: {
     count: 2,
     page: 0,
     totalCount: 2,
-    totalPages: 1
-  }
+    totalPages: 1,
+  },
 };
 
 class MockRoutingService {
@@ -70,15 +70,15 @@ describe('Navigation Entry Items Effects', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromCmsReducer.getReducers())
+        StoreModule.forFeature('cms', fromCmsReducer.getReducers()),
       ],
       providers: [
         { provide: OccCmsPageLoader, useClass: OccCmsPageLoaderMock },
         { provide: OccConfig, useValue: {} },
         fromEffects.NavigationEntryItemEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
 
     service = TestBed.get(OccCmsPageLoader);
@@ -94,17 +94,17 @@ describe('Navigation Entry Items Effects', () => {
         items: [
           {
             superType: 'AbstractCMSComponent',
-            id: 'MockLink001'
+            id: 'MockLink001',
           },
           {
             superType: 'AbstractCMSComponent',
-            id: 'MockLink002'
-          }
-        ]
+            id: 'MockLink002',
+          },
+        ],
       });
       const completion = new fromActions.LoadNavigationItemsSuccess({
         nodeId: 'MockNavigationNode001',
-        components: listComponents.component
+        components: listComponents.component,
       });
 
       actions$ = hot('-a', { a: action });

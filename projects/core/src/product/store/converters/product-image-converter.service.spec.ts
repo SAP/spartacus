@@ -8,8 +8,8 @@ import { ProductImageConverterService } from './product-image-converter.service'
 const MockOccModuleConfig: OccConfig = {
   server: {
     baseUrl: '',
-    occPrefix: ''
-  }
+    occPrefix: '',
+  },
 };
 
 describe('ProductImageConverterService', () => {
@@ -23,29 +23,29 @@ describe('ProductImageConverterService', () => {
         altText: 'Test alt text',
         format: 'product',
         imageType: ImageType.PRIMARY,
-        url: '/test1'
+        url: '/test1',
       },
       {
         altText: 'Test alt text',
         format: 'thumbnail',
         imageType: ImageType.PRIMARY,
-        url: '/test2'
+        url: '/test2',
       },
       {
         altText: 'Test alt text',
         format: 'product',
         galleryIndex: 0,
         imageType: ImageType.GALLERY,
-        url: '/test3'
+        url: '/test3',
       },
       {
         altText: 'Test alt text',
         format: 'thumbnail',
         galleryIndex: 0,
         imageType: ImageType.GALLERY,
-        url: '/test4'
-      }
-    ]
+        url: '/test4',
+      },
+    ],
   };
 
   const convertedProduct = {
@@ -57,14 +57,14 @@ describe('ProductImageConverterService', () => {
           altText: 'Test alt text',
           format: 'product',
           imageType: 'PRIMARY',
-          url: '/test1'
+          url: '/test1',
         },
         thumbnail: {
           altText: 'Test alt text',
           format: 'thumbnail',
           imageType: 'PRIMARY',
-          url: '/test2'
-        }
+          url: '/test2',
+        },
       },
       GALLERY: [
         {
@@ -73,26 +73,26 @@ describe('ProductImageConverterService', () => {
             format: 'product',
             galleryIndex: 0,
             imageType: 'GALLERY',
-            url: '/test3'
+            url: '/test3',
           },
           thumbnail: {
             altText: 'Test alt text',
             format: 'thumbnail',
             galleryIndex: 0,
             imageType: 'GALLERY',
-            url: '/test4'
-          }
-        }
-      ]
-    }
+            url: '/test4',
+          },
+        },
+      ],
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ProductImageConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(ProductImageConverterService);

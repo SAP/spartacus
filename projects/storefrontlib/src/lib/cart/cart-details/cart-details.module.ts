@@ -16,13 +16,13 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CartComponent: {
-          selector: 'cx-cart-details'
-        }
-      }
-    })
+          selector: 'cx-cart-details',
+        },
+      },
+    }),
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],
-  entryComponents: [CartDetailsComponent]
+  entryComponents: [CartDetailsComponent],
 })
 export class CartDetailsModule {}

@@ -8,6 +8,6 @@ export abstract class ServerConfig {
 
 export const defaultServerConfig: ServerConfig = {
   server: {
-    occPrefix: '/rest/v2/'
-  }
+    occPrefix: '/rest/v2/',
+  },
 };

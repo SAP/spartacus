@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CMSPage } from '../../occ/index';
 import {
   CMS_FLEX_COMPONENT_TYPE,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE
+  JSP_INCLUDE_CMS_COMPONENT_TYPE,
 } from '../config/cms-config';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
@@ -30,7 +30,7 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
       catalogUuid: this.getCatalogUuid(source),
       pageId: source.uid,
       template: source.template,
-      slots: {}
+      slots: {},
     };
   }
 
@@ -40,7 +40,7 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
         uid: slot.slotId,
         uuid: slot.slotUuid,
         catalogUuid: this.getCatalogUuid(slot),
-        components: []
+        components: [],
       } as ContentSlotData;
     }
   }
@@ -58,7 +58,7 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
-            catalogUuid: this.getCatalogUuid(component)
+            catalogUuid: this.getCatalogUuid(component),
           };
           if (component.uuid) {
             comp.uuid = component.uuid;

@@ -5,6 +5,6 @@ import { ProductImageConverterService } from './product-image-converter.service'
 import { ProductReferenceConverterService } from './product-reference-converter.service';
 @NgModule({
   imports: [CommonModule],
-  providers: [ProductImageConverterService, ProductReferenceConverterService]
+  providers: [ProductImageConverterService, ProductReferenceConverterService],
 })
 export class ProductConverterModule {}

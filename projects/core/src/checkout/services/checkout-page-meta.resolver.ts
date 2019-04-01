@@ -7,14 +7,14 @@ import { CartService } from '../../cart/facade/cart.service';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageTitleResolver,
-  PageRobotsResolver
+  PageRobotsResolver,
 } from '../../cms/page/page.resolvers';
 import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
 
 import { Cart } from '../../occ/occ-models/index';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CheckoutPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
@@ -32,7 +32,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
       map(cart => {
         return {
           title: this.resolveTitle(cart),
-          robots: this.resolveRobots()
+          robots: this.resolveRobots(),
         };
       })
     );

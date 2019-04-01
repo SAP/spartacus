@@ -15,8 +15,8 @@ describe('I18nextTranslationService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ServerConfig, useValue: { production: false } },
-        I18nextTranslationService
-      ]
+        I18nextTranslationService,
+      ],
     });
 
     service = TestBed.get(I18nextTranslationService);
