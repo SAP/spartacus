@@ -23,24 +23,27 @@ export class I18nextTranslationService implements TranslationService {
     // which together with `switchMap` operator may lead to an infinite loop.
 
     return new Observable<string>(subscriber => {
-      if (i18next.exists(key, options)) {
-        subscriber.next(i18next.t(key, options));
-        subscriber.complete();
-      } else {
-        if (whitespaceUntilLoaded) {
-          subscriber.next(this.NON_BREAKING_SPACE);
-        }
-        this.loadKeyNamespace(key, () => {
-          if (!i18next.exists(key, options)) {
-            this.reportMissingKey(key);
-            subscriber.next(this.getFallbackValue(key));
-            subscriber.complete();
-          } else {
-            subscriber.next(i18next.t(key, options));
-            subscriber.complete();
+      const translate = () => {
+        if (i18next.exists(key, options)) {
+          subscriber.next(i18next.t(key, options));
+        } else {
+          if (whitespaceUntilLoaded) {
+            subscriber.next(this.NON_BREAKING_SPACE);
           }
-        });
-      }
+          this.loadKeyNamespace(key, () => {
+            if (!i18next.exists(key, options)) {
+              this.reportMissingKey(key);
+              subscriber.next(this.getFallbackValue(key));
+            } else {
+              subscriber.next(i18next.t(key, options));
+            }
+          });
+        }
+      };
+
+      translate();
+      i18next.on('languageChanged', translate);
+      return () => i18next.off('languageChanged', translate);
     });
   }
 
