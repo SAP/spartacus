@@ -9,6 +9,7 @@ import {
   UserToken,
   Order,
   UserService,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
@@ -119,7 +120,7 @@ describe('OrderDetailsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule],
+      imports: [CardModule, I18nTestingModule],
       providers: [
         { provide: RoutingService, useValue: mockRoutingService },
         { provide: UserService, useClass: MockUserService },

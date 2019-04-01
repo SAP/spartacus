@@ -5,7 +5,11 @@ import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
 
-import { StoreDataService, StoreFinderService } from '@spartacus/core';
+import {
+  StoreDataService,
+  StoreFinderService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
@@ -84,7 +88,12 @@ describe('StoreFinderListItemComponent', () => {
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, ReactiveFormsModule, NgbTabsetModule],
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        NgbTabsetModule,
+        I18nTestingModule,
+      ],
       declarations: [StoreFinderListItemComponent],
       providers: [StoreFinderService, StoreDataService],
     }).compileComponents();
