@@ -1,33 +1,17 @@
-<div *ngIf="(user$ | async); else userLoading">
-  <div *ngIf="(loading$ | async); else updateForm">
-    <div class="cx-spinner">
-      <cx-spinner></cx-spinner>
-    </div>
-  </div>
-
-  <ng-template #updateForm>
-    <div [formGroup]="form">
-      <select formControlName="titleCode" class="form-control">
-        <option value="">None</option>
-        <option *ngFor="let title of (titles$ | async)" [value]="title.code">{{
-          title.name
-        }}</option>
-      </select>
-      <input type="text" formControlName="firstName" />
-      <input type="text" formControlName="lastName" />
-      <button type="submit" (click)="onSubmit()">Submit</button>
-    </div>
-  </ng-template>
-</div>
-
-<ng-template #userLoading>
+<div *ngIf="(loading$ | async); else updateForm">
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
+</div>
+
+<ng-template #updateForm>
+  <cx-update-profile-form
+    [user]="user$ | async"
+    [titles]="titles$ | async"
+    (submited)="onSubmit($event)"
+  ></cx-update-profile-form>
 </ng-template>
 
 <div>Loading: {{ loading$ | async }}</div>
 <div>Error: {{ error$ | async }}</div>
 <div>Success: {{ success$ | async }}</div>
-
-<div>{{ form.value | json }}</div>

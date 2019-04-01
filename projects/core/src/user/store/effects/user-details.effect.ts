@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
+import { AddMessage } from '../../../global-message/store/actions/global-message.actions';
 import { User } from '../../../occ/occ-models/index';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
@@ -26,9 +34,11 @@ export class UserDetailsEffects {
     })
   );
 
+  // TODO:#1146 - update test
   @Effect()
   updateUserDetails$: Observable<
     | fromUserDetailsAction.UpdateUserDetailsSuccess
+    | AddMessage
     | fromUserDetailsAction.UpdateUserDetailsFail
   > = this.actions$.pipe(
     ofType(fromUserDetailsAction.UPDATE_USER_DETAILS),
@@ -38,12 +48,15 @@ export class UserDetailsEffects {
       this.occUserService
         .updateUserDetails(payload.username, payload.userDetails)
         .pipe(
-          map(
-            _ =>
-              new fromUserDetailsAction.UpdateUserDetailsSuccess(
-                payload.userDetails
-              )
-          ),
+          switchMap(_ => [
+            new fromUserDetailsAction.UpdateUserDetailsSuccess(
+              payload.userDetails
+            ),
+            new AddMessage({
+              text: 'Personal details successfully updated',
+              type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+            }),
+          ]),
           catchError(error =>
             of(new fromUserDetailsAction.UpdateUserDetailsFail(error))
           )

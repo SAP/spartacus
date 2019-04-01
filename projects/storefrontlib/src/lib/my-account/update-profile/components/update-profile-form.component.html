@@ -1,0 +1,13 @@
+<div [formGroup]="form">
+  <select formControlName="titleCode" class="form-control">
+    <option value="">None</option>
+    <option *ngFor="let title of titles" [value]="title.code">{{
+      title.name
+    }}</option>
+  </select>
+  <input type="text" formControlName="firstName" />
+  <input type="text" formControlName="lastName" />
+  <button type="submit" (click)="onSubmit()">Submit</button>
+</div>
+
+<div>{{ form.value | json }}</div>
