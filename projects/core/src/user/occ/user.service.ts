@@ -1,23 +1,20 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { throwError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { UserRegisterFormData } from '../model/user.model';
-
+import {
+  Address,
+  AddressList,
+  AddressValidation,
+  PaymentDetailsList,
+  User,
+} from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-import {
-  User,
-  Address,
-  AddressValidation,
-  AddressList,
-  PaymentDetailsList,
-} from '../../occ/occ-models/index';
-import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { UserRegisterFormData } from '../model/user.model';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -34,11 +31,18 @@ export class OccUserService {
     private occEndpoints: OccEndpointsService
   ) {}
 
-  public loadUser(userId: string): Observable<User> {
+  loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get<User>(url)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateUserDetails(username: string, user: User): Observable<{}> {
+    const url = this.getUserEndpoint() + username;
+    return this.http
+      .patch(url, user)
+      .pipe(catchError(error => throwError(error)));
   }
 
   verifyAddress(

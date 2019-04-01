@@ -1,11 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+
 import { Store, StoreModule, select } from '@ngrx/store';
 
+import { StateWithUser, USER_FEATURE } from '../user-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
 import { User } from '../../../occ/occ-models/index';
-import { StateWithUser, USER_FEATURE } from '../user-state';
 
 const mockUserDetails: User = {
   displayUid: 'Display Uid',
