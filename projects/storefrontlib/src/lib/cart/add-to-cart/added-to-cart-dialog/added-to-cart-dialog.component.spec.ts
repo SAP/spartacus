@@ -130,7 +130,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('Updating cart...');
+    ).toEqual('addToCart:labels.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
 
@@ -151,7 +151,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('Item(s) added to your cart');
+    ).toEqual('addToCart:labels.itemsAddedToYourCart');
   });
 
   it('should display cart item', () => {
@@ -170,7 +170,9 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(true);
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
-    expect(cartTotalEl.children[0].textContent).toEqual('Cart total (1 items)');
+    expect(cartTotalEl.children[0].textContent).toEqual(
+      ' cartItems:labels.cartTotal count:1 '
+    );
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 

@@ -147,7 +147,7 @@ describe('AddressBookComponent', () => {
   it('should display shipping addresses page title', () => {
     expect(
       el.query(By.css('.cx-section__msg')).nativeElement.textContent
-    ).toContain('Saved shipping addresses');
+    ).toContain(' addressBook:labels.savedShippingAddress ');
   });
 
   it('should be able to add new address', () => {

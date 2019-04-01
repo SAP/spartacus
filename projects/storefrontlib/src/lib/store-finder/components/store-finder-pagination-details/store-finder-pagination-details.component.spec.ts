@@ -37,9 +37,11 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${component.pagination.pageSize} from ${
+      `1 - ${
+        component.pagination.pageSize
+      } storeFinder:labels.fromStoresFound count:${
         component.pagination.totalResults
-      } stores found`
+      }`
     );
   });
 });

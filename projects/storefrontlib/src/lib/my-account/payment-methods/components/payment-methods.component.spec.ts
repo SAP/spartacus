@@ -79,9 +79,9 @@ describe('PaymentMethodsComponent', () => {
     }
     component.ngOnInit();
     fixture.detectChanges();
-    expect(getTitle(el)).toContain('Payment methods');
+    expect(getTitle(el)).toContain('paymentMethods:labels.paymentMethods');
     expect(getBodyMessage(el)).toContain(
-      'New payment methods are added during checkout.'
+      ' paymentMethods:labels.newPaymentMethodsAreAddedDuringCheckout '
     );
   });
 

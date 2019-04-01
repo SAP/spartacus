@@ -251,7 +251,9 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'common:actions.back');
+        .find(
+          el => el.nativeElement.innerText === 'checkout:actions.backToCart'
+        );
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -267,7 +269,7 @@ describe('ShippingAddressComponent', () => {
   describe('UI cards with addresses', () => {
     const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
-    it('should represent all existng addresses', () => {
+    it('should represent all existing addresses', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
       spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
 
@@ -296,7 +298,11 @@ describe('ShippingAddressComponent', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'checkoutAddress:actions.addNewAddress');
+        .find(
+          el =>
+            el.nativeElement.innerText ===
+            'checkoutAddress:actions.addNewAddress'
+        );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));
 

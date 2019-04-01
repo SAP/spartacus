@@ -94,9 +94,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(component.form.valid).toBeFalsy();
     const message = fixture.debugElement.query(By.css('.invalid-feedback'))
       .children[0].nativeElement.textContent;
-    expect(message).toEqual(
-      'Password must be six characters minimum, with one uppercase letter, one number, one symbol'
-    );
+    expect(message).toEqual('register:validations.passwordMinRequirements');
   });
 
   it('should form be invalid when password and repassword are not match', () => {
@@ -109,7 +107,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(component.form.valid).toBeFalsy();
     const message = fixture.debugElement.query(By.css('.invalid-feedback'))
       .children[0].nativeElement.textContent;
-    expect(message).toEqual('Both password must match');
+    expect(message).toEqual('register:validations.bothPasswordMustMatch');
   });
 
   it('should call resetPassword() method on submit', () => {
