@@ -169,26 +169,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.tAndCToggler = false;
   }
 
-  addAddress({
-    newAddress,
-    address
-  }: {
-    newAddress: boolean;
-    address: Address;
-  }): void {
-    if (newAddress) {
-      this.checkoutService.createAndSetAddress(address);
-      return;
-    }
-    // if the selected address is the same as the cart's one
-    if (this.deliveryAddress && address.id === this.deliveryAddress.id) {
-      this.nextStep(2);
-      return;
-    }
-    this.checkoutService.setDeliveryAddress(address);
-    return;
-  }
-
   setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
     // if the selected delivery mode is the same as the cart's one
     if (this.deliveryMode && this.deliveryMode === deliveryModeId) {
