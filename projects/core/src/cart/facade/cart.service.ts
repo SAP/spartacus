@@ -76,14 +76,14 @@ export class CartService {
         this.store.dispatch(
           new fromAction.LoadCart({
             userId: this.cartData.userId,
-            cartId: 'current'
+            cartId: 'current',
           })
         );
       } else {
         this.store.dispatch(
           new fromAction.MergeCart({
             userId: this.cartData.userId,
-            cartId: this.cartData.cart.guid
+            cartId: this.cartData.cart.guid,
           })
         );
       }
@@ -97,7 +97,7 @@ export class CartService {
           new fromAction.LoadCart({
             userId: this.cartData.userId,
             cartId: this.cartData.cartId,
-            details: true
+            details: true,
           })
         );
       }
@@ -112,7 +112,7 @@ export class CartService {
         new fromAction.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId ? this.cartData.cartId : 'current',
-          details: true
+          details: true,
         })
       );
     } else if (this.cartData.cartId) {
@@ -120,7 +120,7 @@ export class CartService {
         new fromAction.LoadCart({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          details: true
+          details: true,
         })
       );
     }
@@ -137,7 +137,7 @@ export class CartService {
             userId: this.cartData.userId,
             cartId: this.cartData.cartId,
             productCode: productCode,
-            quantity: quantity
+            quantity: quantity,
           })
         );
       };
@@ -147,7 +147,7 @@ export class CartService {
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           productCode: productCode,
-          quantity: quantity
+          quantity: quantity,
         })
       );
     }
@@ -158,7 +158,7 @@ export class CartService {
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
         cartId: this.cartData.cartId,
-        entry: entry.entryNumber
+        entry: entry.entryNumber,
       })
     );
   }
@@ -170,7 +170,7 @@ export class CartService {
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
           entry: entryNumber,
-          qty: quantity
+          qty: quantity,
         })
       );
     } else {
@@ -178,7 +178,7 @@ export class CartService {
         new fromAction.RemoveEntry({
           userId: this.cartData.userId,
           cartId: this.cartData.cartId,
-          entry: entryNumber
+          entry: entryNumber,
         })
       );
     }

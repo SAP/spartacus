@@ -7,13 +7,13 @@ import createSpy = jasmine.createSpy;
 import * as fromStore from '../store/index';
 import {
   GlobalMessageType,
-  GlobalMessage
+  GlobalMessage,
 } from '../models/global-message.model';
 import { GlobalMessageService } from './global-message.service';
 
 const mockMessages = {
   [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error']
+  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error'],
 };
 
 describe('GlobalMessageService', () => {
@@ -31,9 +31,9 @@ describe('GlobalMessageService', () => {
         StoreModule.forFeature(
           fromStore.GLOBAL_MESSAGE_FEATURE,
           fromStore.getReducers()
-        )
+        ),
       ],
-      providers: [GlobalMessageService]
+      providers: [GlobalMessageService],
     });
 
     store = TestBed.get(Store);
@@ -58,7 +58,7 @@ describe('GlobalMessageService', () => {
   it('Should be able to add a message', () => {
     const message: GlobalMessage = {
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Test error message'
+      text: 'Test error message',
     };
 
     service.add(message);
@@ -72,7 +72,7 @@ describe('GlobalMessageService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.RemoveMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
-        index: 0
+        index: 0,
       })
     );
   });

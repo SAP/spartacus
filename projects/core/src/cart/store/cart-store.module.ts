@@ -15,8 +15,8 @@ import { CartOccModule } from './../occ/cart-occ.module';
     HttpClientModule,
     CartOccModule,
     StoreModule.forFeature(CART_FEATURE, reducerToken, { metaReducers }),
-    EffectsModule.forFeature(effects)
+    EffectsModule.forFeature(effects),
   ],
-  providers: [reducerProvider]
+  providers: [reducerProvider],
 })
 export class CartStoreModule {}

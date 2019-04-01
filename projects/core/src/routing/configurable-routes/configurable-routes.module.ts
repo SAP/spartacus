@@ -19,7 +19,7 @@ export function initConfigurableRoutes(
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(defaultConfigurableRoutesConfig)
+    ConfigModule.withConfig(defaultConfigurableRoutesConfig),
   ],
   declarations: [],
   exports: [],
@@ -33,9 +33,9 @@ export function initConfigurableRoutes(
       provide: APP_INITIALIZER,
       useFactory: initConfigurableRoutes,
       deps: [ConfigurableRoutesService],
-      multi: true
+      multi: true,
     },
-    { provide: ConfigurableRoutesConfig, useExisting: Config }
-  ]
+    { provide: ConfigurableRoutesConfig, useExisting: Config },
+  ],
 })
 export class ConfigurableRoutesModule {}

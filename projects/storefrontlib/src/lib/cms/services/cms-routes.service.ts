@@ -5,7 +5,7 @@ import { PageLayoutComponent } from '../page-layout/page-layout.component';
 import { CmsMappingService } from './cms-mapping.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmsRoutesService {
   constructor(private router: Router, private cmsMapping: CmsMappingService) {}
@@ -65,8 +65,8 @@ export class CmsRoutesService {
         component: PageLayoutComponent,
         children: routes,
         data: {
-          cxCmsRouteContext: pageContext
-        }
+          cxCmsRouteContext: pageContext,
+        },
       };
 
       this.router.resetConfig([newRoute, ...this.router.config]);

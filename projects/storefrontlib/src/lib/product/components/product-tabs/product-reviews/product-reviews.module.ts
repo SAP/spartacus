@@ -12,9 +12,9 @@ import { I18nModule } from '@spartacus/core';
     ReactiveFormsModule,
     FormsModule,
     FormComponentsModule,
-    I18nModule
+    I18nModule,
   ],
   declarations: [ProductReviewsComponent],
-  exports: [ProductReviewsComponent]
+  exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}

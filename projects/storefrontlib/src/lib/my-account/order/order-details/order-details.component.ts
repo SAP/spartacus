@@ -8,7 +8,7 @@ import {
   DeliveryMode,
   Consignment,
   OrderEntry,
-  UserService
+  UserService,
 } from '@spartacus/core';
 
 import { Observable, Subscription, combineLatest } from 'rxjs';
@@ -18,7 +18,7 @@ import { Card } from '../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-order-details',
   templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.scss']
+  styleUrls: ['./order-details.component.scss'],
 })
 export class OrderDetailsComponent implements OnInit, OnDestroy {
   constructor(
@@ -60,8 +60,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
         address.line1,
         address.line2,
         `${address.town}, ${address.country.isocode}, ${address.postalCode}`,
-        address.phone
-      ]
+        address.phone,
+      ],
     };
   }
 
@@ -75,8 +75,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
         `${billingAddress.town}, ${billingAddress.country.isocode}, ${
           billingAddress.postalCode
         }`,
-        billingAddress.phone
-      ]
+        billingAddress.phone,
+      ],
     };
   }
 
@@ -87,8 +87,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
       text: [
         payment.cardType.name,
         payment.cardNumber,
-        `Expires: ${payment.expiryMonth} / ${payment.expiryYear}`
-      ]
+        `Expires: ${payment.expiryMonth} / ${payment.expiryYear}`,
+      ],
     };
   }
 
@@ -96,7 +96,7 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     return {
       title: 'Shipping Method',
       textBold: shipping.name,
-      text: [shipping.description]
+      text: [shipping.description],
     };
   }
 

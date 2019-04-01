@@ -3,19 +3,19 @@ import {
   Input,
   Output,
   ChangeDetectionStrategy,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 
 export enum ViewModes {
   Grid = 'grid',
-  List = 'list'
+  List = 'list',
 }
 
 @Component({
   selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
   styleUrls: ['./product-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductViewComponent {
   @Input()

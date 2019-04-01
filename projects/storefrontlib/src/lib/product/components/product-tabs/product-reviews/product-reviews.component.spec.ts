@@ -9,7 +9,7 @@ const productCode = '123';
 const product = { code: productCode, text: 'bla' };
 const reviews = [
   { comment: 'bla1', headline: '1', alias: 'test1' },
-  { comment: 'bla2', headline: '2', alias: 'test2' }
+  { comment: 'bla2', headline: '2', alias: 'test2' },
 ];
 
 class MockProductReviewService {
@@ -29,10 +29,10 @@ describe('ProductReviewsComponent in product', () => {
       providers: [
         {
           provide: ProductReviewService,
-          useClass: MockProductReviewService
-        }
+          useClass: MockProductReviewService,
+        },
       ],
-      declarations: [ProductReviewsComponent]
+      declarations: [ProductReviewsComponent],
     }).compileComponents();
   }));
 

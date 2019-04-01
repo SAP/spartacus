@@ -22,7 +22,7 @@ export class ProductLoaderService {
 
   protected getEndpoint(code: string): string {
     return this.occEndpoints.getUrl('product', {
-      productCode: code
+      productCode: code,
     });
   }
 }

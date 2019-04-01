@@ -26,7 +26,7 @@ import {
   ConfigModule,
   StoreFinderCoreModule,
   UrlTranslationModule,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
 import { LayoutConfig } from '../ui/layout/config/layout-config';
@@ -50,37 +50,37 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
           childRoutes: [
             {
               path: 'find',
-              component: StoreFinderSearchResultComponent
+              component: StoreFinderSearchResultComponent,
             },
             {
               path: 'view-all',
-              component: StoreFinderStoresCountComponent
+              component: StoreFinderStoresCountComponent,
             },
             {
               path: 'country/:country',
-              component: StoreFinderGridComponent
+              component: StoreFinderGridComponent,
             },
             {
               path: 'country/:country/region/:region',
-              component: StoreFinderGridComponent
+              component: StoreFinderGridComponent,
             },
             {
               path: 'country/:country/region/:region/:store',
-              component: StoreFinderStoreDescriptionComponent
+              component: StoreFinderStoreDescriptionComponent,
             },
             {
               path: 'country/:country/:store',
-              component: StoreFinderStoreDescriptionComponent
-            }
-          ]
-        }
+              component: StoreFinderStoreDescriptionComponent,
+            },
+          ],
+        },
       },
       layoutSlots: {
         StoreFinderPageTemplate: {
-          slots: ['MiddleContent', 'SideContent']
-        }
-      }
-    })
+          slots: ['MiddleContent', 'SideContent'],
+        },
+      },
+    }),
   ],
   declarations: [
     StoreFinderSearchComponent,
@@ -94,7 +94,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     StoreFinderHeaderComponent,
     StoreFinderSearchResultComponent,
     StoreFinderComponent,
-    StoreFinderPaginationDetailsComponent
+    StoreFinderPaginationDetailsComponent,
   ],
   exports: [
     StoreFinderSearchComponent,
@@ -108,7 +108,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     StoreFinderHeaderComponent,
     StoreFinderSearchResultComponent,
     StoreFinderComponent,
-    StoreFinderPaginationDetailsComponent
+    StoreFinderPaginationDetailsComponent,
   ],
   entryComponents: [
     StoreFinderComponent,
@@ -116,7 +116,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     StoreFinderStoresCountComponent,
     StoreFinderGridComponent,
     StoreFinderStoreDescriptionComponent,
-    StoreFinderStoreDescriptionComponent
-  ]
+    StoreFinderStoreDescriptionComponent,
+  ],
 })
 export class StoreFinderModule {}

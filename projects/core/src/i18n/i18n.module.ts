@@ -10,7 +10,7 @@ import { DatePipe } from './date.pipe';
 
 @NgModule({
   declarations: [TranslatePipe, DatePipe],
-  exports: [TranslatePipe, DatePipe]
+  exports: [TranslatePipe, DatePipe],
 })
 export class I18nModule {
   static forRoot(): ModuleWithProviders {
@@ -20,8 +20,8 @@ export class I18nModule {
         provideConfig(defaultI18nConfig),
         { provide: I18nConfig, useExisting: Config },
         { provide: TranslationService, useClass: I18nextTranslationService },
-        ...i18nextProviders
-      ]
+        ...i18nextProviders,
+      ],
     };
   }
 }

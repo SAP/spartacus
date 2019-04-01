@@ -12,7 +12,7 @@ import { TranslateUrlOptions } from '../configurable-routes/url-translation/tran
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoutingService {
   constructor(
@@ -126,7 +126,7 @@ export class RoutingService {
       new fromStore.Go({
         path,
         query,
-        extras
+        extras,
       })
     );
   }

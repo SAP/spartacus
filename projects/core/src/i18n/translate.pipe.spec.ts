@@ -12,7 +12,7 @@ describe('TranslatePipe', () => {
 
   beforeEach(() => {
     const mockTranslateService = {
-      translate: () => {}
+      translate: () => {},
     };
 
     TestBed.configureTestingModule({
@@ -20,10 +20,10 @@ describe('TranslatePipe', () => {
         TranslatePipe,
         {
           provide: ChangeDetectorRef,
-          useValue: { markForCheck: createSpy('markForCheck') }
+          useValue: { markForCheck: createSpy('markForCheck') },
         },
-        { provide: TranslationService, useValue: mockTranslateService }
-      ]
+        { provide: TranslationService, useValue: mockTranslateService },
+      ],
     });
 
     pipe = TestBed.get(TranslatePipe);

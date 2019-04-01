@@ -3,7 +3,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   ProductReviewsState,
   ProductsState,
-  StateWithProduct
+  StateWithProduct,
 } from '../product-state';
 import { Review } from '../../../occ/occ-models/occ.models';
 

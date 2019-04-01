@@ -18,12 +18,12 @@ describe('Cart selectors', () => {
     entries: [{ entryNumber: 0, product: { code: '1234' } }],
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   const testEmptyCart: Cart = {
@@ -32,20 +32,20 @@ describe('Cart selectors', () => {
     totalItems: 0,
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cart', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cart', fromReducers.getReducers()),
+      ],
     });
 
     store = TestBed.get(Store);
@@ -80,7 +80,7 @@ describe('Cart selectors', () => {
           userId: 'testUserId',
           cartId: 'testCartId',
           productCode: 'testProductCode',
-          quantity: 1
+          quantity: 1,
         })
       );
       expect(result).toEqual(true);
@@ -113,7 +113,7 @@ describe('Cart selectors', () => {
       store.dispatch(new fromActions.LoadCartSuccess(testCart));
 
       expect(result).toEqual({
-        '1234': { entryNumber: 0, product: { code: '1234' } }
+        '1234': { entryNumber: 0, product: { code: '1234' } },
       });
     });
   });

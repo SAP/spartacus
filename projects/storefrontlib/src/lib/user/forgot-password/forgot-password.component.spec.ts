@@ -12,7 +12,7 @@ class MockUserService {}
 class MockRoutingService {}
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -31,8 +31,8 @@ describe('ForgotPasswordComponent', () => {
       declarations: [ForgotPasswordComponent, MockTranslateUrlPipe],
       providers: [
         { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     }).compileComponents();
   }));
 
