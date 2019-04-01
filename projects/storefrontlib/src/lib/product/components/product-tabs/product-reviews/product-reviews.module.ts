@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { ProductReviewsComponent } from './product-reviews.component';
 import { FormComponentsModule } from './../../../../ui/components/form-components/form-components.module';
+import { I18nModule } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { FormComponentsModule } from './../../../../ui/components/form-component
     ReactiveFormsModule,
     FormsModule,
     FormComponentsModule,
+    I18nModule,
   ],
   declarations: [ProductReviewsComponent],
   exports: [ProductReviewsComponent],
