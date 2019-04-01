@@ -1,13 +1,21 @@
-<div [formGroup]="form">
-  <select formControlName="titleCode" class="form-control">
-    <option value="">None</option>
-    <option *ngFor="let title of titles" [value]="title.code">{{
-      title.name
-    }}</option>
-  </select>
-  <input type="text" formControlName="firstName" />
-  <input type="text" formControlName="lastName" />
-  <button type="submit" (click)="onSubmit()">Submit</button>
+<div class="">
+  <div [formGroup]="form">
+    <div>
+      <select formControlName="titleCode" class="form-control">
+        <option value="">None</option>
+        <option *ngFor="let title of titles" [value]="title.code">{{
+          title.name
+        }}</option>
+      </select>
+    </div>
+    <div>
+      <input type="text" formControlName="firstName" />
+    </div>
+    <div>
+      <input type="text" formControlName="lastName" />
+    </div>
+    <div>
+      <button type="submit" (click)="onSubmit()">Submit</button>
+    </div>
+  </div>
 </div>
-
-<div>{{ form.value | json }}</div>

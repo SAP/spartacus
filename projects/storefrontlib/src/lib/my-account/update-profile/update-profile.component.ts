@@ -22,10 +22,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   titles$: Observable<Title[]>;
   user$: Observable<User>;
-
-  error$: Observable<boolean>;
   loading$: Observable<boolean>;
-  success$: Observable<boolean>;
 
   // TODO:#1146 - familiarize with routingservice
   constructor(
@@ -34,6 +31,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // reset the previous form processing state
     this.userService.resetUpdatePersonalDetailsProcessingState();
 
     this.user$ = this.userService.get();
@@ -44,12 +42,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         }
       })
     );
-
-    this.error$ = this.userService.getUpdatePersonalDetailsResultError();
     this.loading$ = this.userService.getUpdatePersonalDetailsResultLoading();
-
-    // TODO:#1146 - just to display flags on the screen, will be deleted
-    this.success$ = this.userService.getUpdatePersonalDetailsResultSuccess();
 
     this.subscription.add(
       this.userService
