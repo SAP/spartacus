@@ -11,7 +11,7 @@ import {
   Cart,
   DeliveryMode,
   Country,
-  PaymentDetails
+  PaymentDetails,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
@@ -19,7 +19,7 @@ import { Card } from '../../../../ui/components/card/card.component';
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
   styleUrls: ['./review-submit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
   entries$: Observable<OrderEntry[]>;
@@ -80,8 +80,8 @@ export class ReviewSubmitComponent implements OnInit {
         deliveryAddress.line2,
         deliveryAddress.town + ', ' + region + countryName,
         deliveryAddress.postalCode,
-        deliveryAddress.phone
-      ]
+        deliveryAddress.phone,
+      ],
     };
   }
 
@@ -90,7 +90,7 @@ export class ReviewSubmitComponent implements OnInit {
       return {
         title: 'Shipping Method',
         textBold: deliveryMode.name,
-        text: [deliveryMode.description]
+        text: [deliveryMode.description],
       };
     }
   }
@@ -104,8 +104,8 @@ export class ReviewSubmitComponent implements OnInit {
         'Expires: ' +
           paymentDetails.expiryMonth +
           '/' +
-          paymentDetails.expiryYear
-      ]
+          paymentDetails.expiryYear,
+      ],
     };
   }
 }

@@ -46,7 +46,7 @@ const addressBS = new BehaviorSubject<Country>(mockAddress.country);
 
 const mockDeliveryMode: DeliveryMode = {
   name: 'standard-gross',
-  description: 'Delivery mode test description'
+  description: 'Delivery mode test description',
 };
 const deliveryModeBS = new BehaviorSubject<DeliveryMode>(mockDeliveryMode);
 
@@ -128,7 +128,7 @@ describe('ReviewSubmitComponent', () => {
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useClass: MockUserService },
         { provide: CartService, useClass: MockCartService },
-      ]
+      ],
     }).compileComponents();
   }));
 
@@ -243,7 +243,7 @@ describe('ReviewSubmitComponent', () => {
     const selectedMode: DeliveryMode = {
       code: 'standard-gross',
       name: 'Standard gross',
-      description: 'Standard Delivery description'
+      description: 'Standard Delivery description',
     };
     const card = component.getDeliveryModeCard(selectedMode);
     expect(card.title).toEqual('Shipping Method');
@@ -259,7 +259,7 @@ describe('ReviewSubmitComponent', () => {
       mockPaymentDetails.cardNumber,
       `Expires: ${mockPaymentDetails.expiryMonth}/${
         mockPaymentDetails.expiryYear
-      }`
+      }`,
     ]);
   });
 
