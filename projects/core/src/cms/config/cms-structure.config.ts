@@ -54,6 +54,7 @@ export interface CmsPageSlotsConfig {
  */
 export interface CmsPageSlotConfig {
   componentIds?: string[];
+  properties?: any;
 }
 
 /**
