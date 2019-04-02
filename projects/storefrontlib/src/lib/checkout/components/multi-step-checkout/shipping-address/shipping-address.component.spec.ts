@@ -10,7 +10,7 @@ import {
   CartDataService,
   UserService,
   CartService,
-  CheckoutService
+  CheckoutService,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ShippingAddressComponent } from './shipping-address.component';
@@ -47,7 +47,7 @@ const mockAddress1: Address = {
   id: 'id',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockAddress2: Address = {
@@ -60,26 +60,26 @@ const mockAddress2: Address = {
   id: 'id2',
   region: { isocode: 'JP-27' },
   postalCode: 'other zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockAddresses: Address[] = [mockAddress1, mockAddress2];
 
 @Component({
   selector: 'cx-address-form',
-  template: ''
+  template: '',
 })
 class MockAddressFormComponent {}
 
 @Component({
   selector: 'cx-spinner',
-  template: ''
+  template: '',
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -99,10 +99,10 @@ describe('ShippingAddressComponent', () => {
 
   beforeEach(async(() => {
     mockRouting = {
-      go: createSpy('go')
+      go: createSpy('go'),
     };
     const mockCartDataService = {
-      userId: 'testUser'
+      userId: 'testUser',
     };
 
     TestBed.configureTestingModule({
@@ -110,18 +110,18 @@ describe('ShippingAddressComponent', () => {
         ShippingAddressComponent,
         MockAddressFormComponent,
         MockCardComponent,
-        MockSpinnerComponent
+        MockSpinnerComponent,
       ],
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useValue: mockRouting },
         { provide: CartDataService, useValue: mockCartDataService },
         { provide: CartService, useClass: MockCartService },
-        { provide: CheckoutService, useClass: MockCheckoutService }
-      ]
+        { provide: CheckoutService, useClass: MockCheckoutService },
+      ],
     })
       .overrideComponent(ShippingAddressComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
 
@@ -186,7 +186,7 @@ describe('ShippingAddressComponent', () => {
   it('should call back()', () => {
     component.back();
     expect(mockRouting.go).toHaveBeenCalledWith({
-      route: ['cart']
+      route: ['cart'],
     });
   });
 
