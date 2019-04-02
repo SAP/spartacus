@@ -1,5 +1,5 @@
-import * as paymentMethods from '../../helpers/payment-methods';
-import { formats } from '../../sample-data/viewports';
+import * as paymentMethods from '../../../helpers/payment-methods';
+import { formats } from '../../../sample-data/viewports';
 
 function paymentMethodsTest() {
   it('should redirect to login page for anonymouse user', () => {
@@ -9,7 +9,13 @@ function paymentMethodsTest() {
   describe('should go to payment details page for login user', () => {
     before(() => {
       cy.requireLoggedIn();
-      cy.visit('/my-account/payment-details');
+      cy.visit('/login');
+      cy.get('.cx-nav-link')
+        .getByText('My Account')
+        .click();
+      cy.get('.cx-nav-child-link')
+        .getByText('Payment Details')
+        .click();
     });
 
     it('should see spinner when loading', () => {

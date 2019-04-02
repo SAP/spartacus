@@ -22,16 +22,24 @@ export const editedAddress: ShippingAddressData = {
 export const assertAddressForm = (address: ShippingAddressData): void => {
   cy.get('cx-address-card .card-header').contains('✓ DEFAULT');
   cy.get('cx-address-card .card-body').within(_ => {
-    cy.get('.cx-address-card-label-bold').contains(
+    cy.get('.cx-address-card__label--bold').contains(
       `${address.firstName} ${address.lastName}`
     );
-    cy.get('.cx-address-data > :nth-child(2)').contains(address.address.line1);
-    cy.get('.cx-address-data > :nth-child(3)').contains(address.address.line2);
-    cy.get('.cx-address-data > :nth-child(4)').contains(
-      `${address.address.city}, CA-QC`
-    );
-    cy.get('.cx-address-data > :nth-child(5)').contains(address.address.postal);
-    cy.get('.cx-address-data > :nth-child(6)').contains(address.phone);
+    cy.get('.cx-address-card__label')
+      .first()
+      .contains(address.address.line1);
+    cy.get('.cx-address-card__label')
+      .next()
+      .contains(address.address.line2);
+    cy.get('.cx-address-card__label')
+      .next()
+      .contains(`${address.address.city}, CA-QC`);
+    cy.get('.cx-address-card__label')
+      .next()
+      .contains(address.address.postal);
+    cy.get('.cx-address-card__label')
+      .next()
+      .contains(address.phone);
   });
 };
 
@@ -101,15 +109,14 @@ export function deleteExistingAddress() {
   let firstCard = cy.get('cx-address-card').first();
 
   firstCard.find('.delete').click();
-  cy.get('.cx-address-card-delete-msg').should(
-    'have.text',
-    ' Are you sure you want to delete this address? '
+  cy.get('.cx-address-card__delete-msg').contains(
+    'Are you sure you want to delete this address?'
   );
 
   // click cancel
   cy.get('.btn-secondary').should('contain', 'cancel');
   cy.get('.btn-secondary').click();
-  cy.get('.cx-address-card-delete-msg').should(
+  cy.get('.cx-address-card__delete-msg').should(
     'not.contain',
     'Are you sure you want to delete this address?'
   );
@@ -117,8 +124,13 @@ export function deleteExistingAddress() {
   // click delete
   firstCard = cy.get('cx-address-card').first();
   firstCard.find('.delete').click();
-  cy.get('.cx-address-card-delete-mode button.btn-primary').click();
+  cy.get('.cx-address-card__delete button.btn-primary').click();
   cy.get('cx-global-message').contains('Address deleted successfully!');
 
   cy.get('cx-address-card').should('have.length', 1);
+
+  // verify remaining address is now the default one
+  const defaultCard = cy.get('cx-address-card').first();
+  defaultCard.should('contain', '✓ DEFAULT');
+  defaultCard.should('contain', 'Baz Qux');
 }
