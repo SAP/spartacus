@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  mergeMap,
+  switchMap,
+  withLatestFrom,
+  filter,
+} from 'rxjs/operators';
 
 import { ProductImageConverterService } from '../../../product/index';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
@@ -9,6 +16,11 @@ import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { OccCartService } from '../../occ/cart.service';
 import { Cart } from '../../../occ/occ-models/occ.models';
+import {
+  SetDeliveryAddress,
+  SetDeliveryMode,
+  SetPaymentDetails,
+} from 'projects/core/src/checkout/store/actions';
 
 @Injectable()
 export class CartEffects {
@@ -55,6 +67,64 @@ export class CartEffects {
           catchError(error => of(new fromActions.LoadCartFail(error)))
         );
     })
+  );
+  @Effect()
+  loadDeliveryAddress = this.actions$.pipe(
+    ofType(fromActions.LOAD_CART_SUCCESS),
+    filter(
+      (action: fromActions.LoadCartSuccess) => action.payload.deliveryAddress
+    ),
+    withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
+    map(
+      ([loadCartSuccess, loadCart]: [
+        fromActions.LoadCartSuccess,
+        fromActions.LoadCart
+      ]) => {
+        return new SetDeliveryAddress({
+          userId: loadCart.payload.userId,
+          cartId: loadCart.payload.cartId,
+          address: loadCartSuccess.payload.deliveryAddress,
+        });
+      }
+    )
+  );
+  @Effect()
+  loadDeliveryMode = this.actions$.pipe(
+    ofType(fromActions.LOAD_CART_SUCCESS),
+    filter(
+      (action: fromActions.LoadCartSuccess) => action.payload.deliveryMode
+    ),
+    withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
+    map(
+      ([loadCartSuccess, loadCart]: [
+        fromActions.LoadCartSuccess,
+        fromActions.LoadCart
+      ]) => {
+        return new SetDeliveryMode({
+          userId: loadCart.payload.userId,
+          cartId: loadCart.payload.cartId,
+          selectedModeId: loadCartSuccess.payload.deliveryMode.code,
+        });
+      }
+    )
+  );
+  @Effect()
+  loadPaymentMethod = this.actions$.pipe(
+    ofType(fromActions.LOAD_CART_SUCCESS),
+    filter((action: fromActions.LoadCartSuccess) => action.payload.paymentInfo),
+    withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
+    map(
+      ([loadCartSuccess, loadCart]: [
+        fromActions.LoadCartSuccess,
+        fromActions.LoadCart
+      ]) => {
+        return new SetPaymentDetails({
+          userId: loadCart.payload.userId,
+          cartId: loadCart.payload.cartId,
+          paymentDetails: loadCartSuccess.payload.paymentInfo,
+        });
+      }
+    )
   );
 
   @Effect()

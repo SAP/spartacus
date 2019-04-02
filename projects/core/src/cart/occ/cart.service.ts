@@ -25,7 +25,7 @@ const DETAILS_PARAMS =
   'entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue)),' +
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
-  'appliedVouchers,productDiscounts(formattedValue)';
+  'appliedVouchers,productDiscounts(formattedValue),deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 
 @Injectable()
 export class OccCartService {

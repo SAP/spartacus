@@ -4,7 +4,7 @@ import {
   OnInit,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import {
   CartDataService,
   UserService,
   CheckoutService,
-  CartService
+  CartService,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
@@ -28,7 +28,7 @@ export interface CardWithAddress {
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
   styleUrls: ['./shipping-address.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit, OnDestroy {
   existingAddresses$: Observable<Address[]>;
@@ -86,11 +86,15 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
           const card = this.getCardContent(address, selected);
           return {
             address: address,
-            card: card
+            card: card,
           };
         });
       })
     );
+
+    this.cartService
+      .getActive()
+      .pipe(map(active => active.deliveryAddress && active.deliveryAddress.id));
   }
 
   getCardContent(address: Address, selected: any): Card {
@@ -106,10 +110,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         address.line2,
         address.town + ', ' + region + address.country.isocode,
         address.postalCode,
-        address.phone
+        address.phone,
       ],
       actions: [{ name: 'Ship to this address', event: 'send' }],
-      header: selected && selected.id === address.id ? 'SELECTED' : ''
+      header: selected && selected.id === address.id ? 'SELECTED' : '',
     };
 
     this.cards.push(card);
@@ -127,7 +131,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   addAddress({
     newAddress,
-    address
+    address,
   }: {
     newAddress: boolean;
     address: Address;
