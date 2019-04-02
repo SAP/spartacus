@@ -11,15 +11,15 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ResetPasswordComponent: { selector: 'cx-reset-password-form' }
-      }
+        ResetPasswordComponent: { selector: 'cx-reset-password-form' },
+      },
     }),
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [ResetPasswordFormComponent],
   exports: [ResetPasswordFormComponent],
-  entryComponents: [ResetPasswordFormComponent]
+  entryComponents: [ResetPasswordFormComponent],
 })
 export class ResetPasswordModule {}

@@ -6,11 +6,11 @@ import {
   ChangeDetectorRef,
   Output,
   EventEmitter,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 import {
   missingProductImgSrc,
-  missingProductImageAlt
+  missingProductImageAlt,
 } from '../../../images/missingProduct';
 import { Image } from '@spartacus/core';
 
@@ -21,7 +21,7 @@ const LOADING_CLS = 'loading';
 @Component({
   selector: 'cx-picture',
   templateUrl: './picture.component.html',
-  styleUrls: ['./picture.component.scss']
+  styleUrls: ['./picture.component.scss'],
 })
 export class PictureComponent implements OnChanges {
   @Input()

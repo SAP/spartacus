@@ -9,6 +9,6 @@ import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.modul
   imports: [CommonModule, CmsModule, PageSlotModule],
   declarations: [PageLayoutComponent],
   providers: [PageLayoutService],
-  exports: [PageLayoutComponent]
+  exports: [PageLayoutComponent],
 })
 export class PageLayoutModule {}

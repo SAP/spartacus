@@ -11,13 +11,13 @@ import { CmsConfig } from '@spartacus/core';
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CMSLinkComponent: { selector: 'cx-link' }
-      }
+        CMSLinkComponent: { selector: 'cx-link' },
+      },
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [LinkComponent],
   exports: [LinkComponent],
-  entryComponents: [LinkComponent]
+  entryComponents: [LinkComponent],
 })
 export class LinkModule {}

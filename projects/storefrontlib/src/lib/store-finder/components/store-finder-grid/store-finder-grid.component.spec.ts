@@ -14,7 +14,7 @@ const regionIsoCode = 'CA-QC';
 
 @Component({
   selector: 'cx-store-finder-list-item',
-  template: ''
+  template: '',
 })
 export class MockStoreFinderListItemComponent {
   @Input()
@@ -22,13 +22,13 @@ export class MockStoreFinderListItemComponent {
 }
 
 const location = {
-  name: 'testName'
+  name: 'testName',
 };
 
 const mockActivatedRoute = {
   snapshot: {
-    params: {}
-  }
+    params: {},
+  },
 };
 
 const mockStoreFinderService = {
@@ -36,11 +36,11 @@ const mockStoreFinderService = {
   getFindStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   getViewAllStoresEntities: jasmine.createSpy().and.returnValue(of(Observable)),
   findStoresAction: jasmine.createSpy().and.returnValue(of(Observable)),
-  getViewAllStoresLoading: jasmine.createSpy()
+  getViewAllStoresLoading: jasmine.createSpy(),
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -53,7 +53,7 @@ describe('StoreFinderGridComponent', () => {
   let route: ActivatedRoute;
 
   const mockRoutingService = {
-    go: jasmine.createSpy('go')
+    go: jasmine.createSpy('go'),
   };
 
   beforeEach(async(() => {
@@ -62,13 +62,13 @@ describe('StoreFinderGridComponent', () => {
       declarations: [
         StoreFinderGridComponent,
         MockStoreFinderListItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         { provide: StoreFinderService, useValue: mockStoreFinderService },
         { provide: ActivatedRoute, useValue: mockActivatedRoute },
-        { provide: RoutingService, useValue: mockRoutingService }
-      ]
+        { provide: RoutingService, useValue: mockRoutingService },
+      ],
     }).compileComponents();
   }));
 
@@ -88,7 +88,7 @@ describe('StoreFinderGridComponent', () => {
       '',
       undefined,
       {
-        pageSize: -1
+        pageSize: -1,
       },
       countryIsoCode
     );
@@ -97,7 +97,7 @@ describe('StoreFinderGridComponent', () => {
   it('should create with country and region routing parameters', () => {
     route.snapshot.params = {
       country: countryIsoCode,
-      region: regionIsoCode
+      region: regionIsoCode,
     };
     fixture.detectChanges();
 
@@ -106,7 +106,7 @@ describe('StoreFinderGridComponent', () => {
 
   it('should route when viewStore is called without region', () => {
     route.snapshot.params = {
-      country: countryIsoCode
+      country: countryIsoCode,
     };
     fixture.detectChanges();
 

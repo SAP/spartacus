@@ -4,7 +4,7 @@ import {
   DeliveryMode,
   Order,
   PaymentDetails,
-  AddressValidation
+  AddressValidation,
 } from '../../occ/occ-models/index';
 
 export const CHECKOUT_FEATURE = 'checkout';

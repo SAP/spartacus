@@ -12,8 +12,8 @@ import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver
     {
       provide: PageMetaResolver,
       useExisting: CheckoutPageMetaResolver,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class CheckoutModule {}

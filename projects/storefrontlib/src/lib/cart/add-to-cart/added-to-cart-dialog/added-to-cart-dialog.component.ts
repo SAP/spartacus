@@ -3,7 +3,7 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +14,7 @@ import { CartService, Cart, OrderEntry } from '@spartacus/core';
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
-  styleUrls: ['./added-to-cart-dialog.component.scss']
+  styleUrls: ['./added-to-cart-dialog.component.scss'],
 })
 export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   entry$: Observable<OrderEntry>;
@@ -88,7 +88,7 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   private createEntryFormGroup(entry): FormGroup {
     return this.fb.group({
       entryNumber: entry.entryNumber,
-      quantity: entry.quantity
+      quantity: entry.quantity,
     });
   }
 }

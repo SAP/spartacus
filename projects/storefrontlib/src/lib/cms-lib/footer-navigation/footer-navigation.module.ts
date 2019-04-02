@@ -6,7 +6,7 @@ import {
   CmsService,
   ConfigModule,
   UrlTranslationModule,
-  CmsConfig
+  CmsConfig,
 } from '@spartacus/core';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
@@ -25,17 +25,17 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
             {
               provide: NavigationComponentService,
               useClass: NavigationComponentService,
-              deps: [CmsService, CmsComponentData]
-            }
-          ]
-        }
-      }
+              deps: [CmsService, CmsComponentData],
+            },
+          ],
+        },
+      },
     }),
     GenericLinkModule,
-    UrlTranslationModule
+    UrlTranslationModule,
   ],
   declarations: [FooterNavigationComponent],
   entryComponents: [FooterNavigationComponent],
-  exports: [FooterNavigationComponent]
+  exports: [FooterNavigationComponent],
 })
 export class FooterNavigationModule {}

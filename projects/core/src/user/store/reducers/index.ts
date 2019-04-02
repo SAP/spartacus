@@ -6,13 +6,13 @@ import {
   UserState,
   USER_ORDERS,
   USER_PAYMENT_METHODS,
-  USER_ADDRESSES
+  USER_ADDRESSES,
 } from '../user-state';
 import { LOGOUT } from '../../../auth/index';
 import {
   PaymentDetails,
   OrderHistoryList,
-  Address
+  Address,
 } from '../../../occ/occ-models/occ.models';
 import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
@@ -47,7 +47,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     countries: fromDeliveryCountries.reducer,
     titles: fromTitlesReducer.reducer,
     regions: fromRegionsReducer.reducer,
-    resetPassword: fromResetPasswordReducer.reducer
+    resetPassword: fromResetPasswordReducer.reducer,
   };
 }
 
@@ -57,7 +57,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearUserState(

@@ -7,19 +7,19 @@ import { of } from 'rxjs';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    CMSLinkComponent: { selector: 'BreadcrumbsComponent' }
-  }
+    CMSLinkComponent: { selector: 'BreadcrumbsComponent' },
+  },
 };
 
 xdescribe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
   let fixture: ComponentFixture<BreadcrumbComponent>;
   const componentData: CmsBreadcrumbsComponent = {
-    container: 'false'
+    container: 'false',
   };
 
   const MockCmsComponentData = <CmsComponentData<Component>>{
-    data$: of(componentData)
+    data$: of(componentData),
   };
 
   beforeEach(async(() => {
@@ -29,9 +29,9 @@ xdescribe('BreadcrumbComponent', () => {
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData
-        }
-      ]
+          useValue: MockCmsComponentData,
+        },
+      ],
     }).compileComponents();
   }));
 

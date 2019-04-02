@@ -10,12 +10,12 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   const mockPagination: PaginationModel = {
     pageSize: 20,
     totalResults: 49,
-    currentPage: 0
+    currentPage: 0,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreFinderPaginationDetailsComponent]
+      declarations: [StoreFinderPaginationDetailsComponent],
     }).compileComponents();
   }));
 

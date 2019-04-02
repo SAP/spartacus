@@ -2,7 +2,7 @@ import { Injectable, TemplateRef } from '@angular/core';
 import { OutletPosition } from './outlet.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OutletService {
   private templatesRefs = {};

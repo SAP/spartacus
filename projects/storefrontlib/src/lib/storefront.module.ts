@@ -8,7 +8,7 @@ import {
   StateModule,
   SmartEditModule,
   CxApiModule,
-  I18nModule
+  I18nModule,
 } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
@@ -36,16 +36,16 @@ import { StoreFinderModule } from './store-finder/store-finder.module';
     CxApiModule,
     SmartEditModule.forRoot(),
     MultiStepCheckoutModule,
-    I18nModule.forRoot()
+    I18nModule.forRoot(),
   ],
   exports: [UiModule],
-  declarations: []
+  declarations: [],
 })
 export class StorefrontModule {
   static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [provideConfig(config), ...provideConfigFromMetaTags()]
+      providers: [provideConfig(config), ...provideConfigFromMetaTags()],
     };
   }
 }

@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 
 @Component({
   template: '',
-  selector: 'cx-store-finder-search'
+  selector: 'cx-store-finder-search',
 })
 class MockStoreFinderSearchComponent {}
 
@@ -15,7 +15,10 @@ describe('StoreFinderHeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreFinderHeaderComponent, MockStoreFinderSearchComponent]
+      declarations: [
+        StoreFinderHeaderComponent,
+        MockStoreFinderSearchComponent,
+      ],
     }).compileComponents();
   }));
 

@@ -3,7 +3,7 @@ import {
   CmsPageConfig,
   CmsStructureConfig,
   CmsStructureConfigService,
-  CmsStructureModel
+  CmsStructureModel,
 } from '@spartacus/core';
 
 let mockPageStructure: CmsStructureModel;
@@ -14,14 +14,14 @@ describe('CmsStructureConfigService', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        providers: [CmsStructureConfigService, CmsStructureConfig]
+        providers: [CmsStructureConfigService, CmsStructureConfig],
       });
 
       mockPageStructure = {
         page: {
           pageId: 'mockPage',
-          slots: {}
-        }
+          slots: {},
+        },
       };
 
       service = TestBed.get(CmsStructureConfigService);
@@ -33,9 +33,11 @@ describe('CmsStructureConfigService', () => {
 
     it('should return page as-is', () => {
       let result: CmsStructureModel;
-      service.mergeConfig('mockPage', mockPageStructure).subscribe(res => {
-        result = res;
-      });
+      service
+        .mergePageStructure('mockPage', mockPageStructure)
+        .subscribe(res => {
+          result = res;
+        });
 
       expect(result).toEqual(mockPageStructure);
     });
@@ -48,42 +50,49 @@ describe('CmsStructureConfigService', () => {
       pageId: 'cartPage',
       slots: {
         EmptyCartMiddleContent: {
-          components: [
-            {
-              flexType: 'CMSParagraphComponent'
-            }
-          ]
-        }
-      }
+          componentIds: ['CMSParagraphComponent'],
+        },
+      },
     };
 
     const ingoredPageConfig: CmsPageConfig = {
       ignoreBackend: true,
       pageId: 'customPage',
-      slots: {}
+      slots: {},
     };
 
     const pageWithGobalSlotConfig: CmsPageConfig = {
       ignoreBackend: true,
       pageId: 'hasGobalSlot',
       slots: {
-        GobalSlot: {}
-      }
+        GobalSlot: {},
+      },
     };
 
     const globalSlotConfig: CmsStructureConfig = {
       cmsStructure: {
+        components: {
+          ComponentOne: {
+            typeCode: 'ComponentOne',
+            flexType: 'ComponentOne',
+          },
+          ComponentTwo: {
+            typeCode: 'ComponentTwo',
+            flexType: 'ComponentTwo',
+          },
+          ComponentThree: {
+            typeCode: 'ComponentThree',
+            flexType: 'ComponentThree',
+            anyAttribute: 'whatever',
+          },
+        },
         slots: {
           GobalSlot: {
-            components: [
-              {
-                typeCode: 'CMSLinkComponent'
-              }
-            ]
-          }
+            componentIds: ['ComponentOne', 'ComponentTwo', 'ComponentThree'],
+          },
         },
-        pages: [cartPageConfig, ingoredPageConfig, pageWithGobalSlotConfig]
-      }
+        pages: [cartPageConfig, ingoredPageConfig, pageWithGobalSlotConfig],
+      },
     };
 
     beforeEach(() => {
@@ -92,16 +101,16 @@ describe('CmsStructureConfigService', () => {
           CmsStructureConfigService,
           {
             provide: CmsStructureConfig,
-            useValue: globalSlotConfig
-          }
-        ]
+            useValue: globalSlotConfig,
+          },
+        ],
       });
 
       mockPageStructure = {
         page: {
           pageId: 'mockPage',
-          slots: {}
-        }
+          slots: {},
+        },
       };
 
       service = TestBed.get(CmsStructureConfigService);
@@ -111,52 +120,85 @@ describe('CmsStructureConfigService', () => {
       expect(service).toBeTruthy();
     });
 
-    it('should merge global slots and page slots', () => {
-      let result: CmsStructureModel;
-      service.mergeConfig('cartPage', mockPageStructure).subscribe(res => {
-        result = res;
+    describe('Slot configuration', () => {
+      it('should merge global slots and page slots', () => {
+        let result: CmsStructureModel;
+        service
+          .mergePageStructure('cartPage', mockPageStructure)
+          .subscribe(res => {
+            result = res;
+          });
+
+        expect(Object.keys(result.page.slots)).toContain(
+          'EmptyCartMiddleContent'
+        );
+        expect(Object.keys(result.page.slots)).toContain('GobalSlot');
+        expect(Object.keys(result.page.slots).length).toEqual(2);
       });
 
-      expect(Object.keys(result.page.slots)).toContain(
-        'EmptyCartMiddleContent'
-      );
-      expect(Object.keys(result.page.slots)).toContain('GobalSlot');
-      expect(Object.keys(result.page.slots).length).toEqual(2);
+      it('should add global slots to empty page', () => {
+        let result: CmsStructureModel;
+        service
+          .mergePageStructure('nonExistingPage', mockPageStructure)
+          .subscribe(res => (result = res));
+
+        expect(Object.keys(result.page.slots)).toContain('GobalSlot');
+        expect(Object.keys(result.page.slots).length).toEqual(1);
+      });
+
+      it('should not add global slots if slots are allready defined by page', () => {
+        let result: CmsStructureModel;
+        service
+          .mergePageStructure('hasGobalSlot', mockPageStructure)
+          .subscribe(res => (result = res));
+
+        expect(Object.keys(result.page.slots['GobalSlot'])).not.toContain(
+          'components'
+        );
+      });
+
+      it('should return true for configuration with ignoreBackend set to true', () => {
+        let result;
+        service
+          .shouldIgnoreBackend('cartPage')
+          .subscribe(res => (result = res));
+        expect(result).toEqual(false);
+      });
+
+      it('should return true for configuration with ignoreBackend set to false', () => {
+        let result;
+        service
+          .shouldIgnoreBackend('customPage')
+          .subscribe(res => (result = res));
+        expect(result).toEqual(true);
+      });
     });
 
-    it('should add global slots to empty page', () => {
-      let result: CmsStructureModel;
-      service
-        .mergeConfig('nonExistingPage', mockPageStructure)
-        .subscribe(res => (result = res));
+    describe('Component configuration', () => {
+      it('should add GobalSlot with 3 component', () => {
+        let result: CmsStructureModel;
+        service
+          .mergePageStructure('cartPage', mockPageStructure)
+          .subscribe(res => {
+            result = res;
+          });
 
-      expect(Object.keys(result.page.slots)).toContain('GobalSlot');
-      expect(Object.keys(result.page.slots).length).toEqual(1);
-    });
+        expect(Object.keys(result.page.slots)).toContain('GobalSlot');
+        expect(result.page.slots['GobalSlot'].components.length).toEqual(3);
+      });
 
-    it('should not add global slots if slots are allready defined by page', () => {
-      let result: CmsStructureModel;
-      service
-        .mergeConfig('hasGobalSlot', mockPageStructure)
-        .subscribe(res => (result = res));
+      it('should have uid in page component data', () => {
+        let result: CmsStructureModel;
+        service
+          .mergePageStructure('cartPage', mockPageStructure)
+          .subscribe(res => {
+            result = res;
+          });
 
-      expect(Object.keys(result.page.slots['GobalSlot'])).not.toContain(
-        'components'
-      );
-    });
-
-    it('should return true for configuration with ignoreBackend set to true', () => {
-      let result;
-      service.shouldIgnoreBackend('cartPage').subscribe(res => (result = res));
-      expect(result).toEqual(false);
-    });
-
-    it('should return true for configuration with ignoreBackend set to false', () => {
-      let result;
-      service
-        .shouldIgnoreBackend('customPage')
-        .subscribe(res => (result = res));
-      expect(result).toEqual(true);
+        for (const c of result.components) {
+          expect(c.uid).toBeTruthy();
+        }
+      });
     });
   });
 });

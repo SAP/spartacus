@@ -20,7 +20,7 @@ const user: UserRegisterFormData = {
   lastName: '',
   password: '',
   titleCode: '',
-  uid: ''
+  uid: '',
 };
 
 describe('UserRegister effect', () => {
@@ -33,14 +33,14 @@ describe('UserRegister effect', () => {
       imports: [
         StoreModule.forRoot({
           ...fromStore.getReducers(),
-          user: combineReducers(fromStore.getReducers())
-        })
+          user: combineReducers(fromStore.getReducers()),
+        }),
       ],
       providers: [
         UserRegisterEffects,
         { provide: OccUserService, useClass: MockUserService },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     effect = TestBed.get(UserRegisterEffects);
@@ -54,14 +54,14 @@ describe('UserRegister effect', () => {
       const action = new fromStore.RegisterUser(user);
       const loadUser = new LoadUserToken({
         userId: '',
-        password: ''
+        password: '',
       });
       const completion = new fromStore.RegisterUserSuccess();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: loadUser,
-        c: completion
+        c: completion,
       });
 
       expect(effect.registerUser$).toBeObservable(expected);

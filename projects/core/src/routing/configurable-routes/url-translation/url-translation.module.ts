@@ -5,6 +5,6 @@ import { TranslateUrlPipe } from './translate-url.pipe';
 @NgModule({
   imports: [CommonModule],
   declarations: [TranslateUrlPipe],
-  exports: [TranslateUrlPipe]
+  exports: [TranslateUrlPipe],
 })
 export class UrlTranslationModule {}

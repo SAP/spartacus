@@ -8,7 +8,7 @@ import { RoutingService, StoreFinderService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -17,7 +17,7 @@ class MockTranslateUrlPipe implements PipeTransform {
 const mockStoreFinderService = {
   viewAllStores: jasmine.createSpy(),
   getViewAllStoresEntities: jasmine.createSpy(),
-  getViewAllStoresLoading: jasmine.createSpy()
+  getViewAllStoresLoading: jasmine.createSpy(),
 };
 
 describe('StoreFinderStoresCountComponent', () => {
@@ -31,13 +31,13 @@ describe('StoreFinderStoresCountComponent', () => {
       providers: [
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() }
+          useValue: { go: jasmine.createSpy() },
         },
         {
           provide: StoreFinderService,
-          useValue: mockStoreFinderService
-        }
-      ]
+          useValue: mockStoreFinderService,
+        },
+      ],
     }).compileComponents();
   }));
 
