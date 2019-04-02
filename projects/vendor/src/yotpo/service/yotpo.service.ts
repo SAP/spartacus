@@ -4,13 +4,13 @@ import {
   Product,
   ProductService,
   RoutingService,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class YotpoService {
   constructor(

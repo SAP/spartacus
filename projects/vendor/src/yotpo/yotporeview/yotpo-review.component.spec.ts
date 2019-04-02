@@ -18,8 +18,8 @@ class MockYotpoService {
 class MockYotpoConfig extends YotpoConfig {
   vendor = {
     yotpo: {
-      appToken: 'abc'
-    }
+      appToken: 'abc',
+    },
   };
 }
 
@@ -33,10 +33,10 @@ describe('YotporeviewComponent', () => {
         { provide: YotpoConfig, useClass: MockYotpoConfig },
         {
           provide: YotpoService,
-          useClass: MockYotpoService
-        }
+          useClass: MockYotpoService,
+        },
       ],
-      declarations: [YotporeviewComponent]
+      declarations: [YotporeviewComponent],
     }).compileComponents();
   }));
 

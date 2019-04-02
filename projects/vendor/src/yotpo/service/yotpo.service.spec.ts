@@ -3,7 +3,7 @@ import {
   Product,
   ProductService,
   RoutingService,
-  PageType
+  PageType,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 
@@ -15,8 +15,8 @@ import { YotpoService } from './yotpo.service';
 class MockYotpoConfig extends YotpoConfig {
   vendor = {
     yotpo: {
-      appToken: 'abc'
-    }
+      appToken: 'abc',
+    },
   };
 }
 const productCode = '123456';
@@ -34,8 +34,8 @@ const router = {
     queryParams: {},
     params: { productCode: productCode },
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 class MockRoutingService {
@@ -60,13 +60,13 @@ describe('YotpoService', () => {
         { provide: YotpoConfig, useClass: MockYotpoConfig },
         {
           provide: ProductService,
-          useClass: MockProductService
+          useClass: MockProductService,
         },
         {
           provide: RoutingService,
-          useClass: MockRoutingService
-        }
-      ]
+          useClass: MockRoutingService,
+        },
+      ],
     });
 
     service = bed.get(YotpoService);
@@ -89,7 +89,7 @@ describe('YotpoService', () => {
           actual.type === 'text/javascript' &&
           actual.text.includes('yotpo.initWidgets()')
         );
-      }
+      },
     };
 
     spyOn(nativeElement, 'appendChild');

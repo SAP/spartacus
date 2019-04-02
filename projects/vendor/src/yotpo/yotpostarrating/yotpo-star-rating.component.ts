@@ -6,7 +6,7 @@ import { Product } from '@spartacus/core';
 @Component({
   selector: 'cx-yotpo-star-rating',
   templateUrl: './yotpo-star-rating.component.html',
-  styleUrls: []
+  styleUrls: [],
 })
 export class YotpostarratingComponent implements OnInit, AfterViewInit {
   product$: Observable<Product>;

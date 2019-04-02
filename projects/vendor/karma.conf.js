@@ -11,10 +11,10 @@ module.exports = function(config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage-istanbul-reporter'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
+      clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
     rreporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
     coverageIstanbulReporter: {
@@ -25,8 +25,8 @@ module.exports = function(config) {
         statements: 80,
         lines: 80,
         branches: 60,
-        functions: 80
-      }
+        functions: 80,
+      },
     },
     port: 9876,
     colors: true,
@@ -34,6 +34,6 @@ module.exports = function(config) {
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
   });
 };
