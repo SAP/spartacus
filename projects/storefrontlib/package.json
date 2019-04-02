@@ -31,6 +31,7 @@
     "@ngrx/store": "~7.0.0",
     "@spartacus/core": "^0.1.0",
     "@spartacus/styles": "^0.1.0",
+    "@spartacus/vendor": "~0.0.1",
     "bootstrap": "^4.1.3",
     "core-js": "^2.5.7",
     "ngrx-store-localstorage": "^5.1.0",
