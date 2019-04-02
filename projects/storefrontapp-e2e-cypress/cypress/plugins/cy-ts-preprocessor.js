@@ -12,6 +12,9 @@ const webpackOptions = {
         use: [
           {
             loader: 'ts-loader',
+            options: {
+              transpileOnly: true,
+            },
           },
         ],
       },
