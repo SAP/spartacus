@@ -2,6 +2,7 @@ import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { UserDetailsState, UserState, StateWithUser } from '../user-state';
 import { User } from '../../../occ/occ-models/index';
+
 import { getUserState } from './feature.selector';
 
 export const getDetailsState: MemoizedSelector<
