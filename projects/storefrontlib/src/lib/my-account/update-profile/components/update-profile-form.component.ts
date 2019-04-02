@@ -26,6 +26,9 @@ export class UpdateProfileFormComponent implements OnInit {
   @Output()
   submited = new EventEmitter<{ uid: string; form: FormGroup }>();
 
+  @Output()
+  cancelled = new EventEmitter<void>();
+
   form = this.fb.group({
     titleCode: [''],
     firstName: ['', Validators.required],
@@ -36,7 +39,9 @@ export class UpdateProfileFormComponent implements OnInit {
 
   ngOnInit() {
     // TODO:#1146 - patchValue() vs setValue()?
-    this.form.patchValue(this.user);
+    if (this.user) {
+      this.form.patchValue(this.user);
+    }
   }
 
   isNotValid(formControlName: string): boolean {
@@ -49,5 +54,9 @@ export class UpdateProfileFormComponent implements OnInit {
 
   onSubmit(): void {
     this.submited.emit({ uid: this.user.uid, form: this.form });
+  }
+
+  onCancel(): void {
+    this.cancelled.emit();
   }
 }

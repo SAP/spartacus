@@ -1,0 +1,9 @@
+@import 'theme';
+
+@include media-breakpoint-down(md) {
+  .cx-update-profile-btns {
+    .btn-primary {
+      margin-bottom: 1rem;
+    }
+  }
+}

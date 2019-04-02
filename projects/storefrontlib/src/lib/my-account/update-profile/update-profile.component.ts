@@ -16,7 +16,6 @@ import { tap } from 'rxjs/operators';
   // TODO:#1146 - do we need to set this manually? Search slack for Kris' message
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-// TODO:#1146 - display a success/error message
 export class UpdateProfileComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
@@ -51,9 +50,15 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
           if (success) {
             // TODO:#1146 - is the cms/products data reloaded after redirection to home?
             this.routingService.go({ route: ['/home'] });
+            // TODO:#1146 - difference between `goByUrl` and `go`? why doesn't `goByUrl` work?
+            // this.routingService.goByUrl('/homepage');
           }
         })
     );
+  }
+
+  onCancel(): void {
+    this.routingService.go({ route: ['/home'] });
   }
 
   onSubmit({ uid, form }: { uid: string; form: FormGroup }): void {
