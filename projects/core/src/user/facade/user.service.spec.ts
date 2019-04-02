@@ -438,7 +438,7 @@ describe('UserService', () => {
     const oldPassword = 'oldPass123';
     const newPassword = 'newPass456';
 
-    it('should dispatch UpdatePassword action', () => {
+    it('should updatePassword() dispatch UpdatePassword action', () => {
       service.updatePassword(userId, oldPassword, newPassword);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -484,7 +484,7 @@ describe('UserService', () => {
       expect(result).toEqual(true);
     });
 
-    it('should dispatch a reset action', () => {
+    it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
       service.resetUpdatePasswordProcessState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.UpdatePasswordReset()
