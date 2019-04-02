@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 import { LayoutConfig } from './ui/layout/config/layout-config';
+import { CheckoutConfig } from './checkout/config/checkout-config';
 
 export interface StorefrontModuleConfig
   extends AuthConfig,
@@ -19,4 +20,5 @@ export interface StorefrontModuleConfig
     SiteContextConfig,
     LayoutConfig,
     ConfigurableRoutesConfig,
-    I18nConfig {}
+    I18nConfig,
+    CheckoutConfig {}
