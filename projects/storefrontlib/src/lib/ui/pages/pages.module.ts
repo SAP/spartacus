@@ -1,18 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { AuthGuard, NotAuthGuard } from '@spartacus/core';
-
 import { LogoutModule } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-
-import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
-
 import { CartPageModule } from './cart-page/cart-page.module';
+import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 import { GuardsModule } from './guards/guards.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
@@ -132,8 +128,10 @@ const pageModules = [
         path: null,
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
-        // TODO:#1146 - is this somehow tied with the navnode's URL? `update-profile`?
-        data: { pageLabel: 'updateProfile', cxPath: 'updateProfile' },
+        data: {
+          pageLabel: '/my-account/update-profile',
+          cxPath: 'updateProfile',
+        },
       },
       // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {

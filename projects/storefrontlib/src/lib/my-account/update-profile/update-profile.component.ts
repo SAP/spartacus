@@ -49,7 +49,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         .subscribe(success => {
           if (success) {
             // TODO:#1146 - is the cms/products data reloaded after redirection to home?
-            this.routingService.go({ route: ['/home'] });
+            this.routingService.go({ route: ['home'] });
             // TODO:#1146 - difference between `goByUrl` and `go`? why doesn't `goByUrl` work?
             // this.routingService.goByUrl('/homepage');
           }
@@ -58,7 +58,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
-    this.routingService.go({ route: ['/home'] });
+    this.routingService.go({ route: ['home'] });
   }
 
   onSubmit({ uid, form }: { uid: string; form: FormGroup }): void {
