@@ -1,10 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { UserRegisterFormData } from '../model/user.model';
 import {
   Address,
   AddressList,
@@ -17,6 +14,7 @@ import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
+import { UserRegisterFormData } from '../model/user.model';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';

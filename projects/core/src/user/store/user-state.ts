@@ -1,4 +1,3 @@
-import { LoaderState } from '../../state';
 import {
   Address,
   Country,
@@ -9,6 +8,7 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';

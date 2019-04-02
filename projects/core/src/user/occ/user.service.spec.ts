@@ -3,7 +3,6 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { OccConfig } from '../../occ/config/occ-config';
 import {
   Address,
@@ -13,7 +12,6 @@ import {
   PaymentDetailsList,
   User,
 } from '../../occ/occ-models/index';
-
 import { OccUserService } from './user.service';
 
 const username = 'mockUsername';

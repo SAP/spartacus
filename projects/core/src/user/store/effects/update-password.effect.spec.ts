@@ -1,15 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of, throwError } from 'rxjs';
-
 import { cold, hot } from 'jasmine-marbles';
-
-import * as fromActions from '../actions/update-password.action';
+import { Observable, of, throwError } from 'rxjs';
 import { OccUserService } from '../../occ/index';
-
+import * as fromActions from '../actions/update-password.action';
 import * as fromEffects from './update-password.effect';
 
 class MockOccUserService {

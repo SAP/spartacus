@@ -1,11 +1,11 @@
-import { UPDATE_PASSWORD_PROCESS_ID } from '../user-state';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntityResetAction,
   EntitySuccessAction,
 } from '../../../state';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import { UPDATE_PASSWORD_PROCESS_ID } from '../user-state';
 
 export const UPDATE_PASSWORD = '[User] Update Password';
 export const UPDATE_PASSWORD_FAIL = '[User] Update Password Fail';

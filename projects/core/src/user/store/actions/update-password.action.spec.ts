@@ -1,12 +1,11 @@
-import { UPDATE_PASSWORD_PROCESS_ID } from '../user-state';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
 import {
   entityFailMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
 } from '../../../state';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-
+import { UPDATE_PASSWORD_PROCESS_ID } from '../user-state';
 import * as fromActions from './update-password.action';
 
 describe('Update Password Actions', () => {
