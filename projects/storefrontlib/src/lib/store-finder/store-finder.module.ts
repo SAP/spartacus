@@ -26,6 +26,7 @@ import {
   ConfigModule,
   StoreFinderCoreModule,
   UrlTranslationModule,
+  I18nModule,
 } from '@spartacus/core';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
 import { LayoutConfig } from '../ui/layout/config/layout-config';
@@ -41,6 +42,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     SpinnerModule,
     UrlTranslationModule,
     StoreFinderCoreModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {
