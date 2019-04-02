@@ -11,11 +11,11 @@ import {
 } from '../../occ/occ-models/index';
 
 export const USER_FEATURE = 'user';
+export const UPDATE_PASSWORD_PROCESS_ID = 'updatePassword';
+
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
-
-export const PROCESSID_UPDATE_PASSWORD = 'processUpdatePassword';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
