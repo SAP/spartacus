@@ -135,9 +135,7 @@ export abstract class CmsStructureConfigService {
     for (const position of Object.keys(slots)) {
       if (Object.keys(pageStructure.page.slots).indexOf(position) === -1) {
         // the global slot isn't yet part of the page structure
-        pageStructure.page.slots[position] = {
-          uid: position,
-        };
+        pageStructure.page.slots[position] = {};
 
         for (const component of this.getComponentsByPosition(slots, position)) {
           if (!pageStructure.page.slots[position].components) {
