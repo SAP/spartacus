@@ -110,7 +110,6 @@ fdescribe('UpdateProfileComponent', () => {
     userService = TestBed.get(UserService);
     routingService = TestBed.get(RoutingService);
 
-    // TODO:#1146 - why are changes being detected here? this is a generated file, btw.
     fixture.detectChanges();
   });
 

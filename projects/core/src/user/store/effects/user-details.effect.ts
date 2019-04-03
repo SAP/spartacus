@@ -42,7 +42,6 @@ export class UserDetailsEffects {
   > = this.actions$.pipe(
     ofType(fromUserDetailsAction.UPDATE_USER_DETAILS),
     map((action: fromUserDetailsAction.UpdateUserDetails) => action.payload),
-    // TODO:#1146 - test how the update behaves with `concatMap` and with `switchMap`
     concatMap(payload =>
       this.occUserService
         .updateUserDetails(payload.username, payload.userDetails)

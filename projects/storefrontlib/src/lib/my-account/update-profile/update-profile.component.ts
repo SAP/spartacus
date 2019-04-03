@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { RoutingService, Title, User, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -13,8 +8,6 @@ import { tap } from 'rxjs/operators';
   selector: 'cx-update-profile',
   templateUrl: './update-profile.component.html',
   styleUrls: ['./update-profile.component.scss'],
-  // TODO:#1146 - do we need to set this manually? Search slack for Kris' message
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateProfileComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
@@ -23,7 +16,6 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   loading$: Observable<boolean>;
 
-  // TODO:#1146 - familiarize with routingservice
   constructor(
     private routingService: RoutingService,
     private userService: UserService
@@ -48,10 +40,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         .getUpdatePersonalDetailsResultSuccess()
         .subscribe(success => {
           if (success) {
-            // TODO:#1146 - is the cms/products data reloaded after redirection to home?
             this.routingService.go({ route: ['home'] });
-            // TODO:#1146 - difference between `goByUrl` and `go`? why doesn't `goByUrl` work?
-            // this.routingService.goByUrl('/homepage');
           }
         })
     );

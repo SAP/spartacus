@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title, User } from '@spartacus/core';
 
@@ -13,8 +6,6 @@ import { Title, User } from '@spartacus/core';
   selector: 'cx-update-profile-form',
   templateUrl: './update-profile-form.component.html',
   styleUrls: ['./update-profile-form.component.scss'],
-  // TODO:#1146 - do we need to set this manually? Search slack for Kris' message
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateProfileFormComponent implements OnInit {
   @Input()
@@ -38,7 +29,6 @@ export class UpdateProfileFormComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    // TODO:#1146 - patchValue() vs setValue()?
     if (this.user) {
       this.form.patchValue(this.user);
     }

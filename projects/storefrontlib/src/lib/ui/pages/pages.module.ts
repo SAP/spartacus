@@ -129,7 +129,7 @@ const pageModules = [
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
         data: {
-          pageLabel: '/my-account/update-profile',
+          pageLabel: 'update-profile',
           cxPath: 'updateProfile',
         },
       },
