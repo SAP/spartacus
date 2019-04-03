@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CmsMappingService } from './cms-mapping.service';
-import { TranslationService } from '@spartacus/core';
-import { TranslationNamespaceService } from 'projects/core/src/i18n/translation-namespace.service';
+import {
+  TranslationService,
+  TranslationNamespaceService,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
