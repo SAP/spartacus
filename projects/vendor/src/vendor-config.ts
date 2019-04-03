@@ -1,7 +1,3 @@
-import { YotpoConfig } from './yotpo/yotpoconfig/yotpo-config';
-
-export interface VendorConfig {
-  vendor?: {
-    yotpo?: YotpoConfig;
-  };
+export abstract class BaseVendorConfig {
+  vendor?: { [vendor: string]: object };
 }
