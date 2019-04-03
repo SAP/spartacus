@@ -7,7 +7,6 @@ import {
   mergeMap,
   switchMap,
   withLatestFrom,
-  filter,
 } from 'rxjs/operators';
 
 import { ProductImageConverterService } from '../../../product/index';
@@ -69,60 +68,48 @@ export class CartEffects {
     })
   );
   @Effect()
-  loadDeliveryAddress = this.actions$.pipe(
+  loadCheckoutData = this.actions$.pipe(
     ofType(fromActions.LOAD_CART_SUCCESS),
-    filter(
-      (action: fromActions.LoadCartSuccess) => action.payload.deliveryAddress
-    ),
     withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
-    map(
+    switchMap(
       ([loadCartSuccess, loadCart]: [
         fromActions.LoadCartSuccess,
         fromActions.LoadCart
       ]) => {
-        return new SetDeliveryAddress({
-          userId: loadCart.payload.userId,
-          cartId: loadCart.payload.cartId,
-          address: loadCartSuccess.payload.deliveryAddress,
-        });
-      }
-    )
-  );
-  @Effect()
-  loadDeliveryMode = this.actions$.pipe(
-    ofType(fromActions.LOAD_CART_SUCCESS),
-    filter(
-      (action: fromActions.LoadCartSuccess) => action.payload.deliveryMode
-    ),
-    withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
-    map(
-      ([loadCartSuccess, loadCart]: [
-        fromActions.LoadCartSuccess,
-        fromActions.LoadCart
-      ]) => {
-        return new SetDeliveryMode({
-          userId: loadCart.payload.userId,
-          cartId: loadCart.payload.cartId,
-          selectedModeId: loadCartSuccess.payload.deliveryMode.code,
-        });
-      }
-    )
-  );
-  @Effect()
-  loadPaymentMethod = this.actions$.pipe(
-    ofType(fromActions.LOAD_CART_SUCCESS),
-    filter((action: fromActions.LoadCartSuccess) => action.payload.paymentInfo),
-    withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
-    map(
-      ([loadCartSuccess, loadCart]: [
-        fromActions.LoadCartSuccess,
-        fromActions.LoadCart
-      ]) => {
-        return new SetPaymentDetails({
-          userId: loadCart.payload.userId,
-          cartId: loadCart.payload.cartId,
-          paymentDetails: loadCartSuccess.payload.paymentInfo,
-        });
+        const userId = loadCart.payload.userId;
+        const cartId = loadCart.payload.cartId;
+        const address = loadCartSuccess.payload.deliveryAddress;
+        const selectedModeId = loadCartSuccess.payload.deliveryMode.code;
+        const paymentDetails = loadCartSuccess.payload.paymentInfo;
+        const actions = [];
+        if (address) {
+          actions.push(
+            new SetDeliveryAddress({
+              userId,
+              cartId,
+              address,
+            })
+          );
+        }
+        if (selectedModeId) {
+          actions.push(
+            new SetDeliveryMode({
+              userId,
+              cartId,
+              selectedModeId,
+            })
+          );
+        }
+        if (paymentDetails) {
+          actions.push(
+            new SetPaymentDetails({
+              userId,
+              cartId,
+              paymentDetails,
+            })
+          );
+        }
+        return actions;
       }
     )
   );
