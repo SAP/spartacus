@@ -59,7 +59,7 @@ describe('User Details effect', () => {
     });
   });
 
-  fdescribe('updateUserDetails$', () => {
+  describe('updateUserDetails$', () => {
     it('should return UpdateUserDetailsSuccess and AddMessage actions', () => {
       spyOn(userService, 'updateUserDetails').and.returnValue(of({}));
 

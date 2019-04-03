@@ -74,7 +74,7 @@ class RoutingServiceMock {
   ): void {}
 }
 
-fdescribe('UpdateProfileComponent', () => {
+describe('UpdateProfileComponent', () => {
   let component: UpdateProfileComponent;
   let fixture: ComponentFixture<UpdateProfileComponent>;
   let el: DebugElement;

@@ -12,7 +12,7 @@ const mockUser: User = {
   uid: 'xxx@xxx.xxx',
 };
 
-fdescribe('UpdateProfileFormComponent', () => {
+describe('UpdateProfileFormComponent', () => {
   let component: UpdateProfileFormComponent;
   let fixture: ComponentFixture<UpdateProfileFormComponent>;
   let el: DebugElement;
