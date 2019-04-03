@@ -8,12 +8,12 @@ import { TranslationNamespaceService } from '../translation-namespace.service';
 @Injectable()
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
+  protected readonly NAMESPACE_SEPARATOR = ':';
 
   constructor(
     protected config: I18nConfig,
     protected translationNamespace: TranslationNamespaceService
   ) {}
-  protected readonly NAMESPACE_SEPARATOR = ':';
 
   translate(
     key: string,
