@@ -28,8 +28,10 @@ if (!environment.production) {
     BrowserTransferStateModule,
     StorefrontModule.withConfig({
       production: environment.production,
-      server: {
-        baseUrl: environment.occBaseUrl,
+      backend: {
+        occ: {
+          baseUrl: environment.occBaseUrl,
+        },
       },
       pwa: {
         enabled: true,

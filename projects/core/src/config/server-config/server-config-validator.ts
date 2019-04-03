@@ -1,7 +1,7 @@
-import { ServerConfig } from './server-config';
+import { OccConfig } from '../../occ';
 
-export function serverConfigValidator(config: ServerConfig) {
-  if (config.server.baseUrl === undefined) {
+export function serverConfigValidator(config: OccConfig) {
+  if (config.backend.occ.baseUrl === undefined) {
     return 'Please configure server.baseUrl before using storefront library!';
   }
 }

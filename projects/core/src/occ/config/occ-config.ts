@@ -9,4 +9,10 @@ export abstract class OccConfig extends ServerConfig {
   endpoints?: {
     [endpoint: string]: string;
   };
+  backend?: {
+    occ?: {
+      baseUrl?: string;
+      prefix?: string;
+    };
+  };
 }

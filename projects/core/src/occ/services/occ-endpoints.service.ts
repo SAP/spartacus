@@ -25,13 +25,13 @@ export class OccEndpointsService {
   }
 
   getBaseEndpoint(): string {
-    if (!this.config || !this.config.server) {
+    if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return '';
     }
 
     return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
+      (this.config.backend.occ.baseUrl || '') +
+      this.config.backend.occ.prefix +
       this.activeBaseSite
     );
   }
