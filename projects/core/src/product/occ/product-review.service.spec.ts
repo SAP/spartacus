@@ -61,7 +61,6 @@ describe('ProductReviewsLoaderService', () => {
   describe('load product reviews', () => {
     it('should load reviews for given product code', () => {
       let loadResult;
-      debugger; //spike
       service.load(productCode).subscribe(res => (loadResult = res));
 
       const mockReq = httpMock.expectOne(req => {
