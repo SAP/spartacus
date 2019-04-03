@@ -4,16 +4,22 @@ import { TranslationService } from '@spartacus/core';
 import { CmsMappingService } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 import { CmsI18nService } from './cms-i18n.service';
+import { TranslationNamespaceService } from 'projects/core/src/i18n/translation-namespace.service';
 
 describe('CmsI18nService', () => {
   let service: CmsI18nService;
   let translation: TranslationService;
 
   const mockCmsMapping = {
-    getI18nNamespacesForComponents: () => ['namespace1', 'namespace2'],
+    getI18nKeysForComponents: () => ['key1', 'key2'],
   };
   const mockTranslation = {
     loadNamespaces: createSpy('loadNamespaces'),
+  };
+  const mockTranslationNamespace = {
+    getNamespace: createSpy('getNamespace').and.callFake(
+      key => `namespaceFor-${key}`
+    ),
   };
 
   beforeEach(() => {
@@ -22,6 +28,10 @@ describe('CmsI18nService', () => {
         CmsI18nService,
         { provide: CmsMappingService, useValue: mockCmsMapping },
         { provide: TranslationService, useValue: mockTranslation },
+        {
+          provide: TranslationNamespaceService,
+          useValue: mockTranslationNamespace,
+        },
       ],
     });
     service = TestBed.get(CmsI18nService);
@@ -37,8 +47,8 @@ describe('CmsI18nService', () => {
       service.loadNamespacesForComponents([]);
 
       expect(translation.loadNamespaces).toHaveBeenCalledWith([
-        'namespace1',
-        'namespace2',
+        'namespaceFor-key1',
+        'namespaceFor-key2',
       ]);
     });
   });
