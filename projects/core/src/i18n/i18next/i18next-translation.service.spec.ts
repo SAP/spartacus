@@ -8,9 +8,6 @@ import { TranslationNamespaceService } from '../translation-namespace.service';
 const testKey = 'testKey';
 const testOptions = 'testOptions';
 const nonBreakingSpace = String.fromCharCode(160);
-const mockNamespaceMapping = {
-  testKey: 'testNamespace',
-};
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
