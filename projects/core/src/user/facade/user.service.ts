@@ -20,7 +20,6 @@ import {
 import * as fromProcessStore from '../../process/store/process-state';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
-import { UPDATE_PASSWORD_PROCESS_ID } from '../store/index';
 
 @Injectable()
 export class UserService {
@@ -384,7 +383,7 @@ export class UserService {
    */
   getUpdatePasswordResultLoading(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessLoadingFactory(UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessLoadingFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -393,7 +392,7 @@ export class UserService {
    */
   getUpdatePasswordResultError(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessErrorFactory(UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessErrorFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 
@@ -402,7 +401,7 @@ export class UserService {
    */
   getUpdatePasswordResultSuccess(): Observable<boolean> {
     return this.store.pipe(
-      select(getProcessSuccessFactory(UPDATE_PASSWORD_PROCESS_ID))
+      select(getProcessSuccessFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
     );
   }
 

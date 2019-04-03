@@ -191,7 +191,11 @@ export class OccUserService {
     return this.occEndpoints.getEndpoint(USER_ENDPOINT);
   }
 
-  updatePassword(userId: string, oldPassword: string, newPassword: string) {
+  updatePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string
+  ): Observable<{}> {
     const url = this.getUserEndpoint() + userId + UPDATE_PASSWORD_ENDPOINT;
     const httpParams: HttpParams = new HttpParams()
       .set('old', oldPassword)

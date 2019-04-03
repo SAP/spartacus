@@ -264,13 +264,13 @@ describe('OccUserService', () => {
       const oldPassword = 'OldPass123!';
       const newPassword = 'NewPass456!';
 
+      let result: Object;
+
       service
         .updatePassword(userId, oldPassword, newPassword)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe(value => (result = value));
 
       const mockReq = httpMock.expectOne(req => {
-        console.log(req);
-        console.log('ser body: ', req.serializeBody());
         return (
           req.method === 'PUT' &&
           req.url === `${endpoint}/${userId}${updatePasswordEndpoint}` &&
@@ -279,6 +279,7 @@ describe('OccUserService', () => {
       });
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
+      expect(result).toEqual('');
     });
   });
 });
