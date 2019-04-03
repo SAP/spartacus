@@ -23,7 +23,7 @@ export class YotpoService {
     widgetscript.type = 'text/javascript';
     widgetscript.async = true;
     widgetscript.src = `https://staticw2.yotpo.com/${
-      this.config.vendor.yotpo.appToken
+      this.config.appToken
     }/widget.js`;
     this.windowRef.document
       .getElementsByTagName('head')[0]

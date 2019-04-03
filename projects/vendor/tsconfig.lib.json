@@ -25,5 +25,8 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
+  "paths": {
+    "@spartacus/core": ["dist/core"]
+  },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
