@@ -1,16 +1,11 @@
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 import { UrlTranslationModule } from '@spartacus/core';
-
+import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 import { CmsModule } from '../../../cms/cms.module';
 import { PwaModule } from '../../../pwa/pwa.module';
-
 import { HeaderComponent } from './header.component';
-
-import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
-import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 
 @NgModule({
   imports: [
@@ -21,7 +16,7 @@ import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.mo
     UrlTranslationModule,
     PageSlotModule,
   ],
-  declarations: [HeaderComponent, HeaderSkipperComponent],
+  declarations: [HeaderComponent],
   exports: [HeaderComponent],
 })
 export class HeaderModule {}

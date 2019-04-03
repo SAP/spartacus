@@ -9,7 +9,7 @@ export const defaultLayoutConfig: LayoutConfig = {
   },
   layoutSlots: {
     'header-top': {
-      slots: ['SiteContext', 'SiteLinks'],
+      slots: ['PreHeader', 'SiteContext', 'SiteLinks'],
     },
     'header-body': {
       slots: [

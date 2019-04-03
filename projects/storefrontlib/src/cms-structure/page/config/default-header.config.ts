@@ -3,6 +3,11 @@ import { CmsPageSlotsConfig, ContentSlotComponentData } from '@spartacus/core';
 export const headerComponents: {
   [key: string]: ContentSlotComponentData | any;
 } = {
+  SkipLinkComponent: {
+    typeCode: 'SkipLinkComponent',
+    flexType: 'SkipLinkComponent',
+    uid: 'SkipLinkComponent',
+  },
   LanguageComponent: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
@@ -76,6 +81,9 @@ export const headerComponents: {
 };
 
 export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
+  PreHeader: {
+    componentIds: ['SkipLinkComponent'],
+  },
   SiteContext: {
     componentIds: ['LanguageComponent', 'CurrencyComponent'],
   },

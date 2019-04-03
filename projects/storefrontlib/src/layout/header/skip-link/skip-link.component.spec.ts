@@ -1,19 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { SkipLinkComponent } from './skip-link.component';
 
-import { HeaderSkipperComponent } from './header-skipper.component';
-
-describe('HeaderSkipperComponent', () => {
-  let component: HeaderSkipperComponent;
-  let fixture: ComponentFixture<HeaderSkipperComponent>;
+describe('SkipLinkComponent', () => {
+  let component: SkipLinkComponent;
+  let fixture: ComponentFixture<SkipLinkComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderSkipperComponent],
+      declarations: [SkipLinkComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderSkipperComponent);
+    fixture = TestBed.createComponent(SkipLinkComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
