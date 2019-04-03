@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
-    "build:core:lib": "ng build core && ng build vendor && ng build storefrontlib && yarn generate:translations",
+    "build:core:lib": "ng build core && ng build storefrontlib && yarn generate:translations",
     "build:qa": "ng build -c=qa",
     "e2e": "ng e2e",
     "e2e:no-serve": "ng e2e --devServerTarget=",

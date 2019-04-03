@@ -7,7 +7,6 @@ import {
   SiteContextConfig,
   I18nConfig,
 } from '@spartacus/core';
-import { YotpoConfig } from '@spartacus/vendor';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 import { LayoutConfig } from './ui/layout/config/layout-config';
 
@@ -20,5 +19,4 @@ export interface StorefrontModuleConfig
     SiteContextConfig,
     LayoutConfig,
     ConfigurableRoutesConfig,
-    I18nConfig,
-    YotpoConfig {}
+    I18nConfig {}
