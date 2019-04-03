@@ -30,6 +30,14 @@ function paymentMethodsTest() {
       paymentMethods.paymentDetailCard();
     });
 
+    it('should be able to add a second payment card', () => {
+      paymentMethods.addSecondaryPaymentCard();
+    });
+
+    it('should be able to set secondary card as default', () => {
+      paymentMethods.setSecondPaymentToDefault();
+    });
+
     it('should be able to delete the payment', () => {
       paymentMethods.deletePayment();
     });
