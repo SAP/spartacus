@@ -4,7 +4,7 @@ import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { retry } from 'rxjs/operators';
-import { OccConfig } from '../../occ';
+import { OccConfig } from '../../occ/config/occ-config';
 
 const ENDPOINT_ROUTES_CONFIG = 'routes-config';
 
