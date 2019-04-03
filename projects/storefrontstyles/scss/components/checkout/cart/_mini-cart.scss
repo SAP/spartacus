@@ -1,6 +1,5 @@
+// @import 'theme';
 %cx-mini-cart {
-  @import 'theme';
-
   margin-left: 0.75rem;
   display: block;
 
@@ -10,7 +9,10 @@
     padding: var(--cx-padding, 0 0.5rem);
     color: var(--cx-color, var(--cx-g-color-inverse));
     text-decoration: none;
-
+    &:hover {
+      color: currentColor;
+      text-decoration: none;
+    }
     svg {
       fill: currentColor;
       width: 30px;
