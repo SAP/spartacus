@@ -44,8 +44,12 @@ export class OccEndpointsService {
   }
 
   getUrl(endpoint: string, urlParams?: object, queryParams?: object): string {
-    if (this.config.endpoints[endpoint]) {
-      endpoint = this.config.endpoints[endpoint];
+    if (
+      this.config.backend &&
+      this.config.backend.occ &&
+      this.config.backend.occ.endpoints[endpoint]
+    ) {
+      endpoint = this.config.backend.occ.endpoints[endpoint];
     }
 
     if (urlParams) {

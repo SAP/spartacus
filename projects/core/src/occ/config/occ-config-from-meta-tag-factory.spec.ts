@@ -17,7 +17,7 @@ describe('occConfigFromMetaTagFactory', () => {
   it('should return server config with baseUrl from meta tag', () => {
     mockMeta.getTag = () => ({ content: 'testBaseUrl' } as HTMLMetaElement);
     expect(serverConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
-      server: { baseUrl: 'testBaseUrl' },
+      backend: { occ: { baseUrl: 'testBaseUrl' } },
     });
   });
 

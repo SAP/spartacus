@@ -19,9 +19,11 @@ const components: CmsComponent[] = [
 const component: CmsComponent = components[1];
 
 const CmsStructureConfigMock: CmsStructureConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
