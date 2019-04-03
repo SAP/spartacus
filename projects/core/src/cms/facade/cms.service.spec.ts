@@ -201,7 +201,6 @@ describe('CmsService', () => {
     (service: CmsService) => {
       const pageContext = { id: '/test', type: PageType.CONTENT_PAGE };
       const pageData: Page = {
-        uuid: 'pageData',
         slots: {},
       };
       store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
@@ -225,7 +224,6 @@ describe('CmsService', () => {
             components: [{ flexType: 'test2' }, { flexType: 'test3' }],
           },
         },
-        uuid: 'pageData',
       };
       store.dispatch(new LoadPageDataSuccess(pageContext, pageData));
 

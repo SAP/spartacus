@@ -36,30 +36,23 @@ const mockRouterState = {
 };
 
 const pageMock: Page = {
-  uuid: 'mockPageUuid',
   loadTime: 1000000000000,
   name: 'testPage',
   pageId: 'testPageId',
   type: 'ContentPage',
   template: 'testTemplate',
   title: 'testPageTitle',
-  catalogUuid: 'mockPageCatalogUuid',
   slots: {
     testPosition: {
-      uid: 'mockContentSlotUid',
-      uuid: 'mockSlotUuid',
-      catalogUuid: 'mockSlotCatalogUuid',
       components: [
         {
           uid: 'comp1',
           typeCode: 'SimpleBannerComponent',
-          uuid: 'compUuid1',
           flexType: 'SimpleBannerComponent',
         },
         {
           uid: 'comp2',
           typeCode: 'CMSFlexComponent',
-          uuid: 'compUuid2',
           flexType: 'AccountAddressBookComponent',
         },
       ],
