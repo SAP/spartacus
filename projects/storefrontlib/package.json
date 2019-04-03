@@ -21,7 +21,7 @@
     "@angular/http": "~7.2.11",
     "@angular/platform-browser": "~7.2.11",
     "@angular/platform-browser-dynamic": "~7.2.11",
-    "@angular/pwa": "^0.12.0",
+    "@angular/pwa": "^0.13.7",
     "@angular/router": "~7.2.11",
     "@angular/service-worker": "~7.2.11",
     "@ng-bootstrap/ng-bootstrap": "^4.0.1",
@@ -29,12 +29,12 @@
     "@ngrx/effects": "~7.4.0",
     "@ngrx/router-store": "~7.4.0",
     "@ngrx/store": "~7.4.0",
-    "@spartacus/core": "^0.1.0-alpha.2",
-    "@spartacus/styles": "^0.1.0-alpha.2",
+    "@spartacus/core": "0.1.0-alpha.2",
+    "@spartacus/styles": "0.1.0-alpha.2",
     "bootstrap": "^4.2.1",
-    "core-js": "^3.0.0",
+    "core-js": "^2.5.7",
     "ngrx-store-localstorage": "^7.0.0",
     "rxjs": "^6.4.0",
-    "zone.js": "^0.9.0"
+    "zone.js": "^0.8.26"
   }
 }
