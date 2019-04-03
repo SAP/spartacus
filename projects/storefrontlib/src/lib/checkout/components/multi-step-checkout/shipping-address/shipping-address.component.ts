@@ -91,10 +91,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         });
       })
     );
-
-    this.cartService
-      .getActive()
-      .pipe(map(active => active.deliveryAddress && active.deliveryAddress.id));
   }
 
   getCardContent(address: Address, selected: any): Card {

@@ -59,8 +59,8 @@ export class CheckoutEffects {
             new fromActions.SetDeliveryAddressSuccess(payload.address),
             new fromActions.LoadSupportedDeliveryModes({
               userId: payload.userId,
-              cartId: payload.cartId
-            })
+              cartId: payload.cartId,
+            }),
           ]),
           catchError(error => of(new fromActions.SetDeliveryAddressFail(error)))
         );
