@@ -46,12 +46,27 @@ describe('UpdateProfileFormComponent', () => {
       expect(component.isNotValid('firstName')).toEqual(false);
     });
 
+    it(`should return false if the form was not submitted even though it's invalid`, () => {
+      const invalidUser: User = {
+        ...mockUser,
+        firstName: '',
+      };
+      component.user = invalidUser;
+      component['submitClicked'] = false;
+
+      component.ngOnInit();
+      component.form.get('firstName').markAsDirty();
+
+      expect(component.isNotValid('firstName')).toEqual(false);
+    });
+
     it('should return false if valid', () => {
       const invalidUser: User = {
         ...mockUser,
         firstName: '',
       };
       component.user = invalidUser;
+      component['submitClicked'] = true;
 
       component.ngOnInit();
       component.form.get('firstName').markAsDirty();
@@ -67,8 +82,25 @@ describe('UpdateProfileFormComponent', () => {
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
+    it('should NOT emit submited event if the form is not valid', () => {
+      spyOn(component.submited, 'emit').and.stub();
+
+      const invalidUser: User = {
+        ...mockUser,
+        firstName: '',
+      };
+      component.user = invalidUser;
+      component.ngOnInit();
+
+      component.onSubmit();
+      expect(component.submited.emit).not.toHaveBeenCalled();
+    });
+
     it('should emit submited event', () => {
       spyOn(component.submited, 'emit').and.stub();
+      component.user = mockUser;
+      component.ngOnInit();
+
       component.onSubmit();
       expect(component.submited.emit).toHaveBeenCalled();
     });

@@ -3,7 +3,6 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { AddMessage, GlobalMessageType } from '../../../global-message';
 import { User } from '../../../occ/occ-models';
 import { OccUserService } from '../../occ/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
@@ -60,7 +59,7 @@ describe('User Details effect', () => {
   });
 
   describe('updateUserDetails$', () => {
-    it('should return UpdateUserDetailsSuccess and AddMessage actions', () => {
+    it('should return UpdateUserDetailsSuccess ', () => {
       spyOn(userService, 'updateUserDetails').and.returnValue(of({}));
 
       const username = 'xxx';
@@ -72,16 +71,12 @@ describe('User Details effect', () => {
         username,
         userDetails,
       });
-      const completion1 = new fromUserDetailsAction.UpdateUserDetailsSuccess(
+      const completion = new fromUserDetailsAction.UpdateUserDetailsSuccess(
         userDetails
       );
-      const completion2 = new AddMessage({
-        text: 'Personal details successfully updated',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: completion1, c: completion2 });
+      const expected = cold('-b', { b: completion });
 
       expect(userDetailsEffect.updateUserDetails$).toBeObservable(expected);
     });

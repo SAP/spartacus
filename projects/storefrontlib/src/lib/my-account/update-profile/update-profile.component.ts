@@ -1,6 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { RoutingService, Title, User, UserService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  Title,
+  User,
+  UserService,
+} from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -18,7 +24,8 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   constructor(
     private routingService: RoutingService,
-    private userService: UserService
+    private userService: UserService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -38,24 +45,26 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService
         .getUpdatePersonalDetailsResultSuccess()
-        .subscribe(success => {
-          if (success) {
-            this.routingService.go({ route: ['home'] });
-          }
-        })
+        .subscribe(success => this.onSuccess(success))
     );
+  }
+
+  onSuccess(success: boolean): void {
+    if (success) {
+      this.globalMessageService.add({
+        text: 'Personal details successfully updated',
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      });
+      this.routingService.go({ route: ['home'] });
+    }
   }
 
   onCancel(): void {
     this.routingService.go({ route: ['home'] });
   }
 
-  onSubmit({ uid, form }: { uid: string; form: FormGroup }): void {
-    if (!form.valid) {
-      return;
-    }
-
-    this.userService.updatePersonalDetails(uid, form.value);
+  onSubmit({ uid, userUpdates }: { uid: string; userUpdates: User }): void {
+    this.userService.updatePersonalDetails(uid, userUpdates);
   }
 
   ngOnDestroy(): void {

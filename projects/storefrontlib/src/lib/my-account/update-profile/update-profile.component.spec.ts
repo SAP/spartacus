@@ -6,10 +6,12 @@ import {
   Output,
 } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
+  GlobalMessage,
+  GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   Title,
   TranslateUrlOptions,
@@ -33,7 +35,7 @@ class MockUpdateProfileFormComponent {
   titles: Title[];
 
   @Output()
-  submited = new EventEmitter<{ uid: string; form: FormGroup }>();
+  submited = new EventEmitter<{ uid: string; userUpdates: User }>();
 }
 @Component({
   selector: 'cx-spinner',
@@ -74,6 +76,10 @@ class RoutingServiceMock {
   ): void {}
 }
 
+class GlobalMessageServiceMock {
+  add(_message: GlobalMessage): void {}
+}
+
 describe('UpdateProfileComponent', () => {
   let component: UpdateProfileComponent;
   let fixture: ComponentFixture<UpdateProfileComponent>;
@@ -81,6 +87,7 @@ describe('UpdateProfileComponent', () => {
 
   let userService: UserService;
   let routingService: RoutingService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -98,6 +105,10 @@ describe('UpdateProfileComponent', () => {
           provide: RoutingService,
           useClass: RoutingServiceMock,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: GlobalMessageServiceMock,
+        },
       ],
     }).compileComponents();
   }));
@@ -109,6 +120,7 @@ describe('UpdateProfileComponent', () => {
 
     userService = TestBed.get(UserService);
     routingService = TestBed.get(RoutingService);
+    globalMessageService = TestBed.get(GlobalMessageService);
 
     fixture.detectChanges();
   });
@@ -141,34 +153,60 @@ describe('UpdateProfileComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: ['/home'] });
+    expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
   });
 
   it('should call updatePersonalDetails on submit', () => {
     spyOn(userService, 'updatePersonalDetails').and.stub();
 
     const uid = 'xxx@xxx.xxx';
-    const form = new FormGroup({
-      firstName: new FormControl('X'),
-    });
+    const userUpdates: User = {
+      firstName: 'X',
+    };
 
-    component.onSubmit({ uid, form });
+    component.onSubmit({ uid, userUpdates });
     expect(userService.updatePersonalDetails).toHaveBeenCalledWith(
       uid,
-      form.value
+      userUpdates
     );
   });
 
-  it('should go to a url if update was successful', () => {
+  it('should call the internal onSuccess() method when the user was successfully updated', () => {
+    spyOn(component, 'onSuccess').and.stub();
     spyOn(userService, 'getUpdatePersonalDetailsResultSuccess').and.returnValue(
       of(true)
     );
-    spyOn(routingService, 'go').and.stub();
 
     component.ngOnInit();
-    fixture.detectChanges();
 
-    expect(routingService.go).toHaveBeenCalledWith({ route: ['/home'] });
+    expect(component.onSuccess).toHaveBeenCalled();
+  });
+
+  describe('onSuccess', () => {
+    describe('when the user was successfully updated', () => {
+      it('should add a global message and navigate to a url ', () => {
+        spyOn(globalMessageService, 'add').and.stub();
+        spyOn(routingService, 'go').and.stub();
+
+        component.onSuccess(true);
+        expect(globalMessageService.add).toHaveBeenCalledWith({
+          text: 'Personal details successfully updated',
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+        });
+        expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
+      });
+    });
+
+    describe('when the user was NOT successfully updated', () => {
+      it('should NOT add a global message and NOT navigate to a url ', () => {
+        spyOn(globalMessageService, 'add').and.stub();
+        spyOn(routingService, 'go').and.stub();
+
+        component.onSuccess(false);
+        expect(routingService.go).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+      });
+    });
   });
 
   it('should unsubscribe from any subscriptions when destroyed', () => {

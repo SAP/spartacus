@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Title, User } from '@spartacus/core';
 
 @Component({
@@ -15,7 +15,7 @@ export class UpdateProfileFormComponent implements OnInit {
   titles: Title[];
 
   @Output()
-  submited = new EventEmitter<{ uid: string; form: FormGroup }>();
+  submited = new EventEmitter<{ uid: string; userUpdates: User }>();
 
   @Output()
   cancelled = new EventEmitter<void>();
@@ -25,6 +25,8 @@ export class UpdateProfileFormComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
   });
+
+  private submitClicked = false;
 
   constructor(private fb: FormBuilder) {}
 
@@ -37,13 +39,22 @@ export class UpdateProfileFormComponent implements OnInit {
   isNotValid(formControlName: string): boolean {
     return (
       this.form.get(formControlName).invalid &&
-      (this.form.get(formControlName).touched ||
-        this.form.get(formControlName).dirty)
+      (this.submitClicked ||
+        (this.form.get(formControlName).touched &&
+          this.form.get(formControlName).dirty))
     );
   }
 
   onSubmit(): void {
-    this.submited.emit({ uid: this.user.uid, form: this.form });
+    this.submitClicked = true;
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.submited.emit({
+      uid: this.user.uid,
+      userUpdates: { ...this.form.value },
+    });
   }
 
   onCancel(): void {
