@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 
 import {
-  RoutingService,
-  CmsService,
   CmsActivatedRouteSnapshot,
+  CmsService,
+  RoutingService,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
-import { switchMap, tap, map, first, withLatestFrom } from 'rxjs/operators';
-import { CmsRoutesService } from '../services/cms-routes.service';
-import { CmsI18nService } from '../services/cms-i18n.service';
+import { first, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+
 import { CmsGuardsService } from '../services/cms-guards.service';
+import { CmsI18nService } from '../services/cms-i18n.service';
+import { CmsRoutesService } from '../services/cms-routes.service';
 
 @Injectable()
 export class CmsPageGuard implements CanActivate {
@@ -65,8 +66,8 @@ export class CmsPageGuard implements CanActivate {
             })
           );
         } else {
-          if (pageContext.id !== '/notFound') {
-            this.routingService.go(['notFound']);
+          if (pageContext.id !== '/not-found') {
+            this.routingService.go(['/not-found']);
           }
           return of(false);
         }

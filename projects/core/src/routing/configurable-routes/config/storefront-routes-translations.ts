@@ -41,5 +41,4 @@ export interface StorefrontRoutesTranslations {
   orderDetails?: StorefrontRouteTranslation;
   addressBook?: StorefrontRouteTranslation;
   paymentManagement?: StorefrontRouteTranslation;
-  pageNotFound?: StorefrontRouteTranslation;
 }
