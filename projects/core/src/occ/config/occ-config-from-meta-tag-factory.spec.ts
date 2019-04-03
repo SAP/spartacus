@@ -1,7 +1,7 @@
-import { serverConfigFromMetaTagFactory } from './server-config-from-meta-tag-factory';
+import { serverConfigFromMetaTagFactory } from './occ-config-from-meta-tag-factory';
 import { Meta } from '@angular/platform-browser';
 
-describe('serverConfigMetaTagFactory', () => {
+describe('occConfigFromMetaTagFactory', () => {
   let mockMeta: Meta;
 
   beforeEach(() => {

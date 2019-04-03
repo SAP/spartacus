@@ -10,11 +10,9 @@ import {
   ServerConfig,
 } from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
-import { serverConfigValidator } from './server-config/server-config-validator';
 import {
   ConfigValidator,
   ConfigValidatorToken,
-  provideConfigValidator,
   validateConfig,
 } from './utils/config-validator';
 
@@ -82,7 +80,6 @@ export class ConfigModule {
           useFactory: configurationFactory,
           deps: [ConfigChunk, ConfigValidatorToken],
         },
-        provideConfigValidator(serverConfigValidator),
       ],
     };
   }

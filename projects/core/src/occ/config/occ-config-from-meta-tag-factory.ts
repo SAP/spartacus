@@ -1,5 +1,5 @@
 import { Meta } from '@angular/platform-browser';
-import { OccConfig } from '../../occ';
+import { OccConfig } from './occ-config';
 
 export const SERVER_BASE_URL_META_TAG_NAME = 'occ-backend-base-url';
 export const SERVER_BASE_URL_META_TAG_PLACEHOLDER =
