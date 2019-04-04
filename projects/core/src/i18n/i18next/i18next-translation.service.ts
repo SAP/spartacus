@@ -3,14 +3,17 @@ import { Observable } from 'rxjs';
 import { TranslationService } from '../translation.service';
 import i18next from 'i18next';
 import { I18nConfig } from '../config/i18n-config';
+import { TranslationNamespaceService } from '../translation-namespace.service';
 
 @Injectable()
 export class I18nextTranslationService implements TranslationService {
   private readonly NON_BREAKING_SPACE = String.fromCharCode(160);
-  private readonly KEY_SEPARATOR = '.';
-  private readonly NAMESPACE_SEPARATOR = ':';
+  protected readonly NAMESPACE_SEPARATOR = ':';
 
-  constructor(private config: I18nConfig) {}
+  constructor(
+    protected config: I18nConfig,
+    protected translationNamespace: TranslationNamespaceService
+  ) {}
 
   translate(
     key: string,
@@ -24,7 +27,7 @@ export class I18nextTranslationService implements TranslationService {
     // Otherwise, we the will trigger additional deferred change detection in a view that consumes the returned observable,
     // which together with `switchMap` operator may lead to an infinite loop.
 
-    const namespace = this.getNamespace(key);
+    const namespace = this.translationNamespace.getNamespace(key);
     const namespacedKey = this.getNamespacedKey(key, namespace);
 
     return new Observable<string>(subscriber => {
@@ -67,36 +70,6 @@ export class I18nextTranslationService implements TranslationService {
   private reportMissingKey(key: string) {
     if (!this.config.production) {
       console.warn(`Translation key missing '${key}'`);
-    }
-  }
-
-  private getNamespace(key: string): string {
-    const mainKey = (key || '').split(this.KEY_SEPARATOR)[0];
-    const namespace = this.getNamespaceFromMapping(mainKey);
-
-    if (!namespace) {
-      this.reportMissingNamespaceMapping(key, mainKey);
-      return mainKey; // fallback to main key as a namespace
-    }
-    return namespace;
-  }
-
-  private getNamespaceFromMapping(mainKey: string): string {
-    return (
-      this.config.i18n &&
-      this.config.i18n.namespaceMapping &&
-      this.config.i18n.namespaceMapping[mainKey]
-    );
-  }
-
-  private reportMissingNamespaceMapping(
-    key: string,
-    fallbackNamespace: string
-  ) {
-    if (!this.config.production) {
-      console.warn(
-        `No namespace mapping configured for key '${key}'. Used '${fallbackNamespace}' as fallback namespace.`
-      );
     }
   }
 
