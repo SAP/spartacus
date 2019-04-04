@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Title, User } from '@spartacus/core';
+import { FormUtils } from '../../../utils/forms/form-utils';
 
 @Component({
   selector: 'cx-update-profile-form',
@@ -37,11 +38,10 @@ export class UpdateProfileFormComponent implements OnInit {
   }
 
   isNotValid(formControlName: string): boolean {
-    return (
-      this.form.get(formControlName).invalid &&
-      (this.submitClicked ||
-        (this.form.get(formControlName).touched &&
-          this.form.get(formControlName).dirty))
+    return FormUtils.isNotValidField(
+      this.form,
+      formControlName,
+      this.submitClicked
     );
   }
 

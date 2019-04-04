@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { User } from '@spartacus/core';
+import { FormUtils } from '../../../utils/forms/form-utils';
 import { UpdateProfileFormComponent } from './update-profile-form.component';
 
 const mockUser: User = {
@@ -40,38 +41,15 @@ describe('UpdateProfileFormComponent', () => {
   });
 
   describe('isNotValid', () => {
-    it('should return true if NOT valid', () => {
-      component.ngOnInit();
+    it('should delegate to FormUtils.isNotValidField()', () => {
+      spyOn(FormUtils, 'isNotValidField').and.stub();
 
-      expect(component.isNotValid('firstName')).toEqual(false);
-    });
-
-    it(`should return false if the form was not submitted even though it's invalid`, () => {
-      const invalidUser: User = {
-        ...mockUser,
-        firstName: '',
-      };
-      component.user = invalidUser;
-      component['submitClicked'] = false;
-
-      component.ngOnInit();
-      component.form.get('firstName').markAsDirty();
-
-      expect(component.isNotValid('firstName')).toEqual(false);
-    });
-
-    it('should return false if valid', () => {
-      const invalidUser: User = {
-        ...mockUser,
-        firstName: '',
-      };
-      component.user = invalidUser;
-      component['submitClicked'] = true;
-
-      component.ngOnInit();
-      component.form.get('firstName').markAsDirty();
-
-      expect(component.isNotValid('firstName')).toEqual(true);
+      component.isNotValid('firstName');
+      expect(FormUtils.isNotValidField).toHaveBeenCalledWith(
+        component.form,
+        'firstName',
+        component['submitClicked']
+      );
     });
   });
 
