@@ -40,20 +40,55 @@ describe('FormUtils', () => {
             name: new FormControl('', Validators.required),
           });
 
-          const result = FormUtils.isNotValidField(form, 'name', true);
-          expect(result).toEqual(true);
+          const result = FormUtils.isNotValidField(form, 'name', false);
+          expect(result).toEqual(false);
         });
       });
     });
 
     describe('when a form control name is valid', () => {
-      const form = new FormGroup({
-        name: new FormControl('xxx', Validators.required),
-      });
+      it('should return false', () => {
+        const form = new FormGroup({
+          name: new FormControl('xxx', Validators.required),
+        });
 
-      it('should return false regardless of submitted form or touched/dirty flags', () => {
         const result = FormUtils.isNotValidField(form, 'name', true);
         expect(result).toEqual(false);
+      });
+
+      describe('and when the form is submitted', () => {
+        it('should return false', () => {
+          const form = new FormGroup({
+            name: new FormControl('xxx', Validators.required),
+          });
+
+          const result = FormUtils.isNotValidField(form, 'name', false);
+          expect(result).toEqual(false);
+        });
+      });
+
+      describe('and when the field is dirty', () => {
+        it('should return false', () => {
+          const form = new FormGroup({
+            name: new FormControl('xxx', Validators.required),
+          });
+          form.get('name').markAsDirty();
+
+          const result = FormUtils.isNotValidField(form, 'name', true);
+          expect(result).toEqual(false);
+        });
+      });
+
+      describe('and when the field is touched', () => {
+        it('should return false', () => {
+          const form = new FormGroup({
+            name: new FormControl('xxx', Validators.required),
+          });
+          form.get('name').markAsTouched();
+
+          const result = FormUtils.isNotValidField(form, 'name', true);
+          expect(result).toEqual(false);
+        });
       });
     });
   });
