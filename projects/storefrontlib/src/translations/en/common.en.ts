@@ -24,5 +24,5 @@ export default {
     placeholders: {
       searchHere: 'Search here...',
     },
-  }
+  },
 };
