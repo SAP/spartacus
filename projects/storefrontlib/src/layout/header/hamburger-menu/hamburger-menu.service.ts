@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,9 +10,11 @@ export class HamburgerMenuService {
   isExpanded: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(router: Router) {
-    router.events.subscribe(() => {
-      this.toggle(true);
-    });
+    router.events
+      .pipe(filter(event => event instanceof NavigationStart))
+      .subscribe(() => {
+        this.toggle(true);
+      });
   }
 
   /**
