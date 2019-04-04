@@ -23,9 +23,32 @@ header {
     }
   }
 
-  .navigation {
-    position: absolute;
-    width: 100%;
+  &.is-expanded {
+    .navigation {
+      position: absolute;
+      width: 100%;
+      z-index: 2;
+    }
+    .PreHeader {
+      z-index: 2;
+    }
+    &:after {
+      content: '';
+      display: block;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(black, 0.75);
+      z-index: 1;
+    }
+  }
+
+  &:not(.is-expanded) {
+    .navigation {
+      display: none;
+    }
   }
 
   .SiteContext,
@@ -65,13 +88,6 @@ header {
 
   // non-desktop
   @include media-breakpoint-down(md) {
-    // .SiteLogin,
-    // .NavigationBar,
-    // .SiteContext,
-    // .SiteLinks {
-    //   flex: 100%;
-    // }
-
     .SiteContext,
     .SiteLinks,
     .SiteLogin {
@@ -89,15 +105,6 @@ header {
 
     .SiteLinks {
       padding: $space / 2 $space * 2 $space;
-    }
-
-    &:not(.is-expanded) {
-      .NavigationBar,
-      .SiteContext,
-      .SiteLinks,
-      .SiteLogin {
-        display: none;
-      }
     }
   }
 
