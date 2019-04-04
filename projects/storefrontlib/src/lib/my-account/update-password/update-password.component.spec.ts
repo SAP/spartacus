@@ -7,7 +7,7 @@ import { UpdatePasswordComponent } from './update-password.component';
 class MockUserService {}
 class MockRoutingService {}
 
-fdescribe('UpdatePasswordComponent', () => {
+describe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
 
