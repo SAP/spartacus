@@ -26,7 +26,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       },
     },
     navigation: {
-      md: {},
+      md: { slots: [] },
       xs: {
         slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
       },
