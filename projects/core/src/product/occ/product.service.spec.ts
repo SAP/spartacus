@@ -8,6 +8,7 @@ import { ProductLoaderService } from './product.service';
 import { defaultOccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { OccConfig } from '@spartacus/core';
+import { deepMerge } from '../../config/utils/deep-merge';
 
 const productCode = 'testCode';
 const product = {
@@ -15,10 +16,12 @@ const product = {
   name: 'testProduct',
 };
 
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+const mockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
@@ -39,7 +42,7 @@ describe('ProductLoaderService', () => {
         ProductLoaderService,
         {
           provide: OccConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig),
+          useValue: deepMerge({}, mockOccModuleConfig, defaultOccProductConfig),
         },
       ],
     });
@@ -63,7 +66,7 @@ describe('ProductLoaderService', () => {
           req.method === 'GET' &&
           req.url ===
             `/${DynamicTemplate.resolve(
-              defaultOccProductConfig.endpoints.product,
+              defaultOccProductConfig.backend.occ.endpoints.product,
               { productCode }
             )}`
         );

@@ -5,4 +5,9 @@ export const defaultOccConfig: OccConfig = {
     language: 'en',
     currency: 'USD',
   },
+  backend: {
+    occ: {
+      prefix: '/rest/v2/',
+    },
+  },
 };

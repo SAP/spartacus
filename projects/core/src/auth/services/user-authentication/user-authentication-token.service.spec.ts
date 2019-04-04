@@ -25,29 +25,30 @@ const token: UserToken = {
 };
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
-class MockAuthConfig extends AuthConfig {
-  server = {
-    baseUrl: '',
-    occPrefix: '',
-  };
-
-  authentication = {
-    client_id: '',
-    client_secret: '',
-    userToken: {},
-  };
-}
-
 describe('UserAuthenticationTokenService', () => {
   let service: UserAuthenticationTokenService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+    const mockAuthConfig: AuthConfig = {
+      backend: {
+        occ: {
+          baseUrl: '',
+          prefix: '',
+        },
+      },
+
+      authentication: {
+        client_id: '',
+        client_secret: '',
+      },
+    };
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
         UserAuthenticationTokenService,
-        { provide: AuthConfig, useClass: MockAuthConfig },
+        { provide: AuthConfig, useValue: mockAuthConfig },
       ],
     });
 
