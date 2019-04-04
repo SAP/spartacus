@@ -38,6 +38,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group(
       {
+        oldPassword: ['', [Validators.required]],
         newPassword: [
           '',
           [Validators.required, CustomFormValidators.passwordValidator],
@@ -57,7 +58,11 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.userService.updatePassword(this.userId, '', '');
+    this.userService.updatePassword(
+      this.userId,
+      this.form.value.oldPassword,
+      this.form.value.newPassword
+    );
     this.routingService.go({ route: ['home'] });
   }
 
