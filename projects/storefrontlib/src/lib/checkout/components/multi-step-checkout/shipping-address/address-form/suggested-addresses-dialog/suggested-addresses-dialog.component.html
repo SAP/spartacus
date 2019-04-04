@@ -1,6 +1,6 @@
 <div class="cx-dialog-header modal-header">
   <div class="cx-dialog-title modal-title">
-    {{ 'checkoutAddress:labels.verifyYourAddress' | cxTranslate }}
+    {{ 'checkoutAddress.labels.verifyYourAddress' | cxTranslate }}
   </div>
   <button
     type="button"
@@ -17,9 +17,9 @@
       <div class="cx-dialog-info col-md-12">
         <p>
           {{
-            'checkoutAddress:labels.ensureAccuracySuggestChange' | cxTranslate
+            'checkoutAddress.labels.ensureAccuracySuggestChange' | cxTranslate
           }}
-          {{ 'checkoutAddress:labels.chooseAddressToUse' | cxTranslate }}
+          {{ 'checkoutAddress.labels.chooseAddressToUse' | cxTranslate }}
         </p>
       </div>
     </div>
@@ -42,7 +42,7 @@
             class="form-check-label cx-dialog-label"
             [for]="'suggested-addresses--suggested-' + i"
           >
-            {{ 'checkoutAddress:labels.suggestedAddress' | cxTranslate }}
+            {{ 'checkoutAddress.labels.suggestedAddress' | cxTranslate }}
             {{ suggestedAddresses?.length > 1 ? i + 1 : null }}
           </label>
           <div class="cx-dialog-suggested">
@@ -69,7 +69,7 @@
             class="form-check-label cx-dialog-label"
             for="suggested-addresses--entered"
           >
-            {{ 'checkoutAddress:labels.enteredAddress' | cxTranslate }}
+            {{ 'checkoutAddress.labels.enteredAddress' | cxTranslate }}
           </label>
           <div class="cx-dialog-entered">
             {{ enteredAddress?.firstName }} {{ enteredAddress?.lastName }}<br />
@@ -89,14 +89,14 @@
           class="btn btn-secondary btn-block cx-dialog-buttons"
           (click)="activeModal.close()"
         >
-          {{ 'common:actions.editAddress' | cxTranslate }}
+          {{ 'common.actions.editAddress' | cxTranslate }}
         </button>
         <button
           ngbAutofocus
           class="btn btn-primary btn-block cx-dialog-buttons"
           (click)="activeModal.close(selectedAddress)"
         >
-          {{ 'checkoutAddress:actions.saveAddress' | cxTranslate }}
+          {{ 'checkoutAddress.actions.saveAddress' | cxTranslate }}
         </button>
       </div>
     </div>

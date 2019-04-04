@@ -3,17 +3,17 @@
     <div class="col-md-6">
       <div class="cx-section">
         <h1 class="cx-section__title">
-          {{ 'register:labels.createAccount' | cxTranslate }}
+          {{ 'register.labels.createAccount' | cxTranslate }}
         </h1>
         <form [formGroup]="userRegistrationForm">
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register:labels.title' | cxTranslate
+                'register.labels.title' | cxTranslate
               }}</span>
               <select formControlName="titleCode" class="form-control">
                 <option selected value="" disabled>{{
-                  'register:placeholders.selectTitle' | cxTranslate
+                  'register.placeholders.selectTitle' | cxTranslate
                 }}</option>
                 <option
                   *ngFor="let title of (titles$ | async)"
@@ -27,14 +27,14 @@
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register:labels.firstName' | cxTranslate
+                'register.labels.firstName' | cxTranslate
               }}</span>
               <input
                 class="form-control"
                 type="text"
                 name="firstname"
                 placeholder="{{
-                  'register:placeholders.firstName' | cxTranslate
+                  'register.placeholders.firstName' | cxTranslate
                 }}"
                 formControlName="firstName"
               />
@@ -44,14 +44,14 @@
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register:labels.lastName' | cxTranslate
+                'register.labels.lastName' | cxTranslate
               }}</span>
               <input
                 class="form-control"
                 type="text"
                 name="lastname"
                 placeholder="{{
-                  'register:placeholders.lastName' | cxTranslate
+                  'register.placeholders.lastName' | cxTranslate
                 }}"
                 formControlName="lastName"
               />
@@ -61,7 +61,7 @@
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register:labels.emailAddress' | cxTranslate
+                'register.labels.emailAddress' | cxTranslate
               }}</span>
               <input
                 class="form-control"
@@ -73,7 +73,7 @@
                 type="email"
                 name="email"
                 placeholder="{{
-                  'register:placeholders.emailAddress' | cxTranslate
+                  'register.placeholders.emailAddress' | cxTranslate
                 }}"
                 formControlName="email"
               />
@@ -83,7 +83,7 @@
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register:labels.password' | cxTranslate
+                'register.labels.password' | cxTranslate
               }}</span>
               <input
                 class="form-control"
@@ -94,7 +94,7 @@
                 type="password"
                 name="password"
                 placeholder="{{
-                  'register:placeholders.password' | cxTranslate
+                  'register.placeholders.password' | cxTranslate
                 }}"
                 formControlName="password"
               />
@@ -106,7 +106,7 @@
                 "
               >
                 <span>{{
-                  'register:validations.passwordMinRequirements' | cxTranslate
+                  'register.validations.passwordMinRequirements' | cxTranslate
                 }}</span>
               </div>
             </label>
@@ -115,7 +115,7 @@
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register:labels.confirmPassword' | cxTranslate
+                'register.labels.confirmPassword' | cxTranslate
               }}</span>
               <input
                 class="form-control"
@@ -126,7 +126,7 @@
                 type="password"
                 name="confirmpassword"
                 placeholder="{{
-                  'register:placeholders.confirmPassword' | cxTranslate
+                  'register.placeholders.confirmPassword' | cxTranslate
                 }}"
                 formControlName="passwordconf"
               />
@@ -139,7 +139,7 @@
                 "
               >
                 <span>{{
-                  'register:validations.bothPasswordMustMatch' | cxTranslate
+                  'register.validations.bothPasswordMustMatch' | cxTranslate
                 }}</span>
               </div>
             </label>
@@ -155,7 +155,7 @@
                   formControlName="newsletter"
                 />
                 <span class="form-check-label">
-                  {{ 'register:labels.emailMarketing' | cxTranslate }}
+                  {{ 'register.labels.emailMarketing' | cxTranslate }}
                 </span>
               </label>
             </div>
@@ -170,14 +170,14 @@
                   formControlName="termsandconditions"
                 />
                 <span class="form-check-label">
-                  {{ 'register:labels.confirmThatRead' | cxTranslate }}
+                  {{ 'register.labels.confirmThatRead' | cxTranslate }}
                   <a
                     [routerLink]="
                       { route: ['termsAndConditions'] } | cxTranslateUrl
                     "
                     target="_blank"
                   >
-                    {{ 'register:actions.termsAndConditions' | cxTranslate }}
+                    {{ 'register.actions.termsAndConditions' | cxTranslate }}
                   </a>
                 </span>
               </label>
@@ -189,12 +189,12 @@
             [disabled]="userRegistrationForm.invalid"
             class="btn btn-block btn-primary"
           >
-            {{ 'register:actions.register' | cxTranslate }}
+            {{ 'register.actions.register' | cxTranslate }}
           </button>
           <a
             class="cx-login-link btn-link"
             [routerLink]="{ route: ['login'] } | cxTranslateUrl"
-            >{{ 'register:actions.signIn' | cxTranslate }}</a
+            >{{ 'register.actions.signIn' | cxTranslate }}</a
           >
         </form>
       </div>

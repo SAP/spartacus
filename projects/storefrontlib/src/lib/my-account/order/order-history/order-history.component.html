@@ -2,7 +2,7 @@
   <div class="container">
     <!-- HEADER -->
     <div class="cx-order-history-header">
-      <h3>{{ 'orderHistory:labels.orderHistory' | cxTranslate }}</h3>
+      <h3>{{ 'orderHistory.labels.orderHistory' | cxTranslate }}</h3>
     </div>
 
     <!-- BODY -->
@@ -32,13 +32,13 @@
         <table class="table cx-order-history-table">
           <thead class="cx-order-history-thead-mobile">
             <th scope="col">
-              {{ 'orderHistory:labels.orderId' | cxTranslate }}
+              {{ 'orderHistory.labels.orderId' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'orderHistory:labels.date' | cxTranslate }}</th>
+            <th scope="col">{{ 'orderHistory.labels.date' | cxTranslate }}</th>
             <th scope="col">
-              {{ 'orderHistory:labels.status' | cxTranslate }}
+              {{ 'orderHistory.labels.status' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'orderHistory:labels.total' | cxTranslate }}</th>
+            <th scope="col">{{ 'orderHistory.labels.total' | cxTranslate }}</th>
           </thead>
           <tbody>
             <tr
@@ -47,7 +47,7 @@
             >
               <td class="cx-order-history-code">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory:labels.orderId' | cxTranslate }}
+                  {{ 'orderHistory.labels.orderId' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -62,7 +62,7 @@
               </td>
               <td class="cx-order-history-placed">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory:labels.date' | cxTranslate }}
+                  {{ 'orderHistory.labels.date' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -76,7 +76,7 @@
               </td>
               <td class="cx-order-history-status">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory:labels.status' | cxTranslate }}
+                  {{ 'orderHistory.labels.status' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -91,7 +91,7 @@
               </td>
               <td class="cx-order-history-total">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory:labels.total' | cxTranslate }}
+                  {{ 'orderHistory.labels.total' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -133,12 +133,12 @@
       <ng-template #noOrder>
         <div class="cx-order-history-no-order row" *ngIf="(isLoaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
-            <div>{{ 'orderHistory:labels.noOrders' | cxTranslate }}</div>
+            <div>{{ 'orderHistory.labels.noOrders' | cxTranslate }}</div>
             <a
               [routerLink]="{ route: ['home'] } | cxTranslateUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
-              >{{ 'orderHistory:actions.startShopping' | cxTranslate }}</a
+              >{{ 'orderHistory.actions.startShopping' | cxTranslate }}</a
             >
           </div>
         </div>

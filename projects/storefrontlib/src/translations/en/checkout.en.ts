@@ -1,5 +1,7 @@
 export default {
-  actions: {
-    backToCart: 'Back to cart',
+  checkout: {
+    actions: {
+      backToCart: 'Back to cart',
+    },
   },
 };

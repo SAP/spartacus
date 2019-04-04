@@ -1,6 +1,6 @@
 <ng-container *ngIf="(existingAddresses$ | async) as existingAddresses">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
-    {{ 'checkoutAddress:labels.shippingAddress' | cxTranslate }}
+    {{ 'checkoutAddress.labels.shippingAddress' | cxTranslate }}
   </h3>
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <ng-container
@@ -10,7 +10,7 @@
       "
     >
       <p class="cx-checkout-text">
-        {{ 'checkoutAddress:labels.selectYourShippingAddress' | cxTranslate }}
+        {{ 'checkoutAddress.labels.selectYourShippingAddress' | cxTranslate }}
       </p>
       <div class="cx-checkout-btns row">
         <div class="col-sm-12 col-md-12 col-lg-6">
@@ -18,7 +18,7 @@
             class="btn btn-block btn-action"
             (click)="showNewAddressForm()"
           >
-            {{ 'checkoutAddress:actions.addNewAddress' | cxTranslate }}
+            {{ 'checkoutAddress.actions.addNewAddress' | cxTranslate }}
           </button>
         </div>
       </div>
@@ -45,7 +45,7 @@
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
           <button class="cx-btn btn btn-block btn-action" (click)="back()">
-            {{ 'checkout:actions.backToCart' | cxTranslate }}
+            {{ 'checkout.actions.backToCart' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
@@ -54,7 +54,7 @@
             [disabled]="!selectedAddress"
             (click)="next()"
           >
-            {{ 'common:actions.continue' | cxTranslate }}
+            {{ 'common.actions.continue' | cxTranslate }}
           </button>
         </div>
       </div>
@@ -71,7 +71,7 @@
       <ng-template #initialAddressForm>
         <cx-address-form
           showTitleCode="true"
-          cancelBtnLabel="{{ 'checkout:actions.backToCart' | cxTranslate }}"
+          cancelBtnLabel="{{ 'checkout.actions.backToCart' | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addNewAddress($event)"
         ></cx-address-form>
