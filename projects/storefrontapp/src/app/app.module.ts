@@ -16,6 +16,14 @@ import {
 import { environment } from '../environments/environment';
 import { ConfigModule } from '@spartacus/core';
 
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+import localeJa from '@angular/common/locales/ja';
+import localeZh from '@angular/common/locales/zh';
+registerLocaleData(localeDe);
+registerLocaleData(localeJa);
+registerLocaleData(localeZh);
+
 const devImports = [];
 
 if (!environment.production) {
