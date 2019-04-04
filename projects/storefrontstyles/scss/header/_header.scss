@@ -96,7 +96,7 @@ header {
       padding: $space / 2 $space * 2 $space;
     }
 
-    :host:not(.mobile-nav) {
+    &:not(.is-expanded) {
       .NavigationBar,
       .SiteContext,
       .SiteLinks,
