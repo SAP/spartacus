@@ -9,8 +9,7 @@ header {
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
 
-  .header-body,
-  .header-top {
+  .header {
     max-width: var(--cx-max-width, 1140px);
     margin: auto;
 

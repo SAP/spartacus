@@ -8,17 +8,31 @@ export const defaultLayoutConfig: LayoutConfig = {
     lg: 1200,
   },
   layoutSlots: {
-    'header-top': {
-      slots: ['PreHeader', 'SiteContext', 'SiteLinks'],
-    },
-    'header-body': {
-      slots: [
-        'SiteLogo',
-        'SearchBox',
-        'SiteLogin',
-        'MiniCart',
-        'NavigationBar',
-      ],
+    header: {
+      md: {
+        slots: [
+          'PreHeader',
+          'SiteContext',
+          'SiteLinks',
+          'SiteLogo',
+          'SearchBox',
+          'SiteLogin',
+          'MiniCart',
+          'NavigationBar',
+        ],
+      },
+      xs: {
+        slots: [
+          'PreHeader',
+          'SiteLogo',
+          'SearchBox',
+          'SiteLogin',
+          'MiniCart',
+          'NavigationBar',
+          'SiteContext',
+          'SiteLinks',
+        ],
+      },
     },
     footer: {
       slots: ['Footer'],
