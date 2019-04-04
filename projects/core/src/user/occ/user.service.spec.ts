@@ -1,18 +1,18 @@
-import { TestBed } from '@angular/core/testing';
-import { OccUserService } from './user.service';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { OccConfig } from '../../occ/config/occ-config';
 import {
-  User,
   Address,
-  AddressValidation,
   AddressList,
+  AddressValidation,
   PaymentDetails,
   PaymentDetailsList,
+  User,
 } from '../../occ/occ-models/index';
-import { OccConfig } from '../../occ/config/occ-config';
+import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -27,6 +27,7 @@ const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
+const updateEmailEndpoint = '/login';
 
 const MockOccModuleConfig: OccConfig = {
   server: {
@@ -61,7 +62,7 @@ describe('OccUserService', () => {
   });
 
   describe('load user details', () => {
-    it('should load user details for given username abd access token', () => {
+    it('should load user details for given username and access token', () => {
       service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
@@ -253,6 +254,28 @@ describe('OccUserService', () => {
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush('');
+    });
+  });
+
+  describe('update email: ', () => {
+    it('should be able to update the email address', () => {
+      const userId = 'test@test.com';
+      const currentPassword = 'Qwe123!';
+      const newUserId = 'tester@sap.com';
+
+      service
+        .updateEmail(userId, currentPassword, newUserId)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updateEmailEndpoint}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
   });
