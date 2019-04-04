@@ -15,8 +15,6 @@ export default {
     actions: {
       saveAsDefault: 'Save as default',
       chooseAddress: 'Choose address',
-      continue: 'Continue',
-      setAsDefault: 'set as default',
       backToAddressList: 'Back to address list',
       addAddress: 'Add address',
       updateAddress: 'Update address',

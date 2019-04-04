@@ -4,7 +4,6 @@ export default {
       payment: 'Payment',
       choosePaymentMethod: 'Choose a payment method',
       expires: 'Expires:',
-      expiresIn: 'Expires in ',
       defaultPaymentMethod: 'Default Payment Method',
       paymentType: 'Payment Type',
       accountHolderName: 'Account Holder Name',
