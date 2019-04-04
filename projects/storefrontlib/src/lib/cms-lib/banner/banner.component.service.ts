@@ -114,7 +114,7 @@ export class BannerComponentService {
   }
 
   getBaseUrl(): string {
-    return this.config.server.baseUrl || '';
+    return this.config.backend.occ.baseUrl || '';
   }
 
   getImageAbsoluteUrl(): Observable<string> {

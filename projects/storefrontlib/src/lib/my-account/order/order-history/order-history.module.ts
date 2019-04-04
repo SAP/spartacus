@@ -11,6 +11,7 @@ import {
   ConfigModule,
   CmsConfig,
   UserService,
+  I18nModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -27,6 +28,7 @@ import {
     BootstrapModule,
     PaginationAndSortingModule,
     UrlTranslationModule,
+    I18nModule,
   ],
   declarations: [OrderHistoryComponent],
   exports: [OrderHistoryComponent],

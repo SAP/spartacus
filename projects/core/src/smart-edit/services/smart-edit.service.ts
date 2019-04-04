@@ -66,17 +66,20 @@ export class SmartEditService {
         // before adding contract, we need redirect to preview page
         this.goToPreviewPage(cmsPage);
 
+        // remove old page contract
         const previousContract = [];
         Array.from(document.body.classList).forEach(attr =>
           previousContract.push(attr)
         );
         previousContract.forEach(attr => document.body.classList.remove(attr));
 
-        document.body.classList.add(`smartedit-page-uid-${cmsPage.pageId}`);
-        document.body.classList.add(`smartedit-page-uuid-${cmsPage.uuid}`);
-        document.body.classList.add(
-          `smartedit-catalog-version-uuid-${cmsPage.catalogUuid}`
-        );
+        // add new page contract
+        if (cmsPage.properties && cmsPage.properties.smartedit) {
+          const seClasses = cmsPage.properties.smartedit.classes.split(' ');
+          seClasses.forEach(classItem => {
+            document.body.classList.add(classItem);
+          });
+        }
       }
     });
   }

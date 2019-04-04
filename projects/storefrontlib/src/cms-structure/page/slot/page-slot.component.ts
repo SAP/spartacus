@@ -10,6 +10,7 @@ import {
   CmsService,
   ContentSlotComponentData,
   ContentSlotData,
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -25,6 +26,7 @@ export class PageSlotComponent implements OnInit {
 
   constructor(
     protected cmsService: CmsService,
+    protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected hostElement: ElementRef,
     protected cmsMapping: CmsMappingService
@@ -70,29 +72,10 @@ export class PageSlotComponent implements OnInit {
   }
 
   private addSmartEditContract(slot: ContentSlotData): void {
-    this.renderer.addClass(
+    this.dynamicAttributeService.addDynamicAttributes(
+      slot.properties,
       this.hostElement.nativeElement,
-      'smartEditComponent'
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-component-type',
-      'ContentSlot'
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-component-id',
-      slot.uid
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-catalog-version-uuid',
-      slot.catalogUuid
-    );
-    this.renderer.setAttribute(
-      this.hostElement.nativeElement,
-      'data-smartedit-component-uuid',
-      slot.uuid
+      this.renderer
     );
   }
 }

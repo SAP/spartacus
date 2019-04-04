@@ -21,9 +21,11 @@ import * as fromEffects from './product.effect';
 import { defaultOccProductConfig } from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 };
 

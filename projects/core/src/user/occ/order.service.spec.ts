@@ -21,9 +21,11 @@ const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
