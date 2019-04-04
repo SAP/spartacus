@@ -68,7 +68,7 @@ export class CartEffects {
     })
   );
   @Effect()
-  loadCheckoutData = this.actions$.pipe(
+  loadCheckoutData$ = this.actions$.pipe(
     ofType(fromActions.LOAD_CART_SUCCESS),
     withLatestFrom(this.actions$.pipe(ofType(fromActions.LOAD_CART))),
     switchMap(

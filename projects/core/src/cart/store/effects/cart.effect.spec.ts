@@ -19,6 +19,11 @@ import * as fromAuth from '../../../auth/store/index';
 import * as fromUser from '../../../user/store/index';
 
 import * as fromEffects from './cart.effect';
+import {
+  SetDeliveryAddress,
+  // SetDeliveryMode,
+  // SetPaymentDetails,
+} from 'projects/core/src/checkout/store/actions';
 
 describe('Cart effect', () => {
   let cartService: OccCartService;
@@ -37,6 +42,7 @@ describe('Cart effect', () => {
       currencyIso: 'USD',
       value: 0,
     },
+    deliveryAddress: {},
   };
 
   const MockOccModuleConfig: OccConfig = {
@@ -101,6 +107,26 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.loadCart$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadCheckoutData$', () => {
+    it('should set delivery address', () => {
+      const loadCart = new fromActions.LoadCart({
+        userId,
+        cartId,
+      });
+      const LoadCartSuccess = new fromActions.LoadCartSuccess(testCart);
+      const completion = new SetDeliveryAddress({
+        userId,
+        cartId,
+        address: testCart.deliveryAddress,
+      });
+
+      actions$ = hot('-a-b', { a: loadCart, b: LoadCartSuccess });
+      const expected = cold('---c', { c: completion });
+      // TODO fix test
+      expect(cartEffects.loadCheckoutData$).toBeObservable(expected);
     });
   });
 
