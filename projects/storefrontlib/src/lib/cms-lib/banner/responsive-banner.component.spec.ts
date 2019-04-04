@@ -19,8 +19,11 @@ const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     SimpleResponsiveBannerComponent: { selector: 'ResponsiveBannerComponent' },
   },
-  server: {
-    baseUrl: 'https://localhost:9002',
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+      prefix: '',
+    },
   },
 };
 
