@@ -376,7 +376,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector('.btn-action').innerText
-      ).toEqual('address:actions.chooseAddress');
+      ).toEqual('address.actions.chooseAddress');
     });
   });
 

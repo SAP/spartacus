@@ -150,13 +150,13 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'common:actions.signInRegister'
+        'common.actions.signInRegister'
       );
 
       component.user$ = of(mockUserDetails);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'common:labels.userGreeting name:First Last'
+        'common.labels.userGreeting name:First Last'
       );
     });
   });
