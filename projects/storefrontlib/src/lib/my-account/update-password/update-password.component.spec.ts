@@ -1,13 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RoutingService, UserService } from '@spartacus/core';
 import { UpdatePasswordComponent } from './update-password.component';
 
-describe('UpdatePasswordComponent', () => {
+class MockUserService {}
+class MockRoutingService {}
+
+fdescribe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule, RouterTestingModule],
       declarations: [UpdatePasswordComponent],
+      providers: [
+        { provide: UserService, useClass: MockUserService },
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     }).compileComponents();
   }));
 
