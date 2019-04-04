@@ -1,6 +1,6 @@
 export default {
   checkoutAddress: {
-    labels: {
+    label: {
       shippingAddress: 'Shipping Address',
       selectYourShippingAddress: 'Select your Shipping Address',
       defaultShippingAddress: 'Default Shipping Address',
@@ -11,7 +11,7 @@ export default {
       suggestedAddress: 'Suggested address',
       enteredAddress: 'Entered address',
     },
-    actions: {
+    action: {
       addNewAddress: 'Add New Address',
       shipToThisAddress: 'Ship to this address',
       editAddress: 'Edit address',

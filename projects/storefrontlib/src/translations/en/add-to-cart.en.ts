@@ -1,11 +1,11 @@
 export default {
   addToCart: {
-    labels: {
+    label: {
       itemsAddedToYourCart: 'Item(s) added to your cart',
       items: 'items',
       updatingCart: 'Updating cart...',
     },
-    actions: {
+    action: {
       addToCart: 'Add to cart',
       viewCart: 'view cart',
       proceedToCheckout: 'proceed to checkout',

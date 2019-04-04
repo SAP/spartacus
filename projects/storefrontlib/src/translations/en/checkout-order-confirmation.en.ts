@@ -1,6 +1,6 @@
 export default {
   checkoutOrderConfirmation: {
-    labels: {
+    label: {
       confirmationOfOrder: 'Confirmation of Order:',
       thankYou: 'Thank you for your order!',
       invoiceHasBeenSentByEmail:

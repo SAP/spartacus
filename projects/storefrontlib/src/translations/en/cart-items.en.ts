@@ -1,6 +1,6 @@
 export default {
   cartItems: {
-    labels: {
+    label: {
       id: 'ID',
       description: 'Description',
       item: 'Item',

@@ -1,11 +1,11 @@
 export default {
   checkoutReview: {
-    labels: {
+    label: {
       review: 'Review',
       orderItems: 'Order Items',
       confirmThatRead: 'I am confirming that I have read and agreed with the',
     },
-    actions: {
+    action: {
       placeOrder: 'Place Order',
       termsAndConditions: 'Terms & Conditions',
     },

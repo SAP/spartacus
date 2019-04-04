@@ -1,6 +1,6 @@
 export default {
   orderReview: {
-    labels: {
+    label: {
       shipTo: 'Ship to',
       shippingMethod: 'Shipping Method',
       billTo: 'Bill to',

@@ -39,7 +39,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     expect(detailsElement.innerText).toContain(
       `1 - ${
         component.pagination.pageSize
-      } storeFinder.labels.fromStoresFound count:${
+      } storeFinder.label.fromStoresFound count:${
         component.pagination.totalResults
       }`
     );

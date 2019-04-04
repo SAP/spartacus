@@ -1,6 +1,6 @@
 export default {
   checkout: {
-    actions: {
+    action: {
       backToCart: 'Back to cart',
     },
   },

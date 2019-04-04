@@ -1,6 +1,6 @@
 export default {
   orderHistory: {
-    labels: {
+    label: {
       orderHistory: 'Order history',
       orderId: 'Order #',
       date: 'Date',
@@ -8,7 +8,7 @@ export default {
       total: 'Total',
       noOrders: 'We have no order records for this account.',
     },
-    actions: {
+    action: {
       startShopping: 'Start Shopping',
     },
   },

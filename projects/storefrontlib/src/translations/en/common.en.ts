@@ -1,12 +1,12 @@
 export default {
   common: {
-    labels: {
+    label: {
       loading: 'Loading...',
       default: 'DEFAULT',
       selected: 'SELECTED',
       userGreeting: 'Hi, {{name}}',
     },
-    actions: {
+    action: {
       cancel: 'Cancel',
       delete: 'Delete',
       remove: 'Remove',
@@ -21,7 +21,7 @@ export default {
       skipToMainContent: 'Skip to main content',
       skipToFooter: 'Skip to Footer',
     },
-    placeholders: {
+    placeholder: {
       searchHere: 'Search here...',
     },
   },

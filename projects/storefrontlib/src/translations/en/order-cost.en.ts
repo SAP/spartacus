@@ -1,6 +1,6 @@
 export default {
   orderCost: {
-    labels: {
+    label: {
       orderSummary: 'Order Summary',
       subtotal: 'Subtotal:',
       estimatedShipping: 'Estimated shipping:',

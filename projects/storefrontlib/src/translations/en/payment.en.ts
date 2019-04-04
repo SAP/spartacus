@@ -1,6 +1,6 @@
 export default {
   payment: {
-    labels: {
+    label: {
       payment: 'Payment',
       choosePaymentMethod: 'Choose a payment method',
       expires: 'Expires:',
@@ -14,13 +14,13 @@ export default {
       billingAddress: 'Billing address',
       sameAsShippingAddress: 'Same as shipping address',
     },
-    placeholders: {
+    placeholder: {
       selectOne: 'Select One...',
       accountHolderName: 'Account Holder Name',
       monthMask: 'MM',
       yearMask: 'YYYY',
     },
-    actions: {
+    action: {
       useThisPayment: 'Use this payment',
       addNewPayment: 'Add New Payment',
       changePayment: 'Change Payment',

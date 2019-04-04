@@ -1,6 +1,6 @@
 export default {
   storeFinder: {
-    labels: {
+    label: {
       openUntil: 'Open until',
       closed: 'Closed',
       call: 'Call',
@@ -13,13 +13,13 @@ export default {
       fromStoresFound: 'from {{ count }} store found',
       fromStoresFound_plural: 'from {{ count }} stores found',
     },
-    actions: {
+    action: {
       findStore: 'Find store',
       useMyLocation: 'Use my location',
       viewAllStores: 'View all stores',
       contactUs: 'Contact us',
     },
-    placeholders: {
+    placeholder: {
       searchBox: 'Enter postal code, town or address',
     },
   },

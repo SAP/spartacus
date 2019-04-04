@@ -1,6 +1,6 @@
 export default {
   orderDetails: {
-    labels: {
+    label: {
       orderId: 'Order #',
       placed: 'Placed',
       status: 'Status',

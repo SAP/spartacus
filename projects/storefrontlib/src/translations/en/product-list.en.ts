@@ -1,10 +1,10 @@
 export default {
   productList: {
-    labels: {
+    label: {
       filterBy: 'Filter by',
       appliedFilter: 'Applied Filter:',
     },
-    actions: {
+    action: {
       showLess: 'Show less...',
       showMore: 'Show more...',
       filterBy: 'Filter by',

@@ -11,7 +11,7 @@
           class="btn btn-block btn-action"
           (click)="addAddressButtonHandle()"
         >
-          {{ 'addressBook.actions.addNewAddress' | cxTranslate }}
+          {{ 'addressBook.action.addNewAddress' | cxTranslate }}
         </button>
       </div>
     </div>
@@ -36,13 +36,13 @@
   <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.labels.addNewShippingAddress' | cxTranslate }}
+        {{ 'addressBook.label.addNewShippingAddress' | cxTranslate }}
       </p>
       <cx-address-form
         class="cx-form"
         showTitleCode="true"
-        actionBtnLabel="{{ 'address.actions.addAddress' | cxTranslate }}"
-        cancelBtnLabel="{{ 'address.actions.backToAddressList' | cxTranslate }}"
+        actionBtnLabel="{{ 'address.action.addAddress' | cxTranslate }}"
+        cancelBtnLabel="{{ 'address.action.backToAddressList' | cxTranslate }}"
         [setAsDefaultField]="!((addresses$ | async).length === 0)"
         (submitAddress)="addAddressSubmit($event)"
         (backToAddress)="addAddressCancel()"
@@ -53,12 +53,12 @@
   <ng-container *ngIf="showEditAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.labels.editShippingAddress' | cxTranslate }}
+        {{ 'addressBook.label.editShippingAddress' | cxTranslate }}
       </p>
       <cx-address-form
         showTitleCode="true"
-        actionBtnLabel="{{ 'address.actions.updateAddress' | cxTranslate }}"
-        cancelBtnLabel="{{ 'address.actions.backToAddressList' | cxTranslate }}"
+        actionBtnLabel="{{ 'address.action.updateAddress' | cxTranslate }}"
+        cancelBtnLabel="{{ 'address.action.backToAddressList' | cxTranslate }}"
         [addressData]="currentAddress"
         (submitAddress)="editAddressSubmit($event)"
         (backToAddress)="editAddressCancel()"

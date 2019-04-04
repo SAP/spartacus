@@ -1,10 +1,10 @@
 export default {
   cart: {
-    labels: {
+    label: {
       shoppingCart: 'Shopping Cart',
       id: 'ID',
     },
-    actions: {
+    action: {
       proceedToCheckout: 'Proceed to Checkout',
     },
   },

@@ -1,15 +1,15 @@
 export default {
   forgottenPassword: {
-    labels: {
+    label: {
       resetPassword: 'Reset password',
       enterEmailAddressAssociatedWithYourAccount:
         'Enter the email address associated with your account',
       emailAddress: 'Email address',
     },
-    placeholders: {
+    placeholder: {
       emailAddress: 'Enter email',
     },
-    validations: {
+    validation: {
       enterValidEmail: 'Please enter a valid email.',
     },
   },

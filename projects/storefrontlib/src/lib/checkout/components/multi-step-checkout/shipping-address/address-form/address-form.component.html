@@ -6,7 +6,7 @@
           <div *ngIf="titles.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'address.labels.title' | cxTranslate
+                'address.label.title' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="titleCode"
@@ -25,13 +25,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'address.labels.firstName' | cxTranslate
+            'address.label.firstName' | cxTranslate
           }}</span>
           <input
             class="form-control"
             type="text"
             required
-            placeholder="{{ 'address.placeholders.firstName' | cxTranslate }}"
+            placeholder="{{ 'address.placeholder.firstName' | cxTranslate }}"
             formControlName="firstName"
           />
         </label>
@@ -39,13 +39,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'address.labels.lastName' | cxTranslate
+            'address.label.lastName' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
-            placeholder="{{ 'address.placeholders.lastName' | cxTranslate }}"
+            placeholder="{{ 'address.placeholder.lastName' | cxTranslate }}"
             formControlName="lastName"
           />
         </label>
@@ -53,14 +53,14 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'address.labels.address1' | cxTranslate
+            'address.label.address1' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
             placeholder="{{
-              'address.placeholders.streetAddress' | cxTranslate
+              'address.placeholder.streetAddress' | cxTranslate
             }}"
             formControlName="line1"
           />
@@ -69,12 +69,12 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'address.labels.address2' | cxTranslate
+            'address.label.address2' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
-            placeholder="{{ 'address.placeholders.aptSuite' | cxTranslate }}"
+            placeholder="{{ 'address.placeholder.aptSuite' | cxTranslate }}"
             formControlName="line2"
           />
         </label>
@@ -84,7 +84,7 @@
           <div *ngIf="countries.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'address.labels.country' | cxTranslate
+                'address.label.country' | cxTranslate
               }}</span>
               <ng-select
                 class="country-select"
@@ -95,7 +95,7 @@
                 bindLabel="name"
                 bindValue="isocode"
                 placeholder="{{
-                  'address.placeholders.selectOne' | cxTranslate
+                  'address.placeholder.selectOne' | cxTranslate
                 }}"
                 (change)="countrySelected($event)"
               >
@@ -108,13 +108,13 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content required">{{
-              'address.labels.city' | cxTranslate
+              'address.label.city' | cxTranslate
             }}</span>
             <input
               type="text"
               class="form-control"
               required
-              placeholder="{{ 'address.placeholders.city' | cxTranslate }}"
+              placeholder="{{ 'address.placeholder.city' | cxTranslate }}"
               formControlName="town"
             />
           </label>
@@ -127,7 +127,7 @@
             <div *ngIf="regions.length !== 0">
               <label aria-required="true">
                 <span class="label-content required">{{
-                  'address.labels.state' | cxTranslate
+                  'address.label.state' | cxTranslate
                 }}</span>
                 <ng-container *ngIf="regions[0].name">
                   <ng-select
@@ -139,7 +139,7 @@
                     bindLabel="name"
                     bindValue="isocode"
                     placeholder="{{
-                      'address.placeholders.selectOne' | cxTranslate
+                      'address.placeholder.selectOne' | cxTranslate
                     }}"
                     (change)="regionSelected($event)"
                   >
@@ -154,7 +154,7 @@
                     bindLabel="isocode"
                     bindValue="region"
                     placeholder="{{
-                      'address.placeholders.selectOne' | cxTranslate
+                      'address.placeholder.selectOne' | cxTranslate
                     }}"
                     (change)="regionSelected($event)"
                   >
@@ -167,13 +167,13 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content required">{{
-              'address.labels.zipCode' | cxTranslate
+              'address.label.zipCode' | cxTranslate
             }}</span>
             <input
               type="text"
               class="form-control"
               required
-              placeholder="{{ 'address.placeholders.zipCode' | cxTranslate }}"
+              placeholder="{{ 'address.placeholder.zipCode' | cxTranslate }}"
               formControlName="postalCode"
             />
           </label>
@@ -182,12 +182,12 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'address.labels.phoneNumber' | cxTranslate
+            'address.label.phoneNumber' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
-            placeholder="{{ 'address.placeholders.phoneNumber' | cxTranslate }}"
+            placeholder="{{ 'address.placeholder.phoneNumber' | cxTranslate }}"
             formControlName="phone"
           />
         </label>
@@ -202,7 +202,7 @@
               (change)="toggleDefaultAddress()"
             />
             <span class="form-check-label">{{
-              'common.actions.setAsDefault' | cxTranslate
+              'common.action.setAsDefault' | cxTranslate
             }}</span>
           </label>
         </div>
@@ -212,7 +212,7 @@
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
       <button class="btn btn-block btn-action" (click)="back()">
-        {{ cancelBtnLabel || ('address.actions.chooseAddress' | cxTranslate) }}
+        {{ cancelBtnLabel || ('address.action.chooseAddress' | cxTranslate) }}
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
@@ -221,7 +221,7 @@
         [disabled]="address.invalid"
         (click)="verifyAddress()"
       >
-        {{ actionBtnLabel || ('common.actions.continue' | cxTranslate) }}
+        {{ actionBtnLabel || ('common.action.continue' | cxTranslate) }}
       </button>
     </div>
   </div>

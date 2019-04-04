@@ -1,6 +1,6 @@
 export default {
   productDetails: {
-    labels: {
+    label: {
       id: 'ID',
       quantity: 'Qty',
       productDetails: 'Product Details',
@@ -8,7 +8,7 @@ export default {
       reviews: 'Reviews',
       shipping: 'Shipping',
     },
-    actions: {
+    action: {
       share: 'Share',
       showReviews: 'Show reviews',
     },

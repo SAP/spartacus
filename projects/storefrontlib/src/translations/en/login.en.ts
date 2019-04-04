@@ -1,20 +1,20 @@
 export default {
   login: {
-    actions: {
+    action: {
       forgotPassword: 'Forgot password?',
       signIn: 'Sign In',
       register: 'Register',
     },
-    labels: {
+    label: {
       dontHaveAccount: 'Don’t have an account',
       emailAddress: 'Email address',
       password: 'Password',
     },
-    placeholders: {
+    placeholder: {
       emailAddress: 'Enter email',
       password: 'Password',
     },
-    validations: {
+    validation: {
       wrongEmailFormat: 'This is not a valid email format.',
     },
   },

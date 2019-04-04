@@ -1,6 +1,6 @@
 export default {
   address: {
-    labels: {
+    label: {
       title: 'Title',
       firstName: 'First name',
       lastName: 'Last name',
@@ -12,14 +12,14 @@ export default {
       zipCode: 'Zip code',
       phoneNumber: 'Phone number (optional)',
     },
-    actions: {
+    action: {
       saveAsDefault: 'Save as default',
       chooseAddress: 'Choose address',
       backToAddressList: 'Back to address list',
       addAddress: 'Add address',
       updateAddress: 'Update address',
     },
-    placeholders: {
+    placeholder: {
       firstName: 'First Name',
       lastName: 'Last Name',
       streetAddress: 'Street Address',

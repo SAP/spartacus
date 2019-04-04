@@ -1,6 +1,6 @@
 export default {
   register: {
-    actions: {
+    action: {
       confirmPassword: 'Confirm password',
       managmentInMyAccount: 'Management in My Account.',
       termsAndConditions: 'Terms & Conditions',
@@ -9,7 +9,7 @@ export default {
       confirmNewPassword: 'Confirm New Password',
       resetPassword: 'Reset Password',
     },
-    labels: {
+    label: {
       createAccount: 'Create an account',
       title: 'Title',
       firstName: 'First name',
@@ -23,7 +23,7 @@ export default {
         'Use my personal data to receive e-mail newsletters for marketing campaigns. To change your settings, go to Consent Management in My Account.',
       confirmThatRead: 'I am confirming that I have read and agreed with the',
     },
-    placeholders: {
+    placeholder: {
       selectTitle: 'Select Title',
       firstName: 'First Name',
       lastName: 'Last Name',
@@ -31,7 +31,7 @@ export default {
       password: 'Password',
       confirmPassword: 'Confirm Password',
     },
-    validations: {
+    validation: {
       passwordMinRequirements:
         'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
       bothPasswordMustMatch: 'Both password must match',
