@@ -13,4 +13,8 @@ export class StorefrontComponent {
   get isExpanded(): Observable<boolean> {
     return this.hamburgerMenuService.isExpanded;
   }
+
+  collapseMenu(): void {
+    this.hamburgerMenuService.toggle(true);
+  }
 }
