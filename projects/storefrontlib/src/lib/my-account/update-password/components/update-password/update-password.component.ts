@@ -38,11 +38,11 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group(
       {
-        password: [
+        newPassword: [
           '',
           [Validators.required, CustomFormValidators.passwordValidator],
         ],
-        repassword: ['', [Validators.required]],
+        newPasswordConfirm: ['', [Validators.required]],
       },
       { validator: this.matchPassword }
     );
@@ -62,7 +62,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   }
 
   private matchPassword(ac: AbstractControl) {
-    if (ac.get('password').value !== ac.get('repassword').value) {
+    if (ac.get('newPassword').value !== ac.get('newPasswordConfirm').value) {
       return { NotEqual: true };
     }
   }
