@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
@@ -18,17 +19,8 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   token: string;
   subscription = new Subscription();
   submited = false;
-
-  form: FormGroup = this.fb.group(
-    {
-      password: [
-        '',
-        [Validators.required, CustomFormValidators.passwordValidator],
-      ],
-      repassword: ['', [Validators.required]],
-    },
-    { validator: this.matchPassword }
-  );
+  userId: string;
+  form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -36,18 +28,36 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.userService
+      .get()
+      .pipe(take(1))
+      .subscribe(user => {
+        this.userId = user.uid;
+      });
+
+    this.form = this.fb.group(
+      {
+        password: [
+          '',
+          [Validators.required, CustomFormValidators.passwordValidator],
+        ],
+        repassword: ['', [Validators.required]],
+      },
+      { validator: this.matchPassword }
+    );
+  }
 
   ngOnDestroy() {}
 
-  resetPassword() {
+  updatePassword() {
+    console.log('UpdatePassword()', this.userId, this.form.value);
     this.submited = true;
     if (this.form.invalid) {
       return;
     }
 
-    const password = this.form.value['password'];
-    this.userService.updatePassword('', '', password);
+    this.userService.updatePassword(this.userId, '', '');
     this.routingService.go({ route: ['home'] });
   }
 
