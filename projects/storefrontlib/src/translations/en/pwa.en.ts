@@ -1,6 +1,6 @@
 export default {
   labels: {
-    addSapStorefront:
+    addToHomeScreenDescription:
       'Add SAP storefront to your device homescreen for a faster return visit',
     noInstallationNeeded: 'No installation needed',
     fastAccessToApplication: 'Fast access to application',
