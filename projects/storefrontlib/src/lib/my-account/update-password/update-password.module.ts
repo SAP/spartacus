@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { UpdatePasswordComponent } from './update-password.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 @NgModule({
   imports: [
     CommonModule,
