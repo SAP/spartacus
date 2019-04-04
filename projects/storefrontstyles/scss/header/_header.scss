@@ -23,6 +23,11 @@ header {
     }
   }
 
+  .navigation {
+    position: absolute;
+    width: 100%;
+  }
+
   .SiteContext,
   .SiteLinks {
     font-size: var(--cx-g-font-small, 0.75rem);
@@ -54,28 +59,18 @@ header {
 
   @include media-breakpoint-only(xs) {
     .SearchBox {
-      margin: 0 0 0 auto;
+      margin-left: auto;
     }
   }
 
   // non-desktop
   @include media-breakpoint-down(md) {
-    .SiteLogin,
-    .NavigationBar,
-    .SiteContext,
-    .SiteLinks {
-      flex: 100%;
-    }
-
-    .SiteLogin,
-    .NavigationBar {
-      order: 1;
-    }
-
-    .SiteContext,
-    .SiteLinks {
-      order: 2;
-    }
+    // .SiteLogin,
+    // .NavigationBar,
+    // .SiteContext,
+    // .SiteLinks {
+    //   flex: 100%;
+    // }
 
     .SiteContext,
     .SiteLinks,

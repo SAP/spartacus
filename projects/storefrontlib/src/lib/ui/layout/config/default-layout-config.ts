@@ -22,16 +22,13 @@ export const defaultLayoutConfig: LayoutConfig = {
         ],
       },
       xs: {
-        slots: [
-          'PreHeader',
-          'SiteLogo',
-          'SearchBox',
-          'SiteLogin',
-          'MiniCart',
-          'NavigationBar',
-          'SiteContext',
-          'SiteLinks',
-        ],
+        slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
+      },
+    },
+    navigation: {
+      md: {},
+      xs: {
+        slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
       },
     },
     footer: {
