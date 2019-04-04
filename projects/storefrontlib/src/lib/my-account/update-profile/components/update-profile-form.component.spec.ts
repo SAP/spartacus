@@ -17,7 +17,6 @@ describe('UpdateProfileFormComponent', () => {
   let component: UpdateProfileFormComponent;
   let fixture: ComponentFixture<UpdateProfileFormComponent>;
   let el: DebugElement;
-  let form: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,7 +29,6 @@ describe('UpdateProfileFormComponent', () => {
     fixture = TestBed.createComponent(UpdateProfileFormComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    form = fixture.debugElement.query(By.css('form'));
 
     fixture.detectChanges();
     component.user = mockUser;
@@ -54,9 +52,12 @@ describe('UpdateProfileFormComponent', () => {
   });
 
   describe('onSubmit', () => {
-    it('should call onSubmit() on submit event', () => {
+    it('should call onSubmit() when submit button is clicked', () => {
       spyOn(component, 'onSubmit').and.stub();
-      form.triggerEventHandler('ngSubmit', null);
+      fixture.detectChanges();
+
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
       expect(component.onSubmit).toHaveBeenCalled();
     });
 
@@ -84,11 +85,11 @@ describe('UpdateProfileFormComponent', () => {
     });
   });
 
-  describe('onSubmit', () => {
+  describe('onCancel', () => {
     it('should call onCancel() on click event', () => {
       spyOn(component, 'onCancel').and.stub();
       const cancelBtn = el.query(By.css('button[type="button"]'));
-      cancelBtn.triggerEventHandler('click', null);
+      cancelBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
       expect(component.onCancel).toHaveBeenCalled();
     });
 
@@ -108,16 +109,18 @@ describe('UpdateProfileFormComponent', () => {
     it('should display an error message', () => {
       component.user = invalidUser;
       component.ngOnInit();
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
 
-      const error = el.query(By.css('.invalid-feedback'));
+      const error = el.query(
+        By.css('.form-group:nth-of-type(2) .invalid-feedback')
+      );
       expect(error).toBeTruthy();
 
       const message = error.query(By.css('span'));
       expect(message).toBeTruthy();
-      expect(message.nativeElement.innerText).toEqual(
-        'First name is required.'
-      );
+      expect(message.nativeElement.innerText).not.toEqual('');
     });
   });
 
@@ -130,6 +133,8 @@ describe('UpdateProfileFormComponent', () => {
     it('should display an error message', () => {
       component.user = invalidUser;
       component.ngOnInit();
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
 
       const error = el.query(
@@ -139,7 +144,7 @@ describe('UpdateProfileFormComponent', () => {
 
       const message = error.query(By.css('span'));
       expect(message).toBeTruthy();
-      expect(message.nativeElement.innerText).toEqual('Last name is required.');
+      expect(message.nativeElement.innerText).not.toEqual('');
     });
   });
 });

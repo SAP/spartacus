@@ -71,5 +71,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+    // clean up the state
+    this.userService.resetUpdatePersonalDetailsProcessingState();
   }
 }

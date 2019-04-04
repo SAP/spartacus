@@ -22,7 +22,7 @@
           formControlName="firstName"
           [class.is-invalid]="isNotValid('firstName')"
         />
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" *ngIf="isNotValid('firstName')">
           <span>First name is required.</span>
         </div>
       </label>
@@ -38,7 +38,7 @@
           formControlName="lastName"
           [class.is-invalid]="isNotValid('lastName')"
         />
-        <div class="invalid-feedback">
+        <div class="invalid-feedback" *ngIf="isNotValid('lastName')">
           <span>Last name is required.</span>
         </div>
       </label>
