@@ -8,6 +8,11 @@ export const headerComponents: {
     flexType: 'SkipLinkComponent',
     uid: 'SkipLinkComponent',
   },
+  HamburgerMenuComponent: {
+    typeCode: 'HamburgerMenuComponent',
+    flexType: 'HamburgerMenuComponent',
+    uid: 'HamburgerMenuComponent',
+  },
   LanguageComponent: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
@@ -82,7 +87,7 @@ export const headerComponents: {
 
 export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
   PreHeader: {
-    componentIds: ['SkipLinkComponent'],
+    componentIds: ['SkipLinkComponent', 'HamburgerMenuComponent'],
   },
   SiteContext: {
     componentIds: ['LanguageComponent', 'CurrencyComponent'],
