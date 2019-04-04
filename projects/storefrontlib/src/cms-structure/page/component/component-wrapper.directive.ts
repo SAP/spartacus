@@ -15,6 +15,7 @@ import {
   CmsComponent,
   CmsConfig,
   CmsService,
+  DynamicAttributeService,
   ComponentMapperService,
   CxApiService,
   ContentSlotComponentData,
@@ -36,6 +37,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     private componentMapper: ComponentMapperService,
     private injector: Injector,
     private cmsService: CmsService,
+    private dynamicAttributeService: DynamicAttributeService,
     private renderer: Renderer2,
     private cd: ChangeDetectorRef,
     private config: CmsConfig,
@@ -129,26 +131,10 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private addSmartEditContract(element: Element) {
-    element.classList.add('smartEditComponent');
-    this.renderer.setAttribute(
+    this.dynamicAttributeService.addDynamicAttributes(
+      this.cxComponentWrapper.properties,
       element,
-      'data-smartedit-component-id',
-      this.cxComponentWrapper.uid
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-component-type',
-      this.cxComponentWrapper.typeCode
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-catalog-version-uuid',
-      this.cxComponentWrapper.catalogUuid
-    );
-    this.renderer.setAttribute(
-      element,
-      'data-smartedit-component-uuid',
-      this.cxComponentWrapper.uuid
+      this.renderer
     );
   }
 

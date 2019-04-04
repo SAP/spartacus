@@ -18,8 +18,10 @@ const token: ClientToken = {
 const mockOauthEndpoint = '/authorizationserver/oauth/token';
 
 const MockAuthConfig: AuthConfig = {
-  server: {
-    baseUrl: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+    },
   },
   authentication: {
     client_id: '',
