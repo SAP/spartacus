@@ -18,8 +18,10 @@ const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
     SimpleBannerComponent: { selector: 'BannerComponent' },
   },
-  server: {
-    baseUrl: 'https://localhost:9002',
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+    },
   },
 };
 

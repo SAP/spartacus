@@ -6,9 +6,11 @@ import { Product, ImageType } from '../../../occ/occ-models/occ.models';
 import { ProductImageConverterService } from './product-image-converter.service';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 };
 

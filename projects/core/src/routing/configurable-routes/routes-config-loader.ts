@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { ServerConfig } from '../../config/server-config/server-config';
 import { Injectable } from '@angular/core';
 import { RoutesConfig } from './routes-config';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { retry } from 'rxjs/operators';
+import { OccConfig } from '../../occ/config/occ-config';
 
 const ENDPOINT_ROUTES_CONFIG = 'routes-config';
 
@@ -18,13 +18,15 @@ export class RoutesConfigLoader {
 
   get endpoint(): string {
     return (
-      (this.serverConfig.server.baseUrl || '') + '/' + ENDPOINT_ROUTES_CONFIG
+      (this.serverConfig.backend.occ.baseUrl || '') +
+      '/' +
+      ENDPOINT_ROUTES_CONFIG
     );
   }
 
   constructor(
     private readonly http: HttpClient,
-    private readonly serverConfig: ServerConfig,
+    private readonly serverConfig: OccConfig,
     private readonly configurableRoutesConfig: ConfigurableRoutesConfig
   ) {}
 

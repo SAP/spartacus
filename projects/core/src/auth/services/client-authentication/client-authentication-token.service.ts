@@ -35,6 +35,6 @@ export class ClientAuthenticationTokenService {
   }
 
   private getOAuthEndpoint(): string {
-    return (this.config.server.baseUrl || '') + OAUTH_ENDPOINT;
+    return (this.config.backend.occ.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }
