@@ -1,13 +1,9 @@
-@import 'theme';
-
-@include media-breakpoint-down(md) {
-  .cx-update-profile-btns {
-    .btn-primary {
-      margin-bottom: 1rem;
-    }
+.form-group {
+  .label-content:after {
+    content: '*';
   }
-}
 
-.form-group .label-content:after {
-  content: '*';
+  button:first-child {
+    margin-bottom: 1rem;
+  }
 }
