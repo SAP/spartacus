@@ -11,5 +11,8 @@ export default {
     action: {
       startShopping: 'Start Shopping',
     },
+    placeholder: {
+      sortByMostRecent: 'Sort by Most recent',
+    },
   },
 };

@@ -10,4 +10,7 @@ export default {
       filterBy: 'Filter by',
     },
   },
+  placeholder: {
+    sortByRelevance: 'Sort by Relevance',
+  },
 };
