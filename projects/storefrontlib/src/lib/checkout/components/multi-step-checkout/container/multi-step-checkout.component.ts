@@ -35,7 +35,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   deliveryAddress: Address;
   paymentDetails: PaymentDetails;
-  shippingMethod: string;
+  deliveryMode: string;
   subscriptions: Subscription[] = [];
 
   cart$: Observable<Cart>;
@@ -91,7 +91,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         .subscribe(selectedMode => {
           this.nextStep(3);
           this.refreshCart();
-          this.shippingMethod = selectedMode;
+          this.deliveryMode = selectedMode;
           this.cd.detectChanges();
         })
     );
@@ -144,6 +144,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.nextStep(backStep);
   }
 
+  goToStep(step: number): void {
+    this.nextStep(step);
+  }
+
   nextStep(step: number): void {
     const previousStep = step - 1;
 
@@ -186,8 +190,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
-    // if the selected shipping method is the same as the cart's one
-    if (this.shippingMethod && this.shippingMethod === deliveryModeId) {
+    // if the selected delivery mode is the same as the cart's one
+    if (this.deliveryMode && this.deliveryMode === deliveryModeId) {
       this.nextStep(3);
       return;
     }

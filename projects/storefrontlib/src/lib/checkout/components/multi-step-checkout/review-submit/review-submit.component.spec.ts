@@ -47,7 +47,7 @@ const mockDeliveryAddress: Address = {
   country: { isocode: 'JP' }
 };
 
-const mockShippingMethod = 'standard-gross';
+const mockDeliveryMode = 'standard-gross';
 
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
@@ -133,7 +133,7 @@ describe('ReviewSubmitComponent', () => {
     component = fixture.componentInstance;
 
     component.deliveryAddress = mockDeliveryAddress;
-    component.shippingMethod = mockShippingMethod;
+    component.deliveryMode = mockDeliveryMode;
     component.paymentDetails = mockPaymentDetails;
   });
 
@@ -191,12 +191,12 @@ describe('ReviewSubmitComponent', () => {
     ]);
   });
 
-  it('should call getShippingMethodCard(deliveryMode) to get shipping method card data', () => {
+  it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
     const selectedMode: DeliveryMode = {
       code: 'standard-gross',
       description: 'Standard Delivery description'
     };
-    const card = component.getShippingMethodCard(selectedMode);
+    const card = component.getDeliveryModeCard(selectedMode);
     expect(card.title).toEqual('Shipping Method');
     expect(card.textBold).toEqual('standard-gross');
     expect(card.text).toEqual(['Standard Delivery description']);
@@ -246,18 +246,18 @@ describe('ReviewSubmitComponent', () => {
     });
   });
 
-  describe('child cx-card component of shipping method', () => {
-    const getShippingMethodCardContent = () =>
+  describe('child cx-card component of delivery mode', () => {
+    const getDeliveryModeCardContent = () =>
       fixture.debugElement.query(By.css('.cx-review-card-shipping cx-card'))
         .componentInstance.content;
 
-    it('should receive content attribute with shipping method', () => {
-      const mockShippingMethodCardData = 'test shipping method';
-      spyOn(component, 'getShippingMethodCard').and.returnValue(
-        mockShippingMethodCardData
+    it('should receive content attribute with delivery mode', () => {
+      const mockDeliveryModeCardData = 'test delivery mode';
+      spyOn(component, 'getDeliveryModeCard').and.returnValue(
+        mockDeliveryModeCardData
       );
       fixture.detectChanges();
-      expect(getShippingMethodCardContent()).toBe(mockShippingMethodCardData);
+      expect(getDeliveryModeCardContent()).toBe(mockDeliveryModeCardData);
     });
   });
 

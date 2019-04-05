@@ -78,7 +78,7 @@ const mockOrderDetails = { id: '1234' };
 @Component({ selector: 'cx-delivery-mode', template: '' })
 class MockDeliveryModeComponent {
   @Input()
-  selectedShippingMethod: string;
+  selectedDeliveryMode: string;
 }
 
 @Component({ selector: 'cx-payment-method', template: '' })
@@ -92,7 +92,7 @@ class MockReviewSubmitComponent {
   @Input()
   deliveryAddress: Address;
   @Input()
-  shippingMethod: string;
+  deliveryMode: string;
   @Input()
   paymentDetails: PaymentDetails;
 }
@@ -326,7 +326,7 @@ describe('MultiStepCheckoutComponent', () => {
     const deliveryMode = {
       deliveryModeId: 'testId'
     } as any;
-    component.shippingMethod = 'testId';
+    component.deliveryMode = 'testId';
     component.setDeliveryMode(deliveryMode);
 
     expect(component.nextStep).toHaveBeenCalledWith(3);

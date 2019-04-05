@@ -60,7 +60,7 @@ describe('DeliveryModeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get supported shipping modes if they do not exist', done => {
+  it('should call ngOnInit to get supported delivery modes if they do not exist', done => {
     spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
       of([])
     );
@@ -71,7 +71,7 @@ describe('DeliveryModeComponent', () => {
     });
   });
 
-  it('should call ngOnInit to get supported shipping modes if they exist', () => {
+  it('should call ngOnInit to get supported delivery modes if they exist', () => {
     spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
       of(mockSupportedDeliveryModes)
     );
@@ -83,16 +83,16 @@ describe('DeliveryModeComponent', () => {
     expect(deliveryModes).toBe(mockSupportedDeliveryModes);
   });
 
-  it('should call ngOnInit to set shipping mode if user selected it before', done => {
-    const mockSelectedShippingMethod = 'shipping method set in cart';
-    component.selectedShippingMethod = mockSelectedShippingMethod;
+  it('should call ngOnInit to set delivery mode if user selected it before', done => {
+    const mockSelectedDeliveryMode = 'delivery mode set in cart';
+    component.selectedDeliveryMode = mockSelectedDeliveryMode;
     spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
       of(mockSupportedDeliveryModes)
     );
     component.ngOnInit();
     component.supportedDeliveryModes$.subscribe(() => {
       expect(component.mode.controls['deliveryModeId'].value).toEqual(
-        mockSelectedShippingMethod
+        mockSelectedDeliveryMode
       );
       done();
     });
