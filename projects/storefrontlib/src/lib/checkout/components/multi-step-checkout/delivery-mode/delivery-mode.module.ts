@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { DeliveryModeComponent } from './delivery-mode.component';
 import { ConfigModule, CmsConfig } from '@spartacus/core';
+import { DeliveryModeComponent } from './delivery-mode.component';
+import { ShippingAddressSetGuard } from '../../../guards/shipping-address-set.guard';
 
 @NgModule({
   imports: [
@@ -13,10 +14,12 @@ import { ConfigModule, CmsConfig } from '@spartacus/core';
       cmsComponents: {
         MultistepCheckoutDeliveryMode: {
           selector: 'cx-delivery-mode',
+          guards: [ShippingAddressSetGuard]
         },
       },
     }),
   ],
+  providers: [ShippingAddressSetGuard],
   declarations: [DeliveryModeComponent],
   entryComponents: [DeliveryModeComponent],
   exports: [DeliveryModeComponent],

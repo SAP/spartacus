@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { Order, RoutingService, CheckoutService } from '@spartacus/core';
-import { ShippingAddressSetGuard } from './shipping-address-set-guard.service';
+import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 
 class MockCheckoutService {
