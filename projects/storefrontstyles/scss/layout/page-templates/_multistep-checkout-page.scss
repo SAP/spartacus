@@ -1,0 +1,22 @@
+%MultiStepCheckoutSummaryPageTemplate {
+  // @extend %pageBody !optional;
+
+  max-width: 1140px;
+  padding: 2rem 1.5rem 0 1.5rem;
+  margin: auto;
+  display: flex;
+  cx-page-slot {
+    &.BodyContent,
+    &.SideContent {
+      display: block;
+    }
+
+    &.BodyContent {
+      --cx-flex-basis: 200%;
+    }
+
+    &.SideContent {
+      --cx-flex-basis: 100%;
+    }
+  }
+}
