@@ -1,4 +1,4 @@
-export default {
+export const forgottenPassword = {
   forgottenPassword: {
     label: {
       resetPassword: 'Reset password',

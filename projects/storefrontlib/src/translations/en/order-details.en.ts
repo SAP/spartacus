@@ -1,4 +1,4 @@
-export default {
+export const orderDetails = {
   orderDetails: {
     label: {
       orderId: 'Order #',

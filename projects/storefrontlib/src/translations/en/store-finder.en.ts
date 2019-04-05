@@ -1,4 +1,4 @@
-export default {
+export const storeFinder = {
   storeFinder: {
     label: {
       openUntil: 'Open until',

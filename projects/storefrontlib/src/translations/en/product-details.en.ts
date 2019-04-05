@@ -1,4 +1,4 @@
-export default {
+export const productDetails = {
   productDetails: {
     label: {
       id: 'ID',

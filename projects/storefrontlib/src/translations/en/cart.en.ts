@@ -1,4 +1,4 @@
-export default {
+export const cart = {
   cart: {
     label: {
       shoppingCart: 'Shopping Cart',

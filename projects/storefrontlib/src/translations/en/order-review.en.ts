@@ -1,4 +1,4 @@
-export default {
+export const orderReview = {
   orderReview: {
     label: {
       shipTo: 'Ship to',

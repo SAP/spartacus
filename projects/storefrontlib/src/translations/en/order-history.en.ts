@@ -1,4 +1,4 @@
-export default {
+export const orderHistory = {
   orderHistory: {
     label: {
       orderHistory: 'Order history',

@@ -1,4 +1,4 @@
-export default {
+export const login = {
   login: {
     action: {
       forgotPassword: 'Forgot password?',

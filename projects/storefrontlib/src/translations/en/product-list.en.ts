@@ -1,4 +1,4 @@
-export default {
+export const productList = {
   productList: {
     label: {
       filterBy: 'Filter by',

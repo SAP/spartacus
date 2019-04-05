@@ -1,4 +1,4 @@
-export default {
+export const checkoutReview = {
   checkoutReview: {
     label: {
       review: 'Review',

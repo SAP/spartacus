@@ -1,4 +1,4 @@
-export default {
+export const addressBook = {
   addressBook: {
     label: {
       addNewShippingAddress: 'Add a new shipping address',

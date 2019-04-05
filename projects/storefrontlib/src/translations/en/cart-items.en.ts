@@ -1,4 +1,4 @@
-export default {
+export const cartItems = {
   cartItems: {
     label: {
       id: 'ID',

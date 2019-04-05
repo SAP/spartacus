@@ -1,4 +1,4 @@
-export default {
+export const checkoutAddress = {
   checkoutAddress: {
     label: {
       shippingAddress: 'Shipping Address',

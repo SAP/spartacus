@@ -1,4 +1,4 @@
-export default {
+export const checkoutOrderConfirmation = {
   checkoutOrderConfirmation: {
     label: {
       confirmationOfOrder: 'Confirmation of Order:',

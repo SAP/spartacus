@@ -1,4 +1,4 @@
-export default {
+export const paymentMethods = {
   paymentMethods: {
     label: {
       paymentMethods: 'Payment methods',

@@ -1,4 +1,4 @@
-export default {
+export const register = {
   register: {
     action: {
       confirmPassword: 'Confirm password',

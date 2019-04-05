@@ -1,4 +1,4 @@
-export default {
+export const checkoutShipping = {
   checkoutShipping: {
     label: {
       shippingMethod: 'Shipping Method',

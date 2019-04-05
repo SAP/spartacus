@@ -1,4 +1,4 @@
-export default {
+export const orderCost = {
   orderCost: {
     label: {
       orderSummary: 'Order Summary',

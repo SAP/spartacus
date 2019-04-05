@@ -1,4 +1,4 @@
-export default {
+export const productReview = {
   productReview: {
     label: {
       overallRating: 'Overall Rating',

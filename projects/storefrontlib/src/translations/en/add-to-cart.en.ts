@@ -1,4 +1,4 @@
-export default {
+export const addToCart = {
   addToCart: {
     label: {
       itemsAddedToYourCart: 'Item(s) added to your cart',

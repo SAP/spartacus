@@ -1,4 +1,4 @@
-export default {
+export const pwa = {
   pwa: {
     label: {
       addToHomeScreenDescription:
