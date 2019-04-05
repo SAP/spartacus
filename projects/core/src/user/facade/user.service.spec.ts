@@ -431,19 +431,19 @@ describe('UserService', () => {
   });
 
   describe('Update Email ', () => {
-    const userId = 'test@test.com';
-    const currentPassword = 'Qwe123!';
-    const newUserId = 'tester@sap.com';
+    const uid = 'test@test.com';
+    const password = 'Qwe123!';
+    const newUid = 'tester@sap.com';
 
     it('should dispatch UpdateEmail action', () => {
-      service.updateEmail(userId, currentPassword, newUserId);
+      service.updateEmail(uid, password, newUid);
       expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.UpdateEmailAction({ userId, currentPassword, newUserId })
+        new fromStore.UpdateEmailAction({ uid, password, newUid })
       );
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUserId));
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
 
       let result: boolean;
       service
@@ -467,7 +467,7 @@ describe('UserService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUserId));
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
 
       let result: boolean;
       service

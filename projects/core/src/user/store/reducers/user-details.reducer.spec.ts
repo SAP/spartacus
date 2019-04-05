@@ -50,8 +50,8 @@ describe('User Details Reducer', () => {
       expect(state).toEqual({
         ...mockUserDetails,
         ...updatedEmail,
-        uid: `${updatedEmail.uid}`,
-        displayUid: `${updatedEmail.displayUid}`,
+        uid: updatedEmail.uid,
+        displayUid: updatedEmail.displayUid,
       });
     });
   });

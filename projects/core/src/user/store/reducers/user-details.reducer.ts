@@ -15,15 +15,15 @@ export function reducer(
       return action.payload;
     }
     case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
-      const updatedUserId: User = {
+      const updatedUser: User = {
         ...state,
-        ...action.newUserId,
+        ...action.newUid,
       };
 
       return {
-        ...updatedUserId,
-        uid: `${updatedUserId.uid}`,
-        displayUid: `${updatedUserId.displayUid}`,
+        ...updatedUser,
+        uid: updatedUser.uid,
+        displayUid: updatedUser.displayUid,
       };
     }
   }

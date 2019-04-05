@@ -64,7 +64,7 @@ describe('UserToken reducer', () => {
       expect(state).toEqual({
         ...testToken,
         ...updatedEmail,
-        userId: `${updatedEmail.userId}`,
+        userId: updatedEmail.userId,
       });
     });
   });
