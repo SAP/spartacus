@@ -6,9 +6,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '@spartacus/core';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 import { FormUtils } from '../../../../utils/forms/form-utils';
 @Component({
@@ -17,10 +14,7 @@ import { FormUtils } from '../../../../utils/forms/form-utils';
   styleUrls: ['./update-password-form.component.css'],
 })
 export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
-  token: string;
-  subscription = new Subscription();
-  submitClicked = false;
-  userId: string;
+  private submitClicked = false;
   form: FormGroup;
 
   @Output()
@@ -29,16 +23,9 @@ export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
   @Output()
   cancelled = new EventEmitter<void>();
 
-  constructor(private fb: FormBuilder, private userService: UserService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.userService
-      .get()
-      .pipe(take(1))
-      .subscribe(user => {
-        this.userId = user.uid;
-      });
-
     this.form = this.fb.group(
       {
         oldPassword: ['', [Validators.required]],
