@@ -30,9 +30,11 @@ class MockAuthService {
 }
 
 const MockAuthConfig: OccConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/',
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+      prefix: '/rest/v2/',
+    },
   },
   site: {
     baseSite: 'electronics',
