@@ -16,9 +16,9 @@ export class UpdateEmailAction extends EntityLoadAction {
   readonly type = UPDATE_EMAIL;
   constructor(
     public payload: {
-      userId: string;
-      currentPassword: string;
-      newUserId: string;
+      uid: string;
+      password: string;
+      newUid: string;
     }
   ) {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID);
@@ -27,7 +27,7 @@ export class UpdateEmailAction extends EntityLoadAction {
 
 export class UpdateEmailSuccessAction extends EntitySuccessAction {
   readonly type = UPDATE_EMAIL_SUCCESS;
-  constructor(public newUserId: any) {
+  constructor(public newUid: any) {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID);
   }
 }

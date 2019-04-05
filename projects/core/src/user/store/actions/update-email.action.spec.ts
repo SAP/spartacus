@@ -11,19 +11,19 @@ import * as fromAction from './update-email.action';
 describe('Update Email Actions', () => {
   describe('UpdateEmailAction', () => {
     it('should create the action', () => {
-      const userId = 'test@test.com';
-      const currentPassword = 'Qwe123!';
-      const newUserId = 'tester@sap.com';
+      const uid = 'test@test.com';
+      const password = 'Qwe123!';
+      const newUid = 'tester@sap.com';
 
       const action = new fromAction.UpdateEmailAction({
-        userId,
-        currentPassword,
-        newUserId,
+        uid,
+        password,
+        newUid,
       });
 
       expect({ ...action }).toEqual({
         type: fromAction.UPDATE_EMAIL,
-        payload: { userId, currentPassword, newUserId },
+        payload: { uid, password, newUid },
         meta: entityLoadMeta(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID),
       });
     });
@@ -31,12 +31,12 @@ describe('Update Email Actions', () => {
 
   describe('UpdateEmailSuccessAction', () => {
     it('should create the action', () => {
-      const newUserId = 'tester@sap.com';
-      const action = new fromAction.UpdateEmailSuccessAction(newUserId);
+      const newUid = 'tester@sap.com';
+      const action = new fromAction.UpdateEmailSuccessAction(newUid);
 
       expect({ ...action }).toEqual({
         type: fromAction.UPDATE_EMAIL_SUCCESS,
-        newUserId,
+        newUid,
         meta: entitySuccessMeta(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID),
         payload: undefined,
       });

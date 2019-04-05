@@ -365,15 +365,11 @@ export class UserService {
 
   /**
    * Updates the user's email
-   * @param userId to be updated
+   * @param uid to be updated
    */
-  updateEmail(
-    userId: string,
-    currentPassword: string,
-    newUserId: string
-  ): void {
+  updateEmail(uid: string, password: string, newUid: string): void {
     this.store.dispatch(
-      new fromStore.UpdateEmailAction({ userId, currentPassword, newUserId })
+      new fromStore.UpdateEmailAction({ uid, password, newUid })
     );
   }
 

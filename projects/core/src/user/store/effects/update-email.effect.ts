@@ -21,13 +21,11 @@ export class UpdateEmailEffect {
     map((action: fromUpdateEmailAction.UpdateEmailAction) => action.payload),
     concatMap(payload =>
       this.occUserService
-        .updateEmail(payload.userId, payload.currentPassword, payload.newUserId)
+        .updateEmail(payload.uid, payload.password, payload.newUid)
         .pipe(
           map(
             () =>
-              new fromUpdateEmailAction.UpdateEmailSuccessAction(
-                payload.newUserId
-              )
+              new fromUpdateEmailAction.UpdateEmailSuccessAction(payload.newUid)
           ),
           catchError(error =>
             of(new fromUpdateEmailAction.UpdateEmailErrorAction(error))
