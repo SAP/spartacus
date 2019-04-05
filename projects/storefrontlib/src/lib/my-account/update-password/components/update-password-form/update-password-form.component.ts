@@ -73,8 +73,6 @@ export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {}
-
   onSubmit(): void {
     this.submitClicked = true;
     if (this.form.invalid) {
@@ -86,9 +84,16 @@ export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
       newPassword: this.form.value.newPassword,
     });
   }
+
+  onCancel(): void {
+    this.cancelled.emit();
+  }
+
   private matchPassword(ac: FormGroup) {
     if (ac.get('newPassword').value !== ac.get('newPasswordConfirm').value) {
       return { NotEqual: true };
     }
   }
+
+  ngOnDestroy() {}
 }
