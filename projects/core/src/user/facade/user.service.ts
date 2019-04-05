@@ -1,26 +1,34 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
-import * as fromStore from '../store/index';
+import { map, tap } from 'rxjs/operators';
 import {
-  Order,
-  User,
-  PaymentDetails,
   Address,
-  Title,
   Country,
-  Region,
+  Order,
   OrderHistoryList,
+  PaymentDetails,
+  Region,
+  Title,
+  User,
 } from '../../occ/occ-models/index';
+import * as fromProcessStore from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
+import * as fromStore from '../store/index';
+import { UPDATE_EMAIL_PROCESS_ID } from '../store/user-state';
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    private store: Store<
+      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
+    >
+  ) {}
 
   /**
    * Returns a user
@@ -353,5 +361,53 @@ export class UserService {
    */
   isPasswordReset(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getResetPassword));
+  }
+
+  /**
+   * Updates the user's email
+   * @param userId to be updated
+   */
+  updateEmail(
+    userId: string,
+    currentPassword: string,
+    newUserId: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.UpdateEmailAction({ userId, currentPassword, newUserId })
+    );
+  }
+
+  /**
+   * Returns the update user's email success flag
+   */
+  getUpdateEmailResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's email error flag
+   */
+  getUpdateEmailResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's email loading flag
+   */
+  getUpdateEmailResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update user's email processing state
+   */
+  resetUpdateEmailResultState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateEmailAction());
   }
 }

@@ -1,23 +1,20 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { throwError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { UserRegisterFormData } from '../model/user.model';
-
+import {
+  Address,
+  AddressList,
+  AddressValidation,
+  PaymentDetailsList,
+  User,
+} from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-import {
-  User,
-  Address,
-  AddressValidation,
-  AddressList,
-  PaymentDetailsList,
-} from '../../occ/occ-models/index';
-import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { UserRegisterFormData } from '../model/user.model';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -25,6 +22,7 @@ const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
+const UPDATE_EMAIL_ENDPOINT = '/login';
 
 @Injectable()
 export class OccUserService {
@@ -186,6 +184,19 @@ export class OccUserService {
 
     return this.http
       .post(url, { token, newPassword }, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateEmail(userId: string, currentPassword: string, newUserId: string) {
+    const url = this.getUserEndpoint() + userId + UPDATE_EMAIL_ENDPOINT;
+    const httpParams: HttpParams = new HttpParams()
+      .set('password', currentPassword)
+      .set('newLogin', newUserId);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    return this.http
+      .put(url, httpParams, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
