@@ -13,7 +13,7 @@ declare global {
         cy.requireProductAddedToCart(auth);
         ```
        */
-      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<{} | any>;
+      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<any>;
     }
   }
 }

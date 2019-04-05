@@ -1,6 +1,6 @@
 import { user, product } from '../../../sample-data/checkout-flow';
 
-let orderData: {} | any;
+let orderData: any;
 
 describe('Order History with orders', () => {
   function doPlaceOrder() {
