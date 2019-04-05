@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UpdatePasswordFormComponent } from './update-password-form.component';
 
 describe('UpdatePasswordFormComponent', () => {
@@ -8,9 +7,8 @@ describe('UpdatePasswordFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UpdatePasswordFormComponent ]
-    })
-    .compileComponents();
+      declarations: [UpdatePasswordFormComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
