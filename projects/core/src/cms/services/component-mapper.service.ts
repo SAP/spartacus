@@ -71,7 +71,7 @@ export class ComponentMapperService {
     if (!factory) {
       console.warn(
         `No component factory found for the CMS component type '${typeCode}'.\n`,
-        `Make sure you add a component to the 'entryComponents' of the NgModule.`
+        `Make sure you add a component to the 'entryComponents' array in the NgModule.`
       );
     }
     return factory;
