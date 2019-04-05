@@ -6,14 +6,14 @@ import {
   OnChanges,
   SimpleChanges,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { GoogleMapRendererService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-map',
   templateUrl: './store-finder-map.component.html',
-  styleUrls: ['./store-finder-map.component.scss']
+  styleUrls: ['./store-finder-map.component.scss'],
 })
 export class StoreFinderMapComponent implements OnChanges {
   @ViewChild('mapElement')

@@ -10,7 +10,7 @@ import {
   LoaderSuccessAction,
   loadMeta,
   resetMeta,
-  successMeta
+  successMeta,
 } from './loader.action';
 
 describe('Loader Actions', () => {
@@ -22,7 +22,7 @@ describe('Loader Actions', () => {
         const action = new LoaderLoadAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
           type: LOADER_LOAD_ACTION,
-          meta: loadMeta(TEST_ENTITY_TYPE)
+          meta: loadMeta(TEST_ENTITY_TYPE),
         });
       });
     });
@@ -32,7 +32,7 @@ describe('Loader Actions', () => {
         const action = new LoaderFailAction(TEST_ENTITY_TYPE, 'error');
         expect({ ...action }).toEqual({
           type: LOADER_FAIL_ACTION,
-          meta: failMeta(TEST_ENTITY_TYPE, 'error')
+          meta: failMeta(TEST_ENTITY_TYPE, 'error'),
         });
       });
     });
@@ -42,7 +42,7 @@ describe('Loader Actions', () => {
         const action = new LoaderSuccessAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
           type: LOADER_SUCCESS_ACTION,
-          meta: successMeta(TEST_ENTITY_TYPE)
+          meta: successMeta(TEST_ENTITY_TYPE),
         });
       });
     });
@@ -52,7 +52,7 @@ describe('Loader Actions', () => {
         const action = new LoaderResetAction(TEST_ENTITY_TYPE);
         expect({ ...action }).toEqual({
           type: LOADER_RESET_ACTION,
-          meta: resetMeta(TEST_ENTITY_TYPE)
+          meta: resetMeta(TEST_ENTITY_TYPE),
         });
       });
     });
@@ -65,8 +65,8 @@ describe('Loader Actions', () => {
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
           loader: {
-            load: true
-          }
+            load: true,
+          },
         });
       });
     });
@@ -77,8 +77,8 @@ describe('Loader Actions', () => {
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
           loader: {
-            error: 'error'
-          }
+            error: 'error',
+          },
         });
       });
     });
@@ -89,8 +89,8 @@ describe('Loader Actions', () => {
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
           loader: {
-            success: true
-          }
+            success: true,
+          },
         });
       });
     });
@@ -100,7 +100,7 @@ describe('Loader Actions', () => {
         const meta = resetMeta(TEST_ENTITY_TYPE);
         expect(meta).toEqual({
           entityType: TEST_ENTITY_TYPE,
-          loader: {}
+          loader: {},
         });
       });
     });

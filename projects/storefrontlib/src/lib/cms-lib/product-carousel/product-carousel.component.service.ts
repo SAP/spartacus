@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   ProductService,
   Product,
-  CmsProductCarouselComponent
+  CmsProductCarouselComponent,
 } from '@spartacus/core';
 
 import { fromEvent, Observable, of } from 'rxjs';
@@ -13,7 +13,7 @@ import {
   distinctUntilChanged,
   startWith,
   delay,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';

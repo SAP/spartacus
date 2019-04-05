@@ -4,7 +4,7 @@ import {
   ComponentFactoryResolver,
   Inject,
   Renderer2,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import { CmsConfig } from '../config/cms-config';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';

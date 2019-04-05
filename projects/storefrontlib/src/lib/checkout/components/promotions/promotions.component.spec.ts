@@ -8,14 +8,14 @@ describe('PromotionsComponent', () => {
   let fixture: ComponentFixture<PromotionsComponent>;
 
   const mockPromotion: Promotion = {
-    description: 'Promotion description'
+    description: 'Promotion description',
   };
 
   const mockPromotions: Promotion[] = [mockPromotion];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PromotionsComponent]
+      declarations: [PromotionsComponent],
     }).compileComponents();
   }));
 

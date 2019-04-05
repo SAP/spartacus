@@ -23,9 +23,9 @@ const mockItems = [
     entryNumber: 1,
     product: {
       id: 1,
-      code: 'PR0000'
-    }
-  }
+      code: 'PR0000',
+    },
+  },
 ];
 
 const mockPotentialProductPromotions = [
@@ -33,14 +33,14 @@ const mockPotentialProductPromotions = [
     description: 'Buy two more and win a trip to the Moon',
     consumedEntries: [
       {
-        orderEntryNumber: 1
-      }
-    ]
-  }
+        orderEntryNumber: 1,
+      },
+    ],
+  },
 ];
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -57,14 +57,14 @@ describe('CartItemListComponent', () => {
         ComponentsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        PromotionsModule
+        PromotionsModule,
       ],
       declarations: [
         CartItemListComponent,
         CartItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }]
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 

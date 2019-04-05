@@ -4,7 +4,7 @@ import { Language } from '../../../occ/occ-models/occ.models';
 
 export const initialState: LanguagesState = {
   entities: null,
-  activeLanguage: null
+  activeLanguage: null,
 };
 
 export function reducer(
@@ -18,17 +18,17 @@ export function reducer(
         (langEntities: { [isocode: string]: Language }, language: Language) => {
           return {
             ...langEntities,
-            [language.isocode]: language
+            [language.isocode]: language,
           };
         },
         {
-          ...state.entities
+          ...state.entities,
         }
       );
 
       return {
         ...state,
-        entities
+        entities,
       };
     }
 
@@ -37,7 +37,7 @@ export function reducer(
 
       return {
         ...state,
-        activeLanguage: isocode
+        activeLanguage: isocode,
       };
     }
   }

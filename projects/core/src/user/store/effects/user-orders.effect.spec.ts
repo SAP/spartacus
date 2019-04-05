@@ -22,18 +22,20 @@ import * as fromUserOrdersEffect from './user-orders.effect';
 const mockUserOrders: OrderHistoryList = {
   orders: [],
   pagination: {},
-  sorts: []
+  sorts: [],
 };
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
-    baseSite: ''
-  }
+    baseSite: '',
+  },
 };
 
 describe('User Orders effect', () => {
@@ -48,8 +50,8 @@ describe('User Orders effect', () => {
         OccOrderService,
         fromUserOrdersEffect.UserOrdersEffect,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     actions$ = TestBed.get(Actions);
@@ -62,7 +64,7 @@ describe('User Orders effect', () => {
       spyOn(orderService, 'getOrders').and.returnValue(of(mockUserOrders));
       const action = new fromUserOrdersAction.LoadUserOrders({
         userId: 'test@sap.com',
-        pageSize: 5
+        pageSize: 5,
       });
 
       const completion = new fromUserOrdersAction.LoadUserOrdersSuccess(
@@ -80,7 +82,7 @@ describe('User Orders effect', () => {
 
       const action = new fromUserOrdersAction.LoadUserOrders({
         userId: 'test@sap.com',
-        pageSize: 5
+        pageSize: 5,
       });
 
       const completion = new fromUserOrdersAction.LoadUserOrdersFail('Error');
@@ -95,7 +97,7 @@ describe('User Orders effect', () => {
   describe('resetUserOrders$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: CLEAR_MISCS_DATA
+        type: CLEAR_MISCS_DATA,
       };
 
       const completion = new LoaderResetAction(USER_ORDERS);

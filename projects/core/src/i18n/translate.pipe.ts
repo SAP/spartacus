@@ -2,7 +2,7 @@ import {
   ChangeDetectorRef,
   OnDestroy,
   Pipe,
-  PipeTransform
+  PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
@@ -44,6 +44,8 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }

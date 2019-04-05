@@ -8,7 +8,7 @@ describe('Forgot Password Actions', () => {
       );
       expect({ ...action }).toEqual({
         type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST,
-        payload: 'email@example.com'
+        payload: 'email@example.com',
       });
     });
   });
@@ -20,7 +20,7 @@ describe('Forgot Password Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -29,7 +29,7 @@ describe('Forgot Password Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.ForgotPasswordEmailRequestSuccess();
       expect({ ...action }).toEqual({
-        type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST_SUCCESS
+        type: fromAction.FORGOT_PASSWORD_EMAIL_REQUEST_SUCCESS,
       });
     });
   });

@@ -12,7 +12,7 @@ import {
   PaymentDetails,
   Order,
   CheckoutService,
-  Cart
+  Cart,
 } from '@spartacus/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -57,7 +57,7 @@ const mockAddress: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
@@ -65,11 +65,11 @@ const mockPaymentDetails: PaymentDetails = {
   cardNumber: '123456789',
   cardType: {
     code: 'Visa',
-    name: 'Visa'
+    name: 'Visa',
   },
   expiryMonth: '01',
   expiryYear: '2022',
-  cvn: '123'
+  cvn: '123',
 };
 const mockDeliveryAddresses: string[] = ['address1', 'address2'];
 const mockSelectedCode = 'test mode';
@@ -110,7 +110,7 @@ class MockOrderSummaryComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -146,19 +146,19 @@ describe('MultiStepCheckoutComponent', () => {
       getActive(): BehaviorSubject<Cart> {
         return new BehaviorSubject({
           totalItems: 5141,
-          subTotal: { formattedValue: '11119' }
+          subTotal: { formattedValue: '11119' },
         });
       },
-      loadDetails: createSpy()
+      loadDetails: createSpy(),
     };
     mockCartDataService = {
-      getDetails: false
+      getDetails: false,
     };
     mockRoutingService = {
-      go: createSpy()
+      go: createSpy(),
     };
     mockGlobalMessageService = {
-      add: createSpy()
+      add: createSpy(),
     };
 
     TestBed.configureTestingModule({
@@ -170,15 +170,15 @@ describe('MultiStepCheckoutComponent', () => {
         MockPaymentMethodComponent,
         MockReviewSubmitComponent,
         MockShippingAddressComponent,
-        MockOrderSummaryComponent
+        MockOrderSummaryComponent,
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: CartService, useValue: mockCartService },
         { provide: CartDataService, useValue: mockCartDataService },
         { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        { provide: RoutingService, useValue: mockRoutingService }
-      ]
+        { provide: RoutingService, useValue: mockRoutingService },
+      ],
     }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);
@@ -188,7 +188,7 @@ describe('MultiStepCheckoutComponent', () => {
     fixture = TestBed.createComponent(MultiStepCheckoutComponent);
     component = fixture.componentInstance;
 
-    spyOn(component, 'addAddress').and.callThrough();
+    spyOn(component, 'goToStep').and.callThrough();
     spyOn(component, 'nextStep').and.callThrough();
   });
 
@@ -255,7 +255,7 @@ describe('MultiStepCheckoutComponent', () => {
 
     component.processSteps();
     expect(mockRoutingService.go).toHaveBeenCalledWith({
-      route: ['orderConfirmation']
+      route: ['orderConfirmation'],
     });
   });
 
@@ -285,31 +285,9 @@ describe('MultiStepCheckoutComponent', () => {
     expect(component.navs[3].progressBar).toBeFalsy();
   });
 
-  it('should call addAddress() with new created address', () => {
-    component.addAddress({ address: mockAddress, newAddress: true });
-    expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
-      mockAddress
-    );
-  });
-
-  it('should call addAddress() with address selected from existing addresses', () => {
-    component.addAddress({ address: mockAddress, newAddress: false });
-    expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
-      mockAddress
-    );
-    expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
-      mockAddress
-    );
-  });
-
-  it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
-    component.deliveryAddress = mockAddress;
-    component.addAddress({ address: mockAddress, newAddress: false });
-
+  it('should call nextStep when invoking goToStep', () => {
+    component.goToStep(2);
     expect(component.nextStep).toHaveBeenCalledWith(2);
-    expect(mockCheckoutService.setDeliveryAddress).not.toHaveBeenCalledWith(
-      mockAddress
-    );
   });
 
   it('should call addPaymentInfo() with new created payment info', () => {
@@ -317,7 +295,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.addPaymentInfo({
       payment: mockPaymentDetails,
       newPayment: true,
-      billingAddress: null
+      billingAddress: null,
     });
     expect(mockCheckoutService.createPaymentDetails).toHaveBeenCalledWith(
       mockPaymentDetails
@@ -329,7 +307,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.addPaymentInfo({
       payment: mockPaymentDetails,
       newPayment: false,
-      billingAddress: null
+      billingAddress: null,
     });
     expect(mockCheckoutService.createPaymentDetails).not.toHaveBeenCalledWith(
       mockPaymentDetails
@@ -345,7 +323,7 @@ describe('MultiStepCheckoutComponent', () => {
     component.addPaymentInfo({
       payment: mockPaymentDetails,
       newPayment: false,
-      billingAddress: null
+      billingAddress: null,
     });
     expect(component.nextStep).toHaveBeenCalledWith(4);
     expect(mockCheckoutService.setPaymentDetails).not.toHaveBeenCalledWith(

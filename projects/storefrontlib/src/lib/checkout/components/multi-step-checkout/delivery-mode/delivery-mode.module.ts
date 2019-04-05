@@ -9,6 +9,6 @@ import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module'
   imports: [CommonModule, ReactiveFormsModule, SpinnerModule],
   declarations: [DeliveryModeComponent],
   entryComponents: [DeliveryModeComponent],
-  exports: [DeliveryModeComponent]
+  exports: [DeliveryModeComponent],
 })
 export class DeliveryModeModule {}

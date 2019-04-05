@@ -10,7 +10,7 @@ describe('SortingComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgSelectModule, FormsModule],
-      declarations: [SortingComponent]
+      declarations: [SortingComponent],
     }).compileComponents();
   }));
 

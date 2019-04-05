@@ -12,7 +12,7 @@ export interface EntityMeta {
 export function entityMeta(type: string, id: string | string[]): EntityMeta {
   return {
     entityType: type,
-    entityId: id
+    entityId: id,
   };
 }
 
@@ -23,7 +23,7 @@ export function entityRemoveMeta(
   return {
     entityId: id,
     entityType: type,
-    entityRemove: true
+    entityRemove: true,
   };
 }
 
@@ -31,7 +31,7 @@ export function entityRemoveAllMeta(type: string): EntityMeta {
   return {
     entityId: null,
     entityType: type,
-    entityRemove: true
+    entityRemove: true,
   };
 }
 

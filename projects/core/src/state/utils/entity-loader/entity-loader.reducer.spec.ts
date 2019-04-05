@@ -4,7 +4,7 @@ import {
   EntityFailAction,
   EntityLoadAction,
   EntityResetAction,
-  EntitySuccessAction
+  EntitySuccessAction,
 } from './entity-loader.action';
 import { initialLoaderState } from '@spartacus/core';
 
@@ -35,9 +35,9 @@ describe('EntityLoader reducer', () => {
               loading: true,
               error: false,
               success: false,
-              value: undefined
-            }
-          }
+              value: undefined,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -53,9 +53,9 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: true,
               success: false,
-              value: undefined
-            }
-          }
+              value: undefined,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -66,7 +66,7 @@ describe('EntityLoader reducer', () => {
         const data = 'test Data';
         const action = {
           ...new EntitySuccessAction(TEST_ENTITY_TYPE, TEST_ENTITY_ID),
-          payload: data
+          payload: data,
         };
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
@@ -76,9 +76,9 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: true,
-              value: data
-            }
-          }
+              value: data,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -93,9 +93,9 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: true,
-              value: 'data'
-            }
-          }
+              value: 'data',
+            },
+          },
         };
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(
@@ -108,9 +108,9 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: false,
-              value: undefined
-            }
-          }
+              value: undefined,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -130,15 +130,15 @@ describe('EntityLoader reducer', () => {
               loading: true,
               error: false,
               success: false,
-              value: undefined
+              value: undefined,
             },
             [TEST_ENTITIES_ID[1]]: {
               loading: true,
               error: false,
               success: false,
-              value: undefined
-            }
-          }
+              value: undefined,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -154,15 +154,15 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: true,
               success: false,
-              value: undefined
+              value: undefined,
             },
             [TEST_ENTITIES_ID[1]]: {
               loading: false,
               error: true,
               success: false,
-              value: undefined
-            }
-          }
+              value: undefined,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -173,7 +173,7 @@ describe('EntityLoader reducer', () => {
         const data = 'test Data';
         const action = {
           ...new EntitySuccessAction(TEST_ENTITY_TYPE, TEST_ENTITIES_ID),
-          payload: data
+          payload: data,
         };
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
@@ -183,15 +183,15 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: true,
-              value: data
+              value: data,
             },
             [TEST_ENTITIES_ID[1]]: {
               loading: false,
               error: false,
               success: true,
-              value: data
-            }
-          }
+              value: data,
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -202,7 +202,7 @@ describe('EntityLoader reducer', () => {
         const data = ['data1', 'data2'];
         const action = {
           ...new EntitySuccessAction(TEST_ENTITY_TYPE, TEST_ENTITIES_ID),
-          payload: data
+          payload: data,
         };
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(undefined, action);
@@ -212,15 +212,15 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: true,
-              value: data[0]
+              value: data[0],
             },
             [TEST_ENTITIES_ID[1]]: {
               loading: false,
               error: false,
               success: true,
-              value: data[1]
-            }
-          }
+              value: data[1],
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });
@@ -238,21 +238,21 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: true,
-              value: 'data1'
+              value: 'data1',
             },
             [TEST_ENTITIES_ID[1]]: {
               loading: false,
               error: false,
               success: true,
-              value: 'data2'
+              value: 'data2',
             },
             'another entity': {
               loading: false,
               error: false,
               success: true,
-              value: 'data3'
-            }
-          }
+              value: 'data3',
+            },
+          },
         };
 
         const state = entityLoaderReducer(TEST_ENTITY_TYPE)(
@@ -267,9 +267,9 @@ describe('EntityLoader reducer', () => {
               loading: false,
               error: false,
               success: true,
-              value: 'data3'
-            }
-          }
+              value: 'data3',
+            },
+          },
         };
         expect(state).toEqual(expectedState);
       });

@@ -12,7 +12,7 @@ describe('Navigation Entry Items Selectors', () => {
 
   const mockComponents: CmsComponent[] = [
     { uid: 'comp1', typeCode: 'SimpleBannerComponent1' },
-    { uid: 'comp2', typeCode: 'SimpleBannerComponent2' }
+    { uid: 'comp2', typeCode: 'SimpleBannerComponent2' },
   ];
 
   const mockPayload = { nodeId: 'testId', components: mockComponents };
@@ -20,20 +20,20 @@ describe('Navigation Entry Items Selectors', () => {
   const mockResult = {
     comp1_AbstractCMSComponent: {
       uid: 'comp1',
-      typeCode: 'SimpleBannerComponent1'
+      typeCode: 'SimpleBannerComponent1',
     },
     comp2_AbstractCMSComponent: {
       uid: 'comp2',
-      typeCode: 'SimpleBannerComponent2'
-    }
+      typeCode: 'SimpleBannerComponent2',
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('cms', fromReducers.getReducers())
-      ]
+        StoreModule.forFeature('cms', fromReducers.getReducers()),
+      ],
     });
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
@@ -53,7 +53,7 @@ describe('Navigation Entry Items Selectors', () => {
         loading: false,
         error: false,
         success: false,
-        value: undefined
+        value: undefined,
       });
 
       store.dispatch(new fromActions.LoadNavigationItemsSuccess(mockPayload));

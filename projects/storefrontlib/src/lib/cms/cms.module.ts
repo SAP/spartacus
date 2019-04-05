@@ -7,7 +7,7 @@ import {
   Config,
   CmsConfig,
   CmsModule as CmsCoreModule,
-  defaultCmsModuleConfig
+  defaultCmsModuleConfig,
 } from '@spartacus/core';
 
 // guards
@@ -22,10 +22,10 @@ import { OutletDirective } from '../outlet/outlet.directive';
     HttpClientModule,
     ConfigModule.withConfig(defaultCmsModuleConfig),
     OutletModule,
-    CmsCoreModule
+    CmsCoreModule,
   ],
   providers: [...guards, { provide: CmsConfig, useExisting: Config }],
   declarations: [],
-  exports: [OutletDirective]
+  exports: [OutletDirective],
 })
 export class CmsModule {}

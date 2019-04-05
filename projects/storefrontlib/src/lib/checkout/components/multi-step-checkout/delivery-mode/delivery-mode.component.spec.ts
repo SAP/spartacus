@@ -13,7 +13,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'cx-spinner',
-  template: ''
+  template: '',
 })
 class MockSpinnerComponent {}
 
@@ -35,18 +35,18 @@ class MockCheckoutService {
 const mockDeliveryMode1: DeliveryMode = {
   code: 'standard-gross',
   name: 'Standard Delivery',
-  deliveryCost: { formattedValue: '$10.00' }
+  deliveryCost: { formattedValue: '$10.00' },
 };
 
 const mockDeliveryMode2: DeliveryMode = {
   code: 'premium-gross',
   name: 'Premium Delivery',
-  deliveryCost: { formattedValue: '$20.00' }
+  deliveryCost: { formattedValue: '$20.00' },
 };
 
 const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode1,
-  mockDeliveryMode2
+  mockDeliveryMode2,
 ];
 
 describe('DeliveryModeComponent', () => {
@@ -63,9 +63,9 @@ describe('DeliveryModeComponent', () => {
         { provide: CheckoutService, useClass: MockCheckoutService },
         {
           provide: CartService,
-          useClass: MockCartService
-        }
-      ]
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);

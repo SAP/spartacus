@@ -7,13 +7,13 @@ import { catchError } from 'rxjs/operators';
 import { SearchConfig } from '../model/search-config';
 import {
   SuggestionList,
-  ProductSearchPage
+  ProductSearchPage,
 } from '../../occ/occ-models/occ.models';
 
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-  pageSize: 20
+  pageSize: 20,
 };
 
 @Injectable()
@@ -45,12 +45,12 @@ export class ProductSearchLoaderService {
     return this.occEndpoints.getUrl(
       'productSearch',
       {
-        query
+        query,
       },
       {
         pageSize: searchConfig.pageSize,
         currentPage: searchConfig.currentPage,
-        sort: searchConfig.sortCode
+        sort: searchConfig.sortCode,
       }
     );
   }
@@ -58,7 +58,7 @@ export class ProductSearchLoaderService {
   protected getSuggestionEndpoint(term: string, max: string): string {
     return this.occEndpoints.getUrl('productSuggestions', {
       term,
-      max
+      max,
     });
   }
 }

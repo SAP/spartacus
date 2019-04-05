@@ -10,6 +10,6 @@ import { SortingComponent } from './sorting/sorting.component';
 @NgModule({
   imports: [CommonModule, NgSelectModule, FormsModule, BootstrapModule],
   declarations: [PaginationComponent, SortingComponent],
-  exports: [PaginationComponent, SortingComponent]
+  exports: [PaginationComponent, SortingComponent],
 })
 export class PaginationAndSortingModule {}

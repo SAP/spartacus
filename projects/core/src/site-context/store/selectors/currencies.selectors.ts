@@ -4,7 +4,7 @@ import {
   StateWithSiteContext,
   CurrenciesState,
   CurrencyEntities,
-  SiteContextState
+  SiteContextState,
 } from '../state';
 import { getSiteContextState } from './site-context.selector';
 

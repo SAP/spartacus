@@ -5,7 +5,7 @@ import { Address, UserService } from '@spartacus/core';
 @Component({
   selector: 'cx-address-card',
   templateUrl: './address-card.component.html',
-  styleUrls: ['./address-card.component.scss']
+  styleUrls: ['./address-card.component.scss'],
 })
 export class AddressCardComponent {
   editMode: boolean;

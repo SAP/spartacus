@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Output,
   EventEmitter,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
   styleUrls: ['./delivery-mode.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeliveryModeComponent implements OnInit {
   @Output()
@@ -27,7 +27,7 @@ export class DeliveryModeComponent implements OnInit {
   deliveryMode: DeliveryMode;
 
   mode: FormGroup = this.fb.group({
-    deliveryModeId: ['', Validators.required]
+    deliveryModeId: ['', Validators.required],
   });
 
   constructor(

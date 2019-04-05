@@ -12,7 +12,7 @@ import { CustomFormValidators } from '../../ui/validators/custom-form-validators
 @Component({
   selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss']
+  styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
@@ -50,7 +50,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
 
     this.form = this.fb.group({
       userId: ['', [Validators.required, CustomFormValidators.emailValidator]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
     });
   }
 

@@ -21,10 +21,12 @@ import * as fromEffects from './product.effect';
 import { defaultOccProductConfig } from '../../config/product-config';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
 };
 
 const router = {
@@ -33,8 +35,8 @@ const router = {
     queryParams: {},
     params: {},
     context: { id: '1', type: PageType.PRODUCT_PAGE },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 class MockRoutingService {
   getRouterState() {
@@ -50,23 +52,23 @@ describe('Product Effects', () => {
   const productCode = 'testCode';
   const product: Product = {
     code: 'testCode',
-    name: 'testProduct'
+    name: 'testProduct',
   };
 
   const mockProductState = {
     details: {
       entities: {
         testLoadedCode: { loading: false, value: product },
-        testLoadingCode: { loading: true, value: null }
-      }
-    }
+        testLoadingCode: { loading: true, value: null },
+      },
+    },
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        StoreModule.forRoot({ product: () => mockProductState })
+        StoreModule.forRoot({ product: () => mockProductState }),
       ],
       providers: [
         ProductLoaderService,
@@ -76,8 +78,8 @@ describe('Product Effects', () => {
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     });
     service = TestBed.get(ProductLoaderService);
     effects = TestBed.get(fromEffects.ProductEffects);

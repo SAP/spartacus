@@ -23,9 +23,9 @@ export class UserRegisterEffects {
         switchMap(_result => [
           new LoadUserToken({
             userId: user.uid,
-            password: user.password
+            password: user.password,
           }),
-          new fromActions.RegisterUserSuccess()
+          new fromActions.RegisterUserSuccess(),
         ]),
         catchError(error => of(new fromActions.RegisterUserFail(error)))
       );

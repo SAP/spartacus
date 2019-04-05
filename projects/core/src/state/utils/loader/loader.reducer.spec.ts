@@ -4,7 +4,7 @@ import {
   LoaderFailAction,
   LoaderLoadAction,
   LoaderResetAction,
-  LoaderSuccessAction
+  LoaderSuccessAction,
 } from './loader.action';
 import { initialLoaderState, loaderReducer } from './loader.reducer';
 
@@ -37,7 +37,7 @@ describe('Loader reducer', () => {
         loading: true,
         error: false,
         success: false,
-        value: undefined
+        value: undefined,
       };
       expect(state).toEqual(expectedState);
     });
@@ -51,7 +51,7 @@ describe('Loader reducer', () => {
         loading: false,
         error: true,
         success: false,
-        value: undefined
+        value: undefined,
       };
       expect(state).toEqual(expectedState);
     });
@@ -62,7 +62,7 @@ describe('Loader reducer', () => {
       const data = 'test Data';
       const action = {
         ...new LoaderSuccessAction(TEST_ENTITY_TYPE),
-        payload: data
+        payload: data,
       };
 
       const state = loaderReducer(TEST_ENTITY_TYPE)(undefined, action);
@@ -70,7 +70,7 @@ describe('Loader reducer', () => {
         loading: false,
         error: false,
         success: true,
-        value: data
+        value: data,
       };
       expect(state).toEqual(expectedState);
     });
@@ -83,7 +83,7 @@ describe('Loader reducer', () => {
         loading: false,
         error: false,
         success: true,
-        value: 'sample data'
+        value: 'sample data',
       };
 
       const state = loaderReducer(TEST_ENTITY_TYPE)(initialState, action);
@@ -97,7 +97,7 @@ describe('Loader reducer', () => {
         loading: false,
         error: false,
         success: true,
-        value: 'sample data'
+        value: 'sample data',
       };
 
       const state = loaderReducer(TEST_ENTITY_TYPE, subReducer)(
