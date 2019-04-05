@@ -14,7 +14,7 @@ import { ShippingAddressSetGuard } from '../../../guards/shipping-address-set.gu
       cmsComponents: {
         MultistepCheckoutDeliveryMode: {
           selector: 'cx-delivery-mode',
-          guards: [ShippingAddressSetGuard]
+          guards: [ShippingAddressSetGuard],
         },
       },
     }),
