@@ -1,14 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { RoutingService, UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-update-password',
@@ -23,7 +17,6 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
     private routingService: RoutingService,
     private userService: UserService
   ) {}
@@ -35,40 +28,22 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
       .subscribe(user => {
         this.userId = user.uid;
       });
-
-    this.form = this.fb.group(
-      {
-        oldPassword: ['', [Validators.required]],
-        newPassword: [
-          '',
-          [Validators.required, CustomFormValidators.passwordValidator],
-        ],
-        newPasswordConfirm: ['', [Validators.required]],
-      },
-      { validator: this.matchPassword }
-    );
   }
 
   ngOnDestroy() {}
 
-  updatePassword() {
-    console.log('UpdatePassword()', this.userId, this.form.value);
-    this.submited = true;
-    if (this.form.invalid) {
-      return;
-    }
-
-    this.userService.updatePassword(
-      this.userId,
-      this.form.value.oldPassword,
-      this.form.value.newPassword
-    );
+  onCancel(): void {
     this.routingService.go({ route: ['home'] });
   }
 
-  private matchPassword(ac: AbstractControl) {
-    if (ac.get('newPassword').value !== ac.get('newPasswordConfirm').value) {
-      return { NotEqual: true };
-    }
+  onSubmit({
+    oldPassword,
+    newPassword,
+  }: {
+    oldPassword: string;
+    newPassword: string;
+  }): void {
+    this.userService.updatePassword(this.userId, oldPassword, newPassword);
+    this.routingService.go({ route: ['home'] });
   }
 }
