@@ -76,13 +76,7 @@
                 placeholder="Password"
                 formControlName="password"
               />
-              <div
-                class="invalid-feedback"
-                *ngIf="
-                  userRegistrationForm.get('password').invalid &&
-                  userRegistrationForm.get('password').dirty
-                "
-              >
+              <div class="invalid-feedback">
                 <span
                   >Password must be six characters minimum, with one uppercase
                   letter, one number, one symbol</span

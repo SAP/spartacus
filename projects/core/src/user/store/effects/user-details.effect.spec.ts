@@ -59,7 +59,7 @@ describe('User Details effect', () => {
   });
 
   describe('updateUserDetails$', () => {
-    it('should return UpdateUserDetailsSuccess action', () => {
+    it('should return UpdateUserDetailsSuccess ', () => {
       spyOn(userService, 'updateUserDetails').and.returnValue(of({}));
 
       const username = 'xxx';
