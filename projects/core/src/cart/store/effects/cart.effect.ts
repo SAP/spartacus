@@ -19,7 +19,7 @@ import {
   SetDeliveryAddress,
   SetDeliveryMode,
   SetPaymentDetails,
-} from 'projects/core/src/checkout/store/actions';
+} from '../../../checkout/store/actions';
 
 @Injectable()
 export class CartEffects {

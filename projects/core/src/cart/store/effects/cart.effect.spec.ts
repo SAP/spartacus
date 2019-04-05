@@ -23,7 +23,7 @@ import {
   SetDeliveryAddress,
   SetDeliveryMode,
   SetPaymentDetails,
-} from 'projects/core/src/checkout/store/actions';
+} from '../../../checkout/store/actions';
 
 describe('Cart effect', () => {
   let cartService: OccCartService;
