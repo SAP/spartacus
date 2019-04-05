@@ -189,16 +189,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
-    // if the selected delivery mode is the same as the cart's one
-    if (this.deliveryMode && this.deliveryMode === deliveryModeId) {
-      this.nextStep(3);
-      return;
-    }
-    this.checkoutService.setDeliveryMode(deliveryModeId);
-    return;
-  }
-
   addPaymentInfo({
     newPayment,
     payment,

@@ -312,29 +312,6 @@ describe('MultiStepCheckoutComponent', () => {
     );
   });
 
-  it('should call setDeliveryMode()', () => {
-    const deliveryMode = {
-      deliveryModeId: 'testId'
-    } as any;
-    component.setDeliveryMode(deliveryMode);
-    expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalledWith(
-      deliveryMode.deliveryModeId
-    );
-  });
-
-  it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
-    const deliveryMode = {
-      deliveryModeId: 'testId'
-    } as any;
-    component.deliveryMode = 'testId';
-    component.setDeliveryMode(deliveryMode);
-
-    expect(component.nextStep).toHaveBeenCalledWith(3);
-    expect(mockCheckoutService.setDeliveryMode).not.toHaveBeenCalledWith(
-      deliveryMode.deliveryModeId
-    );
-  });
-
   it('should call addPaymentInfo() with new created payment info', () => {
     component.deliveryAddress = mockAddress;
     component.addPaymentInfo({

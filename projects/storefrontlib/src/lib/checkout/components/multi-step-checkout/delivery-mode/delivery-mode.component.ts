@@ -1,17 +1,17 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  Input,
   Output,
   EventEmitter,
   OnInit
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
-import { DeliveryMode, CheckoutService } from '@spartacus/core';
+import { DeliveryMode, CheckoutService, CartService } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
-import { tap, takeWhile } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -20,52 +20,61 @@ import { tap, takeWhile } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeliveryModeComponent implements OnInit {
-  @Input()
-  selectedDeliveryMode: string;
-
   @Output()
-  selectMode = new EventEmitter<any>();
-  @Output()
-  backStep = new EventEmitter<any>();
+  goToStep = new EventEmitter<number>();
 
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
-  leave = false;
+  deliveryMode: DeliveryMode;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder, private service: CheckoutService) {}
+  constructor(
+    private fb: FormBuilder,
+    private checkoutService: CheckoutService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.service
-      .getSupportedDeliveryModes()
-      .pipe(
-        takeWhile(() => !this.leave),
-        tap(supportedModes => {
-          if (Object.keys(supportedModes).length === 0) {
-            this.service.loadSupportedDeliveryModes();
-          } else {
-            if (this.selectedDeliveryMode) {
-              this.mode.controls['deliveryModeId'].setValue(
-                this.selectedDeliveryMode
-              );
-            }
-          }
-        })
-      );
+    this.checkoutService.loadSupportedDeliveryModes();
+
+    this.supportedDeliveryModes$ = combineLatest(
+      this.checkoutService.getSupportedDeliveryModes(),
+      this.checkoutService.getSelectedDeliveryMode()
+    ).pipe(
+      map(([supported, selected]: [DeliveryMode[], DeliveryMode]) => {
+        if (selected) {
+          this.mode.controls['deliveryModeId'].setValue(selected);
+          this.deliveryMode = selected;
+        }
+
+        return supported;
+      })
+    );
   }
 
   next(): void {
-    this.selectMode.emit(this.mode.value);
+    this.setDeliveryMode(this.mode.value);
+    this.goToStep.emit(3);
   }
 
   back(): void {
-    this.leave = true;
-    this.backStep.emit();
+    this.goToStep.emit(1);
   }
 
   get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
+  }
+
+  private setDeliveryMode(deliveryModeId: string): void {
+    if (!this.deliveryMode || this.deliveryMode !== deliveryModeId) {
+      this.checkoutService.setDeliveryMode(deliveryModeId);
+      this.refreshCart();
+    }
+  }
+
+  private refreshCart(): void {
+    this.cartService.loadDetails();
   }
 }
