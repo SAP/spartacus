@@ -6,6 +6,10 @@ function checkoutAsPersistentUserTest() {
     checkoutAsPersistentUser.loginSuccessfully();
   });
 
+  it('should add a shipping address', () => {
+    checkoutAsPersistentUser.addShippingAddress();
+  });
+
   it('should go to product page from category page', () => {
     checkoutAsPersistentUser.changePageFromProductToCategory();
   });
@@ -36,6 +40,14 @@ function checkoutAsPersistentUserTest() {
 
   it('should display summary page', () => {
     checkoutAsPersistentUser.displaySummaryPage();
+  });
+
+  it('should delete shipping address', () => {
+    checkoutAsPersistentUser.deleteShippingAddress();
+  });
+
+  it('should delete payment card', () => {
+    checkoutAsPersistentUser.deletePaymentCard();
   });
 }
 
