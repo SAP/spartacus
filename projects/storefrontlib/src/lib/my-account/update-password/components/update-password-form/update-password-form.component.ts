@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RoutingService, UserService } from '@spartacus/core';
+import { UserService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
@@ -29,11 +29,7 @@ export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
   @Output()
   cancelled = new EventEmitter<void>();
 
-  constructor(
-    private fb: FormBuilder,
-    private routingService: RoutingService,
-    private userService: UserService
-  ) {}
+  constructor(private fb: FormBuilder, private userService: UserService) {}
 
   ngOnInit() {
     this.userService

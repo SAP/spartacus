@@ -2,8 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { UpdatePasswordFormComponent } from './components/update-password-form/update-password-form.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -14,6 +16,7 @@ import { UpdatePasswordFormComponent } from './components/update-password-form/u
         UpdatePasswordComponent: { selector: 'cx-update-password' },
       },
     }),
+    SpinnerModule,
   ],
   declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
   exports: [UpdatePasswordComponent],

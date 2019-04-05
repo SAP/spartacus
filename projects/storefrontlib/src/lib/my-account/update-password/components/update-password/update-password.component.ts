@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { RoutingService, UserService } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -10,24 +14,40 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./update-password.component.css'],
 })
 export class UpdatePasswordComponent implements OnInit, OnDestroy {
-  token: string;
   subscription = new Subscription();
-  submited = false;
   userId: string;
-  form: FormGroup;
+  loading$: Observable<boolean>;
 
   constructor(
     private routingService: RoutingService,
-    private userService: UserService
+    private userService: UserService,
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
+    this.userService.resetUpdatePasswordProcessState();
+    this.loading$ = this.userService.getUpdatePasswordResultLoading();
     this.userService
       .get()
       .pipe(take(1))
       .subscribe(user => {
         this.userId = user.uid;
       });
+    this.subscription.add(
+      this.userService
+        .getUpdatePasswordResultSuccess()
+        .subscribe(success => this.onSuccess(success))
+    );
+  }
+
+  onSuccess(success: boolean): void {
+    if (success) {
+      this.globalMessageService.add({
+        text: 'Password Updated',
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+      });
+      this.routingService.go({ route: ['home'] });
+    }
   }
 
   ngOnDestroy() {}
@@ -44,6 +64,5 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     newPassword: string;
   }): void {
     this.userService.updatePassword(this.userId, oldPassword, newPassword);
-    this.routingService.go({ route: ['home'] });
   }
 }
