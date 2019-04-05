@@ -11,5 +11,8 @@ export const orderHistory = {
     action: {
       startShopping: 'Start Shopping',
     },
+    placeholder: {
+      sortByMostRecent: 'Sort by Most recent',
+    },
   },
 };

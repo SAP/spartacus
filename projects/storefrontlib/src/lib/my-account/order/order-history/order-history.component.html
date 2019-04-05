@@ -18,7 +18,9 @@
               [sortLabels]="sortLabels"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
-              [placeholder]="'Sort by Most recent'"
+              placeholder="{{
+                'orderHistory.placeholder.sortByMostRecent' | cxTranslate
+              }}"
             ></cx-sorting>
           </div>
           <div class="cx-order-history-pagination">
@@ -117,7 +119,9 @@
               [sortLabels]="sortLabels"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
-              [placeholder]="'Sort by Most recent'"
+              placeholder="{{
+                'orderHistory.placeholder.sortByMostRecent' | cxTranslate
+              }}"
             ></cx-sorting>
           </div>
           <div class="cx-order-history-pagination">

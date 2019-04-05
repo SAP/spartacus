@@ -10,4 +10,7 @@ export const productList = {
       filterBy: 'Filter by',
     },
   },
+  placeholder: {
+    sortByRelevance: 'Sort by Relevance',
+  },
 };
