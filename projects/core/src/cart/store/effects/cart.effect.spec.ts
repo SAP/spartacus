@@ -21,8 +21,8 @@ import * as fromUser from '../../../user/store/index';
 import * as fromEffects from './cart.effect';
 import {
   SetDeliveryAddress,
-  // SetDeliveryMode,
-  // SetPaymentDetails,
+  SetDeliveryMode,
+  SetPaymentDetails,
 } from 'projects/core/src/checkout/store/actions';
 
 describe('Cart effect', () => {
@@ -42,7 +42,6 @@ describe('Cart effect', () => {
       currencyIso: 'USD',
       value: 0,
     },
-    deliveryAddress: {},
   };
 
   const MockOccModuleConfig: OccConfig = {
@@ -111,21 +110,105 @@ describe('Cart effect', () => {
   });
 
   describe('loadCheckoutData$', () => {
+    const checkoutInfo = {
+      deliveryAddress: {
+        firstName: 'test',
+      },
+      deliveryMode: {
+        code: 'code',
+      },
+      paymentInfo: {
+        accountHolderName: 'Janusz',
+      },
+    };
+
+    const setDeliveryAddress = new SetDeliveryAddress({
+      userId,
+      cartId,
+      address: checkoutInfo.deliveryAddress,
+    });
+    const setDeliveryMode = new SetDeliveryMode({
+      userId,
+      cartId,
+      selectedModeId: checkoutInfo.deliveryMode.code,
+    });
+    const setPaymentDetails = new SetPaymentDetails({
+      userId,
+      cartId,
+      paymentDetails: checkoutInfo.paymentInfo,
+    });
+
     it('should set delivery address', () => {
+      const cart = {
+        ...testCart,
+        deliveryAddress: checkoutInfo.deliveryAddress,
+      };
       const loadCart = new fromActions.LoadCart({
         userId,
         cartId,
       });
-      const LoadCartSuccess = new fromActions.LoadCartSuccess(testCart);
-      const completion = new SetDeliveryAddress({
+      const loadCartSuccess = new fromActions.LoadCartSuccess(cart);
+
+      actions$ = hot('-ab', { a: loadCart, b: loadCartSuccess });
+      const expected = cold('--c', {
+        c: setDeliveryAddress,
+      });
+      expect(cartEffects.loadCheckoutData$).toBeObservable(expected);
+    });
+
+    it('should set delivery mode', () => {
+      const cart = {
+        ...testCart,
+        deliveryMode: checkoutInfo.deliveryMode,
+      };
+      const loadCart = new fromActions.LoadCart({
         userId,
         cartId,
-        address: testCart.deliveryAddress,
       });
+      const loadCartSuccess = new fromActions.LoadCartSuccess(cart);
 
-      actions$ = hot('-a-b', { a: loadCart, b: LoadCartSuccess });
-      const expected = cold('---c', { c: completion });
-      // TODO fix test
+      actions$ = hot('-ab', { a: loadCart, b: loadCartSuccess });
+      const expected = cold('--c', {
+        c: setDeliveryMode,
+      });
+      expect(cartEffects.loadCheckoutData$).toBeObservable(expected);
+    });
+
+    it('should set payment info', () => {
+      const cart = {
+        ...testCart,
+        paymentInfo: checkoutInfo.paymentInfo,
+      };
+      const loadCart = new fromActions.LoadCart({
+        userId,
+        cartId,
+      });
+      const loadCartSuccess = new fromActions.LoadCartSuccess(cart);
+
+      actions$ = hot('-ab', { a: loadCart, b: loadCartSuccess });
+      const expected = cold('--c', {
+        c: setPaymentDetails,
+      });
+      expect(cartEffects.loadCheckoutData$).toBeObservable(expected);
+    });
+
+    it('should set all data', () => {
+      const cart = {
+        ...testCart,
+        ...checkoutInfo,
+      };
+      const loadCart = new fromActions.LoadCart({
+        userId,
+        cartId,
+      });
+      const loadCartSuccess = new fromActions.LoadCartSuccess(cart);
+
+      actions$ = hot('-ab', { a: loadCart, b: loadCartSuccess });
+      const expected = cold('--(cde)', {
+        c: setDeliveryAddress,
+        d: setDeliveryMode,
+        e: setPaymentDetails,
+      });
       expect(cartEffects.loadCheckoutData$).toBeObservable(expected);
     });
   });
