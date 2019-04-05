@@ -7,7 +7,7 @@ import { RoutingService, CheckoutService } from '@spartacus/core';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 
 @Injectable()
-export class SetShippingAddressGuard implements CanActivate {
+export class ShippingAddressSetGuard implements CanActivate {
   constructor(
     private checkoutService: CheckoutService,
     private routingService: RoutingService

@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { Order, RoutingService, CheckoutService } from '@spartacus/core';
-import { SetShippingAddressGuard } from './set-shipping-address.guard';
+import { ShippingAddressSetGuard } from './shipping-address-set-guard.service';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 
 class MockCheckoutService {
@@ -12,15 +12,15 @@ class MockCheckoutService {
   }
 }
 
-describe(`SetShippingAddressGuard`, () => {
+describe(`ShippingAddressSetGuard`, () => {
   let routingService: RoutingService;
-  let guard: SetShippingAddressGuard;
+  let guard: ShippingAddressSetGuard;
   let mockCheckoutService: MockCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SetShippingAddressGuard,
+        ShippingAddressSetGuard,
         {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
@@ -31,7 +31,7 @@ describe(`SetShippingAddressGuard`, () => {
     });
 
     routingService = TestBed.get(RoutingService);
-    guard = TestBed.get(SetShippingAddressGuard);
+    guard = TestBed.get(ShippingAddressSetGuard);
     mockCheckoutService = TestBed.get(CheckoutService);
   });
 

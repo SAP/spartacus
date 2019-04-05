@@ -1,7 +1,7 @@
 import { OrderConfirmationPageGuard } from './order-confirmation-page.guard';
-import { SetShippingAddressGuard } from './set-shipping-address.guard';
+import { ShippingAddressSetGuard } from './shipping-address-set-guard.service';
 
 export const guards: any[] = [
   OrderConfirmationPageGuard,
-  SetShippingAddressGuard,
+  ShippingAddressSetGuard,
 ];
