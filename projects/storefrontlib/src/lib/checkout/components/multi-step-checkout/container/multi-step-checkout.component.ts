@@ -39,7 +39,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   cart$: Observable<Cart>;
-  tAndCToggler = false;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
@@ -166,7 +165,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     });
 
     this.step = step;
-    this.tAndCToggler = false;
   }
 
   addAddress({
@@ -228,10 +226,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   placeOrder(): void {
     this.checkoutService.placeOrder();
-  }
-
-  toggleTAndC(): void {
-    this.tAndCToggler = !this.tAndCToggler;
   }
 
   initializeCheckoutNavBar(): CheckoutNavBarItem[] {
