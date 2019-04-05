@@ -7,3 +7,7 @@
     }
   }
 }
+
+.form-group .label-content:after {
+  content: '*';
+}
