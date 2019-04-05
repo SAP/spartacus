@@ -45,18 +45,12 @@ export class MockDynamicSlotComponent {
 export class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of({
-      uid: 'page_uid',
+      pageId: 'page_uid',
       template: 'LandingPage2Template',
       slots: {
-        Section1: {
-          uid: 'Section1',
-        },
-        Section2A: {
-          uid: 'Section1',
-        },
-        LogoSlot: {
-          uid: 'LogoSlot',
-        },
+        Section1: {},
+        Section2A: {},
+        LogoSlot: {},
       },
     });
   }

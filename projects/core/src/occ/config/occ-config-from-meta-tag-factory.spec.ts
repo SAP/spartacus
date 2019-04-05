@@ -1,7 +1,7 @@
-import { serverConfigFromMetaTagFactory } from './server-config-from-meta-tag-factory';
+import { serverConfigFromMetaTagFactory } from './occ-config-from-meta-tag-factory';
 import { Meta } from '@angular/platform-browser';
 
-describe('serverConfigMetaTagFactory', () => {
+describe('occConfigFromMetaTagFactory', () => {
   let mockMeta: Meta;
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('serverConfigMetaTagFactory', () => {
   it('should return server config with baseUrl from meta tag', () => {
     mockMeta.getTag = () => ({ content: 'testBaseUrl' } as HTMLMetaElement);
     expect(serverConfigFromMetaTagFactory(mockMeta as Meta)).toEqual({
-      server: { baseUrl: 'testBaseUrl' },
+      backend: { occ: { baseUrl: 'testBaseUrl' } },
     });
   });
 
