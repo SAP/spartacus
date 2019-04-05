@@ -79,7 +79,9 @@ export class CartEffects {
         const userId = loadCart.payload.userId;
         const cartId = loadCart.payload.cartId;
         const address = loadCartSuccess.payload.deliveryAddress;
-        const selectedModeId = loadCartSuccess.payload.deliveryMode && loadCartSuccess.payload.deliveryMode.code;
+        const selectedModeId =
+          loadCartSuccess.payload.deliveryMode &&
+          loadCartSuccess.payload.deliveryMode.code;
         const paymentDetails = loadCartSuccess.payload.paymentInfo;
         const actions = [];
         if (address) {
