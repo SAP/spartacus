@@ -5,15 +5,17 @@ import { OccConfig } from '@spartacus/core';
 
 describe('OccEndpointsService', () => {
   const mockOccConfig: OccConfig = {
-    server: {
-      baseUrl: 'test-baseUrl',
-      occPrefix: '/test-occPrefix',
+    backend: {
+      occ: {
+        baseUrl: 'test-baseUrl',
+        prefix: '/test-occPrefix',
+        endpoints: {
+          endpoint1: 'configured-endpoint1/${test}?fields=abc',
+        },
+      },
     },
     site: {
       baseSite: '/test-baseSite',
-    },
-    endpoints: {
-      endpoint1: 'configured-endpoint1/${test}?fields=abc',
     },
   };
 
