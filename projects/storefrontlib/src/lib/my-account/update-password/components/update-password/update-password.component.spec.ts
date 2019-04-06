@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessage,
   GlobalMessageService,
+  GlobalMessageType,
   RoutingService,
   TranslateUrlOptions,
   User,
@@ -19,15 +20,11 @@ class MockUserService {
   get(): Observable<User> {
     return of();
   }
-
   updatePassword(): void {}
-
   resetUpdatePasswordProcessState(): void {}
-
   getUpdatePasswordResultLoading(): Observable<boolean> {
     return of(true);
   }
-
   getUpdatePasswordResultSuccess(): Observable<boolean> {
     return of();
   }
@@ -58,14 +55,14 @@ class MockUpdatePasswordFormComponent {
 })
 class MockCxSpinnerComponent {}
 
-fdescribe('UpdatePasswordComponent', () => {
+describe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
 
   let userService: UserService;
   let routingService: RoutingService;
-  //let globalMessageService: GlobalMessageService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -90,7 +87,7 @@ fdescribe('UpdatePasswordComponent', () => {
 
     userService = TestBed.get(UserService);
     routingService = TestBed.get(RoutingService);
-    // globalMessageService = TestBed.get(GlobalMessageService);
+    globalMessageService = TestBed.get(GlobalMessageService);
 
     fixture.detectChanges();
   });
@@ -129,12 +126,59 @@ fdescribe('UpdatePasswordComponent', () => {
     const oldPassword = 'oldPassword';
     const newPassword = 'newPassword';
     const userId = 'userId';
-    component.userId = userId;
+    component['userId'] = userId;
     component.onSubmit({ oldPassword, newPassword });
     expect(userService.updatePassword).toHaveBeenCalledWith(
       userId,
       oldPassword,
       newPassword
     );
+  });
+
+  it('should call the internal onSuccess() method when the password was successfully updated', () => {
+    spyOn(component, 'onSuccess').and.stub();
+    spyOn(userService, 'getUpdatePasswordResultSuccess').and.returnValue(
+      of(true)
+    );
+
+    component.ngOnInit();
+
+    expect(component.onSuccess).toHaveBeenCalled();
+  });
+
+  describe('onSuccess', () => {
+    describe('when the password was successfully updated', () => {
+      it('should add a global message and navigate to a url ', () => {
+        spyOn(globalMessageService, 'add').and.stub();
+        spyOn(routingService, 'go').and.stub();
+
+        component.onSuccess(true);
+        expect(globalMessageService.add).toHaveBeenCalledWith({
+          text: 'Password updated with success',
+          type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+        });
+        expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
+      });
+    });
+
+    describe('when the password was NOT successfully updated', () => {
+      it('should NOT add a global message and NOT navigate to a url ', () => {
+        spyOn(globalMessageService, 'add').and.stub();
+        spyOn(routingService, 'go').and.stub();
+
+        component.onSuccess(false);
+        expect(routingService.go).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+      });
+    });
+  });
+
+  it('should unsubscribe from any subscriptions when destroyed', () => {
+    const subscriptions = component['subscription'];
+    spyOn(subscriptions, 'unsubscribe').and.callThrough();
+
+    component.ngOnInit();
+    component.ngOnDestroy();
+    expect(subscriptions.unsubscribe).toHaveBeenCalled();
   });
 });

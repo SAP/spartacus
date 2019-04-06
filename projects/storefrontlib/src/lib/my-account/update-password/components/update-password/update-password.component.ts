@@ -15,7 +15,7 @@ import { take } from 'rxjs/operators';
 })
 export class UpdatePasswordComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
-  userId: string;
+  private userId: string;
   loading$: Observable<boolean>;
 
   constructor(
@@ -24,7 +24,7 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     private globalMessageService: GlobalMessageService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userService.resetUpdatePasswordProcessState();
     this.loading$ = this.userService.getUpdatePasswordResultLoading();
     this.userService
@@ -43,14 +43,12 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.globalMessageService.add({
-        text: 'Password Updated',
+        text: 'Password updated with success',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
       this.routingService.go({ route: ['home'] });
     }
   }
-
-  ngOnDestroy() {}
 
   onCancel(): void {
     this.routingService.go({ route: ['home'] });
@@ -64,5 +62,12 @@ export class UpdatePasswordComponent implements OnInit, OnDestroy {
     newPassword: string;
   }): void {
     this.userService.updatePassword(this.userId, oldPassword, newPassword);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    this.userService.resetUpdatePasswordProcessState();
   }
 }
