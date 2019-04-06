@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { FormUtils } from '../../../../utils/forms/form-utils';
 import { UpdatePasswordFormComponent } from './update-password-form.component';
 
-fdescribe('UpdatePasswordFormComponent', () => {
+describe('UpdatePasswordFormComponent', () => {
   let component: UpdatePasswordFormComponent;
   let fixture: ComponentFixture<UpdatePasswordFormComponent>;
   let el: DebugElement;
@@ -13,7 +13,8 @@ fdescribe('UpdatePasswordFormComponent', () => {
   let newPassword: AbstractControl;
   let newPasswordConfirm: AbstractControl;
   const validPassword = 'testPass123!';
-  // const invalidPassword = 'invalid';
+  const invalidPassword = 'invalid';
+  const mismatchPassword = 'mismatch';
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -121,6 +122,88 @@ fdescribe('UpdatePasswordFormComponent', () => {
       newPassword.setValue(validPassword);
       newPasswordConfirm.setValue(validPassword);
       clickSubmit();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(formControlDisplaysError('oldPassword')).toBeFalsy();
+        expect(formControlDisplaysError('newPassword')).toBeFalsy();
+        expect(formControlDisplaysError('newPasswordConfirm')).toBeFalsy();
+      });
+    });
+
+    it('should display when the user submits invalid input', () => {
+      oldPassword.setValue('');
+      newPassword.setValue(invalidPassword);
+      newPasswordConfirm.setValue(mismatchPassword);
+      clickSubmit();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(formControlDisplaysError('oldPassword')).toBeTruthy();
+        expect(formControlDisplaysError('newPassword')).toBeTruthy();
+        expect(formControlDisplaysError('newPasswordConfirm')).toBeTruthy();
+      });
+    });
+  });
+  describe('Error messages without submit', () => {
+    it('should NOT display for empty abandonment', () => {
+      oldPassword.setValue('');
+      oldPassword.markAsTouched();
+      newPassword.setValue('');
+      newPassword.markAsTouched();
+      newPasswordConfirm.setValue('');
+      newPasswordConfirm.markAsTouched();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(formControlDisplaysError('oldPassword')).toBeFalsy();
+        expect(formControlDisplaysError('newPassword')).toBeFalsy();
+        expect(formControlDisplaysError('newPasswordConfirm')).toBeFalsy();
+      });
+    });
+    it('should NOT display until the user is finished typing', () => {
+      oldPassword.setValue('');
+      oldPassword.markAsDirty();
+      newPassword.setValue(invalidPassword);
+      newPassword.markAsDirty();
+      newPasswordConfirm.setValue(mismatchPassword);
+      newPasswordConfirm.markAsDirty();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(formControlDisplaysError('oldPassword')).toBeFalsy();
+        expect(formControlDisplaysError('newPassword')).toBeFalsy();
+        expect(formControlDisplaysError('newPasswordConfirm')).toBeFalsy();
+      });
+    });
+
+    it('should display when the user is finished typing invalid input', () => {
+      oldPassword.setValue('');
+      oldPassword.markAsDirty();
+      oldPassword.markAsTouched();
+      newPassword.setValue(invalidPassword);
+      newPassword.markAsDirty();
+      newPassword.markAsTouched();
+      newPasswordConfirm.setValue(mismatchPassword);
+      newPasswordConfirm.markAsDirty();
+      newPasswordConfirm.markAsTouched();
+
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(formControlDisplaysError('oldPassword')).toBeTruthy();
+        expect(formControlDisplaysError('newPassword')).toBeTruthy();
+        expect(formControlDisplaysError('newPasswordConfirm')).toBeTruthy();
+      });
+    });
+    it('should NOT display when the user is finished typing valid input', () => {
+      oldPassword.setValue(validPassword);
+      oldPassword.markAsDirty();
+      oldPassword.markAsTouched();
+      newPassword.setValue(validPassword);
+      newPassword.markAsDirty();
+      newPassword.markAsTouched();
+      newPasswordConfirm.setValue(validPassword);
+      newPasswordConfirm.markAsDirty();
+      newPasswordConfirm.markAsTouched();
+
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(formControlDisplaysError('oldPassword')).toBeFalsy();
