@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AuthService, User, UserService, UserToken } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { AuthService, UserToken, User, UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-login',

@@ -1,11 +1,11 @@
 @import './components/index';
 
 // major version standard
-$selectors: cx-site-context-selector, cx-navigation-ui, cx-category-navigation,
-  cx-mini-cart, cx-searchbox !default;
+$selectors: cx-site-context-selector, cx-link, cx-navigation-ui,
+  cx-category-navigation, cx-mini-cart, cx-searchbox !default;
 
 // future theme's, can be introduced during minors
-$theme: 'conconut';
+$theme: ''; // conconut
 
 // sampe of theme specific
 %cx-mini-cart-conconut a svg {
