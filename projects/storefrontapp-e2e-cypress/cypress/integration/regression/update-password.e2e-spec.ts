@@ -25,9 +25,6 @@ describe('My Account - Update Password', () => {
 
     beforeEach(() => {
       cy.visit('/');
-      cy.find(helper.userGreetSelector).then(_ => {
-        helper.signOutUser();
-      });
       helper.loginWithCredentials(user.email, user.password);
       cy.selectUserMenuOption('Password');
       cy.url().should('contain', PAGE_URL_UPDATE_PASSWORD);
