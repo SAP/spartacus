@@ -5,7 +5,6 @@ import { Observable, Subscription } from 'rxjs';
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
