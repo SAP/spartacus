@@ -1,8 +1,9 @@
 @import './components/index';
 
 // major version standard
-$selectors: cx-site-context-selector, cx-breadcrumb, cx-login, cx-link,
-  cx-navigation-ui, cx-category-navigation, cx-mini-cart, cx-searchbox !default;
+$selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
+  cx-responsive-banner, cx-login, cx-link, cx-navigation-ui,
+  cx-footer-navigation, cx-category-navigation, cx-mini-cart, cx-searchbox !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
