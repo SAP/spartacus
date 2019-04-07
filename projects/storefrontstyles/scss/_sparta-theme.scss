@@ -1,8 +1,8 @@
 @import './components/index';
 
 // major version standard
-$selectors: cx-site-context-selector, cx-category-navigation, cx-mini-cart,
-  cx-searchbox !default;
+$selectors: cx-site-context-selector, cx-navigation-ui, cx-category-navigation,
+  cx-mini-cart, cx-searchbox !default;
 
 // future theme's, can be introduced during minors
 $theme: 'conconut';
