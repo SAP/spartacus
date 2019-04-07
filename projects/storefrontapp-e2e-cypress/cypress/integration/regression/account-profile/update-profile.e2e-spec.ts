@@ -34,9 +34,6 @@ describe('Update profile', () => {
         cy.get('button[type="submit"]').click();
       });
 
-      // check for spinner while updating
-      cy.get('cx-spinner').should('exist');
-
       // check for the global message and home screen
       cy.get('cx-global-message .alert-info').should(
         'contain',
