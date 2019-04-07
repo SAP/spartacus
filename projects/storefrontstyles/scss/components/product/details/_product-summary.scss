@@ -4,6 +4,8 @@
   display: grid;
   grid-column-gap: var(--cx-grid-column-gap, 30px);
 
+  margin-bottom: var(--cx-margin-bottom, 40px);
+
   @include media-breakpoint-up(lg) {
     grid-template-columns: var(--cx-grid-template-columns, 50% auto);
     grid-template-rows: var(--cx-grid-template-row, repeat(7, auto) 1fr);
