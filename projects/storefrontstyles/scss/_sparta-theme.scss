@@ -1,9 +1,21 @@
 @import './components/index';
 
-$selectors: cx-mini-cart, cx-searchbox, cx-site-context-selector;
+// major version standard
+$selectors: cx-site-context-selector, cx-category-navigation, cx-mini-cart,
+  cx-searchbox !default;
+
+// future theme's, can be introduced during minors
+$theme: 'conconut';
+
+// sampe of theme specific
+%cx-mini-cart-conconut a svg {
+  fill: blue;
+}
 
 @each $selector in $selectors {
   #{$selector} {
     @extend %#{$selector} !optional;
+    // optiona theme specific placeholder
+    @extend %#{$selector}-#{$theme} !optional;
   }
 }
