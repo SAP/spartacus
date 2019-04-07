@@ -4,7 +4,8 @@
 $selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-responsive-banner, cx-login, cx-link, cx-navigation-ui,
   cx-footer-navigation, cx-category-navigation, cx-mini-cart, cx-searchbox,
-  cx-product-carousel, cx-product-images, cx-product-summary !default;
+  cx-product-carousel, cx-product-images, cx-product-summary,
+  cx-product-attributes !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
