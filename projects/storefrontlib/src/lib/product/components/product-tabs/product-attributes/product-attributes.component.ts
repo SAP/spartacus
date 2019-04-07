@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Product } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-attributes',
@@ -6,5 +7,5 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAttributesComponent {
-  @Input() product: any;
+  @Input() product: Product;
 }
