@@ -1,4 +1,4 @@
-:host {
+%cx-breadcrumb {
   display: block;
 
   padding: 20px 0;
@@ -6,12 +6,12 @@
 
   color: var(--cx-g-color-text, currentcolor);
   background-color: var(--cx-g-color-background);
-}
 
-nav {
-  font-size: var(--cx-font-size-small, 0.85rem);
-  padding: 5px 0;
-  a {
-    color: var(--cx-g-color-secondary);
+  nav {
+    font-size: var(--cx-font-size-small, 0.85rem);
+    padding: 5px 0;
+    a {
+      color: var(--cx-g-color-secondary);
+    }
   }
 }
