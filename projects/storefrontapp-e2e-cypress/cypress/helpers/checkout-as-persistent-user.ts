@@ -76,7 +76,10 @@ export function selectShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').contains('Default Shipping Address');
+  cy.get('.cx-card-body__title').should(
+    'have.text',
+    'Default Shipping Address'
+  );
   cy.getByText(/Ship to this address/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
