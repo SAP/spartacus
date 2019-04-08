@@ -10,7 +10,6 @@ import {
   CheckoutService,
   RoutingService,
   GlobalMessageService,
-  GlobalMessageType,
   CartService,
   CartDataService,
   PaymentDetails,
@@ -96,35 +95,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         })
     );
 
-    // step3: set payment information
-    this.subscriptions.push(
-      this.checkoutService
-        .getPaymentDetails()
-        .pipe(
-          filter(
-            paymentInfo =>
-              Object.keys(paymentInfo).length !== 0 && this.step === 3
-          )
-        )
-        .subscribe(paymentInfo => {
-          if (!paymentInfo['hasError']) {
-            this.nextStep(4);
-            this.paymentDetails = paymentInfo;
-            this.cd.detectChanges();
-          } else {
-            Object.keys(paymentInfo).forEach(key => {
-              if (key.startsWith('InvalidField')) {
-                this.globalMessageService.add({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'InvalidField: ' + paymentInfo[key],
-                });
-              }
-            });
-            this.checkoutService.clearCheckoutStep(3);
-          }
-        })
-    );
-
     // step4: place order
     this.subscriptions.push(
       this.checkoutService
@@ -177,33 +147,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
     this.checkoutService.setDeliveryMode(deliveryModeId);
     return;
-  }
-
-  addPaymentInfo({
-    newPayment,
-    payment,
-    billingAddress,
-  }: {
-    newPayment: boolean;
-    payment: PaymentDetails;
-    billingAddress: Address;
-  }): void {
-    payment.billingAddress = billingAddress
-      ? billingAddress
-      : this.deliveryAddress;
-
-    if (newPayment) {
-      this.checkoutService.createPaymentDetails(payment);
-      return;
-    }
-
-    // if the selected payment is the same as the cart's one
-    if (this.paymentDetails && this.paymentDetails.id === payment.id) {
-      this.nextStep(4);
-      return;
-    }
-
-    this.checkoutService.setPaymentDetails(payment);
   }
 
   placeOrder(): void {
