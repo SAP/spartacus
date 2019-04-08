@@ -163,6 +163,30 @@ export function displaySummaryPage() {
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
+/*
+export function deleteShippingAddress() {
+  // function getAddressId() {
+  cy.request({
+    method: 'GET',
+    url: `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${
+        JSON.parse(sessionStorage.getItem('auth')).userToken.token[
+          'access_token'
+        ]
+      }`,
+    },
+  }).then(response => {
+    const addressResp = response.body.addresses;
+    expect(addressResp[0]).to.have.property('id');
+
+    const addressValues = Cypress._.values(addressResp[0]);
+  });
+}
+ }
+ */
 
 export function deleteShippingAddress() {
   cy.visit('/my-account/address-book');
