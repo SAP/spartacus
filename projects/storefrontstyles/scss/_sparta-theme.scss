@@ -6,7 +6,8 @@ $selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-footer-navigation, cx-category-navigation, cx-mini-cart, cx-searchbox,
   cx-product-carousel, cx-product-images, cx-product-summary,
   cx-product-attributes, cx-product-reviews, cx-product-list,
-  cx-product-list-item, cx-product-grid, cx-product-facet-navigation !default;
+  cx-product-list-item, cx-product-grid, cx-product-facet-navigation,
+  cx-pagination !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
