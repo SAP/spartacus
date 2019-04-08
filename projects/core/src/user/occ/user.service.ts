@@ -187,7 +187,11 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  updateEmail(userId: string, currentPassword: string, newUserId: string) {
+  updateEmail(
+    userId: string,
+    currentPassword: string,
+    newUserId: string
+  ): Observable<{}> {
     const url = this.getUserEndpoint() + userId + UPDATE_EMAIL_ENDPOINT;
     const httpParams: HttpParams = new HttpParams()
       .set('password', currentPassword)

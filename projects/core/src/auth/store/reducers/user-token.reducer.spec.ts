@@ -47,24 +47,14 @@ describe('UserToken reducer', () => {
 
   describe('UPDATE_EMAIL_SUCCESS action', () => {
     it('should update the existing userId/email ', () => {
-      const updatedEmail: UserToken = {
-        access_token: 'xxx',
-        token_type: 'bearer',
-        refresh_token: 'xxx',
-        expires_in: 1000,
-        scope: ['xxx'],
-        userId: 'tester@sap.com',
-      };
+      const uid = 'tester@sap.com';
 
-      const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(
-        updatedEmail.userId
-      );
+      const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(uid);
 
       const state = fromUserToken.reducer(testToken, action);
       expect(state).toEqual({
         ...testToken,
-        ...updatedEmail,
-        userId: updatedEmail.userId,
+        userId: uid,
       });
     });
   });
