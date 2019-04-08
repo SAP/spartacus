@@ -11,6 +11,7 @@ import {
   GoogleMapRendererService,
   StoreFinderService,
   StoreDataService,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 @Pipe({
@@ -62,7 +63,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         StoreFinderStoreDescriptionComponent,
         MockScheduleComponent,

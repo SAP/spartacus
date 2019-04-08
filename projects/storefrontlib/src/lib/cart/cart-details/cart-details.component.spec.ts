@@ -6,6 +6,7 @@ import {
   CartService,
   Cart,
   PromotionResult,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { CartDetailsComponent } from './cart-details.component';
@@ -39,7 +40,7 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule],
+      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
       providers: [
         CartDataService,

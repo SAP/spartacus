@@ -5,7 +5,7 @@
       class="cx-input form-control dropdown-menu-toggle"
       [ngClass]="{ 'show-mobile': isMobileSearchVisible }"
       type="text"
-      placeholder="Search here..."
+      placeholder="{{ 'common.placeholder.searchHere' | cxTranslate }}"
       aria-label="search"
       [ngbTypeahead]="typeahead"
       [resultTemplate]="rt"

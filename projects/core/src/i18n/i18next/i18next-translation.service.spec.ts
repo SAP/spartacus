@@ -3,27 +3,29 @@ import { I18nextTranslationService } from './i18next-translation.service';
 import i18next from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
+import { TranslationNamespaceService } from '../translation-namespace.service';
 
 const testKey = 'testKey';
 const testOptions = 'testOptions';
 const nonBreakingSpace = String.fromCharCode(160);
-const mockNamespaceMapping = {
-  testKey: 'testNamespace',
-};
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
   let config: I18nConfig;
 
   beforeEach(() => {
+    const mockTranslationNamespace = {
+      getNamespace: jasmine
+        .createSpy('getNamespace')
+        .and.returnValue('testNamespace'),
+    };
+
     TestBed.configureTestingModule({
       providers: [
+        { provide: I18nConfig, useValue: { production: false } },
         {
-          provide: I18nConfig,
-          useValue: {
-            production: false,
-            i18n: { namespaceMapping: mockNamespaceMapping },
-          },
+          provide: TranslationNamespaceService,
+          useValue: mockTranslationNamespace,
         },
         I18nextTranslationService,
       ],
