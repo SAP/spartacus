@@ -2,13 +2,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { CartDataService, UserService, PaymentDetails } from '@spartacus/core';
+import {
+  CartDataService,
+  UserService,
+  PaymentDetails,
+  CheckoutService,
+  GlobalMessageService,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
 import { Card } from '../../../../ui/components/card/card.component';
 
 import { PaymentMethodComponent } from './payment-method.component';
+import createSpy = jasmine.createSpy;
 
 class MockUserService {
   loadPaymentMethods(_userId: string): void {}
@@ -18,6 +25,21 @@ class MockUserService {
   getPaymentMethodsLoading(): Observable<boolean> {
     return of();
   }
+}
+class MockCheckoutService {
+  setPaymentDetails = createSpy();
+  clearCheckoutStep = createSpy();
+  createPaymentDetails = createSpy();
+  getPaymentDetails(): Observable<PaymentDetails> {
+    return of(null);
+  }
+  getDeliveryAddress(): Observable<PaymentDetails> {
+    return of(null);
+  }
+}
+
+class MockGlobalMessageService {
+  add = createSpy();
 }
 
 const mockPaymentMethod1: PaymentDetails = {
@@ -88,6 +110,8 @@ describe('PaymentMethodComponent', () => {
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: CartDataService, useValue: mockCartDataService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
   }));
@@ -97,7 +121,7 @@ describe('PaymentMethodComponent', () => {
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
 
-    spyOn(component.addPaymentInfo, 'emit').and.callThrough();
+    spyOn(component.goToStep, 'emit').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
   });
 
@@ -151,20 +175,23 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call next() to submit request', () => {
+    spyOn(component, 'addPaymentInfo');
     component.selectedPayment = mockPaymentMethod1;
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+
+    expect(component.addPaymentInfo).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
       newPayment: false,
     });
   });
 
   it('should call addNewPaymentMethod()', () => {
+    spyOn(component, 'addPaymentInfo');
     component.addNewPaymentMethod({
       paymentDetails: mockPaymentMethod1,
       billingAddress: null,
     });
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
+    expect(component.addPaymentInfo).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
       billingAddress: null,
       newPayment: true,
