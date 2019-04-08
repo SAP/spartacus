@@ -2,8 +2,7 @@
   <a
     *ngIf="node.children && !node.title; else nodeWithChildren"
     ngbDropdownToggle
-  >
-    Reorder
+    >&nbsp;
   </a>
   <ng-template #nodeWithChildren>
     <span

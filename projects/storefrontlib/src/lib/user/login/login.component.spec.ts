@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthService,
+  I18nTestingModule,
   RoutingService,
   User,
   UserService,
@@ -74,7 +75,7 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         LoginComponent,
         MockDynamicSlotComponent,
@@ -133,7 +134,7 @@ describe('LoginComponent', () => {
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'Sign In / Register'
+        'common.action.signInRegister'
       );
     });
 
@@ -143,7 +144,7 @@ describe('LoginComponent', () => {
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'Hi, First Last'
+        'common.label.userGreeting name:First Last'
       );
     });
   });

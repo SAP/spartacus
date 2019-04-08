@@ -4,11 +4,10 @@ import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   ConfigModule,
+  I18nModule,
   UrlTranslationModule,
   UserModule,
 } from '@spartacus/core';
-// import { CmsModule } from '../../cms/cms.module';
-// import { BootstrapModule } from '../../bootstrap.module';
 import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginComponent } from './login.component';
 
@@ -16,8 +15,6 @@ import { LoginComponent } from './login.component';
   imports: [
     CommonModule,
     RouterModule,
-    // CmsModule,
-    // BootstrapModule,
     UserModule,
     UrlTranslationModule,
     PageSlotModule,
@@ -28,6 +25,7 @@ import { LoginComponent } from './login.component';
         },
       },
     }),
+    I18nModule,
   ],
   declarations: [LoginComponent],
   entryComponents: [LoginComponent],

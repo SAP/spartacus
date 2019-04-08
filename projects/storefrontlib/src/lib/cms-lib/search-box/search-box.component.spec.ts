@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { CmsService } from '@spartacus/core';
+import { CmsService, I18nTestingModule } from '@spartacus/core';
 import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
 
 import { of } from 'rxjs';
@@ -77,6 +77,7 @@ describe('SearchBoxComponent in CmsLib', () => {
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
+        I18nTestingModule,
       ],
       declarations: [
         SearchBoxComponent,

@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { SkipLinkComponent } from './skip-link.component';
 
 describe('SkipLinkComponent', () => {
@@ -7,6 +8,7 @@ describe('SkipLinkComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [SkipLinkComponent],
     }).compileComponents();
   }));

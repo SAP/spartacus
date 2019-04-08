@@ -6,6 +6,7 @@ import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
+import { UpdateProfileModule } from '../my-account/update-profile/update-profile.module';
 import { ProductListModule } from '../product/components/product-list/product-list.module';
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
 import { AddressBookModule } from './address-book/address-book.module';
@@ -50,6 +51,7 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
     CartTotalsModule,
     OrderDetailsModule,
     PaymentMethodsModule,
+    UpdateProfileModule,
   ],
 })
 export class CmsLibModule {}
