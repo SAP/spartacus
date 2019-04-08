@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { Order, CheckoutService, Cart } from '@spartacus/core';
+import {
+  Order,
+  CheckoutService,
+  Cart,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -59,6 +64,7 @@ describe('OrderConfirmationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         OrderConfirmationComponent,
         MockReviewSubmitComponent,

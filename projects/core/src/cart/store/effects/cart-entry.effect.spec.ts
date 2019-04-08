@@ -11,9 +11,11 @@ import * as fromActions from '../actions';
 import { OccConfig } from '../../../occ/index';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 };
 

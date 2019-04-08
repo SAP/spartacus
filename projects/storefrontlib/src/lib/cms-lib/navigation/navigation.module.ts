@@ -8,6 +8,7 @@ import {
   CmsService,
   ConfigModule,
   UrlTranslationModule,
+  I18nModule,
 } from '@spartacus/core';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
@@ -34,6 +35,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
       },
     }),
     UrlTranslationModule,
+    I18nModule,
   ],
   declarations: [NavigationComponent, NavigationUIComponent],
   entryComponents: [NavigationComponent],
