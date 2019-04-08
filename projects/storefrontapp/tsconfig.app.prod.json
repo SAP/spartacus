@@ -6,7 +6,8 @@
     "types": [],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/vendor": ["dist/vendor"]
     }
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]

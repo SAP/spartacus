@@ -11,6 +11,7 @@ import {
   UserService,
   CartService,
   CheckoutService,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ShippingAddressComponent } from './shipping-address.component';
@@ -69,7 +70,9 @@ const mockAddresses: Address[] = [mockAddress1, mockAddress2];
   selector: 'cx-address-form',
   template: '',
 })
-class MockAddressFormComponent {}
+class MockAddressFormComponent {
+  @Input() cancelBtnLabel: string;
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -106,6 +109,7 @@ describe('ShippingAddressComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         ShippingAddressComponent,
         MockAddressFormComponent,
@@ -212,7 +216,7 @@ describe('ShippingAddressComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'Continue');
+        .find(el => el.nativeElement.innerText === 'common.action.continue');
 
     it('should be disabled when no address is selected', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -256,7 +260,9 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'Back to cart');
+        .find(
+          el => el.nativeElement.innerText === 'checkout.action.backToCart'
+        );
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -272,7 +278,7 @@ describe('ShippingAddressComponent', () => {
   describe('UI cards with addresses', () => {
     const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
-    it('should represent all existng addresses', () => {
+    it('should represent all existing addresses', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
       spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
 
@@ -301,7 +307,11 @@ describe('ShippingAddressComponent', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'Add New Address');
+        .find(
+          el =>
+            el.nativeElement.innerText ===
+            'checkoutAddress.action.addNewAddress'
+        );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));
 

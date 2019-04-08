@@ -28,9 +28,11 @@ import {
 import * as fromEffects from './checkout.effect';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 };
 

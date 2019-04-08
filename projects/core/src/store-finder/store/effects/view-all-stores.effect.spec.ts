@@ -14,9 +14,11 @@ import { OccStoreFinderService } from '../../occ/store-finder.service';
 import * as fromEffects from './view-all-stores.effect';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 };
 
