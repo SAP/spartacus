@@ -18,20 +18,20 @@ class MockOccUserService {
 }
 
 describe('Update Email Effect', () => {
-  let updateEmailEffect: fromEffect.UpdateEmailEffect;
+  let updateEmailEffect: fromEffect.UpdateEmailEffects;
   let userService: OccUserService;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        fromEffect.UpdateEmailEffect,
+        fromEffect.UpdateEmailEffects,
         { provide: OccUserService, useClass: MockOccUserService },
         provideMockActions(() => actions$),
       ],
     });
 
-    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffect);
+    updateEmailEffect = TestBed.get(fromEffect.UpdateEmailEffects);
     userService = TestBed.get(OccUserService);
   });
 
