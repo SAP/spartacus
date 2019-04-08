@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { DeliveryMode, CheckoutService, CartService } from '@spartacus/core';
+import {
+  DeliveryMode,
+  CheckoutService,
+  CartService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -57,7 +62,7 @@ describe('DeliveryModeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [DeliveryModeComponent, MockSpinnerComponent],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },

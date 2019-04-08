@@ -12,7 +12,9 @@
                       [sortOptions]="model.sorts"
                       (sortListEvent)="sortList($event)"
                       [selectedOption]="model.pagination.sort"
-                      [placeholder]="'Sort by Relevance'"
+                      placeholder="{{
+                        'productList.placeholder.sortByRelevance' | cxTranslate
+                      }}"
                     ></cx-sorting>
                   </div>
                 </div>
@@ -62,7 +64,9 @@
                       [sortOptions]="model.sorts"
                       (sortListEvent)="sortList($event)"
                       [selectedOption]="model.pagination.sort"
-                      [placeholder]="'Sort by Relevance'"
+                      placeholder="{{
+                        'productList.placeholder.sortByRelevance' | cxTranslate
+                      }}"
                     ></cx-sorting>
                   </div>
                 </div>
