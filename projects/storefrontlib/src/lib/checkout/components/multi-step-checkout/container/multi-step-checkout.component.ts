@@ -31,7 +31,6 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
-  done = false;
 
   deliveryAddress: Address;
   paymentDetails: PaymentDetails;
@@ -121,20 +120,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
             });
             this.checkoutService.clearCheckoutStep(3);
           }
-        })
-    );
-
-    // step4: place order
-    this.subscriptions.push(
-      this.checkoutService
-        .getOrderDetails()
-        .pipe(
-          filter(order => Object.keys(order).length !== 0 && this.step === 4)
-        )
-        .subscribe(() => {
-          // checkout steps are done
-          this.done = true;
-          this.routingService.go({ route: ['orderConfirmation'] });
         })
     );
   }
