@@ -3,7 +3,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 import { StoreFinderStoresCountComponent } from './store-finder-stores-count.component';
-import { RoutingService, StoreFinderService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  RoutingService,
+  StoreFinderService,
+} from '@spartacus/core';
 
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -26,7 +30,7 @@ describe('StoreFinderStoresCountComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule, RouterTestingModule],
+      imports: [SpinnerModule, RouterTestingModule, I18nTestingModule],
       declarations: [StoreFinderStoresCountComponent, MockTranslateUrlPipe],
       providers: [
         {
