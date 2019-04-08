@@ -42,3 +42,37 @@ describe('User Register Actions', () => {
     });
   });
 });
+
+describe('Remove User Actions', () => {
+  describe('RemoveUser Action', () => {
+    it('should create the action', () => {
+      const action = new fromUserRegister.RemoveUser('testUserId');
+      expect({ ...action }).toEqual({
+        type: fromUserRegister.REMOVE_USER,
+        payload: 'testUserId',
+      });
+    });
+  });
+
+  describe('RemoveUser Action', () => {
+    it('should create the action', () => {
+      const error = 'anError';
+      const action = new fromUserRegister.RemoveUserFail(error);
+
+      expect({ ...action }).toEqual({
+        type: fromUserRegister.REMOVE_USER_FAIL,
+        payload: error,
+      });
+    });
+  });
+
+  describe('RemoveUser Action', () => {
+    it('should create the action', () => {
+      const action = new fromUserRegister.RemoveUserSuccess();
+
+      expect({ ...action }).toEqual({
+        type: fromUserRegister.REMOVE_USER_SUCCESS,
+      });
+    });
+  });
+});

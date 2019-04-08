@@ -83,6 +83,13 @@ describe('UserService', () => {
     );
   });
 
+  it('should be able to close user account', () => {
+    service.remove('testUserId');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.RemoveUser('testUserId')
+    );
+  });
+
   it('should be able to get order details', () => {
     store.dispatch(
       new fromStore.LoadOrderDetailsSuccess({ code: 'testOrder' })

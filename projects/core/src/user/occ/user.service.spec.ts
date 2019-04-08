@@ -276,4 +276,19 @@ describe('OccUserService', () => {
       mockReq.flush('');
     });
   });
+
+  describe('remove user account: ', () => {
+    it('should be able to close user account', () => {
+      service
+        .removeUser('testUserId')
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'DELETE' && req.url === `${endpoint}/testUserId`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      mockReq.flush('');
+    });
+  });
 });

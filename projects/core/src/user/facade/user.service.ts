@@ -54,6 +54,15 @@ export class UserService {
   }
 
   /**
+   * Close user's account
+   *
+   * @param userId
+   */
+  remove(userId: string): void {
+    this.store.dispatch(new fromStore.RemoveUser(userId));
+  }
+
+  /**
    * Returns an order's detail
    */
   getOrderDetails(): Observable<Order> {
