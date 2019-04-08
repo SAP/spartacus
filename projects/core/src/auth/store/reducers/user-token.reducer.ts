@@ -34,14 +34,14 @@ export function reducer(
     }
 
     case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
-      const updatedUserId: UserToken = {
+      const updatedUserToken: UserToken = {
         ...state,
         userId: action.newUid,
       };
 
       return {
-        ...updatedUserId,
-        userId: updatedUserId.userId,
+        ...updatedUserToken,
+        userId: updatedUserToken.userId,
       };
     }
   }
