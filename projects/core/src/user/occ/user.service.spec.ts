@@ -79,6 +79,24 @@ describe('OccUserService', () => {
     });
   });
 
+  describe('update user details', () => {
+    it('should update user details for the given username', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+      service.updateUserDetails(username, userUpdates).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userUpdates);
+      mockReq.flush(userUpdates);
+    });
+  });
+
   describe('load address verification results', () => {
     it('should load address verification results for given user id and address', () => {
       const address: Address = {

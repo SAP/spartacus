@@ -13,6 +13,7 @@ import {
   PromotionResult,
   DeliveryMode,
   Country,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { BehaviorSubject, of, Observable } from 'rxjs';
@@ -113,6 +114,7 @@ describe('ReviewSubmitComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,

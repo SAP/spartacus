@@ -12,6 +12,8 @@ import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
+export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
+
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';

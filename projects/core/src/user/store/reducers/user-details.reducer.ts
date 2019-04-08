@@ -14,6 +14,18 @@ export function reducer(
     case fromUserDetailsAction.LOAD_USER_DETAILS_SUCCESS: {
       return action.payload;
     }
+
+    case fromUserDetailsAction.UPDATE_USER_DETAILS_SUCCESS: {
+      const updatedDetails: User = {
+        ...state,
+        ...action.userUpdates,
+      };
+      return {
+        ...updatedDetails,
+        name: `${updatedDetails.firstName} ${updatedDetails.lastName}`,
+      };
+    }
+
     case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
       const updatedUser: User = {
         ...state,
@@ -28,5 +40,6 @@ export function reducer(
       };
     }
   }
+
   return state;
 }
