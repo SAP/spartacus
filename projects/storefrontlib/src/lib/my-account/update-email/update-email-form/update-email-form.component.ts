@@ -30,10 +30,7 @@ export class UpdateEmailFormComponent {
     {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       confirmEmail: ['', [Validators.required]],
-      password: [
-        '',
-        [Validators.required, CustomFormValidators.passwordValidator],
-      ],
+      password: ['', [Validators.required]],
     },
     { validator: this.matchEmail }
   );

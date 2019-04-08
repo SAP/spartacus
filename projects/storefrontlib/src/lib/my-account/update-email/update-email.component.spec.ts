@@ -57,7 +57,7 @@ class MockGlobalMessageService {
   add(_message: GlobalMessage): void {}
 }
 
-fdescribe('UpdateEmailComponent', () => {
+describe('UpdateEmailComponent', () => {
   let component: UpdateEmailComponent;
   let fixture: ComponentFixture<UpdateEmailComponent>;
   let el: DebugElement;
@@ -136,12 +136,10 @@ fdescribe('UpdateEmailComponent', () => {
     const newUid = 'tester@sap.com';
     const password = 'Qwe123!';
 
+    component['uid'] = uid;
+
     component.onSubmit({ newUid, password });
-    expect(userService.updateEmail).toHaveBeenCalledWith(
-      undefined,
-      password,
-      newUid
-    );
+    expect(userService.updateEmail).toHaveBeenCalledWith(uid, password, newUid);
   });
 
   it('should call the internal onSuccess() method when the user was successfully updated', () => {
@@ -156,7 +154,11 @@ fdescribe('UpdateEmailComponent', () => {
   describe('onSuccess', () => {
     describe('when the user was successfully updated', () => {
       it('should add a global message and navigate to a url ', () => {
-        const newUid = 'undefined';
+        spyOn(userService, 'updateEmail').and.stub();
+
+        const newUid = 'new@sap.com';
+
+        component['newUid'] = newUid;
 
         spyOn(globalMessageService, 'add').and.stub();
         spyOn(routingService, 'go').and.stub();

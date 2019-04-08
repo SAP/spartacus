@@ -25,9 +25,9 @@
         <input
           type="email"
           name="confirmEmail"
-          class="form-control"
           formControlName="confirmEmail"
           placeholder="Enter email"
+          class="form-control"
           [class.is-invalid]="isEmailConfirmNotValid('confirmEmail')"
         />
         <div
@@ -53,7 +53,7 @@
           [class.is-invalid]="isNotValid('password')"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('password')">
-          <span>Wrong password</span>
+          <span>Please input password</span>
         </div>
       </label>
     </div>

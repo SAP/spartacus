@@ -58,6 +58,7 @@ describe('UpdateEmailFormComponent', () => {
     });
 
     it('should NOT emit submited event if the form is not valid', () => {
+      spyOn(component, 'onSubmit').and.stub();
       spyOn(component.saveEmail, 'emit').and.stub();
 
       component.onSubmit();
@@ -92,6 +93,45 @@ describe('UpdateEmailFormComponent', () => {
       spyOn(component.cancelEmail, 'emit').and.stub();
       component.onCancel();
       expect(component.cancelEmail.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('when the form is invalid', () => {
+    it('should display an error message', () => {
+      newUid.setValue('');
+      confirmNewUid.setValue('');
+      password.setValue('');
+
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      const error = el.queryAll(By.css('.form-group .invalid-feedback span'));
+
+      expect(error).toBeTruthy();
+
+      expect(error[0].nativeElement.innerText).not.toEqual('');
+      expect(error[1].nativeElement.innerText).not.toEqual('');
+    });
+  });
+
+  describe('when the email does not match', () => {
+    it('should display an error message', () => {
+      newUid.setValue('tester@sap.com');
+      confirmNewUid.setValue('fake@sap.com');
+      password.setValue('Qwe123!');
+
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      const error = el.query(
+        By.css('.form-group:nth-of-type(2) .invalid-feedback span')
+      );
+
+      expect(error).toBeTruthy();
+
+      expect(error.nativeElement.innerText).not.toEqual('');
     });
   });
 });

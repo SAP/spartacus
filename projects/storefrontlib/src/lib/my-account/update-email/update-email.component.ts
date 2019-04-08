@@ -20,8 +20,8 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   ) {}
 
   private subscription = new Subscription();
+  private uid: string;
   isLoading$: Observable<boolean>;
-  uid: string;
   newUid: string;
 
   ngOnInit() {
