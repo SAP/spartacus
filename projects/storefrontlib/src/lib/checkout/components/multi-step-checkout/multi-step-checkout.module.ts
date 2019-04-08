@@ -6,6 +6,7 @@ import { ShippingAddressModule } from './shipping-address/shipping-address.modul
 import { DeliveryModeModule } from './delivery-mode/delivery-mode.module';
 import { PaymentMethodModule } from './payment-method/payment-method.module';
 import { ReviewSubmitModule } from './review-submit/review-submit.module';
+import { CheckoutOrderSummaryModule } from './checkout-order-summary/checkout-order-summary.module';
 
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
@@ -25,6 +26,7 @@ import {
     DeliveryModeModule,
     PaymentMethodModule,
     ReviewSubmitModule,
+    CheckoutOrderSummaryModule,
     RouterModule,
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
