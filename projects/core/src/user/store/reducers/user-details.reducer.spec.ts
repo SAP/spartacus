@@ -37,21 +37,16 @@ describe('User Details Reducer', () => {
   describe('UPDATE_EMAIL_SUCCESS', () => {
     it('should update the existing userId/email ', () => {
       const testEmail = 'tester@sap.com';
-      const updatedEmail: User = {
-        uid: testEmail,
-        displayUid: testEmail,
-      };
 
       const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(
-        updatedEmail.uid
+        testEmail
       );
 
       const state = fromUserDetailsReducer.reducer(mockUserDetails, action);
       expect(state).toEqual({
         ...mockUserDetails,
-        ...updatedEmail,
-        displayUid: updatedEmail.displayUid,
-        uid: updatedEmail.uid,
+        displayUid: testEmail,
+        uid: testEmail,
       });
     });
   });
