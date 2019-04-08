@@ -12,14 +12,15 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
   getProcessSuccessFactory,
-} from '../../process';
-import * as fromProcessStore from '../../process/store/process-state';
+} from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
+import { UPDATE_USER_DETAILS_PROCESS_ID } from '../store/user-state';
 
 @Injectable()
 export class UserService {
@@ -335,6 +336,50 @@ export class UserService {
    */
   clearOrderList(): void {
     this.store.dispatch(new fromStore.ClearUserOrders());
+  }
+
+  /**
+   * Updates the user's details
+   * @param userDetails to be updated
+   */
+  updatePersonalDetails(username: string, userDetails: User): void {
+    this.store.dispatch(
+      new fromStore.UpdateUserDetails({ username, userDetails })
+    );
+  }
+
+  /**
+   * Returns the update user's personal details loading flag
+   */
+  getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's personal details error flag
+   */
+  getUpdatePersonalDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's personal details success flag
+   */
+  getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update user details processing state
+   */
+  resetUpdatePersonalDetailsProcessingState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateUserDetails());
   }
 
   /**

@@ -403,6 +403,63 @@ describe('UserService', () => {
     );
   });
 
+  describe('update personal details', () => {
+    const username = 'xxx';
+    const userDetails: User = {
+      uid: username,
+    };
+
+    it('should dispatch UpdateUserDetails action', () => {
+      service.updatePersonalDetails(username, userDetails);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateUserDetails({ username, userDetails })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsFail('error'));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultError()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultSuccess()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should dispatch a reset action', () => {
+      service.resetUpdatePersonalDetailsProcessingState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateUserDetails()
+      );
+    });
+  });
+
   it('should be able to reset password', () => {
     service.resetPassword('test token', 'test password');
     expect(store.dispatch).toHaveBeenCalledWith(

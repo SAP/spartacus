@@ -7,13 +7,11 @@ import { LogoutModule } from '../../../cms-components/index';
 import { CmsPageGuard } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-// ContentPage
 import { CartPageModule } from './cart-page/cart-page.module';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
 import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
 import { GuardsModule } from './guards/guards.module';
 import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
-// ProductPage
 import { ProductPageModule } from './product-page/product-page.module';
 
 const pageModules = [
@@ -131,6 +129,15 @@ const pageModules = [
         component: PageLayoutComponent,
         canActivate: [NotAuthGuard, CmsPageGuard],
         data: { pageLabel: 'resetPassword', cxPath: 'resetPassword' },
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'update-profile',
+          cxPath: 'updateProfile',
+        },
       },
       // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {

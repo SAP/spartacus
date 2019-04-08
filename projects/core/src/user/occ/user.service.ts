@@ -32,11 +32,18 @@ export class OccUserService {
     private occEndpoints: OccEndpointsService
   ) {}
 
-  public loadUser(userId: string): Observable<User> {
+  loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get<User>(url)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateUserDetails(username: string, user: User): Observable<{}> {
+    const url = this.getUserEndpoint() + username;
+    return this.http
+      .patch(url, user)
+      .pipe(catchError(error => throwError(error)));
   }
 
   verifyAddress(

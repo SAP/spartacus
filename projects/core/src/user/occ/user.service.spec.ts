@@ -64,7 +64,7 @@ describe('OccUserService', () => {
   });
 
   describe('load user details', () => {
-    it('should load user details for given username abd access token', () => {
+    it('should load user details for given username and access token', () => {
       service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
@@ -76,6 +76,24 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
+    });
+  });
+
+  describe('update user details', () => {
+    it('should update user details for the given username', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+      service.updateUserDetails(username, userUpdates).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userUpdates);
+      mockReq.flush(userUpdates);
     });
   });
 
