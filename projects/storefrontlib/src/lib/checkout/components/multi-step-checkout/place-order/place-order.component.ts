@@ -3,12 +3,14 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnDestroy
 } from '@angular/core';
 
 import { CheckoutService, RoutingService } from '@spartacus/core';
 
 import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
@@ -16,8 +18,9 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./place-order.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlaceOrderComponent implements OnInit {
+export class PlaceOrderComponent implements OnInit, OnDestroy {
   tAndCToggler = false;
+  placeOrderSubscription: Subscription;
 
   @Output() clearCheckoutData = new EventEmitter<void>();
 
@@ -34,8 +37,8 @@ export class PlaceOrderComponent implements OnInit {
     this.checkoutService.placeOrder();
   }
 
-  ngOnInit() {
-    this.checkoutService
+  ngOnInit(): void {
+    this.placeOrderSubscription = this.checkoutService
       .getOrderDetails()
       .pipe(filter(order => Object.keys(order).length !== 0))
       .subscribe(() => {
@@ -43,5 +46,9 @@ export class PlaceOrderComponent implements OnInit {
         this.clearCheckoutData.emit();
         this.routingService.go({ route: ['orderConfirmation'] });
       });
+  }
+
+  ngOnDestroy(): void {
+    this.placeOrderSubscription.unsubscribe();
   }
 }
