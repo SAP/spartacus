@@ -25,7 +25,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('PlaceOrderComponent', () => {
+describe('PlaceOrderComponent', () => {
   let component: PlaceOrderComponent;
   let fixture: ComponentFixture<PlaceOrderComponent>;
 
