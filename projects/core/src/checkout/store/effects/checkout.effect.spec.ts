@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
-import { OccCartService } from '../../../cart';
+import { OccCartService, CartService } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import {
   OccConfig,
@@ -35,6 +35,10 @@ const MockOccModuleConfig: OccConfig = {
     },
   },
 };
+
+class MockCartService {
+  loadDetails = jasmine.createSpy();
+}
 
 describe('Checkout effect', () => {
   let cartService: OccCartService;
@@ -69,6 +73,7 @@ describe('Checkout effect', () => {
         ProductImageConverterService,
         fromEffects.CheckoutEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: CartService, useClass: MockCartService },
         provideMockActions(() => actions$),
       ],
     });
