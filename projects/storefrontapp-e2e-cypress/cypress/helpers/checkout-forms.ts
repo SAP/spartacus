@@ -49,7 +49,7 @@ export function fillShippingAddress(shippingAddressData: ShippingAddressData) {
 
 export function fillPaymentDetails(paymentDetails: PaymentDetails) {
   cy.get('cx-payment-form').within(() => {
-    cy.getByPlaceholderText('Select One...').ngSelect(
+    cy.get('[formcontrolname="paymentType"]').ngSelect(
       paymentDetails.payment.card
     );
     cy.get('[formcontrolname="accountHolderName"]').type(
@@ -58,10 +58,10 @@ export function fillPaymentDetails(paymentDetails: PaymentDetails) {
     cy.get('[formcontrolname="cardNumber"]').type(
       paymentDetails.payment.number
     );
-    cy.getByPlaceholderText('MM').ngSelect(
+    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
       paymentDetails.payment.expires.month
     );
-    cy.getByPlaceholderText('YYYY').ngSelect(
+    cy.get('[formcontrolname="expiryYear"]').ngSelect(
       paymentDetails.payment.expires.year
     );
     cy.get('[formcontrolname="cvn"]').type(paymentDetails.payment.cvv);
