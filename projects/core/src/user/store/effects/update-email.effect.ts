@@ -6,7 +6,7 @@ import { OccUserService } from '../../occ/index';
 import * as fromUpdateEmailAction from '../actions/update-email.action';
 
 @Injectable()
-export class UpdateEmailEffect {
+export class UpdateEmailEffects {
   constructor(
     private actions$: Actions,
     private occUserService: OccUserService
