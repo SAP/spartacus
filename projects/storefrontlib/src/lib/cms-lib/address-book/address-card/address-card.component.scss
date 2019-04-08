@@ -16,8 +16,8 @@
   padding: var(--cx-padding, 1.25rem 0 0 0);
 }
 
-.cx-address-card-label-bold {
-  @include weight('bold');
+.cx-address-card-label-name {
+  font-weight: var(--cx-g-font-weight-bold);
 }
 
 .cx-address-card-delete-msg {

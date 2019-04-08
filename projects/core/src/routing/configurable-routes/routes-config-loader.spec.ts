@@ -1,18 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { ServerConfig } from '../../config';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
 import { ConfigurableRoutesService } from './configurable-routes.service';
+import { OccConfig } from '../../occ';
 
 class MockHttpClient {
   get = () => new BehaviorSubject(null);
-}
-
-class MockServerConfig {
-  server = { baseUrl: 'test-base-url' };
 }
 
 class MockConfigurableRoutesModuleConfig {
@@ -60,7 +56,10 @@ describe('RoutesConfigLoader', () => {
       providers: [
         RoutesConfigLoader,
         { provide: HttpClient, useClass: MockHttpClient },
-        { provide: ServerConfig, useClass: MockServerConfig },
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: 'test-base-url' } } },
+        },
         {
           provide: ConfigurableRoutesConfig,
           useClass: MockConfigurableRoutesModuleConfig,

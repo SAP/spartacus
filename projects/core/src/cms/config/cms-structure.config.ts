@@ -53,8 +53,8 @@ export interface CmsPageSlotsConfig {
  * rather than loading from a backend.
  */
 export interface CmsPageSlotConfig {
-  uid?: string;
   componentIds?: string[];
+  properties?: any;
 }
 
 /**

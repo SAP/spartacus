@@ -9,6 +9,7 @@ import {
   UserToken,
   UserService,
   User,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -78,7 +79,7 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         LoginComponent,
         MockDynamicSlotComponent,
@@ -149,13 +150,13 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'Sign In / Register'
+        'common.action.signInRegister'
       );
 
       component.user$ = of(mockUserDetails);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'Hi, First Last'
+        'common.label.userGreeting name:First Last'
       );
     });
   });

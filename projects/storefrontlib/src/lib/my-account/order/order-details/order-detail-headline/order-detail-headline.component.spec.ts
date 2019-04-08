@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Order } from '@spartacus/core';
+import { I18nTestingModule, Order } from '@spartacus/core';
 
 import { of } from 'rxjs';
 
@@ -65,6 +65,7 @@ describe('OrderDetailHeadlineComponent', () => {
     };
 
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],

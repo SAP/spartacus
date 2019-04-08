@@ -23,24 +23,21 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
   private serializePageData(source: any, target: CmsStructureModel): void {
     target.page = {
       loadTime: Date.now(),
-      uuid: source.uuid,
       name: source.name,
       type: source.typeCode,
       title: source.title,
-      catalogUuid: this.getCatalogUuid(source),
       pageId: source.uid,
       template: source.template,
       slots: {},
+      properties: source.properties,
     };
   }
 
   private serializePageSlotData(source: any, target: CmsStructureModel): void {
     for (const slot of source.contentSlots.contentSlot) {
       target.page.slots[slot.position] = {
-        uid: slot.slotId,
-        uuid: slot.slotUuid,
-        catalogUuid: this.getCatalogUuid(slot),
         components: [],
+        properties: slot.properties,
       } as ContentSlotData;
     }
   }
@@ -58,11 +55,8 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
           const comp: ContentSlotComponentData = {
             uid: component.uid,
             typeCode: component.typeCode,
-            catalogUuid: this.getCatalogUuid(component),
+            properties: component.properties,
           };
-          if (component.uuid) {
-            comp.uuid = component.uuid;
-          }
 
           if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
             comp.flexType = component.flexType;
@@ -86,30 +80,12 @@ export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
         Array.isArray(slot.components.component)
       ) {
         for (const component of slot.components.component as any) {
-          // we dont put smartedit properties into store
+          // we dont put properties into component state
           if (component.properties) {
             component.properties = undefined;
           }
           target.components.push(component);
         }
-      }
-    }
-  }
-
-  private getCatalogUuid(cmsItem: any): string {
-    if (cmsItem.properties && cmsItem.properties.smartedit) {
-      const smartEditProp = cmsItem.properties.smartedit;
-      if (smartEditProp.catalogVersionUuid) {
-        return smartEditProp.catalogVersionUuid;
-      } else if (smartEditProp.classes) {
-        let catalogUuid: string;
-        const seClass = smartEditProp.classes.split(' ');
-        seClass.forEach(item => {
-          if (item.indexOf('smartedit-catalog-version-uuid') > -1) {
-            catalogUuid = item.substr('smartedit-catalog-version-uuid-'.length);
-          }
-        });
-        return catalogUuid;
       }
     }
   }
