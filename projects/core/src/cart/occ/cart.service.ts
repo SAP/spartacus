@@ -27,6 +27,8 @@ const DETAILS_PARAMS =
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
 
+const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
+
 @Injectable()
 export class OccCartService {
   constructor(
@@ -85,6 +87,20 @@ export class OccCartService {
         .get<Cart>(url, { params: params })
         .pipe(catchError((error: any) => throwError(error)));
     }
+  }
+
+  public loadCheckoutState(
+    userId: string,
+    cartId: string,
+    details?: boolean
+  ): Observable<Cart> {
+    const url = this.getCartEndpoint(userId) + cartId;
+    const params = new HttpParams({
+      fromString: 'fields=' + CHECKOUT_PARAMS,
+    });
+    return this.http
+      .get<Cart>(url, { params: params })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public createCart(
