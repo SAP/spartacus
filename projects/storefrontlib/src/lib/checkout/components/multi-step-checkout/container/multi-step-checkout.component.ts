@@ -261,9 +261,4 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.clearCheckoutNavBar();
   }
-
-  clearCheckoutDataHandler() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    this.checkoutService.clearCheckoutData();
-  }
 }

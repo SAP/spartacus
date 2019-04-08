@@ -22,8 +22,6 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   tAndCToggler = false;
   placeOrderSubscription: Subscription;
 
-  @Output() clearCheckoutData = new EventEmitter<void>();
-
   constructor(
     private checkoutService: CheckoutService,
     private routingService: RoutingService
@@ -42,8 +40,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
       .getOrderDetails()
       .pipe(filter(order => Object.keys(order).length !== 0))
       .subscribe(() => {
-        // checkout steps are done
-        this.clearCheckoutData.emit();
+        this.checkoutService.clearCheckoutData();
         this.routingService.go({ route: ['orderConfirmation'] });
       });
   }
