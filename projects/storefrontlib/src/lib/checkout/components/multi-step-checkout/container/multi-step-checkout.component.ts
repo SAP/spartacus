@@ -224,10 +224,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.checkoutService.setPaymentDetails(payment);
   }
 
-  placeOrder(): void {
-    this.checkoutService.placeOrder();
-  }
-
   initializeCheckoutNavBar(): CheckoutNavBarItem[] {
     return [
       {
@@ -278,10 +274,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    if (!this.done) {
-      this.checkoutService.clearCheckoutData();
-    }
     this.clearCheckoutNavBar();
+  }
+
+  clearCheckoutDataHandler() {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.checkoutService.clearCheckoutData();
   }
 }

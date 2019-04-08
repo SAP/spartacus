@@ -1,5 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CheckoutService } from '@spartacus/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  OnInit,
+  Output,
+  EventEmitter
+} from '@angular/core';
+
+import { CheckoutService, RoutingService } from '@spartacus/core';
+
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-place-order',
@@ -7,10 +16,15 @@ import { CheckoutService } from '@spartacus/core';
   styleUrls: ['./place-order.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlaceOrderComponent {
+export class PlaceOrderComponent implements OnInit {
   tAndCToggler = false;
 
-  constructor(private checkoutService: CheckoutService) {}
+  @Output() clearCheckoutData = new EventEmitter<void>();
+
+  constructor(
+    private checkoutService: CheckoutService,
+    private routingService: RoutingService
+  ) {}
 
   toggleTAndC(): void {
     this.tAndCToggler = !this.tAndCToggler;
@@ -18,5 +32,16 @@ export class PlaceOrderComponent {
 
   placeOrder(): void {
     this.checkoutService.placeOrder();
+  }
+
+  ngOnInit() {
+    this.checkoutService
+      .getOrderDetails()
+      .pipe(filter(order => Object.keys(order).length !== 0))
+      .subscribe(() => {
+        // checkout steps are done
+        this.clearCheckoutData.emit();
+        this.routingService.go({ route: ['orderConfirmation'] });
+      });
   }
 }

@@ -88,7 +88,8 @@
 
       <!-- CHECKBOX AND PLACE ORDER BUTTON -->
       <div class="cx-place-order" *ngIf="step === 4">
-        <cx-place-order> </cx-place-order>
+        <cx-place-order (clearCheckoutData)="clearCheckoutDataHandler()">
+        </cx-place-order>
 
         <button class="btn btn-action btn-block" (click)="setStep(3)">
           Back
