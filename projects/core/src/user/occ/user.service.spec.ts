@@ -266,19 +266,26 @@ describe('OccUserService', () => {
       const currentPassword = 'Qwe123!';
       const newUserId = 'tester@sap.com';
 
+      let result: Object;
+
       service
         .updateEmail(userId, currentPassword, newUserId)
-        .subscribe(result => expect(result).toEqual(''));
+        .subscribe(value => (result = value));
 
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'PUT' &&
-          req.url === `${endpoint}/${userId}${updateEmailEndpoint}`
+          req.url === `${endpoint}/${userId}${updateEmailEndpoint}` &&
+          req.serializeBody() ===
+            `password=${currentPassword}&newLogin=${newUserId}`
         );
       });
 
+      console.log(mockReq);
+
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
+      expect(result).toEqual('');
     });
   });
 });

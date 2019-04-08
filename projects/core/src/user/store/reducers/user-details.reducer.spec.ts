@@ -43,15 +43,15 @@ describe('User Details Reducer', () => {
       };
 
       const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(
-        updatedEmail
+        updatedEmail.uid
       );
 
       const state = fromUserDetailsReducer.reducer(mockUserDetails, action);
       expect(state).toEqual({
         ...mockUserDetails,
         ...updatedEmail,
-        uid: updatedEmail.uid,
         displayUid: updatedEmail.displayUid,
+        uid: updatedEmail.uid,
       });
     });
   });
