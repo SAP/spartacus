@@ -43,6 +43,22 @@ class OccEndpointsServiceMock {
   getEndpoint(): string {
     return endpoint;
   }
+  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+    return `/cms/components/${_urlParams.id}?${this.flattentParams(
+      _queryParams
+    )}`;
+  }
+  private flattentParams(_queryParams?: any) {
+    let flat = '';
+    if (_queryParams) {
+      for (const key in _queryParams) {
+        if (key) {
+          flat += `${key}=${_queryParams[key]}`;
+        }
+      }
+    }
+    return flat;
+  }
 }
 
 describe('OccCmsComponentLoader', () => {
@@ -85,12 +101,12 @@ describe('OccCmsComponentLoader', () => {
     });
 
     const testRequest = httpMock.expectOne(req => {
-      return req.method === 'GET' && req.url === endpoint + '/components/comp1';
+      return (
+        req.method === 'GET' &&
+        req.url === endpoint + `/components/comp1?productCode=${context.id}`
+      );
     });
 
-    expect(testRequest.request.params.get('productCode')).toEqual(
-      'testProductCode'
-    );
     expect(testRequest.cancelled).toBeFalsy();
     expect(testRequest.request.responseType).toEqual('json');
     testRequest.flush(component);

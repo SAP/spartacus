@@ -66,6 +66,32 @@ class OccEndpointsServiceMock {
   getEndpoint(): string {
     return endpoint;
   }
+  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+    if (_endpoint === 'pages') {
+      return (
+        endpoint +
+        `/pages?fields=${_urlParams.fields}${this.flattentParams(_queryParams)}`
+      );
+    } else {
+      return (
+        endpoint +
+        `/components?fields=${_urlParams.fields}${this.flattentParams(
+          _queryParams
+        )}`
+      );
+    }
+  }
+  private flattentParams(_queryParams?: any) {
+    let flat = '';
+    if (_queryParams) {
+      for (const key in _queryParams) {
+        if (key) {
+          flat += `&${key}=${_queryParams[key]}`;
+        }
+      }
+    }
+    return flat;
+  }
 }
 
 describe('OccCmsPageLoader', () => {
@@ -110,12 +136,15 @@ describe('OccCmsPageLoader', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/pages';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            endpoint +
+              `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${
+                context.id
+              }`
+        );
       });
-
-      expect(testRequest.request.params.get('pageLabelOrId')).toEqual(
-        'testPagId'
-      );
 
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -133,13 +162,15 @@ describe('OccCmsPageLoader', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/pages';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            endpoint +
+              `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${
+                context.id
+              }`
+        );
       });
-
-      expect(testRequest.request.params.get('pageLabelOrId')).toEqual(
-        'testPagId'
-      );
-      expect(testRequest.request.params.get('fields')).toEqual('BASIC');
 
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -156,9 +187,15 @@ describe('OccCmsPageLoader', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/pages';
+        return (
+          req.method === 'GET' &&
+          req.url ===
+            endpoint +
+              `/pages?fields=DEFAULT&pageType=${context.type}&code=${
+                context.id
+              }`
+        );
       });
-      expect(testRequest.request.params.get('code')).toEqual('123');
 
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -179,11 +216,14 @@ describe('OccCmsPageLoader', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === endpoint + '/components';
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            endpoint + `/components?fields=DEFAULT&productCode=${context.id}`
+        );
       });
 
       expect(testRequest.request.body).toEqual(ids);
-      expect(testRequest.request.params.get('productCode')).toEqual('123');
 
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -191,6 +231,9 @@ describe('OccCmsPageLoader', () => {
     });
 
     it('Should get a list of cms component data with pagination parameters', () => {
+      const currentPage = 0;
+      const pageSize = 5;
+      const fields = 'FULL';
       const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
       const context: PageContext = {
         id: '123',
@@ -204,15 +247,18 @@ describe('OccCmsPageLoader', () => {
         });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === endpoint + '/components';
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            endpoint +
+              `/components?fields=${fields}&productCode=${
+                context.id
+              }&currentPage=${currentPage}&pageSize=${pageSize}`
+        );
       });
 
       const request: HttpRequest<any> = testRequest.request;
       expect(request.body).toEqual(ids);
-      expect(request.params.get('productCode')).toEqual('123');
-      expect(request.params.get('fields')).toEqual('FULL');
-      expect(request.params.get('currentPage')).toEqual('0');
-      expect(request.params.get('pageSize')).toEqual('5');
 
       expect(request.responseType).toEqual('json');
 
