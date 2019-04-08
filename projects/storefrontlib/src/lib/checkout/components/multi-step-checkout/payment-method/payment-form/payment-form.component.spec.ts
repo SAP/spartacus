@@ -12,6 +12,7 @@ import {
   Country,
   UserService,
   GlobalMessageService,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { Observable, of, BehaviorSubject } from 'rxjs';
@@ -123,7 +124,7 @@ describe('PaymentFormComponent', () => {
     mockGlobalMessageService = new MockGlobalMessageService();
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       declarations: [
         PaymentFormComponent,
         MockCardComponent,

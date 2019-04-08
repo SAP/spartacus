@@ -1,3 +1,7 @@
 <span class="cx-pagination-details">
-  {{ getResultsPerPage() }} from {{ pagination.totalResults }} stores found
+  {{ getResultsPerPage() }}
+  {{
+    'storeFinder.label.fromStoresFound'
+      | cxTranslate: { count: pagination.totalResults }
+  }}
 </span>
