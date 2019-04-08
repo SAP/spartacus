@@ -118,4 +118,4 @@ The `optional` flag ensures that code will not break during build whenever a spe
 Spartacus will generate the component styles using a simple function that iterates over all the configured component selectors. 
 
 ## Page layout styles
-Global theming and component styles are most important to render components on the page, however the overall layout that orchestraters components on a page is another important style layer. This layer is detailed in the page layout documentation.
+Global theming and component styles are most important to render components on the page, however the overall layout that orchestraters components on a page is another important style layer. This layer is detailed in the [page layout documentation](./page-layout.md). 
