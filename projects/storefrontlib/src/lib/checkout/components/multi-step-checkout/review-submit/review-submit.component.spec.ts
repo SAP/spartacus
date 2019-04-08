@@ -15,6 +15,7 @@ import {
   PromotionResult,
   DeliveryMode,
   Country,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { Item } from '../../../../cart';
 import { Card } from '../../../../ui/components/card/card.component';
@@ -119,6 +120,7 @@ describe('ReviewSubmitComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         ReviewSubmitComponent,
         MockCartItemListComponent,
