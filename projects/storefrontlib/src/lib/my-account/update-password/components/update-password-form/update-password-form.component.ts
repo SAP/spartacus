@@ -1,19 +1,19 @@
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { CustomFormValidators } from '../../../../ui/validators/custom-form-validators';
 import { FormUtils } from '../../../../utils/forms/form-utils';
 @Component({
   selector: 'cx-update-password-form',
   templateUrl: './update-password-form.component.html',
-  styleUrls: ['./update-password-form.component.css'],
+  styleUrls: ['./update-password-form.component.scss'],
 })
-export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
+export class UpdatePasswordFormComponent implements OnInit {
   private submitClicked = false;
   form: FormGroup;
 
@@ -72,11 +72,13 @@ export class UpdatePasswordFormComponent implements OnInit, OnDestroy {
     this.cancelled.emit();
   }
 
-  private matchPassword(ac: FormGroup) {
-    if (ac.get('newPassword').value !== ac.get('newPasswordConfirm').value) {
+  private matchPassword(abstractControl: AbstractControl): ValidationErrors {
+    if (
+      abstractControl.get('newPassword').value !==
+      abstractControl.get('newPasswordConfirm').value
+    ) {
       return { NotEqual: true };
     }
+    return null;
   }
-
-  ngOnDestroy() {}
 }

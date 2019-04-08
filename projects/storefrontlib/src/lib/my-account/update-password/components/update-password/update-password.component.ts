@@ -11,10 +11,10 @@ import { take } from 'rxjs/operators';
 @Component({
   selector: 'cx-update-password',
   templateUrl: './update-password.component.html',
-  styleUrls: ['./update-password.component.css'],
+  styleUrls: ['./update-password.component.scss'],
 })
 export class UpdatePasswordComponent implements OnInit, OnDestroy {
-  subscription = new Subscription();
+  private subscription = new Subscription();
   private userId: string;
   loading$: Observable<boolean>;
 

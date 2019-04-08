@@ -84,7 +84,7 @@ describe('UpdatePasswordFormComponent', () => {
   });
 
   describe('onCancel', () => {
-    it('should be called call when the Cancel button is clicked', () => {
+    it('should be called when the Cancel button is clicked', () => {
       spyOn(component, 'onCancel').and.stub();
       const cancelBtn = el.query(By.css('button[type="button"]'));
       cancelBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
@@ -117,7 +117,7 @@ describe('UpdatePasswordFormComponent', () => {
       });
     });
 
-    it('should NOT display whan all field have valid valiues', () => {
+    it('should NOT display when all field have valid valies', () => {
       oldPassword.setValue(validPassword);
       newPassword.setValue(validPassword);
       newPasswordConfirm.setValue(validPassword);
