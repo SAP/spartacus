@@ -49,9 +49,7 @@ export function fillShippingAddress(shippingAddressData: ShippingAddressData) {
 
 export function fillPaymentDetails(paymentDetails: PaymentDetails) {
   cy.get('cx-payment-form').within(() => {
-    cy.get('[bindValue="code"]').ngSelect(
-      paymentDetails.payment.card
-    );
+    cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
     cy.get('[formcontrolname="accountHolderName"]').type(
       paymentDetails.fullName
     );
