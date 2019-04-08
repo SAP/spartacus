@@ -383,7 +383,7 @@ export class UserService {
   }
 
   /**
-   * Reset new password
+   * Reset new password.  Part of the forgot password flow.
    * @param token
    * @param password
    */
@@ -401,9 +401,60 @@ export class UserService {
   }
 
   /**
-   * Return whether user's password is successfully reset
+   * Return whether user's password is successfully reset.  Part of the forgot password flow.
    */
   isPasswordReset(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getResetPassword));
+  }
+
+  /**
+   * Updates the password for an authenticated user
+   * @param userId the user id for which the password will be updated
+   * @param oldPassword the current password that will be changed
+   * @param newPassword the new password
+   */
+  updatePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+    );
+  }
+
+  /**
+   * Returns the update passwrod loading flag
+   */
+  getUpdatePasswordResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update password failure outcome.
+   */
+  getUpdatePasswordResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update password process success outcome.
+   */
+  getUpdatePasswordResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update password process state. The state needs to be reset after the process
+   * concludes, regardless if it's a success or an error
+   */
+  resetUpdatePasswordProcessState(): void {
+    this.store.dispatch(new fromStore.UpdatePasswordReset());
   }
 }
