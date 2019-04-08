@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Optional } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -29,33 +29,11 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     super(cmsStructureConfigService, adapter);
   }
 
-  protected getBaseEndPoint(): string {
-    return this.occEndpoints.getEndpoint('cms');
-  }
-
   load(pageContext: PageContext, fields?: string): Observable<CMSPage> {
-    let httpStringParams = '';
+    const httpParams = this.getPagesRequestParams(pageContext);
 
-    if (pageContext.id !== 'smartedit-preview') {
-      httpStringParams = 'pageType=' + pageContext.type;
-
-      if (pageContext.type === PageType.CONTENT_PAGE) {
-        httpStringParams =
-          httpStringParams + '&pageLabelOrId=' + pageContext.id;
-      } else {
-        httpStringParams = httpStringParams + '&code=' + pageContext.id;
-      }
-    }
-
-    if (fields !== undefined) {
-      httpStringParams = httpStringParams + '&fields=' + fields;
-    }
-
-    return this.http.get(this.getBaseEndPoint() + `/pages`, {
+    return this.http.get(this.getPagesEndpoint(httpParams, fields), {
       headers: this.headers,
-      params: new HttpParams({
-        fromString: httpStringParams,
-      }),
     });
   }
 
@@ -67,50 +45,95 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
     pageSize?: number,
     sort?: string
   ): Observable<CmsComponentList> {
-    let requestParams = this.getRequestParams(pageContext, fields);
-    if (currentPage !== undefined) {
-      requestParams === ''
-        ? (requestParams = requestParams + 'currentPage=' + currentPage)
-        : (requestParams = requestParams + '&currentPage=' + currentPage);
-    }
-    if (pageSize !== undefined) {
-      requestParams = requestParams + '&pageSize=' + pageSize;
-    }
-    if (sort !== undefined) {
-      requestParams = requestParams + '&sort=' + sort;
-    }
+    const requestParams = this.getComponentsRequestParams(
+      pageContext,
+      currentPage,
+      pageSize,
+      sort
+    );
 
     return this.http
-      .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
-        headers: this.headers,
-        params: new HttpParams({
-          fromString: requestParams,
-        }),
-      })
+      .post<CmsComponentList>(
+        this.getComponentsEndpoint(requestParams, fields),
+        idList,
+        {
+          headers: this.headers,
+        }
+      )
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getRequestParams(pageContext: PageContext, fields?: string): string {
-    let requestParams = '';
+  protected getBaseEndPoint(): string {
+    return this.occEndpoints.getEndpoint('cms');
+  }
+
+  protected getPagesEndpoint(
+    params: {
+      [key: string]: string;
+    },
+    fields?: string
+  ): string {
+    fields = fields ? fields : 'DEFAULT';
+    return this.occEndpoints.getUrl('pages', { fields }, params);
+  }
+
+  protected getPagesRequestParams(
+    pageContext: PageContext
+  ): { [key: string]: any } {
+    let httpParams: { [key: string]: any };
+
+    if (pageContext.id !== 'smartedit-preview') {
+      httpParams = { pageType: pageContext.type };
+
+      if (pageContext.type === PageType.CONTENT_PAGE) {
+        httpParams['pageLabelOrId'] = pageContext.id;
+      } else {
+        httpParams['code'] = pageContext.id;
+      }
+    }
+    return httpParams;
+  }
+
+  protected getComponentsEndpoint(
+    requestParams: {
+      [key: string]: string;
+    },
+    fields?: string
+  ): string {
+    fields = fields ? fields : 'DEFAULT';
+    return this.occEndpoints.getUrl('components', { fields }, requestParams);
+  }
+
+  protected getComponentsRequestParams(
+    pageContext: PageContext,
+    currentPage?: number,
+    pageSize?: number,
+    sort?: string
+  ): { [key: string]: string } {
+    let requestParams = {};
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
-        requestParams = 'productCode=' + pageContext.id;
+        requestParams = { productCode: pageContext.id };
         break;
       }
       case PageType.CATEGORY_PAGE: {
-        requestParams = 'categoryCode=' + pageContext.id;
+        requestParams = { categoryCode: pageContext.id };
         break;
       }
       case PageType.CATALOG_PAGE: {
-        requestParams = 'catalogCode=' + pageContext.id;
+        requestParams = { catalogCode: pageContext.id };
         break;
       }
     }
 
-    if (fields !== undefined) {
-      requestParams === ''
-        ? (requestParams = requestParams + 'fields=' + fields)
-        : (requestParams = requestParams + '&fields=' + fields);
+    if (currentPage !== undefined) {
+      requestParams['currentPage'] = currentPage.toString();
+    }
+    if (pageSize !== undefined) {
+      requestParams['pageSize'] = pageSize.toString();
+    }
+    if (sort !== undefined) {
+      requestParams['sort'] = sort;
     }
 
     return requestParams;

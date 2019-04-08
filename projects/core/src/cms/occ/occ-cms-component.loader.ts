@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Optional } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -15,7 +15,7 @@ export class OccCmsComponentLoader extends CmsComponentLoader<any> {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-    private http: HttpClient,
+    protected http: HttpClient,
     protected config: CmsStructureConfig,
     protected cmsStructureConfigService: CmsStructureConfigService,
     @Optional() protected adapter: CmsComponentAdapter<CmsComponent>,
@@ -24,37 +24,40 @@ export class OccCmsComponentLoader extends CmsComponentLoader<any> {
     super(cmsStructureConfigService, adapter);
   }
 
-  protected getBaseEndPoint(): string {
-    return this.occEndpoints.getEndpoint('cms');
-  }
-
   load<T extends CmsComponent>(
     id: string,
     pageContext: PageContext
   ): Observable<T> {
     return this.http
-      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
+      .get<T>(this.getEndpoint(id, pageContext), {
         headers: this.headers,
-        params: new HttpParams({
-          fromString: this.getRequestParams(pageContext),
-        }),
       })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  private getRequestParams(pageContext: PageContext): string {
-    let requestParams = '';
+  protected getEndpoint(id: string, pageContext: PageContext): string {
+    return this.occEndpoints.getUrl(
+      'component',
+      { id },
+      this.getRequestParams(pageContext)
+    );
+  }
+
+  protected getRequestParams(
+    pageContext: PageContext
+  ): { [key: string]: string } {
+    let requestParams: { [key: string]: string };
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
-        requestParams = 'productCode=' + pageContext.id;
+        requestParams = { productCode: pageContext.id };
         break;
       }
       case PageType.CATEGORY_PAGE: {
-        requestParams = 'categoryCode=' + pageContext.id;
+        requestParams = { categoryCode: pageContext.id };
         break;
       }
       case PageType.CATALOG_PAGE: {
-        requestParams = 'catalogCode=' + pageContext.id;
+        requestParams = { catalogCode: pageContext.id };
         break;
       }
     }
