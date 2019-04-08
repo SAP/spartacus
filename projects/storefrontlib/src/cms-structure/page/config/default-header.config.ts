@@ -62,10 +62,6 @@ export const headerComponents: {
     typeCode: 'CategoryNavigationComponent',
     flexType: 'CategoryNavigationComponent',
     uid: 'ElectronicsCategoryNavComponent',
-    modifiedTime: '2019-02-07T19:09:51.416Z',
-    name: 'Category Navigation Component',
-    container: 'false',
-    wrapAfter: '10',
     navigationNode: {
       uid: 'ElectronicsCategoryNavNode',
       children: [
