@@ -1,15 +1,15 @@
-import * as fromAction from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
-import { UserTokenState } from '../auth-state';
+import * as fromUpdateEmailAction from './../../../user/store/actions/update-email.action';
+import * as fromAction from './../actions/user-token.action';
 
-export const initialState: UserTokenState = {
-  token: <UserToken>{},
-};
+export const initialState: UserToken = <UserToken>{};
 
 export function reducer(
   state = initialState,
-  action: fromAction.UserTokenAction
-): UserTokenState {
+  action:
+    | fromAction.UserTokenAction
+    | fromUpdateEmailAction.UpdateEmailSuccessAction
+): UserToken {
   switch (action.type) {
     case fromAction.LOAD_USER_TOKEN:
     case fromAction.REFRESH_USER_TOKEN: {
@@ -20,11 +20,9 @@ export function reducer(
 
     case fromAction.LOAD_USER_TOKEN_SUCCESS:
     case fromAction.REFRESH_USER_TOKEN_SUCCESS: {
-      const token = action.payload;
-
       return {
         ...state,
-        token,
+        ...action.payload,
       };
     }
 
@@ -32,6 +30,18 @@ export function reducer(
     case fromAction.REFRESH_USER_TOKEN_FAIL: {
       return {
         ...state,
+      };
+    }
+
+    case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
+      const updatedUserToken: UserToken = {
+        ...state,
+        userId: action.newUid,
+      };
+
+      return {
+        ...updatedUserToken,
+        userId: updatedUserToken.userId,
       };
     }
   }

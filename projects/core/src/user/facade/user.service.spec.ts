@@ -1,23 +1,22 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { StoreModule, Store } from '@ngrx/store';
-
-import * as fromStore from '../store/index';
-import { USER_FEATURE } from '../store/user-state';
+import { inject, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import {
   Address,
+  Country,
   Order,
-  User,
-  PaymentDetailsList,
-  Region,
   OrderHistoryList,
   PaymentDetails,
+  PaymentDetailsList,
+  Region,
   Title,
-  Country,
+  User,
 } from '../../occ/occ-models/index';
-
-import { UserService } from './user.service';
+import { PROCESS_FEATURE } from '../../process';
+import * as fromProcessStore from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
+import * as fromStore from '../store/index';
+import { USER_FEATURE } from '../store/user-state';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -28,6 +27,7 @@ describe('UserService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(PROCESS_FEATURE, fromProcessStore.getReducers()),
       ],
       providers: [UserService],
     });
@@ -428,5 +428,61 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(isResst).toBeTruthy();
+  });
+
+  describe('Update Email ', () => {
+    const uid = 'test@test.com';
+    const password = 'Qwe123!';
+    const newUid = 'tester@sap.com';
+
+    it('should dispatch UpdateEmail action', () => {
+      service.updateEmail(uid, password, newUid);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateEmailAction({ uid, password, newUid })
+      );
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultSuccess()
+        .subscribe(success => (result = success))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateEmailErrorAction('error'));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultError()
+        .subscribe(error => (result = error))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should dispatch a ResetUpdateEmail action', () => {
+      service.resetUpdateEmailResultState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateEmailAction()
+      );
+    });
   });
 });
