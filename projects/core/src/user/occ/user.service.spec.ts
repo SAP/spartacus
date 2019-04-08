@@ -281,8 +281,6 @@ describe('OccUserService', () => {
         );
       });
 
-      console.log(mockReq);
-
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');
