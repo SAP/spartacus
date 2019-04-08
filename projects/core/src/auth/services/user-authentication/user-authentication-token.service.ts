@@ -52,6 +52,6 @@ export class UserAuthenticationTokenService {
   }
 
   protected getOAuthEndpoint() {
-    return (this.config.server.baseUrl || '') + OAUTH_ENDPOINT;
+    return (this.config.backend.occ.baseUrl || '') + OAUTH_ENDPOINT;
   }
 }

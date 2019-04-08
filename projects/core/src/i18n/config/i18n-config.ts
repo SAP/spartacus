@@ -11,7 +11,7 @@ export abstract class I18nConfig extends ServerConfig {
     resources?: TranslationResources;
     debug?: boolean;
     namespaceMapping?: {
-      [keyPrefix: string]: string;
+      [mainKey: string]: string;
     };
   };
 }

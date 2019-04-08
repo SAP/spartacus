@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
-import { RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -38,7 +38,7 @@ describe('StoreFinderSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
       declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [
         {
