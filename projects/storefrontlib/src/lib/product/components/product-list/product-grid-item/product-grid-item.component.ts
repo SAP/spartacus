@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { Product } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-grid-item',
@@ -7,5 +6,5 @@ import { Product } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductGridItemComponent {
-  @Input() product: Product;
+  @Input() product: any;
 }
