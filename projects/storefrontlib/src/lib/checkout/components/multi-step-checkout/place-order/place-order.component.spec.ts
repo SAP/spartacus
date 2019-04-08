@@ -1,13 +1,21 @@
-import { CheckoutService } from '@spartacus/core';
+import { CheckoutService, RoutingService, Order } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
 import { PlaceOrderComponent } from './place-order.component';
+import { Observable, of } from 'rxjs';
 
 const checkoutServiceStub = {
-  placeOrder(): void {}
+  placeOrder(): void {},
+  getOrderDetails(): Observable<Order> {
+    return of({});
+  }
+};
+
+const routingServiceStub = {
+  go(): void {}
 };
 
 @Pipe({
@@ -25,7 +33,10 @@ fdescribe('PlaceOrderComponent', () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [MockTranslateUrlPipe, PlaceOrderComponent],
-      providers: [{ provide: CheckoutService, useValue: checkoutServiceStub }]
+      providers: [
+        { provide: CheckoutService, useValue: checkoutServiceStub },
+        { provide: RoutingService, useValue: routingServiceStub }
+      ]
     }).compileComponents();
   }));
 
