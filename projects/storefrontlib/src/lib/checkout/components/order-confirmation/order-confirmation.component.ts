@@ -80,7 +80,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
       textBold: paymentInfo.accountHolderName,
       text: [
         paymentInfo.cardNumber,
-        `Expires in ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`,
+        `Expires: ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`,
       ],
     };
   }

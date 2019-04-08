@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Country } from '@spartacus/core';
+import { Country, I18nTestingModule } from '@spartacus/core';
 
 import { BillingAddressFormComponent } from './billing-address-form.component';
 
@@ -36,6 +36,7 @@ describe('BillingAddressFormComponent', () => {
         FormsModule,
         RouterModule,
         NgSelectModule,
+        I18nTestingModule,
       ],
       declarations: [BillingAddressFormComponent],
     })
