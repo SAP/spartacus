@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemComponent } from './cart-item.component';
 import { Pipe, PipeTransform } from '@angular/core';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Pipe({
   name: 'cxTranslateUrl',
@@ -24,6 +25,7 @@ describe('CartItemComponent', () => {
         ReactiveFormsModule,
         ComponentsModule,
         PromotionsModule,
+        I18nTestingModule,
       ],
       declarations: [CartItemComponent, MockTranslateUrlPipe],
       providers: [

@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 
+import { I18nModule } from '@spartacus/core';
 import { BillingAddressFormComponent } from './billing-address-form.component';
 
 @NgModule({
@@ -13,6 +14,7 @@ import { BillingAddressFormComponent } from './billing-address-form.component';
     FormsModule,
     RouterModule,
     NgSelectModule,
+    I18nModule,
   ],
   declarations: [BillingAddressFormComponent],
   exports: [BillingAddressFormComponent],

@@ -1,12 +1,20 @@
 <div class="cx-page" *ngIf="(order$ | async) as order">
   <header class="cx-page__header">
-    <h1 class="cx-page__title">Confirmation of Order: {{ order.code }}</h1>
+    <h1 class="cx-page__title">
+      {{ 'checkoutOrderConfirmation.label.confirmationOfOrder' | cxTranslate }}
+      {{ order.code }}
+    </h1>
   </header>
 
   <div class="cx-order-confirmation">
     <div class="cx-order-confirmation-message">
-      <h2>Thank you for your order!</h2>
-      <p>An invoice has been sent by email. You should receive it soon.</p>
+      <h2>{{ 'checkoutOrderConfirmation.label.thankYou' | cxTranslate }}</h2>
+      <p>
+        {{
+          'checkoutOrderConfirmation.label.invoiceHasBeenSentByEmail'
+            | cxTranslate
+        }}
+      </p>
       <!-- <a href="#" class="btn-link">Print Page</a> -->
     </div>
 
@@ -53,7 +61,9 @@
     </div>
 
     <div class="cx-order-items container">
-      <h4 class="cx-order-items-header">Order Items</h4>
+      <h4 class="cx-order-items-header">
+        {{ 'checkoutOrderConfirmation.label.orderItems' | cxTranslate }}
+      </h4>
       <cx-cart-item-list
         [items]="order.entries"
         [isReadOnly]="true"
