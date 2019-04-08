@@ -36,7 +36,7 @@ export function reducer(
     case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
       const updatedUserId: UserToken = {
         ...state,
-        ...action.newUid,
+        userId: action.newUid,
       };
 
       return {

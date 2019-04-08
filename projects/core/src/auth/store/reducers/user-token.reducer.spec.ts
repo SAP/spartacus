@@ -57,7 +57,7 @@ describe('UserToken reducer', () => {
       };
 
       const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(
-        updatedEmail
+        updatedEmail.userId
       );
 
       const state = fromUserToken.reducer(testToken, action);

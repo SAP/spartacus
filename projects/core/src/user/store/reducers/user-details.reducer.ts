@@ -17,7 +17,8 @@ export function reducer(
     case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
       const updatedUser: User = {
         ...state,
-        ...action.newUid,
+        uid: action.newUid,
+        displayUid: action.newUid,
       };
 
       return {

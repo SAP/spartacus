@@ -27,7 +27,7 @@ export class UpdateEmailAction extends EntityLoadAction {
 
 export class UpdateEmailSuccessAction extends EntitySuccessAction {
   readonly type = UPDATE_EMAIL_SUCCESS;
-  constructor(public newUid: any) {
+  constructor(public newUid: string) {
     super(PROCESS_FEATURE, UPDATE_EMAIL_PROCESS_ID);
   }
 }
