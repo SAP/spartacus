@@ -5,6 +5,7 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  I18nTestingModule,
   RoutingService,
   Title,
   UserService,
@@ -86,7 +87,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

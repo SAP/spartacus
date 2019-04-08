@@ -5,7 +5,12 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
-import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  CmsConfig,
+  UrlTranslationModule,
+  I18nModule,
+} from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -18,6 +23,7 @@ import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
         ForgotPasswordComponent: { selector: 'cx-forgot-password' },
       },
     }),
+    I18nModule,
   ],
   declarations: [ForgotPasswordComponent],
   exports: [ForgotPasswordComponent],

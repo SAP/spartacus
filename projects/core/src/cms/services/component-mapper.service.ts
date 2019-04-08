@@ -48,10 +48,8 @@ export class ComponentMapperService {
       if (this.missingComponents.indexOf(typeCode) === -1) {
         this.missingComponents.push(typeCode);
         console.warn(
-          'No component implementation found for the CMS component type',
-          typeCode,
-          '.\n',
-          'Make sure you implement a component and register it in the mapper.'
+          `No component implementation found for the CMS component type '${typeCode}'.\n`,
+          `Make sure you implement a component and register it in the mapper.`
         );
       }
     }
@@ -67,7 +65,16 @@ export class ComponentMapperService {
       this.componentFactoryResolver['_factories'].entries()
     );
 
-    return factoryEntries.find(([, value]: any) => value.selector === alias);
+    const factory = factoryEntries.find(
+      ([, value]: any) => value.selector === alias
+    );
+    if (!factory) {
+      console.warn(
+        `No component factory found for the CMS component type '${typeCode}'.\n`,
+        `Make sure you add a component to the 'entryComponents' array in the NgModule.`
+      );
+    }
+    return factory;
   }
 
   getComponentTypeByCode(typeCode: string): Type<any> {
