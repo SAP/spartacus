@@ -18,6 +18,19 @@ import { Card } from '../../../../ui/components/card/card.component';
 import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;
 
+const mockPaymentDetails: PaymentDetails = {
+  id: 'mock payment id',
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: {
+    code: 'Visa',
+    name: 'Visa',
+  },
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123',
+};
+
 class MockUserService {
   loadPaymentMethods(_userId: string): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
@@ -54,19 +67,6 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
-};
-
-const mockPaymentDetails: PaymentDetails = {
-  id: 'mock payment id',
-  accountHolderName: 'Name',
-  cardNumber: '123456789',
-  cardType: {
-    code: 'Visa',
-    name: 'Visa',
-  },
-  expiryMonth: '01',
-  expiryYear: '2022',
-  cvn: '123',
 };
 
 const mockPaymentMethods: PaymentDetails[] = [
