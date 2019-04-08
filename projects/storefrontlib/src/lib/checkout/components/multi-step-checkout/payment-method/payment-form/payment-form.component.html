@@ -18,7 +18,6 @@
                 placeholder="{{
                   'payment.placeholder.selectOne' | cxTranslate
                 }}"
-                formControlName="paymentType"
                 (change)="paymentSelected($event)"
               >
               </ng-select>
@@ -73,7 +72,6 @@
                   placeholder="{{
                     'payment.placeholder.monthMask' | cxTranslate
                   }}"
-                  formControlName="expiryMonth"
                   (change)="monthSelected($event)"
                 >
                 </ng-select>
@@ -88,7 +86,6 @@
                   placeholder="{{
                     'payment.placeholder.yearMask' | cxTranslate
                   }}"
-                  formControlName="expiryYear"
                   (change)="yearSelected($event)"
                 >
                 </ng-select>
