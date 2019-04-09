@@ -30,6 +30,9 @@ export class NormalizersService {
     return this.normalizers.get(injectionToken);
   }
 
+  /**
+   * Will return true if normalizers for specified token were orovided
+   */
   hasNormalizers<S, T>(
     injectionToken: InjectionToken<Normalizer<S, T>>
   ): boolean {
@@ -37,6 +40,9 @@ export class NormalizersService {
     return Array.isArray(normalizers) && normalizers.length > 0;
   }
 
+  /**
+   * Pipeable operator to apply normalizer logic in a observable stream
+   */
   pipeable<S, T>(
     injetionToken: InjectionToken<Normalizer<S, T>>
   ): OperatorFunction<S, T> {
@@ -47,6 +53,9 @@ export class NormalizersService {
     }
   }
 
+  /**
+   * Apply normalization logic specified by injection token to source data
+   */
   normalize<S, T>(
     source: S,
     injectionToken: InjectionToken<Normalizer<S, T>>
