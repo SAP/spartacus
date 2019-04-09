@@ -3,7 +3,7 @@ import { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export interface Normalizer<S, T> {
-  normalize(source: S, target: T): T;
+  normalize(source: S, target?: T): T;
 }
 
 @Injectable({
@@ -38,7 +38,7 @@ export class NormalizersService {
   }
 
   /**
-   * Will return true if normalizers for specified token were orovided
+   * Will return true if normalizers for specified token were provided
    */
   hasNormalizers<S, T>(
     injectionToken: InjectionToken<Normalizer<S, T>>
@@ -51,10 +51,10 @@ export class NormalizersService {
    * Pipeable operator to apply normalizer logic in a observable stream
    */
   pipeable<S, T>(
-    injetionToken: InjectionToken<Normalizer<S, T>>
+    injectionToken: InjectionToken<Normalizer<S, T>>
   ): OperatorFunction<S, T> {
-    if (this.hasNormalizers(injetionToken)) {
-      return map((model: any) => this.normalizeSource(model, injetionToken));
+    if (this.hasNormalizers(injectionToken)) {
+      return map((model: any) => this.normalizeSource(model, injectionToken));
     } else {
       return (observable: Observable<any>) => observable as Observable<T>;
     }
