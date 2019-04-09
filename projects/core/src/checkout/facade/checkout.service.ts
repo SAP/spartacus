@@ -252,10 +252,6 @@ export class CheckoutService {
     );
   }
 
-  getCheckoutDetails(): Observable<any> {
-    return this.checkoutStore.pipe(select(fromCheckoutStore.getCheckoutDetails));
-  }
-
   private actionAllowed(): boolean {
     return this.cartData.userId !== ANONYMOUS_USERID;
   }

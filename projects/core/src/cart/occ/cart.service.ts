@@ -91,14 +91,14 @@ export class OccCartService {
 
   public loadCheckoutState(
     userId: string,
-    cartId: string,
-  ): Observable<{Address, DeliveryMode, PaymentDetails}> {
+    cartId: string
+  ): Observable<{ Address; DeliveryMode; PaymentDetails }> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = new HttpParams({
       fromString: 'fields=' + CHECKOUT_PARAMS,
     });
     return this.http
-      .get<{Address, DeliveryMode, PaymentDetails}>(url, { params: params })
+      .get<{ Address; DeliveryMode; PaymentDetails }>(url, { params: params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

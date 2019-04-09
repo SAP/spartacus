@@ -89,15 +89,3 @@ export const getCheckoutOrderDetails: MemoizedSelector<
   getCheckoutStepsState,
   fromReducer.getOrderDetails
 );
-
-export const getCheckoutDetails: MemoizedSelector<
-  CheckoutState,
-  {
-    address: Address;
-    deliveryMode: string;
-    paymentDetails: PaymentDetails;
-  }
-> = createSelector(
-  getCheckoutStepsState,
-  fromReducer.getCheckoutDetails
-);

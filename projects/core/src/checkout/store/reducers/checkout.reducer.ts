@@ -165,8 +165,3 @@ export const getPaymentDetails = (state: CheckoutStepsState) =>
   state.paymentDetails;
 export const getOrderDetails = (state: CheckoutStepsState) =>
   state.orderDetails;
-export const getCheckoutDetails = (state: CheckoutStepsState) => ({
-  address: state.address,
-  deliveryMode: state.deliveryMode && state.deliveryMode.selected,
-  paymentDetails: state.paymentDetails,
-});

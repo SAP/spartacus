@@ -197,9 +197,7 @@ export class ClearCheckoutData implements Action {
 
 export class LoadCheckoutDetails extends LoaderLoadAction {
   readonly type = LOAD_CHECKOUT_DETAILS;
-  constructor(
-    public payload: { userId: string; cartId: string }
-  ) {
+  constructor(public payload: { userId: string; cartId: string }) {
     super(CHECKOUT_DETAILS);
   }
 }

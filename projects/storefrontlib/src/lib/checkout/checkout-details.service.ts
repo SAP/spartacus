@@ -28,7 +28,7 @@ export class CheckoutDetailsService {
 
     this.cartId$ = this.cartService
       .getActive()
-      .pipe(map(cartData => cartData.guid));
+      .pipe(map(cartData => cartData.code));
 
     this.checkoutDetails$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),
@@ -41,9 +41,21 @@ export class CheckoutDetailsService {
     );
   }
 
-  getCheckoutDetails(): Observable<any> {
+  getDeliveryAddress(): Observable<any> {
     return this.checkoutDetails$.pipe(
-      switchMap(() => this.checkoutService.getCheckoutDetails())
+      switchMap(() => this.checkoutService.getDeliveryAddress())
+    );
+  }
+
+  getSelectedDeliveryMode(): Observable<any> {
+    return this.checkoutDetails$.pipe(
+      switchMap(() => this.checkoutService.getSelectedDeliveryMode())
+    );
+  }
+
+  getPaymentDetails(): Observable<any> {
+    return this.checkoutDetails$.pipe(
+      switchMap(() => this.checkoutService.getPaymentDetails())
     );
   }
 }
