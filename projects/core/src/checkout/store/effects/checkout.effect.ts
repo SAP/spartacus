@@ -231,6 +231,24 @@ export class CheckoutEffects {
     })
   );
 
+  @Effect()
+  loadCheckoutData$: Observable<
+    fromActions.LoadCheckoutDetailsSuccess | fromActions.LoadCheckoutDetailsFail
+  > = this.actions$.pipe(
+    ofType(fromActions.LOAD_CHECKOUT_DETAILS),
+    map((action: fromActions.LoadCheckoutDetails) => action.payload),
+    mergeMap(payload => {
+      return this.occCartService
+        .loadCheckoutState(payload.userId, payload.cartId)
+        .pipe(
+          map(data => new fromActions.LoadCheckoutDetailsSuccess(data)),
+          catchError(error =>
+            of(new fromActions.LoadCheckoutDetailsFail(error))
+          )
+        );
+    })
+  );
+
   private domparser: DOMParser;
 
   constructor(
