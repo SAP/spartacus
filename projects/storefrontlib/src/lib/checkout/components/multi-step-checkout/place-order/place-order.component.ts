@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 
 import { CheckoutService, RoutingService } from '@spartacus/core';
@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   selector: 'cx-place-order',
   templateUrl: './place-order.component.html',
   styleUrls: ['./place-order.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaceOrderComponent implements OnInit, OnDestroy {
   tAndCToggler = false;
