@@ -52,7 +52,7 @@ export class OccCartService {
           fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)',
         });
     return this.http
-      .get<CartList>(url, { params: params })
+      .get<CartList>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -85,7 +85,7 @@ export class OccCartService {
       );
     } else {
       return this.http
-        .get<Cart>(url, { params: params })
+        .get<Cart>(url, { params })
         .pipe(catchError((error: any) => throwError(error)));
     }
   }
@@ -99,7 +99,7 @@ export class OccCartService {
       fromString: 'fields=' + CHECKOUT_PARAMS,
     });
     return this.http
-      .get<CheckoutDetails>(url, { params: params })
+      .get<CheckoutDetails>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -123,7 +123,7 @@ export class OccCartService {
     });
 
     return this.http
-      .post<Cart>(url, toAdd, { params: params })
+      .post<Cart>(url, toAdd, { params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
