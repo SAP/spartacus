@@ -4,7 +4,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap, take } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 
 import * as componentActions from '../actions/component.action';
 import * as pageActions from '../actions/page.action';

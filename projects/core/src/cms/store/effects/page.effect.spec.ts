@@ -18,7 +18,7 @@ import { PageType } from '../../../occ/occ-models';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import * as fromEffects from './page.effect';
-import { CmsPageAdapter } from '../../services';
+import { CmsPageConnector } from '../../connectors/page/cms-page.connector';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -76,7 +76,7 @@ const pageStructure: CmsStructureModel = {
   components: componentsMock,
 };
 
-class CmsPageLoaderMock {
+class MockCmsPageConnector {
   get(): Observable<any> {
     return of(pageStructure);
   }
@@ -90,7 +90,7 @@ class RoutingServiceMock {
 
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
-  let cmsPageLoader: CmsPageAdapter<any>;
+  let cmsPageConnector: CmsPageConnector;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
 
@@ -103,13 +103,13 @@ describe('Page Effects', () => {
       ],
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
-        { provide: CmsPageAdapter, useClass: CmsPageLoaderMock },
+        { provide: CmsPageConnector, useClass: MockCmsPageConnector },
         fromEffects.PageEffects,
         provideMockActions(() => actions$),
       ],
     });
 
-    cmsPageLoader = TestBed.get(CmsPageAdapter);
+    cmsPageConnector = TestBed.get(CmsPageConnector);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;
@@ -118,7 +118,7 @@ describe('Page Effects', () => {
   describe('loadPageData$', () => {
     describe('when LoadPageData is dispatched', () => {
       it('should dispatch LoadPageDataSuccess and GetComponentFromPage actions', () => {
-        spyOn(cmsPageLoader, 'get').and.returnValue(of(pageStructure));
+        spyOn(cmsPageConnector, 'get').and.returnValue(of(pageStructure));
         const action = new fromActions.LoadPageData(context);
 
         const completion1 = new fromActions.LoadPageDataSuccess(
@@ -140,7 +140,7 @@ describe('Page Effects', () => {
 
       it('should dispatch LoadPageDataFail action', () => {
         const error = 'error';
-        spyOn<any>(cmsPageLoader, 'get').and.returnValue(throwError(error));
+        spyOn<any>(cmsPageConnector, 'get').and.returnValue(throwError(error));
         const action = new fromActions.LoadPageData(context);
 
         const completion = new fromActions.LoadPageDataFail(context, error);

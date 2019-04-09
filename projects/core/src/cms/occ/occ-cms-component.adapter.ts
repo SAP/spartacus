@@ -1,7 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CmsComponent, CmsComponentList, PageType } from '../../occ/occ-models/index';
+import {
+  CmsComponent,
+  CmsComponentList,
+  PageType,
+} from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';

@@ -8,7 +8,7 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config';
 import { CmsStructureConfigService } from '../services';
-import { OccCmsComponentLoader } from './occ-cms-component.loader';
+import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -48,14 +48,14 @@ class OccEndpointsServiceMock {
 }
 
 describe('OccCmsComponentLoader', () => {
-  let service: OccCmsComponentLoader;
+  let service: OccCmsComponentAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCmsComponentLoader,
+        OccCmsComponentAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: CmsStructureConfig,
@@ -68,7 +68,7 @@ describe('OccCmsComponentLoader', () => {
       ],
     });
 
-    service = TestBed.get(OccCmsComponentLoader);
+    service = TestBed.get(OccCmsComponentAdapter);
     httpMock = TestBed.get(HttpTestingController);
   });
 
