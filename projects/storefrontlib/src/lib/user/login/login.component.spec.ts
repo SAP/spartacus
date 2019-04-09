@@ -1,5 +1,6 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -128,23 +129,36 @@ describe('LoginComponent', () => {
   });
 
   describe('UI tests', () => {
-    it('should display the signin label when the user is not logged in', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
-      spyOn(userService, 'get').and.returnValue(of({} as User));
-
-      fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'common.action.signInRegister'
-      );
-    });
-
-    it('should display a personalized welcome message when the user is logged in', () => {
-      spyOn(authService, 'getUserToken').and.returnValue(of(mockUserToken));
+    it('should contain the dynamic slot: HeaderLinks', () => {
       spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
 
       fixture.detectChanges();
+
+      expect(
+        fixture.debugElement.query(
+          By.css('cx-page-slot[position="HeaderLinks"]')
+        )
+      ).not.toBeNull();
+    });
+
+    it('should display greeting message when the user is logged in', () => {
+      fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
         'common.label.userGreeting name:First Last'
+      );
+    });
+
+    it('should display the register message when the user is not logged in', () => {
+      spyOn(authService, 'getUserToken').and.returnValue(of({} as UserToken));
+      fixture.detectChanges();
+
+      // expect(
+      //   fixture.debugElement.query(By.css('a[role="link"]')).nativeElement
+      //     .innerText
+      // ).toContain('common.action.signInRegister');
+
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'common.action.signInRegister'
       );
     });
   });
