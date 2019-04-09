@@ -2,8 +2,6 @@ import {
   Component,
   ChangeDetectionStrategy,
   OnInit,
-  Output,
-  EventEmitter,
   OnDestroy
 } from '@angular/core';
 
