@@ -1,5 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
-import { register, login } from './auth-forms';
+import { login, register } from './auth-forms';
 
 export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
@@ -11,6 +11,7 @@ export function registerUser() {
     .click();
   register(user);
   cy.get(userGreetSelector).should('contain', user.fullName);
+  return user;
 }
 
 export function signOutUser() {
@@ -22,6 +23,11 @@ export function signOutUser() {
 export function loginUser() {
   cy.get(loginLinkSelector).click();
   login(user.email, user.password);
+}
+
+export function loginWithCredentials(email: string, password: string) {
+  cy.get(loginLinkSelector).click();
+  login(email, password);
 }
 
 export function loginWithBathCredentials() {
