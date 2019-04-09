@@ -28,6 +28,7 @@ const paymentDetailsEndpoint = '/paymentdetails';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
 const updateEmailEndpoint = '/login';
+const updatePasswordEndpoint = '/password';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -299,6 +300,32 @@ describe('OccUserService', () => {
         );
       });
 
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('update password: ', () => {
+    it('should update the password for userId', () => {
+      const userId = 'test@test.com';
+      const oldPassword = 'OldPass123!';
+      const newPassword = 'NewPass456!';
+
+      let result: Object;
+
+      service
+        .updatePassword(userId, oldPassword, newPassword)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updatePasswordEndpoint}` &&
+          req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
+        );
+      });
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');

@@ -6,6 +6,7 @@ import { OrderDetailsModule } from '../my-account/order/order-details/order-deta
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
 import { UpdateEmailModule } from '../my-account/update-email/update-email.module';
+import { UpdatePasswordModule } from '../my-account/update-password/update-password.module';
 import { UpdateProfileModule } from '../my-account/update-profile/update-profile.module';
 import { ProductListModule } from '../product/components/product-list/product-list.module';
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
@@ -51,6 +52,7 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,
+    UpdatePasswordModule,
     UpdateProfileModule,
   ],
 })
