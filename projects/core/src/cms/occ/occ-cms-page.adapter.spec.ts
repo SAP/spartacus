@@ -36,7 +36,7 @@ class OccEndpointsServiceMock {
   }
 }
 
-fdescribe('OccCmsPageAdapter', () => {
+describe('OccCmsPageAdapter', () => {
   let service: OccCmsPageAdapter;
   let httpMock: HttpTestingController;
 
@@ -73,7 +73,7 @@ fdescribe('OccCmsPageAdapter', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'GET' && req.url === endpoint + '/p' + 'ages';
+        return req.method === 'GET' && req.url === endpoint + '/pages';
       });
 
       expect(testRequest.request.params.get('pageLabelOrId')).toEqual(

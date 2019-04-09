@@ -38,7 +38,7 @@ class OccEndpointsServiceMock {
   }
 }
 
-fdescribe('OccCmsComponentAdapter', () => {
+describe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
   let httpMock: HttpTestingController;
 
