@@ -12,9 +12,6 @@ export class CheckoutOrderSummaryComponent {
   cart$: Observable<Cart>;
 
   constructor(protected cartService: CartService) {
-    // this.cartService.getActive().subscribe(cart => {
-    //   this.cart = cart;
-    // });
     this.cart$ = this.cartService.getActive();
   }
 }
