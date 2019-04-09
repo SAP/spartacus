@@ -1,4 +1,9 @@
-import { CheckoutService, RoutingService, Order } from '@spartacus/core';
+import {
+  CheckoutService,
+  RoutingService,
+  Order,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -31,7 +36,7 @@ describe('PlaceOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [MockTranslateUrlPipe, PlaceOrderComponent],
       providers: [
         { provide: CheckoutService, useValue: checkoutServiceStub },

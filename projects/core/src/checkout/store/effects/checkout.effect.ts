@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { OccCartService } from '../../../cart/index';
+import { OccCartService, CartService } from '../../../cart/index';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
 import { ProductImageConverterService } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
@@ -99,9 +99,13 @@ export class CheckoutEffects {
       return this.occCartService
         .setDeliveryMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
-          map(
-            () => new fromActions.SetDeliveryModeSuccess(payload.selectedModeId)
-          ),
+          map(() => {
+            this.cartService.loadDetails();
+
+            return new fromActions.SetDeliveryModeSuccess(
+              payload.selectedModeId
+            );
+          }),
           catchError(error => of(new fromActions.SetDeliveryModeFail(error)))
         );
     })
@@ -257,6 +261,7 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
+    private cartService: CartService,
     private occCartService: OccCartService,
     private occOrderService: OccOrderService,
     private productImageConverter: ProductImageConverterService
