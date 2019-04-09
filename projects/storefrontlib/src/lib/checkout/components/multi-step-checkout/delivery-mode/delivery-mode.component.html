@@ -6,7 +6,7 @@
       </h3>
 
       <ng-container
-        *ngIf="(supportedDeliveryModes$ | async).length; else loading"
+        *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"
       >
         <div
           class="form-check"

@@ -5,7 +5,6 @@ import { By } from '@angular/platform-browser';
 import {
   DeliveryMode,
   CheckoutService,
-  CartService,
   I18nTestingModule,
 } from '@spartacus/core';
 
@@ -21,10 +20,6 @@ import { Component } from '@angular/core';
   template: '',
 })
 class MockSpinnerComponent {}
-
-class MockCartService {
-  loadDetails = createSpy();
-}
 
 class MockCheckoutService {
   loadSupportedDeliveryModes = createSpy();
@@ -58,23 +53,15 @@ describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
   let fixture: ComponentFixture<DeliveryModeComponent>;
   let mockCheckoutService: MockCheckoutService;
-  let mockCartService: MockCartService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [DeliveryModeComponent, MockSpinnerComponent],
-      providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        {
-          provide: CartService,
-          useClass: MockCartService,
-        },
-      ],
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);
-    mockCartService = TestBed.get(CartService);
   }));
 
   beforeEach(() => {
@@ -106,6 +93,8 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should change step after invoking next()', () => {
+    component.mode.controls['deliveryModeId'].setValue(mockDeliveryMode1.code);
+    component.currentDeliveryModeId = mockDeliveryMode1.code;
     component.next();
     expect(component.goToStep.emit).toHaveBeenCalled();
   });
@@ -120,15 +109,6 @@ describe('DeliveryModeComponent', () => {
     expect(invalid).toBe(true);
   });
 
-  it('should refresh cart after setting delivery mode', () => {
-    component.mode.controls['deliveryModeId'].setValue('test value');
-    component.next();
-    fixture.detectChanges();
-
-    expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalled();
-    expect(mockCartService.loadDetails).toHaveBeenCalled();
-  });
-
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
@@ -140,7 +120,9 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue('test delivery mode');
+      component.mode.controls['deliveryModeId'].setValue(
+        mockDeliveryMode1.code
+      );
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
