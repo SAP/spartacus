@@ -43,7 +43,6 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
-    console.table([this.uid, password, newUid]);
     this.userService.updateEmail(this.uid, password, newUid);
   }
 
