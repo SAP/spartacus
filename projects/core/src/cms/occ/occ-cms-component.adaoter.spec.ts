@@ -3,12 +3,17 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, PageType } from '../../occ/occ-models/index';
+import {
+  CmsComponent,
+  CmsComponentList,
+  PageType,
+} from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
-import { CmsStructureConfig } from '../config';
 import { CmsStructureConfigService } from '../services';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
+import { IdList } from '../model/idList.model';
+import { HttpRequest } from '@angular/common/http';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -18,23 +23,9 @@ const components: CmsComponent[] = [
 
 const component: CmsComponent = components[1];
 
-const CmsStructureConfigMock: CmsStructureConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  site: {
-    baseSite: '',
-    language: '',
-    currency: '',
-  },
-  cmsStructure: {
-    pages: [],
-    slots: {},
-  },
+const componentList: CmsComponentList = {
+  component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
+  pagination: { count: 10 },
 };
 
 class CmsStructureConfigServiceMock {}
@@ -47,7 +38,7 @@ class OccEndpointsServiceMock {
   }
 }
 
-describe('OccCmsComponentLoader', () => {
+fdescribe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
   let httpMock: HttpTestingController;
 
@@ -57,10 +48,6 @@ describe('OccCmsComponentLoader', () => {
       providers: [
         OccCmsComponentAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
-        {
-          provide: CmsStructureConfig,
-          useValue: CmsStructureConfigMock,
-        },
         {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
@@ -96,5 +83,58 @@ describe('OccCmsComponentLoader', () => {
     expect(testRequest.cancelled).toBeFalsy();
     expect(testRequest.request.responseType).toEqual('json');
     testRequest.flush(component);
+  });
+
+  describe('Load list of cms component data', () => {
+    it('Should get a list of cms component data without pagination parameters', () => {
+      const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
+      const context: PageContext = {
+        id: '123',
+        type: PageType.PRODUCT_PAGE,
+      };
+
+      service.loadList(ids, context).subscribe(result => {
+        expect(result).toEqual(componentList);
+      });
+
+      const testRequest = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === endpoint + '/components';
+      });
+
+      expect(testRequest.request.body).toEqual(ids);
+      expect(testRequest.request.params.get('productCode')).toEqual('123');
+
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(componentList);
+    });
+
+    it('Should get a list of cms component data with pagination parameters', () => {
+      const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
+      const context: PageContext = {
+        id: '123',
+        type: PageType.PRODUCT_PAGE,
+      };
+
+      service.loadList(ids, context, 'FULL', 0, 5).subscribe(result => {
+        expect(result).toEqual(componentList);
+      });
+
+      const testRequest = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === endpoint + '/components';
+      });
+
+      const request: HttpRequest<any> = testRequest.request;
+      expect(request.body).toEqual(ids);
+      expect(request.params.get('productCode')).toEqual('123');
+      expect(request.params.get('fields')).toEqual('FULL');
+      expect(request.params.get('currentPage')).toEqual('0');
+      expect(request.params.get('pageSize')).toEqual('5');
+
+      expect(request.responseType).toEqual('json');
+
+      expect(testRequest.cancelled).toBeFalsy();
+      testRequest.flush(componentList);
+    });
   });
 });
