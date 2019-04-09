@@ -1,6 +1,6 @@
 <div class="cx-dialog-header modal-header">
   <div class="cx-dialog-title modal-title">
-    Verify your address
+    {{ 'checkoutAddress.label.verifyYourAddress' | cxTranslate }}
   </div>
   <button
     type="button"
@@ -16,8 +16,10 @@
     <div class="row">
       <div class="cx-dialog-info col-md-12">
         <p>
-          To ensure delivery accuracy, we suggest the change selected below.
-          Please choose which address you would like to use:
+          {{
+            'checkoutAddress.label.ensureAccuracySuggestChange' | cxTranslate
+          }}
+          {{ 'checkoutAddress.label.chooseAddressToUse' | cxTranslate }}
         </p>
       </div>
     </div>
@@ -40,7 +42,7 @@
             class="form-check-label cx-dialog-label"
             [for]="'suggested-addresses--suggested-' + i"
           >
-            Suggested address
+            {{ 'checkoutAddress.label.suggestedAddress' | cxTranslate }}
             {{ suggestedAddresses?.length > 1 ? i + 1 : null }}
           </label>
           <div class="cx-dialog-suggested">
@@ -67,7 +69,7 @@
             class="form-check-label cx-dialog-label"
             for="suggested-addresses--entered"
           >
-            Entered address
+            {{ 'checkoutAddress.label.enteredAddress' | cxTranslate }}
           </label>
           <div class="cx-dialog-entered">
             {{ enteredAddress?.firstName }} {{ enteredAddress?.lastName }}<br />
@@ -87,14 +89,14 @@
           class="btn btn-secondary btn-block cx-dialog-buttons"
           (click)="activeModal.close()"
         >
-          Edit address
+          {{ 'common.action.editAddress' | cxTranslate }}
         </button>
         <button
           ngbAutofocus
           class="btn btn-primary btn-block cx-dialog-buttons"
           (click)="activeModal.close(selectedAddress)"
         >
-          Save address
+          {{ 'checkoutAddress.action.saveAddress' | cxTranslate }}
         </button>
       </div>
     </div>

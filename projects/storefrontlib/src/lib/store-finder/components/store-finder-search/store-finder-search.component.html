@@ -8,7 +8,7 @@
           (keyup)="onKey($event)"
           type="text"
           class="form-control"
-          placeholder="Enter postal code, town or address"
+          placeholder="{{ 'storeFinder.placeholder.searchBox' | cxTranslate }}"
           required
         />
       </div>
@@ -18,17 +18,17 @@
         [routerLink]="['find']"
         [queryParams]="{ query: queryInput.value }"
       >
-        Find store
+        {{ 'storeFinder.action.findStore' | cxTranslate }}
       </button>
 
       <div class="cx-bottom-links">
         <button (click)="viewStoresWithMyLoc()" class="cx-link btn-link">
-          Use my location
+          {{ 'storeFinder.action.useMyLocation' | cxTranslate }}
         </button>
         |
-        <a [routerLink]="['view-all']" class="cx-link btn-link"
-          >View all stores</a
-        >
+        <a [routerLink]="['view-all']" class="cx-link btn-link">{{
+          'storeFinder.action.viewAllStores' | cxTranslate
+        }}</a>
       </div>
     </div>
   </div>

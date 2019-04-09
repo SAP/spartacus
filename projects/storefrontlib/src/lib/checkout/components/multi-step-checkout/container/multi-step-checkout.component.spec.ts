@@ -13,6 +13,7 @@ import {
   Order,
   CheckoutService,
   Cart,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -162,7 +163,7 @@ describe('MultiStepCheckoutComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         MockTranslateUrlPipe,
         MultiStepCheckoutComponent,

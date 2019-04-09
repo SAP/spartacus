@@ -1,6 +1,4 @@
-import { OccConfig } from '@spartacus/core';
-
-export abstract class CheckoutConfig extends OccConfig {
+export abstract class CheckoutConfig {
   checkout?: {
     steps: Array<string>;
   };

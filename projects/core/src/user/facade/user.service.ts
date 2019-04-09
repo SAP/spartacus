@@ -1,26 +1,34 @@
 import { Injectable } from '@angular/core';
-
-import { Store, select } from '@ngrx/store';
-
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-
-import * as fromStore from '../store/index';
+import { map, tap } from 'rxjs/operators';
 import {
-  Order,
-  User,
-  PaymentDetails,
   Address,
-  Title,
   Country,
-  Region,
+  Order,
   OrderHistoryList,
+  PaymentDetails,
+  Region,
+  Title,
+  User,
 } from '../../occ/occ-models/index';
+import * as fromProcessStore from '../../process/store/process-state';
+import {
+  getProcessErrorFactory,
+  getProcessLoadingFactory,
+  getProcessSuccessFactory,
+} from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
+import * as fromStore from '../store/index';
+import { UPDATE_USER_DETAILS_PROCESS_ID } from '../store/user-state';
 
 @Injectable()
 export class UserService {
-  constructor(private store: Store<fromStore.StateWithUser>) {}
+  constructor(
+    private store: Store<
+      fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
+    >
+  ) {}
 
   /**
    * Returns a user
@@ -331,7 +339,51 @@ export class UserService {
   }
 
   /**
-   * Reset new password
+   * Updates the user's details
+   * @param userDetails to be updated
+   */
+  updatePersonalDetails(username: string, userDetails: User): void {
+    this.store.dispatch(
+      new fromStore.UpdateUserDetails({ username, userDetails })
+    );
+  }
+
+  /**
+   * Returns the update user's personal details loading flag
+   */
+  getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's personal details error flag
+   */
+  getUpdatePersonalDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's personal details success flag
+   */
+  getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update user details processing state
+   */
+  resetUpdatePersonalDetailsProcessingState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateUserDetails());
+  }
+
+  /**
+   * Reset new password.  Part of the forgot password flow.
    * @param token
    * @param password
    */
@@ -349,9 +401,60 @@ export class UserService {
   }
 
   /**
-   * Return whether user's password is successfully reset
+   * Return whether user's password is successfully reset.  Part of the forgot password flow.
    */
   isPasswordReset(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getResetPassword));
+  }
+
+  /**
+   * Updates the password for an authenticated user
+   * @param userId the user id for which the password will be updated
+   * @param oldPassword the current password that will be changed
+   * @param newPassword the new password
+   */
+  updatePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+    );
+  }
+
+  /**
+   * Returns the update passwrod loading flag
+   */
+  getUpdatePasswordResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update password failure outcome.
+   */
+  getUpdatePasswordResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update password process success outcome.
+   */
+  getUpdatePasswordResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(fromStore.UPDATE_PASSWORD_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update password process state. The state needs to be reset after the process
+   * concludes, regardless if it's a success or an error
+   */
+  resetUpdatePasswordProcessState(): void {
+    this.store.dispatch(new fromStore.UpdatePasswordReset());
   }
 }
