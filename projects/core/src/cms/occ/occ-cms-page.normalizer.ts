@@ -7,7 +7,7 @@ import {
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { ContentSlotData } from '../model/content-slot-data.model';
 import { CmsStructureModel } from '../model/page.model';
-import { Normalizer } from '@spartacus/core';
+import { Normalizer } from '../../util/normalizers.service';
 
 @Injectable()
 export class OccCmsPageNormalizer
