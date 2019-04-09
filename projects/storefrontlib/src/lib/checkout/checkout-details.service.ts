@@ -20,9 +20,9 @@ import {
 
 @Injectable()
 export class CheckoutDetailsService {
-  checkoutDetails$: Observable<any>;
-  userId$: Observable<any>;
-  cartId$: Observable<any>;
+  userId$: Observable<string>;
+  cartId$: Observable<string>;
+  checkoutDetails$: Observable<[string, string]>;
 
   constructor(
     private authService: AuthService,
