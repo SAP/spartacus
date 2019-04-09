@@ -9,13 +9,14 @@ import {
   CheckoutModule,
   I18nModule,
 } from '@spartacus/core';
+
 import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 import { DeliveryModeModule } from './delivery-mode/delivery-mode.module';
 import { PaymentMethodModule } from './payment-method/payment-method.module';
 import { ReviewSubmitModule } from './review-submit/review-submit.module';
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { CheckoutDetailsService } from '../../checkout-details.service';
+import { PlaceOrderModule } from './place-order/place-order.module';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { CheckoutDetailsService } from '../../checkout-details.service';
     DeliveryModeModule,
     PaymentMethodModule,
     ReviewSubmitModule,
+    PlaceOrderModule,
     RouterModule,
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
@@ -37,6 +39,5 @@ import { CheckoutDetailsService } from '../../checkout-details.service';
   ],
   declarations: [MultiStepCheckoutComponent],
   entryComponents: [MultiStepCheckoutComponent],
-  providers: [CheckoutDetailsService],
 })
 export class MultiStepCheckoutModule {}

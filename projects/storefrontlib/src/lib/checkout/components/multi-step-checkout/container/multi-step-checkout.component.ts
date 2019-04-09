@@ -10,7 +10,6 @@ import {
   CheckoutService,
   RoutingService,
   GlobalMessageService,
-  GlobalMessageType,
   CartService,
   CartDataService,
   PaymentDetails,
@@ -31,7 +30,6 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
-  done = false;
 
   deliveryAddress: Address;
   paymentDetails: PaymentDetails;
@@ -39,7 +37,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   cart$: Observable<Cart>;
-  tAndCToggler = false;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
@@ -95,49 +92,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.cd.detectChanges();
         })
     );
-
-    // step3: set payment information
-    this.subscriptions.push(
-      this.checkoutService
-        .getPaymentDetails()
-        .pipe(
-          filter(
-            paymentInfo =>
-              Object.keys(paymentInfo).length !== 0 && this.step === 3
-          )
-        )
-        .subscribe(paymentInfo => {
-          if (!paymentInfo['hasError']) {
-            this.nextStep(4);
-            this.paymentDetails = paymentInfo;
-            this.cd.detectChanges();
-          } else {
-            Object.keys(paymentInfo).forEach(key => {
-              if (key.startsWith('InvalidField')) {
-                this.globalMessageService.add({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'InvalidField: ' + paymentInfo[key],
-                });
-              }
-            });
-            this.checkoutService.clearCheckoutStep(3);
-          }
-        })
-    );
-
-    // step4: place order
-    this.subscriptions.push(
-      this.checkoutService
-        .getOrderDetails()
-        .pipe(
-          filter(order => Object.keys(order).length !== 0 && this.step === 4)
-        )
-        .subscribe(() => {
-          // checkout steps are done
-          this.done = true;
-          this.routingService.go({ route: ['orderConfirmation'] });
-        })
-    );
   }
 
   setStep(backStep: number): void {
@@ -166,7 +120,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     });
 
     this.step = step;
-    this.tAndCToggler = false;
   }
 
   setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
@@ -177,41 +130,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     }
     this.checkoutService.setDeliveryMode(deliveryModeId);
     return;
-  }
-
-  addPaymentInfo({
-    newPayment,
-    payment,
-    billingAddress,
-  }: {
-    newPayment: boolean;
-    payment: PaymentDetails;
-    billingAddress: Address;
-  }): void {
-    payment.billingAddress = billingAddress
-      ? billingAddress
-      : this.deliveryAddress;
-
-    if (newPayment) {
-      this.checkoutService.createPaymentDetails(payment);
-      return;
-    }
-
-    // if the selected payment is the same as the cart's one
-    if (this.paymentDetails && this.paymentDetails.id === payment.id) {
-      this.nextStep(4);
-      return;
-    }
-
-    this.checkoutService.setPaymentDetails(payment);
-  }
-
-  placeOrder(): void {
-    this.checkoutService.placeOrder();
-  }
-
-  toggleTAndC(): void {
-    this.tAndCToggler = !this.tAndCToggler;
   }
 
   initializeCheckoutNavBar(): CheckoutNavBarItem[] {
@@ -264,10 +182,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    if (!this.done) {
-      this.checkoutService.clearCheckoutData();
-    }
     this.clearCheckoutNavBar();
   }
 }
