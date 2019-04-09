@@ -13,6 +13,7 @@ import { CustomEncoder } from './custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { CheckoutDetails } from '../../checkout/models/checkout.model';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -89,16 +90,16 @@ export class OccCartService {
     }
   }
 
-  public loadCheckoutState(
+  public loadCheckoutDetails(
     userId: string,
     cartId: string
-  ): Observable<{ Address; DeliveryMode; PaymentDetails }> {
+  ): Observable<CheckoutDetails> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = new HttpParams({
       fromString: 'fields=' + CHECKOUT_PARAMS,
     });
     return this.http
-      .get<{ Address; DeliveryMode; PaymentDetails }>(url, { params: params })
+      .get<CheckoutDetails>(url, { params: params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 

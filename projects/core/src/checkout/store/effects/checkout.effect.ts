@@ -12,6 +12,7 @@ import { ProductImageConverterService } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
+import { CheckoutDetails } from '../../models/checkout.model';
 
 @Injectable()
 export class CheckoutEffects {
@@ -232,16 +233,19 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  loadCheckoutData$: Observable<
+  loadCheckoutDetails$: Observable<
     fromActions.LoadCheckoutDetailsSuccess | fromActions.LoadCheckoutDetailsFail
   > = this.actions$.pipe(
     ofType(fromActions.LOAD_CHECKOUT_DETAILS),
     map((action: fromActions.LoadCheckoutDetails) => action.payload),
     mergeMap(payload => {
       return this.occCartService
-        .loadCheckoutState(payload.userId, payload.cartId)
+        .loadCheckoutDetails(payload.userId, payload.cartId)
         .pipe(
-          map(data => new fromActions.LoadCheckoutDetailsSuccess(data)),
+          map(
+            (data: CheckoutDetails) =>
+              new fromActions.LoadCheckoutDetailsSuccess(data)
+          ),
           catchError(error =>
             of(new fromActions.LoadCheckoutDetailsFail(error))
           )

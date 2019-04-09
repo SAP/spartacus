@@ -11,6 +11,7 @@ import {
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
 import { CHECKOUT_DETAILS } from '../checkout-state';
+import { CheckoutDetails } from '../../models/checkout.model';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -211,7 +212,7 @@ export class LoadCheckoutDetailsFail extends LoaderFailAction {
 
 export class LoadCheckoutDetailsSuccess extends LoaderSuccessAction {
   readonly type = LOAD_CHECKOUT_DETAILS_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: CheckoutDetails) {
     super(CHECKOUT_DETAILS);
   }
 }
