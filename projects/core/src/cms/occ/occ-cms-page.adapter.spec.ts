@@ -14,8 +14,8 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfig } from '../config';
 import { IdList } from '../model/idList.model';
-import { CmsPageAdapter, CmsStructureConfigService } from '../services';
-import { OccCmsPageLoader } from './occ-cms-page.loader';
+import { CmsPageNormalizer, CmsStructureConfigService } from '../services';
+import { OccCmsPageAdapter } from './occ-cms-page.adapter';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -71,14 +71,14 @@ class OccEndpointsServiceMock {
 }
 
 describe('OccCmsPageLoader', () => {
-  let service: OccCmsPageLoader;
+  let service: OccCmsPageAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCmsPageLoader,
+        OccCmsPageAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
         {
           provide: CmsStructureConfig,
@@ -88,11 +88,11 @@ describe('OccCmsPageLoader', () => {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
         },
-        { provide: CmsPageAdapter, useClass: AdapterMock },
+        { provide: CmsPageNormalizer, useClass: AdapterMock },
       ],
     });
 
-    service = TestBed.get(OccCmsPageLoader);
+    service = TestBed.get(OccCmsPageAdapter);
     httpMock = TestBed.get(HttpTestingController);
   });
 

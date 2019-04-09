@@ -1,3 +1,2 @@
-export * from './occ-cms-page.loader';
-export * from './occ-cms-page.loader';
 export * from './occ-cms-page.adapter';
+export * from './occ-cms-page.normalizer';

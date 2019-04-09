@@ -1,92 +1,47 @@
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CMSPage } from '../../occ/index';
-import {
-  CMS_FLEX_COMPONENT_TYPE,
-  JSP_INCLUDE_CMS_COMPONENT_TYPE,
-} from '../config/cms-config';
-import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
-import { ContentSlotData } from '../model/content-slot-data.model';
-import { CmsStructureModel } from '../model/page.model';
-import { CmsPageAdapter } from '../services/cms-page.adapter';
+import { Observable } from 'rxjs';
+import { CMSPage, PageType } from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { PageContext } from '../../routing/index';
+import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
 
 @Injectable()
-export class OccCmsPageAdapter extends CmsPageAdapter<CMSPage> {
-  adapt(source: CMSPage): CmsStructureModel {
-    const target = {};
-    this.serializePageData(source, target);
-    this.serializePageSlotData(source, target);
-    this.serializePageComponentData(source, target);
-    this.serializeComponentData(source, target);
-    return target;
+export class OccCmsPageAdapter implements CmsPageAdapter<CMSPage> {
+  protected headers = new HttpHeaders().set('Content-Type', 'application/json');
+
+  constructor(
+    private http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
+
+  protected getBaseEndPoint(): string {
+    return this.occEndpoints.getEndpoint('cms');
   }
 
-  private serializePageData(source: any, target: CmsStructureModel): void {
-    target.page = {
-      loadTime: Date.now(),
-      name: source.name,
-      type: source.typeCode,
-      title: source.title,
-      pageId: source.uid,
-      template: source.template,
-      slots: {},
-      properties: source.properties,
-    };
-  }
+  load(pageContext: PageContext, fields?: string): Observable<CMSPage> {
+    let httpStringParams = '';
 
-  private serializePageSlotData(source: any, target: CmsStructureModel): void {
-    for (const slot of source.contentSlots.contentSlot) {
-      target.page.slots[slot.position] = {
-        components: [],
-        properties: slot.properties,
-      } as ContentSlotData;
-    }
-  }
+    if (pageContext.id !== 'smartedit-preview') {
+      httpStringParams = 'pageType=' + pageContext.type;
 
-  private serializePageComponentData(
-    source: any,
-    target: CmsStructureModel
-  ): void {
-    for (const slot of source.contentSlots.contentSlot) {
-      if (
-        slot.components.component &&
-        Array.isArray(slot.components.component)
-      ) {
-        for (const component of slot.components.component) {
-          const comp: ContentSlotComponentData = {
-            uid: component.uid,
-            typeCode: component.typeCode,
-            properties: component.properties,
-          };
-
-          if (component.typeCode === CMS_FLEX_COMPONENT_TYPE) {
-            comp.flexType = component.flexType;
-          } else if (component.typeCode === JSP_INCLUDE_CMS_COMPONENT_TYPE) {
-            comp.flexType = component.uid;
-          } else {
-            comp.flexType = component.typeCode;
-          }
-          target.page.slots[slot.position].components.push(comp);
-        }
+      if (pageContext.type === PageType.CONTENT_PAGE) {
+        httpStringParams =
+          httpStringParams + '&pageLabelOrId=' + pageContext.id;
+      } else {
+        httpStringParams = httpStringParams + '&code=' + pageContext.id;
       }
     }
-  }
 
-  private serializeComponentData(source: any, target: CmsStructureModel): void {
-    target.components = [];
-
-    for (const slot of source.contentSlots.contentSlot) {
-      if (
-        slot.components.component &&
-        Array.isArray(slot.components.component)
-      ) {
-        for (const component of slot.components.component as any) {
-          // we dont put properties into component state
-          if (component.properties) {
-            component.properties = undefined;
-          }
-          target.components.push(component);
-        }
-      }
+    if (fields !== undefined) {
+      httpStringParams = httpStringParams + '&fields=' + fields;
     }
+
+    return this.http.get(this.getBaseEndPoint() + `/pages`, {
+      headers: this.headers,
+      params: new HttpParams({
+        fromString: httpStringParams,
+      }),
+    });
   }
 }
