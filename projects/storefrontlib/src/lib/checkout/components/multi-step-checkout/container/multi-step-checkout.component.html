@@ -58,11 +58,7 @@
             ></cx-shipping-address>
           </div>
           <div *ngIf="nav.status.active && step === 2">
-            <cx-delivery-mode
-              [selectedDeliveryMode]="deliveryMode"
-              (selectMode)="setDeliveryMode($event)"
-              (backStep)="setStep(1)"
-            ></cx-delivery-mode>
+            <cx-delivery-mode (goToStep)="goToStep($event)"></cx-delivery-mode>
           </div>
           <div *ngIf="nav.status.active && step === 3">
             <cx-payment-method
