@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, DebugElement } from '@angular/core';
 
-import { PaymentDetails, User } from '@spartacus/core';
+import { I18nTestingModule, PaymentDetails, User } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 
@@ -49,6 +49,7 @@ describe('PaymentMethodsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         PaymentMethodsComponent,
         MockCxSpinnerComponent,
@@ -78,9 +79,9 @@ describe('PaymentMethodsComponent', () => {
     }
     component.ngOnInit();
     fixture.detectChanges();
-    expect(getTitle(el)).toContain('Payment methods');
+    expect(getTitle(el)).toContain('paymentMethods.label.paymentMethods');
     expect(getBodyMessage(el)).toContain(
-      'New payment methods are added during checkout.'
+      ' paymentMethods.label.newPaymentMethodsAreAddedDuringCheckout '
     );
   });
 
@@ -130,15 +131,15 @@ describe('PaymentMethodsComponent', () => {
         .textContent;
     }
     function getTextBold(elem: DebugElement): string {
-      return elem.query(By.css('cx-card .card__label--bold')).nativeElement
+      return elem.query(By.css('cx-card .cx-card-label-bold')).nativeElement
         .textContent;
     }
     function getCardNumber(elem: DebugElement): string {
-      return elem.queryAll(By.css('cx-card .card__label'))[0].nativeElement
+      return elem.queryAll(By.css('cx-card .cx-card-label'))[0].nativeElement
         .textContent;
     }
     function getExpiration(elem: DebugElement): string {
-      return elem.queryAll(By.css('cx-card .card__label'))[1].nativeElement
+      return elem.queryAll(By.css('cx-card .cx-card-label'))[1].nativeElement
         .textContent;
     }
     component.ngOnInit();
@@ -155,8 +156,8 @@ describe('PaymentMethodsComponent', () => {
     spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
 
     function getDeleteMsg(elem: DebugElement): string {
-      return elem.query(By.css('cx-card .cx-card-body__delete-msg'))
-        .nativeElement.textContent;
+      return elem.query(By.css('cx-card .cx-card-delete-msg')).nativeElement
+        .textContent;
     }
     function getDeleteButton(elem: DebugElement): any {
       return elem.query(By.css('cx-card .card-link')).nativeElement;

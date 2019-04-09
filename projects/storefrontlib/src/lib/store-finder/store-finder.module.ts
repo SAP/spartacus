@@ -3,8 +3,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import {
+  CmsConfig,
+  ConfigModule,
+  StoreFinderCoreModule,
+  UrlTranslationModule,
+  I18nModule,
+} from '@spartacus/core';
 import { CmsModule } from '../cms/cms.module';
-
 import { StoreFinderSearchComponent } from './components/store-finder-search/store-finder-search.component';
 import { StoreFinderListComponent } from './components/store-finder-search-result/store-finder-list/store-finder-list.component';
 import { StoreFinderMapComponent } from './components/store-finder-map/store-finder-map.component';
@@ -17,16 +23,9 @@ import { StoreFinderHeaderComponent } from './components/store-finder-header/sto
 import { StoreFinderSearchResultComponent } from './components/store-finder-search-result/store-finder-search-result.component';
 // tslint:disable-next-line:max-line-length
 import { StoreFinderPaginationDetailsComponent } from './components/store-finder-pagination-details/store-finder-pagination-details.component';
-
 import { PaginationAndSortingModule } from '../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { BootstrapModule } from '../bootstrap.module';
 import { SpinnerModule } from '../ui/components/spinner/spinner.module';
-import {
-  CmsConfig,
-  ConfigModule,
-  StoreFinderCoreModule,
-  UrlTranslationModule,
-} from '@spartacus/core';
 import { StoreFinderComponent } from './components/store-finder/store-finder.component';
 import { LayoutConfig } from '../ui/layout/config/layout-config';
 
@@ -41,6 +40,7 @@ import { LayoutConfig } from '../ui/layout/config/layout-config';
     SpinnerModule,
     UrlTranslationModule,
     StoreFinderCoreModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig | LayoutConfig>{
       cmsComponents: {
         StoreFinderComponent: {

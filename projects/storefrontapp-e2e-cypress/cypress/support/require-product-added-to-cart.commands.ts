@@ -13,7 +13,7 @@ declare global {
         cy.requireProductAddedToCart(auth);
         ```
        */
-      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<{}>;
+      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<any>;
     }
   }
 }
@@ -51,7 +51,10 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
 
   cy.server();
 
-  createCart().then(resp => {
-    addToCart(resp.body.code, product).then(cart => cy.wrap(cart));
+  createCart().then(cart => {
+    addToCart(cart.body.code, product).then(resp => {
+      resp.body.cartId = cart.body.code; // need this in the response for later use
+      cy.wrap(resp.body);
+    });
   });
 });

@@ -11,18 +11,20 @@
     </div>
     <div *ngIf="location.openingHours">
       <div *ngIf="isOpen(location)" class="cx-store-open">
-        {{ getClosingTime(location) | date: 'EEE' }}: Open until
-        {{ getClosingTime(location) | date: 'shortTime' }}
+        {{ getClosingTime(location) | cxDate: 'EEE' }}:
+        {{ 'storeFinder.label.openUntil' | cxTranslate }}
+        {{ getClosingTime(location) | cxDate: 'shortTime' }}
       </div>
       <div *ngIf="!isOpen(location)" class="cx-store-closed">
-        {{ getClosingTime(location) | date: 'EEE' }}: Closed
+        {{ getClosingTime(location) | cxDate: 'EEE' }}:
+        {{ 'storeFinder.label.closed' | cxTranslate }}
       </div>
     </div>
     <a
       href="{{ getDirections(location) }}"
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"
-      >Get Directions</a
+      >{{ 'storeFinder.label.getDirections' | cxTranslate }}</a
     >
   </div>
 </ng-container>

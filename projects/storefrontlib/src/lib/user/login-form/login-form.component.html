@@ -1,7 +1,9 @@
 <form (submit)="login()" [formGroup]="form">
   <div class="form-group">
     <label>
-      <span class="label-content">Email address</span>
+      <span class="label-content">{{
+        'login.label.emailAddress' | cxTranslate
+      }}</span>
       <input
         type="email"
         class="form-control"
@@ -10,7 +12,7 @@
           (form.controls['userId'].touched || form.controls['userId'].dirty)
         "
         formControlName="userId"
-        placeholder="Enter email"
+        placeholder="{{ 'login.placeholder.emailAddress' | cxTranslate }}"
       />
     </label>
     <div
@@ -20,16 +22,18 @@
         (form.controls['userId'].touched || form.controls['userId'].dirty)
       "
     >
-      <span>This is not a valid email format.</span>
+      <span>{{ 'login.validation.wrongEmailFormat' | cxTranslate }}</span>
     </div>
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content">Password</span>
+      <span class="label-content">{{
+        'login.label.password' | cxTranslate
+      }}</span>
       <input
         type="password"
         class="form-control"
-        placeholder="Password"
+        placeholder="{{ 'login.placeholder.password' | cxTranslate }}"
         formControlName="password"
       />
     </label>
@@ -39,7 +43,7 @@
       [routerLink]="{ route: ['forgotPassword'] } | cxTranslateUrl"
       aria-controls="reset-password"
       class="btn-link"
-      >Forgot password?</a
+      >{{ 'login.action.forgotPassword' | cxTranslate }}</a
     >
   </p>
 
@@ -48,20 +52,20 @@
     class="btn btn-block btn-primary"
     [disabled]="form.invalid"
   >
-    Sign In
+    {{ 'login.action.signIn' | cxTranslate }}
   </button>
 </form>
 
 <div class="register">
   <h3 class="cx-section__title cx-section__title--alt">
-    Don’t have an account
+    {{ 'login.label.dontHaveAccount' | cxTranslate }}
   </h3>
 
   <ng-container *ngIf="!loginAsGuest">
     <a
       [routerLink]="{ route: ['register'] } | cxTranslateUrl"
-      class="btn btn-block btn-secondary btn-register"
-      >Register</a
+      class="btn btn-block btn-secondary"
+      >{{ 'login.action.register' | cxTranslate }}</a
     >
   </ng-container>
 

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { Address, UserService } from '@spartacus/core';
+import { Address, I18nTestingModule, UserService } from '@spartacus/core';
 
 import { AddressCardComponent } from './address-card.component';
 
@@ -29,6 +29,7 @@ describe('AddressCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [AddressCardComponent],
       providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
@@ -49,7 +50,7 @@ describe('AddressCardComponent', () => {
   it('should display address data', () => {
     component.address = mockAddress;
     fixture.detectChanges();
-    const element = el.query(By.css('.address_data'));
+    const element = el.query(By.css('.cx-address-data'));
     expect(element.nativeElement.textContent).toContain(
       mockAddress.firstName &&
         mockAddress.lastName &&
@@ -66,6 +67,8 @@ describe('AddressCardComponent', () => {
     component.address.defaultAddress = true;
     fixture.detectChanges();
     const element = el.query(By.css('.card-header'));
-    expect(element.nativeElement.textContent).toContain('DEFAULT');
+    expect(element.nativeElement.textContent).toContain(
+      ' ✓ common.label.default '
+    );
   });
 });

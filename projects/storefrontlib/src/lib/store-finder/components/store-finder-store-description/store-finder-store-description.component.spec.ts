@@ -3,16 +3,15 @@ import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
-import { ScheduleComponent } from '../schedule-component/schedule.component';
-import { StoreFinderMapComponent } from '../store-finder-map/store-finder-map.component';
 
 import { SpinnerComponent } from '../../../ui';
 
-import { PipeTransform, Pipe } from '@angular/core';
+import { PipeTransform, Pipe, Component, Input } from '@angular/core';
 import {
   GoogleMapRendererService,
   StoreFinderService,
   StoreDataService,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 @Pipe({
@@ -46,6 +45,16 @@ class StoreFinderServiceMock {
   getStoresLoading() {}
 }
 
+@Component({ selector: 'cx-schedule', template: '' })
+class MockScheduleComponent {
+  @Input() location;
+}
+
+@Component({ selector: 'cx-store-finder-map', template: '' })
+class MockStoreFinderMapComponent {
+  @Input() locations;
+}
+
 describe('StoreFinderStoreDescriptionComponent', () => {
   let component: StoreFinderStoreDescriptionComponent;
   let fixture: ComponentFixture<StoreFinderStoreDescriptionComponent>;
@@ -54,11 +63,11 @@ describe('StoreFinderStoreDescriptionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         StoreFinderStoreDescriptionComponent,
-        ScheduleComponent,
-        StoreFinderMapComponent,
+        MockScheduleComponent,
+        MockStoreFinderMapComponent,
         MockTranslateUrlPipe,
         SpinnerComponent,
       ],

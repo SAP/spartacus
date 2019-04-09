@@ -4,37 +4,6 @@ export function loginSuccessfully() {
   cy.get('.cx-login-greet').should('contain', 'Test User');
 }
 
-export function addShippingAddress() {
-  cy.request({
-    method: 'POST',
-    url: `${Cypress.env(
-      'API_URL'
-    )}/rest/v2/electronics-spa/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(sessionStorage.getItem('auth')).userToken.token[
-          'access_token'
-        ]
-      }`,
-    },
-    body: {
-      defaultAddress: false,
-      titleCode: 'mr',
-      firstName: 'Test',
-      lastName: 'User',
-      line1: '999 de Maisonneuve',
-      line2: '',
-      town: 'Montreal',
-      region: { isocode: 'US-AK' },
-      country: { isocode: 'US' },
-      postalCode: 'H4B3L4',
-      phone: '',
-    },
-  }).then(response => {
-    expect(response.status).to.eq(201);
-  });
-}
-
 export function changePageFromProductToCategory() {
   // click big banner
   cy.get('.Section1 cx-responsive-banner')
@@ -107,7 +76,7 @@ export function selectShippingAddress() {
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').contains(' Default Shipping Address ');
+  cy.get('.cx-card-title').contains(' Default Shipping Address ');
   cy.getByText(/Ship to this address/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
@@ -124,7 +93,7 @@ export function selectPaymentMethod() {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-body__title').contains(' Default Payment Method ');
+  cy.get('.cx-card-title').contains(' Default Payment Method ');
   cy.getByText(/Use this payment/i).click();
   cy.get('.card-header').should('contain', ' SELECTED ');
   cy.get('button.btn-primary').click();
@@ -134,11 +103,11 @@ export function verifyAndPlaceOrder() {
   cy.get('.cx-review-title').should('contain', 'Review');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
-    .find('.cx-card-body__container')
+    .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
-    .find('.cx-card-body__container')
+    .find('.cx-card-container')
     .within(() => {
       cy.getByText('standard-gross');
     });
@@ -162,25 +131,4 @@ export function displaySummaryPage() {
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
-}
-
-export function deleteShippingAddress() {
-  cy.visit('/my-account/address-book');
-  cy.getByText('delete')
-    .first()
-    .click();
-  cy.get('.cx-address-card--delete-mode button.btn-primary').click();
-  cy.get('cx-global-message').contains('Address deleted successfully!');
-}
-
-export function deletePaymentMethod() {
-  cy.visit('/my-account/payment-details');
-  cy.getByText('Delete')
-    .first()
-    .click();
-  cy.get('.btn-primary').should('contain', 'delete');
-  cy.get('.btn-primary').click();
-  cy.get('.cx-payment .cx-body').then(() => {
-    cy.get('cx-card').should('not.exist');
-  });
 }

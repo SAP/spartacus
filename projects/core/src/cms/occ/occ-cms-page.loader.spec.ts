@@ -1,31 +1,27 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpRequest } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { OccCmsPageLoader } from './occ-cms-page.loader';
-import { IdList } from '../model/idList.model';
-
+import { TestBed } from '@angular/core/testing';
 import {
   CmsComponent,
+  CmsComponentList,
   CMSPage,
   PageType,
-  CmsComponentList,
 } from '../../occ/occ-models/index';
-import { PageContext } from '../../routing/index';
-import { HttpRequest } from '@angular/common/http';
-import { CmsStructureConfigService, CmsPageAdapter } from '../services';
-import { CmsStructureConfig } from '../config';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { PageContext } from '../../routing/index';
+import { CmsStructureConfig } from '../config';
+import { IdList } from '../model/idList.model';
+import { CmsPageAdapter, CmsStructureConfigService } from '../services';
+import { OccCmsPageLoader } from './occ-cms-page.loader';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
   { uid: 'comp2', typeCode: 'CMSLinkComponent' },
   { uid: 'comp3', typeCode: 'NavigationComponent' },
 ];
-
-const component: CmsComponent = components[1];
 
 const cmsPageData: CMSPage = {
   uid: 'testPageId',
@@ -44,9 +40,11 @@ const componentList: CmsComponentList = {
 };
 
 const CmsStructureConfigMock: CmsStructureConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
@@ -100,54 +98,6 @@ describe('OccCmsPageLoader', () => {
 
   afterEach(() => {
     httpMock.verify();
-  });
-
-  describe('Load cms component', () => {
-    it('Should get cms component data without parameter fields', () => {
-      const context: PageContext = {
-        id: 'testProductCode',
-        type: PageType.PRODUCT_PAGE,
-      };
-
-      service.loadComponent('comp1', context).subscribe(result => {
-        expect(result).toEqual(component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' && req.url === endpoint + '/components/comp1'
-        );
-      });
-
-      expect(testRequest.request.params.get('productCode')).toEqual(
-        'testProductCode'
-      );
-      expect(testRequest.cancelled).toBeFalsy();
-      expect(testRequest.request.responseType).toEqual('json');
-      testRequest.flush(component);
-    });
-
-    it('Should get cms component data with parameter fields', () => {
-      const context: PageContext = {
-        id: 'testPagId',
-        type: PageType.CONTENT_PAGE,
-      };
-
-      service.loadComponent('comp1', context, 'FULL').subscribe(result => {
-        expect(result).toEqual(component);
-      });
-
-      const testRequest = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' && req.url === endpoint + '/components/comp1'
-        );
-      });
-      expect(testRequest.request.params.get('fields')).toEqual('FULL');
-
-      expect(testRequest.cancelled).toBeFalsy();
-      expect(testRequest.request.responseType).toEqual('json');
-      testRequest.flush(component);
-    });
   });
 
   describe('Load cms page data', () => {
