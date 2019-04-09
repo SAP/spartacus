@@ -6,7 +6,7 @@ import { CmsParagraphComponent } from '@spartacus/core';
   selector: 'cx-paragraph',
   templateUrl: './paragraph.component.html',
   styleUrls: ['./paragraph.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParagraphComponent {
   constructor(public component: CmsComponentData<CmsParagraphComponent>) {}

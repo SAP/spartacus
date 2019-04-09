@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   SiteContextUrlSerializer,
-  UrlTreeWithSiteContext
+  UrlTreeWithSiteContext,
 } from './site-context-url-serializer';
 import { SiteContextParamsService } from '../facade/site-context-params.service';
 import { UrlSegmentGroup, UrlTree } from '@angular/router';
@@ -11,13 +11,13 @@ describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
     getParamValues: param =>
       ({ language: ['en', 'de'], currency: ['usd', 'pln'] }[param]),
-    getValue: param => ({ language: 'de', currency: 'usd' }[param])
+    getValue: param => ({ language: 'de', currency: 'usd' }[param]),
   };
 
   const mockSiteContextConfig: SiteContextConfig = {
     siteContext: {
-      urlEncodingParameters: ['language', 'currency']
-    }
+      urlEncodingParameters: ['language', 'currency'],
+    },
   };
 
   let mockUrlTree: UrlTreeWithSiteContext;
@@ -29,10 +29,10 @@ describe('SiteContextUrlSerializer', () => {
         SiteContextUrlSerializer,
         {
           provide: SiteContextParamsService,
-          useValue: mockSiteContextParamsService
+          useValue: mockSiteContextParamsService,
         },
-        { provide: SiteContextConfig, useValue: mockSiteContextConfig }
-      ]
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
+      ],
     });
 
     mockUrlTree = new UrlTree() as UrlTreeWithSiteContext;
@@ -41,8 +41,8 @@ describe('SiteContextUrlSerializer', () => {
       queryParams: {},
       siteContext: {
         language: 'de',
-        currency: 'pln'
-      }
+        currency: 'pln',
+      },
     });
 
     service = TestBed.get(SiteContextUrlSerializer);
@@ -76,7 +76,7 @@ describe('SiteContextUrlSerializer', () => {
       );
       const expected = {
         url: 'another/part/of/url',
-        params: { language: 'en', currency: 'usd' }
+        params: { language: 'en', currency: 'usd' },
       };
 
       expect(result).toEqual(expected);
@@ -88,7 +88,7 @@ describe('SiteContextUrlSerializer', () => {
       );
       const expected = {
         url: 'another/part/of/url',
-        params: { language: 'en' }
+        params: { language: 'en' },
       };
 
       expect(result).toEqual(expected);
@@ -100,7 +100,7 @@ describe('SiteContextUrlSerializer', () => {
       );
       const expected = {
         url: 'another/part/of/url',
-        params: { currency: 'usd' }
+        params: { currency: 'usd' },
       };
 
       expect(result).toEqual(expected);
@@ -112,7 +112,7 @@ describe('SiteContextUrlSerializer', () => {
       const result = service.urlTreeExtractContextParameters(mockUrlTree);
       const expected = {
         language: 'de',
-        currency: 'pln'
+        currency: 'pln',
       };
 
       expect(result).toEqual(expected);

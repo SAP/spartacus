@@ -3,7 +3,7 @@ import {
   Input,
   ChangeDetectionStrategy,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
@@ -11,7 +11,7 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
   styleUrls: ['./product-summary.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductSummaryComponent {
   static outlets = ProductDetailOutlets;

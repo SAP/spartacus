@@ -17,11 +17,11 @@ class MockClientAuthenticationTokenService {}
 
 const mockToken = {
   userId: 'user@sap.com',
-  refresh_token: 'foo'
+  refresh_token: 'foo',
 } as UserToken;
 
 const mockClientToken = {
-  access_token: 'testToken'
+  access_token: 'testToken',
 } as ClientToken;
 
 describe('AuthService', () => {
@@ -35,13 +35,13 @@ describe('AuthService', () => {
         AuthService,
         {
           provide: UserAuthenticationTokenService,
-          useClass: MockUserAuthenticationTokenService
+          useClass: MockUserAuthenticationTokenService,
         },
         {
           provide: ClientAuthenticationTokenService,
-          useClass: MockClientAuthenticationTokenService
-        }
-      ]
+          useClass: MockClientAuthenticationTokenService,
+        },
+      ],
     });
 
     service = TestBed.get(AuthService);
@@ -105,7 +105,7 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.LoadUserToken({
         userId: 'user',
-        password: 'password'
+        password: 'password',
       })
     );
   });
@@ -129,7 +129,7 @@ describe('AuthService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromAuthStore.RefreshUserToken({
         userId: mockToken.userId,
-        refreshToken: mockToken.refresh_token
+        refreshToken: mockToken.refresh_token,
       })
     );
   });

@@ -1,7 +1,7 @@
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
 import { Order } from '../../occ/occ-models/index';
@@ -14,21 +14,23 @@ const cartId = '456';
 const orderData: Order = {
   site: 'electronics',
   calculated: true,
-  code: '00001004'
+  code: '00001004',
 };
 
 const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
-    baseSite: ''
-  }
+    baseSite: '',
+  },
 };
 
 describe('OccOrderService', () => {
@@ -40,8 +42,8 @@ describe('OccOrderService', () => {
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
         OccOrderService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccOrderService);

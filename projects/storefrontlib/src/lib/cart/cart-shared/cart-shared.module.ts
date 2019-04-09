@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UrlTranslationModule } from '@spartacus/core';
+import { UrlTranslationModule, I18nModule } from '@spartacus/core';
 
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
@@ -19,13 +19,14 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
     ComponentsModule,
     UrlTranslationModule,
     NgbModule,
-    PromotionsModule
+    PromotionsModule,
+    I18nModule,
   ],
   declarations: [
     CartItemComponent,
     OrderSummaryComponent,
-    CartItemListComponent
+    CartItemListComponent,
   ],
-  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent]
+  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent],
 })
 export class CartSharedModule {}

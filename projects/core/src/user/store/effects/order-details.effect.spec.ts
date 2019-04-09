@@ -15,18 +15,20 @@ const mockOrderDetails: Order = {};
 
 const mockOrderDetailsParams = {
   userId: 'user15355363988711@ydev.hybris.com',
-  orderCode: '00000386'
+  orderCode: '00000386',
 };
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
-    baseSite: ''
-  }
+    baseSite: '',
+  },
 };
 
 describe('Order Details effect', () => {
@@ -42,8 +44,8 @@ describe('Order Details effect', () => {
         fromOrderDetailsEffect.OrderDetailsEffect,
         ProductImageConverterService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     actions$ = TestBed.get(Actions);

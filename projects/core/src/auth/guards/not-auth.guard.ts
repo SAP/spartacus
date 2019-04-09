@@ -6,7 +6,7 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotAuthGuard implements CanActivate {
   static GUARD_NAME = 'NotAuthGuard';

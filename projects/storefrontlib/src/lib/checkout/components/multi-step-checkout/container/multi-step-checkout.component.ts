@@ -3,19 +3,18 @@ import {
   ChangeDetectionStrategy,
   OnInit,
   OnDestroy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import {
   CheckoutService,
   RoutingService,
   GlobalMessageService,
-  GlobalMessageType,
   CartService,
   CartDataService,
   PaymentDetails,
   Address,
-  Cart
+  Cart,
 } from '@spartacus/core';
 
 import { Subscription, Observable } from 'rxjs';
@@ -27,7 +26,7 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
   selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
   styleUrls: ['./multi-step-checkout.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
@@ -93,35 +92,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
           this.cd.detectChanges();
         })
     );
-
-    // step3: set payment information
-    this.subscriptions.push(
-      this.checkoutService
-        .getPaymentDetails()
-        .pipe(
-          filter(
-            paymentInfo =>
-              Object.keys(paymentInfo).length !== 0 && this.step === 3
-          )
-        )
-        .subscribe(paymentInfo => {
-          if (!paymentInfo['hasError']) {
-            this.nextStep(4);
-            this.paymentDetails = paymentInfo;
-            this.cd.detectChanges();
-          } else {
-            Object.keys(paymentInfo).forEach(key => {
-              if (key.startsWith('InvalidField')) {
-                this.globalMessageService.add({
-                  type: GlobalMessageType.MSG_TYPE_ERROR,
-                  text: 'InvalidField: ' + paymentInfo[key]
-                });
-              }
-            });
-            this.checkoutService.clearCheckoutStep(3);
-          }
-        })
-    );
   }
 
   setStep(backStep: number): void {
@@ -152,26 +122,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.step = step;
   }
 
-  addAddress({
-    newAddress,
-    address
-  }: {
-    newAddress: boolean;
-    address: Address;
-  }): void {
-    if (newAddress) {
-      this.checkoutService.createAndSetAddress(address);
-      return;
-    }
-    // if the selected address is the same as the cart's one
-    if (this.deliveryAddress && address.id === this.deliveryAddress.id) {
-      this.nextStep(2);
-      return;
-    }
-    this.checkoutService.setDeliveryAddress(address);
-    return;
-  }
-
   setDeliveryMode({ deliveryModeId }: { deliveryModeId: string }): void {
     // if the selected delivery mode is the same as the cart's one
     if (this.deliveryMode && this.deliveryMode === deliveryModeId) {
@@ -182,33 +132,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     return;
   }
 
-  addPaymentInfo({
-    newPayment,
-    payment,
-    billingAddress
-  }: {
-    newPayment: boolean;
-    payment: PaymentDetails;
-    billingAddress: Address;
-  }): void {
-    payment.billingAddress = billingAddress
-      ? billingAddress
-      : this.deliveryAddress;
-
-    if (newPayment) {
-      this.checkoutService.createPaymentDetails(payment);
-      return;
-    }
-
-    // if the selected payment is the same as the cart's one
-    if (this.paymentDetails && this.paymentDetails.id === payment.id) {
-      this.nextStep(4);
-      return;
-    }
-
-    this.checkoutService.setPaymentDetails(payment);
-  }
-
   initializeCheckoutNavBar(): CheckoutNavBarItem[] {
     return [
       {
@@ -217,9 +140,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         status: {
           disabled: false,
           completed: false,
-          active: true
+          active: true,
         },
-        progressBar: true
+        progressBar: true,
       },
       {
         id: 2,
@@ -227,9 +150,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         status: {
           disabled: true,
           completed: false,
-          active: false
+          active: false,
         },
-        progressBar: false
+        progressBar: false,
       },
       {
         id: 3,
@@ -237,9 +160,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         status: {
           disabled: true,
           completed: false,
-          active: false
+          active: false,
         },
-        progressBar: false
+        progressBar: false,
       },
       {
         id: 4,
@@ -247,10 +170,10 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
         status: {
           disabled: true,
           completed: false,
-          active: false
+          active: false,
         },
-        progressBar: false
-      }
+        progressBar: false,
+      },
     ];
   }
 

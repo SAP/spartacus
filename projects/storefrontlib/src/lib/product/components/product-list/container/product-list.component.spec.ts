@@ -8,10 +8,14 @@ import { ActivatedRoute } from '@angular/router';
 import {
   NgbCollapseModule,
   NgbPaginationModule,
-  NgbRatingModule
+  NgbRatingModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -21,7 +25,7 @@ import { ProductFacetNavigationComponent } from '../product-facet-navigation/pro
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
   ProductViewComponent,
-  ViewModes
+  ViewModes,
 } from '../product-view/product-view.component';
 import { StarRatingComponent } from '../../../../ui';
 import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
@@ -57,7 +61,7 @@ class MockActivatedRoute {
 }
 @Component({
   template: '',
-  selector: 'cx-product-list-item'
+  selector: 'cx-product-list-item',
 })
 class MockProductListItemComponent {
   @Input()
@@ -65,14 +69,14 @@ class MockProductListItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Pipe({
-  name: 'stripHtml'
+  name: 'stripHtml',
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
@@ -90,21 +94,22 @@ describe('ProductListComponent in product-list', () => {
         NgbRatingModule,
         PaginationAndSortingModule,
         FormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        I18nTestingModule,
       ],
       providers: [
         {
           provide: ProductSearchService,
-          useClass: MockProductSearchService
+          useClass: MockProductSearchService,
         },
         {
           provide: ActivatedRoute,
-          useClass: MockActivatedRoute
+          useClass: MockActivatedRoute,
         },
         {
           provide: PageLayoutService,
-          useClass: MockPageLayoutService
-        }
+          useClass: MockPageLayoutService,
+        },
       ],
       declarations: [
         ProductListComponent,
@@ -116,8 +121,8 @@ describe('ProductListComponent in product-list', () => {
         StarRatingComponent,
         MockProductListItemComponent,
         MockTranslateUrlPipe,
-        MockStripHtmlPipe
-      ]
+        MockStripHtmlPipe,
+      ],
     }).compileComponents();
   }));
 

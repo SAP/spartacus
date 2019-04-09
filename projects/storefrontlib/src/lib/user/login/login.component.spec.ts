@@ -8,7 +8,8 @@ import {
   RoutingService,
   UserToken,
   UserService,
-  User
+  User,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -42,7 +43,7 @@ const mockUserToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 };
 
 const mockUserDetails: User = {
@@ -50,12 +51,12 @@ const mockUserDetails: User = {
   firstName: 'First',
   lastName: 'Last',
   name: 'First Last',
-  uid: 'UID'
+  uid: 'UID',
 };
 
 @Component({
   selector: 'cx-page-slot',
-  template: ''
+  template: '',
 })
 class MockDynamicSlotComponent {
   @Input()
@@ -63,7 +64,7 @@ class MockDynamicSlotComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -78,11 +79,11 @@ describe('LoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         LoginComponent,
         MockDynamicSlotComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         {
@@ -91,16 +92,16 @@ describe('LoginComponent', () => {
             snapshot: {
               firstChild: {
                 routeConfig: {
-                  canActivate: [{ GUARD_NAME: 'AuthGuard' }]
-                }
-              }
-            }
-          }
+                  canActivate: [{ GUARD_NAME: 'AuthGuard' }],
+                },
+              },
+            },
+          },
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService }
-      ]
+        { provide: AuthService, useClass: MockAuthService },
+      ],
     }).compileComponents();
 
     authService = TestBed.get(AuthService);
@@ -149,13 +150,13 @@ describe('LoginComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'Sign In / Register'
+        'common.action.signInRegister'
       );
 
       component.user$ = of(mockUserDetails);
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
-        'Hi, First Last'
+        'common.label.userGreeting name:First Last'
       );
     });
   });

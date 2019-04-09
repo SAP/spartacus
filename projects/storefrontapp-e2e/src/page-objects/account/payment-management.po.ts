@@ -24,7 +24,7 @@ export class PaymentManagementPage extends AppPage {
       selectDefaultLink: await links.first(),
       deleteLink: await links.last(),
       expiry: await card.all(by.css('.card__label')).last(),
-      confirmDelete: await card.element(by.css('.btn-primary'))
+      confirmDelete: await card.element(by.css('.btn-primary')),
     };
     return result;
   }

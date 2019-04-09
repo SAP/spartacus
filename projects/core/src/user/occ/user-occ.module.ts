@@ -8,6 +8,6 @@ import { OccOrderService } from './order.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
-  providers: [OccUserService, OccOrderService]
+  providers: [OccUserService, OccOrderService],
 })
 export class UserOccModule {}

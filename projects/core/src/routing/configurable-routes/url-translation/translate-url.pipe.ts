@@ -3,7 +3,7 @@ import { UrlTranslationService } from './url-translation.service';
 import { TranslateUrlOptions } from './translate-url-options';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 export class TranslateUrlPipe implements PipeTransform {
   constructor(private urlTranslator: UrlTranslationService) {}

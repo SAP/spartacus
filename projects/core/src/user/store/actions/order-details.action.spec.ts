@@ -5,7 +5,7 @@ const mockOrderDetails: Order = { code: '123' };
 
 const mockOrderDetailsParams = {
   userId: 'user15355363988711@ydev.hybris.com',
-  orderCode: '00000386'
+  orderCode: '00000386',
 };
 
 describe('Order Details Actions', () => {
@@ -17,7 +17,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromOrderDetailsAction.LOAD_ORDER_DETAILS,
-        payload: mockOrderDetailsParams
+        payload: mockOrderDetailsParams,
       });
     });
   });
@@ -29,7 +29,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromOrderDetailsAction.LOAD_ORDER_DETAILS_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -42,7 +42,7 @@ describe('Order Details Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromOrderDetailsAction.LOAD_ORDER_DETAILS_SUCCESS,
-        payload: mockOrderDetails
+        payload: mockOrderDetails,
       });
     });
   });
@@ -52,7 +52,7 @@ describe('Order Details Actions', () => {
       const action = new fromOrderDetailsAction.ClearOrderDetails();
 
       expect({ ...action }).toEqual({
-        type: fromOrderDetailsAction.CLEAR_ORDER_DETAILS
+        type: fromOrderDetailsAction.CLEAR_ORDER_DETAILS,
       });
     });
   });

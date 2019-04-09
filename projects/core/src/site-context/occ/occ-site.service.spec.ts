@@ -2,23 +2,25 @@ import { TestBed } from '@angular/core/testing';
 import {
   HttpTestingController,
   HttpClientTestingModule,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
 import { OccSiteService } from './occ-site.service';
 import { OccConfig } from '../../occ/config/occ-config';
 import { LanguageList, CurrencyList } from '../../occ/occ-models/occ.models';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('OccSiteService', () => {
@@ -30,8 +32,8 @@ describe('OccSiteService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccSiteService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccSiteService);
@@ -45,7 +47,7 @@ describe('OccSiteService', () => {
   describe('load languages', () => {
     it('should retrieve two languages', () => {
       const languages: LanguageList = {
-        languages: [{ isocode: 'en' }, { isocode: 'de' }]
+        languages: [{ isocode: 'en' }, { isocode: 'de' }],
       };
 
       service.loadLanguages().subscribe(result => {
@@ -54,7 +56,7 @@ describe('OccSiteService', () => {
 
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: '/languages'
+        url: '/languages',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -66,7 +68,7 @@ describe('OccSiteService', () => {
   describe('load currencies', () => {
     it('should retrieve two currencies', () => {
       const currencies: CurrencyList = {
-        currencies: [{ isocode: 'USD' }, { isocode: 'JPY' }]
+        currencies: [{ isocode: 'USD' }, { isocode: 'JPY' }],
       };
 
       service.loadCurrencies().subscribe(result => {
@@ -74,7 +76,7 @@ describe('OccSiteService', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: '/currencies'
+        url: '/currencies',
       });
 
       expect(mockReq.cancelled).toBeFalsy();

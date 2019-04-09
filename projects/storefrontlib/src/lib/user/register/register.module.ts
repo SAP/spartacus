@@ -10,7 +10,8 @@ import {
   UserModule,
   UrlTranslationModule,
   ConfigModule,
-  CmsConfig
+  CmsConfig,
+  I18nModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -24,13 +25,14 @@ import {
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         RegisterCustomerComponent: {
-          selector: 'cx-register'
-        }
-      }
-    })
+          selector: 'cx-register',
+        },
+      },
+    }),
+    I18nModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],
-  entryComponents: [RegisterComponent]
+  entryComponents: [RegisterComponent],
 })
 export class RegisterComponentModule {}

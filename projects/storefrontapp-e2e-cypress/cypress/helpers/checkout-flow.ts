@@ -75,7 +75,7 @@ export function placeOrder() {
   cy.get('.cx-review-title').should('contain', 'Review');
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
-    .find('.cx-card-body__container')
+    .find('.cx-card-container')
     .within(() => {
       cy.getByText(user.fullName);
       cy.getByText(user.address.line1);
@@ -83,9 +83,9 @@ export function placeOrder() {
     });
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Shipping Method')
-    .find('.cx-card-body__container')
+    .find('.cx-card-container')
     .within(() => {
-      cy.getByText('standard-gross');
+      cy.getByText('Standard Delivery');
     });
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',

@@ -1,5 +1,12 @@
 <ng-container *ngIf="locations">
   <div class="container">
+    <div class="row" *ngIf="locations?.pagination">
+      <div class="col-md-12">
+        <cx-store-finder-pagination-details
+          [pagination]="locations.pagination"
+        ></cx-store-finder-pagination-details>
+      </div>
+    </div>
     <div *ngIf="locations?.stores" class="row cx-columns">
       <div class="col-md-4 cx-address-col">
         <ol class="cx-list">
@@ -34,7 +41,7 @@
       <ngb-tabset justify="center">
         <ngb-tab>
           <ng-template ngbTabTitle>
-            List View
+            {{ 'storeFinder.label.listView' | cxTranslate }}
           </ng-template>
           <ng-template ngbTabContent>
             <div class="cx-address-col">
@@ -59,7 +66,7 @@
         </ngb-tab>
         <ngb-tab>
           <ng-template ngbTabTitle>
-            Map View
+            {{ 'storeFinder.label.mapView' | cxTranslate }}
           </ng-template>
           <ng-template ngbTabContent>
             <div class="cx-map-col">
@@ -78,7 +85,7 @@
 
     <div *ngIf="!locations?.stores" class="row">
       <div class="col-md-12 cx-not-found">
-        No Stores Found.
+        {{ 'storeFinder.label.noStoreFound' | cxTranslate }}
       </div>
     </div>
   </div>

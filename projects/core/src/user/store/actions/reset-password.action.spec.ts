@@ -5,11 +5,11 @@ describe('ResetPassword Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.ResetPassword({
         token: 'test token',
-        password: 'test password'
+        password: 'test password',
       });
       expect({ ...action }).toEqual({
         type: fromAction.RESET_PASSWORD,
-        payload: { token: 'test token', password: 'test password' }
+        payload: { token: 'test token', password: 'test password' },
       });
     });
   });
@@ -21,7 +21,7 @@ describe('ResetPassword Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.RESET_PASSWORD_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -30,7 +30,7 @@ describe('ResetPassword Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.ResetPasswordSuccess();
       expect({ ...action }).toEqual({
-        type: fromAction.RESET_PASSWORD_SUCCESS
+        type: fromAction.RESET_PASSWORD_SUCCESS,
       });
     });
   });

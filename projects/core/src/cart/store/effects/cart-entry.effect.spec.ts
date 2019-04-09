@@ -11,10 +11,12 @@ import * as fromActions from '../actions';
 import { OccConfig } from '../../../occ/index';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
 };
 
 describe('Cart effect', () => {
@@ -32,8 +34,8 @@ describe('Cart effect', () => {
         OccCartService,
         fromEffects.CartEntryEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     entryEffects = TestBed.get(fromEffects.CartEntryEffects);
@@ -50,10 +52,10 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
         productCode: 'testProductCode',
-        quantity: 1
+        quantity: 1,
       });
       const completion = new fromActions.AddEntrySuccess({
-        entry: 'testEntry'
+        entry: 'testEntry',
       });
 
       actions$ = hot('-a', { a: action });
@@ -68,7 +70,7 @@ describe('Cart effect', () => {
       const action = new fromActions.RemoveEntry({
         userId: userId,
         cartId: cartId,
-        entry: 'testEntryNumber'
+        entry: 'testEntryNumber',
       });
       const completion = new fromActions.RemoveEntrySuccess();
 
@@ -85,7 +87,7 @@ describe('Cart effect', () => {
         userId: userId,
         cartId: cartId,
         entry: 'testEntryNumber',
-        qty: 1
+        qty: 1,
       });
       const completion = new fromActions.UpdateEntrySuccess();
 

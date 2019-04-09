@@ -1,18 +1,18 @@
 import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { OccConfig } from '../../occ/config/occ-config';
 import {
   CartList,
   Cart,
   CartModification,
   Address,
   DeliveryModeList,
-  PaymentDetails
+  PaymentDetails,
 } from '../../occ/occ-models/occ.models';
 import { CustomEncoder } from './custom.encoder';
 
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -29,27 +29,24 @@ const DETAILS_PARAMS =
 
 @Injectable()
 export class OccCartService {
-  constructor(protected http: HttpClient, protected config: OccConfig) {}
+  constructor(
+    protected http: HttpClient,
+    private occEndpoints: OccEndpointsService
+  ) {}
 
-  protected getCartEndpoint(userId: string) {
+  protected getCartEndpoint(userId: string): string {
     const cartEndpoint = 'users/' + userId + '/carts/';
-    return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite +
-      '/' +
-      cartEndpoint
-    );
+    return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
   public loadAllCarts(userId: string, details?: boolean): Observable<CartList> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
-          fromString: 'fields=carts(' + DETAILS_PARAMS + ',saveTime)'
+          fromString: 'fields=carts(' + DETAILS_PARAMS + ',saveTime)',
         })
       : new HttpParams({
-          fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)'
+          fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)',
         });
     return this.http
       .get<CartList>(url, { params: params })
@@ -64,10 +61,10 @@ export class OccCartService {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
-          fromString: 'fields=' + DETAILS_PARAMS
+          fromString: 'fields=' + DETAILS_PARAMS,
         })
       : new HttpParams({
-          fromString: 'fields=' + BASIC_PARAMS
+          fromString: 'fields=' + BASIC_PARAMS,
         });
 
     if (cartId === 'current') {
@@ -106,7 +103,7 @@ export class OccCartService {
       queryString = queryString + '&toMergeCartGuid=' + toMergeCartGuid;
     }
     const params = new HttpParams({
-      fromString: queryString
+      fromString: queryString,
     });
 
     return this.http
@@ -125,11 +122,11 @@ export class OccCartService {
     const url = this.getCartEndpoint(userId) + cartId + '/entries';
 
     const params = new HttpParams({
-      fromString: 'code=' + productCode + '&qty=' + quantity
+      fromString: 'code=' + productCode + '&qty=' + quantity,
     });
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -152,11 +149,11 @@ export class OccCartService {
       queryString = queryString + '&pickupStore=' + pickupStore;
     }
     const params = new HttpParams({
-      fromString: queryString
+      fromString: queryString,
     });
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -173,7 +170,7 @@ export class OccCartService {
       this.getCartEndpoint(userId) + cartId + '/entries/' + entryNumber;
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -191,7 +188,7 @@ export class OccCartService {
         this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
         address,
         {
-          headers: new HttpHeaders().set('Content-Type', 'application/json')
+          headers: new HttpHeaders().set('Content-Type', 'application/json'),
         }
       )
       .pipe(catchError((error: any) => throwError(error.json())));
@@ -207,7 +204,7 @@ export class OccCartService {
         this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
         {},
         {
-          params: { addressId: addressId }
+          params: { addressId: addressId },
         }
       )
       .pipe(catchError((error: any) => throwError(error.json())));
@@ -223,7 +220,7 @@ export class OccCartService {
         this.getCartEndpoint(userId) + cartId + '/deliverymode',
         {},
         {
-          params: { deliveryModeId: deliveryModeId }
+          params: { deliveryModeId: deliveryModeId },
         }
       )
       .pipe(catchError((error: any) => throwError(error.json())));
@@ -265,7 +262,7 @@ export class OccCartService {
   ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
-      Accept: 'text/html'
+      Accept: 'text/html',
     });
     let httpParams = new HttpParams({ encoder: new CustomEncoder() });
     Object.keys(parameters).forEach(key => {
@@ -274,7 +271,7 @@ export class OccCartService {
 
     return this.http.post(postUrl, httpParams, {
       headers,
-      responseType: 'text'
+      responseType: 'text',
     });
   }
 
@@ -289,7 +286,7 @@ export class OccCartService {
     });
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     });
 
     return this.http
@@ -311,7 +308,7 @@ export class OccCartService {
         this.getCartEndpoint(userId) + cartId + '/paymentdetails',
         {},
         {
-          params: { paymentDetailsId: paymentDetailsId }
+          params: { paymentDetailsId: paymentDetailsId },
         }
       )
       .pipe(catchError((error: any) => throwError(error.json())));

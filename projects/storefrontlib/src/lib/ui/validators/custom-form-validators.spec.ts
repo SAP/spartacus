@@ -10,11 +10,11 @@ describe('FormValidationService', () => {
   beforeEach(() => {
     email = new FormControl();
     emailError = {
-      InvalidEmail: true
+      InvalidEmail: true,
     };
     password = new FormControl();
     passwordError = {
-      InvalidPassword: true
+      InvalidPassword: true,
     };
   });
 
@@ -47,7 +47,7 @@ describe('FormValidationService', () => {
       'email@example.name',
       'email@example.museum',
       'email@example.co.jp',
-      'firstname-lastname@example.com'
+      'firstname-lastname@example.com',
     ];
     const invalidEmails = [
       '',
@@ -70,7 +70,7 @@ describe('FormValidationService', () => {
       'email@example..com',
       'Abc..123@example.com',
       '”(),:;<>[]@example.com',
-      'this is"really"notallowed@example.com'
+      'this is"really"notallowed@example.com',
     ];
 
     validEmails.forEach((validEmail: string) => {

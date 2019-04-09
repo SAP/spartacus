@@ -3,6 +3,7 @@ import { ProductSummaryComponent } from '../product-summary/product-summary.comp
 import { AddToCartModule } from '../../../../cart/add-to-cart/add-to-cart.module';
 import { FormComponentsModule } from './../../../../ui/components/form-components/form-components.module';
 import { OutletDirective } from '../../../../outlet';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('ProductSummaryComponent in product', () => {
   let productSummaryComponent: ProductSummaryComponent;
@@ -10,8 +11,8 @@ describe('ProductSummaryComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddToCartModule, FormComponentsModule],
-      declarations: [ProductSummaryComponent, OutletDirective]
+      imports: [AddToCartModule, FormComponentsModule, I18nTestingModule],
+      declarations: [ProductSummaryComponent, OutletDirective],
     }).compileComponents();
   }));
 

@@ -5,6 +5,6 @@ import { PromotionsComponent } from './promotions.component';
 @NgModule({
   imports: [CommonModule],
   declarations: [PromotionsComponent],
-  exports: [PromotionsComponent]
+  exports: [PromotionsComponent],
 })
 export class PromotionsModule {}

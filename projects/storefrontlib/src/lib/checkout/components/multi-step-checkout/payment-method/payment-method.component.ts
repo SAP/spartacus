@@ -4,15 +4,21 @@ import {
   OnInit,
   Output,
   EventEmitter,
-  Input
+  OnDestroy,
 } from '@angular/core';
 
-import { PaymentDetails, Address } from '@spartacus/core';
+import {
+  PaymentDetails,
+  Address,
+  CheckoutService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { CartDataService } from '@spartacus/core';
 import { UserService } from '@spartacus/core';
 
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { tap, filter } from 'rxjs/operators';
 
 import { masterCardImgSrc } from '../../../../ui/images/masterCard';
 import { visaImgSrc } from '../../../../ui/images/visa';
@@ -22,24 +28,29 @@ import { Card } from '../../../../ui/components/card/card.component';
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
   styleUrls: ['./payment-method.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentMethodComponent implements OnInit {
+export class PaymentMethodComponent implements OnInit, OnDestroy {
   newPaymentFormManuallyOpened = false;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   cards: Card[] = [];
   isLoading$: Observable<boolean>;
-
-  @Input()
+  getPaymentDetailsSub: Subscription;
+  getDeliveryAddressSub: Subscription;
   selectedPayment: PaymentDetails;
+  deliveryAddress: Address;
+
   @Output()
   backStep = new EventEmitter<any>();
+
   @Output()
-  addPaymentInfo = new EventEmitter<any>();
+  goToStep = new EventEmitter<any>();
 
   constructor(
     protected cartData: CartDataService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected checkoutService: CheckoutService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -61,6 +72,25 @@ export class PaymentMethodComponent implements OnInit {
         }
       })
     );
+
+    this.getPaymentDetailsSub = this.checkoutService
+      .getPaymentDetails()
+      .pipe(filter(paymentInfo => Object.keys(paymentInfo).length !== 0))
+      .subscribe(paymentInfo => {
+        if (!paymentInfo['hasError']) {
+          this.selectedPayment = paymentInfo;
+        } else {
+          Object.keys(paymentInfo).forEach(key => {
+            if (key.startsWith('InvalidField')) {
+              this.globalMessageService.add({
+                type: GlobalMessageType.MSG_TYPE_ERROR,
+                text: 'InvalidField: ' + paymentInfo[key],
+              });
+            }
+          });
+          this.checkoutService.clearCheckoutStep(3);
+        }
+      });
   }
 
   getCardContent(payment: PaymentDetails): Card {
@@ -75,10 +105,10 @@ export class PaymentMethodComponent implements OnInit {
       textBold: payment.accountHolderName,
       text: [
         payment.cardNumber,
-        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear
+        'Expires: ' + payment.expiryMonth + '/' + payment.expiryYear,
       ],
       img: ccImage,
-      actions: [{ name: 'Use this payment', event: 'send' }]
+      actions: [{ name: 'Use this payment', event: 'send' }],
     };
 
     this.cards.push(card);
@@ -98,27 +128,6 @@ export class PaymentMethodComponent implements OnInit {
     }
   }
 
-  next(): void {
-    this.addPaymentInfo.emit({
-      payment: this.selectedPayment,
-      newPayment: false
-    });
-  }
-
-  addNewPaymentMethod({
-    paymentDetails,
-    billingAddress
-  }: {
-    paymentDetails: PaymentDetails;
-    billingAddress: Address;
-  }): void {
-    this.addPaymentInfo.emit({
-      payment: paymentDetails,
-      billingAddress,
-      newPayment: true
-    });
-  }
-
   showNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = true;
   }
@@ -127,7 +136,77 @@ export class PaymentMethodComponent implements OnInit {
     this.newPaymentFormManuallyOpened = false;
   }
 
+  next(): void {
+    this.addPaymentInfo({
+      payment: this.selectedPayment,
+      newPayment: false,
+    });
+  }
+
   back(): void {
     this.backStep.emit();
+  }
+
+  addNewPaymentMethod({
+    paymentDetails,
+    billingAddress,
+  }: {
+    paymentDetails: PaymentDetails;
+    billingAddress: Address;
+  }): void {
+    this.getDeliveryAddressSub = this.checkoutService
+      .getDeliveryAddress()
+      .subscribe(address => {
+        billingAddress = address;
+      });
+    this.addPaymentInfo({
+      payment: paymentDetails,
+      billingAddress,
+      newPayment: true,
+    });
+  }
+
+  addPaymentInfo({
+    newPayment,
+    payment,
+    billingAddress,
+  }: {
+    newPayment: boolean;
+    payment: PaymentDetails;
+    billingAddress?: Address;
+  }): void {
+    payment.billingAddress = billingAddress
+      ? billingAddress
+      : this.deliveryAddress;
+
+    if (newPayment) {
+      this.checkoutService.createPaymentDetails(payment);
+      this.checkoutService.clearCheckoutStep(3);
+    }
+
+    // if the selected payment is the same as the cart's one
+    if (this.selectedPayment && this.selectedPayment.id === payment.id) {
+      this.checkoutService.setPaymentDetails(payment);
+      this.checkoutService.clearCheckoutStep(3);
+    }
+
+    this.getPaymentDetailsSub = this.checkoutService
+      .getPaymentDetails()
+      .subscribe(data => {
+        if (data.accountHolderName && data.cardNumber) {
+          this.goToStep.emit(4);
+
+          return;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.getPaymentDetailsSub) {
+      this.getPaymentDetailsSub.unsubscribe();
+    }
+    if (this.getDeliveryAddressSub) {
+      this.getDeliveryAddressSub.unsubscribe();
+    }
   }
 }

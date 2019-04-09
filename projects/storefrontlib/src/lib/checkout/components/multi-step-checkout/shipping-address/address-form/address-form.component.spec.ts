@@ -5,7 +5,13 @@ import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Title, Country, Region, CheckoutService } from '@spartacus/core';
+import {
+  Title,
+  Country,
+  Region,
+  CheckoutService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { UserService, GlobalMessageService } from '@spartacus/core';
 import { AddressValidation } from '@spartacus/core';
 
@@ -38,33 +44,33 @@ class MockUserService {
 const mockTitles: Title[] = [
   {
     code: 'mr',
-    name: 'Mr.'
+    name: 'Mr.',
   },
   {
     code: 'mrs',
-    name: 'Mrs.'
-  }
+    name: 'Mrs.',
+  },
 ];
 const expectedTitles: Title[] = [{ code: '', name: 'Title' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
-    name: 'Andorra'
+    name: 'Andorra',
   },
   {
     isocode: 'RS',
-    name: 'Serbia'
-  }
+    name: 'Serbia',
+  },
 ];
 const mockRegions: Region[] = [
   {
     isocode: 'CA-ON',
-    name: 'Ontario'
+    name: 'Ontario',
   },
   {
     isocode: 'CA-QC',
-    name: 'Quebec'
-  }
+    name: 'Quebec',
+  },
 ];
 
 class MockCheckoutService {
@@ -86,20 +92,20 @@ describe('AddressFormComponent', () => {
 
   beforeEach(async(() => {
     mockGlobalMessageService = {
-      add: createSpy()
+      add: createSpy(),
     };
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       declarations: [AddressFormComponent],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useClass: MockUserService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
-      ]
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+      ],
     })
       .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
 
@@ -193,7 +199,7 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'ACCEPT'
+      decision: 'ACCEPT',
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -214,8 +220,8 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REJECT',
       errors: {
-        errors: [{ subject: 'No' }]
-      }
+        errors: [{ subject: 'No' }],
+      },
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -234,7 +240,7 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REVIEW'
+      decision: 'REVIEW',
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -370,7 +376,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector('.btn-action').innerText
-      ).toEqual('Choose Address');
+      ).toEqual('address.action.chooseAddress');
     });
   });
 

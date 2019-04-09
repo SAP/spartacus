@@ -5,7 +5,7 @@ describe('getStateSlice', () => {
     const state = {
       products: { 1: 'als', 2: 'veta' },
       cms: { pages: { page1: 'saddsa', page2: 'page2' } },
-      auth: 'authconfig'
+      auth: 'authconfig',
     };
 
     const keys = { products: true, cms: true };
@@ -21,7 +21,7 @@ describe('getStateSlice', () => {
     const state = {
       products: { 1: 'als', 2: 'veta' },
       cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig'
+      auth: 'authconfig',
     };
 
     const keys = { products: true, cms: { pages: true } };
@@ -30,7 +30,7 @@ describe('getStateSlice', () => {
 
     const expected = {
       products: state.products,
-      cms: { pages: state.cms.pages }
+      cms: { pages: state.cms.pages },
     };
 
     expect(result).toEqual(expected);
@@ -40,7 +40,7 @@ describe('getStateSlice', () => {
     const state = {
       products: { 1: 'als', 2: 'veta' },
       cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig'
+      auth: 'authconfig',
     };
 
     const keys = { cms: { pages: { page1: true } } };
@@ -56,7 +56,7 @@ describe('getStateSlice', () => {
     const state = {
       products: { 1: 'als', 2: 'veta' },
       cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig'
+      auth: 'authconfig',
     };
 
     const keys = { notPresent: true };

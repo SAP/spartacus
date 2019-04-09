@@ -1,15 +1,24 @@
 import { ContentSlotData } from './content-slot-data.model';
 
+import { CmsComponent } from '../../occ/occ-models/index';
+
 export interface Page {
-  uuid?: string;
   pageId?: string;
-  catalogUuid?: string;
   name?: string;
   type?: string;
   title?: string;
   template?: string;
   loadTime?: number;
   slots: { [key: string]: ContentSlotData };
+  properties?: any;
+}
+
+/**
+ * Represents the cms structure for pages, slots and components.
+ */
+export interface CmsStructureModel {
+  page?: Page;
+  components?: CmsComponent[];
 }
 
 /**
@@ -50,5 +59,5 @@ export enum PageRobotsMeta {
   INDEX = 'INDEX',
   NOINDEX = 'NOINDEX',
   FOLLOW = 'FOLLOW',
-  NOFOLLOW = 'NOFOLLOW'
+  NOFOLLOW = 'NOFOLLOW',
 }

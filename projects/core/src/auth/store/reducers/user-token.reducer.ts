@@ -3,7 +3,7 @@ import { UserToken } from '../../models/token-types.model';
 import { UserTokenState } from '../auth-state';
 
 export const initialState: UserTokenState = {
-  token: <UserToken>{}
+  token: <UserToken>{},
 };
 
 export function reducer(
@@ -14,7 +14,7 @@ export function reducer(
     case fromAction.LOAD_USER_TOKEN:
     case fromAction.REFRESH_USER_TOKEN: {
       return {
-        ...state
+        ...state,
       };
     }
 
@@ -24,14 +24,14 @@ export function reducer(
 
       return {
         ...state,
-        token
+        token,
       };
     }
 
     case fromAction.LOAD_USER_TOKEN_FAIL:
     case fromAction.REFRESH_USER_TOKEN_FAIL: {
       return {
-        ...state
+        ...state,
       };
     }
   }

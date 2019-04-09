@@ -1,32 +1,32 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProductImagesComponent } from '../product-images/product-images.component';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
 import { DebugElement } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OutletDirective } from 'projects/storefrontlib/src/lib/outlet';
+import { OutletDirective } from '../../../../outlet/index';
+import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
+import { ProductImagesComponent } from '../product-images/product-images.component';
 
 const firstImage = {
   zoom: {
-    url: '123'
-  }
+    url: '123',
+  },
 };
 const secondImage = {
   zoom: {
-    url: '456'
-  }
+    url: '456',
+  },
 };
 const mockDataWithMultiplePictures = {
   images: {
     PRIMARY: firstImage,
-    GALLERY: [firstImage, secondImage]
-  }
+    GALLERY: [firstImage, secondImage],
+  },
 };
 
 const mockDataWithOnePicture = {
   images: {
     PRIMARY: firstImage,
-    GALLERY: [firstImage]
-  }
+    GALLERY: [firstImage],
+  },
 };
 
 describe('ProductImagesComponent', () => {
@@ -36,7 +36,7 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductImagesComponent, PictureComponent, OutletDirective]
+      declarations: [ProductImagesComponent, PictureComponent, OutletDirective],
     }).compileComponents();
   }));
 

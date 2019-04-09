@@ -4,22 +4,23 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { HeaderComponent } from './header.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Component({
   selector: 'cx-language-selector',
-  template: ''
+  template: '',
 })
 class MockLanguageSelectorComponent {}
 
 @Component({
   selector: 'cx-currency-selector',
-  template: ''
+  template: '',
 })
 class MockCurrencySelectorComponent {}
 
 @Component({
   selector: 'cx-page-slot',
-  template: ''
+  template: '',
 })
 class MockDynamicSlotComponent {
   @Input()
@@ -28,13 +29,13 @@ class MockDynamicSlotComponent {
 
 @Component({
   selector: 'cx-login',
-  template: ''
+  template: '',
 })
 class MockLoginComponent {}
 
 @Component({
   selector: 'cx-mobile-menu',
-  template: ''
+  template: '',
 })
 class MockMobileMenuComponent {}
 
@@ -44,7 +45,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         HeaderComponent,
         MockDynamicSlotComponent,
@@ -52,8 +53,8 @@ describe('HeaderComponent', () => {
         MockCurrencySelectorComponent,
         MockLoginComponent,
         MockMobileMenuComponent,
-        HeaderSkipperComponent
-      ]
+        HeaderSkipperComponent,
+      ],
     }).compileComponents();
   }));
 

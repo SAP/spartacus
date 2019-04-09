@@ -4,12 +4,12 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, of, Observable } from 'rxjs';
 
-import { Address, User } from '@spartacus/core';
+import { Address, I18nTestingModule, User } from '@spartacus/core';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -25,11 +25,11 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
-  defaultAddress: false
+  defaultAddress: false,
 };
 
 const mockUser: User = {
-  uid: '1234'
+  uid: '1234',
 };
 
 const isLoading = new BehaviorSubject<boolean>(false);
@@ -51,7 +51,7 @@ class MockComponentService {
 
 @Component({
   selector: 'cx-address-card',
-  template: ''
+  template: '',
 })
 class MockAddressCardComponent {
   editMode: true;
@@ -68,7 +68,7 @@ class MockAddressCardComponent {
 
 @Component({
   selector: 'cx-address-form',
-  template: ''
+  template: '',
 })
 class MockAddressFormComponent {
   @Input()
@@ -100,15 +100,18 @@ describe('AddressBookComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [SpinnerModule],
+      imports: [SpinnerModule, I18nTestingModule],
       providers: [
-        { provide: AddressBookComponentService, useClass: MockComponentService }
+        {
+          provide: AddressBookComponentService,
+          useClass: MockComponentService,
+        },
       ],
       declarations: [
         AddressBookComponent,
         MockAddressCardComponent,
-        MockAddressFormComponent
-      ]
+        MockAddressFormComponent,
+      ],
     }).compileComponents();
   }));
 
@@ -139,12 +142,6 @@ describe('AddressBookComponent', () => {
 
   it('should address cards number to be equal with addresses count', () => {
     expect(el.queryAll(By.css('cx-address-card')).length).toEqual(3);
-  });
-
-  it('should display shipping addresses page title', () => {
-    expect(
-      el.query(By.css('.cx-section__msg')).nativeElement.textContent
-    ).toContain('Saved shipping addresses');
   });
 
   it('should be able to add new address', () => {
