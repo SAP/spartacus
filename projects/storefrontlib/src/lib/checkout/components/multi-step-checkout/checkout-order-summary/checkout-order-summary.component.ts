@@ -1,6 +1,7 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { CartService, Cart } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-checkout-order-summary',
@@ -8,12 +9,12 @@ import { CartService, Cart } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutOrderSummaryComponent {
-  @Input()
-  cart: Cart;
+  cart$: Observable<Cart>;
 
   constructor(protected cartService: CartService) {
-    this.cartService.getActive().subscribe(cart => {
-      this.cart = cart;
-    });
+    // this.cartService.getActive().subscribe(cart => {
+    //   this.cart = cart;
+    // });
+    this.cart$ = this.cartService.getActive();
   }
 }
