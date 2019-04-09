@@ -9,7 +9,14 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { CheckoutService, CartService, AuthService } from '@spartacus/core';
+import {
+  Address,
+  DeliveryMode,
+  PaymentDetails,
+  CheckoutService,
+  CartService,
+  AuthService,
+} from '@spartacus/core';
 
 @Injectable()
 export class CheckoutDetailsService {
@@ -41,19 +48,19 @@ export class CheckoutDetailsService {
     );
   }
 
-  getDeliveryAddress(): Observable<any> {
+  getDeliveryAddress(): Observable<Address> {
     return this.checkoutDetails$.pipe(
       switchMap(() => this.checkoutService.getDeliveryAddress())
     );
   }
 
-  getSelectedDeliveryMode(): Observable<any> {
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return this.checkoutDetails$.pipe(
       switchMap(() => this.checkoutService.getSelectedDeliveryMode())
     );
   }
 
-  getPaymentDetails(): Observable<any> {
+  getPaymentDetails(): Observable<PaymentDetails> {
     return this.checkoutDetails$.pipe(
       switchMap(() => this.checkoutService.getPaymentDetails())
     );
