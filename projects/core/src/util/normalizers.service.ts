@@ -2,8 +2,8 @@ import { Injectable, InjectionToken, Injector } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export abstract class Normalizer<S, T> {
-  abstract normalize(source: S, target: T): T;
+export interface Normalizer<S, T> {
+  normalize(source: S, target: T): T;
 }
 
 @Injectable({

@@ -11,13 +11,13 @@ const NotProvidedNormalizerInjectionToken = new InjectionToken(
   'TestNormalizerInjectionToken'
 );
 
-class CopyNormalizer extends Normalizer<any, any> {
+class CopyNormalizer implements Normalizer<any, any> {
   normalize(source: any, target: any = {}): any {
     return { ...target, ...source };
   }
 }
 
-class TestNormalizer extends Normalizer<any, any> {
+class TestNormalizer implements Normalizer<any, any> {
   normalize(source: any, target: any = {}): any {
     return { ...target, source };
   }
