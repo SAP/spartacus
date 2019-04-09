@@ -11,6 +11,7 @@ import {
   UrlTranslationModule,
   ConfigModule,
   CmsConfig,
+  I18nModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -28,6 +29,7 @@ import {
         },
       },
     }),
+    I18nModule,
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],

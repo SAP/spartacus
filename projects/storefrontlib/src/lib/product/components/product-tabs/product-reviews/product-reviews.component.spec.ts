@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { of, Observable } from 'rxjs';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { ProductReviewService } from '@spartacus/core';
+import { ProductReviewService, I18nTestingModule } from '@spartacus/core';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -25,7 +25,7 @@ describe('ProductReviewsComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, ComponentsModule],
+      imports: [ReactiveFormsModule, ComponentsModule, I18nTestingModule],
       providers: [
         {
           provide: ProductReviewService,

@@ -28,7 +28,7 @@
           >
         </div>
         <div *ngIf="item.product.code" class="cx-code">
-          ID {{ item.product.code }}
+          {{ 'cartItems.label.id' | cxTranslate }} {{ item.product.code }}
         </div>
         <!-- Variants -->
         <div
@@ -49,7 +49,7 @@
           class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
-          Item
+          {{ 'cartItems.label.item' | cxTranslate }}
         </div>
         <div *ngIf="item.basePrice" class="cx-value">
           {{ item.basePrice?.formattedValue }}
@@ -67,7 +67,7 @@
           placement="left"
           ngbTooltip="The quantity represents the total number of this item in your cart."
         >
-          Qty
+          {{ 'cartItems.label.quantity' | cxTranslate }}
         </div>
         <div *ngIf="isReadOnly" class="cx-value">{{ item.quantity }}</div>
         <div
@@ -97,7 +97,7 @@
           class="cx-label"
           [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
         >
-          Total
+          {{ 'cartItems.label.total' | cxTranslate }}
         </div>
         <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
       </div>
@@ -116,7 +116,7 @@
         [disabled]="cartIsLoading"
         (click)="removeItem()"
       >
-        Remove
+        {{ 'common.action.remove' | cxTranslate }}
       </button>
     </div>
   </div>

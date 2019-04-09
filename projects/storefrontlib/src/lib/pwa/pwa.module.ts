@@ -5,7 +5,7 @@ import {
   ɵangular_packages_service_worker_service_worker_b as RegistrationOptions,
 } from '@angular/service-worker';
 
-import { Config, ConfigModule } from '@spartacus/core';
+import { Config, ConfigModule, I18nModule } from '@spartacus/core';
 
 import { defaultPWAModuleConfig, PWAModuleConfig } from './pwa.module-config';
 import { AddToHomeScreenBtnComponent } from './components/add-to-home-screen-btn/add-to-home-screen-btn.component';
@@ -28,6 +28,7 @@ export function pwaFactory(addToHomeScreenService) {
     CommonModule,
     ConfigModule.withConfig(defaultPWAModuleConfig),
     ServiceWorkerModule.register('/ngsw-worker.js'),
+    I18nModule,
   ],
   providers: [
     { provide: PWAModuleConfig, useExisting: Config },

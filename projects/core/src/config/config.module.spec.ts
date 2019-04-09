@@ -17,57 +17,16 @@ describe('ConfigModule', () => {
     });
 
     const config = TestBed.get(Config);
-    expect(config).toEqual(
-      jasmine.objectContaining({
-        server: {
-          occPrefix: '/rest/v2/',
-        },
-      })
-    );
+    expect(config).toEqual({});
   });
 
   it('should allow to override only part of the config', () => {
     TestBed.configureTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          server: {
-            baseUrl: 'override url',
-          },
-        }),
-      ],
+      imports: [ConfigModule.forRoot({ test1: 'test1' })],
     });
 
     const config = TestBed.get(Config);
-    expect(config).toEqual(
-      jasmine.objectContaining({
-        server: {
-          baseUrl: 'override url',
-          occPrefix: '/rest/v2/',
-        },
-      })
-    );
-  });
-
-  it('should allow to override only part of the config', () => {
-    TestBed.configureTestingModule({
-      imports: [
-        ConfigModule.forRoot({
-          server: {
-            baseUrl: 'override url',
-          },
-        }),
-      ],
-    });
-
-    const config = TestBed.get(Config);
-    expect(config).toEqual(
-      jasmine.objectContaining({
-        server: {
-          baseUrl: 'override url',
-          occPrefix: '/rest/v2/',
-        },
-      })
-    );
+    expect(config).toEqual(jasmine.objectContaining({ test1: 'test1' }));
   });
 
   it('should allow to provide config with ConfigModule.withConfig', () => {

@@ -9,14 +9,14 @@ const mockConfig: CmsConfig = {
   cmsComponents: {
     exampleMapping1: {
       selector: 'selector-1',
-      i18nNamespaces: ['namespace-1'],
+      i18nKeys: ['key-1'],
       guards: ['guard1', 'guard2'],
     },
     exampleMapping2: {
       selector: 'selector-2',
       disableSSR: true,
       childRoutes: [{ path: 'route1' }, { path: 'route2' }],
-      i18nNamespaces: ['namespace-1', 'namespace-2'],
+      i18nKeys: ['key-1', 'key-2'],
       guards: ['guard1'],
     },
   },
@@ -68,11 +68,11 @@ describe('CmsMappingService', () => {
     });
   });
 
-  describe('getI18nNamespacesForComponents', () => {
-    it('should i18n namespaces from page data', () => {
-      expect(service.getI18nNamespacesForComponents(mockComponents)).toEqual([
-        'namespace-1',
-        'namespace-2',
+  describe('getI18nKeysForComponents', () => {
+    it('should get i18n keys from page data', () => {
+      expect(service.getI18nKeysForComponents(mockComponents)).toEqual([
+        'key-1',
+        'key-2',
       ]);
     });
   });

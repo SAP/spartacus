@@ -1,0 +1,66 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-group row">
+    <div class="col-md-12">
+      <label>
+        <span class="label-content">Title</span>
+        <select formControlName="titleCode" class="form-control">
+          <option value="">None</option>
+          <option *ngFor="let title of titles" [value]="title.code">{{
+            title.name
+          }}</option>
+        </select>
+      </label>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-12">
+      <label>
+        <span class="label-content">First Name</span>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          placeholder="First Name"
+          formControlName="firstName"
+          [class.is-invalid]="isNotValid('firstName')"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('firstName')">
+          <span>First name is required.</span>
+        </div>
+      </label>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-md-12">
+      <label>
+        <span class="label-content">Last Name</span>
+        <input
+          type="text"
+          class="form-control"
+          name="lastName"
+          placeholder="Last Name"
+          formControlName="lastName"
+          [class.is-invalid]="isNotValid('lastName')"
+        />
+        <div class="invalid-feedback" *ngIf="isNotValid('lastName')">
+          <span>Last name is required.</span>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-lg-6 col-md-12">
+      <button
+        class="btn btn-block btn-secondary"
+        type="button"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+    </div>
+    <div class="col-lg-6 col-md-12">
+      <button class="btn btn-block btn-primary" type="submit">Save</button>
+    </div>
+  </div>
+</form>
