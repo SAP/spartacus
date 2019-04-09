@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { CartService, Cart } from '@spartacus/core';
 
 @Component({
   selector: 'cx-checkout-order-summary',
   templateUrl: './checkout-order-summary.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutOrderSummaryComponent {
   @Input()
