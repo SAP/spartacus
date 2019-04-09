@@ -16,6 +16,7 @@ import {
 import { ProductImageConverterService } from '../../product';
 
 import { OccCartService } from './cart.service';
+import { CheckoutDetails } from '../../checkout/models/checkout.model';
 
 const userId = '123';
 const cartId = '456';
@@ -23,6 +24,11 @@ const toMergeCart = { guid: '123456' };
 const cartData: Cart = {
   store: 'electronics',
   guid: '1212121',
+};
+const checkoutData: CheckoutDetails = {
+  deliveryAddress: {
+    firstName: 'Janusz',
+  },
 };
 const cartDataList: CartList = {
   carts: [cartData],
@@ -49,6 +55,8 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
+
+const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -629,6 +637,26 @@ describe('OccCartService', () => {
       expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+    });
+  });
+
+  describe('load checkout details', () => {
+    it('should load checkout details data for given userId, cartId', () => {
+      service.loadCheckoutDetails(userId, cartId).subscribe(result => {
+        expect(result).toEqual(checkoutData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.params.get('fields')).toEqual(CHECKOUT_PARAMS);
+      mockReq.flush(checkoutData);
     });
   });
 });
