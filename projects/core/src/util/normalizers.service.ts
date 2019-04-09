@@ -21,10 +21,17 @@ export class NormalizersService {
     injectionToken: InjectionToken<Normalizer<S, T>>
   ): Normalizer<S, T>[] {
     if (!this.normalizers.has(injectionToken)) {
-      this.normalizers.set(
+      const normalizers = this.injector.get<Normalizer<S, T>[]>(
         injectionToken,
-        this.injector.get<Normalizer<S, T>[]>(injectionToken, [])
+        []
       );
+      if (!Array.isArray(normalizers)) {
+        console.warn(
+          'Normalizers must be multi-provided, please use "multi: true" for',
+          injectionToken.toString()
+        );
+      }
+      this.normalizers.set(injectionToken, normalizers);
     }
 
     return this.normalizers.get(injectionToken);
