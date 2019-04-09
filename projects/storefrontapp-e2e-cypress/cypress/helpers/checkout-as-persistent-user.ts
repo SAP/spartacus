@@ -163,9 +163,9 @@ export function displaySummaryPage() {
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
-/*
+
 export function deleteShippingAddress() {
-  // function getAddressId() {
+  // Retrieve the address ID
   cy.request({
     method: 'GET',
     url: `${Cypress.env(
@@ -178,35 +178,67 @@ export function deleteShippingAddress() {
         ]
       }`,
     },
-  }).then(response => {
-    const addressResp = response.body.addresses;
-    expect(addressResp[0]).to.have.property('id');
-
-    const addressValues = Cypress._.values(addressResp[0]);
-  });
+  })
+    .then(response => {
+      const addressResp = response.body.addresses;
+      expect(addressResp[0]).to.have.property('id');
+      return addressResp[0].id;
+    })
+    .then(id => {
+      // Delete the address
+      cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env(
+          'API_URL'
+        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
+        headers: {
+          Authorization: `bearer ${
+            JSON.parse(sessionStorage.getItem('auth')).userToken.token[
+              'access_token'
+            ]
+          }`,
+        },
+      }).then(response => {
+        expect(response.status).to.eq(200);
+      });
+    });
 }
- }
- */
-
-export function deleteShippingAddress() {
-  cy.visit('/my-account/address-book');
-  cy.getByText('delete')
-    .first()
-    .click();
-  cy.get('.cx-address-card-delete')
-    .find('.btn-primary')
-    .click();
-  cy.get('cx-global-message').contains('Address deleted successfully!');
-}
-
 export function deletePaymentCard() {
-  cy.visit('/my-account/payment-details');
-  cy.getByText('Delete')
-    .first()
-    .click();
-  cy.get('.btn-primary').should('contain', 'delete');
-  cy.get('.btn-primary').click();
-  cy.get('.cx-payment .cx-body').then(() => {
-    cy.get('cx-card').should('not.exist');
-  });
+  // Retrieve the payment ID
+  cy.request({
+    method: 'GET',
+    url: `${Cypress.env(
+      'API_URL'
+    )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
+    headers: {
+      Authorization: `bearer ${
+        JSON.parse(sessionStorage.getItem('auth')).userToken.token[
+          'access_token'
+        ]
+      }`,
+    },
+  })
+    .then(response => {
+      const paymentResp = response.body.payments;
+      expect(paymentResp[0]).to.have.property('id');
+      return paymentResp[0].id;
+    })
+    .then(id => {
+      // Delete the payment
+      cy.request({
+        method: 'DELETE',
+        url: `${Cypress.env(
+          'API_URL'
+        )}/rest/v2/electronics/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
+        headers: {
+          Authorization: `bearer ${
+            JSON.parse(sessionStorage.getItem('auth')).userToken.token[
+              'access_token'
+            ]
+          }`,
+        },
+      }).then(response => {
+        expect(response.status).to.eq(200);
+      });
+    });
 }
