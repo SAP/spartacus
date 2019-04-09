@@ -3,6 +3,7 @@ import {
   ModuleWithProviders,
   NgModule,
   Provider,
+  Optional,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -10,11 +11,9 @@ import {
   ServerConfig,
 } from './server-config/server-config';
 import { deepMerge } from './utils/deep-merge';
-import { serverConfigValidator } from './server-config/server-config-validator';
 import {
   ConfigValidator,
   ConfigValidatorToken,
-  provideConfigValidator,
   validateConfig,
 } from './utils/config-validator';
 
@@ -43,7 +42,7 @@ export function configurationFactory(
 ) {
   const config = deepMerge({}, ...configChunks);
   if (!config.production) {
-    validateConfig(config, configValidators);
+    validateConfig(config, configValidators || []);
   }
   return config;
 }
@@ -80,9 +79,8 @@ export class ConfigModule {
         {
           provide: Config,
           useFactory: configurationFactory,
-          deps: [ConfigChunk, ConfigValidatorToken],
+          deps: [ConfigChunk, [new Optional(), ConfigValidatorToken]],
         },
-        provideConfigValidator(serverConfigValidator),
       ],
     };
   }

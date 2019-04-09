@@ -1,18 +1,18 @@
-import { TestBed } from '@angular/core/testing';
-import { OccUserService } from './user.service';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+import { OccConfig } from '../../occ/config/occ-config';
 import {
-  User,
   Address,
-  AddressValidation,
   AddressList,
+  AddressValidation,
   PaymentDetails,
   PaymentDetailsList,
+  User,
 } from '../../occ/occ-models/index';
-import { OccConfig } from '../../occ/config/occ-config';
+import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
 const password = '1234';
@@ -27,11 +27,14 @@ const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
+const updatePasswordEndpoint = '/password';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
@@ -61,7 +64,7 @@ describe('OccUserService', () => {
   });
 
   describe('load user details', () => {
-    it('should load user details for given username abd access token', () => {
+    it('should load user details for given username and access token', () => {
       service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
@@ -73,6 +76,24 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(user);
+    });
+  });
+
+  describe('update user details', () => {
+    it('should update user details for the given username', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+      service.updateUserDetails(username, userUpdates).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userUpdates);
+      mockReq.flush(userUpdates);
     });
   });
 
@@ -254,6 +275,31 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
+    });
+  });
+
+  describe('update password: ', () => {
+    it('should update the password for userId', () => {
+      const userId = 'test@test.com';
+      const oldPassword = 'OldPass123!';
+      const newPassword = 'NewPass456!';
+
+      let result: Object;
+
+      service
+        .updatePassword(userId, oldPassword, newPassword)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updatePasswordEndpoint}` &&
+          req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      mockReq.flush('');
+      expect(result).toEqual('');
     });
   });
 });

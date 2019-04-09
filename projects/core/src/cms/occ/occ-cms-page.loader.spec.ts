@@ -40,9 +40,11 @@ const componentList: CmsComponentList = {
 };
 
 const CmsStructureConfigMock: CmsStructureConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: '',
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {

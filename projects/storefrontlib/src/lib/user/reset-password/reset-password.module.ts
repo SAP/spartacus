@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { ConfigModule, CmsConfig } from '@spartacus/core';
 
+import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
 import { ResetPasswordFormComponent } from './reset-password-form/reset-password-form.component';
 
 @NgModule({
@@ -17,6 +17,7 @@ import { ResetPasswordFormComponent } from './reset-password-form/reset-password
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
+    I18nModule,
   ],
   declarations: [ResetPasswordFormComponent],
   exports: [ResetPasswordFormComponent],

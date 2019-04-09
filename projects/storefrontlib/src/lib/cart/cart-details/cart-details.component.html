@@ -1,9 +1,17 @@
 <ng-container *ngIf="(cart$ | async) as cart">
   <ng-container *ngIf="(entries$ | async) as entries">
     <div class="cart-details-wrapper">
-      <h1>Shopping Cart (ID {{ cart?.code }})</h1>
+      <h1>
+        {{ 'cart.label.shoppingCart' | cxTranslate }} ({{
+          'cart.label.id' | cxTranslate
+        }}
+        {{ cart?.code }})
+      </h1>
       <div class="cx-total">
-        Cart total ({{ cart.deliveryItemsQuantity }} items):
+        {{
+          'cartItems.label.cartTotal'
+            | cxTranslate: { count: cart.deliveryItemsQuantity }
+        }}:
         {{ cart.totalPrice?.formattedValue }}
       </div>
       <cx-promotions

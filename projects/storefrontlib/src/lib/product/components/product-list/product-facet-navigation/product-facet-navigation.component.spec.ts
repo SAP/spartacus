@@ -6,7 +6,11 @@ import { By } from '@angular/platform-browser';
 import { NgbCollapseModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ProductFacetNavigationComponent } from './product-facet-navigation.component';
-import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { of, Observable } from 'rxjs';
 
 describe('ProductFacetNavigationComponent in product-list', () => {
@@ -64,7 +68,7 @@ describe('ProductFacetNavigationComponent in product-list', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbCollapseModule, NgbModalModule],
+      imports: [NgbCollapseModule, NgbModalModule, I18nTestingModule],
       declarations: [ProductFacetNavigationComponent],
       providers: [
         {
