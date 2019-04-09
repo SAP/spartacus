@@ -1,6 +1,6 @@
 <ng-container *ngIf="(existingAddresses$ | async) as existingAddresses">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
-    Shipping Address
+    {{ 'checkoutAddress.label.shippingAddress' | cxTranslate }}
   </h3>
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <ng-container
@@ -9,14 +9,16 @@
         else newAddressForm
       "
     >
-      <p class="cx-checkout-text">Select your Shipping Address</p>
+      <p class="cx-checkout-text">
+        {{ 'checkoutAddress.label.selectYourShippingAddress' | cxTranslate }}
+      </p>
       <div class="cx-checkout-btns row">
         <div class="col-sm-12 col-md-12 col-lg-6">
           <button
             class="btn btn-block btn-action"
             (click)="showNewAddressForm()"
           >
-            Add New Address
+            {{ 'checkoutAddress.action.addNewAddress' | cxTranslate }}
           </button>
         </div>
       </div>
@@ -43,7 +45,7 @@
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
           <button class="cx-btn btn btn-block btn-action" (click)="back()">
-            Back to cart
+            {{ 'checkout.action.backToCart' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
@@ -52,7 +54,7 @@
             [disabled]="!selectedAddress"
             (click)="next()"
           >
-            Continue
+            {{ 'common.action.continue' | cxTranslate }}
           </button>
         </div>
       </div>
@@ -69,7 +71,7 @@
       <ng-template #initialAddressForm>
         <cx-address-form
           showTitleCode="true"
-          cancelBtnLabel="Back to cart"
+          cancelBtnLabel="{{ 'checkout.action.backToCart' | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addNewAddress($event)"
         ></cx-address-form>
