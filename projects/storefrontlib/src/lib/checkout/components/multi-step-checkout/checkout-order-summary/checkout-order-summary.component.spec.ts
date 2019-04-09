@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OrderSummaryComponent } from 'projects/storefrontlib/src/lib/cart';
 import { PromotionsComponent } from '../../promotions/promotions.component';
 import { BehaviorSubject } from 'rxjs';
-import { Cart, CartService } from '@spartacus/core';
+import { Cart, CartService, I18nTestingModule } from '@spartacus/core';
 
 import createSpy = jasmine.createSpy;
 
@@ -23,6 +23,7 @@ describe('CheckoutOrderSummaryComponent', () => {
       loadDetails: createSpy(),
     };
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         CheckoutOrderSummaryComponent,
         OrderSummaryComponent,
