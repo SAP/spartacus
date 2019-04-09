@@ -1,4 +1,9 @@
-import { CheckoutService, RoutingService, Order } from '@spartacus/core';
+import {
+  CheckoutService,
+  RoutingService,
+  Order,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -11,15 +16,15 @@ const checkoutServiceStub = {
   placeOrder(): void {},
   getOrderDetails(): Observable<Order> {
     return of({});
-  }
+  },
 };
 
 const routingServiceStub = {
-  go(): void {}
+  go(): void {},
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -31,12 +36,12 @@ describe('PlaceOrderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [MockTranslateUrlPipe, PlaceOrderComponent],
       providers: [
         { provide: CheckoutService, useValue: checkoutServiceStub },
-        { provide: RoutingService, useValue: routingServiceStub }
-      ]
+        { provide: RoutingService, useValue: routingServiceStub },
+      ],
     }).compileComponents();
   }));
 
