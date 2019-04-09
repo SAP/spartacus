@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { CmsPageConnector } from './cms-page.connector';
 import { CmsPageAdapter } from './cms-page.adapter';
 import {
-  CmsStructureConfig,
+  CmsStructureConfigService,
   NormalizersService,
   PageContext,
   PageType,
@@ -22,24 +22,10 @@ class MockNormalizerService {
   pipeable = createSpy().and.returnValue(x => x);
 }
 
-const CmsStructureConfigMock: CmsStructureConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  site: {
-    baseSite: '',
-    language: '',
-    currency: '',
-  },
-  cmsStructure: {
-    pages: [],
-    slots: {},
-  },
-};
+class MockCmsStructureConfigService {
+  mergePageStructure = createSpy().and.callFake(id => of(id));
+  shouldIgnoreBackend = createSpy().and.returnValue(of(false));
+}
 
 const context: PageContext = {
   id: '123',
@@ -48,8 +34,6 @@ const context: PageContext = {
 
 describe('CmsPageConnector', () => {
   let service: CmsPageConnector;
-  let adapter: CmsPageAdapter<any>;
-  let normalizers: NormalizersService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,15 +41,13 @@ describe('CmsPageConnector', () => {
         { provide: CmsPageAdapter, useClass: MockCmsPageAdapter },
         { provide: NormalizersService, useClass: MockNormalizerService },
         {
-          provide: CmsStructureConfig,
-          useValue: CmsStructureConfigMock,
+          provide: CmsStructureConfigService,
+          useClass: MockCmsStructureConfigService,
         },
       ],
     });
 
     service = TestBed.get(CmsPageConnector);
-    adapter = TestBed.get(CmsPageAdapter);
-    normalizers = TestBed.get(NormalizersService);
   });
 
   it('should be created', () => {
@@ -74,15 +56,31 @@ describe('CmsPageConnector', () => {
 
   describe('get', () => {
     it('should call adapter', () => {
+      const adapter = TestBed.get(CmsPageAdapter);
+
       let result;
       service.get(context).subscribe(res => (result = res));
-      expect(result).toBe('page123');
+      expect(result).toBe('123');
       expect(adapter.load).toHaveBeenCalledWith(context);
     });
 
     it('should use normalizer', () => {
+      const normalizers = TestBed.get(NormalizersService);
+
       service.get(context).subscribe();
       expect(normalizers.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZER);
+    });
+
+    it('should use CmsStructureConfigService', () => {
+      const structureConfigService = TestBed.get(CmsStructureConfigService);
+      service.get(context).subscribe();
+      expect(structureConfigService.shouldIgnoreBackend).toHaveBeenCalledWith(
+        context.id
+      );
+      expect(structureConfigService.mergePageStructure).toHaveBeenCalledWith(
+        context.id,
+        'page123'
+      );
     });
   });
 });

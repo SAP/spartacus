@@ -3,18 +3,18 @@ import { TestBed } from '@angular/core/testing';
 import { CmsComponentConnector } from './cms-component.connector';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import {
-  CmsStructureConfig,
+  CmsStructureConfigService,
   NormalizersService,
   PageContext,
   PageType,
 } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import createSpy = jasmine.createSpy;
 import {
   CMS_COMPONENT_LIST_NORMALIZER,
   CMS_COMPONENT_NORMALIZER,
 } from './cms-component.normalizer';
 import { IdList } from '../../model/idList.model';
+import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter<any, any> {
   load = createSpy('CmsComponentAdapter.load').and.callFake(id =>
@@ -36,24 +36,9 @@ const context: PageContext = {
   type: PageType.PRODUCT_PAGE,
 };
 
-const CmsStructureConfigMock: CmsStructureConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  site: {
-    baseSite: '',
-    language: '',
-    currency: '',
-  },
-  cmsStructure: {
-    pages: [],
-    slots: {},
-  },
-};
+class MockCmsStructureConfigService {
+  getComponentFromConfig = createSpy().and.returnValue(of(undefined));
+}
 
 describe('CmsComponentConnector', () => {
   let service: CmsComponentConnector;
@@ -66,8 +51,8 @@ describe('CmsComponentConnector', () => {
         { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },
         { provide: NormalizersService, useClass: MockNormalizerService },
         {
-          provide: CmsStructureConfig,
-          useValue: CmsStructureConfigMock,
+          provide: CmsStructureConfigService,
+          useClass: MockCmsStructureConfigService,
         },
       ],
     });
@@ -94,6 +79,14 @@ describe('CmsComponentConnector', () => {
       expect(normalizers.pipeable).toHaveBeenCalledWith(
         CMS_COMPONENT_NORMALIZER
       );
+    });
+
+    it('should use CmsStructureConfigService', () => {
+      const structureConfigService = TestBed.get(CmsStructureConfigService);
+      service.get('333', context).subscribe();
+      expect(
+        structureConfigService.getComponentFromConfig
+      ).toHaveBeenCalledWith('333');
     });
   });
 
