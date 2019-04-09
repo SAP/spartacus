@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { Observable } from 'rxjs';
 import { Review, ReviewList } from '../../occ/occ-models/occ.models';
-import { ProductReviewsAdapter } from '../services/product-reviews-adapter';
+import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {

@@ -1,16 +1,12 @@
-import { Injectable, InjectionToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Review } from '../../occ/occ-models/occ.models';
-import { ProductReviewsAdapter } from './product-reviews-adapter';
-import { Normalizer, NormalizersService } from '../../util/normalizers.service';
-
-export const PRODUCT_REVIEWS_LIST_NORMALIZER = new InjectionToken<
-  Normalizer<any, Review[]>
->('ProductReviewsList Normalizer');
-
-export const PRODUCT_REVIEW_ADD_NORMALIZER = new InjectionToken<
-  Normalizer<any, Review>
->('ProductReviewsAdd Normalizer');
+import { Review } from '../../../occ/occ-models/occ.models';
+import { ProductReviewsAdapter } from './product-reviews.adapter';
+import { NormalizersService } from '../../../util/normalizers.service';
+import {
+  PRODUCT_REVIEW_ADD_NORMALIZER,
+  PRODUCT_REVIEWS_LIST_NORMALIZER,
+} from './product-reviews.normalizer';
 
 @Injectable({
   providedIn: 'root',

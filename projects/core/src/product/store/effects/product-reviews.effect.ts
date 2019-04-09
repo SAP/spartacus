@@ -7,7 +7,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { ErrorModel } from '../../../occ/occ-models/occ.models';
-import { ProductReviewsConnector } from '../../services/product-reviews-connector';
+import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
 
 @Injectable()
 export class ProductReviewsEffects {
