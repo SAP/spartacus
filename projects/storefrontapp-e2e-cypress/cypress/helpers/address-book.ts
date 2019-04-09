@@ -22,7 +22,7 @@ export const editedAddress: ShippingAddressData = {
 export const assertAddressForm = (address: ShippingAddressData): void => {
   cy.get('cx-address-card .card-header').contains('✓ DEFAULT');
   cy.get('cx-address-card .card-body').within(_ => {
-    cy.get('.cx-address-card-label-bold').contains(
+    cy.get('.cx-address-card-label-name').contains(
       `${address.firstName} ${address.lastName}`
     );
     cy.get('.cx-address-data > :nth-child(2)').contains(address.address.line1);
@@ -107,7 +107,7 @@ export function deleteExistingAddress() {
   );
 
   // click cancel
-  cy.get('.btn-secondary').should('contain', 'cancel');
+  cy.get('.btn-secondary').should('contain', 'Cancel');
   cy.get('.btn-secondary').click();
   cy.get('.cx-address-card-delete-msg').should(
     'not.contain',
