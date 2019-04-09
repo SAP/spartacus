@@ -2,11 +2,14 @@ import { Observable, of } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 
 import {
+  Address,
   AuthService,
   Cart,
   CartService,
-  CheckoutService,
   CheckoutDetails,
+  CheckoutService,
+  DeliveryMode,
+  PaymentDetails,
   UserToken,
 } from '@spartacus/core';
 import { CheckoutDetailsService } from './checkout-details.service';
@@ -29,13 +32,16 @@ class MockCheckoutService {
   loadCheckoutDetails(): Observable<CheckoutDetails> {
     return of(mockDetails);
   }
-  getDeliveryAddress(): Observable<any> {
+
+  getDeliveryAddress(): Observable<Address> {
     return of();
   }
-  getSelectedDeliveryMode(): Observable<any> {
+
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return of();
   }
-  getPaymentDetails(): Observable<any> {
+
+  getPaymentDetails(): Observable<PaymentDetails> {
     return of();
   }
 }
