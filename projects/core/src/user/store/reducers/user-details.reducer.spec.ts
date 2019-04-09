@@ -34,6 +34,26 @@ describe('User Details Reducer', () => {
     });
   });
 
+  describe('UPDATE_USER_DETAILS_SUCCESS', () => {
+    it('should merge the existing user with the user updates', () => {
+      const updatedUser: User = {
+        firstName: 'New First',
+        lastName: 'New Last',
+      };
+
+      const action = new fromUserDetailsAction.UpdateUserDetailsSuccess(
+        updatedUser
+      );
+
+      const state = fromUserDetailsReducer.reducer(mockUserDetails, action);
+      expect(state).toEqual({
+        ...mockUserDetails,
+        ...updatedUser,
+        name: `${updatedUser.firstName} ${updatedUser.lastName}`,
+      });
+    });
+  });
+
   describe('UPDATE_EMAIL_SUCCESS', () => {
     it('should update the existing userId/email ', () => {
       const testEmail = 'tester@sap.com';

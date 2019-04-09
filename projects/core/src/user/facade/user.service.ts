@@ -20,7 +20,10 @@ import {
 } from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
-import { UPDATE_EMAIL_PROCESS_ID } from '../store/user-state';
+import {
+  UPDATE_EMAIL_PROCESS_ID,
+  UPDATE_USER_DETAILS_PROCESS_ID,
+} from '../store/user-state';
 
 @Injectable()
 export class UserService {
@@ -339,6 +342,57 @@ export class UserService {
   }
 
   /**
+   * Return whether user's password is successfully reset
+   */
+  isPasswordReset(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getResetPassword));
+  }
+
+  /**
+   * Updates the user's details
+   * @param userDetails to be updated
+   */
+  updatePersonalDetails(username: string, userDetails: User): void {
+    this.store.dispatch(
+      new fromStore.UpdateUserDetails({ username, userDetails })
+    );
+  }
+
+  /**
+   * Returns the update user's personal details loading flag
+   */
+  getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's personal details error flag
+   */
+  getUpdatePersonalDetailsResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's personal details success flag
+   */
+  getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_USER_DETAILS_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update user details processing state
+   */
+  resetUpdatePersonalDetailsProcessingState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateUserDetails());
+  }
+
+  /**
    * Reset new password
    * @param token
    * @param password
@@ -354,13 +408,6 @@ export class UserService {
     this.store.dispatch(
       new fromStore.ForgotPasswordEmailRequest(userEmailAddress)
     );
-  }
-
-  /**
-   * Return whether user's password is successfully reset
-   */
-  isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getResetPassword));
   }
 
   /**

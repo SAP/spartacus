@@ -11,8 +11,8 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
-import { PROCESS_FEATURE } from '../../process';
-import * as fromProcessStore from '../../process/store/reducers';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
@@ -27,7 +27,10 @@ describe('UserService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
-        StoreModule.forFeature(PROCESS_FEATURE, fromProcessStore.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [UserService],
     });
@@ -398,6 +401,63 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.ClearUserOrders()
     );
+  });
+
+  describe('update personal details', () => {
+    const username = 'xxx';
+    const userDetails: User = {
+      uid: username,
+    };
+
+    it('should dispatch UpdateUserDetails action', () => {
+      service.updatePersonalDetails(username, userDetails);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateUserDetails({ username, userDetails })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsFail('error'));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultError()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultSuccess()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should dispatch a reset action', () => {
+      service.resetUpdatePersonalDetailsProcessingState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateUserDetails()
+      );
+    });
   });
 
   it('should be able to reset password', () => {

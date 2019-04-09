@@ -132,6 +132,15 @@ const pageModules = [
         canActivate: [NotAuthGuard, CmsPageGuard],
         data: { pageLabel: 'resetPassword', cxPath: 'resetPassword' },
       },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'update-profile',
+          cxPath: 'updateProfile',
+        },
+      },
       // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {
         path: '**',
