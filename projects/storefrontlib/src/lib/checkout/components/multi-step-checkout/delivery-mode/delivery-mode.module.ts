@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { I18nModule } from '@spartacus/core';
 import { DeliveryModeComponent } from './delivery-mode.component';
 import { ConfigModule, CmsConfig } from '@spartacus/core';
 
@@ -9,6 +10,7 @@ import { ConfigModule, CmsConfig } from '@spartacus/core';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MultistepCheckoutDeliveryMode: {

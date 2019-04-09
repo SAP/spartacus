@@ -13,6 +13,7 @@ import {
   ConfigModule,
   CmsConfig,
   CheckoutModule,
+  I18nModule,
 } from '@spartacus/core';
 
 @NgModule({
@@ -32,6 +33,7 @@ import {
       },
     }),
     CheckoutModule,
+    I18nModule,
   ],
   declarations: [MultiStepCheckoutComponent],
   entryComponents: [MultiStepCheckoutComponent],

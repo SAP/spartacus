@@ -5,7 +5,13 @@ import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Title, Country, Region, CheckoutService } from '@spartacus/core';
+import {
+  Title,
+  Country,
+  Region,
+  CheckoutService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { UserService, GlobalMessageService } from '@spartacus/core';
 import { AddressValidation } from '@spartacus/core';
 
@@ -90,7 +96,7 @@ describe('AddressFormComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       declarations: [AddressFormComponent],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
@@ -370,7 +376,7 @@ describe('AddressFormComponent', () => {
       fixture.detectChanges();
       expect(
         fixture.nativeElement.querySelector('.btn-action').innerText
-      ).toEqual('Choose Address');
+      ).toEqual('address.action.chooseAddress');
     });
   });
 
