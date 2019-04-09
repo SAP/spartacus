@@ -104,8 +104,8 @@ class MockShippingAddressComponent {
   selectedAddress: Address;
 }
 
-@Component({ selector: 'cx-order-summary', template: '' })
-class MockOrderSummaryComponent {
+@Component({ selector: 'cx-checkout-order-summary', template: '' })
+class MockCheckoutOrderSummaryComponent {
   @Input()
   cart: Cart;
 }
@@ -171,7 +171,7 @@ describe('MultiStepCheckoutComponent', () => {
         MockPaymentMethodComponent,
         MockReviewSubmitComponent,
         MockShippingAddressComponent,
-        MockOrderSummaryComponent,
+        MockCheckoutOrderSummaryComponent,
       ],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
