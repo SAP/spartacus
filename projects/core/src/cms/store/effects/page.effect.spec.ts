@@ -18,7 +18,7 @@ import { PageType } from '../../../occ/occ-models';
 import * as fromCmsReducer from '../../../cms/store/reducers';
 
 import * as fromEffects from './page.effect';
-import { CmsPageLoader } from '../../services';
+import { CmsPageAdapter } from '../../services';
 
 export function mockDateNow(): number {
   return 1000000000000;
@@ -90,7 +90,7 @@ class RoutingServiceMock {
 
 describe('Page Effects', () => {
   let actions$: Observable<Action>;
-  let cmsPageLoader: CmsPageLoader<any>;
+  let cmsPageLoader: CmsPageAdapter<any>;
   let effects: fromEffects.PageEffects;
   let routingService: RoutingService;
 
@@ -103,13 +103,13 @@ describe('Page Effects', () => {
       ],
       providers: [
         { provide: RoutingService, useClass: RoutingServiceMock },
-        { provide: CmsPageLoader, useClass: CmsPageLoaderMock },
+        { provide: CmsPageAdapter, useClass: CmsPageLoaderMock },
         fromEffects.PageEffects,
         provideMockActions(() => actions$),
       ],
     });
 
-    cmsPageLoader = TestBed.get(CmsPageLoader);
+    cmsPageLoader = TestBed.get(CmsPageAdapter);
     effects = TestBed.get(fromEffects.PageEffects);
     routingService = TestBed.get(RoutingService);
     Date.now = mockDateNow;

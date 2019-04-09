@@ -5,9 +5,9 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
 
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
-import { OccCmsPageLoader } from '../../occ/occ-cms-page.loader';
 import { IdList } from '../../model/idList.model';
 import { RoutingService } from '../../../routing/index';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 
 @Injectable()
 export class NavigationEntryItemEffects {
@@ -29,8 +29,8 @@ export class NavigationEntryItemEffects {
           take(1),
           mergeMap(pageContext => {
             // download all items in one request
-            return this.occCmsService
-              .loadListComponents(
+            return this.cmsComponentConnector
+              .getList(
                 data.ids.componentIds,
                 pageContext,
                 'DEFAULT',
@@ -93,7 +93,7 @@ export class NavigationEntryItemEffects {
 
   constructor(
     private actions$: Actions,
-    private occCmsService: OccCmsPageLoader,
+    private cmsComponentConnector: CmsComponentConnector,
     private routingService: RoutingService
   ) {}
 }

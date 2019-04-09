@@ -10,16 +10,15 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
-import { CmsComponent } from '../../../occ/occ-models/cms-component.models';
 import { RoutingService } from '../../../routing/index';
-import { CmsComponentLoader } from '../../services/cms-component.loader';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as componentActions from '../actions/component.action';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
-    private cmsComponentLoader: CmsComponentLoader<CmsComponent>,
+    private cmsComponentLoader: CmsComponentConnector,
     private routingService: RoutingService
   ) {}
 
