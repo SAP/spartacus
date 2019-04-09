@@ -39,7 +39,7 @@ export class NormalizersService {
 
   pipeable<S, T>(
     injetionToken: InjectionToken<Normalizer<S, T>>
-  ): OperatorFunction<any, T> {
+  ): OperatorFunction<S, T> {
     if (this.hasNormalizers(injetionToken)) {
       return map((model: any) => this.normalizeSource(model, injetionToken));
     } else {

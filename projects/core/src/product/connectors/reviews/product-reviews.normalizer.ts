@@ -7,5 +7,5 @@ export const PRODUCT_REVIEWS_LIST_NORMALIZER = new InjectionToken<
 >('ProductReviewsList Normalizer');
 
 export const PRODUCT_REVIEW_ADD_NORMALIZER = new InjectionToken<
-  Normalizer<any, Review>
+  Normalizer<Review, any>
 >('ProductReviewsAdd Normalizer');
