@@ -22,7 +22,7 @@ class MockNormalizerService {
   pipeable = createSpy().and.returnValue(x => x);
 }
 
-describe('ProductReviewsConnectorService', () => {
+describe('ProductReviewsConnector', () => {
   let service: ProductReviewsConnector;
   let adapter: ProductReviewsAdapter;
   let normalizers: NormalizersService;
