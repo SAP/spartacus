@@ -1,22 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ReviewList, Review } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { Observable } from 'rxjs';
+import { Review, ReviewList } from '../../occ/occ-models/occ.models';
+import { ProductReviewsAdapter } from '../services/product-reviews-adapter';
 
 @Injectable()
-export class ProductReviewsLoaderService {
+export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService
   ) {}
 
-  load(productCode: string, maxCount?: number): Observable<ReviewList> {
-    return this.http
-      .get(this.getEndpoint(productCode, maxCount))
-      .pipe(catchError((error: any) => throwError(error.json())));
+  loadList(productCode: string, maxCount?: number): Observable<ReviewList> {
+    return this.http.get(this.getEndpoint(productCode, maxCount));
   }
 
   post(productCode: string, review: any): Observable<Review> {
@@ -30,9 +27,9 @@ export class ProductReviewsLoaderService {
     body.append('rating', review.rating.toString());
     body.append('alias', review.alias);
 
-    return this.http
-      .post(this.getEndpoint(productCode), body.toString(), { headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.post(this.getEndpoint(productCode), body.toString(), {
+      headers,
+    });
   }
 
   protected getEndpoint(code: string, maxCount?: number): string {

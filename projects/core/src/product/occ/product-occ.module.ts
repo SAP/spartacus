@@ -7,7 +7,10 @@ import { ProductSearchLoaderService } from './product-search.service';
 import { OccModule } from '../../occ/occ.module';
 import { defaultOccProductConfig } from '../config/product-config';
 import { ConfigModule } from '../../config/index';
-import { ProductReviewsLoaderService } from './product-reviews.service';
+import { ProductReviewsAdapter } from '../services/product-reviews-adapter';
+import { OccProductReviewsAdapter } from './occ-product-reviews-adapter';
+import { PRODUCT_REVIEWS_LIST_NORMALIZER } from '../services/product-reviews-connector';
+import { OccProductReviewsListNormalizer } from './occ-product-reviews-list-normalizer';
 
 @NgModule({
   imports: [
@@ -19,7 +22,15 @@ import { ProductReviewsLoaderService } from './product-reviews.service';
   providers: [
     ProductLoaderService,
     ProductSearchLoaderService,
-    ProductReviewsLoaderService,
+    {
+      provide: ProductReviewsAdapter,
+      useClass: OccProductReviewsAdapter
+    },
+    {
+      provide: PRODUCT_REVIEWS_LIST_NORMALIZER,
+      useClass: OccProductReviewsListNormalizer,
+      multi: true
+    }
   ],
 })
 export class ProductOccModule {}

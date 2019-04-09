@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as productReviewsActions from './../actions/product-reviews.action';
 import { ErrorModel } from '../../../occ/occ-models/occ.models';
-import { ProductReviewsLoaderService } from '../../occ/product-reviews.service';
+import { ProductReviewsConnector } from '../../services/product-reviews-connector';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -19,11 +19,11 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),
     mergeMap(productCode => {
-      return this.occProductReviewsService.load(productCode).pipe(
+      return this.productReviewsConnector.getList(productCode).pipe(
         map(data => {
           return new productReviewsActions.LoadProductReviewsSuccess({
             productCode,
-            list: data.reviews,
+            list: data,
           });
         }),
         catchError(_error =>
@@ -45,8 +45,8 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.POST_PRODUCT_REVIEW),
     map((action: productReviewsActions.PostProductReview) => action.payload),
     mergeMap(payload => {
-      return this.occProductReviewsService
-        .post(payload.productCode, payload.review)
+      return this.productReviewsConnector
+        .add(payload.productCode, payload.review)
         .pipe(
           map(reviewResponse => {
             return new productReviewsActions.PostProductReviewSuccess(
@@ -66,6 +66,6 @@ export class ProductReviewsEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductReviewsService: ProductReviewsLoaderService
+    private productReviewsConnector: ProductReviewsConnector
   ) {}
 }
