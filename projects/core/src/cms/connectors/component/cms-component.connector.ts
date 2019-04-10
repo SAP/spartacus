@@ -4,13 +4,8 @@ import { switchMap } from 'rxjs/operators';
 import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
-import { NormalizersService } from '../../../util/normalizers.service';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { IdList } from '../../model/idList.model';
-import {
-  CMS_COMPONENT_LIST_NORMALIZER,
-  CMS_COMPONENT_NORMALIZER,
-} from './cms-component.normalizer';
 
 @Injectable({
   providedIn: 'root',
@@ -18,20 +13,20 @@ import {
 export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsComponentAdapter<any, any>,
-    protected normalizers: NormalizersService
+    protected adapter: CmsComponentAdapter
   ) {}
 
-  get(id: string, pageContext: PageContext): Observable<CmsComponent> {
+  get<T extends CmsComponent>(
+    id: string,
+    pageContext: PageContext
+  ): Observable<T> {
     return this.cmsStructureConfigService
       .getComponentFromConfig(id)
       .pipe(
         switchMap(configuredComponent =>
           configuredComponent
             ? of(configuredComponent)
-            : this.adapter
-                .load(id, pageContext)
-                .pipe(this.normalizers.pipeable(CMS_COMPONENT_NORMALIZER))
+            : this.adapter.load(id, pageContext)
         )
       );
   }
@@ -44,8 +39,13 @@ export class CmsComponentConnector {
     pageSize?: number,
     sort?: string
   ): Observable<CmsComponentList> {
-    return this.adapter
-      .loadList(idList, pageContext, fields, currentPage, pageSize, sort)
-      .pipe(this.normalizers.pipeable(CMS_COMPONENT_LIST_NORMALIZER));
+    return this.adapter.loadList(
+      idList,
+      pageContext,
+      fields,
+      currentPage,
+      pageSize,
+      sort
+    );
   }
 }

@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { IdList } from '../../model/idList.model';
+import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
 
-export abstract class CmsComponentAdapter<S, L> {
+export abstract class CmsComponentAdapter {
   /**
    * Abstract method must be used to load the component for a given `id` and `PageContext`.
    * The component can be loaded from alternative backend, as long as the structure
@@ -10,11 +11,11 @@ export abstract class CmsComponentAdapter<S, L> {
    *
    * @param pageContext The `PageContext` holding the page Id.
    */
-  abstract load(
+  abstract load<T extends CmsComponent>(
     id: string,
     pageContext: PageContext,
     fields?: string
-  ): Observable<S>;
+  ): Observable<T>;
 
   abstract loadList(
     idList: IdList,
@@ -23,5 +24,5 @@ export abstract class CmsComponentAdapter<S, L> {
     currentPage?: number,
     pageSize?: number,
     sort?: string
-  ): Observable<L>;
+  ): Observable<CmsComponentList>;
 }

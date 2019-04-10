@@ -10,15 +10,20 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { IdList } from '../model/idList.model';
+import { NormalizersService } from '../../util/normalizers.service';
+import {
+  CMS_COMPONENT_LIST_NORMALIZER,
+  CMS_COMPONENT_NORMALIZER,
+} from '../connectors/component/cms-component.normalizer';
 
 @Injectable()
-export class OccCmsComponentAdapter
-  implements CmsComponentAdapter<CmsComponent, CmsComponentList> {
+export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected normalizers: NormalizersService
   ) {}
 
   protected getBaseEndPoint(): string {
@@ -29,12 +34,14 @@ export class OccCmsComponentAdapter
     id: string,
     pageContext: PageContext
   ): Observable<T> {
-    return this.http.get<T>(this.getBaseEndPoint() + `/components/${id}`, {
-      headers: this.headers,
-      params: new HttpParams({
-        fromString: this.getRequestParams(pageContext),
-      }),
-    });
+    return this.http
+      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
+        headers: this.headers,
+        params: new HttpParams({
+          fromString: this.getRequestParams(pageContext),
+        }),
+      })
+      .pipe(this.normalizers.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
   loadList(
@@ -58,16 +65,14 @@ export class OccCmsComponentAdapter
       requestParams = requestParams + '&sort=' + sort;
     }
 
-    return this.http.post<CmsComponentList>(
-      this.getBaseEndPoint() + `/components`,
-      idList,
-      {
+    return this.http
+      .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
         params: new HttpParams({
           fromString: requestParams,
         }),
-      }
-    );
+      })
+      .pipe(this.normalizers.pipeable(CMS_COMPONENT_LIST_NORMALIZER));
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string): string {

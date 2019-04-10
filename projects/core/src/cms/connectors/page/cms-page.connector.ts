@@ -6,18 +6,16 @@ import { CmsPageAdapter } from './cms-page.adapter';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureModel } from '../../model/page.model';
-import { CMS_PAGE_NORMALIZER } from './cms-page.normalizer';
-import { NormalizersService } from '../../../util/normalizers.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CmsPageConnector {
   constructor(
-    protected cmsPageAdapter: CmsPageAdapter<any>,
-    protected cmsStructureConfigService: CmsStructureConfigService,
-    protected normalizers: NormalizersService
-  ) {}
+    protected cmsPageAdapter: CmsPageAdapter,
+    protected cmsStructureConfigService: CmsStructureConfigService
+  ) // protected normalizers: NormalizersService
+  {}
 
   /**
    * Returns an observable with the page structure. The page structure is
@@ -31,7 +29,6 @@ export class CmsPageConnector {
         switchMap(loadFromConfig => {
           if (!loadFromConfig) {
             return this.cmsPageAdapter.load(pageContext).pipe(
-              this.normalizers.pipeable(CMS_PAGE_NORMALIZER),
               catchError(error => {
                 if (
                   error instanceof HttpErrorResponse &&
