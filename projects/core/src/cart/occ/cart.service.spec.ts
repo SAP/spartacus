@@ -44,7 +44,7 @@ const mockPaymentDetails: PaymentDetails = {
 };
 
 const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
+const cartsEndpoint = 'carts';
 const BASIC_PARAMS =
   'DEFAULT,deliveryItemsQuantity,totalPrice(formattedValue),' +
   'entries(totalPrice(formattedValue),product(images(FULL)))';
@@ -101,7 +101,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -121,7 +121,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -143,7 +143,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
         );
       });
 
@@ -161,7 +161,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
         );
       });
 
@@ -179,7 +179,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -201,7 +201,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -222,7 +222,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'POST' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/`
         );
       });
 
@@ -250,7 +250,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-            usersEndpoint + `/${userId}` + cartsEndpoint + cartId + '/entries'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/entries`
         );
       });
 
@@ -278,11 +278,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'PATCH' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/entries/12345'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/entries/12345`
         );
       });
 
@@ -306,12 +302,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'DELETE' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/entries/' +
-              '147852'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/entries/147852`
         );
       });
 
@@ -338,12 +329,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/addresses/' +
-              'delivery'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/addresses/delivery`
         );
       });
 
@@ -367,12 +353,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/addresses/' +
-              'delivery'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/addresses/delivery`
         );
       });
 
@@ -396,11 +377,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/deliverymodes'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/deliverymodes`
         );
       });
 
@@ -420,11 +397,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/deliverymode'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/deliverymode`
         );
       });
 
@@ -448,11 +421,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/deliverymode'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/deliverymode`
         );
       });
 
@@ -475,11 +444,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/payment/sop/request?responseUrl=sampleUrl'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/payment/sop/request?responseUrl=sampleUrl`
         );
       });
 
@@ -563,11 +528,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/payment/sop/response'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/payment/sop/response`
         );
       });
 
@@ -596,11 +557,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/payment/sop/response'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/payment/sop/response`
         );
       });
 
@@ -625,11 +582,7 @@ describe('OccCartService', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymentdetails'
+            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/paymentdetails`
         );
       });
 
@@ -649,7 +602,7 @@ describe('OccCartService', () => {
       const mockReq = httpMock.expectOne(req => {
         return (
           req.method === 'GET' &&
-          req.url === usersEndpoint + `/${userId}` + cartsEndpoint + `${cartId}`
+          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
         );
       });
 
