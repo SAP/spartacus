@@ -15,8 +15,8 @@ import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { IdList } from '../model/idList.model';
 import { HttpRequest } from '@angular/common/http';
 import {
-  CMS_COMPONENT_LIST_NORMALIZE,
-  CMS_COMPONENT_NORMALIZE,
+  CMS_COMPONENT_LIST_NORMALIZER,
+  CMS_COMPONENT_NORMALIZER,
   ConverterService,
 } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -107,7 +107,7 @@ describe('OccCmsComponentAdapter', () => {
         .expectOne(req => req.url === endpoint + '/components/comp1')
         .flush(component);
 
-      expect(converter.pipeable).toHaveBeenCalledWith(CMS_COMPONENT_NORMALIZE);
+      expect(converter.pipeable).toHaveBeenCalledWith(CMS_COMPONENT_NORMALIZER);
     });
   });
 
@@ -159,7 +159,7 @@ describe('OccCmsComponentAdapter', () => {
         .flush(componentList);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        CMS_COMPONENT_LIST_NORMALIZE
+        CMS_COMPONENT_LIST_NORMALIZER
       );
     });
   });

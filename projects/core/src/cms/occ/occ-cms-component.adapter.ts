@@ -12,8 +12,8 @@ import { CmsComponentAdapter } from '../connectors/component/cms-component.adapt
 import { IdList } from '../model/idList.model';
 import { ConverterService } from '../../util/converter.service';
 import {
-  CMS_COMPONENT_LIST_NORMALIZE,
-  CMS_COMPONENT_NORMALIZE,
+  CMS_COMPONENT_LIST_NORMALIZER,
+  CMS_COMPONENT_NORMALIZER,
 } from '../connectors/component/cms-component.converters';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
           fromString: this.getRequestParams(pageContext),
         }),
       })
-      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZE));
+      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
   loadList(
@@ -72,7 +72,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
           fromString: requestParams,
         }),
       })
-      .pipe(this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZE));
+      .pipe(this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZER));
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string): string {
