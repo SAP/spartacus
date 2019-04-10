@@ -37,17 +37,15 @@ export class UpdateEmailFormComponent {
 
   constructor(private fb: FormBuilder) {}
 
-  isEmailConfirmNotValid(): boolean {
-    return (
-      this.form.hasError('NotEqual') &&
-      (this.submited ||
-        (this.form.get('confirmEmail').touched &&
-          this.form.get('confirmEmail').dirty))
-    );
-  }
-
-  isNotValid(formControlName: string): boolean {
-    return FormUtils.isNotValidField(this.form, formControlName, this.submited);
+  isNotValid(formControlName: string, hasError?: boolean): boolean {
+    return hasError
+      ? FormUtils.isNotValidField(
+          this.form,
+          formControlName,
+          this.submited,
+          hasError
+        )
+      : FormUtils.isNotValidField(this.form, formControlName, this.submited);
   }
 
   onSubmit(): void {
@@ -57,8 +55,8 @@ export class UpdateEmailFormComponent {
       return;
     }
 
-    const newUid = this.form.value['confirmEmail'];
-    const password = this.form.value['password'];
+    const newUid = this.form.value.confirmEmail;
+    const password = this.form.value.password;
 
     this.saveEmail.emit({ newUid, password });
   }

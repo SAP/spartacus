@@ -17,10 +17,15 @@ export class FormUtils {
   static isNotValidField(
     form: FormGroup,
     formControlName: string,
-    submitted: boolean
+    submitted: boolean,
+    hasError?: boolean
   ): boolean {
+    const formSelector = hasError
+      ? form.hasError('NotEqual')
+      : form.get(formControlName).invalid;
+
     return (
-      form.get(formControlName).invalid &&
+      formSelector &&
       (submitted ||
         (form.get(formControlName).touched && form.get(formControlName).dirty))
     );

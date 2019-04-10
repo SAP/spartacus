@@ -26,9 +26,9 @@ describe('UpdateEmailFormComponent', () => {
     el = fixture.debugElement;
     fixture.detectChanges();
 
-    newUid = component.form.controls['email'];
-    confirmNewUid = component.form.controls['confirmEmail'];
-    password = component.form.controls['password'];
+    newUid = component.form.controls.email;
+    confirmNewUid = component.form.controls.confirmEmail;
+    password = component.form.controls.password;
   });
 
   it('should create', () => {
@@ -112,6 +112,26 @@ describe('UpdateEmailFormComponent', () => {
 
       expect(error[0].nativeElement.innerText).not.toEqual('');
       expect(error[1].nativeElement.innerText).not.toEqual('');
+    });
+  });
+
+  describe('when the email is invalid', () => {
+    it('should display an error message', () => {
+      newUid.setValue('tester@sap');
+      confirmNewUid.setValue('tester@sap');
+      password.setValue('Qwe123!');
+
+      const submitBtn = el.query(By.css('button[type="submit"]'));
+      submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+
+      const error = el.query(
+        By.css('.form-group:nth-of-type(1) .invalid-feedback span')
+      );
+
+      expect(error).toBeTruthy();
+
+      expect(error.nativeElement.innerText).not.toEqual('');
     });
   });
 

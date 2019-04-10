@@ -1,4 +1,4 @@
-<form [formGroup]="form" (submit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group row">
     <div class="col-md-12">
       <label>
@@ -28,12 +28,9 @@
           formControlName="confirmEmail"
           placeholder="Enter email"
           class="form-control"
-          [class.is-invalid]="isEmailConfirmNotValid('confirmEmail')"
+          [class.is-invalid]="isNotValid('confirmEmail', true)"
         />
-        <div
-          class="invalid-feedback"
-          *ngIf="isEmailConfirmNotValid('confirmEmail')"
-        >
+        <div class="invalid-feedback" *ngIf="isNotValid('confirmEmail', true)">
           <span>Both email must match</span>
         </div>
       </label>
