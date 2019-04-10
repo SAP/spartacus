@@ -3,6 +3,7 @@ import * as fromAction from './../actions/index';
 import { Address, Order, DeliveryMode } from '../../../occ/occ-models/index';
 
 export const initialState: CheckoutStepsState = {
+  lastAvailableStepId: null,
   address: {},
   deliveryMode: {
     supported: {},

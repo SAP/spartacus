@@ -9,6 +9,7 @@ import { ReviewSubmitModule } from './review-submit/review-submit.module';
 
 import { MultiStepCheckoutComponent } from './container/multi-step-checkout.component';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
+import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
 import {
   UrlTranslationModule,
   ConfigModule,
@@ -20,11 +21,11 @@ import {
   imports: [
     CommonModule,
     CartSharedModule,
-
     ShippingAddressModule,
     DeliveryModeModule,
     PaymentMethodModule,
     ReviewSubmitModule,
+    CheckoutProgressModule,
     RouterModule,
     UrlTranslationModule,
     ConfigModule.withConfig(<CmsConfig>{
