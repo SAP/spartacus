@@ -26,13 +26,13 @@ describe('OccProductReviewsListNormalizer', () => {
   });
 
   it('it should return reviews from ReviewList', () => {
-    const result = normalizer.normalize(reviewList);
+    const result = normalizer.convert(reviewList);
     expect(result).toEqual(reviews);
   });
 
   it('it should take into account target if defined', () => {
     const target = [{ comment: 'test' }];
-    const result = normalizer.normalize(reviewList, target);
+    const result = normalizer.convert(reviewList, target);
     expect(result[0]).toEqual({ id: '1', comment: 'test' });
   });
 });

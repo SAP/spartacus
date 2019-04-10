@@ -4,7 +4,7 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { Observable } from 'rxjs';
 import { Review } from '../../occ/occ-models/occ.models';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
-import { NormalizersService } from '../../util/normalizers.service';
+import { ConverterService } from '../../util/converter.service';
 import {
   PRODUCT_REVIEW_ADD_NORMALIZER,
   PRODUCT_REVIEWS_LIST_NORMALIZER,
@@ -15,7 +15,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
-    protected normalizers: NormalizersService
+    protected normalizers: ConverterService
   ) {}
 
   loadList(productCode: string, maxCount?: number): Observable<Review[]> {
@@ -25,7 +25,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   }
 
   post(productCode: string, review: any): Observable<Review> {
-    review = this.normalizers.normalize(review, PRODUCT_REVIEW_ADD_NORMALIZER);
+    review = this.normalizers.convert(review, PRODUCT_REVIEW_ADD_NORMALIZER);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

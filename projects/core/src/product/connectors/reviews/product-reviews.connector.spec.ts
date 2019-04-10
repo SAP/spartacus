@@ -4,7 +4,7 @@ import { ProductReviewsConnector } from './product-reviews.connector';
 import { ProductReviewsAdapter } from './product-reviews.adapter';
 import createSpy = jasmine.createSpy;
 import {
-  NormalizersService,
+  ConverterService,
   PRODUCT_REVIEW_ADD_NORMALIZER,
   PRODUCT_REVIEWS_LIST_NORMALIZER,
 } from '@spartacus/core';
@@ -25,19 +25,19 @@ class MockNormalizerService {
 describe('ProductReviewsConnector', () => {
   let service: ProductReviewsConnector;
   let adapter: ProductReviewsAdapter;
-  let normalizers: NormalizersService;
+  let normalizers: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: ProductReviewsAdapter, useClass: MockProductReviewsAdapter },
-        { provide: NormalizersService, useClass: MockNormalizerService },
+        { provide: ConverterService, useClass: MockNormalizerService },
       ],
     });
 
     service = TestBed.get(ProductReviewsConnector);
     adapter = TestBed.get(ProductReviewsAdapter);
-    normalizers = TestBed.get(NormalizersService);
+    normalizers = TestBed.get(ConverterService);
   });
 
   it('should be created', () => {
@@ -52,7 +52,7 @@ describe('ProductReviewsConnector', () => {
       expect(adapter.loadList).toHaveBeenCalledWith('333', undefined);
     });
 
-    it('sohuld use normalizer', () => {
+    it('should use normalizer', () => {
       service.getList('333').subscribe();
       expect(normalizers.pipeable).toHaveBeenCalledWith(
         PRODUCT_REVIEWS_LIST_NORMALIZER
@@ -67,7 +67,7 @@ describe('ProductReviewsConnector', () => {
     });
     it('should use normalizer', () => {
       service.add('333', 'review').subscribe();
-      expect(normalizers.normalize).toHaveBeenCalledWith(
+      expect(normalizers.convert).toHaveBeenCalledWith(
         'review',
         PRODUCT_REVIEW_ADD_NORMALIZER
       );
