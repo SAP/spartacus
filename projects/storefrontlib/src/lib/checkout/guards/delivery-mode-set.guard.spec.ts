@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { DeliveryModePageGuard } from './delivery-mode.guard';
+import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
-import { DeliveryMode, CheckoutService, RoutingService } from '@spartacus/core';
+import { DeliveryMode, CheckoutService } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
+import { UrlTree } from '@angular/router';
 
 const mockCheckoutConfig: CheckoutConfig = {
   checkout: {
@@ -23,28 +24,21 @@ class MockCheckoutService {
   }
 }
 
-class MockRoutingService {
-  go = jasmine.createSpy();
-}
-
-describe(`DeliveryModePageGuard`, () => {
-  let guard: DeliveryModePageGuard;
-  let mockRoutingService: MockRoutingService;
+describe(`DeliveryModeSetGuard`, () => {
+  let guard: DeliveryModeSetGuard;
   let mockCheckoutService: MockCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        DeliveryModePageGuard,
+        DeliveryModeSetGuard,
         { provide: CheckoutConfig, useValue: mockCheckoutConfig },
         { provide: CheckoutService, useClass: MockCheckoutService },
-        { provide: RoutingService, useClass: MockRoutingService },
       ],
       imports: [RouterTestingModule],
     });
 
-    guard = TestBed.get(DeliveryModePageGuard);
-    mockRoutingService = TestBed.get(RoutingService);
+    guard = TestBed.get(DeliveryModeSetGuard);
     mockCheckoutService = TestBed.get(CheckoutService);
   });
 
@@ -53,12 +47,10 @@ describe(`DeliveryModePageGuard`, () => {
       of(null)
     );
 
-    guard.canActivate().subscribe((result: boolean) => {
-      expect(result).toEqual(false);
-      expect(mockRoutingService.go).toHaveBeenCalledWith({
-        route: [mockCheckoutConfig.checkout.deliveryMode],
-      });
-
+    guard.canActivate().subscribe((result: boolean | UrlTree) => {
+      expect(result.toString()).toEqual(
+        mockCheckoutConfig.checkout.deliveryMode
+      );
       done();
     });
   });
@@ -68,9 +60,8 @@ describe(`DeliveryModePageGuard`, () => {
       of(mockDeliveryMode)
     );
 
-    guard.canActivate().subscribe((result: boolean) => {
+    guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result).toEqual(true);
-      expect(mockRoutingService.go).not.toHaveBeenCalled();
 
       done();
     });

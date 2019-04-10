@@ -12,7 +12,7 @@ import {
   CmsConfig,
   I18nModule,
 } from '@spartacus/core';
-import { DeliveryModePageGuard } from '../../../guards/delivery-mode.guard';
+import { DeliveryModeSetGuard } from '../../../guards/delivery-mode-set.guard';
 
 @NgModule({
   imports: [
@@ -26,12 +26,12 @@ import { DeliveryModePageGuard } from '../../../guards/delivery-mode.guard';
       cmsComponents: {
         MultistepCheckoutPaymentDetails: {
           selector: 'cx-payment-method',
-          guards: [DeliveryModePageGuard],
+          guards: [DeliveryModeSetGuard],
         },
       },
     }),
   ],
-  providers: [UserService],
+  providers: [UserService, DeliveryModeSetGuard],
   declarations: [PaymentMethodComponent],
   entryComponents: [PaymentMethodComponent],
   exports: [PaymentMethodComponent],

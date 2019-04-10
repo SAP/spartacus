@@ -6,7 +6,7 @@ import { CardModule } from '../../../../ui/components/card/card.module';
 import { ReviewSubmitComponent } from './review-submit.component';
 import { CartSharedModule } from '../../../../cart/cart-shared/cart-shared.module';
 import { ConfigModule, CmsConfig } from '@spartacus/core';
-import { DeliveryModePageGuard } from '../../../guards/delivery-mode.guard';
+import { DeliveryModeSetGuard } from '../../../guards/delivery-mode-set.guard';
 
 @NgModule({
   imports: [
@@ -18,11 +18,12 @@ import { DeliveryModePageGuard } from '../../../guards/delivery-mode.guard';
       cmsComponents: {
         MultistepCheckoutReviewOrder: {
           selector: 'cx-review-submit',
-          guards: [DeliveryModePageGuard],
+          guards: [DeliveryModeSetGuard],
         },
       },
     }),
   ],
+  providers: [DeliveryModeSetGuard],
   declarations: [ReviewSubmitComponent],
   entryComponents: [ReviewSubmitComponent],
   exports: [ReviewSubmitComponent],
