@@ -8,13 +8,12 @@ import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_NORMALIZER } from '../connectors/product/product.converters';
 
 @Injectable()
-export class OccProductAdapter implements ProductAdapter{
-
+export class OccProductAdapter implements ProductAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
     protected converter: ConverterService
-  ) { }
+  ) {}
 
   load(productCode: string): Observable<Product> {
     return this.http
@@ -27,5 +26,4 @@ export class OccProductAdapter implements ProductAdapter{
       productCode: code,
     });
   }
-
 }

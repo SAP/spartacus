@@ -6,7 +6,7 @@ import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
 
 import * as actions from '../actions/index';
 import * as converters from '../converters/index';
-import { ProductLoaderService } from '../../occ/product.service';
+import { ProductConnector } from '../../connectors/product/product.connector';
 
 @Injectable()
 export class ProductEffects {
@@ -20,7 +20,7 @@ export class ProductEffects {
     mergeMap(group =>
       group.pipe(
         switchMap(productCode => {
-          return this.occProductService.load(productCode).pipe(
+          return this.productConnector.get(productCode).pipe(
             map(product => {
               this.productImageConverter.convertProduct(product);
               this.productReferenceConverterService.convertProduct(product);
@@ -37,7 +37,7 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductService: ProductLoaderService,
+    private productConnector: ProductConnector,
     private productImageConverter: converters.ProductImageConverterService,
     private productReferenceConverterService: converters.ProductReferenceConverterService
   ) {}
