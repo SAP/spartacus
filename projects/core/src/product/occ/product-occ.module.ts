@@ -9,7 +9,7 @@ import { defaultOccProductConfig } from '../config/product-config';
 import { ConfigModule } from '../../config/index';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
-import { PRODUCT_REVIEWS_LIST_NORMALIZE } from '../connectors/reviews/product-reviews.converters';
+import { PRODUCT_REVIEWS_LIST_NORMALIZER } from '../connectors/reviews/product-reviews.converters';
 import { OccProductReviewsListNormalizer } from './occ-product-reviews.converters';
 
 @NgModule({
@@ -27,7 +27,7 @@ import { OccProductReviewsListNormalizer } from './occ-product-reviews.converter
       useClass: OccProductReviewsAdapter,
     },
     {
-      provide: PRODUCT_REVIEWS_LIST_NORMALIZE,
+      provide: PRODUCT_REVIEWS_LIST_NORMALIZER,
       useClass: OccProductReviewsListNormalizer,
       multi: true,
     },

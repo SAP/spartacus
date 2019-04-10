@@ -7,8 +7,8 @@ import {
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   ConverterService,
-  PRODUCT_REVIEW_ADD_SERIALIZE,
-  PRODUCT_REVIEWS_LIST_NORMALIZE,
+  PRODUCT_REVIEW_ADD_SERIALIZER,
+  PRODUCT_REVIEWS_LIST_NORMALIZER,
   ReviewList,
 } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -98,7 +98,7 @@ describe('OccProductReviewsAdapter', () => {
       httpMock.expectOne(endpoint).flush(productReviews);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_REVIEWS_LIST_NORMALIZE
+        PRODUCT_REVIEWS_LIST_NORMALIZER
       );
     });
   });
@@ -137,7 +137,7 @@ describe('OccProductReviewsAdapter', () => {
       httpMock.expectOne(endpoint).flush({});
       expect(converter.convert).toHaveBeenCalledWith(
         review,
-        PRODUCT_REVIEW_ADD_SERIALIZE
+        PRODUCT_REVIEW_ADD_SERIALIZER
       );
     });
   });
