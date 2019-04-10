@@ -5,8 +5,8 @@ import { PageType } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
-import { CMS_PAGE_NORMALIZER } from '../connectors/page/cms-page.normalizer';
-import { NormalizersService } from '../../util/normalizers.service';
+import { CMS_PAGE_NORMALIZE } from '../connectors/page/cms-page.converters';
+import { ConverterService } from '../../util/converter.service';
 import { CmsStructureModel } from '@spartacus/core';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
-    protected normalizers: NormalizersService
+    protected converter: ConverterService
   ) {}
 
   protected getBaseEndPoint(): string {
@@ -51,6 +51,6 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
           fromString: httpStringParams,
         }),
       })
-      .pipe(this.normalizers.pipeable(CMS_PAGE_NORMALIZER));
+      .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
   }
 }

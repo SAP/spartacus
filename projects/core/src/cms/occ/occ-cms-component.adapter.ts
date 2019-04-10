@@ -10,11 +10,11 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { IdList } from '../model/idList.model';
-import { NormalizersService } from '../../util/normalizers.service';
+import { ConverterService } from '../../util/converter.service';
 import {
-  CMS_COMPONENT_LIST_NORMALIZER,
-  CMS_COMPONENT_NORMALIZER,
-} from '../connectors/component/cms-component.normalizer';
+  CMS_COMPONENT_LIST_NORMALIZE,
+  CMS_COMPONENT_NORMALIZE,
+} from '../connectors/component/cms-component.converters';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
@@ -23,7 +23,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
-    protected normalizers: NormalizersService
+    protected converter: ConverterService
   ) {}
 
   protected getBaseEndPoint(): string {
@@ -41,7 +41,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
           fromString: this.getRequestParams(pageContext),
         }),
       })
-      .pipe(this.normalizers.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
+      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZE));
   }
 
   loadList(
@@ -72,7 +72,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
           fromString: requestParams,
         }),
       })
-      .pipe(this.normalizers.pipeable(CMS_COMPONENT_LIST_NORMALIZER));
+      .pipe(this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZE));
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string): string {

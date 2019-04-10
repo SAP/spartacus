@@ -13,9 +13,8 @@ import { CmsStructureModel } from '../../model/page.model';
 export class CmsPageConnector {
   constructor(
     protected cmsPageAdapter: CmsPageAdapter,
-    protected cmsStructureConfigService: CmsStructureConfigService
-  ) // protected normalizers: NormalizersService
-  {}
+    protected cmsStructureConfigService: CmsStructureConfigService // protected normalizers: NormalizersService
+  ) {}
 
   /**
    * Returns an observable with the page structure. The page structure is
