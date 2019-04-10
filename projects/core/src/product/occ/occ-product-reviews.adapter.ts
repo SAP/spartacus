@@ -2,21 +2,31 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { Observable } from 'rxjs';
-import { Review, ReviewList } from '../../occ/occ-models/occ.models';
+import { Review } from '../../occ/occ-models/occ.models';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
+import { NormalizersService } from '../../util/normalizers.service';
+import {
+  PRODUCT_REVIEW_ADD_NORMALIZER,
+  PRODUCT_REVIEWS_LIST_NORMALIZER,
+} from '../connectors/reviews/product-reviews.normalizer';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected normalizers: NormalizersService
   ) {}
 
-  loadList(productCode: string, maxCount?: number): Observable<ReviewList> {
-    return this.http.get(this.getEndpoint(productCode, maxCount));
+  loadList(productCode: string, maxCount?: number): Observable<Review[]> {
+    return this.http
+      .get(this.getEndpoint(productCode, maxCount))
+      .pipe(this.normalizers.pipeable(PRODUCT_REVIEWS_LIST_NORMALIZER));
   }
 
   post(productCode: string, review: any): Observable<Review> {
+    review = this.normalizers.normalize(review, PRODUCT_REVIEW_ADD_NORMALIZER);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
