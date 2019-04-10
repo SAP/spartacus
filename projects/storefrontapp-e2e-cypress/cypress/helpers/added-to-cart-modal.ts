@@ -133,7 +133,7 @@ export function addDifferentProducts() {
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
     .find('.cx-actions .link')
     .click();
-  cy.get('cx-cart-details').should('contain', 'Cart total (1 item):');
+  cy.get('cx-cart-details').should('contain', 'Cart total (1 item)');
 
   // check for the other product still exist
   cy.get('cx-cart-item-list .cx-item-list-items')
