@@ -15,17 +15,17 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
-    protected normalizers: ConverterService
+    protected converter: ConverterService
   ) {}
 
   loadList(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
       .get(this.getEndpoint(productCode, maxCount))
-      .pipe(this.normalizers.pipeable(PRODUCT_REVIEWS_LIST_NORMALIZE));
+      .pipe(this.converter.pipeable(PRODUCT_REVIEWS_LIST_NORMALIZE));
   }
 
   post(productCode: string, review: any): Observable<Review> {
-    review = this.normalizers.convert(review, PRODUCT_REVIEW_ADD_SERIALIZE);
+    review = this.converter.convert(review, PRODUCT_REVIEW_ADD_SERIALIZE);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

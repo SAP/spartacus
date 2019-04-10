@@ -5,8 +5,13 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import {
+  ConverterService,
+  PRODUCT_REVIEW_ADD_SERIALIZE,
+  PRODUCT_REVIEWS_LIST_NORMALIZE,
+  ReviewList,
+} from '@spartacus/core';
 import createSpy = jasmine.createSpy;
-import { ReviewList } from '@spartacus/core';
 
 const productCode = 'testCode';
 const maxCount = 2;
@@ -21,10 +26,16 @@ class MockOccEndpointsService {
   );
 }
 
+class MockConvertService {
+  convert = createSpy().and.callFake(x => x);
+  pipeable = createSpy().and.returnValue(x => x);
+}
+
 describe('OccProductReviewsAdapter', () => {
   let service: OccProductReviewsAdapter;
   let httpMock: HttpTestingController;
   let endpoints: OccEndpointsService;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,12 +46,14 @@ describe('OccProductReviewsAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
+        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
     service = TestBed.get(OccProductReviewsAdapter);
     endpoints = TestBed.get(OccEndpointsService);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
   });
 
   afterEach(() => {
@@ -79,6 +92,15 @@ describe('OccProductReviewsAdapter', () => {
         { maxCount }
       );
     });
+
+    it('should use converter', () => {
+      service.loadList('333').subscribe();
+      httpMock.expectOne(endpoint).flush(productReviews);
+
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        PRODUCT_REVIEWS_LIST_NORMALIZE
+      );
+    });
   });
 
   describe('post', () => {
@@ -99,14 +121,23 @@ describe('OccProductReviewsAdapter', () => {
 
     it('should use reviews endpoint', () => {
       service.post(productCode, { rating: 3 }).subscribe();
-      const mockReq = httpMock.expectOne(endpoint);
-      mockReq.flush('');
+      httpMock.expectOne(endpoint).flush('');
       expect(endpoints.getUrl).toHaveBeenCalledWith(
         'productReviews',
         {
           productCode,
         },
         { maxCount: undefined }
+      );
+    });
+
+    it('should use converter', () => {
+      const review = { rating: 3 };
+      service.post('333', review).subscribe();
+      httpMock.expectOne(endpoint).flush({});
+      expect(converter.convert).toHaveBeenCalledWith(
+        review,
+        PRODUCT_REVIEW_ADD_SERIALIZE
       );
     });
   });
