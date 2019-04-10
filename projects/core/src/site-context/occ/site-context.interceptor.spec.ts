@@ -3,7 +3,7 @@ import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
 import { SiteContextInterceptor } from './site-context.interceptor';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -38,13 +38,13 @@ class MockLanguageService {
 export class MockSiteContextModuleConfig {
   server = {
     baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+    occPrefix: '/rest/v2/',
   };
 
   site = {
     baseSite: 'electronics',
     language: '',
-    currency: ''
+    currency: '',
   };
 }
 
@@ -62,22 +62,22 @@ describe('SiteContextInterceptor', () => {
       providers: [
         {
           provide: LanguageService,
-          useClass: MockLanguageService
+          useClass: MockLanguageService,
         },
         {
           provide: CurrencyService,
-          useClass: MockCurrencyService
+          useClass: MockCurrencyService,
         },
         {
           provide: OccConfig,
-          useClass: MockSiteContextModuleConfig
+          useClass: MockSiteContextModuleConfig,
         },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: SiteContextInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     httpMock = TestBed.get(HttpTestingController);

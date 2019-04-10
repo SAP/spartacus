@@ -16,18 +16,28 @@
       <section class="cx-contact">
         <ul class="cx-list">
           <li class="cx-item">
-            <a class="cx-link" [href]="getDirections(location)" target="_blank"
-              >Get Directions</a
+            <a
+              class="cx-link"
+              [href]="getDirections(location)"
+              target="_blank"
+              >{{ 'storeFinder.label.getDirections' | cxTranslate }}</a
             >
           </li>
-          <li class="cx-item">Call {{ location.address?.phone }}</li>
           <li class="cx-item">
-            <a class="cx-link" [routerLink]="['/contact']">Contact us</a>
+            {{ 'storeFinder.label.call' | cxTranslate }}
+            {{ location.address?.phone }}
+          </li>
+          <li class="cx-item">
+            <a class="cx-link" [routerLink]="['/contact']">{{
+              'storeFinder.action.contactUs' | cxTranslate
+            }}</a>
           </li>
         </ul>
       </section>
       <div class="cx-schedule">
-        <cx-schedule [location]="location"> <h3>Store hours</h3> </cx-schedule>
+        <cx-schedule [location]="location">
+          <h3>{{ 'storeFinder.label.storeHours' | cxTranslate }}</h3>
+        </cx-schedule>
       </div>
     </article>
     <article class="cx-storeMap col-lg-8">
@@ -37,7 +47,9 @@
 
   <div class="row cx-feature">
     <div class="col-lg-12">
-      <h3 class="cx-features-header">Store features</h3>
+      <h3 class="cx-features-header">
+        {{ 'storeFinder.label.storeFeatures' | cxTranslate }}
+      </h3>
     </div>
   </div>
 

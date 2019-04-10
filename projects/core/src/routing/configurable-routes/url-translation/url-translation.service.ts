@@ -8,7 +8,7 @@ import { getParamName, isParam } from './path-utils';
 import {
   TranslateUrlOptions,
   TranslateUrlOptionsRoute,
-  TranslateUrlOptionsRouteObject
+  TranslateUrlOptionsRouteObject,
 } from './translate-url-options';
 
 @Injectable()
@@ -130,7 +130,7 @@ export class UrlTranslationService {
 
     const {
       nestedRoutesNames,
-      nestedRoutesParams
+      nestedRoutesParams,
     } = this.splitRoutesNamesAndParams(standarizedNestedRoutes);
 
     const nestedRoutesTranslations = this.configurableRoutesService.getNestedRoutesTranslations(
@@ -194,7 +194,7 @@ export class UrlTranslationService {
     return (nestedRoutes || []).reduce(
       ({ nestedRoutesNames, nestedRoutesParams }, route) => ({
         nestedRoutesNames: [...nestedRoutesNames, route.name],
-        nestedRoutesParams: [...nestedRoutesParams, route.params]
+        nestedRoutesParams: [...nestedRoutesParams, route.params],
       }),
       { nestedRoutesNames: [], nestedRoutesParams: [] }
     );

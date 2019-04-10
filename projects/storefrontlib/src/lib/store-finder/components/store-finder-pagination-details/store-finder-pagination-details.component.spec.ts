@@ -1,7 +1,7 @@
 import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderPaginationDetailsComponent } from './store-finder-pagination-details.component';
-import { PaginationModel } from '@spartacus/core';
+import { I18nTestingModule, PaginationModel } from '@spartacus/core';
 
 describe('StoreFinderPaginationDetailsComponent', () => {
   let component: StoreFinderPaginationDetailsComponent;
@@ -10,12 +10,13 @@ describe('StoreFinderPaginationDetailsComponent', () => {
   const mockPagination: PaginationModel = {
     pageSize: 20,
     totalResults: 49,
-    currentPage: 0
+    currentPage: 0,
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [StoreFinderPaginationDetailsComponent]
+      imports: [I18nTestingModule],
+      declarations: [StoreFinderPaginationDetailsComponent],
     }).compileComponents();
   }));
 
@@ -36,9 +37,11 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${component.pagination.pageSize} from ${
+      `1 - ${
+        component.pagination.pageSize
+      } storeFinder.label.fromStoresFound count:${
         component.pagination.totalResults
-      } stores found`
+      }`
     );
   });
 });

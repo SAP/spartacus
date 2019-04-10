@@ -16,23 +16,24 @@ export const defaultStorefrontRoutesTranslations: {
     orderConfirmation: { paths: ['order-confirmation'] },
     product: {
       paths: ['product/:productCode'],
-      paramsMapping: { productCode: 'code' }
+      paramsMapping: { productCode: 'code' },
     },
     category: {
       paths: ['category/:categoryCode'],
-      paramsMapping: { categoryCode: 'code' }
+      paramsMapping: { categoryCode: 'code' },
     },
     brand: { paths: ['Brands/:brandName/c/:brandCode'] },
     termsAndConditions: { paths: ['termsAndConditions'] },
     orders: { paths: ['my-account/orders'] },
     orderDetails: {
       paths: ['my-account/orders/:orderCode'],
-      paramsMapping: { orderCode: 'code' }
+      paramsMapping: { orderCode: 'code' },
     },
     addressBook: { paths: ['my-account/address-book'] },
+    updatePassword: { paths: ['my-account/update-password'] },
     paymentManagement: { paths: ['my-account/payment-details'] },
-    pageNotFound: { paths: ['notFound'] }
+    updateProfile: { paths: ['my-account/update-profile'] },
   },
 
-  en: {} as any
+  en: {} as any,
 };

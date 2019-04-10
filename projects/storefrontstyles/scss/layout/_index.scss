@@ -8,6 +8,7 @@
 @import './page-templates/cart-page';
 @import './page-templates/login-page';
 @import './page-templates/error-page';
+@import './page-templates/order-detail-page';
 
 cx-page-layout {
   @extend %cx-page-layout !optional;

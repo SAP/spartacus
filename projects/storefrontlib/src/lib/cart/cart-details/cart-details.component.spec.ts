@@ -5,7 +5,8 @@ import {
   CartDataService,
   CartService,
   Cart,
-  PromotionResult
+  PromotionResult,
+  I18nTestingModule,
 } from '@spartacus/core';
 
 import { CartDetailsComponent } from './cart-details.component';
@@ -22,7 +23,7 @@ class MockCartService {
 
 @Component({
   template: '',
-  selector: 'cx-cart-item-list'
+  selector: 'cx-cart-item-list',
 })
 class MockCartItemListComponent {
   @Input()
@@ -39,12 +40,12 @@ describe('CartDetailsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, PromotionsModule],
+      imports: [RouterTestingModule, PromotionsModule, I18nTestingModule],
       declarations: [CartDetailsComponent, MockCartItemListComponent],
       providers: [
         CartDataService,
-        { provide: CartService, useClass: MockCartService }
-      ]
+        { provide: CartService, useClass: MockCartService },
+      ],
     }).compileComponents();
   }));
 
@@ -65,41 +66,41 @@ describe('CartDetailsComponent', () => {
           {
             consumedEntries: [
               {
-                orderEntryNumber: 1
-              }
+                orderEntryNumber: 1,
+              },
             ],
-            description: 'test applied product promotion'
-          }
+            description: 'test applied product promotion',
+          },
         ],
         appliedOrderPromotions: [
           {
             consumedEntries: [
               {
-                orderEntryNumber: 2
-              }
+                orderEntryNumber: 2,
+              },
             ],
-            description: 'test potential product promotion'
-          }
-        ]
+            description: 'test potential product promotion',
+          },
+        ],
       };
 
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [
             {
-              orderEntryNumber: 1
-            }
+              orderEntryNumber: 1,
+            },
           ],
-          description: 'test applied product promotion'
+          description: 'test applied product promotion',
         },
         {
           consumedEntries: [
             {
-              orderEntryNumber: 2
-            }
+              orderEntryNumber: 2,
+            },
           ],
-          description: 'test potential product promotion'
-        }
+          description: 'test potential product promotion',
+        },
       ];
 
       const promotions = component.getAllPromotionsForCart(mockedCart);
@@ -116,23 +117,23 @@ describe('CartDetailsComponent', () => {
           {
             consumedEntries: [
               {
-                orderEntryNumber: 2
-              }
+                orderEntryNumber: 2,
+              },
             ],
-            description: 'test potential product promotion'
-          }
-        ]
+            description: 'test potential product promotion',
+          },
+        ],
       };
 
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [
             {
-              orderEntryNumber: 2
-            }
+              orderEntryNumber: 2,
+            },
           ],
-          description: 'test potential product promotion'
-        }
+          description: 'test potential product promotion',
+        },
       ];
 
       const promotions = component.getAllPromotionsForCart(mockedCart);
@@ -148,24 +149,24 @@ describe('CartDetailsComponent', () => {
           {
             consumedEntries: [
               {
-                orderEntryNumber: 1
-              }
+                orderEntryNumber: 1,
+              },
             ],
-            description: 'test applied product promotion'
-          }
+            description: 'test applied product promotion',
+          },
         ],
-        appliedOrderPromotions: []
+        appliedOrderPromotions: [],
       };
 
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [
             {
-              orderEntryNumber: 1
-            }
+              orderEntryNumber: 1,
+            },
           ],
-          description: 'test applied product promotion'
-        }
+          description: 'test applied product promotion',
+        },
       ];
 
       const promotions = component.getAllPromotionsForCart(mockedCart);
@@ -181,23 +182,23 @@ describe('CartDetailsComponent', () => {
           {
             consumedEntries: [
               {
-                orderEntryNumber: 1
-              }
+                orderEntryNumber: 1,
+              },
             ],
-            description: 'test applied product promotion'
-          }
-        ]
+            description: 'test applied product promotion',
+          },
+        ],
       };
 
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [
             {
-              orderEntryNumber: 1
-            }
+              orderEntryNumber: 1,
+            },
           ],
-          description: 'test applied product promotion'
-        }
+          description: 'test applied product promotion',
+        },
       ];
 
       const promotions = component.getAllPromotionsForCart(mockedCart);
@@ -213,23 +214,23 @@ describe('CartDetailsComponent', () => {
           {
             consumedEntries: [
               {
-                orderEntryNumber: 2
-              }
+                orderEntryNumber: 2,
+              },
             ],
-            description: 'test potential product promotion'
-          }
-        ]
+            description: 'test potential product promotion',
+          },
+        ],
       };
 
       const expectedResult: PromotionResult[] = [
         {
           consumedEntries: [
             {
-              orderEntryNumber: 2
-            }
+              orderEntryNumber: 2,
+            },
           ],
-          description: 'test potential product promotion'
-        }
+          description: 'test potential product promotion',
+        },
       ];
 
       const promotions = component.getAllPromotionsForCart(mockedCart);

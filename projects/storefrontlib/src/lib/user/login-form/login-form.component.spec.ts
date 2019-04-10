@@ -1,7 +1,12 @@
 import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { TestBed, ComponentFixture, async } from '@angular/core/testing';
 
-import { AuthService, RoutingService, UserToken } from '@spartacus/core';
+import {
+  AuthService,
+  I18nTestingModule,
+  RoutingService,
+  UserToken,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -12,7 +17,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -48,13 +53,13 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [LoginFormComponent, MockTranslateUrlPipe],
       providers: [
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService }
-      ]
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
     }).compileComponents();
   }));
 

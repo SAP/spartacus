@@ -10,7 +10,7 @@ import { Card } from '../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
-  styleUrls: ['./payment-methods.component.scss']
+  styleUrls: ['./payment-methods.component.scss'],
 })
 export class PaymentMethodsComponent implements OnInit, OnDestroy {
   paymentMethods$: Observable<PaymentDetails[]>;
@@ -37,7 +37,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     accountHolderName,
     expiryMonth,
     expiryYear,
-    cardNumber
+    cardNumber,
   }: PaymentDetails): Card {
     const actions: { name: string; event: string }[] = [];
     if (!defaultPayment) {
@@ -49,7 +49,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
       textBold: accountHolderName,
       text: [cardNumber, `Expires: ${expiryMonth}/${expiryYear}`],
       actions,
-      deleteMsg: 'Are you sure you want to delete this payment method?'
+      deleteMsg: 'Are you sure you want to delete this payment method?',
     };
 
     return card;

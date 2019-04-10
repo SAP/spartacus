@@ -5,6 +5,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../../../../bootstrap.module';
 import { CardModule } from '../../../../../ui/components/card/card.module';
 
+import { I18nModule } from '@spartacus/core';
 import { PaymentFormComponent } from './payment-form.component';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
 
@@ -15,10 +16,11 @@ import { BillingAddressFormModule } from '../billing-address-form/billing-addres
     NgSelectModule,
     BootstrapModule,
     CardModule,
-    BillingAddressFormModule
+    BillingAddressFormModule,
+    I18nModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
-  exports: [PaymentFormComponent]
+  exports: [PaymentFormComponent],
 })
 export class PaymentFormModule {}

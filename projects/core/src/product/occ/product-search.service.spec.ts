@@ -1,37 +1,39 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { SearchConfig } from '../model/search-config';
 import {
   ProductSearchPage,
-  SuggestionList
+  SuggestionList,
 } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchLoaderService } from './product-search.service';
 import { defaultOccProductConfig } from '../config/product-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { OccConfig } from '@spartacus/core';
+import { deepMerge } from '../../config/utils/deep-merge';
 
 const queryText = 'test';
 const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
 const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
-  pageSize: 5
+  pageSize: 5,
 };
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+const mockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
-
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductSearchLoaderService', () => {
@@ -45,9 +47,9 @@ describe('ProductSearchLoaderService', () => {
         ProductSearchLoaderService,
         {
           provide: OccConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          useValue: deepMerge({}, mockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductSearchLoaderService);
@@ -69,7 +71,7 @@ describe('ProductSearchLoaderService', () => {
           req.method === 'GET' &&
           req.url ===
             `/${DynamicTemplate.resolve(
-              defaultOccProductConfig.endpoints.productSearch,
+              defaultOccProductConfig.backend.occ.endpoints.productSearch,
               { query: queryText, searchConfig: mockSearchConfig }
             )}&pageSize=${mockSearchConfig.pageSize.toString()}`
         );
@@ -94,7 +96,7 @@ describe('ProductSearchLoaderService', () => {
           req.method === 'GET' &&
           req.url ===
             `/${DynamicTemplate.resolve(
-              defaultOccProductConfig.endpoints.productSuggestions,
+              defaultOccProductConfig.backend.occ.endpoints.productSuggestions,
               { term: queryText, max: mockSearchConfig.pageSize }
             )}`
         );

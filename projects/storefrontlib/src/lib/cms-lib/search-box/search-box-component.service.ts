@@ -6,7 +6,7 @@ import {
   debounceTime,
   distinctUntilChanged,
   map,
-  switchMap
+  switchMap,
 } from 'rxjs/operators';
 import { RoutingService, CmsSearchBoxComponent } from '@spartacus/core';
 
@@ -25,7 +25,7 @@ export class SearchBoxComponentService {
     displaySuggestions: true,
     maxSuggestions: 5,
     minCharactersBeforeRequest: 3,
-    displayProducts: false
+    displayProducts: false,
   };
 
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);
@@ -69,7 +69,7 @@ export class SearchBoxComponentService {
 
   public launchSearchPage(query: string): void {
     this.routingService.go({
-      route: [{ name: 'search', params: { query } }]
+      route: [{ name: 'search', params: { query } }],
     });
   }
 
@@ -91,13 +91,13 @@ export class SearchBoxComponentService {
   private executeSearch(search: string, config: SearchBoxConfig): void {
     if (config.displayProducts) {
       this.searchService.searchAuxiliary(search, {
-        pageSize: config.maxProducts
+        pageSize: config.maxProducts,
       });
     }
 
     if (config.displaySuggestions) {
       this.searchService.getSuggestions(search, {
-        pageSize: config.maxSuggestions
+        pageSize: config.maxSuggestions,
       });
     }
   }

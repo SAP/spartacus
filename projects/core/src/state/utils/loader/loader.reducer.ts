@@ -7,7 +7,7 @@ export const initialLoaderState: LoaderState<any> = {
   loading: false,
   error: false,
   success: false,
-  value: undefined
+  value: undefined,
 };
 
 /**
@@ -35,7 +35,7 @@ export function loaderReducer<T>(
         return {
           ...state,
           loading: true,
-          value: reducer ? reducer(state.value, action) : state.value
+          value: reducer ? reducer(state.value, action) : state.value,
         };
       } else if (entity.error) {
         return {
@@ -43,7 +43,7 @@ export function loaderReducer<T>(
           loading: false,
           error: true,
           success: false,
-          value: reducer ? reducer(state.value, action) : undefined
+          value: reducer ? reducer(state.value, action) : undefined,
         };
       } else if (entity.success) {
         return {
@@ -51,7 +51,7 @@ export function loaderReducer<T>(
           value: reducer ? reducer(state.value, action) : action.payload,
           loading: false,
           error: false,
-          success: true
+          success: true,
         };
       } else {
         // reset state action
@@ -59,7 +59,7 @@ export function loaderReducer<T>(
           ...initialLoaderState,
           value: reducer
             ? reducer(initialLoaderState.value, action)
-            : initialLoaderState.value
+            : initialLoaderState.value,
         };
       }
     }

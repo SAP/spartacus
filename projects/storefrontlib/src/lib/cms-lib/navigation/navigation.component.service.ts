@@ -27,7 +27,7 @@ export class NavigationComponentService {
       nodeData.entries.forEach(entry => {
         itemsList.push({
           superType: entry.itemSuperType,
-          id: entry.itemId
+          id: entry.itemId,
         });
       });
     }

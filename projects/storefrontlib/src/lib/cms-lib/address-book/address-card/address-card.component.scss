@@ -1,39 +1,36 @@
 @import 'theme';
-@import 'functions';
-@import 'mixins';
 
-// cx-address-card color variables
-$cx-address-card-delete-msg-color: 'danger' !default;
-$cx-address-card-delete-mode-background-color: 'background' !default;
+.cx-address-card-inner {
+  margin: var(--cx-margin, 0 0 1.25rem 0);
+  border-radius: var(--cx-border-radius, 0);
+  height: var(--cx-height, 100%);
+}
 
-// cx-address-card variables
-$cx-address-card-margin: 0 0 1.25rem 0 !default;
-$cx-address-card-radius: 0 !default;
-$cx-address-card-actions-padding: 1.25rem 0 0 0 !default;
-$cx-address-card-delete-msg: 0 0 1.25rem 0 !default;
+.cx-address-card-actions {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, flex-end);
+  padding: var(--cx-padding, 1.25rem 0 0 0);
+}
 
-.cx-address-card {
-  margin: $cx-address-card-margin;
-  border-radius: $cx-address-card-radius;
-  &__actions {
-    display: flex;
-    justify-content: flex-end;
-    padding: $cx-address-card-actions-padding;
-  }
-  &__delete {
-    padding: $cx-address-card-actions-padding;
-  }
-  &__label--bold {
-    @include weight('bold');
-  }
-  &__delete-msg {
-    @include var-color('color', $cx-address-card-delete-msg-color);
-    padding: $cx-address-card-delete-msg;
-  }
-  &--delete-mode {
-    @include var-color(
-      'background-color',
-      $cx-address-card-delete-mode-background-color
-    );
-  }
+.cx-address-card-delete {
+  padding: var(--cx-padding, 1.25rem 0 0 0);
+}
+
+.cx-address-card-label-name {
+  font-weight: var(--cx-g-font-weight-bold);
+}
+
+.cx-address-card-delete-msg {
+  color: var(--cx-color, var(--cx-g-color-danger));
+  padding: var(--cx-padding, 0 0 1.25rem 0);
+}
+
+.cx-address-card-delete-mode {
+  background-color: var(--cx-background-color, var(--cx-g-color-background));
+}
+
+.cx-card-body {
+  justify-content: var(--cx-justify-content, space-between);
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
 }

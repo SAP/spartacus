@@ -1,9 +1,15 @@
-import { Component, Inject, NgModule, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  Inject,
+  NgModule,
+  PLATFORM_ID,
+  Renderer2,
+} from '@angular/core';
 import {
   async,
   ComponentFixture,
   TestBed,
-  TestModuleMetadata
+  TestModuleMetadata,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
@@ -14,7 +20,8 @@ import {
   ComponentMapperService,
   CmsConfig,
   CxApiService,
-  ContentSlotComponentData
+  ContentSlotComponentData,
+  DynamicAttributeService,
 } from '@spartacus/core';
 
 const testText = 'test text';
@@ -23,7 +30,7 @@ const testText = 'test text';
   selector: 'cx-test',
   template: `
     <div id="debugEl1">${testText}</div>
-  `
+  `,
 })
 export class TestComponent {
   constructor(
@@ -35,7 +42,7 @@ export class TestComponent {
 @NgModule({
   declarations: [TestComponent],
   entryComponents: [TestComponent],
-  exports: [TestComponent]
+  exports: [TestComponent],
 })
 export class TestModule {}
 
@@ -46,11 +53,11 @@ const MockCmsModuleConfig: CmsConfig = {
       providers: [
         {
           provide: 'testService',
-          useValue: 'testValue'
-        }
-      ]
-    }
-  }
+          useValue: 'testValue',
+        },
+      ],
+    },
+  },
 };
 
 class MockCmsService {
@@ -60,23 +67,32 @@ class MockCmsService {
   }
 }
 
+class MockDynamicAttributeService {
+  addDynamicAttributes() {}
+}
+
 @Component({
   template:
-    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>'
+    '<ng-container [cxComponentWrapper]="component">' + '</ng-container>',
 })
 class TestWrapperComponent {
   component: ContentSlotComponentData = {
     typeCode: 'cms_typeCode',
     flexType: 'CMSTestComponent',
     uid: 'test_uid',
-    uuid: 'test_uuid',
-    catalogUuid: 'test_catalogUuid'
+    properties: {
+      smartedit: {
+        test: 'test',
+      },
+    },
   };
 }
 
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
   let cmsService: CmsService;
+  let dynamicAttributeService: DynamicAttributeService;
+  let renderer: Renderer2;
 
   let testBedConfig: TestModuleMetadata;
 
@@ -86,10 +102,15 @@ describe('ComponentWrapperDirective', () => {
       declarations: [TestWrapperComponent, ComponentWrapperDirective],
       providers: [
         ComponentMapperService,
+        Renderer2,
         { provide: CmsConfig, useValue: MockCmsModuleConfig },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } }
-      ]
+        {
+          provide: DynamicAttributeService,
+          useClass: MockDynamicAttributeService,
+        },
+        { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
+      ],
     };
   });
 
@@ -99,7 +120,7 @@ describe('ComponentWrapperDirective', () => {
     beforeEach(async(() => {
       testBedConfig.providers.push({
         provide: PLATFORM_ID,
-        useValue: 'server'
+        useValue: 'server',
       });
       TestBed.configureTestingModule(testBedConfig).compileComponents();
     }));
@@ -138,6 +159,10 @@ describe('ComponentWrapperDirective', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
         cmsService = TestBed.get(CmsService);
+        dynamicAttributeService = TestBed.get(DynamicAttributeService);
+        renderer = fixture.componentRef.injector.get<Renderer2>(
+          Renderer2 as any
+        );
       });
 
       it('should instantiate the found component correctly', () => {
@@ -149,44 +174,49 @@ describe('ComponentWrapperDirective', () => {
       });
 
       it('should add smartedit contract if app launch in smart edit', () => {
+        spyOn(
+          dynamicAttributeService,
+          'addDynamicAttributes'
+        ).and.callThrough();
+
         fixture.detectChanges();
         const el = fixture.debugElement;
         const compEl = el.query(By.css('cx-test')).nativeElement;
-        expect(compEl.getAttribute('data-smartedit-component-id')).toEqual(
-          'test_uid'
-        );
-        expect(compEl.getAttribute('data-smartedit-component-type')).toEqual(
-          'cms_typeCode'
-        );
         expect(
-          compEl.getAttribute('data-smartedit-catalog-version-uuid')
-        ).toEqual('test_catalogUuid');
-        expect(compEl.getAttribute('data-smartedit-component-uuid')).toEqual(
-          'test_uuid'
+          dynamicAttributeService.addDynamicAttributes
+        ).toHaveBeenCalledWith(
+          {
+            smartedit: {
+              test: 'test',
+            },
+          },
+          compEl,
+          renderer
         );
-        expect(compEl.classList.contains('smartEditComponent')).toBeTruthy();
       });
 
       it('should not add smartedit contract if app launch in smart edit', () => {
+        spyOn(
+          dynamicAttributeService,
+          'addDynamicAttributes'
+        ).and.callThrough();
         spyOn(cmsService, 'isLaunchInSmartEdit').and.returnValue(false);
 
         fixture = TestBed.createComponent(TestWrapperComponent);
         fixture.detectChanges();
         const el = fixture.debugElement;
         const compEl = el.query(By.css('cx-test')).nativeElement;
-        expect(compEl.getAttribute('data-smartedit-component-id')).toEqual(
-          null
-        );
-        expect(compEl.getAttribute('data-smartedit-component-type')).toEqual(
-          null
-        );
         expect(
-          compEl.getAttribute('data-smartedit-catalog-version-uuid')
-        ).toEqual(null);
-        expect(compEl.getAttribute('data-smartedit-component-uuid')).toEqual(
-          null
+          dynamicAttributeService.addDynamicAttributes
+        ).not.toHaveBeenCalledWith(
+          {
+            smartedit: {
+              test: 'test',
+            },
+          },
+          compEl,
+          renderer
         );
-        expect(compEl.classList.contains('smartEditComponent')).toBeFalsy();
       });
 
       it('should inject cms component data', () => {

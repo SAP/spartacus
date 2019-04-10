@@ -13,7 +13,7 @@ declare global {
         cy.requireProductAddedToCart(auth);
         ```
        */
-      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<{}>;
+      requireProductAddedToCart: (auth: {}) => Cypress.Chainable<any>;
     }
   }
 }
@@ -25,12 +25,12 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
       method: 'POST',
       url: `${apiUrl}/rest/v2/electronics/users/current/carts`,
       body: {
-        fields: 'DEFAULT'
+        fields: 'DEFAULT',
       },
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`
-      }
+        Authorization: `bearer ${auth.userToken.token.access_token}`,
+      },
     });
   }
 
@@ -40,18 +40,21 @@ Cypress.Commands.add('requireProductAddedToCart', auth => {
       url: `${apiUrl}/rest/v2/electronics/users/current/carts/${cartCode}/entries`,
       body: {
         code: productData.code,
-        qty: 1
+        qty: 1,
       },
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`
-      }
+        Authorization: `bearer ${auth.userToken.token.access_token}`,
+      },
     });
   }
 
   cy.server();
 
-  createCart().then(resp => {
-    addToCart(resp.body.code, product).then(cart => cy.wrap(cart));
+  createCart().then(cart => {
+    addToCart(cart.body.code, product).then(resp => {
+      resp.body.cartId = cart.body.code; // need this in the response for later use
+      cy.wrap(resp.body);
+    });
   });
 });

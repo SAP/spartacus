@@ -5,14 +5,14 @@ import {
   ActionReducerMap,
   MetaReducer,
   Action,
-  combineReducers
+  combineReducers,
 } from '@ngrx/store';
 
 import {
   CmsState,
   COMPONENT_ENTITY,
   NAVIGATION_DETAIL_ENTITY,
-  StateWithCms
+  StateWithCms,
 } from '../cms-state';
 import { PageType } from '../../../occ';
 import { NodeItem } from '../../model/node-item.model';
@@ -44,14 +44,14 @@ export function getReducers(): ActionReducerMap<CmsState> {
         catalog: entityLoaderReducer<string>(
           PageType.CATALOG_PAGE,
           fromPageIndexReducer.reducer(PageType.CATALOG_PAGE)
-        )
-      })
+        ),
+      }),
     }),
     component: entityLoaderReducer(COMPONENT_ENTITY),
     navigation: entityLoaderReducer<NodeItem>(
       NAVIGATION_DETAIL_ENTITY,
       fromNavigation.reducer
-    )
+    ),
   };
 }
 
@@ -61,7 +61,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export function clearCmsState(

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { CheckoutModule } from '@spartacus/core';
+import { CheckoutModule, I18nModule } from '@spartacus/core';
 import { OrderConfirmationComponent } from './order-confirmation.component';
 
 import { MediaModule } from './../../../ui/components/media/media.module';
@@ -16,9 +16,10 @@ import { PwaModule } from '../../../pwa/pwa.module';
     CartSharedModule,
     CardModule,
     PwaModule,
-    CheckoutModule
+    CheckoutModule,
+    I18nModule,
   ],
   declarations: [OrderConfirmationComponent],
-  exports: [OrderConfirmationComponent]
+  exports: [OrderConfirmationComponent],
 })
 export class OrderConfirmationModule {}

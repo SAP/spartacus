@@ -2,7 +2,11 @@ import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Product, ContentSlotComponentData } from '@spartacus/core';
+import {
+  Product,
+  ContentSlotComponentData,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -20,7 +24,7 @@ class MockCurrentProductService {
 
 @Component({
   selector: 'cx-product-reviews',
-  template: 'product-reviews'
+  template: 'product-reviews',
 })
 class MockProductReviewsComponent {
   @Input()
@@ -31,7 +35,7 @@ class MockProductReviewsComponent {
 
 @Component({
   selector: 'cx-product-attributes',
-  template: 'product-attributes.component'
+  template: 'product-attributes.component',
 })
 export class MockProductAttributesComponent {
   @Input()
@@ -39,7 +43,7 @@ export class MockProductAttributesComponent {
 }
 
 @Directive({
-  selector: '[cxComponentWrapper]'
+  selector: '[cxComponentWrapper]',
 })
 export class MockComponentWrapperDirective {
   @Input() cxComponentWrapper: ContentSlotComponentData;
@@ -51,20 +55,20 @@ describe('ProductTabsComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         ProductTabsComponent,
         MockProductAttributesComponent,
         MockProductReviewsComponent,
         MockComponentWrapperDirective,
-        OutletDirective
+        OutletDirective,
       ],
       providers: [
         {
           provide: CurrentProductService,
-          useClass: MockCurrentProductService
-        }
-      ]
+          useClass: MockCurrentProductService,
+        },
+      ],
     }).compileComponents();
   }));
 

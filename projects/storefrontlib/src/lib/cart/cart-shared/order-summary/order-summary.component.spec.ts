@@ -1,6 +1,7 @@
 import { OrderSummaryComponent } from './order-summary.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
@@ -8,8 +9,8 @@ describe('OrderSummary', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [PromotionsModule],
-      declarations: [OrderSummaryComponent]
+      imports: [PromotionsModule, I18nTestingModule],
+      declarations: [OrderSummaryComponent],
     }).compileComponents();
   }));
 

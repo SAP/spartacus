@@ -5,9 +5,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CartItemComponent } from './cart-item.component';
 import { Pipe, PipeTransform } from '@angular/core';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -23,14 +24,15 @@ describe('CartItemComponent', () => {
         RouterTestingModule,
         ReactiveFormsModule,
         ComponentsModule,
-        PromotionsModule
+        PromotionsModule,
+        I18nTestingModule,
       ],
       declarations: [CartItemComponent, MockTranslateUrlPipe],
       providers: [
         {
-          provide: ControlContainer
-        }
-      ]
+          provide: ControlContainer,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -60,7 +62,7 @@ describe('CartItemComponent', () => {
 
     expect(cartItemComponent.update.emit).toHaveBeenCalledWith({
       item: cartItemComponent.item,
-      updatedQuantity: 2
+      updatedQuantity: 2,
     });
   });
 });

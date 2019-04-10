@@ -11,14 +11,14 @@ const routes: Routes = [
     path: null,
     canActivate: [CmsPageGuard],
     component: ProductPageComponent,
-    data: { cxPath: 'product' }
+    data: { cxPath: 'product' },
   },
   {
     path:
       'Open-Catalogue/:category1/:category2/:category3/:category4/p/:productCode',
     redirectTo: null,
-    data: { cxRedirectTo: 'product' }
-  }
+    data: { cxRedirectTo: 'product' },
+  },
 ];
 
 @NgModule({
@@ -26,9 +26,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forChild(routes),
     ProductDetailsModule,
-    PageLayoutModule
+    PageLayoutModule,
   ],
   declarations: [ProductPageComponent],
-  exports: [ProductPageComponent]
+  exports: [ProductPageComponent],
 })
 export class ProductPageModule {}
