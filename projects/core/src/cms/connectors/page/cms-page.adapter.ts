@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { PageContext } from '../../../routing/models/page-context.model';
-import { CmsStructureModel } from '@spartacus/core';
+import { CmsStructureModel } from '../../model/page.model';
 
 /**
  * Abstract class that can be used to implement custom loader logic

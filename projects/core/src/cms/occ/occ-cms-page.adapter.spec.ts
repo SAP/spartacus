@@ -3,11 +3,13 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CmsComponent, CMSPage, PageType } from '../../occ/occ-models/index';
+import { CmsComponent, PageType } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfigService } from '../services';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
+import { CMS_PAGE_NORMALIZE, ConverterService } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -15,7 +17,7 @@ const components: CmsComponent[] = [
   { uid: 'comp3', typeCode: 'NavigationComponent' },
 ];
 
-const cmsPageData: CMSPage = {
+const cmsPageData: any = {
   uid: 'testPageId',
   name: 'testPage',
   template: 'testTemplate',
@@ -36,6 +38,10 @@ class OccEndpointsServiceMock {
   }
 }
 
+class MockComverterService {
+  pipeable = createSpy().and.returnValue(x => x);
+}
+
 describe('OccCmsPageAdapter', () => {
   let service: OccCmsPageAdapter;
   let httpMock: HttpTestingController;
@@ -50,6 +56,7 @@ describe('OccCmsPageAdapter', () => {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
         },
+        { provide: ConverterService, useClass: MockComverterService },
       ],
     });
 
@@ -126,6 +133,23 @@ describe('OccCmsPageAdapter', () => {
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);
+    });
+
+    it('should use normalizer', () => {
+      const context: PageContext = {
+        id: '123',
+        type: PageType.PRODUCT_PAGE,
+      };
+
+      const converter = TestBed.get(ConverterService);
+
+      service.load(context).subscribe();
+
+      httpMock
+        .expectOne(req => req.url === endpoint + '/pages')
+        .flush(cmsPageData);
+
+      expect(converter.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZE);
     });
   });
 });

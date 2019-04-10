@@ -4,22 +4,16 @@ import { CmsPageConnector } from './cms-page.connector';
 import { CmsPageAdapter } from './cms-page.adapter';
 import {
   CmsStructureConfigService,
-  NormalizersService,
   PageContext,
   PageType,
 } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { CMS_PAGE_NORMALIZER } from './cms-page.normalizer';
 import createSpy = jasmine.createSpy;
 
-class MockCmsPageAdapter implements CmsPageAdapter<any> {
+class MockCmsPageAdapter implements CmsPageAdapter {
   load = createSpy('CmsComponentAdapter.load').and.callFake(({ id }) =>
     of('page' + id)
   );
-}
-
-class MockNormalizerService {
-  pipeable = createSpy().and.returnValue(x => x);
 }
 
 class MockCmsStructureConfigService {
@@ -39,7 +33,6 @@ describe('CmsPageConnector', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsPageAdapter, useClass: MockCmsPageAdapter },
-        { provide: NormalizersService, useClass: MockNormalizerService },
         {
           provide: CmsStructureConfigService,
           useClass: MockCmsStructureConfigService,
@@ -62,13 +55,6 @@ describe('CmsPageConnector', () => {
       service.get(context).subscribe(res => (result = res));
       expect(result).toBe('123');
       expect(adapter.load).toHaveBeenCalledWith(context);
-    });
-
-    it('should use normalizer', () => {
-      const normalizers = TestBed.get(NormalizersService);
-
-      service.get(context).subscribe();
-      expect(normalizers.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZER);
     });
 
     it('should use CmsStructureConfigService', () => {

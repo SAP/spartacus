@@ -4,19 +4,14 @@ import { CmsComponentConnector } from './cms-component.connector';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import {
   CmsStructureConfigService,
-  NormalizersService,
   PageContext,
   PageType,
 } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import {
-  CMS_COMPONENT_LIST_NORMALIZER,
-  CMS_COMPONENT_NORMALIZER,
-} from './cms-component.normalizer';
 import { IdList } from '../../model/idList.model';
 import createSpy = jasmine.createSpy;
 
-class MockCmsComponentAdapter implements CmsComponentAdapter<any, any> {
+class MockCmsComponentAdapter implements CmsComponentAdapter {
   load = createSpy('CmsComponentAdapter.load').and.callFake(id =>
     of('component' + id)
   );
@@ -24,10 +19,6 @@ class MockCmsComponentAdapter implements CmsComponentAdapter<any, any> {
   loadList = createSpy('CmsComponentAdapter.loadList').and.callFake(idList =>
     of('component' + idList)
   );
-}
-
-class MockNormalizerService {
-  pipeable = createSpy().and.returnValue(x => x);
 }
 
 const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
@@ -42,14 +33,12 @@ class MockCmsStructureConfigService {
 
 describe('CmsComponentConnector', () => {
   let service: CmsComponentConnector;
-  let adapter: CmsComponentAdapter<any, any>;
-  let normalizers: NormalizersService;
+  let adapter: CmsComponentAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsComponentAdapter, useClass: MockCmsComponentAdapter },
-        { provide: NormalizersService, useClass: MockNormalizerService },
         {
           provide: CmsStructureConfigService,
           useClass: MockCmsStructureConfigService,
@@ -59,7 +48,6 @@ describe('CmsComponentConnector', () => {
 
     service = TestBed.get(CmsComponentConnector);
     adapter = TestBed.get(CmsComponentAdapter);
-    normalizers = TestBed.get(NormalizersService);
   });
 
   it('should be created', () => {
@@ -72,13 +60,6 @@ describe('CmsComponentConnector', () => {
       service.get('333', context).subscribe(res => (result = res));
       expect(result).toBe('component333');
       expect(adapter.load).toHaveBeenCalledWith('333', context);
-    });
-
-    it('should use normalizer', () => {
-      service.get('333', context).subscribe();
-      expect(normalizers.pipeable).toHaveBeenCalledWith(
-        CMS_COMPONENT_NORMALIZER
-      );
     });
 
     it('should use CmsStructureConfigService', () => {
@@ -100,13 +81,6 @@ describe('CmsComponentConnector', () => {
         undefined,
         undefined,
         undefined
-      );
-    });
-
-    it('should use normalizer', () => {
-      service.getList(ids, context).subscribe();
-      expect(normalizers.pipeable).toHaveBeenCalledWith(
-        CMS_COMPONENT_LIST_NORMALIZER
       );
     });
   });

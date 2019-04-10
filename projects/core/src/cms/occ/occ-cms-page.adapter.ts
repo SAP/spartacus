@@ -7,7 +7,7 @@ import { PageContext } from '../../routing/index';
 import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZE } from '../connectors/page/cms-page.converters';
 import { ConverterService } from '../../util/converter.service';
-import { CmsStructureModel } from '@spartacus/core';
+import { CmsStructureModel } from '../model/page.model';
 
 @Injectable()
 export class OccCmsPageAdapter implements CmsPageAdapter {
