@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { CartService, OrderEntry, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  OrderEntry,
+  PromotionResult,
+} from '@spartacus/core';
 
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -85,6 +90,7 @@ describe('AddedToCartDialogComponent', () => {
         RouterTestingModule,
         NgbModule,
         SpinnerModule,
+        I18nTestingModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
@@ -124,7 +130,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('Updating cart...');
+    ).toEqual('addToCart.label.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
 
@@ -145,7 +151,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('Item(s) added to your cart');
+    ).toEqual('addToCart.label.itemsAddedToYourCart');
   });
 
   it('should display cart item', () => {
@@ -164,7 +170,9 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(true);
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
-    expect(cartTotalEl.children[0].textContent).toEqual('Cart total (1 items)');
+    expect(cartTotalEl.children[0].textContent).toEqual(
+      ' cartItems.label.cartTotal count:1 '
+    );
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 

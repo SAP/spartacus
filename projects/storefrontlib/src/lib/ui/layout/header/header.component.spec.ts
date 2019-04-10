@@ -4,6 +4,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HeaderSkipperComponent } from './header-skipper/header-skipper.component';
 import { HeaderComponent } from './header.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Component({
   selector: 'cx-language-selector',
@@ -44,7 +45,7 @@ describe('HeaderComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         HeaderComponent,
         MockDynamicSlotComponent,

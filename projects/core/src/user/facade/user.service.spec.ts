@@ -1,23 +1,22 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { StoreModule, Store } from '@ngrx/store';
-
-import * as fromStore from '../store/index';
-import { USER_FEATURE } from '../store/user-state';
+import { inject, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import {
   Address,
+  Country,
   Order,
-  User,
-  PaymentDetailsList,
-  Region,
   OrderHistoryList,
   PaymentDetails,
+  PaymentDetailsList,
+  Region,
   Title,
-  Country,
+  User,
 } from '../../occ/occ-models/index';
-
-import { UserService } from './user.service';
+import { PROCESS_FEATURE } from '../../process/store/process-state';
+import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
+import * as fromStore from '../store/index';
+import { USER_FEATURE } from '../store/user-state';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -28,6 +27,10 @@ describe('UserService', () => {
       imports: [
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromStore.getReducers()),
+        StoreModule.forFeature(
+          PROCESS_FEATURE,
+          fromProcessReducers.getReducers()
+        ),
       ],
       providers: [UserService],
     });
@@ -400,6 +403,63 @@ describe('UserService', () => {
     );
   });
 
+  describe('update personal details', () => {
+    const username = 'xxx';
+    const userDetails: User = {
+      uid: username,
+    };
+
+    it('should dispatch UpdateUserDetails action', () => {
+      service.updatePersonalDetails(username, userDetails);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateUserDetails({ username, userDetails })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsFail('error'));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultError()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateUserDetailsSuccess(userDetails));
+
+      let result: boolean;
+      service
+        .getUpdatePersonalDetailsResultSuccess()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should dispatch a reset action', () => {
+      service.resetUpdatePersonalDetailsProcessingState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateUserDetails()
+      );
+    });
+  });
+
   it('should be able to reset password', () => {
     service.resetPassword('test token', 'test password');
     expect(store.dispatch).toHaveBeenCalledWith(
@@ -428,5 +488,64 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(isResst).toBeTruthy();
+  });
+
+  describe('update password', () => {
+    const userId = 'email@test.com';
+    const oldPassword = 'oldPass123';
+    const newPassword = 'newPass456';
+
+    it('should updatePassword() dispatch UpdatePassword action', () => {
+      service.updatePassword(userId, oldPassword, newPassword);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+      );
+    });
+
+    it('should getUpdatePasswordResultLoading() return loading flag', () => {
+      store.dispatch(
+        new fromStore.UpdatePassword({ userId, oldPassword, newPassword })
+      );
+
+      let result = false;
+      service
+        .getUpdatePasswordResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should getUpdatePasswordResultError() return the error flag', () => {
+      store.dispatch(new fromStore.UpdatePasswordFail('error'));
+
+      let result = false;
+      service
+        .getUpdatePasswordResultError()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should getUpdatePasswordResultSuccess() return the success flag', () => {
+      store.dispatch(new fromStore.UpdatePasswordSuccess());
+
+      let result = false;
+      service
+        .getUpdatePasswordResultSuccess()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
+      service.resetUpdatePasswordProcessState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdatePasswordReset()
+      );
+    });
   });
 });

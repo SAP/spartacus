@@ -1,7 +1,6 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  Input,
   Output,
   EventEmitter,
   OnInit,
@@ -11,7 +10,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
 import { Observable } from 'rxjs';
-import { tap, takeWhile } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -20,52 +19,63 @@ import { tap, takeWhile } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeliveryModeComponent implements OnInit {
-  @Input()
-  selectedShippingMethod: string;
-
   @Output()
-  selectMode = new EventEmitter<any>();
-  @Output()
-  backStep = new EventEmitter<any>();
+  goToStep = new EventEmitter<number>();
 
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
-  leave = false;
+  selectedDeliveryMode$: Observable<DeliveryMode>;
+  currentDeliveryModeId: string;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private service: CheckoutService) {}
+  constructor(
+    private fb: FormBuilder,
+    private checkoutService: CheckoutService
+  ) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.service
-      .getSupportedDeliveryModes()
+    this.checkoutService.loadSupportedDeliveryModes();
+
+    this.supportedDeliveryModes$ = this.checkoutService.getSupportedDeliveryModes();
+    this.selectedDeliveryMode$ = this.checkoutService.getSelectedDeliveryMode();
+
+    this.selectedDeliveryMode$
       .pipe(
-        takeWhile(() => !this.leave),
-        tap(supportedModes => {
-          if (Object.keys(supportedModes).length === 0) {
-            this.service.loadSupportedDeliveryModes();
-          } else {
-            if (this.selectedShippingMethod) {
-              this.mode.controls['deliveryModeId'].setValue(
-                this.selectedShippingMethod
-              );
-            }
-          }
-        })
-      );
+        map((deliveryMode: DeliveryMode) =>
+          deliveryMode && deliveryMode.code ? deliveryMode.code : null
+        )
+      )
+      .subscribe(code => {
+        if (code) {
+          this.mode.controls['deliveryModeId'].setValue(code);
+          this.currentDeliveryModeId = code;
+        }
+      });
   }
 
   next(): void {
-    this.selectMode.emit(this.mode.value);
+    this.setDeliveryMode(this.mode.value.deliveryModeId);
+    if (this.currentDeliveryModeId) {
+      this.goToStep.emit(3);
+    }
   }
 
   back(): void {
-    this.leave = true;
-    this.backStep.emit();
+    this.goToStep.emit(1);
   }
 
   get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
+  }
+
+  private setDeliveryMode(deliveryModeId: string): void {
+    if (
+      !this.currentDeliveryModeId ||
+      this.currentDeliveryModeId !== deliveryModeId
+    ) {
+      this.checkoutService.setDeliveryMode(deliveryModeId);
+    }
   }
 }

@@ -1,23 +1,20 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { throwError, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-import { UserRegisterFormData } from '../model/user.model';
-
+import {
+  Address,
+  AddressList,
+  AddressValidation,
+  PaymentDetailsList,
+  User,
+} from '../../occ/occ-models/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
 } from '../../occ/utils/interceptor-util';
-import {
-  User,
-  Address,
-  AddressValidation,
-  AddressList,
-  PaymentDetailsList,
-} from '../../occ/occ-models/index';
-import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { UserRegisterFormData } from '../model/user.model';
 
 const USER_ENDPOINT = 'users/';
 const ADDRESSES_VERIFICATION_ENDPOINT = '/addresses/verification';
@@ -25,6 +22,7 @@ const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
+const UPDATE_PASSWORD_ENDPOINT = '/password';
 
 @Injectable()
 export class OccUserService {
@@ -34,11 +32,18 @@ export class OccUserService {
     private occEndpoints: OccEndpointsService
   ) {}
 
-  public loadUser(userId: string): Observable<User> {
+  loadUser(userId: string): Observable<User> {
     const url = this.getUserEndpoint() + userId;
     return this.http
       .get<User>(url)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateUserDetails(username: string, user: User): Observable<{}> {
+    const url = this.getUserEndpoint() + username;
+    return this.http
+      .patch(url, user)
+      .pipe(catchError(error => throwError(error)));
   }
 
   verifyAddress(
@@ -191,5 +196,22 @@ export class OccUserService {
 
   protected getUserEndpoint(): string {
     return this.occEndpoints.getEndpoint(USER_ENDPOINT);
+  }
+
+  updatePassword(
+    userId: string,
+    oldPassword: string,
+    newPassword: string
+  ): Observable<{}> {
+    const url = this.getUserEndpoint() + userId + UPDATE_PASSWORD_ENDPOINT;
+    const httpParams: HttpParams = new HttpParams()
+      .set('old', oldPassword)
+      .set('new', newPassword);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    return this.http
+      .put(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 }

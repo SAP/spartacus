@@ -1,4 +1,3 @@
-export * from './my-account.module';
 export * from './order/order.module';
 export * from './order/order-details/order-detail-headline/order-detail-headline.component';
 export * from './order/order-details/order-detail-items/order-detail-items.component';
