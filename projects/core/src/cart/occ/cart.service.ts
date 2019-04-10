@@ -13,6 +13,7 @@ import { CustomEncoder } from './custom.encoder';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { CheckoutDetails } from '../../checkout/models/checkout.model';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -26,6 +27,8 @@ const DETAILS_PARAMS =
   'totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(formattedValue),subTotal(formattedValue),' +
   'deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue),pickupItemsQuantity,net,' +
   'appliedVouchers,productDiscounts(formattedValue)';
+
+const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 
 @Injectable()
 export class OccCartService {
@@ -49,7 +52,7 @@ export class OccCartService {
           fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)',
         });
     return this.http
-      .get<CartList>(url, { params: params })
+      .get<CartList>(url, { params })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -82,9 +85,22 @@ export class OccCartService {
       );
     } else {
       return this.http
-        .get<Cart>(url, { params: params })
+        .get<Cart>(url, { params })
         .pipe(catchError((error: any) => throwError(error)));
     }
+  }
+
+  public loadCheckoutDetails(
+    userId: string,
+    cartId: string
+  ): Observable<CheckoutDetails> {
+    const url = this.getCartEndpoint(userId) + cartId;
+    const params = new HttpParams({
+      fromString: 'fields=' + CHECKOUT_PARAMS,
+    });
+    return this.http
+      .get<CheckoutDetails>(url, { params })
+      .pipe(catchError((error: any) => throwError(error)));
   }
 
   public createCart(
@@ -107,7 +123,7 @@ export class OccCartService {
     });
 
     return this.http
-      .post<Cart>(url, toAdd, { params: params })
+      .post<Cart>(url, toAdd, { params })
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
