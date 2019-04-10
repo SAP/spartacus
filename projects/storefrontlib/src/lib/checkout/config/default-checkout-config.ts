@@ -8,5 +8,6 @@ export const defaultCheckoutConfig: CheckoutConfig = {
       '/checkout/payment-details',
       '/checkout/review-order',
     ],
+    shippingAddress: '/checkout/shipping-address',
   },
 };

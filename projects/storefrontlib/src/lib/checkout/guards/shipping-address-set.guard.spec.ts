@@ -2,11 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { Order, RoutingService, CheckoutService } from '@spartacus/core';
+import { Order, RoutingService } from '@spartacus/core';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
+import { CheckoutDetailsService } from '../checkout-details.service';
 
-class MockCheckoutService {
+class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {
     return of(null);
   }
@@ -15,7 +16,7 @@ class MockCheckoutService {
 describe(`ShippingAddressSetGuard`, () => {
   let routingService: RoutingService;
   let guard: ShippingAddressSetGuard;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutDetailsService: MockCheckoutDetailsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,19 +26,19 @@ describe(`ShippingAddressSetGuard`, () => {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
         },
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: CheckoutDetailsService, useClass: MockCheckoutDetailsService },
       ],
       imports: [RouterTestingModule],
     });
 
     routingService = TestBed.get(RoutingService);
     guard = TestBed.get(ShippingAddressSetGuard);
-    mockCheckoutService = TestBed.get(CheckoutService);
+    mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
   });
 
   describe(`when there is NO shipping address present`, () => {
     it(`should return false and navigate to shipping address step`, done => {
-      spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(of({}));
+      spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(of({}));
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
@@ -51,7 +52,7 @@ describe(`ShippingAddressSetGuard`, () => {
 
   describe(`when there is shipping address present`, () => {
     it(`should return true`, done => {
-      spyOn(mockCheckoutService, 'getDeliveryAddress').and.returnValue(
+      spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({ id: 'testAddress' })
       );
 
