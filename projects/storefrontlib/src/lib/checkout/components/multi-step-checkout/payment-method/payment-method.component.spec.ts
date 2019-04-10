@@ -6,6 +6,9 @@ import {
   CartDataService,
   UserService,
   PaymentDetails,
+  CheckoutService,
+  GlobalMessageService,
+  Address,
   I18nTestingModule,
 } from '@spartacus/core';
 
@@ -14,6 +17,20 @@ import { of, Observable } from 'rxjs';
 import { Card } from '../../../../ui/components/card/card.component';
 
 import { PaymentMethodComponent } from './payment-method.component';
+import createSpy = jasmine.createSpy;
+
+const mockPaymentDetails: PaymentDetails = {
+  id: 'mock payment id',
+  accountHolderName: 'Name',
+  cardNumber: '123456789',
+  cardType: {
+    code: 'Visa',
+    name: 'Visa',
+  },
+  expiryMonth: '01',
+  expiryYear: '2022',
+  cvn: '123',
+};
 
 class MockUserService {
   loadPaymentMethods(_userId: string): void {}
@@ -24,30 +41,39 @@ class MockUserService {
     return of();
   }
 }
+class MockCheckoutService {
+  setPaymentDetails = createSpy();
+  clearCheckoutStep = createSpy();
+  createPaymentDetails = createSpy();
+  getPaymentDetails(): Observable<PaymentDetails> {
+    return of(mockPaymentDetails);
+  }
+  getDeliveryAddress(): Observable<PaymentDetails> {
+    return of(null);
+  }
+}
 
-const mockPaymentMethod1: PaymentDetails = {
-  accountHolderName: 'Name 1',
-  cardNumber: '1111111111',
-  cardType: { code: 'Visa', name: 'Visa' },
-  expiryMonth: '01',
-  expiryYear: '3000',
-  cvn: '111',
-};
+class MockGlobalMessageService {
+  add = createSpy();
+}
 
-const mockPaymentMethod2: PaymentDetails = {
-  accountHolderName: 'Name 2',
-  cardNumber: '2222222222',
-  cardType: { code: 'Visa', name: 'Visa' },
-  expiryMonth: '02',
-  expiryYear: '3000',
-  cvn: '222',
+const mockAddress: Address = {
+  id: 'mock address id',
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' },
 };
 
 const mockPaymentMethods: PaymentDetails[] = [
-  mockPaymentMethod1,
-  mockPaymentMethod2,
+  mockPaymentDetails,
+  mockPaymentDetails,
 ];
-
 @Component({
   selector: 'cx-payment-form',
   template: '',
@@ -77,6 +103,7 @@ describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let userService: UserService;
+  let checkoutService: CheckoutService;
 
   beforeEach(async(() => {
     const mockCartDataService = {
@@ -94,6 +121,8 @@ describe('PaymentMethodComponent', () => {
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: CartDataService, useValue: mockCartDataService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
   }));
@@ -102,13 +131,26 @@ describe('PaymentMethodComponent', () => {
     fixture = TestBed.createComponent(PaymentMethodComponent);
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
+    checkoutService = TestBed.get(CheckoutService);
 
-    spyOn(component.addPaymentInfo, 'emit').and.callThrough();
+    spyOn(component.goToStep, 'emit').and.callThrough();
     spyOn(component.backStep, 'emit').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call addPaymentInfo() with new created payment info', () => {
+    component.deliveryAddress = mockAddress;
+    component.addPaymentInfo({
+      payment: mockPaymentDetails,
+      newPayment: true,
+      billingAddress: null,
+    });
+    expect(checkoutService.createPaymentDetails).toHaveBeenCalledWith(
+      mockPaymentDetails
+    );
   });
 
   it('should call ngOnInit to get existing payment methods if they do not exist', done => {
@@ -137,10 +179,10 @@ describe('PaymentMethodComponent', () => {
   });
 
   it('should call getCardContent() to get payment method card data', () => {
-    const card = component.getCardContent(mockPaymentMethod1);
+    const card = component.getCardContent(mockPaymentDetails);
     expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('Name 1');
-    expect(card.text).toEqual(['1111111111', 'Expires: 01/3000']);
+    expect(card.textBold).toEqual('Name');
+    expect(card.text).toEqual(['123456789', 'Expires: 01/2022']);
   });
 
   it('should call paymentMethodSelected(paymentDetails, index)', () => {
@@ -148,30 +190,33 @@ describe('PaymentMethodComponent', () => {
     const card2: Card = { title: 'test card 2' };
     const card3: Card = { title: 'test card 3' };
     component.cards.push(card1, card2, card3);
-    component.paymentMethodSelected(mockPaymentMethod1, 1);
+    component.paymentMethodSelected(mockPaymentDetails, 1);
 
-    expect(component.selectedPayment).toEqual(mockPaymentMethod1);
+    expect(component.selectedPayment).toEqual(mockPaymentDetails);
     expect(component.cards[0].header).toEqual('');
     expect(component.cards[1].header).toEqual('SELECTED');
     expect(component.cards[2].header).toEqual('');
   });
 
   it('should call next() to submit request', () => {
-    component.selectedPayment = mockPaymentMethod1;
+    spyOn(component, 'addPaymentInfo');
+    component.selectedPayment = mockPaymentDetails;
     component.next();
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: mockPaymentMethod1,
+
+    expect(component.addPaymentInfo).toHaveBeenCalledWith({
+      payment: mockPaymentDetails,
       newPayment: false,
     });
   });
 
   it('should call addNewPaymentMethod()', () => {
+    spyOn(component, 'addPaymentInfo');
     component.addNewPaymentMethod({
-      paymentDetails: mockPaymentMethod1,
+      paymentDetails: mockPaymentDetails,
       billingAddress: null,
     });
-    expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
-      payment: mockPaymentMethod1,
+    expect(component.addPaymentInfo).toHaveBeenCalledWith({
+      payment: mockPaymentDetails,
       billingAddress: null,
       newPayment: true,
     });
@@ -198,24 +243,13 @@ describe('PaymentMethodComponent', () => {
         .queryAll(By.css('.btn-primary'))
         .find(el => el.nativeElement.innerText === 'common.action.continue');
 
-    it('should be disabled when no payment method is selected', () => {
-      spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
-      spyOn(userService, 'getPaymentMethods').and.returnValue(
-        of(mockPaymentMethods)
-      );
-
-      component.selectedPayment = null;
-      fixture.detectChanges();
-      expect(getContinueBtn().nativeElement.disabled).toEqual(true);
-    });
-
     it('should be enabled when payment method is selected', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
       spyOn(userService, 'getPaymentMethods').and.returnValue(
         of(mockPaymentMethods)
       );
 
-      component.selectedPayment = mockPaymentMethod1;
+      component.selectedPayment = mockPaymentDetails;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
@@ -226,7 +260,7 @@ describe('PaymentMethodComponent', () => {
         of(mockPaymentMethods)
       );
 
-      component.selectedPayment = mockPaymentMethod1;
+      component.selectedPayment = mockPaymentDetails;
       fixture.detectChanges();
       spyOn(component, 'next');
       getContinueBtn().nativeElement.click();

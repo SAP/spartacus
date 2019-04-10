@@ -8,6 +8,7 @@ import {
 } from '../../occ/occ-models/index';
 
 export const CHECKOUT_FEATURE = 'checkout';
+export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;

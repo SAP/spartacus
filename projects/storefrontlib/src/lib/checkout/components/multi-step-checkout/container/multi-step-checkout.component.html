@@ -54,31 +54,20 @@
           <!-- Content -->
           <div *ngIf="nav.status.active && step === 1">
             <cx-shipping-address
-              [selectedAddress]="deliveryAddress"
-              (addAddress)="addAddress($event)"
+              (goToStep)="goToStep($event)"
             ></cx-shipping-address>
           </div>
           <div *ngIf="nav.status.active && step === 2">
-            <cx-delivery-mode
-              [selectedShippingMethod]="shippingMethod"
-              (selectMode)="setDeliveryMode($event)"
-              (backStep)="setStep(1)"
-            ></cx-delivery-mode>
+            <cx-delivery-mode (goToStep)="goToStep($event)"></cx-delivery-mode>
           </div>
           <div *ngIf="nav.status.active && step === 3">
             <cx-payment-method
-              [selectedPayment]="paymentDetails"
-              (addPaymentInfo)="addPaymentInfo($event)"
+              (goToStep)="goToStep($event)"
               (backStep)="setStep(2)"
             ></cx-payment-method>
           </div>
           <div *ngIf="nav.status.active && step === 4">
-            <cx-review-submit
-              [deliveryAddress]="deliveryAddress"
-              [shippingMethod]="shippingMethod"
-              [paymentDetails]="paymentDetails"
-            >
-            </cx-review-submit>
+            <cx-review-submit></cx-review-submit>
           </div>
         </div>
       </div>
@@ -90,34 +79,8 @@
 
       <!-- CHECKBOX AND PLACE ORDER BUTTON -->
       <div class="cx-place-order" *ngIf="step === 4">
-        <div class="cx-place-order-form form-check">
-          <label>
-            <input
-              class="form-check-input"
-              type="checkbox"
-              (change)="toggleTAndC()"
-            />
-            <span class="form-check-label">
-              {{ 'checkoutReview.label.confirmThatRead' | cxTranslate }}
-              <a
-                [routerLink]="
-                  { route: ['termsAndConditions'] } | cxTranslateUrl
-                "
-                class="cx-tc-link"
-                target="_blank"
-              >
-                {{ 'checkoutReview.action.termsAndConditions' | cxTranslate }}
-              </a>
-            </span>
-          </label>
-        </div>
-        <button
-          [disabled]="!tAndCToggler"
-          (click)="placeOrder()"
-          class="btn btn-primary btn-block"
-        >
-          {{ 'checkoutReview.action.placeOrder' | cxTranslate }}
-        </button>
+        <cx-place-order></cx-place-order>
+
         <button class="btn btn-action btn-block" (click)="setStep(3)">
           {{ 'common.action.back' | cxTranslate }}
         </button>

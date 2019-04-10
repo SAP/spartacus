@@ -1,0 +1,22 @@
+<div class="cx-place-order-form form-check">
+  <label>
+    <input class="form-check-input" type="checkbox" (change)="toggleTAndC()" />
+    <span class="form-check-label">
+      {{ 'checkoutReview.label.confirmThatRead' | cxTranslate }}
+      <a
+        [routerLink]="{ route: ['termsAndConditions'] } | cxTranslateUrl"
+        class="cx-tc-link"
+      >
+        {{ 'checkoutReview.action.termsAndConditions' | cxTranslate }}
+      </a>
+    </span>
+  </label>
+</div>
+
+<button
+  [disabled]="!tAndCToggler"
+  (click)="placeOrder()"
+  class="btn btn-primary btn-block"
+>
+  {{ 'checkoutReview.action.placeOrder' | cxTranslate }}
+</button>
