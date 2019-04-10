@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -9,6 +9,8 @@ import {
   Address,
   CartDataService,
   UserService,
+  CartService,
+  CheckoutService,
   I18nTestingModule,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
@@ -24,6 +26,18 @@ class MockUserService {
   loadAddresses(_userId: string): void {}
 }
 
+class MockCartService {
+  loadDetails(): void {}
+}
+
+class MockCheckoutService {
+  createAndSetAddress = createSpy();
+  setDeliveryAddress = createSpy();
+  getDeliveryAddress(): Observable<Address> {
+    return of(null);
+  }
+}
+
 const mockAddress1: Address = {
   firstName: 'John',
   lastName: 'Doe',
@@ -31,6 +45,7 @@ const mockAddress1: Address = {
   line1: 'first line',
   line2: 'second line',
   town: 'town',
+  id: 'id',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
@@ -43,6 +58,7 @@ const mockAddress2: Address = {
   line1: 'other first line',
   line2: 'other second line',
   town: 'other town',
+  id: 'id2',
   region: { isocode: 'JP-27' },
   postalCode: 'other zip',
   country: { isocode: 'JP' },
@@ -81,6 +97,7 @@ describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
   let mockRouting: any;
+  let mockCheckoutService: MockCheckoutService;
   let userService: UserService;
 
   beforeEach(async(() => {
@@ -103,8 +120,16 @@ describe('ShippingAddressComponent', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useValue: mockRouting },
         { provide: CartDataService, useValue: mockCartDataService },
+        { provide: CartService, useClass: MockCartService },
+        { provide: CheckoutService, useClass: MockCheckoutService },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(ShippingAddressComponent, {
+        set: { changeDetection: ChangeDetectionStrategy.Default },
+      })
+      .compileComponents();
+
+    mockCheckoutService = TestBed.get(CheckoutService);
   }));
 
   beforeEach(() => {
@@ -112,7 +137,7 @@ describe('ShippingAddressComponent', () => {
     component = fixture.componentInstance;
     userService = TestBed.get(UserService);
 
-    spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component.goToStep, 'emit').and.callThrough();
     spyOn(component, 'addNewAddress').and.callThrough();
   });
 
@@ -145,53 +170,11 @@ describe('ShippingAddressComponent', () => {
       })
       .unsubscribe();
     expect(address).toBe(mockAddresses);
-    expect(component.cards.length).toEqual(2);
-  });
-
-  it('should call getCardContent() to get address card data', () => {
-    const card = component.getCardContent(mockAddress1);
-    expect(card.title).toEqual('');
-    expect(card.textBold).toEqual('John Doe');
-    expect(card.text).toEqual([
-      'first line',
-      'second line',
-      'town, JP-27, JP',
-      'zip',
-      undefined,
-    ]);
-    expect(card.actions).toEqual([
-      { name: 'Ship to this address', event: 'send' },
-    ]);
-  });
-
-  it('should call addressSelected(address, index)', () => {
-    const card1: Card = { title: 'test card 1' };
-    const card2: Card = { title: 'test card 2' };
-    const card3: Card = { title: 'test card 3' };
-    component.cards.push(card1, card2, card3);
-    component.addressSelected(mockAddress1, 1);
-
-    expect(component.selectedAddress).toEqual(mockAddress1);
-    expect(component.cards[0].header).toEqual('');
-    expect(component.cards[1].header).toEqual('SELECTED');
-    expect(component.cards[2].header).toEqual('');
-  });
-
-  it('should call next() to submit request', () => {
-    component.selectedAddress = mockAddress1;
-    component.next();
-    expect(component.addAddress.emit).toHaveBeenCalledWith({
-      address: mockAddress1,
-      newAddress: false,
-    });
-  });
-
-  it('should call addNewAddress()', () => {
-    component.addNewAddress(mockAddress1);
-    expect(component.addAddress.emit).toHaveBeenCalledWith({
-      address: mockAddress1,
-      newAddress: true,
-    });
+    component.cards$
+      .subscribe(cards => {
+        expect(cards.length).toEqual(2);
+      })
+      .unsubscribe();
   });
 
   it('should call showNewAddressForm()', () => {
@@ -209,6 +192,24 @@ describe('ShippingAddressComponent', () => {
     expect(mockRouting.go).toHaveBeenCalledWith({
       route: ['cart'],
     });
+  });
+
+  it('new created address should be set', () => {
+    component.addAddress({ address: mockAddress1, newAddress: true });
+    expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
+      mockAddress1
+    );
+    expect(component.goTo).toBe(2);
+  });
+
+  it('should call addAddress() with address selected from existing addresses', () => {
+    component.addAddress({ address: mockAddress1, newAddress: false });
+    expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
+      mockAddress1
+    );
+    expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
+      mockAddress1
+    );
   });
 
   describe('UI continue button', () => {
@@ -229,7 +230,10 @@ describe('ShippingAddressComponent', () => {
     it('should be enabled when address is selected', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
       spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
-
+      component.addressSelected(mockAddress1);
+      component.selectedAddress$.subscribe(() => {
+        fixture.detectChanges();
+      });
       component.selectedAddress = mockAddress1;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
@@ -239,10 +243,15 @@ describe('ShippingAddressComponent', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
       spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
 
+      component.addressSelected(mockAddress1);
+      component.selectedAddress$.subscribe(() => {
+        fixture.detectChanges();
+      });
       component.selectedAddress = mockAddress1;
       fixture.detectChanges();
       spyOn(component, 'next');
       getContinueBtn().nativeElement.click();
+      fixture.detectChanges();
       expect(component.next).toHaveBeenCalled();
     });
   });

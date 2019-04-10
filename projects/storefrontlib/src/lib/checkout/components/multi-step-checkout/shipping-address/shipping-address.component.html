@@ -1,11 +1,11 @@
-<ng-container *ngIf="(existingAddresses$ | async) as existingAddresses">
+<ng-container *ngIf="(cards$ | async) as cards">
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.label.shippingAddress' | cxTranslate }}
   </h3>
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <ng-container
       *ngIf="
-        existingAddresses?.length && !newAddressFormManuallyOpened;
+        cards?.length && !newAddressFormManuallyOpened;
         else newAddressForm
       "
     >
@@ -26,17 +26,17 @@
       <div class="cx-checkout-body row">
         <div
           class="cx-shipping-address-card col-md-12 col-lg-6"
-          *ngFor="let address of existingAddresses; let i = index"
+          *ngFor="let card of cards; let i = index"
         >
           <div
             class="cx-shipping-address-card-inner"
-            (click)="addressSelected(address, i)"
+            (click)="addressSelected(card.address)"
           >
             <cx-card
               [border]="true"
               [fitToContainer]="true"
-              [content]="cards[i]"
-              (sendCard)="addressSelected(address, i)"
+              [content]="card.card"
+              (sendCard)="addressSelected(card.address)"
             ></cx-card>
           </div>
         </div>
@@ -51,7 +51,7 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-primary"
-            [disabled]="!selectedAddress"
+            [disabled]="!selectedAddress || !selectedAddress.id"
             (click)="next()"
           >
             {{ 'common.action.continue' | cxTranslate }}
@@ -61,7 +61,7 @@
     </ng-container>
 
     <ng-template #newAddressForm>
-      <ng-container *ngIf="existingAddresses.length; else initialAddressForm">
+      <ng-container *ngIf="cards.length; else initialAddressForm">
         <cx-address-form
           showTitleCode="true"
           (backToAddress)="hideNewAddressForm(false)"

@@ -5,32 +5,35 @@
         {{ 'checkoutShipping.label.shippingMethod' | cxTranslate }}
       </h3>
 
-      <div
-        class="form-check"
-        *ngFor="let mode of (supportedDeliveryModes$ | async)"
+      <ng-container
+        *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"
       >
-        <input
-          class="form-check-input"
-          role="radio"
-          type="radio"
-          tabindex="0"
-          id="deliveryMode-{{ mode.code }}"
-          aria-checked="true"
-          [value]="mode.code"
-          formControlName="deliveryModeId"
-        />
-        <label
-          class="cx-delivery-label form-check-label
-            form-radio-label"
-          for="deliveryMode-{{ mode.code }}"
+        <div
+          class="form-check"
+          *ngFor="let mode of (supportedDeliveryModes$ | async)"
         >
-          <div class="cx-delivery-shipping">{{ mode.name }}</div>
-          <div class="cx-delivery-price">
-            {{ mode.deliveryCost.formattedValue }}
-          </div>
-          <div class="cx-delivery-details">{{ mode.description }}</div>
-        </label>
-      </div>
+          <input
+            class="form-check-input"
+            role="radio"
+            type="radio"
+            id="deliveryMode-{{ mode.code }}"
+            aria-checked="true"
+            [value]="mode.code"
+            formControlName="deliveryModeId"
+          />
+          <label
+            class="cx-delivery-label form-check-label
+              form-radio-label"
+            for="deliveryMode-{{ mode.code }}"
+          >
+            <div class="cx-delivery-mode">{{ mode.name }}</div>
+            <div class="cx-delivery-price">
+              {{ mode.deliveryCost.formattedValue }}
+            </div>
+            <div class="cx-delivery-details">{{ mode.description }}</div>
+          </label>
+        </div>
+      </ng-container>
     </div>
   </div>
 
@@ -51,3 +54,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

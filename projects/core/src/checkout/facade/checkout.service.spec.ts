@@ -323,4 +323,12 @@ describe('CheckoutService', () => {
       new fromCheckout.ClearCheckoutStep(2)
     );
   });
+
+  it('should be able to load checkout details', () => {
+    const cartId = cart.code;
+    service.loadCheckoutDetails(userId, cartId);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromCheckout.LoadCheckoutDetails({ userId, cartId })
+    );
+  });
 });

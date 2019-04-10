@@ -141,6 +141,18 @@ export function reducer(
         },
       };
     }
+    case fromAction.LOAD_CHECKOUT_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        address: action.payload.deliveryAddress,
+        deliveryMode: {
+          ...state.deliveryMode,
+          selected:
+            action.payload.deliveryMode && action.payload.deliveryMode.code,
+        },
+        paymentDetails: action.payload.paymentInfo,
+      };
+    }
   }
 
   return state;

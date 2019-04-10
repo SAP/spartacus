@@ -13,13 +13,25 @@ import { of, Observable } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import { DeliveryModeComponent } from './delivery-mode.component';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockSpinnerComponent {}
 
 class MockCheckoutService {
   loadSupportedDeliveryModes = createSpy();
+  setDeliveryMode = createSpy();
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return of();
   }
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+    return of();
+  }
 }
+
 const mockDeliveryMode1: DeliveryMode = {
   code: 'standard-gross',
   name: 'Standard Delivery',
@@ -45,7 +57,7 @@ describe('DeliveryModeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule],
-      declarations: [DeliveryModeComponent],
+      declarations: [DeliveryModeComponent, MockSpinnerComponent],
       providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
 
@@ -56,76 +68,40 @@ describe('DeliveryModeComponent', () => {
     fixture = TestBed.createComponent(DeliveryModeComponent);
     component = fixture.componentInstance;
 
-    spyOn(component.selectMode, 'emit').and.callThrough();
-    spyOn(component.backStep, 'emit').and.callThrough();
+    spyOn(component.goToStep, 'emit').and.callThrough();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnInit to get supported shipping modes if they do not exist', done => {
-    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
-      of([])
-    );
+  it('should load supported delivery modes', () => {
     component.ngOnInit();
-    component.supportedDeliveryModes$.subscribe(() => {
-      expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
-      done();
-    });
+
+    expect(mockCheckoutService.loadSupportedDeliveryModes).toHaveBeenCalled();
   });
 
-  it('should call ngOnInit to get supported shipping modes if they exist', () => {
+  it('should get supported delivery modes', () => {
     spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
       of(mockSupportedDeliveryModes)
     );
     component.ngOnInit();
-    let deliveryModes: DeliveryMode[];
-    component.supportedDeliveryModes$.subscribe(data => {
-      deliveryModes = data;
-    });
-    expect(deliveryModes).toBe(mockSupportedDeliveryModes);
-  });
 
-  it('should call ngOnInit to set shipping mode if user selected it before', done => {
-    const mockSelectedShippingMethod = 'shipping method set in cart';
-    component.selectedShippingMethod = mockSelectedShippingMethod;
-    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
-      of(mockSupportedDeliveryModes)
-    );
-    component.ngOnInit();
-    component.supportedDeliveryModes$.subscribe(() => {
-      expect(component.mode.controls['deliveryModeId'].value).toEqual(
-        mockSelectedShippingMethod
-      );
-      done();
+    component.supportedDeliveryModes$.subscribe(modes => {
+      expect(modes).toBe(mockSupportedDeliveryModes);
     });
   });
 
-  it('should stop supportedDeliveryModes subscription when leave this component even they do not exist', () => {
-    spyOn(mockCheckoutService, 'getSupportedDeliveryModes').and.returnValue(
-      of([])
-    );
-    component.ngOnInit();
-    component.supportedDeliveryModes$.subscribe();
-    component.leave = true;
-    // subscription is end
-    expect(mockCheckoutService.loadSupportedDeliveryModes.calls.count()).toBe(
-      1
-    );
-  });
-
-  it('should call next()', () => {
+  it('should change step after invoking next()', () => {
+    component.mode.controls['deliveryModeId'].setValue(mockDeliveryMode1.code);
+    component.currentDeliveryModeId = mockDeliveryMode1.code;
     component.next();
-    expect(component.selectMode.emit).toHaveBeenCalledWith(
-      component.mode.value
-    );
+    expect(component.goToStep.emit).toHaveBeenCalled();
   });
 
-  it('should call back()', () => {
+  it('should change step after invoking back()', () => {
     component.back();
-    expect(component.backStep.emit).toHaveBeenCalled();
-    expect(component.leave).toBe(true);
+    expect(component.goToStep.emit).toHaveBeenCalled();
   });
 
   it('should get deliveryModeInvalid()', () => {
@@ -144,7 +120,9 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      component.mode.controls['deliveryModeId'].setValue('test delivery mode');
+      component.mode.controls['deliveryModeId'].setValue(
+        mockDeliveryMode1.code
+      );
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
