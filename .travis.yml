@@ -12,6 +12,7 @@ branches:
     - "/^feature\\/.*$/"
     - "/^hotfix\\/.*$/"
     - "/^release\\/.*$/"
+    - "/^doc\\/.*$/"
 script: ./build.sh sonar
 notifications:
   email:
