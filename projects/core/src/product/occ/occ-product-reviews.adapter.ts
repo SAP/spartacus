@@ -6,9 +6,9 @@ import { Review } from '../../occ/occ-models/occ.models';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 import { ConverterService } from '../../util/converter.service';
 import {
-  PRODUCT_REVIEW_ADD_NORMALIZER,
-  PRODUCT_REVIEWS_LIST_NORMALIZER,
-} from '../connectors/reviews/product-reviews.normalizer';
+  PRODUCT_REVIEW_ADD_SERIALIZE,
+  PRODUCT_REVIEWS_LIST_NORMALIZE,
+} from '../connectors/reviews/product-reviews.converters';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
@@ -21,11 +21,11 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   loadList(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
       .get(this.getEndpoint(productCode, maxCount))
-      .pipe(this.normalizers.pipeable(PRODUCT_REVIEWS_LIST_NORMALIZER));
+      .pipe(this.normalizers.pipeable(PRODUCT_REVIEWS_LIST_NORMALIZE));
   }
 
   post(productCode: string, review: any): Observable<Review> {
-    review = this.normalizers.convert(review, PRODUCT_REVIEW_ADD_NORMALIZER);
+    review = this.normalizers.convert(review, PRODUCT_REVIEW_ADD_SERIALIZE);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

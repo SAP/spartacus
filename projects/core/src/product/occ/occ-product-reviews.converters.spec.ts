@@ -1,4 +1,4 @@
-import { OccProductReviewsListNormalizer } from './occ-product-reviews-list.normalizer';
+import { OccProductReviewsListNormalizer } from './occ-product-reviews.converters';
 import { Review, ReviewList } from '@spartacus/core';
 
 describe('OccProductReviewsListNormalizer', () => {

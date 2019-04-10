@@ -5,8 +5,8 @@ import { ProductReviewsAdapter } from './product-reviews.adapter';
 import createSpy = jasmine.createSpy;
 import {
   ConverterService,
-  PRODUCT_REVIEW_ADD_NORMALIZER,
-  PRODUCT_REVIEWS_LIST_NORMALIZER,
+  PRODUCT_REVIEW_ADD_SERIALIZE,
+  PRODUCT_REVIEWS_LIST_NORMALIZE,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 
@@ -55,7 +55,7 @@ describe('ProductReviewsConnector', () => {
     it('should use normalizer', () => {
       service.getList('333').subscribe();
       expect(normalizers.pipeable).toHaveBeenCalledWith(
-        PRODUCT_REVIEWS_LIST_NORMALIZER
+        PRODUCT_REVIEWS_LIST_NORMALIZE
       );
     });
   });
@@ -69,7 +69,7 @@ describe('ProductReviewsConnector', () => {
       service.add('333', 'review').subscribe();
       expect(normalizers.convert).toHaveBeenCalledWith(
         'review',
-        PRODUCT_REVIEW_ADD_NORMALIZER
+        PRODUCT_REVIEW_ADD_SERIALIZE
       );
     });
   });
