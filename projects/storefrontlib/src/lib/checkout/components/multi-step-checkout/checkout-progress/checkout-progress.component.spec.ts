@@ -4,8 +4,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutConfig } from '../../../config/checkout-config';
 import { defaultCheckoutConfig } from '../../../config/default-checkout-config';
+import { I18nTestingModule } from '@spartacus/core';
 import { StoreModule } from '@ngrx/store';
-import { UrlTranslationService } from '@spartacus/core';
+import { CommonModule } from '@angular/common';
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 @Pipe({
@@ -21,22 +22,24 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('CheckoutProgressComponent', () => {
+describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), RouterTestingModule],
+      imports: [
+        CommonModule,
+        RouterTestingModule,
+        I18nTestingModule,
+        StoreModule.forRoot({}),
+      ],
       declarations: [
         CheckoutProgressComponent,
         MockTranslatePipe,
         MockTranslateUrlPipe,
       ],
-      providers: [
-        { provide: CheckoutConfig, useValue: MockCheckoutConfig },
-        { provide: UrlTranslationService, useValue: { translate: () => {} } },
-      ],
+      providers: [{ provide: CheckoutConfig, useValue: MockCheckoutConfig }],
     }).compileComponents();
   }));
 

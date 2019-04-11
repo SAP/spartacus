@@ -9,6 +9,6 @@ export class CheckoutGuard implements CanActivate {
   constructor(private router: Router, private config: CheckoutConfig) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return of(this.router.parseUrl(this.config.checkout.steps[0]));
+    return of(this.router.parseUrl(this.config.checkout.steps[0].url));
   }
 }

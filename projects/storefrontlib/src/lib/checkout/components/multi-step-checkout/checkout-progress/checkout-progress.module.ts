@@ -16,6 +16,9 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
+    UrlTranslationModule,
+    I18nModule,
+    RouterModule,
     ConfigModule.withConfig(defaultCheckoutConfig),
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
@@ -24,9 +27,6 @@ import { RouterModule } from '@angular/router';
         },
       },
     }),
-    UrlTranslationModule,
-    I18nModule,
-    RouterModule,
   ],
   declarations: [CheckoutProgressComponent],
   entryComponents: [CheckoutProgressComponent],
