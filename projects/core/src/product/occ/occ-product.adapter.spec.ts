@@ -1,73 +1,58 @@
 import { TestBed } from '@angular/core/testing';
 
-// import { OccProductAdapter } from './occ-product.adapter';
-
-describe('OccProductAdapter', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
-
-  it('should be created', () => {
-    // const service: OccProductAdapter = TestBed.get(OccProductAdapter);
-    // expect(service).toBeTruthy();
-  });
-});
-
-/*
-
-import { TestBed } from '@angular/core/testing';
+import { OccProductAdapter } from './occ-product.adapter';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-
-import { ProductLoaderService } from './product.service';
-import { defaultOccProductConfig } from '../config/product-config';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
-import { OccConfig } from '@spartacus/core';
-import { deepMerge } from '../../config/utils/deep-merge';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const productCode = 'testCode';
 const product = {
-  code: 'testCode',
+  code: productCode,
   name: 'testProduct',
 };
 
-const mockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
+class MockOccEndpointsService {
+  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+    // tslint:disable-next-line:no-shadowed-variable
+    (url, { productCode }) => url + productCode
+  );
+}
 
-  site: {
-    baseSite: '',
-    language: '',
-    currency: '',
-  },
-};
+class MockConvertService {
+  pipeable = createSpy().and.returnValue(x => x);
+}
 
-describe('ProductLoaderService', () => {
-  let service: ProductLoaderService;
+describe('OccProductAdapter', () => {
+  let service: OccProductAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        ProductLoaderService,
+        OccProductAdapter,
         {
-          provide: OccConfig,
-          useValue: deepMerge({}, mockOccModuleConfig, defaultOccProductConfig),
+          provide: OccEndpointsService,
+          useClass: MockOccEndpointsService,
         },
+        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
-    service = TestBed.get(ProductLoaderService);
+    service = TestBed.get(OccProductAdapter);
     httpMock = TestBed.get(HttpTestingController);
   });
 
   afterEach(() => {
     httpMock.verify();
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 
   describe('load product details', () => {
@@ -77,22 +62,21 @@ describe('ProductLoaderService', () => {
       });
 
       const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'GET' &&
-          req.url ===
-            `/${DynamicTemplate.resolve(
-              defaultOccProductConfig.backend.occ.endpoints.product,
-              { productCode }
-            )}`
-        );
+        return req.method === 'GET' && req.url === 'product' + productCode;
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(product);
     });
+
+    it('should use converter', () => {
+      const converter = TestBed.get(ConverterService);
+
+      service.load(productCode).subscribe();
+      httpMock.expectOne('product' + productCode).flush(product);
+
+      expect(converter.pipeable).toHaveBeenCalledWith(PRODUCT_NORMALIZER);
+    });
   });
 });
-
-
- */
