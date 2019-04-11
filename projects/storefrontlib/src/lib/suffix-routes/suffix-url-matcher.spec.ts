@@ -1,7 +1,7 @@
 import { suffixUrlMatcher } from './suffix-url-matcher';
 import { UrlSegment } from '@angular/router';
 
-fdescribe('suffixUrlMatcher', () => {
+describe('suffixUrlMatcher', () => {
   it('should NOT match path that does not contain marker', () => {
     const urlMatcher = suffixUrlMatcher('test3', 'testParamName');
     const urlSegments = [{ path: 'test1' }, { path: 'test2' }] as UrlSegment[];
