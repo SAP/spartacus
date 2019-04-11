@@ -43,18 +43,6 @@ Then [configurable router links](./configurable-router-links.md) will output:
     <a [routerLink]="['/']"></a>
     ```
 
-2. For `{ url: <url> } `
-
-    ```html
-    <a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a> 
-    ```
-
-    result 
-
-    ```html
-    <a [routerLink]="'/product/1234'"></a>
-    ```
-
 ## Subjects of change
 
 - when predefined configuration of routes is splitted in between the feature modules (as planned in [652](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/652)), then it will suffice just not to import the feature module in order to disable its routes
