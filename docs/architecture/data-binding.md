@@ -35,7 +35,7 @@ This is a common pattern cross different frameworks and technology stack, altoug
 The finegrained setup will help to separate concerns and simplifies futher customisation. That being said, when you bind to an alternative data source, nothing stops you from simplifying this setup. 
 
 ### 1. Connector
-The connector orchestrates the connection to a source system. While the primary job of the connector is to delegate loading and converting of backend response to the *adapter*, it is sometimes benefitial to add logic into the connector. An example can be found in the CMS connector, where structured CMS data is loaded; Spartacus is setup to add static CMS data without relying on a backend at all or as a fallback in case the CMS doesn't provide sufficient data. 
+The connector orchestrates the connection to a source system. While the primary job of the connector is to delegate loading and converting of backend response to a specific *adapter*, it can be benefitial to implement additional logic into the connector. An example can be found in the CMS connector, where structured CMS data is loaded; Spartacus is setup to add static CMS data without relying on a backend at all or as a fallback in case the CMS doesn't provide sufficient data. 
 
 The main task of the connector is to delegate the loading and conversion of backend data to the adapter. 
 
