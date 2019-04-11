@@ -11,7 +11,7 @@ class MockProductAdapter implements ProductAdapter {
   );
 }
 
-fdescribe('ProductConnector', () => {
+describe('ProductConnector', () => {
   let service: ProductConnector;
 
   beforeEach(() => {
