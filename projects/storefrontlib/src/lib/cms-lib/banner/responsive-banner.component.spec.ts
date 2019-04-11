@@ -1,11 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, PipeTransform, Pipe } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import {
   CmsConfig,
-  TranslateUrlOptions,
   Component as SpaComponent,
   CmsBannerComponent,
   CmsResponsiveBannerComponentMedia,
@@ -26,15 +25,6 @@ const UseCmsModuleConfig: CmsConfig = {
     },
   },
 };
-
-@Pipe({
-  name: 'cxTranslateUrl',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string {
-    return '/translated-path' + options.url;
-  }
-}
 
 describe('ResponsiveBannerComponent', () => {
   let responsiveBannerComponent: ResponsiveBannerComponent;
@@ -89,11 +79,7 @@ describe('ResponsiveBannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        ResponsiveBannerComponent,
-        GenericLinkComponent,
-        MockTranslateUrlPipe,
-      ],
+      declarations: [ResponsiveBannerComponent, GenericLinkComponent],
       providers: [
         {
           provide: BannerComponentService,
@@ -116,7 +102,7 @@ describe('ResponsiveBannerComponent', () => {
   it('should contain responsive banner image source, source set and redirect url', () => {
     fixture.detectChanges();
     expect(el.query(By.css('a')).nativeElement.href).toContain(
-      '/translated-path' + componentData.urlLink
+      componentData.urlLink
     );
     expect(el.query(By.css('img')).nativeElement.src).toContain(
       (<CmsResponsiveBannerComponentMedia>componentData.media).desktop.url
