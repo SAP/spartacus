@@ -24,6 +24,7 @@ import { productReview } from './en/product-review.en';
 import { pwa } from './en/pwa.en';
 import { register } from './en/register.en';
 import { storeFinder } from './en/store-finder.en';
+import { closeAccount } from './en/close-account.en';
 
 export const translations: TranslationResources = {
   en: {
@@ -37,6 +38,7 @@ export const translations: TranslationResources = {
     checkoutOrderConfirmation,
     checkoutReview,
     checkoutShipping,
+    closeAccount,
     common,
     forgottenPassword,
     login,

@@ -43,4 +43,5 @@ export interface StorefrontRoutesTranslations {
   updatePassword?: StorefrontRouteTranslation;
   paymentManagement?: StorefrontRouteTranslation;
   updateProfile?: StorefrontRouteTranslation;
+  closeAccount?: StorefrontRouteTranslation;
 }

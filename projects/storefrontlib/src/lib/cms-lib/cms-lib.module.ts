@@ -21,6 +21,7 @@ import { CmsParagraphModule } from './paragraph/paragraph.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
+import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 
 // import { ProductReferencesModule } from './product-references/product-references.module';
 // import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
@@ -52,6 +53,7 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
     PaymentMethodsModule,
     UpdatePasswordModule,
     UpdateProfileModule,
+    CloseAccountModule,
   ],
 })
 export class CmsLibModule {}

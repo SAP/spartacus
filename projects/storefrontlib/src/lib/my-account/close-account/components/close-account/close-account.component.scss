@@ -1,0 +1,27 @@
+@import 'theme';
+
+:host {
+  display: flex;
+  justify-content: center;
+}
+
+.info {
+  margin: var(--cx-margin, 0 0 3em 0);
+}
+
+.btn-group {
+  button {
+    min-width: var(--cx-min-width, 100%);
+    &:first-child {
+      margin: var(--cx-margin, 0 1em 0 0);
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    button {
+      &:first-child {
+        margin: var(--cx-margin, 0 0 1em 0);
+      }
+    }
+  }
+}
