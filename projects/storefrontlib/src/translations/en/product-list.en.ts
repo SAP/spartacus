@@ -9,8 +9,8 @@ export const productList = {
       showMore: 'Show more...',
       filterBy: 'Filter by',
     },
-  },
-  placeholder: {
-    sortByRelevance: 'Sort by Relevance',
+    placeholder: {
+      sortByRelevance: 'Sort by Relevance',
+    },
   },
 };

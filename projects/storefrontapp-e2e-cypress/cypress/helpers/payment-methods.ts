@@ -120,7 +120,7 @@ export function deletePayment() {
   );
 
   // click cancel
-  cy.get('.btn-secondary').should('contain', 'cancel');
+  cy.get('.btn-secondary').should('contain', 'Cancel');
   cy.get('.btn-secondary').click();
   cy.get('.cx-card-body__delete-ms').should(
     'not.contain',
@@ -128,10 +128,15 @@ export function deletePayment() {
   );
 
   // delete the payment
+<<<<<<< HEAD
   cy.getByText('Delete')
     .first()
     .click();
   cy.get('.btn-primary').should('contain', 'delete');
+=======
+  cy.get('.card-link').click({ force: true });
+  cy.get('.btn-primary').should('contain', 'Delete');
+>>>>>>> develop
   cy.get('.btn-primary').click();
   cy.get('.cx-payment-card').should('have.length', 1);
 

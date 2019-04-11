@@ -13,7 +13,7 @@ import {
 export class OrderDetailsService {
   userId$: Observable<string>;
   orderCode$: Observable<string>;
-  orderLoad$: Observable<[string, string]>;
+  orderLoad$: Observable<{}>;
 
   constructor(
     private authService: AuthService,
