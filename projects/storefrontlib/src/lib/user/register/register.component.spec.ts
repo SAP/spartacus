@@ -5,10 +5,11 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
+  I18nTestingModule,
   RoutingService,
   Title,
   UserService,
-  UserToken
+  UserToken,
 } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
@@ -21,16 +22,16 @@ import createSpy = jasmine.createSpy;
 const mockTitlesList: Title[] = [
   {
     code: 'mr',
-    name: 'Mr.'
+    name: 'Mr.',
   },
   {
     code: 'mrs',
-    name: 'Mrs.'
-  }
+    name: 'Mrs.',
+  },
 ];
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -86,14 +87,14 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [RegisterComponent, MockTranslateUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: UserService, useClass: MockUserService },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService }
-      ]
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+      ],
     }).compileComponents();
   }));
 
@@ -246,7 +247,7 @@ describe('RegisterComponent', () => {
         lastName: '',
         uid: '',
         password: '',
-        titleCode: ''
+        titleCode: '',
       });
     });
   });

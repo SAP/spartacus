@@ -2,7 +2,7 @@ import { entityReducer, initialEntityState } from './entity.reducer';
 import {
   EntityAction,
   EntityRemoveAction,
-  EntityRemoveAllAction
+  EntityRemoveAllAction,
 } from './entity.action';
 
 describe('Entity reducer', () => {
@@ -27,7 +27,7 @@ describe('Entity reducer', () => {
   describe('entity action', () => {
     it('should use targeted reducer', () => {
       const action = {
-        meta: { entityId: 'testId', entityType: 'testType' }
+        meta: { entityId: 'testId', entityType: 'testType' },
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
@@ -35,8 +35,8 @@ describe('Entity reducer', () => {
       );
       const expectedState = {
         entities: {
-          testId: 'test'
-        }
+          testId: 'test',
+        },
       };
 
       expect(state).toEqual(expectedState);
@@ -46,7 +46,7 @@ describe('Entity reducer', () => {
     it('should use targeted reducer for multiple items', () => {
       const action = {
         payload: 'data',
-        meta: { entityId: ['id1', 'id2'], entityType: 'testType' }
+        meta: { entityId: ['id1', 'id2'], entityType: 'testType' },
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
@@ -55,8 +55,8 @@ describe('Entity reducer', () => {
       const expectedState = {
         entities: {
           id1: 'data',
-          id2: 'data'
-        }
+          id2: 'data',
+        },
       };
 
       expect(state).toEqual(expectedState);
@@ -66,7 +66,7 @@ describe('Entity reducer', () => {
     it('should use targeted reducer for multiple items with payload partitioning', () => {
       const action = {
         payload: ['data1', 'data2'],
-        meta: { entityId: ['id1', 'id2'], entityType: 'testType' }
+        meta: { entityId: ['id1', 'id2'], entityType: 'testType' },
       } as EntityAction;
       const state = entityReducer('testType', testSubReducer)(
         undefined,
@@ -75,18 +75,18 @@ describe('Entity reducer', () => {
       const expectedState = {
         entities: {
           id1: 'data1',
-          id2: 'data2'
-        }
+          id2: 'data2',
+        },
       };
 
       expect(state).toEqual(expectedState);
       expect(testSubReducer).toHaveBeenCalledWith(undefined, {
         ...action,
-        payload: action.payload[0]
+        payload: action.payload[0],
       });
       expect(testSubReducer).toHaveBeenCalledWith(undefined, {
         ...action,
-        payload: action.payload[1]
+        payload: action.payload[1],
       });
     });
   });
@@ -97,8 +97,8 @@ describe('Entity reducer', () => {
       const initialState = {
         entities: {
           a: '1',
-          b: '2'
-        }
+          b: '2',
+        },
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
@@ -107,8 +107,8 @@ describe('Entity reducer', () => {
 
       const expectedState = {
         entities: {
-          b: '2'
-        }
+          b: '2',
+        },
       };
       expect(state).toEqual(expectedState);
     });
@@ -119,8 +119,8 @@ describe('Entity reducer', () => {
         entities: {
           a: '1',
           b: '2',
-          c: '3'
-        }
+          c: '3',
+        },
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
@@ -129,8 +129,8 @@ describe('Entity reducer', () => {
 
       const expectedState = {
         entities: {
-          b: '2'
-        }
+          b: '2',
+        },
       };
       expect(state).toEqual(expectedState);
     });
@@ -139,8 +139,8 @@ describe('Entity reducer', () => {
       const action = new EntityRemoveAction('testType', ['a', 'c']);
       const initialState = {
         entities: {
-          b: '2'
-        }
+          b: '2',
+        },
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,
@@ -158,8 +158,8 @@ describe('Entity reducer', () => {
         entities: {
           a: '1',
           b: '2',
-          c: '3'
-        }
+          c: '3',
+        },
       };
       const state = entityReducer('testType', testSubReducer)(
         initialState,

@@ -4,7 +4,7 @@ const SITES = ['electronics', 'apparel'];
 
 export = function() {
   const data = {
-    ...pageGenerator.generate(SITES)
+    ...pageGenerator.generate(SITES),
   };
   return data;
 };

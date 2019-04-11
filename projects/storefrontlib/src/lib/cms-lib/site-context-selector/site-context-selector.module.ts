@@ -6,7 +6,7 @@ import {
   ConfigModule,
   UrlTranslationModule,
   SiteContextModule,
-  ContextServiceMap
+  ContextServiceMap,
 } from '@spartacus/core';
 import { CmsConfig } from '@spartacus/core';
 
@@ -27,18 +27,18 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
             {
               provide: SiteContextComponentService,
               useClass: SiteContextComponentService,
-              deps: [CmsComponentData, ContextServiceMap, Injector]
-            }
-          ]
-        }
-      }
+              deps: [CmsComponentData, ContextServiceMap, Injector],
+            },
+          ],
+        },
+      },
     }),
     UrlTranslationModule,
-    SiteContextModule.forRoot()
+    SiteContextModule.forRoot(),
   ],
   providers: [SiteContextComponentService],
   declarations: [SiteContextSelectorComponent],
   exports: [SiteContextSelectorComponent],
-  entryComponents: [SiteContextSelectorComponent]
+  entryComponents: [SiteContextSelectorComponent],
 })
 export class SiteContextSelectorModule {}

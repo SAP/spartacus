@@ -6,7 +6,7 @@ describe('Card Types Actions', () => {
     it('should create the action', () => {
       const action = new fromAction.LoadCardTypes();
       expect({ ...action }).toEqual({
-        type: fromAction.LOAD_CARD_TYPES
+        type: fromAction.LOAD_CARD_TYPES,
       });
     });
   });
@@ -18,7 +18,7 @@ describe('Card Types Actions', () => {
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_CARD_TYPES_FAIL,
-        payload: error
+        payload: error,
       });
     });
   });
@@ -28,17 +28,17 @@ describe('Card Types Actions', () => {
       const cardTypes: CardType[] = [
         {
           code: 'amex',
-          name: 'American Express'
+          name: 'American Express',
         },
         {
           code: 'maestro',
-          name: 'Maestro'
-        }
+          name: 'Maestro',
+        },
       ];
       const action = new fromAction.LoadCardTypesSuccess(cardTypes);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_CARD_TYPES_SUCCESS,
-        payload: cardTypes
+        payload: cardTypes,
       });
     });
   });

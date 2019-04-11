@@ -1,24 +1,38 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
+import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { OccConfig } from '../config/occ-config';
 import { DynamicTemplate } from '../../config/utils/dynamic-template';
 import { HttpParams } from '@angular/common/http';
 import { HttpParamsOptions } from '@angular/common/http/src/params';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OccEndpointsService {
-  constructor(private config: OccConfig) {}
+  private activeBaseSite: string;
+
+  constructor(
+    private config: OccConfig,
+    @Optional() private baseSiteService: BaseSiteService
+  ) {
+    this.activeBaseSite = (this.config.site && this.config.site.baseSite) || '';
+
+    if (this.baseSiteService) {
+      this.baseSiteService
+        .getActive()
+        .subscribe(value => (this.activeBaseSite = value));
+    }
+  }
 
   getBaseEndpoint(): string {
-    if (!this.config || !this.config.server) {
+    if (!this.config || !this.config.backend || !this.config.backend.occ) {
       return '';
     }
 
     return (
-      (this.config.server.baseUrl || '') +
-      this.config.server.occPrefix +
-      this.config.site.baseSite
+      (this.config.backend.occ.baseUrl || '') +
+      this.config.backend.occ.prefix +
+      this.activeBaseSite
     );
   }
 
@@ -30,8 +44,12 @@ export class OccEndpointsService {
   }
 
   getUrl(endpoint: string, urlParams?: object, queryParams?: object): string {
-    if (this.config.endpoints[endpoint]) {
-      endpoint = this.config.endpoints[endpoint];
+    if (
+      this.config.backend &&
+      this.config.backend.occ &&
+      this.config.backend.occ.endpoints[endpoint]
+    ) {
+      endpoint = this.config.backend.occ.endpoints[endpoint];
     }
 
     if (urlParams) {

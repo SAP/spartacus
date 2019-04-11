@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { CartDataService, UserService, PaymentDetails } from '@spartacus/core';
+import {
+  CartDataService,
+  UserService,
+  PaymentDetails,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -26,7 +31,7 @@ const mockPaymentMethod1: PaymentDetails = {
   cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '01',
   expiryYear: '3000',
-  cvn: '111'
+  cvn: '111',
 };
 
 const mockPaymentMethod2: PaymentDetails = {
@@ -35,33 +40,35 @@ const mockPaymentMethod2: PaymentDetails = {
   cardType: { code: 'Visa', name: 'Visa' },
   expiryMonth: '02',
   expiryYear: '3000',
-  cvn: '222'
+  cvn: '222',
 };
 
 const mockPaymentMethods: PaymentDetails[] = [
   mockPaymentMethod1,
-  mockPaymentMethod2
+  mockPaymentMethod2,
 ];
 
 @Component({
   selector: 'cx-payment-form',
-  template: ''
+  template: '',
 })
 class MockPaymentFormComponent {}
 
 @Component({
   selector: 'cx-spinner',
-  template: ''
+  template: '',
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
   border: boolean;
+  @Input()
+  fitToContainer: boolean;
   @Input()
   content: Card;
 }
@@ -73,20 +80,21 @@ describe('PaymentMethodComponent', () => {
 
   beforeEach(async(() => {
     const mockCartDataService = {
-      userId: 'testUser'
+      userId: 'testUser',
     };
 
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         PaymentMethodComponent,
         MockPaymentFormComponent,
         MockCardComponent,
-        MockSpinnerComponent
+        MockSpinnerComponent,
       ],
       providers: [
         { provide: UserService, useClass: MockUserService },
-        { provide: CartDataService, useValue: mockCartDataService }
-      ]
+        { provide: CartDataService, useValue: mockCartDataService },
+      ],
     }).compileComponents();
   }));
 
@@ -153,19 +161,19 @@ describe('PaymentMethodComponent', () => {
     component.next();
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
-      newPayment: false
+      newPayment: false,
     });
   });
 
   it('should call addNewPaymentMethod()', () => {
     component.addNewPaymentMethod({
       paymentDetails: mockPaymentMethod1,
-      billingAddress: null
+      billingAddress: null,
     });
     expect(component.addPaymentInfo.emit).toHaveBeenCalledWith({
       payment: mockPaymentMethod1,
       billingAddress: null,
-      newPayment: true
+      newPayment: true,
     });
   });
 
@@ -188,7 +196,7 @@ describe('PaymentMethodComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'Continue');
+        .find(el => el.nativeElement.innerText === 'common.action.continue');
 
     it('should be disabled when no payment method is selected', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
@@ -230,7 +238,7 @@ describe('PaymentMethodComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'Back');
+        .find(el => el.nativeElement.innerText === 'common.action.back');
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
@@ -280,7 +288,9 @@ describe('PaymentMethodComponent', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'Add New Payment');
+        .find(
+          el => el.nativeElement.innerText === 'payment.action.addNewPayment'
+        );
     const getNewPaymentForm = () =>
       fixture.debugElement.query(By.css('cx-payment-form'));
 

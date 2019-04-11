@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -20,8 +20,8 @@ export class CmsTicketInterceptor implements HttpInterceptor {
     if (request.url.indexOf('/cms/') > -1 && this.service.cmsTicketId) {
       request = request.clone({
         setParams: {
-          cmsTicketId: this.service.cmsTicketId
-        }
+          cmsTicketId: this.service.cmsTicketId,
+        },
       });
     }
 

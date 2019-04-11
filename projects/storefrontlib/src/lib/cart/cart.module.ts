@@ -14,13 +14,13 @@ import { CartTotalsModule } from './cart-totals/cart-totals.module';
     CartTotalsModule,
     CartSharedModule,
     NgbModule,
-    CartModule
+    CartModule,
   ],
   exports: [
     AddToCartModule,
     CartDetailsModule,
     CartTotalsModule,
-    CartSharedModule
-  ]
+    CartSharedModule,
+  ],
 })
 export class CartComponentModule {}

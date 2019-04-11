@@ -4,7 +4,7 @@ import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UnknownErrorHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.UNKNOWN;
@@ -12,7 +12,7 @@ export class UnknownErrorHandler extends HttpErrorHandler {
   handleError() {
     this.globalMessageService.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'An unknown error occured'
+      text: 'An unknown error occured',
     });
   }
 }

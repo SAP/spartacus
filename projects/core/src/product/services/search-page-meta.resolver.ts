@@ -8,7 +8,7 @@ import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { PageMeta } from '../../cms/model/page.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SearchPageMetaResolver extends PageMetaResolver
   implements PageMetaResolver {
@@ -34,7 +34,7 @@ export class SearchPageMetaResolver extends PageMetaResolver
     ).pipe(
       map(([t, q]: [number, string]) => {
         return {
-          title: this.resolveTitle(t, q)
+          title: this.resolveTitle(t, q),
         };
       })
     );

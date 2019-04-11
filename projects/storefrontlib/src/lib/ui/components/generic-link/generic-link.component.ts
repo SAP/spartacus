@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'cx-generic-link',
   templateUrl: './generic-link.component.html',
-  styleUrls: ['./generic-link.component.scss']
+  styleUrls: ['./generic-link.component.scss'],
 })
 export class GenericLinkComponent {
   private readonly protocolRegex: RegExp = /^https?:\/\//i;

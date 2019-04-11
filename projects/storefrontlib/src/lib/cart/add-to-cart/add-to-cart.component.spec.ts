@@ -6,7 +6,11 @@ import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { of, Observable } from 'rxjs';
 
-import { CartDataService, CartService } from '@spartacus/core';
+import {
+  CartDataService,
+  CartService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
@@ -38,14 +42,15 @@ describe('AddToCartComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         SpinnerModule,
-        NgbModule
+        NgbModule,
+        I18nTestingModule,
       ],
       declarations: [AddToCartComponent],
       providers: [
         CartDataService,
         { provide: CartService, useClass: MockCartService },
-        { provide: NgbModal, useValue: { open: () => {} } }
-      ]
+        { provide: NgbModal, useValue: { open: () => {} } },
+      ],
     }).compileComponents();
   }));
 

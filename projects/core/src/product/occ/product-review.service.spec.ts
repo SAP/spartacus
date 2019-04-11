@@ -1,6 +1,6 @@
 import {
   HttpTestingController,
-  HttpClientTestingModule
+  HttpClientTestingModule,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -9,26 +9,29 @@ import { ReviewList } from '../../occ/occ-models/occ.models';
 import { defaultOccProductConfig } from '../config/product-config';
 import { ProductReviewsLoaderService } from './product-reviews.service';
 import { OccConfig } from '@spartacus/core';
+import { deepMerge } from '../../config/utils/deep-merge';
 
 const productCode = 'testCode';
 const maxCount = 2;
 const productReviews: ReviewList = {
-  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }]
+  reviews: [{ id: '1', comment: 'Review 1' }, { id: '2', comment: 'Review 2' }],
 };
 
 const endpoint = '/products';
 
-const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+const mockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
     baseSite: '',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('ProductReviewsLoaderService', () => {
@@ -42,9 +45,9 @@ describe('ProductReviewsLoaderService', () => {
         ProductReviewsLoaderService,
         {
           provide: OccConfig,
-          useValue: Object.assign(MockOccModuleConfig, defaultOccProductConfig)
-        }
-      ]
+          useValue: deepMerge({}, mockOccModuleConfig, defaultOccProductConfig),
+        },
+      ],
     });
 
     service = TestBed.get(ProductReviewsLoaderService);
@@ -58,7 +61,6 @@ describe('ProductReviewsLoaderService', () => {
   describe('load product reviews', () => {
     it('should load reviews for given product code', () => {
       let loadResult;
-
       service.load(productCode).subscribe(res => (loadResult = res));
 
       const mockReq = httpMock.expectOne(req => {

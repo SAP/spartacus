@@ -31,19 +31,21 @@ describe('Cart effect', () => {
     totalItems: 0,
     totalPrice: {
       currencyIso: 'USD',
-      value: 0
+      value: 0,
     },
     totalPriceWithTax: {
       currencyIso: 'USD',
-      value: 0
-    }
+      value: 0,
+    },
   };
 
   const MockOccModuleConfig: OccConfig = {
-    server: {
-      baseUrl: '',
-      occPrefix: ''
-    }
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
   };
 
   const userId = 'testUserId';
@@ -56,7 +58,7 @@ describe('Cart effect', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature('cart', fromCart.getReducers()),
         StoreModule.forFeature('user', fromUser.getReducers()),
-        StoreModule.forFeature('auth', fromAuth.getReducers())
+        StoreModule.forFeature('auth', fromAuth.getReducers()),
       ],
 
       providers: [
@@ -66,8 +68,8 @@ describe('Cart effect', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,
         CartDataService,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     cartEffects = TestBed.get(fromEffects.CartEffects);
@@ -93,7 +95,7 @@ describe('Cart effect', () => {
     it('should load a cart', () => {
       const action = new fromActions.LoadCart({
         userId: userId,
-        cartId: cartId
+        cartId: cartId,
       });
       const completion = new fromActions.LoadCartSuccess(testCart);
 
@@ -108,12 +110,12 @@ describe('Cart effect', () => {
     it('should merge old cart into the session cart', () => {
       const action = new fromActions.MergeCart({
         userId: userId,
-        cartId: cartId
+        cartId: cartId,
       });
       const completion = new fromActions.CreateCart({
         userId: userId,
         oldCartId: cartId,
-        toMergeCartGuid: 'testGuid'
+        toMergeCartGuid: 'testGuid',
       });
 
       actions$ = hot('-a', { a: action });

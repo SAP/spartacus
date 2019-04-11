@@ -18,5 +18,7 @@ export * from './lib/storefront.module';
 export * from './lib/storefront-config';
 export * from './lib/outlet/index';
 
+export * from './translations/index';
+
 export * from './cms-structure/index';
 export * from './cms-components/index';

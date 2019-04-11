@@ -19,20 +19,22 @@ const reviewData: ReviewList = {
   reviews: [
     {
       id: '1',
-      rating: 3
+      rating: 3,
     },
     {
       id: '2',
-      rating: 5
-    }
-  ]
+      rating: 5,
+    },
+  ],
 };
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
 };
 
 describe('Product reviews effect', () => {
@@ -48,8 +50,8 @@ describe('Product reviews effect', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(ProductReviewsLoaderService);
@@ -64,7 +66,7 @@ describe('Product reviews effect', () => {
       const action = new fromActions.LoadProductReviews(productCode);
       const completion = new fromActions.LoadProductReviewsSuccess({
         productCode,
-        list: reviewData.reviews
+        list: reviewData.reviews,
       });
 
       actions$ = hot('-a', { a: action });

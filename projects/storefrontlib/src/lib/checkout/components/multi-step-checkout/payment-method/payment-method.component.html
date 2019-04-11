@@ -1,7 +1,9 @@
 <ng-container
   *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
 >
-  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">Payment</h3>
+  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'payment.label.payment' | cxTranslate }}
+  </h3>
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <ng-container
       *ngIf="
@@ -9,26 +11,29 @@
         else newPaymentForm
       "
     >
-      <p class="cx-checkout-text">Choose a payment method</p>
+      <p class="cx-checkout-text">
+        {{ 'payment.label.choosePaymentMethod' | cxTranslate }}
+      </p>
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
           <button
             class="btn btn-block btn-action"
             (click)="showNewPaymentForm()"
           >
-            Add New Payment
+            {{ 'payment.action.addNewPayment' | cxTranslate }}
           </button>
         </div>
       </div>
 
       <div class="cx-checkout-body row">
         <div
-          class="col-md-12 col-lg-6"
+          class="cx-payment-card col-md-12 col-lg-6"
           *ngFor="let method of existingPaymentMethods; let i = index"
         >
-          <div class="cx-payment-card">
+          <div class="cx-payment-card-inner">
             <cx-card
               [border]="true"
+              [fitToContainer]="true"
               [content]="cards[i]"
               (sendCard)="paymentMethodSelected(method, i)"
             ></cx-card>
@@ -39,7 +44,7 @@
       <div class="row cx-checkout-btns">
         <div class="col-md-12 col-lg-6">
           <button class="btn btn-block btn-action" (click)="back()">
-            Back
+            {{ 'common.action.back' | cxTranslate }}
           </button>
         </div>
         <div class="col-md-12 col-lg-6">
@@ -48,7 +53,7 @@
             [disabled]="!selectedPayment"
             (click)="next()"
           >
-            Continue
+            {{ 'common.action.continue' | cxTranslate }}
           </button>
         </div>
       </div>

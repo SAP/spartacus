@@ -8,13 +8,13 @@ import {
   StoreFinderService,
   SearchConfig,
   StoreFinderSearchQuery,
-  LongitudeLatitude
+  LongitudeLatitude,
 } from '@spartacus/core';
 
 @Component({
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
-  styleUrls: ['./store-finder-search-result.component.scss']
+  styleUrls: ['./store-finder-search-result.component.scss'],
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;
@@ -24,7 +24,7 @@ export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   geolocation: LongitudeLatitude;
   subscription: Subscription;
   searchConfig: SearchConfig = {
-    currentPage: 0
+    currentPage: 0,
   };
 
   constructor(

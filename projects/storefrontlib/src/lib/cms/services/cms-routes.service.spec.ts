@@ -2,9 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { CmsRoutesService } from './cms-routes.service';
 import { Router } from '@angular/router';
-import { CmsRoute, CmsService, PageType } from '@spartacus/core';
+import { CmsRoute, PageType } from '@spartacus/core';
 import { CmsMappingService, PageLayoutComponent } from '@spartacus/storefront';
-import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 describe('CmsRoutesService', () => {
@@ -13,7 +12,7 @@ describe('CmsRoutesService', () => {
 
   const mockPageContext = {
     type: PageType.CONTENT_PAGE,
-    id: '/testRoute2'
+    id: '/testRoute2',
   };
 
   const mockRouterConfig: CmsRoute[] = [
@@ -21,38 +20,30 @@ describe('CmsRoutesService', () => {
     {
       path: 'testRoute',
       data: {
-        cxCmsRouteContext: { type: PageType.CONTENT_PAGE, id: '/testRoute' }
-      }
-    }
+        cxCmsRouteContext: { type: PageType.CONTENT_PAGE, id: '/testRoute' },
+      },
+    },
   ];
 
   const mockCmsMapping = {
-    getRoutesForComponents: () => [{ path: 'sub-route' }]
+    getRoutesForComponents: () => [{ path: 'sub-route' }],
   };
 
   beforeEach(() => {
     mockRouter = {
       config: mockRouterConfig,
       navigateByUrl: createSpy('router.navigateByUrl'),
-      resetConfig: createSpy('router.resetConfig')
-    };
-
-    const mockCmsService = {
-      getPageComponentTypes: () => of([])
+      resetConfig: createSpy('router.resetConfig'),
     };
 
     TestBed.configureTestingModule({
       providers: [
         {
           provide: Router,
-          useValue: mockRouter
+          useValue: mockRouter,
         },
-        {
-          provide: CmsService,
-          useValue: mockCmsService
-        },
-        { provide: CmsMappingService, useValue: mockCmsMapping }
-      ]
+        { provide: CmsMappingService, useValue: mockCmsMapping },
+      ],
     });
     service = TestBed.get(CmsRoutesService);
   });
@@ -73,18 +64,13 @@ describe('CmsRoutesService', () => {
 
   describe('handleCmsRoutesInGuard', () => {
     it('should return false for content page with cms driven route', () => {
-      let result;
-      service
-        .handleCmsRoutesInGuard(mockPageContext, '/testRoute2')
-        .subscribe(res => (result = res));
-
-      expect(result).toEqual(false);
+      expect(
+        service.handleCmsRoutesInGuard(mockPageContext, [], '/testRoute2')
+      ).toEqual(false);
     });
 
     it('should add new route for content page with cms driven route', () => {
-      service
-        .handleCmsRoutesInGuard(mockPageContext, '/testRoute2')
-        .subscribe();
+      service.handleCmsRoutesInGuard(mockPageContext, [], '/testRoute2');
 
       const expectedConfig = [
         {
@@ -92,34 +78,29 @@ describe('CmsRoutesService', () => {
           component: PageLayoutComponent,
           children: [{ path: 'sub-route' }],
           data: {
-            cxCmsRouteContext: mockPageContext
-          }
+            cxCmsRouteContext: mockPageContext,
+          },
         },
-        ...mockRouterConfig
+        ...mockRouterConfig,
       ];
 
       expect(mockRouter.resetConfig).toHaveBeenCalledWith(expectedConfig);
     });
 
     it('should redirect for content page with cms driven route', () => {
-      service
-        .handleCmsRoutesInGuard(mockPageContext, '/testRoute2')
-        .subscribe();
+      service.handleCmsRoutesInGuard(mockPageContext, [], '/testRoute2');
       expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/testRoute2');
     });
 
     it('should return true for content pages without cms driven route', () => {
       const pageContext = {
         type: PageType.CONTENT_PAGE,
-        id: 'testRoute2'
+        id: 'testRoute2',
       };
 
-      let result;
-      service
-        .handleCmsRoutesInGuard(pageContext, '/testRoute2')
-        .subscribe(res => (result = res));
-
-      expect(result).toEqual(true);
+      expect(
+        service.handleCmsRoutesInGuard(pageContext, [], '/testRoute2')
+      ).toEqual(true);
     });
   });
 });

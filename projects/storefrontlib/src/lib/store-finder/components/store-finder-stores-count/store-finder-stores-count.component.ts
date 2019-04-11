@@ -6,7 +6,7 @@ import { StoreFinderService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-stores-count',
   templateUrl: './store-finder-stores-count.component.html',
-  styleUrls: ['./store-finder-stores-count.component.scss']
+  styleUrls: ['./store-finder-stores-count.component.scss'],
 })
 export class StoreFinderStoresCountComponent implements OnInit {
   locations$: Observable<any>;

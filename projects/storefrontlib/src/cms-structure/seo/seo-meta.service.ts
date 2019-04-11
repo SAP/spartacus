@@ -4,7 +4,7 @@ import { PageMetaService, PageMeta, PageRobotsMeta } from '@spartacus/core';
 import { filter } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SeoMetaService {
   constructor(

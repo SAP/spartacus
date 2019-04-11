@@ -8,33 +8,30 @@ let service: CmsMappingService;
 const mockConfig: CmsConfig = {
   cmsComponents: {
     exampleMapping1: {
-      selector: 'selector-1'
+      selector: 'selector-1',
+      i18nKeys: ['key-1'],
+      guards: ['guard1', 'guard2'],
     },
     exampleMapping2: {
       selector: 'selector-2',
       disableSSR: true,
-      childRoutes: [
-        {
-          path: 'route1'
-        },
-        {
-          path: 'route2'
-        }
-      ]
-    }
-  }
+      childRoutes: [{ path: 'route1' }, { path: 'route2' }],
+      i18nKeys: ['key-1', 'key-2'],
+      guards: ['guard1'],
+    },
+  },
 };
 
 const mockComponents: string[] = [
   'testCode',
   'exampleMapping1',
-  'exampleMapping2'
+  'exampleMapping2',
 ];
 
 describe('CmsMappingService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CmsConfig, useValue: mockConfig }]
+      providers: [{ provide: CmsConfig, useValue: mockConfig }],
     });
     service = TestBed.get(CmsMappingService);
   });
@@ -53,15 +50,29 @@ describe('CmsMappingService', () => {
     });
   });
 
-  describe('getRoutesFromPageData', () => {
+  describe('getRoutesForComponents', () => {
     it('should get routes from page data', () => {
       expect(service.getRoutesForComponents(mockComponents)).toEqual([
-        {
-          path: 'route1'
-        },
-        {
-          path: 'route2'
-        }
+        { path: 'route1' },
+        { path: 'route2' },
+      ]);
+    });
+  });
+
+  describe('getGuardsForComponents', () => {
+    it('should get routes from page data', () => {
+      expect(service.getGuardsForComponents(mockComponents)).toEqual([
+        'guard1',
+        'guard2',
+      ]);
+    });
+  });
+
+  describe('getI18nKeysForComponents', () => {
+    it('should get i18n keys from page data', () => {
+      expect(service.getI18nKeysForComponents(mockComponents)).toEqual([
+        'key-1',
+        'key-2',
       ]);
     });
   });
@@ -72,8 +83,8 @@ describe('with SSR', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
-        { provide: PLATFORM_ID, useValue: 'server' }
-      ]
+        { provide: PLATFORM_ID, useValue: 'server' },
+      ],
     });
     service = TestBed.get(CmsMappingService);
   });

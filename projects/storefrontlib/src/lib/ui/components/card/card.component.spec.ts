@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardComponent, Card, CardLinkAction } from './card.component';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('CardComponent', () => {
   let component: CardComponent;
@@ -11,7 +12,8 @@ describe('CardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [CardComponent]
+      imports: [I18nTestingModule],
+      declarations: [CardComponent],
     }).compileComponents();
   }));
 
@@ -34,10 +36,10 @@ describe('CardComponent', () => {
 
   it('should have class border if border attribute is passed', () => {
     function getBorderClass(elem: DebugElement) {
-      return elem.query(By.css('.cx-card--border'));
+      return elem.query(By.css('.cx-card-border'));
     }
     const mockCard: Card = {
-      text: ['hello']
+      text: ['hello'],
     };
     component.border = true;
     component.content = mockCard;
@@ -47,10 +49,10 @@ describe('CardComponent', () => {
 
   it('should have class fit-to-container if fitToContainer attribute is passed', () => {
     function getFitToContainerClass(elem: DebugElement) {
-      return elem.query(By.css('.cx-card--fit-to-container'));
+      return elem.query(By.css('.cx-card-fit-to-container'));
     }
     const mockCard: Card = {
-      text: ['hello']
+      text: ['hello'],
     };
     component.fitToContainer = true;
     component.content = mockCard;
@@ -63,7 +65,7 @@ describe('CardComponent', () => {
       return elem.query(By.css('.card-header')).nativeElement.textContent;
     }
     const mockCard: Card = {
-      header: 'Header text'
+      header: 'Header text',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -72,11 +74,10 @@ describe('CardComponent', () => {
 
   it('should show passed title', () => {
     function getTitleText(elem: DebugElement): string {
-      return elem.query(By.css('.cx-card-body__title')).nativeElement
-        .textContent;
+      return elem.query(By.css('.cx-card-title')).nativeElement.textContent;
     }
     const mockCard: Card = {
-      title: 'Title text'
+      title: 'Title text',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -85,10 +86,11 @@ describe('CardComponent', () => {
 
   it('should show passed bold text', () => {
     function getBoldText(elem: DebugElement): string {
-      return elem.query(By.css('.card__label--bold')).nativeElement.textContent;
+      return elem.query(By.css('.cx-card-label-bold')).nativeElement
+        .textContent;
     }
     const mockCard: Card = {
-      textBold: 'Bold text'
+      textBold: 'Bold text',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -97,10 +99,10 @@ describe('CardComponent', () => {
 
   it('should render passed text', () => {
     function getText(elem: DebugElement) {
-      return elem.queryAll(By.css('.card__label'));
+      return elem.queryAll(By.css('.cx-card-label'));
     }
     const mockCard: Card = {
-      text: ['First line', 'Second line']
+      text: ['First line', 'Second line'],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -111,11 +113,10 @@ describe('CardComponent', () => {
 
   it('should render passed img', () => {
     function getImage(elem: DebugElement): HTMLImageElement {
-      return elem.query(By.css('.cx-card-body__img-container img'))
-        .nativeElement;
+      return elem.query(By.css('.cx-card-img-container img')).nativeElement;
     }
     const mockCard: Card = {
-      img: '/test.png'
+      img: '/test.png',
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -124,15 +125,15 @@ describe('CardComponent', () => {
 
   it('should properly handle editMode', () => {
     function getDeleteMsg(elem: DebugElement): string {
-      return elem.query(By.css('.cx-card-body__delete-msg')).nativeElement
+      return elem.query(By.css('.cx-card-delete-msg')).nativeElement
         .textContent;
     }
     function getDeleteButton(elem: DebugElement): HTMLButtonElement {
-      return elem.query(By.css('.cx-card-body__delete .btn-primary'))
+      return elem.query(By.css('.cx-card-body-delete .btn-primary'))
         .nativeElement;
     }
     const mockCard: Card = {
-      deleteMsg: 'Delete msg'
+      deleteMsg: 'Delete msg',
     };
     component.editMode = true;
     component.content = mockCard;
@@ -146,11 +147,11 @@ describe('CardComponent', () => {
 
   it('should handle cancel action', () => {
     function getCancelButton(elem: DebugElement): HTMLButtonElement {
-      return elem.query(By.css('.cx-card-body__delete .btn-secondary'))
+      return elem.query(By.css('.cx-card-body-delete .btn-secondary'))
         .nativeElement;
     }
     const mockCard: Card = {
-      deleteMsg: 'Delete msg'
+      deleteMsg: 'Delete msg',
     };
     component.editMode = true;
     component.content = mockCard;
@@ -163,11 +164,10 @@ describe('CardComponent', () => {
 
   it('should handle delete action', () => {
     function getDeleteButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-body__actions-container .btn-link'))
-        .nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'delete', name: 'Delete' }]
+      actions: [{ event: 'delete', name: 'Delete' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -179,11 +179,10 @@ describe('CardComponent', () => {
 
   it('should handle default action', () => {
     function getDefaultActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-body__actions-container .btn-link'))
-        .nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'default', name: 'Set as default' }]
+      actions: [{ event: 'default', name: 'Set as default' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -195,11 +194,10 @@ describe('CardComponent', () => {
 
   it('should handle send action', () => {
     function getSendActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-body__actions-container .btn-link'))
-        .nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'send', name: 'Save address' }]
+      actions: [{ event: 'send', name: 'Save address' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -211,11 +209,10 @@ describe('CardComponent', () => {
 
   it('should handle edit action', () => {
     function getEditActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-body__actions-container .btn-link'))
-        .nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const mockCard: Card = {
-      actions: [{ event: 'edit', name: 'Edit address' }]
+      actions: [{ event: 'edit', name: 'Edit address' }],
     };
     component.content = mockCard;
     fixture.detectChanges();
@@ -227,12 +224,11 @@ describe('CardComponent', () => {
 
   it('should handle links', () => {
     function getLinkAction(elem: DebugElement): HTMLAnchorElement {
-      return elem.query(By.css('.cx-card-body__actions-container .btn-link'))
-        .nativeElement;
+      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
     }
     const link: CardLinkAction = { link: '/test.html', name: 'Go to test' };
     const mockCard: Card = {
-      actions: [link]
+      actions: [link],
     };
     component.content = mockCard;
     fixture.detectChanges();

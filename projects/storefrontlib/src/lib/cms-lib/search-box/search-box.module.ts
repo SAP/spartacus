@@ -4,19 +4,18 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
 import {
+  CmsConfig,
   ConfigModule,
   ProductModule,
   ProductSearchService,
   RoutingService,
   UrlTranslationModule,
-  StripHtmlModule
+  StripHtmlModule,
+  I18nModule,
 } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
-
 import { BootstrapModule } from '../../bootstrap.module';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { MediaModule } from '../../ui/components/media/media.module';
-
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
@@ -38,16 +37,17 @@ import { SearchBoxComponent } from './search-box.component';
             {
               provide: SearchBoxComponentService,
               useClass: SearchBoxComponentService,
-              deps: [CmsComponentData, ProductSearchService, RoutingService]
-            }
-          ]
-        }
-      }
+              deps: [CmsComponentData, ProductSearchService, RoutingService],
+            },
+          ],
+        },
+      },
     }),
-    UrlTranslationModule
+    UrlTranslationModule,
+    I18nModule,
   ],
   declarations: [SearchBoxComponent],
   entryComponents: [SearchBoxComponent],
-  exports: [SearchBoxComponent]
+  exports: [SearchBoxComponent],
 })
 export class SearchBoxModule {}

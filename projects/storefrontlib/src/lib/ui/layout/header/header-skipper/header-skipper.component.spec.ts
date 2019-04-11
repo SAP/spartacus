@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HeaderSkipperComponent } from './header-skipper.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('HeaderSkipperComponent', () => {
   let component: HeaderSkipperComponent;
@@ -8,7 +9,8 @@ describe('HeaderSkipperComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [HeaderSkipperComponent]
+      imports: [I18nTestingModule],
+      declarations: [HeaderSkipperComponent],
     }).compileComponents();
   }));
 

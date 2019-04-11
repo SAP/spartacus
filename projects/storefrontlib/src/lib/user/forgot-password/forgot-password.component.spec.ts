@@ -4,7 +4,11 @@ import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 
-import { UserService, RoutingService } from '@spartacus/core';
+import {
+  UserService,
+  RoutingService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { ForgotPasswordComponent } from './forgot-password.component';
 
@@ -12,7 +16,7 @@ class MockUserService {}
 class MockRoutingService {}
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -27,12 +31,12 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [ForgotPasswordComponent, MockTranslateUrlPipe],
       providers: [
         { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService }
-      ]
+        { provide: RoutingService, useClass: MockRoutingService },
+      ],
     }).compileComponents();
   }));
 

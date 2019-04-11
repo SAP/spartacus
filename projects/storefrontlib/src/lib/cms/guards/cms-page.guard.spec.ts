@@ -5,16 +5,23 @@ import {
   RoutingService,
   PageType,
   CmsService,
-  CmsActivatedRouteSnapshot
+  CmsActivatedRouteSnapshot,
 } from '@spartacus/core';
 
 import { of } from 'rxjs';
 
 import { CmsPageGuard } from './cms-page.guard';
 import { CmsRoutesService } from '@spartacus/storefront';
+import { CmsI18nService } from '../services/cms-i18n.service';
+import { CmsGuardsService } from '../services/cms-guards.service';
+import { UrlTree } from '@angular/router';
 
+const mockPageComponentTypes = ['component1', 'component2'];
 class MockCmsService {
   hasPage() {}
+  getPageComponentTypes() {
+    return of(mockPageComponentTypes);
+  }
 }
 class MockRoutingService {
   getPageContext() {
@@ -27,9 +34,21 @@ class MockCmsRoutesService {
     return true;
   }
   handleCmsRoutesInGuard() {
-    return of(false);
+    return false;
   }
 }
+class MockCmsI18nService {
+  loadNamespacesForComponents = jasmine.createSpy(
+    'loadNamespacesForComponents'
+  );
+}
+
+class MockCmsGuardsService {
+  cmsPageCanActivate = jasmine
+    .createSpy('cmsPageCanActivate')
+    .and.returnValue(of(true));
+}
+
 const mockRouteSnapshot: CmsActivatedRouteSnapshot = { data: {} } as any;
 
 describe('CmsPageGuard', () => {
@@ -41,9 +60,11 @@ describe('CmsPageGuard', () => {
         CmsPageGuard,
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: CmsRoutesService, useClass: MockCmsRoutesService }
+        { provide: CmsRoutesService, useClass: MockCmsRoutesService },
+        { provide: CmsI18nService, useClass: MockCmsI18nService },
+        { provide: CmsGuardsService, useClass: MockCmsGuardsService },
       ],
-      imports: [RouterTestingModule]
+      imports: [RouterTestingModule],
     });
 
     routingService = TestBed.get(RoutingService);
@@ -57,8 +78,7 @@ describe('CmsPageGuard', () => {
       [CmsService, CmsPageGuard],
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(true));
-
-        let result: boolean;
+        let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
@@ -73,7 +93,7 @@ describe('CmsPageGuard', () => {
       (cmsService: CmsService, cmsPageGuard: CmsPageGuard) => {
         spyOn(cmsService, 'hasPage').and.returnValue(of(false));
 
-        let result: boolean;
+        let result: boolean | UrlTree;
         cmsPageGuard
           .canActivate(mockRouteSnapshot, undefined)
           .subscribe(value => (result = value))
@@ -98,6 +118,48 @@ describe('CmsPageGuard', () => {
       }
     ));
 
+    it('should load i18n namespaces', inject(
+      [CmsService, CmsI18nService, CmsPageGuard],
+      (
+        cmsService: CmsService,
+        cmsI18n: CmsI18nService,
+        cmsPageGuard: CmsPageGuard
+      ) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
+          .subscribe()
+          .unsubscribe();
+
+        expect(cmsI18n.loadNamespacesForComponents).toHaveBeenCalledWith(
+          mockPageComponentTypes
+        );
+      }
+    ));
+
+    it('should process cms guards', inject(
+      [CmsService, CmsGuardsService, CmsPageGuard],
+      (
+        cmsService: CmsService,
+        cmsGuards: CmsGuardsService,
+        cmsPageGuard: CmsPageGuard
+      ) => {
+        spyOn(cmsService, 'hasPage').and.returnValue(of(true));
+
+        cmsPageGuard
+          .canActivate(mockRouteSnapshot, undefined)
+          .subscribe()
+          .unsubscribe();
+
+        expect(cmsGuards.cmsPageCanActivate).toHaveBeenCalledWith(
+          mockPageComponentTypes,
+          mockRouteSnapshot,
+          undefined
+        );
+      }
+    ));
+
     it('should switch to handleContentRoutes for generic pages', inject(
       [CmsService, CmsPageGuard, CmsRoutesService],
       (
@@ -110,7 +172,6 @@ describe('CmsPageGuard', () => {
         spyOn(cmsRoutes, 'handleCmsRoutesInGuard').and.callThrough();
 
         let result;
-
         cmsPageGuard
           .canActivate(mockRouteSnapshot, { url: '/test' } as any)
           .subscribe(res => (result = res));
@@ -119,6 +180,7 @@ describe('CmsPageGuard', () => {
         expect(cmsRoutes.cmsRouteExist).toHaveBeenCalledWith('testPageId');
         expect(cmsRoutes.handleCmsRoutesInGuard).toHaveBeenCalledWith(
           { id: 'testPageId', type: 'ContentPage' },
+          mockPageComponentTypes,
           '/test'
         );
       }

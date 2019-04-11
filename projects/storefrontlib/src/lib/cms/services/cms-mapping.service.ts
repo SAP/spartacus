@@ -4,7 +4,7 @@ import { Route } from '@angular/router';
 import { isPlatformServer } from '@angular/common';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CmsMappingService {
   constructor(
@@ -29,8 +29,40 @@ export class CmsMappingService {
     return routes;
   }
 
+  getGuardsForComponents(componentTypes: string[]): any[] {
+    const guards = new Set<any>();
+    for (const componentType of componentTypes) {
+      this.getGuardsForComponent(componentType).forEach(guard =>
+        guards.add(guard)
+      );
+    }
+    return Array.from(guards);
+  }
+
+  getI18nKeysForComponents(componentTypes: string[]): string[] {
+    const namespaces = new Set<string>();
+    for (const componentType of componentTypes) {
+      if (this.isComponentEnabled(componentType)) {
+        this.getI18nKeysForComponent(componentType).forEach(namespace =>
+          namespaces.add(namespace)
+        );
+      }
+    }
+    return Array.from(namespaces);
+  }
+
   private getRoutesForComponent(componentType: string): Route[] {
     const mappingConfig = this.config.cmsComponents[componentType];
     return (mappingConfig && mappingConfig.childRoutes) || [];
+  }
+
+  private getGuardsForComponent(componentType: string): any[] {
+    const mappingConfig = this.config.cmsComponents[componentType];
+    return (mappingConfig && mappingConfig.guards) || [];
+  }
+
+  private getI18nKeysForComponent(componentType: string): string[] {
+    const mappingConfig = this.config.cmsComponents[componentType];
+    return (mappingConfig && mappingConfig.i18nKeys) || [];
   }
 }

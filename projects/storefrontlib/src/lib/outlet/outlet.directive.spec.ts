@@ -9,7 +9,7 @@ const TEXT = 'standard';
     <ng-container *cxOutlet="'${OUTLET_NAME}'">
       <div id="debugEl">${TEXT}</div>
     </ng-container>
-  `
+  `,
 })
 class TestContainerComponent {}
 
@@ -19,7 +19,7 @@ describe('OutletDirective', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [],
-      declarations: [TestContainerComponent, OutletDirective]
+      declarations: [TestContainerComponent, OutletDirective],
     }).compileComponents();
   }));
 

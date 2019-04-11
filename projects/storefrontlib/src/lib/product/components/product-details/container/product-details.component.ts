@@ -8,7 +8,7 @@ import { ProductDetailOutlets } from '../../../product-outlets.model';
 @Component({
   selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
