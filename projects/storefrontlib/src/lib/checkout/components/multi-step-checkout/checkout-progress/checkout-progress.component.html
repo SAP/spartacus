@@ -6,7 +6,8 @@
           [routerLink]="{ url: step.url } | cxTranslateUrl"
           class="cx-link"
           [ngClass]="{
-            ' is-active': step.url === routerState.state.context.id
+            ' is-active': step.url === activeStepUrl,
+            ' is-disabled': i > activeStepIndex
           }"
         >
           {{ i + 1 }}. {{ step.name | cxTranslate }}

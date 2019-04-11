@@ -46,6 +46,10 @@
       &.is-disabled {
         color: var(--cx-color, var(--cx-g-color-light));
         cursor: var(--cx-cursor, not-allowed);
+        pointer-events: var(--pointer-events, none);
+        &:hover {
+          cursor: var(--cx-cursor, not-allowed);
+        }
       }
 
       &.is-active {

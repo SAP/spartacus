@@ -22,7 +22,6 @@ export interface CardTypesState {
 }
 
 export interface CheckoutStepsState {
-  lastAvailableStepId: string;
   address: Address;
   deliveryMode: {
     supported: { [code: string]: DeliveryMode };
