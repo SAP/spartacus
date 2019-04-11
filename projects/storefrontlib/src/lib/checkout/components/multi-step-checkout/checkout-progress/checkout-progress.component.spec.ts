@@ -32,7 +32,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('CheckoutProgressComponent', () => {
+describe('CheckoutProgressComponent', () => {
   let component: CheckoutProgressComponent;
   let fixture: ComponentFixture<CheckoutProgressComponent>;
 
