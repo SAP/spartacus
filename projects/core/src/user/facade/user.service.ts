@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { AuthService } from '../../auth/facade/auth.service';
+import { AUTH_USER } from '../../auth/store/auth-state';
 import {
   Address,
   Country,
@@ -30,7 +32,8 @@ export class UserService {
   constructor(
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
-    >
+    >,
+    private authService: AuthService
   ) {}
 
   /**
@@ -452,6 +455,62 @@ export class UserService {
    */
   resetUpdateEmailResultState(): void {
     this.store.dispatch(new fromStore.ResetUpdateEmailAction());
+  }
+
+  /**
+   * Updates the user's email
+   * @param uid to be updated
+   */
+  updateEmailFlow(uid: string, password: string, newUid: string): void {
+    this.updateEmail(uid, password, newUid);
+    // this.authService.logout();
+    this.authService.authorize(newUid, password);
+  }
+
+  /**
+   * Returns the update user's email success flag using the combination of the user's email and authentication
+   */
+  getUpdateEmailFlowSuccess(): Observable<boolean> {
+    return combineLatest(
+      this.store.pipe(
+        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID)),
+        tap(processSuccess => console.log('update email', processSuccess))
+      ),
+      this.store.pipe(
+        select(getProcessSuccessFactory(AUTH_USER)),
+        tap(processSuccess => console.log('auth email', processSuccess))
+      )
+    ).pipe(map(([emailSuccess, authSuccess]) => emailSuccess && authSuccess));
+  }
+
+  /**
+   * Returns the update user's email error flag using the combination of the user's email and authentication
+   */
+  getUpdateEmailFlowError(): Observable<boolean> {
+    return combineLatest(
+      this.store.pipe(select(getProcessErrorFactory(UPDATE_EMAIL_PROCESS_ID))),
+      this.store.pipe(select(getProcessErrorFactory(AUTH_USER)))
+    ).pipe(map(([emailError, authError]) => emailError && authError));
+  }
+
+  /**
+   * Resets the update user's email processing state using the combination of the user's email and authentication
+   */
+  resetUpdateEmailFlowState(): void {
+    this.resetUpdateEmailResultState();
+    this.authService.resetUserTokenLoadingState();
+  }
+
+  /**
+   * Returns the update user's email loading flag using the combination of the user's email and authentication
+   */
+  getUpdateEmailFlowLoading(): Observable<boolean> {
+    return combineLatest(
+      this.store.pipe(
+        select(getProcessLoadingFactory(UPDATE_EMAIL_PROCESS_ID))
+      ),
+      this.store.pipe(select(getProcessLoadingFactory(AUTH_USER)))
+    ).pipe(map(([emailLoading, authLoading]) => emailLoading && authLoading));
   }
 
   /**
