@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RouteRecognizerService } from './route-recognizer.service';
 import { UrlParsingService } from './url-parsing.service';
 import { UrlTranslationService } from './url-translation.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
@@ -16,7 +15,6 @@ describe('UrlTranslationService', () => {
   let service: UrlTranslationService;
   let serverConfig: ServerConfig;
   let routesService: ConfigurableRoutesService;
-  let routeRecognizer: RouteRecognizerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,17 +27,12 @@ describe('UrlTranslationService', () => {
           useValue: mockConfigurableRoutesService,
         },
         { provide: ServerConfig, useValue: {} },
-        {
-          provide: RouteRecognizerService,
-          useValue: { recognizeByDefaultUrl: () => {} },
-        },
       ],
     });
 
     service = TestBed.get(UrlTranslationService);
     serverConfig = TestBed.get(ServerConfig);
     routesService = TestBed.get(ConfigurableRoutesService);
-    routeRecognizer = TestBed.get(RouteRecognizerService);
   });
 
   describe('translate', () => {
@@ -72,54 +65,6 @@ describe('UrlTranslationService', () => {
       beforeEach(() => {
         spyOn(console, 'warn');
         options = {};
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
-    describe(`, when options contain both 'url' and 'route' properties,`, () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = { url: 'testUrl', route: ['testRoute'] };
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
-    describe(`, when options 'url' property is null,`, () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = { url: null };
       });
 
       it(`should console.warn in non-production environment`, () => {
@@ -208,50 +153,6 @@ describe('UrlTranslationService', () => {
 
       it(`should return the root url`, () => {
         expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
-    describe(`, when options 'url' property is empty string,`, () => {
-      it('should try to recognize nested routes names in given url', () => {
-        spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
-          null
-        );
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue(null);
-        service.translate({ url: '' });
-        expect(routeRecognizer.recognizeByDefaultUrl).toHaveBeenCalledWith('');
-      });
-    });
-
-    describe(`, when options contain 'url' property,`, () => {
-      it('should try to recognize nested routes names in given url', () => {
-        spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
-          null
-        );
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue(null);
-        service.translate({ url: 'test-url' });
-        expect(routeRecognizer.recognizeByDefaultUrl).toHaveBeenCalledWith(
-          'test-url'
-        );
-      });
-
-      it('should return original url if could not recognize nested routes names in given url', () => {
-        spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue(
-          null
-        );
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue(null);
-        const result = service.translate({ url: 'test-url' });
-        expect(result).toEqual('test-url');
-      });
-
-      it('should return translated url if could recognize nested routes names in given url', () => {
-        spyOn(routesService, 'getNestedRoutesTranslations').and.returnValue([
-          { paths: ['translated-url'] },
-        ]);
-        spyOn(routeRecognizer, 'recognizeByDefaultUrl').and.returnValue([
-          { name: 'testRouteName', params: {} },
-        ]);
-        const result = service.translate({ url: 'test-url' });
-        expect(result).toEqual(['', 'translated-url']);
       });
     });
 
