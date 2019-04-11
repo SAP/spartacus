@@ -2,8 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { Pipe, PipeTransform } from '@angular/core';
-import { I18nTestingModule, TranslateUrlOptions } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { DebugElement, ElementRef } from '@angular/core';
 import { NavigationNode } from '../navigation/navigation-node.model';
 
