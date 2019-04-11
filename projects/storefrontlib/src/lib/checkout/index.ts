@@ -9,4 +9,5 @@ export * from './components/multi-step-checkout/payment-method/payment-form/paym
 export * from './components/multi-step-checkout/review-submit/review-submit.component';
 export * from './components/multi-step-checkout/delivery-mode/delivery-mode.component';
 export * from './components/multi-step-checkout/container/multi-step-checkout.component';
+export * from './components/multi-step-checkout/checkout-orchestrator/checkout-orchestrator.component';
 export * from './components/order-confirmation/order-confirmation.component';

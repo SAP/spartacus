@@ -5,6 +5,7 @@ import { CartComponentModule } from './../cart/cart.module';
 
 import { guards } from './guards/index';
 import { CheckoutModule } from '@spartacus/core';
+
 @NgModule({
   imports: [
     CommonModule,

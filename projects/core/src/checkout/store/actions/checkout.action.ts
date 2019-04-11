@@ -5,6 +5,13 @@ import {
   PaymentDetails,
   Order,
 } from '../../../occ/occ-models/index';
+import {
+  LoaderLoadAction,
+  LoaderFailAction,
+  LoaderSuccessAction,
+} from '../../../state/utils/loader/loader.action';
+import { CHECKOUT_DETAILS } from '../checkout-state';
+import { CheckoutDetails } from '../../models/checkout.model';
 
 export const ADD_DELIVERY_ADDRESS = '[Checkout] Add Delivery Address';
 export const ADD_DELIVERY_ADDRESS_FAIL = '[Checkout] Add Delivery Address Fail';
@@ -46,6 +53,12 @@ export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
 
 export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
+
+export const LOAD_CHECKOUT_DETAILS = '[Checkout] Load Checkout Details';
+export const LOAD_CHECKOUT_DETAILS_FAIL =
+  '[Checkout] Load Checkout Details Fail';
+export const LOAD_CHECKOUT_DETAILS_SUCCESS =
+  '[Checkout] Load Checkout Details Success';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -183,6 +196,27 @@ export class ClearCheckoutData implements Action {
   readonly type = CLEAR_CHECKOUT_DATA;
 }
 
+export class LoadCheckoutDetails extends LoaderLoadAction {
+  readonly type = LOAD_CHECKOUT_DETAILS;
+  constructor(public payload: { userId: string; cartId: string }) {
+    super(CHECKOUT_DETAILS);
+  }
+}
+
+export class LoadCheckoutDetailsFail extends LoaderFailAction {
+  readonly type = LOAD_CHECKOUT_DETAILS_FAIL;
+  constructor(public payload: any) {
+    super(CHECKOUT_DETAILS, payload);
+  }
+}
+
+export class LoadCheckoutDetailsSuccess extends LoaderSuccessAction {
+  readonly type = LOAD_CHECKOUT_DETAILS_SUCCESS;
+  constructor(public payload: CheckoutDetails) {
+    super(CHECKOUT_DETAILS);
+  }
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
@@ -207,4 +241,7 @@ export type CheckoutAction =
   | PlaceOrderFail
   | PlaceOrderSuccess
   | ClearCheckoutStep
-  | ClearCheckoutData;
+  | ClearCheckoutData
+  | LoadCheckoutDetails
+  | LoadCheckoutDetailsFail
+  | LoadCheckoutDetailsSuccess;

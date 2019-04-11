@@ -246,6 +246,12 @@ export class CheckoutService {
     );
   }
 
+  loadCheckoutDetails(userId: string, cartId: string) {
+    this.checkoutStore.dispatch(
+      new fromCheckoutStore.LoadCheckoutDetails({ userId, cartId })
+    );
+  }
+
   private actionAllowed(): boolean {
     return this.cartData.userId !== ANONYMOUS_USERID;
   }

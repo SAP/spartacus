@@ -1,12 +1,14 @@
 <ng-container *ngIf="(user$ | async) as user">
   <ng-container *ngIf="user?.name">
-    <div class="cx-login-greet">Hi, {{ user.name }}</div>
+    <div class="cx-login-greet">
+      {{ 'common.label.userGreeting' | cxTranslate: { name: user.name } }}
+    </div>
     <cx-page-slot position="HeaderLinks"></cx-page-slot>
   </ng-container>
 
   <ng-container *ngIf="!user?.name">
-    <a role="link" [routerLink]="{ route: ['login'] } | cxTranslateUrl"
-      >Sign In / Register</a
-    >
+    <a role="link" [routerLink]="{ route: ['login'] } | cxTranslateUrl">{{
+      'common.action.signInRegister' | cxTranslate
+    }}</a>
   </ng-container>
 </ng-container>
