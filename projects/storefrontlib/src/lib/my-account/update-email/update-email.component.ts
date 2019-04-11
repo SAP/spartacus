@@ -25,7 +25,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
 
   ngOnInit() {
-    this.userService.resetUpdateEmailFlowState();
+    this.userService.resetUpdateEmailResultState();
     this.subscription.add(
       this.userService.get().subscribe(result => (this.uid = result.uid))
     );
@@ -34,6 +34,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         .getUpdateEmailFlowSuccess()
         .subscribe(success => this.onSuccess(success))
     );
+
     this.isLoading$ = this.userService.getUpdateEmailFlowLoading();
   }
 
