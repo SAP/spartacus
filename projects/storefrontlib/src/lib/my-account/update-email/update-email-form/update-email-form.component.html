@@ -51,6 +51,7 @@
           placeholder="Enter password"
           class="form-control"
           [class.is-invalid]="isNotValid('password')"
+          autocomplete="off"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('password')">
           <span>Please input password</span>
