@@ -14,7 +14,7 @@ import { ConverterService } from '../../util/converter.service';
 import {
   CMS_COMPONENT_LIST_NORMALIZER,
   CMS_COMPONENT_NORMALIZER,
-} from '../connectors/component/cms-component.converters';
+} from '../connectors/component/converters';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {

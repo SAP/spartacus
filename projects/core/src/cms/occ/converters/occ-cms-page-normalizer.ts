@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CMSPage } from '../../occ/index';
+import { CMSPage } from '../../../occ';
 import {
   CMS_FLEX_COMPONENT_TYPE,
   JSP_INCLUDE_CMS_COMPONENT_TYPE,
-} from '../config/cms-config';
-import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
-import { ContentSlotData } from '../model/content-slot-data.model';
-import { CmsStructureModel } from '../model/page.model';
-import { Converter } from '../../util/converter.service';
+} from '../../config/cms-config';
+import { ContentSlotComponentData } from '../../model/content-slot-component-data.model';
+import { ContentSlotData } from '../../model/content-slot-data.model';
+import { CmsStructureModel } from '../../model/page.model';
+import { Converter } from '../../../util/converter.service';
 
 @Injectable()
 export class OccCmsPageNormalizer

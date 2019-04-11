@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
 import { ComponentMapperService } from '../services/component-mapper.service';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
-import { OccCmsPageNormalizer } from './occ-cms-page.converters';
+import { OccCmsPageNormalizer } from './converters/occ-cms-page-normalizer';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { CMS_PAGE_NORMALIZE } from '../connectors/page/cms-page.converters';
+import { CMS_PAGE_NORMALIZE } from '../connectors/page/converters';
 import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 
 @NgModule({
