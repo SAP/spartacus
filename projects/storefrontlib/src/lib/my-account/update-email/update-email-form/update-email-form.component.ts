@@ -37,15 +37,17 @@ export class UpdateEmailFormComponent {
 
   constructor(private fb: FormBuilder) {}
 
-  isNotValid(formControlName: string, hasError?: boolean): boolean {
-    return hasError
-      ? FormUtils.isNotValidField(
-          this.form,
-          formControlName,
-          this.submited,
-          hasError
-        )
-      : FormUtils.isNotValidField(this.form, formControlName, this.submited);
+  isEmailConfirmNotValid(formControlName: string): boolean {
+    return (
+      this.form.hasError('NotEqual') &&
+      (this.submited ||
+        (this.form.get(formControlName).touched &&
+          this.form.get(formControlName).dirty))
+    );
+  }
+
+  isNotValid(formControlName: string): boolean {
+    return FormUtils.isNotValidField(this.form, formControlName, this.submited);
   }
 
   onSubmit(): void {

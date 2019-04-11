@@ -28,9 +28,12 @@
           formControlName="confirmEmail"
           placeholder="Enter email"
           class="form-control"
-          [class.is-invalid]="isNotValid('confirmEmail', true)"
+          [class.is-invalid]="isEmailConfirmNotValid('confirmEmail')"
         />
-        <div class="invalid-feedback" *ngIf="isNotValid('confirmEmail', true)">
+        <div
+          class="invalid-feedback"
+          *ngIf="isEmailConfirmNotValid('confirmEmail')"
+        >
           <span>Both email must match</span>
         </div>
       </label>
