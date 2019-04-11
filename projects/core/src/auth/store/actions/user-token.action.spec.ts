@@ -17,7 +17,7 @@ const token: UserToken = {
   userId: 'xxx',
 };
 
-fdescribe('User Token Actions', () => {
+describe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {
