@@ -255,7 +255,9 @@ export class CheckoutService {
   }
 
   getCheckoutDetailsLoaded(): Observable<boolean> {
-    return this.checkoutStore.pipe(select(fromSelector.getCheckoutDetailsLoaded));
+    return this.checkoutStore.pipe(
+      select(fromSelector.getCheckoutDetailsLoaded)
+    );
   }
 
   private actionAllowed(): boolean {
