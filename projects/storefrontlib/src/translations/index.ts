@@ -7,6 +7,7 @@ import { cartItems } from './en/cart-items.en';
 import { checkout } from './en/checkout.en';
 import { checkoutAddress } from './en/checkout-address.en';
 import { checkoutOrderConfirmation } from './en/checkout-order-confirmation.en';
+import { checkoutProgress } from './en/checkout-progress.en';
 import { checkoutReview } from './en/checkout-review.en';
 import { checkoutShipping } from './en/checkout-shipping.en';
 import { common } from './en/common.en';
@@ -35,6 +36,7 @@ export const translations: TranslationResources = {
     checkout,
     checkoutAddress,
     checkoutOrderConfirmation,
+    checkoutProgress,
     checkoutReview,
     checkoutShipping,
     common,
