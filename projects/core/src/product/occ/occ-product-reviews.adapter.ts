@@ -8,7 +8,7 @@ import { ConverterService } from '../../util/converter.service';
 import {
   PRODUCT_REVIEW_ADD_SERIALIZER,
   PRODUCT_REVIEWS_LIST_NORMALIZER,
-} from '../connectors/reviews/product-reviews.converters';
+} from '../connectors/reviews/converters';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {

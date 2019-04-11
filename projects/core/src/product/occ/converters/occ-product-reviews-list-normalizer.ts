@@ -1,5 +1,5 @@
-import { ReviewList, Review } from '../../occ/occ-models/occ.models';
-import { Converter } from '../../util/converter.service';
+import { ReviewList, Review } from '../../../occ/occ-models/occ.models';
+import { Converter } from '../../../util/converter.service';
 
 export class OccProductReviewsListNormalizer
   implements Converter<ReviewList, Review[]> {
