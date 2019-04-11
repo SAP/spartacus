@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
@@ -19,7 +13,6 @@ export class ProductSummaryComponent {
   itemCount = 1;
 
   @Input() product: any;
-  @Output() openReview = new EventEmitter();
 
   get outlets() {
     return ProductSummaryComponent.outlets;
@@ -44,7 +37,45 @@ export class ProductSummaryComponent {
     );
   }
 
-  launchReview() {
-    this.openReview.emit();
+  // Get Tabs Component if exists on page
+  private getTabsComponent(): Element {
+    const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
+      'Tabs'
+    );
+
+    return elements.length > 0 ? elements[0] : null;
+  }
+
+  // Get Reviews Tab if exists on page
+  private getReviewsTab(): HTMLElement {
+    if (this.getTabsComponent()) {
+      const h3Elements: HTMLCollectionOf<
+        HTMLElement
+      > = this.getTabsComponent().getElementsByTagName('h3');
+
+      // Look through h3 tab elements until finding tab named "Reviews"
+      for (const h3Element of Array.from(h3Elements)) {
+        if (h3Element.innerHTML.indexOf('Reviews') > -1) {
+          return h3Element;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  // Scroll to views component on page and click "Reviews" tab
+  showReviews() {
+    if (!this.getTabsComponent()) {
+      console.error(`Cannot find tabs component`);
+      return;
+    }
+    if (!this.getReviewsTab()) {
+      console.error(`Cannot find "Reviews" in tabs component`);
+      return;
+    }
+
+    this.getTabsComponent().scrollIntoView();
+    this.getReviewsTab().click();
   }
 }
