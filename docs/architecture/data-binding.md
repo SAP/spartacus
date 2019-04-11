@@ -7,7 +7,7 @@ Spartacus delivers view logic that binds to (complex) commerce data and logic in
 - UI components do not store response data from observables locally, so that destroy logic can be avoided. RxJS *pipable* logic can be applied to implement any logic when data is observed.
 - backend data is stored in a central data store, provided by a state management system (Spartacus uses ngrx). 
 - The complexity of the state managment system is fronted by a facade layer to provide a simple API to component developers. 
-- The backend system is configurable by connector, adapter and convertor logic. Cusomters can provide alternative implementations to adapt a specific backend. 
+- The backend system is configurable by connector, adapter and converter logic. Cusomters can provide alternative implementations to adapt a specific backend. 
 
 This design involves multiple layers:
 - UI components  
@@ -29,31 +29,31 @@ The Connector logic sits between the in-memory data store (ngrx) and the backend
 To provide optimal flexiblity there are three entities involed to connnect a backend system:
 1. Connector
 2. Adapter
-3. Convertor
+3. Converter
 
-This is a common pattern cross different frameworks and technology stack, altough diferent names are used (i.e. convertor vs populator vs serializer, etc.). 
+This is a common pattern cross different frameworks and technology stack, altough diferent names are used (i.e. converter vs populator vs serializer, etc.). 
 The finegrained setup will help to separate concerns and simplifies futher customisation. That being said, when you bind to an alternative data source, nothing stops you from simplifying this setup. 
 
 ### 1. Connector
-The connector orchestrates the connection to a source system. The connector layer could be considered over-engineered, but there are occassions where standard data is provided, even in case of switching to an alternative system. An example of this is when structured CMS data is loaded; Spartacus can be setup to add static CMS data without relying on a backend at all or as a fallback in case the CMS doesn't provide sufficient data. 
+The connector orchestrates the connection to a source system. While the primary job of the connector is to delegate loading and converting of backend response to the *adapter*, it is sometimes benefitial to add logic into the connector. An example can be found in the CMS connector, where structured CMS data is loaded; Spartacus is setup to add static CMS data without relying on a backend at all or as a fallback in case the CMS doesn't provide sufficient data. 
 
 The main task of the connector is to delegate the loading and conversion of backend data to the adapter. 
 
 ### 2. Adapter  
-The adapter layer is responsible for loading and submitting data to a source system. By default, Spartacus adapts OCC, the standard REST API of SAP Commerce Cloud. The adapters (and convertors) are shipped and provided in separate modules, so that they become optional in the final build in case you like to adapt an alternative system.
+The adapter layer is responsible for loading and submitting data to a source system. By default, Spartacus adapts OCC, the standard REST API of SAP Commerce Cloud. The adapters (and converters) are shipped and provided in separate modules, so that they become optional in the final build in case you like to adapt an alternative system.
 
 The endpoints used in OCC adapters can be configured, so that the customisation of Spartacus can be very light-weight. Only if you adapt another system, it might be needed to provide a custom adapter. More on OCC endpoint configuration can be found further down in this page. 
 
-Spartacus delegates the conversion of backend to UI models (and visa versa) to convertors. Convertors are optional, when no convertor is found for the given domain, the source data will be returned. 
+Spartacus delegates the conversion of backend to UI models (and visa versa) to converters. Converters are optional, when no converter is found for the given domain, the source data will be returned. 
 
-### Convertor logic
-Convertors are used to convert data from the backend to the UI and visa versa. Spartacus uses the following to distinquish the 2 flows:
+### Converter logic
+Converters are used to convert data from the backend to the UI and visa versa. Spartacus uses the following to distinquish the 2 flows:
 - *Normalize* is the conversion from backend models to UI models
 - *Serialize* is the conversion of UI models to backend models (in case of submitting data to the backend).
 
-In order to provide optional conversion, the convertors are so-called multi-providers. This allows to provide specific convertors. A good example of an optional normalizer is the additional data that is required for the SmartEdit integration. This integration requires some additional attributes on final DOM. Spartucus *provides* an optional convertor that normalizes additional data from the backend source to the UI model. 
+In order to provide optional conversion, the converters are so-called multi-providers. This allows to provide specific converters. A good example of an optional normalizer is the additional data that is required for the SmartEdit integration. This integration requires some additional attributes on final DOM. Spartucus *provides* an optional converter that normalizes additional data from the backend source to the UI model. 
 
-Convertors are optional. Whenever the backend model is equal to the UI model, or in case of simple conversion, the adapter could easily take care of this. 
+Converters are optional. Whenever the backend model is equal to the UI model, or in case of simple conversion, the adapter could easily take care of this. 
 
 
 ## Endpoint configuration
