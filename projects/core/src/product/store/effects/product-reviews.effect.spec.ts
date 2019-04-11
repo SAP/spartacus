@@ -3,17 +3,16 @@ import { TestBed } from '@angular/core/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-
-import { Observable, of } from 'rxjs';
+import { ProductReviewsConnector } from '@spartacus/core';
 
 import { cold, hot } from 'jasmine-marbles';
 
+import { Observable, of } from 'rxjs';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { Review } from '../../../occ/occ-models';
+import { defaultOccProductConfig } from '../../config/product-config';
 import * as fromActions from '../actions/product-reviews.action';
 import * as fromEffects from '../effects/product-reviews.effect';
-import { Review } from '../../../occ/occ-models';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { defaultOccProductConfig } from '../../config/product-config';
-import { ProductReviewsConnector } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const reviewData: Review[] = [
@@ -37,7 +36,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockProductReviewsConnector {
-  getList = createSpy('getList').and.returnValue(of(reviewData));
+  get = createSpy('getList').and.returnValue(of(reviewData));
 }
 
 describe('Product reviews effect', () => {

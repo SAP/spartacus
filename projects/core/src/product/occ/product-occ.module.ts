@@ -1,16 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-
-import { ProductLoaderService } from './product.service';
-import { ProductSearchLoaderService } from './product-search.service';
+import { NgModule } from '@angular/core';
+import { ConfigModule } from '../../config/index';
 import { OccModule } from '../../occ/occ.module';
 import { defaultOccProductConfig } from '../config/product-config';
-import { ConfigModule } from '../../config/index';
+import { PRODUCT_REVIEWS_NORMALIZER } from '../connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
-import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
-import { PRODUCT_REVIEWS_LIST_NORMALIZER } from '../connectors/reviews/converters';
 import { OccProductReviewsListNormalizer } from './converters/occ-product-reviews-list-normalizer';
+import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
+import { ProductSearchLoaderService } from './product-search.service';
+import { ProductLoaderService } from './product.service';
 
 @NgModule({
   imports: [
@@ -27,7 +26,7 @@ import { OccProductReviewsListNormalizer } from './converters/occ-product-review
       useClass: OccProductReviewsAdapter,
     },
     {
-      provide: PRODUCT_REVIEWS_LIST_NORMALIZER,
+      provide: PRODUCT_REVIEWS_NORMALIZER,
       useClass: OccProductReviewsListNormalizer,
       multi: true,
     },

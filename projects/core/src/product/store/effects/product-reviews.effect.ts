@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-
-import * as productReviewsActions from './../actions/product-reviews.action';
 import { ErrorModel } from '../../../occ/occ-models/occ.models';
 import { ProductReviewsConnector } from '../../connectors/reviews/product-reviews.connector';
+import * as productReviewsActions from './../actions/product-reviews.action';
 
 @Injectable()
 export class ProductReviewsEffects {
@@ -19,7 +16,7 @@ export class ProductReviewsEffects {
     ofType(productReviewsActions.LOAD_PRODUCT_REVIEWS),
     map((action: productReviewsActions.LoadProductReviews) => action.payload),
     mergeMap(productCode => {
-      return this.productReviewsConnector.getList(productCode).pipe(
+      return this.productReviewsConnector.get(productCode).pipe(
         map(data => {
           return new productReviewsActions.LoadProductReviewsSuccess({
             productCode,

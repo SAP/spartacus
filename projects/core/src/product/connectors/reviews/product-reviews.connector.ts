@@ -9,8 +9,8 @@ import { ProductReviewsAdapter } from './product-reviews.adapter';
 export class ProductReviewsConnector {
   constructor(protected adapter: ProductReviewsAdapter) {}
 
-  getList(productCode: string, maxCount?: number): Observable<Review[]> {
-    return this.adapter.loadList(productCode, maxCount);
+  get(productCode: string, maxCount?: number): Observable<Review[]> {
+    return this.adapter.load(productCode, maxCount);
   }
 
   add(productCode: string, review: any): Observable<Review> {

@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 class MockProductReviewsAdapter implements ProductReviewsAdapter {
-  loadList = createSpy('ProductReviewsAdapter.loadList').and.callFake(code =>
+  load = createSpy('ProductReviewsAdapter.loadList').and.callFake(code =>
     of('product' + code)
   );
   post = createSpy('ProductReviewsAdapter.post').and.returnValue(of(''));
@@ -31,12 +31,12 @@ describe('ProductReviewsConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getList', () => {
+  describe('get', () => {
     it('should call adapter', () => {
       let result;
-      service.getList('333').subscribe(res => (result = res));
+      service.get('333').subscribe(res => (result = res));
       expect(result).toBe('product333');
-      expect(adapter.loadList).toHaveBeenCalledWith('333', undefined);
+      expect(adapter.load).toHaveBeenCalledWith('333', undefined);
     });
   });
 

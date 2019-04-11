@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Review } from '../../occ/occ-models/occ.models';
-import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import {
-  PRODUCT_REVIEW_ADD_SERIALIZER,
-  PRODUCT_REVIEWS_LIST_NORMALIZER,
+  PRODUCT_REVIEW_SERIALIZER,
+  PRODUCT_REVIEWS_NORMALIZER,
 } from '../connectors/reviews/converters';
+import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
@@ -18,14 +18,14 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
     protected converter: ConverterService
   ) {}
 
-  loadList(productCode: string, maxCount?: number): Observable<Review[]> {
+  load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
       .get(this.getEndpoint(productCode, maxCount))
-      .pipe(this.converter.pipeable(PRODUCT_REVIEWS_LIST_NORMALIZER));
+      .pipe(this.converter.pipeable(PRODUCT_REVIEWS_NORMALIZER));
   }
 
   post(productCode: string, review: any): Observable<Review> {
-    review = this.converter.convert(review, PRODUCT_REVIEW_ADD_SERIALIZER);
+    review = this.converter.convert(review, PRODUCT_REVIEW_SERIALIZER);
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

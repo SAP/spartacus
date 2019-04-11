@@ -7,8 +7,8 @@ import {
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   ConverterService,
-  PRODUCT_REVIEW_ADD_SERIALIZER,
-  PRODUCT_REVIEWS_LIST_NORMALIZER,
+  PRODUCT_REVIEW_SERIALIZER,
+  PRODUCT_REVIEWS_NORMALIZER,
   ReviewList,
 } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -64,10 +64,10 @@ describe('OccProductReviewsAdapter', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('loadList', () => {
-    it('sohuld load review list', () => {
+  describe('load', () => {
+    it('should load review list', () => {
       let loadResult;
-      service.loadList(productCode).subscribe(res => (loadResult = res));
+      service.load(productCode).subscribe(res => (loadResult = res));
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint;
@@ -81,7 +81,7 @@ describe('OccProductReviewsAdapter', () => {
     });
 
     it('should use reviews endpoint', () => {
-      service.loadList(productCode, maxCount).subscribe();
+      service.load(productCode, maxCount).subscribe();
       const mockReq = httpMock.expectOne(endpoint);
       mockReq.flush(productReviews);
       expect(endpoints.getUrl).toHaveBeenCalledWith(
@@ -94,17 +94,17 @@ describe('OccProductReviewsAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadList('333').subscribe();
+      service.load('333').subscribe();
       httpMock.expectOne(endpoint).flush(productReviews);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_REVIEWS_LIST_NORMALIZER
+        PRODUCT_REVIEWS_NORMALIZER
       );
     });
   });
 
   describe('post', () => {
-    it('sohuld post review', () => {
+    it('should post review', () => {
       let postResult;
 
       service
@@ -137,7 +137,7 @@ describe('OccProductReviewsAdapter', () => {
       httpMock.expectOne(endpoint).flush({});
       expect(converter.convert).toHaveBeenCalledWith(
         review,
-        PRODUCT_REVIEW_ADD_SERIALIZER
+        PRODUCT_REVIEW_SERIALIZER
       );
     });
   });
