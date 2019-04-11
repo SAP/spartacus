@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
-import { PromotionResult, Order } from '@spartacus/core';
+import { PromotionResult, Order, I18nTestingModule } from '@spartacus/core';
 import { CardModule } from '../../../../ui/components/card/card.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
@@ -90,7 +90,7 @@ describe('OrderDetailItemsComponent', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [CardModule],
+      imports: [CardModule, I18nTestingModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
       ],
