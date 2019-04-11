@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/facade/auth.service';
-import { AUTH_USER } from '../../auth/store/auth-state';
+import { AUTH_USER_PROCESS_ID } from '../../auth/store/auth-state';
 import {
   Address,
   Country,
@@ -473,13 +473,9 @@ export class UserService {
   getUpdateEmailFlowSuccess(): Observable<boolean> {
     return combineLatest(
       this.store.pipe(
-        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID)),
-        tap(processSuccess => console.log('update email', processSuccess))
+        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID))
       ),
-      this.store.pipe(
-        select(getProcessSuccessFactory(AUTH_USER)),
-        tap(processSuccess => console.log('auth email', processSuccess))
-      )
+      this.store.pipe(select(getProcessSuccessFactory(AUTH_USER_PROCESS_ID)))
     ).pipe(map(([emailSuccess, authSuccess]) => emailSuccess && authSuccess));
   }
 
@@ -489,7 +485,7 @@ export class UserService {
   getUpdateEmailFlowError(): Observable<boolean> {
     return combineLatest(
       this.store.pipe(select(getProcessErrorFactory(UPDATE_EMAIL_PROCESS_ID))),
-      this.store.pipe(select(getProcessErrorFactory(AUTH_USER)))
+      this.store.pipe(select(getProcessErrorFactory(AUTH_USER_PROCESS_ID)))
     ).pipe(map(([emailError, authError]) => emailError && authError));
   }
 
@@ -509,7 +505,7 @@ export class UserService {
       this.store.pipe(
         select(getProcessLoadingFactory(UPDATE_EMAIL_PROCESS_ID))
       ),
-      this.store.pipe(select(getProcessLoadingFactory(AUTH_USER)))
+      this.store.pipe(select(getProcessLoadingFactory(AUTH_USER_PROCESS_ID)))
     ).pipe(map(([emailLoading, authLoading]) => emailLoading && authLoading));
   }
 

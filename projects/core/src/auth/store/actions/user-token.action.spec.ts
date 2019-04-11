@@ -1,5 +1,12 @@
-import * as fromUserToken from './../actions/user-token.action';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import {
+  entityFailMeta,
+  entityLoadMeta,
+  entitySuccessMeta,
+} from '../../../state';
 import { UserToken } from '../../models/token-types.model';
+import { AUTH_USER_PROCESS_ID } from '../auth-state';
+import * as fromUserToken from './../actions/user-token.action';
 
 const token: UserToken = {
   access_token: 'xxx',
@@ -10,7 +17,7 @@ const token: UserToken = {
   userId: 'xxx',
 };
 
-describe('User Token Actions', () => {
+fdescribe('User Token Actions', () => {
   describe('LoadUserToken Actions', () => {
     it('should create the action', () => {
       const tokenRequest = {
@@ -22,6 +29,7 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserToken.LOAD_USER_TOKEN,
         payload: tokenRequest,
+        meta: entityLoadMeta(PROCESS_FEATURE, AUTH_USER_PROCESS_ID),
       });
     });
   });
@@ -34,6 +42,7 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserToken.LOAD_USER_TOKEN_FAIL,
         payload: error,
+        meta: entityFailMeta(PROCESS_FEATURE, AUTH_USER_PROCESS_ID),
       });
     });
   });
@@ -45,6 +54,7 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserToken.LOAD_USER_TOKEN_SUCCESS,
         payload: token,
+        meta: entitySuccessMeta(PROCESS_FEATURE, AUTH_USER_PROCESS_ID),
       });
     });
   });
@@ -60,6 +70,7 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserToken.REFRESH_USER_TOKEN,
         payload: refreshTokenRequest,
+        meta: entityLoadMeta(PROCESS_FEATURE, AUTH_USER_PROCESS_ID),
       });
     });
   });
@@ -72,6 +83,7 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserToken.REFRESH_USER_TOKEN_FAIL,
         payload: error,
+        meta: entityFailMeta(PROCESS_FEATURE, AUTH_USER_PROCESS_ID),
       });
     });
   });
@@ -83,6 +95,7 @@ describe('User Token Actions', () => {
       expect({ ...action }).toEqual({
         type: fromUserToken.REFRESH_USER_TOKEN_SUCCESS,
         payload: token,
+        meta: entitySuccessMeta(PROCESS_FEATURE, AUTH_USER_PROCESS_ID),
       });
     });
   });
