@@ -85,27 +85,6 @@ const pageModules = [
         component: PageLayoutComponent,
         data: { cxPath: 'brand' },
       },
-      // redirect OLD links
-      {
-        path: 'Open-Catalogue/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' },
-      },
-      {
-        path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' },
-      },
-      {
-        path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' },
-      },
-      {
-        path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
-        redirectTo: null,
-        data: { cxRedirectTo: 'category' },
-      },
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
@@ -138,12 +117,6 @@ const pageModules = [
           pageLabel: 'update-profile',
           cxPath: 'updateProfile',
         },
-      },
-      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
-      {
-        path: '**',
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
       },
     ]),
   ],

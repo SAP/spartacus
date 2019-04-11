@@ -12,6 +12,8 @@ export * from './lib/occ/index';
 export * from './lib/product/index';
 export * from './lib/store-finder/index';
 export * from './lib/ui/index';
+export * from './lib/cms-route/index';
+export * from './lib/suffix-routes/index';
 export * from './lib/user/index';
 export * from './lib/pwa/pwa.module';
 export * from './lib/storefront.module';
