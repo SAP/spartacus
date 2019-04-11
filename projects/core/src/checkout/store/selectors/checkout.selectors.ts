@@ -5,7 +5,6 @@ import {
 } from '@ngrx/store';
 
 import { LoaderState } from '../../../state/utils/loader/loader-state';
-
 import {
   CHECKOUT_FEATURE,
   CheckoutState,
@@ -18,11 +17,10 @@ import {
   Order,
   PaymentDetails,
 } from '../../../occ/occ-models/index';
-
 import {
-  // loaderSuccessSelector,
+  loaderLoadingSelector,
+  loaderSuccessSelector,
   loaderValueSelector,
-  // loaderLoadingSelector,
 } from '../../../state/utils/loader/loader.selectors';
 
 export const getDeliveryAddressSelector = (state: CheckoutStepsState) =>
@@ -125,4 +123,12 @@ export const getCheckoutOrderDetails: MemoizedSelector<
 > = createSelector(
   getCheckoutSteps,
   getOrderDetailsSelector
+);
+
+export const getLoaded: MemoizedSelector<
+  StateWithCheckout,
+  boolean
+> = createSelector(
+  getCheckoutStepsState,
+  state => loaderSuccessSelector(state) && !loaderLoadingSelector(state)
 );
