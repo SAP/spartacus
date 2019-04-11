@@ -9,14 +9,26 @@ import { ProductPageComponent } from '../ui/pages/product-page/product-page.comp
   imports: [
     RouterModule.forChild([
       {
-        matcher: suffixUrlMatcher('p', 'productCode'),
+        matcher: suffixUrlMatcher,
         canActivate: [CmsPageGuard],
         component: ProductPageComponent,
+        data: {
+          cxSuffixUrlMatcher: {
+            marker: 'p',
+            paramName: 'productCode',
+          },
+        },
       },
       {
-        matcher: suffixUrlMatcher('c', 'categoryCode'),
+        matcher: suffixUrlMatcher,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
+        data: {
+          cxSuffixUrlMatcher: {
+            marker: 'c',
+            paramName: 'categoryCode',
+          },
+        },
       },
     ]),
   ],
