@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/product.action';
 import { ProductImageConverterService } from '../converters/product-image-converter.service';
@@ -20,15 +20,6 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import * as fromEffects from './product.effect';
 import { defaultOccProductConfig } from '../../config/product-config';
 import createSpy = jasmine.createSpy;
-
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-};
 
 const router = {
   state: {
@@ -77,7 +68,6 @@ describe('Product Effects', () => {
         { provide: ProductConnector, useClass: MockProductConnector },
         ProductImageConverterService,
         ProductReferenceConverterService,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),
