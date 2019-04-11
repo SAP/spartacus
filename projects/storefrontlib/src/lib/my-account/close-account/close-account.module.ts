@@ -10,6 +10,7 @@ import {
 
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 import { RouterModule } from '@angular/router';
+import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
 
 @NgModule({
   imports: [
@@ -23,8 +24,8 @@ import { RouterModule } from '@angular/router';
       },
     }),
   ],
-  declarations: [CloseAccountComponent],
+  declarations: [CloseAccountComponent, CloseAccountModalComponent],
   exports: [CloseAccountComponent],
-  entryComponents: [CloseAccountComponent],
+  entryComponents: [CloseAccountComponent, CloseAccountModalComponent],
 })
 export class CloseAccountModule {}

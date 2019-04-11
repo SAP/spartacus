@@ -1,15 +1,15 @@
 @import 'theme';
 
 :host {
-  display: flex;
-  justify-content: center;
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
 }
 
-.info {
+.cx-info {
   margin: var(--cx-margin, 0 0 3em 0);
 }
 
-.btn-group {
+.cx-btn-group {
   button {
     min-width: var(--cx-min-width, 100%);
     &:first-child {
@@ -18,10 +18,8 @@
   }
 
   @include media-breakpoint-down(md) {
-    button {
-      &:first-child {
-        margin: var(--cx-margin, 0 0 1em 0);
-      }
+    a:first-child {
+      margin: var(--cx-margin, 0 0 1em 0);
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 
 @Component({
   selector: 'cx-close-account',
@@ -8,11 +9,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CloseAccountComponent {
-  modalInstance: any;
-
   constructor(private modalService: NgbModal) {}
 
   openModal(): void {
-    this.modalInstance = this.modalService.open({});
+    this.modalService.open(CloseAccountModalComponent, {
+      centered: true,
+    });
   }
 }
