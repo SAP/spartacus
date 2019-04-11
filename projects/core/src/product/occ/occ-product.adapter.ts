@@ -5,7 +5,7 @@ import { Product } from '../../occ/occ-models/occ.models';
 import { HttpClient } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
-import { PRODUCT_NORMALIZER } from '../connectors/product/product.converters';
+import { PRODUCT_NORMALIZER } from '../connectors/product/converters';
 
 @Injectable()
 export class OccProductAdapter implements ProductAdapter {

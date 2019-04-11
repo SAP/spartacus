@@ -9,8 +9,8 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/product.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { ProductReferenceConverterService } from '../converters/product-reference-converter.service';
+import { ProductImageNormalizer } from '../../occ/converters/product-image-normalizer';
+import { ProductReferenceNormalizer } from '../../occ/converters/product-reference-normalizer';
 import { ProductConnector } from '../../connectors/product/product.connector';
 import { Product } from '../../../occ/occ-models';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -66,8 +66,8 @@ describe('Product Effects', () => {
       ],
       providers: [
         { provide: ProductConnector, useClass: MockProductConnector },
-        ProductImageConverterService,
-        ProductReferenceConverterService,
+        ProductImageNormalizer,
+        ProductReferenceNormalizer,
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductEffects,
         provideMockActions(() => actions$),

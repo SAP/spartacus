@@ -1,11 +1,24 @@
 import { Injectable } from '@angular/core';
 
-import { OccConfig } from '../../../occ/index';
+import { OccConfig } from '../../../occ';
 import { Product } from '../../../occ/occ-models/occ.models';
+import { Converter } from '../../../util/converter.service';
 
-@Injectable()
-export class ProductImageConverterService {
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductImageNormalizer implements Converter<Product, Product> {
   constructor(protected config: OccConfig) {}
+
+  convert(source: Product, target?: Product): Product {
+    if (target === undefined) {
+      target = { ...source };
+    }
+    if (source.images) {
+      target.images = this.populate(source.images);
+    }
+    return target;
+  }
 
   convertList(list: Array<Product>): void {
     if (!list) {

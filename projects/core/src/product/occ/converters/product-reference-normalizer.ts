@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { Product } from '../../../occ/occ-models/occ.models';
+import { Converter } from '../../../util/converter.service';
 
 @Injectable()
-export class ProductReferenceConverterService {
-  convertProduct(product: Product): void {
-    if (product.productReferences) {
-      product.productReferences = this.populate(product.productReferences);
+export class ProductReferenceNormalizer implements Converter<Product, Product> {
+  convert(source: Product, target?: Product): Product {
+    if (target === undefined) {
+      target = { ...source };
     }
+    if (source.productReferences) {
+      target.productReferences = this.populate(source.productReferences);
+    }
+    return target;
   }
 
   /**

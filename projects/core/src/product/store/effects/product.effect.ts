@@ -5,7 +5,6 @@ import { of, Observable } from 'rxjs';
 import { map, catchError, mergeMap, switchMap, groupBy } from 'rxjs/operators';
 
 import * as actions from '../actions/index';
-import * as converters from '../converters/index';
 import { ProductConnector } from '../../connectors/product/product.connector';
 
 @Injectable()
@@ -22,8 +21,6 @@ export class ProductEffects {
         switchMap(productCode => {
           return this.productConnector.get(productCode).pipe(
             map(product => {
-              this.productImageConverter.convertProduct(product);
-              this.productReferenceConverterService.convertProduct(product);
               return new actions.LoadProductSuccess(product);
             }),
             catchError(error =>
@@ -37,8 +34,6 @@ export class ProductEffects {
 
   constructor(
     private actions$: Actions,
-    private productConnector: ProductConnector,
-    private productImageConverter: converters.ProductImageConverterService,
-    private productReferenceConverterService: converters.ProductReferenceConverterService
+    private productConnector: ProductConnector
   ) {}
 }
