@@ -1,20 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import {
-  DebugElement,
-  Input,
-  Pipe,
-  PipeTransform,
-  Component,
-} from '@angular/core';
+import { DebugElement, Input, Component } from '@angular/core';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 
-import {
-  Component as SpaComponent,
-  TranslateUrlOptions,
-} from '@spartacus/core';
+import { Component as SpaComponent } from '@spartacus/core';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { FooterNavigationComponent } from './footer-navigation.component';
@@ -41,13 +32,6 @@ class MockGenericLinkComponent {
   url: string | any[];
   @Input()
   target: string;
-}
-
-@Pipe({ name: 'cxTranslateUrl' })
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path' + options.url;
-  }
 }
 
 describe('FooterNavigationComponent', () => {
@@ -86,7 +70,6 @@ describe('FooterNavigationComponent', () => {
         NavigationComponent,
         MockNavigationUIComponent,
         MockGenericLinkComponent,
-        MockTranslateUrlPipe,
       ],
       providers: [
         {

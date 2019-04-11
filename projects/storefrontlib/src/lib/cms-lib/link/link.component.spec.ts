@@ -18,15 +18,6 @@ const UseCmsModuleConfig: CmsConfig = {
   },
 };
 
-@Pipe({
-  name: 'cxTranslateUrl',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path' + options.url;
-  }
-}
-
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
   let fixture: ComponentFixture<LinkComponent>;
@@ -47,7 +38,7 @@ describe('LinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LinkComponent, MockTranslateUrlPipe],
+      declarations: [LinkComponent],
       providers: [
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
@@ -73,6 +64,6 @@ describe('LinkComponent', () => {
     const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain('/translated-path' + componentData.url);
+    expect(element.href).toContain(componentData.url);
   });
 });
