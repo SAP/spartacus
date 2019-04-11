@@ -125,7 +125,7 @@ export const getCheckoutOrderDetails: MemoizedSelector<
   getOrderDetailsSelector
 );
 
-export const getLoaded: MemoizedSelector<
+export const getCheckoutDetailsLoaded: MemoizedSelector<
   StateWithCheckout,
   boolean
 > = createSelector(

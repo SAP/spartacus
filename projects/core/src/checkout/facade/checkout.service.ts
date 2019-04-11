@@ -16,7 +16,7 @@ import {
   Address,
 } from '../../occ/occ-models/index';
 import { StateWithCheckout } from '../store/checkout-state';
-import * as fromSelector from '../../cart/store/selectors/index';
+import * as fromSelector from '../../checkout/store/selectors/index';
 
 @Injectable()
 export class CheckoutService {
@@ -254,8 +254,8 @@ export class CheckoutService {
     );
   }
 
-  getLoaded(): Observable<boolean> {
-    return this.checkoutStore.pipe(select(fromSelector.getLoaded));
+  getCheckoutDetailsLoaded(): Observable<boolean> {
+    return this.checkoutStore.pipe(select(fromSelector.getCheckoutDetailsLoaded));
   }
 
   private actionAllowed(): boolean {
