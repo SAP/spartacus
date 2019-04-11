@@ -1,5 +1,5 @@
-import * as addressBook from '../../helpers/address-book';
-import { formats } from '../../sample-data/viewports';
+import * as addressBook from '../../../helpers/address-book';
+import { formats } from '../../../sample-data/viewports';
 
 function addressBookTest() {
   describe('when anonymous user', () => {
@@ -11,7 +11,13 @@ function addressBookTest() {
   describe('when logged in', () => {
     before(() => {
       cy.requireLoggedIn();
-      cy.visit('/my-account/address-book');
+      cy.visit('/login');
+      cy.get('.cx-nav-link')
+        .getByText('My Account')
+        .click();
+      cy.get('.cx-nav-child-link')
+        .getByText('Address Book')
+        .click();
     });
 
     it('should display a new address form when no address exists', () => {

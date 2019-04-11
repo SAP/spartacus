@@ -8,7 +8,7 @@ describe('Added to cart modal', () => {
     cy.visit(`/product/${addedToCartModal.productId}`);
   });
 
-  it('basic modal behavior', () => {
+  it('testing itemCounter on PDP', () => {
     addedToCartModal.verifyItemCounterOnPDP();
   });
 
