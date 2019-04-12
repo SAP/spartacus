@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, filter, switchMap } from 'rxjs/operators';
-import { RoutingService } from '../../routing/facade/routing.service';
-import { ProductService } from '../facade/product.service';
-import { PageType, Product } from '../../occ/occ-models/occ.models';
-import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMeta } from '../../cms/model/page.model';
+import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
-  PageTitleResolver,
   PageDescriptionResolver,
   PageHeadingResolver,
   PageImageResolver,
+  PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { PageType, Product } from '../../occ/occ-models/occ.models';
+import { RoutingService } from '../../routing/facade/routing.service';
+import { ProductService } from '../facade/product.service';
 
 @Injectable({
   providedIn: 'root',
@@ -78,8 +78,12 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   private resolveFirstCategory(product: Product): string {
-    return product.categories && product.categories.length > 0
-      ? ` | ${product.categories[0].code}`
+    let firstCategory;
+    if (product.categories && product.categories.length > 0) {
+      firstCategory = product.categories[0];
+    }
+    return firstCategory
+      ? ` | ${firstCategory.name || firstCategory.code}`
       : '';
   }
 
