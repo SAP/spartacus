@@ -1,41 +1,44 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-import { throwError, Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
+import { ProductSearchAdapter } from '../connectors/search/product-search.adapter';
 import { SearchConfig } from '../model/search-config';
 import {
-  SuggestionList,
   ProductSearchPage,
+  SuggestionList,
 } from '../../occ/occ-models/occ.models';
 
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
-
-const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-  pageSize: 20,
-};
+import { ConverterService } from '../../util/converter.service';
+import {
+  PRODUCT_SEARCH_NORMALIZER,
+  PRODUCT_SUGGESTIONS_LIST_NORMALIZER,
+} from '../connectors/search/converters';
 
 @Injectable()
-export class ProductSearchLoaderService {
+export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   loadSearch(
     fullQuery: string,
-    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+    searchConfig: SearchConfig
   ): Observable<ProductSearchPage> {
     return this.http
       .get(this.getSearchEndpoint(fullQuery, searchConfig))
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(this.converter.pipeable(PRODUCT_SEARCH_NORMALIZER));
   }
 
-  loadSuggestions(term: string, pageSize = 3): Observable<SuggestionList> {
+  loadSuggestionList(
+    term: string,
+    pageSize: number
+  ): Observable<SuggestionList> {
     return this.http
       .get(this.getSuggestionEndpoint(term, pageSize.toString()))
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(this.converter.pipeable(PRODUCT_SUGGESTIONS_LIST_NORMALIZER));
   }
 
   protected getSearchEndpoint(

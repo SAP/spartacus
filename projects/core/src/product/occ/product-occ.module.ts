@@ -1,19 +1,23 @@
+import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { ProductSearchLoaderService } from './product-search.service';
-import { NgModule } from '@angular/core';
-import { ConfigModule } from '../../config/index';
+
 import { OccModule } from '../../occ/occ.module';
 import { defaultOccProductConfig } from '../config/product-config';
-import { PRODUCT_REVIEWS_NORMALIZER } from '../connectors/reviews/converters';
+import { ConfigModule } from '../../config/index';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
-import { OccProductReviewsListNormalizer } from './converters/occ-product-reviews-list-normalizer';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
+import { PRODUCT_REVIEWS_NORMALIZER } from '../connectors/reviews/converters';
+import { OccProductReviewsListNormalizer } from './converters/occ-product-reviews-list-normalizer';
 import { OccProductAdapter } from './occ-product.adapter';
 import { ProductAdapter } from '../connectors/product/product.adapter';
 import { PRODUCT_NORMALIZER } from '../connectors/product/converters';
 import { ProductImageNormalizer } from './converters/product-image-normalizer';
 import { ProductReferenceNormalizer } from './converters/product-reference-normalizer';
+import { ProductSearchAdapter } from '../connectors/search/product-search.adapter';
+import { OccProductSearchAdapter } from './occ-product-search.adapter';
+import { PRODUCT_SEARCH_NORMALIZER } from '../connectors/search/converters';
+import { OccProductSearchNormalizer } from './converters/occ-product-search-normalizer';
 
 @NgModule({
   imports: [
@@ -23,7 +27,6 @@ import { ProductReferenceNormalizer } from './converters/product-reference-norma
     ConfigModule.withConfig(defaultOccProductConfig),
   ],
   providers: [
-    ProductSearchLoaderService,
     {
       provide: ProductAdapter,
       useClass: OccProductAdapter,
@@ -36,6 +39,15 @@ import { ProductReferenceNormalizer } from './converters/product-reference-norma
     {
       provide: PRODUCT_NORMALIZER,
       useClass: ProductReferenceNormalizer,
+      multi: true,
+    },
+    {
+      provide: ProductSearchAdapter,
+      useClass: OccProductSearchAdapter,
+    },
+    {
+      provide: PRODUCT_SEARCH_NORMALIZER,
+      useClass: OccProductSearchNormalizer,
       multi: true,
     },
     {

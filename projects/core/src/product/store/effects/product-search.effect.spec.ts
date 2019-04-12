@@ -1,64 +1,53 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/product-search.action';
-import { ProductImageNormalizer } from '../../occ/converters/product-image-normalizer';
 import { SearchConfig } from '../../model/search-config';
-import { ProductSearchLoaderService } from '../../occ/product-search.service';
+import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { OccConfig } from '../../../occ/config/occ-config';
 import {
-  SuggestionList,
   ProductSearchPage,
+  SuggestionList,
 } from '../../../occ/occ-models/occ.models';
 
 import * as fromEffects from './product-search.effect';
 import { defaultOccProductConfig } from '../../config/product-config';
+import createSpy = jasmine.createSpy;
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-};
+const searchResult: ProductSearchPage = { products: [] };
+const suggestions: SuggestionList = { suggestions: [] };
+
+class MockProductSearchConnector {
+  search = createSpy().and.returnValue(of(searchResult));
+  getSuggestions = createSpy().and.returnValue(of(suggestions));
+}
 
 describe('ProductSearch Effects', () => {
   let actions$: Observable<Action>;
-  let service: ProductSearchLoaderService;
   let effects: fromEffects.ProductsSearchEffects;
   let searchConfig: SearchConfig;
 
-  const searchResult: ProductSearchPage = { products: [] };
-  const suggestions: SuggestionList = { suggestions: [] };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       providers: [
-        ProductSearchLoaderService,
-        ProductImageNormalizer,
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        {
+          provide: ProductSearchConnector,
+          useClass: MockProductSearchConnector,
+        },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductsSearchEffects,
         provideMockActions(() => actions$),
       ],
     });
 
-    service = TestBed.get(ProductSearchLoaderService);
     effects = TestBed.get(fromEffects.ProductsSearchEffects);
-
     searchConfig = { pageSize: 10 };
-
-    spyOn(service, 'loadSearch').and.returnValue(of(searchResult));
-    spyOn(service, 'loadSuggestions').and.returnValue(of(suggestions));
   });
 
   describe('searchProducts$', () => {
