@@ -1,12 +1,12 @@
 # CSS Architecture
-This document provides a highlevel overview of the CSS architecture of Spartacus.
+This document provides a high level overview of the CSS architecture of Spartacus.
 
 ## Style Library
 Spartacus is provided as a set of standard components, distributed in so-called *npm libraries*. Libraries are used to ensure both extensibility and upgradability at the same time. 
 
 To deliver full flexiblity for styling, all CSS rules are provided in a separate library (`@spartacus/styles`). This make the styles completely optional, configurable and extendible. Customers can extend or replace the standard styles as well as implement their own style rules. 
 
-Additionally, an existing UI framework such as Bootstrap can be used in Spartacus without making it a hardcoded depenendency.
+Additionally, an existing UI framework such as Bootstrap can be used in Spartacus without making it a hardcoded dependency.
 
 ### Style Library Versioning
 
@@ -30,16 +30,16 @@ The table below shows an example of some potential releases.
 
 ## CSS Technology
 Spartacus is developed with a combination of CSS techniques:
--  [SASS]() is used as the pre-processing language, like most of todays UI frameworks do
--  [CSS variables]() are used for global theming
--  [CSS post processing]() is intended to be used to polyfil any of required syntax for older browsers.
+-  [SASS](https://github.com/sass/node-sass) is used as the pre-processing language, like most of todays UI frameworks do
+-  [CSS custom properties](https://www.w3schools.com/css/css3_variables.asp) are used for global theming
+-  [CSS post processing](https://postcss.org/) is intended to be used to polyfil any of required syntax for older browsers.
 
 ### View encapsulation
 
-View encapsulation ensures isolation of styles in single DOM. View encapsulation can be used to ensure that the component style rules from one componet do not interfere with other components. View encapsulation is standardised in a web component architecture, profided by the so-called `shadow-dom`. Applications that do not leverage the shadow-dom there are a few alternatives avaiable: 
+View encapsulation ensures isolation of styles in single DOM. View encapsulation can be used to ensure that the component style rules from one component do not interfere with other components. View encapsulation is standardized in a web component architecture, profided by the so-called `shadow-dom`. Applications that do not leverage the shadow-dom there are a few alternatives avaiable: 
 
 - **Emulated encapsulation**  
-  Angular provides *emulated* view encapsulation by adding a (random) component ID to the generated CSS, so that the CSS rules are tightly coupled ot the component and will not intefere with other components. 
+  Angular provides *emulated* view encapsulation by adding a (random) component ID to the generated CSS, so that the CSS rules are tightly coupled ot the component and will not interfere with other components. 
 - **BEM**  
   BEM is an older technique that use a very specific class name convention to make the component styles specific to the given element(s).
 - **iFrames**  
@@ -47,7 +47,7 @@ View encapsulation ensures isolation of styles in single DOM. View encapsulation
 
 
 None of the above techniques work for spartacus:
-- Angulars emulated encapsulation cannot be used since the component styles are provided by the style library.
+- Angular's emulated encapsulation cannot be used since the component styles are provided by the style library.
 - BEM is considered old-fashion and complex. Moreover, a well defined finegrained component architecture doesn't need BEM to encapsulate the styles. 
 
 Instead, the fine-grained component selectors are used to encapsulate the styling. You can read more on this in the section regarding component styling.
@@ -78,7 +78,7 @@ cx-link {
 The CSS variables can be customised on the root of the document or for specific selectors. 
 
 ## Component Styles
-Spartacus exist of a large number of components that can be used by customers to build their storefront experience. Whitle commerce becomes a comodity, styling is by default opiniated. Not only the colors and fonts, but also the real estate of components as well as backgrounds, lines, etc. 
+Spartacus consists of a large number of components that can be used by customers to build their storefront experience. Whitle commerce becomes a comodity, styling is by default opiniated. Not only the colors and fonts, but also the real estate of components as well as backgrounds, lines, etc. 
 
 Whatever Spartacus delivers, it will *not* represent the customers brand/corporate identity. To this reason, Spoartacus intends to be highly flexible, so that component styles can be skipped entirely or extended by customers. 
 
@@ -115,7 +115,7 @@ cx-link {
 
 The `optional` flag ensures that code will not break during build whenever a specific import is not part of the imported styles. 
 
-Spartacus will generate the component styles using a simple function that iterates over all the configured component selectors. 
+Spartacus will generate the component by iterating over the configured component selectors.
 
 ## Page layout styles
 Global theming and component styles are most important to render components on the page, however the overall layout that orchestraters components on a page is another important style layer. This layer is detailed in the [page layout documentation](./page-layout.md). 
