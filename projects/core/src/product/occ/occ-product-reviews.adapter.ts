@@ -1,25 +1,32 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ReviewList, Review } from '../../occ/occ-models/occ.models';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Review } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { ConverterService } from '../../util/converter.service';
+import {
+  PRODUCT_REVIEW_SERIALIZER,
+  PRODUCT_REVIEWS_NORMALIZER,
+} from '../connectors/reviews/converters';
+import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 
 @Injectable()
-export class ProductReviewsLoaderService {
+export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   constructor(
     private http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
-  load(productCode: string, maxCount?: number): Observable<ReviewList> {
+  load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
       .get(this.getEndpoint(productCode, maxCount))
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(this.converter.pipeable(PRODUCT_REVIEWS_NORMALIZER));
   }
 
   post(productCode: string, review: any): Observable<Review> {
+    review = this.converter.convert(review, PRODUCT_REVIEW_SERIALIZER);
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
@@ -30,9 +37,9 @@ export class ProductReviewsLoaderService {
     body.append('rating', review.rating.toString());
     body.append('alias', review.alias);
 
-    return this.http
-      .post(this.getEndpoint(productCode), body.toString(), { headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.post(this.getEndpoint(productCode), body.toString(), {
+      headers,
+    });
   }
 
   protected getEndpoint(code: string, maxCount?: number): string {
