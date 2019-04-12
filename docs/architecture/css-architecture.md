@@ -48,7 +48,7 @@ View encapsulation ensures isolation of styles in single DOM. View encapsulation
 
 None of the above techniques work for spartacus:
 - Angular's emulated encapsulation cannot be used since the component styles are provided by the style library.
-- BEM is considered old-fashion and complex. Moreover, a well defined finegrained component architecture doesn't need BEM to encapsulate the styles. 
+- BEM is considered old-fashion and complex. Moreover, a well defined fine-grained component architecture doesn't need BEM to encapsulate the styles. 
 
 Instead, the fine-grained component selectors are used to encapsulate the styling. You can read more on this in the section regarding component styling.
 
