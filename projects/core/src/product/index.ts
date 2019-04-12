@@ -1,4 +1,5 @@
 export * from './model/search-config';
+export * from './model/product-model';
 export * from './occ/index';
 export * from './occ/product-occ.module';
 

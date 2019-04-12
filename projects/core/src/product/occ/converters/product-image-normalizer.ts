@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-
-import { OccConfig } from '../../../occ';
+import { Image, OccConfig } from '../../../occ';
 import { Product } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
+import { UIImages, UIProduct } from '../../model/product-model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductImageNormalizer implements Converter<Product, Product> {
+export class ProductImageNormalizer implements Converter<Product, UIProduct> {
   constructor(protected config: OccConfig) {}
 
-  convert(source: Product, target?: Product): Product {
+  convert(source: Product, target?: UIProduct): UIProduct {
     if (target === undefined) {
-      target = { ...source };
+      target = { ...(source as any) };
     }
     if (source.images) {
       target.images = this.normalize(source.images);
@@ -20,6 +20,11 @@ export class ProductImageNormalizer implements Converter<Product, Product> {
     return target;
   }
 
+  /**
+   * @deprecated Use `convert(source, target?) => target` instead
+   *
+   * TODO: Should be removed when all use cases will be refactored
+   */
   convertList(list: Array<Product>): void {
     if (!list) {
       return;
@@ -29,7 +34,12 @@ export class ProductImageNormalizer implements Converter<Product, Product> {
     }
   }
 
-  convertProduct(product: Product): void {
+  /**
+   * @deprecated Use `convert(source, target?) => target` instead
+   *
+   * TODO: Should be removed when all use cases will be refactored
+   */
+  convertProduct(product: any): void {
     if (product.images) {
       product.images = this.normalize(product.images);
     }
@@ -43,7 +53,7 @@ export class ProductImageNormalizer implements Converter<Product, Product> {
    * - images.primary.thumnail.url
    * - images.GALLERY[0].thumnail.url
    */
-  normalize(source: Array<any>): any {
+  normalize(source: Image[]): UIImages {
     const images = {};
     if (source) {
       for (const image of source) {

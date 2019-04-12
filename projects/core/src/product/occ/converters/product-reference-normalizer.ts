@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-
-import { Product } from '../../../occ/occ-models/occ.models';
+import { Product, ProductReference } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
+import { UIProduct, UIProductReferences } from '../../model/product-model';
 
 @Injectable()
-export class ProductReferenceNormalizer implements Converter<Product, Product> {
-  convert(source: Product, target?: Product): Product {
+export class ProductReferenceNormalizer
+  implements Converter<Product, UIProduct> {
+  convert(source: Product, target?: UIProduct): UIProduct {
     if (target === undefined) {
-      target = { ...source };
+      target = { ...(source as any) };
     }
+
     if (source.productReferences) {
       target.productReferences = this.normalize(source.productReferences);
     }
@@ -22,7 +24,7 @@ export class ProductReferenceNormalizer implements Converter<Product, Product> {
    * With that we have a semantic API for the clients
    * - product.references.SIMILAR[0].code
    */
-  protected normalize(source: Array<any>): any {
+  protected normalize(source: ProductReference[]): UIProductReferences {
     const references = {};
 
     if (source) {
