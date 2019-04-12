@@ -23,20 +23,25 @@ export function verifyItemCounterOnPDP() {
   cy.get('cx-product-summary .cx-counter-action')
     .contains('-')
     .should('be.disabled');
+}
 
-  // increase the quantity to 2 and add it to cart
-  cy.get('cx-product-summary .cx-counter-action')
-    .contains('+')
-    .click();
-
+export function addSameProductTwice() {
+  // add a product to cart
+  cy.visit(`/product/${productId}`);
   cy.get('cx-product-summary cx-add-to-cart button').click();
 
-  // Check if the text in the cart dialog and product summary in product details matches
-  cy.get('cx-added-to-cart-dialog .cx-name').then($cartItem => {
-    cy.get('cx-product-summary .name').then($productItem => {
-      expect($cartItem.text()).equal($productItem.text());
-    });
-  });
+  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
+    'have.value',
+    '1'
+  );
+  cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
+    'contain',
+    '1 items'
+  );
+  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
+
+  // add same product to cart again
+  cy.get('cx-product-summary cx-add-to-cart button').click();
 
   // quantity is correctly updated
   cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
@@ -46,14 +51,6 @@ export function verifyItemCounterOnPDP() {
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
     '2 items'
-  );
-
-  // check if the total is correct
-  cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
-    $cartTotalItemPrice => {
-      const totalPrice = $cartTotalItemPrice.text().trim();
-      expect(totalPrice).equal('$4,004.96');
-    }
   );
 
   // action buttons links correctly
@@ -67,28 +64,6 @@ export function verifyItemCounterOnPDP() {
     .then($href => {
       expect($href).contain('/checkout');
     });
-
-  // closing modal works
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
-  cy.get('cx-added-to-cart-dialog').should('not.exist');
-}
-
-export function addSameProductTwice() {
-  // increase the quantity to 3 items of the same product
-  cy.get('cx-product-summary cx-item-counter')
-    .contains('+')
-    .click();
-  cy.get('cx-product-summary cx-add-to-cart button').click();
-
-  // quantity is correctly updated
-  cy.get('cx-added-to-cart-dialog .cx-quantity .cx-counter-value').should(
-    'have.value',
-    '5'
-  );
-  cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-    'contain',
-    '5 items'
-  );
 
   // closing modal works
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
@@ -113,7 +88,7 @@ export function addDifferentProducts() {
   );
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    '6 items'
+    '3 items'
   );
 
   // check if the total is correct
@@ -133,7 +108,7 @@ export function addDifferentProducts() {
     .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
     .find('.cx-actions .link')
     .click();
-  cy.get('cx-cart-details').should('contain', 'Cart total (1 items):');
+  cy.get('cx-cart-details').should('contain', 'Cart total (1 item)');
 
   // check for the other product still exist
   cy.get('cx-cart-item-list .cx-item-list-items')
@@ -179,7 +154,7 @@ export function refreshPage() {
 
   cy.get('cx-product-summary cx-add-to-cart button').click();
 
-  cy.visit(`/product/${productId}`);
+  cy.reload();
 
   cy.get('cx-added-to-cart-dialog').should('not.exist');
 }

@@ -5,7 +5,11 @@ import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
-import { UserService, RoutingService } from '@spartacus/core';
+import {
+  UserService,
+  RoutingService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { ResetPasswordFormComponent } from './reset-password-form.component';
 
@@ -45,7 +49,7 @@ describe('ResetPasswordFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule],
+      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
       declarations: [ResetPasswordFormComponent],
       providers: [
         { provide: UserService, useClass: MockUserService },
@@ -90,9 +94,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(component.form.valid).toBeFalsy();
     const message = fixture.debugElement.query(By.css('.invalid-feedback'))
       .children[0].nativeElement.textContent;
-    expect(message).toEqual(
-      'Password must be six characters minimum, with one uppercase letter, one number, one symbol'
-    );
+    expect(message).toEqual('register.validation.passwordMinRequirements');
   });
 
   it('should form be invalid when password and repassword are not match', () => {
@@ -105,7 +107,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(component.form.valid).toBeFalsy();
     const message = fixture.debugElement.query(By.css('.invalid-feedback'))
       .children[0].nativeElement.textContent;
-    expect(message).toEqual('Both password must match');
+    expect(message).toEqual('register.validation.bothPasswordMustMatch');
   });
 
   it('should call resetPassword() method on submit', () => {
