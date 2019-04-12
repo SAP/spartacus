@@ -18,7 +18,7 @@ export class OccProductSearchNormalizer
     };
     if (source.products) {
       target.products = source.products.map(product =>
-        this.productImageNormalizer.convert(product)
+        this.productImageNormalizer.convert(product) as any
       );
     }
     return target;
