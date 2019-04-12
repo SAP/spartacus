@@ -15,7 +15,7 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
   );
 
   loadList = createSpy('CmsComponentAdapter.loadList').and.callFake(idList =>
-    of('component' + idList)
+    of(idList.map(id => 'component' + id))
   );
 }
 
@@ -27,6 +27,9 @@ const context: PageContext = {
 
 class MockCmsStructureConfigService {
   getComponentFromConfig = createSpy().and.returnValue(of(undefined));
+  getComponentsFromConfig = createSpy().and.returnValue(
+    of([undefined, undefined, 'config-component'])
+  );
 }
 
 describe('CmsComponentConnector', () => {
@@ -73,6 +76,22 @@ describe('CmsComponentConnector', () => {
     it('should call adapter', () => {
       service.getList(ids, context).subscribe();
       expect(adapter.loadList).toHaveBeenCalledWith(ids, context);
+    });
+    it('should use CmsStructureConfigService', () => {
+      const structureConfigService = TestBed.get(CmsStructureConfigService);
+      service.getList(ids, context).subscribe();
+      expect(
+        structureConfigService.getComponentsFromConfig
+      ).toHaveBeenCalledWith(ids);
+    });
+    it('should merge config data with components', () => {
+      let components;
+      service.getList(ids, context).subscribe(res => (components = res));
+      expect(components).toEqual([
+        'config-component',
+        'componentcomp_uid1',
+        'componentcomp_uid2',
+      ]);
     });
   });
 });
