@@ -5,7 +5,6 @@ import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { PageContext } from '../../../routing/models/page-context.model';
-import { IdList } from '../../model/idList.model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +31,7 @@ export class CmsComponentConnector {
   }
 
   getList(
-    idList: IdList,
+    ids: string[],
     pageContext: PageContext,
     fields?: string,
     currentPage?: number,
@@ -40,7 +39,7 @@ export class CmsComponentConnector {
     sort?: string
   ): Observable<CmsComponentList> {
     return this.adapter.loadList(
-      idList,
+      ids,
       pageContext,
       fields,
       currentPage,

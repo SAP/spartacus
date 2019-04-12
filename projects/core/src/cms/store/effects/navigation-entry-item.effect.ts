@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, filter, mergeMap, take } from 'rxjs/operators';
-
+import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import * as navigationItemActions from '../actions/navigation-entry-item.action';
-import { IdList } from '../../model/idList.model';
 import { RoutingService } from '../../../routing/index';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 
@@ -22,7 +19,7 @@ export class NavigationEntryItemEffects {
       };
     }),
     mergeMap(data => {
-      if (data.ids.componentIds.idList.length > 0) {
+      if (data.ids.componentIds.length > 0) {
         return this.routingService.getRouterState().pipe(
           filter(routerState => routerState !== undefined),
           map(routerState => routerState.state.context),
@@ -35,7 +32,7 @@ export class NavigationEntryItemEffects {
                 pageContext,
                 'DEFAULT',
                 0,
-                data.ids.componentIds.idList.length
+                data.ids.componentIds.length
               )
               .pipe(
                 map(
@@ -56,10 +53,10 @@ export class NavigationEntryItemEffects {
               );
           })
         );
-      } else if (data.ids.pageIds.idList.length > 0) {
+      } else if (data.ids.pageIds.length > 0) {
         // TODO: future work
         // dispatch action to load cms page one by one
-      } else if (data.ids.mediaIds.idList.length > 0) {
+      } else if (data.ids.mediaIds.length > 0) {
         // TODO: future work
         // send request to get list of media
       } else {
@@ -74,18 +71,20 @@ export class NavigationEntryItemEffects {
   );
 
   // We only consider 3 item types: cms page, cms component, and media.
-  getIdListByItemType(itemList: any[]): any {
-    const pageIds: IdList = { idList: [] };
-    const componentIds: IdList = { idList: [] };
-    const mediaIds: IdList = { idList: [] };
+  getIdListByItemType(
+    itemList: any[]
+  ): { pageIds: string[]; componentIds: string[]; mediaIds: string[] } {
+    const pageIds: string[] = [];
+    const componentIds: string[] = [];
+    const mediaIds: string[] = [];
 
     itemList.forEach(item => {
       if (item.superType === 'AbstractCMSComponent') {
-        componentIds.idList.push(item.id);
+        componentIds.push(item.id);
       } else if (item.superType === 'AbstractPage') {
-        pageIds.idList.push(item.id);
+        pageIds.push(item.id);
       } else if (item.superType === 'AbstractMedia') {
-        mediaIds.idList.push(item.id);
+        mediaIds.push(item.id);
       }
     });
     return { pageIds: pageIds, componentIds: componentIds, mediaIds: mediaIds };

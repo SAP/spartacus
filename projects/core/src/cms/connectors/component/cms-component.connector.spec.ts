@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { CmsComponentConnector } from './cms-component.connector';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import {
@@ -8,7 +7,6 @@ import {
   PageType,
 } from '@spartacus/core';
 import { of } from 'rxjs/internal/observable/of';
-import { IdList } from '../../model/idList.model';
 import createSpy = jasmine.createSpy;
 
 class MockCmsComponentAdapter implements CmsComponentAdapter {
@@ -21,7 +19,7 @@ class MockCmsComponentAdapter implements CmsComponentAdapter {
   );
 }
 
-const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
+const ids = ['comp_uid1', 'comp_uid2'];
 const context: PageContext = {
   id: '123',
   type: PageType.PRODUCT_PAGE,

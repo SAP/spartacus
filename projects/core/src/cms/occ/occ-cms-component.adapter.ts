@@ -45,7 +45,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   loadList(
-    idList: IdList,
+    ids: string[],
     pageContext: PageContext,
     fields?: string,
     currentPage?: number,
@@ -64,6 +64,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     if (sort !== undefined) {
       requestParams = requestParams + '&sort=' + sort;
     }
+
+    const idList: IdList = { idList: ids };
 
     return this.http
       .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {

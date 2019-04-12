@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { PageContext } from '../../../routing/models/page-context.model';
-import { IdList } from '../../model/idList.model';
 import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
 
 export abstract class CmsComponentAdapter {
@@ -18,7 +17,7 @@ export abstract class CmsComponentAdapter {
   ): Observable<T>;
 
   abstract loadList(
-    idList: IdList,
+    ids: string[],
     pageContext: PageContext,
     fields?: string,
     currentPage?: number,

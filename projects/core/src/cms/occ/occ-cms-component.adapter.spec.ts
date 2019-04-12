@@ -12,7 +12,6 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
 import { CmsStructureConfigService } from '../services';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
-import { IdList } from '../model/idList.model';
 import { HttpRequest } from '@angular/common/http';
 import {
   CMS_COMPONENT_LIST_NORMALIZER,
@@ -53,7 +52,7 @@ const context: PageContext = {
   type: PageType.PRODUCT_PAGE,
 };
 
-const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
+const ids = ['comp_uid1', 'comp_uid2'];
 
 describe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
@@ -121,7 +120,7 @@ describe('OccCmsComponentAdapter', () => {
         return req.method === 'POST' && req.url === endpoint + '/components';
       });
 
-      expect(testRequest.request.body).toEqual(ids);
+      expect(testRequest.request.body).toEqual({ idList: ids });
       expect(testRequest.request.params.get('productCode')).toEqual('123');
 
       expect(testRequest.cancelled).toBeFalsy();
@@ -139,7 +138,7 @@ describe('OccCmsComponentAdapter', () => {
       });
 
       const request: HttpRequest<any> = testRequest.request;
-      expect(request.body).toEqual(ids);
+      expect(request.body).toEqual({ idList: ids });
       expect(request.params.get('productCode')).toEqual('123');
       expect(request.params.get('fields')).toEqual('FULL');
       expect(request.params.get('currentPage')).toEqual('0');
