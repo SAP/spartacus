@@ -1,3 +1,4 @@
-export * from './product.service';
+export * from './occ-product.adapter';
 export * from './product-search.service';
-export * from './product-reviews.service';
+export * from './occ-product-reviews.adapter';
+export * from './converters/index';
