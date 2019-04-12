@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
+  AuthService,
   GlobalMessage,
   GlobalMessageService,
   GlobalMessageType,
@@ -46,6 +47,11 @@ class MockUserService {
     return of();
   }
 }
+
+class MockAuthService {
+  logout(): void {}
+}
+
 class MockRoutingService {
   go(
     _pathOrTranslateUrlOptions: any[] | TranslateUrlOptions,
@@ -63,6 +69,7 @@ describe('UpdateEmailComponent', () => {
   let el: DebugElement;
 
   let userService: UserService;
+  let authService: AuthService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
@@ -78,6 +85,10 @@ describe('UpdateEmailComponent', () => {
         {
           provide: UserService,
           useClass: MockUserService,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
         },
         {
           provide: RoutingService,
@@ -97,6 +108,7 @@ describe('UpdateEmailComponent', () => {
     el = fixture.debugElement;
 
     userService = TestBed.get(UserService);
+    authService = TestBed.get(AuthService);
     routingService = TestBed.get(RoutingService);
     globalMessageService = TestBed.get(GlobalMessageService);
 
@@ -155,6 +167,7 @@ describe('UpdateEmailComponent', () => {
     describe('when the user was successfully updated', () => {
       it('should add a global message and navigate to a url ', () => {
         spyOn(userService, 'updateEmail').and.stub();
+        spyOn(authService, 'logout').and.stub();
 
         const newUid = 'new@sap.com';
 
@@ -166,11 +179,13 @@ describe('UpdateEmailComponent', () => {
         component.onSuccess(true);
 
         expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: `Email address successfully updated to ${newUid}`,
+          text: `Success: Please sign in with ${newUid}`,
           type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         });
 
-        expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
+        expect(authService.logout).toHaveBeenCalled();
+
+        expect(routingService.go).toHaveBeenCalledWith({ route: ['login'] });
       });
     });
 
