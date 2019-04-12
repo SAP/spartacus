@@ -472,13 +472,9 @@ export class UserService {
   getUpdateEmailFlowSuccess(): Observable<boolean> {
     return combineLatest(
       this.store.pipe(
-        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID)),
-        tap(sucess => console.log('email', sucess))
+        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID))
       ),
-      this.store.pipe(
-        select(getProcessSuccessFactory(AUTH_USER_PROCESS_ID)),
-        tap(sucess => console.log('auth', sucess))
-      )
+      this.store.pipe(select(getProcessSuccessFactory(AUTH_USER_PROCESS_ID)))
     ).pipe(map(([emailSuccess, authSuccess]) => emailSuccess && authSuccess));
   }
 
