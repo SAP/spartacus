@@ -32,19 +32,8 @@ export class CmsComponentConnector {
 
   getList(
     ids: string[],
-    pageContext: PageContext,
-    fields?: string,
-    currentPage?: number,
-    pageSize?: number,
-    sort?: string
+    pageContext: PageContext
   ): Observable<CmsComponentList> {
-    return this.adapter.loadList(
-      ids,
-      pageContext,
-      fields,
-      currentPage,
-      pageSize,
-      sort
-    );
+    return this.adapter.loadList(ids, pageContext);
   }
 }

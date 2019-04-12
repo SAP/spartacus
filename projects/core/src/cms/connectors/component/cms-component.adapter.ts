@@ -18,10 +18,6 @@ export abstract class CmsComponentAdapter {
 
   abstract loadList(
     ids: string[],
-    pageContext: PageContext,
-    fields?: string,
-    currentPage?: number,
-    pageSize?: number,
-    sort?: string
+    pageContext: PageContext
   ): Observable<CmsComponentList>;
 }

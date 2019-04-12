@@ -47,9 +47,9 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   loadList(
     ids: string[],
     pageContext: PageContext,
-    fields?: string,
-    currentPage?: number,
-    pageSize?: number,
+    fields = 'DEFAULT',
+    currentPage = 0,
+    pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponentList> {
     let requestParams = this.getRequestParams(pageContext, fields);

@@ -72,14 +72,7 @@ describe('CmsComponentConnector', () => {
   describe('getList', () => {
     it('should call adapter', () => {
       service.getList(ids, context).subscribe();
-      expect(adapter.loadList).toHaveBeenCalledWith(
-        ids,
-        context,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      );
+      expect(adapter.loadList).toHaveBeenCalledWith(ids, context);
     });
   });
 });

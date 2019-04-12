@@ -27,13 +27,7 @@ export class NavigationEntryItemEffects {
           mergeMap(pageContext => {
             // download all items in one request
             return this.cmsComponentConnector
-              .getList(
-                data.ids.componentIds,
-                pageContext,
-                'DEFAULT',
-                0,
-                data.ids.componentIds.length
-              )
+              .getList(data.ids.componentIds, pageContext)
               .pipe(
                 map(
                   res =>
