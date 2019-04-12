@@ -54,18 +54,14 @@ describe('RoutingService', () => {
     });
 
     it('should dispatch navigation action with translated path when first argument is an object', () => {
-      spyOn(urlTranslator, 'translate').and.returnValue([
-        '',
-        'translated',
-        'path',
-      ]);
-      service.go({ route: ['testRoute'] });
+      spyOn(urlTranslator, 'translate').and.returnValue(['translated', 'path']);
+      service.go({ route: 'testRoute' });
       expect(urlTranslator.translate).toHaveBeenCalledWith({
-        route: ['testRoute'],
+        route: 'testRoute',
       });
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
-          path: ['', 'translated', 'path'],
+          path: ['translated', 'path'],
           query: undefined,
           extras: undefined,
         })

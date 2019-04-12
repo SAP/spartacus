@@ -8,7 +8,7 @@ import { TranslateUrlOptions } from './translate-url-options';
 export class TranslateUrlPipe implements PipeTransform {
   constructor(private urlTranslator: UrlTranslationService) {}
 
-  transform(options: TranslateUrlOptions): string | string[] {
+  transform(options: TranslateUrlOptions): string[] {
     return this.urlTranslator.translate(options);
   }
 }

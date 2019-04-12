@@ -79,12 +79,10 @@ describe('SearchBoxComponentService', () => {
       service.launchSearchPage(mockQueryString);
       expect(service.launchSearchPage).toHaveBeenCalled();
       expect(routingServiceMock.go).toHaveBeenCalledWith({
-        route: [
-          {
-            name: 'search',
-            params: { query: mockQueryString },
-          },
-        ],
+        route: {
+          name: 'search',
+          params: { query: mockQueryString },
+        },
       });
     }
   ));

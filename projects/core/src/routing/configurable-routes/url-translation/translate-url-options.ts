@@ -6,5 +6,5 @@ export interface TranslateUrlOptionsRouteObject {
 export type TranslateUrlOptionsRoute = string | TranslateUrlOptionsRouteObject;
 
 export interface TranslateUrlOptions {
-  route?: TranslateUrlOptionsRoute[];
+  route?: TranslateUrlOptionsRoute;
 }

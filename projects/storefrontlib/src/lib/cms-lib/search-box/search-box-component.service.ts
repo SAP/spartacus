@@ -69,7 +69,7 @@ export class SearchBoxComponentService {
 
   public launchSearchPage(query: string): void {
     this.routingService.go({
-      route: [{ name: 'search', params: { query } }],
+      route: { name: 'search', params: { query } },
     });
   }
 

@@ -19,8 +19,8 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path/' + options.route[0];
+  transform(options: TranslateUrlOptions): string {
+    return options.route as string;
   }
 }
 
@@ -93,7 +93,7 @@ describe('MiniCartComponent', () => {
     it('should contain link to cart page', () => {
       const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
         .attributes.href.value;
-      expect(linkHref).toBe('/translated-path/cart');
+      expect(linkHref).toBe('/cart');
     });
 
     it('should contain number of items in cart', () => {

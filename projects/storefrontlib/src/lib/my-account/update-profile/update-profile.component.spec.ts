@@ -153,7 +153,7 @@ describe('UpdateProfileComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
+    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
   });
 
   it('should call updatePersonalDetails on submit', () => {
@@ -193,7 +193,7 @@ describe('UpdateProfileComponent', () => {
           text: 'Personal details successfully updated',
           type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         });
-        expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
+        expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
       });
     });
 

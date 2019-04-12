@@ -54,7 +54,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: [{ name: 'orderDetails', params: order }]
+                      route: { name: 'orderDetails', params: order }
                     } | cxTranslateUrl
                   "
                   class="cx-order-history-value"
@@ -69,7 +69,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: [{ name: 'orderDetails', params: order }]
+                      route: { name: 'orderDetails', params: order }
                     } | cxTranslateUrl
                   "
                   class="cx-order-history-value"
@@ -83,7 +83,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: [{ name: 'orderDetails', params: order }]
+                      route: { name: 'orderDetails', params: order }
                     } | cxTranslateUrl
                   "
                   class="cx-order-history-value"
@@ -98,7 +98,7 @@
                 <a
                   [routerLink]="
                     {
-                      route: [{ name: 'orderDetails', params: order }]
+                      route: { name: 'orderDetails', params: order }
                     } | cxTranslateUrl
                   "
                   class="cx-order-history-value"
@@ -139,7 +139,7 @@
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>{{ 'orderHistory.label.noOrders' | cxTranslate }}</div>
             <a
-              [routerLink]="{ route: ['home'] } | cxTranslateUrl"
+              [routerLink]="{ route: 'home' } | cxTranslateUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
               >{{ 'orderHistory.action.startShopping' | cxTranslate }}</a

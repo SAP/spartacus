@@ -207,7 +207,7 @@ describe('ShippingAddressComponent', () => {
   it('should call back()', () => {
     component.back();
     expect(mockRouting.go).toHaveBeenCalledWith({
-      route: ['cart'],
+      route: 'cart',
     });
   });
 

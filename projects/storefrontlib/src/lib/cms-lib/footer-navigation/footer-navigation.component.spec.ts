@@ -123,9 +123,7 @@ describe('FooterNavigationComponent', () => {
       const link = column.query(By.css('cx-generic-link'));
 
       expect(link.nativeElement.innerHTML).toContain(mockLinks[0].title);
-      expect(link.componentInstance.url).toEqual(
-        '/translated-path' + mockLinks[0].url
-      );
+      expect(link.componentInstance.url).toEqual(mockLinks[0].url);
     });
 
     it('should have the correct target', () => {

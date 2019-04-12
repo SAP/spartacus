@@ -29,7 +29,7 @@ Then additional params are also needed in `{ route: <route> }` (otherwise path c
 1. `{ route: <route> }` also needs the new `productName` param:
 
     ```html
-    <a [routerLink]="{ route: [ { name: 'product', params: { productName: 'ABC', productCode: 1234 } } ] } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: { name: 'product', params: { productName: 'ABC', productCode: 1234 } } } | cxTranslateUrl"></a>
     ```
 
     result:

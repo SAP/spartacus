@@ -169,7 +169,7 @@ describe('SmartEditService', () => {
       service['getCmsTicket']();
       service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
-        route: [{ name: 'product', params: { code: 2053367 } }],
+        route: { name: 'product', params: { code: 2053367 } },
       });
     });
 
@@ -192,7 +192,7 @@ describe('SmartEditService', () => {
       service['getCmsTicket']();
       service['addPageContract']();
       expect(routingService.go).toHaveBeenCalledWith({
-        route: [{ name: 'category', params: { code: 575 } }],
+        route: { name: 'category', params: { code: 575 } },
       });
     });
   });

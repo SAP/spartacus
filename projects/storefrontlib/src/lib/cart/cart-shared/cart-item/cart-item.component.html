@@ -3,7 +3,7 @@
   <div class="col-2 cx-image-container">
     <a
       [routerLink]="
-        { route: [{ name: 'product', params: item.product }] } | cxTranslateUrl
+        { route: { name: 'product', params: item.product } } | cxTranslateUrl
       "
     >
       <cx-picture
@@ -21,7 +21,7 @@
           <a
             class="cx-link"
             [routerLink]="
-              { route: [{ name: 'product', params: item.product }] }
+              { route: { name: 'product', params: item.product } }
                 | cxTranslateUrl
             "
             >{{ item.product.name }}</a

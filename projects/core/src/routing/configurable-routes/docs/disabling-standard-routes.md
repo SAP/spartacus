@@ -34,7 +34,7 @@ Then [configurable router links](./configurable-router-links.md) will output:
 1. For `{ route: <route> } `
 
     ```html
-    <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
+    <a [routerLink]="{ route: { name: 'product', params: { productCode: 1234 } } } | cxTranslateUrl"></a>
     ```
 
     result

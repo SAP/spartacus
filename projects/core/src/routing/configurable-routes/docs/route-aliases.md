@@ -56,9 +56,7 @@ ConfigModule.withConfig({
     1. when `campaignName` param **is** given:
 
         ```html
-        <a [routerLink]="{ route: [ 
-            { name: 'product', params: { productCode: 1234, campaignName: 'sale' } } 
-        ] } | cxTranslateUrl"></a>
+        <a [routerLink]="{ route: { name: 'product', params: { productCode: 1234, campaignName: 'sale' } } } | cxTranslateUrl"></a>
         ```
 
         result
@@ -70,7 +68,7 @@ ConfigModule.withConfig({
     2. when `campaignName` param **is not** given:
 
         ```html
-        <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
+        <a [routerLink]="{ route: { name: 'product', params: { productCode: 1234 } } } | cxTranslateUrl"></a>
         ```
 
         result
@@ -123,15 +121,13 @@ All following examples result in the same:
     1. when `campaignName` param **is** given:
     
         ```html
-        <a [routerLink]="{ route: [ 
-            { name: 'product', params: { productCode: 1234, campaignName: 'sale' } } 
-        ] } | cxTranslateUrl"></a>
+        <a [routerLink]="{ route: { name: 'product', params: { productCode: 1234, campaignName: 'sale' } } } | cxTranslateUrl"></a>
         ```
 
     2. when `campaignName` param **is not** given:
 
         ```html
-        <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
+        <a [routerLink]="{ route: { name: 'product', params: { productCode: 1234 } } } | cxTranslateUrl"></a>
         ```
 
 ## Subjects of change
