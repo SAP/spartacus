@@ -15,11 +15,13 @@ import {
   AddressValidation,
   Address,
 } from '../../occ/occ-models/index';
+import { StateWithCheckout } from '../store/checkout-state';
+import * as fromSelector from '../../checkout/store/selectors/index';
 
 @Injectable()
 export class CheckoutService {
   constructor(
-    private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
+    private checkoutStore: Store<StateWithCheckout>,
     private cartData: CartDataService
   ) {}
 
@@ -249,6 +251,12 @@ export class CheckoutService {
   loadCheckoutDetails(userId: string, cartId: string) {
     this.checkoutStore.dispatch(
       new fromCheckoutStore.LoadCheckoutDetails({ userId, cartId })
+    );
+  }
+
+  getCheckoutDetailsLoaded(): Observable<boolean> {
+    return this.checkoutStore.pipe(
+      select(fromSelector.getCheckoutDetailsLoaded)
     );
   }
 

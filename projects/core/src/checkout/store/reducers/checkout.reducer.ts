@@ -157,11 +157,3 @@ export function reducer(
 
   return state;
 }
-
-export const getDeliveryAddress = (state: CheckoutStepsState) => state.address;
-export const getDeliveryMode = (state: CheckoutStepsState) =>
-  state.deliveryMode;
-export const getPaymentDetails = (state: CheckoutStepsState) =>
-  state.paymentDetails;
-export const getOrderDetails = (state: CheckoutStepsState) =>
-  state.orderDetails;

@@ -1,22 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  map,
+  shareReplay,
+  skipUntil,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import {
   Address,
-  DeliveryMode,
   PaymentDetails,
   CheckoutService,
   CartService,
   AuthService,
 } from '@spartacus/core';
-import { shareReplay } from 'rxjs/internal/operators/shareReplay';
 
 @Injectable()
 export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;
   checkoutDetails$: Observable<[string, string]>;
+  getLoaded$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -31,12 +37,15 @@ export class CheckoutDetailsService {
       .getActive()
       .pipe(map(cartData => cartData.code));
 
+    this.getLoaded$ = this.checkoutService.getCheckoutDetailsLoaded();
+
     this.checkoutDetails$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),
       tap(([userId, cartId]: [string, string]) =>
         this.checkoutService.loadCheckoutDetails(userId, cartId)
       ),
-      shareReplay(1, undefined)
+      shareReplay(1, undefined),
+      skipUntil(this.getLoaded$)
     );
   }
 
@@ -46,9 +55,9 @@ export class CheckoutDetailsService {
     );
   }
 
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return this.checkoutDetails$.pipe(
-      switchMap(() => this.checkoutService.getSelectedDeliveryMode())
+      switchMap(() => this.checkoutService.getSelectedDeliveryModeCode())
     );
   }
 

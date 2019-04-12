@@ -1,6 +1,8 @@
+import { CheckoutStep } from './model/checkout-step.model';
+
 export abstract class CheckoutConfig {
   checkout?: {
-    steps: Array<string>;
+    steps: Array<CheckoutStep>;
     shippingAddress?: string;
   };
 }
