@@ -275,6 +275,7 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path5' },
       ]);
     });
+  });
 
   describe('getNestedRoutesTranslations', () => {
     it('should return configured paths translations for given page name', async () => {
