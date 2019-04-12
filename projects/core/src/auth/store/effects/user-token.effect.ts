@@ -42,7 +42,8 @@ export class UserTokenEffects {
           token.userId = userId;
           token.expiration_time = date;
           return new fromActions.RefreshUserTokenSuccess(token);
-        }, catchError(error => of(new fromActions.RefreshUserTokenFail(error))))
+        }),
+        catchError(error => of(new fromActions.RefreshUserTokenFail(error)))
       );
     })
   );
