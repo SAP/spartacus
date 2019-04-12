@@ -1,21 +1,15 @@
-import { HttpRequest } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  CmsComponent,
-  CmsComponentList,
-  CMSPage,
-  PageType,
-} from '../../occ/occ-models/index';
+import { CmsComponent, PageType } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
-import { CmsStructureConfig } from '../config';
-import { IdList } from '../model/idList.model';
-import { CmsPageAdapter, CmsStructureConfigService } from '../services';
-import { OccCmsPageLoader } from './occ-cms-page.loader';
+import { CmsStructureConfigService } from '../services';
+import { OccCmsPageAdapter } from './occ-cms-page.adapter';
+import { CMS_PAGE_NORMALIZE, ConverterService } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -23,7 +17,7 @@ const components: CmsComponent[] = [
   { uid: 'comp3', typeCode: 'NavigationComponent' },
 ];
 
-const cmsPageData: CMSPage = {
+const cmsPageData: any = {
   uid: 'testPageId',
   name: 'testPage',
   template: 'testTemplate',
@@ -34,33 +28,7 @@ const cmsPageData: CMSPage = {
   },
 };
 
-const componentList: CmsComponentList = {
-  component: [{ uid: 'comp_uid1' }, { uid: 'comp_uid2' }],
-  pagination: { count: 10 },
-};
-
-const CmsStructureConfigMock: CmsStructureConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
-  },
-
-  site: {
-    baseSite: '',
-    language: '',
-    currency: '',
-  },
-  cmsStructure: {
-    pages: [],
-    slots: {},
-  },
-};
-
 class CmsStructureConfigServiceMock {}
-
-class AdapterMock {}
 
 const endpoint = '/cms';
 
@@ -70,29 +38,29 @@ class OccEndpointsServiceMock {
   }
 }
 
-describe('OccCmsPageLoader', () => {
-  let service: OccCmsPageLoader;
+class MockComverterService {
+  pipeable = createSpy().and.returnValue(x => x);
+}
+
+describe('OccCmsPageAdapter', () => {
+  let service: OccCmsPageAdapter;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCmsPageLoader,
+        OccCmsPageAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
-        {
-          provide: CmsStructureConfig,
-          useValue: CmsStructureConfigMock,
-        },
         {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
         },
-        { provide: CmsPageAdapter, useClass: AdapterMock },
+        { provide: ConverterService, useClass: MockComverterService },
       ],
     });
 
-    service = TestBed.get(OccCmsPageLoader);
+    service = TestBed.get(OccCmsPageAdapter);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -166,60 +134,22 @@ describe('OccCmsPageLoader', () => {
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);
     });
-  });
 
-  describe('Load list of cms component data', () => {
-    it('Should get a list of cms component data without pagination parameters', () => {
-      const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
+    it('should use normalizer', () => {
       const context: PageContext = {
         id: '123',
         type: PageType.PRODUCT_PAGE,
       };
 
-      service.loadListComponents(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList);
-      });
+      const converter = TestBed.get(ConverterService);
 
-      const testRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === endpoint + '/components';
-      });
+      service.load(context).subscribe();
 
-      expect(testRequest.request.body).toEqual(ids);
-      expect(testRequest.request.params.get('productCode')).toEqual('123');
+      httpMock
+        .expectOne(req => req.url === endpoint + '/pages')
+        .flush(cmsPageData);
 
-      expect(testRequest.cancelled).toBeFalsy();
-      expect(testRequest.request.responseType).toEqual('json');
-      testRequest.flush(componentList);
-    });
-
-    it('Should get a list of cms component data with pagination parameters', () => {
-      const ids: IdList = { idList: ['comp_uid1', 'comp_uid2'] };
-      const context: PageContext = {
-        id: '123',
-        type: PageType.PRODUCT_PAGE,
-      };
-
-      service
-        .loadListComponents(ids, context, 'FULL', 0, 5)
-        .subscribe(result => {
-          expect(result).toEqual(componentList);
-        });
-
-      const testRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === endpoint + '/components';
-      });
-
-      const request: HttpRequest<any> = testRequest.request;
-      expect(request.body).toEqual(ids);
-      expect(request.params.get('productCode')).toEqual('123');
-      expect(request.params.get('fields')).toEqual('FULL');
-      expect(request.params.get('currentPage')).toEqual('0');
-      expect(request.params.get('pageSize')).toEqual('5');
-
-      expect(request.responseType).toEqual('json');
-
-      expect(testRequest.cancelled).toBeFalsy();
-      testRequest.flush(componentList);
+      expect(converter.pipeable).toHaveBeenCalledWith(CMS_PAGE_NORMALIZE);
     });
   });
 });
