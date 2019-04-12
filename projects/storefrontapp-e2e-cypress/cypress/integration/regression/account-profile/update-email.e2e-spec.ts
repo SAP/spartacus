@@ -59,7 +59,7 @@ describe('Update email', () => {
     it('should be able to login with its new email', () => {
       login(newUid, password);
 
-      // TODO: uncomment below's component and remove update-email assertion when #1957 is implemented
+      // TODO: uncomment below component and remove update-email assertion when #1957 is implemented
       cy.get('cx-update-email').should('exist');
       // cy.get('.ElectronicsHompageSplashBannerComponent').should('exist');
     });
