@@ -37,12 +37,16 @@ class MockCheckoutService {
     return of();
   }
 
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryModeCode(): Observable<DeliveryMode> {
     return of();
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
     return of();
+  }
+
+  getCheckoutDetailsLoaded(): Observable<boolean> {
+    return of(true);
   }
 }
 
