@@ -15,7 +15,7 @@ export class ProductImageNormalizer implements Converter<Product, Product> {
       target = { ...source };
     }
     if (source.images) {
-      target.images = this.populate(source.images);
+      target.images = this.normalize(source.images);
     }
     return target;
   }
@@ -31,19 +31,19 @@ export class ProductImageNormalizer implements Converter<Product, Product> {
 
   convertProduct(product: Product): void {
     if (product.images) {
-      product.images = this.populate(product.images);
+      product.images = this.normalize(product.images);
     }
   }
 
   /**
    * @desc
-   * Creates the image structue we'd like to have. Instead of
-   * having a singel list with all images despite type and format
+   * Creates the image structure we'd like to have. Instead of
+   * having a single list with all images despite type and format
    * we create a proper structure. With that we can do:
    * - images.primary.thumnail.url
    * - images.GALLERY[0].thumnail.url
    */
-  populate(source: Array<any>): any {
+  normalize(source: Array<any>): any {
     const images = {};
     if (source) {
       for (const image of source) {

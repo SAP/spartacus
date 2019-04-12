@@ -10,19 +10,19 @@ export class ProductReferenceNormalizer implements Converter<Product, Product> {
       target = { ...source };
     }
     if (source.productReferences) {
-      target.productReferences = this.populate(source.productReferences);
+      target.productReferences = this.normalize(source.productReferences);
     }
     return target;
   }
 
   /**
    * @desc
-   * Creates the reference structue we'd like to have. Instead of
+   * Creates the reference structure we'd like to have. Instead of
    * having a single list with all references we create a proper structure.
    * With that we have a semantic API for the clients
    * - product.references.SIMILAR[0].code
    */
-  protected populate(source: Array<any>): any {
+  protected normalize(source: Array<any>): any {
     const references = {};
 
     if (source) {
