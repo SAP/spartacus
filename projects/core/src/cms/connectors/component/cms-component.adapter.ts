@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { PageContext } from '../../../routing/models/page-context.model';
-import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 
 export abstract class CmsComponentAdapter {
   /**
@@ -19,5 +19,5 @@ export abstract class CmsComponentAdapter {
   abstract loadList(
     ids: string[],
     pageContext: PageContext
-  ): Observable<CmsComponentList>;
+  ): Observable<CmsComponent[]>;
 }

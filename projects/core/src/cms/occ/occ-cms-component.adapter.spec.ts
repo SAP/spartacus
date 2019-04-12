@@ -113,7 +113,7 @@ describe('OccCmsComponentAdapter', () => {
   describe('Load list of cms component data', () => {
     it('Should get a list of cms component data without pagination parameters', () => {
       service.loadList(ids, context).subscribe(result => {
-        expect(result).toEqual(componentList);
+        expect(result).toEqual(componentList.component);
       });
 
       const testRequest = httpMock.expectOne(req => {
@@ -130,7 +130,7 @@ describe('OccCmsComponentAdapter', () => {
 
     it('Should get a list of cms component data with pagination parameters', () => {
       service.loadList(ids, context, 'FULL', 0, 5).subscribe(result => {
-        expect(result).toEqual(componentList);
+        expect(result).toEqual(componentList.component);
       });
 
       const testRequest = httpMock.expectOne(req => {

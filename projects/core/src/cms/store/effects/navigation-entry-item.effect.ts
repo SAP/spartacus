@@ -30,10 +30,10 @@ export class NavigationEntryItemEffects {
               .getList(data.ids.componentIds, pageContext)
               .pipe(
                 map(
-                  res =>
+                  components =>
                     new navigationItemActions.LoadNavigationItemsSuccess({
                       nodeId: data.nodeId,
-                      components: res.component,
+                      components: components,
                     })
                 ),
                 catchError(error =>

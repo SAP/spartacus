@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 import { Converter } from '../../../util/converter.service';
 
 export const CMS_COMPONENT_NORMALIZER = new InjectionToken<
@@ -7,5 +7,5 @@ export const CMS_COMPONENT_NORMALIZER = new InjectionToken<
 >('CmsComponentNormalizer');
 
 export const CMS_COMPONENT_LIST_NORMALIZER = new InjectionToken<
-  Converter<any, CmsComponentList>
+  Converter<any, CmsComponent[]>
 >('CmsComponentListNormalizer');

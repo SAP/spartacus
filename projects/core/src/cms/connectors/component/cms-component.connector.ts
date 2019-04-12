@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CmsComponent, CmsComponentList } from '../../../occ/occ-models/index';
+import { CmsComponent } from '../../../occ/occ-models/index';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { PageContext } from '../../../routing/models/page-context.model';
@@ -30,10 +30,7 @@ export class CmsComponentConnector {
       );
   }
 
-  getList(
-    ids: string[],
-    pageContext: PageContext
-  ): Observable<CmsComponentList> {
+  getList(ids: string[], pageContext: PageContext): Observable<CmsComponent[]> {
     return this.adapter.loadList(ids, pageContext);
   }
 }

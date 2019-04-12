@@ -25,28 +25,20 @@ const router = {
   },
 };
 
-const listComponents: any = {
-  component: [
-    {
-      uid: 'MockLink001',
-      url: '/testLink1',
-      linkName: 'test link 1',
-      target: false,
-    },
-    {
-      uid: 'MockLink002',
-      url: '/testLink2',
-      linkName: 'test link 2',
-      target: true,
-    },
-  ],
-  pagination: {
-    count: 2,
-    page: 0,
-    totalCount: 2,
-    totalPages: 1,
+const listComponents: any = [
+  {
+    uid: 'MockLink001',
+    url: '/testLink1',
+    linkName: 'test link 1',
+    target: false,
   },
-};
+  {
+    uid: 'MockLink002',
+    url: '/testLink2',
+    linkName: 'test link 2',
+    target: true,
+  },
+];
 
 class MockRoutingService {
   getRouterState() {
@@ -104,7 +96,7 @@ describe('Navigation Entry Items Effects', () => {
       });
       const completion = new fromActions.LoadNavigationItemsSuccess({
         nodeId: 'MockNavigationNode001',
-        components: listComponents.component,
+        components: listComponents,
       });
 
       actions$ = hot('-a', { a: action });

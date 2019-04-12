@@ -15,6 +15,7 @@ import {
   CMS_COMPONENT_LIST_NORMALIZER,
   CMS_COMPONENT_NORMALIZER,
 } from '../connectors/component/converters';
+import { pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCmsComponentAdapter implements CmsComponentAdapter {
@@ -51,7 +52,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     currentPage = 0,
     pageSize = ids.length,
     sort?: string
-  ): Observable<CmsComponentList> {
+  ): Observable<CmsComponent[]> {
     let requestParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       requestParams === ''
@@ -74,7 +75,10 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
           fromString: requestParams,
         }),
       })
-      .pipe(this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZER));
+      .pipe(
+        pluck('component'),
+        this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZER)
+      );
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string): string {
