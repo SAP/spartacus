@@ -32,18 +32,6 @@ export function reducer(
         ...state,
       };
     }
-
-    case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
-      const updatedUserToken: UserToken = {
-        ...state,
-        userId: action.newUid,
-      };
-
-      return {
-        ...updatedUserToken,
-        userId: updatedUserToken.userId,
-      };
-    }
   }
   return state;
 }

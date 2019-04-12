@@ -179,7 +179,7 @@ describe('UpdateEmailComponent', () => {
         component.onSuccess(true);
 
         expect(globalMessageService.add).toHaveBeenCalledWith({
-          text: `Success: Please sign in with ${newUid}`,
+          text: `Success. Please sign in with ${newUid}`,
           type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
         });
 

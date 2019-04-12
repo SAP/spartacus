@@ -1,5 +1,4 @@
 import { User } from '../../../occ/occ-models/index';
-import * as fromUpdateEmailAction from '../actions/update-email.action';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
 
@@ -50,23 +49,6 @@ describe('User Details Reducer', () => {
         ...mockUserDetails,
         ...updatedUser,
         name: `${updatedUser.firstName} ${updatedUser.lastName}`,
-      });
-    });
-  });
-
-  describe('UPDATE_EMAIL_SUCCESS', () => {
-    it('should update the existing userId/email ', () => {
-      const testEmail = 'tester@sap.com';
-
-      const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(
-        testEmail
-      );
-
-      const state = fromUserDetailsReducer.reducer(mockUserDetails, action);
-      expect(state).toEqual({
-        ...mockUserDetails,
-        displayUid: testEmail,
-        uid: testEmail,
       });
     });
   });

@@ -1,5 +1,4 @@
 import { UserToken } from '../../models/token-types.model';
-import * as fromUpdateEmailAction from './../../../user/store/actions/update-email.action';
 import * as fromActions from './../actions/user-token.action';
 import * as fromUserToken from './user-token.reducer';
 
@@ -42,20 +41,6 @@ describe('UserToken reducer', () => {
       const state = fromUserToken.reducer(initialState, action);
 
       expect(state).toEqual(testToken);
-    });
-  });
-
-  describe('UPDATE_EMAIL_SUCCESS action', () => {
-    it('should update the existing userId/email ', () => {
-      const uid = 'tester@sap.com';
-
-      const action = new fromUpdateEmailAction.UpdateEmailSuccessAction(uid);
-
-      const state = fromUserToken.reducer(testToken, action);
-      expect(state).toEqual({
-        ...testToken,
-        userId: uid,
-      });
     });
   });
 });
