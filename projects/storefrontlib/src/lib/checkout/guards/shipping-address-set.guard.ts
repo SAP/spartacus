@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { RoutingService } from '@spartacus/core';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../checkout-details.service';
+import { CheckoutStep } from '../config/model/checkout-step.model';
 
 @Injectable()
 export class ShippingAddressSetGuard implements CanActivate {
@@ -21,7 +22,12 @@ export class ShippingAddressSetGuard implements CanActivate {
           return true;
         } else {
           this.routingService.go({
-            route: [defaultCheckoutConfig.checkout.shippingAddress],
+            route: [
+              defaultCheckoutConfig.checkout.steps.find(
+                (step: CheckoutStep) =>
+                  step.type.indexOf('shippingAddress') !== -1
+              ).url,
+            ],
           });
           return false;
         }
