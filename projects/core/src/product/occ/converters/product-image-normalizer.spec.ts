@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { Product, ImageType } from '../../../occ/occ-models/occ.models';
 
-import { ProductImageConverterService } from './product-image-converter.service';
+import { ProductImageNormalizer } from './product-image-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -15,7 +15,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 describe('ProductImageConverterService', () => {
-  let service: ProductImageConverterService;
+  let service: ProductImageNormalizer;
 
   const product: Product = {
     code: 'testCode',
@@ -92,17 +92,17 @@ describe('ProductImageConverterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ProductImageConverterService,
+        ProductImageNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
 
-    service = TestBed.get(ProductImageConverterService);
+    service = TestBed.get(ProductImageNormalizer);
   });
 
   it('should inject ProductImageConverterService', inject(
-    [ProductImageConverterService],
-    (productImageConverterService: ProductImageConverterService) => {
+    [ProductImageNormalizer],
+    (productImageConverterService: ProductImageNormalizer) => {
       expect(productImageConverterService).toBeTruthy();
     }
   ));
