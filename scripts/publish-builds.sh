@@ -1,50 +1,64 @@
 #!/usr/bin/env bash
 
-set -x -u -e -o pipefail
+set -u -e -o pipefail
 
-# Find the most recent tag that is reachable from the current commit.
-# This is shallow clone of the repo, so we might need to fetch more commits to
-# find the tag.
-function get_latest_tag {
-    local depth=`git log --oneline | wc -l`
-    local latest_tag=`git describe --tags --abbrev=0 || echo NOT_FOUND`
-    
-    while [ "$latest_tag" == "NOT_FOUND" ]; do
-        # Avoid infinite loop.
-        if [ "$depth" -gt "1000" ]; then
-            echo "Error: Unable to find the latest tag." 1>&2
-            exit 1;
-        fi
-        
-        # Increase the clone depth and look for a tag.
-        depth=$((depth + 50))
-        git fetch --depth=$depth
-        latest_tag=`git describe --tags --abbrev=0 || echo NOT_FOUND`
-    done
-    
-    echo $latestTag;
+REPO_OWNER='SAP'
+PROJECT_NAME='cloud-commerce-spartacus-storefront'
+SHA=`git rev-parse HEAD`
+COMMIT_MSG=`git log --oneline -1`
+COMMITTER_USER_NAME=`git --no-pager show -s --format='%cN' HEAD`
+COMMITTER_USER_EMAIL=`git --no-pager show -s --format='%cE' HEAD`
+SHORT_SHA=`git rev-parse --short HEAD`
+
+function get_version {
+    echo `head package.json | awk '/version/ { gsub(/"/, "", $2); gsub(/,/, "", $2);print $2 }'`
 }
 
-function publish_builds {
-    REPO_OWNER="SAP"
-    SHA=`git rev-parse HEAD`
-    COMMIT_MSG=`git log --oneline -1`
-    COMMITTER_USER_NAME=`git --no-pager show -s --format='%cN' HEAD`
-    COMMITTER_USER_EMAIL=`git --no-pager show -s --format='%cE' HEAD`
-    
-    local short_sha=`git rev-parse --short HEAD`
-    local latest_tag=`get_latest_tag`
-    
-    for dir in dist/*/
-    do
-        LIB="$(basename ${dir})"
-        REPO_URL="https://github.com/${REPO_OWNER}/cloud-commerce-spartacus-storefront-${LIB}-builds.git"
-        
-        echo "Publishing contents of ${dir} to ${REPO_URL}"
-        
-    done
-    
-    echo "Finished publishing spartacus builds"
+function publishRepo {
+    local LIB=$1
+    local LIB_DIR=$2
+    local REPO_URL="https://github.com/${REPO_OWNER}/${PROJECT_NAME}-${LIB}-builds.git"
+    local BRANCH='master'
+    local VERSION=$(get_version)
+    local BUILD_ID="core-${VERSION}+${SHORT_SHA}"
+
+    echo "Publishing core to ${REPO_URL} with ID ${BUILD_ID}"
+
+    BUILD_REPO="spartacus-${LIB}-builds"
+    TMP_DIR="tmp/${LIB}"
+
+    echo "Pushing build artifacts to ${REPO_OWNER}/${BUILD_REPO}"
+
+    # create local repo folder and clone build repo into it
+    rm -rf $TMP_DIR
+    mkdir -p $TMP_DIR
+
+    (
+    cd $TMP_DIR && \
+        git init && \
+        git remote add origin $REPO_URL && \
+        git fetch origin ${BRANCH} --depth=1 && \
+        git checkout origin/${BRANCH}
+        git checkout -b "${BRANCH}"
+    )
+
+    # copy over build artifacts into the repo directory
+    cp -R $LIB_DIR/* $TMP_DIR/
+
+    echo `date` > $TMP_DIR/BUILD_INFO
+    echo $SHA >> $TMP_DIR/BUILD_INFO
+
+    (
+    cd $TMP_DIR && \
+        git config user.name "${COMMITTER_USER_NAME}" && \
+        git config user.email "${COMMITTER_USER_EMAIL}" && \
+        git add --all && \
+        git commit -m "${COMMIT_MSG}" --quiet && \
+        git tag "${BUILD_ID}"
+        git push origin "${BRANCH}" --tags --force
+    )
 }
 
-publish_builds
+publishRepo "core" "dist/core"
+
+echo "Finished publishing build artifacts"
