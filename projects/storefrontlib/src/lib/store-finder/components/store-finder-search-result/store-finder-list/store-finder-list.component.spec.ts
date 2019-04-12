@@ -8,7 +8,11 @@ import { StoreFinderListComponent } from './store-finder-list.component';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { SpinnerModule } from '../../../../ui/components/spinner/spinner.module';
 
-import { StoreDataService, GoogleMapRendererService } from '@spartacus/core';
+import {
+  StoreDataService,
+  GoogleMapRendererService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 const location = {};
 const stores = [location];
@@ -38,7 +42,12 @@ describe('StoreFinderDisplayListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, SpinnerModule],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        SpinnerModule,
+        I18nTestingModule,
+      ],
       schemas: [NO_ERRORS_SCHEMA],
       declarations: [StoreFinderListComponent, StoreFinderMapComponent],
       providers: [

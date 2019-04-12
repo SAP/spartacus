@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-12 col-lg-9">
       <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
-        Shipping Method
+        {{ 'checkoutShipping.label.shippingMethod' | cxTranslate }}
       </h3>
 
       <div
@@ -37,7 +37,7 @@
   <div class="row cx-checkout-btns">
     <div class="col-md-12 col-lg-6">
       <button class="btn btn-block btn-action" (click)="back()">
-        Back
+        {{ 'common.action.back' | cxTranslate }}
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
@@ -46,7 +46,7 @@
         [disabled]="deliveryModeInvalid"
         (click)="next()"
       >
-        Continue
+        {{ 'common.action.continue' | cxTranslate }}
       </button>
     </div>
   </div>

@@ -1,8 +1,15 @@
 <div class="cx-payment container">
-  <div class="cx-header"><h3>Payment methods</h3></div>
+  <div class="cx-header">
+    <h3>{{ 'paymentMethods.label.paymentMethods' | cxTranslate }}</h3>
+  </div>
 
   <div class="cx-body">
-    <div class="cx-msg">New payment methods are added during checkout.</div>
+    <div class="cx-msg">
+      {{
+        'paymentMethods.label.newPaymentMethodsAreAddedDuringCheckout'
+          | cxTranslate
+      }}
+    </div>
     <div *ngIf="(loading$ | async); else cards"><cx-spinner></cx-spinner></div>
     <ng-template #cards>
       <div
