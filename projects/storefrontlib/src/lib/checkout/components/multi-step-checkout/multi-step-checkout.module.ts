@@ -19,6 +19,7 @@ import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PlaceOrderModule } from './place-order/place-order.module';
 import { CheckoutOrderSummaryModule } from './checkout-order-summary/checkout-order-summary.module';
 import { CheckoutOrchestratorModule } from './checkout-orchestrator/checkout-orchestrator.module';
+import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
 import { CheckoutDetailsService } from '../../checkout-details.service';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { CheckoutDetailsService } from '../../checkout-details.service';
     RouterModule,
     UrlTranslationModule,
     CheckoutOrchestratorModule,
+    CheckoutProgressModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MultiStepCheckoutComponent: { selector: 'cx-multi-step-checkout' },

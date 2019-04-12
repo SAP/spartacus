@@ -1,0 +1,63 @@
+@import 'theme';
+
+.cx-nav {
+  @include type('4', 'semi');
+  margin: var(--cx-margin, 0);
+
+  .cx-list {
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+    list-style: var(--cx-list-style, none);
+    padding: var(--cx-padding, 0);
+    margin: var(--cx-margin, 0);
+  }
+
+  .cx-item {
+    color: var(--cx-color, var(--cx-g-color-text));
+    padding: var(--cx-padding, 0 0 1.375rem 0);
+
+    &.progressbar {
+      border-bottom: 5px solid;
+      border-color: var(--cx-border-color, var(--cx-g-color-primary));
+      ::before {
+        color: var(--cx-color, var(--cx-g-color-text));
+      }
+    }
+
+    ::before {
+      padding: var(--cx-padding, 0 0.5rem);
+      content: var(--cx-content, '>');
+    }
+
+    &:first-child ::before {
+      padding: var(--cx-padding, 0);
+      content: var(--cx-content, '');
+    }
+    .cx-link {
+      color: var(--cx-color, var(--cx-g-color-text));
+
+      &.cx-link:hover {
+        cursor: var(--cx-cursor, pointer);
+        text-decoration: var(--cx-text-decoration, none);
+        &::before {
+          color: var(--cx-color, var(--cx-g-color-text));
+        }
+      }
+      &.is-disabled {
+        color: var(--cx-color, var(--cx-g-color-light));
+        cursor: var(--cx-cursor, not-allowed);
+        pointer-events: var(--pointer-events, none);
+        &:hover {
+          cursor: var(--cx-cursor, not-allowed);
+        }
+      }
+
+      &.is-active {
+        color: var(--cx-color, var(--cx-g-color-primary));
+        ::before {
+          color: var(--cx-color, var(--cx-g-color-text));
+        }
+      }
+    }
+  }
+}
