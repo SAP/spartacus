@@ -276,27 +276,6 @@ describe('ConfigurableRoutesService', () => {
       ]);
     });
 
-    it('should move wildcard route to the end of the list, even after custom route', async () => {
-      router.config = [
-        { path: null, data: { cxPath: 'testWildcardRoute' } },
-        { path: null, data: { cxPath: 'page1' } },
-        { path: 'custom-route' },
-      ];
-      loader.routesConfig.translations = {
-        en: {
-          testWildcardRoute: { paths: ['**'] },
-          page1: { paths: ['path1'] },
-        },
-      };
-      await service.init();
-      expect(router.config).toEqual([
-        { path: 'path1', data: { cxPath: 'page1' } },
-        { path: 'custom-route' },
-        { path: '**', data: { cxPath: 'testWildcardRoute' } },
-      ]);
-    });
-  });
-
   describe('getNestedRoutesTranslations', () => {
     it('should return configured paths translations for given page name', async () => {
       loader.routesConfig.translations = {
