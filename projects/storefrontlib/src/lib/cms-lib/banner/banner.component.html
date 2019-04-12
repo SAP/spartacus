@@ -5,7 +5,7 @@
   *ngIf="
     (service.hasImage() | async) && (service.getComponentData() | async) as data
   "
-  [url]="{ url: data.urlLink } | cxTranslateUrl"
+  [url]="data.urlLink"
   [target]="service.getTarget() | async"
 >
   <img

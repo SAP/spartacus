@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ConfigModule, CmsConfig, UrlTranslationModule } from '@spartacus/core';
+import { ConfigModule, CmsConfig } from '@spartacus/core';
 import { ResponsiveBannerComponent } from './responsive-banner.component';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -48,7 +48,6 @@ import { BannerComponentService } from './banner.component.service';
         },
       },
     }),
-    UrlTranslationModule,
   ],
   declarations: [BannerComponent, ResponsiveBannerComponent],
   exports: [BannerComponent, ResponsiveBannerComponent],
