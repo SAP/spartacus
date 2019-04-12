@@ -1,16 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { PageType } from '../../occ/occ-models/occ.models';
+import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
-  Page,
-  PageMetaResolver,
   CmsService,
-  PageMetaService,
+  Page,
   PageMeta,
+  PageMetaResolver,
+  PageMetaService,
 } from '../../cms';
-import { ProductService } from '../facade';
+import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing';
+import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
 
 const mockProductPage: Page = {
@@ -46,6 +45,7 @@ class MockProductService {
       categories: [
         {
           code: '123',
+          name: 'one two three',
         },
       ],
       images: {
@@ -110,7 +110,7 @@ describe('ProductPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.title).toEqual('Product title | 123 | Canon');
+    expect(result.title).toEqual('Product title | one two three | Canon');
   });
 
   it('should resolve product description', () => {
