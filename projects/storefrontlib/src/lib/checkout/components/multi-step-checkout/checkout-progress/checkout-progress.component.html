@@ -1,0 +1,18 @@
+<section *ngIf="(routerState$ | async) as routerState">
+  <div class="cx-nav d-none d-lg-block d-xl-block">
+    <ul class="cx-list">
+      <li class="cx-item" *ngFor="let step of steps; let i = index">
+        <a
+          [routerLink]="{ url: step.url } | cxTranslateUrl"
+          class="cx-link"
+          [ngClass]="{
+            ' is-active': step.url === activeStepUrl,
+            ' is-disabled': i > activeStepIndex
+          }"
+        >
+          {{ i + 1 }}. {{ step.name | cxTranslate }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>

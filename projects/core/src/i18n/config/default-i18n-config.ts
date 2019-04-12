@@ -13,6 +13,7 @@ export const defaultI18nConfig: I18nConfig = {
       checkout: 'checkout',
       checkoutAddress: 'checkoutAddress',
       checkoutOrderConfirmation: 'checkoutOrderConfirmation',
+      checkoutProgress: 'checkoutProgress',
       checkoutReview: 'checkoutReview',
       checkoutShipping: 'checkoutShipping',
       common: 'common',
