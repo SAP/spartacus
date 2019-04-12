@@ -9,7 +9,7 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/product-search.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
+import { ProductImageNormalizer } from '../../occ/converters/product-image-normalizer';
 import { SearchConfig } from '../../model/search-config';
 import { ProductSearchLoaderService } from '../../occ/product-search.service';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -44,7 +44,7 @@ describe('ProductSearch Effects', () => {
       imports: [HttpClientTestingModule],
       providers: [
         ProductSearchLoaderService,
-        ProductImageConverterService,
+        ProductImageNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductsSearchEffects,
