@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -16,7 +17,8 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   constructor(
     private routingService: RoutingService,
     private globalMessageService: GlobalMessageService,
-    private userService: UserService
+    private userService: UserService,
+    private authService: AuthService
   ) {}
 
   private subscription = new Subscription();
@@ -49,10 +51,11 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.globalMessageService.add({
-        text: `Email address successfully updated to ${this.newUid}`,
+        text: `Success. Please sign in with ${this.newUid}`,
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
-      this.routingService.go({ route: ['home'] });
+      this.authService.logout();
+      this.routingService.go({ route: ['login'] });
     }
   }
   ngOnDestroy() {

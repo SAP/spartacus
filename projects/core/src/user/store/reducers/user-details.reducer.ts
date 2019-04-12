@@ -25,20 +25,6 @@ export function reducer(
         name: `${updatedDetails.firstName} ${updatedDetails.lastName}`,
       };
     }
-
-    case fromUpdateEmailAction.UPDATE_EMAIL_SUCCESS: {
-      const updatedUser: User = {
-        ...state,
-        uid: action.newUid,
-        displayUid: action.newUid,
-      };
-
-      return {
-        ...updatedUser,
-        uid: updatedUser.uid,
-        displayUid: updatedUser.displayUid,
-      };
-    }
   }
 
   return state;
