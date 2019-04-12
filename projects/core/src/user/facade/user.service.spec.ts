@@ -1,5 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { AuthService } from '../../auth/facade/auth.service';
+import { UserToken } from '../../auth/models/token-types.model';
+import * as fromAuthStore from '../../auth/store/index';
 import {
   Address,
   Country,
@@ -20,7 +23,7 @@ import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
-  let store: Store<fromStore.UserState>;
+  let store: Store<fromStore.UserState | fromAuthStore.AuthState>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,7 +35,7 @@ describe('UserService', () => {
           fromProcessReducers.getReducers()
         ),
       ],
-      providers: [UserService],
+      providers: [UserService, AuthService],
     });
 
     store = TestBed.get(Store);
@@ -542,6 +545,84 @@ describe('UserService', () => {
       service.resetUpdateEmailResultState();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.ResetUpdateEmailAction()
+      );
+    });
+  });
+
+  describe('Update EmailFlow ', () => {
+    const uid = 'test@test.com';
+    const password = 'Qwe123!';
+    const newUid = 'tester@sap.com';
+    const token: UserToken = {
+      access_token: 'xxx',
+      token_type: 'bearer',
+      refresh_token: 'xxx',
+      expires_in: 1000,
+      scope: ['xxx'],
+      userId: 'xxx',
+    };
+
+    it('should dispatch UpdateEmailFlow action', () => {
+      service.updateEmailFlow(uid, password, newUid);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateEmailAction({ uid, password, newUid })
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromAuthStore.LoadUserToken({
+          userId: newUid,
+          password: password,
+        })
+      );
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+      store.dispatch(new fromAuthStore.LoadUserTokenSuccess(token));
+
+      let result: boolean;
+      service
+        .getUpdateEmailFlowSuccess()
+        .subscribe(success => (result = success))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateEmailErrorAction('error'));
+      store.dispatch(new fromAuthStore.LoadUserTokenFail('error'));
+
+      let result: boolean;
+      service
+        .getUpdateEmailFlowError()
+        .subscribe(error => (result = error))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+      store.dispatch(new fromAuthStore.LoadUserTokenSuccess(token));
+
+      let result: boolean;
+      service
+        .getUpdateEmailFlowLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should dispatch a ResetUpdateEmailFlow action', () => {
+      service.resetUpdateEmailFlowState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateEmailAction()
+      );
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromAuthStore.ResetUserTokenLoader()
       );
     });
   });

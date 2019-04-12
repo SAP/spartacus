@@ -463,7 +463,6 @@ export class UserService {
    */
   updateEmailFlow(uid: string, password: string, newUid: string): void {
     this.updateEmail(uid, password, newUid);
-    // this.authService.logout();
     this.authService.authorize(newUid, password);
   }
 
@@ -473,9 +472,13 @@ export class UserService {
   getUpdateEmailFlowSuccess(): Observable<boolean> {
     return combineLatest(
       this.store.pipe(
-        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID))
+        select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID)),
+        tap(sucess => console.log('email', sucess))
       ),
-      this.store.pipe(select(getProcessSuccessFactory(AUTH_USER_PROCESS_ID)))
+      this.store.pipe(
+        select(getProcessSuccessFactory(AUTH_USER_PROCESS_ID)),
+        tap(sucess => console.log('auth', sucess))
+      )
     ).pipe(map(([emailSuccess, authSuccess]) => emailSuccess && authSuccess));
   }
 

@@ -37,12 +37,14 @@ class MockUserService {
   get(): Observable<User> {
     return of();
   }
-  updateEmail(): void {}
+  updateEmailFlow(): void {}
+  resetUpdateEmailFlowState(): void {}
   resetUpdateEmailResultState(): void {}
-  getUpdateEmailResultLoading(): Observable<boolean> {
+  getUpdateEmailFlowLoading(): Observable<boolean> {
     return of(true);
   }
-  getUpdateEmailResultSuccess(): Observable<boolean> {
+
+  getUpdateEmailFlowSuccess(): Observable<boolean> {
     return of();
   }
 }
@@ -108,14 +110,14 @@ describe('UpdateEmailComponent', () => {
   });
 
   it('should reset the loading state when the component is initialized', () => {
-    spyOn(userService, 'resetUpdateEmailResultState').and.stub();
+    spyOn(userService, 'resetUpdateEmailFlowState').and.stub();
 
     component.ngOnInit();
-    expect(userService.resetUpdateEmailResultState).toHaveBeenCalled();
+    expect(userService.resetUpdateEmailFlowState).toHaveBeenCalled();
   });
 
   it('should show the spinner when updating', () => {
-    spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+    spyOn(userService, 'getUpdateEmailFlowLoading').and.returnValue(of(true));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -129,8 +131,8 @@ describe('UpdateEmailComponent', () => {
     expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
   });
 
-  it('should call updateEmail on submit', () => {
-    spyOn(userService, 'updateEmail').and.stub();
+  it('should call updateEmailFlow on submit', () => {
+    spyOn(userService, 'updateEmailFlow').and.stub();
 
     const uid = 'test@sap.com';
     const newUid = 'tester@sap.com';
@@ -139,12 +141,16 @@ describe('UpdateEmailComponent', () => {
     component['uid'] = uid;
 
     component.onSubmit({ newUid, password });
-    expect(userService.updateEmail).toHaveBeenCalledWith(uid, password, newUid);
+    expect(userService.updateEmailFlow).toHaveBeenCalledWith(
+      uid,
+      password,
+      newUid
+    );
   });
 
   it('should call the internal onSuccess() method when the user was successfully updated', () => {
     spyOn(component, 'onSuccess').and.stub();
-    spyOn(userService, 'getUpdateEmailResultSuccess').and.returnValue(of(true));
+    spyOn(userService, 'getUpdateEmailFlowSuccess').and.returnValue(of(true));
 
     component.ngOnInit();
 
@@ -154,7 +160,7 @@ describe('UpdateEmailComponent', () => {
   describe('onSuccess', () => {
     describe('when the user was successfully updated', () => {
       it('should add a global message and navigate to a url ', () => {
-        spyOn(userService, 'updateEmail').and.stub();
+        spyOn(userService, 'updateEmailFlow').and.stub();
 
         const newUid = 'new@sap.com';
 
