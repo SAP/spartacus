@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import { ProductImageConverterService } from '../../../product/index';
+import { ProductImageNormalizer } from '../../../product/index';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
@@ -107,7 +107,7 @@ export class CartEffects {
 
   constructor(
     private actions$: Actions,
-    private productImageConverter: ProductImageConverterService,
+    private productImageConverter: ProductImageNormalizer,
     private occCartService: OccCartService,
     private cartData: CartDataService
   ) {}
