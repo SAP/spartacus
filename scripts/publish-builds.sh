@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -u -e -o pipefail
 
 REPO_OWNER='SAP'
@@ -10,19 +9,19 @@ COMMITTER_USER_NAME=`git --no-pager show -s --format='%cN' HEAD`
 COMMITTER_USER_EMAIL=`git --no-pager show -s --format='%cE' HEAD`
 SHORT_SHA=`git rev-parse --short HEAD`
 
-function get_version {
+get_version() {
     echo `head package.json | awk '/version/ { gsub(/"/, "", $2); gsub(/,/, "", $2);print $2 }'`
 }
 
-function publishRepo {
+publish_snapshot() {
     local LIB=$1
     local LIB_DIR=$2
     local REPO_URL="https://github.com/${REPO_OWNER}/${PROJECT_NAME}-${LIB}-builds.git"
     local BRANCH='master'
     local VERSION=$(get_version)
-    local BUILD_ID="core-${VERSION}+${SHORT_SHA}"
+    local BUILD_ID="${LIB}-${VERSION}+${SHORT_SHA}"
 
-    echo "Publishing core to ${REPO_URL} with ID ${BUILD_ID}"
+    echo "Publishing ${LIB} to ${REPO_URL} with ID ${BUILD_ID}"
 
     BUILD_REPO="spartacus-${LIB}-builds"
     TMP_DIR="tmp/${LIB}"
@@ -39,7 +38,7 @@ function publishRepo {
         git remote add origin $REPO_URL && \
         git fetch origin ${BRANCH} --depth=1 && \
         git checkout origin/${BRANCH}
-        git checkout -b "${BRANCH}"
+    git checkout -b "${BRANCH}"
     )
 
     # copy over build artifacts into the repo directory
@@ -59,6 +58,7 @@ function publishRepo {
     )
 }
 
-publishRepo "core" "dist/core"
+publish_snapshot "core" "dist/core"
+publish_snapshot "storefront" "dist/storefrontlib"
 
 echo "Finished publishing build artifacts"
