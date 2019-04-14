@@ -6635,11 +6635,6 @@ ng-packagr@^4.4.5:
     uglify-js "^3.0.7"
     update-notifier "^2.3.0"
 
-ngrx-store-localstorage@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-5.1.0.tgz#02e2e2c061c5ebacbe10c848ba8d4853aaa911ed"
-  integrity sha512-TNVfIbJVxCkSjOrCsSwYsTcWbkDVxWWT/bV278Vhha2ksAA8/D8oQmJDcAt0xekaq8a1IBzgS2w65WfkAkP1mQ==
-
 nice-try@^1.0.4:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
