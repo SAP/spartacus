@@ -11,7 +11,7 @@ import { hot, cold } from 'jasmine-marbles';
 import { OccCartService } from '../../occ';
 import * as fromActions from '../actions/cart.action';
 import { OccConfig, Cart } from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
+import { ProductImageNormalizer } from '../../../product';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
@@ -63,7 +63,7 @@ describe('Cart effect', () => {
 
       providers: [
         OccCartService,
-        ProductImageConverterService,
+        ProductImageNormalizer,
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,

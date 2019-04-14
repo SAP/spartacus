@@ -200,5 +200,58 @@ describe('CmsStructureConfigService', () => {
         }
       });
     });
+
+    describe('getComponentFromConfig', () => {
+      it('should return component if present in config', () => {
+        let component;
+        service
+          .getComponentFromConfig('ComponentOne')
+          .subscribe(res => (component = res));
+        expect(component).toEqual(
+          globalSlotConfig.cmsStructure.components.ComponentOne
+        );
+      });
+      it('should return undefined if component is not present in config', () => {
+        let component;
+        service
+          .getComponentFromConfig('ComponentNotInConfig')
+          .subscribe(res => (component = res));
+        expect(component).toBe(undefined);
+      });
+    });
+
+    describe('getComponentsFromConfig', () => {
+      it('should return list of the component from configuration', () => {
+        let components;
+        service
+          .getComponentsFromConfig(['ComponentOne', 'ComponentTwo'])
+          .subscribe(res => (components = res));
+
+        const expected = [
+          globalSlotConfig.cmsStructure.components.ComponentOne,
+          globalSlotConfig.cmsStructure.components.ComponentTwo,
+        ];
+
+        expect(components).toEqual(expected);
+      });
+      it('should return undefined for components not present in configuration', () => {
+        let components;
+        service
+          .getComponentsFromConfig([
+            'ComponentOne',
+            'ComponentNotTwo',
+            'ComponentThree',
+          ])
+          .subscribe(res => (components = res));
+
+        const expected = [
+          globalSlotConfig.cmsStructure.components.ComponentOne,
+          undefined,
+          globalSlotConfig.cmsStructure.components.ComponentThree,
+        ];
+
+        expect(components).toEqual(expected);
+      });
+    });
   });
 });

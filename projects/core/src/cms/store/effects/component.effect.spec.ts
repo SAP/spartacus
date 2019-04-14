@@ -5,7 +5,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CmsComponent, PageType } from '../../../occ/occ-models/index';
 import { RoutingService } from '../../../routing/index';
-import { CmsComponentLoader } from '../../services/cms-component.loader';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import * as fromActions from '../actions/component.action';
 import * as fromEffects from './component.effect';
 
@@ -25,7 +25,7 @@ class MockRoutingService {
   }
 }
 
-class MockCmsComponentLoader {
+class MockCmsComponentConnector {
   get(_uid, _pageContext): Observable<any> {
     return of({});
   }
@@ -33,7 +33,7 @@ class MockCmsComponentLoader {
 
 describe('Component Effects', () => {
   let actions$: Observable<any>;
-  let service: CmsComponentLoader<any>;
+  let service: CmsComponentConnector;
   let effects: fromEffects.ComponentEffects;
 
   const component: CmsComponent = {
@@ -45,14 +45,14 @@ describe('Component Effects', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
-        { provide: CmsComponentLoader, useClass: MockCmsComponentLoader },
+        { provide: CmsComponentConnector, useClass: MockCmsComponentConnector },
         fromEffects.ComponentEffects,
         provideMockActions(() => actions$),
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    service = TestBed.get(CmsComponentLoader);
+    service = TestBed.get(CmsComponentConnector);
     effects = TestBed.get(fromEffects.ComponentEffects);
   });
 
