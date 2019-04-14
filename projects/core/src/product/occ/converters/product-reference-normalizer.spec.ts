@@ -1,16 +1,16 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { ProductReferenceConverterService } from './product-reference-converter.service';
+import { ProductReferenceNormalizer } from './product-reference-normalizer';
 
 describe('ProductReferenceConverterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ProductReferenceConverterService],
+      providers: [ProductReferenceNormalizer],
     });
   });
 
   it('should inject ProductReferenceConverterService', inject(
-    [ProductReferenceConverterService],
-    (productReferenceConverterService: ProductReferenceConverterService) => {
+    [ProductReferenceNormalizer],
+    (productReferenceConverterService: ProductReferenceNormalizer) => {
       expect(productReferenceConverterService).toBeTruthy();
     }
   ));

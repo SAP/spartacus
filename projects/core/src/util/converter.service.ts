@@ -2,7 +2,22 @@ import { Injectable, InjectionToken, Injector } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/**
+ * Converter is used to convert source data model to target data model.
+ * By convention, we distinguish two flows:
+ *   - *Normalize* is the conversion from backend models to UI models
+ *   - *Serialize* is the conversion of UI models to backend models (in case of submitting data to the backend).
+ *
+ * Converters can be stacked together to to apply decoupled customizations
+ */
 export interface Converter<S, T> {
+  /**
+   * Convert converts source model to target model. Can use optional target parameter,
+   * used in case of stacking multiple converters (for example, to implement populator pattern).
+   *
+   * @param source Source data model
+   * @param target Optional, partially converted target model
+   */
   convert(source: S, target?: T): T;
 }
 
