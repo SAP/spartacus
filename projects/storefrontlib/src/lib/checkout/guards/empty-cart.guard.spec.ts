@@ -10,18 +10,23 @@ import {
 
 import { EmptyCartGuard } from './empty-cart.guard';
 
+const CART_NOT_EMPTY = Object.freeze({ totalItems: 7 });
+const CART_EMPTY = null;
+
 const routingServiceStub = {
   go(
     _path: any[] | TranslateUrlOptions,
     _query?: object,
     _extras?: NavigationExtras
   ) {},
-  saveRedirectUrl(_url: string) {},
 };
 
-const cartDataServiceStub = {
-  hasCart: false,
-};
+class cartDataServiceStub {
+  cart = undefined;
+  get hasCart(): boolean {
+    return !!this.cart;
+  }
+}
 
 describe('Empty Cart guard', () => {
   let emptyCartGuard: EmptyCartGuard;
@@ -51,12 +56,12 @@ describe('Empty Cart guard', () => {
 
   describe('canActivate: ', () => {
     beforeEach(() => {
-      spyOn(routingService, 'go').and.stub();
+      spyOn(routingService, 'go');
     });
 
     describe('when cart is empty', () => {
       beforeEach(() => {
-        cartDataService.cart = undefined;
+        cartDataService.cart = CART_EMPTY;
       });
 
       it('then Router should redirect', () => {
@@ -67,7 +72,7 @@ describe('Empty Cart guard', () => {
 
     describe('when cart is NOT empty', () => {
       beforeEach(() => {
-        cartDataService.cart = {};
+        cartDataService.cart = CART_NOT_EMPTY;
       });
 
       it('then Router should NOT redirect', () => {
