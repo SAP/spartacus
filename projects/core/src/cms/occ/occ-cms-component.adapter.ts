@@ -1,72 +1,58 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable, Optional } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
+  CmsComponent,
   CmsComponentList,
-  CMSPage,
   PageType,
 } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
-import { CmsStructureConfig } from '../config/cms-structure.config';
+import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { IdList } from '../model/idList.model';
-import { CmsPageAdapter } from '../services/cms-page.adapter';
-import { CmsPageLoader } from '../services/cms-page.loader';
-import { CmsStructureConfigService } from '../services/cms-structure-config.service';
+import { ConverterService } from '../../util/converter.service';
+import {
+  CMS_COMPONENT_LIST_NORMALIZER,
+  CMS_COMPONENT_NORMALIZER,
+} from '../connectors/component/converters';
+import { pluck } from 'rxjs/operators';
 
 @Injectable()
-export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
+export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
     private http: HttpClient,
-    protected config: CmsStructureConfig,
-    protected cmsStructureConfigService: CmsStructureConfigService,
-    @Optional() protected adapter: CmsPageAdapter<CMSPage>,
-    private occEndpoints: OccEndpointsService
-  ) {
-    super(cmsStructureConfigService, adapter);
-  }
+    private occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
+  ) {}
 
   protected getBaseEndPoint(): string {
     return this.occEndpoints.getEndpoint('cms');
   }
 
-  load(pageContext: PageContext, fields?: string): Observable<CMSPage> {
-    let httpStringParams = '';
-
-    if (pageContext.id !== 'smartedit-preview') {
-      httpStringParams = 'pageType=' + pageContext.type;
-
-      if (pageContext.type === PageType.CONTENT_PAGE) {
-        httpStringParams =
-          httpStringParams + '&pageLabelOrId=' + pageContext.id;
-      } else {
-        httpStringParams = httpStringParams + '&code=' + pageContext.id;
-      }
-    }
-
-    if (fields !== undefined) {
-      httpStringParams = httpStringParams + '&fields=' + fields;
-    }
-
-    return this.http.get(this.getBaseEndPoint() + `/pages`, {
-      headers: this.headers,
-      params: new HttpParams({
-        fromString: httpStringParams,
-      }),
-    });
+  load<T extends CmsComponent>(
+    id: string,
+    pageContext: PageContext
+  ): Observable<T> {
+    return this.http
+      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
+        headers: this.headers,
+        params: new HttpParams({
+          fromString: this.getRequestParams(pageContext),
+        }),
+      })
+      .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
 
-  loadListComponents(
-    idList: IdList,
+  loadList(
+    ids: string[],
     pageContext: PageContext,
-    fields?: string,
-    currentPage?: number,
-    pageSize?: number,
+    fields = 'DEFAULT',
+    currentPage = 0,
+    pageSize = ids.length,
     sort?: string
-  ): Observable<CmsComponentList> {
+  ): Observable<CmsComponent[]> {
     let requestParams = this.getRequestParams(pageContext, fields);
     if (currentPage !== undefined) {
       requestParams === ''
@@ -80,6 +66,8 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
       requestParams = requestParams + '&sort=' + sort;
     }
 
+    const idList: IdList = { idList: ids };
+
     return this.http
       .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
         headers: this.headers,
@@ -87,7 +75,10 @@ export class OccCmsPageLoader extends CmsPageLoader<CMSPage> {
           fromString: requestParams,
         }),
       })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(
+        pluck('component'),
+        this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZER)
+      );
   }
 
   private getRequestParams(pageContext: PageContext, fields?: string): string {

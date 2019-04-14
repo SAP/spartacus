@@ -1,12 +1,30 @@
 import { Injectable } from '@angular/core';
-
-import { OccConfig } from '../../../occ/index';
+import { Image, OccConfig } from '../../../occ';
 import { Product } from '../../../occ/occ-models/occ.models';
+import { Converter } from '../../../util/converter.service';
+import { UIImages, UIProduct } from '../../model/product-model';
 
-@Injectable()
-export class ProductImageConverterService {
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductImageNormalizer implements Converter<Product, UIProduct> {
   constructor(protected config: OccConfig) {}
 
+  convert(source: Product, target?: UIProduct): UIProduct {
+    if (target === undefined) {
+      target = { ...(source as any) };
+    }
+    if (source.images) {
+      target.images = this.normalize(source.images);
+    }
+    return target;
+  }
+
+  /**
+   * @deprecated Use `convert(source, target?) => target` instead
+   *
+   * TODO: Should be removed when all use cases will be refactored
+   */
   convertList(list: Array<Product>): void {
     if (!list) {
       return;
@@ -16,21 +34,26 @@ export class ProductImageConverterService {
     }
   }
 
-  convertProduct(product: Product): void {
+  /**
+   * @deprecated Use `convert(source, target?) => target` instead
+   *
+   * TODO: Should be removed when all use cases will be refactored
+   */
+  convertProduct(product: any): void {
     if (product.images) {
-      product.images = this.populate(product.images);
+      product.images = this.normalize(product.images);
     }
   }
 
   /**
    * @desc
-   * Creates the image structue we'd like to have. Instead of
-   * having a singel list with all images despite type and format
+   * Creates the image structure we'd like to have. Instead of
+   * having a single list with all images despite type and format
    * we create a proper structure. With that we can do:
    * - images.primary.thumnail.url
    * - images.GALLERY[0].thumnail.url
    */
-  populate(source: Array<any>): any {
+  normalize(source: Image[]): UIImages {
     const images = {};
     if (source) {
       for (const image of source) {
