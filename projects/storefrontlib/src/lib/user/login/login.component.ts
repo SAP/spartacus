@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
 import { AuthService, User, UserService } from '@spartacus/core';
-import { switchMap, filter, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { LoginComponentService } from './login.component.service';
 
 @Component({
@@ -19,12 +19,13 @@ export class LoginComponent {
   get user$(): Observable<User> {
     return this.auth.getUserToken().pipe(
       filter(data => data && !!data.access_token),
-      tap(token => {
+      map(token => {
         if (!this.loginService.isLogin) {
           this.loginService.isLogin = true;
           this.userService.load(token.userId);
           this.auth.login();
         }
+        return token;
       }),
       switchMap(() => this.userService.get())
     );
