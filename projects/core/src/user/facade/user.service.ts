@@ -76,10 +76,19 @@ export class UserService {
     );
   }
 
+  /**
+   *  Returns a consignment tracking detail
+   */
   getConsignmentTracking(): Observable<ConsignmentTracking> {
     return this.store.pipe(select(fromStore.getConsignmentTracking));
   }
 
+  /**
+   * Retrieves consignment tracking details
+   * 
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
   loadConsignmentTracking(orderCode: string, consignmentCode: string) {
     this.store.dispatch(
       new fromStore.LoadConsignmentTracking({
@@ -89,6 +98,9 @@ export class UserService {
     );
   }
 
+  /**
+   * Clears a consignment tracking
+   */
   clearConsignmentTracking(): void {
     this.store.dispatch(new fromStore.ClearConsignmentTracking());
   }
