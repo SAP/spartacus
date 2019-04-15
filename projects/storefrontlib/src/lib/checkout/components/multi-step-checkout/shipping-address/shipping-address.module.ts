@@ -26,6 +26,7 @@ import { EmptyCartGuard } from '../../../guards/empty-cart.guard';
       },
     }),
   ],
+  providers: [EmptyCartGuard],
   declarations: [ShippingAddressComponent],
   entryComponents: [ShippingAddressComponent],
   exports: [ShippingAddressComponent],
