@@ -11,7 +11,6 @@ import {
   Region,
   Title,
   User,
-  ConsignmentTracking
 } from '../../occ/occ-models/index';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -29,7 +28,7 @@ export class UserService {
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
-  ) { }
+  ) {}
 
   /**
    * Returns a user
@@ -77,35 +76,6 @@ export class UserService {
   }
 
   /**
-   *  Returns a consignment tracking detail
-   */
-  getConsignmentTracking(): Observable<ConsignmentTracking> {
-    return this.store.pipe(select(fromStore.getConsignmentTracking));
-  }
-
-  /**
-   * Retrieves consignment tracking details
-   * 
-   * @param orderCode an order code
-   * @param consignmentCode a consignment code
-   */
-  loadConsignmentTracking(orderCode: string, consignmentCode: string) {
-    this.store.dispatch(
-      new fromStore.LoadConsignmentTracking({
-        orderCode: orderCode,
-        consignmentCode: consignmentCode
-      })
-    );
-  }
-
-  /**
-   * Clears a consignment tracking
-   */
-  clearConsignmentTracking(): void {
-    this.store.dispatch(new fromStore.ClearConsignmentTracking());
-  }
-
-  /**
    * Clears order's details
    */
   clearOrderDetails(): void {
@@ -141,6 +111,35 @@ export class UserService {
     return this.store.pipe(select(fromStore.getOrdersLoaded));
   }
 
+  /**
+   *  Returns a consignment tracking detail
+   */
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(fromStore.getConsignmentTracking));
+  }
+
+  /**
+   * Retrieves consignment tracking details
+   * 
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
+  loadConsignmentTracking(orderCode: string, consignmentCode: string) {
+    this.store.dispatch(
+      new fromStore.LoadConsignmentTracking({
+        orderCode: orderCode,
+        consignmentCode: consignmentCode
+      })
+    );
+  }
+
+  /**
+   * Clears a consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new fromStore.ClearConsignmentTracking());
+  }
+  
   /**
    * Loads all user's payment methods.
    * @param userId a user ID
