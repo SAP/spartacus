@@ -37,9 +37,7 @@ export class CheckoutDetailsService {
       .getActive()
       .pipe(map(cartData => cartData.code));
 
-    this.getLoaded$ = this.checkoutService
-      .getCheckoutDetailsLoaded()
-      .pipe(tap(console.log));
+    this.getLoaded$ = this.checkoutService.getCheckoutDetailsLoaded();
 
     this.checkoutDetails$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),

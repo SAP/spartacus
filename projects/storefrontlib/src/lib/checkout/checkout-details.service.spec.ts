@@ -20,6 +20,8 @@ const mockDetails: CheckoutDetails = {
   deliveryAddress: {
     firstName: 'firstName',
   },
+  deliveryMode: { code: 'testMode' },
+  paymentInfo: { accountHolderName: 'name' },
 };
 
 class MockAuthService {
@@ -91,7 +93,7 @@ describe('CheckoutDetailsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load checkout details', () => {
+  it('should load delivery address', () => {
     spyOn(authService, 'getUserToken');
     spyOn(cartService, 'getActive');
     spyOn(checkoutService, 'loadCheckoutDetails');
@@ -109,6 +111,48 @@ describe('CheckoutDetailsService', () => {
       cartId
     );
     expect(checkoutService.getDeliveryAddress).toHaveBeenCalled();
+    expect(checkoutDetails).toBe(mockDetails);
+  });
+
+  it('should load delivery mode', () => {
+    spyOn(authService, 'getUserToken');
+    spyOn(cartService, 'getActive');
+    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(checkoutService, 'getSelectedDeliveryModeCode').and.returnValue(
+      of(mockDetails)
+    );
+
+    let checkoutDetails;
+    service
+      .getSelectedDeliveryModeCode()
+      .subscribe(data => (checkoutDetails = data))
+      .unsubscribe();
+    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(
+      userId,
+      cartId
+    );
+    expect(checkoutService.getSelectedDeliveryModeCode).toHaveBeenCalled();
+    expect(checkoutDetails).toBe(mockDetails);
+  });
+
+  it('should load payment info', () => {
+    spyOn(authService, 'getUserToken');
+    spyOn(cartService, 'getActive');
+    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(checkoutService, 'getPaymentDetails').and.returnValue(
+      of(mockDetails)
+    );
+
+    let checkoutDetails;
+    service
+      .getPaymentDetails()
+      .subscribe(data => (checkoutDetails = data))
+      .unsubscribe();
+    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(
+      userId,
+      cartId
+    );
+    expect(checkoutService.getPaymentDetails).toHaveBeenCalled();
     expect(checkoutDetails).toBe(mockDetails);
   });
 });
