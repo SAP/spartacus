@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
 import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
@@ -29,7 +30,8 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
 @NgModule({
   imports: [
     CommonModule,
-
+    SkipLinkModule,
+    HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
     BannerModule,
