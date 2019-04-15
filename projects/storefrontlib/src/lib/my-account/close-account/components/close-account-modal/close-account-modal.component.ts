@@ -47,11 +47,11 @@ export class CloseAccountModalComponent implements OnInit {
   }
 
   closeModal(): void {
-    this.activeModal.dismiss('Cross click');
+    this.activeModal.dismiss();
   }
 
   closeAccount(userId: string) {
     this.userService.remove(userId);
-    this.activeModal.dismiss('Action');
+    this.closeModal();
   }
 }
