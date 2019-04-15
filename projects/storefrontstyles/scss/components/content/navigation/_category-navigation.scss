@@ -1,0 +1,24 @@
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/dropdown';
+
+%cx-category-navigation {
+  nav {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: var(--cx-padding, 1rem 0);
+    min-height: 63.38px;
+
+    cx-navigation {
+      &:not(:first-child) {
+        margin-left: 10px;
+      }
+    }
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0);
+      flex-direction: column;
+      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+    }
+  }
+}

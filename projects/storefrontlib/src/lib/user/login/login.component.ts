@@ -7,7 +7,6 @@ import { LoginComponentService } from './login.component.service';
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   constructor(
