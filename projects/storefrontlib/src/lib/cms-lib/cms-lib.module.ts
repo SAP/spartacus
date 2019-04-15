@@ -53,6 +53,7 @@ import { NotificationPreferenceModule } from './notification-preference/notifica
     PaymentMethodsModule,
     UpdatePasswordModule,
     UpdateProfileModule,
+    NotificationPreferenceModule,
   ],
 })
 export class CmsLibModule {}
