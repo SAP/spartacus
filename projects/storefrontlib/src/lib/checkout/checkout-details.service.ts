@@ -21,8 +21,7 @@ import {
 export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;
-  getLoaded$: Observable<boolean>;
-  checkoutDetails$: Observable<boolean>;
+  getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -37,33 +36,31 @@ export class CheckoutDetailsService {
       .getActive()
       .pipe(map(cartData => cartData.code));
 
-    this.getLoaded$ = this.checkoutService.getCheckoutDetailsLoaded();
-
-    this.checkoutDetails$ = this.userId$.pipe(
+    this.getCheckoutDetailsLoaded$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),
       tap(([userId, cartId]: [string, string]) =>
         this.checkoutService.loadCheckoutDetails(userId, cartId)
       ),
       shareReplay(1),
-      switchMap(() => this.getLoaded$),
+      switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
       skipWhile(loaded => !loaded)
     );
   }
 
   getDeliveryAddress(): Observable<Address> {
-    return this.checkoutDetails$.pipe(
+    return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getDeliveryAddress())
     );
   }
 
   getSelectedDeliveryModeCode(): Observable<string> {
-    return this.checkoutDetails$.pipe(
+    return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getSelectedDeliveryModeCode())
     );
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
-    return this.checkoutDetails$.pipe(
+    return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getPaymentDetails())
     );
   }

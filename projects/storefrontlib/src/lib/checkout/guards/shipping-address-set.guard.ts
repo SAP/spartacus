@@ -7,7 +7,9 @@ import { CheckoutDetailsService } from '../checkout-details.service';
 import { CheckoutStep } from '../config/model/checkout-step.model';
 import { CheckoutConfig } from '../config/checkout-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ShippingAddressSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
@@ -19,6 +21,9 @@ export class ShippingAddressSetGuard implements CanActivate {
     const route = this.config.checkout.steps.find(
       (step: CheckoutStep) => step.type.indexOf('shippingAddress') !== -1
     );
+    if (!route) {
+      console.warn('not provided route for shippingAddress');
+    }
 
     return this.checkoutDetailsService.getDeliveryAddress().pipe(
       map(shippingAddress => {

@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 import { Order } from '@spartacus/core';
@@ -18,9 +17,9 @@ class MockCheckoutDetailsService {
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
 
 describe(`ShippingAddressSetGuard`, () => {
-  let router: Router;
   let guard: ShippingAddressSetGuard;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
+  let mockCheckoutConfig: CheckoutConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -35,21 +34,33 @@ describe(`ShippingAddressSetGuard`, () => {
       imports: [RouterTestingModule],
     });
 
-    router = TestBed.get(Router);
     guard = TestBed.get(ShippingAddressSetGuard);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
+    mockCheckoutConfig = TestBed.get(CheckoutConfig);
   });
 
   describe(`when there is NO shipping address present`, () => {
-    it(`should return false and navigate to shipping address step`, done => {
+    it(`should navigate to shipping address step`, done => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
 
       guard.canActivate().subscribe(result => {
-        expect(result).toEqual(
-          router.parseUrl(defaultCheckoutConfig.checkout.steps[0].url)
+        expect(result.toString()).toEqual(
+          mockCheckoutConfig.checkout.steps[0].url
         );
+        done();
+      });
+    });
+
+    it(`should navigate to default if not configured`, done => {
+      spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
+        of({})
+      );
+      mockCheckoutConfig.checkout.steps = [];
+
+      guard.canActivate().subscribe(result => {
+        expect(result.toString()).toEqual('/');
         done();
       });
     });

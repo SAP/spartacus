@@ -22,7 +22,6 @@ import { ShippingAddressSetGuard } from '../../../guards/shipping-address-set.gu
       },
     }),
   ],
-  providers: [ShippingAddressSetGuard],
   declarations: [DeliveryModeComponent],
   entryComponents: [DeliveryModeComponent],
   exports: [DeliveryModeComponent],
