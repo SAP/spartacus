@@ -1,6 +1,8 @@
 <div class="cx-search-facet" *ngIf="(searchResult$ | async) as searchResult">
   <ng-template [ngIf]="searchResult.breadcrumbs?.length">
-    <h4 class="cx-facet-filter-header">Filter By</h4>
+    <h4 class="cx-facet-filter-header">
+      {{ 'productList.label.filterBy' | cxTranslate }}
+    </h4>
     <div class="cx-facet-filter-container">
       <div
         *ngFor="let breadcrumb of searchResult.breadcrumbs"
@@ -62,7 +64,7 @@
             (click)="showLess(facet.name)"
             *ngIf="showAllPerFacetMap.get(facet.name)"
           >
-            Show less...
+            {{ 'productList.action.showLess' | cxTranslate }}
           </li>
           <li
             class="cx-facet-toggle-btn"
@@ -72,7 +74,7 @@
               facet.values.length > minPerFacet
             "
           >
-            Show more...
+            {{ 'productList.action.showMore' | cxTranslate }}
           </li>
         </ul>
       </div>
@@ -85,7 +87,7 @@
     class="btn btn-action btn-block cx-facet-mobile-btn"
     (click)="openFilterModal(content)"
   >
-    Filter by
+    {{ 'productList.action.filterBy' | cxTranslate }}
   </button>
 </div>
 
@@ -93,7 +95,9 @@
 <div *ngIf="(updateParams$ | async) as params">
   <div class="cx-facet-mobile" *ngIf="searchResult.breadcrumbs?.length">
     <div class="cx-facet-filter-container">
-      <h4 class="cx-facet-filter-header">Applied Filter:</h4>
+      <h4 class="cx-facet-filter-header">
+        {{ 'productList.label.appliedFilter' | cxTranslate }}
+      </h4>
       <div
         class="cx-facet-filter-pill"
         role="filter"
@@ -116,7 +120,9 @@
 
 <ng-template #content let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="cx-facet-modal-title" id="modal-title">Filter by</h4>
+    <h4 class="cx-facet-modal-title" id="modal-title">
+      {{ 'productList.label.filterBy' | cxTranslate }}
+    </h4>
     <button
       type="button"
       class="close"

@@ -11,7 +11,11 @@ import {
   NgbRatingModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -91,6 +95,7 @@ describe('ProductListComponent in product-list', () => {
         PaginationAndSortingModule,
         FormsModule,
         RouterTestingModule,
+        I18nTestingModule,
       ],
       providers: [
         {

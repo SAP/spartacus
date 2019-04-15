@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { ConfigModule, CmsConfig } from '@spartacus/core';
+import { ConfigModule, CmsConfig, I18nModule } from '@spartacus/core';
 
 import { AddressFormModule } from './address-form/address-form.module';
 import { CardModule } from '../../../../ui/components/card/card.module';
@@ -17,6 +17,7 @@ import { EmptyCartGuard } from '../../../guards/empty-cart.guard';
     AddressFormModule,
     CardModule,
     SpinnerModule,
+    I18nModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MultistepCheckoutShippingAddress: {
