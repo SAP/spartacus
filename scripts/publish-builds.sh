@@ -13,6 +13,19 @@ get_version() {
     echo `head package.json | awk '/version/ { gsub(/"/, "", $2); gsub(/,/, "", $2);print $2 }'`
 }
 
+build_styles() {
+    local styles_path=projects/storefrontstyles
+    local styles_dist_path=dist/styles
+
+    rm -rf ${styles_dist_path}
+    pushd $styles_path > /dev/null
+    npm pack
+    STYLES_TGZ=`ls *.tgz`
+    popd > /dev/null
+    tar -zxvf ${styles_path}/$STYLES_TGZ
+    mv package ${styles_dist_path}
+}
+
 publish_snapshot() {
     local LIB=$1
     local LIB_DIR=$2
@@ -57,6 +70,8 @@ publish_snapshot() {
 }
 
 publish_snapshot "core" "dist/core"
+build_styles
+publish_snapshot "styles" "dist/styles"
 publish_snapshot "storefront" "dist/storefrontlib"
 
 echo "Finished publishing build artifacts"
