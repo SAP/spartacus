@@ -7,8 +7,6 @@ import { defaultOccProductConfig } from '../config/product-config';
 import { ConfigModule } from '../../config/index';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 import { OccProductReviewsAdapter } from './occ-product-reviews.adapter';
-import { PRODUCT_REVIEWS_NORMALIZER } from '../connectors/reviews/converters';
-import { OccProductReviewsListNormalizer } from './converters/occ-product-reviews-list-normalizer';
 import { OccProductAdapter } from './occ-product.adapter';
 import { ProductAdapter } from '../connectors/product/product.adapter';
 import { PRODUCT_NORMALIZER } from '../connectors/product/converters';
@@ -53,11 +51,6 @@ import { OccProductSearchNormalizer } from './converters/occ-product-search-norm
     {
       provide: ProductReviewsAdapter,
       useClass: OccProductReviewsAdapter,
-    },
-    {
-      provide: PRODUCT_REVIEWS_NORMALIZER,
-      useClass: OccProductReviewsListNormalizer,
-      multi: true,
     },
   ],
 })

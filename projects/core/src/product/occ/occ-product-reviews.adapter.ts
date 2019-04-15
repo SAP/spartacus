@@ -4,11 +4,9 @@ import { Observable } from 'rxjs';
 import { Review } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
-import {
-  PRODUCT_REVIEW_SERIALIZER,
-  PRODUCT_REVIEWS_NORMALIZER,
-} from '../connectors/reviews/converters';
+import { PRODUCT_REVIEW_SERIALIZER, PRODUCT_REVIEWS_NORMALIZER } from '../connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
+import { pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccProductReviewsAdapter implements ProductReviewsAdapter {
@@ -19,9 +17,10 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   ) {}
 
   load(productCode: string, maxCount?: number): Observable<Review[]> {
-    return this.http
-      .get(this.getEndpoint(productCode, maxCount))
-      .pipe(this.converter.pipeable(PRODUCT_REVIEWS_NORMALIZER));
+    return this.http.get(this.getEndpoint(productCode, maxCount)).pipe(
+      pluck('reviews'),
+      this.converter.pipeable(PRODUCT_REVIEWS_NORMALIZER)
+    );
   }
 
   post(productCode: string, review: any): Observable<Review> {
