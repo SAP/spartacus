@@ -1,3 +1,11 @@
+@import 'theme';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .cx-dialog-header {
   padding: var(--cx-padding, 2rem 1.75rem 0.85rem);
   border-width: var(--cx-border-width, 0);
@@ -21,5 +29,13 @@ h3 {
   width: var(--cx-width, 100%);
   button:first-child {
     margin: var(--cx-margin, 0 0 1em 0);
+  }
+}
+
+.modal-body {
+  @include media-breakpoint-down(sm) {
+    top: -85px;
+    flex: none;
+    margin: auto 0;
   }
 }

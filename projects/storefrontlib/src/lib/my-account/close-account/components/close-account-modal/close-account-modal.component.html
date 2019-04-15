@@ -1,24 +1,34 @@
-<div class="modal-header cx-dialog-header">
-  <h3 class="modal-title">{{ 'closeAccount.modal.title' | cxTranslate }}</h3>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-
-<div class="modal-body">
-  <div class="cx-row">
-    <p class="cx-confirmation">
-      {{ 'closeAccount.modal.confirmation' | cxTranslate }}
-    </p>
+<ng-container *ngIf="(userToken$ | async) as userToken">
+  <div class="modal-header cx-dialog-header">
+    <h3 class="modal-title">{{ 'closeAccount.modal.title' | cxTranslate }}</h3>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <div class="cx-row">
-    <div class="cx-btn-group">
-      <button class="btn btn-primary">
-        {{ 'closeAccount.action.closeMyAccount' | cxTranslate }}
-      </button>
-      <button (click)="closeModal()" class="btn btn-block btn-secondary">
-        {{ 'closeAccount.action.cancel' | cxTranslate }}
-      </button>
+
+  <div class="modal-body">
+    <div class="cx-row">
+      <p class="cx-confirmation">
+        {{ 'closeAccount.modal.confirmation' | cxTranslate }}
+      </p>
+    </div>
+    <div class="cx-row">
+      <div class="cx-btn-group">
+        <button
+          class="btn btn-primary"
+          (click)="closeAccount(userToken.userId)"
+        >
+          {{ 'closeAccount.action.closeMyAccount' | cxTranslate }}
+        </button>
+        <button (click)="closeModal()" class="btn btn-block btn-secondary">
+          {{ 'closeAccount.action.cancel' | cxTranslate }}
+        </button>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>
