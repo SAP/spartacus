@@ -19,6 +19,7 @@ Configured router links can be automatically generated in HTML templates using `
 - [Router links](#router-links)
   - [Transform the name of the route and the params object](#transform-the-name-of-the-route-and-the-params-object)
     - [The route with parameters](#the-route-with-parameters)
+- [Links to nested routes](#links-to-nested-routes)
 - [Parameters mapping](#parameters-mapping)
   - [Predefined parameters mapping](#predefined-parameters-mapping)
     - [Define parameters mapping under key: default](#define-parameters-mapping-under-key-default)
@@ -100,6 +101,60 @@ result:
 
 ```html
 <a [routerLink]="['', 1234, 'custom', 'product-path']"></a>
+```
+
+## Links to nested routes
+
+When Angular's `Routes` contain **arrays** of `children` routes:
+
+```typescript
+const routes: Routes = [
+    {
+        data: { cxPath: 'parent' }, // route name
+        children: [
+            {
+                data: { cxPath: 'child' }, // route name
+                /* ... */
+            }
+        ],
+        /* ... */
+    }
+];
+```
+
+then config should be:
+
+```typescript
+ConfigModule.withConfig({
+    routesConfig: {
+        translations: {
+            en: {
+                parent: { // route name
+                    paths: ['parent-path/:param1'],
+                },
+                child: { // route name
+                    paths: ['child-path/:param2'],
+                }
+            }
+        }
+    }
+})
+```
+
+In order to translate the path of parent and child route we need to concatenate them with `relative:true` flag for child route. For example:
+
+```html
+<a [routerLink]="[].concat(
+    { route: { name: 'parent', params: { param1: 'value1' } } | cxTranslateUrl,
+    { route: { name: 'child',  params: { param2: 'value2', relative: true } } | cxTranslateUrl,
+)">
+</a>
+```
+
+result:
+
+```html
+<a [routerLink]="['', 'parent-path', 'value1', 'child-path', 'value2']"></a>
 ```
 
 

@@ -90,7 +90,10 @@ export class UrlTranslationService {
       routeTranslation.paramsMapping
     );
 
-    result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
+    if (!standarizedRoute.relative) {
+      result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
+    }
+
     return result;
   }
 
@@ -105,6 +108,7 @@ export class UrlTranslationService {
       : {
           name: route.name,
           params: route.params || {},
+          relative: route.relative,
         };
   }
 
