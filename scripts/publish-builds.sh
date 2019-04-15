@@ -16,7 +16,7 @@ get_version() {
 publish_snapshot() {
     local LIB=$1
     local LIB_DIR=$2
-    local REPO_URL="https://github.com/${REPO_OWNER}/${PROJECT_NAME}-${LIB}-builds.git"
+    local REPO_URL="https://${GITHUB_TOKEN}@github.com/${REPO_OWNER}/${PROJECT_NAME}-${LIB}-builds.git"
     local BRANCH='master'
     local VERSION=$(get_version)
     local BUILD_ID="${LIB}-${VERSION}+${SHORT_SHA}"
