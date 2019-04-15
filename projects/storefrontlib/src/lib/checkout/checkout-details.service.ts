@@ -44,7 +44,7 @@ export class CheckoutDetailsService {
       tap(([userId, cartId]: [string, string]) =>
         this.checkoutService.loadCheckoutDetails(userId, cartId)
       ),
-      shareReplay(1, undefined),
+      shareReplay(1),
       switchMap(() => this.getLoaded$),
       skipWhile(loaded => !loaded)
     );
