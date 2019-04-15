@@ -4,7 +4,7 @@ import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
 import {
   CheckoutState,
-  CHECKOUT_FEATURE,
+  CHECKOUT_DETAILS,
   CheckoutStepsState,
 } from '../checkout-state';
 import * as fromAction from '../actions/index';
@@ -22,7 +22,7 @@ import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
     steps: loaderReducer<CheckoutStepsState>(
-      CHECKOUT_FEATURE,
+      CHECKOUT_DETAILS,
       fromCheckout.reducer
     ),
     cardTypes: fromCardTypes.reducer,
