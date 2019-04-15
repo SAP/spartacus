@@ -1,13 +1,17 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 import {
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
   UserService,
   UserToken,
-  GlobalMessageService,
-  RoutingService,
-  GlobalMessageType,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+
+import { Observable, Subscription } from 'rxjs';
+
 import i18next from 'i18next';
 
 @Component({
@@ -18,7 +22,7 @@ import i18next from 'i18next';
 })
 export class CloseAccountModalComponent implements OnInit {
   private subscription = new Subscription();
-  userToken$: UserToken;
+  userToken$: Observable<UserToken>;
 
   constructor(
     private activeModal: NgbActiveModal,
