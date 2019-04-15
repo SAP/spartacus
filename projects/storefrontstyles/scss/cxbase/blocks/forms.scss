@@ -173,7 +173,7 @@ input[type='radio'] {
   position: var(--cx-position, relative);
   display: var(--cx-display, inline-block);
   height: var(--cx-height, 40px);
-  width: var(--cx-width, 88px);
+  width: var(--cx-width, 78px);
 }
 
 .form-toggle-input {
@@ -195,8 +195,8 @@ input[type='radio'] {
   &:before {
     position: var(--cx-position, absolute);
     content: var(--cx-content, '');
-    height: var(--cx-height, 32px);
-    width: var(--cx-width, 32px);
+    height: var(--cx-height, 25px);
+    width: var(--cx-width, 25px);
     left: var(--cx-left, 4px);
     bottom: var(--cx-bottom, 4px);
     background-color: var(--cx-background-color, var(--cx-g-color-inverse));

@@ -8,14 +8,15 @@ import {
   OccUserService,
   OccMiscsService,
   OccOrderService,
+  NotificationPreferenceService,
 } from '@spartacus/core';
-
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
     OccUserService,
     OccMiscsService,
     OccOrderService,
+    NotificationPreferenceService,
     { provide: OccConfig, useExisting: Config },
   ],
 })

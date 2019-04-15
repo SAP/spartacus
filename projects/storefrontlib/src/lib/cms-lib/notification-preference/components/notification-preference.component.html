@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="cx-notification-preference-header">
+    <h3>Notification Preference</h3>
+  </div>
+
+  <div class="cx-body">
+    <div>
+      <label> Select your preferred notification channels</label>
+    </div>
+    <div
+      class="form-check"
+      *ngIf="
+        (notificationPreferenceList$ | async) as notificationPreferenceList
+      "
+    >
+      <ul
+        class="cx-ul"
+        *ngFor="let preference of notificationPreferenceList.preferences"
+      >
+        <!-- <ng-container *ngIf="preference.value" class="cx-name"> -->
+        <li class="cx-li">
+          <div class="form-toggle">
+            <input
+              class="form-toggle-input"
+              role="switch"
+              type="checkbox"
+              [checked]="preference.enabled ? 'checked' : ''"
+            />
+
+            <label
+              class="form-toggle__switch"
+              (click)="updateNotificationPreferences(preference)"
+            >
+            </label>
+          </div>
+          <span class="cx-notification-preference-span"
+            >{{ preference.channel }}: {{ preference.value }}</span
+          >
+        </li>
+        <!-- </ng-container> -->
+      </ul>
+    </div>
+  </div>
+</div>

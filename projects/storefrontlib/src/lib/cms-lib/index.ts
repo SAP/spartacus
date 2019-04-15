@@ -31,3 +31,6 @@ export * from './banner/banner.module';
 
 export * from './site-context-selector/site-context-selector.module';
 export * from './site-context-selector/site-context-component.service';
+
+export * from './notification-preference/notification-preference.module';
+export * from './notification-preference/components/notification-preference.component';
