@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import createSpy = jasmine.createSpy;
 import { ProductSearchConnector } from './product-search.connector';
 import { ProductSearchAdapter } from './product-search.adapter';
 import { of } from 'rxjs/internal/observable/of';
+import createSpy = jasmine.createSpy;
 
 class MockProductSearchAdapter implements ProductSearchAdapter {
   loadSearch = createSpy('ProductSearchAdapter.loadSearch').and.callFake(
     query => of('search:' + query)
   );
 
-  loadSuggestionList = createSpy(
-    'ProductSearchAdapter.loadSuggestionList'
+  loadSuggestions = createSpy(
+    'ProductSearchAdapter.loadSuggestions'
   ).and.callFake(term => of('term:' + term));
 }
 
@@ -37,15 +37,16 @@ describe('ProductSearchConnector', () => {
     let result;
     service.search('test query').subscribe(res => (result = res));
     expect(result).toBe('search:test query');
-    expect(adapter.loadSearch).toHaveBeenCalledWith('test query', {
-      pageSize: 20,
-    });
+    expect(adapter.loadSearch).toHaveBeenCalledWith('test query', undefined);
   });
 
   it('getSuggestions should call adapter', () => {
     let result;
     service.getSuggestions('test term').subscribe(res => (result = res));
     expect(result).toBe('term:test term');
-    expect(adapter.loadSuggestionList).toHaveBeenCalledWith('test term', 3);
+    expect(adapter.loadSuggestions).toHaveBeenCalledWith(
+      'test term',
+      undefined
+    );
   });
 });

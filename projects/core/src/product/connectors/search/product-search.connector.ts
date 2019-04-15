@@ -7,10 +7,6 @@ import {
 import { SearchConfig } from '../../model/search-config';
 import { Observable } from 'rxjs';
 
-const DEFAULT_SEARCH_CONFIG: SearchConfig = {
-  pageSize: 20,
-};
-
 @Injectable({
   providedIn: 'root',
 })
@@ -18,13 +14,13 @@ export class ProductSearchConnector {
   constructor(protected adapter: ProductSearchAdapter) {}
 
   search(
-    fullQuery: string,
-    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
+    query: string,
+    searchConfig?: SearchConfig
   ): Observable<ProductSearchPage> {
-    return this.adapter.loadSearch(fullQuery, searchConfig);
+    return this.adapter.loadSearch(query, searchConfig);
   }
 
-  getSuggestions(term: string, pageSize = 3): Observable<SuggestionList> {
-    return this.adapter.loadSuggestionList(term, pageSize);
+  getSuggestions(term: string, pageSize?: number): Observable<SuggestionList> {
+    return this.adapter.loadSuggestions(term, pageSize);
   }
 }

@@ -15,6 +15,10 @@ import {
   PRODUCT_SUGGESTIONS_LIST_NORMALIZER,
 } from '../connectors/search/converters';
 
+const DEFAULT_SEARCH_CONFIG: SearchConfig = {
+  pageSize: 20,
+};
+
 @Injectable()
 export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
@@ -24,17 +28,17 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   ) {}
 
   loadSearch(
-    fullQuery: string,
-    searchConfig: SearchConfig
+    query: string,
+    searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
     return this.http
-      .get(this.getSearchEndpoint(fullQuery, searchConfig))
+      .get(this.getSearchEndpoint(query, searchConfig))
       .pipe(this.converter.pipeable(PRODUCT_SEARCH_NORMALIZER));
   }
 
-  loadSuggestionList(
+  loadSuggestions(
     term: string,
-    pageSize: number
+    pageSize: number = 3
   ): Observable<SuggestionList> {
     return this.http
       .get(this.getSuggestionEndpoint(term, pageSize.toString()))

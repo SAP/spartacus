@@ -106,7 +106,7 @@ describe('OccProductSearchAdapter', () => {
   describe('query product suggestions', () => {
     it('should return suggestions for given term', () => {
       service
-        .loadSuggestionList(queryText, mockSearchConfig.pageSize)
+        .loadSuggestions(queryText, mockSearchConfig.pageSize)
         .subscribe(suggestionList => {
           expect(suggestionList).toEqual(suggestions);
         });
@@ -126,7 +126,7 @@ describe('OccProductSearchAdapter', () => {
 
     it('should call converter', () => {
       service
-        .loadSuggestionList(queryText, mockSearchConfig.pageSize)
+        .loadSuggestions(queryText, mockSearchConfig.pageSize)
         .subscribe();
       httpMock.expectOne('productSuggestionstest').flush(suggestions);
 
