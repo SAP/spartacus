@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
   map,
   shareReplay,
-  skipUntil,
+  skipWhile,
   switchMap,
   tap,
   withLatestFrom,
@@ -21,8 +21,8 @@ import {
 export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;
-  checkoutDetails$: Observable<[string, string]>;
   getLoaded$: Observable<boolean>;
+  checkoutDetails$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -37,7 +37,9 @@ export class CheckoutDetailsService {
       .getActive()
       .pipe(map(cartData => cartData.code));
 
-    this.getLoaded$ = this.checkoutService.getCheckoutDetailsLoaded();
+    this.getLoaded$ = this.checkoutService
+      .getCheckoutDetailsLoaded()
+      .pipe(tap(console.log));
 
     this.checkoutDetails$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),
@@ -45,7 +47,8 @@ export class CheckoutDetailsService {
         this.checkoutService.loadCheckoutDetails(userId, cartId)
       ),
       shareReplay(1, undefined),
-      skipUntil(this.getLoaded$)
+      switchMap(() => this.getLoaded$),
+      skipWhile(loaded => !loaded)
     );
   }
 
