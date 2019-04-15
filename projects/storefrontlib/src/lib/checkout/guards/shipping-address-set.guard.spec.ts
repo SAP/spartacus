@@ -26,7 +26,10 @@ describe(`ShippingAddressSetGuard`, () => {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
         },
-        { provide: CheckoutDetailsService, useClass: MockCheckoutDetailsService },
+        {
+          provide: CheckoutDetailsService,
+          useClass: MockCheckoutDetailsService,
+        },
       ],
       imports: [RouterTestingModule],
     });
@@ -38,7 +41,9 @@ describe(`ShippingAddressSetGuard`, () => {
 
   describe(`when there is NO shipping address present`, () => {
     it(`should return false and navigate to shipping address step`, done => {
-      spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(of({}));
+      spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
+        of({})
+      );
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(false);
