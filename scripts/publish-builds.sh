@@ -17,7 +17,7 @@ publish_snapshot() {
     local LIB=$1
     local LIB_DIR=$2
     local REPO_URL="https://${GITHUB_TOKEN}@github.com/${REPO_OWNER}/${PROJECT_NAME}-${LIB}-builds.git"
-    local BRANCH='master'
+    local PUBLISH_BRANCH='master'
     local VERSION=$(get_version)
     local BUILD_ID="${LIB}-${VERSION}+${SHORT_SHA}"
 
@@ -28,7 +28,6 @@ publish_snapshot() {
 
     echo "Pushing build artifacts to ${REPO_OWNER}/${BUILD_REPO}"
 
-    # create local repo folder and clone build repo into it
     rm -rf $TMP_DIR
     mkdir -p $TMP_DIR
 
@@ -36,12 +35,11 @@ publish_snapshot() {
     cd $TMP_DIR && \
         git init && \
         git remote add origin $REPO_URL && \
-        git fetch origin ${BRANCH} --depth=1 && \
-        git checkout origin/${BRANCH}
-    git checkout -b "${BRANCH}"
+        git fetch origin ${PUBLISH_BRANCH} --depth=1 && \
+        git checkout origin/${PUBLISH_BRANCH}
+    git checkout -b "${PUBLISH_BRANCH}"
     )
 
-    # copy over build artifacts into the repo directory
     cp -R $LIB_DIR/* $TMP_DIR/
 
     echo `date` > $TMP_DIR/BUILD_INFO
@@ -54,7 +52,7 @@ publish_snapshot() {
         git add --all && \
         git commit -m "${COMMIT_MSG}" --quiet && \
         git tag "${BUILD_ID}"
-        git push origin "${BRANCH}" --tags --force
+        git push origin "${PUBLISH_BRANCH}" --tags --force
     )
 }
 
