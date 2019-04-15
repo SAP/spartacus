@@ -21,7 +21,7 @@ const routingServiceStub = {
   ) {},
 };
 
-class cartDataServiceStub {
+class CartDataServiceStub {
   cart = undefined;
   get hasCart(): boolean {
     return !!this.cart;
@@ -39,7 +39,7 @@ describe('Empty Cart guard', () => {
         EmptyCartGuard,
         {
           provide: CartDataService,
-          useClass: cartDataServiceStub,
+          useClass: CartDataServiceStub,
         },
         {
           provide: RoutingService,
