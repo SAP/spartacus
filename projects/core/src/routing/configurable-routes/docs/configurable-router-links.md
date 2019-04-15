@@ -30,12 +30,8 @@ Configured router links can be automatically generated in HTML templates using `
 
 ## Assumptions and limitations
 
-- the output path is always absolute (the path array contains the leading `'/'`)
+- the output path is absolute (the path array contains the leading `''`), unless option `relative: true` is set
 - the route that cannot be resolved from *a route's name and params* will return the root URL `['/']`
-- the route that cannot be resolved from the supposed *path having the default shape* will return the original URL
-- a *routes' names and params* are given in an array in order to support [Links to nested routes](#links-to-nested-routes) (planned API optimisation for non-nested routes: [#706](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/706))
-- the relative *path having the default shape* is treated as absolute
-
 
 ## Prerequisites
 
@@ -146,7 +142,7 @@ In order to translate the path of parent and child route we need to concatenate 
 ```html
 <a [routerLink]="[].concat(
     { route: { name: 'parent', params: { param1: 'value1' } } | cxTranslateUrl,
-    { route: { name: 'child',  params: { param2: 'value2', relative: true } } | cxTranslateUrl,
+    { route: { name: 'child',  params: { param2: 'value2' }, relative: true } | cxTranslateUrl,
 )">
 </a>
 ```
