@@ -2,7 +2,7 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Order, OrderHistoryList } from '../../occ/occ-models/index';
+import { Order, OrderHistoryList, ConsignmentTracking } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 // To be changed to a more optimised params after ticket: C3PO-1076
@@ -13,7 +13,7 @@ export class OccOrderService {
   constructor(
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService
-  ) {}
+  ) { }
 
   protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = 'users/' + userId + '/orders';
@@ -71,6 +71,17 @@ export class OccOrderService {
       .get<Order>(orderUrl, {
         params: params,
       })
+      .pipe(catchError((error: any) => throwError(error.json())));
+  }
+
+  protected getConsignmentTrackingEndpoint(orderCode: string, consignmentCode: string): string {
+    const endpoint = '/orders/' + orderCode + '/consignments/' + consignmentCode + '/tracking';
+    return this.occEndpoints.getEndpoint(endpoint);
+  }
+
+  public getConsignmentTracking(orderCode: string, consignmentCode: string): Observable<ConsignmentTracking> {
+    return this.http.get<ConsignmentTracking>(
+      this.getConsignmentTrackingEndpoint(orderCode, consignmentCode))
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

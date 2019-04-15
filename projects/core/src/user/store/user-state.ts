@@ -7,6 +7,7 @@ import {
   Region,
   Title,
   User,
+  ConsignmentTracking
 } from '../../occ/occ-models/index';
 import { LoaderState } from '../../state';
 
@@ -33,10 +34,15 @@ export interface UserState {
   titles: TitlesState;
   regions: RegionsState;
   resetPassword: boolean;
+  consignmentTracking: ConsignmentTrackingState;
 }
 
 export interface OrderDetailsState {
   order: Order;
+}
+
+export interface ConsignmentTrackingState {
+  tracking: ConsignmentTracking;
 }
 
 export interface RegionsState {

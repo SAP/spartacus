@@ -1,0 +1,80 @@
+<div class="cx-consignment-tracking-dialog" #dialog>
+  <!-- Modal Header -->
+  <ng-container *ngIf="(consignmentTracking$ | async) as consignmentTracking; else loading">
+    <div class="cx-consignment-tracking-dialog__header modal-header">
+      <div class="cx-consignment-tracking-dialog__title modal-title">
+        Shipment - Tracking
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+
+    <!-- shipment header -->
+    <div class="cx-consignment-tracking-dialog__shipment-heading">
+      <ng-container *ngIf="consignmentTracking?.carrierDetails && consignmentTracking?.trackingID; else noTracking">
+
+        <div class="cx-consignment-tracking-dialog__shipment-row row">
+          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+            <div class="cx-consignment-tracking-dialog__shipment-title ">Shipped </div>
+            <div> {{shipDate | date}}</div>
+          </div>
+          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+            <div class="cx-consignment-tracking-dialog__shipment-title">Estimated Delivery</div>
+            <div class="cx-consignment-tracking-dialog__date"> {{consignmentTracking?.targetArrivalDate | date}}</div>
+          </div>
+        </div>
+
+        <div class="cx-consignment-tracking-dialog__shipment-row row">
+          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+            <div class="cx-consignment-tracking-dialog__shipment-title">Delivery Service</div>
+            <div> {{consignmentTracking?.carrierDetails?.code}}</div>
+          </div>
+          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+            <div class="cx-consignment-tracking-dialog__shipment-title">Tracking Number</div>
+            <div>
+              <a [href]="consignmentTracking?.trackingUrl"> {{consignmentTracking?.trackingID}} </a>
+            </div>
+
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <!-- tracking events -->
+    <div class="cx-consignment-tracking-dialog__event modal-body">
+      <ng-container *ngFor="let consignmentEvent of consignmentTracking.trackingEvents">
+        <div class="event-body">
+          <div>{{consignmentEvent.eventDate | date}}</div>
+          <div class="cx-consignment-tracking-dialog__shipment-title">{{consignmentEvent.referenceCode}}</div>
+          <div>{{consignmentEvent.detail}}</div>
+          <div class="cx-consignment-tracking-dialog__shipment-city">location: {{consignmentEvent.location}}</div>
+        </div>
+      </ng-container>
+    </div>
+
+
+  </ng-container>
+  <ng-template #noTracking>
+    <div> No tracking information </div>
+  </ng-template>
+
+  <ng-template #loading>
+    <div class="cx-consignment-tracking-dialog__header modal-header">
+      <div class="cx-consignment-tracking-dialog__title modal-title">
+        Consignment Tracking
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-consignment-tracking-dialog__body modal-body">
+      <div class="cx-consignment-tracking-dialog__info-container row">
+        <div class="col-sm-12">
+          <cx-spinner></cx-spinner>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

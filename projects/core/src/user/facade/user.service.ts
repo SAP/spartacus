@@ -11,6 +11,7 @@ import {
   Region,
   Title,
   User,
+  ConsignmentTracking
 } from '../../occ/occ-models/index';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
@@ -28,7 +29,7 @@ export class UserService {
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
-  ) {}
+  ) { }
 
   /**
    * Returns a user
@@ -73,6 +74,23 @@ export class UserService {
         orderCode: orderCode,
       })
     );
+  }
+
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(fromStore.getConsignmentTracking));
+  }
+
+  loadConsignmentTracking(orderCode: string, consignmentCode: string) {
+    this.store.dispatch(
+      new fromStore.LoadConsignmentTracking({
+        orderCode: orderCode,
+        consignmentCode: consignmentCode
+      })
+    );
+  }
+
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new fromStore.ClearConsignmentTracking());
   }
 
   /**

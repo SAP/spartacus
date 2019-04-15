@@ -28,6 +28,7 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
+import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -52,6 +53,7 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: fromRegionsReducer.reducer,
     resetPassword: fromResetPasswordReducer.reducer,
+    consignmentTracking: fromConsignmentTrackingReducer.reducer,
   };
 }
 
@@ -67,7 +69,7 @@ export const reducerProvider: Provider = {
 export function clearUserState(
   reducer: ActionReducer<any>
 ): ActionReducer<any> {
-  return function(state, action) {
+  return function (state, action) {
     if (action.type === LOGOUT) {
       state = undefined;
     }

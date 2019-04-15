@@ -9,6 +9,8 @@ import { OrderDetailShippingComponent } from './order-detail-shipping/order-deta
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { CardModule } from '../../../ui/components/card/card.module';
 import { OrderDetailsService } from './order-details.service';
+import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events.component';
+import { SpinnerModule } from '../../../ui/components/spinner/spinner.module';
 
 const moduleComponents = [
   OrderDetailHeadlineComponent,
@@ -23,6 +25,7 @@ const moduleComponents = [
     CardModule,
     CommonModule,
     I18nModule,
+    SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderDetailsHeadlineComponent: {
@@ -41,8 +44,8 @@ const moduleComponents = [
     }),
   ],
   providers: [OrderDetailsService],
-  declarations: [...moduleComponents],
+  declarations: [...moduleComponents, TrackingEventsComponent],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
+  entryComponents: [...moduleComponents, TrackingEventsComponent],
 })
-export class OrderDetailsModule {}
+export class OrderDetailsModule { }
