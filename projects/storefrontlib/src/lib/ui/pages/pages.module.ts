@@ -52,14 +52,6 @@ const pageModules = [
       {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
-        data: {
-          pageLabel: 'notification-preference',
-          cxPath: 'notificationPreference',
-        },
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { pageLabel: 'orders', cxPath: 'orders' },
       },
@@ -145,6 +137,15 @@ const pageModules = [
         data: {
           pageLabel: 'update-profile',
           cxPath: 'updateProfile',
+        },
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'notification-preference',
+          cxPath: 'notificationPreference',
         },
       },
       // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
