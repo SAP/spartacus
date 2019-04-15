@@ -22,7 +22,7 @@ import {
 export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;
-  checkoutDetails$: Observable<[string, string]>;
+  checkoutDetails$: Observable<any>;
 
   constructor(
     private authService: AuthService,
