@@ -14,6 +14,11 @@ branches:
     - "/^release\\/.*$/"
     - "/^doc\\/.*$/"
 script: ./build.sh sonar
+deploy:
+  provider: script
+  script: bash scripts/publish-builds.sh
+  on:
+    branch: develop
 notifications:
   email:
     on_failure: always
