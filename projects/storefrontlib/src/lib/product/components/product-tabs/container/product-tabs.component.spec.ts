@@ -2,7 +2,11 @@ import { Component, Directive, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Product, ContentSlotComponentData } from '@spartacus/core';
+import {
+  Product,
+  ContentSlotComponentData,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -51,7 +55,7 @@ describe('ProductTabsComponent in product', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [
         ProductTabsComponent,
         MockProductAttributesComponent,

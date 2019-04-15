@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { CartTotalsComponent } from './cart-totals.component';
-import { Cart, OrderEntry, CartService } from '@spartacus/core';
+import {
+  Cart,
+  OrderEntry,
+  CartService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Input, Component, Pipe, PipeTransform } from '@angular/core';
 
@@ -50,7 +55,7 @@ describe('CartTotalsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, I18nTestingModule],
       declarations: [
         CartTotalsComponent,
         MockOrderSummaryComponent,

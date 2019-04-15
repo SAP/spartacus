@@ -79,32 +79,6 @@ ConfigModule.withConfig({
         <a [routerLink]="['', 'p', '1234']"></a>
         ```
 
-2. With `{ url: <url> }`:
-
-    1. when `campaignName` param **is** given:
-
-        ```html
-        <a [routerLink]="{ url: '/sale/product/1234' } | cxTranslateUrl"></a>
-        ```
-
-        result
-
-        ```html
-        <a [routerLink]="['', 'sale', 'p', '1234']"></a>
-        ```
-
-    2. when `campaignName` param **is not** given:
-
-        ```html
-        <a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a>
-        ```
-
-        result
-
-        ```html
-        <a [routerLink]="['', 'p', '1234']"></a>
-        ```
-
 ## Wrong order of aliases
 
 When a path with less params (for example `/p/:productCode`) is put before a path that has the same params and more (for example `:campaignName/p/:productCode`), then the first path will **always** be used to translate the path (and the second will **never** be used). For example:
@@ -158,20 +132,6 @@ All following examples result in the same:
 
         ```html
         <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
-        ```
-
-2. `{ url: <url> }`:
-
-    1. when `campaignName` param **is** given:
-
-        ```html
-        <a [routerLink]="{ url: '/sale/product/1234' } | cxTranslateUrl"></a>
-        ```
-
-    2. when `campaignName` param **is not** given:
-
-        ```html
-        <a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a>
         ```
 
 ## Subjects of change
