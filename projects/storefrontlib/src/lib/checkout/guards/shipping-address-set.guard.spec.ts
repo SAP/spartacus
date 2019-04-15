@@ -1,11 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
-import { Order, RoutingService } from '@spartacus/core';
+import { Order } from '@spartacus/core';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../checkout-details.service';
+import { CheckoutConfig } from '../config/checkout-config';
 
 class MockCheckoutDetailsService {
   getDeliveryAddress(): Observable<Order> {
@@ -13,8 +15,10 @@ class MockCheckoutDetailsService {
   }
 }
 
+const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+
 describe(`ShippingAddressSetGuard`, () => {
-  let routingService: RoutingService;
+  let router: Router;
   let guard: ShippingAddressSetGuard;
   let mockCheckoutDetailsService: MockCheckoutDetailsService;
 
@@ -23,18 +27,15 @@ describe(`ShippingAddressSetGuard`, () => {
       providers: [
         ShippingAddressSetGuard,
         {
-          provide: RoutingService,
-          useValue: { go: jasmine.createSpy() },
-        },
-        {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,
         },
+        { provide: CheckoutConfig, useValue: MockCheckoutConfig },
       ],
       imports: [RouterTestingModule],
     });
 
-    routingService = TestBed.get(RoutingService);
+    router = TestBed.get(Router);
     guard = TestBed.get(ShippingAddressSetGuard);
     mockCheckoutDetailsService = TestBed.get(CheckoutDetailsService);
   });
@@ -46,10 +47,9 @@ describe(`ShippingAddressSetGuard`, () => {
       );
 
       guard.canActivate().subscribe(result => {
-        expect(result).toEqual(false);
-        expect(routingService.go).toHaveBeenCalledWith({
-          route: [defaultCheckoutConfig.checkout.steps[0]],
-        });
+        expect(result).toEqual(
+          router.parseUrl(defaultCheckoutConfig.checkout.steps[0].url)
+        );
         done();
       });
     });
@@ -63,7 +63,6 @@ describe(`ShippingAddressSetGuard`, () => {
 
       guard.canActivate().subscribe(result => {
         expect(result).toEqual(true);
-        expect(routingService.go).not.toHaveBeenCalled();
         done();
       });
     });
