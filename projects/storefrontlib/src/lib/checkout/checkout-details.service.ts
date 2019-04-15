@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   map,
-  multicast,
-  refCount,
+  shareReplay,
+  skipUntil,
   switchMap,
   tap,
   withLatestFrom,
@@ -11,7 +11,6 @@ import {
 
 import {
   Address,
-  DeliveryMode,
   PaymentDetails,
   CheckoutService,
   CartService,
@@ -23,6 +22,7 @@ export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;
   checkoutDetails$: Observable<[string, string]>;
+  getLoaded$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -37,14 +37,15 @@ export class CheckoutDetailsService {
       .getActive()
       .pipe(map(cartData => cartData.code));
 
+    this.getLoaded$ = this.checkoutService.getCheckoutDetailsLoaded();
+
     this.checkoutDetails$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),
       tap(([userId, cartId]: [string, string]) =>
         this.checkoutService.loadCheckoutDetails(userId, cartId)
       ),
-      // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-      multicast(() => new ReplaySubject(1)),
-      refCount()
+      shareReplay(1, undefined),
+      skipUntil(this.getLoaded$)
     );
   }
 
@@ -54,9 +55,9 @@ export class CheckoutDetailsService {
     );
   }
 
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return this.checkoutDetails$.pipe(
-      switchMap(() => this.checkoutService.getSelectedDeliveryMode())
+      switchMap(() => this.checkoutService.getSelectedDeliveryModeCode())
     );
   }
 
