@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
+import { AuthService, User, UserService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { LoginComponentService } from './login.component.service';
-import { UserService } from '../../../../../core/src/user/facade';
-import { AuthService } from '../../../../../core/src/auth';
-import { User } from '../../../../../core/src/occ/occ-models';
 
 @Component({
   selector: 'cx-login',
