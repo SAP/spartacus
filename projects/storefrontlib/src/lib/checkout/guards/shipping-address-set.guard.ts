@@ -3,6 +3,7 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ServerConfig } from '@spartacus/core';
 import { CheckoutDetailsService } from '../checkout-details.service';
 import { CheckoutStep } from '../config/model/checkout-step.model';
 import { CheckoutConfig } from '../config/checkout-config';
@@ -14,15 +15,18 @@ export class ShippingAddressSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,
     private router: Router,
-    private config: CheckoutConfig
+    private config: CheckoutConfig,
+    private serverConfig: ServerConfig
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
     const route = this.config.checkout.steps.find(
       (step: CheckoutStep) => step.type.indexOf('shippingAddress') !== -1
     );
-    if (!route) {
-      console.warn('not provided route for shippingAddress');
+    if (!route && !this.serverConfig.production) {
+      console.warn(
+        'Missing step with type shippingAddress in checkout configuration.'
+      );
     }
 
     return this.checkoutDetailsService.getDeliveryAddress().pipe(

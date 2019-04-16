@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
-import { Order } from '@spartacus/core';
+import { Order, ServerConfig } from '@spartacus/core';
 import { ShippingAddressSetGuard } from './shipping-address-set.guard';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../checkout-details.service';
@@ -15,6 +15,7 @@ class MockCheckoutDetailsService {
 }
 
 const MockCheckoutConfig: CheckoutConfig = defaultCheckoutConfig;
+const MockServerConfig: ServerConfig = { production: false };
 
 describe(`ShippingAddressSetGuard`, () => {
   let guard: ShippingAddressSetGuard;
@@ -30,6 +31,7 @@ describe(`ShippingAddressSetGuard`, () => {
           useClass: MockCheckoutDetailsService,
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
+        { provide: ServerConfig, useValue: MockServerConfig },
       ],
       imports: [RouterTestingModule],
     });
@@ -57,9 +59,13 @@ describe(`ShippingAddressSetGuard`, () => {
       spyOn(mockCheckoutDetailsService, 'getDeliveryAddress').and.returnValue(
         of({})
       );
+      spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
       guard.canActivate().subscribe(result => {
+        expect(console.warn).toHaveBeenCalledWith(
+          'Missing step with type shippingAddress in checkout configuration.'
+        );
         expect(result.toString()).toEqual('/');
         done();
       });
@@ -73,7 +79,7 @@ describe(`ShippingAddressSetGuard`, () => {
       );
 
       guard.canActivate().subscribe(result => {
-        expect(result).toEqual(true);
+        expect(result).toBeTruthy();
         done();
       });
     });
