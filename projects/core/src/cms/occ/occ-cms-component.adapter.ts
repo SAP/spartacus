@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
@@ -32,11 +32,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageContext: PageContext
   ): Observable<T> {
     return this.http
-      .get<T>(this.getBaseEndPoint() + `/components/${id}`, {
+      .get<T>(this.getComponentEndPoint(id, pageContext), {
         headers: this.headers,
-        params: new HttpParams({
-          fromString: this.getRequestParams(pageContext),
-        }),
       })
       .pipe(this.converter.pipeable<any, T>(CMS_COMPONENT_NORMALIZER));
   }
@@ -49,72 +46,38 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    let requestParams = this.getRequestParams(pageContext, fields);
-    if (currentPage !== undefined) {
-      requestParams === ''
-        ? (requestParams = requestParams + 'currentPage=' + currentPage)
-        : (requestParams = requestParams + '&currentPage=' + currentPage);
-    }
-    if (pageSize !== undefined) {
-      requestParams = requestParams + '&pageSize=' + pageSize;
-    }
-    if (sort !== undefined) {
-      requestParams = requestParams + '&sort=' + sort;
-    }
+    const requestParams = this.getComponentsRequestParams(
+      pageContext,
+      currentPage,
+      pageSize,
+      sort
+    );
 
     const idList: IdList = { idList: ids };
 
     return this.http
-      .post<CmsComponentList>(this.getBaseEndPoint() + `/components`, idList, {
-        headers: this.headers,
-        params: new HttpParams({
-          fromString: requestParams,
-        }),
-      })
+      .post<CmsComponentList>(
+        this.getComponentsEndpoint(requestParams, fields),
+        idList,
+        {
+          headers: this.headers,
+        }
+      )
       .pipe(
         pluck('component'),
         this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZER)
       );
   }
 
-  protected getBaseEndPoint(): string {
-    return this.occEndpoints.getEndpoint('cms');
+  protected getComponentEndPoint(id: string, pageContext: PageContext): string {
+    return this.occEndpoints.getUrl(
+      'component',
+      { id },
+      this.getComponentRequestParams(pageContext)
+    );
   }
 
-  protected getPagesEndpoint(
-    params: {
-      [key: string]: string;
-    },
-    fields?: string
-  ): string {
-    fields = fields ? fields : 'DEFAULT';
-    return this.occEndpoints.getUrl('pages', { fields }, params);
-  }
-
-  protected getPagesRequestParams(
-    pageContext: PageContext
-  ): { [key: string]: any } {
-    let httpParams: { [key: string]: any };
-
-    if (pageContext.id !== 'smartedit-preview') {
-      httpParams = { pageType: pageContext.type };
-
-      if (pageContext.type === PageType.CONTENT_PAGE) {
-        httpParams['pageLabelOrId'] = pageContext.id;
-      } else {
-        httpParams['code'] = pageContext.id;
-      }
-    }
-    return httpParams;
-  }
-
-  protected getComponentsEndpoint(
-    requestParams: {
-      [key: string]: string;
-    },
-    fields?: string
-  ): string {
-    fields = fields ? fields : 'DEFAULT';
+  protected getComponentsEndpoint(requestParams: any, fields: string): string {
     return this.occEndpoints.getUrl('components', { fields }, requestParams);
   }
 
@@ -124,21 +87,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize?: number,
     sort?: string
   ): { [key: string]: string } {
-    let requestParams = {};
-    switch (pageContext.type) {
-      case PageType.PRODUCT_PAGE: {
-        requestParams = { productCode: pageContext.id };
-        break;
-      }
-      case PageType.CATEGORY_PAGE: {
-        requestParams = { categoryCode: pageContext.id };
-        break;
-      }
-      case PageType.CATALOG_PAGE: {
-        requestParams = { catalogCode: pageContext.id };
-        break;
-      }
-    }
+    const requestParams = this.getComponentRequestParams(pageContext);
 
     if (currentPage !== undefined) {
       requestParams['currentPage'] = currentPage.toString();
@@ -153,27 +102,23 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  private getRequestParams(pageContext: PageContext, fields?: string): string {
-    let requestParams = '';
+  protected getComponentRequestParams(
+    pageContext: PageContext
+  ): { [key: string]: string } {
+    let requestParams: { [key: string]: string };
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
-        requestParams = 'productCode=' + pageContext.id;
+        requestParams = { productCode: pageContext.id };
         break;
       }
       case PageType.CATEGORY_PAGE: {
-        requestParams = 'categoryCode=' + pageContext.id;
+        requestParams = { categoryCode: pageContext.id };
         break;
       }
       case PageType.CATALOG_PAGE: {
-        requestParams = 'catalogCode=' + pageContext.id;
+        requestParams = { catalogCode: pageContext.id };
         break;
       }
-    }
-
-    if (fields !== undefined) {
-      requestParams === ''
-        ? (requestParams = requestParams + 'fields=' + fields)
-        : (requestParams = requestParams + '&fields=' + fields);
     }
 
     return requestParams;

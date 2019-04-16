@@ -6,9 +6,10 @@ import { TestBed } from '@angular/core/testing';
 import { CmsComponent, PageType } from '../../occ/occ-models/index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PageContext } from '../../routing/index';
+import { ConverterService } from '../../util/converter.service';
+import { CMS_PAGE_NORMALIZE } from '../connectors';
 import { CmsStructureConfigService } from '../services';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { CMS_PAGE_NORMALIZE, ConverterService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const components: CmsComponent[] = [
@@ -37,30 +38,7 @@ class OccEndpointsServiceMock {
     return endpoint;
   }
   getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
-    if (_endpoint === 'pages') {
-      return (
-        endpoint +
-        `/pages?fields=${_urlParams.fields}${this.flattentParams(_queryParams)}`
-      );
-    } else {
-      return (
-        endpoint +
-        `/components?fields=${_urlParams.fields}${this.flattentParams(
-          _queryParams
-        )}`
-      );
-    }
-  }
-  private flattentParams(_queryParams?: any) {
-    let flat = '';
-    if (_queryParams) {
-      for (const key in _queryParams) {
-        if (key) {
-          flat += `&${key}=${_queryParams[key]}`;
-        }
-      }
-    }
-    return flat;
+    return '';
   }
 }
 
@@ -68,9 +46,20 @@ class MockComverterService {
   pipeable = createSpy().and.returnValue(x => x);
 }
 
+const context: PageContext = {
+  id: 'testPagId',
+  type: PageType.CONTENT_PAGE,
+};
+
+const context1: PageContext = {
+  id: '123',
+  type: PageType.PRODUCT_PAGE,
+};
+
 describe('OccCmsPageAdapter', () => {
   let service: OccCmsPageAdapter;
   let httpMock: HttpTestingController;
+  let endpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -88,6 +77,7 @@ describe('OccCmsPageAdapter', () => {
 
     service = TestBed.get(OccCmsPageAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    endpointsService = TestBed.get(OccEndpointsService);
   });
 
   afterEach(() => {
@@ -96,10 +86,12 @@ describe('OccCmsPageAdapter', () => {
 
   describe('Load cms page data', () => {
     it('Should get cms content page data without parameter fields', () => {
-      const context: PageContext = {
-        id: 'testPagId',
-        type: PageType.CONTENT_PAGE,
-      };
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint +
+          `/pages?fields=DEFAULT&pageType=${context.type}&pageLabelOrId=${
+            context.id
+          }`
+      );
 
       service.load(context).subscribe(result => {
         expect(result).toEqual(cmsPageData);
@@ -116,16 +108,23 @@ describe('OccCmsPageAdapter', () => {
         );
       });
 
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'pages',
+        { fields: 'DEFAULT' },
+        { pageType: context.type, pageLabelOrId: context.id }
+      );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);
     });
 
     it('Should get cms content page data with parameter fields', () => {
-      const context: PageContext = {
-        id: 'testPagId',
-        type: PageType.CONTENT_PAGE,
-      };
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint +
+          `/pages?fields=BASIC&pageType=${context.type}&pageLabelOrId=${
+            context.id
+          }`
+      );
 
       service.load(context, 'BASIC').subscribe(result => {
         expect(result).toEqual(cmsPageData);
@@ -142,17 +141,22 @@ describe('OccCmsPageAdapter', () => {
         );
       });
 
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'pages',
+        { fields: 'BASIC' },
+        { pageType: context.type, pageLabelOrId: context.id }
+      );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);
     });
 
     it('should get cms product page data', () => {
-      const context: PageContext = {
-        id: '123',
-        type: PageType.PRODUCT_PAGE,
-      };
-      service.load(context).subscribe(result => {
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint +
+          `/pages?fields=DEFAULT&pageType=${context1.type}&code=${context1.id}`
+      );
+      service.load(context1).subscribe(result => {
         expect(result).toEqual(cmsPageData);
       });
 
@@ -161,23 +165,24 @@ describe('OccCmsPageAdapter', () => {
           req.method === 'GET' &&
           req.url ===
             endpoint +
-              `/pages?fields=DEFAULT&pageType=${context.type}&code=${
-                context.id
+              `/pages?fields=DEFAULT&pageType=${context1.type}&code=${
+                context1.id
               }`
         );
       });
 
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'pages',
+        { fields: 'DEFAULT' },
+        { pageType: context1.type, code: context1.id }
+      );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);
     });
 
     it('should use normalizer', () => {
-      const context: PageContext = {
-        id: '123',
-        type: PageType.PRODUCT_PAGE,
-      };
-
+      spyOn(endpointsService, 'getUrl').and.returnValue(endpoint + '/pages');
       const converter = TestBed.get(ConverterService);
 
       service.load(context).subscribe();
