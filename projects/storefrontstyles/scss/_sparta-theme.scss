@@ -8,7 +8,7 @@ $selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-product-attributes, cx-product-reviews, cx-product-list,
   cx-product-list-item, cx-product-grid, cx-product-facet-navigation,
   cx-pagination, cx-order-history, cx-address-book, cx-address-card,
-  cx-payment-method, cx-added-to-cart-dialog, cx-cart-details !default;
+  cx-payment-method, cx-added-to-cart-dialog, cx-cart-details, cx-cart-item !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
