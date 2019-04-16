@@ -23,11 +23,6 @@ export class PageLayoutService {
   private warnLogMessages = {};
   private logSlots = {};
 
-  // TODO:
-  // distinctUntilChanged is not enough here, probably because
-  // we use the startWith operator in the breakpoint service which
-  // doesn't seem to work well with distinctUntilChanged, see
-  // https://github.com/ReactiveX/rxjs/issues/4030
   getSlots(section?: string): Observable<string[]> {
     return this.breakpointService.breakpoint$.pipe(
       switchMap(breakpoint =>
@@ -49,8 +44,6 @@ export class PageLayoutService {
               return [];
             }
           })
-          // tap(slots => console.log('slots?', slots)),
-          // filter(Boolean),
         )
       ),
       distinctUntilChanged()
@@ -176,13 +169,16 @@ export class PageLayoutService {
     return slotConfig;
   }
 
+  /**
+   * In order to help developers, we print some detailed log information in
+   * case there's no layout configuration available for the given page template
+   * or section. Additionally, the slot positions are printed in the console
+   * in a format that can be copied / paste to the configuration.
+   */
   private logMissingLayoutConfig(page: Page, section?: string): void {
-    // only render warnings during development
     if (this.config.production) {
-      return null;
+      return;
     }
-    // we print the available page slots only once in a format that can be copied
-    // by devs to the layout configuration.
     if (!this.logSlots[page.template]) {
       // the info log is not printed in production
       // tslint:disable-next-line: no-console
