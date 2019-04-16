@@ -13,9 +13,9 @@ export function productStoreFlow(mobile?: string) {
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item:first')
+  cy.get('cx-product-list-item .cx-product-name')
     .first()
-    .should('contain', 'Monopod 100 - Floor Standing Monopod');
+    .should('contain', 'ACK-E5 AC Adapter Kit');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();
