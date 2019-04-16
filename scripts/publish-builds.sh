@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -u -e -o pipefail
+set -x -u -e -o pipefail
 
 REPO_OWNER='SAP'
 PROJECT_NAME='cloud-commerce-spartacus-storefront'
