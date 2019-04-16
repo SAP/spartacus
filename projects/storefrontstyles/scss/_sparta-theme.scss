@@ -1,0 +1,27 @@
+@import './components/index';
+
+// major version standard
+$selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
+  cx-responsive-banner, cx-login, cx-register, cx-link, cx-navigation-ui,
+  cx-footer-navigation, cx-category-navigation, cx-mini-cart, cx-searchbox,
+  cx-product-carousel, cx-product-images, cx-product-summary,
+  cx-product-attributes, cx-product-reviews, cx-product-list,
+  cx-product-list-item, cx-product-grid, cx-product-facet-navigation,
+  cx-pagination, cx-order-history, cx-address-book, cx-address-card,
+  cx-payment-method !default;
+
+// future theme's, can be introduced during minors
+$theme: ''; // conconut
+
+// sampe of theme specific
+%cx-mini-cart-conconut a svg {
+  fill: blue;
+}
+
+@each $selector in $selectors {
+  #{$selector} {
+    @extend %#{$selector} !optional;
+    // optional theme specific placeholder
+    @extend %#{$selector}-#{$theme} !optional;
+  }
+}
