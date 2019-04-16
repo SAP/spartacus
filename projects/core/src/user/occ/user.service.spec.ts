@@ -27,6 +27,7 @@ const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
 const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
+const updateEmailEndpoint = '/login';
 const updatePasswordEndpoint = '/password';
 
 const MockOccModuleConfig: OccConfig = {
@@ -275,6 +276,34 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
+    });
+  });
+
+  describe('update email: ', () => {
+    it('should be able to update the email address', () => {
+      const userId = 'test@test.com';
+      const currentPassword = 'Qwe123!';
+      const newUserId = 'tester@sap.com';
+
+      let result: Object;
+
+      service
+        .updateEmail(userId, currentPassword, newUserId)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updateEmailEndpoint}` &&
+          req.serializeBody() ===
+            `password=${currentPassword}&newLogin=${newUserId}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
     });
   });
 
