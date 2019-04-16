@@ -1,3 +1,5 @@
+import { ServerConfig } from '@spartacus/core';
+
 export enum BREAKPOINT {
   xs = 'xs',
   sm = 'sm',
@@ -27,7 +29,7 @@ export type LayoutSlotConfig = {
   [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig
 };
 
-export abstract class LayoutConfig {
+export abstract class LayoutConfig extends ServerConfig {
   breakpoints?: {
     [BREAKPOINT.xs]?: number;
     [BREAKPOINT.sm]?: number;
