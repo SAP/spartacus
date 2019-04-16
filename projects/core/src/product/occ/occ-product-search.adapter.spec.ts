@@ -12,10 +12,8 @@ import {
 } from '@angular/common/http/testing';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { SearchConfig } from '../model/search-config';
-import {
-  ProductSearchPage,
-  SuggestionList,
-} from '../../occ/occ-models/occ.models';
+import { SuggestionList } from '../../occ/occ-models/occ.models';
+import { UIProductSearchPage } from '../model/product-search-page';
 import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
@@ -30,7 +28,7 @@ class MockConvertService {
 }
 
 const queryText = 'test';
-const searchResults: ProductSearchPage = { products: [{ code: '123' }] };
+const searchResults: UIProductSearchPage = { products: [{ code: '123' }] };
 const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5,

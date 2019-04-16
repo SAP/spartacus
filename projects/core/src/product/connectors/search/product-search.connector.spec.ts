@@ -5,8 +5,8 @@ import { of } from 'rxjs/internal/observable/of';
 import createSpy = jasmine.createSpy;
 
 class MockProductSearchAdapter implements ProductSearchAdapter {
-  loadSearch = createSpy('ProductSearchAdapter.loadSearch').and.callFake(
-    query => of('search:' + query)
+  search = createSpy('ProductSearchAdapter.loadSearch').and.callFake(query =>
+    of('search:' + query)
   );
 
   loadSuggestions = createSpy(

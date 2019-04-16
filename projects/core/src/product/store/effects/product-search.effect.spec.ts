@@ -11,16 +11,14 @@ import * as fromActions from '../actions/product-search.action';
 import { SearchConfig } from '../../model/search-config';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { OccConfig } from '../../../occ/config/occ-config';
-import {
-  ProductSearchPage,
-  SuggestionList,
-} from '../../../occ/occ-models/occ.models';
+import { SuggestionList } from '../../../occ/occ-models/occ.models';
+import { UIProductSearchPage } from '../../model/product-search-page';
 
 import * as fromEffects from './product-search.effect';
 import { defaultOccProductConfig } from '../../config/product-config';
 import createSpy = jasmine.createSpy;
 
-const searchResult: ProductSearchPage = { products: [] };
+const searchResult: UIProductSearchPage = { products: [] };
 const suggestions: SuggestionList = { suggestions: [] };
 
 class MockProductSearchConnector {
