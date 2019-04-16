@@ -44,7 +44,7 @@ export class MyInterestsService {
       catchError((error: any) => throwError(error)));
   }
 
-  public removeInterests(userId: string, item: any): Observable<any> {
+  public removeInterests(userId: string, item: any): Observable<any[]> {
     const r: Observable<any>[] = [];
     item.productInterestEntry.forEach((entry: any) => {
       const params: HttpParams = new HttpParams().set('productCode', item.product.code).set('notificationType', entry.interestType);
