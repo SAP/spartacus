@@ -22,7 +22,7 @@ import {
 import { Subscription, Observable, combineLatest } from 'rxjs';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -40,7 +40,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   cart$: Observable<Cart>;
   user$: Observable<User>;
-  checkoutDetails$: Observable<any>;
+  checkoutDetails$: Observable<[User, Cart]>;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
@@ -59,8 +59,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.cart$ = this.cartService.getActive();
 
     this.checkoutDetails$ = combineLatest(this.user$, this.cart$).pipe(
+      filter(value => Object.keys(value).length !== 0),
       tap(([user, cart]) => {
-        this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
+        if (user.uid && cart.code) {
+          this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
+        }
       })
     );
   }
