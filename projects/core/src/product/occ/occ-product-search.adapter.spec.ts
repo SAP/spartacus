@@ -71,7 +71,7 @@ describe('OccProductSearchAdapter', () => {
 
   describe('query text search', () => {
     it('should return search results for given query text', () => {
-      service.loadSearch(queryText, mockSearchConfig).subscribe(result => {
+      service.search(queryText, mockSearchConfig).subscribe(result => {
         expect(result).toEqual(searchResults);
       });
 
@@ -94,7 +94,7 @@ describe('OccProductSearchAdapter', () => {
     });
 
     it('should call converter', () => {
-      service.loadSearch(queryText, mockSearchConfig).subscribe();
+      service.search(queryText, mockSearchConfig).subscribe();
       httpMock.expectOne('productSearchtest').flush(searchResults);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
@@ -125,9 +125,7 @@ describe('OccProductSearchAdapter', () => {
     });
 
     it('should call converter', () => {
-      service
-        .loadSuggestions(queryText, mockSearchConfig.pageSize)
-        .subscribe();
+      service.loadSuggestions(queryText, mockSearchConfig.pageSize).subscribe();
       httpMock.expectOne('productSuggestionstest').flush(suggestions);
 
       expect(converter.pipeable).toHaveBeenCalledWith(

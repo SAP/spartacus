@@ -27,7 +27,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     protected converter: ConverterService
   ) {}
 
-  loadSearch(
+  search(
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {

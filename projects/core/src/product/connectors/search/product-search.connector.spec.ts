@@ -37,7 +37,7 @@ describe('ProductSearchConnector', () => {
     let result;
     service.search('test query').subscribe(res => (result = res));
     expect(result).toBe('search:test query');
-    expect(adapter.loadSearch).toHaveBeenCalledWith('test query', undefined);
+    expect(adapter.search).toHaveBeenCalledWith('test query', undefined);
   });
 
   it('getSuggestions should call adapter', () => {

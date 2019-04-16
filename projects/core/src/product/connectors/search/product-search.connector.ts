@@ -17,7 +17,7 @@ export class ProductSearchConnector {
     query: string,
     searchConfig?: SearchConfig
   ): Observable<ProductSearchPage> {
-    return this.adapter.loadSearch(query, searchConfig);
+    return this.adapter.search(query, searchConfig);
   }
 
   getSuggestions(term: string, pageSize?: number): Observable<SuggestionList> {

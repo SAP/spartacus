@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 
 export abstract class ProductSearchAdapter {
-  abstract loadSearch(
+  abstract search(
     query: string,
     searchConfig?: SearchConfig
   ): Observable<ProductSearchPage>;
