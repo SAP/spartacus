@@ -1,14 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Observable } from 'rxjs';
-
 import { Product } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit {
   static outlets = ProductDetailOutlets;
@@ -17,7 +15,7 @@ export class ProductDetailsComponent implements OnInit {
 
   product$: Observable<Product>;
 
-  get outlets() {
+  get outlets(): any {
     return ProductDetailsComponent.outlets;
   }
 
@@ -27,7 +25,7 @@ export class ProductDetailsComponent implements OnInit {
     this.product$ = this.currentPageService.getProduct();
   }
 
-  launchReview() {
+  launchReview(): void {
     this.openReview.emit();
   }
 }

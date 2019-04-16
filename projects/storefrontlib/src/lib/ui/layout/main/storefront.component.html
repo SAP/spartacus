@@ -1,4 +1,10 @@
-<cx-header></cx-header>
+<header
+  [class.is-expanded]="isExpanded | async"
+  (keydown.escape)="collapseMenu()"
+>
+  <cx-page-layout section="header"></cx-page-layout>
+  <cx-page-layout section="navigation"></cx-page-layout>
+</header>
 
 <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>
 
