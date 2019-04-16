@@ -39,7 +39,7 @@ describe('OccProductSearchNormalizer', () => {
     const result = normalizer.convert(mockSource);
     const expected = {
       products: [{ images: ['images' as any] }, { images: ['images' as any] }],
-    };
+    } as any;
     expect(result).toEqual(expected);
     expect(imageNormalizer.convert).toHaveBeenCalled();
   });
