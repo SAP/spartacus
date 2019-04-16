@@ -33,6 +33,7 @@ export const defaultStorefrontRoutesTranslations: {
     updatePassword: { paths: ['my-account/update-password'] },
     paymentManagement: { paths: ['my-account/payment-details'] },
     updateProfile: { paths: ['my-account/update-profile'] },
+    myInterests: { paths: ['my-account/my-interests'] }
   },
 
   en: {} as any,

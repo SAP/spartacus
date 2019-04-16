@@ -28,6 +28,7 @@ export interface JspIncludeCmsComponentConfig {
   AccountAddressBookComponent?: CmsComponentMapping;
   ForgotPasswordComponent?: CmsComponentMapping;
   ResetPasswordComponent?: CmsComponentMapping;
+  MyInterestsComponent?: CmsComponentMapping;
 }
 
 export const JSP_INCLUDE_CMS_COMPONENT_TYPE = 'JspIncludeComponent';
@@ -44,7 +45,7 @@ export interface CmsComponentMapping {
 
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
-    JspIncludeCmsComponentConfig {
+  JspIncludeCmsComponentConfig {
   [_: string]: CmsComponentMapping;
 }
 

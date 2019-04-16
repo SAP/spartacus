@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MyInterestsComponent } from '../components/my-interests/my-interests.component';
+import { MyInterestsComponent } from './components/my-interests.component';
 
 @NgModule({
   declarations: [MyInterestsComponent],

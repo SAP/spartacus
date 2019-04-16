@@ -139,6 +139,15 @@ const pageModules = [
           cxPath: 'updateProfile',
         },
       },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'my-interests',
+          cxPath: 'myInterests',
+        },
+      },
       // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
       {
         path: '**',
@@ -155,4 +164,4 @@ const pageModules = [
     },
   ],
 })
-export class PagesModule {}
+export class PagesModule { }
