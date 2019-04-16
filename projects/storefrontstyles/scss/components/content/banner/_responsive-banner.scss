@@ -1,0 +1,14 @@
+%cx-responsive-banner {
+  .link {
+    flex: 1 1 0%;
+    box-sizing: border-box;
+    picture {
+      &.responsive-banner {
+        img {
+          width: 100%;
+          display: block;
+        }
+      }
+    }
+  }
+}
