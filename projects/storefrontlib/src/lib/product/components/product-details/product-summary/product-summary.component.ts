@@ -89,7 +89,13 @@ export class ProductSummaryComponent {
     }
 
     this.getTabsComponent().scrollIntoView();
-    this.getReviewsTab().click();
+
+    // Open reviews tab if not already open
+    if (
+      !this.getReviewsTab().classList.contains('active') ||
+      this.getReviewsTab().classList.contains('toggled')
+    )
+      this.getReviewsTab().click();
   }
 
   constructor(protected translatePipe: TranslatePipe) {}
