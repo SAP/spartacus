@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductSearchAdapter } from '../connectors/search/product-search.adapter';
 import { SearchConfig } from '../model/search-config';
-import {
-  ProductSearchPage,
-  SuggestionList,
-} from '../../occ/occ-models/occ.models';
+import { SuggestionList } from '../../occ/occ-models/occ.models';
 
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -14,6 +11,7 @@ import {
   PRODUCT_SEARCH_NORMALIZER,
   PRODUCT_SUGGESTIONS_LIST_NORMALIZER,
 } from '../connectors/search/converters';
+import { UIProductSearchPage } from '../model/product-search-page';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
@@ -30,7 +28,7 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   search(
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
-  ): Observable<ProductSearchPage> {
+  ): Observable<UIProductSearchPage> {
     return this.http
       .get(this.getSearchEndpoint(query, searchConfig))
       .pipe(this.converter.pipeable(PRODUCT_SEARCH_NORMALIZER));
