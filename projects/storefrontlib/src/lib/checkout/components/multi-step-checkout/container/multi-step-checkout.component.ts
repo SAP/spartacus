@@ -4,7 +4,6 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  AfterViewInit,
 } from '@angular/core';
 
 import {
@@ -18,10 +17,9 @@ import {
   Address,
   Cart,
   User,
-  CheckoutDetails,
 } from '@spartacus/core';
 
-import { Subscription, Observable } from 'rxjs';
+import { Subscription, Observable, combineLatest } from 'rxjs';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
 import { tap } from 'rxjs/operators';
@@ -32,8 +30,7 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MultiStepCheckoutComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
 
   deliveryAddress: Address;
@@ -43,10 +40,7 @@ export class MultiStepCheckoutComponent
 
   cart$: Observable<Cart>;
   user$: Observable<User>;
-  checkoutDetails$: Observable<CheckoutDetails>;
-
-  cartId: string;
-  userId: string;
+  checkoutDetails$: Observable<any>;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
@@ -61,16 +55,14 @@ export class MultiStepCheckoutComponent
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.userService
-      .get()
-      .pipe(tap(user => (this.userId = user.uid)));
-    this.cart$ = this.cartService
-      .getActive()
-      .pipe(tap(cart => (this.cartId = cart.code)));
-  }
+    this.user$ = this.userService.get();
+    this.cart$ = this.cartService.getActive();
 
-  ngAfterViewInit(): void {
-    this.checkoutService.loadCheckoutDetails(this.userId, this.cartId);
+    this.checkoutDetails$ = combineLatest(this.user$, this.cart$).pipe(
+      tap(([user, cart]) => {
+        this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
+      })
+    );
   }
 
   setStep(backStep: number): void {
