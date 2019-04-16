@@ -4,6 +4,7 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
+  AfterViewInit,
 } from '@angular/core';
 
 import {
@@ -13,14 +14,17 @@ import {
   CartService,
   CartDataService,
   PaymentDetails,
+  UserService,
   Address,
   Cart,
+  User,
+  CheckoutDetails,
 } from '@spartacus/core';
 
 import { Subscription, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -28,7 +32,8 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
   styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
+export class MultiStepCheckoutComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   step = 1;
 
   deliveryAddress: Address;
@@ -37,6 +42,11 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   cart$: Observable<Cart>;
+  user$: Observable<User>;
+  checkoutDetails$: Observable<CheckoutDetails>;
+
+  cartId: string;
+  userId: string;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
@@ -45,53 +55,22 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected cartDataService: CartDataService,
     protected routingService: RoutingService,
+    protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart(): void {
-    this.cartService.loadDetails();
+  ngOnInit(): void {
+    this.user$ = this.userService
+      .get()
+      .pipe(tap(user => (this.userId = user.uid)));
+    this.cart$ = this.cartService
+      .getActive()
+      .pipe(tap(cart => (this.cartId = cart.code)));
   }
 
-  ngOnInit() {
-    if (!this.cartDataService.getDetails) {
-      this.cartService.loadDetails();
-    }
-    this.cart$ = this.cartService.getActive();
-    this.processSteps();
-  }
-
-  processSteps(): void {
-    // step1: set delivery address
-    this.subscriptions.push(
-      this.checkoutService
-        .getDeliveryAddress()
-        .pipe(
-          filter(
-            deliveryAddress =>
-              Object.keys(deliveryAddress).length !== 0 && this.step === 1
-          )
-        )
-        .subscribe(deliveryAddress => {
-          this.deliveryAddress = deliveryAddress;
-          this.nextStep(2);
-          this.refreshCart();
-          this.cd.detectChanges();
-        })
-    );
-
-    // step2: select delivery mode
-    this.subscriptions.push(
-      this.checkoutService
-        .getSelectedDeliveryModeCode()
-        .pipe(filter(selected => selected !== '' && this.step === 2))
-        .subscribe(selectedMode => {
-          this.nextStep(3);
-          this.refreshCart();
-          this.deliveryMode = selectedMode;
-          this.cd.detectChanges();
-        })
-    );
+  ngAfterViewInit(): void {
+    this.checkoutService.loadCheckoutDetails(this.userId, this.cartId);
   }
 
   setStep(backStep: number): void {
