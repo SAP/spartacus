@@ -1,16 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
-import { PaymentDetails } from '@spartacus/core';
-import { UserService } from '@spartacus/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { PaymentDetails, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-
 import { Card } from '../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-payment-methods',
   templateUrl: './payment-methods.component.html',
-  styleUrls: ['./payment-methods.component.scss'],
 })
 export class PaymentMethodsComponent implements OnInit, OnDestroy {
   paymentMethods$: Observable<PaymentDetails[]>;
@@ -22,7 +17,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
 
   constructor(private userService: UserService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.paymentMethods$ = this.userService.getPaymentMethods();
     this.editCard = null;
     this.loading$ = this.userService.getPaymentMethodsLoading();
@@ -76,7 +71,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.userServiceSub) {
       this.userServiceSub.unsubscribe();
     }

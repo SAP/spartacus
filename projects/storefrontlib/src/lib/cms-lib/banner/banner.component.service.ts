@@ -18,7 +18,9 @@ export class BannerComponentService {
     protected config: CmsConfig
   ) {}
 
-  private convertToAbsoluteUrl = map(url => this.getBaseUrl() + url);
+  private convertToAbsoluteUrl = map((url: string) => {
+    return url.startsWith('http') ? url : this.getBaseUrl() + url;
+  });
 
   // TODO: move to a more generic location
   // TODO: Make configurable

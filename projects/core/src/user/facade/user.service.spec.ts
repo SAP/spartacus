@@ -542,6 +542,62 @@ describe('UserService', () => {
     expect(isResst).toBeTruthy();
   });
 
+  describe('Update Email ', () => {
+    const uid = 'test@test.com';
+    const password = 'Qwe123!';
+    const newUid = 'tester@sap.com';
+
+    it('should dispatch UpdateEmail action', () => {
+      service.updateEmail(uid, password, newUid);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateEmailAction({ uid, password, newUid })
+      );
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultSuccess()
+        .subscribe(success => (result = success))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateEmailErrorAction('error'));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultError()
+        .subscribe(error => (result = error))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should dispatch a ResetUpdateEmail action', () => {
+      service.resetUpdateEmailResultState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateEmailAction()
+      );
+    });
+  });
+
   describe('update password', () => {
     const userId = 'email@test.com';
     const oldPassword = 'oldPass123';

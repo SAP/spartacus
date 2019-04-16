@@ -5,27 +5,23 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-
 import {
   AuthService,
-  RoutingService,
-  Title,
-  UserService,
+  GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
+  Title,
   UserRegisterFormData,
-  GlobalMessageEntities,
+  UserService,
 } from '@spartacus/core';
-
-import { Subscription, of, Observable } from 'rxjs';
-import { take, switchMap, tap, filter } from 'rxjs/operators';
-
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
@@ -71,7 +67,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             return this.routing.getRedirectUrl().pipe(take(1));
           }
-          return of();
+          return of<string>();
         })
       )
       .subscribe(url => {

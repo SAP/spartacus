@@ -60,7 +60,7 @@ export function removeAllItemsFromCart() {
     cy.getByText('Remove').click();
   });
 
-  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 items)');
+  cy.get('cx-cart-details .cx-total').should('contain', 'Cart total (1 item)');
 
   getCartItem('Photosmart E317 Digital Camera').within(() => {
     cy.getByText('Remove').click();
@@ -84,7 +84,7 @@ export function addProductWhenLoggedIn() {
   cy.get('cx-product-summary cx-add-to-cart button').click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    'Cart total (1 items)'
+    'Cart total (1 item)'
   );
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 }
@@ -111,7 +111,7 @@ export function addProductAsAnonymous() {
 
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    'Cart total (1 items)'
+    'Cart total (1 item)'
   );
 
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
@@ -159,7 +159,7 @@ export function manipulateCartQuantity() {
   cy.get('cx-product-summary cx-add-to-cart button').click();
   cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
     'contain',
-    'Cart total (1 items)'
+    'Cart total (1 item)'
   );
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click();
 
