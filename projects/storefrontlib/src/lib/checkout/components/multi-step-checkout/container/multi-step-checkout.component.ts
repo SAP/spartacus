@@ -13,14 +13,16 @@ import {
   CartService,
   CartDataService,
   PaymentDetails,
+  UserService,
   Address,
   Cart,
+  User,
 } from '@spartacus/core';
 
-import { Subscription, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Subscription, Observable, combineLatest } from 'rxjs';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
+import { tap, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -37,6 +39,8 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   cart$: Observable<Cart>;
+  user$: Observable<User>;
+  checkoutDetails$: Observable<[User, Cart]>;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
@@ -45,52 +49,20 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     protected cartService: CartService,
     protected cartDataService: CartDataService,
     protected routingService: RoutingService,
+    protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart(): void {
-    this.cartService.loadDetails();
-  }
-
-  ngOnInit() {
-    if (!this.cartDataService.getDetails) {
-      this.cartService.loadDetails();
-    }
+  ngOnInit(): void {
+    this.user$ = this.userService.get();
     this.cart$ = this.cartService.getActive();
-    this.processSteps();
-  }
 
-  processSteps(): void {
-    // step1: set delivery address
-    this.subscriptions.push(
-      this.checkoutService
-        .getDeliveryAddress()
-        .pipe(
-          filter(
-            deliveryAddress =>
-              Object.keys(deliveryAddress).length !== 0 && this.step === 1
-          )
-        )
-        .subscribe(deliveryAddress => {
-          this.deliveryAddress = deliveryAddress;
-          this.nextStep(2);
-          this.refreshCart();
-          this.cd.detectChanges();
-        })
-    );
-
-    // step2: select delivery mode
-    this.subscriptions.push(
-      this.checkoutService
-        .getSelectedDeliveryModeCode()
-        .pipe(filter(selected => selected !== '' && this.step === 2))
-        .subscribe(selectedMode => {
-          this.nextStep(3);
-          this.refreshCart();
-          this.deliveryMode = selectedMode;
-          this.cd.detectChanges();
-        })
+    this.checkoutDetails$ = combineLatest(this.user$, this.cart$).pipe(
+      filter(([user, cart]) => !!(user && user.uid && cart && cart.code)),
+      tap(([user, cart]) => {
+        this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
+      })
     );
   }
 
