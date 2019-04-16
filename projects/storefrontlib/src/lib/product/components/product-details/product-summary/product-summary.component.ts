@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 import { TranslatePipe } from '@spartacus/core';
+import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'cx-product-summary',
@@ -39,13 +40,17 @@ export class ProductSummaryComponent {
     );
   }
 
+  // Checks if product has reviews
+  hasReviews(): Observable<boolean> {
+    return Observable.create((observer: Observer<AnalyserOptions>) => {
+      let hasReviews = this.product && this.product.numberOfReviews > 0;
+      observer.next(hasReviews);
+      observer.complete();
+    });
+  }
+
   // Get Tabs Component if exists on page
   private getTabsComponent(): Element {
-    // const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
-    //   'Tabs'
-    // );
-
-    // return elements.length > 0 ? elements[0] : null;
     return document.querySelector('cx-product-tabs');
   }
 
