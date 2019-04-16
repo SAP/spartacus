@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap, distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { CmsService, Page } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
 import {
   BREAKPOINT,
@@ -21,6 +21,7 @@ export class PageLayoutService {
   // we print warn messages on missing layout configs
   // only once to not polute the console log
   private warnLogMessages = {};
+  private logSlots = {};
 
   // TODO:
   // distinctUntilChanged is not enough here, probably because
@@ -31,11 +32,25 @@ export class PageLayoutService {
     return this.breakpointService.breakpoint$.pipe(
       switchMap(breakpoint =>
         this.page$.pipe(
-          map(page =>
-            this.getSlotConfig(page.template, 'slots', section, breakpoint)
-          ),
-          filter(Boolean),
-          map(config => config.slots)
+          map(page => {
+            const config = this.getSlotConfig(
+              page.template,
+              'slots',
+              section,
+              breakpoint
+            );
+            if (config && config.slots) {
+              return config.slots;
+            } else if (!section) {
+              this.logMissingLayoutConfig(page);
+              return Object.keys(page.slots);
+            } else {
+              this.logMissingLayoutConfig(page, section);
+              return [];
+            }
+          })
+          // tap(slots => console.log('slots?', slots)),
+          // filter(Boolean),
         )
       ),
       distinctUntilChanged()
@@ -76,9 +91,7 @@ export class PageLayoutService {
       );
     }
 
-    if (!pageTemplateConfig) {
-      return this.noConfigFound(templateUid);
-    } else {
+    if (pageTemplateConfig) {
       return this.getResponsiveSlotConfig(
         <LayoutSlotConfig>pageTemplateConfig,
         configAttribute,
@@ -163,18 +176,28 @@ export class PageLayoutService {
     return slotConfig;
   }
 
-  private noConfigFound(template: string, section?: string) {
-    if (section) {
-      if (!this.warnLogMessages[section + ':' + template]) {
-        console.warn(
-          `no layout config found for section ${section} of template ${template}`
-        );
-        this.warnLogMessages[section + ':' + template] = true;
-      }
-    } else if (!this.warnLogMessages[template]) {
-      console.warn(`no layout config found for ${template}`);
-      this.warnLogMessages[template] = true;
+  private logMissingLayoutConfig(page: Page, section?: string): void {
+    // only render warnings during development
+    if (this.config.production) {
+      return null;
     }
-    return null;
+    // we print the available page slots only once in a format that can be copied
+    // by devs to the layout configuration.
+    if (!this.logSlots[page.template]) {
+      // the info log is not printed in production
+      // tslint:disable-next-line: no-console
+      console.info(
+        `Available CMS page slots: '${Object.keys(page.slots).join(`','`)}'`
+      );
+      this.logSlots[page.template] = true;
+    }
+
+    const cacheKey = section || page.template;
+    if (!this.warnLogMessages[cacheKey]) {
+      console.warn(
+        `No layout config found for ${cacheKey}, you can configure a 'LayoutConfig' to control the rendering of page slots.`
+      );
+      this.warnLogMessages[cacheKey] = true;
+    }
   }
 }
