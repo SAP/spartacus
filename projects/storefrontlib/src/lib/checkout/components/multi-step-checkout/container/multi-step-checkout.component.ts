@@ -59,11 +59,9 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
     this.cart$ = this.cartService.getActive();
 
     this.checkoutDetails$ = combineLatest(this.user$, this.cart$).pipe(
-      filter(value => Object.keys(value).length !== 0),
+      filter(([user, cart]) => !!(user && user.uid && cart && cart.code)),
       tap(([user, cart]) => {
-        if (user.uid && cart.code) {
-          this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
-        }
+        this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
       })
     );
   }
