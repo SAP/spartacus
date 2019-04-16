@@ -41,11 +41,12 @@ export class ProductSummaryComponent {
 
   // Get Tabs Component if exists on page
   private getTabsComponent(): Element {
-    const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
-      'Tabs'
-    );
+    // const elements: HTMLCollectionOf<Element> = document.getElementsByClassName(
+    //   'Tabs'
+    // );
 
-    return elements.length > 0 ? elements[0] : null;
+    // return elements.length > 0 ? elements[0] : null;
+    return document.querySelector('cx-product-tabs');
   }
 
   // Get Reviews Tab if exists on page
