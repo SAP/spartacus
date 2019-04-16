@@ -23,7 +23,6 @@ export class ProductService {
       this.products[productCode] = this.store.pipe(
         select(fromStore.getSelectedProductStateFactory(productCode)),
         tap(productState => {
-          ``;
           const attemptedLoad =
             productState.loading || productState.success || productState.error;
 
