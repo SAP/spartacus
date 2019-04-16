@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SiteContextSelectorModule } from '../../cms-components/misc';
+import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/index';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
 import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
