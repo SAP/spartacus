@@ -29,7 +29,7 @@ export class UserService {
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
-  ) {}
+  ) { }
 
   /**
    * Returns a user
@@ -140,7 +140,7 @@ export class UserService {
   clearConsignmentTracking(): void {
     this.store.dispatch(new fromStore.ClearConsignmentTracking());
   }
-  
+
   /**
    * Loads all user's payment methods.
    * @param userId a user ID
