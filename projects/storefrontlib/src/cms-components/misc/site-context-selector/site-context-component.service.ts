@@ -1,4 +1,4 @@
-import { Injectable, Injector, Input, Optional } from '@angular/core';
+import { Injectable, Injector, Optional } from '@angular/core';
 import {
   CmsSiteContextSelectorComponent,
   ContextServiceMap,
@@ -18,10 +18,6 @@ const LABELS = {
 
 @Injectable()
 export class SiteContextComponentService {
-  /** the context type can be set as an input. If it's not provided as an input
-   * the contexz type will be loaded from the data.  */
-  @Input() context: SiteContextType;
-
   constructor(
     @Optional()
     protected componentData: CmsComponentData<CmsSiteContextSelectorComponent>,
@@ -29,14 +25,14 @@ export class SiteContextComponentService {
     protected injector: Injector
   ) {}
 
-  get items$(): Observable<any> {
-    return this.service$.pipe(
+  getItems(context?: SiteContextType): Observable<any> {
+    return this.getService(context).pipe(
       switchMap((service: SiteContext<any>) => service.getAll()),
       switchMap(items =>
-        this.context$.pipe(
-          switchMap(context => {
+        this.getContext(context).pipe(
+          switchMap(ctx => {
             items.forEach(item => {
-              return (item.label = this.getOptionLabel(item, context));
+              return (item.label = this.getOptionLabel(item, ctx));
             });
             return of(items);
           })
@@ -45,42 +41,46 @@ export class SiteContextComponentService {
     );
   }
 
-  get activeItem$(): Observable<string> {
-    return this.service$.pipe(
+  getActiveItem(context?: SiteContextType): Observable<string> {
+    return this.getService(context).pipe(
       switchMap((service: SiteContext<any>) => service.getActive())
     );
   }
 
-  get label$(): Observable<any> {
-    return this.componentData.data$.pipe(
-      map(data => {
-        return LABELS[data.context];
+  getLabel(context?: SiteContextType): Observable<any> {
+    return this.getContext(context).pipe(
+      map(ctx => {
+        return LABELS[ctx];
       })
     );
   }
 
-  set active(value: string) {
-    this.service$.pipe(take(1)).subscribe(service => {
-      service.setActive(value);
-    });
+  setActive(value: string, context?: SiteContextType): void {
+    this.getService(context)
+      .pipe(take(1))
+      .subscribe(service => {
+        service.setActive(value);
+      });
   }
 
-  protected get service$(): Observable<SiteContext<any>> {
-    return this.context$.pipe(
-      map(context => this.getService(context)),
+  protected getService(
+    context?: SiteContextType
+  ): Observable<SiteContext<any>> {
+    return this.getContext(context).pipe(
+      map(ctx => this.getInjectedService(ctx)),
       filter(Boolean)
     );
   }
 
-  protected get context$(): Observable<string> {
-    if (this.context) {
-      return of(this.context);
-    } else {
+  protected getContext(context?: SiteContextType): Observable<string> {
+    if (context) {
+      return of(context);
+    } else if (this.componentData) {
       return this.componentData.data$.pipe(map(data => data.context));
     }
   }
 
-  protected getService(context: string): SiteContext<any> {
+  protected getInjectedService(context: string): SiteContext<any> {
     return this.injector.get<SiteContext<any>>(
       this.contextServiceMap[context],
       null
