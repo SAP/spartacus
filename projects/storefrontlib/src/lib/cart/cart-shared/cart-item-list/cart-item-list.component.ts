@@ -8,7 +8,6 @@ import { Item } from '../../cart-shared/cart-item/cart-item.component';
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
-  styleUrls: ['./cart-item-list.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class CartItemListComponent implements OnInit {
