@@ -1,17 +1,17 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ProductCarouselComponent } from './product-carousel.component';
-import { MediaModule } from '../../ui/components/media/media.module';
 import {
+  CmsConfig,
   ConfigModule,
-  UrlTranslationModule,
   ProductService,
+  UrlTranslationModule,
 } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
-
+import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
+import { MediaModule } from '../../../ui/components/media/media.module';
+import { SharedCarouselService } from '../shared-carousel.service';
+import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @NgModule({
   imports: [
@@ -27,6 +27,11 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
               provide: ProductCarouselService,
               useClass: ProductCarouselService,
               deps: [CmsComponentData, ProductService],
+            },
+            {
+              provide: SharedCarouselService,
+              useClass: SharedCarouselService,
+              deps: [],
             },
           ],
         },

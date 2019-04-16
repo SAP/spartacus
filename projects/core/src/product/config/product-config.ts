@@ -7,6 +7,7 @@ export const defaultOccProductConfig: OccConfig = {
         product:
           'products/${productCode}?fields=DEFAULT,averageRating,images(FULL),classifications,numberOfReviews',
         productReviews: 'products/${productCode}/reviews',
+        productReferences: 'products/${productCode}/references',
         // tslint:disable:max-line-length
         productSearch:
           'products/search?fields=products(code,name,summary,price(FULL),images(DEFAULT),stock(FULL),averageRating),facets,breadcrumbs,pagination(DEFAULT),sorts(DEFAULT)&query=${query}',

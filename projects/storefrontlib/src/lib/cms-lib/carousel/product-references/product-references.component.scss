@@ -1,0 +1,25 @@
+@import 'theme';
+@import 'functions';
+@import 'mixins';
+
+:host {
+  flex: 100%;
+  --cx-speed: 0.5;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-down(md) {
+    padding: 1rem;
+  }
+
+  > h3 {
+    @include type('3');
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    @include media-breakpoint-up(xl) {
+      margin-bottom: 3rem;
+    }
+  }
+}

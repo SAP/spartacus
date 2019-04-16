@@ -13,13 +13,14 @@ import { ProductTabsModule } from '../product/components/product-tabs/product-ta
 import { AddressBookModule } from './address-book/address-book.module';
 import { BannerModule } from './banner/banner.module';
 import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
+import { ProductCarouselModule } from './carousel/product-carousel/product-carousel.module';
+import { ProductReferencesModule } from './carousel/product-references/product-references.module';
 import { CategoryNavigationModule } from './category-navigation/category-navigation.module';
 import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
 import { LinkModule } from './link/link.module';
 import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
-import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
 import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
 
@@ -41,7 +42,7 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
     ProductCarouselModule,
     SearchBoxModule,
     MiniCartModule,
-    // ProductReferencesModule,
+    ProductReferencesModule,
     // TabParagraphContainerModule
     SiteContextSelectorModule,
     AddressBookModule,

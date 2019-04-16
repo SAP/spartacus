@@ -1,11 +1,11 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   ElementRef,
+  OnInit,
 } from '@angular/core';
-
 import { WindowRef } from '@spartacus/core';
+import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductCarouselService } from './product-carousel.component.service';
 
 @Component({
@@ -20,15 +20,16 @@ export class ProductCarouselComponent implements OnInit {
   constructor(
     winRef: WindowRef,
     private el: ElementRef,
-    public service: ProductCarouselService
+    public productCarouselService: ProductCarouselService,
+    public sharedCarouselService: SharedCarouselService
   ) {
     this.window = winRef.nativeWindow;
   }
 
   ngOnInit() {
-    this.service.setTitle();
-    this.service.setItemSize(this.window, this.el.nativeElement);
-    this.service.setItems();
-    this.service.setItemAsActive(0);
+    this.productCarouselService.setTitle();
+    this.sharedCarouselService.setItemSize(this.window, this.el.nativeElement);
+    this.productCarouselService.setItems();
+    this.sharedCarouselService.setItemAsActive(0);
   }
 }

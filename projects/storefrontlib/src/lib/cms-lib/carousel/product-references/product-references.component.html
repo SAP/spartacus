@@ -1,0 +1,11 @@
+<h3 *ngIf="(productReferencesService.getTitle() | async) as title">
+  {{ title }}
+</h3>
+
+<h3
+  *ngIf="
+    (productReferencesService.getProductReferenceTypes() | async) as references
+  "
+>
+  {{ references }}
+</h3>

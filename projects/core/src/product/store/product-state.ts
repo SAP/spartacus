@@ -1,5 +1,6 @@
 import {
   Product,
+  ProductReference,
   ProductSearchPage,
   Review,
   Suggestion,
@@ -17,6 +18,7 @@ export interface ProductsState {
   details: EntityLoaderState<Product>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
+  productReferences: ProductReferencesState;
 }
 
 export interface ProductsSearchState {
@@ -28,4 +30,9 @@ export interface ProductsSearchState {
 export interface ProductReviewsState {
   productCode: string;
   list: Review[];
+}
+
+export interface ProductReferencesState {
+  productCode: string;
+  list: ProductReference[];
 }

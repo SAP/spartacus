@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ProductReferencesComponent } from './product-references.component';
 
 describe('ProductReferencesComponent', () => {

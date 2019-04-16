@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ProductReferencesService } from './product-references.component.service';
 // import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
@@ -7,7 +8,15 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   styleUrls: ['./product-references.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReferencesComponent {} /*extends AbstractProductComponent {
+export class ProductReferencesComponent implements OnInit {
+  productCodes: string;
+  constructor(public productReferencesService: ProductReferencesService) {}
+
+  ngOnInit() {
+    this.productReferencesService.setTitle();
+    this.productReferencesService.setProductReferenceTypes();
+  }
+} /*extends AbstractProductComponent {
 
     @Input() productCode;
 
