@@ -1,0 +1,35 @@
+%cx-address-card {
+  .card {
+    margin: var(--cx-margin, 0 0 1.25rem 0);
+    height: var(--cx-height, 100%);
+  }
+
+  .card-actions {
+    display: var(--cx-display, flex);
+    justify-content: var(--cx-justify-content, flex-end);
+    padding: var(--cx-padding, 1.25rem 0 0 0);
+  }
+
+  .cx-address-card-delete {
+    padding: var(--cx-padding, 1.25rem 0 0 0);
+  }
+
+  .cx-address-card-label-bold {
+    @include weight('bold');
+  }
+
+  .cx-address-card-delete-msg {
+    color: var(--cx-color, var(--cx-g-color-danger));
+    padding: var(--cx-padding, 0 0 1.25rem 0);
+  }
+
+  .cx-address-card-delete-mode {
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
+  }
+
+  .cx-card-body {
+    justify-content: var(--cx-justify-content, space-between);
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, column);
+  }
+}

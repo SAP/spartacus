@@ -25,12 +25,7 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function loginWithCredentials(email: string, password: string) {
-  cy.get(loginLinkSelector).click();
-  login(email, password);
-}
-
-export function loginWithBathCredentials() {
+export function loginWithBadCredentials() {
   cy.get(loginLinkSelector).click();
 
   login(user.email, 'Password321');

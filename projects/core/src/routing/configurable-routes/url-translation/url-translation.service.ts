@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
-import { RouteRecognizerService } from './route-recognizer.service';
 import { UrlParsingService } from './url-parsing.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
@@ -17,7 +16,6 @@ export class UrlTranslationService {
 
   constructor(
     private configurableRoutesService: ConfigurableRoutesService,
-    private routeRecognizer: RouteRecognizerService,
     private urlParser: UrlParsingService,
     private config: ServerConfig
   ) {}
@@ -26,13 +24,6 @@ export class UrlTranslationService {
     // if options are invalid, return the root url
     if (!this.validateOptions(options)) {
       return this.ROOT_URL;
-    }
-
-    if (typeof options.url === 'string') {
-      const recognizedRoute = this.routeRecognizer.recognizeByDefaultUrl(
-        options.url
-      );
-      return recognizedRoute ? this.generateUrl(recognizedRoute) : options.url;
     }
 
     return this.generateUrl(options.route);
@@ -47,39 +38,16 @@ export class UrlTranslationService {
       return false;
     }
 
-    const urlDefined = Boolean(options.url) || options.url === '';
     const routeDefined = Boolean(options.route);
-    if (!urlDefined && !routeDefined) {
+    if (!routeDefined) {
       this.warn(
-        `Incorrect options for translating url. Options must have 'url' string or 'route' array property. Options: `,
+        `Incorrect options for translating url. Options must have 'route' array property. Options: `,
         options
       );
       return false;
-    }
-    if (urlDefined && routeDefined) {
-      this.warn(
-        `Incorrect options for translating url. Options cannot have both 'url' and 'route' property. Options: `,
-        options
-      );
-      return false;
-    }
-    if (urlDefined) {
-      return this.validateOptionsUrl(options.url);
     }
     if (routeDefined) {
       return this.validateOptionsRoute(options.route);
-    }
-    return true;
-  }
-
-  private validateOptionsUrl(url: string): boolean {
-    if (typeof url !== 'string') {
-      this.warn(
-        `Incorrect options for translating url.`,
-        `'url' property should be a string. Url: `,
-        url
-      );
-      return false;
     }
     return true;
   }
