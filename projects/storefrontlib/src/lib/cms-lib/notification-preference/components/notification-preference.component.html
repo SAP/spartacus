@@ -1,6 +1,6 @@
 <div class="container">
   <div class="cx-notification-preference-header">
-    <h3>Notification Preference</h3>
+    <h3>{{ title$ | async }}</h3>
   </div>
 
   <div class="cx-body">
@@ -17,27 +17,27 @@
         class="cx-ul"
         *ngFor="let preference of notificationPreferenceList.preferences"
       >
-        <!-- <ng-container *ngIf="preference.value" class="cx-name"> -->
-        <li class="cx-li">
-          <div class="form-toggle">
-            <input
-              class="form-toggle-input"
-              role="switch"
-              type="checkbox"
-              [checked]="preference.enabled ? 'checked' : ''"
-            />
+        <ng-container *ngIf="preference.value" class="cx-name">
+          <li class="cx-li">
+            <div class="form-toggle">
+              <input
+                class="form-toggle-input"
+                role="switch"
+                type="checkbox"
+                [checked]="preference.enabled ? 'checked' : ''"
+              />
 
-            <label
-              class="form-toggle__switch"
-              (click)="updateNotificationPreferences(preference)"
+              <label
+                class="form-toggle__switch"
+                (click)="updateNotificationPreferences(preference)"
+              >
+              </label>
+            </div>
+            <span class="cx-notification-preference-span"
+              >{{ preference.channel }}: {{ preference.value }}</span
             >
-            </label>
-          </div>
-          <span class="cx-notification-preference-span"
-            >{{ preference.channel }}: {{ preference.value }}</span
-          >
-        </li>
-        <!-- </ng-container> -->
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>

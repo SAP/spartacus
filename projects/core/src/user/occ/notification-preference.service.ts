@@ -5,7 +5,9 @@ import { throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 const USER_ENDPOINT = 'users/';
-
+const headers = new HttpHeaders({
+  'Content-Type': 'application/json',
+});
 @Injectable()
 export class NotificationPreferenceService {
   constructor(
@@ -15,7 +17,7 @@ export class NotificationPreferenceService {
 
   getNotificationPreference(userId: string) {
     return this.http
-      .get<any>(this.getEndPoint(userId))
+      .get<any>(this.getEndPoint(userId), { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
@@ -23,9 +25,6 @@ export class NotificationPreferenceService {
     userId: string,
     notificationpreferenceList: any
   ) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
     return this.http
       .patch(
         this.getEndPoint(userId),

@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthService, NotificationPreferenceService } from '@spartacus/core';
+import {
+  AuthService,
+  NotificationPreferenceService,
+  PageMetaService,
+  PageMeta,
+} from '@spartacus/core';
+import { map, filter } from 'rxjs/operators';
 @Component({
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
@@ -14,7 +20,8 @@ export class NotificationPreferenceComponent implements OnInit {
 
   constructor(
     private notificationPreferenceService: NotificationPreferenceService,
-    private authService: AuthService
+    private authService: AuthService,
+    protected pageMetaService: PageMetaService
   ) {}
 
   ngOnInit() {
@@ -45,5 +52,12 @@ export class NotificationPreferenceComponent implements OnInit {
     this.notificationPreferenceService
       .updateNotificationPreference(this.userId, list)
       .subscribe();
+  }
+
+  get title$(): Observable<string> {
+    return this.pageMetaService.getMeta().pipe(
+      filter(Boolean),
+      map((meta: PageMeta) => meta.heading || meta.title)
+    );
   }
 }
