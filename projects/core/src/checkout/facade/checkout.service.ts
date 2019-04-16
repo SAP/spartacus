@@ -15,13 +15,12 @@ import {
   AddressValidation,
   Address,
 } from '../../occ/occ-models/index';
-import { StateWithCheckout } from '../store/checkout-state';
 import * as fromSelector from '../../checkout/store/selectors/index';
 
 @Injectable()
 export class CheckoutService {
   constructor(
-    private checkoutStore: Store<StateWithCheckout>,
+    private checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
     private cartData: CartDataService
   ) {}
 
