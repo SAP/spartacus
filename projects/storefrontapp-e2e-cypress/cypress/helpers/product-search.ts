@@ -98,3 +98,9 @@ export function sortByTopRated() {
   cy.get(sortingOptionSelector).ngSelect('Top Rated');
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
+
+export function checkFirstItem(title: string): void {
+  cy.get('cx-product-list-item')
+    .first()
+    .should('contain', title);
+}

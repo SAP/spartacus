@@ -1,4 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import { checkFirstItem } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
@@ -13,9 +14,7 @@ export function productStoreFlow(mobile?: string) {
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item .cx-product-name')
-    .first()
-    .should('contain', 'ACK-E5 AC Adapter Kit');
+  checkFirstItem('ACK-E5 AC Adapter Kit');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();

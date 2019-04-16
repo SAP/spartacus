@@ -1,4 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import { checkFirstItem } from './product-search';
 
 export const resultsTitle = 'cx-breadcrumb h1';
 
@@ -120,12 +121,6 @@ function clickFacet(header: string) {
         .first()
         .click({ force: true });
     });
-}
-
-function checkFirstItem(title: string): void {
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', title);
 }
 
 function createDefaultQueryRoute(alias: string): void {
