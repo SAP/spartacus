@@ -1,13 +1,13 @@
 import { ProductSearchPage } from '../../../occ/occ-models/occ.models';
-import { Converter } from '../../../util/converter.service';
+import { Converter, ConverterService } from '../../../util/converter.service';
 import { Injectable } from '@angular/core';
-import { ProductImageNormalizer } from './product-image-normalizer';
 import { UIProductSearchPage } from '../../model/product-search-page';
+import { PRODUCT_NORMALIZER } from '../../connectors/product/converters';
 
 @Injectable()
 export class OccProductSearchNormalizer
   implements Converter<ProductSearchPage, UIProductSearchPage> {
-  constructor(private productImageNormalizer: ProductImageNormalizer) {}
+  constructor(private converterService: ConverterService) {}
 
   convert(
     source: ProductSearchPage,
@@ -19,7 +19,7 @@ export class OccProductSearchNormalizer
     };
     if (source.products) {
       target.products = source.products.map(product =>
-        this.productImageNormalizer.convert(product)
+        this.converterService.convert(product, PRODUCT_NORMALIZER)
       );
     }
     return target;
