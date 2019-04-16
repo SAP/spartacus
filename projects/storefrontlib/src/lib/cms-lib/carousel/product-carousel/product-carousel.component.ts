@@ -11,7 +11,6 @@ import { ProductCarouselService } from './product-carousel.component.service';
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
-  styleUrls: ['./product-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent implements OnInit {

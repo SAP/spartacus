@@ -1,0 +1,34 @@
+%cx-payment-methods {
+  .cx-payment {
+    @include media-breakpoint-down(sm) {
+      padding-left: var(--cx-padding, 1.25rem);
+      padding-right: var(--cx-padding, 1.25rem);
+    }
+  }
+
+  .cx-header {
+    padding: var(--cx-padding, 2.5rem 0 0 0);
+  }
+
+  .cx-existing {
+    display: var(--cx-display, flex);
+    padding: var(--cx-padding, 0rem 0 2.5rem 0);
+    align-items: var(--cx-align-items, stretch);
+
+    @include media-breakpoint-down(md) {
+      padding: var(--cx-padding, 0 0 3.125rem 0);
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: var(--cx-padding, 0 0 4.375rem 0);
+    }
+  }
+
+  .cx-payment-card {
+    padding-top: var(--cx-padding, 1.875rem);
+  }
+
+  .cx-payment-inner {
+    height: var(--cx-height, 100%);
+  }
+}

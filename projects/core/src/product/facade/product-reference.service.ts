@@ -13,19 +13,10 @@ export class ProductReferenceService {
     const selector = fromStore.getSelectedProductReferencesFactory(productCode);
     return this.store.pipe(
       select(selector),
-      tap(reviews => {
-        if (reviews === undefined && productCode !== undefined) {
+      tap(references => {
+        if (references === undefined && productCode !== undefined) {
           this.store.dispatch(new fromStore.LoadProductReferences(productCode));
         }
-      })
-    );
-  }
-
-  add(productCode: string, review: ProductReference): void {
-    this.store.dispatch(
-      new fromStore.PostProductReference({
-        productCode: productCode,
-        review,
       })
     );
   }
