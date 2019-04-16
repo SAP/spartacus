@@ -1,17 +1,15 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
+  Component,
   ElementRef,
+  OnInit,
 } from '@angular/core';
-
 import { WindowRef } from '@spartacus/core';
 import { ProductCarouselService } from './product-carousel.component.service';
 
 @Component({
   selector: 'cx-product-carousel',
   templateUrl: './product-carousel.component.html',
-  styleUrls: ['./product-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent implements OnInit {
@@ -25,7 +23,7 @@ export class ProductCarouselComponent implements OnInit {
     this.window = winRef.nativeWindow;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.service.setTitle();
     this.service.setItemSize(this.window, this.el.nativeElement);
     this.service.setItems();

@@ -1,0 +1,15 @@
+%cx-login {
+  .cx-login-greet {
+    margin: var(--cx-margin, 0);
+    color: var(--cx-color, var(--cx-g-color-inverse));
+    @include type('7');
+    font-weight: var(--cx-font-weight, var(--cx-g-font-weight-semi));
+    padding: var(--cx-padding, 0);
+
+    @include media-breakpoint-down(md) {
+      color: var(--cx-color, var(--cx-g-color-text));
+      padding: var(--cx-padding, 0.5rem 1rem 0);
+      @include type();
+    }
+  }
+}
