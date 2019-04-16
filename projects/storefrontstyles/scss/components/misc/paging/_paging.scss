@@ -1,0 +1,6 @@
+%cx-pagination {
+  ngb-pagination .pagination .page-item.active .page-link {
+    background-color: var(--cx-background-color, var(--cx-g-color-primary));
+    border-color: var(--cx-border-color, var(--cx-g-color-primary));
+  }
+}
