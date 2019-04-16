@@ -10,9 +10,9 @@ export class OccProductReferencesListNormalizer
     sources: ProductReferenceList,
     targets: ProductReference[] = []
   ): ProductReference[] {
-    return sources.references.map((review, index) => ({
+    return sources.references.map((referenceType, index) => ({
       ...targets[index],
-      ...review,
+      ...referenceType,
     }));
   }
 }

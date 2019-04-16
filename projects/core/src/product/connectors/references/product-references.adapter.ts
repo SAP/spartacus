@@ -9,7 +9,7 @@ export abstract class ProductReferencesAdapter {
    *
    * @param productCode The `productCode` for given product
    * @param referenceType Reference type according to enum ProductReferenceTypeEnum
-   * @param pageSize Maximum number of review to load
+   * @param pageSize Maximum number of product refrence to load
    */
   abstract load(
     productCode: string,
