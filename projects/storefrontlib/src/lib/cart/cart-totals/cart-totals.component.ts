@@ -7,7 +7,6 @@ import { Cart, OrderEntry, CartService } from '@spartacus/core';
 @Component({
   selector: 'cx-cart-totals',
   templateUrl: './cart-totals.component.html',
-  styleUrls: ['./cart-totals.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartTotalsComponent implements OnInit {
