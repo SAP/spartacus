@@ -2,6 +2,14 @@ import { User } from '../../../occ/occ-models/index';
 import * as fromUserDetailsAction from '../actions/user-details.action';
 import * as fromUserDetailsReducer from './user-details.reducer';
 
+const mockUserDetails: User = {
+  displayUid: 'Display Uid',
+  firstName: 'First',
+  lastName: 'Last',
+  name: 'First Last',
+  uid: 'UID',
+};
+
 describe('User Details Reducer', () => {
   describe('undefined action', () => {
     it('should return the default state', () => {
@@ -12,14 +20,6 @@ describe('User Details Reducer', () => {
       expect(state).toBe(initialState);
     });
   });
-
-  const mockUserDetails: User = {
-    displayUid: 'Display Uid',
-    firstName: 'First',
-    lastName: 'Last',
-    name: 'First Last',
-    uid: 'UID',
-  };
 
   describe('LOAD_USER_DETAILS_SUCCESS action', () => {
     it('should populate the user details state entities', () => {
