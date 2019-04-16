@@ -1,17 +1,14 @@
-import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Injector, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import {
+  CmsConfig,
   ConfigModule,
-  UrlTranslationModule,
-  SiteContextModule,
   ContextServiceMap,
+  SiteContextModule,
+  UrlTranslationModule,
 } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
-
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 

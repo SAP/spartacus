@@ -1,12 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SiteContext } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SiteContextComponentService } from './site-context-component.service';
-import { SiteContext } from '@spartacus/core';
 
 @Component({
   selector: 'cx-site-context-selector',
   templateUrl: './site-context-selector.component.html',
-  styleUrls: ['./site-context-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SiteContextSelectorComponent {
