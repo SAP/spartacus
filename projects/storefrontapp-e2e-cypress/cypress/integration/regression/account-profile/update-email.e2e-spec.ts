@@ -36,7 +36,7 @@ describe('Update email', () => {
     });
 
     it('should be able to update its email', () => {
-      cy.get('cx-breadcrumb h1').should('have.text', 'Update Email');
+      cy.get('cx-breadcrumb h1').should('exist');
 
       cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
       cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(
