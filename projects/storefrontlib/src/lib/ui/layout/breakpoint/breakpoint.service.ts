@@ -3,11 +3,11 @@ import { WindowRef } from '@spartacus/core';
 import { fromEvent, Observable, of } from 'rxjs';
 import {
   debounceTime,
-  startWith,
-  map,
   distinctUntilChanged,
+  map,
+  startWith,
 } from 'rxjs/operators';
-import { LayoutConfig, BREAKPOINT } from '../config/layout-config';
+import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 
 @Injectable()
 export class BreakpointService {
@@ -35,7 +35,7 @@ export class BreakpointService {
     ];
   }
 
-  protected getBreakpoint(windowWidth: number) {
+  protected getBreakpoint(windowWidth: number): BREAKPOINT {
     const breakpoint = this.getClosest(windowWidth);
     return BREAKPOINT[breakpoint || BREAKPOINT.lg];
   }
@@ -51,10 +51,10 @@ export class BreakpointService {
   }
 
   protected getSize(breakpoint: BREAKPOINT): number {
-    return this.config.breakpoints[breakpoint];
+    return this.config.breakpoints ? this.config.breakpoints[breakpoint] : 576;
   }
 
-  get window() {
+  get window(): Window {
     return this.winRef.nativeWindow;
   }
 }

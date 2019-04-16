@@ -2,7 +2,7 @@ import * as login from '../../helpers/login';
 import { formats } from '../../sample-data/viewports';
 
 function clickHamburger() {
-  cy.get('cx-header [aria-label="Menu"]').click();
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
 }
 
 function waitForHomePage() {

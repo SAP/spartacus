@@ -32,6 +32,7 @@ export const defaultStorefrontRoutesTranslations: {
     addressBook: { paths: ['my-account/address-book'] },
     updatePassword: { paths: ['my-account/update-password'] },
     paymentManagement: { paths: ['my-account/payment-details'] },
+    updateEmail: { paths: ['my-account/update-email'] },
     updateProfile: { paths: ['my-account/update-profile'] },
     closeAccount: { paths: ['my-account/close-account'] },
   },

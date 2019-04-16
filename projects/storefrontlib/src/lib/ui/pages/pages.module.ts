@@ -85,6 +85,12 @@ const pageModules = [
         component: PageLayoutComponent,
         data: { cxPath: 'brand' },
       },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: { pageLabel: 'update-email', cxPath: 'updateEmail' },
+      },
       // redirect OLD links
       {
         path: 'Open-Catalogue/:title/c/:categoryCode',
