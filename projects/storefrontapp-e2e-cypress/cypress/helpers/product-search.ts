@@ -1,6 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import { apiUrl } from '../support/utils/login';
-// import { apiUrl } from '../support/utils/login';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
 export const productItemSelector = 'cx-product-list cx-product-list-item';
@@ -102,7 +101,7 @@ export function sortByTopRated() {
 }
 
 export function checkFirstItem(title: string): void {
-  cy.get('cx-product-list-item')
+  cy.get('cx-product-list-item .cx-product-name')
     .first()
     .should('contain', title);
 }
