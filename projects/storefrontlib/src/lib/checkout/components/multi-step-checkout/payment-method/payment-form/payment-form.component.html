@@ -7,7 +7,7 @@
           <div *ngIf="cardTypes.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'payment.paymentType' | cxTranslate
+                'paymentForm.paymentType' | cxTranslate
               }}</span>
               <ng-select
                 [searchable]="false"
@@ -15,7 +15,7 @@
                 [items]="cardTypes"
                 bindLabel="name"
                 bindValue="code"
-                placeholder="{{ 'payment.selectOne' | cxTranslate }}"
+                placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
                 (change)="paymentSelected($event)"
               >
               </ng-select>
@@ -26,14 +26,14 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'payment.accountHolderName.label' | cxTranslate
+            'paymentForm.accountHolderName.label' | cxTranslate
           }}</span>
           <input
             class="form-control"
             type="text"
             required
             placeholder="{{
-              'payment.accountHolderName.placeholder' | cxTranslate
+              'paymentForm.accountHolderName.placeholder' | cxTranslate
             }}"
             formControlName="accountHolderName"
           />
@@ -42,7 +42,7 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'payment.cardNumber' | cxTranslate
+            'paymentForm.cardNumber' | cxTranslate
           }}</span>
           <input
             type="text"
@@ -57,7 +57,7 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content">{{
-              'payment.expirationDate' | cxTranslate
+              'paymentForm.expirationDate' | cxTranslate
             }}</span>
             <div class="cx-payment-form-exp-date row">
               <div class="col-sm-6 col-md-5">
@@ -67,7 +67,7 @@
                   [items]="months"
                   bindLabel="name"
                   bindValue="expiryMonth"
-                  placeholder="{{ 'payment.monthMask' | cxTranslate }}"
+                  placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
                   (change)="monthSelected($event)"
                 >
                 </ng-select>
@@ -79,7 +79,7 @@
                   [items]="years"
                   bindLabel="name"
                   bindValue="expiryYear"
-                  placeholder="{{ 'payment.yearMask' | cxTranslate }}"
+                  placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
                   (change)="yearSelected($event)"
                 >
                 </ng-select>
@@ -90,7 +90,7 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content">
-              {{ 'payment.securityCode' | cxTranslate }}
+              {{ 'paymentForm.securityCode' | cxTranslate }}
               <img
                 class="cx-payment-form-tooltip"
                 [src]="infoIconImgSrc"
@@ -119,7 +119,7 @@
               (change)="toggleDefaultPaymentMethod()"
             />
             <span class="form-check-label">{{
-              'payment.saveAsDefault' | cxTranslate
+              'paymentForm.saveAsDefault' | cxTranslate
             }}</span>
           </label>
         </div>
@@ -128,7 +128,7 @@
       <!-- BILLING -->
       <div class="cx-payment-form-billing">
         <div class="cx-payment-form-billing-address">
-          {{ 'payment.billingAddress' | cxTranslate }}
+          {{ 'paymentForm.billingAddress' | cxTranslate }}
         </div>
 
         <!-- SAME AS SHIPPING CHECKBOX -->
@@ -143,7 +143,7 @@
                   (change)="toggleSameAsShippingAddress()"
                 />
                 <span class="form-check-label">{{
-                  'payment.sameAsShippingAddress' | cxTranslate
+                  'paymentForm.sameAsShippingAddress' | cxTranslate
                 }}</span>
               </label>
             </div>
@@ -175,7 +175,7 @@
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
       <button class="btn btn-block btn-action" (click)="back()">
-        {{ 'payment.changePayment' | cxTranslate }}
+        {{ 'paymentForm.changePayment' | cxTranslate }}
       </button>
     </div>
     <div class="col-md-12 col-lg-6">

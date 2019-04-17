@@ -16,9 +16,4 @@ export const myAccount = {
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
   },
-  paymentMethods: {
-    paymentMethods: 'Payment methods',
-    newPaymentMethodsAreAddedDuringCheckout:
-      'New payment methods are added during checkout.',
-  },
 };

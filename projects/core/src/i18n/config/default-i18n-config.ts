@@ -6,43 +6,44 @@ export const defaultI18nConfig: I18nConfig = {
     debug: false,
     namespaceMapping: {
       common: 'common',
-      storeFinder: 'storeFinder',
-      pwa: 'pwa',
+      spinner: 'common',
+      header: 'common',
+      searchBox: 'common',
 
-      spinner: 'ui',
-      header: 'ui',
-
-      addressBook: 'cmsLib',
-      addressCard: 'cmsLib',
-      searchBox: 'cmsLib',
-
-      addToCart: 'cart',
       cartDetails: 'cart',
       cartItems: 'cart',
       orderCost: 'cart',
 
-      address: 'checkout',
+      addressForm: 'address',
+      addressBook: 'address',
+      addressCard: 'address',
+
+      paymentForm: 'payment',
+      paymentMethods: 'payment',
+
       checkout: 'checkout',
       checkoutAddress: 'checkout',
       checkoutOrderConfirmation: 'checkout',
       checkoutReview: 'checkout',
       checkoutShipping: 'checkout',
-      payment: 'checkout',
 
       orderDetails: 'myAccount',
       orderHistory: 'myAccount',
-      paymentMethods: 'myAccount',
 
       productDetails: 'product',
       productList: 'product',
       productFacetNavigation: 'product',
       productSummary: 'product',
       productReview: 'product',
+      addToCart: 'product',
 
       forgottenPassword: 'user',
       loginForm: 'user',
       login: 'user',
       register: 'user',
+
+      storeFinder: 'storeFinder',
+      pwa: 'pwa',
     },
   },
 };

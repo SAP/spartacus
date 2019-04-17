@@ -14,14 +14,6 @@ export const cart = {
     cartTotal: 'Cart total ({{count}} item)',
     cartTotal_plural: 'Cart total ({{count}} items)',
   },
-  addToCart: {
-    itemsAddedToYourCart: 'Item(s) added to your cart',
-    items: 'items',
-    updatingCart: 'Updating cart...',
-    addToCart: 'Add to cart',
-    viewCart: 'view cart',
-    proceedToCheckout: 'proceed to checkout',
-  },
   orderCost: {
     orderSummary: 'Order Summary',
     subtotal: 'Subtotal:',

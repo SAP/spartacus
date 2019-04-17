@@ -2,7 +2,7 @@
   *ngIf="(existingPaymentMethods$ | async) as existingPaymentMethods"
 >
   <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
-    {{ 'payment.payment' | cxTranslate }}
+    {{ 'paymentForm.payment' | cxTranslate }}
   </h3>
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <ng-container
@@ -12,7 +12,7 @@
       "
     >
       <p class="cx-checkout-text">
-        {{ 'payment.choosePaymentMethod' | cxTranslate }}
+        {{ 'paymentForm.choosePaymentMethod' | cxTranslate }}
       </p>
       <div class="cx-checkout-btns row">
         <div class="col-md-12 col-lg-6">
@@ -20,7 +20,7 @@
             class="btn btn-block btn-action"
             (click)="showNewPaymentForm()"
           >
-            {{ 'payment.addNewPayment' | cxTranslate }}
+            {{ 'paymentForm.addNewPayment' | cxTranslate }}
           </button>
         </div>
       </div>

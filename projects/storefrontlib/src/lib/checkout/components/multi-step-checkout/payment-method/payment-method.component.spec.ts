@@ -288,7 +288,7 @@ describe('PaymentMethodComponent', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'payment.addNewPayment');
+        .find(el => el.nativeElement.innerText === 'paymentForm.addNewPayment');
     const getNewPaymentForm = () =>
       fixture.debugElement.query(By.css('cx-payment-form'));
 
