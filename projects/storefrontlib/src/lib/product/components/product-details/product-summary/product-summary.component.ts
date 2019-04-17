@@ -77,34 +77,22 @@ export class ProductSummaryComponent implements OnInit {
         }
       }
     }
+  }
 
-    return null;
+  // Click to activate tab if not already active
+  clickTabIfInactive(tab: HTMLElement): void {
+    if (
+      !tab.classList.contains('active') ||
+      tab.classList.contains('toggled')
+    ) {
+      tab.click();
+    }
   }
 
   // Scroll to views component on page and click "Reviews" tab
   showReviews() {
-    if (!this.getTabsComponent()) {
-      console.error(`Cannot find tabs component`);
-      return;
-    }
-    if (!this.getReviewsTab()) {
-      console.error(`Cannot find Reviews reference in tabs component`);
-      return;
-    }
-    if (!this.getReviewsComponent()) {
-      console.error(`Cannot find Reviews component`);
-      return;
-    }
-
     this.getReviewsComponent().scrollIntoView();
-
-    // Open reviews tab if not already open
-    if (
-      !this.getReviewsTab().classList.contains('active') ||
-      this.getReviewsTab().classList.contains('toggled')
-    ) {
-      this.getReviewsTab().click();
-    }
+    this.clickTabIfInactive(this.getReviewsTab());
   }
 
   constructor(protected translatePipe: TranslatePipe) {}
