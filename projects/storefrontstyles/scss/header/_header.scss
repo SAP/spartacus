@@ -49,7 +49,7 @@ header {
   }
 
   &:not(.is-expanded) {
-    .navigation {
+    cx-page-layout.navigation {
       display: none;
     }
   }
