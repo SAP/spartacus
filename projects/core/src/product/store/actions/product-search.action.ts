@@ -1,11 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { SearchConfig } from '../../model/search-config';
-import {
-  Suggestion,
-  ProductSearchPage,
-  ErrorModel,
-} from '../../../occ/occ-models';
+import { ErrorModel, Suggestion } from '../../../occ/occ-models';
+import { UIProductSearchPage } from '../../model/product-search-page';
 
 export const SEARCH_PRODUCTS = '[Product] Search Products';
 export const SEARCH_PRODUCTS_FAIL = '[Product] Search Products Fail';
@@ -32,7 +29,10 @@ export class SearchProductsFail implements Action {
 
 export class SearchProductsSuccess implements Action {
   readonly type = SEARCH_PRODUCTS_SUCCESS;
-  constructor(public payload: ProductSearchPage, public auxiliary?: boolean) {}
+  constructor(
+    public payload: UIProductSearchPage,
+    public auxiliary?: boolean
+  ) {}
 }
 
 export class GetProductSuggestions implements Action {
