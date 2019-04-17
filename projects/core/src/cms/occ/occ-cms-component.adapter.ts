@@ -46,6 +46,8 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
+    console.log('second');
+
     const requestParams = this.getComponentsRequestParams(
       pageContext,
       currentPage,
@@ -105,7 +107,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   protected getComponentRequestParams(
     pageContext: PageContext
   ): { [key: string]: string } {
-    let requestParams: { [key: string]: string };
+    let requestParams = {};
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {
         requestParams = { productCode: pageContext.id };

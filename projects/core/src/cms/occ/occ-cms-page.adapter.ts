@@ -45,7 +45,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   protected getPagesRequestParams(
     pageContext: PageContext
   ): { [key: string]: any } {
-    let httpParams: { [key: string]: any };
+    let httpParams = {};
 
     if (pageContext.id !== 'smartedit-preview') {
       httpParams = { pageType: pageContext.type };
