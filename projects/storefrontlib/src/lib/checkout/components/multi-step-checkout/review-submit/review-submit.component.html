@@ -1,7 +1,7 @@
 <div class="cx-review">
   <!-- TITLE -->
   <h3 class="cx-review-title d-none d-lg-block d-xl-block">
-    {{ 'checkoutReview.label.review' | cxTranslate }}
+    {{ 'checkoutReview.review.label' | cxTranslate }}
   </h3>
   <div class="cx-review-summary row">
     <!-- SHIPPING ADDRESS SECTION -->
@@ -34,13 +34,13 @@
   <ng-container *ngIf="(cart$ | async) as cart">
     <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
-        'cartItems.label.cartTotal'
+        'cartItems.cartTotal.label'
           | cxTranslate: { count: cart.deliveryItemsQuantity }
       }}:
       {{ cart.totalPrice?.formattedValue }}
     </div>
     <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
-      {{ 'checkoutReview.action.placeOrder' | cxTranslate }}
+      {{ 'checkoutReview.placeOrder.action' | cxTranslate }}
     </h4>
     <div
       class="cx-review-cart-item col-md-12"

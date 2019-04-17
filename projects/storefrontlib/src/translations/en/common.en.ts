@@ -1,28 +1,25 @@
 export const common = {
   common: {
-    label: {
-      loading: 'Loading...',
-      default: 'DEFAULT',
-      selected: 'SELECTED',
-      userGreeting: 'Hi, {{name}}',
+    cancel: {
+      action: 'Cancel',
     },
-    action: {
-      cancel: 'Cancel',
-      delete: 'Delete',
-      remove: 'Remove',
-      edit: 'Edit',
-      setAsDefault: 'Set as default',
-      back: 'Back',
-      submit: 'Submit',
-      continue: 'Continue',
-      signInRegister: 'Sign In / Register',
-      skipToNavigation: 'Skip to navigation',
-      skipToShoppingCart: 'Skip to shopping cart',
-      skipToMainContent: 'Skip to main content',
-      skipToFooter: 'Skip to Footer',
+    delete: {
+      action: 'Delete',
     },
-    placeholder: {
-      searchHere: 'Search here...',
+    remove: {
+      action: 'Remove',
+    },
+    edit: {
+      action: 'Edit',
+    },
+    back: {
+      action: 'Back',
+    },
+    submit: {
+      action: 'Submit',
+    },
+    continue: {
+      action: 'Continue',
     },
   },
 };

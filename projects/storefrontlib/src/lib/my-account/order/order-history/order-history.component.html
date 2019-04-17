@@ -2,7 +2,7 @@
   <div class="container">
     <!-- HEADER -->
     <div class="cx-order-history-header">
-      <h3>{{ 'orderHistory.label.orderHistory' | cxTranslate }}</h3>
+      <h3>{{ 'orderHistory.orderHistory.label' | cxTranslate }}</h3>
     </div>
 
     <!-- BODY -->
@@ -19,7 +19,7 @@
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{
-                'orderHistory.placeholder.sortByMostRecent' | cxTranslate
+                'orderHistory.sortByMostRecent.placeholder' | cxTranslate
               }}"
             ></cx-sorting>
           </div>
@@ -34,13 +34,13 @@
         <table class="table cx-order-history-table">
           <thead class="cx-order-history-thead-mobile">
             <th scope="col">
-              {{ 'orderHistory.label.orderId' | cxTranslate }}
+              {{ 'orderHistory.orderId.label' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'orderHistory.label.date' | cxTranslate }}</th>
+            <th scope="col">{{ 'orderHistory.date.label' | cxTranslate }}</th>
             <th scope="col">
-              {{ 'orderHistory.label.status' | cxTranslate }}
+              {{ 'orderHistory.status.label' | cxTranslate }}
             </th>
-            <th scope="col">{{ 'orderHistory.label.total' | cxTranslate }}</th>
+            <th scope="col">{{ 'orderHistory.total.label' | cxTranslate }}</th>
           </thead>
           <tbody>
             <tr
@@ -49,7 +49,7 @@
             >
               <td class="cx-order-history-code">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory.label.orderId' | cxTranslate }}
+                  {{ 'orderHistory.orderId.label' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -64,7 +64,7 @@
               </td>
               <td class="cx-order-history-placed">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory.label.date' | cxTranslate }}
+                  {{ 'orderHistory.date.label' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -78,7 +78,7 @@
               </td>
               <td class="cx-order-history-status">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory.label.status' | cxTranslate }}
+                  {{ 'orderHistory.status.label' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -93,7 +93,7 @@
               </td>
               <td class="cx-order-history-total">
                 <div class="d-md-none cx-order-history-label">
-                  {{ 'orderHistory.label.total' | cxTranslate }}
+                  {{ 'orderHistory.total.label' | cxTranslate }}
                 </div>
                 <a
                   [routerLink]="
@@ -120,7 +120,7 @@
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="orders.pagination.sort"
               placeholder="{{
-                'orderHistory.placeholder.sortByMostRecent' | cxTranslate
+                'orderHistory.sortByMostRecent.placeholder' | cxTranslate
               }}"
             ></cx-sorting>
           </div>
@@ -137,12 +137,12 @@
       <ng-template #noOrder>
         <div class="cx-order-history-no-order row" *ngIf="(isLoaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
-            <div>{{ 'orderHistory.label.noOrders' | cxTranslate }}</div>
+            <div>{{ 'orderHistory.noOrders.label' | cxTranslate }}</div>
             <a
               [routerLink]="{ route: ['home'] } | cxTranslateUrl"
               routerLinkActive="active"
               class="btn btn-primary btn-block"
-              >{{ 'orderHistory.action.startShopping' | cxTranslate }}</a
+              >{{ 'orderHistory.startShopping.action' | cxTranslate }}</a
             >
           </div>
         </div>

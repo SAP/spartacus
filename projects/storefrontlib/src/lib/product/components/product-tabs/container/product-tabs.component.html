@@ -1,7 +1,7 @@
 <div class="details" *ngIf="(product$ | async) as product">
   <ng-container *cxOutlet="outlets.DESCRIPTION">
     <h3 #descriptionHeader (click)="select($event, description)">
-      {{ 'productDetails.label.productDetails' | cxTranslate }}
+      {{ 'productDetails.productDetails.label' | cxTranslate }}
     </h3>
     <div #description>
       <div class="container" [innerHTML]="product?.description"></div>
@@ -10,11 +10,11 @@
 
   <ng-container *cxOutlet="outlets.SPECIFICATIONS">
     <h3 (click)="select($event, specifications)">
-      {{ 'productDetails.label.specification' | cxTranslate }}
+      {{ 'productDetails.specification.label' | cxTranslate }}
     </h3>
     <div #specifications>
       <div class="container">
-        <h2>{{ 'productDetails.label.specification' | cxTranslate }}</h2>
+        <h2>{{ 'productDetails.specification.label' | cxTranslate }}</h2>
         <cx-product-attributes [product]="product"></cx-product-attributes>
       </div>
     </div>
@@ -22,14 +22,14 @@
 
   <ng-container *cxOutlet="outlets.REVIEWS">
     <h3 #reviewHeader (click)="select($event, reviews)">
-      {{ 'productDetails.label.reviews' | cxTranslate }} ({{
+      {{ 'productDetails.reviews.label' | cxTranslate }} ({{
         product?.numberOfReviews
       }})
     </h3>
     <div #reviews>
       <div class="container">
         <h2>
-          {{ 'productDetails.label.reviews' | cxTranslate }} ({{
+          {{ 'productDetails.reviews.label' | cxTranslate }} ({{
             product?.numberOfReviews
           }})
         </h2>
@@ -44,11 +44,11 @@
 
   <ng-container *cxOutlet="outlets.SHIPPING">
     <h3 (click)="select($event, shipping)">
-      {{ 'productDetails.label.shipping' | cxTranslate }}
+      {{ 'productDetails.shipping.label' | cxTranslate }}
     </h3>
     <div #shipping>
       <div class="container">
-        <h2>{{ 'productDetails.label.shipping' | cxTranslate }}</h2>
+        <h2>{{ 'productDetails.shipping.label' | cxTranslate }}</h2>
         <ng-container
           [cxComponentWrapper]="{
             flexType: 'CMSTabParagraphComponent',

@@ -1,13 +1,17 @@
 export const pwa = {
   pwa: {
-    label: {
-      addToHomeScreenDescription:
+    addToHomeScreenDescription: {
+      label:
         'Add SAP storefront to your device homescreen for a faster return visit',
-      noInstallationNeeded: 'No installation needed',
-      fastAccessToApplication: 'Fast access to application',
     },
-    action: {
-      addToHomeScreen: 'Add to home screen',
+    noInstallationNeeded: {
+      label: 'No installation needed',
+    },
+    fastAccessToApplication: {
+      label: 'Fast access to application',
+    },
+    addToHomeScreen: {
+      action: 'Add to home screen',
     },
   },
 };

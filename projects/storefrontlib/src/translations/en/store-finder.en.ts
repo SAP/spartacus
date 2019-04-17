@@ -1,26 +1,52 @@
 export const storeFinder = {
   storeFinder: {
-    label: {
-      openUntil: 'Open until',
-      closed: 'Closed',
-      call: 'Call',
-      getDirections: 'Get Directions',
-      listView: 'List View',
-      mapView: 'Map View',
-      noStoresFound: 'No Stores Found.',
-      storeHours: 'Store hours',
-      storeFeatures: 'Store features',
-      fromStoresFound: 'from {{ count }} store found',
-      fromStoresFound_plural: 'from {{ count }} stores found',
+    openUntil: {
+      label: 'Open until',
     },
-    action: {
-      findStore: 'Find store',
-      useMyLocation: 'Use my location',
-      viewAllStores: 'View all stores',
-      contactUs: 'Contact us',
+    closed: {
+      label: 'Closed',
     },
-    placeholder: {
-      searchBox: 'Enter postal code, town or address',
+    call: {
+      label: 'Call',
+    },
+    getDirections: {
+      label: 'Get Directions',
+    },
+    listView: {
+      label: 'List View',
+    },
+    mapView: {
+      label: 'Map View',
+    },
+    noStoresFound: {
+      label: 'No Stores Found.',
+    },
+    storeHours: {
+      label: 'Store hours',
+    },
+    storeFeatures: {
+      label: 'Store features',
+    },
+    fromStoresFound: {
+      label: 'from {{ count }} store found',
+    },
+    fromStoresFound_plural: {
+      label: 'from {{ count }} stores found',
+    },
+    findStore: {
+      action: 'Find store',
+    },
+    useMyLocation: {
+      action: 'Use my location',
+    },
+    viewAllStores: {
+      action: 'View all stores',
+    },
+    contactUs: {
+      action: 'Contact us',
+    },
+    searchBox: {
+      placeholder: 'Enter postal code, town or address',
     },
   },
 };
