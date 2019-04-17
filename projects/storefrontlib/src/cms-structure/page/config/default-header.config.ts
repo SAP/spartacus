@@ -8,21 +8,17 @@ export const headerComponents: {
     flexType: 'SkipLinkComponent',
     uid: 'SkipLinkComponent',
   },
-  HamburgerMenuComponent: {
-    typeCode: 'HamburgerMenuComponent',
-    flexType: 'HamburgerMenuComponent',
-    uid: 'HamburgerMenuComponent',
+
+  LanguageComponent: {
+    typeCode: 'CMSSiteContextComponent',
+    flexType: 'CMSSiteContextComponent',
+    context: 'LANGUAGE',
   },
-  // LanguageComponent: {
-  //   typeCode: 'CMSSiteContextComponent',
-  //   flexType: 'CMSSiteContextComponent',
-  //   context: 'LANGUAGE',
-  // },
-  // CurrencyComponent: {
-  //   typeCode: 'CMSSiteContextComponent',
-  //   flexType: 'CMSSiteContextComponent',
-  //   context: 'CURRENCY',
-  // },
+  CurrencyComponent: {
+    typeCode: 'CMSSiteContextComponent',
+    flexType: 'CMSSiteContextComponent',
+    context: 'CURRENCY',
+  },
   LanguageCurrencyComponent: {
     typeCode: 'LanguageCurrencyComponent',
     flexType: 'LanguageCurrencyComponent',
@@ -90,8 +86,7 @@ export const defaultPageHeaderConfig: CmsPageSlotsConfig = {
     componentIds: ['SkipLinkComponent', 'HamburgerMenuComponent'],
   },
   SiteContext: {
-    // 'LanguageComponent', 'CurrencyComponent'
-    componentIds: ['LanguageCurrencyComponent'],
+    componentIds: ['LanguageComponent', 'CurrencyComponent'],
   },
   SiteLinks: {
     componentIds: ['StoreFinder'],
