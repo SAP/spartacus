@@ -11,7 +11,7 @@ const changeCurrency = (currency: string) => {
     .select(currency);
 };
 
-context.only('Currency change', () => {
+context('Currency change', () => {
   let PRODUCT_URL_USD: string;
   let PRODUCT_URL_JPY: string;
   let PRODUCT_ID: string;
