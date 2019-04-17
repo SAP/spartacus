@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Product, WindowRef } from '@spartacus/core';
+import { UIProduct, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 import { ProductTabsOutlets } from '../../../product-outlets.model';
@@ -11,7 +11,7 @@ import { ProductTabsOutlets } from '../../../product-outlets.model';
 export class ProductTabsComponent implements OnInit {
   static outlets = ProductTabsOutlets;
 
-  product$: Observable<Product>;
+  product$: Observable<UIProduct>;
 
   isWritingReview = false;
   activatedElements: HTMLElement[] = [];
