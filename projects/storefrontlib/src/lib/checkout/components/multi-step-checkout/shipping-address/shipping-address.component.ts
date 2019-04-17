@@ -20,7 +20,6 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
-  styleUrls: ['./shipping-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit {
