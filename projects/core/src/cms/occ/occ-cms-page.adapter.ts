@@ -32,7 +32,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
   }
 
-  protected getPagesEndpoint(
+  private getPagesEndpoint(
     params: {
       [key: string]: string;
     },
@@ -42,7 +42,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     return this.occEndpoints.getUrl('pages', { fields }, params);
   }
 
-  protected getPagesRequestParams(
+  private getPagesRequestParams(
     pageContext: PageContext
   ): { [key: string]: any } {
     let httpParams = {};

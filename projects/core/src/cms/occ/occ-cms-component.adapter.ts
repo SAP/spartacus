@@ -46,8 +46,6 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     pageSize = ids.length,
     sort?: string
   ): Observable<CmsComponent[]> {
-    console.log('second');
-
     const requestParams = this.getComponentsRequestParams(
       pageContext,
       currentPage,
@@ -83,7 +81,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return this.occEndpoints.getUrl('components', { fields }, requestParams);
   }
 
-  protected getComponentsRequestParams(
+  private getComponentsRequestParams(
     pageContext: PageContext,
     currentPage?: number,
     pageSize?: number,
@@ -104,7 +102,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  protected getComponentRequestParams(
+  private getComponentRequestParams(
     pageContext: PageContext
   ): { [key: string]: string } {
     let requestParams = {};
