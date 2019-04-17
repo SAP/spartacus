@@ -8,7 +8,10 @@ $selectors: header, cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-product-attributes, cx-product-reviews, cx-product-list,
   cx-product-list-item, cx-product-grid, cx-product-view,
   cx-product-facet-navigation, cx-pagination, cx-order-history, cx-address-book,
-  cx-address-card, cx-payment-method !default;
+  cx-address-card, cx-store-finder-list-item, cx-store-finder-grid,
+  cx-store-finder-store-description, cx-store-finder-stores-count,
+  cx-store-finder-search-result, cx-store-finder-list, cx-store-finder-search,
+  cx-store-finder-schedule, cx-payment-method !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
