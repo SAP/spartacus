@@ -1,10 +1,6 @@
-@import '../theme';
-@import '../functions';
-@import '../mixins';
-
 $space: 0.5rem;
 
-header {
+%header {
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
