@@ -2,7 +2,8 @@ import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Order, OrderHistoryList, ConsignmentTracking } from '../../occ/occ-models/index';
+import { Order, OrderHistoryList } from '../../occ/occ-models/index';
+import { ConsignmentTracking } from './../index';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 
 // To be changed to a more optimised params after ticket: C3PO-1076

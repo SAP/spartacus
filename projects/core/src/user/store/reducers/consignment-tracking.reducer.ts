@@ -1,6 +1,6 @@
 import * as fromAction from '../actions/consignment-tracking.action';
 import { ConsignmentTrackingState } from '../user-state';
-import { ConsignmentTracking } from '../../../occ/occ-models/index';
+import { ConsignmentTracking } from '../../index';
 
 export const initialState: ConsignmentTrackingState = {
   tracking: {},

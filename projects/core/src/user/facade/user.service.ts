@@ -11,8 +11,8 @@ import {
   Region,
   Title,
   User,
-  ConsignmentTracking
 } from '../../occ/occ-models/index';
+import { ConsignmentTracking } from '../model/consignment-tracking.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,

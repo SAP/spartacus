@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
 import { ConsignmentTrackingState, UserState, StateWithUser } from '../user-state';
-import { ConsignmentTracking } from '../../../occ/occ-models/index';
+import { ConsignmentTracking } from '../../index';
 import { getUserState } from './feature.selector';
 
 export const getConsignmentTrackingState: MemoizedSelector<

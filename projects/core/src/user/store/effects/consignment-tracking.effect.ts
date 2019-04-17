@@ -7,7 +7,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as fromAction from '../actions/consignment-tracking.action';
 import { OccOrderService } from '../../occ/index';
-import { ConsignmentTracking } from '../../../occ/occ-models/index';
+import { ConsignmentTracking } from '../../index';
 
 @Injectable()
 export class ConsignmentTrackingEffect {

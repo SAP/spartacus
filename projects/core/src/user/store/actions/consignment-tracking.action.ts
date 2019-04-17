@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ConsignmentTracking } from '../../../occ/occ-models/index';
+import { ConsignmentTracking } from '../../index';
 
 export const LOAD_CONSIGNMENT_TRACKING = '[User] Load Consignment Tracking';
 export const LOAD_CONSIGNMENT_TRACKING_FAIL = '[User] Load Consignment Tracking Fail';

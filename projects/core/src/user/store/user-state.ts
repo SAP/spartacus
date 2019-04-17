@@ -7,8 +7,8 @@ import {
   Region,
   Title,
   User,
-  ConsignmentTracking
 } from '../../occ/occ-models/index';
+import { ConsignmentTracking } from '../index';
 import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
