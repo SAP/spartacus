@@ -1,4 +1,9 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  Input,
+  ChangeDetectionStrategy,
+  OnInit,
+} from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 import { TranslatePipe } from '@spartacus/core';
 import { Observable, Observer } from 'rxjs';
@@ -10,10 +15,12 @@ import { Observable, Observer } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TranslatePipe],
 })
-export class ProductSummaryComponent {
+export class ProductSummaryComponent implements OnInit {
   static outlets = ProductDetailOutlets;
 
   itemCount = 1;
+
+  showReviews$: Observable<boolean>;
 
   @Input() product: any;
 
@@ -42,11 +49,23 @@ export class ProductSummaryComponent {
 
   // Checks if product has reviews
   hasReviews(): Observable<boolean> {
-    return Observable.create((observer: Observer<AnalyserOptions>) => {
-      let hasReviews = this.product && this.product.numberOfReviews > 0;
-      observer.next(hasReviews);
+    return new Observable((observer: Observer<boolean>) => {
+      if (this.product.numberOfReviews === 0) {
+        // Product has no reviews
+        observer.next(false);
+      } else if (this.getReviewsComponent()) {
+        // Product reviews have rendered
+        observer.next(true);
+      }
+
       observer.complete();
     });
+  }
+
+  // NOTE: Does not currently exists as its own component
+  // but part of tabs component. This is likely to change in refactor.
+  private getReviewsComponent(): Element {
+    return document.querySelector('cx-product-reviews');
   }
 
   // Get Tabs Component if exists on page
@@ -57,6 +76,8 @@ export class ProductSummaryComponent {
   // Get Reviews Tab if exists on page
   private getReviewsTab(): HTMLElement {
     if (this.getTabsComponent()) {
+      // NOTE: Reads through h3 tags to click on correct tab
+      // There may be a better way of doing this now/after refactor
       const h3Elements: HTMLCollectionOf<
         HTMLElement
       > = this.getTabsComponent().getElementsByTagName('h3');
@@ -87,16 +108,25 @@ export class ProductSummaryComponent {
       console.error(`Cannot find Reviews reference in tabs component`);
       return;
     }
+    if (!this.getReviewsComponent()) {
+      console.error(`Cannot find Reviews component`);
+      return;
+    }
 
-    this.getTabsComponent().scrollIntoView();
+    this.getReviewsComponent().scrollIntoView();
 
     // Open reviews tab if not already open
     if (
       !this.getReviewsTab().classList.contains('active') ||
       this.getReviewsTab().classList.contains('toggled')
-    )
+    ) {
       this.getReviewsTab().click();
+    }
   }
 
   constructor(protected translatePipe: TranslatePipe) {}
+
+  ngOnInit() {
+    this.showReviews$ = this.hasReviews();
+  }
 }

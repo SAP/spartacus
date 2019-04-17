@@ -16,7 +16,7 @@
     <div class="count">({{ product?.numberOfReviews }})</div>
     <a
       class="btn-link"
-      *ngIf="(hasReviews() | async)"
+      *ngIf="(showReviews$ | async)"
       (click)="showReviews()"
       >{{ 'productDetails.action.showReviews' | cxTranslate }}</a
     >
