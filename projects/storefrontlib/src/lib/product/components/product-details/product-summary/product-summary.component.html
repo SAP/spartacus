@@ -14,12 +14,9 @@
       [disabled]="true"
     ></cx-star-rating>
     <div class="count">({{ product?.numberOfReviews }})</div>
-    <a
-      class="btn-link"
-      *ngIf="(showReviews$ | async)"
-      (click)="showReviews()"
-      >{{ 'productDetails.action.showReviews' | cxTranslate }}</a
-    >
+    <a class="btn-link" *ngIf="reviewsTabAvailable" (click)="showReviews()">{{
+      'productDetails.action.showReviews' | cxTranslate
+    }}</a>
   </div>
 </ng-container>
 

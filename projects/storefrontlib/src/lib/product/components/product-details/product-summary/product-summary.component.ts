@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
 import { TranslatePipe } from '@spartacus/core';
-import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'cx-product-summary',
@@ -19,8 +18,7 @@ export class ProductSummaryComponent implements OnInit {
   static outlets = ProductDetailOutlets;
 
   itemCount = 1;
-
-  showReviews$: Observable<boolean>;
+  reviewsTabAvailable: boolean;
 
   @Input() product: any;
 
@@ -48,19 +46,16 @@ export class ProductSummaryComponent implements OnInit {
   }
 
   // Checks if product has reviews
-  hasReviews(): Observable<boolean> {
-    return new Observable((observer: Observer<boolean>) => {
-      if (this.product.numberOfReviews === 0) {
-        // Product has no reviews
-        observer.next(false);
-      } else if (this.getReviewsComponent()) {
-        // Product reviews have rendered
-        observer.next(true);
-      }
+  // hasReviews(): Observable<boolean> {
+  //   return new Observable((observer: Observer<boolean>) => {
+  //     if (this.getReviewsComponent()) {
+  //       // Product reviews have rendered
+  //       observer.next(true);
+  //     }
 
-      observer.complete();
-    });
-  }
+  //     observer.complete();
+  //   });
+  // }
 
   // NOTE: Does not currently exists as its own component
   // but part of tabs component. This is likely to change in refactor.
@@ -127,6 +122,6 @@ export class ProductSummaryComponent implements OnInit {
   constructor(protected translatePipe: TranslatePipe) {}
 
   ngOnInit() {
-    this.showReviews$ = this.hasReviews();
+    this.reviewsTabAvailable = !!this.getReviewsComponent();
   }
 }
