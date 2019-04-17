@@ -1,7 +1,7 @@
 <div class="details" *ngIf="(product$ | async) as product">
   <ng-container *cxOutlet="outlets.DESCRIPTION">
     <h3 #descriptionHeader (click)="select($event, description)">
-      {{ 'productDetails.productDetails.label' | cxTranslate }}
+      {{ 'productDetails.productDetails' | cxTranslate }}
     </h3>
     <div #description>
       <div class="container" [innerHTML]="product?.description"></div>
@@ -10,11 +10,11 @@
 
   <ng-container *cxOutlet="outlets.SPECIFICATIONS">
     <h3 (click)="select($event, specifications)">
-      {{ 'productDetails.specification.label' | cxTranslate }}
+      {{ 'productDetails.specification' | cxTranslate }}
     </h3>
     <div #specifications>
       <div class="container">
-        <h2>{{ 'productDetails.specification.label' | cxTranslate }}</h2>
+        <h2>{{ 'productDetails.specification' | cxTranslate }}</h2>
         <cx-product-attributes [product]="product"></cx-product-attributes>
       </div>
     </div>
@@ -22,14 +22,14 @@
 
   <ng-container *cxOutlet="outlets.REVIEWS">
     <h3 #reviewHeader (click)="select($event, reviews)">
-      {{ 'productDetails.reviews.label' | cxTranslate }} ({{
+      {{ 'productDetails.reviews' | cxTranslate }} ({{
         product?.numberOfReviews
       }})
     </h3>
     <div #reviews>
       <div class="container">
         <h2>
-          {{ 'productDetails.reviews.label' | cxTranslate }} ({{
+          {{ 'productDetails.reviews' | cxTranslate }} ({{
             product?.numberOfReviews
           }})
         </h2>
@@ -44,11 +44,11 @@
 
   <ng-container *cxOutlet="outlets.SHIPPING">
     <h3 (click)="select($event, shipping)">
-      {{ 'productDetails.shipping.label' | cxTranslate }}
+      {{ 'productDetails.shipping' | cxTranslate }}
     </h3>
     <div #shipping>
       <div class="container">
-        <h2>{{ 'productDetails.shipping.label' | cxTranslate }}</h2>
+        <h2>{{ 'productDetails.shipping' | cxTranslate }}</h2>
         <ng-container
           [cxComponentWrapper]="{
             flexType: 'CMSTabParagraphComponent',

@@ -1,53 +1,24 @@
 export const myAccount = {
   orderDetails: {
-    orderId: {
-      label: 'Order #',
-    },
-    placed: {
-      label: 'Placed',
-    },
-    status: {
-      label: 'Status',
-    },
-    shippedOn: {
-      label: 'Shipped on',
-    },
-    inProcess: {
-      label: 'In process...',
-    },
+    orderId: 'Order #',
+    placed: 'Placed',
+    status: 'Status',
+    shippedOn: 'Shipped on',
+    inProcess: 'In process...',
   },
   orderHistory: {
-    orderHistory: {
-      label: 'Order history',
-    },
-    orderId: {
-      label: 'Order #',
-    },
-    date: {
-      label: 'Date',
-    },
-    status: {
-      label: 'Status',
-    },
-    total: {
-      label: 'Total',
-    },
-    noOrders: {
-      label: 'We have no order records for this account.',
-    },
-    startShopping: {
-      action: 'Start Shopping',
-    },
-    sortByMostRecent: {
-      placeholder: 'Sort by Most recent',
-    },
+    orderHistory: 'Order history',
+    orderId: 'Order #',
+    date: 'Date',
+    status: 'Status',
+    total: 'Total',
+    noOrders: 'We have no order records for this account.',
+    startShopping: 'Start Shopping',
+    sortByMostRecent: 'Sort by Most recent',
   },
   paymentMethods: {
-    paymentMethods: {
-      label: 'Payment methods',
-    },
-    newPaymentMethodsAreAddedDuringCheckout: {
-      label: 'New payment methods are added during checkout.',
-    },
+    paymentMethods: 'Payment methods',
+    newPaymentMethodsAreAddedDuringCheckout:
+      'New payment methods are added during checkout.',
   },
 };

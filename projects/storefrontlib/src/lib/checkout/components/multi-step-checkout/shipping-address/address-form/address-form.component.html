@@ -6,7 +6,7 @@
           <div *ngIf="titles.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'address.title.label' | cxTranslate
+                'address.title' | cxTranslate
               }}</span>
               <ng-select
                 formControlName="titleCode"
@@ -53,15 +53,13 @@
       <div class="form-group">
         <label>
           <span class="label-content required">{{
-            'address.address1.label' | cxTranslate
+            'address.address1' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
             required
-            placeholder="{{
-              'address.streetAddress.placeholder' | cxTranslate
-            }}"
+            placeholder="{{ 'address.streetAddress' | cxTranslate }}"
             formControlName="line1"
           />
         </label>
@@ -69,12 +67,12 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'address.address2.label' | cxTranslate
+            'address.address2' | cxTranslate
           }}</span>
           <input
             type="text"
             class="form-control"
-            placeholder="{{ 'address.aptSuite.placeholder' | cxTranslate }}"
+            placeholder="{{ 'address.aptSuite' | cxTranslate }}"
             formControlName="line2"
           />
         </label>
@@ -84,7 +82,7 @@
           <div *ngIf="countries.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'address.country.label' | cxTranslate
+                'address.country' | cxTranslate
               }}</span>
               <ng-select
                 class="country-select"
@@ -94,9 +92,7 @@
                 [items]="countries"
                 bindLabel="name"
                 bindValue="isocode"
-                placeholder="{{
-                  'address.selectOne.placeholder' | cxTranslate
-                }}"
+                placeholder="{{ 'address.selectOne' | cxTranslate }}"
                 (change)="countrySelected($event)"
               >
               </ng-select>
@@ -127,7 +123,7 @@
             <div *ngIf="regions.length !== 0">
               <label aria-required="true">
                 <span class="label-content required">{{
-                  'address.state.label' | cxTranslate
+                  'address.state' | cxTranslate
                 }}</span>
                 <ng-container *ngIf="regions[0].name">
                   <ng-select
@@ -138,9 +134,7 @@
                     [items]="regions"
                     bindLabel="name"
                     bindValue="isocode"
-                    placeholder="{{
-                      'address.selectOne.placeholder' | cxTranslate
-                    }}"
+                    placeholder="{{ 'address.selectOne' | cxTranslate }}"
                     (change)="regionSelected($event)"
                   >
                   </ng-select>
@@ -153,9 +147,7 @@
                     [items]="regions"
                     bindLabel="isocode"
                     bindValue="region"
-                    placeholder="{{
-                      'address.selectOne.placeholder' | cxTranslate
-                    }}"
+                    placeholder="{{ 'address.selectOne' | cxTranslate }}"
                     (change)="regionSelected($event)"
                   >
                   </ng-select>
@@ -202,7 +194,7 @@
               (change)="toggleDefaultAddress()"
             />
             <span class="form-check-label">{{
-              'address.setAsDefault.action' | cxTranslate
+              'address.setAsDefault' | cxTranslate
             }}</span>
           </label>
         </div>
@@ -212,7 +204,7 @@
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
       <button class="btn btn-block btn-action" (click)="back()">
-        {{ cancelBtnLabel || ('address.chooseAddress.action' | cxTranslate) }}
+        {{ cancelBtnLabel || ('address.chooseAddress' | cxTranslate) }}
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
@@ -221,7 +213,7 @@
         [disabled]="address.invalid"
         (click)="verifyAddress()"
       >
-        {{ actionBtnLabel || ('common.continue.action' | cxTranslate) }}
+        {{ actionBtnLabel || ('common.continue' | cxTranslate) }}
       </button>
     </div>
   </div>

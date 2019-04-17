@@ -1,21 +1,11 @@
 export const ui = {
   spinner: {
-    loading: {
-      label: 'Loading...',
-    },
+    loading: 'Loading...',
   },
   header: {
-    skipToNavigation: {
-      action: 'Skip to navigation',
-    },
-    skipToShoppingCart: {
-      action: 'Skip to shopping cart',
-    },
-    skipToMainContent: {
-      action: 'Skip to main content',
-    },
-    skipToFooter: {
-      action: 'Skip to Footer',
-    },
+    skipToNavigation: 'Skip to navigation',
+    skipToShoppingCart: 'Skip to shopping cart',
+    skipToMainContent: 'Skip to main content',
+    skipToFooter: 'Skip to Footer',
   },
 };

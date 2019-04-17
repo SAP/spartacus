@@ -196,7 +196,7 @@ describe('PaymentMethodComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.continue.action');
+        .find(el => el.nativeElement.innerText === 'common.continue');
 
     it('should be disabled when no payment method is selected', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
@@ -238,7 +238,7 @@ describe('PaymentMethodComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'common.back.action');
+        .find(el => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
@@ -288,9 +288,7 @@ describe('PaymentMethodComponent', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(
-          el => el.nativeElement.innerText === 'payment.addNewPayment.action'
-        );
+        .find(el => el.nativeElement.innerText === 'payment.addNewPayment');
     const getNewPaymentForm = () =>
       fixture.debugElement.query(By.css('cx-payment-form'));
 

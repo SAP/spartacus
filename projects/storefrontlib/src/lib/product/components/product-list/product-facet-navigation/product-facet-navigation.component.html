@@ -64,7 +64,7 @@
             (click)="showLess(facet.name)"
             *ngIf="showAllPerFacetMap.get(facet.name)"
           >
-            {{ 'productList.showLess.action' | cxTranslate }}
+            {{ 'productList.showLess' | cxTranslate }}
           </li>
           <li
             class="cx-facet-toggle-btn"
@@ -74,7 +74,7 @@
               facet.values.length > minPerFacet
             "
           >
-            {{ 'productList.showMore.action' | cxTranslate }}
+            {{ 'productList.showMore' | cxTranslate }}
           </li>
         </ul>
       </div>
@@ -96,7 +96,7 @@
   <div class="cx-facet-mobile" *ngIf="searchResult.breadcrumbs?.length">
     <div class="cx-facet-filter-container">
       <h4 class="cx-facet-filter-header">
-        {{ 'productList.appliedFilter.label' | cxTranslate }}
+        {{ 'productList.appliedFilter' | cxTranslate }}
       </h4>
       <div
         class="cx-facet-filter-pill"

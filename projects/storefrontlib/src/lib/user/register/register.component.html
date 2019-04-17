@@ -3,17 +3,17 @@
     <div class="col-md-6">
       <div class="cx-section">
         <h1 class="cx-section__title">
-          {{ 'register.createAccount.label' | cxTranslate }}
+          {{ 'register.createAccount' | cxTranslate }}
         </h1>
         <form [formGroup]="userRegistrationForm">
           <div class="form-group">
             <label>
               <span class="label-content">{{
-                'register.title.label' | cxTranslate
+                'register.title' | cxTranslate
               }}</span>
               <select formControlName="titleCode" class="form-control">
                 <option selected value="" disabled>{{
-                  'register.selectTitle.placeholder' | cxTranslate
+                  'register.selectTitle' | cxTranslate
                 }}</option>
                 <option
                   *ngFor="let title of (titles$ | async)"
@@ -106,7 +106,7 @@
                 "
               >
                 <span>{{
-                  'register.passwordMinRequirements.validation' | cxTranslate
+                  'register.passwordMinRequirements' | cxTranslate
                 }}</span>
               </div>
             </label>
@@ -139,7 +139,7 @@
                 "
               >
                 <span>{{
-                  'register.bothPasswordMustMatch.validation' | cxTranslate
+                  'register.bothPasswordMustMatch' | cxTranslate
                 }}</span>
               </div>
             </label>
@@ -155,7 +155,7 @@
                   formControlName="newsletter"
                 />
                 <span class="form-check-label">
-                  {{ 'register.emailMarketing.label' | cxTranslate }}
+                  {{ 'register.emailMarketing' | cxTranslate }}
                 </span>
               </label>
             </div>
@@ -170,14 +170,14 @@
                   formControlName="termsandconditions"
                 />
                 <span class="form-check-label">
-                  {{ 'register.confirmThatRead.label' | cxTranslate }}
+                  {{ 'register.confirmThatRead' | cxTranslate }}
                   <a
                     [routerLink]="
                       { route: ['termsAndConditions'] } | cxTranslateUrl
                     "
                     target="_blank"
                   >
-                    {{ 'register.termsAndConditions.action' | cxTranslate }}
+                    {{ 'register.termsAndConditions' | cxTranslate }}
                   </a>
                 </span>
               </label>

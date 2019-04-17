@@ -7,7 +7,7 @@
           <div *ngIf="cardTypes.length !== 0">
             <label aria-required="true">
               <span class="label-content required">{{
-                'payment.paymentType.label' | cxTranslate
+                'payment.paymentType' | cxTranslate
               }}</span>
               <ng-select
                 [searchable]="false"
@@ -15,9 +15,7 @@
                 [items]="cardTypes"
                 bindLabel="name"
                 bindValue="code"
-                placeholder="{{
-                  'payment.selectOne.placeholder' | cxTranslate
-                }}"
+                placeholder="{{ 'payment.selectOne' | cxTranslate }}"
                 (change)="paymentSelected($event)"
               >
               </ng-select>
@@ -44,7 +42,7 @@
       <div class="form-group">
         <label>
           <span class="label-content">{{
-            'payment.cardNumber.label' | cxTranslate
+            'payment.cardNumber' | cxTranslate
           }}</span>
           <input
             type="text"
@@ -59,7 +57,7 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content">{{
-              'payment.expirationDate.label' | cxTranslate
+              'payment.expirationDate' | cxTranslate
             }}</span>
             <div class="cx-payment-form-exp-date row">
               <div class="col-sm-6 col-md-5">
@@ -69,9 +67,7 @@
                   [items]="months"
                   bindLabel="name"
                   bindValue="expiryMonth"
-                  placeholder="{{
-                    'payment.monthMask.placeholder' | cxTranslate
-                  }}"
+                  placeholder="{{ 'payment.monthMask' | cxTranslate }}"
                   (change)="monthSelected($event)"
                 >
                 </ng-select>
@@ -83,9 +79,7 @@
                   [items]="years"
                   bindLabel="name"
                   bindValue="expiryYear"
-                  placeholder="{{
-                    'payment.yearMask.placeholder' | cxTranslate
-                  }}"
+                  placeholder="{{ 'payment.yearMask' | cxTranslate }}"
                   (change)="yearSelected($event)"
                 >
                 </ng-select>
@@ -96,7 +90,7 @@
         <div class="form-group col-md-6">
           <label>
             <span class="label-content">
-              {{ 'payment.securityCode.label' | cxTranslate }}
+              {{ 'payment.securityCode' | cxTranslate }}
               <img
                 class="cx-payment-form-tooltip"
                 [src]="infoIconImgSrc"
@@ -125,7 +119,7 @@
               (change)="toggleDefaultPaymentMethod()"
             />
             <span class="form-check-label">{{
-              'payment.saveAsDefault.label' | cxTranslate
+              'payment.saveAsDefault' | cxTranslate
             }}</span>
           </label>
         </div>
@@ -134,7 +128,7 @@
       <!-- BILLING -->
       <div class="cx-payment-form-billing">
         <div class="cx-payment-form-billing-address">
-          {{ 'payment.billingAddress.label' | cxTranslate }}
+          {{ 'payment.billingAddress' | cxTranslate }}
         </div>
 
         <!-- SAME AS SHIPPING CHECKBOX -->
@@ -149,7 +143,7 @@
                   (change)="toggleSameAsShippingAddress()"
                 />
                 <span class="form-check-label">{{
-                  'payment.sameAsShippingAddress.label' | cxTranslate
+                  'payment.sameAsShippingAddress' | cxTranslate
                 }}</span>
               </label>
             </div>
@@ -181,7 +175,7 @@
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
       <button class="btn btn-block btn-action" (click)="back()">
-        {{ 'payment.changePayment.action' | cxTranslate }}
+        {{ 'payment.changePayment' | cxTranslate }}
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
@@ -190,7 +184,7 @@
         [disabled]="isContinueButtonDisabled()"
         (click)="next()"
       >
-        {{ 'common.continue.action' | cxTranslate }}
+        {{ 'common.continue' | cxTranslate }}
       </button>
     </div>
   </div>

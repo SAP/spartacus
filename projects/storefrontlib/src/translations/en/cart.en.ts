@@ -1,79 +1,33 @@
 export const cart = {
   cartDetails: {
-    shoppingCart: {
-      label: 'Shopping Cart',
-    },
-    id: {
-      label: 'ID',
-    },
-    proceedToCheckout: {
-      action: 'Proceed to Checkout',
-    },
+    shoppingCart: 'Shopping Cart',
+    id: 'ID',
+    proceedToCheckout: 'Proceed to Checkout',
   },
   cartItems: {
-    id: {
-      label: 'ID',
-    },
-    description: {
-      label: 'Description',
-    },
-    item: {
-      label: 'Item',
-    },
-    itemPrice: {
-      label: 'Item price',
-    },
-    quantity: {
-      label: 'Qty',
-    },
-    total: {
-      label: 'Total',
-    },
-    cartTotal: {
-      label: 'Cart total ({{count}} item)',
-    },
-    cartTotal_plural: {
-      label: 'Cart total ({{count}} items)',
-    },
+    id: 'ID',
+    description: 'Description',
+    item: 'Item',
+    itemPrice: 'Item price',
+    quantity: 'Qty',
+    total: 'Total',
+    cartTotal: 'Cart total ({{count}} item)',
+    cartTotal_plural: 'Cart total ({{count}} items)',
   },
   addToCart: {
-    itemsAddedToYourCart: {
-      label: 'Item(s) added to your cart',
-    },
-    items: {
-      label: 'items',
-    },
-    updatingCart: {
-      label: 'Updating cart...',
-    },
-    addToCart: {
-      action: 'Add to cart',
-    },
-    viewCart: {
-      action: 'view cart',
-    },
-    proceedToCheckout: {
-      action: 'proceed to checkout',
-    },
+    itemsAddedToYourCart: 'Item(s) added to your cart',
+    items: 'items',
+    updatingCart: 'Updating cart...',
+    addToCart: 'Add to cart',
+    viewCart: 'view cart',
+    proceedToCheckout: 'proceed to checkout',
   },
   orderCost: {
-    orderSummary: {
-      label: 'Order Summary',
-    },
-    subtotal: {
-      label: 'Subtotal:',
-    },
-    estimatedShipping: {
-      label: 'Estimated shipping:',
-    },
-    discount: {
-      label: 'Discount:',
-    },
-    salesTax: {
-      label: 'Sales Tax:',
-    },
-    total: {
-      label: 'Total:',
-    },
+    orderSummary: 'Order Summary',
+    subtotal: 'Subtotal:',
+    estimatedShipping: 'Estimated shipping:',
+    discount: 'Discount:',
+    salesTax: 'Sales Tax:',
+    total: 'Total:',
   },
 };

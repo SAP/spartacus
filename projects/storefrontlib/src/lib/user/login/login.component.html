@@ -1,12 +1,12 @@
 <ng-container *ngIf="(user$ | async) as user; else login">
   <div class="cx-login-greet">
-    {{ 'login.userGreeting.label' | cxTranslate: { name: user.name } }}
+    {{ 'login.userGreeting' | cxTranslate: { name: user.name } }}
   </div>
   <cx-page-slot position="HeaderLinks"></cx-page-slot>
 </ng-container>
 
 <ng-template #login>
   <a role="link" [routerLink]="{ route: ['login'] } | cxTranslateUrl">{{
-    'login.signInRegister.action' | cxTranslate
+    'login.signInRegister' | cxTranslate
   }}</a>
 </ng-template>

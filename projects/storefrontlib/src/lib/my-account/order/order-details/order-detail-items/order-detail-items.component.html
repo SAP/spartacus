@@ -3,7 +3,7 @@
     <div class="cx-list-header col-12">
       <div class="cx-list-status">{{ consignment?.status }}</div>
       <div *ngIf="consignment?.statusDate" class="cx-list-date">
-        <div>{{ 'orderDetails.shippedOn.label' | cxTranslate }}&nbsp;</div>
+        <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
         <div>{{ consignment?.statusDate | date }}</div>
       </div>
     </div>
@@ -18,7 +18,7 @@
   <div *ngIf="order.unconsignedEntries?.length" class="cx-list row">
     <div class="cx-list-header col-12">
       <div class="cx-list-status">
-        {{ 'orderDetails.inProcess.label' | cxTranslate }}
+        {{ 'orderDetails.inProcess' | cxTranslate }}
       </div>
     </div>
     <div class="cx-list-item col-12">

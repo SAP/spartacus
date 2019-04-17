@@ -1,7 +1,7 @@
 <ng-container *cxOutlet="outlets.TITLE">
   <div class="name">{{ product?.name }}</div>
   <div class="code">
-    {{ 'productSummary.id.label' | cxTranslate }} {{ product?.code }}
+    {{ 'productSummary.id' | cxTranslate }} {{ product?.code }}
   </div>
 </ng-container>
 
@@ -15,7 +15,7 @@
     ></cx-star-rating>
     <div class="count">({{ product?.numberOfReviews }})</div>
     <a class="btn-link" (click)="launchReview()">{{
-      'productSummary.showReviews.action' | cxTranslate
+      'productSummary.showReviews' | cxTranslate
     }}</a>
   </div>
 </ng-container>
@@ -30,7 +30,7 @@
 
 <ng-container *cxOutlet="outlets.ADDTOCART">
   <div class="quantity">
-    <label>{{ 'productSummary.quantity.label' | cxTranslate }}</label>
+    <label>{{ 'productSummary.quantity' | cxTranslate }}</label>
     <cx-item-counter
       isValueChangeable="true"
       [min]="1"
@@ -54,7 +54,7 @@
 <ng-container *cxOutlet="outlets.SHARE">
   <div>
     <a href="#" class="share btn-link">
-      {{ 'productSummary.share.action' | cxTranslate }}
+      {{ 'productSummary.share' | cxTranslate }}
     </a>
   </div>
 </ng-container>

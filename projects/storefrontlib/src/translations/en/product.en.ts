@@ -1,88 +1,48 @@
 export const product = {
   productDetails: {
-    id: {
-      label: 'ID',
-    },
-    quantity: {
-      label: 'Qty',
-    },
-    productDetails: {
-      label: 'Product Details',
-    },
-    specification: {
-      label: 'Specs',
-    },
-    reviews: {
-      label: 'Reviews',
-    },
-    shipping: {
-      label: 'Shipping',
-    },
-    share: {
-      action: 'Share',
-    },
-    showReviews: {
-      action: 'Show reviews',
-    },
+    id: 'ID',
+    quantity: 'Qty',
+    productDetails: 'Product Details',
+    specification: 'Specs',
+    reviews: 'Reviews',
+    shipping: 'Shipping',
+    share: 'Share',
+    showReviews: 'Show reviews',
   },
   productList: {
     filterBy: {
       label: 'Filter by',
       action: 'Filter by',
     },
-    appliedFilter: {
-      label: 'Applied Filter:',
-    },
-    showLess: {
-      action: 'Show less...',
-    },
-    showMore: {
-      action: 'Show more...',
-    },
-    sortByRelevance: {
-      placeholder: 'Sort by Relevance',
-    },
+    appliedFilter: 'Applied Filter:',
+    showLess: 'Show less...',
+    showMore: 'Show more...',
+    sortByRelevance: 'Sort by Relevance',
   },
   productFacetNavigation: {
     filterBy: {
       label: 'Filter by',
       action: 'Filter by',
     },
-    appliedFilter: {
-      label: 'Applied Filter:',
-    },
-    showLess: {
-      action: 'Show less...',
-    },
-    showMore: {
-      action: 'Show more...',
-    },
-    sortByRelevance: {
-      placeholder: 'Sort by Relevance',
-    },
+    appliedFilter: 'Applied Filter:',
+    showLess: 'Show less...',
+    showMore: 'Show more...',
+    sortByRelevance: 'Sort by Relevance',
   },
   productSummary: {
-    id: {
-      label: 'ID',
-    },
-    showReviews: {
-      action: 'Show reviews',
-    },
-    quantity: {
-      label: 'Qty',
-    },
-    share: {
-      action: 'Share',
-    },
+    id: 'ID',
+    showReviews: 'Show reviews',
+    quantity: 'Qty',
+    share: 'Share',
   },
   productReview: {
-    overallRating: { label: 'Overall Rating' },
-    reviewTitle: { label: 'Review Title' },
-    writeYourComments: { label: 'Write your comments' },
-    rating: { label: 'Rating' },
-    reviewerName: { label: 'Reviewer name (optional)' },
-    writeReview: { action: 'Write a Review' },
-    more: { action: 'More' },
-    less: { action: 'Less' },
+    overallRating: 'Overall Rating',
+    reviewTitle: 'Review Title',
+    writeYourComments: 'Write your comments',
+    rating: 'Rating',
+    reviewerName: 'Reviewer name (optional)',
+    writeReview: 'Write a Review',
+    more: 'More',
+    less: 'Less',
   },
 };

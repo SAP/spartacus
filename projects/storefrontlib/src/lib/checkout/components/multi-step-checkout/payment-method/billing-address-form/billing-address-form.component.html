@@ -30,26 +30,24 @@
   <div class="form-group">
     <label>
       <span class="label-content required">{{
-        'address.address1.label' | cxTranslate
+        'address.address1' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'address.streetAddress.placeholder' | cxTranslate }}"
+        placeholder="{{ 'address.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
     </label>
   </div>
   <div class="form-group">
     <label>
-      <span class="label-content">{{
-        'address.address2.label' | cxTranslate
-      }}</span>
+      <span class="label-content">{{ 'address.address2' | cxTranslate }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'address.aptSuite.placeholder' | cxTranslate }}"
+        placeholder="{{ 'address.aptSuite' | cxTranslate }}"
         formControlName="line2"
       />
     </label>
@@ -59,7 +57,7 @@
       <div *ngIf="countries.length !== 0">
         <label aria-required="true">
           <span class="label-content required">{{
-            'address.country.label' | cxTranslate
+            'address.country' | cxTranslate
           }}</span>
           <ng-select
             [searchable]="false"
@@ -67,7 +65,7 @@
             [items]="countries"
             bindLabel="name"
             bindValue="isocode"
-            placeholder="{{ 'address.selectOne.placeholder' | cxTranslate }}"
+            placeholder="{{ 'address.selectOne' | cxTranslate }}"
             (change)="countrySelected($event)"
           >
           </ng-select>

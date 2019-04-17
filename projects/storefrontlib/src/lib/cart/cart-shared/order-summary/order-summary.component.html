@@ -1,9 +1,9 @@
-<h4>{{ 'orderCost.orderSummary.label' | cxTranslate }}</h4>
+<h4>{{ 'orderCost.orderSummary' | cxTranslate }}</h4>
 
 <div class="cx-summary-partials" *ngIf="cart">
   <div class="cx-summary-row">
     <div class="col-6 cx-summary-label">
-      {{ 'orderCost.subtotal.label' | cxTranslate }}
+      {{ 'orderCost.subtotal' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{ cart.totalPrice?.formattedValue }}
@@ -11,7 +11,7 @@
   </div>
   <div class="cx-summary-row">
     <div class="col-6 cx-summary-label">
-      {{ 'orderCost.estimatedShipping.label' | cxTranslate }}
+      {{ 'orderCost.estimatedShipping' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{
@@ -23,7 +23,7 @@
   </div>
   <div class="cx-summary-row cx-summary-savings">
     <div class="col-6 cx-summary-label">
-      {{ 'orderCost.discount.label' | cxTranslate }}
+      {{ 'orderCost.discount' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{ cart.totalDiscounts?.formattedValue }}
@@ -31,7 +31,7 @@
   </div>
   <div class="cx-summary-row">
     <div class="col-6 cx-summary-label">
-      {{ 'orderCost.salesTax.label' | cxTranslate }}
+      {{ 'orderCost.salesTax' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{ cart.totalTax?.formattedValue }}
@@ -39,7 +39,7 @@
   </div>
   <div class="cx-summary-row cx-summary-total">
     <div class="col-6 cx-summary-label">
-      {{ 'orderCost.total.label' | cxTranslate }}
+      {{ 'orderCost.total' | cxTranslate }}
     </div>
     <div class="col-6 cx-summary-amount">
       {{ cart.totalPriceWithTax?.formattedValue }}
