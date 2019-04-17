@@ -8,26 +8,20 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { ProductReviewService, Review, Product } from '@spartacus/core';
-
+import { Product, ProductReviewService, Review } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
-  styleUrls: ['./product-reviews.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductReviewsComponent implements OnChanges, OnInit {
-  @Input()
-  product: Product;
-  @Input()
-  get isWritingReview() {
+  @Input() product: Product;
+  @Input() get isWritingReview(): boolean {
     return this._isWritingReview;
   }
-  @Output()
-  isWritingReviewChange = new EventEmitter();
+  @Output() isWritingReviewChange = new EventEmitter();
 
   set isWritingReview(val) {
     this._isWritingReview = val;
@@ -47,7 +41,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     private fb: FormBuilder
   ) {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.maxListItems = this.initialMaxListItems;
 
     if (this.product) {
@@ -55,7 +49,7 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.resetReviewForm();
   }
 

@@ -1,19 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap, filter, take } from 'rxjs/operators';
 import { ActivatedRoute, Params } from '@angular/router';
 import {
-  ProductSearchService,
   ProductSearchPage,
+  ProductSearchService,
   SearchConfig,
 } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms/page-layout/page-layout.service';
 import { ViewModes } from '../product-view/product-view.component';
 
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
   query: string;
@@ -34,7 +33,7 @@ export class ProductListComponent implements OnInit {
     private pageLayoutService: PageLayoutService
   ) {}
 
-  update() {
+  update(): void {
     const { queryParams } = this.activatedRoute.snapshot;
     this.options = this.createOptionsByUrlParams();
 
@@ -71,7 +70,7 @@ export class ProductListComponent implements OnInit {
     return options;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.updateParams$ = this.activatedRoute.params.pipe(
       tap(params => {
         this.categoryCode = params.categoryCode;
@@ -116,19 +115,19 @@ export class ProductListComponent implements OnInit {
     return this.categoryTitle;
   }
 
-  viewPage(pageNumber: number) {
+  viewPage(pageNumber: number): void {
     this.search(this.query, { currentPage: pageNumber });
   }
 
-  sortList(sortCode: string) {
+  sortList(sortCode: string): void {
     this.search(this.query, { sortCode: sortCode });
   }
 
-  setGridMode(mode: ViewModes) {
+  setGridMode(mode: ViewModes): void {
     this.gridMode$.next(mode);
   }
 
-  protected search(query: string, options?: SearchConfig) {
+  protected search(query: string, options?: SearchConfig): void {
     if (this.query) {
       if (options) {
         // Overide default options

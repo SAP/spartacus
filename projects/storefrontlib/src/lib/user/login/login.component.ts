@@ -1,39 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { AuthService, UserToken, User, UserService } from '@spartacus/core';
+import { Component } from '@angular/core';
+import { AuthService, User, UserService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { LoginComponentService } from './login.component.service';
 
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
-  user$: Observable<User>;
-  isLogin = false;
+export class LoginComponent {
+  constructor(
+    private auth: AuthService,
+    private userService: UserService,
+    private loginService: LoginComponentService
+  ) {}
 
-  subscription: Subscription;
-
-  constructor(private auth: AuthService, private userService: UserService) {}
-
-  ngOnInit() {
-    this.user$ = this.userService.get();
-
-    this.subscription = this.auth
-      .getUserToken()
-      .subscribe((token: UserToken) => {
-        if (token && token.access_token && !this.isLogin) {
-          this.isLogin = true;
+  get user$(): Observable<User> {
+    return this.auth.getUserToken().pipe(
+      map(token => {
+        if (token && !!token.access_token && !this.loginService.isLogin) {
+          this.loginService.isLogin = true;
           this.userService.load(token.userId);
           this.auth.login();
-        } else if (token && !token.access_token && this.isLogin) {
-          this.isLogin = false;
+        } else if (token && !token.access_token && this.loginService.isLogin) {
+          this.loginService.isLogin = false;
         }
-      });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+        return token;
+      }),
+      filter(token => token && !!token.access_token),
+      switchMap(() => this.userService.get())
+    );
   }
 }

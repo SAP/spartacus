@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-
-import { Address } from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
 @Component({
   selector: 'cx-address-book',
   templateUrl: './address-book.component.html',
-  styleUrls: ['./address-book.component.scss'],
 })
 export class AddressBookComponent implements OnInit {
   addresses$: Observable<Address[]>;
@@ -21,7 +19,7 @@ export class AddressBookComponent implements OnInit {
 
   constructor(public service: AddressBookComponentService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.addresses$ = this.service.getAddresses();
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
 
@@ -34,27 +32,27 @@ export class AddressBookComponent implements OnInit {
       });
   }
 
-  addAddressButtonHandle() {
+  addAddressButtonHandle(): void {
     this.showEditAddressForm = false;
     this.showAddAddressForm = true;
   }
 
-  editAddressButtonHandle(address: Address) {
+  editAddressButtonHandle(address: Address): void {
     this.showAddAddressForm = false;
     this.showEditAddressForm = true;
     this.currentAddress = address;
   }
 
-  addAddressSubmit(address: Address) {
+  addAddressSubmit(address: Address): void {
     this.showAddAddressForm = false;
     this.service.addUserAddress(this.userId, address);
   }
 
-  addAddressCancel() {
+  addAddressCancel(): void {
     this.showAddAddressForm = false;
   }
 
-  editAddressSubmit(address: Address) {
+  editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
     this.service.updateUserAddress(
       this.userId,
@@ -63,7 +61,7 @@ export class AddressBookComponent implements OnInit {
     );
   }
 
-  editAddressCancel() {
+  editAddressCancel(): void {
     this.showEditAddressForm = false;
   }
 }
