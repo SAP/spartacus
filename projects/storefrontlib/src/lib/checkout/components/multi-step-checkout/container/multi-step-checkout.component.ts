@@ -26,7 +26,6 @@ import { CheckoutNavBarItem } from './checkout-navigation-bar';
 @Component({
   selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
-  styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
