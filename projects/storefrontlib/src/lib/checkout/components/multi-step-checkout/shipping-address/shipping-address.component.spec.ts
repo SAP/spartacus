@@ -215,7 +215,7 @@ describe('ShippingAddressComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.action.continue');
+        .find(el => el.nativeElement.innerText === 'common.continue.action');
 
     it('should be disabled when no address is selected', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -252,7 +252,7 @@ describe('ShippingAddressComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
         .find(
-          el => el.nativeElement.innerText === 'checkout.action.backToCart'
+          el => el.nativeElement.innerText === 'checkout.backToCart.action'
         );
 
     it('should call "back" function after being clicked', () => {
@@ -301,7 +301,7 @@ describe('ShippingAddressComponent', () => {
         .find(
           el =>
             el.nativeElement.innerText ===
-            'checkoutAddress.action.addNewAddress'
+            'checkoutAddress.addNewAddress.action'
         );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));

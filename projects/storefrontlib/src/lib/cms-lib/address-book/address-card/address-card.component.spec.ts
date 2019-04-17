@@ -68,7 +68,7 @@ describe('AddressCardComponent', () => {
     fixture.detectChanges();
     const element = el.query(By.css('.card-header'));
     expect(element.nativeElement.textContent).toContain(
-      ' ✓ common.label.default '
+      ' ✓ addressCard.default.label '
     );
   });
 });
