@@ -16,7 +16,6 @@ import { tap, takeWhile } from 'rxjs/operators';
 @Component({
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
-  styleUrls: ['./delivery-mode.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeliveryModeComponent implements OnInit {
