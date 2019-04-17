@@ -37,8 +37,8 @@ context('Currency change', () => {
     let TEST_EMAIL: string;
 
     beforeEach(() => {
-      LOGIN_URL_USD = 'electronics/en/USD/login';
-      TEST_EMAIL = 'My email';
+      LOGIN_URL_USD = `/${CONTENT_CATALOG}/en/USD/login`;
+      TEST_EMAIL = 'my@email.com';
     });
 
     it('user input should not be removed on currency change', () => {
@@ -46,6 +46,7 @@ context('Currency change', () => {
       cy.get('input[type="email"]').type(TEST_EMAIL);
 
       changeCurrency(JPY_CURR);
+      changeCurrency(USD_CURR);
 
       cy.get('input[type="email"]').should('contain', TEST_EMAIL);
     });
