@@ -1,17 +1,17 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
-import { StoreModule, Store, MemoizedSelector } from '@ngrx/store';
 import * as NgrxStore from '@ngrx/store';
+import { MemoizedSelector, Store, StoreModule } from '@ngrx/store';
 
 import { EMPTY, of } from 'rxjs';
 
 import * as fromStore from '../store';
 import { SearchConfig } from '../model/search-config';
 import { StateWithProduct } from '../store/product-state';
-import { ProductSearchPage } from '../../occ/occ-models/occ.models';
 
 import { ProductSearchService } from './product-search.service';
+import { UIProductSearchPage } from '../model/product-search-page';
 
 describe('ProductSearchService', () => {
   let service: ProductSearchService;
@@ -25,16 +25,16 @@ describe('ProductSearchService', () => {
       return {};
     }
   }
-  const mockSearchResults: ProductSearchPage = {
+  const mockSearchResults: UIProductSearchPage = {
     products: [{ code: '1' }, { code: '2' }, { code: '3' }],
   };
 
-  const mockAuxSearchResults: ProductSearchPage = {
+  const mockAuxSearchResults: UIProductSearchPage = {
     products: [{ code: 'aux1' }, { code: 'aux2' }],
   };
 
   const mockSelect = (
-    selector: MemoizedSelector<StateWithProduct, ProductSearchPage>
+    selector: MemoizedSelector<StateWithProduct, UIProductSearchPage>
   ) => {
     switch (selector) {
       case fromStore.getSearchResults:
@@ -79,7 +79,7 @@ describe('ProductSearchService', () => {
   ));
 
   it('should be able to get search results', () => {
-    let tempSearchResult: ProductSearchPage;
+    let tempSearchResult: UIProductSearchPage;
     service
       .getSearchResults()
       .subscribe(result => (tempSearchResult = result))
@@ -95,7 +95,7 @@ describe('ProductSearchService', () => {
   });
 
   it('should be able to get auxiliary search results', () => {
-    let tempAuxSearchResult: ProductSearchPage;
+    let tempAuxSearchResult: UIProductSearchPage;
     service
       .getAuxSearchResults()
       .subscribe(result => (tempAuxSearchResult = result))

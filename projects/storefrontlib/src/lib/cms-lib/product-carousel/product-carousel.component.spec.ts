@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 
 import {
   ProductService,
-  Product,
+  UIProduct,
   Component,
   CmsProductCarouselComponent,
 } from '@spartacus/core';
@@ -32,11 +32,11 @@ const mockComponentData: CmsProductCarouselComponent = {
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
-  name: 'Mock Product Carousel',
+  name: 'Mock UIProduct Carousel',
   container: 'false',
 };
 
-const mockProduct: Product = {
+const mockProduct: UIProduct = {
   code: '111111',
   name: 'Camera',
   price: {
@@ -49,7 +49,7 @@ const MockCmsComponentData = <CmsComponentData<Component>>{
 };
 
 class MockProductService {
-  get(): Observable<Product> {
+  get(): Observable<UIProduct> {
     return of(mockProduct);
   }
 
@@ -131,7 +131,7 @@ describe('ProductCarouselComponent', () => {
   }));
 
   it('should have products', async(() => {
-    let products$: Observable<Product>[];
+    let products$: Observable<UIProduct>[];
     productCarouselComponent.service.setItems();
     productCarouselComponent.service
       .getItems()
