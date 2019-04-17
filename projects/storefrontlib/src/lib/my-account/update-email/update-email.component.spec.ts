@@ -138,7 +138,7 @@ describe('UpdateEmailComponent', () => {
     spyOn(routingService, 'go').and.stub();
 
     component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
+    expect(routingService.go).toHaveBeenCalledWith({ route: 'home' });
   });
 
   it('should call updateEmail on submit', () => {
@@ -185,7 +185,7 @@ describe('UpdateEmailComponent', () => {
 
         expect(authService.logout).toHaveBeenCalled();
 
-        expect(routingService.go).toHaveBeenCalledWith({ route: ['login'] });
+        expect(routingService.go).toHaveBeenCalledWith({ route: 'login' });
       });
     });
 

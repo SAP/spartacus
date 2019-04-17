@@ -52,8 +52,7 @@ export class RoutingService {
       path = pathOrTranslateUrlOptions;
     } else {
       const translateUrlOptions = pathOrTranslateUrlOptions;
-      const translatedPath = this.urlTranslator.translate(translateUrlOptions);
-      path = Array.isArray(translatedPath) ? translatedPath : [translatedPath];
+      path = this.urlTranslator.translate(translateUrlOptions);
     }
     return this.navigate(path, query, extras);
   }
