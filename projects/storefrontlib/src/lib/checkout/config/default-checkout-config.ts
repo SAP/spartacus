@@ -28,6 +28,5 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         type: ['reviewOrder'],
       },
     ],
-    deliveryMode: '/checkout/delivery-mode',
   },
 };

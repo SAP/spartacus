@@ -9,8 +9,14 @@ import { UrlTree } from '@angular/router';
 
 const mockCheckoutConfig: CheckoutConfig = {
   checkout: {
-    steps: [],
-    deliveryMode: '/checkout/delivery-mode',
+    steps: [
+      {
+        id: 'deliveryMode',
+        name: 'checkoutProgress.label.deliveryMode',
+        url: '/checkout/delivery-mode',
+        type: ['deliveryMode'],
+      },
+    ],
   },
 };
 
@@ -49,7 +55,7 @@ describe(`DeliveryModeSetGuard`, () => {
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result.toString()).toEqual(
-        mockCheckoutConfig.checkout.deliveryMode
+        mockCheckoutConfig.checkout.steps[0].url
       );
       done();
     });

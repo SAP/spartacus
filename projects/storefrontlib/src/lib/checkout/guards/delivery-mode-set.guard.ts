@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { CheckoutService, DeliveryMode } from '@spartacus/core';
 import { CheckoutConfig } from '../config/checkout-config';
+import { CheckoutStep } from '../config/model/checkout-step.model';
 
 @Injectable()
 export class DeliveryModeSetGuard implements CanActivate {
@@ -16,13 +17,17 @@ export class DeliveryModeSetGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
+    const type = 'deliveryMode'; // @todo: replace with default-checkout-config.ts enum imported value
+    const route = this.checkoutConfig.checkout.steps.filter(
+      (step: CheckoutStep) => step.type.includes(type)
+    )[0];
     return this.checkoutService
       .getSelectedDeliveryMode()
       .pipe(
         map((mode: DeliveryMode) =>
           !!(mode && Object.keys(mode).length)
             ? true
-            : this.router.parseUrl(this.checkoutConfig.checkout.deliveryMode)
+            : this.router.parseUrl(route.url)
         )
       );
   }
