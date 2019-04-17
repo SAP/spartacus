@@ -48,7 +48,7 @@ Import `UrlTranslatorModule` in every module that uses configurable router links
 Example:
 
 ```html
-<a [routerLink]="{ route: { name: 'cart' } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'cart' } | cxTranslateUrl"></a>
 ```
 
 when config is:
@@ -76,7 +76,7 @@ result in:
 When the route needs parameters, the object with route's `name` and `params` can be passed instead of just simple string. For example:
 
 ```html
-<a [routerLink]="{ route: { name: 'product', params: { productCode: 1234 } } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
 ```
 
 where config is:
@@ -141,10 +141,9 @@ In order to translate the path of parent and child route we need to concatenate 
 
 ```html
 <a [routerLink]="[].concat(
-    { route: { name: 'parent', params: { param1: 'value1' } } | cxTranslateUrl,
-    { route: { name: 'child',  params: { param2: 'value2' }, relative: true } | cxTranslateUrl,
-)">
-</a>
+    { route: 'parent', params: { param1: 'value1' } | cxTranslateUrl,
+    { route: 'child',  params: { param2: 'value2' }, relative: true } | cxTranslateUrl,
+)"></a>
 ```
 
 result:
@@ -161,7 +160,7 @@ When properties of given `params` object do not match exactly to names of route 
 The `params` object below does not contain necessary property `productCode`, but it has `id`:
 
 ```html
-<a [routerLink]="{ route: { name: 'product', params: { id: 1234 } } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { id: 1234 } } | cxTranslateUrl"></a>
 ```
 
 Then `paramsMapping` needs to be configured:
@@ -240,13 +239,13 @@ ConfigModule.withConfig({
 })
 ```
 
-1. With `{ route: <route> }`:
+With `{ route: <route> }`:
 
-    ```typescript
-    routingService.go({ route: { name: 'product', params: { productCode: 1234 } } });
+```typescript
+routingService.go({ route: 'product', params: { productCode: 1234 } });
 
-    // router navigates to ['', 'p', 1234]
-    ```
+// router navigates to ['', 'p', 1234]
+```
 
 **`RoutingService.go` called with an array**
 
@@ -276,10 +275,10 @@ ConfigModule.withConfig({
 })
 ```
 
-1. With `{ route: <route> }`:
+With `{ route: <route> }`:
 
-    ```typescript
-    urlTranslatorService.translate({ route: { name: 'product', params: { productCode: 1234 } } });
+```typescript
+urlTranslatorService.translate({ route: 'product', params: { productCode: 1234 } });
 
-    // ['', 'p', 1234]
-    ```
+// ['', 'p', 1234]
+```

@@ -29,7 +29,7 @@
               class="product"
               [class.active]="i === carousel.activeItem"
               [routerLink]="
-                { route: { name: 'product', params: product } } | cxTranslateUrl
+                { route: 'product', params: product } | cxTranslateUrl
               "
             >
               <cx-picture

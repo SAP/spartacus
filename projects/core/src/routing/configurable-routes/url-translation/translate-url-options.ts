@@ -1,11 +1,5 @@
-export interface TranslateUrlOptionsRouteObject {
-  name?: string;
+export interface TranslateUrlOptions {
+  route?: string;
   params?: object;
   relative?: boolean;
-}
-
-export type TranslateUrlOptionsRoute = string | TranslateUrlOptionsRouteObject;
-
-export interface TranslateUrlOptions {
-  route?: TranslateUrlOptionsRoute;
 }

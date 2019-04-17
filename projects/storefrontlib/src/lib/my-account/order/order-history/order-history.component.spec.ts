@@ -150,10 +150,7 @@ describe('OrderHistoryComponent', () => {
     rows[1].triggerEventHandler('click', null);
     fixture.whenStable().then(() => {
       expect(routingService.go).toHaveBeenCalledWith({
-        route: {
-          name: 'orderDetails',
-          params: mockOrders.orders[1],
-        },
+        params: mockOrders.orders[1],
       });
     });
   });

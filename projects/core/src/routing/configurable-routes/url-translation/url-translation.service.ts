@@ -4,11 +4,7 @@ import { UrlParsingService } from './url-parsing.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
-import {
-  TranslateUrlOptions,
-  TranslateUrlOptionsRoute,
-  TranslateUrlOptionsRouteObject,
-} from './translate-url-options';
+import { TranslateUrlOptions } from './translate-url-options';
 
 @Injectable()
 export class UrlTranslationService {
@@ -26,46 +22,29 @@ export class UrlTranslationService {
       return this.ROOT_URL;
     }
 
-    return this.generateUrl(options.route);
+    return this.generateUrl(options);
   }
 
   private validateOptions(options: TranslateUrlOptions): boolean {
-    if (!options || typeof options !== 'object') {
+    if (!options || !options.route) {
       this.warn(
-        `Incorrect options for translating url. Options have to be an object. Options: `,
+        `Incorrect options for translating url. Options must have 'route' property. Options: `,
         options
-      );
-      return false;
-    }
-
-    if (!options.route) {
-      this.warn(
-        `Incorrect options for translating url. Options must have 'route' array property. Options: `,
-        options
-      );
-      return false;
-    }
-
-    if (typeof options.route !== 'string' && !options.route.name) {
-      this.warn(
-        `Incorrect options for translating url.`,
-        `'route' can be only string or object with 'name' property. Route: `,
-        options.route
       );
       return false;
     }
     return true;
   }
 
-  private generateUrl(route: TranslateUrlOptionsRoute): string[] {
-    const standarizedRoute = this.standarizeRoute(route);
+  private generateUrl(options: TranslateUrlOptions): string[] {
+    this.standarizeOptions(options);
 
-    if (!standarizedRoute.name) {
+    if (!options.route) {
       return this.ROOT_URL;
     }
 
     const routeTranslation = this.configurableRoutesService.getRouteTranslation(
-      standarizedRoute.name
+      options.route
     );
 
     // if no route translation was configured, return root url:
@@ -76,7 +55,7 @@ export class UrlTranslationService {
     // find first path that can satisfy it's parameters with given parameters
     const path = this.findPathWithFillableParams(
       routeTranslation,
-      standarizedRoute.params
+      options.params
     );
 
     // if there is no configured path that can be satisfied with given params, return root url
@@ -86,30 +65,19 @@ export class UrlTranslationService {
 
     const result = this.provideParamsValues(
       path,
-      standarizedRoute.params,
+      options.params,
       routeTranslation.paramsMapping
     );
 
-    if (!standarizedRoute.relative) {
+    if (!options.relative) {
       result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
     }
 
     return result;
   }
 
-  /**
-   * Converts route options to object
-   */
-  private standarizeRoute(
-    route: TranslateUrlOptionsRoute
-  ): TranslateUrlOptionsRouteObject {
-    return typeof route === 'string'
-      ? { name: route, params: {} }
-      : {
-          name: route.name,
-          params: route.params || {},
-          relative: route.relative,
-        };
+  private standarizeOptions(options: TranslateUrlOptions): void {
+    options.params = options.params || {};
   }
 
   private provideParamsValues(

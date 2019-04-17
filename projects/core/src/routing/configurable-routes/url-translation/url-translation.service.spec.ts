@@ -108,11 +108,11 @@ describe('UrlTranslationService', () => {
       });
     });
 
-    describe(`, when options 'route' array contains empty object,`, () => {
+    describe(`, when options 'route' array contains empty string,`, () => {
       let options: TranslateUrlOptions;
       beforeEach(() => {
         spyOn(console, 'warn');
-        options = { route: {} };
+        options = { route: '' };
       });
 
       it(`should console.warn in non-production environment`, () => {
@@ -141,7 +141,8 @@ describe('UrlTranslationService', () => {
           paths: ['path/:param1'],
         });
         service.translate({
-          route: { name: 'test', params: { param2: 'value2' } },
+          route: 'test',
+          params: { param2: 'value2' },
         });
         expect(console.warn).toHaveBeenCalledTimes(1);
       });
@@ -154,7 +155,8 @@ describe('UrlTranslationService', () => {
           paths: ['path/:param1'],
         });
         service.translate({
-          route: { name: 'test', params: { param2: 'value2' } },
+          route: 'test',
+          params: { param2: 'value2' },
         });
         expect(console.warn).not.toHaveBeenCalled();
       });
@@ -164,7 +166,8 @@ describe('UrlTranslationService', () => {
           paths: ['path/:param1'],
         });
         const resultPath = service.translate({
-          route: { name: 'test', params: { param1: 'value1' } },
+          route: 'test',
+          params: { param1: 'value1' },
         });
         expect(resultPath[0]).toEqual('');
       });
@@ -227,7 +230,8 @@ describe('UrlTranslationService', () => {
       it(`should return the root path when no path from translations can satisfy its params with given params`, () => {
         test_translate({
           translateUrlOptions: {
-            route: { name: 'test', params: { param3: 'value3' } },
+            route: 'test',
+            params: { param3: 'value3' },
           },
           routeTranslation: { paths: ['path/:param1', 'path/:param1'] },
 
@@ -249,7 +253,8 @@ describe('UrlTranslationService', () => {
       it(`should return first path without params when given params are not sufficient`, () => {
         test_translate({
           translateUrlOptions: {
-            route: { name: 'test', params: { param2: 'value2' } },
+            route: 'test',
+            params: { param2: 'value2' },
           },
           routeTranslation: {
             paths: ['path/:param1', 'path/without-parameters'],
@@ -262,7 +267,8 @@ describe('UrlTranslationService', () => {
       it(`should return first path that can be satisfied with given params (case 1)`, () => {
         test_translate({
           translateUrlOptions: {
-            route: { name: 'test', params: { param1: 'value1' } },
+            route: 'test',
+            params: { param1: 'value1' },
           },
           routeTranslation: { paths: ['path/:param1', 'other-path/:param1'] },
 
@@ -273,7 +279,8 @@ describe('UrlTranslationService', () => {
       it(`should return first path that can be satisfied with given params (case 2)`, () => {
         test_translate({
           translateUrlOptions: {
-            route: { name: 'test', params: { param2: 'value2' } },
+            route: 'test',
+            params: { param2: 'value2' },
           },
           routeTranslation: {
             paths: ['path/without-parameters', 'path/:param1'],
@@ -286,13 +293,11 @@ describe('UrlTranslationService', () => {
       it(`should return first path that can be satisfied with given params (case 3)`, () => {
         test_translate({
           translateUrlOptions: {
-            route: {
-              name: 'test',
-              params: {
-                param2: 'value2',
-                param3: 'value3',
-                param4: 'value4',
-              },
+            route: 'test',
+            params: {
+              param2: 'value2',
+              param3: 'value3',
+              param4: 'value4',
             },
           },
           routeTranslation: {
@@ -311,13 +316,11 @@ describe('UrlTranslationService', () => {
       it(`should return first path that can be satisfied with given params  (case 4)`, () => {
         test_translate({
           translateUrlOptions: {
-            route: {
-              name: 'test',
-              params: {
-                param2: 'value2',
-                param3: 'value3',
-                param4: 'value4',
-              },
+            route: 'test',
+            params: {
+              param2: 'value2',
+              param3: 'value3',
+              param4: 'value4',
             },
           },
 
@@ -337,7 +340,8 @@ describe('UrlTranslationService', () => {
       it(`should use given params mapping (case 1)`, () => {
         test_translate({
           translateUrlOptions: {
-            route: { name: 'test', params: { param1: 'value1' } },
+            route: 'test',
+            params: { param1: 'value1' },
           },
           routeTranslation: {
             paths: ['path/:mappedParam1'],
@@ -351,13 +355,11 @@ describe('UrlTranslationService', () => {
       it(`should use given params mapping (case 2)`, () => {
         test_translate({
           translateUrlOptions: {
-            route: {
-              name: 'test',
-              params: {
-                param2: 'value2',
-                param3: 'value3',
-                param4: 'value4',
-              },
+            route: 'test',
+            params: {
+              param2: 'value2',
+              param3: 'value3',
+              param4: 'value4',
             },
           },
           routeTranslation: {
