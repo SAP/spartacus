@@ -1,23 +1,22 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
-import { BootstrapModule } from '../../bootstrap.module';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsService,
   CmsSiteContextSelectorComponent,
-  LanguageService,
-  CurrencyService,
   Component,
-  Language,
   contextServiceMapProvider,
+  CurrencyService,
+  Language,
+  LanguageService,
   LANGUAGE_CONTEXT_ID,
 } from '@spartacus/core';
-import { SiteContextSelectorComponent } from './site-context-selector.component';
-
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { Pipe, PipeTransform, DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
+import { BootstrapModule } from '../../../lib/bootstrap.module';
 import { SiteContextComponentService } from './site-context-component.service';
+import { SiteContextSelectorComponent } from './site-context-selector.component';
 
 @Pipe({
   name: 'cxTranslateUrl',

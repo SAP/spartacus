@@ -1,17 +1,14 @@
-import { NgModule, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Injector, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import {
+  CmsConfig,
   ConfigModule,
-  UrlTranslationModule,
-  SiteContextModule,
   ContextServiceMap,
+  SiteContextModule,
 } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
-
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-
+import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
 
@@ -31,14 +28,15 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
             },
           ],
         },
+        LanguageCurrencyComponent: {
+          selector: 'cx-language-currency-selector',
+        },
       },
     }),
-    UrlTranslationModule,
     SiteContextModule.forRoot(),
   ],
   providers: [SiteContextComponentService],
-  declarations: [SiteContextSelectorComponent],
-  exports: [SiteContextSelectorComponent],
-  entryComponents: [SiteContextSelectorComponent],
+  declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
+  entryComponents: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}
