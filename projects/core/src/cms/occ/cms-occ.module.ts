@@ -1,30 +1,30 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { CmsComponentLoader } from '../services/cms-component.loader';
-import { CmsPageAdapter } from '../services/cms-page.adapter';
-import { CmsPageLoader } from '../services/cms-page.loader';
+import { CmsPageAdapter } from '../connectors/page/cms-page.adapter';
 import { ComponentMapperService } from '../services/component-mapper.service';
-import { OccCmsComponentLoader } from './occ-cms-component.loader';
+import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
+import { OccCmsPageNormalizer } from './converters/occ-cms-page-normalizer';
 import { OccCmsPageAdapter } from './occ-cms-page.adapter';
-import { OccCmsPageLoader } from './occ-cms-page.loader';
+import { CMS_PAGE_NORMALIZE } from '../connectors/page/converters';
+import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
   providers: [
-    OccCmsPageLoader,
     ComponentMapperService,
-    {
-      provide: CmsPageLoader,
-      useClass: OccCmsPageLoader,
-    },
     {
       provide: CmsPageAdapter,
       useClass: OccCmsPageAdapter,
     },
     {
-      provide: CmsComponentLoader,
-      useClass: OccCmsComponentLoader,
+      provide: CMS_PAGE_NORMALIZE,
+      useClass: OccCmsPageNormalizer,
+      multi: true,
+    },
+    {
+      provide: CmsComponentAdapter,
+      useClass: OccCmsComponentAdapter,
     },
   ],
 })
