@@ -56,23 +56,20 @@ export class ProductSummaryComponent implements OnInit {
     return document.querySelector('cx-product-tabs');
   }
 
-  // Get Reviews Tab if exists on page
-  private getReviewsTab(): HTMLElement {
-    if (this.getTabsComponent()) {
+  // Get Tab by label if exists on page
+  private getTabByLabel(label: string): HTMLElement {
+    const tabsComponent = this.getTabsComponent();
+
+    if (tabsComponent) {
       // NOTE: Reads through h3 tags to click on correct tab
       // There may be a better way of doing this now/after refactor
       const h3Elements: HTMLCollectionOf<
         HTMLElement
-      > = this.getTabsComponent().getElementsByTagName('h3');
+      > = tabsComponent.getElementsByTagName('h3');
 
-      // Use translated label for Reviews tab reference
-      const reviewsTabTitle = this.translatePipe.transform(
-        'productDetails.label.reviews'
-      );
-
-      // Look through h3 tab elements until finding tab with Reviews reference
+      // Look through h3 tab elements until finding tab with label
       for (const h3Element of Array.from(h3Elements)) {
-        if (h3Element.innerHTML.indexOf(reviewsTabTitle) > -1) {
+        if (h3Element.innerHTML.indexOf(label) > -1) {
           return h3Element;
         }
       }
@@ -91,7 +88,12 @@ export class ProductSummaryComponent implements OnInit {
 
   // Scroll to views component on page and click "Reviews" tab
   showReviews() {
-    const reviewsTab = this.getReviewsTab();
+    // Use translated label for Reviews tab reference
+    const reviewsTabLabel = this.translatePipe.transform(
+      'productDetails.label.reviews'
+    );
+
+    const reviewsTab = this.getTabByLabel(reviewsTabLabel);
     const reviewsComponent = this.getReviewsComponent();
 
     if (reviewsTab && reviewsComponent) {
