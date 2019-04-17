@@ -45,18 +45,6 @@ export class ProductSummaryComponent implements OnInit {
     );
   }
 
-  // Checks if product has reviews
-  // hasReviews(): Observable<boolean> {
-  //   return new Observable((observer: Observer<boolean>) => {
-  //     if (this.getReviewsComponent()) {
-  //       // Product reviews have rendered
-  //       observer.next(true);
-  //     }
-
-  //     observer.complete();
-  //   });
-  // }
-
   // NOTE: Does not currently exists as its own component
   // but part of tabs component. This is likely to change in refactor.
   private getReviewsComponent(): Element {
