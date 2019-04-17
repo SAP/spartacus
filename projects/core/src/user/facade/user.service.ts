@@ -20,7 +20,10 @@ import {
 } from '../../process/store/selectors/process.selectors';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
-import { UPDATE_USER_DETAILS_PROCESS_ID } from '../store/user-state';
+import {
+  UPDATE_EMAIL_PROCESS_ID,
+  UPDATE_USER_DETAILS_PROCESS_ID,
+} from '../store/user-state';
 
 @Injectable()
 export class UserService {
@@ -339,6 +342,13 @@ export class UserService {
   }
 
   /**
+   * Return whether user's password is successfully reset
+   */
+  isPasswordReset(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getResetPassword));
+  }
+
+  /**
    * Updates the user's details
    * @param userDetails to be updated
    */
@@ -401,10 +411,47 @@ export class UserService {
   }
 
   /**
-   * Return whether user's password is successfully reset.  Part of the forgot password flow.
+   * Updates the user's email
+   * @param uid to be updated
    */
-  isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getResetPassword));
+  updateEmail(uid: string, password: string, newUid: string): void {
+    this.store.dispatch(
+      new fromStore.UpdateEmailAction({ uid, password, newUid })
+    );
+  }
+
+  /**
+   * Returns the update user's email success flag
+   */
+  getUpdateEmailResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's email error flag
+   */
+  getUpdateEmailResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the update user's email loading flag
+   */
+  getUpdateEmailResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(UPDATE_EMAIL_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the update user's email processing state
+   */
+  resetUpdateEmailResultState(): void {
+    this.store.dispatch(new fromStore.ResetUpdateEmailAction());
   }
 
   /**
