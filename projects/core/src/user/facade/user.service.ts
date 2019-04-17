@@ -518,9 +518,7 @@ export class UserService {
    * @param userId a user ID
    */
   loadNotificationPreferences(userId: string) {
-    this.store.dispatch(
-      new fromStore.LoadNotificationPreferences({ userId: userId })
-    );
+    this.store.dispatch(new fromStore.LoadNotificationPreferences(userId));
   }
   /**
    * Updates notification preference
@@ -532,12 +530,5 @@ export class UserService {
         preference: preference,
       })
     );
-  }
-
-  /**
-   * Clears notification preference
-   */
-  clearsNotificationPreferences(): void {
-    this.store.dispatch(new fromStore.ClearNotificationPreferences());
   }
 }

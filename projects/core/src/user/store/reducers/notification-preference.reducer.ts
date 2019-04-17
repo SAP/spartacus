@@ -19,7 +19,7 @@ export function reducer(
       };
     }
 
-    case fromAction.CLEAR_NOTIFICATION_PREFERENCES: {
+    case fromAction.UPDATE_NOTIFICATION_PREFERENCES_FAIL: {
       return initialState;
     }
   }

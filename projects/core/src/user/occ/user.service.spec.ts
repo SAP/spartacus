@@ -29,6 +29,7 @@ const forgotPasswordEndpoint = '/forgottenpasswordtokens';
 const resetPasswordEndpoint = '/resetpassword';
 const updateEmailEndpoint = '/login';
 const updatePasswordEndpoint = '/password';
+const notificationPreferenceEndPoint = '/notificationpreferences';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -329,6 +330,56 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
       expect(result).toEqual('');
+    });
+  });
+  describe('notification preference: ', () => {
+    const notificationpreferences: any = {
+      preferences: [
+        {
+          channel: 'EMAIL',
+          enabled: true,
+          value: 'test@sap.com',
+        },
+        {
+          channel: 'SITE_MESSAGE',
+          enabled: true,
+        },
+      ],
+    };
+    const preference: any = {
+      preferences: [{ channel: 'EMAIL', enabled: false }],
+    };
+    const userId = 'test@sap.com';
+    it('should be able to get notification preferences', () => {
+      service.getNotificationPreference(userId).subscribe(result => {
+        expect(result).toEqual(notificationpreferences);
+      });
+      const mockRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === `${endpoint}/${userId}${notificationPreferenceEndPoint}`
+        );
+      });
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      mockRequest.flush(notificationpreferences);
+    });
+    it('should be able to update notification preference', () => {
+      service
+        .updateNotificationPreference(userId, preference)
+        .subscribe(result => {
+          expect(result).toEqual('');
+        });
+      const mockRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'PATCH' &&
+          req.url === `${endpoint}/${userId}${notificationPreferenceEndPoint}`
+        );
+      });
+      expect(mockRequest.cancelled).toBeFalsy();
+      expect(mockRequest.request.responseType).toEqual('json');
+      expect(mockRequest.request.body).toEqual(JSON.stringify(preference));
+      mockRequest.flush('');
     });
   });
 });

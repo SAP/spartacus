@@ -14,7 +14,7 @@ export class NotificationPreferenceEffects {
     ofType(fromAction.LOAD_NOTIFICATION_PREFERENCES),
     map((action: fromAction.LoadNotificationPreferences) => action.payload),
     switchMap(payload => {
-      return this.occUserService.getNotificationPreference(payload.userId).pipe(
+      return this.occUserService.getNotificationPreference(payload).pipe(
         map(
           (preferences: any) =>
             new fromAction.LoadNotificationPreferencesSuccess(preferences)

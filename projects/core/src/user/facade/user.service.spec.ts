@@ -604,4 +604,45 @@ describe('UserService', () => {
       );
     });
   });
+
+  describe('notification preference:', () => {
+    const userId = 'testUserId';
+    const mockPreference: any = {
+      preferences: [
+        { channel: 'EMAIL', value: 'test@sap.com', enabled: false },
+      ],
+    };
+
+    it('should be able to load notification preferences', () => {
+      service.loadNotificationPreferences(userId);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.LoadNotificationPreferences(userId)
+      );
+    });
+
+    it('should be able to get notification preferences', () => {
+      store.dispatch(
+        new fromStore.LoadNotificationPreferencesSuccess(mockPreference)
+      );
+
+      let preference: any;
+      service
+        .getNotificationPreferences()
+        .subscribe(data => {
+          preference = data;
+        })
+        .unsubscribe();
+      expect(preference).toEqual(mockPreference);
+    });
+
+    it('should be able to update notification preferences', () => {
+      service.updateNotificationPreferences(userId, mockPreference);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateNotificationPreferences({
+          userId: userId,
+          preference: mockPreference,
+        })
+      );
+    });
+  });
 });

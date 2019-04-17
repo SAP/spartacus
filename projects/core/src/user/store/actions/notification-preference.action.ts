@@ -6,8 +6,6 @@ export const LOAD_NOTIFICATION_PREFERENCES_FAIL =
   '[User] Load Notification Preferences Fail';
 export const LOAD_NOTIFICATION_PREFERENCES_SUCCESS =
   '[User] Load Notification Preferences Success';
-export const CLEAR_NOTIFICATION_PREFERENCES =
-  '[User] Clear Notification Preferences';
 
 export const UPDATE_NOTIFICATION_PREFERENCES =
   '[User] Update Notification Preferences';
@@ -18,7 +16,7 @@ export const UPDATE_NOTIFICATION_PREFERENCES_SUCCESS =
 
 export class LoadNotificationPreferences implements Action {
   readonly type = LOAD_NOTIFICATION_PREFERENCES;
-  constructor(public payload: { userId: string }) {}
+  constructor(public payload: string) {}
 }
 
 export class LoadNotificationPreferencesFail implements Action {
@@ -31,27 +29,22 @@ export class LoadNotificationPreferencesSuccess implements Action {
   constructor(public payload: any) {}
 }
 
-export class ClearNotificationPreferences implements Action {
-  readonly type = CLEAR_NOTIFICATION_PREFERENCES;
-}
-
 export class UpdateNotificationPreferences implements Action {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES;
   constructor(public payload: { userId: string; preference: any }) {}
 }
 export class UpdateNotificationPreferencesFail implements Action {
-  readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
+  readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
   constructor(public payload: any) {}
 }
 export class UpdateNotificationPreferencesSuccess implements Action {
-  readonly type = LOAD_NOTIFICATION_PREFERENCES_FAIL;
+  readonly type = UPDATE_NOTIFICATION_PREFERENCES_SUCCESS;
   constructor(public payload: any) {}
 }
 export type NotificationPreferenceAction =
   | LoadNotificationPreferences
   | LoadNotificationPreferencesFail
   | LoadNotificationPreferencesSuccess
-  | ClearNotificationPreferences
   | UpdateNotificationPreferences
   | UpdateNotificationPreferencesFail
   | UpdateNotificationPreferencesSuccess;
