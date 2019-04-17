@@ -24,6 +24,7 @@ const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
+const NOTIFICATION_PREFERENCE_ENDPOINT = '/notificationpreferences';
 
 @Injectable()
 export class OccUserService {
@@ -230,6 +231,37 @@ export class OccUserService {
     });
     return this.http
       .put(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  getNotificationPreference(userId: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .get<any>(
+        this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,
+        { headers }
+      )
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateNotificationPreference(
+    userId: string,
+    notificationpreferenceList: any
+  ) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+    console.log(JSON.stringify(notificationpreferenceList));
+    return this.http
+      .patch(
+        this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,
+        JSON.stringify(notificationpreferenceList),
+        {
+          headers,
+        }
+      )
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

@@ -504,4 +504,40 @@ export class UserService {
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new fromStore.UpdatePasswordReset());
   }
+
+  /**
+   *  Returns the user's notification preferences
+   */
+  getNotificationPreferences(): Observable<any> {
+    return this.store.pipe(select(fromStore.getNotificationPreferenceList));
+  }
+
+  /**
+   * Retrieves the user's notification preferences
+   *
+   * @param userId a user ID
+   */
+  loadNotificationPreferences(userId: string) {
+    this.store.dispatch(
+      new fromStore.LoadNotificationPreferences({ userId: userId })
+    );
+  }
+  /**
+   * Updates notification preference
+   */
+  updateNotificationPreferences(userId: string, preference: any) {
+    this.store.dispatch(
+      new fromStore.UpdateNotificationPreferences({
+        userId: userId,
+        preference: preference,
+      })
+    );
+  }
+
+  /**
+   * Clears notification preference
+   */
+  clearsNotificationPreferences(): void {
+    this.store.dispatch(new fromStore.ClearNotificationPreferences());
+  }
 }

@@ -34,6 +34,7 @@ export interface UserState {
   titles: TitlesState;
   regions: RegionsState;
   resetPassword: boolean;
+  notificationPreference: NotificationPreferenceState;
 }
 
 export interface OrderDetailsState {
@@ -70,4 +71,7 @@ export interface TitlesState {
 
 export interface UserDetailsState {
   details: User;
+}
+export interface NotificationPreferenceState {
+  preferences: any;
 }

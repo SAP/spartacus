@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   AuthService,
-  NotificationPreferenceService,
+  UserService,
   PageMetaService,
   PageMeta,
 } from '@spartacus/core';
 import { map, filter } from 'rxjs/operators';
+
 @Component({
   selector: 'cx-notification-preference',
   templateUrl: './notification-preference.component.html',
@@ -16,10 +17,9 @@ export class NotificationPreferenceComponent implements OnInit {
   notificationPreferenceList$: Observable<any>;
   userId: string;
   preferences: any;
-  loaded: boolean;
 
   constructor(
-    private notificationPreferenceService: NotificationPreferenceService,
+    private userService: UserService,
     private authService: AuthService,
     protected pageMetaService: PageMetaService
   ) {}
@@ -29,29 +29,22 @@ export class NotificationPreferenceComponent implements OnInit {
       this.userId = token.userId;
     });
 
-    this.getNotificationPreferences();
-  }
-
-  getNotificationPreferences() {
-    this.notificationPreferenceList$ = this.notificationPreferenceService.getNotificationPreference(
-      this.userId
-    );
+    this.notificationPreferenceList$ = this.userService.getNotificationPreferences();
+    this.userService.loadNotificationPreferences(this.userId);
   }
 
   updateNotificationPreferences(preference: any) {
-    preference.enabled = !preference.enabled;
     const list: any = {
       preferences: [
         {
           channel: preference.channel,
-          enabled: preference.enabled,
+          enabled: !preference.enabled,
         },
       ],
     };
-    console.log(JSON.stringify(list));
-    this.notificationPreferenceService
-      .updateNotificationPreference(this.userId, list)
-      .subscribe();
+
+    this.userService.updateNotificationPreferences(this.userId, list);
+    preference.enabled = !preference.enabled;
   }
 
   get title$(): Observable<string> {

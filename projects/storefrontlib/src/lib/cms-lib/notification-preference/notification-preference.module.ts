@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationPreferenceComponent } from './components/notification-preference.component';
-import { NotificationPreferenceService } from '@spartacus/core';
+import { UserService } from '@spartacus/core';
 import { CmsConfig, ConfigModule, UrlTranslationModule } from '@spartacus/core';
 import { ComponentsModule } from '../../ui/components/components.module';
 @NgModule({
@@ -19,7 +19,7 @@ import { ComponentsModule } from '../../ui/components/components.module';
     ComponentsModule,
   ],
   exports: [NotificationPreferenceComponent],
-  providers: [NotificationPreferenceService],
+  providers: [UserService],
   entryComponents: [NotificationPreferenceComponent],
 })
 export class NotificationPreferenceModule {}
