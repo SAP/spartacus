@@ -8,11 +8,7 @@ export const headerComponents: {
     flexType: 'SkipLinkComponent',
     uid: 'SkipLinkComponent',
   },
-  HamburgerMenuComponent: {
-    typeCode: 'HamburgerMenuComponent',
-    flexType: 'HamburgerMenuComponent',
-    uid: 'HamburgerMenuComponent',
-  },
+
   LanguageComponent: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
@@ -22,6 +18,10 @@ export const headerComponents: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
     context: 'CURRENCY',
+  },
+  LanguageCurrencyComponent: {
+    typeCode: 'LanguageCurrencyComponent',
+    flexType: 'LanguageCurrencyComponent',
   },
   StoreFinder: {
     typeCode: 'CMSLinkComponent',

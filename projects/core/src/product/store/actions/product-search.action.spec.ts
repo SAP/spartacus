@@ -1,5 +1,5 @@
 import * as fromProductSearch from './product-search.action';
-import { Suggestion, ProductList, ErrorModel } from '../../../occ/occ-models';
+import { ErrorModel, Suggestion } from '../../../occ/occ-models';
 import { SearchConfig } from '../../model/search-config';
 
 describe('Product Search Actions', () => {
@@ -51,7 +51,7 @@ describe('Product Search Actions', () => {
 
     describe('SearchProductsSuccess', () => {
       it('should create an action', () => {
-        const payload: ProductList = { products: [{ code: '123' }] };
+        const payload = { products: [{ code: '123' }] };
         const action = new fromProductSearch.SearchProductsSuccess(payload);
 
         expect({ ...action }).toEqual({
