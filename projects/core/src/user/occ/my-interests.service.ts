@@ -7,16 +7,17 @@ import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
 export class MyInterestsService {
-
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,
     private config: OccConfig
-  ) { }
+  ) {}
 
   public getInterests(
-    userId: string, pageSize?: number,
-    currentPage?: number, sort?: string
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
   ): Observable<any> {
     const url = this.getEndPoint(userId);
     let params = new HttpParams();
@@ -37,26 +38,34 @@ export class MyInterestsService {
 
     return this.http.get<any>(url, { headers, params }).pipe(
       tap(r =>
-        r.results.forEach((item: any) =>
-          item.product.images = this.convertImages(item.product.images)
+        r.results.forEach(
+          (item: any) =>
+            (item.product.images = this.convertImages(item.product.images))
         )
       ),
-      catchError((error: any) => throwError(error)));
+      catchError((error: any) => throwError(error))
+    );
   }
 
   public removeInterests(userId: string, item: any): Observable<any[]> {
     const r: Observable<any>[] = [];
     item.productInterestEntry.forEach((entry: any) => {
-      const params: HttpParams = new HttpParams().set('productCode', item.product.code).set('notificationType', entry.interestType);
-      r.push(this.http.delete(this.getEndPoint(userId), { params: params }).pipe(
-        catchError((error: any) => throwError(error))
-      ));
+      const params: HttpParams = new HttpParams()
+        .set('productCode', item.product.code)
+        .set('notificationType', entry.interestType);
+      r.push(
+        this.http
+          .delete(this.getEndPoint(userId), { params: params })
+          .pipe(catchError((error: any) => throwError(error)))
+      );
     });
     return forkJoin(r);
   }
 
   protected getEndPoint(userId: string): string {
-    return this.occEndpoints.getEndpoint('/users/' + userId + '/productinterests');
+    return this.occEndpoints.getEndpoint(
+      '/users/' + userId + '/productinterests'
+    );
   }
 
   private convertImages(source: Array<any>): any {
@@ -86,5 +95,4 @@ export class MyInterestsService {
     }
     return images;
   }
-
 }

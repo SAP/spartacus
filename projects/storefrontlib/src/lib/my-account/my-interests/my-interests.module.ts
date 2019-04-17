@@ -1,11 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-
-
 import { MyInterestsComponent } from './components/my-interests.component';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { BootstrapModule } from '../../bootstrap.module';
+import { PaginationAndSortingModule } from '../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 
+import {
+  UrlTranslationModule,
+  ConfigModule,
+  CmsConfig,
+  I18nModule,
+} from '@spartacus/core';
 @NgModule({
   declarations: [MyInterestsComponent],
   imports: [
@@ -15,11 +23,18 @@ import { MyInterestsComponent } from './components/my-interests.component';
       cmsComponents: {
         MyInterestsComponent: {
           selector: 'cx-my-interests',
-        }
+        },
       },
     }),
+    RouterModule,
+    FormsModule,
+    NgSelectModule,
+    BootstrapModule,
+    PaginationAndSortingModule,
+    UrlTranslationModule,
+    I18nModule,
   ],
   exports: [MyInterestsComponent],
-  entryComponents: [MyInterestsComponent]
+  entryComponents: [MyInterestsComponent],
 })
-export class MyInterestsModule { }
+export class MyInterestsModule {}
