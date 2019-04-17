@@ -1,20 +1,19 @@
 import {
-  Component,
-  OnInit,
-  Input,
   ChangeDetectionStrategy,
-  Renderer2,
+  Component,
   ElementRef,
+  Input,
+  OnInit,
+  Renderer2,
 } from '@angular/core';
-
 import {
   CmsService,
-  DynamicAttributeService,
-  ContentSlotData,
   ContentSlotComponentData,
+  ContentSlotData,
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service';
 
 @Component({
@@ -33,7 +32,7 @@ export class PageSlotComponent implements OnInit {
     protected cmsMapping: CmsMappingService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     // add the position name as a css class so that
     // layout can be applied to it, using the position based class.
     this.renderer.addClass(this.hostElement.nativeElement, this.position);
@@ -60,13 +59,13 @@ export class PageSlotComponent implements OnInit {
   }
 
   // add a class to indicate whether the class is empty or not
-  private addComponentClass(components) {
+  private addComponentClass(components): void {
     if (components && components.length > 0) {
       this.renderer.addClass(this.hostElement.nativeElement, 'has-components');
     }
   }
 
-  private addSmartEditSlotClass(slot) {
+  private addSmartEditSlotClass(slot): void {
     if (this.cmsService.isLaunchInSmartEdit()) {
       this.addSmartEditContract(slot);
     }

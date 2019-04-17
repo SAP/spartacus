@@ -1,4 +1,4 @@
-<div class="cx-address-card-inner card">
+<div class="card">
   <div class="card-header" *ngIf="address?.defaultAddress && !editMode">
     &#10003; {{ 'common.label.default' | cxTranslate }}
   </div>
@@ -41,7 +41,7 @@
         </button>
       </div>
     </div>
-    <div *ngIf="!editMode" class="cx-address-card-actions">
+    <div *ngIf="!editMode" class="card-actions">
       <a
         *ngIf="!address?.defaultAddress"
         (click)="setAddressAsDefault(address.id)"

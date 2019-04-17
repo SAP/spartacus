@@ -14,6 +14,7 @@ export * from './payment-methods.action';
 export * from './regions.action';
 export * from './reset-password.action';
 export * from './titles.action';
+export * from './update-email.action';
 export * from './update-password.action';
 export * from './user-addresses.action';
 export * from './user-details.action';

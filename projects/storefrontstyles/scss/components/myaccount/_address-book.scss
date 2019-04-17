@@ -1,0 +1,17 @@
+%cx-address-book {
+  .cx-address-deck {
+    padding: var(--cx-padding, 1.25rem 0 0 0);
+  }
+
+  .cx-address-deck-spinner {
+    padding: var(--cx-padding, 5rem 0 5rem 0);
+  }
+
+  .cx-address-card {
+    padding-bottom: var(--cx-padding, 30px);
+  }
+
+  .cx-form {
+    padding-top: var(--cx-padding, 30px);
+  }
+}

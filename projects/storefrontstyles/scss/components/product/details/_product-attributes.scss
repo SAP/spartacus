@@ -1,0 +1,25 @@
+%cx-product-attributes {
+  table {
+    width: var(--cx-width, 100%);
+    margin: var(--cx-margin, 0 0 30px 0);
+    th {
+      h3 {
+        margin: var(--cx-margin, 0 0 18px 0);
+      }
+    }
+    tr {
+      border-color: var(--cx-g-color-light);
+      border-width: 1px 0 1px;
+      border-style: solid;
+    }
+    td {
+      padding: var(--cx-padding, 12px 0 12px 0);
+      vertical-align: var(--cx-vertical-align, top);
+      width: var(--cx-width, 50%);
+    }
+    ul {
+      list-style: var(--cx-list-style, none);
+      padding: var(--cx-padding, 0 0 0 0);
+    }
+  }
+}
