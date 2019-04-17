@@ -4,7 +4,7 @@ export const ui = {
       label: 'Loading...',
     },
   },
-  headerSkipper: {
+  header: {
     skipToNavigation: {
       action: 'Skip to navigation',
     },

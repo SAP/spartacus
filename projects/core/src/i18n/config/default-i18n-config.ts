@@ -10,7 +10,7 @@ export const defaultI18nConfig: I18nConfig = {
       pwa: 'pwa',
 
       spinner: 'ui',
-      headerSkipper: 'ui',
+      header: 'ui',
 
       addressBook: 'cmsLib',
       addressCard: 'cmsLib',
