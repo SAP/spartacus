@@ -22,6 +22,7 @@ const ADDRESSES_ENDPOINT = '/addresses';
 const PAYMENT_DETAILS_ENDPOINT = '/paymentdetails';
 const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
+const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
 
 @Injectable()
@@ -191,6 +192,23 @@ export class OccUserService {
 
     return this.http
       .post(url, { token, newPassword }, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  updateEmail(
+    userId: string,
+    currentPassword: string,
+    newUserId: string
+  ): Observable<{}> {
+    const url = this.getUserEndpoint() + userId + UPDATE_EMAIL_ENDPOINT;
+    const httpParams: HttpParams = new HttpParams()
+      .set('password', currentPassword)
+      .set('newLogin', newUserId);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    return this.http
+      .put(url, httpParams, { headers })
       .pipe(catchError((error: any) => throwError(error)));
   }
 
