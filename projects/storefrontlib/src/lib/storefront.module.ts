@@ -7,7 +7,8 @@ import {
   RoutingModule,
   StateModule,
   SmartEditModule,
-  CxApiModule
+  CxApiModule,
+  I18nModule,
 } from '@spartacus/core';
 
 import { StorefrontModuleConfig } from './storefront-config';
@@ -17,6 +18,8 @@ import { CmsModule } from './cms/index';
 import { OccModule } from './occ/index';
 import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
+import { MultiStepCheckoutModule } from './checkout/index';
+import { StoreFinderModule } from './store-finder/store-finder.module';
 
 @NgModule({
   imports: [
@@ -24,22 +27,25 @@ import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
     RoutingModule,
     AuthModule.forRoot(),
     OccModule,
+    StoreFinderModule,
     CmsLibModule,
     CmsModule,
     UiModule,
     UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,
-    SmartEditModule.forRoot()
+    SmartEditModule.forRoot(),
+    MultiStepCheckoutModule,
+    I18nModule.forRoot(),
   ],
   exports: [UiModule],
-  declarations: []
+  declarations: [],
 })
 export class StorefrontModule {
   static withConfig(config?: StorefrontModuleConfig): ModuleWithProviders {
     return {
       ngModule: StorefrontModule,
-      providers: [provideConfig(config), ...provideConfigFromMetaTags()]
+      providers: [provideConfig(config), ...provideConfigFromMetaTags()],
     };
   }
 }

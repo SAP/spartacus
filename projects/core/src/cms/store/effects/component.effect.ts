@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
-
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import {
-  map,
   catchError,
-  switchMap,
   filter,
+  groupBy,
+  map,
   mergeMap,
-  take
+  switchMap,
+  take,
 } from 'rxjs/operators';
-
-import * as componentActions from '../actions/component.action';
-import { OccCmsService } from '../../occ/occ-cms.service';
 import { RoutingService } from '../../../routing/index';
+import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
+import * as componentActions from '../actions/component.action';
 
 @Injectable()
 export class ComponentEffects {
   constructor(
     private actions$: Actions,
-    private occCmsService: OccCmsService,
+    private cmsComponentLoader: CmsComponentConnector,
     private routingService: RoutingService
   ) {}
 
@@ -27,20 +26,25 @@ export class ComponentEffects {
   loadComponent$: Observable<any> = this.actions$.pipe(
     ofType(componentActions.LOAD_COMPONENT),
     map((action: componentActions.LoadComponent) => action.payload),
-    switchMap(uid => {
-      return this.routingService.getRouterState().pipe(
-        filter(routerState => routerState !== undefined),
-        map(routerState => routerState.state.context),
-        take(1),
-        mergeMap(pageContext =>
-          this.occCmsService.loadComponent(uid, pageContext).pipe(
-            map(data => new componentActions.LoadComponentSuccess(data)),
-            catchError(error =>
-              of(new componentActions.LoadComponentFail(uid, error))
+    groupBy(uid => uid),
+    mergeMap(group =>
+      group.pipe(
+        switchMap(uid => {
+          return this.routingService.getRouterState().pipe(
+            filter(routerState => routerState !== undefined),
+            map(routerState => routerState.state.context),
+            take(1),
+            mergeMap(pageContext =>
+              this.cmsComponentLoader.get(uid, pageContext).pipe(
+                map(data => new componentActions.LoadComponentSuccess(data)),
+                catchError(error =>
+                  of(new componentActions.LoadComponentFail(uid, error))
+                )
+              )
             )
-          )
-        )
-      );
-    })
+          );
+        })
+      )
+    )
   );
 }

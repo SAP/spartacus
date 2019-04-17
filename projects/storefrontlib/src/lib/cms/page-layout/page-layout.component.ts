@@ -1,18 +1,19 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  Input,
-  Renderer2,
   ElementRef,
+  Input,
   OnInit,
-  ChangeDetectionStrategy
+  Renderer2,
 } from '@angular/core';
-import { PageLayoutService } from './page-layout.service';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { PageLayoutService } from './page-layout.service';
 
 @Component({
   selector: 'cx-page-layout',
   templateUrl: './page-layout.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageLayoutComponent implements OnInit {
   @Input() section: string;
@@ -23,21 +24,17 @@ export class PageLayoutComponent implements OnInit {
     private pageLayoutService: PageLayoutService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.section) {
       this.styleClass = this.section;
     }
   }
 
-  get slots$() {
+  get slots$(): Observable<string[]> {
     return this.pageLayoutService.getSlots(this.section);
   }
 
-  get pageTitle$() {
-    return this.pageLayoutService.pageTitle$;
-  }
-
-  get templateName$() {
+  get templateName$(): Observable<string> {
     return this.pageLayoutService.templateName$.pipe(
       // intercept the observable to keep a clean DOM tree
       tap(name => {

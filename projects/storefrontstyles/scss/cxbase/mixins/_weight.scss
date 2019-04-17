@@ -3,13 +3,13 @@
     font-weight: $weight;
   } @else {
     @if $weight == 'light' {
-      font-weight: $font-weight-light;
+      font-weight: var(--cx-g-font-weight-light);
     } @else if $weight == 'semi' {
-      font-weight: $font-weight-semi;
+      font-weight: var(--cx-g-font-weight-semi);
     } @else if $weight == 'normal' or $weight == 'reg' {
-      font-weight: $font-weight-normal;
+      font-weight: var(--cx-g-font-weight-normal);
     } @else if $weight == 'bold' {
-      font-weight: $font-weight-bold;
+      font-weight: var(--cx-g-font-weight-bold);
     }
   }
 }

@@ -1,18 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
-import { ServerConfig } from '../../config';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 import { BehaviorSubject, of } from 'rxjs';
 import { RoutesConfig } from './routes-config';
 import { ConfigurableRoutesService } from './configurable-routes.service';
+import { OccConfig } from '../../occ';
 
 class MockHttpClient {
   get = () => new BehaviorSubject(null);
-}
-
-class MockServerConfig {
-  server = { baseUrl: 'test-base-url' };
 }
 
 class MockConfigurableRoutesModuleConfig {
@@ -21,16 +17,16 @@ class MockConfigurableRoutesModuleConfig {
       default: {
         page1: {
           paths: ['default-path1'],
-          paramsMapping: { param1: 'mappedParam1' }
+          paramsMapping: { param1: 'mappedParam1' },
         },
         page2: { paths: ['default-path2', 'default-path20'] },
-        page3: { paths: ['default-path3'] }
+        page3: { paths: ['default-path3'] },
       },
       en: {
         page1: { paths: ['en-path1', 'en-path10'] },
-        page2: { paths: ['en-path2'] }
-      }
-    }
+        page2: { paths: ['en-path2'] },
+      },
+    },
   };
 }
 
@@ -39,15 +35,15 @@ const mockFetchedRoutesConfig: RoutesConfig = {
     default: {
       page1: {
         paths: ['fetched-default-path1'],
-        paramsMapping: { param1: 'fetched-mappedParam1' }
-      }
+        paramsMapping: { param1: 'fetched-mappedParam1' },
+      },
     },
     en: {
       page1: {
-        paths: ['fetched-en-path1', 'fetched-en-path10']
-      }
-    }
-  }
+        paths: ['fetched-en-path1', 'fetched-en-path10'],
+      },
+    },
+  },
 };
 
 describe('RoutesConfigLoader', () => {
@@ -60,16 +56,19 @@ describe('RoutesConfigLoader', () => {
       providers: [
         RoutesConfigLoader,
         { provide: HttpClient, useClass: MockHttpClient },
-        { provide: ServerConfig, useClass: MockServerConfig },
+        {
+          provide: OccConfig,
+          useValue: { backend: { occ: { baseUrl: 'test-base-url' } } },
+        },
         {
           provide: ConfigurableRoutesConfig,
-          useClass: MockConfigurableRoutesModuleConfig
+          useClass: MockConfigurableRoutesModuleConfig,
         },
         {
           provide: ConfigurableRoutesService,
-          useValue: { init: jasmine.createSpy() }
-        }
-      ]
+          useValue: { init: jasmine.createSpy() },
+        },
+      ],
     });
 
     loader = TestBed.get(RoutesConfigLoader);
@@ -105,25 +104,25 @@ describe('RoutesConfigLoader', () => {
             default: {
               page1: {
                 paths: ['fetched-default-path1'],
-                paramsMapping: { param1: 'fetched-mappedParam1' }
+                paramsMapping: { param1: 'fetched-mappedParam1' },
               },
               page2: {
-                paths: ['default-path2', 'default-path20']
+                paths: ['default-path2', 'default-path20'],
               },
-              page3: { paths: ['default-path3'] }
+              page3: { paths: ['default-path3'] },
             },
             en: {
               page1: {
                 paths: ['fetched-en-path1', 'fetched-en-path10'],
-                paramsMapping: { param1: 'fetched-mappedParam1' }
+                paramsMapping: { param1: 'fetched-mappedParam1' },
               },
               page2: {
-                paths: ['en-path2']
+                paths: ['en-path2'],
               },
-              page3: { paths: ['default-path3'] }
-            }
+              page3: { paths: ['default-path3'] },
+            },
           },
-          fetch: true
+          fetch: true,
         });
       });
     });
@@ -154,20 +153,20 @@ describe('RoutesConfigLoader', () => {
               default: {
                 page1: {
                   paths: ['default-path1'],
-                  paramsMapping: { param1: 'mappedParam1' }
+                  paramsMapping: { param1: 'mappedParam1' },
                 },
                 page2: { paths: ['default-path2', 'default-path20'] },
-                page3: { paths: ['default-path3'] }
+                page3: { paths: ['default-path3'] },
               },
               en: {
                 page1: {
                   paths: ['en-path1', 'en-path10'],
-                  paramsMapping: { param1: 'mappedParam1' }
+                  paramsMapping: { param1: 'mappedParam1' },
                 },
                 page2: { paths: ['en-path2'] },
-                page3: { paths: ['default-path3'] }
-              }
-            }
+                page3: { paths: ['default-path3'] },
+              },
+            },
           })
         );
       });

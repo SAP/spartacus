@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -8,24 +8,14 @@ import { CmsComponentData } from '@spartacus/storefront';
 import {
   CmsLinkComponent,
   Component as SpaComponent,
-  TranslateUrlOptions,
-  CmsConfig
+  CmsConfig,
 } from '@spartacus/core';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    CMSLinkComponent: { selector: 'LinkComponent' }
-  }
+    CMSLinkComponent: { selector: 'LinkComponent' },
+  },
 };
-
-@Pipe({
-  name: 'cxTranslateUrl'
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path' + options.url;
-  }
-}
 
 describe('LinkComponent', () => {
   let linkComponent: LinkComponent;
@@ -37,24 +27,24 @@ describe('LinkComponent', () => {
     typeCode: 'CMSLinkComponent',
     name: 'TestCMSLinkComponent',
     linkName: 'Arbitrary link name',
-    url: '/store-finder'
+    url: '/store-finder',
   };
 
   const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: of(componentData)
+    data$: of(componentData),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [LinkComponent, MockTranslateUrlPipe],
+      declarations: [LinkComponent],
       providers: [
         { provide: CmsConfig, useValue: UseCmsModuleConfig },
         {
           provide: CmsComponentData,
-          useValue: MockCmsComponentData
-        }
-      ]
+          useValue: MockCmsComponentData,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -73,6 +63,6 @@ describe('LinkComponent', () => {
     const element: HTMLLinkElement = el.query(By.css('a')).nativeElement;
 
     expect(element.textContent).toEqual(componentData.linkName);
-    expect(element.href).toContain('/translated-path' + componentData.url);
+    expect(element.href).toContain(componentData.url);
   });
 });

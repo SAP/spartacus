@@ -1,20 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { of, Observable } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 import {
   RoutingService,
   Address,
   CartDataService,
-  UserService
+  UserService,
+  I18nTestingModule,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
-
 import { Card } from '../../../../ui/components/card/card.component';
-
 import { ShippingAddressComponent } from './shipping-address.component';
 
 class MockUserService {
@@ -36,7 +33,7 @@ const mockAddress1: Address = {
   town: 'town',
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockAddress2: Address = {
@@ -48,26 +45,28 @@ const mockAddress2: Address = {
   town: 'other town',
   region: { isocode: 'JP-27' },
   postalCode: 'other zip',
-  country: { isocode: 'JP' }
+  country: { isocode: 'JP' },
 };
 
 const mockAddresses: Address[] = [mockAddress1, mockAddress2];
 
 @Component({
   selector: 'cx-address-form',
-  template: ''
+  template: '',
 })
-class MockAddressFormComponent {}
+class MockAddressFormComponent {
+  @Input() cancelBtnLabel: string;
+}
 
 @Component({
   selector: 'cx-spinner',
-  template: ''
+  template: '',
 })
 class MockSpinnerComponent {}
 
 @Component({
   selector: 'cx-card',
-  template: ''
+  template: '',
 })
 class MockCardComponent {
   @Input()
@@ -86,24 +85,25 @@ describe('ShippingAddressComponent', () => {
 
   beforeEach(async(() => {
     mockRouting = {
-      go: createSpy('go')
+      go: createSpy('go'),
     };
     const mockCartDataService = {
-      userId: 'testUser'
+      userId: 'testUser',
     };
 
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         ShippingAddressComponent,
         MockAddressFormComponent,
         MockCardComponent,
-        MockSpinnerComponent
+        MockSpinnerComponent,
       ],
       providers: [
         { provide: UserService, useClass: MockUserService },
         { provide: RoutingService, useValue: mockRouting },
-        { provide: CartDataService, useValue: mockCartDataService }
-      ]
+        { provide: CartDataService, useValue: mockCartDataService },
+      ],
     }).compileComponents();
   }));
 
@@ -157,10 +157,10 @@ describe('ShippingAddressComponent', () => {
       'second line',
       'town, JP-27, JP',
       'zip',
-      undefined
+      undefined,
     ]);
     expect(card.actions).toEqual([
-      { name: 'Ship to this address', event: 'send' }
+      { name: 'Ship to this address', event: 'send' },
     ]);
   });
 
@@ -182,7 +182,7 @@ describe('ShippingAddressComponent', () => {
     component.next();
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress1,
-      newAddress: false
+      newAddress: false,
     });
   });
 
@@ -190,7 +190,7 @@ describe('ShippingAddressComponent', () => {
     component.addNewAddress(mockAddress1);
     expect(component.addAddress.emit).toHaveBeenCalledWith({
       address: mockAddress1,
-      newAddress: true
+      newAddress: true,
     });
   });
 
@@ -207,7 +207,7 @@ describe('ShippingAddressComponent', () => {
   it('should call back()', () => {
     component.back();
     expect(mockRouting.go).toHaveBeenCalledWith({
-      route: ['cart']
+      route: ['cart'],
     });
   });
 
@@ -215,7 +215,7 @@ describe('ShippingAddressComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'Continue');
+        .find(el => el.nativeElement.innerText === 'common.action.continue');
 
     it('should be disabled when no address is selected', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -251,7 +251,9 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'Back to cart');
+        .find(
+          el => el.nativeElement.innerText === 'checkout.action.backToCart'
+        );
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -267,7 +269,7 @@ describe('ShippingAddressComponent', () => {
   describe('UI cards with addresses', () => {
     const getCards = () => fixture.debugElement.queryAll(By.css('cx-card'));
 
-    it('should represent all existng addresses', () => {
+    it('should represent all existing addresses', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
       spyOn(userService, 'getAddresses').and.returnValue(of(mockAddresses));
 
@@ -296,7 +298,11 @@ describe('ShippingAddressComponent', () => {
     const getAddNewAddressBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'Add New Address');
+        .find(
+          el =>
+            el.nativeElement.innerText ===
+            'checkoutAddress.action.addNewAddress'
+        );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));
 

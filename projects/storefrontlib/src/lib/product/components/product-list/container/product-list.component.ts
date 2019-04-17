@@ -1,50 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  ChangeDetectionStrategy,
-  SimpleChanges
-} from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import {
-  ProductSearchService,
   ProductSearchPage,
-  SearchConfig
+  ProductSearchService,
+  SearchConfig,
 } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
+import { PageLayoutService } from '../../../../cms/page-layout/page-layout.service';
+import { ViewModes } from '../product-view/product-view.component';
 
 @Component({
   selector: 'cx-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ProductListComponent implements OnChanges, OnInit {
-  @Input()
-  gridMode: String;
-  @Input()
-  query;
-  @Input()
-  categoryCode;
-  @Input()
-  brandCode;
-  @Input()
+export class ProductListComponent implements OnInit {
+  query: string;
+  categoryCode: string;
+  brandCode: string;
   itemPerPage: number;
 
-  grid: any;
   model$: Observable<ProductSearchPage>;
   searchConfig: SearchConfig = {};
   categoryTitle: string;
   options: SearchConfig;
+  updateParams$: Observable<Params>;
+  gridMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
 
   constructor(
     protected productSearchService: ProductSearchService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private pageLayoutService: PageLayoutService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges) {
+  update(): void {
     const { queryParams } = this.activatedRoute.snapshot;
     this.options = this.createOptionsByUrlParams();
 
@@ -57,23 +46,19 @@ export class ProductListComponent implements OnChanges, OnInit {
     if (!this.query && queryParams.query) {
       this.query = queryParams.query;
     }
-
-    // do search only when 'brandCode' or 'categoryCode' or 'query' changed
-    if (Object.keys(changes).length === 1 && !changes['gridMode']) {
-      this.search(this.query, this.options);
-    }
+    this.search(this.query, this.options);
   }
 
   createOptionsByUrlParams(): SearchConfig {
     const { queryParams } = this.activatedRoute.snapshot;
     const newConfig = {
-      ...queryParams
+      ...queryParams,
     };
     delete newConfig.query;
     const options = {
       ...this.searchConfig,
       ...newConfig,
-      pageSize: this.itemPerPage || 10
+      pageSize: this.itemPerPage || 10,
     };
     if (this.categoryCode) {
       options.categoryCode = this.categoryCode;
@@ -85,10 +70,21 @@ export class ProductListComponent implements OnChanges, OnInit {
     return options;
   }
 
-  ngOnInit() {
-    this.grid = {
-      mode: this.gridMode
-    };
+  ngOnInit(): void {
+    this.updateParams$ = this.activatedRoute.params.pipe(
+      tap(params => {
+        this.categoryCode = params.categoryCode;
+        this.brandCode = params.brandCode;
+        this.query = params.query;
+        this.update();
+      })
+    );
+
+    this.pageLayoutService.templateName$.pipe(take(1)).subscribe(template => {
+      this.gridMode$.next(
+        template === 'ProductGridPageTemplate' ? ViewModes.Grid : ViewModes.List
+      );
+    });
 
     // clean previous search result
     this.productSearchService.clearSearchResults();
@@ -119,26 +115,25 @@ export class ProductListComponent implements OnChanges, OnInit {
     return this.categoryTitle;
   }
 
-  onFilter(query: string) {
-    this.query = query;
-    this.search(query);
-  }
-
-  viewPage(pageNumber: number) {
+  viewPage(pageNumber: number): void {
     this.search(this.query, { currentPage: pageNumber });
   }
 
-  sortList(sortCode: string) {
+  sortList(sortCode: string): void {
     this.search(this.query, { sortCode: sortCode });
   }
 
-  protected search(query: string, options?: SearchConfig) {
+  setGridMode(mode: ViewModes): void {
+    this.gridMode$.next(mode);
+  }
+
+  protected search(query: string, options?: SearchConfig): void {
     if (this.query) {
       if (options) {
         // Overide default options
         this.searchConfig = {
           ...this.searchConfig,
-          ...options
+          ...options,
         };
       }
 

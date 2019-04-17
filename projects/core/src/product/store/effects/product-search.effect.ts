@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { OccProductSearchService } from '../../occ/product-search.service';
+import { ProductImageNormalizer } from '../../occ/converters/product-image-normalizer';
+import { ProductSearchLoaderService } from '../../occ/product-search.service';
 
 @Injectable()
 export class ProductsSearchEffects {
@@ -19,7 +19,7 @@ export class ProductsSearchEffects {
     ofType(productsSearchActions.SEARCH_PRODUCTS),
     switchMap((action: productsSearchActions.SearchProducts) => {
       return this.occProductSearchService
-        .query(action.payload.queryText, action.payload.searchConfig)
+        .loadSearch(action.payload.queryText, action.payload.searchConfig)
         .pipe(
           map(data => {
             this.productImageConverter.convertList(data.products);
@@ -51,7 +51,7 @@ export class ProductsSearchEffects {
     ),
     switchMap(payload => {
       return this.occProductSearchService
-        .queryProductSuggestions(payload.term, payload.searchConfig.pageSize)
+        .loadSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
           map(data => {
             if (data.suggestions === undefined) {
@@ -70,7 +70,7 @@ export class ProductsSearchEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductSearchService: OccProductSearchService,
-    private productImageConverter: ProductImageConverterService
+    private occProductSearchService: ProductSearchLoaderService,
+    private productImageConverter: ProductImageNormalizer
   ) {}
 }

@@ -14,6 +14,7 @@ $hamburger-layer-width: 26px !default;
 $hamburger-layer-height: 3px !default;
 $hamburger-layer-spacing: 4px !default;
 $hamburger-layer-border-radius: 0 !default;
+$hamburger-padding-y: 10px !default;
 @import '~hamburgers/_sass/hamburgers/hamburgers';
 
 .cx-hamburger {

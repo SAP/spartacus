@@ -7,12 +7,12 @@ import {
   CmsConfig,
   CmsService,
   ConfigModule,
-  UrlTranslationModule
+  I18nModule,
 } from '@spartacus/core';
 import { NavigationComponent } from './navigation.component';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { NavigationComponentService } from './navigation.component.service';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @NgModule({
   imports: [
@@ -27,16 +27,16 @@ import { CmsComponentData } from '../../cms/components/cms-component-data';
             {
               provide: NavigationComponentService,
               useClass: NavigationComponentService,
-              deps: [CmsService, CmsComponentData]
-            }
-          ]
-        }
-      }
+              deps: [CmsService, CmsComponentData],
+            },
+          ],
+        },
+      },
     }),
-    UrlTranslationModule
+    I18nModule,
   ],
   declarations: [NavigationComponent, NavigationUIComponent],
   entryComponents: [NavigationComponent],
-  exports: [NavigationComponent, NavigationUIComponent]
+  exports: [NavigationComponent, NavigationUIComponent],
 })
 export class NavigationModule {}

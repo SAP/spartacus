@@ -17,32 +17,25 @@ const FOOTER_SLOT_CONFIG_FOR_PAGE2 = ['footer-page2'];
 const MockLayoutConfig: LayoutConfig = {
   layoutSlots: {
     footer: {
-      slots: DEFAULT_FOOTER_SLOT_CONFIG
+      slots: DEFAULT_FOOTER_SLOT_CONFIG,
     },
     page_template_1: {
       slots: DEFAULT_SLOT_CONFIG,
       md: {
-        slots: SLOT_CONFIG_FOR_MD
-      },
-      lg: {
-        showTitle: true
+        slots: SLOT_CONFIG_FOR_MD,
       },
       footer: {
         md: {
-          slots: FOOTER_SLOT_CONFIG_FOR_MD
-        }
-      }
+          slots: FOOTER_SLOT_CONFIG_FOR_MD,
+        },
+      },
     },
     page_template_2: {
-      showTitle: true,
       footer: {
-        slots: FOOTER_SLOT_CONFIG_FOR_PAGE2
+        slots: FOOTER_SLOT_CONFIG_FOR_PAGE2,
       },
-      lg: {
-        showTitle: false
-      }
-    }
-  }
+    },
+  },
 };
 
 class MockBreakpointService {
@@ -55,7 +48,7 @@ class MockBreakpointService {
       BREAKPOINT.sm,
       BREAKPOINT.md,
       BREAKPOINT.lg,
-      BREAKPOINT.xl
+      BREAKPOINT.xl,
     ];
   }
 }
@@ -64,13 +57,13 @@ const page_1 = {
   uid: 'page_1',
   template: 'page_template_1',
   title: PAGE_TITLE,
-  slots: {}
+  slots: {},
 };
 const page_2 = {
   uid: 'page_2',
   template: 'page_template_2',
   title: PAGE_TITLE,
-  slots: {}
+  slots: {},
 };
 export class MockCmsService {
   getCurrentPage(): Observable<Page> {
@@ -89,8 +82,8 @@ describe('PageLayoutService', () => {
         PageLayoutService,
         { provide: CmsService, useClass: MockCmsService },
         { provide: BreakpointService, useClass: MockBreakpointService },
-        { provide: LayoutConfig, useValue: MockLayoutConfig }
-      ]
+        { provide: LayoutConfig, useValue: MockLayoutConfig },
+      ],
     });
 
     pageLayoutService = TestBed.get(PageLayoutService);
@@ -131,14 +124,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(DEFAULT_FOOTER_SLOT_CONFIG);
       });
-
-      it('should not render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(slots => (results = slots))
-          .unsubscribe();
-        expect(results).toEqual(undefined);
-      });
     });
 
     describe('tablet (md)', () => {
@@ -165,15 +150,6 @@ describe('PageLayoutService', () => {
           .subscribe(slots => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_MD);
-      });
-
-      it('should not render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-
-        expect(results).toEqual(undefined);
       });
     });
 
@@ -202,15 +178,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_MD);
       });
-
-      it('should render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-
-        expect(results).toEqual(PAGE_TITLE);
-      });
     });
   });
 
@@ -233,14 +200,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
-
-      it('should render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-        expect(results).toEqual(PAGE_TITLE);
-      });
     });
 
     describe('mobile (md)', () => {
@@ -258,14 +217,6 @@ describe('PageLayoutService', () => {
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
       });
-
-      it('should render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-        expect(results).toEqual(PAGE_TITLE);
-      });
     });
 
     describe('desktop (lg)', () => {
@@ -281,23 +232,6 @@ describe('PageLayoutService', () => {
           .subscribe(slots => (results = slots))
           .unsubscribe();
         expect(results).toEqual(FOOTER_SLOT_CONFIG_FOR_PAGE2);
-      });
-
-      it('should not render title', () => {
-        let results;
-        pageLayoutService.pageTitle$
-          .subscribe(title => (results = title))
-          .unsubscribe();
-        expect(results).toEqual(undefined);
-      });
-
-      it('should ignore unknown section', () => {
-        let results;
-        pageLayoutService
-          .getSlots('unknwon')
-          .subscribe(slots => (results = slots))
-          .unsubscribe();
-        expect(results).toEqual(undefined);
       });
     });
   });

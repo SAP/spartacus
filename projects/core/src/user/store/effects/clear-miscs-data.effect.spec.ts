@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import { ClearMiscsData } from '../actions/index';
+import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 
 import { ClearMiscsDataEffect } from './clear-miscs-data.effect';
 
@@ -17,7 +18,7 @@ describe('ClearMiscsDataEffect', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ClearMiscsDataEffect, provideMockActions(() => actions$)]
+      providers: [ClearMiscsDataEffect, provideMockActions(() => actions$)],
     });
 
     effect = TestBed.get(ClearMiscsDataEffect);
@@ -26,7 +27,7 @@ describe('ClearMiscsDataEffect', () => {
   describe('clearMiscsData$', () => {
     it('should return a reset action', () => {
       const action: Action = {
-        type: '[Site-context] Language Change'
+        type: LANGUAGE_CHANGE,
       };
 
       const completion = new ClearMiscsData();

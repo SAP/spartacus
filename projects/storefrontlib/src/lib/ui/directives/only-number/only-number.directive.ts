@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[cxOnlyNumber]'
+  selector: '[cxOnlyNumber]',
 })
 export class OnlyNumberDirective {
   previousValue = '';
@@ -65,7 +65,7 @@ export class OnlyNumberDirective {
       'ArrowLeft',
       'ArrowRight',
       'Escape',
-      'Tab'
+      'Tab',
     ];
     // allow some non-numeric characters
     if (

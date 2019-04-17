@@ -10,7 +10,7 @@ describe('GenericLinkComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [GenericLinkComponent]
+      declarations: [GenericLinkComponent],
     }).compileComponents();
   }));
 

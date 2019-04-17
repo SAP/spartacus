@@ -1,47 +1,24 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-// ContentPage
-import { CartPageModule } from './cart-page/cart-page.module';
-import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
-
-import { RegisterPageModule } from './register-page/register-page.module';
-import { LoginPageModule } from './login-page/login-page.module';
-import { ResetPasswordPageModule } from './reset-password-page/reset-password-page.module';
-import { StoreFinderPageModule } from './store-finder-page/store-finder-page.module';
-import { ResetNewPasswordPageModule } from './reset-new-password-page/reset-new-password-page.module';
-
-// ContentPage: my Account Pages
-import { PaymentDetailsPageModule } from './myaccount/payment-details-page/payment-details-page.module';
-import { OrderDetailsPageModule } from './myaccount/order-details-page/order-details-page.module';
-
-// CategoryPage
-import { CategoryPageModule } from './category-page/category-page.module';
-
-// ProductPage
-import { ProductPageModule } from './product-page/product-page.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsPageGuards } from '../../cms/guards/cms-page.guard';
+import { AuthGuard, NotAuthGuard } from '@spartacus/core';
+import { LogoutModule } from '../../../cms-components/index';
+import { CmsPageGuard } from '../../cms/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../cms/page-layout/page-layout.component';
 import { PageLayoutModule } from '../../cms/page-layout/page-layout.module';
-import { AuthGuard } from '@spartacus/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CartPageModule } from './cart-page/cart-page.module';
 import { HardcodedCheckoutComponent } from './checkout-page.interceptor';
-import { CartNotEmptyGuard } from '../../cart/guards';
+import { CartNotEmptyGuard } from './guards/cart-not-empty.guard';
+import { GuardsModule } from './guards/guards.module';
+import { OrderConfirmationPageModule } from './order-confirmation-page/order-confirmation-page.module';
+import { ProductPageModule } from './product-page/product-page.module';
 
 const pageModules = [
-  CategoryPageModule,
   CartPageModule,
-  OrderDetailsPageModule,
   OrderConfirmationPageModule,
   ProductPageModule,
-  RegisterPageModule,
-  LoginPageModule,
-  PaymentDetailsPageModule,
-  ResetPasswordPageModule,
-  StoreFinderPageModule,
-  ResetNewPasswordPageModule
-  // new pages should be added above this line
+  GuardsModule,
 ];
 
 @NgModule({
@@ -49,69 +26,139 @@ const pageModules = [
     CommonModule,
     ...pageModules,
     PageLayoutModule,
+    LogoutModule,
     RouterModule.forChild([
       {
+        // This route can be dropped only when we have a mapping path to page label for content pages
         path: null,
-        canActivate: [CmsPageGuards],
+        canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'homepage', cxPath: 'home' }
+        data: { pageLabel: 'homepage', cxPath: 'home' },
       },
       {
+        // This route can be dropped only when the link from CMS in MyAccount dropdown menu ("my-account/address-book")
+        // is the same as the page label ("address-book"). Or when we have a mapping for content pages.
         path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'faq', cxPath: 'help' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'sale', cxPath: 'sale' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'contactUs', cxPath: 'contact' }
-      },
-      {
-        path: null,
-        canActivate: [CmsPageGuards],
-        component: PageLayoutComponent,
-        data: { pageLabel: 'termsAndConditions', cxPath: 'termsAndConditions' }
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuards],
+        canActivate: [AuthGuard, CmsPageGuard],
         data: { pageLabel: 'address-book', cxPath: 'addressBook' },
-        component: PageLayoutComponent
+        component: PageLayoutComponent,
       },
       {
         path: null,
-        canActivate: [AuthGuard, CmsPageGuards],
         component: PageLayoutComponent,
-        data: { pageLabel: 'orders', cxPath: 'orders' }
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: { pageLabel: 'updatePassword', cxPath: 'updatePassword' },
       },
       {
         path: null,
-        canActivate: [CmsPageGuards],
+        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'notFound', cxPath: 'pageNotFound' }
+        data: { pageLabel: 'orders', cxPath: 'orders' },
       },
       {
         path: null,
-        canActivate: [AuthGuard, CmsPageGuards, CartNotEmptyGuard],
+        canActivate: [AuthGuard, CmsPageGuard, CartNotEmptyGuard],
         component: PageLayoutComponent,
-        data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' }
-      }
-    ])
+        data: { pageLabel: 'multiStepCheckoutSummaryPage', cxPath: 'checkout' },
+      },
+      {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'login', cxPath: 'login' },
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'search', cxPath: 'search' },
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxPath: 'category' },
+      },
+      {
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxPath: 'brand' },
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: { pageLabel: 'update-email', cxPath: 'updateEmail' },
+      },
+      // redirect OLD links
+      {
+        path: 'Open-Catalogue/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' },
+      },
+      {
+        path: 'Open-Catalogue/:category1/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' },
+      },
+      {
+        path: 'Open-Catalogue/:category1/:category2/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' },
+      },
+      {
+        path: 'OpenCatalogue/:category1/:category2/:title/c/:categoryCode',
+        redirectTo: null,
+        data: { cxRedirectTo: 'category' },
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: { pageLabel: 'payment-details', cxPath: 'paymentManagement' },
+        component: PageLayoutComponent,
+      },
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'order', cxPath: 'orderDetails' },
+      },
+      {
+        path: null,
+        canActivate: [NotAuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { pageLabel: 'forgotPassword', cxPath: 'forgotPassword' },
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [NotAuthGuard, CmsPageGuard],
+        data: { pageLabel: 'resetPassword', cxPath: 'resetPassword' },
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: {
+          pageLabel: 'update-profile',
+          cxPath: 'updateProfile',
+        },
+      },
+      // PLEASE ADD ALL ROUTES ABOVE THIS LINE ===============================
+      {
+        path: '**',
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+      },
+    ]),
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HardcodedCheckoutComponent,
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class PagesModule {}

@@ -6,4 +6,13 @@ export abstract class OccConfig extends ServerConfig {
     language?: string;
     currency?: string;
   };
+  backend?: {
+    occ?: {
+      baseUrl?: string;
+      prefix?: string;
+      endpoints?: {
+        [endpoint: string]: string;
+      };
+    };
+  };
 }

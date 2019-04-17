@@ -6,7 +6,6 @@ const WAITING_CLASS = 'waiting';
 @Component({
   selector: 'cx-product-images',
   templateUrl: './product-images.component.html',
-  styleUrls: ['./product-images.component.scss']
 })
 export class ProductImagesComponent implements OnChanges {
   outlets = ProductDetailOutlets;
@@ -17,13 +16,13 @@ export class ProductImagesComponent implements OnChanges {
 
   waiting: HTMLElement;
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     if (this.product && this.product.images) {
       this.mainImageContainer = this.product.images.PRIMARY;
     }
   }
 
-  showImage(event: MouseEvent, imageContainer) {
+  showImage(event: MouseEvent, imageContainer): void {
     if (this.mainImageContainer === imageContainer) {
       return;
     }
@@ -31,21 +30,21 @@ export class ProductImagesComponent implements OnChanges {
     this.mainImageContainer = imageContainer;
   }
 
-  isMainImageContainer(imageContainer) {
+  isMainImageContainer(imageContainer): boolean {
     return imageContainer.zoom.url === this.mainImageContainer.zoom.url;
   }
 
-  loadHandler() {
+  loadHandler(): void {
     this.clearWaitList();
   }
 
-  private startWaiting(el: HTMLElement) {
+  private startWaiting(el: HTMLElement): void {
     this.clearWaitList();
     el.classList.add(WAITING_CLASS);
     this.waiting = el;
   }
 
-  private clearWaitList() {
+  private clearWaitList(): void {
     if (this.waiting) {
       this.waiting.classList.remove(WAITING_CLASS);
       delete this.waiting;

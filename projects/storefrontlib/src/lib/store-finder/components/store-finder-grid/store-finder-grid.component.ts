@@ -7,7 +7,7 @@ import { RoutingService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
-  styleUrls: ['./store-finder-grid.component.scss']
+  styleUrls: ['./store-finder-grid.component.scss'],
 })
 export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations$: any;
@@ -32,7 +32,7 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
         '',
         this.defaultLocation,
         {
-          pageSize: -1
+          pageSize: -1,
         },
         this.route.snapshot.params.country
       );
@@ -41,32 +41,15 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
 
   viewStore(location: any): void {
     if (this.route.snapshot.params.region) {
-      this.routingService.go({
-        route: [
-          'storeFinder',
-          {
-            name: 'storeDescription',
-            params: {
-              country: this.route.snapshot.params.country,
-              store: location.name
-            }
-          }
-        ]
-      });
+      this.routingService.go(
+        ['region', this.route.snapshot.params.region, location.name],
+        undefined,
+        { relativeTo: this.route }
+      );
       return;
     }
-    this.routingService.go({
-      route: [
-        'storeFinder',
-        {
-          name: 'storeDescription',
-          params: {
-            region: '',
-            country: this.route.snapshot.params.country,
-            store: location.name
-          }
-        }
-      ]
+    this.routingService.go(['region', '', location.name], undefined, {
+      relativeTo: this.route,
     });
   }
 

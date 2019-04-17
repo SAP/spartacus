@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ConfigModule, CmsConfig, CmsPageTitleModule } from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
-import { ConfigModule } from '@spartacus/core';
-import { CmsConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
@@ -11,12 +10,12 @@ import { CmsConfig } from '@spartacus/core';
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        BreadcrumbComponent: { selector: 'cx-breadcrumb' }
-      }
-    })
+        BreadcrumbComponent: { selector: 'cx-breadcrumb' },
+      },
+    }),
+    CmsPageTitleModule,
   ],
   declarations: [BreadcrumbComponent],
   entryComponents: [BreadcrumbComponent],
-  exports: [BreadcrumbComponent]
 })
 export class BreadcrumbModule {}

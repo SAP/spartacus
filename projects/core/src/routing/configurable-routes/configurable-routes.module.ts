@@ -6,7 +6,6 @@ import { ConfigModule, Config } from '../../config/config.module';
 import { ConfigurableRoutesConfig } from './config/configurable-routes-config';
 import { defaultConfigurableRoutesConfig } from './config/default-configurable-routes-config';
 import { UrlParsingService } from './url-translation/url-parsing.service';
-import { RouteRecognizerService } from './url-translation/route-recognizer.service';
 import { UrlTranslationService } from './url-translation/url-translation.service';
 
 export function initConfigurableRoutes(
@@ -19,7 +18,7 @@ export function initConfigurableRoutes(
 @NgModule({
   imports: [
     CommonModule,
-    ConfigModule.withConfig(defaultConfigurableRoutesConfig)
+    ConfigModule.withConfig(defaultConfigurableRoutesConfig),
   ],
   declarations: [],
   exports: [],
@@ -27,15 +26,14 @@ export function initConfigurableRoutes(
     ConfigurableRoutesService,
     RoutesConfigLoader,
     UrlTranslationService,
-    RouteRecognizerService,
     UrlParsingService,
     {
       provide: APP_INITIALIZER,
       useFactory: initConfigurableRoutes,
       deps: [ConfigurableRoutesService],
-      multi: true
+      multi: true,
     },
-    { provide: ConfigurableRoutesConfig, useExisting: Config }
-  ]
+    { provide: ConfigurableRoutesConfig, useExisting: Config },
+  ],
 })
 export class ConfigurableRoutesModule {}

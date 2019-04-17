@@ -2,7 +2,7 @@ import { MemoizedSelector, createFeatureSelector } from '@ngrx/store';
 import {
   PRODUCT_FEATURE,
   ProductsState,
-  StateWithProduct
+  StateWithProduct,
 } from '../product-state';
 
 export const getProductsState: MemoizedSelector<

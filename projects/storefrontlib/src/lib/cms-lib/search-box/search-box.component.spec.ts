@@ -5,27 +5,27 @@ import { By } from '@angular/platform-browser';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { CmsService } from '@spartacus/core';
+import { CmsService, I18nTestingModule } from '@spartacus/core';
 import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
 
 import { of } from 'rxjs';
 
 import { BootstrapModule } from '../../bootstrap.module';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
 
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
 @Pipe({
-  name: 'stripHtml'
+  name: 'stripHtml',
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
@@ -48,19 +48,19 @@ describe('SearchBoxComponent in CmsLib', () => {
     maxProducts: 5,
     maxSuggestions: 5,
     minCharactersBeforeRequest: 3,
-    waitTimeBeforeRequest: 500
+    waitTimeBeforeRequest: 500,
   };
 
   const MockCmsService = {
-    getComponentData: () => of(mockSearchBoxComponentData)
+    getComponentData: () => of(mockSearchBoxComponentData),
   };
 
   const mockKeyEvent1 = <KeyboardEvent>{
-    key: 'Enter'
+    key: 'Enter',
   };
 
   const mockKeyEvent2 = <KeyboardEvent>{
-    key: 'Enter123'
+    key: 'Enter123',
   };
 
   class SearchBoxComponentServiceSpy {
@@ -76,37 +76,38 @@ describe('SearchBoxComponent in CmsLib', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        I18nTestingModule,
       ],
       declarations: [
         SearchBoxComponent,
         PictureComponent,
         MockTranslateUrlPipe,
-        MockStripHtmlPipe
+        MockStripHtmlPipe,
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
           provide: ProductSearchService,
-          useValue: {}
+          useValue: {},
         },
         {
           provide: CmsComponentData,
           useValue: {
-            data$: of({})
-          }
-        }
-      ]
+            data$: of({}),
+          },
+        },
+      ],
     })
       .overrideComponent(SearchBoxComponent, {
         set: {
           providers: [
             {
               provide: SearchBoxComponentService,
-              useClass: SearchBoxComponentServiceSpy
-            }
-          ]
-        }
+              useClass: SearchBoxComponentServiceSpy,
+            },
+          ],
+        },
       })
 
       .compileComponents();

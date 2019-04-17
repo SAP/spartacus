@@ -1,25 +1,34 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { LoginFormComponent } from './login-form/login-form.component';
+import {
+  CmsConfig,
+  ConfigModule,
+  I18nModule,
+  UrlTranslationModule,
+  UserModule,
+} from '@spartacus/core';
+import { PageSlotModule } from '../../../cms-structure/page/slot/page-slot.module';
 import { LoginComponent } from './login.component';
-import { UserModule, UrlTranslationModule } from '@spartacus/core';
-import { CmsModule } from '../../cms/cms.module';
-import { BootstrapModule } from '../../bootstrap.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterModule,
-    CmsModule,
-    BootstrapModule,
     UserModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    PageSlotModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        LoginComponent: {
+          selector: 'cx-login',
+        },
+      },
+    }),
+    I18nModule,
   ],
-  declarations: [LoginComponent, LoginFormComponent],
-  exports: [LoginComponent, LoginFormComponent]
+  declarations: [LoginComponent],
+  entryComponents: [LoginComponent],
+  exports: [LoginComponent],
 })
 export class LoginModule {}

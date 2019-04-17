@@ -2,7 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { DeliveryMode, CheckoutService } from '@spartacus/core';
+import {
+  DeliveryMode,
+  CheckoutService,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -19,18 +23,18 @@ class MockCheckoutService {
 const mockDeliveryMode1: DeliveryMode = {
   code: 'standard-gross',
   name: 'Standard Delivery',
-  deliveryCost: { formattedValue: '$10.00' }
+  deliveryCost: { formattedValue: '$10.00' },
 };
 
 const mockDeliveryMode2: DeliveryMode = {
   code: 'premium-gross',
   name: 'Premium Delivery',
-  deliveryCost: { formattedValue: '$20.00' }
+  deliveryCost: { formattedValue: '$20.00' },
 };
 
 const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode1,
-  mockDeliveryMode2
+  mockDeliveryMode2,
 ];
 
 describe('DeliveryModeComponent', () => {
@@ -40,9 +44,9 @@ describe('DeliveryModeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, I18nTestingModule],
       declarations: [DeliveryModeComponent],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
 
     mockCheckoutService = TestBed.get(CheckoutService);
@@ -131,7 +135,7 @@ describe('DeliveryModeComponent', () => {
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-btns .btn-primary'));
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
 
     it('should be disabled when delivery mode is not selected', () => {
       component.mode.controls['deliveryModeId'].setValue(null);
@@ -155,7 +159,7 @@ describe('DeliveryModeComponent', () => {
 
   describe('UI back button', () => {
     const getContinueBtn = () =>
-      fixture.debugElement.query(By.css('.cx-btns .btn-action'));
+      fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');

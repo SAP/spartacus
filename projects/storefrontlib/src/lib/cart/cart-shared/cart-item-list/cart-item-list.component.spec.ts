@@ -2,12 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { CartService } from '@spartacus/core';
+import { CartService, I18nTestingModule } from '@spartacus/core';
 import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
 import { ComponentsModule } from '../../../ui/components/components.module';
 
 import { CartItemListComponent } from './cart-item-list.component';
 import { Pipe, PipeTransform } from '@angular/core';
+import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 class MockCartService {
   removeEntry() {}
@@ -22,9 +23,9 @@ const mockItems = [
     entryNumber: 1,
     product: {
       id: 1,
-      code: 'PR0000'
-    }
-  }
+      code: 'PR0000',
+    },
+  },
 ];
 
 const mockPotentialProductPromotions = [
@@ -32,14 +33,14 @@ const mockPotentialProductPromotions = [
     description: 'Buy two more and win a trip to the Moon',
     consumedEntries: [
       {
-        orderEntryNumber: 1
-      }
-    ]
-  }
+        orderEntryNumber: 1,
+      },
+    ],
+  },
 ];
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -52,13 +53,19 @@ describe('CartItemListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ComponentsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [
+        ComponentsModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+        PromotionsModule,
+        I18nTestingModule,
+      ],
       declarations: [
         CartItemListComponent,
         CartItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
-      providers: [{ provide: CartService, useClass: MockCartService }]
+      providers: [{ provide: CartService, useClass: MockCartService }],
     }).compileComponents();
   }));
 

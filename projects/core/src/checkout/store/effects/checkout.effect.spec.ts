@@ -16,22 +16,24 @@ import {
   DeliveryModeList,
   PaymentDetails,
   Address,
-  Order
+  Order,
 } from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
+import { ProductImageNormalizer } from '../../../product';
 import {
   OccOrderService,
   LoadUserPaymentMethods,
-  LoadUserAddresses
+  LoadUserAddresses,
 } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
 };
 
 describe('Checkout effect', () => {
@@ -39,7 +41,7 @@ describe('Checkout effect', () => {
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let productImageConverter: ProductImageConverterService;
+  let productImageConverter: ProductImageNormalizer;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -51,10 +53,10 @@ describe('Checkout effect', () => {
     line1: 'Toyosaki 2 create on cart',
     town: 'Montreal',
     postalCode: 'L6M1P9',
-    country: { isocode: 'CA' }
+    country: { isocode: 'CA' },
   };
   const modes: DeliveryModeList = {
-    deliveryModes: [{ code: 'code1' }, { code: 'code2' }]
+    deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
   };
   const orderDetails: Order = { entries: [] };
 
@@ -64,17 +66,17 @@ describe('Checkout effect', () => {
       providers: [
         OccCartService,
         OccOrderService,
-        ProductImageConverterService,
+        ProductImageNormalizer,
         fromEffects.CheckoutEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     cartService = TestBed.get(OccCartService);
     orderService = TestBed.get(OccOrderService);
-    productImageConverter = TestBed.get(ProductImageConverterService);
+    productImageConverter = TestBed.get(ProductImageNormalizer);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
@@ -89,14 +91,14 @@ describe('Checkout effect', () => {
       const action = new fromActions.AddDeliveryAddress({
         userId: userId,
         cartId: cartId,
-        address: address
+        address: address,
       });
 
       const completion1 = new LoadUserAddresses(userId);
       const completion2 = new fromActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
-        address: address
+        address: address,
       });
 
       actions$ = hot('-a', { a: action });
@@ -111,7 +113,7 @@ describe('Checkout effect', () => {
       const action = new fromActions.SetDeliveryAddress({
         userId: userId,
         cartId: cartId,
-        address: address
+        address: address,
       });
       const completion = new fromActions.SetDeliveryAddressSuccess(address);
 
@@ -126,7 +128,7 @@ describe('Checkout effect', () => {
     it('should load all supported delivery modes from cart', () => {
       const action = new fromActions.LoadSupportedDeliveryModes({
         userId: userId,
-        cartId: cartId
+        cartId: cartId,
       });
       const completion = new fromActions.LoadSupportedDeliveryModesSuccess(
         modes
@@ -144,7 +146,7 @@ describe('Checkout effect', () => {
       const action = new fromActions.SetDeliveryMode({
         userId: userId,
         cartId: cartId,
-        selectedModeId: 'testSelectedModeId'
+        selectedModeId: 'testSelectedModeId',
       });
       const completion = new fromActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
@@ -163,7 +165,7 @@ describe('Checkout effect', () => {
         accountHolderName: 'test test',
         cardNumber: '4111111111111111',
         cardType: {
-          code: 'visa'
+          code: 'visa',
         },
         expiryMonth: '01',
         expiryYear: '2019',
@@ -176,9 +178,9 @@ describe('Checkout effect', () => {
           postalCode: '12345',
           town: 'MainCity',
           country: {
-            isocode: 'US'
-          }
-        }
+            isocode: 'US',
+          },
+        },
       };
 
       const paymentProviderInfo = {
@@ -186,101 +188,101 @@ describe('Checkout effect', () => {
           entry: [
             {
               key: 'hybris_sop_amount',
-              value: 'amount'
+              value: 'amount',
             },
             {
               key: 'hybris_sop_currency',
-              value: ''
+              value: '',
             },
             {
               key: 'hybris_billTo_country',
-              value: 'billTo_country'
+              value: 'billTo_country',
             },
             {
               key: 'hybris_card_type',
-              value: 'card_type'
+              value: 'card_type',
             },
             {
               key: 'hybris_card_expiration_year',
-              value: 'card_expirationYear'
+              value: 'card_expirationYear',
             },
             {
               key: 'hybris_sop_reason_code',
-              value: 'reason_code'
+              value: 'reason_code',
             },
             {
               key: 'hybris_combined_expiry_date',
-              value: 'false'
+              value: 'false',
             },
             {
               key: 'hybris_sop_decision',
-              value: 'decision'
+              value: 'decision',
             },
             {
               key: 'hybris_card_expiry_date',
-              value: 'card_expirationDate'
+              value: 'card_expirationDate',
             },
             {
               key: 'hybris_card_expiration_month',
-              value: 'card_expirationMonth'
+              value: 'card_expirationMonth',
             },
             {
               key: 'hybris_billTo_street1',
-              value: 'billTo_street1'
+              value: 'billTo_street1',
             },
             {
               key: 'hybris_sop_card_number',
-              value: 'card_accountNumber'
+              value: 'card_accountNumber',
             },
             {
               key: 'hybris_separator_expiry_date',
-              value: ''
+              value: '',
             },
             {
               key: 'hybris_account_holder_name',
-              value: 'mockup_account_holder'
+              value: 'mockup_account_holder',
             },
             {
               key: 'hybris_sop_uses_public_signature',
-              value: 'false'
+              value: 'false',
             },
             {
               key: 'hybris_card_number',
-              value: 'card_accountNumber'
+              value: 'card_accountNumber',
             },
             {
               key: 'hybris_card_cvn',
-              value: 'card_cvNumber'
+              value: 'card_cvNumber',
             },
             {
               key: 'hybris_billTo_lastname',
-              value: 'billTo_lastName'
+              value: 'billTo_lastName',
             },
             {
               key: 'hybris_billTo_city',
-              value: 'billTo_city'
+              value: 'billTo_city',
             },
             {
               key: 'hybris_billTo_firstname',
-              value: 'billTo_firstName'
+              value: 'billTo_firstName',
             },
             {
               key: 'hybris_billTo_postalcode',
-              value: 'billTo_postalCode'
-            }
-          ]
+              value: 'billTo_postalCode',
+            },
+          ],
         },
         parameters: {
-          entry: []
+          entry: [],
         },
-        postUrl: 'https://testurl'
+        postUrl: 'https://testurl',
       };
 
       const paymentDetails: PaymentDetails = {
         accountHolderName: 'test',
         billingAddress: {
-          line1: '123 Montreal'
-        }
+          line1: '123 Montreal',
+        },
       };
 
       const html =
@@ -319,7 +321,7 @@ describe('Checkout effect', () => {
       const action = new fromActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
-        paymentDetails: mockPaymentDetails
+        paymentDetails: mockPaymentDetails,
       });
       const completion1 = new LoadUserPaymentMethods(userId);
       const completion2 = new fromActions.CreatePaymentDetailsSuccess(
@@ -340,14 +342,14 @@ describe('Checkout effect', () => {
         billingAddress: {
           town: 'MainCity',
           country: { isocode: 'US' },
-          lastName: 'test'
-        }
+          lastName: 'test',
+        },
       };
 
       const action = new fromActions.SetPaymentDetails({
         userId: userId,
         cartId: cartId,
-        paymentDetails
+        paymentDetails,
       });
       const completion = new fromActions.SetPaymentDetailsSuccess(
         paymentDetails
@@ -368,12 +370,12 @@ describe('Checkout effect', () => {
 
       const action = new fromActions.PlaceOrder({
         userId: userId,
-        cartId: cartId
+        cartId: cartId,
       });
       const completion1 = new fromActions.PlaceOrderSuccess(orderDetails);
       const completion2 = new AddMessage({
         text: 'Order placed successfully',
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION
+        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
 
       actions$ = hot('-a', { a: action });

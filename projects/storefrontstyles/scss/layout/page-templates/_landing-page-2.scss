@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
 
-  cx-dynamic-slot {
+  cx-page-slot {
     &.Section2A,
     &.Section2B {
       --cx-flex-basis: 50%;

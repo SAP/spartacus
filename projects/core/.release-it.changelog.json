@@ -7,7 +7,6 @@
     "tagAnnotation": "Bumping core version to ${version}"
   },
   "npm": {
-    "publish": true,
     "publishPath": "./../../dist/core",
     "tag": "latest"
   },
@@ -16,6 +15,7 @@
   },
   "github": {
     "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/core@${version}",
     "releaseNotes": "cd ../.. && npm run --silent release-notes:core -- --from core-${latestVersion} --to core-${version}"
   }

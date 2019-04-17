@@ -1,24 +1,19 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Address, UserService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-address-card',
   templateUrl: './address-card.component.html',
-  styleUrls: ['./address-card.component.scss']
 })
 export class AddressCardComponent {
   editMode: boolean;
   isDefault: boolean;
 
-  @Input()
-  userId: string;
+  @Input() userId: string;
 
-  @Input()
-  address: Address;
+  @Input() address: Address;
 
-  @Output()
-  editEvent = new EventEmitter<any>();
+  @Output() editEvent = new EventEmitter<any>();
 
   constructor(private userService: UserService) {}
 

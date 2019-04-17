@@ -7,8 +7,6 @@
     "tagAnnotation": "Bumping styles version to ${version}"
   },
   "npm": {
-    "publish": true,
     "tag": "latest"
-  },
-  "github": {}
+  }
 }

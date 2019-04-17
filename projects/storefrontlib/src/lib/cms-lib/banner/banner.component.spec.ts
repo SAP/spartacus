@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement, PipeTransform, Pipe } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
@@ -8,27 +8,22 @@ import {
   CmsConfig,
   Component as SpaComponent,
   CmsBannerComponent,
-  CmsBannerComponentMedia
+  CmsBannerComponentMedia,
 } from '@spartacus/core';
 import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BannerComponentService } from './banner.component.service';
 
 const UseCmsModuleConfig: CmsConfig = {
   cmsComponents: {
-    SimpleBannerComponent: { selector: 'BannerComponent' }
+    SimpleBannerComponent: { selector: 'BannerComponent' },
   },
-  server: {
-    baseUrl: 'https://localhost:9002'
-  }
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+    },
+  },
 };
-
-@Pipe({
-  name: 'cxTranslateUrl'
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 describe('BannerComponent', () => {
   let bannerComponent: BannerComponent;
@@ -45,15 +40,14 @@ describe('BannerComponent', () => {
       code: '/images/theme/logo_hybris.jpg',
       mime: 'image/svg+xml',
       altText: 'hybris Accelerator',
-      url: '/medias/logo-hybris.jpg'
+      url: '/medias/logo-hybris.jpg',
     },
-    urlLink: '/logo'
+    urlLink: '/logo',
   };
 
   const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(componentData),
     uid: 'test',
-    contextParameters: null
   };
 
   const MockBannerComponentService = new BannerComponentService(
@@ -64,17 +58,13 @@ describe('BannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [
-        BannerComponent,
-        GenericLinkComponent,
-        MockTranslateUrlPipe
-      ],
+      declarations: [BannerComponent, GenericLinkComponent],
       providers: [
         {
           provide: BannerComponentService,
-          useValue: MockBannerComponentService
-        }
-      ]
+          useValue: MockBannerComponentService,
+        },
+      ],
     }).compileComponents();
   }));
 

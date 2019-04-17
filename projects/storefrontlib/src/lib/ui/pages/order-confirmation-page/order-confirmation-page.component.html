@@ -1,1 +1,9 @@
-<cx-order-confirmation-page-layout></cx-order-confirmation-page-layout>
+<cx-page-layout>
+  <!-- 
+    TODO: as long as order confirmation isn't a cms component we render
+    the hard-coded version to  OrderConfirmationOverviewComponent
+  -->
+  <ng-template cxOutletRef="OrderConfirmationOverviewComponent">
+    <cx-order-confirmation></cx-order-confirmation>
+  </ng-template>
+</cx-page-layout>

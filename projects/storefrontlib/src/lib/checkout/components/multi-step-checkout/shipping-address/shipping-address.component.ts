@@ -4,26 +4,24 @@ import {
   OnInit,
   Output,
   Input,
-  EventEmitter
+  EventEmitter,
 } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap, filter } from 'rxjs/operators';
 
 import {
   RoutingService,
   Address,
   CartDataService,
-  UserService
+  UserService,
 } from '@spartacus/core';
-
-import { Observable } from 'rxjs';
-import { tap, filter } from 'rxjs/operators';
-
 import { Card } from '../../../../ui/components/card/card.component';
 
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
   styleUrls: ['./shipping-address.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit {
   existingAddresses$: Observable<Address[]>;
@@ -77,9 +75,9 @@ export class ShippingAddressComponent implements OnInit {
         address.line2,
         address.town + ', ' + region + address.country.isocode,
         address.postalCode,
-        address.phone
+        address.phone,
       ],
-      actions: [{ name: 'Ship to this address', event: 'send' }]
+      actions: [{ name: 'Ship to this address', event: 'send' }],
     };
 
     this.cards.push(card);
@@ -112,8 +110,11 @@ export class ShippingAddressComponent implements OnInit {
     this.newAddressFormManuallyOpened = true;
   }
 
-  hideNewAddressForm(): void {
+  hideNewAddressForm(goBack: boolean = false): void {
     this.newAddressFormManuallyOpened = false;
+    if (goBack) {
+      this.back();
+    }
   }
 
   back(): void {

@@ -1,15 +1,13 @@
-@import '../../mixins';
-
 a {
-  @include var-color('color', 'primary');
+  color: var(--cx-color, var(--cx-g-color-primary));
 
   &:hover {
-    @include var-color('color', 'primary');
+    color: var(--cx-color, var(--cx-g-color-primary));
   }
 
   &.disabled {
-    pointer-events: none !important;
-    cursor: not-allowed !important;
-    opacity: 0.8;
+    pointer-events: var(--cx-pointer-event, none !important);
+    cursor: var(--cx-cursor, not-allowed !important);
+    opacity: var(--cx-opacity, 0.8);
   }
 }

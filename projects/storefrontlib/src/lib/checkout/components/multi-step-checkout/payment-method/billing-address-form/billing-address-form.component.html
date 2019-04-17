@@ -1,96 +1,108 @@
-<div class="cx-billing-address-form container">
-  <div [formGroup]="billingAddress">
-    <div class="form-group">
-      <label>
-        <span class="label-content required">First name</span>
-        <input
-          class="form-control"
-          type="text"
-          required
-          placeholder="First Name"
-          formControlName="firstName"
-        />
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        <span class="label-content required">Last name</span>
-        <input
-          type="text"
-          class="form-control"
-          required
-          placeholder="Last Name"
-          formControlName="lastName"
-        />
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        <span class="label-content required">Address 1</span>
-        <input
-          type="text"
-          class="form-control"
-          required
-          placeholder="Street Address"
-          formControlName="line1"
-        />
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        <span class="label-content">Address 2 (optional)</span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Apt, Suite"
-          formControlName="line2"
-        />
-      </label>
-    </div>
-    <div class="form-group">
-      <ng-container *ngIf="(countries$ | async) as countries">
-        <div *ngIf="countries.length !== 0">
-          <label aria-required="true">
-            <span class="label-content required">Country</span>
-            <ng-select
-              [searchable]="false"
-              [clearable]="false"
-              [items]="countries"
-              bindLabel="name"
-              bindValue="isocode"
-              placeholder="Select One..."
-              (change)="countrySelected($event)"
-            >
-            </ng-select>
-          </label>
-        </div>
-      </ng-container>
-    </div>
-    <div class="row">
-      <div class="form-group col-md-6">
-        <label>
-          <span class="label-content required">City</span>
-          <input
-            type="text"
-            class="form-control"
-            required
-            placeholder="City"
-            formControlName="town"
-          />
+<div [formGroup]="billingAddress">
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{
+        'address.label.firstName' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'address.placeholder.firstName' | cxTranslate }}"
+        formControlName="firstName"
+      />
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{
+        'address.label.lastName' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'address.placeholder.lastName' | cxTranslate }}"
+        formControlName="lastName"
+      />
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <span class="label-content required">{{
+        'address.label.address1' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'address.placeholder.streetAddress' | cxTranslate }}"
+        formControlName="line1"
+      />
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      <span class="label-content">{{
+        'address.label.address2' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{ 'address.placeholder.aptSuite' | cxTranslate }}"
+        formControlName="line2"
+      />
+    </label>
+  </div>
+  <div class="form-group">
+    <ng-container *ngIf="(countries$ | async) as countries">
+      <div *ngIf="countries.length !== 0">
+        <label aria-required="true">
+          <span class="label-content required">{{
+            'address.label.country' | cxTranslate
+          }}</span>
+          <ng-select
+            [searchable]="false"
+            [clearable]="false"
+            [items]="countries"
+            bindLabel="name"
+            bindValue="isocode"
+            placeholder="{{ 'address.placeholder.selectOne' | cxTranslate }}"
+            (change)="countrySelected($event)"
+          >
+          </ng-select>
         </label>
       </div>
-      <div class="form-group col-md-6">
-        <label>
-          <span class="label-content required">Zip code</span>
-          <input
-            type="text"
-            class="form-control"
-            required
-            placeholder="Postal Code/Zip"
-            formControlName="postalCode"
-          />
-        </label>
-      </div>
+    </ng-container>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label>
+        <span class="label-content required">{{
+          'address.label.city' | cxTranslate
+        }}</span>
+        <input
+          type="text"
+          class="form-control"
+          required
+          placeholder="{{ 'address.placeholder.city' | cxTranslate }}"
+          formControlName="town"
+        />
+      </label>
+    </div>
+    <div class="form-group col-md-6">
+      <label>
+        <span class="label-content required">{{
+          'address.label.zipCode' | cxTranslate
+        }}</span>
+        <input
+          type="text"
+          class="form-control"
+          required
+          placeholder="{{ 'address.placeholder.zipCode' | cxTranslate }}"
+          formControlName="postalCode"
+        />
+      </label>
     </div>
   </div>
 </div>

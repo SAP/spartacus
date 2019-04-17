@@ -1,22 +1,17 @@
 @import '../../theme';
-@import '../../functions';
-@import '../../mixins';
-$cx-tab-link-active: 'primary';
-$cx-tab-link-active-background-color: 'inverse';
-$cx-tab-link-active-border: 5px solid;
+
 ul[role='tablist'] {
   .nav-link {
-    border: none;
+    border: var(--cx-border, none);
     &.active {
-      @include var-color(
-        'background-color',
-        $cx-tab-link-active-background-color
-      );
-      @include var-color('color', $cx-tab-link-active);
-      border-bottom: $cx-tab-link-active-border;
+      background-color: var(--cx-background-color, var(--cx-g-color-inverse));
+      color: var(--cx-color, var(--cx-g-color-primary));
+      border-width: var(--cx-border-width, 0 0 5px 0);
+      border-style: var(--cx-border-style, solid);
+
       div {
-        @include var-color('color', $cx-tab-link-active);
-        font-weight: $font-weight-semi;
+        color: var(--cx-color, var(--cx-g-color-primary));
+        font-weight: var(--cx-g-font-weight-semi, 600);
       }
     }
   }

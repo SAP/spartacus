@@ -40,6 +40,8 @@ export interface StorefrontRoutesTranslations {
   orders?: StorefrontRouteTranslation;
   orderDetails?: StorefrontRouteTranslation;
   addressBook?: StorefrontRouteTranslation;
+  updatePassword?: StorefrontRouteTranslation;
   paymentManagement?: StorefrontRouteTranslation;
-  pageNotFound?: StorefrontRouteTranslation;
+  updateEmail?: StorefrontRouteTranslation;
+  updateProfile?: StorefrontRouteTranslation;
 }

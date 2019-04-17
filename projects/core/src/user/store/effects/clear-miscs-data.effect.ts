@@ -7,12 +7,14 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { ClearMiscsData } from '../actions/index';
+import { CURRENCY_CHANGE } from '../../../site-context/store/actions/currencies.action';
+import { LANGUAGE_CHANGE } from '../../../site-context/store/actions/languages.action';
 
 @Injectable()
 export class ClearMiscsDataEffect {
   @Effect()
   clearMiscsData$: Observable<Action> = this.actions$.pipe(
-    ofType('[Site-context] Language Change', '[Site-context] Currency Change'),
+    ofType(LANGUAGE_CHANGE, CURRENCY_CHANGE),
     map(() => {
       return new ClearMiscsData();
     })

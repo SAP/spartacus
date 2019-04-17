@@ -1,20 +1,19 @@
 import { InjectionToken, Provider } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  Params
-} from '@angular/router';
+import { RouterStateSnapshot, Params } from '@angular/router';
+
 import {
   createSelector,
   createFeatureSelector,
   ActionReducerMap,
-  MemoizedSelector
+  MemoizedSelector,
 } from '@ngrx/store';
-import { PageContext } from '../../models/page-context.model';
-import { PageType } from '../../../occ/occ-models/index';
 import * as fromNgrxRouter from '@ngrx/router-store';
+
 import * as fromActions from '../actions';
 import { ROUTING_FEATURE } from '../../state';
+import { PageContext } from '../../models/page-context.model';
+import { PageType } from '../../../occ/occ-models/index';
+import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
 
 export interface RouterState
   extends fromNgrxRouter.RouterReducerState<ActivatedRouterStateSnapshot> {
@@ -29,10 +28,10 @@ export const initialState: RouterState = {
     queryParams: {},
     params: {},
     context: {
-      id: ''
+      id: '',
     },
-    cmsRequired: false
-  }
+    cmsRequired: false,
+  },
 };
 
 export interface ActivatedRouterStateSnapshot {
@@ -49,7 +48,7 @@ export interface State {
 
 export function getReducers(): ActionReducerMap<State> {
   return {
-    router: reducer
+    router: reducer,
   };
 }
 
@@ -61,13 +60,13 @@ export function reducer(
     case fromActions.SAVE_REDIRECT_URL: {
       return {
         ...state,
-        redirectUrl: action.payload
+        redirectUrl: action.payload,
       };
     }
     case fromActions.CLEAR_REDIRECT_URL: {
       return {
         ...state,
-        redirectUrl: ''
+        redirectUrl: '',
       };
     }
     case fromNgrxRouter.ROUTER_NAVIGATION:
@@ -93,7 +92,7 @@ export function reducer(
       return {
         redirectUrl: redirectUrl,
         state: action.payload.routerState,
-        navigationId: action.payload.event.id
+        navigationId: action.payload.event.id,
       };
     }
     default: {
@@ -108,7 +107,7 @@ export const reducerToken: InjectionToken<
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
-  useFactory: getReducers
+  useFactory: getReducers,
 };
 
 export const getRouterFeatureState: MemoizedSelector<
@@ -121,6 +120,14 @@ export const getRouterFeatureState: MemoizedSelector<
 export const getRouterState: MemoizedSelector<any, any> = createSelector(
   getRouterFeatureState,
   (state: any) => state[ROUTING_FEATURE]
+);
+
+export const getPageContext: MemoizedSelector<
+  any,
+  PageContext
+> = createSelector(
+  getRouterState,
+  (routingState: any) => routingState.state.context
 );
 
 export const getRedirectUrl: MemoizedSelector<any, any> = createSelector(
@@ -138,44 +145,66 @@ export class CustomSerializer
     const { url } = routerState;
     const { queryParams } = routerState.root;
 
-    let state: ActivatedRouteSnapshot = routerState.root;
+    let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
+    let cmsRequired = false;
+    let context: PageContext;
+
     while (state.firstChild) {
-      state = state.firstChild;
+      state = state.firstChild as CmsActivatedRouteSnapshot;
+
+      // we use context information embedded in Cms driven routes from any parent route
+      if (state.data && state.data.cxCmsRouteContext) {
+        context = state.data.cxCmsRouteContext;
+      }
+
+      // we assume, that any route that has CmsPageGuard or it's child
+      // is cmsRequired
+      if (
+        !cmsRequired &&
+        (context ||
+          (state.routeConfig &&
+            state.routeConfig.canActivate &&
+            state.routeConfig.canActivate.find(
+              x => x && x.guardName === 'CmsPageGuard'
+            )))
+      ) {
+        cmsRequired = true;
+      }
     }
     const { params } = state;
 
-    let cmsRequired = false;
-    if (
-      state.routeConfig &&
-      state.routeConfig.canActivate &&
-      state.routeConfig.canActivate.find(
-        x => x && x.guardName === 'CmsPageGuards'
-      )
-    ) {
-      cmsRequired = true;
-    }
-
-    let context: PageContext;
-    if (params['productCode']) {
-      context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
-    } else if (params['categoryCode']) {
-      context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
-    } else if (params['brandCode']) {
-      context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
-    } else if (params['query']) {
-      context = { id: 'search', type: PageType.CONTENT_PAGE };
-    } else if (state.data.pageLabel !== undefined) {
-      context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
-    } else if (state.url.length > 0) {
+    // we give smartedit preview page a PageContext
+    if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
-        id: state.url[state.url.length - 1].path,
-        type: PageType.CONTENT_PAGE
+        id: 'smartedit-preview',
+        type: PageType.CONTENT_PAGE,
       };
     } else {
-      context = {
-        id: 'homepage',
-        type: PageType.CONTENT_PAGE
-      };
+      if (params['productCode']) {
+        context = { id: params['productCode'], type: PageType.PRODUCT_PAGE };
+      } else if (params['categoryCode']) {
+        context = { id: params['categoryCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['brandCode']) {
+        context = { id: params['brandCode'], type: PageType.CATEGORY_PAGE };
+      } else if (params['query']) {
+        context = { id: 'search', type: PageType.CONTENT_PAGE };
+      } else if (state.data.pageLabel !== undefined) {
+        context = { id: state.data.pageLabel, type: PageType.CONTENT_PAGE };
+      } else if (!context) {
+        if (state.url.length > 0) {
+          const pageLabel =
+            '/' + state.url.map(urlSegment => urlSegment.path).join('/');
+          context = {
+            id: pageLabel,
+            type: PageType.CONTENT_PAGE,
+          };
+        } else {
+          context = {
+            id: 'homepage',
+            type: PageType.CONTENT_PAGE,
+          };
+        }
+      }
     }
 
     return { url, queryParams, params, context, cmsRequired };

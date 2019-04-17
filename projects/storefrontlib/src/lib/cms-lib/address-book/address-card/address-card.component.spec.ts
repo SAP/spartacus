@@ -2,13 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { StoreModule } from '@ngrx/store';
-
-import { Address } from '@spartacus/core';
-
-import { AddressBookModule } from '../address-book.module';
+import { Address, I18nTestingModule, UserService } from '@spartacus/core';
 
 import { AddressCardComponent } from './address-card.component';
+
+class MockUserService {}
 
 const mockAddress: Address = {
   id: '123',
@@ -21,7 +19,7 @@ const mockAddress: Address = {
   region: { isocode: 'JP-27' },
   postalCode: 'zip',
   country: { isocode: 'JP' },
-  defaultAddress: false
+  defaultAddress: false,
 };
 
 describe('AddressCardComponent', () => {
@@ -31,7 +29,9 @@ describe('AddressCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [AddressBookModule, StoreModule.forRoot({})]
+      imports: [I18nTestingModule],
+      declarations: [AddressCardComponent],
+      providers: [{ provide: UserService, useClass: MockUserService }],
     }).compileComponents();
   }));
 
@@ -50,7 +50,7 @@ describe('AddressCardComponent', () => {
   it('should display address data', () => {
     component.address = mockAddress;
     fixture.detectChanges();
-    const element = el.query(By.css('.address_data'));
+    const element = el.query(By.css('.cx-address-data'));
     expect(element.nativeElement.textContent).toContain(
       mockAddress.firstName &&
         mockAddress.lastName &&
@@ -67,6 +67,8 @@ describe('AddressCardComponent', () => {
     component.address.defaultAddress = true;
     fixture.detectChanges();
     const element = el.query(By.css('.card-header'));
-    expect(element.nativeElement.textContent).toContain('DEFAULT');
+    expect(element.nativeElement.textContent).toContain(
+      ' ✓ common.label.default '
+    );
   });
 });

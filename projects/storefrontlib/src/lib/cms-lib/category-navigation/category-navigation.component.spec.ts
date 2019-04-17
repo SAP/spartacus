@@ -7,12 +7,12 @@ import createSpy = jasmine.createSpy;
 import { Component as SpaComponent } from '@spartacus/core';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { CategoryNavigationComponent } from './category-navigation.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   template: '',
-  selector: 'cx-navigation-ui'
+  selector: 'cx-navigation-ui',
 })
 class MockNavigationComponent {
   @Input()
@@ -32,23 +32,23 @@ describe('CategoryNavigationComponent', () => {
       {
         title: 'Root 1',
         url: '/',
-        children: []
+        children: [],
       },
       {
         title: 'Root 2',
         url: '/test',
-        children: []
-      }
-    ]
+        children: [],
+      },
+    ],
   };
 
   const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: of(componentData)
+    data$: of(componentData),
   };
 
   const mockNavigationService = {
     getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null))
+    getComponentData: createSpy().and.returnValue(of(null)),
   };
 
   beforeEach(async(() => {
@@ -56,8 +56,11 @@ describe('CategoryNavigationComponent', () => {
       imports: [RouterTestingModule],
       declarations: [CategoryNavigationComponent, MockNavigationComponent],
       providers: [
-        { provide: NavigationComponentService, useValue: mockNavigationService }
-      ]
+        {
+          provide: NavigationComponentService,
+          useValue: mockNavigationService,
+        },
+      ],
     }).compileComponents();
   }));
 

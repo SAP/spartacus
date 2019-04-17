@@ -1,3 +1,4 @@
+import { EntityState } from '../../state';
 import { NodeItem } from '../model/node-item.model';
 import { Page } from '../model/page.model';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
@@ -12,14 +13,20 @@ export interface StateWithCms {
 
 export type ComponentState = EntityLoaderState<any>;
 
+export type IndexType = {
+  content: EntityLoaderState<string>;
+  product: EntityLoaderState<string>;
+  category: EntityLoaderState<string>;
+  catalog: EntityLoaderState<string>;
+};
+
 export interface NavigationNodes {
   [nodeId: string]: NodeItem;
 }
 
 export interface PageState {
-  entities: { [context: string]: Page };
-  count: number;
-  latestPageKey: string;
+  pageData: EntityState<Page>;
+  index: IndexType;
 }
 
 export interface CmsState {

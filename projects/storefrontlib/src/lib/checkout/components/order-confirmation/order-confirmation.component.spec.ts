@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-import { Order, CheckoutService, Cart } from '@spartacus/core';
+import {
+  Order,
+  CheckoutService,
+  Cart,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -41,14 +46,14 @@ class MockCheckoutService {
     return of({
       code: 'test-code-412',
       deliveryAddress: {
-        country: {}
+        country: {},
       },
       deliveryMode: {},
       paymentInfo: {
         billingAddress: {
-          country: {}
-        }
-      }
+          country: {},
+        },
+      },
     });
   }
 }
@@ -59,14 +64,15 @@ describe('OrderConfirmationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [I18nTestingModule],
       declarations: [
         OrderConfirmationComponent,
         MockReviewSubmitComponent,
         MockCardComponent,
         MockOrderSummaryComponent,
-        MockAddtoHomeScreenBannerComponent
+        MockAddtoHomeScreenBannerComponent,
       ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }]
+      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
     }).compileComponents();
   }));
 

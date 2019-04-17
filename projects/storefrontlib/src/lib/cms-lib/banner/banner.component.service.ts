@@ -6,9 +6,9 @@ import {
   CmsBannerComponent,
   CmsBannerComponentMedia,
   CmsConfig,
-  CmsResponsiveBannerComponentMedia
+  CmsResponsiveBannerComponentMedia,
 } from '@spartacus/core';
-import { CmsComponentData } from './../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ResponsiveBannerFormat } from './responsive-banner-format.model';
 
 @Injectable()
@@ -18,7 +18,9 @@ export class BannerComponentService {
     protected config: CmsConfig
   ) {}
 
-  private convertToAbsoluteUrl = map(url => this.getBaseUrl() + url);
+  private convertToAbsoluteUrl = map((url: string) => {
+    return url.startsWith('http') ? url : this.getBaseUrl() + url;
+  });
 
   // TODO: move to a more generic location
   // TODO: Make configurable
@@ -26,11 +28,19 @@ export class BannerComponentService {
     { code: 'mobile', width: 200 },
     { code: 'tablet', width: 500 },
     { code: 'desktop', width: 800 },
-    { code: 'widescreen', width: 1200 }
+    { code: 'widescreen', width: 1200 },
   ];
 
   static hasMedia(data): boolean {
     return !!data.media;
+  }
+
+  static hasHeadline(data): boolean {
+    return !!data.headline;
+  }
+
+  static hasContent(data): boolean {
+    return !!data.content;
   }
 
   getComponentData(): Observable<CmsBannerComponent> {
@@ -39,6 +49,16 @@ export class BannerComponentService {
 
   hasImage(): Observable<boolean> {
     return this.getComponentData().pipe(map(BannerComponentService.hasMedia));
+  }
+
+  hasHeadline(): Observable<boolean> {
+    return this.getComponentData().pipe(
+      map(BannerComponentService.hasHeadline)
+    );
+  }
+
+  hasContent(): Observable<boolean> {
+    return this.getComponentData().pipe(map(BannerComponentService.hasContent));
   }
 
   getImageUrl(): Observable<string> {
@@ -79,8 +99,22 @@ export class BannerComponentService {
     );
   }
 
+  getHeadline(): Observable<string> {
+    return this.getComponentData().pipe(
+      map(data =>
+        BannerComponentService.hasHeadline(data) ? data.headline : ''
+      )
+    );
+  }
+
+  getContent(): Observable<string> {
+    return this.getComponentData().pipe(
+      map(data => (BannerComponentService.hasContent(data) ? data.content : ''))
+    );
+  }
+
   getBaseUrl(): string {
-    return this.config.server.baseUrl || '';
+    return this.config.backend.occ.baseUrl || '';
   }
 
   getImageAbsoluteUrl(): Observable<string> {

@@ -4,13 +4,13 @@ import { Observable } from 'rxjs';
 
 import { CartService, CmsMiniCartComponent, Cart } from '@spartacus/core';
 
-import { CmsComponentData } from './../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
   selector: 'cx-mini-cart',
   templateUrl: './mini-cart.component.html',
   styleUrls: ['./mini-cart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
   cart$: Observable<Cart>;

@@ -43,9 +43,10 @@ export class CurrencyService implements SiteContext<Currency> {
    * Represents the isocode of the active currency.
    */
   getActive(): Observable<string> {
-    return this.store
-      .pipe(select(fromStore.getActiveCurrency))
-      .pipe(filter(Boolean));
+    return this.store.pipe(
+      select(fromStore.getActiveCurrency),
+      filter(Boolean)
+    );
   }
 
   /**

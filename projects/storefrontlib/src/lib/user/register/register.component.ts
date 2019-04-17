@@ -3,29 +3,25 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
-
 import {
   AuthService,
-  RoutingService,
-  Title,
-  UserService,
+  GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  RoutingService,
+  Title,
   UserRegisterFormData,
-  GlobalMessageEntities
+  UserService,
 } from '@spartacus/core';
-
-import { Subscription, of, Observable } from 'rxjs';
-import { take, switchMap, tap, filter } from 'rxjs/operators';
-
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
@@ -38,11 +34,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, CustomFormValidators.emailValidator]],
       password: [
         '',
-        [Validators.required, CustomFormValidators.passwordValidator]
+        [Validators.required, CustomFormValidators.passwordValidator],
       ],
       passwordconf: ['', Validators.required],
       newsletter: [false],
-      termsandconditions: [false, Validators.requiredTrue]
+      termsandconditions: [false, Validators.requiredTrue],
     },
     { validator: this.matchPassword }
   );
@@ -71,7 +67,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
             this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
             return this.routing.getRedirectUrl().pipe(take(1));
           }
-          return of();
+          return of<string>();
         })
       )
       .subscribe(url => {
@@ -92,14 +88,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       lastName,
       email,
       password,
-      titleCode
+      titleCode,
     } = this.userRegistrationForm.value;
     const userRegisterFormData: UserRegisterFormData = {
       firstName,
       lastName,
       uid: email,
       password,
-      titleCode
+      titleCode,
     };
     this.userService.register(userRegisterFormData);
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
@@ -115,7 +111,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
           this.globalMessageService.add({
             type: GlobalMessageType.MSG_TYPE_ERROR,
-            text: 'Title is required.'
+            text: 'Title is required.',
           });
         }
       });

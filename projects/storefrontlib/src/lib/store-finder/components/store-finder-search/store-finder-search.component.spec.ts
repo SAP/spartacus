@@ -4,20 +4,27 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { StoreFinderSearchComponent } from './store-finder-search.component';
 
-import { RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 const query = 'address';
 
 const keyEvent = {
-  key: 'Enter'
+  key: 'Enter',
 };
 const badKeyEvent = {
-  key: 'Enter95'
+  key: 'Enter95',
+};
+
+const mockActivatedRoute = {
+  snapshot: {
+    params: {},
+  },
 };
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
@@ -31,14 +38,15 @@ describe('StoreFinderSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ReactiveFormsModule],
+      imports: [RouterTestingModule, ReactiveFormsModule, I18nTestingModule],
       declarations: [StoreFinderSearchComponent, MockTranslateUrlPipe],
       providers: [
         {
           provide: RoutingService,
-          useValue: { go: jasmine.createSpy() }
-        }
-      ]
+          useValue: { go: jasmine.createSpy() },
+        },
+        { provide: ActivatedRoute, useValue: mockActivatedRoute },
+      ],
     }).compileComponents();
   }));
 
@@ -58,8 +66,9 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query);
     component.findStores(component.searchBox.value);
     expect(routingService.go).toHaveBeenCalledWith(
-      { route: ['storeFinder', 'searchResults'] },
-      { query }
+      ['find'],
+      { query },
+      { relativeTo: mockActivatedRoute }
     );
   });
 
@@ -67,8 +76,9 @@ describe('StoreFinderSearchComponent', () => {
     component.searchBox.setValue(query);
     component.onKey(keyEvent);
     expect(routingService.go).toHaveBeenCalledWith(
-      { route: ['storeFinder', 'searchResults'] },
-      { query }
+      ['find'],
+      { query },
+      { relativeTo: mockActivatedRoute }
     );
   });
 
@@ -80,8 +90,11 @@ describe('StoreFinderSearchComponent', () => {
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
     expect(routingService.go).toHaveBeenCalledWith(
-      { route: ['storeFinder', 'searchResults'] },
-      { useMyLocation: true }
+      ['find'],
+      {
+        useMyLocation: true,
+      },
+      { relativeTo: mockActivatedRoute }
     );
   });
 });

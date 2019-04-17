@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import { ProductImageConverterService } from '../../../product/index';
+import { ProductImageNormalizer } from '../../../product/index';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
@@ -30,7 +30,7 @@ export class CartEffects {
         details:
           payload && payload.details !== undefined
             ? payload.details
-            : this.cartData.getDetails
+            : this.cartData.getDetails,
       };
 
       if (this.isMissingData(loadCartParams)) {
@@ -75,10 +75,10 @@ export class CartEffects {
                 this.productImageConverter.convertProduct(entry.product);
               }
             }
-            if (payload.toMergeCartGuid) {
+            if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),
-                new fromActions.MergeCartSuccess()
+                new fromActions.MergeCartSuccess(),
               ];
             }
             return [new fromActions.CreateCartSuccess(cart)];
@@ -98,7 +98,7 @@ export class CartEffects {
           return new fromActions.CreateCart({
             userId: payload.userId,
             oldCartId: payload.cartId,
-            toMergeCartGuid: currentCart ? currentCart.guid : undefined
+            toMergeCartGuid: currentCart ? currentCart.guid : undefined,
           });
         })
       );
@@ -107,7 +107,7 @@ export class CartEffects {
 
   constructor(
     private actions$: Actions,
-    private productImageConverter: ProductImageConverterService,
+    private productImageConverter: ProductImageNormalizer,
     private occCartService: OccCartService,
     private cartData: CartDataService
   ) {}

@@ -1,12 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsParagraphComponent } from '@spartacus/core';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
   selector: 'cx-paragraph',
   templateUrl: './paragraph.component.html',
-  styleUrls: ['./paragraph.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParagraphComponent {
   constructor(public component: CmsComponentData<CmsParagraphComponent>) {}

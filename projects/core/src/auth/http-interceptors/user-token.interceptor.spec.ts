@@ -2,11 +2,9 @@ import { TestBed, inject } from '@angular/core/testing';
 import {
   HttpTestingController,
   HttpClientTestingModule,
-  TestRequest
+  TestRequest,
 } from '@angular/common/http/testing';
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-
-import { AuthConfig } from '../config/auth-config';
 
 import { of, Observable, Subscription } from 'rxjs';
 
@@ -14,6 +12,7 @@ import { AuthService } from '../facade/auth.service';
 import { UserToken } from './../../auth/models/token-types.model';
 
 import { UserTokenInterceptor } from './user-token.interceptor';
+import { OccConfig } from '@spartacus/core';
 
 const userToken = {
   access_token: 'xxx',
@@ -21,7 +20,7 @@ const userToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 } as UserToken;
 
 class MockAuthService {
@@ -30,16 +29,18 @@ class MockAuthService {
   }
 }
 
-const MockAuthConfig: AuthConfig = {
-  server: {
-    baseUrl: 'https://localhost:9002',
-    occPrefix: '/rest/v2/'
+const MockAuthConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: 'https://localhost:9002',
+      prefix: '/rest/v2/',
+    },
   },
   site: {
     baseSite: 'electronics',
     language: '',
-    currency: ''
-  }
+    currency: '',
+  },
 };
 
 describe('UserTokenInterceptor', () => {
@@ -50,14 +51,14 @@ describe('UserTokenInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthConfig, useValue: MockAuthConfig },
+        { provide: OccConfig, useValue: MockAuthConfig },
         { provide: AuthService, useClass: MockAuthService },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: UserTokenInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     httpMock = TestBed.get(HttpTestingController);

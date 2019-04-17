@@ -1,40 +1,46 @@
-import { TestBed } from '@angular/core/testing';
-import { OccUserService } from './user.service';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
-import {
-  User,
-  Address,
-  AddressValidation,
-  AddressList,
-  PaymentDetails,
-  PaymentDetailsList
-} from '../../occ/occ-models/index';
+import { TestBed } from '@angular/core/testing';
 import { OccConfig } from '../../occ/config/occ-config';
+import {
+  Address,
+  AddressList,
+  AddressValidation,
+  PaymentDetails,
+  PaymentDetailsList,
+  User,
+} from '../../occ/occ-models/index';
+import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
 const password = '1234';
 
 const user: User = {
   customerId: username,
-  displayUid: password
+  displayUid: password,
 };
 const endpoint = '/users';
 const addressVerificationEndpoint = '/addresses/verification';
 const addressesEndpoint = '/addresses';
 const paymentDetailsEndpoint = '/paymentdetails';
+const forgotPasswordEndpoint = '/forgottenpasswordtokens';
+const resetPasswordEndpoint = '/resetpassword';
+const updateEmailEndpoint = '/login';
+const updatePasswordEndpoint = '/password';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
   },
 
   site: {
-    baseSite: ''
-  }
+    baseSite: '',
+  },
 };
 
 describe('OccUserService', () => {
@@ -46,8 +52,8 @@ describe('OccUserService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccUserService,
-        { provide: OccConfig, useValue: MockOccModuleConfig }
-      ]
+        { provide: OccConfig, useValue: MockOccModuleConfig },
+      ],
     });
 
     service = TestBed.get(OccUserService);
@@ -59,7 +65,7 @@ describe('OccUserService', () => {
   });
 
   describe('load user details', () => {
-    it('should load user details for given username abd access token', () => {
+    it('should load user details for given username and access token', () => {
       service.loadUser(username).subscribe(result => {
         expect(result).toEqual(user);
       });
@@ -74,14 +80,32 @@ describe('OccUserService', () => {
     });
   });
 
+  describe('update user details', () => {
+    it('should update user details for the given username', () => {
+      const userUpdates: User = {
+        title: 'mr',
+      };
+      service.updateUserDetails(username, userUpdates).subscribe(_ => _);
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'PATCH' && req.url === endpoint + `/${username}`;
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      expect(mockReq.request.body).toEqual(userUpdates);
+      mockReq.flush(userUpdates);
+    });
+  });
+
   describe('load address verification results', () => {
     it('should load address verification results for given user id and address', () => {
       const address: Address = {
         companyName: 'ACME',
-        defaultAddress: true
+        defaultAddress: true,
       };
       const suggestedAddresses: AddressValidation = {
-        suggestedAddresses: [address]
+        suggestedAddresses: [address],
       };
 
       service.verifyAddress(username, address).subscribe(result => {
@@ -104,13 +128,13 @@ describe('OccUserService', () => {
   describe('load user addresses', () => {
     it('should load user addresses for a given user id', () => {
       const mockAddress1: Address = {
-        companyName: 'mockCompany1'
+        companyName: 'mockCompany1',
       };
       const mockAddress2: Address = {
-        companyName: 'mockCompany2'
+        companyName: 'mockCompany2',
       };
       const mockUserAddresses: AddressList = {
-        addresses: [mockAddress1, mockAddress2]
+        addresses: [mockAddress1, mockAddress2],
       };
 
       service.loadUserAddresses(username).subscribe(result => {
@@ -133,13 +157,13 @@ describe('OccUserService', () => {
   describe('load user payment methods', () => {
     it('should load user payment methods for a given user id', () => {
       const mockPayment1: PaymentDetails = {
-        accountHolderName: 'mockAccountHolderName1'
+        accountHolderName: 'mockAccountHolderName1',
       };
       const mockPayment2: PaymentDetails = {
-        accountHolderName: 'mockAccountHolderName2'
+        accountHolderName: 'mockAccountHolderName2',
       };
       const mockUserPaymentMethods: PaymentDetailsList = {
-        payments: [mockPayment1, mockPayment2]
+        payments: [mockPayment1, mockPayment2],
       };
 
       service.loadUserPaymentMethods(username).subscribe(result => {
@@ -164,7 +188,7 @@ describe('OccUserService', () => {
     it('should set default payment method for given user', () => {
       const mockPayment: PaymentDetails = {
         defaultPayment: true,
-        id: '123'
+        id: '123',
       };
 
       service
@@ -191,7 +215,7 @@ describe('OccUserService', () => {
   describe('delete user payment method', () => {
     it('should delete payment method for given user', () => {
       const mockPayment: PaymentDetails = {
-        id: '123'
+        id: '123',
       };
 
       service
@@ -209,6 +233,102 @@ describe('OccUserService', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
+    });
+  });
+
+  describe('forgot password: ', () => {
+    it('should request a forgot password email for userId', () => {
+      const testUserId = 'test@test.com';
+      service
+        .requestForgotPasswordEmail(testUserId)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'POST' &&
+          req.url === `${forgotPasswordEndpoint}` &&
+          req.serializeBody() === `userId=${testUserId}`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      mockReq.flush('');
+    });
+  });
+
+  describe('reset password: ', () => {
+    it('should be able to reset a new password', () => {
+      const token = 'test token';
+      const newPassword = 'new password';
+
+      service
+        .resetPassword(token, newPassword)
+        .subscribe(result => expect(result).toEqual(''));
+
+      const mockReq = httpMock.expectOne(req => {
+        return req.method === 'POST' && req.url === `${resetPasswordEndpoint}`;
+      });
+
+      expect(mockReq.request.headers.get('cx-use-client-token')).toBeTruthy();
+      expect(mockReq.request.body).toEqual({
+        token: 'test token',
+        newPassword: 'new password',
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush('');
+    });
+  });
+
+  describe('update email: ', () => {
+    it('should be able to update the email address', () => {
+      const userId = 'test@test.com';
+      const currentPassword = 'Qwe123!';
+      const newUserId = 'tester@sap.com';
+
+      let result: Object;
+
+      service
+        .updateEmail(userId, currentPassword, newUserId)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updateEmailEndpoint}` &&
+          req.serializeBody() ===
+            `password=${currentPassword}&newLogin=${newUserId}`
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+
+      mockReq.flush('');
+      expect(result).toEqual('');
+    });
+  });
+
+  describe('update password: ', () => {
+    it('should update the password for userId', () => {
+      const userId = 'test@test.com';
+      const oldPassword = 'OldPass123!';
+      const newPassword = 'NewPass456!';
+
+      let result: Object;
+
+      service
+        .updatePassword(userId, oldPassword, newPassword)
+        .subscribe(value => (result = value));
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url === `${endpoint}/${userId}${updatePasswordEndpoint}` &&
+          req.serializeBody() === `old=${oldPassword}&new=${newPassword}`
+        );
+      });
+      expect(mockReq.cancelled).toBeFalsy();
+      mockReq.flush('');
+      expect(result).toEqual('');
     });
   });
 });

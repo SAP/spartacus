@@ -42,7 +42,7 @@ Spartacus provides core storefront features such as:
 # Requirements
 
 - SAP Commerce Cloud instance (Release 1811)
-- Angular CLI (https://angular.io/): >= 7.2.1 and < 8.0.0
+- Angular CLI (https://angular.io/): >= 7.3.7 and < 8.0.0
 - node.js >= 10.14.1
 - yarn >= 1.9.4
 
@@ -52,7 +52,7 @@ To get up and running with Spartacus, the simplest approach is to build the appl
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs. In the future, you will be able to use Spartacus with a mock server.
 
-For complete setup instructions, see the [Setup and Installation](docs/setupandinstallation.md) guide.
+For complete setup instructions, see the [Setup and Installation](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Setup-and-Installation) guide.
 
 ## Customizing and Extending Spartacus
 
@@ -66,7 +66,7 @@ The documentation for customizing and extending Spartacus is still under develop
 
 # Limitations
 
-Spartacus works with Release 1808 of SAP Commerce Cloud, with some limitations. See the [Setup and Installation](docs/setupandinstallation.md) guide for more information.
+Spartacus works with Release 1808 of SAP Commerce Cloud, with some limitations. See the [Setup and Installation](https://github.com/SAP/cloud-commerce-spartacus-storefront/wiki/Setup-and-Installation) guide for more information.
 
 Spartacus is also being updated so that it works well with upcoming releases of SAP Commerce Cloud. This means that certain features of Spartacus may only work with unreleased future editions of SAP Commerce Cloud. This will be noted as we release new versions of Spartacus.
 

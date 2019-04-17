@@ -7,7 +7,6 @@
     "tagAnnotation": "Bumping storefront version to ${version}"
   },
   "npm": {
-    "publish": true,
     "publishPath": "./../../dist/storefrontlib",
     "tag": "latest"
   },

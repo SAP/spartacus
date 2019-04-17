@@ -1,18 +1,6 @@
 @import 'theme';
-@import '../container/multi-step-checkout.component';
 
-.cx-delivery {
-  &.container {
-    padding: var(--cx-padding, 0);
-  }
-  @include checkout-media-style();
-}
-
-.cx-delivery-title {
-  text-transform: var(--cx-text-transform, uppercase);
-  margin: var(--cx-margin, 0 auto);
-  padding: var(--cx-padding, 2.375rem 0 1.75rem 0);
-}
+@include checkout-media-style();
 
 .cx-delivery-label {
   padding: var(--cx-padding, 0);
@@ -35,14 +23,6 @@
   .cx-delivery-details {
     flex: var(--cx-flex, 100%);
     color: var(--cx-color, var(--cx-g-color-success));
-  }
-}
-
-.cx-btns {
-  .btn-action {
-    @include media-breakpoint-down(sm) {
-      margin-bottom: var(--cx-margin, 1rem);
-    }
   }
 }
 

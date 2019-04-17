@@ -1,6 +1,6 @@
-import * as fromUserToken from './user-token.reducer';
-import * as fromActions from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
+import * as fromActions from './../actions/user-token.action';
+import * as fromUserToken from './user-token.reducer';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -8,7 +8,7 @@ const testToken: UserToken = {
   refresh_token: 'xxx',
   expires_in: 1000,
   scope: ['xxx'],
-  userId: 'xxx'
+  userId: 'xxx',
 };
 
 describe('UserToken reducer', () => {
@@ -29,7 +29,7 @@ describe('UserToken reducer', () => {
       const action = new fromActions.LoadUserTokenSuccess(testToken);
       const state = fromUserToken.reducer(initialState, action);
 
-      expect(state.token).toEqual(testToken);
+      expect(state).toEqual(testToken);
     });
   });
 
@@ -40,7 +40,7 @@ describe('UserToken reducer', () => {
       const action = new fromActions.RefreshUserTokenSuccess(testToken);
       const state = fromUserToken.reducer(initialState, action);
 
-      expect(state.token).toEqual(testToken);
+      expect(state).toEqual(testToken);
     });
   });
 });

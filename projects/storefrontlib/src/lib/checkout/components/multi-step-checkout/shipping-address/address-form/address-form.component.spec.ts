@@ -5,7 +5,13 @@ import { ChangeDetectionStrategy } from '@angular/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 
-import { Title, Country, Region, CheckoutService } from '@spartacus/core';
+import {
+  Title,
+  Country,
+  Region,
+  CheckoutService,
+  I18nTestingModule,
+} from '@spartacus/core';
 import { UserService, GlobalMessageService } from '@spartacus/core';
 import { AddressValidation } from '@spartacus/core';
 
@@ -38,33 +44,33 @@ class MockUserService {
 const mockTitles: Title[] = [
   {
     code: 'mr',
-    name: 'Mr.'
+    name: 'Mr.',
   },
   {
     code: 'mrs',
-    name: 'Mrs.'
-  }
+    name: 'Mrs.',
+  },
 ];
-const expectedTitles: Title[] = [{ code: '', name: 'None' }, ...mockTitles];
+const expectedTitles: Title[] = [{ code: '', name: 'Title' }, ...mockTitles];
 const mockCountries: Country[] = [
   {
     isocode: 'AD',
-    name: 'Andorra'
+    name: 'Andorra',
   },
   {
     isocode: 'RS',
-    name: 'Serbia'
-  }
+    name: 'Serbia',
+  },
 ];
 const mockRegions: Region[] = [
   {
     isocode: 'CA-ON',
-    name: 'Ontario'
+    name: 'Ontario',
   },
   {
     isocode: 'CA-QC',
-    name: 'Quebec'
-  }
+    name: 'Quebec',
+  },
 ];
 
 class MockCheckoutService {
@@ -86,20 +92,20 @@ describe('AddressFormComponent', () => {
 
   beforeEach(async(() => {
     mockGlobalMessageService = {
-      add: createSpy()
+      add: createSpy(),
     };
 
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, NgSelectModule],
+      imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       declarations: [AddressFormComponent],
       providers: [
         { provide: CheckoutService, useClass: MockCheckoutService },
         { provide: UserService, useClass: MockUserService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService }
-      ]
+        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+      ],
     })
       .overrideComponent(AddressFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default }
+        set: { changeDetection: ChangeDetectionStrategy.Default },
       })
       .compileComponents();
 
@@ -113,7 +119,7 @@ describe('AddressFormComponent', () => {
     controls = component.address.controls;
     component.showTitleCode = true;
 
-    spyOn(component.addAddress, 'emit').and.callThrough();
+    spyOn(component.submitAddress, 'emit').and.callThrough();
     spyOn(component.backToAddress, 'emit').and.callThrough();
   });
 
@@ -193,7 +199,7 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'ACCEPT'
+      decision: 'ACCEPT',
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -201,7 +207,7 @@ describe('AddressFormComponent', () => {
 
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
-    expect(component.addAddress.emit).toHaveBeenCalledWith(
+    expect(component.submitAddress.emit).toHaveBeenCalledWith(
       component.address.value
     );
   });
@@ -214,8 +220,8 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REJECT',
       errors: {
-        errors: [{ subject: 'No' }]
-      }
+        errors: [{ subject: 'No' }],
+      },
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -234,7 +240,7 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getRegions').and.returnValue(of([]));
 
     const mockAddressVerificationResult: AddressValidation = {
-      decision: 'REVIEW'
+      decision: 'REVIEW',
     };
     spyOn(mockCheckoutService, 'getAddressVerificationResults').and.returnValue(
       of(mockAddressVerificationResult)
@@ -353,6 +359,24 @@ describe('AddressFormComponent', () => {
       controls['postalCode'].setValue('test postalCode');
 
       expect(isContinueBtnDisabled()).toBeFalsy();
+    });
+  });
+
+  describe('UI cancel button', () => {
+    it('should show the "Back to cart", if it is provided as an input', () => {
+      component.cancelBtnLabel = 'Back to cart';
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.btn-action').innerText
+      ).toEqual('Back to cart');
+    });
+
+    it('should show the "Choose Address", if there is no "cancelBtnLabel" input provided', () => {
+      component.cancelBtnLabel = undefined;
+      fixture.detectChanges();
+      expect(
+        fixture.nativeElement.querySelector('.btn-action').innerText
+      ).toEqual('address.action.chooseAddress');
     });
   });
 

@@ -1,29 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import {
-  DebugElement,
-  Input,
-  Pipe,
-  PipeTransform,
-  Component
-} from '@angular/core';
+import { DebugElement, Input, Component } from '@angular/core';
 import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
 
-import {
-  Component as SpaComponent,
-  TranslateUrlOptions
-} from '@spartacus/core';
+import { Component as SpaComponent } from '@spartacus/core';
 import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { FooterNavigationComponent } from './footer-navigation.component';
-import { CmsComponentData } from '../../cms/components/cms-component-data';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
-  template: ''
+  template: '',
 })
 class MockNavigationUIComponent {
   @Input()
@@ -34,20 +25,13 @@ class MockNavigationUIComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '<ng-content></ng-content>'
+  template: '<ng-content></ng-content>',
 })
 class MockGenericLinkComponent {
   @Input()
   url: string | any[];
   @Input()
   target: string;
-}
-
-@Pipe({ name: 'cxTranslateUrl' })
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path' + options.url;
-  }
 }
 
 describe('FooterNavigationComponent', () => {
@@ -60,22 +44,22 @@ describe('FooterNavigationComponent', () => {
     {
       title: 'Test child 1',
       url: '/test1',
-      target: true
+      target: true,
     },
     {
       title: 'Test child 2',
       url: '/',
-      target: false
-    }
+      target: false,
+    },
   ];
 
   const mockCmsComponentData = <CmsComponentData<SpaComponent>>{
-    data$: of()
+    data$: of(),
   };
 
   const mockNavigationService = {
     getNodes: createSpy().and.returnValue(of(mockCmsComponentData)),
-    getComponentData: createSpy().and.returnValue(of(null))
+    getComponentData: createSpy().and.returnValue(of(null)),
   };
 
   beforeEach(async(() => {
@@ -86,11 +70,13 @@ describe('FooterNavigationComponent', () => {
         NavigationComponent,
         MockNavigationUIComponent,
         MockGenericLinkComponent,
-        MockTranslateUrlPipe
       ],
       providers: [
-        { provide: NavigationComponentService, useValue: mockNavigationService }
-      ]
+        {
+          provide: NavigationComponentService,
+          useValue: mockNavigationService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -102,9 +88,9 @@ describe('FooterNavigationComponent', () => {
         {
           title: 'Test 1',
           url: '/',
-          children: mockLinks
-        }
-      ]
+          children: mockLinks,
+        },
+      ],
     });
 
     fixture.detectChanges();
@@ -137,9 +123,7 @@ describe('FooterNavigationComponent', () => {
       const link = column.query(By.css('cx-generic-link'));
 
       expect(link.nativeElement.innerHTML).toContain(mockLinks[0].title);
-      expect(link.componentInstance.url).toEqual(
-        '/translated-path' + mockLinks[0].url
-      );
+      expect(link.componentInstance.url).toEqual(mockLinks[0].url);
     });
 
     it('should have the correct target', () => {

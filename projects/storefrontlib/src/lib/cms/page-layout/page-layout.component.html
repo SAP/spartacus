@@ -1,13 +1,7 @@
 <ng-container *cxOutlet="section || (templateName$ | async)">
-  <header *ngIf="!section && (pageTitle$ | async) as title">
-    <!--
-          TODO: add breadcrumb component
-        -->
-    <h3>{{ title }}</h3>
-  </header>
   <ng-content></ng-content>
-  <cx-dynamic-slot
+  <cx-page-slot
     *ngFor="let slot of (slots$ | async)"
     [position]="slot"
-  ></cx-dynamic-slot>
+  ></cx-page-slot>
 </ng-container>

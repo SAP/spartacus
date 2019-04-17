@@ -1,22 +1,21 @@
+import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import {
-  Component,
-  Input,
-  PipeTransform,
-  Pipe,
-  SimpleChange
-} from '@angular/core';
+import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {
   NgbCollapseModule,
   NgbPaginationModule,
-  NgbRatingModule
+  NgbRatingModule,
 } from '@ng-bootstrap/ng-bootstrap';
 
-import { ProductSearchService, ProductSearchPage } from '@spartacus/core';
+import {
+  ProductSearchService,
+  ProductSearchPage,
+  I18nTestingModule,
+} from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -26,7 +25,7 @@ import { ProductFacetNavigationComponent } from '../product-facet-navigation/pro
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
   ProductViewComponent,
-  ViewModes
+  ViewModes,
 } from '../product-view/product-view.component';
 import { StarRatingComponent } from '../../../../ui';
 import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
@@ -37,8 +36,16 @@ import { SortingComponent } from '../../../../ui/components/pagination-and-sorti
 
 import { ProductListComponent } from './product-list.component';
 
+class MockPageLayoutService {
+  getSlots(): Observable<string[]> {
+    return of(['LogoSlot']);
+  }
+  get templateName$(): Observable<string> {
+    return of('LandingPage2Template');
+  }
+}
 class MockProductSearchService {
-  search = createSpy();
+  search = createSpy('search');
   searchResults$ = of();
 
   getSearchResults(): Observable<ProductSearchPage> {
@@ -48,13 +55,13 @@ class MockProductSearchService {
   clearSearchResults(): void {}
 }
 class MockActivatedRoute {
+  params = of();
   snapshot = { queryParams: {} };
   setParams = params => (this.snapshot.queryParams = params);
 }
-
 @Component({
   template: '',
-  selector: 'cx-product-list-item'
+  selector: 'cx-product-list-item',
 })
 class MockProductListItemComponent {
   @Input()
@@ -62,21 +69,20 @@ class MockProductListItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
 @Pipe({
-  name: 'stripHtml'
+  name: 'stripHtml',
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
 }
 
 describe('ProductListComponent in product-list', () => {
-  let service: ProductSearchService;
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
 
@@ -88,17 +94,22 @@ describe('ProductListComponent in product-list', () => {
         NgbRatingModule,
         PaginationAndSortingModule,
         FormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        I18nTestingModule,
       ],
       providers: [
         {
           provide: ProductSearchService,
-          useClass: MockProductSearchService
+          useClass: MockProductSearchService,
         },
         {
           provide: ActivatedRoute,
-          useClass: MockActivatedRoute
-        }
+          useClass: MockActivatedRoute,
+        },
+        {
+          provide: PageLayoutService,
+          useClass: MockPageLayoutService,
+        },
       ],
       declarations: [
         ProductListComponent,
@@ -110,71 +121,23 @@ describe('ProductListComponent in product-list', () => {
         StarRatingComponent,
         MockProductListItemComponent,
         MockTranslateUrlPipe,
-        MockStripHtmlPipe
-      ]
+        MockStripHtmlPipe,
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
-    service = TestBed.get(ProductSearchService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call ngOnChanges and get search results with params provided with url', () => {
-    const activeRoute = TestBed.get(ActivatedRoute);
-
-    activeRoute.setParams({
-      query: 'myBestQueryEver:category:bestqueries',
-      categoryCode: 'mockCategoryCode',
-      page: 112
-    });
-
-    component.categoryCode = 'mockCategoryCode';
-    component.ngOnInit();
-    component.ngOnChanges({
-      categoryCode: new SimpleChange(null, component.categoryCode, false)
-    });
-
-    expect(service.search).toHaveBeenCalledWith(
-      'myBestQueryEver:category:bestqueries',
-      { pageSize: 10, page: 112, categoryCode: 'mockCategoryCode' }
-    );
-  });
-
-  it('should call ngOnChanges and get search results with category code', () => {
-    component.categoryCode = 'mockCategoryCode';
-    component.ngOnInit();
-    component.ngOnChanges({
-      categoryCode: new SimpleChange(null, component.categoryCode, false)
-    });
-
-    expect(service.search).toHaveBeenCalledWith(
-      ':relevance:category:mockCategoryCode',
-      { pageSize: 10, categoryCode: 'mockCategoryCode' }
-    );
-  });
-
-  it('should call ngOnChanges get search results with brand code', () => {
-    component.brandCode = 'mockBrandCode';
-    component.ngOnInit();
-    component.ngOnChanges({
-      brandCode: new SimpleChange(null, component.categoryCode, false)
-    });
-
-    expect(service.search).toHaveBeenCalledWith(
-      ':relevance:brand:mockBrandCode',
-      { pageSize: 10, brandCode: 'mockBrandCode' }
-    );
-  });
-
-  it('should call onFilter', () => {
-    component.onFilter('mockQuery');
-    expect(service.search).toHaveBeenCalledWith('mockQuery', {});
+  it('should update() method to be defined', done => {
+    expect(component.update).toBeDefined();
+    done();
   });
 
   it('should change pages', done => {

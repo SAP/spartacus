@@ -5,20 +5,24 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { LoginModule } from './login/login.module';
-import { RegisterComponent } from './register/register.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { UserModule, UrlTranslationModule } from '@spartacus/core';
+import { RegisterComponentModule } from './register/register.module';
+import { LoginFormModule } from './login-form/login-form.module';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
+import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
 
 @NgModule({
   imports: [
     CommonModule,
     LoginModule,
+    LoginFormModule,
     ReactiveFormsModule,
     RouterModule,
     UserModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    RegisterComponentModule,
+    ResetPasswordModule,
+    ForgotPasswordModule,
   ],
-  declarations: [RegisterComponent, ResetPasswordComponent],
-  exports: [RegisterComponent, ResetPasswordComponent]
 })
 export class UserComponentModule {}

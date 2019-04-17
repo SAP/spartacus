@@ -3,7 +3,7 @@ import {
   ElementFinder,
   ElementArrayFinder,
   by,
-  element
+  element,
 } from 'protractor';
 
 import { E2EUtil } from '../e2e-util';
@@ -21,7 +21,7 @@ export class SearchResultsPage extends AppPage {
     NAME_ASC: 'Name (ascending)',
     NAME_DESC: 'Name (descending)',
     PRICE_HIGHEST_FIRST: 'Price (highest first)',
-    PRICE_LOWEST_FIRST: 'Price (lowest first)'
+    PRICE_LOWEST_FIRST: 'Price (lowest first)',
   };
 
   readonly page: ElementFinder = element(by.tagName(this.YPAGE));
@@ -124,7 +124,7 @@ export class SearchResultsPage extends AppPage {
   }
 
   getHeaderText() {
-    return this.page.element(by.css('header h1')).getText();
+    return this.page.element(by.css('cx-breadcrumb h1')).getText();
   }
 
   getFirstProductDataFromList() {

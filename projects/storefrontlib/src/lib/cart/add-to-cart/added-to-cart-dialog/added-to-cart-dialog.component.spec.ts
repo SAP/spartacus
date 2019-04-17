@@ -2,7 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { CartService, OrderEntry, PromotionResult } from '@spartacus/core';
+import {
+  CartService,
+  I18nTestingModule,
+  OrderEntry,
+  PromotionResult,
+} from '@spartacus/core';
 
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,7 +21,7 @@ import {
   DebugElement,
   Input,
   Pipe,
-  PipeTransform
+  PipeTransform,
 } from '@angular/core';
 
 class MockNgbActiveModal {
@@ -40,14 +45,14 @@ const mockOrderEntry: OrderEntry[] = [
     quantity: 1,
     entryNumber: 1,
     product: {
-      code: 'CODE1111'
-    }
-  }
+      code: 'CODE1111',
+    },
+  },
 ];
 
 @Component({
   selector: 'cx-cart-item',
-  template: ''
+  template: '',
 })
 class MockCartItemComponent {
   @Input()
@@ -65,7 +70,7 @@ class MockCartItemComponent {
 }
 
 @Pipe({
-  name: 'cxTranslateUrl'
+  name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
@@ -84,23 +89,24 @@ describe('AddedToCartDialogComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         NgbModule,
-        SpinnerModule
+        SpinnerModule,
+        I18nTestingModule,
       ],
       declarations: [
         AddedToCartDialogComponent,
         MockCartItemComponent,
-        MockTranslateUrlPipe
+        MockTranslateUrlPipe,
       ],
       providers: [
         {
           provide: NgbActiveModal,
-          useClass: MockNgbActiveModal
+          useClass: MockNgbActiveModal,
         },
         {
           provide: CartService,
-          useClass: MockCartService
-        }
-      ]
+          useClass: MockCartService,
+        },
+      ],
     }).compileComponents();
   }));
 
@@ -124,7 +130,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('Updating cart...');
+    ).toEqual('addToCart.label.updatingCart');
     expect(el.query(By.css('cx-spinner')).nativeElement).toBeDefined();
   });
 
@@ -145,7 +151,7 @@ describe('AddedToCartDialogComponent', () => {
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-dialog-title')).nativeElement.textContent.trim()
-    ).toEqual('Item(s) added to your cart');
+    ).toEqual('addToCart.label.itemsAddedToYourCart');
   });
 
   it('should display cart item', () => {
@@ -158,13 +164,15 @@ describe('AddedToCartDialogComponent', () => {
     component.cart$ = of({
       deliveryItemsQuantity: 1,
       totalPrice: {
-        formattedValue: '$100.00'
-      }
+        formattedValue: '$100.00',
+      },
     });
     component.loaded$ = of(true);
     fixture.detectChanges();
     const cartTotalEl = el.query(By.css('.cx-dialog-total')).nativeElement;
-    expect(cartTotalEl.children[0].textContent).toEqual('Cart total (1 items)');
+    expect(cartTotalEl.children[0].textContent).toEqual(
+      ' cartItems.label.cartTotal count:1 '
+    );
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 

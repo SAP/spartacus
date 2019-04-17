@@ -2,8 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
-import { UrlTranslationModule, StripHtmlModule } from '@spartacus/core';
-
+import {
+  UrlTranslationModule,
+  StripHtmlModule,
+  ConfigModule,
+  CmsConfig,
+  I18nModule,
+} from '@spartacus/core';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
 import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
@@ -19,6 +24,13 @@ import { ProductViewComponent } from './product-view/product-view.component';
 @NgModule({
   imports: [
     CommonModule,
+    ConfigModule.withConfig(<CmsConfig>{
+      cmsComponents: {
+        CMSProductListComponent: { selector: 'cx-product-list' },
+        SearchResultsListComponent: { selector: 'cx-product-list' },
+        ProductRefinementComponent: { selector: 'cx-product-facet-navigation' },
+      },
+    }),
     RouterModule,
     MediaModule,
     BootstrapModule,
@@ -26,19 +38,21 @@ import { ProductViewComponent } from './product-view/product-view.component';
     FormComponentsModule,
     PaginationAndSortingModule,
     StripHtmlModule,
-    UrlTranslationModule
+    UrlTranslationModule,
+    I18nModule,
   ],
   declarations: [
     ProductListComponent,
     ProductFacetNavigationComponent,
     ProductListItemComponent,
     ProductGridItemComponent,
-    ProductViewComponent
+    ProductViewComponent,
   ],
   exports: [
     ProductListComponent,
     ProductListItemComponent,
-    ProductGridItemComponent
-  ]
+    ProductGridItemComponent,
+  ],
+  entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })
 export class ProductListModule {}

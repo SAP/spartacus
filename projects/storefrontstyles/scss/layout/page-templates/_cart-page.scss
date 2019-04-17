@@ -2,8 +2,49 @@
   max-width: var(--cx-max-width, 1140px);
   padding: var(--cx-padding, 0 1.5rem);
   margin: auto;
-  &:not(.empty) {
+  display: flex;
+  flex-wrap: wrap;
+
+  .EmptyCartMiddleContent {
+    display: none;
+  }
+
+  .TopContent {
+    --cx-flex-basis: 75%;
+
+    @include media-breakpoint-down(md) {
+      --cx-flex-basis: 100%;
+    }
+  }
+
+  .CenterRightContentSlot {
+    --cx-flex-basis: 25%;
+
+    @include media-breakpoint-down(md) {
+      --cx-flex-basis: 50%;
+      justify-content: flex-end;
+
+      cx-cart-totals {
+        max-width: 50%;
+      }
+    }
+
+    @include media-breakpoint-down(xs) {
+      --cx-flex-basis: 100%;
+
+      cx-cart-totals {
+        max-width: none;
+      }
+    }
+  }
+
+  &.empty {
     .EmptyCartMiddleContent {
+      display: block;
+    }
+
+    .TopContent,
+    .CenterRightContentSlot {
       display: none;
     }
   }

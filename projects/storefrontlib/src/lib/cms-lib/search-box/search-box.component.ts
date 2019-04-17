@@ -1,9 +1,9 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
-  ViewEncapsulation,
   OnInit,
-  ChangeDetectionStrategy
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
@@ -12,9 +12,8 @@ import { SearchBoxComponentService } from './search-box-component.service';
 @Component({
   selector: 'cx-searchbox',
   templateUrl: './search-box.component.html',
-  styleUrls: ['./search-box.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit {
   searchBoxControl: FormControl = new FormControl();

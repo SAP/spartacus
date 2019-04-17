@@ -4,7 +4,7 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import {
   RoutesTranslations,
   RouteTranslation,
-  RoutesConfig
+  RoutesConfig,
 } from './routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
 
@@ -185,7 +185,7 @@ export class ConfigurableRoutesService {
       }
       return this.translateRoutes(route.children, childrenTranslations);
     }
-    return null;
+    return route.children;
   }
 
   private translateRoute(

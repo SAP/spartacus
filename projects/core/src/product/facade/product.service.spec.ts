@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import * as ngrxStore from '@ngrx/store';
 
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import * as fromStore from '../store/index';
 import { ProductsState } from '../store/index';
@@ -20,9 +20,9 @@ describe('ProductService', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('product', fromStore.getReducers())
+        StoreModule.forFeature('product', fromStore.getReducers()),
       ],
-      providers: [ProductService]
+      providers: [ProductService],
     });
 
     service = TestBed.get(ProductService);
@@ -41,7 +41,7 @@ describe('ProductService', () => {
     it('should be able to get product by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          value: mockProduct
+          value: mockProduct,
         })
       );
       let result: Product;
@@ -59,7 +59,7 @@ describe('ProductService', () => {
     it('should be able to get loading flag by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          loading: true
+          loading: true,
         })
       );
       let isLoading: boolean;
@@ -74,7 +74,7 @@ describe('ProductService', () => {
     it('should be able to get loading flag by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          error: true
+          error: true,
         })
       );
       let hasError: boolean;
@@ -89,7 +89,7 @@ describe('ProductService', () => {
     it('should be able to get loading flag by code', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of({
-          success: true
+          success: true,
         })
       );
       let isSuccess: boolean;
@@ -109,6 +109,20 @@ describe('ProductService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.LoadProduct('productCode')
       );
+    });
+
+    it('should be not trigger multiple product load actions for multiple product subscription.', () => {
+      const productMock = new BehaviorSubject({});
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        productMock
+      );
+
+      service.get('productCode').subscribe();
+      service.get('productCode').subscribe();
+
+      productMock.complete();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 

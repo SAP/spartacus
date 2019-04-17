@@ -14,10 +14,12 @@ import { OccStoreFinderService } from '../../occ/store-finder.service';
 import * as fromEffects from './view-all-stores.effect';
 
 const MockOccModuleConfig: OccConfig = {
-  server: {
-    baseUrl: '',
-    occPrefix: ''
-  }
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+    },
+  },
 };
 
 describe('ViewAllStores Effects', () => {
@@ -34,8 +36,8 @@ describe('ViewAllStores Effects', () => {
         OccStoreFinderService,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         fromEffects.ViewAllStoresEffect,
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
 
     service = TestBed.get(OccStoreFinderService);

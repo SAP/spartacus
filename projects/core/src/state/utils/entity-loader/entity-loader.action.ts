@@ -1,12 +1,13 @@
+import { Action } from '@ngrx/store';
+
+import { entityMeta, EntityMeta } from '../entity/entity.action';
 import {
   failMeta,
   LoaderMeta,
   loadMeta,
   resetMeta,
-  successMeta
+  successMeta,
 } from '../loader/loader.action';
-import { entityMeta, EntityMeta } from '../entity/entity.action';
-import { Action } from '@ngrx/store';
 
 export const ENTITY_LOAD_ACTION = '[ENTITY] LOAD';
 export const ENTITY_FAIL_ACTION = '[ENTITY] LOAD FAIL';
@@ -26,7 +27,7 @@ export function entityLoadMeta(
 ): EntityLoaderMeta {
   return {
     ...loadMeta(entityType),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -37,7 +38,7 @@ export function entityFailMeta(
 ): EntityLoaderMeta {
   return {
     ...failMeta(entityType, error),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -47,7 +48,7 @@ export function entitySuccessMeta(
 ): EntityLoaderMeta {
   return {
     ...successMeta(entityType),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -57,7 +58,7 @@ export function entityResetMeta(
 ): EntityLoaderMeta {
   return {
     ...resetMeta(entityType),
-    ...entityMeta(entityType, id)
+    ...entityMeta(entityType, id),
   };
 }
 
@@ -80,7 +81,7 @@ export class EntityFailAction implements EntityLoaderAction {
 export class EntitySuccessAction implements EntityLoaderAction {
   type = ENTITY_SUCCESS_ACTION;
   readonly meta: EntityLoaderMeta;
-  constructor(entityType: string, id: string | string[]) {
+  constructor(entityType: string, id: string | string[], public payload?: any) {
     this.meta = entitySuccessMeta(entityType, id);
   }
 }
