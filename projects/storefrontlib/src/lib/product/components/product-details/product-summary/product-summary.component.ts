@@ -91,8 +91,13 @@ export class ProductSummaryComponent implements OnInit {
 
   // Scroll to views component on page and click "Reviews" tab
   showReviews() {
-    this.getReviewsComponent().scrollIntoView();
-    this.clickTabIfInactive(this.getReviewsTab());
+    const reviewsTab = this.getReviewsTab();
+    const reviewsComponent = this.getReviewsComponent();
+
+    if (reviewsTab && reviewsComponent) {
+      reviewsComponent.scrollIntoView();
+      this.clickTabIfInactive(reviewsTab);
+    }
   }
 
   constructor(protected translatePipe: TranslatePipe) {}
