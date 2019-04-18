@@ -41,7 +41,11 @@
       "
       (update)="updateCount($event)"
     ></cx-item-counter>
-    <span class="info">{{ stockInfo }}</span>
+    <span class="info">{{
+      hasStock
+        ? ('productSummary.inStock' | cxTranslate)
+        : ('productSummary.outOfStock' | cxTranslate)
+    }}</span>
   </div>
   <cx-add-to-cart
     *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
