@@ -6,7 +6,7 @@ describe('TranslationChunkService', () => {
   let service: TranslationChunkService;
 
   beforeEach(() => {
-    const mockChunksMapping = {
+    const mockChunksConfig = {
       key1: 'chunk1',
     };
 
@@ -17,7 +17,7 @@ describe('TranslationChunkService', () => {
           provide: I18nConfig,
           useValue: {
             production: false,
-            i18n: { chunksMapping: mockChunksMapping },
+            i18n: { chunks: mockChunksConfig },
           },
         },
       ],
