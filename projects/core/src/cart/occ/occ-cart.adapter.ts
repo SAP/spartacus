@@ -3,8 +3,10 @@ import { CartAdapter } from '../connectors/cart/cart.adapter';
 import { Observable, throwError } from 'rxjs';
 import { Cart, CartList } from '../../occ/occ-models/occ.models';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, pluck } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
+import { ConverterService } from '../../util/converter.service';
+import { CART_NORMALIZER } from '../connectors/cart/converters';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -23,7 +25,8 @@ const DETAILS_PARAMS =
 export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   protected getCartEndpoint(userId: string): string {
@@ -31,7 +34,7 @@ export class OccCartAdapter implements CartAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public loadAll(userId: string, details?: boolean): Observable<CartList> {
+  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
@@ -40,9 +43,11 @@ export class OccCartAdapter implements CartAdapter {
       : new HttpParams({
           fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)',
         });
-    return this.http
-      .get<CartList>(url, { params: params })
-      .pipe(catchError((error: any) => throwError(error)));
+    return this.http.get<CartList>(url, { params: params }).pipe(
+      catchError((error: any) => throwError(error)),
+      pluck('carts'),
+      this.converter.pipeableMany(CART_NORMALIZER)
+    );
   }
 
   public load(
@@ -61,9 +66,9 @@ export class OccCartAdapter implements CartAdapter {
 
     if (cartId === 'current') {
       return this.loadAll(userId, details).pipe(
-        map(cartsData => {
-          if (cartsData && cartsData.carts) {
-            const activeCart = cartsData.carts.find(cart => {
+        map(carts => {
+          if (carts) {
+            const activeCart = carts.find(cart => {
               return cart['saveTime'] === undefined;
             });
             return activeCart;
@@ -73,9 +78,10 @@ export class OccCartAdapter implements CartAdapter {
         })
       );
     } else {
-      return this.http
-        .get<Cart>(url, { params: params })
-        .pipe(catchError((error: any) => throwError(error)));
+      return this.http.get<Cart>(url, { params: params }).pipe(
+        catchError((error: any) => throwError(error)),
+        this.converter.pipeable(CART_NORMALIZER)
+      );
     }
   }
 

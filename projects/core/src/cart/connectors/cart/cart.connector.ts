@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Cart, CartList } from '../../../occ/occ-models/occ.models';
+import { Cart } from '../../../occ/occ-models/occ.models';
 import { CartAdapter } from './cart.adapter';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { CartAdapter } from './cart.adapter';
 export class CartConnector {
   constructor(private adapter: CartAdapter) {}
 
-  public loadAll(userId: string, details?: boolean): Observable<CartList> {
+  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
     return this.adapter.loadAll(userId, details);
   }
 
