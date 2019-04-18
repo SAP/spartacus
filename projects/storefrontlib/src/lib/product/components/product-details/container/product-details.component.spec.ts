@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { Product } from '@spartacus/core';
+import { UIProduct } from '@spartacus/core';
 
 import { of, Observable } from 'rxjs';
 
@@ -11,10 +11,10 @@ import { OutletDirective } from '../../../../outlet';
 import { ProductDetailsComponent } from './product-details.component';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 
-const mockProduct: Product = { name: 'mockProduct' };
+const mockProduct: UIProduct = { name: 'mockProduct' };
 
 class MockCurrentProductService {
-  getProduct(): Observable<Product> {
+  getProduct(): Observable<UIProduct> {
     return of(mockProduct);
   }
 }
@@ -38,7 +38,7 @@ export class MockAddToCartComponent {
 })
 export class MockProductImagesComponent {
   @Input()
-  product: Product;
+  product: UIProduct;
 }
 
 @Component({
@@ -86,7 +86,7 @@ describe('ProductDetailsComponent in product', () => {
 
   it('should fetch product data', () => {
     productDetailsComponent.ngOnInit();
-    let result: Product;
+    let result: UIProduct;
     productDetailsComponent.product$.subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);
   });
