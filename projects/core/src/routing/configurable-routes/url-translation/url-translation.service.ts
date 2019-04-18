@@ -23,23 +23,16 @@ export class UrlTranslationService {
   translate(
     optionsList: TranslateUrlOptions,
     metaOptions: TranslateUrlMetaOptions = {}
-  ): string[] {
+  ): any[] {
     if (!Array.isArray(optionsList)) {
       optionsList = [optionsList];
-    }
-
-    // if options are invalid, return the root url
-    for (let i = 0; i < optionsList.length; i++) {
-      if (!this.validateOptions(optionsList[i])) {
-        return this.ROOT_URL;
-      }
     }
 
     const result: string[] = [];
     for (let i = 0; i < optionsList.length; i++) {
       const options = optionsList[i];
-      if (typeof options === 'string') {
-        // don't modify string segments:
+      if (!options || !options.route) {
+        // don't modify segments that are not route options:
         result.push(options);
       } else {
         // generate array with url segments for given options object:
@@ -58,21 +51,6 @@ export class UrlTranslationService {
     }
 
     return result;
-  }
-
-  private validateOptions(options: TranslateUrlOptionsRoute | string): boolean {
-    if (typeof options === 'string') {
-      return true;
-    }
-
-    if (!options || !options.route) {
-      this.warn(
-        `Incorrect options for translating url. Options must have 'route' property. Options: `,
-        options
-      );
-      return false;
-    }
-    return true;
   }
 
   private generateUrl(options: TranslateUrlOptionsRoute): string[] | null {

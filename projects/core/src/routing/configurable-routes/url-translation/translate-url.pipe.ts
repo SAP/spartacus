@@ -14,7 +14,7 @@ export class TranslateUrlPipe implements PipeTransform {
   transform(
     options: TranslateUrlOptions,
     metaOptions: TranslateUrlMetaOptions = {}
-  ): string[] {
+  ): any[] {
     return this.urlTranslator.translate(options, metaOptions);
   }
 }

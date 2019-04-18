@@ -37,23 +37,17 @@ export class RoutingService {
 
   /**
    * Navigation with a new state into history
-   * @param pathOrTranslateUrlOptions: Path or options to translate url
+   * @param commands: Path or options to translate url
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
   go(
-    pathOrTranslateUrlOptions: any[] | TranslateUrlOptions,
+    commands: TranslateUrlOptions,
     query?: object,
     extras?: NavigationExtras
   ): void {
-    let path: any[];
+    const path = this.urlTranslator.translate(commands, { relative: true });
 
-    if (Array.isArray(pathOrTranslateUrlOptions)) {
-      path = pathOrTranslateUrlOptions;
-    } else {
-      const translateUrlOptions = pathOrTranslateUrlOptions;
-      path = this.urlTranslator.translate(translateUrlOptions);
-    }
     return this.navigate(path, query, extras);
   }
 

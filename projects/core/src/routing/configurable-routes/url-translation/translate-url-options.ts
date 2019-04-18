@@ -5,7 +5,8 @@ export interface TranslateUrlOptionsRoute {
 
 export type TranslateUrlOptions =
   | TranslateUrlOptionsRoute
-  | (TranslateUrlOptionsRoute | string)[];
+  | any
+  | (TranslateUrlOptionsRoute | any)[];
 
 export interface TranslateUrlMetaOptions {
   relative?: boolean;

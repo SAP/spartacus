@@ -36,102 +36,6 @@ describe('UrlTranslationService', () => {
   });
 
   describe('translate', () => {
-    describe(', when options is null,', () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = null;
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
-    describe(', when options is empty object,', () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = {};
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
-    describe(`, when options 'route' property is null,`, () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = { route: null };
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
-    describe(`, when options 'route' array contains empty string,`, () => {
-      let options: TranslateUrlOptions;
-      beforeEach(() => {
-        spyOn(console, 'warn');
-        options = { route: '' };
-      });
-
-      it(`should console.warn in non-production environment`, () => {
-        serverConfig.production = false;
-        service.translate(options);
-        expect(console.warn).toHaveBeenCalled();
-      });
-
-      it(`should NOT console.warn in production environment`, () => {
-        serverConfig.production = true;
-        service.translate(options);
-        expect(console.warn).not.toHaveBeenCalled();
-      });
-
-      it(`should return the root url`, () => {
-        expect(service.translate(options)).toEqual(['/']);
-      });
-    });
-
     describe(`, when options contain 'route' property,`, () => {
       // tslint:disable-next-line:max-line-length
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
@@ -172,7 +76,7 @@ describe('UrlTranslationService', () => {
         expect(resultPath[0]).toEqual('');
       });
 
-      it('should return relative path when "relative" meta option is true', () => {
+      it('should return relative path when "relative" option is true', () => {
         spyOn(routesService, 'getRouteTranslation').and.returnValue({
           paths: ['path/:param1'],
         });
@@ -190,7 +94,7 @@ describe('UrlTranslationService', () => {
       }: {
         translateUrlOptions: TranslateUrlOptions;
         nestedRoutesTranslations: RouteTranslation[];
-        expectedResult: string[];
+        expectedResult: any[];
       }) {
         spyOn(routesService, 'getRouteTranslation').and.returnValues(
           ...nestedRoutesTranslations
@@ -405,6 +309,14 @@ describe('UrlTranslationService', () => {
         });
       });
 
+      it(`should return the root path when translations paths for one of given routes is null`, () => {
+        test_translate({
+          translateUrlOptions: [{ route: 'test1' }, { route: 'tes2' }],
+          nestedRoutesTranslations: [{ paths: ['path1'] }, { paths: null }],
+          expectedResult: ['/'],
+        });
+      });
+
       it(`should concatenate paths for two nested routes`, () => {
         test_translate({
           translateUrlOptions: [{ route: 'test1' }, { route: 'test2' }],
@@ -552,23 +464,25 @@ describe('UrlTranslationService', () => {
         });
       });
 
-      it(`should NOT translate options that are string`, () => {
-        test_translate({
-          translateUrlOptions: ['testString1', 'testString2'],
-          nestedRoutesTranslations: [],
-          expectedResult: ['', 'testString1', 'testString2'],
-        });
-      });
-
-      it(`should translate object options, but not strings`, () => {
+      it(`should NOT translate options that are are not object with "route" property`, () => {
         test_translate({
           translateUrlOptions: [
-            'testString1',
+            111,
             { route: 'test2', params: { param2: 'value2' } },
             'testString3',
+            null,
+            undefined,
           ],
           nestedRoutesTranslations: [{ paths: ['path2/:param2'] }],
-          expectedResult: ['', 'testString1', 'path2', 'value2', 'testString3'],
+          expectedResult: [
+            '',
+            111,
+            'path2',
+            'value2',
+            'testString3',
+            null,
+            undefined,
+          ],
         });
       });
     });
