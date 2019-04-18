@@ -1,5 +1,4 @@
-
-  <header><h3>My Interests</h3></header>
+ 
 <ng-container *ngIf='(interests$ | async) as interests'>
 <div class="container">
   <div class="cx-order-history-header">
@@ -26,7 +25,6 @@
           <th scope="col" style="text-align: left">ITEM</th>
           <th scope="col" style="text-align: left"></th>
           <th scope="col" style="text-align: left">PRICE</th>
-          <th scope="col" style="text-align: left">DATE ADDED</th>
           <th scope="col" style="text-align: left">SUBSCRIPTIONS</th>
           <th scope="col" style="text-align: left"></th>
         </thead>
@@ -34,7 +32,9 @@
           <tr *ngFor="let result of interests.results">
             <td>
               <div class="d-md-none ">ITEM</div>
-
+              <a [routerLink]=" { route: [{ name: 'product', params: result.product }] } | cxTranslateUrl ">
+                <cx-picture [imageContainer]="result.product.images?.PRIMARY" imageFormat="thumbnail"></cx-picture>
+              </a>
             </td>
             <td>
               <div class="cx-info col-10">
@@ -70,16 +70,14 @@
               {{ result.product.price.value }}
             </td>
             <td>
-              <div class="d-md-none ">DATE ADDED</div>
-              <div *ngFor='let ientry of result.productInterestEntry'>
-                {{ ientry.dateAdded | date:'yyyy/MM/dd' }}
-              </div>
-            </td>
-            <td>
               <div class="d-md-none ">SUBSCRIPTIONS</div>
               <div class="notificaitonPanel" *ngFor='let ientry of result.productInterestEntry'>
                 <span>
                   {{ ientry.interestType }}
+                </span>
+                <span> - Till </span>
+                <span>
+                  {{ ientry.dateAdded | date:'yyyy/MM/dd' }}
                 </span>
               </div>
             </td>

@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BootstrapModule } from '../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { MediaModule } from '../../ui/components/media/media.module';
 
 import {
   UrlTranslationModule,
@@ -33,6 +34,7 @@ import {
     PaginationAndSortingModule,
     UrlTranslationModule,
     I18nModule,
+    MediaModule,
   ],
   exports: [MyInterestsComponent],
   entryComponents: [MyInterestsComponent],

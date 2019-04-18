@@ -37,12 +37,14 @@ export class MyInterestsService {
     });
 
     return this.http.get<any>(url, { headers, params }).pipe(
-      tap(r =>
-        r.results.forEach(
-          (item: any) =>
-            (item.product.images = this.convertImages(item.product.images))
-        )
-      ),
+      tap(r => {
+        if (r.results) {
+          r.results.forEach(
+            (item: any) =>
+              (item.product.images = this.convertImages(item.product.images))
+          );
+        }
+      }),
       catchError((error: any) => throwError(error))
     );
   }

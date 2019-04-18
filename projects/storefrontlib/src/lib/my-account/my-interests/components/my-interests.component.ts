@@ -13,6 +13,7 @@ export class MyInterestsComponent implements OnInit {
   sortLabels = {
     byName: 'Name',
   };
+  private PAGE_SIZE = 5;
 
   interests$: Observable<any>;
   userId: string;
@@ -25,7 +26,10 @@ export class MyInterestsComponent implements OnInit {
   ngOnInit() {
     this.authService.getUserToken().subscribe(token => {
       this.userId = token.userId;
-      this.interests$ = this.interestService.getInterests(token.userId, 0);
+      this.interests$ = this.interestService.getInterests(
+        token.userId,
+        this.PAGE_SIZE
+      );
     });
   }
 
