@@ -21,7 +21,6 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',
-  styleUrls: ['./payment-method.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentMethodComponent implements OnInit {

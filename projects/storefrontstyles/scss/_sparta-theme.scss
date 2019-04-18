@@ -10,7 +10,8 @@ $selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-pagination, cx-order-history, cx-address-book, cx-address-card,
   cx-payment-method, cx-added-to-cart-dialog, cx-cart-details, cx-cart-item,
   cx-cart-item-list, cx-order-summary, cx-cart-totals, cx-multi-step-checkout,
-  cx-delivery-mode, cx-shipping-address, cx-billing-address-form !default;
+  cx-delivery-mode, cx-shipping-address, cx-billing-address-form,
+  cx-payment-method !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
