@@ -2,17 +2,23 @@
   <div class="form-group row">
     <div class="col-md-12">
       <label>
-        <span class="label-content">New email address</span>
+        <span class="label-content">{{
+          'updateEmailForm.newEmailAddress.label' | cxTranslate
+        }}</span>
         <input
           type="email"
           name="email"
           formControlName="email"
-          placeholder="Enter email"
+          placeholder="{{
+            'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
+          }}"
           class="form-control"
           [class.is-invalid]="isNotValid('email')"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('email')">
-          <span>Please enter a valid email.</span>
+          <span>{{
+            'updateEmailForm.enterValidEmail' | cxTranslate
+            }}</span>
         </div>
       </label>
     </div>
@@ -21,12 +27,16 @@
   <div class="form-group row">
     <div class="col-sm-12">
       <label>
-        <span class="label-content">Confirm new email address</span>
+        <span class="label-content">{{
+          'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
+        }}</span>
         <input
           type="email"
           name="confirmEmail"
           formControlName="confirmEmail"
-          placeholder="Enter email"
+          placeholder="{{
+            'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
+          }}"
           class="form-control"
           [class.is-invalid]="isEmailConfirmNotValid('confirmEmail')"
         />
@@ -34,7 +44,9 @@
           class="invalid-feedback"
           *ngIf="isEmailConfirmNotValid('confirmEmail')"
         >
-          <span>Both email must match</span>
+          <span>{{
+            'updateEmailForm.bothPasswordMustMatch' | cxTranslate
+          }}</span>
         </div>
       </label>
     </div>
@@ -43,18 +55,22 @@
   <div class="form-group row">
     <div class="col-sm-12">
       <label>
-        <span class="label-content">Password</span>
+        <span class="label-content">{{
+          'updateEmailForm.password.label' | cxTranslate
+        }}</span>
         <input
           type="password"
           name="password"
           formControlName="password"
-          placeholder="Enter password"
+          placeholder="{{
+            'updateEmailForm.password.placeholder' | cxTranslate
+          }}"
           class="form-control"
           [class.is-invalid]="isNotValid('password')"
           autocomplete="off"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('password')">
-          <span>Please input password</span>
+          <span>{{ 'updateEmailForm.pleaseInputPassword' | cxTranslate }}</span>
         </div>
       </label>
     </div>
@@ -67,12 +83,12 @@
         type="button"
         (click)="onCancel()"
       >
-        Cancel
+        {{ 'common.cancel' | cxTranslate }}
       </button>
     </div>
     <div class="col-lg-6">
       <button class="btn btn-block btn-primary" type="submit">
-        Save
+        {{ 'common.save' | cxTranslate }}
       </button>
     </div>
   </div>
