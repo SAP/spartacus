@@ -11,12 +11,14 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { ConsignmentTracking } from '../index';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
+import { Consignment } from 'projects/backend/occ-client/typings/lib/models';
 
 describe('UserService', () => {
   let service: UserService;
@@ -112,6 +114,23 @@ describe('UserService', () => {
     service.clearOrderDetails();
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.ClearOrderDetails()
+    );
+  });
+
+  it('should be able to get consignment tracking', () => {
+    store.dispatch(new fromStore.LoadConsignmentTrackingSuccess({ trackingID: '1234567890' }));
+    let tracking: Consignment;
+    service.getConsignmentTracking().subscribe(r => tracking = r).unsubscribe();
+    expect(tracking).toEqual({ trackingID: '1234567890' });
+  });
+
+  it('should be able to load consignment tracking', () => {
+    service.loadConsignmentTracking('orderCode', 'consignmentCode');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadConsignmentTracking({
+        orderCode: 'orderCode',
+        consignmentCode: 'consignmentCode'
+      })
     );
   });
 

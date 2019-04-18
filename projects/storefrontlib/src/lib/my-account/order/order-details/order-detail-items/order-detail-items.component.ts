@@ -7,6 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { OrderDetailsService } from '../order-details.service';
 import { TrackingEventsComponent } from './consignment-tracking/tracking-events.component';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-details-items',
@@ -22,9 +23,11 @@ export class OrderDetailItemsComponent implements OnInit {
 
   order$: Observable<Order>;
   consignmentTracking$: Observable<ConsignmentTracking>;
+  orderCode: string;
+  dialog: any;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
+    this.order$ = this.orderDetailsService.getOrderDetails().pipe(tap(order => this.orderCode = order.code));
     this.consignmentTracking$ = this.userService.getConsignmentTracking();
   }
 
@@ -37,16 +40,15 @@ export class OrderDetailItemsComponent implements OnInit {
     return products;
   }
 
-  getTrackingEvents(consignment: Consignment) {
-    this.order$.subscribe(order => {
-      this.userService.loadConsignmentTracking(order.code, consignment.code);
-      const dialog = this.ngbModal.open(TrackingEventsComponent, {
-        centered: true,
-        size: 'lg'
-      }).componentInstance;
-      dialog.consignmentTracking$ = this.consignmentTracking$;
-      dialog.shipDate = consignment.statusDate;
-    });
+  getConsignmentTracking(consignment: Consignment) {
+    this.userService.loadConsignmentTracking(this.orderCode, consignment.code);
+    this.dialog = this.ngbModal.open(TrackingEventsComponent, {
+      centered: true,
+      size: 'lg'
+    }).componentInstance;
+    this.dialog.tracking$ = this.consignmentTracking$;
+    this.dialog.shipDate = consignment.statusDate;
+    this.dialog.consignmentCode = consignment.code;
   }
 
 }

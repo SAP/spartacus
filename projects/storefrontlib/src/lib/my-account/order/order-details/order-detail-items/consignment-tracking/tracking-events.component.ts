@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ConsignmentTracking } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -8,14 +8,12 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './tracking-events.component.html',
   styleUrls: ['./tracking-events.component.scss']
 })
-export class TrackingEventsComponent implements OnInit {
+export class TrackingEventsComponent {
 
-  consignmentTracking$: Observable<ConsignmentTracking>;
+  tracking$: Observable<ConsignmentTracking>;
   shipDate: Date;
+  consignmentCode: string;
 
   constructor(public activeModal: NgbActiveModal) { }
-
-  ngOnInit() {
-  }
 
 }

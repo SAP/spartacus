@@ -8,7 +8,9 @@
       </div>
       <button *ngIf="consignment.status === 'SHIPPED' || consignment.status === 'IN_TRANSIT' || consignment.status === ''
         || consignment.status === 'DELIVERY_COMPLETED' || consignment.status === 'DELIVERY_REJECTED'"
-        (click)="getTrackingEvents(consignment)" class="btn btn-action">Track package</button>
+        (click)="getConsignmentTracking(consignment)" class="btn btn-action">
+        {{ 'consignmentTracking.action.trackPackage' | cxTranslate }}
+      </button>
     </div>
 
     <div class="cx-list-item col-12">

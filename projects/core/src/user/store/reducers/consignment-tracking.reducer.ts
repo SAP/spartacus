@@ -19,7 +19,7 @@ export function reducer(
         tracking,
       };
     }
-    case fromAction.CLEAR_CONSIGNMENT_TRACKING: {
+    case fromAction.LOAD_CONSIGNMENT_TRACKING_FAIL: {
       return initialState;
     }
   }

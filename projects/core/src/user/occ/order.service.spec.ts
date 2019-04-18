@@ -7,6 +7,7 @@ import { async, TestBed } from '@angular/core/testing';
 import { Order } from '../../occ/occ-models/index';
 import { OccConfig } from '../../occ/config/occ-config';
 import { OccOrderService } from '../occ/index';
+import { ConsignmentTracking } from '../model/consignment-tracking.model';
 
 const userId = '123';
 const cartId = '456';
@@ -17,8 +18,11 @@ const orderData: Order = {
   code: '00001004',
 };
 
+const consignmentCode = 'a00001004';
+
 const usersEndpoint = '/users';
 const orderEndpoint = '/orders';
+const consignmentEndpoint = '/consignment';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -114,13 +118,35 @@ describe('OccOrderService', () => {
       httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              orderEndpoint +
-              '/' +
-              orderData.code && req.method === 'GET'
+          usersEndpoint +
+          `/${userId}` +
+          orderEndpoint +
+          '/' +
+          orderData.code && req.method === 'GET'
         );
       }, `GET a single order`);
+    }));
+  });
+
+  describe('getConsignmentTracking', () => {
+    it('should fetch a consignment tracking', async(() => {
+      const tracking: ConsignmentTracking = {
+        trackingID: '1234567890',
+        trackingEvents: []
+      };
+      service.getConsignmentTracking(orderData.code, consignmentCode).subscribe(
+        result => expect(result).toEqual(tracking)
+      );
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.url === orderEndpoint + `/${orderData.code}`
+          + consignmentEndpoint + `/${consignmentCode}`
+          + '/tracking' && req.method === 'GET'
+        );
+      }, `GET a consignment tracking`);
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(tracking);
     }));
   });
 });

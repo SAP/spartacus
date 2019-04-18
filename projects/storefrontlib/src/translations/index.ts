@@ -24,6 +24,7 @@ import { productReview } from './en/product-review.en';
 import { pwa } from './en/pwa.en';
 import { register } from './en/register.en';
 import { storeFinder } from './en/store-finder.en';
+import { consignmentTracking } from './en/consignment-tracking.en';
 
 export const translations: TranslationResources = {
   en: {
@@ -52,5 +53,6 @@ export const translations: TranslationResources = {
     pwa,
     register,
     storeFinder,
+    consignmentTracking
   },
 };

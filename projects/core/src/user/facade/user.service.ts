@@ -128,20 +128,13 @@ export class UserService {
    * @param orderCode an order code
    * @param consignmentCode a consignment code
    */
-  loadConsignmentTracking(orderCode: string, consignmentCode: string) {
+  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
     this.store.dispatch(
       new fromStore.LoadConsignmentTracking({
         orderCode: orderCode,
         consignmentCode: consignmentCode
       })
     );
-  }
-
-  /**
-   * Clears a consignment tracking
-   */
-  clearConsignmentTracking(): void {
-    this.store.dispatch(new fromStore.ClearConsignmentTracking());
   }
 
   /**
