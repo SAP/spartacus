@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CartConnector } from './cart-connector.service';
+import { CartConnector } from './cart.connector';
 
 describe('CartConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

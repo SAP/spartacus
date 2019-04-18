@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CartConnector } from './cart-connector.service';
+import { CartPaymentConnector } from './cart-payment.connector';
 
-describe('CartConnector', () => {
+describe('CartPaymentConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: CartConnector = TestBed.get(CartConnector);
+    const service: CartPaymentConnector = TestBed.get(CartPaymentConnector);
     expect(service).toBeTruthy();
   });
 });
