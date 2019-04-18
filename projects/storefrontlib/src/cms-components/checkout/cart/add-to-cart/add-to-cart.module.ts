@@ -27,7 +27,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     I18nModule,
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
-  entryComponents: [AddedToCartDialogComponent],
+  entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
   exports: [AddToCartComponent],
 })
 export class AddToCartModule {}
