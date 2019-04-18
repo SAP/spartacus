@@ -13,7 +13,7 @@
   a {
     display: flex;
     background: var(--cx-background, var(--cx-g-color-primary));
-    padding: var(--cx-padding, 0 0.5rem);
+
     width: 70px;
     height: 48px;
     color: var(--cx-color, var(--cx-g-color-inverse));
@@ -23,22 +23,30 @@
     background-repeat: no-repeat;
     background-image: url($shopping-cart-icon);
     background-position: left 5px center;
-    background-size: 60% 70%;
+    background-size: 50% 50%;
 
-    // color: currentColor;
-    // &:hover {
-    //   color: currentColor;
-    //   text-decoration: none;
-    // }
+    color: currentColor;
+    &:hover {
+      color: currentColor;
+      text-decoration: none;
+    }
 
     .count {
       color: currentColor;
       align-self: center;
-      // padding: var(--cx-padding, 0 0.5rem);
+      padding-right: 7px;
     }
 
     @include media-breakpoint-only(xs) {
-      height: 64px;
+      width: 55px;
+      height: 57px;
+      background-position: center top 4px;
+      justify-content: center;
+
+      .count {
+        padding-right: 0;
+        align-self: flex-end;
+      }
     }
   }
 }

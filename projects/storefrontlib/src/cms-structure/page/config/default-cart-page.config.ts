@@ -18,7 +18,7 @@ export const cartComponents: {
 };
 
 export const defaultCartPageConfig: CmsPageConfig = {
-  ignoreBackend: false,
+  ignoreBackend: true,
   pageId: 'cartPage',
   type: 'ContentPage',
   template: 'CartPageTemplate',
