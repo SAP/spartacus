@@ -1,13 +1,12 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {
-  Address,
   Cart,
   CartList,
   CartModification,
   DeliveryModeList,
   PaymentDetails,
-} from '../../occ/occ-models/occ.models';
+} from '../../../occ/occ-models/occ.models';
 import { CartAdapter } from './cart.adapter';
 
 @Injectable({
@@ -67,14 +66,6 @@ export class CartConnector {
     entryNumber: string
   ): Observable<any> {
     return this.adapter.removeEntry(userId, cartId, entryNumber);
-  }
-
-  public createAddressOnCart(
-    userId: string,
-    cartId: string,
-    address: any
-  ): Observable<Address> {
-    return this.adapter.createAddressOnCart(userId, cartId, address);
   }
 
   public setDeliveryAddress(

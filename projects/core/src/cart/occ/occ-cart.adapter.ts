@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CartAdapter } from '../connectors/cart.adapter';
+import { CartAdapter } from '../connectors/cart/cart.adapter';
 import { Observable, throwError } from 'rxjs';
 import {
-  Address,
   Cart,
   CartList,
   CartModification,
@@ -176,22 +175,6 @@ export class OccCartAdapter implements CartAdapter {
 
     return this.http
       .delete(url, { headers })
-      .pipe(catchError((error: any) => throwError(error.json())));
-  }
-
-  public createAddressOnCart(
-    userId: string,
-    cartId: string,
-    address: any
-  ): Observable<Address> {
-    return this.http
-      .post<Address>(
-        this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
-        address,
-        {
-          headers: new HttpHeaders().set('Content-Type', 'application/json'),
-        }
-      )
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 

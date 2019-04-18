@@ -8,7 +8,7 @@ import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { Cart } from '../../../occ/occ-models/occ.models';
-import { CartConnector } from '../../connectors/cart.connector';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 
 @Injectable()
 export class CartEffects {

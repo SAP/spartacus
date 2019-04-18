@@ -4,7 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromActions from './../actions';
-import { CartConnector } from '../../connectors/cart.connector';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 
 @Injectable()
 export class CartEntryEffects {

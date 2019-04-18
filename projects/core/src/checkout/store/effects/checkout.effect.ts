@@ -8,7 +8,8 @@ import { ProductImageNormalizer } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
-import { CartConnector } from '../../../cart/connectors/cart.connector';
+import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
+import { CartAddressConnector } from '../../../cart/connectors/address/cart-address.connector';
 
 @Injectable()
 export class CheckoutEffects {
@@ -21,7 +22,7 @@ export class CheckoutEffects {
     ofType(fromActions.ADD_DELIVERY_ADDRESS),
     map((action: fromActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
-      this.cartConnector
+      this.cartAddressConnector
         .createAddressOnCart(payload.userId, payload.cartId, payload.address)
         .pipe(
           mergeMap(address => {
@@ -225,6 +226,7 @@ export class CheckoutEffects {
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
+    private cartAddressConnector: CartAddressConnector,
     private occOrderService: OccOrderService,
     private productImageConverter: ProductImageNormalizer
   ) {

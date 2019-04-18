@@ -1,14 +1,12 @@
 import { Observable } from 'rxjs';
 import {
-  Address,
   Cart,
   CartList,
   CartModification,
   PaymentDetails,
-} from '../../occ/occ-models/occ.models';
+} from '../../../occ/occ-models/occ.models';
 
 export abstract class CartAdapter {
-
   // cart
   abstract loadAllCarts(userId: string, details: boolean): Observable<CartList>;
   abstract loadAllCarts(
@@ -47,11 +45,6 @@ export abstract class CartAdapter {
   ): Observable<any>;
 
   // address
-  abstract createAddressOnCart(
-    userId: string,
-    cartId: string,
-    address: any
-  ): Observable<Address>;
   abstract setDeliveryAddress(
     userId: string,
     cartId: string,
