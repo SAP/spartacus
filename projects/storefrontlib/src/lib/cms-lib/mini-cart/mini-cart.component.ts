@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Cart, CartService, CmsMiniCartComponent } from '@spartacus/core';
+import { CartService, CmsMiniCartComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -9,12 +10,21 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
-  cart$: Observable<Cart>;
-
   constructor(
     protected component: CmsComponentData<CmsMiniCartComponent>,
     protected cartService: CartService
-  ) {
-    this.cart$ = this.cartService.getActive();
+  ) {}
+
+  get quantity$(): Observable<number> {
+    return this.cartService
+      .getActive()
+      .pipe(map(cart => cart.deliveryItemsQuantity || 0));
+  }
+
+  get total$(): Observable<string> {
+    return this.cartService.getActive().pipe(
+      filter(cart => !!cart.totalPrice),
+      map(cart => cart.totalPrice.formattedValue)
+    );
   }
 }

@@ -36,6 +36,9 @@
       align-self: center;
       padding-right: 7px;
     }
+    .total {
+      display: none;
+    }
 
     @include media-breakpoint-only(xs) {
       width: 55px;
