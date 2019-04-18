@@ -60,6 +60,13 @@ const mockOrder: Order = {
   ],
 };
 
+class MockUserService {
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return of({ trackingID: '1234567890' });
+  }
+  loadConsignmentTracking(_orderCode: string, _consignmentCode: string): void { }
+}
+
 @Component({
   selector: 'cx-cart-item-list',
   template: '',
@@ -83,7 +90,7 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
   let ngbModal: NgbModal;
-  let mockUserService: UserService;
+  let userService: UserService;
 
   beforeEach(async(() => {
     mockOrderDetailsService = <OrderDetailsService>{
@@ -91,18 +98,12 @@ describe('OrderDetailItemsComponent', () => {
         return of(mockOrder);
       },
     };
-    mockUserService = <UserService>{
-      getConsignmentTracking(): Observable<ConsignmentTracking> {
-        return of({ trackingID: '1234567890' });
-      },
-      loadConsignmentTracking(_orderCode: string, _consignmentCode: string): void { }
-    };
 
     TestBed.configureTestingModule({
       imports: [CardModule, I18nTestingModule, NgbModule],
       providers: [
         { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-        { provide: UserService, useValue: mockUserService },
+        { provide: UserService, useClass: MockUserService },
         { provide: NgbModal, useValue: { open: () => { } } }
       ],
       declarations: [OrderDetailItemsComponent, MockCartItemListComponent],
@@ -112,7 +113,7 @@ describe('OrderDetailItemsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
     el = fixture.debugElement;
-
+    userService = TestBed.get(UserService);
     component = fixture.componentInstance;
     component.ngOnInit();
   });
@@ -159,9 +160,12 @@ describe('OrderDetailItemsComponent', () => {
     };
     ngbModal = TestBed.get(NgbModal);
     spyOn(ngbModal, 'open').and.returnValue(modalRef);
+    spyOn(userService, 'loadConsignmentTracking').and.callThrough();
+    component.orderCode = mockOrder.code;
     component.getConsignmentTracking(mockOrder.consignments[0]);
+    fixture.detectChanges();
 
-    expect(mockUserService.loadConsignmentTracking).toHaveBeenCalled();
+    expect(userService.loadConsignmentTracking).toHaveBeenCalledWith(component.orderCode, mockOrder.consignments[0].code);
     expect(ngbModal.open).toHaveBeenCalled();
     expect(modalRef.componentInstance.shipDate).toEqual(mockOrder.consignments[0].statusDate);
     modalRef.componentInstance.tracking$.subscribe(c => expect(c.trackingID).toEqual('1234567890'));
