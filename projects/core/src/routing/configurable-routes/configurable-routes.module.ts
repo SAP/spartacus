@@ -11,7 +11,6 @@ import { UrlTranslationService } from './url-translation/url-translation.service
 export function initConfigurableRoutes(
   service: RouterTranslationService
 ): () => Promise<void> {
-  //spike todo check why init() runs twice
   const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
 }
