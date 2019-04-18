@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { DeliveryModeList } from '../../../occ/occ-models/occ.models';
+import { Address, DeliveryModeList } from '../../../occ/occ-models/occ.models';
 import { CartDeliveryAdapter } from './cart-delivery.adapter';
 
 @Injectable({
@@ -8,6 +8,14 @@ import { CartDeliveryAdapter } from './cart-delivery.adapter';
 })
 export class CartDeliveryConnector {
   constructor(private adapter: CartDeliveryAdapter) {}
+
+  public create(
+    userId: string,
+    cartId: string,
+    address: any
+  ): Observable<Address> {
+    return this.adapter.create(userId, cartId, address);
+  }
 
   public setDeliveryAddress(
     userId: string,

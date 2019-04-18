@@ -4,8 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { OccModule } from '../../occ/occ.module';
 import { CartAdapter } from '../connectors/cart/cart.adapter';
 import { OccCartAdapter } from './occ-cart.adapter';
-import { CartAddressAdapter } from '../connectors/address/cart-address.adapter';
-import { OccCartAddressAdapter } from './occ-cart-address.adapter';
 import { CartDeliveryAdapter } from '../connectors/delivery/cart-delivery.adapter';
 import { OccCartDeliveryAdapter } from './occ-cart-delivery.adapter';
 import { CartEntryAdapter } from '../connectors/entry/cart-entry.adapter';
@@ -19,10 +17,6 @@ import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
     {
       provide: CartAdapter,
       useClass: OccCartAdapter,
-    },
-    {
-      provide: CartAddressAdapter,
-      useClass: OccCartAddressAdapter,
     },
     {
       provide: CartDeliveryAdapter,
