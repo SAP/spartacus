@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { UIProduct } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
@@ -13,7 +13,7 @@ export class ProductDetailsComponent implements OnInit {
 
   @Output() openReview = new EventEmitter();
 
-  product$: Observable<Product>;
+  product$: Observable<UIProduct>;
 
   get outlets(): any {
     return ProductDetailsComponent.outlets;

@@ -1,10 +1,10 @@
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
-import { Product } from '../../../occ/occ-models/occ.models';
 import {
   EntityFailAction,
   EntityLoadAction,
   EntitySuccessAction,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { UIProduct } from '../../model/product';
 
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
@@ -26,7 +26,7 @@ export class LoadProductFail extends EntityFailAction {
 
 export class LoadProductSuccess extends EntitySuccessAction {
   readonly type = LOAD_PRODUCT_SUCCESS;
-  constructor(public payload: Product) {
+  constructor(public payload: UIProduct) {
     super(PRODUCT_DETAIL_ENTITY, payload.code);
   }
 }
