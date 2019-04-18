@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Product, WindowRef } from '@spartacus/core';
+import { UIProduct, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 import { ProductTabsOutlets } from '../../../product-outlets.model';
@@ -7,12 +7,11 @@ import { ProductTabsOutlets } from '../../../product-outlets.model';
 @Component({
   selector: 'cx-product-tabs',
   templateUrl: './product-tabs.component.html',
-  styleUrls: ['./product-tabs.component.scss'],
 })
 export class ProductTabsComponent implements OnInit {
   static outlets = ProductTabsOutlets;
 
-  product$: Observable<Product>;
+  product$: Observable<UIProduct>;
 
   isWritingReview = false;
   activatedElements: HTMLElement[] = [];
@@ -39,7 +38,7 @@ export class ProductTabsComponent implements OnInit {
     this.product$ = this.currentPageService.getProduct();
   }
 
-  select(event: MouseEvent, tab: HTMLElement) {
+  select(event: MouseEvent, tab: HTMLElement): void {
     if (this.activatedElements.indexOf(tab) === -1) {
       // remove active class on both header and content panel
       this.activatedElements.forEach(el =>
@@ -61,13 +60,13 @@ export class ProductTabsComponent implements OnInit {
     }
   }
 
-  openReview() {
+  openReview(): void {
     if (this.reviewHeader.nativeElement) {
       this.reviewHeader.nativeElement.click();
     }
   }
 
-  private isElementOutViewport(el) {
+  private isElementOutViewport(el: HTMLElement): boolean {
     if (!this.winRef.nativeWindow) {
       return false;
     }

@@ -1,29 +1,28 @@
-import { ActivatedRoute, Params } from '@angular/router';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { HttpUrlEncodingCodec } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { tap, filter } from 'rxjs/operators';
 import {
-  ProductSearchService,
-  ProductSearchPage,
   Facet,
+  ProductSearchService,
+  UIProductSearchPage,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-facet-navigation',
   templateUrl: './product-facet-navigation.component.html',
-  styleUrls: ['./product-facet-navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent implements OnInit {
   activeFacetValueCode: string;
-  searchResult: ProductSearchPage;
+  searchResult: UIProductSearchPage;
   minPerFacet = 6;
   showAllPerFacetMap: Map<String, boolean>;
   queryCodec: HttpUrlEncodingCodec;
   private collapsedFacets = new Set<string>();
-  searchResult$: Observable<ProductSearchPage>;
+  searchResult$: Observable<UIProductSearchPage>;
   updateParams$: Observable<Params>;
 
   get visibleFacets(): Facet[] {
@@ -42,7 +41,7 @@ export class ProductFacetNavigationComponent implements OnInit {
     this.queryCodec = new HttpUrlEncodingCodec();
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.updateParams$ = this.activatedRoute.params.pipe(
       tap(params => {
         this.activeFacetValueCode = params.categoryCode || params.brandCode;
@@ -62,31 +61,31 @@ export class ProductFacetNavigationComponent implements OnInit {
     );
   }
 
-  openFilterModal(content) {
+  openFilterModal(content): void {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
-  toggleValue(query: string) {
+  toggleValue(query: string): void {
     this.productSearchService.search(this.queryCodec.decodeValue(query));
   }
 
-  showLess(facetName: String) {
+  showLess(facetName: String): void {
     this.updateShowAllPerFacetMap(facetName, false);
   }
 
-  showMore(facetName: String) {
+  showMore(facetName: String): void {
     this.updateShowAllPerFacetMap(facetName, true);
   }
 
-  private updateShowAllPerFacetMap(facetName: String, showAll: boolean) {
+  private updateShowAllPerFacetMap(facetName: String, showAll: boolean): void {
     this.showAllPerFacetMap.set(facetName, showAll);
   }
 
-  isFacetCollapsed(facetName: string) {
+  isFacetCollapsed(facetName: string): boolean {
     return this.collapsedFacets.has(facetName);
   }
 
-  toggleFacet(facetName: string) {
+  toggleFacet(facetName: string): void {
     if (this.collapsedFacets.has(facetName)) {
       this.collapsedFacets.delete(facetName);
     } else {
@@ -94,7 +93,7 @@ export class ProductFacetNavigationComponent implements OnInit {
     }
   }
 
-  getVisibleFacetValues(facet) {
+  getVisibleFacetValues(facet): any {
     return facet.values.slice(
       0,
       this.showAllPerFacetMap.get(facet.name)
