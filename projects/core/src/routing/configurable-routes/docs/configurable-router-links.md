@@ -296,8 +296,6 @@ ConfigModule.withConfig({
 })
 ```
 
-With `{ route: <route> }`:
-
 ```typescript
 routingService.go({ route: 'product', params: { productCode: 1234 } });
 
@@ -321,8 +319,6 @@ ConfigModule.withConfig({
     }
 })
 ```
-
-With `{ route: <route> }`:
 
 ```typescript
 urlTranslatorService.translate({ route: 'product', params: { productCode: 1234 } });
