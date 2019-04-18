@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
-import { AuthService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-close-account',
@@ -11,15 +10,11 @@ import { AuthService } from '@spartacus/core';
 })
 export class CloseAccountComponent {
   modal: any;
-  constructor(
-    private modalService: NgbModal,
-    private authService: AuthService
-  ) {}
+  constructor(private modalService: NgbModal) {}
 
   openModal(): void {
     this.modal = this.modalService.open(CloseAccountModalComponent, {
       centered: true,
     }).componentInstance;
-    this.modal.userToken$ = this.authService.getUserToken();
   }
 }

@@ -11,6 +11,7 @@ import {
 import { CloseAccountComponent } from './components/close-account/close-account.component';
 import { RouterModule } from '@angular/router';
 import { CloseAccountModalComponent } from './components/close-account-modal/close-account-modal.component';
+import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CloseAccountModalComponent } from './components/close-account-modal/clo
     RouterModule,
     UrlTranslationModule,
     I18nModule,
+    SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CloseAccountComponent: { selector: 'cx-close-account' },
