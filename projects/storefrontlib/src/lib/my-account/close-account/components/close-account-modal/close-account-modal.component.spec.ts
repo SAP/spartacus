@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { CloseAccountModalComponent } from './close-account-modal.component';
 import {
@@ -5,6 +6,8 @@ import {
   UserService,
   GlobalMessageService,
   RoutingService,
+  UserToken,
+  AuthService,
 } from '@spartacus/core';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of } from 'rxjs';
@@ -28,12 +31,29 @@ class MockUserService {
   getRemoveUserResultSuccess(): Observable<Boolean> {
     return of();
   }
+
+  getRemoveUserResultLoading(): Observable<Boolean> {
+    return of(false);
+  }
+
   resetRemoveUserProcessState(): void {}
+}
+
+class MockAuthService {
+  getUserToken(): Observable<UserToken> {
+    return of();
+  }
 }
 
 class MockRoutingService {
   go() {}
 }
+
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockCxSpinnerComponent {}
 
 describe('CloseAccountModalComponent', () => {
   let component: CloseAccountModalComponent;
@@ -46,7 +66,7 @@ describe('CloseAccountModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, NgbModule],
-      declarations: [CloseAccountModalComponent],
+      declarations: [CloseAccountModalComponent, MockCxSpinnerComponent],
       providers: [
         {
           provide: NgbActiveModal,
@@ -63,6 +83,10 @@ describe('CloseAccountModalComponent', () => {
         {
           provide: RoutingService,
           useClass: MockRoutingService,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
         },
       ],
     }).compileComponents();
@@ -84,24 +108,24 @@ describe('CloseAccountModalComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should navigate away on when account is closed', () => {
+  it('should close account', () => {
+    spyOn(userService, 'remove');
+
+    component.closeAccount(mockUserId);
+
+    expect(userService.remove).toHaveBeenCalledWith(mockUserId);
+  });
+
+  it('should navigate away and dismiss modal when account is closed', () => {
     spyOn(userService, 'getRemoveUserResultSuccess').and.returnValue(of(true));
     spyOn(component, 'onSuccess').and.callThrough();
+    spyOn(activeModal, 'dismiss');
 
     component.ngOnInit();
 
     expect(component.onSuccess).toHaveBeenCalledWith(true);
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({ route: ['home'] });
-  });
-
-  it('should close account and dismiss modal', () => {
-    spyOn(userService, 'remove');
-    spyOn(activeModal, 'dismiss');
-
-    component.closeAccount(mockUserId);
-
-    expect(userService.remove).toHaveBeenCalledWith(mockUserId);
     expect(activeModal.dismiss).toHaveBeenCalled();
   });
 });

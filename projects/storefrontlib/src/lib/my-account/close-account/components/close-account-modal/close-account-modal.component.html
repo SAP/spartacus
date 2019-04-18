@@ -1,4 +1,18 @@
 <ng-container *ngIf="(userToken$ | async) as userToken">
+  <div class="modal-header cx-dialog-header">
+    <h3 class="modal-title">
+      {{ 'closeAccount.modal.title' | cxTranslate }}
+    </h3>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
   <div *ngIf="(isLoading$ | async); else loaded">
     <div class="cx-spinner">
       <cx-spinner> </cx-spinner>
@@ -6,20 +20,6 @@
   </div>
 
   <ng-template #loaded>
-    <div class="modal-header cx-dialog-header">
-      <h3 class="modal-title">
-        {{ 'closeAccount.modal.title' | cxTranslate }}
-      </h3>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="closeModal()"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-
     <div class="modal-body">
       <div class="cx-row">
         <p class="cx-confirmation">

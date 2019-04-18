@@ -52,6 +52,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
 
   onSuccess(success: boolean): void {
     if (success) {
+      this.closeModal();
       this.globalMessageService.add({
         text: `${i18next.t('closeAccount:closeAccount.message.success')}`,
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
@@ -66,7 +67,6 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
 
   closeAccount(userId: string) {
     this.userService.remove(userId);
-    this.closeModal();
   }
 
   ngOnDestroy() {
