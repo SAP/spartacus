@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CmsProductReferencesComponent } from '@spartacus/core';
+import {
+  CmsProductReferencesComponent,
+  ProductReference,
+  ProductReferenceService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
 @Injectable()
@@ -10,7 +15,9 @@ export class ProductReferencesService {
   private productReferenceTypes$: Observable<string>;
 
   constructor(
-    protected component: CmsComponentData<CmsProductReferencesComponent>
+    protected component: CmsComponentData<CmsProductReferencesComponent>,
+    private referenceService: ProductReferenceService,
+    private routerService: RoutingService
   ) {}
 
   getTitle(): Observable<string> {
@@ -32,8 +39,20 @@ export class ProductReferencesService {
   setProductReferenceTypes(): void {
     this.productReferenceTypes$ = this.component.data$.pipe(
       map(data => {
-        console.log(data);
         return data.productReferenceTypes;
+      })
+    );
+  }
+
+  getReferenceList(
+    referenceType?: string,
+    pageSize?: number
+  ): Observable<ProductReference[]> {
+    return this.routerService.getRouterState().pipe(
+      map(data => data.state.params.productCode),
+      switchMap((productCode: string) => {
+        console.log('why');
+        return this.referenceService.get(productCode, referenceType, pageSize);
       })
     );
   }

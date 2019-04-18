@@ -17,22 +17,24 @@ export class ProductReferencesEffects {
     map(
       (action: productReferencesActions.LoadProductReferences) => action.payload
     ),
-    mergeMap(productCode => {
-      return this.productReferencesConnector.get(productCode).pipe(
-        map(data => {
-          return new productReferencesActions.LoadProductReferencesSuccess({
-            productCode,
-            list: data,
-          });
-        }),
-        catchError(_error =>
-          of(
-            new productReferencesActions.LoadProductReferencesFail({
-              message: productCode,
-            } as ErrorModel)
+    mergeMap(payload => {
+      return this.productReferencesConnector
+        .get(payload.productCode, payload.referenceType, payload.pageSize)
+        .pipe(
+          map(data => {
+            return new productReferencesActions.LoadProductReferencesSuccess({
+              productCode: payload.productCode,
+              list: data,
+            });
+          }),
+          catchError(_error =>
+            of(
+              new productReferencesActions.LoadProductReferencesFail({
+                message: payload.productCode,
+              } as ErrorModel)
+            )
           )
-        )
-      );
+        );
     })
   );
 

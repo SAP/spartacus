@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { ProductReference } from '../../occ/occ-models/occ.models';
 import * as fromStore from '../store/index';
 
@@ -9,15 +9,25 @@ import * as fromStore from '../store/index';
 export class ProductReferenceService {
   constructor(private store: Store<fromStore.StateWithProduct>) {}
 
-  getByProductCode(productCode: string): Observable<ProductReference[]> {
-    const selector = fromStore.getSelectedProductReferencesFactory(productCode);
+  get(
+    productCode: string,
+    referenceType?: string,
+    pageSize?: number
+  ): Observable<ProductReference[]> {
     return this.store.pipe(
-      select(selector),
+      select(fromStore.getSelectedProductReferencesFactory(productCode)),
       tap(references => {
         if (references === undefined && productCode !== undefined) {
-          this.store.dispatch(new fromStore.LoadProductReferences(productCode));
+          this.store.dispatch(
+            new fromStore.LoadProductReferences({
+              productCode,
+              referenceType,
+              pageSize,
+            })
+          );
         }
-      })
+      }),
+      filter(references => !!references)
     );
   }
 }

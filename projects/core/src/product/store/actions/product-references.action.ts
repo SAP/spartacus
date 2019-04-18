@@ -9,7 +9,13 @@ export const LOAD_PRODUCT_REFERENCES_SUCCESS =
 
 export class LoadProductReferences implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES;
-  constructor(public payload: string) {}
+  constructor(
+    public payload: {
+      productCode: string;
+      referenceType?: string;
+      pageSize?: number;
+    }
+  ) {}
 }
 
 export class LoadProductReferencesFail implements Action {
@@ -20,7 +26,10 @@ export class LoadProductReferencesFail implements Action {
 export class LoadProductReferencesSuccess implements Action {
   readonly type = LOAD_PRODUCT_REFERENCES_SUCCESS;
   constructor(
-    public payload: { productCode: string; list: ProductReference[] }
+    public payload: {
+      productCode: string;
+      list: ProductReference[];
+    }
   ) {}
 }
 

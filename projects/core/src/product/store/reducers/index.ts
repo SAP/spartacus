@@ -13,7 +13,7 @@ export function getReducers(): ActionReducerMap<ProductsState> {
     search: fromProductsSearch.reducer,
     details: entityLoaderReducer<UIProduct>(PRODUCT_DETAIL_ENTITY),
     reviews: fromProductReviews.reducer,
-    productReferences: fromProductReferences.reducer,
+    references: fromProductReferences.reducer,
   };
 }
 

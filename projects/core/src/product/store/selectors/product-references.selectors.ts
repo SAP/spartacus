@@ -12,11 +12,11 @@ export const getProductReferencesState: MemoizedSelector<
   ProductReferencesState
 > = createSelector(
   getProductsState,
-  (state: ProductsState) => state.productReferences
+  (state: ProductsState) => state.references
 );
 
 export const getSelectedProductReferencesFactory = (
-  productCode
+  productCode: string
 ): MemoizedSelector<StateWithProduct, ProductReference[]> => {
   return createSelector(
     getProductReferencesState,

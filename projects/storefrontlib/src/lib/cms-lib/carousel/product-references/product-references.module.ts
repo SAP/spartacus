@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, ConfigModule, UrlTranslationModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigModule,
+  ProductReferenceService,
+  RoutingService,
+  UrlTranslationModule,
+} from '@spartacus/core';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { MediaModule } from '../../../ui/components/media/media.module';
 import { SharedCarouselService } from '../shared-carousel.service';
@@ -22,7 +28,7 @@ import { ProductReferencesService } from './product-references.component.service
             {
               provide: ProductReferencesService,
               useClass: ProductReferencesService,
-              deps: [CmsComponentData],
+              deps: [CmsComponentData, ProductReferenceService, RoutingService],
             },
             {
               provide: SharedCarouselService,

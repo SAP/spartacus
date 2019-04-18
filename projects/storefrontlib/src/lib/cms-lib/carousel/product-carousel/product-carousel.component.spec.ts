@@ -5,8 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
   Component,
-  Product,
   ProductService,
+  UIProduct,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -32,11 +32,11 @@ const mockComponentData: CmsProductCarouselComponent = {
   productCodes: productCodeArray.join(' '),
   scroll: 'ALLVISIBLE',
   title: 'Mock Title',
-  name: 'Mock Product Carousel',
+  name: 'Mock UIProduct Carousel',
   container: 'false',
 };
 
-const mockProduct: Product = {
+const mockProduct: UIProduct = {
   code: '111111',
   name: 'Camera',
   price: {
@@ -49,7 +49,7 @@ const MockCmsComponentData = <CmsComponentData<Component>>{
 };
 
 class MockProductService {
-  get(): Observable<Product> {
+  get(): Observable<UIProduct> {
     return of(mockProduct);
   }
 
@@ -71,20 +71,6 @@ class MockProductCarouselService {
     .and.callFake(() =>
       of([of(mockProduct), of(mockProduct), of(mockProduct), of(mockProduct)])
     );
-
-  getItemSize = jasmine.createSpy('getItemSize').and.callFake(() => of(4));
-  setItemSize = jasmine.createSpy('setItemSize');
-  getItemAsActive = jasmine
-    .createSpy('getItemAsActive')
-    .and.callFake(() => of(0));
-  setItemAsActive = jasmine
-    .createSpy('setItemAsActive')
-    .and.callFake(() => of(1));
-  setPreviousItemAsActive = jasmine.createSpy('setPreviousItemAsActive');
-  getActiveItemWithDelay = jasmine.createSpy('getActiveItemWithDelay');
-  setNextItemAsActive = jasmine.createSpy('setNextItemAsActive');
-  getDelayValue = jasmine.createSpy('getDelayValue').and.callThrough();
-  getActiveItem = jasmine.createSpy('getActiveItem').and.callFake(() => of(1));
 }
 
 class MockSharedCarouselService {
@@ -151,7 +137,7 @@ fdescribe('ProductCarouselComponent', () => {
   }));
 
   it('should have products', async(() => {
-    let products$: Observable<Product>[];
+    let products$: Observable<UIProduct>[];
     productCarouselComponent.productCarouselService.setItems();
     productCarouselComponent.productCarouselService
       .getItems()

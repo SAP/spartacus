@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { ProductReference } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 import { ProductReferencesService } from './product-references.component.service';
 // import { AbstractProductComponent } from '../abstract-product-component';
 
@@ -8,13 +15,26 @@ import { ProductReferencesService } from './product-references.component.service
   styleUrls: ['./product-references.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReferencesComponent implements OnInit {
-  productCodes: string;
+export class ProductReferencesComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+  references$: Observable<ProductReference[]>;
+
   constructor(public productReferencesService: ProductReferencesService) {}
 
   ngOnInit() {
     this.productReferencesService.setTitle();
     this.productReferencesService.setProductReferenceTypes();
+    this.subscription.add(
+      this.productReferencesService
+        .getReferenceList()
+        .subscribe(data => console.log('yesss', data[0]))
+    );
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 } /*extends AbstractProductComponent {
 

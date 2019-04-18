@@ -18,7 +18,7 @@ export interface ProductsState {
   details: EntityLoaderState<UIProduct>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
-  productReferences: ProductReferencesState;
+  references: ProductReferencesState;
 }
 
 export interface ProductsSearchState {
