@@ -42,10 +42,9 @@ export class UrlTranslationService {
         // don't modify string segments:
         result.push(options);
       } else {
-        // generate array with url segments for given options:
+        // generate array with url segments for given options object:
         const partialResult = this.generateUrl(options);
 
-        // if cannot generate one of partial urls, return the root url
         if (partialResult === null) {
           return this.ROOT_URL;
         }
