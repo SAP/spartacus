@@ -8,8 +8,9 @@ import { ProductImageNormalizer } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
-import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
 import { CartAddressConnector } from '../../../cart/connectors/address/cart-address.connector';
+import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
+import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 
 @Injectable()
 export class CheckoutEffects {
@@ -48,7 +49,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector
+      return this.cartDeliveryConnector
         .setDeliveryAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
           map(() => new fromActions.SetDeliveryAddressSuccess(payload.address)),
@@ -65,7 +66,7 @@ export class CheckoutEffects {
     ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector
+      return this.cartDeliveryConnector
         .getSupportedDeliveryModes(payload.userId, payload.cartId)
         .pipe(
           map(data => {
@@ -85,7 +86,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector
+      return this.cartDeliveryConnector
         .setDeliveryMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
           map(
@@ -106,7 +107,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       // get information for creating a subscription directly with payment provider
-      return this.cartConnector
+      return this.cartPaymentConnector
         .getPaymentProviderSubInfo(payload.userId, payload.cartId)
         .pipe(
           map(data => {
@@ -123,7 +124,7 @@ export class CheckoutEffects {
           }),
           mergeMap(sub => {
             // create a subscription directly with payment provider
-            return this.cartConnector
+            return this.cartPaymentConnector
               .createSubWithPaymentProvider(sub.url, sub.parameters)
               .pipe(
                 map(response => this.extractPaymentDetailsFromHtml(response)),
@@ -131,7 +132,7 @@ export class CheckoutEffects {
                   if (!fromPaymentProvider['hasError']) {
                     // consume response from payment provider and creates payment details
 
-                    return this.cartConnector
+                    return this.cartPaymentConnector
                       .createPaymentDetails(
                         payload.userId,
                         payload.cartId,
@@ -177,7 +178,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector
+      return this.cartPaymentConnector
         .setPaymentDetails(
           payload.userId,
           payload.cartId,
@@ -225,8 +226,9 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private cartConnector: CartConnector,
     private cartAddressConnector: CartAddressConnector,
+    private cartDeliveryConnector: CartDeliveryConnector,
+    private cartPaymentConnector: CartPaymentConnector,
     private occOrderService: OccOrderService,
     private productImageConverter: ProductImageNormalizer
   ) {
