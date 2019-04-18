@@ -1,10 +1,11 @@
-import { throwError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { CartAdapter } from '../connectors/cart.adapter';
+import { Observable, throwError } from 'rxjs';
 import {
-  CartList,
-  Cart,
-  CartModification,
   Address,
+  Cart,
+  CartList,
+  CartModification,
   DeliveryModeList,
   PaymentDetails,
 } from '../../occ/occ-models/occ.models';
@@ -28,7 +29,7 @@ const DETAILS_PARAMS =
   'appliedVouchers,productDiscounts(formattedValue)';
 
 @Injectable()
-export class OccCartService {
+export class OccCartAdapter implements CartAdapter {
   constructor(
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService
