@@ -3,17 +3,17 @@ import { Cart, CartList } from '../../../occ/occ-models/occ.models';
 
 export abstract class CartAdapter {
   // cart
-  abstract loadAllCarts(userId: string, details: boolean): Observable<CartList>;
-  abstract loadAllCarts(
+  abstract loadAll(userId: string, details: boolean): Observable<CartList>;
+  abstract loadAll(
     userId: string,
     details?: boolean
   ): Observable<CartList>;
-  abstract loadCart(
+  abstract load(
     userId: string,
     cartId: string,
     details?: boolean
   ): Observable<Cart>;
-  abstract createCart(
+  abstract create(
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string

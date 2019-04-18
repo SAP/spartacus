@@ -9,23 +9,23 @@ import { CartAdapter } from './cart.adapter';
 export class CartConnector {
   constructor(private adapter: CartAdapter) {}
 
-  public loadAllCarts(userId: string, details?: boolean): Observable<CartList> {
-    return this.adapter.loadAllCarts(userId, details);
+  public loadAll(userId: string, details?: boolean): Observable<CartList> {
+    return this.adapter.loadAll(userId, details);
   }
 
-  public loadCart(
+  public load(
     userId: string,
     cartId: string,
     details?: boolean
   ): Observable<Cart> {
-    return this.adapter.loadCart(userId, cartId, details);
+    return this.adapter.load(userId, cartId, details);
   }
 
-  public createCart(
+  public create(
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
   ): Observable<Cart> {
-    return this.adapter.createCart(userId, oldCartId, toMergeCartGuid);
+    return this.adapter.create(userId, oldCartId, toMergeCartGuid);
   }
 }

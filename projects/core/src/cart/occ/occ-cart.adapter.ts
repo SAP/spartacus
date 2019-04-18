@@ -31,7 +31,7 @@ export class OccCartAdapter implements CartAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public loadAllCarts(userId: string, details?: boolean): Observable<CartList> {
+  public loadAll(userId: string, details?: boolean): Observable<CartList> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
@@ -45,7 +45,7 @@ export class OccCartAdapter implements CartAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public loadCart(
+  public load(
     userId: string,
     cartId: string,
     details?: boolean
@@ -60,7 +60,7 @@ export class OccCartAdapter implements CartAdapter {
         });
 
     if (cartId === 'current') {
-      return this.loadAllCarts(userId, details).pipe(
+      return this.loadAll(userId, details).pipe(
         map(cartsData => {
           if (cartsData && cartsData.carts) {
             const activeCart = cartsData.carts.find(cart => {
@@ -79,7 +79,7 @@ export class OccCartAdapter implements CartAdapter {
     }
   }
 
-  public createCart(
+  public create(
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string

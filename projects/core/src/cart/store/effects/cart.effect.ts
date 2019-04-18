@@ -38,7 +38,7 @@ export class CartEffects {
       }
 
       return this.cartConnector
-        .loadCart(
+        .load(
           loadCartParams.userId,
           loadCartParams.cartId,
           loadCartParams.details
@@ -67,7 +67,7 @@ export class CartEffects {
     map((action: fromActions.CreateCart) => action.payload),
     mergeMap(payload => {
       return this.cartConnector
-        .createCart(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
+        .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
           switchMap((cart: Cart) => {
             if (cart.entries) {
@@ -93,7 +93,7 @@ export class CartEffects {
     ofType(fromActions.MERGE_CART),
     map((action: fromActions.MergeCart) => action.payload),
     mergeMap(payload => {
-      return this.cartConnector.loadCart(payload.userId, 'current').pipe(
+      return this.cartConnector.load(payload.userId, 'current').pipe(
         map(currentCart => {
           return new fromActions.CreateCart({
             userId: payload.userId,
