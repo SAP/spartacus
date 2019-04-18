@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { PaymentDetails } from '../../../occ/occ-models/occ.models';
 
 export abstract class CartPaymentAdapter {
-  abstract getProviderSubInfo(userId: string, cartId: string);
+  abstract getProviderSubInfo(userId: string, cartId: string): Observable<any>;
   abstract createSubWithProvider(
     postUrl: string,
     parameters: any
@@ -16,5 +16,5 @@ export abstract class CartPaymentAdapter {
     userId: string,
     cartId: string,
     paymentDetailsId: any
-  );
+  ): Observable<any>;
 }

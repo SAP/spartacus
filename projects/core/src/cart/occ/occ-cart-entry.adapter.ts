@@ -6,12 +6,15 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { CartEntryAdapter } from '../connectors/entry/cart-entry.adapter';
+import { ConverterService } from '../../util/converter.service';
+import { CART_MODIFICATION_NORMALIZER } from '../connectors/entry/converters';
 
 @Injectable()
 export class OccCartEntryAdapter implements CartEntryAdapter {
   constructor(
     protected http: HttpClient,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    protected converter: ConverterService
   ) {}
 
   protected getCartEndpoint(userId: string): string {
@@ -39,7 +42,10 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     return this.http
       .post<CartModification>(url, toAdd, { headers, params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+      .pipe(
+        catchError((error: any) => throwError(error.json())),
+        this.converter.pipeable(CART_MODIFICATION_NORMALIZER)
+      );
   }
 
   public update(
@@ -64,9 +70,10 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .patch<CartModification>(url, {}, { headers, params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.patch<CartModification>(url, {}, { headers, params }).pipe(
+      catchError((error: any) => throwError(error.json())),
+      this.converter.pipeable(CART_MODIFICATION_NORMALIZER)
+    );
   }
 
   public remove(
