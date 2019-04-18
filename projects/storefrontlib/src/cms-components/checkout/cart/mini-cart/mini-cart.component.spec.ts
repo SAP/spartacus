@@ -1,19 +1,17 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
-
-import {
-  CartService,
-  TranslateUrlOptions,
-  Component as SpaComponent,
-  Cart,
-  CmsMiniCartComponent,
-} from '@spartacus/core';
-
-import { MiniCartComponent } from './mini-cart.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { PipeTransform, Pipe } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  Cart,
+  CartService,
+  CmsMiniCartComponent,
+  Component as SpaComponent,
+  TranslateUrlOptions,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { CmsComponentData } from '../../../../cms-structure/index';
+import { MiniCartComponent } from './mini-cart.component';
 
 @Pipe({
   name: 'cxTranslateUrl',

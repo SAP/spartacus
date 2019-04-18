@@ -1,7 +1,7 @@
-import { OrderSummaryComponent } from './order-summary.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { I18nTestingModule } from '@spartacus/core';
+import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
+import { OrderSummaryComponent } from './order-summary.component';
 
 describe('OrderSummary', () => {
   let component: OrderSummaryComponent;

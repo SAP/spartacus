@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { CheckoutModule, I18nModule } from '@spartacus/core';
-import { OrderConfirmationComponent } from './order-confirmation.component';
-
-import { MediaModule } from './../../../ui/components/media/media.module';
-import { CartSharedModule } from './../../../cart/cart-shared/cart-shared.module';
-import { CardModule } from '../../../ui/components/card/card.module';
+import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
 import { PwaModule } from '../../../pwa/pwa.module';
+import { CardModule } from '../../../ui/components/card/card.module';
+import { MediaModule } from './../../../ui/components/media/media.module';
+import { OrderConfirmationComponent } from './order-confirmation.component';
 
 @NgModule({
   imports: [

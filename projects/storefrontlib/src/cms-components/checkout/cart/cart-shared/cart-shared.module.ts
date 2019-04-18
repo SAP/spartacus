@@ -1,15 +1,14 @@
-import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UrlTranslationModule, I18nModule } from '@spartacus/core';
-
-import { OrderSummaryComponent } from './order-summary/order-summary.component';
-import { CartItemComponent } from './cart-item/cart-item.component';
-import { ComponentsModule } from './../../ui/components/components.module';
+import { I18nModule, UrlTranslationModule } from '@spartacus/core';
+import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
+import { ComponentsModule } from '../../../../lib/ui/components/components.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { CartItemComponent } from './cart-item/cart-item.component';
+import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 @NgModule({
   imports: [
