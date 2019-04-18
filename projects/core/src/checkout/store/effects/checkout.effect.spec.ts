@@ -19,7 +19,7 @@ import {
   Address,
   Order,
 } from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
+import { ProductImageNormalizer } from '../../../product';
 import {
   OccOrderService,
   LoadUserPaymentMethods,
@@ -47,7 +47,7 @@ describe('Checkout effect', () => {
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let productImageConverter: ProductImageConverterService;
+  let productImageConverter: ProductImageNormalizer;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -77,7 +77,7 @@ describe('Checkout effect', () => {
       providers: [
         OccCartService,
         OccOrderService,
-        ProductImageConverterService,
+        ProductImageNormalizer,
         fromEffects.CheckoutEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: CartService, useClass: MockCartService },
@@ -88,7 +88,7 @@ describe('Checkout effect', () => {
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     cartService = TestBed.get(OccCartService);
     orderService = TestBed.get(OccOrderService);
-    productImageConverter = TestBed.get(ProductImageConverterService);
+    productImageConverter = TestBed.get(ProductImageNormalizer);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));

@@ -1,20 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AuthService,
+  Order,
+  OrderHistoryList,
   RoutingService,
   UserService,
-  OrderHistoryList,
-  Order,
 } from '@spartacus/core';
-
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-history',
   templateUrl: './order-history.component.html',
-  styleUrls: ['./order-history.component.scss'],
 })
 export class OrderHistoryComponent implements OnInit, OnDestroy {
   constructor(
@@ -36,7 +33,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     byOrderNumber: 'Order Number',
   };
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscription = this.auth.getUserToken().subscribe(userData => {
       if (userData && userData.userId) {
         this.user_id = userData.userId;
@@ -56,7 +53,7 @@ export class OrderHistoryComponent implements OnInit, OnDestroy {
     this.isLoaded$ = this.userService.getOrderHistoryListLoaded();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }

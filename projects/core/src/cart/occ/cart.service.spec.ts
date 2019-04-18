@@ -13,7 +13,7 @@ import {
   Address,
   DeliveryModeList,
 } from '../../occ';
-import { ProductImageConverterService } from '../../product';
+import { ProductImageNormalizer } from '../../product';
 
 import { OccCartService } from './cart.service';
 import { CheckoutDetails } from '../../checkout/models/checkout.model';
@@ -79,7 +79,7 @@ describe('OccCartService', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCartService,
-        ProductImageConverterService,
+        ProductImageNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });

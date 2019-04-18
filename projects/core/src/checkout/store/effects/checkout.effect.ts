@@ -8,7 +8,7 @@ import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromActions from '../actions/index';
 import { OccCartService } from '../../../cart/index';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-import { ProductImageConverterService } from '../../../product/index';
+import { ProductImageNormalizer } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
@@ -269,7 +269,7 @@ export class CheckoutEffects {
     private actions$: Actions,
     private occCartService: OccCartService,
     private occOrderService: OccOrderService,
-    private productImageConverter: ProductImageConverterService
+    private productImageConverter: ProductImageNormalizer
   ) {
     if (typeof DOMParser !== 'undefined') {
       this.domparser = new DOMParser();
