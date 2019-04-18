@@ -57,9 +57,7 @@ export class ProductSummaryComponent implements OnInit {
   }
 
   // Get Tab by label if exists on page
-  private getTabByLabel(label: string): HTMLElement {
-    const tabsComponent = this.getTabsComponent();
-
+  getTabByLabel(label: string, tabsComponent: Element): HTMLElement {
     if (tabsComponent) {
       // NOTE: Reads through h3 tags to click on correct tab
       // There may be a better way of doing this now/after refactor
@@ -93,7 +91,8 @@ export class ProductSummaryComponent implements OnInit {
       'productDetails.label.reviews'
     );
 
-    const reviewsTab = this.getTabByLabel(reviewsTabLabel);
+    const tabsComponent = this.getTabsComponent();
+    const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
     const reviewsComponent = this.getReviewsComponent();
 
     if (reviewsTab && reviewsComponent) {
