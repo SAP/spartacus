@@ -19,7 +19,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public addEntry(
+  public add(
     userId: string,
     cartId: string,
     productCode: string,
@@ -42,7 +42,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public updateEntry(
+  public update(
     userId: string,
     cartId: string,
     entryNumber: string,
@@ -69,7 +69,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public removeEntry(
+  public remove(
     userId: string,
     cartId: string,
     entryNumber: string
