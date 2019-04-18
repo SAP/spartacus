@@ -14,7 +14,7 @@
       [disabled]="true"
     ></cx-star-rating>
     <div class="count">({{ product?.numberOfReviews }})</div>
-    <a class="btn-link" (click)="launchReview()">{{
+    <a class="btn-link" *ngIf="reviewsTabAvailable" (click)="showReviews()">{{
       'productSummary.showReviews' | cxTranslate
     }}</a>
   </div>
@@ -41,7 +41,11 @@
       "
       (update)="updateCount($event)"
     ></cx-item-counter>
-    <span class="info">{{ stockInfo }}</span>
+    <span class="info">{{
+      hasStock
+        ? ('productSummary.inStock' | cxTranslate)
+        : ('productSummary.outOfStock' | cxTranslate)
+    }}</span>
   </div>
   <cx-add-to-cart
     *ngIf="product?.stock?.stockLevelStatus !== 'outOfStock'"
