@@ -4,8 +4,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import * as fromActions from './../actions';
-
-import { OccCartService } from '../../occ/cart.service';
+import { CartConnector } from '../../connectors/cart.connector';
 
 @Injectable()
 export class CartEntryEffects {
@@ -14,7 +13,7 @@ export class CartEntryEffects {
     ofType(fromActions.ADD_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
-      this.cartService
+      this.cartConnector
         .addEntry(
           payload.userId,
           payload.cartId,
@@ -33,7 +32,7 @@ export class CartEntryEffects {
     ofType(fromActions.REMOVE_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
-      this.cartService
+      this.cartConnector
         .removeEntry(payload.userId, payload.cartId, payload.entry)
         .pipe(
           map(() => {
@@ -49,7 +48,7 @@ export class CartEntryEffects {
     ofType(fromActions.UPDATE_ENTRY),
     map((action: fromActions.AddEntry) => action.payload),
     mergeMap(payload =>
-      this.cartService
+      this.cartConnector
         .updateEntry(payload.userId, payload.cartId, payload.entry, payload.qty)
         .pipe(
           map(() => {
@@ -60,5 +59,8 @@ export class CartEntryEffects {
     )
   );
 
-  constructor(private actions$: Actions, private cartService: OccCartService) {}
+  constructor(
+    private actions$: Actions,
+    private cartConnector: CartConnector
+  ) {}
 }

@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
-import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
-
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromActions from '../actions/index';
-import { OccCartService } from '../../../cart/index';
-import { GlobalMessageType, AddMessage } from '../../../global-message/index';
+import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 import { ProductImageNormalizer } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
+import { CartConnector } from '../../../cart/connectors/cart.connector';
 
 @Injectable()
 export class CheckoutEffects {
@@ -24,7 +21,7 @@ export class CheckoutEffects {
     ofType(fromActions.ADD_DELIVERY_ADDRESS),
     map((action: fromActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
-      this.occCartService
+      this.cartConnector
         .createAddressOnCart(payload.userId, payload.cartId, payload.address)
         .pipe(
           mergeMap(address => {
@@ -50,7 +47,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.occCartService
+      return this.cartConnector
         .setDeliveryAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
           map(() => new fromActions.SetDeliveryAddressSuccess(payload.address)),
@@ -67,7 +64,7 @@ export class CheckoutEffects {
     ofType(fromActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.occCartService
+      return this.cartConnector
         .getSupportedDeliveryModes(payload.userId, payload.cartId)
         .pipe(
           map(data => {
@@ -87,7 +84,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.occCartService
+      return this.cartConnector
         .setDeliveryMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
           map(
@@ -108,7 +105,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       // get information for creating a subscription directly with payment provider
-      return this.occCartService
+      return this.cartConnector
         .getPaymentProviderSubInfo(payload.userId, payload.cartId)
         .pipe(
           map(data => {
@@ -125,7 +122,7 @@ export class CheckoutEffects {
           }),
           mergeMap(sub => {
             // create a subscription directly with payment provider
-            return this.occCartService
+            return this.cartConnector
               .createSubWithPaymentProvider(sub.url, sub.parameters)
               .pipe(
                 map(response => this.extractPaymentDetailsFromHtml(response)),
@@ -133,7 +130,7 @@ export class CheckoutEffects {
                   if (!fromPaymentProvider['hasError']) {
                     // consume response from payment provider and creates payment details
 
-                    return this.occCartService
+                    return this.cartConnector
                       .createPaymentDetails(
                         payload.userId,
                         payload.cartId,
@@ -179,7 +176,7 @@ export class CheckoutEffects {
     ofType(fromActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap(payload => {
-      return this.occCartService
+      return this.cartConnector
         .setPaymentDetails(
           payload.userId,
           payload.cartId,
@@ -227,7 +224,7 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private occCartService: OccCartService,
+    private cartConnector: CartConnector,
     private occOrderService: OccOrderService,
     private productImageConverter: ProductImageNormalizer
   ) {
