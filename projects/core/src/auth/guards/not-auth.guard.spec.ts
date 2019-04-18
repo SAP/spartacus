@@ -10,7 +10,7 @@ import { AuthService } from '../facade/auth.service';
 import { UserToken } from '../models/token-types.model';
 
 import { NotAuthGuard } from './not-auth.guard';
-import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
+import { TranslateUrlCommands } from '../../routing/configurable-routes/url-translation/translate-url-commands';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -29,7 +29,7 @@ class AuthServiceStub {
 
 class RoutingServiceStub {
   go(
-    _path: any[] | TranslateUrlOptions,
+    _path: any[] | TranslateUrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ) {}

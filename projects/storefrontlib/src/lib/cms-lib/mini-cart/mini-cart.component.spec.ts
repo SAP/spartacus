@@ -6,7 +6,7 @@ import {
   Component as SpaComponent,
   Cart,
   CmsMiniCartComponent,
-  TranslateUrlOptionsRoute,
+  TranslateUrlCommandRoute,
 } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
@@ -19,7 +19,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptionsRoute): string {
+  transform(options: TranslateUrlCommandRoute): string {
     return options.route;
   }
 }

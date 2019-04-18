@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
+import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 
 @Injectable({
@@ -37,12 +37,12 @@ export class RoutingService {
 
   /**
    * Navigation with a new state into history
-   * @param commands: Path or options to translate url
+   * @param commands: url commands
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
   go(
-    commands: TranslateUrlOptions,
+    commands: TranslateUrlCommands,
     query?: object,
     extras?: NavigationExtras
   ): void {

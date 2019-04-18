@@ -5,7 +5,7 @@ import { UrlParsingService } from './url-parsing.service';
 import { UrlTranslationService } from './url-translation.service';
 import { ConfigurableRoutesService } from '../configurable-routes.service';
 import { RouteTranslation } from '../routes-config';
-import { TranslateUrlOptions } from './translate-url-options';
+import { TranslateUrlCommands } from './translate-url-commands';
 
 const mockConfigurableRoutesService = {
   getRouteTranslation: () => {},
@@ -92,7 +92,7 @@ describe('UrlTranslationService', () => {
         nestedRoutesTranslations,
         expectedResult,
       }: {
-        translateUrlOptions: TranslateUrlOptions;
+        translateUrlOptions: TranslateUrlCommands;
         nestedRoutesTranslations: RouteTranslation[];
         expectedResult: any[];
       }) {

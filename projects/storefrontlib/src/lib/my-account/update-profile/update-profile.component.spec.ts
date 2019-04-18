@@ -14,7 +14,7 @@ import {
   GlobalMessageType,
   RoutingService,
   Title,
-  TranslateUrlOptions,
+  TranslateUrlCommands,
   User,
   UserService,
 } from '@spartacus/core';
@@ -70,7 +70,7 @@ class UserServiceMock {
 }
 class RoutingServiceMock {
   go(
-    _pathOrTranslateUrlOptions: any[] | TranslateUrlOptions,
+    _commands: any[] | TranslateUrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ): void {}

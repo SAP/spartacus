@@ -5,10 +5,10 @@ import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import {
+  TranslateUrlCommandRoute,
+  TranslateUrlCommands,
   TranslateUrlOptions,
-  TranslateUrlOptionsRoute,
-  TranslateUrlMetaOptions,
-} from './translate-url-options';
+} from './translate-url-commands';
 
 @Injectable()
 export class UrlTranslationService {
@@ -21,22 +21,22 @@ export class UrlTranslationService {
   ) {}
 
   translate(
-    optionsList: TranslateUrlOptions,
-    metaOptions: TranslateUrlMetaOptions = {}
+    commands: TranslateUrlCommands,
+    options: TranslateUrlOptions = {}
   ): any[] {
-    if (!Array.isArray(optionsList)) {
-      optionsList = [optionsList];
+    if (!Array.isArray(commands)) {
+      commands = [commands];
     }
 
     const result: string[] = [];
-    for (let i = 0; i < optionsList.length; i++) {
-      const options = optionsList[i];
-      if (!options || !options.route) {
-        // don't modify segments that are not route options:
-        result.push(options);
+    for (let i = 0; i < commands.length; i++) {
+      const command = commands[i];
+      if (!command || !command.route) {
+        // don't modify segment that is not route command:
+        result.push(command);
       } else {
         // generate array with url segments for given options object:
-        const partialResult = this.generateUrl(options);
+        const partialResult = this.generateUrl(command);
 
         if (partialResult === null) {
           return this.ROOT_URL;
@@ -46,22 +46,22 @@ export class UrlTranslationService {
       }
     }
 
-    if (!metaOptions.relative) {
+    if (!options.relative) {
       result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
     }
 
     return result;
   }
 
-  private generateUrl(options: TranslateUrlOptionsRoute): string[] | null {
-    this.standarizeOptions(options);
+  private generateUrl(command: TranslateUrlCommandRoute): string[] | null {
+    this.standarizeRouteCommand(command);
 
-    if (!options.route) {
+    if (!command.route) {
       return null;
     }
 
     const routeTranslation = this.configurableRoutesService.getRouteTranslation(
-      options.route
+      command.route
     );
 
     // if no route translation was configured, return null:
@@ -72,7 +72,7 @@ export class UrlTranslationService {
     // find first path that can satisfy it's parameters with given parameters
     const path = this.findPathWithFillableParams(
       routeTranslation,
-      options.params
+      command.params
     );
 
     // if there is no configured path that can be satisfied with given params, return null
@@ -82,15 +82,15 @@ export class UrlTranslationService {
 
     const result = this.provideParamsValues(
       path,
-      options.params,
+      command.params,
       routeTranslation.paramsMapping
     );
 
     return result;
   }
 
-  private standarizeOptions(options: TranslateUrlOptionsRoute): void {
-    options.params = options.params || {};
+  private standarizeRouteCommand(command: TranslateUrlCommandRoute): void {
+    command.params = command.params || {};
   }
 
   private provideParamsValues(
