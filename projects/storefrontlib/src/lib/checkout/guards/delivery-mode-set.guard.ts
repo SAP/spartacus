@@ -18,9 +18,9 @@ export class DeliveryModeSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const type = 'deliveryMode'; // @todo: replace with default-checkout-config.ts enum imported value
-    const route = this.checkoutConfig.checkout.steps.filter(
+    const route = this.checkoutConfig.checkout.steps.find(
       (step: CheckoutStep) => step.type.includes(type)
-    )[0];
+    );
     return this.checkoutService
       .getSelectedDeliveryMode()
       .pipe(
