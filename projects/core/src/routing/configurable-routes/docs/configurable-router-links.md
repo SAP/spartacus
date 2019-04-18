@@ -20,6 +20,8 @@ Configured router links can be automatically generated in HTML templates using `
   - [Transform the name of the route and the params object](#transform-the-name-of-the-route-and-the-params-object)
     - [The route with parameters](#the-route-with-parameters)
 - [Links to nested routes](#links-to-nested-routes)
+  - [Relative links](#relative-links)
+  - [Relative links up](#relative-links-up)
 - [Parameters mapping](#parameters-mapping)
   - [Predefined parameters mapping](#predefined-parameters-mapping)
     - [Define parameters mapping under key: default](#define-parameters-mapping-under-key-default)
@@ -111,6 +113,10 @@ const routes: Routes = [
             {
                 data: { cxPath: 'child' }, // route name
                 /* ... */
+            },
+            {
+                data: { cxPath: 'otherChild' }, // route name
+                /* ... */
             }
         ],
         /* ... */
@@ -131,18 +137,22 @@ ConfigModule.withConfig({
                 child: { // route name
                     paths: ['child-path/:param2'],
                 }
+                otherChild: { // route name
+                    paths: ['other-child-path'],
+                }
             }
         }
     }
 })
 ```
 
-In order to translate the path of parent and child route we need to concatenate them with `relative:true` flag for child route. For example:
+In order to translate the path of parent and child route we need to pass them in an array. For example:
 
 ```html
-<a [routerLink]="[].concat(
-    { route: 'parent', params: { param1: 'value1' } | cxTranslateUrl,
-    { route: 'child',  params: { param2: 'value2' }, relative: true } | cxTranslateUrl,
+<a [routerLink]="[
+    { route: 'parent', params: { param1: 'value1' },
+    { route: 'child',  params: { param2: 'value2' }
+] | cxTranslateUrl,
 )"></a>
 ```
 
@@ -150,6 +160,53 @@ result:
 
 ```html
 <a [routerLink]="['', 'parent-path', 'value1', 'child-path', 'value2']"></a>
+```
+
+
+### Relative links
+
+If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass only the child route and the `relative: true` flag to the pipe. For example:
+
+```html
+<a [routerLink]="{ route: 'child',  params: { param2: 'value2' } | cxTranslateUrl : { relative: true },
+)"></a>
+```
+
+result:
+
+```html
+<a [routerLink]="['child-path', 'value2']"></a>
+```
+
+### Relative links up
+
+If you want to go i.e. one one level up in the routes tree, you can pass i.e. `../` to the array. For example:
+
+```html
+<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxTranslateUrl : { relative: true },
+)"></a>
+```
+
+result:
+
+```html
+<a [routerLink]="['../', 'child-path', 'value2']"></a>
+```
+
+**NOTE:** *Every element that is **not an object with `route` property** won't be translated. So for example:*
+
+```html
+<a [routerLink]="[
+    { route: 'parent', params: { param1: 'value1' } },
+    'SOMETHING'
+] | cxTranslateUrl,
+)"></a>
+```
+
+*will result in:*
+
+```html
+<a [routerLink]="['', 'parent-path', 'value1', 'SOMETHING']"></a>
 ```
 
 
@@ -223,7 +280,7 @@ Not to repeat `paramsMapping` for all languages, it's recommended to configure t
 
 ### Navigation to the translated path
 
-The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path. For example:
+The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path - similar like `routerLink` with `cxTranslateUrl` pipe in the HTML template. For example:
 
 When config is:
 
@@ -245,16 +302,6 @@ With `{ route: <route> }`:
 routingService.go({ route: 'product', params: { productCode: 1234 } });
 
 // router navigates to ['', 'p', 1234]
-```
-
-**`RoutingService.go` called with an array**
-
-When `RoutingService.go` method is **called with an array**, then **no translation happens**. It just navigates to the path given in the array:
-
-```typescript
-routingService.go(['product', 1234]);
-
-// router navigates to ['product', 1234]
 ```
 
 ### Simply translation of the path
