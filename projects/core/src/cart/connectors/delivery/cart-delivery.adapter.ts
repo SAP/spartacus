@@ -1,11 +1,11 @@
 import { Observable } from 'rxjs';
-import { Address } from '../../../occ/occ-models/occ.models';
+import { Address, DeliveryMode } from '../../../occ/occ-models/occ.models';
 
 export abstract class CartDeliveryAdapter {
   abstract createAddress(
     userId: string,
     cartId: string,
-    address: any
+    address: Address
   ): Observable<Address>;
 
   abstract setAddress(
@@ -18,6 +18,6 @@ export abstract class CartDeliveryAdapter {
     cartId: string,
     deliveryModeId: string
   ): Observable<any>;
-  abstract getMode(userId: string, cartId: string): Observable<any>;
-  abstract getSupportedModes(userId: string, cartId: string);
+  abstract getMode(userId: string, cartId: string): Observable<DeliveryMode>;
+  abstract getSupportedModes(userId: string, cartId: string): Observable<DeliveryMode[]>;
 }

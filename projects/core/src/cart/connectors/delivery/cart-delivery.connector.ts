@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Address, DeliveryModeList } from '../../../occ/occ-models/occ.models';
+import { Address, DeliveryMode } from '../../../occ/occ-models/occ.models';
 import { CartDeliveryAdapter } from './cart-delivery.adapter';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class CartDeliveryConnector {
   public createAddress(
     userId: string,
     cartId: string,
-    address: any
+    address: Address
   ): Observable<Address> {
     return this.adapter.createAddress(userId, cartId, address);
   }
@@ -33,14 +33,14 @@ export class CartDeliveryConnector {
     return this.adapter.setMode(userId, cartId, deliveryModeId);
   }
 
-  public getMode(userId: string, cartId: string): Observable<any> {
+  public getMode(userId: string, cartId: string): Observable<DeliveryMode> {
     return this.adapter.getMode(userId, cartId);
   }
 
   public getSupportedModes(
     userId: string,
     cartId: string
-  ): Observable<DeliveryModeList> {
+  ): Observable<DeliveryMode[]> {
     return this.adapter.getSupportedModes(userId, cartId);
   }
 }
