@@ -46,29 +46,12 @@ export class ConfigurableRoutesService {
     // Router could not be injected in constructor due to cyclic dependency with APP_INITIALIZER:
     const router = this.injector.get(Router);
 
-    let translatedRoutes = this.translateRoutes(
+    const translatedRoutes = this.translateRoutes(
       router.config,
       this.currentRoutesTranslations
     );
-    translatedRoutes = this.moveWildcardRouteToEnd(translatedRoutes);
 
     router.resetConfig(translatedRoutes);
-  }
-
-  /**
-   * Move the Route with double asterisk (**) to the end of the list.
-   * If there are more Routes with **, only the first will be left and other removed.
-   *
-   * Reason: When some custom Routes are injected after Spartacus' ones,
-   *          then the Spartacus' wildcard Route needs being moved to the end -
-   *          even after custom Routes - to make custom Routes discoverable.
-   *          More than one wildcard Route is a sign of bad config, so redundant copies are removed.
-   */
-  private moveWildcardRouteToEnd(routes: Routes): Routes {
-    const firstWildcardRoute = routes.find(route => route.path === '**');
-    return firstWildcardRoute
-      ? routes.filter(route => route.path !== '**').concat(firstWildcardRoute)
-      : routes;
   }
 
   /**
