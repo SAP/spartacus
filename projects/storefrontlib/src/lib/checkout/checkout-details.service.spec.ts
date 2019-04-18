@@ -20,7 +20,15 @@ const mockDetails: CheckoutDetails = {
   deliveryAddress: {
     firstName: 'firstName',
   },
+  deliveryMode: { code: 'testMode' },
+  paymentInfo: { accountHolderName: 'name' },
 };
+
+const testedFunctions = [
+  'getDeliveryAddress',
+  'getSelectedDeliveryModeCode',
+  'getPaymentDetails',
+];
 
 class MockAuthService {
   getUserToken(): Observable<UserToken> {
@@ -37,12 +45,16 @@ class MockCheckoutService {
     return of();
   }
 
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryModeCode(): Observable<DeliveryMode> {
     return of();
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
     return of();
+  }
+
+  getCheckoutDetailsLoaded(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -87,24 +99,23 @@ describe('CheckoutDetailsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should load checkout details', () => {
-    spyOn(authService, 'getUserToken');
-    spyOn(cartService, 'getActive');
-    spyOn(checkoutService, 'loadCheckoutDetails');
-    spyOn(checkoutService, 'getDeliveryAddress').and.returnValue(
-      of(mockDetails)
-    );
+  testedFunctions.forEach(testedFunction => {
+    it(`should load details data and call ${testedFunction}`, () => {
+      spyOn(authService, 'getUserToken');
+      spyOn(cartService, 'getActive');
+      spyOn(checkoutService, 'loadCheckoutDetails');
+      spyOn(checkoutService, testedFunction).and.returnValue(of(mockDetails));
 
-    let checkoutDetails;
-    service
-      .getDeliveryAddress()
-      .subscribe(data => (checkoutDetails = data))
-      .unsubscribe();
-    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(
-      userId,
-      cartId
-    );
-    expect(checkoutService.getDeliveryAddress).toHaveBeenCalled();
-    expect(checkoutDetails).toBe(mockDetails);
+      let checkoutDetails;
+      service[testedFunction]()
+        .subscribe(data => (checkoutDetails = data))
+        .unsubscribe();
+      expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(
+        userId,
+        cartId
+      );
+      expect(checkoutService[testedFunction]).toHaveBeenCalled();
+      expect(checkoutDetails).toBe(mockDetails);
+    });
   });
 });

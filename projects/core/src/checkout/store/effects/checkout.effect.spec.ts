@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
+import * as fromCartActions from './../../../cart/store/actions/index';
 import { OccCartService, CartService } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import {
@@ -164,12 +165,20 @@ describe('Checkout effect', () => {
         cartId: cartId,
         selectedModeId: 'testSelectedModeId',
       });
-      const completion = new fromActions.SetDeliveryModeSuccess(
+      const setDeliveryModeSuccess = new fromActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
+      const loadCart = new fromCartActions.LoadCart({
+        userId,
+        cartId,
+        details: true,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: setDeliveryModeSuccess,
+        c: loadCart,
+      });
 
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });
