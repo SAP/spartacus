@@ -34,7 +34,6 @@ type yearType = { id: number; name: number };
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
-  styleUrls: ['./payment-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentFormComponent implements OnInit, OnDestroy {
