@@ -1,7 +1,7 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
-  ChangeDetectionStrategy,
   OnInit,
 } from '@angular/core';
 import { ProductDetailOutlets } from '../../../product-outlets.model';
@@ -10,7 +10,6 @@ import { TranslatePipe } from '@spartacus/core';
 @Component({
   selector: 'cx-product-summary',
   templateUrl: './product-summary.component.html',
-  styleUrls: ['./product-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [TranslatePipe],
 })

@@ -1,6 +1,9 @@
 import { Injectable, Optional } from '@angular/core';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { ProductSearchService } from '@spartacus/core';
+import {
+  CmsSearchBoxComponent,
+  ProductSearchService,
+  RoutingService,
+} from '@spartacus/core';
 import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   debounceTime,
@@ -8,7 +11,7 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { RoutingService, CmsSearchBoxComponent } from '@spartacus/core';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 export interface SearchBoxConfig {
   maxProducts: number;
@@ -25,7 +28,7 @@ export class SearchBoxComponentService {
     displaySuggestions: true,
     maxSuggestions: 5,
     minCharactersBeforeRequest: 3,
-    displayProducts: false,
+    displayProducts: true,
   };
 
   config$: Observable<SearchBoxConfig> = of(this.defaultConfig);

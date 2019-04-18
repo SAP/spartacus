@@ -6,7 +6,7 @@ function clickSearchIcon() {
 }
 
 function clickHamburger() {
-  cy.get('cx-header [aria-label="Menu"]').click();
+  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
 }
 
 describe(`${formats.mobile.width + 1}p resolution - Cart`, () => {
