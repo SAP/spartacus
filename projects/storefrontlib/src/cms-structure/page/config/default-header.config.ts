@@ -8,7 +8,10 @@ export const headerComponents: {
     flexType: 'SkipLinkComponent',
     uid: 'SkipLinkComponent',
   },
-
+  HamburgerMenuComponent: {
+    typeCode: 'HamburgerMenuComponent',
+    flexType: 'HamburgerMenuComponent',
+  },
   LanguageComponent: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
