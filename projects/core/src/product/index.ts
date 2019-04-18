@@ -1,9 +1,7 @@
-export * from './model/search-config';
+export * from './model/index';
 export * from './occ/index';
-export * from './occ/product-occ.module';
 
 export * from './store/product-state';
-export * from './store/converters/index';
 export * from './store/actions/index';
 export * from './store/selectors/index';
 

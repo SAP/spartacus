@@ -8,7 +8,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OccOrderService } from '../../occ/index';
 import { Order } from '../../../occ/occ-models/index';
-import { ProductImageConverterService } from '../../../product/store/converters/index';
+import { ProductImageNormalizer } from '../../../product/occ/converters/index';
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -49,6 +49,6 @@ export class OrderDetailsEffect {
   constructor(
     private actions$: Actions,
     private occOrderService: OccOrderService,
-    private productImageConverter: ProductImageConverterService
+    private productImageConverter: ProductImageNormalizer
   ) {}
 }

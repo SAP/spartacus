@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 import * as productsSearchActions from '../actions/product-search.action';
-import { ProductImageConverterService } from '../converters/product-image-converter.service';
-import { ProductSearchLoaderService } from '../../occ/product-search.service';
+import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 
 @Injectable()
 export class ProductsSearchEffects {
@@ -18,11 +17,10 @@ export class ProductsSearchEffects {
   > = this.actions$.pipe(
     ofType(productsSearchActions.SEARCH_PRODUCTS),
     switchMap((action: productsSearchActions.SearchProducts) => {
-      return this.occProductSearchService
-        .loadSearch(action.payload.queryText, action.payload.searchConfig)
+      return this.productSearchConnector
+        .search(action.payload.queryText, action.payload.searchConfig)
         .pipe(
           map(data => {
-            this.productImageConverter.convertList(data.products);
             return new productsSearchActions.SearchProductsSuccess(
               data,
               action.auxiliary
@@ -50,8 +48,8 @@ export class ProductsSearchEffects {
       (action: productsSearchActions.GetProductSuggestions) => action.payload
     ),
     switchMap(payload => {
-      return this.occProductSearchService
-        .loadSuggestions(payload.term, payload.searchConfig.pageSize)
+      return this.productSearchConnector
+        .getSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
           map(data => {
             if (data.suggestions === undefined) {
@@ -70,7 +68,6 @@ export class ProductsSearchEffects {
 
   constructor(
     private actions$: Actions,
-    private occProductSearchService: ProductSearchLoaderService,
-    private productImageConverter: ProductImageConverterService
+    private productSearchConnector: ProductSearchConnector
   ) {}
 }

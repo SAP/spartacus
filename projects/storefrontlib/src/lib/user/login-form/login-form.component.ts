@@ -1,18 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
-import { AuthService, RoutingService } from '@spartacus/core';
-
-import { Subscription, of } from 'rxjs';
-import { take, switchMap } from 'rxjs/operators';
-
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
+import { of, Subscription } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   sub: Subscription;
