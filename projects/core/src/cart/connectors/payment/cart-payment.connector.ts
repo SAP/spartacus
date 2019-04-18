@@ -9,33 +9,30 @@ import { CartPaymentAdapter } from './cart-payment.adapter';
 export class CartPaymentConnector {
   constructor(private adapter: CartPaymentAdapter) {}
 
-  public getPaymentProviderSubInfo(
-    userId: string,
-    cartId: string
-  ): Observable<any> {
-    return this.adapter.getPaymentProviderSubInfo(userId, cartId);
+  public getProviderSubInfo(userId: string, cartId: string): Observable<any> {
+    return this.adapter.getProviderSubInfo(userId, cartId);
   }
 
-  public createSubWithPaymentProvider(
+  public createSubWithProvider(
     postUrl: string,
     parameters: any
   ): Observable<any> {
-    return this.adapter.createSubWithPaymentProvider(postUrl, parameters);
+    return this.adapter.createSubWithProvider(postUrl, parameters);
   }
 
-  public createPaymentDetails(
+  public create(
     userId: string,
     cartId: string,
     parameters: any
   ): Observable<PaymentDetails> {
-    return this.adapter.createPaymentDetails(userId, cartId, parameters);
+    return this.adapter.create(userId, cartId, parameters);
   }
 
-  public setPaymentDetails(
+  public set(
     userId: string,
     cartId: string,
     paymentDetailsId: any
   ): Observable<any> {
-    return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
+    return this.adapter.set(userId, cartId, paymentDetailsId);
   }
 }

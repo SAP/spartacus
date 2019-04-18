@@ -107,7 +107,7 @@ export class CheckoutEffects {
     mergeMap(payload => {
       // get information for creating a subscription directly with payment provider
       return this.cartPaymentConnector
-        .getPaymentProviderSubInfo(payload.userId, payload.cartId)
+        .getProviderSubInfo(payload.userId, payload.cartId)
         .pipe(
           map(data => {
             const labelsMap = this.convertToMap(data.mappingLabels.entry);
@@ -124,7 +124,7 @@ export class CheckoutEffects {
           mergeMap(sub => {
             // create a subscription directly with payment provider
             return this.cartPaymentConnector
-              .createSubWithPaymentProvider(sub.url, sub.parameters)
+              .createSubWithProvider(sub.url, sub.parameters)
               .pipe(
                 map(response => this.extractPaymentDetailsFromHtml(response)),
                 mergeMap(fromPaymentProvider => {
@@ -132,7 +132,7 @@ export class CheckoutEffects {
                     // consume response from payment provider and creates payment details
 
                     return this.cartPaymentConnector
-                      .createPaymentDetails(
+                      .create(
                         payload.userId,
                         payload.cartId,
                         this.getPaymentSopResponseParams(
@@ -178,7 +178,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.cartPaymentConnector
-        .setPaymentDetails(
+        .set(
           payload.userId,
           payload.cartId,
           payload.paymentDetails.id
