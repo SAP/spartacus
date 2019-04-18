@@ -1,19 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../config/server-config/server-config';
-import { RoutesConfigLoader } from './routes-config-loader';
-import { ConfigurableRoutesService } from './configurable-routes.service';
+import { RoutingConfigService } from './routing-config.service';
+import { RouterTranslationService } from './router-translation.service';
 import { Router, Routes } from '@angular/router';
-import { RoutesConfig } from './routes-config';
 
 class MockServerConfig {
   production = false;
 }
 
-class MockRoutesConfigLoader {
-  routesConfig: RoutesConfig = {
-    translations: {},
-  };
-  async load(): Promise<void> {}
+class MockRouterConfigService {
+  translations = {};
+  async init(): Promise<void> {}
+  getRouteTranslation() {}
 }
 
 class MockRouter {
@@ -23,19 +21,19 @@ class MockRouter {
   }
 }
 
-describe('ConfigurableRoutesService', () => {
-  let service: ConfigurableRoutesService;
+describe('RouterTranslationService', () => {
+  let service: RouterTranslationService;
   let serverConfig: MockServerConfig;
   let router: Router;
-  let loader: RoutesConfigLoader;
+  let routingConfigService: RoutingConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ConfigurableRoutesService,
+        RouterTranslationService,
         {
-          provide: RoutesConfigLoader,
-          useClass: MockRoutesConfigLoader,
+          provide: RoutingConfigService,
+          useClass: MockRouterConfigService,
         },
         { provide: ServerConfig, useClass: MockServerConfig },
         {
@@ -45,31 +43,33 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(ConfigurableRoutesService);
+    service = TestBed.get(RouterTranslationService);
     serverConfig = TestBed.get(ServerConfig);
     router = TestBed.get(Router);
-    loader = TestBed.get(RoutesConfigLoader);
+    routingConfigService = TestBed.get(RoutingConfigService);
 
     router.config = [];
   });
 
   describe('translateRouterConfig', () => {
     it('should load routes config from loader', async () => {
-      spyOn(loader, 'load');
+      spyOn(routingConfigService, 'init');
       await service.init();
-      expect(loader.load).toHaveBeenCalled();
+      expect(routingConfigService.init).toHaveBeenCalled();
     });
 
     it('when called twice, should load routes from routes config only once', async () => {
-      spyOn(loader, 'load');
+      spyOn(routingConfigService, 'init');
       await service.init();
       await service.init();
-      expect(loader.load).toHaveBeenCalledTimes(1);
+      expect(routingConfigService.init).toHaveBeenCalledTimes(1);
     });
 
     it('should NOT translate "paths" of routes that are NOT configurable', async () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
-      loader.routesConfig.translations = { en: {} };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        undefined
+      );
       await service.init();
       expect(router.config).toEqual([{ path: 'path1' }, { path: 'path2' }]);
     });
@@ -79,7 +79,9 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1' },
         { path: 'path2', children: [{ path: 'subPath' }] },
       ];
-      loader.routesConfig.translations = { en: {} };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        undefined
+      );
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1' },
@@ -92,7 +94,9 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1', redirectTo: 'path100' },
         { path: 'path2', redirectTo: 'path200' },
       ];
-      loader.routesConfig.translations = { en: {} };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        undefined
+      );
       await service.init();
       expect(router.config).toEqual([
         { path: 'path1', redirectTo: 'path100' },
@@ -105,12 +109,10 @@ describe('ConfigurableRoutesService', () => {
         { path: null, data: { cxPath: 'page1' } },
         { path: null, data: { cxPath: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        { paths: ['path1'] },
+        { paths: ['path2'] }
+      );
       await service.init();
       expect(router.config[0].path).toEqual('path1');
       expect(router.config[1].path).toEqual('path2');
@@ -121,12 +123,10 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path1', data: { cxRedirectTo: 'page1' } },
         { path: 'path2', data: { cxRedirectTo: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path100'] },
-          page2: { paths: ['path200'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        { paths: ['path100'] },
+        { paths: ['path200'] }
+      );
       await service.init();
       expect(router.config[0].path).toEqual('path1');
       expect(router.config[0].redirectTo).toEqual('path100');
@@ -140,12 +140,10 @@ describe('ConfigurableRoutesService', () => {
       router.config = [
         { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        { paths: ['path1'] },
+        { paths: ['path2'] }
+      );
       await service.init();
       expect(console.warn).toHaveBeenCalled();
     });
@@ -155,23 +153,19 @@ describe('ConfigurableRoutesService', () => {
       router.config = [
         { path: null, data: { cxPath: 'page1', cxRedirectTo: 'page2' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        { paths: ['path1'] },
+        { paths: ['path2'] }
+      );
       await service.init();
       expect(console.warn).not.toHaveBeenCalled();
     });
 
     it('should generate many routes with different paths when translations config contain many paths for a given page', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path100'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues({
+        paths: ['path1', 'path100'],
+      });
       await service.init();
       expect(router.config.length).toEqual(2);
       expect(router.config[0].path).toEqual('path1');
@@ -182,11 +176,9 @@ describe('ConfigurableRoutesService', () => {
       router.config = [
         { path: 'path', redirectTo: null, data: { cxRedirectTo: 'page1' } },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path100'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues({
+        paths: ['path1', 'path100'],
+      });
       await service.init();
       expect(router.config.length).toEqual(1);
       expect(router.config[0].redirectTo).toEqual('path1');
@@ -194,11 +186,7 @@ describe('ConfigurableRoutesService', () => {
 
     it('should not generate routes if they do not have configured paths in translations config', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: null,
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(null);
       await service.init();
       expect(router.config.length).toEqual(0);
     });
@@ -208,9 +196,9 @@ describe('ConfigurableRoutesService', () => {
       spyOn(console, 'warn');
       serverConfig.production = false;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {},
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        undefined
+      );
       await service.init();
       expect(console.warn).toHaveBeenCalled();
     });
@@ -220,9 +208,9 @@ describe('ConfigurableRoutesService', () => {
       spyOn(console, 'warn');
       serverConfig.production = true;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {},
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        undefined
+      );
       await service.init();
       expect(console.warn).not.toHaveBeenCalled();
     });
@@ -244,12 +232,10 @@ describe('ConfigurableRoutesService', () => {
         // normal routes
         { path: 'path5' },
       ];
-      loader.routesConfig.translations = {
-        en: {
-          page2: { paths: ['path2', 'path20', 'path200'] },
-          page4: { paths: ['path40', 'path400'] },
-        },
-      };
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        { paths: ['path2', 'path20', 'path200'] },
+        { paths: ['path40', 'path400'] }
+      );
       await service.init();
       expect(router.config.length).toBe(7);
       expect(router.config).toEqual([
@@ -274,54 +260,6 @@ describe('ConfigurableRoutesService', () => {
         // normal routes
         { path: 'path5' },
       ]);
-    });
-  });
-
-  describe('getRouteTranslation', () => {
-    it('should return configured paths translations for given page name', async () => {
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path10'] },
-        },
-      };
-      const expectedResult = { paths: ['path1', 'path10'] };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toEqual(expectedResult);
-    });
-
-    it('should console.warn in non-production environment if given page name does not exist in translations config', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = false;
-      loader.routesConfig.translations = {
-        en: {},
-      };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toBe(undefined);
-      expect(console.warn).toHaveBeenCalled();
-    });
-
-    it('should NOT console.warn in non-production environment if given page name has "null" in translations config', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = false;
-      loader.routesConfig.translations = {
-        en: {
-          page1: null,
-        },
-      };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toBe(null);
-      expect(console.warn).not.toHaveBeenCalled();
-    });
-
-    it('should NOT console.warn in production environment if given page name does not exist in translations config', async () => {
-      spyOn(console, 'warn');
-      serverConfig.production = true;
-      loader.routesConfig.translations = {
-        en: {},
-      };
-      await service.init();
-      expect(service.getRouteTranslation('page1')).toBe(undefined);
-      expect(console.warn).not.toHaveBeenCalled();
     });
   });
 });

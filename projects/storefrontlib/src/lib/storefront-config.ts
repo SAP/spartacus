@@ -2,7 +2,7 @@ import {
   AuthConfig,
   OccConfig,
   StateConfig,
-  ConfigurableRoutesConfig,
+  RoutingConfig,
   CmsConfig,
   SiteContextConfig,
   I18nConfig,
@@ -18,5 +18,5 @@ export type StorefrontModuleConfig =
   | PWAModuleConfig
   | SiteContextConfig
   | LayoutConfig
-  | ConfigurableRoutesConfig
+  | RoutingConfig
   | I18nConfig;

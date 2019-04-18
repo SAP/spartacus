@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ConfigurableRoutesService } from '../configurable-routes.service';
 import { UrlParsingService } from './url-parsing.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
@@ -9,13 +8,14 @@ import {
   TranslateUrlCommands,
   TranslateUrlOptions,
 } from './translate-url-commands';
+import { RoutingConfigService } from '../routing-config.service';
 
 @Injectable()
 export class UrlTranslationService {
   readonly ROOT_URL = ['/'];
 
   constructor(
-    private configurableRoutesService: ConfigurableRoutesService,
+    private routingConfigService: RoutingConfigService,
     private urlParser: UrlParsingService,
     private config: ServerConfig
   ) {}
@@ -60,7 +60,7 @@ export class UrlTranslationService {
       return null;
     }
 
-    const routeTranslation = this.configurableRoutesService.getRouteTranslation(
+    const routeTranslation = this.routingConfigService.getRouteTranslation(
       command.route
     );
 
