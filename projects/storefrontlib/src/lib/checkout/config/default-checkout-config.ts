@@ -1,6 +1,6 @@
 import { CheckoutConfig } from './checkout-config';
 
-export enum StepType {
+export enum CheckoutStepType {
   shippingAddress = 'shippingAddress',
   deliveryMode = 'deliveryMode',
   paymentDetails = 'paymentDetails',
@@ -14,25 +14,25 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         id: 'shippingAddress',
         name: 'checkoutProgress.label.shippingAddress',
         url: '/checkout/shipping-address',
-        type: [StepType.shippingAddress],
+        type: [CheckoutStepType.shippingAddress],
       },
       {
         id: 'deliveryMode',
         name: 'checkoutProgress.label.deliveryMode',
         url: '/checkout/delivery-mode',
-        type: [StepType.deliveryMode],
+        type: [CheckoutStepType.deliveryMode],
       },
       {
         id: 'paymentDetails',
         name: 'checkoutProgress.label.paymentDetails',
         url: '/checkout/payment-details',
-        type: [StepType.paymentDetails],
+        type: [CheckoutStepType.paymentDetails],
       },
       {
         id: 'reviewOrder',
         name: 'checkoutProgress.label.reviewOrder',
         url: '/checkout/review-order',
-        type: [StepType.reviewOrder],
+        type: [CheckoutStepType.reviewOrder],
       },
     ],
   },
