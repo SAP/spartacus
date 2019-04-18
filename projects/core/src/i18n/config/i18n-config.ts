@@ -10,7 +10,7 @@ export abstract class I18nConfig extends ServerConfig {
     };
     resources?: TranslationResources;
     debug?: boolean;
-    chunksMapping?: {
+    chunks?: {
       [mainKey: string]: string;
     };
   };

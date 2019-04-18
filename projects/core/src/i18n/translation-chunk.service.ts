@@ -12,7 +12,6 @@ export class TranslationChunkService {
     const chunk = this.getChunkFromConfig(mainKey);
 
     if (!chunk) {
-      this.reportMissingChunkConfig(mainKey);
       return mainKey; // fallback to main key as a chunk
     }
     return chunk;
@@ -21,16 +20,8 @@ export class TranslationChunkService {
   private getChunkFromConfig(mainKey: string): string {
     return (
       this.config.i18n &&
-      this.config.i18n.chunksMapping &&
-      this.config.i18n.chunksMapping[mainKey]
+      this.config.i18n.chunks &&
+      this.config.i18n.chunks[mainKey]
     );
-  }
-
-  private reportMissingChunkConfig(mainKey: string) {
-    if (!this.config.production) {
-      console.warn(
-        `No chunk configured for key '${mainKey}'. Used '${mainKey}' as fallback.`
-      );
-    }
   }
 }
