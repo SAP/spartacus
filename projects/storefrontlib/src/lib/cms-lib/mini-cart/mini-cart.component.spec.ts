@@ -3,10 +3,10 @@ import { of, Observable } from 'rxjs';
 
 import {
   CartService,
-  TranslateUrlOptions,
   Component as SpaComponent,
   Cart,
   CmsMiniCartComponent,
+  TranslateUrlOptionsRoute,
 } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
@@ -19,8 +19,8 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string {
-    return options.route as string;
+  transform(options: TranslateUrlOptionsRoute): string {
+    return options.route;
   }
 }
 

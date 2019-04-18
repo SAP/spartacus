@@ -4,7 +4,11 @@ import { UrlParsingService } from './url-parsing.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
-import { TranslateUrlOptions } from './translate-url-options';
+import {
+  TranslateUrlOptions,
+  TranslateUrlOptionsRoute,
+  TranslateUrlMetaOptions,
+} from './translate-url-options';
 
 @Injectable()
 export class UrlTranslationService {
@@ -16,16 +20,51 @@ export class UrlTranslationService {
     private config: ServerConfig
   ) {}
 
-  translate(options: TranslateUrlOptions): string[] {
-    // if options are invalid, return the root url
-    if (!this.validateOptions(options)) {
-      return this.ROOT_URL;
+  translate(
+    optionsList: TranslateUrlOptions,
+    metaOptions: TranslateUrlMetaOptions = {}
+  ): string[] {
+    if (!Array.isArray(optionsList)) {
+      optionsList = [optionsList];
     }
 
-    return this.generateUrl(options);
+    // if options are invalid, return the root url
+    for (let i = 0; i < optionsList.length; i++) {
+      if (!this.validateOptions(optionsList[i])) {
+        return this.ROOT_URL;
+      }
+    }
+
+    const result: string[] = [];
+    for (let i = 0; i < optionsList.length; i++) {
+      const options = optionsList[i];
+      if (typeof options === 'string') {
+        // don't modify string segments:
+        result.push(options);
+      } else {
+        // generate array with url segments for given options object:
+        const partialResult = this.generateUrl(options);
+
+        if (partialResult === null) {
+          return this.ROOT_URL;
+        }
+
+        result.push(...partialResult);
+      }
+    }
+
+    if (!metaOptions.relative) {
+      result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
+    }
+
+    return result;
   }
 
-  private validateOptions(options: TranslateUrlOptions): boolean {
+  private validateOptions(options: TranslateUrlOptionsRoute | string): boolean {
+    if (typeof options === 'string') {
+      return true;
+    }
+
     if (!options || !options.route) {
       this.warn(
         `Incorrect options for translating url. Options must have 'route' property. Options: `,
@@ -36,20 +75,20 @@ export class UrlTranslationService {
     return true;
   }
 
-  private generateUrl(options: TranslateUrlOptions): string[] {
+  private generateUrl(options: TranslateUrlOptionsRoute): string[] | null {
     this.standarizeOptions(options);
 
     if (!options.route) {
-      return this.ROOT_URL;
+      return null;
     }
 
     const routeTranslation = this.configurableRoutesService.getRouteTranslation(
       options.route
     );
 
-    // if no route translation was configured, return root url:
+    // if no route translation was configured, return null:
     if (!routeTranslation || !routeTranslation.paths) {
-      return this.ROOT_URL;
+      return null;
     }
 
     // find first path that can satisfy it's parameters with given parameters
@@ -58,9 +97,9 @@ export class UrlTranslationService {
       options.params
     );
 
-    // if there is no configured path that can be satisfied with given params, return root url
+    // if there is no configured path that can be satisfied with given params, return null
     if (!path) {
-      return this.ROOT_URL;
+      return null;
     }
 
     const result = this.provideParamsValues(
@@ -69,14 +108,10 @@ export class UrlTranslationService {
       routeTranslation.paramsMapping
     );
 
-    if (!options.relative) {
-      result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
-    }
-
     return result;
   }
 
-  private standarizeOptions(options: TranslateUrlOptions): void {
+  private standarizeOptions(options: TranslateUrlOptionsRoute): void {
     options.params = options.params || {};
   }
 

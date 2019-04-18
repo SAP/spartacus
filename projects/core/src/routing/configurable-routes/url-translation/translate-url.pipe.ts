@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { UrlTranslationService } from './url-translation.service';
-import { TranslateUrlOptions } from './translate-url-options';
+import {
+  TranslateUrlOptions,
+  TranslateUrlMetaOptions,
+} from './translate-url-options';
 
 @Pipe({
   name: 'cxTranslateUrl',
@@ -8,7 +11,10 @@ import { TranslateUrlOptions } from './translate-url-options';
 export class TranslateUrlPipe implements PipeTransform {
   constructor(private urlTranslator: UrlTranslationService) {}
 
-  transform(options: TranslateUrlOptions): string[] {
-    return this.urlTranslator.translate(options);
+  transform(
+    options: TranslateUrlOptions,
+    metaOptions: TranslateUrlMetaOptions = {}
+  ): string[] {
+    return this.urlTranslator.translate(options, metaOptions);
   }
 }
