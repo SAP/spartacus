@@ -77,7 +77,7 @@ describe('OccProductReviewsAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(productReviews);
 
-      expect(loadResult).toEqual(productReviews);
+      expect(loadResult).toEqual(productReviews.reviews);
     });
 
     it('should use reviews endpoint', () => {

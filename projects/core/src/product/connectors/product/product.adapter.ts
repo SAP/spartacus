@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { Product } from '../../../occ/occ-models/occ.models';
+import { UIProduct } from '../../model/product';
 
 export abstract class ProductAdapter {
   /**
@@ -9,5 +9,5 @@ export abstract class ProductAdapter {
    *
    * @param productCode The `productCode` for given product
    */
-  abstract load(productCode: string): Observable<Product>;
+  abstract load(productCode: string): Observable<UIProduct>;
 }

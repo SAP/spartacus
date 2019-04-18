@@ -20,6 +20,8 @@ import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { MultiStepCheckoutModule } from './checkout/index';
 import { StoreFinderModule } from './store-finder/store-finder.module';
+import { SuffixRoutesModule } from './suffix-routes/suffix-routes.module';
+import { CmsRouteModule } from './cms-route/cms-route.module';
 
 @NgModule({
   imports: [
@@ -31,6 +33,8 @@ import { StoreFinderModule } from './store-finder/store-finder.module';
     CmsLibModule,
     CmsModule,
     UiModule,
+    SuffixRoutesModule,
+    CmsRouteModule,
     UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,

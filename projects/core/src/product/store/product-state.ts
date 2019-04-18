@@ -1,11 +1,11 @@
 import {
-  Product,
   ProductReference,
-  ProductSearchPage,
   Review,
   Suggestion,
 } from '../../occ/occ-models/occ.models';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
+import { UIProduct } from '../model/product';
+import { UIProductSearchPage } from '../model/product-search-page';
 
 export const PRODUCT_FEATURE = 'product';
 export const PRODUCT_DETAIL_ENTITY = '[Product] Detail Entity';
@@ -15,16 +15,16 @@ export interface StateWithProduct {
 }
 
 export interface ProductsState {
-  details: EntityLoaderState<Product>;
+  details: EntityLoaderState<UIProduct>;
   search: ProductsSearchState;
   reviews: ProductReviewsState;
   productReferences: ProductReferencesState;
 }
 
 export interface ProductsSearchState {
-  results: ProductSearchPage;
+  results: UIProductSearchPage;
   suggestions: Suggestion[];
-  auxResults: ProductSearchPage;
+  auxResults: UIProductSearchPage;
 }
 
 export interface ProductReviewsState {

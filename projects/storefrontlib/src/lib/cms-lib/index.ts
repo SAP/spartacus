@@ -23,7 +23,5 @@ export * from './paragraph/paragraph.module';
 export * from './search-box/search-box-component.service';
 export * from './search-box/search-box.component';
 export * from './search-box/search-box.module';
-export * from './site-context-selector/site-context-component.service';
-export * from './site-context-selector/site-context-selector.module';
 export * from './tab-paragraph-container/tab-paragraph-container.component';
 export * from './tab-paragraph-container/tab-paragraph-container.module';
