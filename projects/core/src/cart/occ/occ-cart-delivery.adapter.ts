@@ -19,7 +19,7 @@ export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public create(
+  public createAddress(
     userId: string,
     cartId: string,
     address: any
@@ -35,7 +35,7 @@ export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public setDeliveryAddress(
+  public setAddress(
     userId: string,
     cartId: string,
     addressId: string
@@ -51,7 +51,7 @@ export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public setDeliveryMode(
+  public setMode(
     userId: string,
     cartId: string,
     deliveryModeId: string
@@ -67,13 +67,13 @@ export class OccCartDeliveryAdapter implements CartDeliveryAdapter {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public getDeliveryMode(userId: string, cartId: string): Observable<any> {
+  public getMode(userId: string, cartId: string): Observable<any> {
     return this.http
       .get(this.getCartEndpoint(userId) + cartId + '/deliverymode')
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  public getSupportedDeliveryModes(
+  public getSupportedModes(
     userId: string,
     cartId: string
   ): Observable<DeliveryModeList> {

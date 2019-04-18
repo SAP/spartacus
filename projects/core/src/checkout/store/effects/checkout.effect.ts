@@ -23,7 +23,7 @@ export class CheckoutEffects {
     map((action: fromActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
       this.cartDeliveryConnector
-        .create(payload.userId, payload.cartId, payload.address)
+        .createAddress(payload.userId, payload.cartId, payload.address)
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
@@ -49,7 +49,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.cartDeliveryConnector
-        .setDeliveryAddress(payload.userId, payload.cartId, payload.address.id)
+        .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
           map(() => new fromActions.SetDeliveryAddressSuccess(payload.address)),
           catchError(error => of(new fromActions.SetDeliveryAddressFail(error)))
@@ -66,7 +66,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.cartDeliveryConnector
-        .getSupportedDeliveryModes(payload.userId, payload.cartId)
+        .getSupportedModes(payload.userId, payload.cartId)
         .pipe(
           map(data => {
             return new fromActions.LoadSupportedDeliveryModesSuccess(data);
@@ -86,7 +86,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.cartDeliveryConnector
-        .setDeliveryMode(payload.userId, payload.cartId, payload.selectedModeId)
+        .setMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
           map(
             () => new fromActions.SetDeliveryModeSuccess(payload.selectedModeId)

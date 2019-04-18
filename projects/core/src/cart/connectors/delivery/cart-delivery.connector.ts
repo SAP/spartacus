@@ -9,38 +9,38 @@ import { CartDeliveryAdapter } from './cart-delivery.adapter';
 export class CartDeliveryConnector {
   constructor(private adapter: CartDeliveryAdapter) {}
 
-  public create(
+  public createAddress(
     userId: string,
     cartId: string,
     address: any
   ): Observable<Address> {
-    return this.adapter.create(userId, cartId, address);
+    return this.adapter.createAddress(userId, cartId, address);
   }
 
-  public setDeliveryAddress(
+  public setAddress(
     userId: string,
     cartId: string,
     addressId: string
   ): Observable<any> {
-    return this.adapter.setDeliveryAddress(userId, cartId, addressId);
+    return this.adapter.setAddress(userId, cartId, addressId);
   }
 
-  public setDeliveryMode(
+  public setMode(
     userId: string,
     cartId: string,
     deliveryModeId: string
   ): Observable<any> {
-    return this.adapter.setDeliveryMode(userId, cartId, deliveryModeId);
+    return this.adapter.setMode(userId, cartId, deliveryModeId);
   }
 
-  public getDeliveryMode(userId: string, cartId: string): Observable<any> {
-    return this.adapter.getDeliveryMode(userId, cartId);
+  public getMode(userId: string, cartId: string): Observable<any> {
+    return this.adapter.getMode(userId, cartId);
   }
 
-  public getSupportedDeliveryModes(
+  public getSupportedModes(
     userId: string,
     cartId: string
   ): Observable<DeliveryModeList> {
-    return this.adapter.getSupportedDeliveryModes(userId, cartId);
+    return this.adapter.getSupportedModes(userId, cartId);
   }
 }
