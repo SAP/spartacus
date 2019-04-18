@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Address } from '../../../occ/occ-models/occ.models';
 
 export abstract class CartAddressAdapter {
-  abstract createAddressOnCart(
+  abstract create(
     userId: string,
     cartId: string,
     address: any

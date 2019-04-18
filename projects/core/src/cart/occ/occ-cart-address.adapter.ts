@@ -19,7 +19,7 @@ export class OccCartAddressAdapter implements CartAddressAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public createAddressOnCart(
+  public create(
     userId: string,
     cartId: string,
     address: any

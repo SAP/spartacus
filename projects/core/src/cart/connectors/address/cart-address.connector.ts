@@ -9,11 +9,11 @@ import { CartAddressAdapter } from './cart-address.adapter';
 export class CartAddressConnector {
   constructor(private adapter: CartAddressAdapter) {}
 
-  public createAddressOnCart(
+  public create(
     userId: string,
     cartId: string,
     address: any
   ): Observable<Address> {
-    return this.adapter.createAddressOnCart(userId, cartId, address);
+    return this.adapter.create(userId, cartId, address);
   }
 }

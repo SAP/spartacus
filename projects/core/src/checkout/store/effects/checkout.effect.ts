@@ -23,7 +23,7 @@ export class CheckoutEffects {
     map((action: fromActions.AddDeliveryAddress) => action.payload),
     mergeMap(payload =>
       this.cartAddressConnector
-        .createAddressOnCart(payload.userId, payload.cartId, payload.address)
+        .create(payload.userId, payload.cartId, payload.address)
         .pipe(
           mergeMap(address => {
             address['titleCode'] = payload.address.titleCode;
