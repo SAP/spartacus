@@ -34,6 +34,8 @@ export const product = {
     showReviews: 'Show reviews',
     quantity: 'Qty',
     share: 'Share',
+    outOfStock: 'Out of stock',
+    inStock: 'In stock',
   },
   productReview: {
     overallRating: 'Overall Rating',
