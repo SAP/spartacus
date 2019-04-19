@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, filter } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
 
-import { PageType, ProductSearchPage } from '../../occ/occ-models/occ.models';
+import { PageType } from '../../occ/occ-models/occ.models';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import { ProductSearchService } from '../facade/product-search.service';
 import { PageTitleResolver } from '../../cms/page/page.resolvers';
+import { UIProductSearchPage } from '../model/product-search-page';
 
 @Injectable({
   providedIn: 'root',
@@ -49,7 +50,7 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(data: ProductSearchPage) {
+  resolveTitle(data: UIProductSearchPage) {
     return `${data.pagination.totalResults} results for ${
       data.breadcrumbs[0].facetValueName
     }`;

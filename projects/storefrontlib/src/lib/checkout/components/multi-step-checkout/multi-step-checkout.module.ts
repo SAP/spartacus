@@ -20,6 +20,7 @@ import { PlaceOrderModule } from './place-order/place-order.module';
 import { CheckoutOrderSummaryModule } from './checkout-order-summary/checkout-order-summary.module';
 import { CheckoutOrchestratorModule } from './checkout-orchestrator/checkout-orchestrator.module';
 import { CheckoutProgressModule } from './checkout-progress/checkout-progress.module';
+import { CheckoutDetailsService } from '../../checkout-details.service';
 
 @NgModule({
   imports: [
@@ -45,5 +46,6 @@ import { CheckoutProgressModule } from './checkout-progress/checkout-progress.mo
   ],
   declarations: [MultiStepCheckoutComponent],
   entryComponents: [MultiStepCheckoutComponent],
+  providers: [CheckoutDetailsService],
 })
 export class MultiStepCheckoutModule {}

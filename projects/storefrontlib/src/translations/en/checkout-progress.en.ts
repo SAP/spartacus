@@ -6,5 +6,8 @@ export const checkoutProgress = {
       paymentDetails: 'Payment details',
       reviewOrder: 'Review order',
     },
+    action: {
+      edit: 'Edit',
+    },
   },
 };

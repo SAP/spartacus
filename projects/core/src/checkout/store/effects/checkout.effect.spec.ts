@@ -9,6 +9,7 @@ import { Observable, of } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
+import * as fromCartActions from './../../../cart/store/actions/index';
 import { OccCartService, CartService } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import {
@@ -18,7 +19,7 @@ import {
   Address,
   Order,
 } from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
+import { ProductImageNormalizer } from '../../../product';
 import {
   OccOrderService,
   LoadUserPaymentMethods,
@@ -46,7 +47,7 @@ describe('Checkout effect', () => {
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let productImageConverter: ProductImageConverterService;
+  let productImageConverter: ProductImageNormalizer;
 
   const userId = 'testUserId';
   const cartId = 'testCartId';
@@ -76,7 +77,7 @@ describe('Checkout effect', () => {
       providers: [
         OccCartService,
         OccOrderService,
-        ProductImageConverterService,
+        ProductImageNormalizer,
         fromEffects.CheckoutEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: CartService, useClass: MockCartService },
@@ -87,7 +88,7 @@ describe('Checkout effect', () => {
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     cartService = TestBed.get(OccCartService);
     orderService = TestBed.get(OccOrderService);
-    productImageConverter = TestBed.get(ProductImageConverterService);
+    productImageConverter = TestBed.get(ProductImageNormalizer);
 
     spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
     spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
@@ -164,12 +165,20 @@ describe('Checkout effect', () => {
         cartId: cartId,
         selectedModeId: 'testSelectedModeId',
       });
-      const completion = new fromActions.SetDeliveryModeSuccess(
+      const setDeliveryModeSuccess = new fromActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
+      const loadCart = new fromCartActions.LoadCart({
+        userId,
+        cartId,
+        details: true,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: setDeliveryModeSuccess,
+        c: loadCart,
+      });
 
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });

@@ -6,12 +6,13 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
-import { OccCartService, CartService } from '../../../cart/index';
+import { OccCartService } from '../../../cart/index';
 import { GlobalMessageType, AddMessage } from '../../../global-message/index';
-import { ProductImageConverterService } from '../../../product/index';
+import { ProductImageNormalizer } from '../../../product/index';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry, PaymentDetails } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 
 @Injectable()
@@ -91,7 +92,9 @@ export class CheckoutEffects {
 
   @Effect()
   setDeliveryMode$: Observable<
-    fromActions.SetDeliveryModeSuccess | fromActions.SetDeliveryModeFail
+    | fromActions.SetDeliveryModeSuccess
+    | fromActions.SetDeliveryModeFail
+    | fromCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
@@ -99,12 +102,15 @@ export class CheckoutEffects {
       return this.occCartService
         .setDeliveryMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
-          map(() => {
-            this.cartService.loadDetails();
-
-            return new fromActions.SetDeliveryModeSuccess(
-              payload.selectedModeId
-            );
+          mergeMap(() => {
+            return [
+              new fromActions.SetDeliveryModeSuccess(payload.selectedModeId),
+              new fromCartActions.LoadCart({
+                userId: payload.userId,
+                cartId: payload.cartId,
+                details: true,
+              }),
+            ];
           }),
           catchError(error => of(new fromActions.SetDeliveryModeFail(error)))
         );
@@ -261,10 +267,9 @@ export class CheckoutEffects {
 
   constructor(
     private actions$: Actions,
-    private cartService: CartService,
     private occCartService: OccCartService,
     private occOrderService: OccOrderService,
-    private productImageConverter: ProductImageConverterService
+    private productImageConverter: ProductImageNormalizer
   ) {
     if (typeof DOMParser !== 'undefined') {
       this.domparser = new DOMParser();

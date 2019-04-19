@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   map,
-  multicast,
-  refCount,
+  shareReplay,
+  skipWhile,
   switchMap,
   tap,
   withLatestFrom,
@@ -11,7 +11,6 @@ import {
 
 import {
   Address,
-  DeliveryMode,
   PaymentDetails,
   CheckoutService,
   CartService,
@@ -22,7 +21,7 @@ import {
 export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;
-  checkoutDetails$: Observable<[string, string]>;
+  getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
     private authService: AuthService,
@@ -37,31 +36,31 @@ export class CheckoutDetailsService {
       .getActive()
       .pipe(map(cartData => cartData.code));
 
-    this.checkoutDetails$ = this.userId$.pipe(
+    this.getCheckoutDetailsLoaded$ = this.userId$.pipe(
       withLatestFrom(this.cartId$),
       tap(([userId, cartId]: [string, string]) =>
         this.checkoutService.loadCheckoutDetails(userId, cartId)
       ),
-      // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-      multicast(() => new ReplaySubject(1)),
-      refCount()
+      shareReplay(1),
+      switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
+      skipWhile(loaded => !loaded)
     );
   }
 
   getDeliveryAddress(): Observable<Address> {
-    return this.checkoutDetails$.pipe(
+    return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getDeliveryAddress())
     );
   }
 
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return this.checkoutDetails$.pipe(
-      switchMap(() => this.checkoutService.getSelectedDeliveryMode())
+  getSelectedDeliveryModeCode(): Observable<string> {
+    return this.getCheckoutDetailsLoaded$.pipe(
+      switchMap(() => this.checkoutService.getSelectedDeliveryModeCode())
     );
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
-    return this.checkoutDetails$.pipe(
+    return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getPaymentDetails())
     );
   }

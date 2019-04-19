@@ -10,6 +10,10 @@ import { ShippingAddressComponent } from './shipping-address.component';
 import { SpinnerModule } from './../../../../ui/components/spinner/spinner.module';
 import { EmptyCartGuard } from '../../../guards/empty-cart.guard';
 
+import { CheckoutProgressMobileTopModule } from './../checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
+// tslint:disable-next-line:max-line-length
+import { CheckoutProgressMobileBottomModule } from './../checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +22,8 @@ import { EmptyCartGuard } from '../../../guards/empty-cart.guard';
     CardModule,
     SpinnerModule,
     I18nModule,
+    CheckoutProgressMobileTopModule,
+    CheckoutProgressMobileBottomModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         MultistepCheckoutShippingAddress: {

@@ -6,6 +6,7 @@ import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { RegionsEffects } from './regions.effect';
 import { ResetPasswordEffects } from './reset-password.effect';
 import { TitlesEffects } from './titles.effect';
+import { UpdateEmailEffects } from './update-email.effect';
 import { UpdatePasswordEffects } from './update-password.effect';
 import { UserAddressesEffects } from './user-addresses.effect';
 import { UserDetailsEffects } from './user-details.effect';
@@ -25,6 +26,7 @@ export const effects: any[] = [
   BillingCountriesEffect,
   ResetPasswordEffects,
   ForgotPasswordEffects,
+  UpdateEmailEffects,
   UpdatePasswordEffects,
 ];
 
