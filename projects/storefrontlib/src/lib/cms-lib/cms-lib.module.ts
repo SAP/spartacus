@@ -23,7 +23,6 @@ import { NavigationModule } from './navigation/navigation.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
-import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
 import { MyInterestsModule } from '../my-account/my-interests/my-interests.module';
 
 // import { ProductReferencesModule } from './product-references/product-references.module';
