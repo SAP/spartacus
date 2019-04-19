@@ -11,7 +11,6 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
-import { ConsignmentTracking } from '../index';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
