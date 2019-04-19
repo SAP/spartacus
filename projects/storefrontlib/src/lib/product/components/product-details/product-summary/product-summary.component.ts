@@ -29,13 +29,7 @@ export class ProductSummaryComponent implements OnInit {
     this.itemCount = value;
   }
 
-  get stockInfo(): string {
-    return this.hasStock()
-      ? `${this.product.stock.stockLevel} in stock`
-      : 'Out of stock';
-  }
-
-  private hasStock(): boolean {
+  get hasStock(): boolean {
     return (
       this.product &&
       this.product.stock &&

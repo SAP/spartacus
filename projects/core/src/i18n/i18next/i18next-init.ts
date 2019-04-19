@@ -29,11 +29,11 @@ export function i18nextInit(
 
 export function i18nextAddTranslations(resources: TranslationResources = {}) {
   Object.keys(resources).forEach(lang => {
-    Object.keys(resources[lang]).forEach(namespace => {
+    Object.keys(resources[lang]).forEach(chunkName => {
       i18next.addResourceBundle(
         lang,
-        namespace,
-        resources[lang][namespace],
+        chunkName,
+        resources[lang][chunkName],
         true,
         true
       );

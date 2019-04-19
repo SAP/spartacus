@@ -7,7 +7,7 @@ import { TranslationService } from './translation.service';
 import { provideConfig, Config } from '../config/config.module';
 import { I18nextTranslationService } from './i18next/i18next-translation.service';
 import { DatePipe } from './date.pipe';
-import { TranslationNamespaceService } from './translation-namespace.service';
+import { TranslationChunkService } from './translation-chunk.service';
 
 @NgModule({
   declarations: [TranslatePipe, DatePipe],
@@ -21,7 +21,7 @@ export class I18nModule {
         provideConfig(defaultI18nConfig),
         { provide: I18nConfig, useExisting: Config },
         { provide: TranslationService, useClass: I18nextTranslationService },
-        TranslationNamespaceService,
+        TranslationChunkService,
         ...i18nextProviders,
       ],
     };

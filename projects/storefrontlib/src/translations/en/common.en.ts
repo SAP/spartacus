@@ -7,6 +7,7 @@ export const common = {
     back: 'Back',
     submit: 'Submit',
     continue: 'Continue',
+    save: 'Save',
   },
   spinner: {
     loading: 'Loading...',
