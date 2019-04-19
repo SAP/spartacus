@@ -6,6 +6,13 @@ import {
 
 import { Address, Cart, DeliveryModeList, OccConfig } from '../../occ';
 import { OccCartDeliveryAdapter } from './occ-cart-delivery.adapter';
+import { ConverterService } from '../../util/converter.service';
+import {
+  DELIVERY_ADDRESS_NORMALIZER,
+  DELIVERY_ADDRESS_SERIALIZER,
+  DELIVERY_MODE_NORMALIZER,
+} from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const userId = '123';
 const cartId = '456';
@@ -29,9 +36,16 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockConvertService {
+  pipeable = createSpy().and.returnValue(x => x);
+  pipeableMany = createSpy().and.returnValue(x => x);
+  convert = createSpy().and.returnValue(x => x);
+}
+
 describe('OccCartDeliveryAdapter', () => {
   let service: OccCartDeliveryAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,11 +53,13 @@ describe('OccCartDeliveryAdapter', () => {
       providers: [
         OccCartDeliveryAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
     service = TestBed.get(OccCartDeliveryAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
   });
 
   afterEach(() => {
@@ -57,9 +73,10 @@ describe('OccCartDeliveryAdapter', () => {
         lastName: 'Address',
       };
 
-      service.createAddress(userId, cartId, mockAddress).subscribe(result => {
-        expect(result).toEqual(mockAddress);
-      });
+      let result;
+      service
+        .createAddress(userId, cartId, mockAddress)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -77,6 +94,14 @@ describe('OccCartDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockAddress);
+      expect(result).toEqual(mockAddress);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        DELIVERY_ADDRESS_NORMALIZER
+      );
+      expect(converter.convert).toHaveBeenCalledWith(
+        mockAddress,
+        DELIVERY_ADDRESS_SERIALIZER
+      );
     });
   });
 
@@ -84,9 +109,10 @@ describe('OccCartDeliveryAdapter', () => {
     it('should set address for cart for given user id, cart id and address id', () => {
       const mockAddressId = 'mockAddressId';
 
-      service.setAddress(userId, cartId, mockAddressId).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service
+        .setAddress(userId, cartId, mockAddressId)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -105,6 +131,7 @@ describe('OccCartDeliveryAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('addressId')).toEqual(mockAddressId);
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
   });
 
@@ -113,9 +140,10 @@ describe('OccCartDeliveryAdapter', () => {
       const mockDeliveryModes: DeliveryModeList = {
         deliveryModes: [{ name: 'mockDeliveryMode' }],
       };
-      service.getSupportedModes(userId, cartId).subscribe(result => {
-        expect(result).toEqual(mockDeliveryModes.deliveryModes);
-      });
+      let result;
+      service
+        .getSupportedModes(userId, cartId)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -132,14 +160,17 @@ describe('OccCartDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockDeliveryModes);
+      expect(result).toEqual(mockDeliveryModes.deliveryModes);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        DELIVERY_MODE_NORMALIZER
+      );
     });
   });
 
   describe('get delivery mode for cart', () => {
     it('should delivery modes for cart for given user id and cart id', () => {
-      service.getMode(userId, cartId).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service.getMode(userId, cartId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -156,6 +187,8 @@ describe('OccCartDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
+      expect(converter.pipeable).toHaveBeenCalledWith(DELIVERY_MODE_NORMALIZER);
     });
   });
 
@@ -163,9 +196,10 @@ describe('OccCartDeliveryAdapter', () => {
     it('should set modes for cart for given user id, cart id and delivery mode id', () => {
       const mockDeliveryModeId = 'mockDeliveryModeId';
 
-      service.setMode(userId, cartId, mockDeliveryModeId).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service
+        .setMode(userId, cartId, mockDeliveryModeId)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -185,6 +219,7 @@ describe('OccCartDeliveryAdapter', () => {
         mockDeliveryModeId
       );
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
   });
 });

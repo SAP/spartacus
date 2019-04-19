@@ -7,6 +7,9 @@ import {
 import { Cart, CartList, OccConfig } from '../../occ';
 import { ProductImageNormalizer } from '../../product';
 import { OccCartAdapter } from './occ-cart.adapter';
+import { ConverterService } from '../../util/converter.service';
+import { CART_NORMALIZER } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const userId = '123';
 const cartId = '456';
@@ -47,9 +50,15 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockConvertService {
+  pipeable = createSpy().and.returnValue(x => x);
+  pipeableMany = createSpy().and.returnValue(x => x);
+}
+
 describe('OccCartAdapter', () => {
   let service: OccCartAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -58,11 +67,13 @@ describe('OccCartAdapter', () => {
         OccCartAdapter,
         ProductImageNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
     service = TestBed.get(OccCartAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
   });
 
   afterEach(() => {
@@ -71,9 +82,8 @@ describe('OccCartAdapter', () => {
 
   describe('load all carts', () => {
     it('should load all carts basic data for given user', () => {
-      service.loadAll(userId).subscribe(result => {
-        expect(result).toEqual(cartDataList.carts);
-      });
+      let result;
+      service.loadAll(userId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -88,12 +98,13 @@ describe('OccCartAdapter', () => {
         'carts(' + BASIC_PARAMS + ',saveTime)'
       );
       mockReq.flush(cartDataList);
+      expect(result).toEqual(cartDataList.carts);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(CART_NORMALIZER);
     });
 
     it('should load all carts details data for given user with details flag', () => {
-      service.loadAll(userId, true).subscribe(result => {
-        expect(result).toEqual(cartDataList.carts);
-      });
+      let result;
+      service.loadAll(userId, true).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -108,14 +119,14 @@ describe('OccCartAdapter', () => {
         'carts(' + DETAILS_PARAMS + ',saveTime)'
       );
       mockReq.flush(cartDataList);
+      expect(result).toEqual(cartDataList.carts);
     });
   });
 
   describe('load cart data', () => {
     it('should load cart basic data for given userId and cartId', () => {
-      service.load(userId, cartId).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service.load(userId, cartId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -128,12 +139,13 @@ describe('OccCartAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(BASIC_PARAMS);
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
+      expect(converter.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
     });
 
     it('should load cart detail data for given userId, cartId and details flag', () => {
-      service.load(userId, cartId, true).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service.load(userId, cartId, true).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -146,12 +158,12 @@ describe('OccCartAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(mockReq.request.params.get('fields')).toEqual(DETAILS_PARAMS);
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
 
     it('should load current cart for given userId', () => {
-      service.load(userId, 'current').subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service.load(userId, 'current').subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -166,14 +178,14 @@ describe('OccCartAdapter', () => {
         'carts(' + BASIC_PARAMS + ',saveTime)'
       );
       mockReq.flush({ carts: [cartData] });
+      expect(result).toEqual(cartData);
     });
   });
 
   describe('create a cart', () => {
     it('should able to create a new cart for the given user ', () => {
-      service.create(userId).subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service.create(userId).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -187,14 +199,16 @@ describe('OccCartAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
   });
 
   describe('merge a cart', () => {
     it('should able to merge a cart to current one for the given user ', () => {
-      service.create(userId, cartId, toMergeCart.guid).subscribe(result => {
-        expect(result).toEqual(mergedCart);
-      });
+      let result;
+      service
+        .create(userId, cartId, toMergeCart.guid)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -214,6 +228,7 @@ describe('OccCartAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mergedCart);
+      expect(result).toEqual(mergedCart);
     });
   });
 });

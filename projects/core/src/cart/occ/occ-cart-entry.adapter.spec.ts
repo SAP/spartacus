@@ -6,6 +6,9 @@ import {
 
 import { Cart, CartModification, OccConfig } from '../../occ';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
+import { ConverterService } from '../../util/converter.service';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
+import createSpy = jasmine.createSpy;
 
 const userId = '123';
 const cartId = '456';
@@ -32,9 +35,14 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockConvertService {
+  pipeable = createSpy().and.returnValue(x => x);
+}
+
 describe('OccCartEntryAdapter', () => {
   let service: OccCartEntryAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,11 +50,13 @@ describe('OccCartEntryAdapter', () => {
       providers: [
         OccCartEntryAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
     service = TestBed.get(OccCartEntryAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
   });
 
   afterEach(() => {
@@ -55,9 +65,8 @@ describe('OccCartEntryAdapter', () => {
 
   describe('add entry to cart', () => {
     it('should add entry to cart for given user id, cart id, product code and product quantity', () => {
-      service.add(userId, cartId, '147852', 5).subscribe(result => {
-        expect(result).toEqual(cartModified);
-      });
+      let result;
+      service.add(userId, cartId, '147852', 5).subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -78,14 +87,19 @@ describe('OccCartEntryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
+      expect(result).toEqual(cartModified);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CART_MODIFICATION_NORMALIZER
+      );
     });
   });
 
   describe('update entry in a cart', () => {
     it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
-      service.update(userId, cartId, '12345', 5).subscribe(result => {
-        expect(result).toEqual(cartModified);
-      });
+      let result;
+      service
+        .update(userId, cartId, '12345', 5)
+        .subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -106,14 +120,17 @@ describe('OccCartEntryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
+      expect(result).toEqual(cartModified);
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CART_MODIFICATION_NORMALIZER
+      );
     });
   });
 
   describe('remove an entry from cart', () => {
     it('should remove entry from cart for given user id, cart id and entry number', () => {
-      service.remove(userId, cartId, '147852').subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
+      let result;
+      service.remove(userId, cartId, '147852').subscribe(res => (result = res));
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -131,6 +148,7 @@ describe('OccCartEntryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
   });
 });
