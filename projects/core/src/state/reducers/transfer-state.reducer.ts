@@ -1,14 +1,14 @@
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import {
   makeStateKey,
   StateKey,
   TransferState,
 } from '@angular/platform-browser';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { INIT } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
-import { StateConfig } from '../config/state-config';
+import { StateConfig, StateTransferType } from '../config/state-config';
 import { getStateSlice } from '../utils/get-state-slice';
 
-export const INIT_ACTION = '@ngrx/store/init';
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
 export function getTransferStateReducer(
@@ -41,14 +41,24 @@ export function getTransferStateReducer(
 
 export function getServerTransferStateReducer(
   transferState: TransferState,
-  keys: object
+  keys: { [key: string]: StateTransferType }
 ) {
   return function(reducer) {
     return function(state, action: any) {
       const newState = reducer(state, action);
 
       if (newState) {
-        transferState.set(CX_KEY, getStateSlice(newState, keys));
+        let partialState = {};
+        for (const key of Object.keys(keys)) {
+          const stateSlice = getStateSlice(key, newState);
+          // TODO:#sync-poc - check with Stan, maybe we need to do a deep merge here?
+          partialState = {
+            ...partialState,
+            ...stateSlice,
+          };
+        }
+
+        transferState.set(CX_KEY, partialState);
       }
 
       return newState;
@@ -58,16 +68,23 @@ export function getServerTransferStateReducer(
 
 export function getBrowserTransferStateReducer(
   transferState: TransferState,
-  keys: any
+  keys: { [key: string]: StateTransferType }
 ) {
   return function(reducer) {
     return function(state, action: any) {
-      if (action.type === INIT_ACTION && transferState.hasKey(CX_KEY)) {
-        const transferedState = getStateSlice(
-          transferState.get(CX_KEY, {}),
-          keys
-        );
-        state = deepMerge({}, state, transferedState);
+      if (action.type === INIT && transferState.hasKey(CX_KEY)) {
+        const cxKey = transferState.get(CX_KEY, {});
+        let transferredState = {};
+        for (const key of Object.keys(keys)) {
+          const transferredStateSlice = getStateSlice(key, cxKey);
+          // TODO:#sync-poc - check with Stan, maybe we need to do a deep merge here?
+          transferredState = {
+            ...transferredState,
+            ...transferredStateSlice,
+          };
+        }
+
+        state = deepMerge({}, state, transferredState);
       }
       return reducer(state, action);
     };

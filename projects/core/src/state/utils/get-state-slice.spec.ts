@@ -1,70 +1,122 @@
-import { getStateSlice } from './get-state-slice';
+import { createShellObject, getStateSlice } from './get-state-slice';
 
 describe('getStateSlice', () => {
-  it('should get state slice from top branches', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' } },
-      auth: 'authconfig',
-    };
+  describe('getStateSlice', () => {
+    it('should get a state slice from a top branch', () => {
+      const state = {
+        products: { 1: 'als', 2: 'veta' },
+        cms: { pages: { page1: 'saddsa', page2: 'page2' } },
+        auth: 'authconfig',
+      };
 
-    const keys = { products: true, cms: true };
+      const keys = 'products';
+      const result = getStateSlice(keys, state);
 
-    const result = getStateSlice(state, keys);
+      const expected = { products: state.products };
+      expect(result).toEqual(expected);
+    });
 
-    const expected = { products: state.products, cms: state.cms };
+    it('should get a state slice from a branche 2 levels deep', () => {
+      const state = {
+        products: { 1: 'als', 2: 'veta' },
+        cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
+        auth: 'authconfig',
+      };
 
-    expect(result).toEqual(expected);
+      const keys = 'cms.pages';
+      const result = getStateSlice(keys, state);
+
+      const expected = {
+        cms: { pages: state.cms.pages },
+      };
+      expect(result).toEqual(expected);
+    });
+
+    it('should get a state slice from a branch 3 levels deep', () => {
+      const state = {
+        products: { 1: 'als', 2: 'veta' },
+        cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
+        auth: 'authconfig',
+      };
+
+      const keys = 'cms.pages.page1';
+      const result = getStateSlice(keys, state);
+
+      const expected = { cms: { pages: { page1: state.cms.pages.page1 } } };
+      expect(result).toEqual(expected);
+    });
+
+    it('should not get the state if a key is not present', () => {
+      const state = {
+        products: { 1: 'als', 2: 'veta' },
+        cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
+        auth: 'authconfig',
+      };
+
+      const keys = 'notPresent';
+      const result = getStateSlice(keys, state);
+
+      expect(result).toEqual({});
+    });
   });
 
-  it('should get state slice from branches 2 levels deep', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig',
-    };
+  fdescribe('createShellObject', () => {
+    describe('when no key is provided', () => {
+      it('should return an empty object', () => {
+        expect(createShellObject('', { test: 'test' })).toEqual({});
+      });
+    });
+    describe('when no value is provided', () => {
+      it('should return an empty object', () => {
+        expect(createShellObject('key', undefined)).toEqual({});
+      });
+    });
+    describe('when an empty object is provided as a value', () => {
+      it('should return an empty object', () => {
+        expect(createShellObject('', {})).toEqual({});
+      });
+    });
 
-    const keys = { products: true, cms: { pages: true } };
+    describe('when a one-level key is provided', () => {
+      it('should create an object with one property', () => {
+        const key = 'test';
+        const value = 'value';
 
-    const result = getStateSlice(state, keys);
+        const result = createShellObject(key, value);
+        expect(result).toEqual({
+          test: value,
+        });
+      });
+    });
+    describe('when a two-level key is provided', () => {
+      it('should create an object with nested properties', () => {
+        const key = 'a.b';
+        const value = 'value';
 
-    const expected = {
-      products: state.products,
-      cms: { pages: state.cms.pages },
-    };
+        const result = createShellObject(key, value);
+        expect(result).toEqual({
+          a: {
+            b: value,
+          },
+        });
+      });
+    });
+    describe('when a multi-level key is provided', () => {
+      it('should create an object with nested properties', () => {
+        const key = 'a.b.v.g';
+        const value = 'value';
 
-    expect(result).toEqual(expected);
-  });
-
-  it('should get state slice from branches 3 levels deep', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig',
-    };
-
-    const keys = { cms: { pages: { page1: true } } };
-
-    const result = getStateSlice(state, keys);
-
-    const expected = { cms: { pages: { page1: state.cms.pages.page1 } } };
-
-    expect(result).toEqual(expected);
-  });
-
-  it('should not get the state if key is not present', () => {
-    const state = {
-      products: { 1: 'als', 2: 'veta' },
-      cms: { pages: { page1: 'saddsa', page2: 'page2' }, navigation: 'ala' },
-      auth: 'authconfig',
-    };
-
-    const keys = { notPresent: true };
-
-    const result = getStateSlice(state, keys);
-
-    const expected = {};
-
-    expect(result).toEqual(expected);
+        const result = createShellObject(key, value);
+        expect(result).toEqual({
+          a: {
+            b: {
+              v: {
+                g: value,
+              },
+            },
+          },
+        });
+      });
+    });
   });
 });
