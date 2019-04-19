@@ -137,7 +137,6 @@ describe('PaymentMethodComponent', () => {
     checkoutService = TestBed.get(CheckoutService);
 
     spyOn(component.goToStep, 'emit').and.callThrough();
-    spyOn(component.backStep, 'emit').and.callThrough();
   });
 
   it('should be created', () => {
@@ -237,7 +236,7 @@ describe('PaymentMethodComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(component.backStep.emit).toHaveBeenCalled();
+    expect(component.goToStep.emit).toHaveBeenCalledWith(2);
   });
 
   describe('UI continue button', () => {

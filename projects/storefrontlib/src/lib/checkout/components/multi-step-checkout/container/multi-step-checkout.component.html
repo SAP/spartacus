@@ -68,7 +68,6 @@
             <div *ngIf="nav.status.active && step === 3">
               <cx-payment-method
                 (goToStep)="goToStep($event)"
-                (backStep)="setStep(2)"
               ></cx-payment-method>
             </div>
             <div *ngIf="nav.status.active && step === 4">

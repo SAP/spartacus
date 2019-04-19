@@ -41,9 +41,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   deliveryAddress: Address;
 
   @Output()
-  backStep = new EventEmitter<any>();
-
-  @Output()
   goToStep = new EventEmitter<any>();
 
   constructor(
@@ -148,7 +145,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.backStep.emit();
+    this.goToStep.emit(2);
   }
 
   addNewPaymentMethod({
