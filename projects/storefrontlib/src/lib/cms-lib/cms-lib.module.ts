@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
 import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
+import { UpdateEmailModule } from '../my-account/update-email/update-email.module';
 import { UpdatePasswordModule } from '../my-account/update-password/update-password.module';
 import { UpdateProfileModule } from '../my-account/update-profile/update-profile.module';
 import { ProductListModule } from '../product/components/product-list/product-list.module';
@@ -42,8 +44,6 @@ import { MyInterestsModule } from '../my-account/my-interests/my-interests.modul
     ProductCarouselModule,
     SearchBoxModule,
     MiniCartModule,
-    // ProductReferencesModule,
-    // TabParagraphContainerModule
     SiteContextSelectorModule,
     AddressBookModule,
     OrderHistoryModule,
@@ -53,6 +53,7 @@ import { MyInterestsModule } from '../my-account/my-interests/my-interests.modul
     CartTotalsModule,
     OrderDetailsModule,
     PaymentMethodsModule,
+    UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
     MyInterestsModule

@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { UIProductSearchPage } from '../../model/product-search-page';
 
 import {
   ProductsSearchState,
@@ -6,10 +7,7 @@ import {
   StateWithProduct,
 } from '../product-state';
 import * as fromProductSearch from '../reducers/product-search.reducer';
-import {
-  ProductSearchPage,
-  Suggestion,
-} from '../../../occ/occ-models/occ.models';
+import { Suggestion } from '../../../occ/occ-models/occ.models';
 
 import { getProductsState } from './feature.selector';
 
@@ -23,7 +21,7 @@ export const getProductsSearchState: MemoizedSelector<
 
 export const getSearchResults: MemoizedSelector<
   StateWithProduct,
-  ProductSearchPage
+  UIProductSearchPage
 > = createSelector(
   getProductsSearchState,
   fromProductSearch.getSearchResults
@@ -31,7 +29,7 @@ export const getSearchResults: MemoizedSelector<
 
 export const getAuxSearchResults: MemoizedSelector<
   StateWithProduct,
-  ProductSearchPage
+  UIProductSearchPage
 > = createSelector(
   getProductsSearchState,
   fromProductSearch.getAuxSearchResults

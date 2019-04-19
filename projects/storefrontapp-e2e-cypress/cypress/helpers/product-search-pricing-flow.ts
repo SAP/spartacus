@@ -1,11 +1,13 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import { checkFirstItem, createDefaultQueryRoute } from './product-search';
+import { apiUrl } from '../support/utils/login';
 
 export function productPricingFlow() {
   cy.server();
-  cy.route('GET', '/rest/v2/electronics-spa/products/search*').as('query');
+  createDefaultQueryRoute('query');
   cy.route(
     'GET',
-    '/rest/v2/electronics-spa/products/search?fields=*&sort=price-asc*'
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&sort=price-asc*`
   ).as('query_price_asc');
 
   // Click on a Category
@@ -28,9 +30,7 @@ export function productPricingFlow() {
     PRODUCT_LISTING.PRODUCTS_PER_PAGE
   );
 
-  cy.get('cx-product-list-item')
-    .first()
-    .should('contain', 'DSC-WX1');
+  checkFirstItem('DSC-WX1');
 
   // Navigate to next page
   cy.get('.page-item:last-of-type .page-link:first').click();
@@ -51,6 +51,7 @@ export function productPricingFlow() {
   cy.wait('@query_price_asc');
 
   cy.get('.page-item.active > .page-link').should('contain', '2');
+
   cy.get('cx-product-list-item:first .cx-product-name').should(
     'contain',
     'DSC-W180'

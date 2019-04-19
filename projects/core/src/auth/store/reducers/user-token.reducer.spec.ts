@@ -1,6 +1,6 @@
-import * as fromUserToken from './user-token.reducer';
-import * as fromActions from './../actions/user-token.action';
 import { UserToken } from '../../models/token-types.model';
+import * as fromActions from './../actions/user-token.action';
+import * as fromUserToken from './user-token.reducer';
 
 const testToken: UserToken = {
   access_token: 'xxx',
@@ -29,7 +29,7 @@ describe('UserToken reducer', () => {
       const action = new fromActions.LoadUserTokenSuccess(testToken);
       const state = fromUserToken.reducer(initialState, action);
 
-      expect(state.token).toEqual(testToken);
+      expect(state).toEqual(testToken);
     });
   });
 
@@ -40,7 +40,7 @@ describe('UserToken reducer', () => {
       const action = new fromActions.RefreshUserTokenSuccess(testToken);
       const state = fromUserToken.reducer(initialState, action);
 
-      expect(state.token).toEqual(testToken);
+      expect(state).toEqual(testToken);
     });
   });
 });
