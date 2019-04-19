@@ -20,19 +20,19 @@ export class CartPaymentConnector {
     return this.adapter.createSubWithProvider(postUrl, parameters);
   }
 
-  public create(
+  public createDetails(
     userId: string,
     cartId: string,
     parameters: any
   ): Observable<PaymentDetails> {
-    return this.adapter.create(userId, cartId, parameters);
+    return this.adapter.createDetails(userId, cartId, parameters);
   }
 
-  public set(
+  public setDetails(
     userId: string,
     cartId: string,
     paymentDetailsId: any
   ): Observable<any> {
-    return this.adapter.set(userId, cartId, paymentDetailsId);
+    return this.adapter.setDetails(userId, cartId, paymentDetailsId);
   }
 }

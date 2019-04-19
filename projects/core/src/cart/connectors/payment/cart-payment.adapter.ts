@@ -7,12 +7,12 @@ export abstract class CartPaymentAdapter {
     postUrl: string,
     parameters: any
   ): Observable<any>;
-  abstract create(
+  abstract createDetails(
     userId: string,
     cartId: string,
     parameters: any
   ): Observable<PaymentDetails>;
-  abstract set(
+  abstract setDetails(
     userId: string,
     cartId: string,
     paymentDetailsId: any

@@ -5,10 +5,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 
-
 import * as fromEffects from './cart-entry.effect';
 import * as fromActions from '../actions';
 import { OccConfig } from '../../../occ/index';
+import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
+import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -19,8 +20,13 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockCartEntryConnector {
+  add = createSpy().and.returnValue(of({ entry: 'testEntry' }));
+  remove = createSpy().and.returnValue(of({}));
+  update = createSpy().and.returnValue(of({}));
+}
+
 describe('Cart effect', () => {
-  let cartService: OccCartService;
   let entryEffects: fromEffects.CartEntryEffects;
   let actions$: Observable<any>;
 
@@ -31,7 +37,7 @@ describe('Cart effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartService,
+        { provide: CartEntryConnector, useClass: MockCartEntryConnector },
         fromEffects.CartEntryEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         provideMockActions(() => actions$),
@@ -39,11 +45,6 @@ describe('Cart effect', () => {
     });
 
     entryEffects = TestBed.get(fromEffects.CartEntryEffects);
-    cartService = TestBed.get(OccCartService);
-
-    spyOn(cartService, 'addEntry').and.returnValue(of({ entry: 'testEntry' }));
-    spyOn(cartService, 'removeEntry').and.returnValue(of({}));
-    spyOn(cartService, 'updateEntry').and.returnValue(of({}));
   });
 
   describe('addEntry$', () => {

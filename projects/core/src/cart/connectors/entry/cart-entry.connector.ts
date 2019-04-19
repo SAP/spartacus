@@ -25,13 +25,7 @@ export class CartEntryConnector {
     qty: number,
     pickupStore?: string
   ): Observable<CartModification> {
-    return this.adapter.update(
-      userId,
-      cartId,
-      entryNumber,
-      qty,
-      pickupStore
-    );
+    return this.adapter.update(userId, cartId, entryNumber, qty, pickupStore);
   }
 
   public remove(

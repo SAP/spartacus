@@ -132,7 +132,7 @@ export class CheckoutEffects {
                     // consume response from payment provider and creates payment details
 
                     return this.cartPaymentConnector
-                      .create(
+                      .createDetails(
                         payload.userId,
                         payload.cartId,
                         this.getPaymentSopResponseParams(
@@ -178,11 +178,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.cartPaymentConnector
-        .set(
-          payload.userId,
-          payload.cartId,
-          payload.paymentDetails.id
-        )
+        .setDetails(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
           map(
             () =>

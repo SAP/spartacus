@@ -19,5 +19,8 @@ export abstract class CartDeliveryAdapter {
     deliveryModeId: string
   ): Observable<any>;
   abstract getMode(userId: string, cartId: string): Observable<DeliveryMode>;
-  abstract getSupportedModes(userId: string, cartId: string): Observable<DeliveryMode[]>;
+  abstract getSupportedModes(
+    userId: string,
+    cartId: string
+  ): Observable<DeliveryMode[]>;
 }

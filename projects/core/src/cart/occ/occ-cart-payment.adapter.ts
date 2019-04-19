@@ -20,10 +20,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public getProviderSubInfo(
-    userId: string,
-    cartId: string
-  ): Observable<any> {
+  public getProviderSubInfo(userId: string, cartId: string): Observable<any> {
     return this.http
       .get(
         this.getCartEndpoint(userId) +
@@ -52,7 +49,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
     });
   }
 
-  public create(
+  public createDetails(
     userId: string,
     cartId: string,
     parameters: any
@@ -75,7 +72,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public set(
+  public setDetails(
     userId: string,
     cartId: string,
     paymentDetailsId: any
