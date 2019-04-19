@@ -92,8 +92,17 @@ function rehydrate(config: StateConfig, winRef: WindowRef): Object {
   return rehydratedState;
 }
 
+// TODO:#sync-poc - test with a number, boolean, string and a complex object
 function exists(value: Object): boolean {
-  return value != null && Object.keys(value).length !== 0;
+  if (value != null) {
+    if (typeof value === 'object') {
+      return Object.keys(value).length !== 0;
+    } else {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 function persistToStorage(
@@ -102,15 +111,7 @@ function persistToStorage(
   storage: Storage
 ): void {
   if (value) {
-    let valueToPersist: string;
-    if (typeof value === 'string') {
-      valueToPersist = value;
-    } else if (typeof value === 'object') {
-      valueToPersist = JSON.stringify(value);
-    } else {
-      // TODO:#sync-poc - array? what else?
-    }
-    storage.setItem(configKey, valueToPersist);
+    storage.setItem(configKey, JSON.stringify(value));
   }
 }
 
@@ -187,11 +188,5 @@ function resolveStorageValue(storage: Storage, key: string): Object {
   }
 
   const storageValue = storage.getItem(key);
-  let resolvedValue: Object;
-  try {
-    resolvedValue = JSON.parse(storageValue);
-  } catch {
-    resolvedValue = storageValue;
-  }
-  return resolvedValue;
+  return JSON.parse(storageValue);
 }
