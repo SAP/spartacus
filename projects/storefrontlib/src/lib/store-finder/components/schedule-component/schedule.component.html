@@ -7,7 +7,7 @@
       {{ getStoreClosingTime(day) | cxDate: 'HH:mm' }}
     </div>
     <div *ngIf="getStoreOpeningTime(day) === null" class="cx-hours col-6">
-      {{ 'storeFinder.label.closed' | cxTranslate }}
+      {{ 'storeFinder.closed' | cxTranslate }}
     </div>
   </div>
 </div>

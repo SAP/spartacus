@@ -2,7 +2,7 @@
   <div class="form-group">
     <label>
       <span class="label-content">{{
-        'login.label.emailAddress' | cxTranslate
+        'loginForm.emailAddress.label' | cxTranslate
       }}</span>
       <input
         type="email"
@@ -12,7 +12,7 @@
           (form.controls['userId'].touched || form.controls['userId'].dirty)
         "
         formControlName="userId"
-        placeholder="{{ 'login.placeholder.emailAddress' | cxTranslate }}"
+        placeholder="{{ 'loginForm.emailAddress.placeholder' | cxTranslate }}"
       />
     </label>
     <div
@@ -22,18 +22,18 @@
         (form.controls['userId'].touched || form.controls['userId'].dirty)
       "
     >
-      <span>{{ 'login.validation.wrongEmailFormat' | cxTranslate }}</span>
+      <span>{{ 'loginForm.wrongEmailFormat' | cxTranslate }}</span>
     </div>
   </div>
   <div class="form-group">
     <label>
       <span class="label-content">{{
-        'login.label.password' | cxTranslate
+        'loginForm.password.label' | cxTranslate
       }}</span>
       <input
         type="password"
         class="form-control"
-        placeholder="{{ 'login.placeholder.password' | cxTranslate }}"
+        placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
         formControlName="password"
       />
     </label>
@@ -43,7 +43,7 @@
       [routerLink]="{ route: ['forgotPassword'] } | cxTranslateUrl"
       aria-controls="reset-password"
       class="btn-link"
-      >{{ 'login.action.forgotPassword' | cxTranslate }}</a
+      >{{ 'loginForm.forgotPassword' | cxTranslate }}</a
     >
   </p>
 
@@ -52,17 +52,17 @@
     class="btn btn-block btn-primary"
     [disabled]="form.invalid"
   >
-    {{ 'login.action.signIn' | cxTranslate }}
+    {{ 'loginForm.signIn' | cxTranslate }}
   </button>
 </form>
 
 <div class="register">
   <h3 class="cx-section__title cx-section__title--alt">
-    {{ 'login.label.dontHaveAccount' | cxTranslate }}
+    {{ 'loginForm.dontHaveAccount' | cxTranslate }}
   </h3>
   <a
     [routerLink]="{ route: ['register'] } | cxTranslateUrl"
     class="btn btn-block btn-secondary"
-    >{{ 'login.action.register' | cxTranslate }}</a
+    >{{ 'loginForm.register' | cxTranslate }}</a
   >
 </div>
