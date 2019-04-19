@@ -3,8 +3,6 @@ import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
 
-const JSON_OBJECT_REG_EX = new RegExp('{|\\[');
-
 // TODO:#sync-poc - all functions expect the main reducer should not be exported
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
@@ -190,11 +188,10 @@ function resolveStorageValue(storage: Storage, key: string): Object {
 
   const storageValue = storage.getItem(key);
   let resolvedValue: Object;
-  if (storageValue && JSON_OBJECT_REG_EX.test(storageValue.charAt(0))) {
+  try {
     resolvedValue = JSON.parse(storageValue);
-  } else {
+  } catch {
     resolvedValue = storageValue;
   }
-
   return resolvedValue;
 }
