@@ -104,7 +104,7 @@
     </div>
     <!-- Availability -->
     <div *ngIf="isProductOutOfStock(item)" class="cx-availability col-12">
-      {{ item.product.stock?.stockLevelStatus }}
+      {{ 'productSummary.outOfStock' | cxTranslate }}
     </div>
     <!-- Promotion -->
     <cx-promotions [promotions]="potentialProductPromotions"></cx-promotions>
