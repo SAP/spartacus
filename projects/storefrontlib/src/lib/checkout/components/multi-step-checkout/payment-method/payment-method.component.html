@@ -62,7 +62,9 @@
     <ng-template #newPaymentForm>
       <cx-payment-form
         (addPaymentInfo)="addNewPaymentMethod($event)"
-        (backToPayment)="hideNewPaymentForm()"
+        (closeForm)="hideNewPaymentForm()"
+        (goBack)="back()"
+        [paymentMethodsCount]="existingPaymentMethods?.length || 0"
       ></cx-payment-form>
     </ng-template>
   </ng-container>

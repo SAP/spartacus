@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy,
   OnDestroy,
+  Input,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -49,8 +50,15 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   countries$: Observable<Country[]>;
   sameAsShippingAddress = true;
 
+  @Input()
+  paymentMethodsCount: number;
+
   @Output()
-  backToPayment = new EventEmitter<any>();
+  goBack = new EventEmitter<any>();
+
+  @Output()
+  closeForm = new EventEmitter<any>();
+
   @Output()
   addPaymentInfo = new EventEmitter<any>();
 
@@ -90,7 +98,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.expMonthAndYear();
-
+    console.log(this.paymentMethodsCount);
     this.countries$ = this.userService.getAllBillingCountries().pipe(
       tap(countries => {
         // If the store is empty fetch countries. This is also used when changing language.
@@ -234,8 +242,12 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  close(): void {
+    this.closeForm.emit();
+  }
+
   back(): void {
-    this.backToPayment.emit();
+    this.goBack.emit();
   }
 
   verifyAddress(): void {

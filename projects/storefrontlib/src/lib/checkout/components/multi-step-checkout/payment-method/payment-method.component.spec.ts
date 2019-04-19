@@ -78,7 +78,10 @@ const mockPaymentMethods: PaymentDetails[] = [
   selector: 'cx-payment-form',
   template: '',
 })
-class MockPaymentFormComponent {}
+class MockPaymentFormComponent {
+  @Input()
+  paymentMethodsCount: number;
+}
 
 @Component({
   selector: 'cx-spinner',

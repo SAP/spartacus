@@ -75,7 +75,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.getPaymentDetailsSub = this.checkoutService
       .getPaymentDetails()
-      .pipe(filter(paymentInfo => Object.keys(paymentInfo).length !== 0))
+      .pipe(
+        filter(
+          paymentInfo => paymentInfo && Object.keys(paymentInfo).length !== 0
+        )
+      )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
           this.selectedPayment = paymentInfo;
