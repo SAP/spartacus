@@ -4,12 +4,13 @@ import {
   Output,
   EventEmitter,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -18,13 +19,16 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./delivery-mode.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeliveryModeComponent implements OnInit {
+export class DeliveryModeComponent implements OnInit, OnDestroy {
   @Output()
   goToStep = new EventEmitter<number>();
 
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   currentDeliveryModeId: string;
+
+  changedOption: boolean;
+  deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
@@ -36,6 +40,7 @@ export class DeliveryModeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.changedOption = false;
     this.checkoutService.loadSupportedDeliveryModes();
 
     this.supportedDeliveryModes$ = this.checkoutService.getSupportedDeliveryModes();
@@ -55,11 +60,25 @@ export class DeliveryModeComponent implements OnInit {
       });
   }
 
-  next(): void {
-    this.setDeliveryMode(this.mode.value.deliveryModeId);
-    if (this.currentDeliveryModeId) {
-      this.goToStep.emit(3);
+  changeMode(code: string): void {
+    if (code !== this.currentDeliveryModeId) {
+      this.changedOption = true;
+      this.currentDeliveryModeId = code;
     }
+  }
+
+  next(): void {
+    if (this.changedOption) {
+      this.checkoutService.setDeliveryMode(this.currentDeliveryModeId);
+    }
+
+    this.deliveryModeSub = this.checkoutService
+      .getSelectedDeliveryMode()
+      .subscribe(data => {
+        if (data && data.code === this.currentDeliveryModeId) {
+          this.goToStep.emit(3);
+        }
+      });
   }
 
   back(): void {
@@ -70,12 +89,9 @@ export class DeliveryModeComponent implements OnInit {
     return this.mode.controls['deliveryModeId'].invalid;
   }
 
-  private setDeliveryMode(deliveryModeId: string): void {
-    if (
-      !this.currentDeliveryModeId ||
-      this.currentDeliveryModeId !== deliveryModeId
-    ) {
-      this.checkoutService.setDeliveryMode(deliveryModeId);
+  ngOnDestroy(): void {
+    if (this.deliveryModeSub) {
+      this.deliveryModeSub.unsubscribe();
     }
   }
 }
