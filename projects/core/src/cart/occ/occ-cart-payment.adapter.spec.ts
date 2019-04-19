@@ -15,6 +15,12 @@ const cartData: Cart = {
 };
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'mockPaymentDetails',
+  cardType: {
+    code: 'aaa',
+  },
+  billingAddress: {
+    country: {},
+  },
 };
 
 const usersEndpoint = '/users';
@@ -31,6 +37,124 @@ const MockOccModuleConfig: OccConfig = {
     baseSite: '',
   },
 };
+
+const paymentProviderInfo = {
+  mappingLabels: {
+    entry: [
+      {
+        key: 'hybris_sop_amount',
+        value: 'amount',
+      },
+      {
+        key: 'hybris_sop_currency',
+        value: '',
+      },
+      {
+        key: 'hybris_billTo_country',
+        value: 'billTo_country',
+      },
+      {
+        key: 'hybris_card_type',
+        value: 'card_type',
+      },
+      {
+        key: 'hybris_card_expiration_year',
+        value: 'card_expirationYear',
+      },
+      {
+        key: 'hybris_sop_reason_code',
+        value: 'reason_code',
+      },
+      {
+        key: 'hybris_combined_expiry_date',
+        value: 'false',
+      },
+      {
+        key: 'hybris_sop_decision',
+        value: 'decision',
+      },
+      {
+        key: 'hybris_card_expiry_date',
+        value: 'card_expirationDate',
+      },
+      {
+        key: 'hybris_card_expiration_month',
+        value: 'card_expirationMonth',
+      },
+      {
+        key: 'hybris_billTo_street1',
+        value: 'billTo_street1',
+      },
+      {
+        key: 'hybris_sop_card_number',
+        value: 'card_accountNumber',
+      },
+      {
+        key: 'hybris_separator_expiry_date',
+        value: '',
+      },
+      {
+        key: 'hybris_account_holder_name',
+        value: 'mockup_account_holder',
+      },
+      {
+        key: 'hybris_sop_uses_public_signature',
+        value: 'false',
+      },
+      {
+        key: 'hybris_card_number',
+        value: 'card_accountNumber',
+      },
+      {
+        key: 'hybris_card_cvn',
+        value: 'card_cvNumber',
+      },
+      {
+        key: 'hybris_billTo_lastname',
+        value: 'billTo_lastName',
+      },
+      {
+        key: 'hybris_billTo_city',
+        value: 'billTo_city',
+      },
+      {
+        key: 'hybris_billTo_firstname',
+        value: 'billTo_firstName',
+      },
+      {
+        key: 'hybris_billTo_postalcode',
+        value: 'billTo_postalCode',
+      },
+    ],
+  },
+  parameters: {
+    entry: [],
+  },
+  postUrl: 'https://testurl',
+};
+
+const html =
+  '<form id="silentOrderPostForm" name="silentOrderPostForm" action="javascript:false;" method="post">' +
+  '<div id="postFormItems">' +
+  '<dl>' +
+  '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
+  '<input type="hidden" id="amount" name="amount" value="0" />' +
+  '<input type="hidden" id="decision_publicSignature" name="decision_publicSignature" value="mEhlMRLCsuPimhp50ElrY94zFyc=" />' +
+  '<input type="hidden" id="decision" name="decision" value="ACCEPT" />' +
+  '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
+  '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
+  '<input type="hidden" id="ccAuthReply_cvCode" name="ccAuthReply_cvCode" value="M" />' +
+  '<input type="hidden" id="billTo_postalCode" name="billTo_postalCode" value="12345" />' +
+  '<input type="hidden" id="billTo_street1" name="billTo_street1" value="999 de Maisonneuve" />' +
+  '<input type="hidden" id="billTo_firstName" name="billTo_firstName" value="test" />' +
+  '<input type="hidden" id="card_cardType" name="card_cardType" value="visa" />' +
+  '<input type="hidden" id="card_expirationMonth" name="card_expirationMonth" value="12" />' +
+  '<input type="hidden" id="card_expirationYear" name="card_expirationYear" value="2020" />' +
+  '<input type="hidden" id="reasonCode" name="reasonCode" value="100" />' +
+  '<input type="hidden" id="card_accountNumber" name="card_accountNumber" value="************1111" />' +
+  '</dl>' +
+  '</div>' +
+  '</form>';
 
 describe('OccCartPaymentAdapter', () => {
   let service: OccCartPaymentAdapter;
@@ -53,9 +177,77 @@ describe('OccCartPaymentAdapter', () => {
     httpMock.verify();
   });
 
+  describe('set payment details', () => {
+    it('should set payment details for given user id, cart id and payment details id', () => {
+      service.setDetails(userId, cartId, '123').subscribe(result => {
+        expect(result).toEqual(cartData);
+      });
+
+      const mockReq = httpMock.expectOne(req => {
+        return (
+          req.method === 'PUT' &&
+          req.url ===
+            usersEndpoint +
+              `/${userId}` +
+              cartsEndpoint +
+              cartId +
+              '/paymentdetails'
+        );
+      });
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(cartData);
+    });
+  });
+
+  describe('create payment', () => {
+    it('should set payment details for given user id, cart id and payment details id', () => {
+      let result;
+      service.create(userId, cartId, mockPaymentDetails).subscribe(res => {
+        result = res;
+      });
+
+      httpMock
+        .expectOne(req => {
+          return (
+            req.method === 'GET' &&
+            req.url ===
+              usersEndpoint +
+                `/${userId}` +
+                cartsEndpoint +
+                cartId +
+                '/payment/sop/request?responseUrl=sampleUrl'
+          );
+        })
+        .flush(paymentProviderInfo);
+
+      httpMock
+        .expectOne(req => {
+          return (
+            req.method === 'POST' && req.url === paymentProviderInfo.postUrl
+          );
+        })
+        .flush(html);
+
+      httpMock
+        .expectOne(req => {
+          return (
+            req.method === 'POST' &&
+            req.url === '/users/123/carts/456/payment/sop/response'
+          );
+        })
+        .flush(mockPaymentDetails);
+
+      expect(result).toEqual(mockPaymentDetails);
+    });
+  });
+
   describe('get payment provider subscription info', () => {
     it('should get payment provider subscription info for given user id and cart id', () => {
-      service.getProviderSubInfo(userId, cartId).subscribe(result => {
+      // testing protected method
+      (service as any).getProviderSubInfo(userId, cartId).subscribe(result => {
         expect(result).toEqual(cartData);
       });
 
@@ -85,9 +277,12 @@ describe('OccCartPaymentAdapter', () => {
       const mockUrl = 'mockUrl';
       const mockPaymentProvider = 'mockPaymentProvider';
 
-      service.createSubWithProvider(mockUrl, params).subscribe(result => {
-        expect(result).toEqual(mockPaymentProvider);
-      });
+      // testing protected method
+      (service as any)
+        .createSubWithProvider(mockUrl, params)
+        .subscribe(result => {
+          expect(result).toEqual(mockPaymentProvider);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === mockUrl;
@@ -113,9 +308,12 @@ describe('OccCartPaymentAdapter', () => {
       const mockUrl = 'mockUrl';
       const mockPaymentProvider = 'mockPaymentProvider';
 
-      service.createSubWithProvider(mockUrl, params).subscribe(result => {
-        expect(result).toEqual(mockPaymentProvider);
-      });
+      // testing protected method
+      (service as any)
+        .createSubWithProvider(mockUrl, params)
+        .subscribe(result => {
+          expect(result).toEqual(mockPaymentProvider);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return req.method === 'POST' && req.url === mockUrl;
@@ -139,9 +337,12 @@ describe('OccCartPaymentAdapter', () => {
         param: 'mockParam',
       };
 
-      service.createDetails(userId, cartId, params).subscribe(result => {
-        expect(result).toEqual(mockPaymentDetails);
-      });
+      // testing protected method
+      (service as any)
+        .createDetails(userId, cartId, params)
+        .subscribe(result => {
+          expect(result).toEqual(mockPaymentDetails);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -172,9 +373,12 @@ describe('OccCartPaymentAdapter', () => {
         param2: 'mockParam2',
       };
 
-      service.createDetails(userId, cartId, params).subscribe(result => {
-        expect(result).toEqual(mockPaymentDetails);
-      });
+      // testing protected method
+      (service as any)
+        .createDetails(userId, cartId, params)
+        .subscribe(result => {
+          expect(result).toEqual(mockPaymentDetails);
+        });
 
       const mockReq = httpMock.expectOne(req => {
         return (
@@ -196,31 +400,6 @@ describe('OccCartPaymentAdapter', () => {
       expect(mockReq.request.body.get('param1')).toEqual('mockParam1');
       expect(mockReq.request.body.get('param2')).toEqual('mockParam2');
       mockReq.flush(mockPaymentDetails);
-    });
-  });
-
-  describe('set payment details', () => {
-    it('should set payment details for given user id, cart id and payment details id', () => {
-      service.setDetails(userId, cartId, '123').subscribe(result => {
-        expect(result).toEqual(cartData);
-      });
-
-      const mockReq = httpMock.expectOne(req => {
-        return (
-          req.method === 'PUT' &&
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymentdetails'
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
     });
   });
 });

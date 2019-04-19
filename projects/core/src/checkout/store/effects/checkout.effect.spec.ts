@@ -52,124 +52,6 @@ const address: Address = {
 const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 const orderDetails: Order = { entries: [] };
 
-const paymentProviderInfo = {
-  mappingLabels: {
-    entry: [
-      {
-        key: 'hybris_sop_amount',
-        value: 'amount',
-      },
-      {
-        key: 'hybris_sop_currency',
-        value: '',
-      },
-      {
-        key: 'hybris_billTo_country',
-        value: 'billTo_country',
-      },
-      {
-        key: 'hybris_card_type',
-        value: 'card_type',
-      },
-      {
-        key: 'hybris_card_expiration_year',
-        value: 'card_expirationYear',
-      },
-      {
-        key: 'hybris_sop_reason_code',
-        value: 'reason_code',
-      },
-      {
-        key: 'hybris_combined_expiry_date',
-        value: 'false',
-      },
-      {
-        key: 'hybris_sop_decision',
-        value: 'decision',
-      },
-      {
-        key: 'hybris_card_expiry_date',
-        value: 'card_expirationDate',
-      },
-      {
-        key: 'hybris_card_expiration_month',
-        value: 'card_expirationMonth',
-      },
-      {
-        key: 'hybris_billTo_street1',
-        value: 'billTo_street1',
-      },
-      {
-        key: 'hybris_sop_card_number',
-        value: 'card_accountNumber',
-      },
-      {
-        key: 'hybris_separator_expiry_date',
-        value: '',
-      },
-      {
-        key: 'hybris_account_holder_name',
-        value: 'mockup_account_holder',
-      },
-      {
-        key: 'hybris_sop_uses_public_signature',
-        value: 'false',
-      },
-      {
-        key: 'hybris_card_number',
-        value: 'card_accountNumber',
-      },
-      {
-        key: 'hybris_card_cvn',
-        value: 'card_cvNumber',
-      },
-      {
-        key: 'hybris_billTo_lastname',
-        value: 'billTo_lastName',
-      },
-      {
-        key: 'hybris_billTo_city',
-        value: 'billTo_city',
-      },
-      {
-        key: 'hybris_billTo_firstname',
-        value: 'billTo_firstName',
-      },
-      {
-        key: 'hybris_billTo_postalcode',
-        value: 'billTo_postalCode',
-      },
-    ],
-  },
-  parameters: {
-    entry: [],
-  },
-  postUrl: 'https://testurl',
-};
-
-const html =
-  '<form id="silentOrderPostForm" name="silentOrderPostForm" action="javascript:false;" method="post">' +
-  '<div id="postFormItems">' +
-  '<dl>' +
-  '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
-  '<input type="hidden" id="amount" name="amount" value="0" />' +
-  '<input type="hidden" id="decision_publicSignature" name="decision_publicSignature" value="mEhlMRLCsuPimhp50ElrY94zFyc=" />' +
-  '<input type="hidden" id="decision" name="decision" value="ACCEPT" />' +
-  '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
-  '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
-  '<input type="hidden" id="ccAuthReply_cvCode" name="ccAuthReply_cvCode" value="M" />' +
-  '<input type="hidden" id="billTo_postalCode" name="billTo_postalCode" value="12345" />' +
-  '<input type="hidden" id="billTo_street1" name="billTo_street1" value="999 de Maisonneuve" />' +
-  '<input type="hidden" id="billTo_firstName" name="billTo_firstName" value="test" />' +
-  '<input type="hidden" id="card_cardType" name="card_cardType" value="visa" />' +
-  '<input type="hidden" id="card_expirationMonth" name="card_expirationMonth" value="12" />' +
-  '<input type="hidden" id="card_expirationYear" name="card_expirationYear" value="2020" />' +
-  '<input type="hidden" id="reasonCode" name="reasonCode" value="100" />' +
-  '<input type="hidden" id="card_accountNumber" name="card_accountNumber" value="************1111" />' +
-  '</dl>' +
-  '</div>' +
-  '</form>';
-
 const paymentDetails: PaymentDetails = {
   accountHolderName: 'test',
   billingAddress: {
@@ -186,9 +68,7 @@ class MockCartDeliveryConnector {
 
 class MockCartPaymentConnector {
   setDetails = createSpy().and.returnValue(of({}));
-  getProviderSubInfo = createSpy().and.returnValue(of(paymentProviderInfo));
-  createSubWithProvider = createSpy().and.returnValue(of(html));
-  createDetails = createSpy().and.returnValue(of(paymentDetails));
+  create = createSpy().and.returnValue(of(paymentDetails));
 }
 
 describe('Checkout effect', () => {
