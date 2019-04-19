@@ -1,11 +1,21 @@
 <div class="cx-consignment-tracking-dialog" #dialog>
   <!-- Modal Header -->
-  <ng-container *ngIf="(tracking$ | async) as consignmentTracking; else loading">
+  <ng-container
+    *ngIf="(tracking$ | async) as consignmentTracking; else loading"
+  >
     <div class="cx-consignment-tracking-dialog__header modal-header">
       <div class="cx-consignment-tracking-dialog__title modal-title">
-        {{ 'orderDetails.consignmentTracking.dialog.header' | cxTranslate: { consignmentCode: consignmentCode } }}
+        {{
+          'orderDetails.consignmentTracking.dialog.header'
+            | cxTranslate: { consignmentCode: consignmentCode }
+        }}
       </div>
-      <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -13,63 +23,106 @@
 
     <!-- shipment header -->
     <div class="cx-consignment-tracking-dialog__shipment-heading">
-      <ng-container *ngIf="consignmentTracking?.carrierDetails && consignmentTracking?.trackingID; else noTracking">
-
+      <ng-container
+        *ngIf="
+          consignmentTracking?.carrierDetails &&
+            consignmentTracking?.trackingID;
+          else noTracking
+        "
+      >
         <div class="cx-consignment-tracking-dialog__shipment-row row">
-          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+          <div
+            class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
+          >
             <div class="cx-consignment-tracking-dialog__shipment-title ">
-              {{'orderDetails.consignmentTracking.dialog.shipped' | cxTranslate}} </div>
-            <div> {{shipDate | date}}</div>
+              {{
+                'orderDetails.consignmentTracking.dialog.shipped' | cxTranslate
+              }}
+            </div>
+            <div>{{ shipDate | date }}</div>
           </div>
-          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+          <div
+            class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
+          >
             <div class="cx-consignment-tracking-dialog__shipment-title">
-              {{'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate}}</div>
-            <div class="cx-consignment-tracking-dialog__date"> {{consignmentTracking?.targetArrivalDate | date}}</div>
+              {{
+                'orderDetails.consignmentTracking.dialog.estimate' | cxTranslate
+              }}
+            </div>
+            <div class="cx-consignment-tracking-dialog__date">
+              {{ consignmentTracking?.targetArrivalDate | date }}
+            </div>
           </div>
         </div>
 
         <div class="cx-consignment-tracking-dialog__shipment-row row">
-          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
+          <div
+            class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
+          >
             <div class="cx-consignment-tracking-dialog__shipment-title">
-              {{'orderDetails.consignmentTracking.dialog.carrier' | cxTranslate}}</div>
-            <div> {{consignmentTracking?.carrierDetails?.name}}</div>
-          </div>
-          <div class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6">
-            <div class="cx-consignment-tracking-dialog__shipment-title">
-              {{'orderDetails.consignmentTracking.dialog.trackingId' | cxTranslate}}</div>
-            <div>
-              <a [href]="consignmentTracking?.trackingUrl" target="_blank"> {{consignmentTracking?.trackingID}} </a>
+              {{
+                'orderDetails.consignmentTracking.dialog.carrier' | cxTranslate
+              }}
             </div>
-
+            <div>{{ consignmentTracking?.carrierDetails?.name }}</div>
+          </div>
+          <div
+            class="cx-consignment-tracking-dialog__infoblock col-sm-12 col-md-6"
+          >
+            <div class="cx-consignment-tracking-dialog__shipment-title">
+              {{
+                'orderDetails.consignmentTracking.dialog.trackingId'
+                  | cxTranslate
+              }}
+            </div>
+            <div>
+              <a [href]="consignmentTracking?.trackingUrl" target="_blank">
+                {{ consignmentTracking?.trackingID }}
+              </a>
+            </div>
           </div>
         </div>
       </ng-container>
     </div>
     <!-- tracking events -->
     <div class="cx-consignment-tracking-dialog__event modal-body">
-      <ng-container *ngFor="let consignmentEvent of consignmentTracking.trackingEvents">
+      <ng-container
+        *ngFor="let consignmentEvent of consignmentTracking.trackingEvents"
+      >
         <div class="event-body">
-          <div>{{consignmentEvent.eventDate | date}}</div>
-          <div class="cx-consignment-tracking-dialog__shipment-title">{{consignmentEvent.referenceCode}}</div>
-          <div>{{consignmentEvent.detail}}</div>
-          <div class="cx-consignment-tracking-dialog__shipment-city">location: {{consignmentEvent.location}}</div>
+          <div>{{ consignmentEvent.eventDate | date }}</div>
+          <div class="cx-consignment-tracking-dialog__shipment-title">
+            {{ consignmentEvent.referenceCode }}
+          </div>
+          <div>{{ consignmentEvent.detail }}</div>
+          <div class="cx-consignment-tracking-dialog__shipment-city">
+            location: {{ consignmentEvent.location }}
+          </div>
         </div>
       </ng-container>
     </div>
-
-
   </ng-container>
   <ng-template #noTracking>
-    <div class='no-tracking-info'> {{ 'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate }} </div>
+    <div class="no-tracking-info">
+      {{ 'orderDetails.consignmentTracking.dialog.noTracking' | cxTranslate }}
+    </div>
   </ng-template>
 
   <ng-template #loading>
-    <div class='tracking-loading'>
+    <div class="tracking-loading">
       <div class="cx-consignment-tracking-dialog__header modal-header">
         <div class="cx-consignment-tracking-dialog__title modal-title">
-          {{ 'orderDetails.consignmentTracking.dialog.loadingHeader' | cxTranslate }}
+          {{
+            'orderDetails.consignmentTracking.dialog.loadingHeader'
+              | cxTranslate
+          }}
         </div>
-        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="activeModal.dismiss('Cross click')"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

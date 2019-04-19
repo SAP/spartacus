@@ -118,11 +118,11 @@ describe('OccOrderService', () => {
       httpMock.expectOne((req: HttpRequest<any>) => {
         return (
           req.url ===
-          usersEndpoint +
-          `/${userId}` +
-          orderEndpoint +
-          '/' +
-          orderData.code && req.method === 'GET'
+            usersEndpoint +
+              `/${userId}` +
+              orderEndpoint +
+              '/' +
+              orderData.code && req.method === 'GET'
         );
       }, `GET a single order`);
     }));
@@ -132,16 +132,19 @@ describe('OccOrderService', () => {
     it('should fetch a consignment tracking', async(() => {
       const tracking: ConsignmentTracking = {
         trackingID: '1234567890',
-        trackingEvents: []
+        trackingEvents: [],
       };
-      service.getConsignmentTracking(orderData.code, consignmentCode).subscribe(
-        result => expect(result).toEqual(tracking)
-      );
+      service
+        .getConsignmentTracking(orderData.code, consignmentCode)
+        .subscribe(result => expect(result).toEqual(tracking));
       const mockReq = httpMock.expectOne(req => {
         return (
-          req.url === orderEndpoint + `/${orderData.code}`
-          + consignmentEndpoint + `/${consignmentCode}`
-          + '/tracking' && req.method === 'GET'
+          req.url ===
+            orderEndpoint +
+              `/${orderData.code}` +
+              consignmentEndpoint +
+              `/${consignmentCode}` +
+              '/tracking' && req.method === 'GET'
         );
       }, `GET a consignment tracking`);
       expect(mockReq.cancelled).toBeFalsy();

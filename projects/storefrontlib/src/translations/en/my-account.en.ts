@@ -13,10 +13,11 @@ export const myAccount = {
         estimate: 'Estimated Delivery',
         carrier: 'Delivery Service',
         trackingId: 'Tracking Number',
-        noTracking: 'The package has not been dispatched from the warehouse. '
-          + 'The tracking information will be available after the package is shipped.',
-        loadingHeader: 'Consignment Tracking'
-      }
+        noTracking:
+          'The package has not been dispatched from the warehouse. ' +
+          'The tracking information will be available after the package is shipped.',
+        loadingHeader: 'Consignment Tracking',
+      },
     },
   },
   orderHistory: {

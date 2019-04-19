@@ -6,15 +6,26 @@
         <div>{{ 'orderDetails.shippedOn' | cxTranslate }}&nbsp;</div>
         <div>{{ consignment?.statusDate | date }}</div>
       </div>
-      <button *ngIf="consignment.status === 'SHIPPED' || consignment.status === 'IN_TRANSIT' || consignment.status === ''
-        || consignment.status === 'DELIVERY_COMPLETED' || consignment.status === 'DELIVERY_REJECTED'"
-        (click)="getConsignmentTracking(consignment)" class="btn btn-action">
+      <button
+        *ngIf="
+          consignment.status === 'SHIPPED' ||
+          consignment.status === 'IN_TRANSIT' ||
+          consignment.status === '' ||
+          consignment.status === 'DELIVERY_COMPLETED' ||
+          consignment.status === 'DELIVERY_REJECTED'
+        "
+        (click)="getConsignmentTracking(consignment)"
+        class="btn btn-action"
+      >
         {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}
       </button>
     </div>
 
     <div class="cx-list-item col-12">
-      <cx-cart-item-list [items]="getConsignmentProducts(consignment)" [isReadOnly]="true"></cx-cart-item-list>
+      <cx-cart-item-list
+        [items]="getConsignmentProducts(consignment)"
+        [isReadOnly]="true"
+      ></cx-cart-item-list>
     </div>
   </div>
 
@@ -25,7 +36,10 @@
       </div>
     </div>
     <div class="cx-list-item col-12">
-      <cx-cart-item-list [items]="order?.unconsignedEntries" [isReadOnly]="true"></cx-cart-item-list>
+      <cx-cart-item-list
+        [items]="order?.unconsignedEntries"
+        [isReadOnly]="true"
+      ></cx-cart-item-list>
     </div>
   </div>
 </ng-container>

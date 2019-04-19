@@ -5,15 +5,13 @@ const mockTracking: ConsignmentTracking = { trackingID: '1234567890' };
 
 const mockTrackingParams = {
   orderCode: '00000001',
-  consignmentCode: 'a00000001'
+  consignmentCode: 'a00000001',
 };
 
 describe('Consignment Tracking Actions', () => {
   describe('LoadOrderDetails Action', () => {
     it('should create the action', () => {
-      const action = new fromAction.LoadConsignmentTracking(
-        mockTrackingParams
-      );
+      const action = new fromAction.LoadConsignmentTracking(mockTrackingParams);
 
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_CONSIGNMENT_TRACKING,

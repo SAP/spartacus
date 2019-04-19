@@ -1,6 +1,10 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 
-import { ConsignmentTrackingState, UserState, StateWithUser } from '../user-state';
+import {
+  ConsignmentTrackingState,
+  UserState,
+  StateWithUser,
+} from '../user-state';
 import { ConsignmentTracking } from '../../index';
 import { getUserState } from './feature.selector';
 

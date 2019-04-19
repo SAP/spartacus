@@ -12,7 +12,6 @@ $cx-consignment-tracking-dialog-header-padding-left: 2rem !default;
 
 $cx-consignment-tracking-dialog-body-padding-sm: 0 !default;
 
-
 .cx-consignment-tracking-dialog {
   &__header {
     padding-left: $cx-consignment-tracking-dialog-header-padding-left;
@@ -34,7 +33,7 @@ $cx-consignment-tracking-dialog-body-padding-sm: 0 !default;
     // @include var-color(
     //   'background-color',
     //   $cx-consignment-tracking-dialog-shipment-heading-background-color
-    // );  
+    // );
   }
 
   &__shipment-title {

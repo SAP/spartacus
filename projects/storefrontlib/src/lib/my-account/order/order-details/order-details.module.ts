@@ -48,4 +48,4 @@ const moduleComponents = [
   exports: [...moduleComponents],
   entryComponents: [...moduleComponents, TrackingEventsComponent],
 })
-export class OrderDetailsModule { }
+export class OrderDetailsModule {}

@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Order, Consignment, OrderEntry, ConsignmentTracking, UserService } from '@spartacus/core';
+import {
+  Order,
+  Consignment,
+  OrderEntry,
+  ConsignmentTracking,
+  UserService,
+} from '@spartacus/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -19,7 +25,7 @@ export class OrderDetailItemsComponent implements OnInit {
     private orderDetailsService: OrderDetailsService,
     private userService: UserService,
     private ngbModal: NgbModal
-  ) { }
+  ) {}
 
   order$: Observable<Order>;
   consignmentTracking$: Observable<ConsignmentTracking>;
@@ -27,7 +33,9 @@ export class OrderDetailItemsComponent implements OnInit {
   dialog: any;
 
   ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails().pipe(tap(order => this.orderCode = order.code));
+    this.order$ = this.orderDetailsService
+      .getOrderDetails()
+      .pipe(tap(order => (this.orderCode = order.code)));
     this.consignmentTracking$ = this.userService.getConsignmentTracking();
   }
 
@@ -44,11 +52,10 @@ export class OrderDetailItemsComponent implements OnInit {
     this.userService.loadConsignmentTracking(this.orderCode, consignment.code);
     this.dialog = this.ngbModal.open(TrackingEventsComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     }).componentInstance;
     this.dialog.tracking$ = this.consignmentTracking$;
     this.dialog.shipDate = consignment.statusDate;
     this.dialog.consignmentCode = consignment.code;
   }
-
 }

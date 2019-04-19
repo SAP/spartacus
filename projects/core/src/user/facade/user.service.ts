@@ -32,7 +32,7 @@ export class UserService {
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
-  ) { }
+  ) {}
 
   /**
    * Returns a user
@@ -131,7 +131,7 @@ export class UserService {
     this.store.dispatch(
       new fromStore.LoadConsignmentTracking({
         orderCode: orderCode,
-        consignmentCode: consignmentCode
+        consignmentCode: consignmentCode,
       })
     );
   }

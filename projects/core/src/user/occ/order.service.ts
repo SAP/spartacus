@@ -14,7 +14,7 @@ export class OccOrderService {
   constructor(
     protected http: HttpClient,
     private occEndpoints: OccEndpointsService
-  ) { }
+  ) {}
 
   protected getOrderEndpoint(userId: string): string {
     const orderEndpoint = 'users/' + userId + '/orders';
@@ -75,14 +75,23 @@ export class OccOrderService {
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 
-  protected getConsignmentTrackingEndpoint(orderCode: string, consignmentCode: string): string {
-    const endpoint = '/orders/' + orderCode + '/consignments/' + consignmentCode + '/tracking';
+  protected getConsignmentTrackingEndpoint(
+    orderCode: string,
+    consignmentCode: string
+  ): string {
+    const endpoint =
+      '/orders/' + orderCode + '/consignments/' + consignmentCode + '/tracking';
     return this.occEndpoints.getEndpoint(endpoint);
   }
 
-  public getConsignmentTracking(orderCode: string, consignmentCode: string): Observable<ConsignmentTracking> {
-    return this.http.get<ConsignmentTracking>(
-      this.getConsignmentTrackingEndpoint(orderCode, consignmentCode))
+  public getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string
+  ): Observable<ConsignmentTracking> {
+    return this.http
+      .get<ConsignmentTracking>(
+        this.getConsignmentTrackingEndpoint(orderCode, consignmentCode)
+      )
       .pipe(catchError((error: any) => throwError(error.json())));
   }
 }

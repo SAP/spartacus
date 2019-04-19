@@ -12,22 +12,28 @@ import { ConsignmentTracking } from '../../index';
 @Injectable()
 export class ConsignmentTrackingEffect {
   @Effect()
-  loadConsignmentTracking$: Observable<fromAction.ConsignmentTrackingAction> = this.actions$.pipe(
+  loadConsignmentTracking$: Observable<
+    fromAction.ConsignmentTrackingAction
+  > = this.actions$.pipe(
     ofType(fromAction.LOAD_CONSIGNMENT_TRACKING),
     map((action: fromAction.LoadConsignmentTracking) => action.payload),
     switchMap(payload => {
       return this.occOrderService
         .getConsignmentTracking(payload.orderCode, payload.consignmentCode)
         .pipe(
-          map((tracking: ConsignmentTracking) => new fromAction.LoadConsignmentTrackingSuccess(tracking)),
+          map(
+            (tracking: ConsignmentTracking) =>
+              new fromAction.LoadConsignmentTrackingSuccess(tracking)
+          ),
           catchError(error =>
-            of(new fromAction.LoadConsignmentTrackingFail(error)))
+            of(new fromAction.LoadConsignmentTrackingFail(error))
+          )
         );
     })
   );
 
   constructor(
     private actions$: Actions,
-    private occOrderService: OccOrderService,
-  ) { }
+    private occOrderService: OccOrderService
+  ) {}
 }

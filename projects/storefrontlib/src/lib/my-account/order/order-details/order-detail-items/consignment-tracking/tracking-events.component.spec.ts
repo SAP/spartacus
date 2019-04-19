@@ -8,9 +8,9 @@ import { I18nTestingModule, ConsignmentTracking } from '@spartacus/core';
 import { By } from '@angular/platform-browser';
 
 class MockNgbActiveModal {
-  dismiss(): void { }
+  dismiss(): void {}
 
-  close(): void { }
+  close(): void {}
 }
 
 const shipDate = new Date('2019-02-11T13:05:12+0000');
@@ -19,7 +19,7 @@ const shipDate = new Date('2019-02-11T13:05:12+0000');
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any { }
+  transform(): any {}
 }
 
 describe('TrackingEventsComponent', () => {
@@ -31,9 +31,7 @@ describe('TrackingEventsComponent', () => {
     TestBed.configureTestingModule({
       imports: [NgbModule, SpinnerModule, I18nTestingModule],
       declarations: [TrackingEventsComponent, MockTranslateUrlPipe],
-      providers: [
-        { provide: NgbActiveModal, useValue: MockNgbActiveModal },
-      ]
+      providers: [{ provide: NgbActiveModal, useValue: MockNgbActiveModal }],
     }).compileComponents();
   }));
 
@@ -57,7 +55,7 @@ describe('TrackingEventsComponent', () => {
 
   it('should show no tracking', () => {
     component.tracking$ = of<ConsignmentTracking>({
-      trackingID: '1234567890'
+      trackingID: '1234567890',
     });
     fixture.detectChanges();
     expect(el.query(By.css('.no-tracking-info'))).toBeTruthy();
@@ -67,12 +65,13 @@ describe('TrackingEventsComponent', () => {
     component.tracking$ = of<ConsignmentTracking>({
       carrierDetails: {
         code: 'MockCarrier',
-        name: 'MockCarrier'
+        name: 'MockCarrier',
       },
-      trackingID: '1234567890'
+      trackingID: '1234567890',
     });
     fixture.detectChanges();
-    expect(el.query(By.css('.cx-consignment-tracking-dialog__shipment-row'))).toBeTruthy();
+    expect(
+      el.query(By.css('.cx-consignment-tracking-dialog__shipment-row'))
+    ).toBeTruthy();
   });
-
 });

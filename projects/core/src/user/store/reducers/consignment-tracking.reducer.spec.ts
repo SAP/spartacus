@@ -17,7 +17,7 @@ describe('Consignment Tracking Reducer', () => {
     it('should populate the order details state entities', () => {
       const mockTracking: ConsignmentTracking = {
         trackingID: '1234567890',
-        trackingEvents: []
+        trackingEvents: [],
       };
 
       const { initialState } = fromTrackingReducer;

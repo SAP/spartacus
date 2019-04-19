@@ -118,9 +118,14 @@ describe('UserService', () => {
   });
 
   it('should be able to get consignment tracking', () => {
-    store.dispatch(new fromStore.LoadConsignmentTrackingSuccess({ trackingID: '1234567890' }));
+    store.dispatch(
+      new fromStore.LoadConsignmentTrackingSuccess({ trackingID: '1234567890' })
+    );
     let tracking: Consignment;
-    service.getConsignmentTracking().subscribe(r => tracking = r).unsubscribe();
+    service
+      .getConsignmentTracking()
+      .subscribe(r => (tracking = r))
+      .unsubscribe();
     expect(tracking).toEqual({ trackingID: '1234567890' });
   });
 
@@ -129,7 +134,7 @@ describe('UserService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.LoadConsignmentTracking({
         orderCode: 'orderCode',
-        consignmentCode: 'consignmentCode'
+        consignmentCode: 'consignmentCode',
       })
     );
   });

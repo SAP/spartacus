@@ -14,7 +14,7 @@ const mockTracking: ConsignmentTracking = {};
 
 const mockTrackingParams = {
   orderCode: '00000386',
-  consignmentCode: 'a00000386'
+  consignmentCode: 'a00000386',
 };
 
 const MockOccModuleConfig: OccConfig = {
@@ -53,7 +53,9 @@ describe('Order Details effect', () => {
 
   describe('loadConsignmentTracking$', () => {
     it('should load consignment tracking', () => {
-      spyOn(orderService, 'getConsignmentTracking').and.returnValue(of(mockTracking));
+      spyOn(orderService, 'getConsignmentTracking').and.returnValue(
+        of(mockTracking)
+      );
       const action = new fromTrackingAction.LoadConsignmentTracking(
         mockTrackingParams
       );
@@ -69,7 +71,9 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load consignment tracking', () => {
-      spyOn(orderService, 'getConsignmentTracking').and.returnValue(throwError('Error'));
+      spyOn(orderService, 'getConsignmentTracking').and.returnValue(
+        throwError('Error')
+      );
 
       const action = new fromTrackingAction.LoadConsignmentTracking(
         mockTrackingParams
