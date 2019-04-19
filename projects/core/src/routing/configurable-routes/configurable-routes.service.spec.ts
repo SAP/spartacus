@@ -4,6 +4,7 @@ import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { RoutesConfig } from './routes-config';
+import { PathsUrlMatcherFactory } from './paths-url-matcher-factory';
 
 class MockServerConfig {
   production = false;
@@ -51,6 +52,7 @@ describe('ConfigurableRoutesService', () => {
     loader = TestBed.get(RoutesConfigLoader);
 
     router.config = [];
+    spyOn(PathsUrlMatcherFactory, 'get').and.callFake(paths => paths);
   });
 
   describe('translateRouterConfig', () => {
@@ -100,7 +102,7 @@ describe('ConfigurableRoutesService', () => {
       ]);
     });
 
-    it('should translate "path" of configurable routes', async () => {
+    it('should generate routes matching configured paths', async () => {
       router.config = [
         { path: null, data: { cxPath: 'page1' } },
         { path: null, data: { cxPath: 'page2' } },
@@ -108,12 +110,12 @@ describe('ConfigurableRoutesService', () => {
       loader.routesConfig.translations = {
         en: {
           page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
+          page2: { paths: ['path2', 'path200'] },
         },
       };
       await service.init();
-      expect(router.config[0].path).toEqual('path1');
-      expect(router.config[1].path).toEqual('path2');
+      expect(router.config[0].matcher).toEqual(['path1']);
+      expect(router.config[1].matcher).toEqual(['path2', 'path200']);
     });
 
     it('should translate "redirectTo" of configurable routes', async () => {
@@ -163,19 +165,6 @@ describe('ConfigurableRoutesService', () => {
       };
       await service.init();
       expect(console.warn).not.toHaveBeenCalled();
-    });
-
-    it('should generate many routes with different paths when translations config contain many paths for a given page', async () => {
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path100'] },
-        },
-      };
-      await service.init();
-      expect(router.config.length).toEqual(2);
-      expect(router.config[0].path).toEqual('path1');
-      expect(router.config[1].path).toEqual('path100');
     });
 
     it('should generate route for "redirectTo" with with first configured path in translations config for a given page', async () => {
@@ -251,15 +240,16 @@ describe('ConfigurableRoutesService', () => {
         },
       };
       await service.init();
-      expect(router.config.length).toBe(7);
       expect(router.config).toEqual([
         // normal routes
         { path: 'path1' },
 
         // configurable routes
-        { path: 'path2', data: { cxPath: 'page2' } },
-        { path: 'path20', data: { cxPath: 'page2' } },
-        { path: 'path200', data: { cxPath: 'page2' } },
+        {
+          path: null,
+          data: { cxPath: 'page2' },
+          matcher: ['path2', 'path20', 'path200'] as any,
+        },
 
         // normal routes
         { path: 'path3', redirectTo: 'path30' },
