@@ -9,12 +9,12 @@ import { CartPaymentAdapter } from './cart-payment.adapter';
 export class CartPaymentConnector {
   constructor(private adapter: CartPaymentAdapter) {}
 
-  public create(
+  public createDetails(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
   ): Observable<PaymentDetails> {
-    return this.adapter.create(userId, cartId, paymentDetails);
+    return this.adapter.createDetails(userId, cartId, paymentDetails);
   }
 
   public setDetails(

@@ -107,7 +107,7 @@ export class CheckoutEffects {
     mergeMap(payload => {
       // get information for creating a subscription directly with payment provider
       return this.cartPaymentConnector
-        .create(payload.userId, payload.cartId, payload.paymentDetails)
+        .createDetails(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
           mergeMap(details => {
             return [

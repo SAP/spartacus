@@ -8,7 +8,7 @@ describe('CartPaymentConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   class MockCartPaymentAdapter implements CartPaymentAdapter {
-    create = createSpy().and.returnValue(of({}));
+    createDetails = createSpy().and.returnValue(of({}));
     setDetails = createSpy().and.returnValue(of({}));
   }
 
@@ -30,8 +30,8 @@ describe('CartPaymentConnector', () => {
 
   it('createDetails should call adapter', () => {
     const adapter = TestBed.get(CartPaymentAdapter);
-    service.create('1', '2', {}).subscribe();
-    expect(adapter.create).toHaveBeenCalledWith('1', '2', {});
+    service.createDetails('1', '2', {}).subscribe();
+    expect(adapter.createDetails).toHaveBeenCalledWith('1', '2', {});
   });
 
   it('setDetails should call adapter', () => {

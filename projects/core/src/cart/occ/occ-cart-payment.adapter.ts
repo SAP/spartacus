@@ -31,7 +31,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public create(
+  public createDetails(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
@@ -61,7 +61,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
             if (!fromPaymentProvider['hasError']) {
               // consume response from payment provider and creates payment details
 
-              return this.createDetails(
+              return this.createDetailsWithParameters(
                 userId,
                 cartId,
                 this.getPaymentSopResponseParams(
@@ -127,7 +127,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
     });
   }
 
-  protected createDetails(
+  protected createDetailsWithParameters(
     userId: string,
     cartId: string,
     parameters: any
