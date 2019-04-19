@@ -9,6 +9,7 @@ import {
   User,
 } from '../../occ/occ-models/index';
 import { LoaderState } from '../../state';
+import { ProductInterestList } from '../model/product-interest.model';
 
 export const USER_FEATURE = 'user';
 export const UPDATE_EMAIL_PROCESS_ID = 'updateEmail';
@@ -18,6 +19,8 @@ export const UPDATE_USER_DETAILS_PROCESS_ID = 'updateUserDetails';
 export const USER_PAYMENT_METHODS = '[User] User Payment Methods';
 export const USER_ORDERS = '[User] User Orders';
 export const USER_ADDRESSES = '[User] User Addresses';
+
+export const PRODUCT_INTERESTS = 'Product Interests';
 
 export interface StateWithUser {
   [USER_FEATURE]: UserState;
@@ -34,6 +37,7 @@ export interface UserState {
   titles: TitlesState;
   regions: RegionsState;
   resetPassword: boolean;
+  interests: LoaderState<ProductInterestList>;
 }
 
 export interface OrderDetailsState {
