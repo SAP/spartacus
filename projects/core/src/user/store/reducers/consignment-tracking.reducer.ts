@@ -19,9 +19,6 @@ export function reducer(
         tracking,
       };
     }
-    case fromAction.LOAD_CONSIGNMENT_TRACKING_FAIL: {
-      return initialState;
-    }
   }
   return state;
 }

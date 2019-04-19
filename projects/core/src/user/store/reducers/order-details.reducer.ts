@@ -19,6 +19,9 @@ export function reducer(
         order,
       };
     }
+    case fromOrderDetailsAction.CLEAR_ORDER_DETAILS: {
+      return initialState;
+    }
   }
   return state;
 }
