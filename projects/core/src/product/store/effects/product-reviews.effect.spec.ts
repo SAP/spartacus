@@ -3,30 +3,28 @@ import { TestBed } from '@angular/core/testing';
 
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { ProductReviewsConnector } from '@spartacus/core';
+
+import { cold, hot } from 'jasmine-marbles';
 
 import { Observable, of } from 'rxjs';
-
-import { hot, cold } from 'jasmine-marbles';
-
+import { OccConfig } from '../../../occ/config/occ-config';
+import { Review } from '../../../occ/occ-models';
+import { defaultOccProductConfig } from '../../config/product-config';
 import * as fromActions from '../actions/product-reviews.action';
 import * as fromEffects from '../effects/product-reviews.effect';
-import { ReviewList } from '../../../occ/occ-models';
-import { OccConfig } from '../../../occ/config/occ-config';
-import { defaultOccProductConfig } from '../../config/product-config';
-import { ProductReviewsLoaderService } from '../../occ';
+import createSpy = jasmine.createSpy;
 
-const reviewData: ReviewList = {
-  reviews: [
-    {
-      id: '1',
-      rating: 3,
-    },
-    {
-      id: '2',
-      rating: 5,
-    },
-  ],
-};
+const reviewData: Review[] = [
+  {
+    id: '1',
+    rating: 3,
+  },
+  {
+    id: '2',
+    rating: 5,
+  },
+];
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -37,27 +35,29 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+class MockProductReviewsConnector {
+  get = createSpy('getList').and.returnValue(of(reviewData));
+}
+
 describe('Product reviews effect', () => {
   let actions$: Observable<Action>;
-  let service: ProductReviewsLoaderService;
   let effects: fromEffects.ProductReviewsEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        ProductReviewsLoaderService,
+        {
+          provide: ProductReviewsConnector,
+          useClass: MockProductReviewsConnector,
+        },
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: OccConfig, useValue: defaultOccProductConfig },
         fromEffects.ProductReviewsEffects,
         provideMockActions(() => actions$),
       ],
     });
-
-    service = TestBed.get(ProductReviewsLoaderService);
     effects = TestBed.get(fromEffects.ProductReviewsEffects);
-
-    spyOn(service, 'load').and.returnValue(of(reviewData));
   });
 
   describe('loadProductReveiws$', () => {
@@ -66,7 +66,7 @@ describe('Product reviews effect', () => {
       const action = new fromActions.LoadProductReviews(productCode);
       const completion = new fromActions.LoadProductReviewsSuccess({
         productCode,
-        list: reviewData.reviews,
+        list: reviewData,
       });
 
       actions$ = hot('-a', { a: action });
