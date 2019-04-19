@@ -25,9 +25,6 @@ import { ProductCarouselModule } from './product-carousel/product-carousel.modul
 import { SearchBoxModule } from './search-box/search-box.module';
 import { MyInterestsModule } from '../my-account/my-interests/my-interests.module';
 
-// import { ProductReferencesModule } from './product-references/product-references.module';
-// import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
-
 @NgModule({
   imports: [
     CommonModule,
