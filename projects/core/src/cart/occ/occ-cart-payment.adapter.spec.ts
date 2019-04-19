@@ -6,6 +6,11 @@ import {
 
 import { Cart, OccConfig, PaymentDetails } from '../../occ';
 import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
+import {
+  CART_PAYMENT_DETAILS_NORMALIZER,
+  CART_PAYMENT_DETAILS_SERIALIZER,
+  ConverterService,
+} from '@spartacus/core';
 
 const userId = '123';
 const cartId = '456';
@@ -159,6 +164,7 @@ const html =
 describe('OccCartPaymentAdapter', () => {
   let service: OccCartPaymentAdapter;
   let httpMock: HttpTestingController;
+  let converter: ConverterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -171,6 +177,10 @@ describe('OccCartPaymentAdapter', () => {
 
     service = TestBed.get(OccCartPaymentAdapter);
     httpMock = TestBed.get(HttpTestingController);
+    converter = TestBed.get(ConverterService);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -203,7 +213,7 @@ describe('OccCartPaymentAdapter', () => {
   });
 
   describe('create payment', () => {
-    it('should set payment details for given user id, cart id and payment details id', () => {
+    it('should create payment', () => {
       let result;
       service.create(userId, cartId, mockPaymentDetails).subscribe(res => {
         result = res;
@@ -240,6 +250,13 @@ describe('OccCartPaymentAdapter', () => {
         })
         .flush(mockPaymentDetails);
 
+      expect(converter.pipeable).toHaveBeenCalledWith(
+        CART_PAYMENT_DETAILS_NORMALIZER
+      );
+      expect(converter.convert).toHaveBeenCalledWith(
+        mockPaymentDetails,
+        CART_PAYMENT_DETAILS_SERIALIZER
+      );
       expect(result).toEqual(mockPaymentDetails);
     });
   });

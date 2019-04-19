@@ -12,7 +12,6 @@ import {
   DELIVERY_ADDRESS_SERIALIZER,
   DELIVERY_MODE_NORMALIZER,
 } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 
 const userId = '123';
 const cartId = '456';
@@ -36,12 +35,6 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-class MockConvertService {
-  pipeable = createSpy().and.returnValue(x => x);
-  pipeableMany = createSpy().and.returnValue(x => x);
-  convert = createSpy().and.returnValue(x => x);
-}
-
 describe('OccCartDeliveryAdapter', () => {
   let service: OccCartDeliveryAdapter;
   let httpMock: HttpTestingController;
@@ -53,13 +46,16 @@ describe('OccCartDeliveryAdapter', () => {
       providers: [
         OccCartDeliveryAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
     service = TestBed.get(OccCartDeliveryAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   afterEach(() => {

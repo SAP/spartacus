@@ -9,7 +9,6 @@ import { ProductImageNormalizer } from '../../product';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '@spartacus/core';
-import createSpy = jasmine.createSpy;
 
 const userId = '123';
 const cartId = '456';
@@ -50,11 +49,6 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-class MockConvertService {
-  pipeable = createSpy().and.returnValue(x => x);
-  pipeableMany = createSpy().and.returnValue(x => x);
-}
-
 describe('OccCartAdapter', () => {
   let service: OccCartAdapter;
   let httpMock: HttpTestingController;
@@ -67,13 +61,15 @@ describe('OccCartAdapter', () => {
         OccCartAdapter,
         ProductImageNormalizer,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
     service = TestBed.get(OccCartAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
