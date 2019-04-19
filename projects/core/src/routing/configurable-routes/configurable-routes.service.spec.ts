@@ -4,7 +4,7 @@ import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { RoutesConfig } from './routes-config';
-import { PathsUrlMatcherFactory } from './paths-url-matcher-factory';
+import { UrlMatcherFactory } from './url-matcher-factory';
 
 class MockServerConfig {
   production = false;
@@ -52,7 +52,8 @@ describe('ConfigurableRoutesService', () => {
     loader = TestBed.get(RoutesConfigLoader);
 
     router.config = [];
-    spyOn(PathsUrlMatcherFactory, 'get').and.callFake(paths => paths);
+    spyOn(UrlMatcherFactory, 'getPathsUrlMatcher').and.callFake(paths => paths);
+    spyOn(UrlMatcherFactory, 'getFalsyUrlMatcher').and.returnValue(false);
   });
 
   describe('translateRouterConfig', () => {
@@ -181,7 +182,7 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config[0].redirectTo).toEqual('path1');
     });
 
-    it('should not generate routes if they do not have configured paths in translations config', async () => {
+    it('should generate route that will never match if there are no configured paths in translations config', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       loader.routesConfig.translations = {
         en: {
@@ -189,7 +190,7 @@ describe('ConfigurableRoutesService', () => {
         },
       };
       await service.init();
-      expect(router.config.length).toEqual(0);
+      expect(router.config[0].matcher).toBe(false);
     });
 
     // tslint:disable-next-line:max-line-length

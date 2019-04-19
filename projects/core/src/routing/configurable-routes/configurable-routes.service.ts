@@ -7,7 +7,7 @@ import {
   RoutesConfig,
 } from './routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
-import { PathsUrlMatcherFactory } from './paths-url-matcher-factory';
+import { UrlMatcherFactory } from './url-matcher-factory';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
@@ -76,10 +76,6 @@ export class ConfigurableRoutesService {
     const result = [];
     routes.forEach(route => {
       const translatedRoute = this.translateRoute(route, routesTranslations);
-      if (!translatedRoute) {
-        // if there are no configured paths for this route, remove it
-        return;
-      }
 
       if (route.children && route.children.length) {
         const translatedChildrenRoutes = this.translateRoutes(
@@ -128,10 +124,10 @@ export class ConfigurableRoutesService {
     routesTranslations: RoutesTranslations
   ): Route {
     const paths = this.getTranslatedPaths(route, 'cxPath', routesTranslations);
-    if (!paths.length) {
-      return null;
-    }
-    return { ...route, matcher: PathsUrlMatcherFactory.get(paths) };
+    const matcher = paths.length
+      ? UrlMatcherFactory.getPathsUrlMatcher(paths)
+      : UrlMatcherFactory.getFalsyUrlMatcher(); // if there are no configured paths for this route, never match this route
+    return { ...route, matcher };
   }
 
   private translateRouteRedirectTo(

@@ -6,15 +6,19 @@ import {
   Route,
 } from '@angular/router';
 
-export class PathsUrlMatcherFactory {
-  static get(paths: string[]): UrlMatcher {
+export class UrlMatcherFactory {
+  static getFalsyUrlMatcher(): UrlMatcher {
+    return () => null;
+  }
+
+  static getPathsUrlMatcher(paths: string[]): UrlMatcher {
     return (
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
     ): UrlMatchResult | null => {
       for (let i = 0; i < paths.length; i++) {
-        const result = PathsUrlMatcherFactory.pathUrlMatcher(paths[i])(
+        const result = UrlMatcherFactory.getPathUrlMatcher(paths[i])(
           segments,
           segmentGroup,
           route
@@ -28,7 +32,7 @@ export class PathsUrlMatcherFactory {
   }
 
   // Similar to Angular's defaultUrlMatcher. The difference is that `path` comes from function's argument, not from `route.path`
-  private static pathUrlMatcher(path: string = ''): UrlMatcher {
+  private static getPathUrlMatcher(path: string = ''): UrlMatcher {
     return (
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
