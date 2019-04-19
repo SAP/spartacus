@@ -2,6 +2,10 @@ import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
+import {
+  createShellObject,
+  getStateSliceValue,
+} from '../utils/get-state-slice';
 
 // TODO:#sync-poc - all functions expect the main reducer should not be exported
 export function getStorageSyncReducer<T>(
@@ -48,7 +52,7 @@ export function getStorageSyncReducer<T>(
           ] as StorageSyncType;
           const configuredStorage = getStorage(configuredStorageType, winRef);
 
-          const newStateValue = resolveStateValue(configKey, newState);
+          const newStateValue = getStateSliceValue(configKey, newState);
           if (!exists(newStateValue)) {
             configuredStorage.removeItem(configKey);
             continue;
@@ -138,48 +142,6 @@ export function getStorage(
   }
 
   return storage;
-}
-
-// TODO:#sync-poc - fool around with generics, or use `Object` or `any`?
-// TODO:#sync-poc rename method to something more generic, because it's traversing an object by a string path
-export function resolveStateValue<T, E>(key: string, object: E): T {
-  if (!key) {
-    return;
-  }
-
-  const keySplit: string[] = key.split('.');
-  // not a nested object
-  if (!keySplit) {
-    return object[key];
-  }
-
-  // resolve nested objects
-  return keySplit.reduce(
-    (previous, current) => (previous ? previous[current] : null),
-    object
-  );
-}
-
-export function createShellObject(key: string, value: Object): Object {
-  if (!key || !value || Object.keys(value).length === 0) {
-    return {};
-  }
-
-  const keySplit: string[] = key.split('.');
-  const newObject = {};
-  let tempNewObject = newObject;
-
-  for (let i = 0; i < keySplit.length; i++) {
-    const currentKey = keySplit[i];
-    // last iteration
-    if (i === keySplit.length - 1) {
-      tempNewObject = tempNewObject[currentKey] = value;
-    } else {
-      tempNewObject = tempNewObject[currentKey] = {};
-    }
-  }
-
-  return newObject;
 }
 
 function resolveStorageValue(storage: Storage, key: string): Object {

@@ -21,14 +21,13 @@
 //   }, {});
 // }
 
-export function getStateSlice<T, E>(keys: string, state: T): E {
-  const value = keys
+export function getStateSliceValue<T, E>(keys: string, state: T): E {
+  return keys
     .split('.')
     .reduce(
       (previous, current) => (previous ? previous[current] : undefined),
       state
     );
-  return createShellObject(keys, value);
 }
 
 export function createShellObject<T, E>(key: string, value: T): E {
@@ -51,4 +50,9 @@ export function createShellObject<T, E>(key: string, value: T): E {
   }
 
   return newObject as E;
+}
+
+export function getStateSlice<T, E>(keys: string, state: T): E {
+  const value = getStateSliceValue(keys, state);
+  return createShellObject(keys, value);
 }

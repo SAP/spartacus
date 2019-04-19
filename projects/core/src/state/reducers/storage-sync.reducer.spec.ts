@@ -1,0 +1,1 @@
+describe('storage-sync-reducer', () => {});
