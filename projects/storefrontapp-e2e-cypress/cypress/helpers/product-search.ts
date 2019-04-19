@@ -1,4 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import { apiUrl } from '../support/utils/login';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
 export const productItemSelector = 'cx-product-list cx-product-list-item';
@@ -97,4 +98,26 @@ export function sortByRelevance() {
 export function sortByTopRated() {
   cy.get(sortingOptionSelector).ngSelect('Top Rated');
   cy.get(firstProductNameSelector).should('not.be.empty');
+}
+
+export function checkFirstItem(title: string): void {
+  cy.get('cx-product-list-item .cx-product-name')
+    .first()
+    .should('contain', title);
+}
+export function createDefaultQueryRoute(alias: string): void {
+  cy.route('GET', `${apiUrl}/rest/v2/electronics-spa/products/search*`).as(
+    alias
+  );
+}
+
+export function createQueryRoute(
+  param: string,
+  search: string,
+  alias: string
+): void {
+  cy.route(
+    'GET',
+    `${apiUrl}/rest/v2/electronics-spa/products/search?fields=*&query=${search}:relevance:${param}*`
+  ).as(alias);
 }
