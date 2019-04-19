@@ -6,7 +6,6 @@ import { myAccount } from './en/my-account.en';
 import { product } from './en/product.en';
 import { pwa } from './en/pwa.en';
 import { storeFinder } from './en/store-finder.en';
-import { consignmentTracking } from './en/consignment-tracking.en';
 import { user } from './en/user.en';
 import { payment } from './en/payment.en';
 import { address } from './en/address.en';
@@ -22,7 +21,6 @@ export const translations: TranslationResources = {
     product,
     pwa,
     storeFinder,
-    consignmentTracking,
     user,
   },
 };
