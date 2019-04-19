@@ -4,7 +4,7 @@ export const defaultI18nConfig: I18nConfig = {
   i18n: {
     fallbackLang: false,
     debug: false,
-    namespaceMapping: {
+    chunks: {
       common: 'common',
       spinner: 'common',
       header: 'common',
