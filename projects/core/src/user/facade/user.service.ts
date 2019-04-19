@@ -124,7 +124,6 @@ export class UserService {
 
   /**
    * Retrieves consignment tracking details
-   * 
    * @param orderCode an order code
    * @param consignmentCode a consignment code
    */
