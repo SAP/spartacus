@@ -11,7 +11,6 @@ export const headerComponents: {
   HamburgerMenuComponent: {
     typeCode: 'HamburgerMenuComponent',
     flexType: 'HamburgerMenuComponent',
-    uid: 'HamburgerMenuComponent',
   },
   LanguageComponent: {
     typeCode: 'CMSSiteContextComponent',
@@ -22,6 +21,10 @@ export const headerComponents: {
     typeCode: 'CMSSiteContextComponent',
     flexType: 'CMSSiteContextComponent',
     context: 'CURRENCY',
+  },
+  LanguageCurrencyComponent: {
+    typeCode: 'LanguageCurrencyComponent',
+    flexType: 'LanguageCurrencyComponent',
   },
   StoreFinder: {
     typeCode: 'CMSLinkComponent',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductAdapter } from './product.adapter';
-import { Product } from '../../../occ/occ-models/occ.models';
+import { UIProduct } from '../../model/product';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { Product } from '../../../occ/occ-models/occ.models';
 export class ProductConnector {
   constructor(private adapter: ProductAdapter) {}
 
-  get(productCode: string): Observable<Product> {
+  get(productCode: string): Observable<UIProduct> {
     return this.adapter.load(productCode);
   }
 }
