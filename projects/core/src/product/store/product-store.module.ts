@@ -15,13 +15,14 @@ import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 
 export function productStoreConfigFactory(): StateConfig {
   // if we want to reuse PRODUCT_FEATURE const in config, we have to use factory instead of plain object
-  return {
+  const config = {
     state: {
       ssrTransfer: {
         keys: { [PRODUCT_FEATURE]: StateTransferType.TRANSFER_STATE },
       },
     },
   };
+  return config;
 }
 
 @NgModule({

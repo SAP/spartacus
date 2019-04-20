@@ -5,7 +5,9 @@ import { WindowRef } from '../../window/window-ref';
 import { META_REDUCER } from '../meta-reducer';
 import { getStorageSyncReducer } from './storage-sync.reducer';
 import { getTransferStateReducer } from './transfer-state.reducer';
+
 export { getStateSlice } from '../utils/get-state-slice';
+export { getStorageSyncReducer } from './storage-sync.reducer';
 export * from './transfer-state.reducer';
 
 export const stateMetaReducers: Provider[] = [

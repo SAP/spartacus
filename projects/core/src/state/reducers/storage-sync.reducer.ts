@@ -75,7 +75,7 @@ export function getStorageSyncReducer<T>(
   };
 }
 
-function rehydrate(config: StateConfig, winRef: WindowRef): Object {
+export function rehydrate(config: StateConfig, winRef: WindowRef): Object {
   const storageSyncConfig = config.state.storageSync;
 
   let rehydratedState: Object;
@@ -84,7 +84,7 @@ function rehydrate(config: StateConfig, winRef: WindowRef): Object {
       configKey
     ] as StorageSyncType;
     const configuredStorage = getStorage(configuredStorageType, winRef);
-    const storageValue = resolveStorageValue(configuredStorage, configKey);
+    const storageValue = readFromStorage(configuredStorage, configKey);
 
     const storageShellObject = createShellObject(configKey, storageValue);
     rehydratedState = {
@@ -96,11 +96,12 @@ function rehydrate(config: StateConfig, winRef: WindowRef): Object {
   return rehydratedState;
 }
 
-// TODO:#sync-poc - test with a number, boolean, string and a complex object
-function exists(value: Object): boolean {
+export function exists(value: Object): boolean {
   if (value != null) {
     if (typeof value === 'object') {
       return Object.keys(value).length !== 0;
+    } else if (value === '') {
+      return false;
     } else {
       return true;
     }
@@ -109,22 +110,11 @@ function exists(value: Object): boolean {
   return false;
 }
 
-function persistToStorage(
-  configKey: string,
-  value: Object,
-  storage: Storage
-): void {
-  if (value) {
-    storage.setItem(configKey, JSON.stringify(value));
-  }
-}
-
 export function getStorage(
   storageType: StorageSyncType,
   winRef: WindowRef
 ): Storage {
-  // default
-  let storage = winRef.sessionStorage;
+  let storage: Storage;
 
   switch (storageType) {
     case StorageSyncType.LOCAL_STORAGE: {
@@ -139,16 +129,34 @@ export function getStorage(
       storage = undefined;
       break;
     }
+
+    default: {
+      storage = winRef.sessionStorage;
+    }
   }
 
   return storage;
 }
 
-function resolveStorageValue(storage: Storage, key: string): Object {
+export function persistToStorage(
+  configKey: string,
+  value: Object,
+  storage: Storage
+): void {
+  if (value) {
+    storage.setItem(configKey, JSON.stringify(value));
+  }
+}
+
+export function readFromStorage(storage: Storage, key: string): Object {
   if (!storage) {
     return;
   }
 
   const storageValue = storage.getItem(key);
+  if (!storageValue) {
+    return;
+  }
+
   return JSON.parse(storageValue);
 }

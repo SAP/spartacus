@@ -4,7 +4,7 @@ import {
   getStateSliceValue,
 } from './get-state-slice';
 
-fdescribe('state slice functions', () => {
+describe('state slice functions', () => {
   describe('getStateSliceValue', () => {
     it('should return an undefined value when a the provided key does not exist', () => {
       const state = {
