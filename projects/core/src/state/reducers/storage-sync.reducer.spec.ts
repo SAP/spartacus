@@ -3,16 +3,17 @@ import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
   exists,
   getStorage,
+  getStorageSyncReducer,
   persistToStorage,
   readFromStorage,
   rehydrate,
 } from './storage-sync.reducer';
 
-// TODO:#sync-poc - could this be used in other tests, i.e. `readFromStorage` and `persistToStorage`
 const sessionStorageMock = {
   getItem(_key: string): string | null {
     return 'value';
   },
+  setItem(_key: string, _value: string): void {},
 } as Storage;
 const localStorageMock = {
   getItem(_key: string): string | null {
@@ -21,6 +22,9 @@ const localStorageMock = {
 } as Storage;
 
 const winRef = {
+  get nativeWindow(): Window {
+    return undefined;
+  },
   get sessionStorage(): Storage {
     return sessionStorageMock;
   },
@@ -30,6 +34,13 @@ const winRef = {
 } as WindowRef;
 
 fdescribe('storage-sync-reducer', () => {
+  describe('getStorageSyncReducer', () => {
+    it('should return undefined without proper configuration', () => {
+      const reducer = getStorageSyncReducer(winRef, undefined);
+      expect(reducer).toBe(undefined);
+    });
+  });
+
   describe('rehydrate', () => {
     it('should return an empty object when rehydrate is configured to false', () => {
       const config = {
@@ -142,37 +153,27 @@ fdescribe('storage-sync-reducer', () => {
   });
 
   describe('persistToStorage', () => {
-    const storageMock = {
-      setItem(_key: string, _value: string): void {},
-    } as Storage;
-
     describe('when the provided value does NOT exist', () => {
       it('should NOT persist it', () => {
-        spyOn(storageMock, 'setItem').and.stub();
+        spyOn(sessionStorageMock, 'setItem').and.stub();
 
-        persistToStorage('a', undefined, storageMock);
-        expect(storageMock.setItem).not.toHaveBeenCalled();
+        persistToStorage('a', undefined, sessionStorageMock);
+        expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
       });
     });
     describe('when the provided value exists', () => {
       it('should persist it', () => {
         spyOn(JSON, 'stringify').and.callThrough();
-        spyOn(storageMock, 'setItem').and.stub();
+        spyOn(sessionStorageMock, 'setItem').and.stub();
 
-        persistToStorage('a', 'xxx', storageMock);
+        persistToStorage('a', 'xxx', sessionStorageMock);
         expect(JSON.stringify).toHaveBeenCalledWith('xxx');
-        expect(storageMock.setItem).toHaveBeenCalledWith('a', '"xxx"');
+        expect(sessionStorageMock.setItem).toHaveBeenCalledWith('a', '"xxx"');
       });
     });
   });
 
   describe('readFromStorage', () => {
-    const storageMock = {
-      getItem(_key: string): string | null {
-        return 'value';
-      },
-    } as Storage;
-
     describe('when no storage is provided', () => {
       it('should return undefined', () => {
         const result = readFromStorage(null, 'a');
@@ -182,8 +183,8 @@ fdescribe('storage-sync-reducer', () => {
 
     describe('when there is no value under the provided key', () => {
       it('should return undefined', () => {
-        spyOn(storageMock, 'getItem').and.returnValue(undefined);
-        const result = readFromStorage(storageMock, 'a');
+        spyOn(sessionStorageMock, 'getItem').and.returnValue(undefined);
+        const result = readFromStorage(sessionStorageMock, 'a');
         expect(result).toBeUndefined();
       });
     });
@@ -191,9 +192,9 @@ fdescribe('storage-sync-reducer', () => {
     describe('when there is no value under the provided key', () => {
       it('should return undefined', () => {
         spyOn(JSON, 'parse').and.callThrough();
-        spyOn(storageMock, 'getItem').and.returnValue('"a"');
+        spyOn(sessionStorageMock, 'getItem').and.returnValue('"a"');
 
-        const result = readFromStorage(storageMock, 'a');
+        const result = readFromStorage(sessionStorageMock, 'a');
         expect(JSON.parse).toHaveBeenCalledWith('"a"');
         expect(result).toEqual('a');
       });
