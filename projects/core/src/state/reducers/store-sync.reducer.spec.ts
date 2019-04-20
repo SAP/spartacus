@@ -1,5 +1,5 @@
-import { getStorageSyncReducer } from './store-sync.reducer';
 import { StateConfig, StorageSyncType } from '../config/state-config';
+import { getStorageSyncReducer } from './store-sync.reducer';
 
 describe('get store Sync reducer', () => {
   it('should return a proper localStorageSync function', () => {

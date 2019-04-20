@@ -1,13 +1,72 @@
 import { WindowRef } from '../../window/window-ref';
-import { StorageSyncType } from '../config/state-config';
+import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
   exists,
   getStorage,
   persistToStorage,
   readFromStorage,
+  rehydrate,
 } from './storage-sync.reducer';
 
+// TODO:#sync-poc - could this be used in other tests, i.e. `readFromStorage` and `persistToStorage`
+const sessionStorageMock = {
+  getItem(_key: string): string | null {
+    return 'value';
+  },
+} as Storage;
+const localStorageMock = {
+  getItem(_key: string): string | null {
+    return 'value';
+  },
+} as Storage;
+
+const winRef = {
+  get sessionStorage(): Storage {
+    return sessionStorageMock;
+  },
+  get localStorage(): Storage {
+    return localStorageMock;
+  },
+} as WindowRef;
+
 fdescribe('storage-sync-reducer', () => {
+  describe('rehydrate', () => {
+    it('should return an empty object when rehydrate is configured to false', () => {
+      const config = {
+        state: { storageSync: { rehydrate: false } },
+      } as StateConfig;
+      expect(rehydrate(config, winRef)).toEqual({});
+    });
+    it('should return a rehydrated state', () => {
+      const sessionStorageValue = '"access token value"';
+      spyOn(sessionStorageMock, 'getItem').and.returnValue(sessionStorageValue);
+      const localStorageValue = '"refresh token value"';
+      spyOn(localStorageMock, 'getItem').and.returnValue(localStorageValue);
+
+      const config = {
+        state: {
+          storageSync: {
+            rehydrate: true,
+            keys: {
+              'user.token.access_token': StorageSyncType.SESSION_STORAGE,
+              'user.token.refresh_token': StorageSyncType.LOCAL_STORAGE,
+            },
+          },
+        },
+      } as StateConfig;
+
+      const result = rehydrate(config, winRef);
+      expect(result).toEqual({
+        user: {
+          token: {
+            access_token: 'access token value',
+            refresh_token: 'refresh token value',
+          },
+        },
+      });
+    });
+  });
+
   describe('exists', () => {
     describe('when undefined is provided', () => {
       it('should return false', () => {
@@ -53,16 +112,6 @@ fdescribe('storage-sync-reducer', () => {
   });
 
   describe('getStorage', () => {
-    const storageMock = {} as Storage;
-    const winRef = {
-      get sessionStorage(): Storage {
-        return storageMock;
-      },
-      get localStorage(): Storage {
-        return storageMock;
-      },
-    } as WindowRef;
-
     describe('when no storage type is requested', () => {
       it(`should return winRef's default storage`, () => {
         const spy = spyOnProperty(winRef, 'sessionStorage', 'get').and.stub();

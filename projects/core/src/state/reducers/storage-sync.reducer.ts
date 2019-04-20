@@ -7,7 +7,6 @@ import {
   getStateSliceValue,
 } from '../utils/get-state-slice';
 
-// TODO:#sync-poc - all functions expect the main reducer should not be exported
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
   config?: StateConfig
@@ -61,10 +60,7 @@ export function getStorageSyncReducer<T>(
           persistToStorage(configKey, newStateValue, configuredStorage);
 
           const stateShellObject = createShellObject(configKey, newStateValue);
-          modifiedNewState = {
-            ...modifiedNewState,
-            ...stateShellObject,
-          };
+          modifiedNewState = deepMerge(modifiedNewState, stateShellObject);
         }
 
         newState = deepMerge(newState, modifiedNewState);
@@ -77,6 +73,9 @@ export function getStorageSyncReducer<T>(
 
 export function rehydrate(config: StateConfig, winRef: WindowRef): Object {
   const storageSyncConfig = config.state.storageSync;
+  if (!storageSyncConfig.rehydrate) {
+    return {};
+  }
 
   let rehydratedState: Object;
   for (const configKey of Object.keys(storageSyncConfig.keys)) {
@@ -87,10 +86,7 @@ export function rehydrate(config: StateConfig, winRef: WindowRef): Object {
     const storageValue = readFromStorage(configuredStorage, configKey);
 
     const storageShellObject = createShellObject(configKey, storageValue);
-    rehydratedState = {
-      ...rehydratedState,
-      ...storageShellObject,
-    };
+    rehydratedState = deepMerge(rehydratedState, storageShellObject);
   }
 
   return rehydratedState;
