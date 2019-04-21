@@ -1,5 +1,16 @@
+import { Optional, Provider } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import {
+  Action,
+  ActionReducer,
+  ActionReducerMap,
+  Store,
+  StoreModule,
+} from '@ngrx/store';
+import { Config, ConfigModule } from '../../config';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
+import { META_REDUCER } from '../meta-reducer';
 import {
   exists,
   getStorage,
@@ -33,11 +44,66 @@ const winRef = {
   },
 } as WindowRef;
 
+interface TokenState {
+  access_token: string;
+}
+
 fdescribe('storage-sync-reducer', () => {
   describe('getStorageSyncReducer', () => {
+    let store: Store<TokenState>;
+
+    beforeEach(() => {
+      const config: StateConfig = {
+        state: {
+          storageSync: {
+            keys: {
+              access_token: StorageSyncType.SESSION_STORAGE,
+            },
+          },
+        },
+      };
+      const metaReducers: Provider[] = [
+        {
+          provide: META_REDUCER,
+          useFactory: getStorageSyncReducer,
+          deps: [WindowRef, [new Optional(), Config]],
+          multi: true,
+        },
+      ];
+      const tokenReducer: ActionReducer<string, Action> = (state, _action) =>
+        state;
+      function reducerMap(): ActionReducerMap<TokenState> {
+        return {
+          access_token: tokenReducer,
+        };
+      }
+
+      TestBed.configureTestingModule({
+        imports: [
+          StoreModule.forRoot(reducerMap),
+          ConfigModule.forRoot(config),
+        ],
+        providers: [
+          ...metaReducers,
+          {
+            provide: WindowRef,
+            useValue: winRef,
+          },
+        ],
+      });
+
+      store = TestBed.get(Store);
+    });
+
     it('should return undefined without proper configuration', () => {
-      const reducer = getStorageSyncReducer(winRef, undefined);
-      expect(reducer).toBe(undefined);
+      const result = getStorageSyncReducer(winRef, undefined);
+      expect(result).toBe(undefined);
+    });
+
+    describe('when the action type is INIT and the state does NOT exist', () => {
+      it('should call the reducer to get the new state', () => {
+        store.dispatch({ type: 'TEST_ACTION' });
+      });
     });
   });
 

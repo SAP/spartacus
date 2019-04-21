@@ -12,6 +12,10 @@ export function getStorageSyncReducer<T>(
   config?: StateConfig
   // TODO:#sync-poc - pass a third dependency that will read from the `localStorage` whether the cookie consent was given or not
 ): MetaReducer<T, Action> {
+  // TODO:#sync-poc - remove logs
+  console.log(`config`, config);
+  console.log(`================`);
+  console.log(`winRef`, winRef);
   if (
     !winRef.nativeWindow ||
     !config ||
@@ -19,8 +23,12 @@ export function getStorageSyncReducer<T>(
     !config.state.storageSync ||
     !config.state.storageSync.keys
   ) {
+    // TODO:#sync-poc - remove logs
+    console.log('config invalid, returning undefined');
     return undefined;
   }
+  // TODO:#sync-poc - remove logs
+  console.log('config valid');
 
   const storageSyncConfig = config.state.storageSync;
 

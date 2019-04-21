@@ -28,6 +28,9 @@ export abstract class StateConfig {
     ssrTransfer?: {
       keys?: {
         // TODO:#sync-poc - maybe merge with `storageSync` keys
+        /**
+         * A set of state keys that should be transferred from server.
+         */
         [key: string]: StateTransferType;
       };
     };
