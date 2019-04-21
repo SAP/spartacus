@@ -1,15 +1,4 @@
-import { Provider } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import {
-  Action,
-  ActionReducer,
-  ActionReducerMap,
-  INIT,
-  META_REDUCERS,
-  Store,
-  StoreModule,
-} from '@ngrx/store';
-import { Login } from '../../auth';
+import { Action, ActionReducer, MetaReducer, UPDATE } from '@ngrx/store';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
@@ -23,14 +12,18 @@ import {
 
 const sessionStorageMock = {
   getItem(_key: string): string | null {
-    return 'value';
+    return '"value"';
   },
   setItem(_key: string, _value: string): void {},
+  removeItem(_key: string): void {},
 } as Storage;
+
 const localStorageMock = {
   getItem(_key: string): string | null {
-    return 'value';
+    return '"value"';
   },
+  setItem(_key: string, _value: string): void {},
+  removeItem(_key: string): void {},
 } as Storage;
 
 const winRef = {
@@ -45,54 +38,28 @@ const winRef = {
   },
 } as WindowRef;
 
-interface TokenState {
-  access_token: string;
-}
-
-fdescribe('storage-sync-reducer', () => {
+describe('storage-sync-reducer', () => {
   describe('getStorageSyncReducer', () => {
-    let store: Store<TokenState>;
+    let nextReducer: ActionReducer<Object, Action>;
+    let metaReducer: MetaReducer<Object, Action>;
+    let reducer: ActionReducer<Object, Action>;
 
     beforeEach(() => {
-      const config: StateConfig = {
+      nextReducer = function<T>(state: T, _action: Action) {
+        return state;
+      };
+      metaReducer = getStorageSyncReducer(winRef, {
         state: {
           storageSync: {
+            rehydrate: true,
             keys: {
               access_token: StorageSyncType.SESSION_STORAGE,
+              refresh_token: StorageSyncType.LOCAL_STORAGE,
             },
           },
         },
-      };
-      const metaReducers: Provider[] = [
-        {
-          provide: META_REDUCERS,
-          useFactory: getStorageSyncReducer,
-          deps: [WindowRef, StateConfig],
-        },
-      ];
-      const tokenReducer: ActionReducer<string, Action> = (state, _action) => {
-        console.log('action', _action);
-        return state;
-      };
-      function reducerMap(): ActionReducerMap<TokenState> {
-        return {
-          access_token: tokenReducer,
-        };
-      }
-
-      TestBed.configureTestingModule({
-        imports: [StoreModule.forRoot(reducerMap, { initialState: {} })],
-        providers: [
-          { provide: StateConfig, useValue: config },
-          {
-            provide: WindowRef,
-            useValue: winRef,
-          },
-          ...metaReducers,
-        ],
       });
-
-      store = TestBed.get(Store);
+      reducer = metaReducer(nextReducer);
     });
 
     it('should return undefined without proper configuration', () => {
@@ -100,11 +67,70 @@ fdescribe('storage-sync-reducer', () => {
       expect(result).toBe(undefined);
     });
 
-    describe('when the action type is INIT and the state does NOT exist', () => {
-      fit('should call the reducer to get the new state', () => {
-        store.dispatch({ type: INIT });
-        store.dispatch(new Login());
-        store.subscribe(console.log);
+    describe('when the action type is UPDATE and the rehydrate config is set to true', () => {
+      it('should rehydrate the state', () => {
+        const rehydratedState = {
+          access_token: 'xxx',
+          refresh_token: 'yyy',
+        };
+        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
+        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
+        const result = reducer({}, { type: UPDATE });
+        expect(result).toEqual(rehydratedState);
+      });
+    });
+
+    describe('when the action type is NOT UPDATE nor INIT', () => {
+      it('should set the configured keys to configured storage', () => {
+        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
+        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
+
+        spyOn(sessionStorageMock, 'setItem').and.stub();
+        spyOn(localStorageMock, 'setItem').and.stub();
+
+        const state = {
+          access_token: 'xxx',
+          refresh_token: 'yyy',
+        };
+
+        const result = reducer(state, { type: 'AN-ACTION' });
+        expect(result).toEqual(state);
+        expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
+          'access_token',
+          '"xxx"'
+        );
+        expect(localStorageMock.setItem).toHaveBeenCalledWith(
+          'refresh_token',
+          '"yyy"'
+        );
+      });
+    });
+
+    describe('when a slice of the state is cleared', () => {
+      it('should remove the value from the storage', () => {
+        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
+        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
+
+        spyOn(sessionStorageMock, 'setItem').and.stub();
+        spyOn(localStorageMock, 'setItem').and.stub();
+        spyOn(sessionStorageMock, 'removeItem').and.stub();
+        spyOn(localStorageMock, 'removeItem').and.stub();
+
+        const state = {
+          access_token: undefined,
+          refresh_token: undefined,
+        };
+
+        const result = reducer(state, { type: 'AN-ACTION' });
+        expect(result).toEqual(state);
+        expect(sessionStorageMock.removeItem).toHaveBeenCalledWith(
+          'access_token'
+        );
+        expect(localStorageMock.removeItem).toHaveBeenCalledWith(
+          'refresh_token'
+        );
+        expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
+        expect(localStorageMock.setItem).not.toHaveBeenCalled();
       });
     });
   });
