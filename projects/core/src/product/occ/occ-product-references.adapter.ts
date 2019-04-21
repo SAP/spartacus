@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 import { ProductReference } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
@@ -22,7 +23,10 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
   ): Observable<ProductReference[]> {
     return this.http
       .get(this.getEndpoint(productCode, referenceType, pageSize))
-      .pipe(this.converter.pipeable(PRODUCT_REFERENCES_NORMALIZER));
+      .pipe(
+        pluck('references'),
+        this.converter.pipeable(PRODUCT_REFERENCES_NORMALIZER)
+      );
   }
 
   protected getEndpoint(

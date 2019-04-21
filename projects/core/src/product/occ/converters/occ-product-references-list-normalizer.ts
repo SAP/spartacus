@@ -7,12 +7,14 @@ import { Converter } from '../../../util/converter.service';
 export class OccProductReferencesListNormalizer
   implements Converter<ProductReferenceList, ProductReference[]> {
   convert(
-    sources: ProductReferenceList,
-    targets: ProductReference[] = []
+    source: ProductReferenceList,
+    target: ProductReference[] = []
   ): ProductReference[] {
-    return sources.references.map((referenceType, index) => ({
-      ...targets[index],
-      ...referenceType,
-    }));
+    // needs to be continued
+    return;
+    // return source.references.map((referenceType, index) => ({
+    //   ...target[index],
+    //   ...referenceType,
+    // }));
   }
 }

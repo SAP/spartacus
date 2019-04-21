@@ -1,13 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ProductReference } from '@spartacus/core';
+import { ProductReference, WindowRef } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductReferencesService } from './product-references.component.service';
-// import { AbstractProductComponent } from '../abstract-product-component';
 
 @Component({
   selector: 'cx-product-references',
@@ -17,18 +18,24 @@ import { ProductReferencesService } from './product-references.component.service
 })
 export class ProductReferencesComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+  private window: Window;
+
   references$: Observable<ProductReference[]>;
 
-  constructor(public productReferencesService: ProductReferencesService) {}
+  constructor(
+    winRef: WindowRef,
+    private el: ElementRef,
+    public productReferencesService: ProductReferencesService,
+    public sharedCarouselService: SharedCarouselService
+  ) {
+    this.window = winRef.nativeWindow;
+  }
 
   ngOnInit() {
     this.productReferencesService.setTitle();
-    this.productReferencesService.setProductReferenceTypes();
-    this.subscription.add(
-      this.productReferencesService
-        .getReferenceList()
-        .subscribe(data => console.log('yesss', data[0]))
-    );
+    this.sharedCarouselService.setItemSize(this.window, this.el.nativeElement);
+    this.productReferencesService.setReferenceList();
+    this.sharedCarouselService.setItemAsActive(0);
   }
 
   ngOnDestroy() {
@@ -36,34 +43,4 @@ export class ProductReferencesComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
-} /*extends AbstractProductComponent {
-
-    @Input() productCode;
-
-    productCodes: Array<String> = [];
-
-    protected fetchData() {
-        // load the product data by context parameters
-        if (this.contextParameters.productCode) {
-            this.productLoader.loadReferences(this.contextParameters.productCode);
-            this.productLoader.getSubscription(this.contextParameters.productCode + 'references').subscribe((refData) => {
-                if (refData) {
-                    this.createCodeList(refData);
-                    this.cd.detectChanges();
-                }
-            });
-        }
-        super.fetchData();
-    }
-
-    createCodeList(references) {
-        if (!this.component || !this.component.productReferenceTypes || !references[this.component.productReferenceTypes]) {
-            return;
-        }
-        references[this.component.productReferenceTypes].forEach((item, index) => {
-            if (!this.component.maximumNumberProducts || index < this.component.maximumNumberProducts) {
-                this.productCodes.push(item.target.code);
-            }
-        });
-    }
-}*/
+}

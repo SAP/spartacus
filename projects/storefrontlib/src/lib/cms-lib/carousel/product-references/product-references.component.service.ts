@@ -12,6 +12,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 @Injectable()
 export class ProductReferencesService {
   private title$: Observable<string>;
+  private items$: Observable<ProductReference[]>;
   private productReferenceTypes$: Observable<string>;
 
   constructor(
@@ -44,14 +45,14 @@ export class ProductReferencesService {
     );
   }
 
-  getReferenceList(
-    referenceType?: string,
-    pageSize?: number
-  ): Observable<ProductReference[]> {
-    return this.routerService.getRouterState().pipe(
+  getList(): Observable<ProductReference[]> {
+    return this.items$;
+  }
+
+  setReferenceList(referenceType?: string, pageSize?: number): void {
+    this.items$ = this.routerService.getRouterState().pipe(
       map(data => data.state.params.productCode),
       switchMap((productCode: string) => {
-        console.log('why');
         return this.referenceService.get(productCode, referenceType, pageSize);
       })
     );

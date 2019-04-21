@@ -1,3 +1,10 @@
 %ProductDetailsPageTemplate {
   padding: var(--cx-padding, 2.5rem 0 0);
+
+  cx-page-slot {
+    &.UpSelling {
+      max-width: 1140px;
+      margin: auto;
+    }
+  }
 }
