@@ -1,4 +1,6 @@
-<ng-container *ngIf="(productReferencesService.getList() | async)">
+<ng-container
+  *ngIf="(productReferencesService.getList() | async) as productList"
+>
   <h3 *ngIf="(productReferencesService.getTitle() | async) as title">
     {{ title }}
   </h3>
@@ -6,7 +8,7 @@
   <ng-container
     *ngIf="{
       maxItemSize: sharedCarouselService.getItemSize() | async,
-      products: productReferencesService.getList() | async,
+      products: productList,
       activeItem: sharedCarouselService.getActiveItemWithDelay() | async,
       active: sharedCarouselService.getActiveItem() | async
     } as carousel"
