@@ -25,6 +25,11 @@ function validateTsConfigFile {
     fi;
 }
 
+function validateNoHardCodedText {
+    echo "Validating no hard-coded text (usint i18n-lint)"
+    yarn i18n-lint
+}
+
 LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
@@ -55,6 +60,7 @@ validatestyles
 
 echo "Validating code linting"
 ng lint
+
 echo "-----"
 echo "Validating code formatting (using prettier)"
 yarn prettier 2>&1 |  tee prettier.log
@@ -67,3 +73,5 @@ else
     rm prettier.log
     exit 1
 fi
+
+validateNoHardCodedText

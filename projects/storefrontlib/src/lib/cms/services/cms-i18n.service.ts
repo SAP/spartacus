@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CmsMappingService } from './cms-mapping.service';
-import {
-  TranslationService,
-  TranslationNamespaceService,
-} from '@spartacus/core';
+import { TranslationService, TranslationChunkService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +9,15 @@ export class CmsI18nService {
   constructor(
     private cmsMapping: CmsMappingService,
     private translation: TranslationService,
-    private translationNamespace: TranslationNamespaceService
+    private translationChunk: TranslationChunkService
   ) {}
 
-  loadNamespacesForComponents(componentTypes: string[]) {
+  loadChunksForComponents(componentTypes: string[]) {
     const i18nKeys = this.cmsMapping.getI18nKeysForComponents(componentTypes);
-    const i18nNamespaces = new Set<string>();
+    const i18nChunks = new Set<string>();
     for (const key of i18nKeys) {
-      i18nNamespaces.add(this.translationNamespace.getNamespace(key));
+      i18nChunks.add(this.translationChunk.getChunkNameForKey(key));
     }
-    this.translation.loadNamespaces(Array.from(i18nNamespaces));
+    this.translation.loadChunks(Array.from(i18nChunks));
   }
 }
