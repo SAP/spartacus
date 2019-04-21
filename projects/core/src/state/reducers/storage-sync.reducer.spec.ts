@@ -1,16 +1,17 @@
-import { Optional, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Action,
   ActionReducer,
   ActionReducerMap,
+  INIT,
+  META_REDUCERS,
   Store,
   StoreModule,
 } from '@ngrx/store';
-import { Config, ConfigModule } from '../../config';
+import { Login } from '../../auth';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
-import { META_REDUCER } from '../meta-reducer';
 import {
   exists,
   getStorage,
@@ -34,7 +35,7 @@ const localStorageMock = {
 
 const winRef = {
   get nativeWindow(): Window {
-    return undefined;
+    return {} as Window;
   },
   get sessionStorage(): Storage {
     return sessionStorageMock;
@@ -64,14 +65,15 @@ fdescribe('storage-sync-reducer', () => {
       };
       const metaReducers: Provider[] = [
         {
-          provide: META_REDUCER,
+          provide: META_REDUCERS,
           useFactory: getStorageSyncReducer,
-          deps: [WindowRef, [new Optional(), Config]],
-          multi: true,
+          deps: [WindowRef, StateConfig],
         },
       ];
-      const tokenReducer: ActionReducer<string, Action> = (state, _action) =>
-        state;
+      const tokenReducer: ActionReducer<string, Action> = (state, _action) => {
+        console.log('action', _action);
+        return state;
+      };
       function reducerMap(): ActionReducerMap<TokenState> {
         return {
           access_token: tokenReducer,
@@ -79,16 +81,14 @@ fdescribe('storage-sync-reducer', () => {
       }
 
       TestBed.configureTestingModule({
-        imports: [
-          StoreModule.forRoot(reducerMap),
-          ConfigModule.forRoot(config),
-        ],
+        imports: [StoreModule.forRoot(reducerMap, { initialState: {} })],
         providers: [
-          ...metaReducers,
+          { provide: StateConfig, useValue: config },
           {
             provide: WindowRef,
             useValue: winRef,
           },
+          ...metaReducers,
         ],
       });
 
@@ -101,8 +101,10 @@ fdescribe('storage-sync-reducer', () => {
     });
 
     describe('when the action type is INIT and the state does NOT exist', () => {
-      it('should call the reducer to get the new state', () => {
-        store.dispatch({ type: 'TEST_ACTION' });
+      fit('should call the reducer to get the new state', () => {
+        store.dispatch({ type: INIT });
+        store.dispatch(new Login());
+        store.subscribe(console.log);
       });
     });
   });
