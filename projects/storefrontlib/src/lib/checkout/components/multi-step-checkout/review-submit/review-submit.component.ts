@@ -25,7 +25,6 @@ import { Card } from '../../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
-  styleUrls: ['./review-submit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
