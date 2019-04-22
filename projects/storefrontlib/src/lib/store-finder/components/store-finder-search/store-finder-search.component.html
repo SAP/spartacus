@@ -8,7 +8,7 @@
           (keyup)="onKey($event)"
           type="text"
           class="form-control"
-          placeholder="{{ 'storeFinder.placeholder.searchBox' | cxTranslate }}"
+          placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
           required
         />
       </div>
@@ -18,16 +18,16 @@
         [routerLink]="['find']"
         [queryParams]="{ query: queryInput.value }"
       >
-        {{ 'storeFinder.action.findStore' | cxTranslate }}
+        {{ 'storeFinder.findStore' | cxTranslate }}
       </button>
 
       <div class="cx-bottom-links">
         <button (click)="viewStoresWithMyLoc()" class="cx-link btn-link">
-          {{ 'storeFinder.action.useMyLocation' | cxTranslate }}
+          {{ 'storeFinder.useMyLocation' | cxTranslate }}
         </button>
         |
         <a [routerLink]="['view-all']" class="cx-link btn-link">{{
-          'storeFinder.action.viewAllStores' | cxTranslate
+          'storeFinder.viewAllStores' | cxTranslate
         }}</a>
       </div>
     </div>
