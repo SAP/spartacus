@@ -68,4 +68,53 @@ export const user = {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
   },
+  updateEmailForm: {
+    newEmailAddress: {
+      label: 'New email address',
+      placeholder: 'Enter email',
+    },
+    confirmNewEmailAddress: {
+      label: 'Confirm new email address',
+      placeholder: 'Enter email',
+    },
+    enterValidEmail: 'Please enter a valid email.',
+    bothPasswordMustMatch: 'Both password must match',
+    password: {
+      label: 'Password',
+      placeholder: 'Enter password',
+    },
+    pleaseInputPassword: 'Please input password',
+  },
+  updatePasswordForm: {
+    oldPassword: {
+      label: 'Old Password',
+      placeholder: 'Old Password',
+    },
+    oldPasswordIsRequired: 'Old password is required.',
+    newPassword: {
+      label: 'New Password',
+      placeholder: 'New Password',
+    },
+    passwordMinRequirements:
+      'Password must be six characters minimum, with one uppercase letter, one number, one symbol',
+    confirmPassword: {
+      label: 'Confirm New Password',
+      placeholder: 'Confirm Password',
+    },
+    bothPasswordMustMatch: 'Both password must match',
+  },
+  updateProfileForm: {
+    title: '',
+    none: '',
+    firstName: {
+      label: 'First name',
+      placeholder: 'First name',
+    },
+    firstNameIsRequired: 'First name is required.',
+    lastName: {
+      label: 'Last name',
+      placeholder: 'Last name',
+    },
+    lastNameIsRequired: 'Last name is required.',
+  },
 };
