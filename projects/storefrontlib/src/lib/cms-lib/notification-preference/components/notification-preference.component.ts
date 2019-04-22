@@ -29,6 +29,10 @@ export class NotificationPreferenceComponent implements OnInit {
       this.userId = token.userId;
     });
 
+    this.getNotificationPreferences();
+  }
+
+  getNotificationPreferences() {
     this.notificationPreferenceList$ = this.userService.getNotificationPreferences();
     this.userService.loadNotificationPreferences(this.userId);
   }

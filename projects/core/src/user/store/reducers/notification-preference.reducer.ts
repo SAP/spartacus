@@ -18,10 +18,6 @@ export function reducer(
         preferences,
       };
     }
-
-    case fromAction.UPDATE_NOTIFICATION_PREFERENCES_FAIL: {
-      return initialState;
-    }
   }
 
   return state;
