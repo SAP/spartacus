@@ -123,6 +123,7 @@
     button.link {
       @include type('8');
       color: var(--cx-color, var(--cx-g-color-text));
+      border-width: var(--cx-border-width, 0);
     }
   }
 
