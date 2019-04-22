@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="(productReferencesService.getList() | async) as productList"
+  *ngIf="(productReferencesService.getReferenceList() | async) as productList"
 >
   <h3 *ngIf="(productReferencesService.getTitle() | async) as title">
     {{ title }}

@@ -5,8 +5,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ProductReference, WindowRef } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { WindowRef } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductReferencesService } from './product-references.component.service';
 
@@ -19,8 +19,6 @@ import { ProductReferencesService } from './product-references.component.service
 export class ProductReferencesComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   private window: Window;
-
-  references$: Observable<ProductReference[]>;
 
   constructor(
     winRef: WindowRef,

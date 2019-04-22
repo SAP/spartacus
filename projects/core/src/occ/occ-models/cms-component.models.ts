@@ -77,7 +77,6 @@ export interface CmsProductReferencesComponent extends CmsComponent {
   maximumNumberProducts?: number;
   productReferenceTypes?: string;
   container?: string;
-  productCodes?: string;
 }
 
 export interface CmsMiniCartComponent extends CmsComponent {

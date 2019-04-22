@@ -13,7 +13,6 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 export class ProductReferencesService {
   private title$: Observable<string>;
   private items$: Observable<ProductReference[]>;
-  private productReferenceTypes$: Observable<string>;
 
   constructor(
     protected component: CmsComponentData<CmsProductReferencesComponent>,
@@ -33,19 +32,7 @@ export class ProductReferencesService {
     );
   }
 
-  getProductReferenceTypes(): Observable<string> {
-    return this.productReferenceTypes$;
-  }
-
-  setProductReferenceTypes(): void {
-    this.productReferenceTypes$ = this.component.data$.pipe(
-      map(data => {
-        return data.productReferenceTypes;
-      })
-    );
-  }
-
-  getList(): Observable<ProductReference[]> {
+  getReferenceList(): Observable<ProductReference[]> {
     return this.items$;
   }
 

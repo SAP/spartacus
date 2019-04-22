@@ -18,7 +18,7 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
 
   load(
     productCode: string,
-    referenceType: string,
+    referenceType?: string,
     pageSize?: number
   ): Observable<ProductReference[]> {
     return this.http
