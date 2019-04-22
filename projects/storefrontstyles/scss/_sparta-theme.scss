@@ -16,7 +16,8 @@ $selectors: header, cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-address-card, cx-store-finder-list-item, cx-store-finder-grid,
   cx-store-finder-store-description, cx-store-finder-stores-count,
   cx-store-finder-search-result, cx-store-finder-list, cx-store-finder-search,
-  cx-store-finder-schedule, cx-payment-method !default;
+  cx-store-finder-schedule, cx-store-finder-map, cx-add-to-home-screen-banner,
+  cx-payment-method, cx-item-counter, cx-star-rating, cx-spinner !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
