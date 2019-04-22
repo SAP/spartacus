@@ -55,6 +55,7 @@ describe('storage-sync-reducer', () => {
             keys: {
               access_token: StorageSyncType.SESSION_STORAGE,
               refresh_token: StorageSyncType.LOCAL_STORAGE,
+              do_not_sync: StorageSyncType.NO_STORAGE,
             },
           },
         },
@@ -77,6 +78,23 @@ describe('storage-sync-reducer', () => {
         spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
         const result = reducer({}, { type: UPDATE });
         expect(result).toEqual(rehydratedState);
+      });
+    });
+
+    describe('when a key is set to NO_STORAGE', () => {
+      it('should NOT sync it to storage', () => {
+        spyOn(sessionStorageMock, 'getItem').and.stub();
+        spyOn(localStorageMock, 'getItem').and.stub();
+        spyOn(sessionStorageMock, 'setItem').and.stub();
+        spyOn(localStorageMock, 'setItem').and.stub();
+
+        const state = { do_not_sync: 'do NOT sync' };
+        const result = reducer(state, { type: 'AN-ACTION' });
+        expect(result).toEqual(state);
+        expect(sessionStorageMock.getItem).not.toHaveBeenCalled();
+        expect(localStorageMock.getItem).not.toHaveBeenCalled();
+        expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
+        expect(localStorageMock.setItem).not.toHaveBeenCalled();
       });
     });
 

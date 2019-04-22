@@ -49,7 +49,6 @@ export function getStorageSyncReducer<T>(
           const configuredStorageType = storageSyncConfig.keys[
             configKey
           ] as StorageSyncType;
-          // TODO:#sync-poc - test
           if (configuredStorageType === StorageSyncType.NO_STORAGE) {
             continue;
           }
