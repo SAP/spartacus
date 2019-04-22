@@ -7,7 +7,6 @@ import {
   getTransferStateReducer,
 } from './transfer-state.reducer';
 
-// TODO:#sync-poc - rename file to `traNsfer`
 describe('TransferStateReducer', () => {
   describe('getTransferStateReducer', () => {
     it('should return undefined without proper configuration', () => {
