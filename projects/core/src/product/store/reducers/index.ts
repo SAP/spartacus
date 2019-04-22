@@ -4,13 +4,13 @@ import * as fromProductsSearch from './product-search.reducer';
 import * as fromProductReviews from './product-reviews.reducer';
 import { PRODUCT_DETAIL_ENTITY, ProductsState } from '../product-state';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context';
-import { Product } from '../../../occ/occ-models/occ.models';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
+import { UIProduct } from '../../model/product';
 
 export function getReducers(): ActionReducerMap<ProductsState> {
   return {
     search: fromProductsSearch.reducer,
-    details: entityLoaderReducer<Product>(PRODUCT_DETAIL_ENTITY),
+    details: entityLoaderReducer<UIProduct>(PRODUCT_DETAIL_ENTITY),
     reviews: fromProductReviews.reducer,
   };
 }

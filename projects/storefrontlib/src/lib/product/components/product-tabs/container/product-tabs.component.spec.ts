@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
-  Product,
+  UIProduct,
   ContentSlotComponentData,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -14,10 +14,10 @@ import { OutletDirective } from '../../../../outlet';
 import { ProductTabsComponent } from './product-tabs.component';
 import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
 
-const mockProduct: Product = { name: 'mockProduct' };
+const mockProduct: UIProduct = { name: 'mockProduct' };
 
 class MockCurrentProductService {
-  getProduct(): Observable<Product> {
+  getProduct(): Observable<UIProduct> {
     return of(mockProduct);
   }
 }
@@ -28,7 +28,7 @@ class MockCurrentProductService {
 })
 class MockProductReviewsComponent {
   @Input()
-  product: Product;
+  product: UIProduct;
   @Input()
   isWritingReview: boolean;
 }
@@ -39,7 +39,7 @@ class MockProductReviewsComponent {
 })
 export class MockProductAttributesComponent {
   @Input()
-  product: Product;
+  product: UIProduct;
 }
 
 @Directive({
@@ -84,7 +84,7 @@ describe('ProductTabsComponent in product', () => {
 
   it('should fetch product data', () => {
     productTabsComponent.ngOnInit();
-    let result: Product;
+    let result: UIProduct;
     productTabsComponent.product$.subscribe(product => (result = product));
     expect(result).toEqual(mockProduct);
   });
