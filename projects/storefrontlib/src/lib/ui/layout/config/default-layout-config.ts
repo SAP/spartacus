@@ -31,6 +31,9 @@ export const defaultLayoutConfig: LayoutConfig = {
         slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
       },
     },
+    breadcrumb: {
+      slots: ['BottomHeaderSlot'],
+    },
     footer: {
       slots: ['Footer'],
     },
