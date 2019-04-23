@@ -101,6 +101,7 @@
   }
 
   .cx-button {
+    display: flex;
     color: currentColor;
 
     border-style: var(--cx-border-style, none);

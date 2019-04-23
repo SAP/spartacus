@@ -1,7 +1,5 @@
 @import '../../../theme';
 
-@import '../../icons';
-
 %cx-mini-cart {
   margin-left: 0.75rem;
   display: block;
@@ -19,10 +17,7 @@
     color: var(--cx-color, var(--cx-g-color-inverse));
     text-decoration: none;
     justify-content: space-around;
-    // align-content: center;
-    cx-icon {
-      align-self: center;
-    }
+
     color: currentColor;
 
     &:hover {
