@@ -12,41 +12,40 @@ const changeCurrency = (currency: string) => {
 };
 
 context('Currency change', () => {
-  let PRODUCT_URL_USD: string;
-  let PRODUCT_URL_JPY: string;
-  let PRODUCT_ID: string;
+  const PRODUCT_URL_USD = `/${CONTENT_CATALOG}/en/${USD_CURR}/product/`;
+  const PRODUCT_URL_JPY = `/${CONTENT_CATALOG}/en/${JPY_CURR}/product/`;
+  const PRODUCT_ID = '280916';
 
   describe('on the product page', () => {
-    beforeEach(() => {
-      PRODUCT_URL_USD = `/${CONTENT_CATALOG}/en/${USD_CURR}/product/`;
-      PRODUCT_URL_JPY = `/${CONTENT_CATALOG}/en/${JPY_CURR}/product/`;
-      PRODUCT_ID = '280916';
-    });
-
     it('should change the currency and be persistent in the url ', () => {
       cy.visit(`/${PRODUCT_URL_USD}${PRODUCT_ID}`);
 
       changeCurrency(JPY_CURR);
 
       cy.url().should('eq', `${BASE_URL}${PRODUCT_URL_JPY}${PRODUCT_ID}`);
+      changeCurrency(USD_CURR);
+    });
+
+    it('should display the chosen currency', () => {
+      cy.visit(`/${PRODUCT_URL_USD}${PRODUCT_ID}`);
+
+      changeCurrency(JPY_CURR);
+
+      cy.get('.price').should('contain', '¥690');
+      changeCurrency(USD_CURR);
+      cy.get('.price').should('contain', '$8.20');
     });
   });
 
   describe('on the login page', () => {
-    let LOGIN_URL_USD: string;
-    let TEST_EMAIL: string;
-
-    beforeEach(() => {
-      LOGIN_URL_USD = `/${CONTENT_CATALOG}/en/USD/login`;
-      TEST_EMAIL = 'my@email.com';
-    });
+    const LOGIN_URL_USD = `/${CONTENT_CATALOG}/en/USD/login`;
+    const TEST_EMAIL = 'my@email.com';
 
     it('user input should not be removed on currency change', () => {
       cy.visit(`/${LOGIN_URL_USD}`);
       cy.get('input[type="email"]').type(TEST_EMAIL);
 
       changeCurrency(JPY_CURR);
-      changeCurrency(USD_CURR);
 
       cy.get('input[type="email"]').should('contain', TEST_EMAIL);
     });
