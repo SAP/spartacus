@@ -1,114 +1,128 @@
- 
-<ng-container *ngIf='(interests$ | async) as interests'>
-<div class="container">
-  <div class="cx-order-history-header">
-    <h3>My Interests</h3>
-  </div>
-  <div class="cx-order-history-body">
-    <ng-container *ngIf='interests.pagination.totalCount > 0; else noInterest'>
-      <div class="cx-order-history-sort top row">
-        <div class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4">
-          <cx-sorting
-            [sortOptions]="interests.sorts" 
-            [sortLabels]="sortLabels"
-            [selectedOption]="interests.pagination.sort" 
-            [placeholder]="'Sort by Most recent'">
-          </cx-sorting>
-        </div>
-        <div class="cx-order-history-pagination">
-          <cx-pagination [pagination]="interests.pagination" (viewPageEvent)="pageChange($event)"></cx-pagination>
-        </div>
-      </div>
+<ng-container *ngIf="(interests$ | async) as interests">
+  <div class="container">
+    <div class="cx-order-history-header">
+      <h3>My Interests</h3>
+    </div>
+    <div class="cx-order-history-body">
+      <ng-container
+        *ngIf="interests.pagination.totalCount > 0; else noInterest"
+      >
+        <table class="table cx-order-history-table">
+          <thead class="cx-order-history-thead-mobile">
+            <th scope="col" style="text-align: left">ITEM</th>
+            <th scope="col" style="text-align: left"></th>
+            <th scope="col" style="text-align: left">PRICE</th>
+            <th scope="col" style="text-align: left">SUBSCRIPTIONS</th>
+            <th scope="col" style="text-align: left"></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let result of interests.results">
+              <td>
+                <div class="d-md-none ">ITEM</div>
+                <a
+                  [routerLink]="
+                    { route: [{ name: 'product', params: result.product }] }
+                      | cxTranslateUrl
+                  "
+                >
+                  <cx-picture
+                    [imageContainer]="result.product.images?.PRIMARY"
+                    imageFormat="thumbnail"
+                  ></cx-picture>
+                </a>
+              </td>
+              <td>
+                <div class="cx-info col-10">
+                  <div class="cx-info-container row ">
+                    <div class="">
+                      <div *ngIf="result.product.name" class="cx-name">
+                        <a
+                          class="cx-link"
+                          [routerLink]="
+                            {
+                              route: [
+                                { name: 'product', params: result.product }
+                              ]
+                            } | cxTranslateUrl
+                          "
+                        >
+                          {{ result.product.name }}
+                        </a>
+                      </div>
+                      <div *ngIf="result.product.code" class="cx-code">
+                        <span>ID {{ result.product.code }}</span>
+                      </div>
 
-      <table class="table cx-order-history-table">
-        <thead class="cx-order-history-thead-mobile">
-          <th scope="col" style="text-align: left">ITEM</th>
-          <th scope="col" style="text-align: left"></th>
-          <th scope="col" style="text-align: left">PRICE</th>
-          <th scope="col" style="text-align: left">SUBSCRIPTIONS</th>
-          <th scope="col" style="text-align: left"></th>
-        </thead>
-        <tbody>
-          <tr *ngFor="let result of interests.results">
-            <td>
-              <div class="d-md-none ">ITEM</div>
-              <a [routerLink]=" { route: [{ name: 'product', params: result.product }] } | cxTranslateUrl ">
-                <cx-picture [imageContainer]="result.product.images?.PRIMARY" imageFormat="thumbnail"></cx-picture>
-              </a>
-            </td>
-            <td>
-              <div class="cx-info col-10">
-                <div class="cx-info-container row ">
-                  <div class="">
-                    <div *ngIf="result.product.name" class="cx-name">
-                      <a class="cx-link"
-                        [routerLink]=" { route: [{ name: 'product', params: result.product }] } | cxTranslateUrl ">
-                        {{ result.product.name }}
-                      </a>
-                    </div>
-                    <div *ngIf="result.product.code" class="cx-code">
-                      <span>ID {{ result.product.code }}</span>
-                    </div>
+                      <div
+                        *ngFor="
+                          let variant of result.product.variantOptionQualifiers
+                        "
+                        class="cx-property"
+                      >
+                        <div class="cx-label">{{ variant.name }}</div>
+                        <div class="cx-value">{{ variant.value }}</div>
+                      </div>
 
-                    <div *ngFor="let variant of result.product.variantOptionQualifiers" class="cx-property">
-                      <div class="cx-label">{{ variant.name }}</div>
-                      <div class="cx-value">{{ variant.value }}</div>
+                      <div
+                        class="cx-property"
+                        [ngSwitch]="result.product.stock.stockLevelStatus"
+                      >
+                        <div class="cx-label" *ngSwitchCase="'inStock'">
+                          In Stock
+                        </div>
+                        <div class="cx-label" *ngSwitchCase="'lowStock'">
+                          Low Stock
+                        </div>
+                        <div class="cx-label" *ngSwitchDefault>
+                          Out of Stock
+                        </div>
+                      </div>
                     </div>
-
-                    <div class="cx-property" [ngSwitch]='result.product.stock.stockLevelStatus'>
-                      <div class="cx-label" *ngSwitchCase="'inStock'">In Stock</div>
-                      <div class="cx-label" *ngSwitchCase="'lowStock'">Low Stock</div>
-                      <div class="cx-label" *ngSwitchDefault>Out of Stock</div>
-                    </div>
-
                   </div>
                 </div>
-              </div>
-            </td>
-            <td>
-              <div class="d-md-none ">PRICE</div>
-              {{ result.product.price.value }}
-            </td>
-            <td>
-              <div class="d-md-none ">SUBSCRIPTIONS</div>
-              <div class="notificaitonPanel" *ngFor='let ientry of result.productInterestEntry'>
-                <span>
-                  {{ ientry.interestType }}
-                </span>
-                <span> - Till </span>
-                <span>
-                  {{ ientry.dateAdded | date:'yyyy/MM/dd' }}
-                </span>
-              </div>
-            </td>
-            <td>
-              <div class="d-md-none">OPERATION</div>
-              <button type="button" class="close" aria-label="Close" (click)='removeInterests(result)'>
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </td>
+              <td>
+                <div class="d-md-none ">PRICE</div>
+                {{ result.product.price.value }}
+              </td>
+              <td>
+                <div class="d-md-none ">SUBSCRIPTIONS</div>
+                <div
+                  class="notificaitonPanel"
+                  *ngFor="let ientry of result.productInterestEntry"
+                >
+                  <span>
+                    {{ ientry.interestType }}
+                  </span>
+                  <span> - Till </span>
+                  <span>
+                    {{ ientry.dateAdded | date: 'yyyy/MM/dd' }}
+                  </span>
+                </div>
+              </td>
+              <td>
+                <div class="d-md-none">OPERATION</div>
+                <button
+                  type="button"
+                  class="close"
+                  aria-label="Close"
+                  (click)="removeInterests(result)"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-      <div class="cx-order-history-sort bottom row">
-        <div class="cx-order-history-form-group form-group col-sm-12 col-md-4 col-lg-4">
-          <cx-sorting [sortOptions]="interests.sorts" [sortLabels]="sortLabels"
-            [selectedOption]="interests.pagination.sort" [placeholder]="'Sort by Most recent'"></cx-sorting>
+      </ng-container>
+      <ng-template #noInterest>
+        <div class="cx-order-history-no-order row">
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>You Have No Interests Yet</div>
+          </div>
         </div>
-        <div class="cx-order-history-pagination">
-          <cx-pagination [pagination]="interests.pagination" (viewPageEvent)="pageChange($event)"></cx-pagination>
-        </div>
-      </div>
-
-    </ng-container>
-    <ng-template #noInterest>
-      <div class="cx-order-history-no-order row">
-        <div class="col-sm-12 col-md-6 col-lg-4">
-          <div>You Have No Interests Yet</div>
-        </div>
-      </div>
-    </ng-template>
+      </ng-template>
+    </div>
   </div>
-</div>
 </ng-container>

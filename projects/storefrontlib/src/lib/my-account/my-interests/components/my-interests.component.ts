@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MyInterestsService } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { AuthService } from '@spartacus/core';
+import { AuthService, UserService, ProductInterestList } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-my-interests',
@@ -16,33 +16,45 @@ export class MyInterestsComponent implements OnInit {
   private PAGE_SIZE = 5;
 
   interests$: Observable<any>;
-  userId: string;
+  isLoaded$: Observable<boolean>;
+  subscription: Subscription;
+  user_id: string;
 
   constructor(
     private interestService: MyInterestsService,
-    private authService: AuthService
+    private auth: AuthService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    this.authService.getUserToken().subscribe(token => {
-      this.userId = token.userId;
-      this.interests$ = this.interestService.getInterests(
-        token.userId,
-        this.PAGE_SIZE
-      );
+    this.subscription = this.auth.getUserToken().subscribe(userData => {
+      if (userData && userData.userId) {
+        this.user_id = userData.userId;
+      }
     });
+
+    this.interests$ = this.userService.getProdutInterestsList(
+      this.user_id,
+      this.PAGE_SIZE
+    );
   }
 
   pageChange(page: number) {
-    this.interests$ = this.interestService.getInterests(this.userId, page);
+    this.interests$ = this.userService.getProdutInterestsList(
+      this.user_id,
+      page
+    );
   }
 
   removeInterests(item: any): void {
     this.interestService
-      .removeInterests(this.userId, item)
+      .removeInterests(this.user_id, item)
       .subscribe(
         () =>
-          (this.interests$ = this.interestService.getInterests(this.userId, 0))
+          (this.interests$ = this.interestService.removeInterests(
+            this.user_id,
+            0
+          ))
       );
   }
 }

@@ -37,7 +37,7 @@ export interface UserState {
   titles: TitlesState;
   regions: RegionsState;
   resetPassword: boolean;
-  interests: LoaderState<ProductInterestList>;
+  productInterest: LoaderState<ProductInterestList>;
 }
 
 export interface OrderDetailsState {

@@ -12,6 +12,7 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { ProductInterestList } from '../model/product-interest.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -503,5 +504,57 @@ export class UserService {
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new fromStore.UpdatePasswordReset());
+  }
+
+  /**
+   * Retrieves an order list
+   * @param userId a user ID
+   * @param pageSize page size
+   * @param currentPage current page
+   * @param sort sort
+   */
+  loadInterestList(
+    userId: string,
+    pageSize: number,
+    currentPage?: number,
+    sort?: string
+  ): void {
+    this.store.dispatch(
+      new fromStore.LoadProductInterests({
+        userId: userId,
+        pageSize: pageSize,
+        currentPage: currentPage,
+        sort: sort,
+      })
+    );
+  }
+
+  /**
+   * Returns customer interests list
+   */
+  getProdutInterestsList(
+    userId: string,
+    pageSize: number
+  ): Observable<ProductInterestList> {
+    return this.store.pipe(
+      select(fromStore.getProductInterestsState),
+      tap(interestListState => {
+        const attemptedLoad =
+          interestListState.loading ||
+          interestListState.success ||
+          interestListState.error;
+        if (!attemptedLoad && !!userId) {
+          this.loadInterestList(userId, pageSize);
+        }
+      }),
+      map(interestListState => interestListState.value)
+    );
+  }
+
+  /**
+   * Returns a loaded flag for order history list
+   */
+  getProdutInterestsListLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getProductInterestsLoaded));
   }
 }
