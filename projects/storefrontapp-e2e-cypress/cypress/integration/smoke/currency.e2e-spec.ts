@@ -18,7 +18,7 @@ context('Currency change', () => {
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
-      cy.visit(`/${PRODUCT_URL_USD}${PRODUCT_ID}`);
+      cy.visit(`${PRODUCT_URL_USD}${PRODUCT_ID}`);
 
       changeCurrency(JPY_CURR);
 
@@ -27,7 +27,7 @@ context('Currency change', () => {
     });
 
     it('should display the chosen currency', () => {
-      cy.visit(`/${PRODUCT_URL_USD}${PRODUCT_ID}`);
+      cy.visit(`${PRODUCT_URL_USD}${PRODUCT_ID}`);
 
       changeCurrency(JPY_CURR);
 
@@ -42,12 +42,12 @@ context('Currency change', () => {
     const TEST_EMAIL = 'my@email.com';
 
     it('user input should not be removed on currency change', () => {
-      cy.visit(`/${LOGIN_URL_USD}`);
+      cy.visit(`${LOGIN_URL_USD}`);
       cy.get('input[type="email"]').type(TEST_EMAIL);
 
       changeCurrency(JPY_CURR);
 
-      cy.get('input[type="email"]').should('contain', TEST_EMAIL);
+      cy.get('input[type="email"]').should('have.value', TEST_EMAIL);
     });
   });
 });
