@@ -39,7 +39,7 @@ class MockPageMetaService {
   }
 }
 
-fdescribe('NotificationPreferenceComponent', () => {
+describe('NotificationPreferenceComponent', () => {
   let component: NotificationPreferenceComponent;
   let userService: MockUserService;
   let fixture: ComponentFixture<NotificationPreferenceComponent>;
