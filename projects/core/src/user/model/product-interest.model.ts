@@ -1,11 +1,4 @@
-import {
-  Price,
-  Stock,
-  Image,
-  Sort,
-  SortModel,
-  Pagination,
-} from '../../occ/index';
+import { Price, Stock, Image, Sort, Pagination } from '../../occ/index';
 
 export interface ProductInterestEntry {
   interestType?: string;
@@ -30,7 +23,7 @@ export interface ProductInterest {
 
 export interface ProductInterestRelation {
   product?: ProductInterest;
-  productInterestEntry?: ProductInterestEntry;
+  productInterestEntry?: ProductInterestEntry[];
 }
 
 export interface ProductInterestList {

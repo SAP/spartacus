@@ -12,7 +12,10 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
-import { ProductInterestList } from '../model/product-interest.model';
+import {
+  ProductInterestList,
+  ProductInterestRelation,
+} from '../model/product-interest.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -507,7 +510,7 @@ export class UserService {
   }
 
   /**
-   * Retrieves an order list
+   * Retrieves an product interest list
    * @param userId a user ID
    * @param pageSize page size
    * @param currentPage current page
@@ -530,7 +533,7 @@ export class UserService {
   }
 
   /**
-   * Returns customer interests list
+   * Returns product interests list
    */
   getProdutInterestsList(
     userId: string,
@@ -551,10 +554,12 @@ export class UserService {
     );
   }
 
-  /**
-   * Returns a loaded flag for order history list
-   */
-  getProdutInterestsListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(fromStore.getProductInterestsLoaded));
+  deleteProdutInterest(userId: string, item: ProductInterestRelation): void {
+    this.store.dispatch(
+      new fromStore.DeleteProductInterest({
+        userId: userId,
+        item,
+      })
+    );
   }
 }

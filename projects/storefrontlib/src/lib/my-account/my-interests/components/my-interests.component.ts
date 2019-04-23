@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MyInterestsService } from '@spartacus/core';
-import { AuthService, UserService, ProductInterestList } from '@spartacus/core';
+import { AuthService, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-
+import { ProductInterestRelation } from '@spartacus/core';
 @Component({
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
@@ -20,11 +19,7 @@ export class MyInterestsComponent implements OnInit {
   subscription: Subscription;
   user_id: string;
 
-  constructor(
-    private interestService: MyInterestsService,
-    private auth: AuthService,
-    private userService: UserService
-  ) {}
+  constructor(private auth: AuthService, private userService: UserService) {}
 
   ngOnInit() {
     this.subscription = this.auth.getUserToken().subscribe(userData => {
@@ -46,15 +41,9 @@ export class MyInterestsComponent implements OnInit {
     );
   }
 
-  removeInterests(item: any): void {
-    this.interestService
-      .removeInterests(this.user_id, item)
-      .subscribe(
-        () =>
-          (this.interests$ = this.interestService.removeInterests(
-            this.user_id,
-            0
-          ))
-      );
+  removeInterests(result: ProductInterestRelation): void {
+    if (this.user_id) {
+      this.userService.deleteProdutInterest(this.user_id, result);
+    }
   }
 }
