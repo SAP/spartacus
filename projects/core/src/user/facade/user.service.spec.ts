@@ -11,6 +11,7 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserRegisterFormData } from '../model/user.model';
@@ -607,12 +608,11 @@ describe('UserService', () => {
 
   describe('notification preference:', () => {
     const userId = 'testUserId';
-    const mockPreference: any = {
+    const mockBasicNotificationPreferenceList: BasicNotificationPreferenceList = {
       preferences: [
         { channel: 'EMAIL', value: 'test@sap.com', enabled: false },
       ],
     };
-
     it('should be able to load notification preferences', () => {
       service.loadNotificationPreferences(userId);
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -622,25 +622,32 @@ describe('UserService', () => {
 
     it('should be able to get notification preferences', () => {
       store.dispatch(
-        new fromStore.LoadNotificationPreferencesSuccess(mockPreference)
+        new fromStore.LoadNotificationPreferencesSuccess(
+          mockBasicNotificationPreferenceList
+        )
       );
 
-      let preference: any;
+      let basicNotificationPreferenceList: BasicNotificationPreferenceList;
       service
         .getNotificationPreferences()
         .subscribe(data => {
-          preference = data;
+          basicNotificationPreferenceList = data;
         })
         .unsubscribe();
-      expect(preference).toEqual(mockPreference);
+      expect(basicNotificationPreferenceList).toEqual(
+        mockBasicNotificationPreferenceList
+      );
     });
 
     it('should be able to update notification preferences', () => {
-      service.updateNotificationPreferences(userId, mockPreference);
+      service.updateNotificationPreferences(
+        userId,
+        mockBasicNotificationPreferenceList
+      );
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.UpdateNotificationPreferences({
           userId: userId,
-          preference: mockPreference,
+          basicNotificationPreferenceList: mockBasicNotificationPreferenceList,
         })
       );
     });

@@ -5,8 +5,10 @@ import {
   UserService,
   PageMetaService,
   PageMeta,
+  BasicNotificationPreferenceList,
+  BasicNotificationPreference,
 } from '@spartacus/core';
-import { map, filter } from 'rxjs/operators';
+import { map, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-notification-preference',
@@ -14,7 +16,8 @@ import { map, filter } from 'rxjs/operators';
   styleUrls: ['./notification-preference.component.scss'],
 })
 export class NotificationPreferenceComponent implements OnInit {
-  notificationPreferenceList$: Observable<any>;
+  basicNotificationPreferenceList$: Observable<BasicNotificationPreferenceList>;
+  basicNotificationPreferenceList: BasicNotificationPreferenceList;
   userId: string;
   preferences: any;
 
@@ -33,22 +36,31 @@ export class NotificationPreferenceComponent implements OnInit {
   }
 
   getNotificationPreferences() {
-    this.notificationPreferenceList$ = this.userService.getNotificationPreferences();
+    this.basicNotificationPreferenceList$ = this.userService
+      .getNotificationPreferences()
+      .pipe(tap(value => (this.basicNotificationPreferenceList = value)));
     this.userService.loadNotificationPreferences(this.userId);
   }
 
-  updateNotificationPreferences(preference: any) {
-    const list: any = {
-      preferences: [
-        {
-          channel: preference.channel,
-          enabled: !preference.enabled,
-        },
-      ],
+  updateNotificationPreferences(preference: BasicNotificationPreference) {
+    const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+      preferences: [],
     };
-
-    this.userService.updateNotificationPreferences(this.userId, list);
-    preference.enabled = !preference.enabled;
+    this.basicNotificationPreferenceList.preferences.forEach(p => {
+      if (p.channel === preference.channel) {
+        basicNotificationPreferenceList.preferences.push({
+          channel: p.channel,
+          enabled: !p.enabled,
+          value: p.value,
+        });
+      } else {
+        basicNotificationPreferenceList.preferences.push(p);
+      }
+    });
+    this.userService.updateNotificationPreferences(
+      this.userId,
+      basicNotificationPreferenceList
+    );
   }
 
   get title$(): Observable<string> {

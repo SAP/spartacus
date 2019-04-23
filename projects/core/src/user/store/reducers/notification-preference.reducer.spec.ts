@@ -1,12 +1,8 @@
 import * as fromNotificationPreferenceAction from '../actions/notification-preference.action';
 import * as fromNotificationPreferenceReducer from './notification-preference.reducer';
-
+import { BasicNotificationPreferenceList } from '../../model/user.model';
 describe('Notification Preference Reducer', () => {
   describe('undefined action', () => {
-    it('test failed', () => {
-      expect(false).toBeTruthy();
-    });
-
     it('should return the default state', () => {
       const { initialState } = fromNotificationPreferenceReducer;
       const action = {} as fromNotificationPreferenceAction.NotificationPreferenceAction;
@@ -37,7 +33,9 @@ describe('Notification Preference Reducer', () => {
 
   describe('LOAD_NOTIFICATION_PREFERENCES_SUCCESS action', () => {
     it('should populate the notification preference when load success', () => {
-      const payload = 'payload';
+      const payload: BasicNotificationPreferenceList = {
+        preferences: [],
+      };
       const { initialState } = fromNotificationPreferenceReducer;
       const action = new fromNotificationPreferenceAction.LoadNotificationPreferencesSuccess(
         payload
@@ -47,7 +45,31 @@ describe('Notification Preference Reducer', () => {
         initialState,
         action
       );
-      expect(state.preferences).toEqual(payload);
+      expect(state.basicNotificationPreferenceList).toEqual(payload);
+    });
+  });
+
+  describe('UPDATE_NOTIFICATION_PREFERENCES_SUCCESS action', () => {
+    it('should populate the notification preference when load success', () => {
+      const payload: BasicNotificationPreferenceList = {
+        preferences: [
+          {
+            channel: 'EMAIL',
+            enabled: true,
+            value: 'test@sap.com',
+          },
+        ],
+      };
+      const { initialState } = fromNotificationPreferenceReducer;
+      const action = new fromNotificationPreferenceAction.UpdateNotificationPreferencesSuccess(
+        payload
+      );
+
+      const state = fromNotificationPreferenceReducer.reducer(
+        initialState,
+        action
+      );
+      expect(state.basicNotificationPreferenceList).toEqual(payload);
     });
   });
 });

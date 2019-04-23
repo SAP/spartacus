@@ -8,6 +8,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { hot, cold } from 'jasmine-marbles';
 import { OccUserService } from '../../occ/index';
 import { OccConfig } from '../../../occ/config/occ-config';
+import { BasicNotificationPreferenceList } from '../../model/user.model';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -22,7 +23,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-const notificationpreferences: any = {
+const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
   preferences: [
     {
       channel: 'EMAIL',
@@ -41,13 +42,13 @@ const userId = 'test@sap.com';
 
 const toBeUpdate: any = {
   userId: userId,
-  preferences: [{ channel: 'EMAIL', enabled: false }],
+  basicNotificationPreferenceList: basicNotificationPreferenceList,
 };
 
 describe('Notification Preference Effect', () => {
   let notificationPreferenceEffects: fromNotificationPreferenceEffect.NotificationPreferenceEffects;
   let userService: OccUserService;
-  let actions$: Observable<any>;
+  let actions$: Observable<BasicNotificationPreferenceList>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -68,20 +69,16 @@ describe('Notification Preference Effect', () => {
   });
 
   describe('loadNotificationPreferences$', () => {
-    it('test failed', () => {
-      expect(false).toBeTruthy();
-    });
-
     it('should load notification preferences', () => {
       spyOn(userService, 'getNotificationPreference').and.returnValue(
-        of(notificationpreferences)
+        of(basicNotificationPreferenceList)
       );
       const action = new fromNotificationPreferenceAction.LoadNotificationPreferences(
         userId
       );
 
       const completion = new fromNotificationPreferenceAction.LoadNotificationPreferencesSuccess(
-        notificationpreferences
+        basicNotificationPreferenceList
       );
 
       actions$ = hot('-a', { a: action });
@@ -124,7 +121,7 @@ describe('Notification Preference Effect', () => {
       );
 
       const completion = new fromNotificationPreferenceAction.UpdateNotificationPreferencesSuccess(
-        ''
+        basicNotificationPreferenceList
       );
 
       actions$ = hot('-a', { a: action });

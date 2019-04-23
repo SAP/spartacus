@@ -8,7 +8,6 @@ import { StateWithUser, USER_FEATURE } from '../user-state';
 
 describe('Notification Preference Selectors', () => {
   let store: Store<StateWithUser>;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -16,14 +15,10 @@ describe('Notification Preference Selectors', () => {
         StoreModule.forFeature(USER_FEATURE, fromReducers.getReducers()),
       ],
     });
-
     store = TestBed.get(Store);
     spyOn(store, 'dispatch').and.callThrough();
   });
   describe('getNotificationPreferenceList', () => {
-    it('test failed', () => {
-      expect(false).toBeTruthy();
-    });
     it('should return the NotificationPreference state from the store', () => {
       let result: any;
       store

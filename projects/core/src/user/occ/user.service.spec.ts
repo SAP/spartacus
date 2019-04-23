@@ -12,6 +12,7 @@ import {
   PaymentDetailsList,
   User,
 } from '../../occ/occ-models/index';
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
@@ -333,7 +334,7 @@ describe('OccUserService', () => {
     });
   });
   describe('notification preference: ', () => {
-    const notificationpreferences: any = {
+    const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
       preferences: [
         {
           channel: 'EMAIL',
@@ -343,6 +344,7 @@ describe('OccUserService', () => {
         {
           channel: 'SITE_MESSAGE',
           enabled: true,
+          value: '',
         },
       ],
     };
@@ -352,7 +354,7 @@ describe('OccUserService', () => {
     const userId = 'test@sap.com';
     it('should be able to get notification preferences', () => {
       service.getNotificationPreference(userId).subscribe(result => {
-        expect(result).toEqual(notificationpreferences);
+        expect(result).toEqual(basicNotificationPreferenceList);
       });
       const mockRequest = httpMock.expectOne(req => {
         return (
@@ -362,7 +364,7 @@ describe('OccUserService', () => {
       });
       expect(mockRequest.cancelled).toBeFalsy();
       expect(mockRequest.request.responseType).toEqual('json');
-      mockRequest.flush(notificationpreferences);
+      mockRequest.flush(basicNotificationPreferenceList);
     });
     it('should be able to update notification preference', () => {
       service

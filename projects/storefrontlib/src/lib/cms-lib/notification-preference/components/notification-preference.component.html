@@ -10,12 +10,14 @@
     <div
       class="form-check"
       *ngIf="
-        (notificationPreferenceList$ | async) as notificationPreferenceList
+        (basicNotificationPreferenceList$
+          | async) as basicNotificationPreferenceList;
+        else loading
       "
     >
       <ul
         class="cx-ul"
-        *ngFor="let preference of notificationPreferenceList.preferences"
+        *ngFor="let preference of basicNotificationPreferenceList.preferences"
       >
         <ng-container *ngIf="preference.value" class="cx-name">
           <li>
@@ -24,7 +26,7 @@
                 class="form-toggle-input"
                 role="switch"
                 type="checkbox"
-              [checked]="preference.enabled"
+                [checked]="preference.enabled"
               />
 
               <label
@@ -40,5 +42,10 @@
         </ng-container>
       </ul>
     </div>
+    <ng-template #loading>
+      <div class="cx-spinner">
+        <cx-spinner></cx-spinner>
+      </div>
+    </ng-template>
   </div>
 </div>

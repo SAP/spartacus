@@ -1,8 +1,11 @@
 import { NotificationPreferenceState } from '../user-state';
+import { BasicNotificationPreferenceList } from '../../model/user.model';
 import * as fromAction from '../actions/index';
 
 export const initialState: NotificationPreferenceState = {
-  preferences: {},
+  basicNotificationPreferenceList: {
+    preferences: [],
+  },
 };
 
 export function reducer(
@@ -11,11 +14,20 @@ export function reducer(
 ): NotificationPreferenceState {
   switch (action.type) {
     case fromAction.LOAD_NOTIFICATION_PREFERENCES_SUCCESS: {
-      const preferences: any = action.payload;
+      const basicNotificationPreferenceList: BasicNotificationPreferenceList =
+        action.payload;
+
+      return {
+        basicNotificationPreferenceList,
+      };
+    }
+    case fromAction.UPDATE_NOTIFICATION_PREFERENCES_SUCCESS: {
+      const basicNotificationPreferenceList: BasicNotificationPreferenceList =
+        action.payload;
 
       return {
         ...state,
-        preferences,
+        basicNotificationPreferenceList,
       };
     }
   }

@@ -4,7 +4,10 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OccUserService } from '../../occ/user.service';
 import * as fromAction from '../actions/notification-preference.action';
-
+import {
+  BasicNotificationPreferenceList,
+  NotificationPreferenceList,
+} from '../../model/user.model';
 @Injectable()
 export class NotificationPreferenceEffects {
   @Effect()
@@ -16,7 +19,7 @@ export class NotificationPreferenceEffects {
     switchMap(payload => {
       return this.occUserService.getNotificationPreference(payload).pipe(
         map(
-          (preferences: any) =>
+          (preferences: BasicNotificationPreferenceList) =>
             new fromAction.LoadNotificationPreferencesSuccess(preferences)
         ),
         catchError(error =>
@@ -33,11 +36,26 @@ export class NotificationPreferenceEffects {
     ofType(fromAction.UPDATE_NOTIFICATION_PREFERENCES),
     map((action: fromAction.UpdateNotificationPreferences) => action.payload),
     switchMap(payload => {
+      const notificationPreferenceList: NotificationPreferenceList = {
+        preferences: [],
+      };
+      payload.basicNotificationPreferenceList.preferences.forEach(p => {
+        notificationPreferenceList.preferences.push({
+          channel: p.channel,
+          enabled: p.enabled,
+        });
+      });
+
       return this.occUserService
-        .updateNotificationPreference(payload.userId, payload.preference)
+        .updateNotificationPreference(
+          payload.userId,
+          notificationPreferenceList
+        )
         .pipe(
-          map((data: any) => {
-            return new fromAction.UpdateNotificationPreferencesSuccess(data);
+          map(() => {
+            return new fromAction.UpdateNotificationPreferencesSuccess(
+              payload.basicNotificationPreferenceList
+            );
           }),
           catchError(error =>
             of(new fromAction.UpdateNotificationPreferencesFail(error))

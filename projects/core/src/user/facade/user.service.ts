@@ -12,6 +12,7 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -508,7 +509,7 @@ export class UserService {
   /**
    *  Returns the user's notification preferences
    */
-  getNotificationPreferences(): Observable<any> {
+  getNotificationPreferences(): Observable<BasicNotificationPreferenceList> {
     return this.store.pipe(select(fromStore.getNotificationPreferenceList));
   }
 
@@ -523,11 +524,14 @@ export class UserService {
   /**
    * Updates notification preference
    */
-  updateNotificationPreferences(userId: string, preference: any) {
+  updateNotificationPreferences(
+    userId: string,
+    basicNotificationPreferenceList: BasicNotificationPreferenceList
+  ) {
     this.store.dispatch(
       new fromStore.UpdateNotificationPreferences({
-        userId: userId,
-        preference: preference,
+        userId,
+        basicNotificationPreferenceList,
       })
     );
   }

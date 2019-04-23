@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { BasicNotificationPreferenceList } from '../../model/user.model';
 
 export const LOAD_NOTIFICATION_PREFERENCES =
   '[User] Load Notification Preferences';
@@ -26,12 +27,17 @@ export class LoadNotificationPreferencesFail implements Action {
 
 export class LoadNotificationPreferencesSuccess implements Action {
   readonly type = LOAD_NOTIFICATION_PREFERENCES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: BasicNotificationPreferenceList) {}
 }
 
 export class UpdateNotificationPreferences implements Action {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES;
-  constructor(public payload: { userId: string; preference: any }) {}
+  constructor(
+    public payload: {
+      userId: string;
+      basicNotificationPreferenceList: BasicNotificationPreferenceList;
+    }
+  ) {}
 }
 export class UpdateNotificationPreferencesFail implements Action {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_FAIL;
@@ -39,7 +45,7 @@ export class UpdateNotificationPreferencesFail implements Action {
 }
 export class UpdateNotificationPreferencesSuccess implements Action {
   readonly type = UPDATE_NOTIFICATION_PREFERENCES_SUCCESS;
-  constructor(public payload: any) {}
+  constructor(public payload: BasicNotificationPreferenceList) {}
 }
 export type NotificationPreferenceAction =
   | LoadNotificationPreferences

@@ -9,6 +9,10 @@ import {
   PaymentDetailsList,
   User,
 } from '../../occ/occ-models/index';
+import {
+  BasicNotificationPreferenceList,
+  NotificationPreferenceList,
+} from '../model/user.model';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   InterceptorUtil,
@@ -234,12 +238,14 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  getNotificationPreference(userId: string): Observable<any> {
+  getNotificationPreference(
+    userId: string
+  ): Observable<BasicNotificationPreferenceList> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
     return this.http
-      .get<any>(
+      .get<BasicNotificationPreferenceList>(
         this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,
         { headers }
       )
@@ -248,16 +254,16 @@ export class OccUserService {
 
   updateNotificationPreference(
     userId: string,
-    notificationpreferenceList: any
+    notificationPreferenceList: NotificationPreferenceList
   ) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    console.log(JSON.stringify(notificationpreferenceList));
+    console.log(JSON.stringify(notificationPreferenceList));
     return this.http
       .patch(
         this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,
-        JSON.stringify(notificationpreferenceList),
+        JSON.stringify(notificationPreferenceList),
         {
           headers,
         }

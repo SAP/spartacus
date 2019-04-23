@@ -4,6 +4,7 @@ import { NotificationPreferenceComponent } from './components/notification-prefe
 import { UserService } from '@spartacus/core';
 import { CmsConfig, ConfigModule, UrlTranslationModule } from '@spartacus/core';
 import { ComponentsModule } from '../../ui/components/components.module';
+import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 @NgModule({
   declarations: [NotificationPreferenceComponent],
   imports: [
@@ -17,6 +18,7 @@ import { ComponentsModule } from '../../ui/components/components.module';
     }),
     UrlTranslationModule,
     ComponentsModule,
+    SpinnerModule,
   ],
   exports: [NotificationPreferenceComponent],
   providers: [UserService],

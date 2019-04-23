@@ -7,6 +7,7 @@ import {
   PageMeta,
   PageRobotsMeta,
   UserService,
+  BasicNotificationPreferenceList,
 } from '@spartacus/core';
 import { NotificationPreferenceComponent } from './notification-preference.component';
 import { By } from '@angular/platform-browser';
@@ -20,14 +21,7 @@ class MockUserService {
   }
   updateNotificationPreferences(
     _userId: string,
-    _preference: {
-      preferences: [
-        {
-          channel: string;
-          enabled: boolean;
-        }
-      ];
-    }
+    _preference: BasicNotificationPreferenceList
   ) {}
 }
 class MockAuthService {
@@ -45,7 +39,7 @@ class MockPageMetaService {
   }
 }
 
-describe('NotificationPreferenceComponent', () => {
+fdescribe('NotificationPreferenceComponent', () => {
   let component: NotificationPreferenceComponent;
   let userService: MockUserService;
   let fixture: ComponentFixture<NotificationPreferenceComponent>;
@@ -91,17 +85,17 @@ describe('NotificationPreferenceComponent', () => {
   });
 
   it('should be able to show notification preferences when data not exist', () => {
-    const initialEmptyList: any = {
+    const initialEmptyList: BasicNotificationPreferenceList = {
       preferences: [],
     };
-    let notificationPreferences: any;
+    let notificationPreferences: BasicNotificationPreferenceList;
     let span: HTMLElement;
     spyOn(userService, 'getNotificationPreferences').and.returnValue(
       of(initialEmptyList)
     );
     component.ngOnInit();
     fixture.detectChanges();
-    component.notificationPreferenceList$
+    component.basicNotificationPreferenceList$
       .subscribe(value => {
         notificationPreferences = value;
       })
@@ -114,7 +108,7 @@ describe('NotificationPreferenceComponent', () => {
   });
 
   it('should be able to show notification preferences when data exist', () => {
-    const initialNotificationpreferences: any = {
+    const initialNotificationpreferences: BasicNotificationPreferenceList = {
       preferences: [
         {
           channel: 'EMAIL',
@@ -128,7 +122,7 @@ describe('NotificationPreferenceComponent', () => {
         },
       ],
     };
-    let notificationPreferences: any;
+    let notificationPreferences: BasicNotificationPreferenceList;
     spyOn(userService, 'getNotificationPreferences').and.returnValue(
       of(initialNotificationpreferences)
     );
@@ -139,7 +133,7 @@ describe('NotificationPreferenceComponent', () => {
       By.css('.cx-notification-preference-span')
     );
     const inputs = fixture.debugElement.queryAll(By.css('.form-toggle-input'));
-    component.notificationPreferenceList$
+    component.basicNotificationPreferenceList$
       .subscribe(value => (notificationPreferences = value))
       .unsubscribe();
     expect(notificationPreferences).toEqual(initialNotificationpreferences);
@@ -152,7 +146,7 @@ describe('NotificationPreferenceComponent', () => {
   });
 
   it('should be able to update notification preferences', () => {
-    const initialNotificationpreferences = {
+    const initialNotificationpreferences: BasicNotificationPreferenceList = {
       preferences: [
         {
           channel: 'EMAIL',
@@ -166,19 +160,23 @@ describe('NotificationPreferenceComponent', () => {
         },
       ],
     };
-    let notificationPreferences: any;
+    let notificationPreferences: BasicNotificationPreferenceList;
     spyOn(userService, 'getNotificationPreferences').and.returnValue(
       of(initialNotificationpreferences)
     );
 
-    spyOn(userService, 'updateNotificationPreferences').and.stub();
+    spyOn(userService, 'updateNotificationPreferences').and.callFake(
+      (_userId: string, preference: BasicNotificationPreferenceList) => {
+        component.basicNotificationPreferenceList = preference;
+      }
+    );
     component.ngOnInit();
     fixture.detectChanges();
 
     const spans = fixture.debugElement.queryAll(
       By.css('.cx-notification-preference-span')
     );
-    component.notificationPreferenceList$
+    component.basicNotificationPreferenceList$
       .subscribe(value => (notificationPreferences = value))
       .unsubscribe();
     expect(notificationPreferences).toEqual(initialNotificationpreferences);
@@ -194,14 +192,17 @@ describe('NotificationPreferenceComponent', () => {
     expect(spans.length).toBe(2);
     expect(spans[0].nativeElement.textContent).toContain('EMAIL: test@sap.com');
     expect(spans[1].nativeElement.textContent).toContain('SMS: 13800000831');
-    const inputs = fixture.debugElement.queryAll(By.css('.form-toggle-input'));
-    expect(inputs.length).toBe(2);
-    expect(inputs[0].nativeElement.checked).toEqual(false);
-    expect(inputs[1].nativeElement.checked).toEqual(true);
+
+    expect(
+      component.basicNotificationPreferenceList.preferences[0].enabled
+    ).toEqual(false);
+    expect(
+      component.basicNotificationPreferenceList.preferences[1].enabled
+    ).toEqual(true);
   });
 
   it('should be able to update notification preferences by multiple clicking', () => {
-    const initialNotificationpreferences = {
+    const initialNotificationpreferences: BasicNotificationPreferenceList = {
       preferences: [
         {
           channel: 'EMAIL',
@@ -214,31 +215,43 @@ describe('NotificationPreferenceComponent', () => {
       of(initialNotificationpreferences)
     );
 
-    spyOn(userService, 'updateNotificationPreferences').and.stub();
+    spyOn(userService, 'updateNotificationPreferences').and.callFake(
+      (_userId: string, preference: BasicNotificationPreferenceList) => {
+        component.basicNotificationPreferenceList = preference;
+      }
+    );
     component.ngOnInit();
     fixture.detectChanges();
 
     const labels = fixture.debugElement.queryAll(
       By.css('.form-toggle__switch')
     );
-    const inputs = fixture.debugElement.queryAll(By.css('.form-toggle-input'));
     expect(labels.length).toBe(1);
-    expect(inputs.length).toBe(1);
 
     labels[0].nativeElement.click();
     fixture.detectChanges();
-    expect(inputs[0].nativeElement.checked).toEqual(false);
+    expect(
+      component.basicNotificationPreferenceList.preferences[0].enabled
+    ).toEqual(false);
     labels[0].nativeElement.click();
     fixture.detectChanges();
-    expect(inputs[0].nativeElement.checked).toEqual(true);
+    expect(
+      component.basicNotificationPreferenceList.preferences[0].enabled
+    ).toEqual(true);
     labels[0].nativeElement.click();
     fixture.detectChanges();
-    expect(inputs[0].nativeElement.checked).toEqual(false);
+    expect(
+      component.basicNotificationPreferenceList.preferences[0].enabled
+    ).toEqual(false);
     labels[0].nativeElement.click();
     fixture.detectChanges();
-    expect(inputs[0].nativeElement.checked).toEqual(true);
+    expect(
+      component.basicNotificationPreferenceList.preferences[0].enabled
+    ).toEqual(true);
     labels[0].nativeElement.click();
     fixture.detectChanges();
-    expect(inputs[0].nativeElement.checked).toEqual(false);
+    expect(
+      component.basicNotificationPreferenceList.preferences[0].enabled
+    ).toEqual(false);
   });
 });

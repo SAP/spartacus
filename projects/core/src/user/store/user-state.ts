@@ -8,6 +8,7 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
+import { BasicNotificationPreferenceList } from '../model/user.model';
 import { LoaderState } from '../../state';
 
 export const USER_FEATURE = 'user';
@@ -73,5 +74,5 @@ export interface UserDetailsState {
   details: User;
 }
 export interface NotificationPreferenceState {
-  preferences: any;
+  basicNotificationPreferenceList: BasicNotificationPreferenceList;
 }

@@ -20,5 +20,5 @@ export const getNotificationPreferenceList: MemoizedSelector<
   any
 > = createSelector(
   getNotificationPreferenceState,
-  (state: NotificationPreferenceState) => state.preferences
+  (state: NotificationPreferenceState) => state.basicNotificationPreferenceList
 );

@@ -1,10 +1,7 @@
 import * as fromAction from './notification-preference.action';
-
+import { BasicNotificationPreferenceList } from '../../model/user.model';
 describe('Notification Preference Actions', () => {
   describe('LoadNotificationPreferences', () => {
-    it('test failed', () => {
-      expect(false).toBeTruthy();
-    });
     it('should create the action', () => {
       const userId = 'testId';
       const action = new fromAction.LoadNotificationPreferences(userId);
@@ -29,7 +26,7 @@ describe('Notification Preference Actions', () => {
 
   describe('LoadNotificationPreferencesSuccess', () => {
     it('should create the action', () => {
-      const payload = 'payload';
+      const payload: BasicNotificationPreferenceList = { preferences: [] };
       const action = new fromAction.LoadNotificationPreferencesSuccess(payload);
       expect({ ...action }).toEqual({
         type: fromAction.LOAD_NOTIFICATION_PREFERENCES_SUCCESS,
@@ -40,7 +37,13 @@ describe('Notification Preference Actions', () => {
 
   describe('UpdateNotificationPreferences', () => {
     it('should create the action', () => {
-      const payload = { userId: 'testId', preference: 'preference' };
+      const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
+        preferences: [],
+      };
+      const payload = {
+        userId: 'testId',
+        basicNotificationPreferenceList: basicNotificationPreferenceList,
+      };
       const action = new fromAction.UpdateNotificationPreferences(payload);
       expect({ ...action }).toEqual({
         type: fromAction.UPDATE_NOTIFICATION_PREFERENCES,
@@ -62,7 +65,7 @@ describe('Notification Preference Actions', () => {
 
   describe('UpdateNotificationPreferencesSuccess', () => {
     it('should create the action', () => {
-      const payload = 'payload';
+      const payload: BasicNotificationPreferenceList = { preferences: [] };
       const action = new fromAction.UpdateNotificationPreferencesSuccess(
         payload
       );
