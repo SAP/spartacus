@@ -54,9 +54,8 @@ export function getStorageSyncReducer<T>(
           }
 
           const configuredStorage = getStorage(configuredStorageType, winRef);
-
           const newStateValue = getStateSliceValue(configKey, newState);
-          if (!exists(newStateValue)) {
+          if (isNotSsr(configuredStorage) && !exists(newStateValue)) {
             configuredStorage.removeItem(configKey);
             continue;
           }
@@ -143,13 +142,13 @@ export function persistToStorage(
   value: Object,
   storage: Storage
 ): void {
-  if (value) {
+  if (isNotSsr(storage) && value) {
     storage.setItem(configKey, JSON.stringify(value));
   }
 }
 
 export function readFromStorage(storage: Storage, key: string): Object {
-  if (!storage) {
+  if (!isNotSsr(storage)) {
     return;
   }
 
@@ -159,4 +158,8 @@ export function readFromStorage(storage: Storage, key: string): Object {
   }
 
   return JSON.parse(storageValue);
+}
+
+export function isNotSsr(storage: Storage): boolean {
+  return !Boolean(storage);
 }
