@@ -12,7 +12,7 @@ $selectors: cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-cart-item-list, cx-order-summary, cx-cart-totals, cx-multi-step-checkout,
   cx-delivery-mode, cx-shipping-address, cx-billing-address-form,
   cx-payment-method, cx-payment-form, cx-review-submit, cx-address-form,
-  cx-suggested-addresses-dialog !default;
+  cx-suggested-addresses-dialog, cx-order-confirmation !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
