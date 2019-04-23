@@ -117,18 +117,6 @@ $space: 0.5rem;
       display: none;
     }
 
-    .header-top {
-      // border-bottom: var(--cx-border-top, 1px solid currentColor);
-      &:after {
-        border-top: var(--cx-border-top, 1px solid currentColor);
-        content: '';
-        width: 100%;
-        position: absolute;
-        left: 0;
-        top: 30px;
-      }
-    }
-
     .SiteContext,
     .SiteLinks {
       flex: 50%;
@@ -138,6 +126,14 @@ $space: 0.5rem;
 
     .SiteContext {
       justify-content: flex-start;
+      &:after {
+        border-top: var(--cx-border-top, 1px solid currentColor);
+        content: '';
+        width: 100%;
+        position: absolute;
+        left: 0;
+        top: 30px;
+      }
     }
 
     .SiteLinks {
