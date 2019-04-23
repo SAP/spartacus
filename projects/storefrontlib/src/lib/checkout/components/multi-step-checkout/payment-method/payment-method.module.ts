@@ -31,7 +31,7 @@ import { DeliveryModeSetGuard } from '../../../guards/delivery-mode-set.guard';
       },
     }),
   ],
-  providers: [UserService, DeliveryModeSetGuard],
+  providers: [UserService],
   declarations: [PaymentMethodComponent],
   entryComponents: [PaymentMethodComponent],
   exports: [PaymentMethodComponent],

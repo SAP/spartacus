@@ -23,7 +23,6 @@ import { DeliveryModeSetGuard } from '../../../guards/delivery-mode-set.guard';
       },
     }),
   ],
-  providers: [DeliveryModeSetGuard],
   declarations: [ReviewSubmitComponent],
   entryComponents: [ReviewSubmitComponent],
   exports: [ReviewSubmitComponent],

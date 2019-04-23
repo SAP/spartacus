@@ -15,6 +15,7 @@ import {
   CheckoutService,
   CartService,
   AuthService,
+  DeliveryMode,
 } from '@spartacus/core';
 
 @Injectable()
@@ -50,6 +51,12 @@ export class CheckoutDetailsService {
   getDeliveryAddress(): Observable<Address> {
     return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getDeliveryAddress())
+    );
+  }
+
+  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+    return this.getCheckoutDetailsLoaded$.pipe(
+      switchMap(() => this.checkoutService.getSelectedDeliveryMode())
     );
   }
 
