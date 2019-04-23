@@ -1,26 +1,3 @@
-// TODO:#sync-poc - remove
-// export function getStateSlice<T>(keys: string, state: T): Object {
-//   // if (!keys.split) {
-//   //   return state;
-//   // }
-//   const keysSplit = keys.split('.');
-//   if (!keysSplit || keysSplit.length === 1) {
-//     return state[keys];
-//   }
-
-//   return keysSplit.reduce((slice, key) => {
-//     const keyValue = state[key];
-//     if (state.hasOwnProperty(key)) {
-//       if (typeof keyValue === 'object') {
-//         slice[key] = getStateSlice(key, keyValue);
-//       } else if (keyValue) {
-//         slice[key] = state[key];
-//       }
-//     }
-//     return slice;
-//   }, {});
-// }
-
 export function getStateSliceValue<T, E>(keys: string, state: T): E {
   return keys
     .split('.')

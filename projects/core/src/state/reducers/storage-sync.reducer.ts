@@ -10,7 +10,6 @@ import {
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
   config?: StateConfig
-  // TODO:#sync-poc - pass a third dependency that will read from the `localStorage` whether the cookie consent was given or not
 ): MetaReducer<T, Action> {
   if (
     !winRef.nativeWindow ||
