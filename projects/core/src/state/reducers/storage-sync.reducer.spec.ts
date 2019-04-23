@@ -5,6 +5,7 @@ import {
   exists,
   getStorage,
   getStorageSyncReducer,
+  isSsr,
   persistToStorage,
   readFromStorage,
   rehydrate,
@@ -310,6 +311,15 @@ describe('storage-sync-reducer', () => {
         expect(JSON.parse).toHaveBeenCalledWith('"a"');
         expect(result).toEqual('a');
       });
+    });
+  });
+
+  describe('isSsr', () => {
+    it('should return true if the provided storage does NOT exist', () => {
+      expect(isSsr(undefined)).toEqual(true);
+    });
+    it('should return false if the provided storage exists', () => {
+      expect(isSsr(localStorageMock)).toEqual(false);
     });
   });
 });
