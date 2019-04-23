@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
 import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
@@ -22,10 +23,7 @@ import { NavigationModule } from './navigation/navigation.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
-import { SiteContextSelectorModule } from './site-context-selector/site-context-selector.module';
-
-// import { ProductReferencesModule } from './product-references/product-references.module';
-// import { TabParagraphContainerModule } from './tab-paragraph-container/tab-paragraph-container.module';
+import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 
 @NgModule({
   imports: [
@@ -42,8 +40,6 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
     ProductCarouselModule,
     SearchBoxModule,
     MiniCartModule,
-    // ProductReferencesModule,
-    // TabParagraphContainerModule
     SiteContextSelectorModule,
     AddressBookModule,
     OrderHistoryModule,
@@ -56,6 +52,7 @@ import { SiteContextSelectorModule } from './site-context-selector/site-context-
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
+    CloseAccountModule,
   ],
 })
 export class CmsLibModule {}
