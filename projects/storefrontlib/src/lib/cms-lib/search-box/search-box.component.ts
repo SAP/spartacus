@@ -6,6 +6,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ICON_TYPES } from 'projects/storefrontlib/src/cms-components/misc/icons/config/icon.config';
 import { merge, Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -16,6 +17,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit {
+  iconTypes = ICON_TYPES;
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
 

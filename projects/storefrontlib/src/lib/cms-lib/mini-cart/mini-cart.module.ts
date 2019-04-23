@@ -1,24 +1,19 @@
-import { MediaModule } from './../../ui/components/media/media.module';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { MiniCartComponent } from './mini-cart.component';
-
-import { BannerModule } from '../banner/banner.module';
 import {
-  ConfigModule,
-  CmsConfig,
-  UrlTranslationModule,
   CartModule,
+  CmsConfig,
+  ConfigModule,
+  UrlTranslationModule,
 } from '@spartacus/core';
+import { IconModule } from '../../../cms-components/misc/icons';
+import { MiniCartComponent } from './mini-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    BannerModule,
-    MediaModule,
     CartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
@@ -26,6 +21,7 @@ import {
       },
     }),
     UrlTranslationModule,
+    IconModule,
   ],
   declarations: [MiniCartComponent],
   entryComponents: [MiniCartComponent],

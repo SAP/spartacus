@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { IconLibModule } from '../../cms-components/misc/icons/icon-lib/icon-lib.module';
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
@@ -51,6 +52,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
+    IconLibModule,
   ],
 })
 export class CmsLibModule {}

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartService, CmsMiniCartComponent } from '@spartacus/core';
+import { ICON_TYPES } from 'projects/storefrontlib/src/cms-components/misc/icons/config/icon.config';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -10,6 +11,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
+  iconTypes = ICON_TYPES;
   constructor(
     protected component: CmsComponentData<CmsMiniCartComponent>,
     protected cartService: CartService

@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
 import {
   CmsConfig,
   ConfigModule,
+  I18nModule,
   ProductModule,
   ProductSearchService,
   RoutingService,
-  UrlTranslationModule,
   StripHtmlModule,
-  I18nModule,
+  UrlTranslationModule,
 } from '@spartacus/core';
-import { BootstrapModule } from '../../bootstrap.module';
+import { IconModule } from 'projects/storefrontlib/src/cms-components/misc/icons';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BootstrapModule } from '../../bootstrap.module';
 import { MediaModule } from '../../ui/components/media/media.module';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
@@ -43,6 +43,7 @@ import { SearchBoxComponent } from './search-box.component';
         },
       },
     }),
+    IconModule,
     UrlTranslationModule,
     I18nModule,
   ],

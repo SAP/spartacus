@@ -2,6 +2,8 @@
   [attr.aria-label]="(quantity$ | async) + ' items currently in your cart'"
   [routerLink]="{ route: ['cart'] } | cxTranslateUrl"
 >
+  <cx-icon [type]="iconTypes.CART"></cx-icon>
+
   <span class="total">{{ total$ | async }}</span>
   <span class="count">{{ quantity$ | async }}</span>
 </a>

@@ -18,14 +18,13 @@
     height: 48px;
     color: var(--cx-color, var(--cx-g-color-inverse));
     text-decoration: none;
-    justify-content: flex-end;
-
-    background-repeat: no-repeat;
-    background-image: url($shopping-cart-icon);
-    background-position: left 5px center;
-    background-size: 50% 50%;
-
+    justify-content: space-around;
+    // align-content: center;
+    cx-icon {
+      align-self: center;
+    }
     color: currentColor;
+
     &:hover {
       color: currentColor;
       text-decoration: none;

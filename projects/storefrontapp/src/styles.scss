@@ -1,3 +1,20 @@
 // Spartacus Application styles
 
 @import 'storefrontstyles/index';
+
+html {
+  font-size: 100%;
+}
+
+cx-icon {
+  &.use-font {
+    font-size: 25px;
+  }
+  // width: 28px;
+  // height: 28px;
+  svg {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+}
