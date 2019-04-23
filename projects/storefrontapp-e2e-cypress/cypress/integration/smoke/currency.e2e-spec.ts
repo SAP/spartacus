@@ -15,10 +15,19 @@ context('Currency change', () => {
   const PRODUCT_URL_USD = `/${CONTENT_CATALOG}/en/${USD_CURR}/product/`;
   const PRODUCT_URL_JPY = `/${CONTENT_CATALOG}/en/${JPY_CURR}/product/`;
   const PRODUCT_ID = '280916';
+  beforeEach(() => {
+    cy.server();
+    cy.route(
+      `${Cypress.env(
+        'API_URL'
+      )}/rest/v2/electronics-spa/currencies?lang=en&curr=USD`
+    ).as('currencies');
+  });
 
   describe('on the product page', () => {
     it('should change the currency and be persistent in the url ', () => {
       cy.visit(`${PRODUCT_URL_USD}${PRODUCT_ID}`);
+      cy.wait('@currencies');
 
       changeCurrency(JPY_CURR);
 
@@ -28,6 +37,7 @@ context('Currency change', () => {
 
     it('should display the chosen currency', () => {
       cy.visit(`${PRODUCT_URL_USD}${PRODUCT_ID}`);
+      cy.wait('@currencies');
 
       changeCurrency(JPY_CURR);
 
@@ -44,6 +54,7 @@ context('Currency change', () => {
     it('user input should not be removed on currency change', () => {
       cy.visit(`${LOGIN_URL_USD}`);
       cy.get('input[type="email"]').type(TEST_EMAIL);
+      cy.wait('@currencies');
 
       changeCurrency(JPY_CURR);
 
