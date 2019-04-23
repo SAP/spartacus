@@ -8,8 +8,8 @@ describe('CartPaymentConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   class MockCartPaymentAdapter implements CartPaymentAdapter {
-    createDetails = createSpy().and.returnValue(of({}));
-    setDetails = createSpy().and.returnValue(of({}));
+    create = createSpy().and.returnValue(of({}));
+    set = createSpy().and.returnValue(of({}));
   }
 
   let service: CartPaymentConnector;
@@ -28,15 +28,15 @@ describe('CartPaymentConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('createDetails should call adapter', () => {
+  it('create should call adapter', () => {
     const adapter = TestBed.get(CartPaymentAdapter);
-    service.createDetails('1', '2', {}).subscribe();
-    expect(adapter.createDetails).toHaveBeenCalledWith('1', '2', {});
+    service.create('1', '2', {}).subscribe();
+    expect(adapter.create).toHaveBeenCalledWith('1', '2', {});
   });
 
-  it('setDetails should call adapter', () => {
+  it('set should call adapter', () => {
     const adapter = TestBed.get(CartPaymentAdapter);
-    service.setDetails('1', '2', '3').subscribe();
-    expect(adapter.setDetails).toHaveBeenCalledWith('1', '2', '3');
+    service.set('1', '2', '3').subscribe();
+    expect(adapter.set).toHaveBeenCalledWith('1', '2', '3');
   });
 });

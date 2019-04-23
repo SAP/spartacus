@@ -189,7 +189,7 @@ describe('OccCartPaymentAdapter', () => {
 
   describe('set payment details', () => {
     it('should set payment details for given user id, cart id and payment details id', () => {
-      service.setDetails(userId, cartId, '123').subscribe(result => {
+      service.set(userId, cartId, '123').subscribe(result => {
         expect(result).toEqual(cartData);
       });
 
@@ -215,11 +215,9 @@ describe('OccCartPaymentAdapter', () => {
   describe('create payment', () => {
     it('should create payment', () => {
       let result;
-      service
-        .createDetails(userId, cartId, mockPaymentDetails)
-        .subscribe(res => {
-          result = res;
-        });
+      service.create(userId, cartId, mockPaymentDetails).subscribe(res => {
+        result = res;
+      });
 
       httpMock
         .expectOne(req => {

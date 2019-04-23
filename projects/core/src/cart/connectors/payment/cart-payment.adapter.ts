@@ -9,7 +9,7 @@ export abstract class CartPaymentAdapter {
    * @param cartId
    * @param paymentDetails
    */
-  abstract createDetails(
+  abstract create(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
@@ -22,7 +22,7 @@ export abstract class CartPaymentAdapter {
    * @param cartId
    * @param paymentDetailsId
    */
-  abstract setDetails(
+  abstract set(
     userId: string,
     cartId: string,
     paymentDetailsId: string

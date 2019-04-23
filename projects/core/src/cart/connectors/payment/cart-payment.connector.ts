@@ -9,19 +9,19 @@ import { CartPaymentAdapter } from './cart-payment.adapter';
 export class CartPaymentConnector {
   constructor(private adapter: CartPaymentAdapter) {}
 
-  public createDetails(
+  public create(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
   ): Observable<PaymentDetails> {
-    return this.adapter.createDetails(userId, cartId, paymentDetails);
+    return this.adapter.create(userId, cartId, paymentDetails);
   }
 
-  public setDetails(
+  public set(
     userId: string,
     cartId: string,
     paymentDetailsId: string
   ): Observable<any> {
-    return this.adapter.setDetails(userId, cartId, paymentDetailsId);
+    return this.adapter.set(userId, cartId, paymentDetailsId);
   }
 }

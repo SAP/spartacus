@@ -107,7 +107,7 @@ export class CheckoutEffects {
     mergeMap(payload => {
       // get information for creating a subscription directly with payment provider
       return this.cartPaymentConnector
-        .createDetails(payload.userId, payload.cartId, payload.paymentDetails)
+        .create(payload.userId, payload.cartId, payload.paymentDetails)
         .pipe(
           mergeMap(details => {
             return [
@@ -130,7 +130,7 @@ export class CheckoutEffects {
     map((action: any) => action.payload),
     mergeMap(payload => {
       return this.cartPaymentConnector
-        .setDetails(payload.userId, payload.cartId, payload.paymentDetails.id)
+        .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
           map(
             () =>

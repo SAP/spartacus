@@ -31,7 +31,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public createDetails(
+  public create(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
@@ -79,7 +79,7 @@ export class OccCartPaymentAdapter implements CartPaymentAdapter {
     );
   }
 
-  public setDetails(
+  public set(
     userId: string,
     cartId: string,
     paymentDetailsId: string

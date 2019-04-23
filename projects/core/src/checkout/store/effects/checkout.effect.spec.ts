@@ -67,8 +67,8 @@ class MockCartDeliveryConnector {
 }
 
 class MockCartPaymentConnector {
-  setDetails = createSpy().and.returnValue(of({}));
-  createDetails = createSpy().and.returnValue(of(paymentDetails));
+  set = createSpy().and.returnValue(of({}));
+  create = createSpy().and.returnValue(of(paymentDetails));
 }
 
 describe('Checkout effect', () => {
