@@ -124,6 +124,12 @@ const pageModules = [
           cxPath: 'updateProfile',
         },
       },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
+        data: { pageLabel: 'close-account', cxPath: 'closeAccount' },
+      },
     ]),
   ],
   providers: [

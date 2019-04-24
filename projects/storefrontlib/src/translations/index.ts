@@ -9,12 +9,14 @@ import { storeFinder } from './en/store-finder.en';
 import { user } from './en/user.en';
 import { payment } from './en/payment.en';
 import { address } from './en/address.en';
+import { closeAccount } from './en/close-account.en';
 
 export const translations: TranslationResources = {
   en: {
     address,
     cart,
     checkout,
+    closeAccount,
     common,
     myAccount,
     payment,

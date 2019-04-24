@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CartComponentModule } from '../../cms-components/checkout';
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
+import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
@@ -47,6 +48,7 @@ import { SearchBoxModule } from './search-box/search-box.module';
     UpdatePasswordModule,
     UpdateProfileModule,
     CartComponentModule,
+    CloseAccountModule,
   ],
 })
 export class CmsLibModule {}
