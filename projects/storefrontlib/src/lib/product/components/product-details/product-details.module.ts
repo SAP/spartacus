@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
-import { AddToCartModule } from '../../../../cms-components/checkout';
+import { AddToCartModule } from '../../../../cms-components/checkout/cart/add-to-cart/add-to-cart.module';
 // guards
 import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
