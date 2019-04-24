@@ -65,8 +65,11 @@ if (!environment.production) {
         resources: translations,
       },
       icon: {
-        prefix: 'glyphicon-',
-        iconClass: 'glyphicon',
+        prefix: 'fa-',
+        iconClass: 'fas',
+        // useSvg: true,
+        // svgPath: 'assets/icons.svg',
+        // prefix: 'fas-fa-',
       },
     }),
 
