@@ -11,10 +11,7 @@ import { PageContext } from '../../routing/index';
 import { CmsComponentAdapter } from '../connectors/component/cms-component.adapter';
 import { IdList } from '../model/idList.model';
 import { ConverterService } from '../../util/converter.service';
-import {
-  CMS_COMPONENT_LIST_NORMALIZER,
-  CMS_COMPONENT_NORMALIZER,
-} from '../connectors/component/converters';
+import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
 import { pluck } from 'rxjs/operators';
 
 @Injectable()
@@ -77,7 +74,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       })
       .pipe(
         pluck('component'),
-        this.converter.pipeable(CMS_COMPONENT_LIST_NORMALIZER)
+        this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }
 

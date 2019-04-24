@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import {
   ConverterService,
-  PRODUCT_SEARCH_NORMALIZER,
+  PRODUCT_SEARCH_PAGE_NORMALIZER,
   PRODUCT_SUGGESTIONS_LIST_NORMALIZER,
 } from '@spartacus/core';
 import {
@@ -96,7 +96,7 @@ describe('OccProductSearchAdapter', () => {
       httpMock.expectOne('productSearchtest').flush(searchResults);
 
       expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_SEARCH_NORMALIZER
+        PRODUCT_SEARCH_PAGE_NORMALIZER
       );
     });
   });
