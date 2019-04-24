@@ -4,7 +4,7 @@ import { Item } from '../cart-shared/cart-item/cart-item.component';
 import {
   CartDataService,
   CartService,
-  Cart,
+  UICart,
   PromotionResult,
   I18nTestingModule,
 } from '@spartacus/core';
@@ -60,7 +60,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions and appliedOrderPromotions are defined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '1',
         potentialOrderPromotions: [
           {
@@ -110,7 +110,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is empty and appliedOrderPromotions is defined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '2',
         potentialOrderPromotions: [],
         appliedOrderPromotions: [
@@ -143,7 +143,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is empty', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '3',
         potentialOrderPromotions: [
           {
@@ -176,7 +176,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is undefined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '4',
         potentialOrderPromotions: [
           {
@@ -208,7 +208,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is undefined and appliedOrderPromotions is defined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '5',
         appliedOrderPromotions: [
           {

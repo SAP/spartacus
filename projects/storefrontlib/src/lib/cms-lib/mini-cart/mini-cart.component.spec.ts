@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import {
   CartService,
-  TranslateUrlOptions,
-  Component as SpaComponent,
-  Cart,
   CmsMiniCartComponent,
+  Component as SpaComponent,
+  TranslateUrlOptions,
+  UICart,
 } from '@spartacus/core';
 
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PipeTransform, Pipe } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
@@ -24,7 +24,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   }
 }
 
-const testCart: Cart = {
+const testCart: UICart = {
   code: 'xxx',
   guid: 'xxx',
   totalItems: 0,
@@ -51,7 +51,7 @@ const mockComponentData: CmsMiniCartComponent = {
 };
 
 class MockCartService {
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return of(testCart);
   }
 }

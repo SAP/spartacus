@@ -14,18 +14,18 @@ import {
 import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
 
 import { AddToCartComponent } from './add-to-cart.component';
-import { Cart, OrderEntry } from '@spartacus/core';
+import { UICart, UIOrderEntry } from '@spartacus/core';
 
 const productCode = '1234';
 class MockCartService {
   addEntry(_productCode: string, _quantity: number): void {}
-  getEntry(_productCode: string): Observable<OrderEntry> {
+  getEntry(_productCode: string): Observable<UIOrderEntry> {
     return of();
   }
   getLoaded(): Observable<boolean> {
     return of();
   }
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return of();
   }
 }
@@ -70,10 +70,10 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
-    const mockCartEntry: OrderEntry = { entryNumber: 7 };
+    const mockCartEntry: UIOrderEntry = { entryNumber: 7 };
     spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.ngOnInit();
-    let result: OrderEntry;
+    let result: UIOrderEntry;
     addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
     expect(result).toEqual(mockCartEntry);
   });
