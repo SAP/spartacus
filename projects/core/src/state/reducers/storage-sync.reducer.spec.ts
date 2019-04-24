@@ -1,9 +1,11 @@
 import { Action, ActionReducer, MetaReducer, UPDATE } from '@ngrx/store';
 import { WindowRef } from '../../window/window-ref';
-import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
   DEFAULT_LOCAL_STORAGE_KEY,
   DEFAULT_SESSION_STORAGE_KEY,
+} from '../config/default-state-config';
+import { StateConfig, StorageSyncType } from '../config/state-config';
+import {
   exists,
   getKeysForStorage,
   getStorage,
@@ -55,7 +57,8 @@ describe('storage-sync-reducer', () => {
       metaReducer = getStorageSyncReducer(winRef, {
         state: {
           storageSync: {
-            rehydrate: true,
+            localStorageKeyName: DEFAULT_LOCAL_STORAGE_KEY,
+            sessionStorageKeyName: DEFAULT_SESSION_STORAGE_KEY,
             keys: {
               access_token: StorageSyncType.SESSION_STORAGE,
               refresh_token: StorageSyncType.LOCAL_STORAGE,
@@ -63,7 +66,7 @@ describe('storage-sync-reducer', () => {
             },
           },
         },
-      });
+      } as StateConfig);
       reducer = metaReducer(nextReducer);
     });
 
@@ -120,12 +123,6 @@ describe('storage-sync-reducer', () => {
   });
 
   describe('rehydrate', () => {
-    it('should return an empty object when rehydrate is configured to false', () => {
-      const config = {
-        state: { storageSync: { rehydrate: false } },
-      } as StateConfig;
-      expect(rehydrate(config, winRef)).toEqual({});
-    });
     it('should return a rehydrated state', () => {
       const accessTokenMock = {
         user: {

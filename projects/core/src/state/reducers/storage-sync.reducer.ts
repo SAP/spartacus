@@ -4,9 +4,6 @@ import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import { getStateSlice } from '../utils/get-state-slice';
 
-export const DEFAULT_LOCAL_STORAGE_KEY = 'spartacus-local-data';
-export const DEFAULT_SESSION_STORAGE_KEY = 'spartacus-session-data';
-
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
   config?: StateConfig
@@ -32,10 +29,7 @@ export function getStorageSyncReducer<T>(
         newState = reducer(state, action);
       }
 
-      if (
-        storageSyncConfig.rehydrate &&
-        (action.type === INIT || action.type === UPDATE)
-      ) {
+      if (action.type === INIT || action.type === UPDATE) {
         const rehydratedState = rehydrate(config, winRef);
         return deepMerge(newState, rehydratedState);
       }
@@ -50,7 +44,7 @@ export function getStorageSyncReducer<T>(
         );
         const localStorageStateSlices = getStateSlice(localStorageKeys, state);
         persistToStorage(
-          getLocalStorageKeyName(config),
+          config.state.storageSync.localStorageKeyName,
           localStorageStateSlices,
           winRef.localStorage
         );
@@ -65,7 +59,7 @@ export function getStorageSyncReducer<T>(
           state
         );
         persistToStorage(
-          getSessionStorageKeyName(config),
+          config.state.storageSync.sessionStorageKeyName,
           sessionStorageStateSlices,
           winRef.sessionStorage
         );
@@ -84,18 +78,13 @@ export function getKeysForStorage(
 }
 
 export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {
-  const storageSyncConfig = config.state.storageSync;
-  if (!storageSyncConfig.rehydrate) {
-    return {} as T;
-  }
-
   const localStorageValue = readFromStorage(
     winRef.localStorage,
-    getLocalStorageKeyName(config)
+    config.state.storageSync.localStorageKeyName
   );
   const sessionStorageValue = readFromStorage(
     winRef.sessionStorage,
-    getSessionStorageKeyName(config)
+    config.state.storageSync.sessionStorageKeyName
   );
 
   return deepMerge(localStorageValue, sessionStorageValue);
@@ -168,16 +157,4 @@ export function readFromStorage(storage: Storage, key: string): Object {
 
 export function isSsr(storage: Storage): boolean {
   return !Boolean(storage);
-}
-
-export function getLocalStorageKeyName(config: StateConfig): string {
-  return config.state.storageSync.localStorageKeyName
-    ? config.state.storageSync.localStorageKeyName
-    : DEFAULT_LOCAL_STORAGE_KEY;
-}
-
-export function getSessionStorageKeyName(config: StateConfig): string {
-  return config.state.storageSync.sessionStorageKeyName
-    ? config.state.storageSync.sessionStorageKeyName
-    : DEFAULT_SESSION_STORAGE_KEY;
 }

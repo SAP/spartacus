@@ -12,11 +12,6 @@ export abstract class StateConfig {
   state?: {
     storageSync?: {
       /**
-       * A flag whether to sync browser's storage with the state when the app starts.
-       * By default, it's set to `true`.
-       */
-      rehydrate?: boolean;
-      /**
        * A key name for the data stored in `localStorage`.
        * Default is `DEFAULT_LOCAL_STORAGE_KEY`.
        */
