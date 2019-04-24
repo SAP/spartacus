@@ -17,9 +17,6 @@ export function authStoreConfigFactory(): StateConfig {
       storageSync: {
         keys: {
           'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
-          // TODO:#sync-poc - remove these configs or leave them commented out as an example
-          'auth.userToken.token.access_token': StorageSyncType.SESSION_STORAGE,
-          'auth.userToken.token.refresh_token': StorageSyncType.LOCAL_STORAGE,
         },
       },
     },

@@ -2,10 +2,11 @@ import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
-import {
-  createShellObject,
-  getStateSliceValue,
-} from '../utils/get-state-slice';
+import { getStateSlice } from '../utils/get-state-slice';
+
+// TODO:#sync-poc - make this configurable
+export const DEFAULT_LOCAL_STORAGE_KEY = 'spartacus-local-data';
+export const DEFAULT_SESSION_STORAGE_KEY = 'spartacus-session-data';
 
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
@@ -43,29 +44,30 @@ export function getStorageSyncReducer<T>(
       newState = reducer(newState, action);
 
       if (action.type !== INIT) {
-        let modifiedNewState = {};
-        for (const configKey of Object.keys(storageSyncConfig.keys)) {
-          const configuredStorageType = storageSyncConfig.keys[
-            configKey
-          ] as StorageSyncType;
-          if (configuredStorageType === StorageSyncType.NO_STORAGE) {
-            continue;
-          }
+        const localStorageKeys = getKeysForStorage(
+          storageSyncConfig.keys,
+          StorageSyncType.LOCAL_STORAGE
+        );
+        const localStorageStateSlices = getStateSlice(localStorageKeys, state);
+        persistToStorage(
+          DEFAULT_LOCAL_STORAGE_KEY,
+          localStorageStateSlices,
+          winRef.localStorage
+        );
 
-          const configuredStorage = getStorage(configuredStorageType, winRef);
-          const newStateValue = getStateSliceValue(configKey, newState);
-          if (!isSsr(configuredStorage) && !exists(newStateValue)) {
-            configuredStorage.removeItem(configKey);
-            continue;
-          }
-
-          persistToStorage(configKey, newStateValue, configuredStorage);
-
-          const stateShellObject = createShellObject(configKey, newStateValue);
-          modifiedNewState = deepMerge(modifiedNewState, stateShellObject);
-        }
-
-        newState = deepMerge(newState, modifiedNewState);
+        const sessionStorageKeys = getKeysForStorage(
+          storageSyncConfig.keys,
+          StorageSyncType.SESSION_STORAGE
+        );
+        const sessionStorageStateSlices = getStateSlice(
+          sessionStorageKeys,
+          state
+        );
+        persistToStorage(
+          DEFAULT_SESSION_STORAGE_KEY,
+          sessionStorageStateSlices,
+          winRef.sessionStorage
+        );
       }
 
       return newState;
@@ -73,25 +75,29 @@ export function getStorageSyncReducer<T>(
   };
 }
 
-export function rehydrate(config: StateConfig, winRef: WindowRef): Object {
+export function getKeysForStorage(
+  keys: { [key: string]: StorageSyncType },
+  storageType: StorageSyncType
+): string[] {
+  return Object.keys(keys).filter(key => keys[key] === storageType);
+}
+
+export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {
   const storageSyncConfig = config.state.storageSync;
   if (!storageSyncConfig.rehydrate) {
-    return {};
+    return {} as T;
   }
 
-  let rehydratedState: Object;
-  for (const configKey of Object.keys(storageSyncConfig.keys)) {
-    const configuredStorageType = storageSyncConfig.keys[
-      configKey
-    ] as StorageSyncType;
-    const configuredStorage = getStorage(configuredStorageType, winRef);
-    const storageValue = readFromStorage(configuredStorage, configKey);
+  const localStorageValue = readFromStorage(
+    winRef.localStorage,
+    DEFAULT_LOCAL_STORAGE_KEY
+  );
+  const sessionStorageValue = readFromStorage(
+    winRef.sessionStorage,
+    DEFAULT_SESSION_STORAGE_KEY
+  );
 
-    const storageShellObject = createShellObject(configKey, storageValue);
-    rehydratedState = deepMerge(rehydratedState, storageShellObject);
-  }
-
-  return rehydratedState;
+  return deepMerge(localStorageValue, sessionStorageValue);
 }
 
 export function exists(value: Object): boolean {

@@ -2,7 +2,10 @@ import { Action, ActionReducer, MetaReducer, UPDATE } from '@ngrx/store';
 import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import {
+  DEFAULT_LOCAL_STORAGE_KEY,
+  DEFAULT_SESSION_STORAGE_KEY,
   exists,
+  getKeysForStorage,
   getStorage,
   getStorageSyncReducer,
   isSsr,
@@ -71,31 +74,17 @@ describe('storage-sync-reducer', () => {
 
     describe('when the action type is UPDATE and the rehydrate config is set to true', () => {
       it('should rehydrate the state', () => {
-        const rehydratedState = {
+        spyOn(sessionStorageMock, 'getItem').and.returnValue(
+          JSON.stringify({ access_token: 'xxx' })
+        );
+        spyOn(localStorageMock, 'getItem').and.returnValue(
+          JSON.stringify({ refresh_token: 'yyy' })
+        );
+        const result = reducer({}, { type: UPDATE });
+        expect(result).toEqual({
           access_token: 'xxx',
           refresh_token: 'yyy',
-        };
-        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
-        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
-        const result = reducer({}, { type: UPDATE });
-        expect(result).toEqual(rehydratedState);
-      });
-    });
-
-    describe('when a key is set to NO_STORAGE', () => {
-      it('should NOT sync it to storage', () => {
-        spyOn(sessionStorageMock, 'getItem').and.stub();
-        spyOn(localStorageMock, 'getItem').and.stub();
-        spyOn(sessionStorageMock, 'setItem').and.stub();
-        spyOn(localStorageMock, 'setItem').and.stub();
-
-        const state = { do_not_sync: 'do NOT sync' };
-        const result = reducer(state, { type: 'AN-ACTION' });
-        expect(result).toEqual(state);
-        expect(sessionStorageMock.getItem).not.toHaveBeenCalled();
-        expect(localStorageMock.getItem).not.toHaveBeenCalled();
-        expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
-        expect(localStorageMock.setItem).not.toHaveBeenCalled();
+        });
       });
     });
 
@@ -115,41 +104,17 @@ describe('storage-sync-reducer', () => {
         const result = reducer(state, { type: 'AN-ACTION' });
         expect(result).toEqual(state);
         expect(sessionStorageMock.setItem).toHaveBeenCalledWith(
-          'access_token',
-          '"xxx"'
+          DEFAULT_SESSION_STORAGE_KEY,
+          JSON.stringify({
+            access_token: 'xxx',
+          })
         );
         expect(localStorageMock.setItem).toHaveBeenCalledWith(
-          'refresh_token',
-          '"yyy"'
+          DEFAULT_LOCAL_STORAGE_KEY,
+          JSON.stringify({
+            refresh_token: 'yyy',
+          })
         );
-      });
-    });
-
-    describe('when a slice of the state is cleared', () => {
-      it('should remove the value from the storage', () => {
-        spyOn(sessionStorageMock, 'getItem').and.returnValue('"xxx"');
-        spyOn(localStorageMock, 'getItem').and.returnValue('"yyy"');
-
-        spyOn(sessionStorageMock, 'setItem').and.stub();
-        spyOn(localStorageMock, 'setItem').and.stub();
-        spyOn(sessionStorageMock, 'removeItem').and.stub();
-        spyOn(localStorageMock, 'removeItem').and.stub();
-
-        const state = {
-          access_token: undefined,
-          refresh_token: undefined,
-        };
-
-        const result = reducer(state, { type: 'AN-ACTION' });
-        expect(result).toEqual(state);
-        expect(sessionStorageMock.removeItem).toHaveBeenCalledWith(
-          'access_token'
-        );
-        expect(localStorageMock.removeItem).toHaveBeenCalledWith(
-          'refresh_token'
-        );
-        expect(sessionStorageMock.setItem).not.toHaveBeenCalled();
-        expect(localStorageMock.setItem).not.toHaveBeenCalled();
       });
     });
   });
@@ -162,10 +127,26 @@ describe('storage-sync-reducer', () => {
       expect(rehydrate(config, winRef)).toEqual({});
     });
     it('should return a rehydrated state', () => {
-      const sessionStorageValue = '"access token value"';
-      spyOn(sessionStorageMock, 'getItem').and.returnValue(sessionStorageValue);
-      const localStorageValue = '"refresh token value"';
-      spyOn(localStorageMock, 'getItem').and.returnValue(localStorageValue);
+      const accessTokenMock = {
+        user: {
+          token: {
+            access_token: 'xxx',
+          },
+        },
+      };
+      const refreshTokenMock = {
+        user: {
+          token: {
+            refresh_token: 'yyy',
+          },
+        },
+      };
+      spyOn(localStorageMock, 'getItem').and.returnValue(
+        JSON.stringify(accessTokenMock)
+      );
+      spyOn(sessionStorageMock, 'getItem').and.returnValue(
+        JSON.stringify(refreshTokenMock)
+      );
 
       const config = {
         state: {
@@ -183,8 +164,8 @@ describe('storage-sync-reducer', () => {
       expect(result).toEqual({
         user: {
           token: {
-            access_token: 'access token value',
-            refresh_token: 'refresh token value',
+            access_token: 'xxx',
+            refresh_token: 'yyy',
           },
         },
       });
@@ -232,6 +213,32 @@ describe('storage-sync-reducer', () => {
       it('should return true', () => {
         expect(exists({ a: { b: {} } })).toEqual(true);
       });
+    });
+  });
+
+  describe('getKeysForStorage', () => {
+    const keys: { [key: string]: StorageSyncType } = {
+      a: StorageSyncType.LOCAL_STORAGE,
+      b: StorageSyncType.SESSION_STORAGE,
+      v: StorageSyncType.NO_STORAGE,
+      g: StorageSyncType.LOCAL_STORAGE,
+      d: StorageSyncType.SESSION_STORAGE,
+      dj: StorageSyncType.NO_STORAGE,
+    };
+
+    it('should return two keys for local storage', () => {
+      const result = getKeysForStorage(keys, StorageSyncType.LOCAL_STORAGE);
+      expect(result).toEqual(['a', 'g']);
+    });
+
+    it('should return two keys for session storage', () => {
+      const result = getKeysForStorage(keys, StorageSyncType.SESSION_STORAGE);
+      expect(result).toEqual(['b', 'd']);
+    });
+
+    it('should return two keys for no storage', () => {
+      const result = getKeysForStorage(keys, StorageSyncType.NO_STORAGE);
+      expect(result).toEqual(['v', 'dj']);
     });
   });
 

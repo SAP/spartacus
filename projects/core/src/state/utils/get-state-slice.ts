@@ -1,3 +1,5 @@
+import { deepMerge } from '../../config/utils/deep-merge';
+
 export function getStateSliceValue<T, E>(keys: string, state: T): E {
   return keys
     .split('.')
@@ -29,7 +31,17 @@ export function createShellObject<T, E>(key: string, value: T): E {
   return newObject as E;
 }
 
-export function getStateSlice<T, E>(keys: string, state: T): E {
-  const value = getStateSliceValue(keys, state);
-  return createShellObject(keys, value);
+export function getStateSlice<T, E>(keys: string[], state: T): E {
+  if (keys && keys.length === 0) {
+    return {} as E;
+  }
+
+  let stateSlices = {};
+  for (const currentKey of keys) {
+    const stateValue = getStateSliceValue(currentKey, state);
+    const shell = createShellObject(currentKey, stateValue);
+    stateSlices = deepMerge(stateSlices, shell);
+  }
+
+  return stateSlices as E;
 }

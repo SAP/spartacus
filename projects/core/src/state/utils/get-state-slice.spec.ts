@@ -108,7 +108,7 @@ describe('state slice functions', () => {
         auth: 'authconfig',
       };
 
-      const keys = 'products';
+      const keys = ['products'];
       const result = getStateSlice(keys, state);
 
       const expected = { products: state.products };
@@ -122,7 +122,7 @@ describe('state slice functions', () => {
         auth: 'authconfig',
       };
 
-      const keys = 'cms.pages';
+      const keys = ['cms.pages'];
       const result = getStateSlice(keys, state);
 
       const expected = {
@@ -138,7 +138,7 @@ describe('state slice functions', () => {
         auth: 'authconfig',
       };
 
-      const keys = 'cms.pages.page1';
+      const keys = ['cms.pages.page1'];
       const result = getStateSlice(keys, state);
 
       const expected = { cms: { pages: { page1: state.cms.pages.page1 } } };
@@ -152,10 +152,103 @@ describe('state slice functions', () => {
         auth: 'authconfig',
       };
 
-      const keys = 'notPresent';
+      const keys = ['notPresent'];
       const result = getStateSlice(keys, state);
 
       expect(result).toEqual({});
+    });
+
+    it('should return one object with all the specified values', () => {
+      const state = {
+        user: {
+          auth: {
+            userToken: {
+              access_token: 'xxx',
+              refresh_token: 'yyy',
+            },
+          },
+        },
+        products: {
+          product1: 'p1',
+          product2: 'p2',
+        },
+        cms: {
+          a: {
+            b: {
+              c: 'd',
+            },
+          },
+        },
+      };
+
+      const keys = [
+        'user.auth.userToken.access_token',
+        'products.product1',
+        'cms',
+      ];
+      const result = getStateSlice(keys, state);
+      expect(result).toEqual({
+        user: {
+          auth: {
+            userToken: {
+              access_token: 'xxx',
+            },
+          },
+        },
+        products: {
+          product1: 'p1',
+        },
+        cms: {
+          a: {
+            b: {
+              c: 'd',
+            },
+          },
+        },
+      });
+    });
+
+    it('should return one object with all the specified values and skip unknown properties', () => {
+      const state = {
+        user: {
+          auth: {
+            userToken: {
+              access_token: 'xxx',
+              refresh_token: 'yyy',
+            },
+          },
+        },
+        products: {
+          product1: 'p1',
+          product2: 'p2',
+        },
+        cms: {
+          a: {
+            b: {
+              c: 'd',
+            },
+          },
+        },
+      };
+
+      const keys = [
+        'user.auth.userToken.access_token',
+        'products.product1',
+        'xxx',
+      ];
+      const result = getStateSlice(keys, state);
+      expect(result).toEqual({
+        user: {
+          auth: {
+            userToken: {
+              access_token: 'xxx',
+            },
+          },
+        },
+        products: {
+          product1: 'p1',
+        },
+      });
     });
   });
 });

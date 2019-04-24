@@ -48,13 +48,8 @@ export function getServerTransferStateReducer(
       const newState = reducer(state, action);
 
       if (newState) {
-        let partialState = {};
-        for (const key of Object.keys(keys)) {
-          const stateSlice = getStateSlice(key, newState);
-          partialState = deepMerge(partialState, stateSlice);
-        }
-
-        transferState.set(CX_KEY, partialState);
+        const stateSlice = getStateSlice(Object.keys(keys), newState);
+        transferState.set(CX_KEY, stateSlice);
       }
 
       return newState;
@@ -70,13 +65,9 @@ export function getBrowserTransferStateReducer(
     return function(state, action: any) {
       if (action.type === INIT && transferState.hasKey(CX_KEY)) {
         const cxKey = transferState.get(CX_KEY, {});
-        let mergedState = {};
-        for (const key of Object.keys(keys)) {
-          const transferredStateSlice = getStateSlice(key, cxKey);
-          mergedState = deepMerge(mergedState, transferredStateSlice);
-        }
+        const transferredStateSlice = getStateSlice(Object.keys(keys), cxKey);
 
-        state = deepMerge({}, state, mergedState);
+        state = deepMerge({}, state, transferredStateSlice);
       }
       return reducer(state, action);
     };
