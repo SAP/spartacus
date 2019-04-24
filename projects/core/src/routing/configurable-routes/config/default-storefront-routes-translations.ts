@@ -34,7 +34,8 @@ export const defaultStorefrontRoutesTranslations: {
     paymentManagement: { paths: ['my-account/payment-details'] },
     updateEmail: { paths: ['my-account/update-email'] },
     updateProfile: { paths: ['my-account/update-profile'] },
-    myInterests: { paths: ['my-account/my-interests'] }
+    closeAccount: { paths: ['my-account/close-account'] },
+    myInterests: { paths: ['my-account/my-interests'] },
   },
 
   en: {} as any,

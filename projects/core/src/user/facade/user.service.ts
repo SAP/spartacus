@@ -61,6 +61,50 @@ export class UserService {
   }
 
   /**
+   * Remove user account, that's also called close user's account
+   *
+   * @param userId
+   */
+  remove(userId: string): void {
+    this.store.dispatch(new fromStore.RemoveUser(userId));
+  }
+
+  /**
+   * Returns the remove user loading flag
+   */
+  getRemoveUserResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(fromStore.REMOVE_USER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the remove user failure outcome.
+   */
+  getRemoveUserResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(fromStore.REMOVE_USER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Returns the remove user process success outcome.
+   */
+  getRemoveUserResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(fromStore.REMOVE_USER_PROCESS_ID))
+    );
+  }
+
+  /**
+   * Resets the remove user process state. The state needs to be reset after the process
+   * concludes, regardless if it's a success or an error
+   */
+  resetRemoveUserProcessState(): void {
+    this.store.dispatch(new fromStore.RemoveUserReset());
+  }
+
+  /**
    * Returns an order's detail
    */
   getOrderDetails(): Observable<Order> {

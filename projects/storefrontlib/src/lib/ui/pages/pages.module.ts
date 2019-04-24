@@ -138,6 +138,7 @@ const pageModules = [
         path: '**',
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,
+        data: { pageLabel: 'close-account', cxPath: 'closeAccount' },
       },
     ]),
   ],
