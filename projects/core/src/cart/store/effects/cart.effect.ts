@@ -3,12 +3,13 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
-import { ProductImageNormalizer } from '../../../product/index';
+import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
 import { Cart } from '../../../occ/occ-models/occ.models';
 import { CartConnector } from '../../connectors/cart/cart.connector';
+import { ConverterService } from '../../../util/converter.service';
 
 @Injectable()
 export class CartEffects {
@@ -47,7 +48,10 @@ export class CartEffects {
           map((cart: Cart) => {
             if (cart && cart.entries) {
               for (const entry of cart.entries) {
-                this.productImageConverter.convertProduct(entry.product);
+                entry.product = this.converter.convert(
+                  entry.product,
+                  PRODUCT_NORMALIZER
+                ) as any;
               }
             }
             return new fromActions.LoadCartSuccess(cart);
@@ -72,7 +76,10 @@ export class CartEffects {
           switchMap((cart: Cart) => {
             if (cart.entries) {
               for (const entry of cart.entries) {
-                this.productImageConverter.convertProduct(entry.product);
+                entry.product = this.converter.convert(
+                  entry.product,
+                  PRODUCT_NORMALIZER
+                ) as any;
               }
             }
             if (payload.oldCartId) {
@@ -107,7 +114,7 @@ export class CartEffects {
 
   constructor(
     private actions$: Actions,
-    private productImageConverter: ProductImageNormalizer,
+    private converter: ConverterService,
     private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}
