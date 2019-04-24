@@ -1,8 +1,6 @@
 %cx-store-finder-search {
-  :host {
-    display: var(--cx-display, block);
-    margin: var(--cx-margin, 0 0 3rem);
-  }
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 0 0 3rem);
 
   .cx-find-store {
     margin: var(--cx-margin, 0 0 1rem);

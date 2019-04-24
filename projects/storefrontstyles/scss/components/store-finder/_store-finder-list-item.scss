@@ -1,8 +1,6 @@
 %cx-store-finder-list-item {
-  :host {
-    display: var(--cx-display, block);
-    margin: var(--cx-margin, 1.25rem 0);
-  }
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 1.25rem 0);
 
   .cx-store-name {
     @include type('6');
