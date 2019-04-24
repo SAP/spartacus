@@ -1,40 +1,35 @@
-import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
-import { Component, Input, PipeTransform, Pipe } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   NgbCollapseModule,
   NgbPaginationModule,
   NgbRatingModule,
 } from '@ng-bootstrap/ng-bootstrap';
-
 import {
-  ProductSearchService,
-  ProductSearchPage,
   I18nTestingModule,
+  ProductSearchPage,
+  ProductSearchService,
 } from '@spartacus/core';
-
-import { of, Observable } from 'rxjs';
-
-import createSpy = jasmine.createSpy;
-
+import { Observable, of } from 'rxjs';
+import { AddToCartComponent } from '../../../../../cms-components/checkout';
+import { StarRatingComponent } from '../../../../ui';
+import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
+import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
+import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
 import { ProductFacetNavigationComponent } from '../product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from '../product-grid-item/product-grid-item.component';
 import {
   ProductViewComponent,
   ViewModes,
 } from '../product-view/product-view.component';
-import { StarRatingComponent } from '../../../../ui';
-import { AddToCartComponent } from '../../../../cart/add-to-cart/add-to-cart.component';
-import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
-import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
-import { SortingComponent } from '../../../../ui/components/pagination-and-sorting/sorting/sorting.component';
-
+import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { ProductListComponent } from './product-list.component';
+
+import createSpy = jasmine.createSpy;
 
 class MockPageLayoutService {
   getSlots(): Observable<string[]> {
