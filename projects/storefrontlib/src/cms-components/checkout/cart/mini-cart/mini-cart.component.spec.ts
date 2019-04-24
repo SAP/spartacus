@@ -6,16 +6,13 @@ import {
   CartService,
   CmsMiniCartComponent,
   Component as SpaComponent,
-  TranslateUrlOptions,
+  TranslateUrlCommandRoute,
   UICart,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Pipe, PipeTransform } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Pipe({
   name: 'cxTranslateUrl',

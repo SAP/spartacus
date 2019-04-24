@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Cart, CartService, CmsMiniCartComponent } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import { CartService, CmsMiniCartComponent, UICart } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/index';
 
 @Component({

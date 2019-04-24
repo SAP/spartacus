@@ -2,13 +2,11 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Cart,
   CartDataService,
   CartService,
-  UICart,
-  PromotionResult,
   I18nTestingModule,
   PromotionResult,
+  UICart,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
