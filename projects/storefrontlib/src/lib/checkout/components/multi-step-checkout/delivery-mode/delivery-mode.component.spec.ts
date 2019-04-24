@@ -95,8 +95,13 @@ describe('DeliveryModeComponent', () => {
   it('should change step after invoking next()', () => {
     component.mode.controls['deliveryModeId'].setValue(mockDeliveryMode1.code);
     component.currentDeliveryModeId = mockDeliveryMode1.code;
+    component.changedOption = true;
+
     component.next();
-    expect(component.goToStep.emit).toHaveBeenCalled();
+
+    mockCheckoutService.getSelectedDeliveryMode().subscribe(() => {
+      expect(component.goToStep.emit).toHaveBeenCalled();
+    });
   });
 
   it('should change step after invoking back()', () => {
