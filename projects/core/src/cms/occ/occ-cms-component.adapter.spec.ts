@@ -14,9 +14,7 @@ import { CmsStructureConfigService } from '../services';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { HttpRequest } from '@angular/common/http';
 import { ConverterService } from '../../util/converter.service';
-import {
-  CMS_COMPONENT_NORMALIZER,
-} from '../connectors/component/converters';
+import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },

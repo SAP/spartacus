@@ -110,7 +110,6 @@ describe('ProductImageConverterService', () => {
 
   it('should convert product image', () => {
     const result = service.convert(product);
-    console.log(result);
     expect(result).toEqual(convertedProduct);
   });
 });

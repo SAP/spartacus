@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Cart } from '../../../occ/occ-models/occ.models';
 import { CartAdapter } from './cart.adapter';
 import { UICart } from '../../model/cart';
 
@@ -26,7 +25,7 @@ export class CartConnector {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<Cart> {
+  ): Observable<UICart> {
     return this.adapter.create(userId, oldCartId, toMergeCartGuid);
   }
 }

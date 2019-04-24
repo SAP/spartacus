@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { Cart } from '../../../occ/occ-models/occ.models';
 import { UICart } from '../../model/cart';
 
 export abstract class CartAdapter {
@@ -35,5 +34,5 @@ export abstract class CartAdapter {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<Cart>;
+  ): Observable<UICart>;
 }

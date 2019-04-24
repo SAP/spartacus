@@ -90,7 +90,7 @@ export class OccCartAdapter implements CartAdapter {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<Cart> {
+  ): Observable<UICart> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
     let queryString = 'fields=' + BASIC_PARAMS;
@@ -105,8 +105,9 @@ export class OccCartAdapter implements CartAdapter {
       fromString: queryString,
     });
 
-    return this.http
-      .post<Cart>(url, toAdd, { params: params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.post<Cart>(url, toAdd, { params: params }).pipe(
+      this.converter.pipeable(CART_NORMALIZER),
+      catchError((error: any) => throwError(error.json()))
+    );
   }
 }

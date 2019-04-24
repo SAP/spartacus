@@ -2,14 +2,10 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-
-import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
-import { Cart } from '../../../occ/occ-models/occ.models';
 import { CartConnector } from '../../connectors/cart/cart.connector';
-import { ConverterService } from '../../../util/converter.service';
 import { UICart } from '../../model/cart';
 
 @Injectable()
@@ -66,15 +62,7 @@ export class CartEffects {
       return this.cartConnector
         .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
-          switchMap((cart: Cart) => {
-            if (cart.entries) {
-              for (const entry of cart.entries) {
-                entry.product = this.converter.convert(
-                  entry.product,
-                  PRODUCT_NORMALIZER
-                ) as any;
-              }
-            }
+          switchMap((cart: UICart) => {
             if (payload.oldCartId) {
               return [
                 new fromActions.CreateCartSuccess(cart),
@@ -107,7 +95,6 @@ export class CartEffects {
 
   constructor(
     private actions$: Actions,
-    private converter: ConverterService,
     private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}
