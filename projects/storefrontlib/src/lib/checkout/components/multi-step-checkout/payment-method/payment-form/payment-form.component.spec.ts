@@ -437,16 +437,25 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  describe('UI close button', () => {
+  describe('UI close/back button', () => {
     const getBackBtn = () => fixture.debugElement.query(By.css('.btn-action'));
 
-    it('should call "close" function after being clicked', () => {
+    it('should call "back" function after being clicked', () => {
       component.paymentMethodsCount = 0;
       fixture.detectChanges();
       spyOn(component, 'back');
       getBackBtn().nativeElement.click();
       fixture.detectChanges();
       expect(component.back).toHaveBeenCalled();
+    });
+
+    it('should call "close" function after being clicked', () => {
+      component.paymentMethodsCount = 1;
+      fixture.detectChanges();
+      spyOn(component, 'close');
+      getBackBtn().nativeElement.click();
+      fixture.detectChanges();
+      expect(component.close).toHaveBeenCalled();
     });
   });
 });
