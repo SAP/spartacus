@@ -6,26 +6,27 @@ import { Action } from '@ngrx/store';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
-import { OccCartService } from '../../../cart';
+import { CartDeliveryConnector, CartPaymentConnector } from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import {
-  OccConfig,
-  DeliveryModeList,
-  PaymentDetails,
   Address,
+  DeliveryMode,
+  OccConfig,
   Order,
+  PaymentDetails,
 } from '../../../occ';
 import { ProductImageNormalizer } from '../../../product';
 import {
-  OccOrderService,
-  LoadUserPaymentMethods,
   LoadUserAddresses,
+  LoadUserPaymentMethods,
+  OccOrderService,
 } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
+import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -36,35 +37,53 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+const userId = 'testUserId';
+const cartId = 'testCartId';
+const address: Address = {
+  id: 'testAddressId',
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2 create on cart',
+  town: 'Montreal',
+  postalCode: 'L6M1P9',
+  country: { isocode: 'CA' },
+};
+const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
+const orderDetails: Order = { entries: [] };
+
+const paymentDetails: PaymentDetails = {
+  accountHolderName: 'test',
+  billingAddress: {
+    line1: '123 Montreal',
+  },
+};
+
+class MockCartDeliveryConnector {
+  createAddress = createSpy().and.returnValue(of(address));
+  setAddress = createSpy().and.returnValue(of({}));
+  getSupportedModes = createSpy().and.returnValue(of(modes));
+  setMode = createSpy().and.returnValue(of({}));
+}
+
+class MockCartPaymentConnector {
+  set = createSpy().and.returnValue(of({}));
+  create = createSpy().and.returnValue(of(paymentDetails));
+}
+
 describe('Checkout effect', () => {
-  let cartService: OccCartService;
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
   let productImageConverter: ProductImageNormalizer;
 
-  const userId = 'testUserId';
-  const cartId = 'testCartId';
-  const address: Address = {
-    id: 'testAddressId',
-    firstName: 'John',
-    lastName: 'Doe',
-    titleCode: 'mr',
-    line1: 'Toyosaki 2 create on cart',
-    town: 'Montreal',
-    postalCode: 'L6M1P9',
-    country: { isocode: 'CA' },
-  };
-  const modes: DeliveryModeList = {
-    deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-  };
-  const orderDetails: Order = { entries: [] };
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccCartService,
+        CartPaymentConnector,
+        { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
+        { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
         OccOrderService,
         ProductImageNormalizer,
         fromEffects.CheckoutEffects,
@@ -74,16 +93,10 @@ describe('Checkout effect', () => {
     });
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
-    cartService = TestBed.get(OccCartService);
     orderService = TestBed.get(OccOrderService);
     productImageConverter = TestBed.get(ProductImageNormalizer);
 
-    spyOn(cartService, 'createAddressOnCart').and.returnValue(of(address));
-    spyOn(cartService, 'setDeliveryAddress').and.returnValue(of({}));
-    spyOn(cartService, 'getSupportedDeliveryModes').and.returnValue(of(modes));
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
-    spyOn(cartService, 'setDeliveryMode').and.returnValue(of({}));
-    spyOn(cartService, 'setPaymentDetails').and.returnValue(of({}));
   });
 
   describe('addDeliveryAddress$', () => {
@@ -183,141 +196,6 @@ describe('Checkout effect', () => {
         },
       };
 
-      const paymentProviderInfo = {
-        mappingLabels: {
-          entry: [
-            {
-              key: 'hybris_sop_amount',
-              value: 'amount',
-            },
-            {
-              key: 'hybris_sop_currency',
-              value: '',
-            },
-            {
-              key: 'hybris_billTo_country',
-              value: 'billTo_country',
-            },
-            {
-              key: 'hybris_card_type',
-              value: 'card_type',
-            },
-            {
-              key: 'hybris_card_expiration_year',
-              value: 'card_expirationYear',
-            },
-            {
-              key: 'hybris_sop_reason_code',
-              value: 'reason_code',
-            },
-            {
-              key: 'hybris_combined_expiry_date',
-              value: 'false',
-            },
-            {
-              key: 'hybris_sop_decision',
-              value: 'decision',
-            },
-            {
-              key: 'hybris_card_expiry_date',
-              value: 'card_expirationDate',
-            },
-            {
-              key: 'hybris_card_expiration_month',
-              value: 'card_expirationMonth',
-            },
-            {
-              key: 'hybris_billTo_street1',
-              value: 'billTo_street1',
-            },
-            {
-              key: 'hybris_sop_card_number',
-              value: 'card_accountNumber',
-            },
-            {
-              key: 'hybris_separator_expiry_date',
-              value: '',
-            },
-            {
-              key: 'hybris_account_holder_name',
-              value: 'mockup_account_holder',
-            },
-            {
-              key: 'hybris_sop_uses_public_signature',
-              value: 'false',
-            },
-            {
-              key: 'hybris_card_number',
-              value: 'card_accountNumber',
-            },
-            {
-              key: 'hybris_card_cvn',
-              value: 'card_cvNumber',
-            },
-            {
-              key: 'hybris_billTo_lastname',
-              value: 'billTo_lastName',
-            },
-            {
-              key: 'hybris_billTo_city',
-              value: 'billTo_city',
-            },
-            {
-              key: 'hybris_billTo_firstname',
-              value: 'billTo_firstName',
-            },
-            {
-              key: 'hybris_billTo_postalcode',
-              value: 'billTo_postalCode',
-            },
-          ],
-        },
-        parameters: {
-          entry: [],
-        },
-        postUrl: 'https://testurl',
-      };
-
-      const paymentDetails: PaymentDetails = {
-        accountHolderName: 'test',
-        billingAddress: {
-          line1: '123 Montreal',
-        },
-      };
-
-      const html =
-        '<form id="silentOrderPostForm" name="silentOrderPostForm" action="javascript:false;" method="post">' +
-        '<div id="postFormItems">' +
-        '<dl>' +
-        '<input type="hidden" id="billTo_city" name="billTo_city" value="MainCity" />' +
-        '<input type="hidden" id="amount" name="amount" value="0" />' +
-        '<input type="hidden" id="decision_publicSignature" name="decision_publicSignature" value="mEhlMRLCsuPimhp50ElrY94zFyc=" />' +
-        '<input type="hidden" id="decision" name="decision" value="ACCEPT" />' +
-        '<input type="hidden" id="billTo_country" name="billTo_country" value="US" />' +
-        '<input type="hidden" id="billTo_lastName" name="billTo_lastName" value="test" />' +
-        '<input type="hidden" id="ccAuthReply_cvCode" name="ccAuthReply_cvCode" value="M" />' +
-        '<input type="hidden" id="billTo_postalCode" name="billTo_postalCode" value="12345" />' +
-        '<input type="hidden" id="billTo_street1" name="billTo_street1" value="999 de Maisonneuve" />' +
-        '<input type="hidden" id="billTo_firstName" name="billTo_firstName" value="test" />' +
-        '<input type="hidden" id="card_cardType" name="card_cardType" value="visa" />' +
-        '<input type="hidden" id="card_expirationMonth" name="card_expirationMonth" value="12" />' +
-        '<input type="hidden" id="card_expirationYear" name="card_expirationYear" value="2020" />' +
-        '<input type="hidden" id="reasonCode" name="reasonCode" value="100" />' +
-        '<input type="hidden" id="card_accountNumber" name="card_accountNumber" value="************1111" />' +
-        '</dl>' +
-        '</div>' +
-        '</form>';
-
-      spyOn(cartService, 'getPaymentProviderSubInfo').and.returnValue(
-        of(paymentProviderInfo)
-      );
-      spyOn(cartService, 'createSubWithPaymentProvider').and.returnValue(
-        of(html)
-      );
-      spyOn(cartService, 'createPaymentDetails').and.returnValue(
-        of(paymentDetails)
-      );
-
       const action = new fromActions.CreatePaymentDetails({
         userId: userId,
         cartId: cartId,
@@ -337,15 +215,6 @@ describe('Checkout effect', () => {
 
   describe('setPaymentDetails$', () => {
     it('should set payment details', () => {
-      const paymentDetails: PaymentDetails = {
-        id: '123',
-        billingAddress: {
-          town: 'MainCity',
-          country: { isocode: 'US' },
-          lastName: 'test',
-        },
-      };
-
       const action = new fromActions.SetPaymentDetails({
         userId: userId,
         cartId: cartId,
