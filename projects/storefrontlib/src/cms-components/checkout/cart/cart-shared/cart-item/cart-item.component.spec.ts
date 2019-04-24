@@ -1,11 +1,11 @@
-import { ComponentsModule } from './../../../ui/components/components.module';
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartItemComponent } from './cart-item.component';
-import { Pipe, PipeTransform } from '@angular/core';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { I18nTestingModule } from '@spartacus/core';
+import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
+import { ComponentsModule } from '../../../../../lib/ui/components/components.module';
+import { CartItemComponent } from './cart-item.component';
 
 @Pipe({
   name: 'cxTranslateUrl',

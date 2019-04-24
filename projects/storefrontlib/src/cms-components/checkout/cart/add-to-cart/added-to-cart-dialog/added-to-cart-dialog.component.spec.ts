@@ -1,21 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
-import {
-  CartService,
-  I18nTestingModule,
-  OrderEntry,
-  PromotionResult,
-} from '@spartacus/core';
-
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { BehaviorSubject, of, Observable } from 'rxjs';
-
-import { SpinnerModule } from './../../../ui/components/spinner/spinner.module';
-
-import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 import {
   Component,
   DebugElement,
@@ -23,6 +5,20 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  CartService,
+  I18nTestingModule,
+  OrderEntry,
+  PromotionResult,
+} from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { SpinnerModule } from '../../../../../lib/ui/components/spinner/spinner.module';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 class MockNgbActiveModal {
   dismiss(): void {}

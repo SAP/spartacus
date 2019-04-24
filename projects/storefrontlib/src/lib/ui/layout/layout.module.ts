@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
-
-import { ConfigModule, Config } from '@spartacus/core';
-
+import { Config, ConfigModule } from '@spartacus/core';
 import { OutletRefModule } from '../../outlet/index';
 import { StyleRefModule } from '../../outlet/style-ref/style-ref.module';
-
 import { BreakpointService } from './breakpoint/breakpoint.service';
 import { defaultLayoutConfig } from './config/default-layout-config';
 import { LayoutConfig } from './config/layout-config';
