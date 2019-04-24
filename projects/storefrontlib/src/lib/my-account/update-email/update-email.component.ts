@@ -40,7 +40,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void {
-    this.routingService.go({ route: ['home'] });
+    this.routingService.go({ route: 'home' });
   }
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
@@ -55,7 +55,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
       this.authService.logout();
-      this.routingService.go({ route: ['login'] });
+      this.routingService.go({ route: 'login' });
     }
   }
   ngOnDestroy() {
