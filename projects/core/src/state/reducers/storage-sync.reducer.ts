@@ -4,7 +4,6 @@ import { WindowRef } from '../../window/window-ref';
 import { StateConfig, StorageSyncType } from '../config/state-config';
 import { getStateSlice } from '../utils/get-state-slice';
 
-// TODO:#sync-poc - make this configurable
 export const DEFAULT_LOCAL_STORAGE_KEY = 'spartacus-local-data';
 export const DEFAULT_SESSION_STORAGE_KEY = 'spartacus-session-data';
 
@@ -44,17 +43,19 @@ export function getStorageSyncReducer<T>(
       newState = reducer(newState, action);
 
       if (action.type !== INIT) {
+        // handle local storage
         const localStorageKeys = getKeysForStorage(
           storageSyncConfig.keys,
           StorageSyncType.LOCAL_STORAGE
         );
         const localStorageStateSlices = getStateSlice(localStorageKeys, state);
         persistToStorage(
-          DEFAULT_LOCAL_STORAGE_KEY,
+          getLocalStorageKeyName(config),
           localStorageStateSlices,
           winRef.localStorage
         );
 
+        // handle session storage
         const sessionStorageKeys = getKeysForStorage(
           storageSyncConfig.keys,
           StorageSyncType.SESSION_STORAGE
@@ -64,7 +65,7 @@ export function getStorageSyncReducer<T>(
           state
         );
         persistToStorage(
-          DEFAULT_SESSION_STORAGE_KEY,
+          getSessionStorageKeyName(config),
           sessionStorageStateSlices,
           winRef.sessionStorage
         );
@@ -90,11 +91,11 @@ export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {
 
   const localStorageValue = readFromStorage(
     winRef.localStorage,
-    DEFAULT_LOCAL_STORAGE_KEY
+    getLocalStorageKeyName(config)
   );
   const sessionStorageValue = readFromStorage(
     winRef.sessionStorage,
-    DEFAULT_SESSION_STORAGE_KEY
+    getSessionStorageKeyName(config)
   );
 
   return deepMerge(localStorageValue, sessionStorageValue);
@@ -167,4 +168,16 @@ export function readFromStorage(storage: Storage, key: string): Object {
 
 export function isSsr(storage: Storage): boolean {
   return !Boolean(storage);
+}
+
+export function getLocalStorageKeyName(config: StateConfig): string {
+  return config.state.storageSync.localStorageKeyName
+    ? config.state.storageSync.localStorageKeyName
+    : DEFAULT_LOCAL_STORAGE_KEY;
+}
+
+export function getSessionStorageKeyName(config: StateConfig): string {
+  return config.state.storageSync.sessionStorageKeyName
+    ? config.state.storageSync.sessionStorageKeyName
+    : DEFAULT_SESSION_STORAGE_KEY;
 }

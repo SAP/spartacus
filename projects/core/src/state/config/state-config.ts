@@ -17,6 +17,16 @@ export abstract class StateConfig {
        */
       rehydrate?: boolean;
       /**
+       * A key name for the data stored in `localStorage`.
+       * Default is `DEFAULT_LOCAL_STORAGE_KEY`.
+       */
+      localStorageKeyName?: string;
+      /**
+       * A key name for the data stored in `sessionStorage`.
+       * Default is `DEFAULT_SESSION_STORAGE_KEY`.
+       */
+      sessionStorageKeyName?: string;
+      /**
        * A set of state keys that should be synced with the specified browser's storage.
        */
       keys?: {
