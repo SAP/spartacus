@@ -39,7 +39,7 @@ export class UserService {
     private store: Store<
       fromStore.StateWithUser | fromProcessStore.StateWithProcess<void>
     >
-  ) {}
+  ) { }
 
   /**
    * Returns a user
@@ -582,6 +582,8 @@ export class UserService {
 
   /**
    * Returns product interests list
+   * @param userId a user ID
+   * @param pageSize page size
    */
   getProdutInterests(
     userId: string,
@@ -602,10 +604,18 @@ export class UserService {
     );
   }
 
+  /**
+   * Returns a loaded flag for product interests
+   */
   getProdutInterestsLoaded(): Observable<boolean> {
     return this.store.pipe(select(fromStore.getInterestsLoaded));
   }
 
+  /**
+   * Deletes a ProductInterestRelation
+   * @param userId a user ID
+   * @param item product interest relation item
+   */
   deleteProdutInterest(userId: string, item: ProductInterestRelation): void {
     this.store.dispatch(
       new fromStore.DeleteProductInterests({
@@ -615,6 +625,9 @@ export class UserService {
     );
   }
 
+  /**
+   * Clears product interests
+   */
   clearProductInterests(): void {
     this.store.dispatch(new fromStore.ClearProductInterests());
   }

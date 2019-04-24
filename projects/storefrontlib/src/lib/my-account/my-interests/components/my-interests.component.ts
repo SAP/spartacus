@@ -13,7 +13,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   userId: string;
 
-  constructor(private auth: AuthService, private userService: UserService) {}
+  constructor(
+    private auth: AuthService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.subscription = this.auth.getUserToken().subscribe(userData => {
