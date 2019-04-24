@@ -29,6 +29,24 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   ): Observable<CmsStructureModel> {
     let httpStringParams = '';
 
+    // load page by id
+    if (pageContext.type === undefined) {
+      if (fields !== undefined) {
+        httpStringParams = httpStringParams + '?fields=' + fields;
+      }
+
+      return this.http
+        .get(this.getBaseEndPoint() + `/pages/${pageContext.id}`, {
+          headers: this.headers,
+          params: new HttpParams({
+            fromString: httpStringParams,
+          }),
+        })
+        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+    }
+
+    // load page by context
+    // for smartedit preview page, page is loaded by previewToken which added by interceptor
     if (pageContext.id !== 'smartedit-preview') {
       httpStringParams = 'pageType=' + pageContext.type;
 
