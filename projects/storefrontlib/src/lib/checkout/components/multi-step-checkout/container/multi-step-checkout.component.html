@@ -28,10 +28,7 @@
 
       <div class="cx-media">
         <div class="cx-list-media">
-          {{
-            'cartItems.label.cartTotal'
-              | cxTranslate: { count: cart.totalItems }
-          }}:
+          {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
           {{ cart.subTotal?.formattedValue }}
         </div>
 
@@ -47,7 +44,7 @@
               class="btn btn-link"
               (click)="setStep(nav.id)"
             >
-              {{ 'common.action.edit' | cxTranslate }}
+              {{ 'common.edit' | cxTranslate }}
             </button>
           </div>
 
@@ -98,15 +95,13 @@
               (change)="toggleTAndC()"
             />
             <span class="form-check-label">
-              {{ 'checkoutReview.label.confirmThatRead' | cxTranslate }}
+              {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
               <a
-                [routerLink]="
-                  { route: ['termsAndConditions'] } | cxTranslateUrl
-                "
+                [routerLink]="{ route: 'termsAndConditions' } | cxTranslateUrl"
                 class="cx-tc-link"
                 target="_blank"
               >
-                {{ 'checkoutReview.action.termsAndConditions' | cxTranslate }}
+                {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
               </a>
             </span>
           </label>
@@ -116,10 +111,10 @@
           (click)="placeOrder()"
           class="btn btn-primary btn-block"
         >
-          {{ 'checkoutReview.action.placeOrder' | cxTranslate }}
+          {{ 'checkoutReview.placeOrder' | cxTranslate }}
         </button>
         <button class="btn btn-action btn-block" (click)="setStep(3)">
-          {{ 'common.action.back' | cxTranslate }}
+          {{ 'common.back' | cxTranslate }}
         </button>
       </div>
     </div>

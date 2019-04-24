@@ -40,15 +40,15 @@ export class CmsMappingService {
   }
 
   getI18nKeysForComponents(componentTypes: string[]): string[] {
-    const namespaces = new Set<string>();
+    const i18nKeys = new Set<string>();
     for (const componentType of componentTypes) {
       if (this.isComponentEnabled(componentType)) {
-        this.getI18nKeysForComponent(componentType).forEach(namespace =>
-          namespaces.add(namespace)
+        this.getI18nKeysForComponent(componentType).forEach(key =>
+          i18nKeys.add(key)
         );
       }
     }
-    return Array.from(namespaces);
+    return Array.from(i18nKeys);
   }
 
   private getRoutesForComponent(componentType: string): Route[] {

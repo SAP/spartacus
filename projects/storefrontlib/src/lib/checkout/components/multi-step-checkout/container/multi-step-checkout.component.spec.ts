@@ -256,7 +256,7 @@ describe('MultiStepCheckoutComponent', () => {
 
     component.processSteps();
     expect(mockRoutingService.go).toHaveBeenCalledWith({
-      route: ['orderConfirmation'],
+      route: 'orderConfirmation',
     });
   });
 

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Image, OccConfig } from '../../../occ';
+import { OccConfig } from '../../../occ/config/occ-config';
+import { Image } from '../../../occ/occ-models';
 import { Product } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
-import { UIImages, UIProduct } from '../../model/product-model';
+import { UIImages, UIProduct } from '../../model/product';
 
 @Injectable({
   providedIn: 'root',

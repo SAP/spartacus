@@ -2,9 +2,11 @@
   <div class="form-group row">
     <div class="col-md-12">
       <label>
-        <span class="label-content">Title</span>
+        <span class="label-content">{{
+          'updateProfileForm.title' | cxTranslate
+        }}</span>
         <select formControlName="titleCode" class="form-control">
-          <option value="">None</option>
+          <option value="">{{ 'updateProfileForm.none' | cxTranslate }}</option>
           <option *ngFor="let title of titles" [value]="title.code">{{
             title.name
           }}</option>
@@ -15,17 +17,23 @@
   <div class="form-group row">
     <div class="col-md-12">
       <label>
-        <span class="label-content">First Name</span>
+        <span class="label-content">{{
+          'updateProfileForm.firstName.label' | cxTranslate
+        }}</span>
         <input
           type="text"
           class="form-control"
           name="firstName"
-          placeholder="First Name"
+          placeholder="{{
+            'updateProfileForm.firstName.placeholder' | cxTranslate
+          }}"
           formControlName="firstName"
           [class.is-invalid]="isNotValid('firstName')"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('firstName')">
-          <span>First name is required.</span>
+          <span>{{
+            'updateProfileForm.firstNameIsRequired' | cxTranslate
+          }}</span>
         </div>
       </label>
     </div>
@@ -33,17 +41,23 @@
   <div class="form-group row">
     <div class="col-md-12">
       <label>
-        <span class="label-content">Last Name</span>
+        <span class="label-content">{{
+          'updateProfileForm.LastName.label' | cxTranslate
+        }}</span>
         <input
           type="text"
           class="form-control"
           name="lastName"
-          placeholder="Last Name"
+          placeholder="{{
+            'updateProfileForm.lastName.placeholder' | cxTranslate
+          }}"
           formControlName="lastName"
           [class.is-invalid]="isNotValid('lastName')"
         />
         <div class="invalid-feedback" *ngIf="isNotValid('lastName')">
-          <span>Last name is required.</span>
+          <span>{{
+            'updateProfileForm.lastNameIsRequired' | cxTranslate
+          }}</span>
         </div>
       </label>
     </div>
@@ -56,11 +70,13 @@
         type="button"
         (click)="onCancel()"
       >
-        Cancel
+        {{ 'common.cancel' | cxTranslate }}
       </button>
     </div>
     <div class="col-lg-6 col-md-12">
-      <button class="btn btn-block btn-primary" type="submit">Save</button>
+      <button class="btn btn-block btn-primary" type="submit">
+        {{ 'common.save' | cxTranslate }}
+      </button>
     </div>
   </div>
 </form>

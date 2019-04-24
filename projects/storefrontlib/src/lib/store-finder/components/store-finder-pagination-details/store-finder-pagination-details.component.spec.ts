@@ -37,9 +37,7 @@ describe('StoreFinderPaginationDetailsComponent', () => {
     ).nativeElement;
 
     expect(detailsElement.innerText).toContain(
-      `1 - ${
-        component.pagination.pageSize
-      } storeFinder.label.fromStoresFound count:${
+      `1 - ${component.pagination.pageSize} storeFinder.fromStoresFound count:${
         component.pagination.totalResults
       }`
     );

@@ -1,0 +1,72 @@
+@import 'theme';
+
+.cx-dialog-header {
+  padding: var(--cx-padding, 2rem 1.75rem 0.85rem);
+  border-width: var(--cx-border-width, 0);
+}
+
+.cx-dialog-title {
+  @include type('3');
+}
+
+.cx-dialog-body {
+  padding: var(--cx-padding, 1rem 1rem 0 1rem);
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 0);
+  }
+}
+
+.cx-dialog-row {
+  margin: var(--cx-margin, 0);
+  display: var(--cx-display, flex);
+  padding: var(--cx-padding, 0 0.875rem 2.875rem);
+  max-width: var(--cx-max-width, 100%);
+  flex-wrap: var(--cx-flex-wrap, wrap);
+
+  @include media-breakpoint-down(sm) {
+    flex-direction: var(--cx-flex-direction, column);
+    padding: var(--cx-padding, 0);
+  }
+}
+
+.cx-dialog-item {
+  @include media-breakpoint-down(sm) {
+    padding: var(--cx-padding, 2rem);
+  }
+}
+
+.cx-dialog-separator {
+  border-width: var(--cx-border-width, 1px 0 0 0);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+}
+
+.cx-dialog-actions {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
+  padding: var(--cx-padding, 0 1rem 0 2.5rem);
+  border-width: var(--cx-border-width, 0 0 0 1px);
+  border-style: var(--cx-border-style, solid);
+  border-color: var(--cx-border-color, var(--cx-g-color-light));
+
+  @include media-breakpoint-down(sm) {
+    border-width: var(--cx-border-width, 0);
+    padding: var(--cx-padding, 1.875rem);
+  }
+}
+
+.cx-dialog-total {
+  @include type('4');
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, space-between);
+  padding: var(--cx-padding, 0 0 1.25rem 0);
+}
+
+.cx-dialog-buttons {
+  display: var(--cx-display, flex);
+  flex-direction: var(--cx-flex-direction, column);
+
+  .btn-primary {
+    margin: var(--cx-margin, 0 0 0.625rem 0);
+  }
+}
