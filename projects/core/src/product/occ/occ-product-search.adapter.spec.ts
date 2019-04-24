@@ -4,7 +4,7 @@ import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import {
   ConverterService,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
-  PRODUCT_SUGGESTIONS_LIST_NORMALIZER,
+  PRODUCT_SUGGESTION_NORMALIZER,
 } from '@spartacus/core';
 import {
   HttpClientTestingModule,
@@ -23,13 +23,9 @@ class MockOccEndpointsService {
   );
 }
 
-class MockConvertService {
-  pipeable = createSpy().and.returnValue(x => x);
-}
-
 const queryText = 'test';
 const searchResults: UIProductSearchPage = { products: [{ code: '123' }] };
-const suggestions: SuggestionList = { suggestions: [{ value: 'test' }] };
+const suggestionList: SuggestionList = { suggestions: [{ value: 'test' }] };
 const mockSearchConfig: SearchConfig = {
   pageSize: 5,
 };
@@ -49,7 +45,6 @@ describe('OccProductSearchAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
@@ -57,6 +52,9 @@ describe('OccProductSearchAdapter', () => {
     endpoints = TestBed.get(OccEndpointsService);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -105,8 +103,8 @@ describe('OccProductSearchAdapter', () => {
     it('should return suggestions for given term', () => {
       service
         .loadSuggestions(queryText, mockSearchConfig.pageSize)
-        .subscribe(suggestionList => {
-          expect(suggestionList).toEqual(suggestions);
+        .subscribe(suggestions => {
+          expect(suggestions).toEqual(suggestionList.suggestions);
         });
 
       const mockReq = httpMock.expectOne(
@@ -119,15 +117,15 @@ describe('OccProductSearchAdapter', () => {
         term: queryText,
         max: mockSearchConfig.pageSize.toString(),
       });
-      mockReq.flush(suggestions);
+      mockReq.flush(suggestionList);
     });
 
     it('should call converter', () => {
       service.loadSuggestions(queryText, mockSearchConfig.pageSize).subscribe();
-      httpMock.expectOne('productSuggestionstest').flush(suggestions);
+      httpMock.expectOne('productSuggestionstest').flush(suggestionList);
 
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_SUGGESTIONS_LIST_NORMALIZER
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        PRODUCT_SUGGESTION_NORMALIZER
       );
     });
   });
