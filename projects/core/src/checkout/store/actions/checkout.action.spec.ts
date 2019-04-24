@@ -1,5 +1,5 @@
 import * as fromAction from '../actions/checkout.action';
-import { DeliveryModeList, Address, PaymentDetails, Order } from '../../../occ';
+import { Address, DeliveryMode, Order, PaymentDetails } from '../../../occ';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
@@ -22,9 +22,7 @@ const address: Address = {
   country: { isocode: 'CA' },
 };
 
-const modes: DeliveryModeList = {
-  deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-};
+const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
 describe('Checkout Actions', () => {
   describe('AddDeliveryAddress', () => {

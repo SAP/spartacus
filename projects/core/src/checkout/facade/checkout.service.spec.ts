@@ -62,9 +62,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get supported delivery modes', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
 
     let deliveryModes: DeliveryMode[];
@@ -79,9 +80,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
@@ -94,9 +96,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get the code of selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
