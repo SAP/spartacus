@@ -7,7 +7,7 @@ import {
   CartService,
   CmsMiniCartComponent,
   Component as SpaComponent,
-  TranslateUrlOptions,
+  TranslateUrlCommandRoute,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/index';
@@ -17,8 +17,8 @@ import { MiniCartComponent } from './mini-cart.component';
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path/' + options.route[0];
+  transform(options: TranslateUrlCommandRoute): string {
+    return options.route;
   }
 }
 
@@ -91,7 +91,7 @@ describe('MiniCartComponent', () => {
     it('should contain link to cart page', () => {
       const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
         .attributes.href.value;
-      expect(linkHref).toBe('/translated-path/cart');
+      expect(linkHref).toBe('/cart');
     });
 
     it('should contain number of items in cart', () => {
