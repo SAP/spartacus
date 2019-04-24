@@ -1,20 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import {
-  UrlTranslationModule,
-  StripHtmlModule,
-  ConfigModule,
   CmsConfig,
+  ConfigModule,
   I18nModule,
+  StripHtmlModule,
+  UrlTranslationModule,
 } from '@spartacus/core';
+import { AddToCartModule } from '../../../../cms-components/checkout/cart/index';
 import { BootstrapModule } from '../../../bootstrap.module';
-import { AddToCartModule } from '../../../cart/add-to-cart/add-to-cart.module';
 import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
 import { MediaModule } from '../../../ui/components/media/media.module';
 import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
-
 import { ProductListComponent } from './container/product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';

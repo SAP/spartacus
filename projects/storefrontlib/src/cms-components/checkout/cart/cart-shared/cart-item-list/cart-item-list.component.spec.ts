@@ -1,14 +1,12 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { CartService, I18nTestingModule } from '@spartacus/core';
-import { CartItemComponent } from '../../cart-shared/cart-item/cart-item.component';
-import { ComponentsModule } from '../../../ui/components/components.module';
-
+import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
+import { ComponentsModule } from '../../../../../lib/ui/components/components.module';
+import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
-import { Pipe, PipeTransform } from '@angular/core';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 
 class MockCartService {
   removeEntry() {}

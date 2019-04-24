@@ -1,9 +1,7 @@
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-
 import { CartService, PromotionResult } from '@spartacus/core';
-
-import { Item } from '../../cart-shared/cart-item/cart-item.component';
+import { Item } from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
