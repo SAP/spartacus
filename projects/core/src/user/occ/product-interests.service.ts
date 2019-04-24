@@ -6,7 +6,7 @@ import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable()
-export class MyInterestsService {
+export class ProductInterestsService {
   constructor(
     private http: HttpClient,
     private occEndpoints: OccEndpointsService,

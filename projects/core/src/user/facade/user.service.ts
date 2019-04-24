@@ -12,10 +12,10 @@ import {
   Title,
   User,
 } from '../../occ/occ-models/index';
-import {
-  ProductInterestList,
-  ProductInterestRelation,
-} from '../model/product-interest.model';
+// import {
+//   ProductInterestList,
+//   ProductInterestRelation,
+// } from '../model/product-interest.model';
 import * as fromProcessStore from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -28,6 +28,10 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
+import {
+  ProductInterestList,
+  ProductInterestRelation,
+} from '../model/product-interest.model';
 
 @Injectable()
 export class UserService {
@@ -560,7 +564,7 @@ export class UserService {
    * @param currentPage current page
    * @param sort sort
    */
-  loadInterestList(
+  loadProductInterests(
     userId: string,
     pageSize: number,
     currentPage?: number,
@@ -579,31 +583,39 @@ export class UserService {
   /**
    * Returns product interests list
    */
-  getProdutInterestsList(
+  getProdutInterests(
     userId: string,
     pageSize: number
   ): Observable<ProductInterestList> {
     return this.store.pipe(
-      select(fromStore.getProductInterestsState),
+      select(fromStore.getInterestsState),
       tap(interestListState => {
         const attemptedLoad =
           interestListState.loading ||
           interestListState.success ||
           interestListState.error;
         if (!attemptedLoad && !!userId) {
-          this.loadInterestList(userId, pageSize);
+          this.loadProductInterests(userId, pageSize);
         }
       }),
       map(interestListState => interestListState.value)
     );
   }
 
+  getProdutInterestsLoaded(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getInterestsLoaded));
+  }
+
   deleteProdutInterest(userId: string, item: ProductInterestRelation): void {
     this.store.dispatch(
-      new fromStore.DeleteProductInterest({
+      new fromStore.DeleteProductInterests({
         userId: userId,
-        item,
+        item: item,
       })
     );
+  }
+
+  clearProductInterests(): void {
+    this.store.dispatch(new fromStore.ClearProductInterests());
   }
 }

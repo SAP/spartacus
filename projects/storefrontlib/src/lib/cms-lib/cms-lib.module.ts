@@ -57,4 +57,4 @@ import { MyInterestsModule } from '../my-account/my-interests/my-interests.modul
     MyInterestsModule,
   ],
 })
-export class CmsLibModule { }
+export class CmsLibModule {}

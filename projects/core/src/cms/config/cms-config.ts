@@ -45,7 +45,7 @@ export interface CmsComponentMapping {
 
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
-  JspIncludeCmsComponentConfig {
+    JspIncludeCmsComponentConfig {
   [_: string]: CmsComponentMapping;
 }
 

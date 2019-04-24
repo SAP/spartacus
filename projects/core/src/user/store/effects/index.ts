@@ -12,7 +12,7 @@ import { UserAddressesEffects } from './user-addresses.effect';
 import { UserDetailsEffects } from './user-details.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserRegisterEffects } from './user-register.effect';
-import { ProductInterestEffect } from './product-interests.effect';
+import { ProductInterestsEffect } from './product-interests.effect';
 
 export const effects: any[] = [
   DeliveryCountriesEffects,
@@ -29,7 +29,7 @@ export const effects: any[] = [
   ForgotPasswordEffects,
   UpdateEmailEffects,
   UpdatePasswordEffects,
-  ProductInterestEffect,
+  ProductInterestsEffect,
 ];
 
 export * from './billing-countries.effect';

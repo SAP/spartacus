@@ -30,7 +30,7 @@ import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
-import * as fromProductInterestsReducer from './product-interests.reducer';
+import * as fromInterestsReducer from './product-interests.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -55,9 +55,9 @@ export function getReducers(): ActionReducerMap<UserState> {
     titles: fromTitlesReducer.reducer,
     regions: fromRegionsReducer.reducer,
     resetPassword: fromResetPasswordReducer.reducer,
-    productInterest: loaderReducer<ProductInterestList>(
+    productInterests: loaderReducer<ProductInterestList>(
       PRODUCT_INTERESTS,
-      fromProductInterestsReducer.reducer
+      fromInterestsReducer.reducer
     ),
   };
 }

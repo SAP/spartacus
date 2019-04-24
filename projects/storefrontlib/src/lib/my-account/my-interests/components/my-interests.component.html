@@ -114,10 +114,9 @@
             </tr>
           </tbody>
         </table>
-
       </ng-container>
       <ng-template #noInterest>
-        <div class="cx-order-history-no-order row">
+        <div class="cx-order-history-no-order row" *ngIf="(loaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>You Have No Interests Yet</div>
           </div>

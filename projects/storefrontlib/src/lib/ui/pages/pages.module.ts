@@ -150,4 +150,4 @@ const pageModules = [
     },
   ],
 })
-export class PagesModule { }
+export class PagesModule {}
