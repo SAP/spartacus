@@ -14,11 +14,11 @@ import {
   UserService,
   UserToken,
   AuthService,
+  TranslationService,
 } from '@spartacus/core';
 
 import { Observable, Subscription } from 'rxjs';
-
-import i18next from 'i18next';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-close-account-modal',
@@ -36,7 +36,8 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private authService: AuthService,
     private globalMessageService: GlobalMessageService,
-    private routingService: RoutingService
+    private routingService: RoutingService,
+    private translationService: TranslationService
   ) {}
 
   ngOnInit() {
@@ -53,11 +54,16 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   onSuccess(success: boolean): void {
     if (success) {
       this.closeModal();
-      this.globalMessageService.add({
-        text: `${i18next.t('closeAccount:closeAccount.message.success')}`,
-        type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
-      });
-      this.routingService.go({ route: ['home'] });
+      this.translationService
+        .translate('closeAccount.message.success')
+        .pipe(first())
+        .subscribe(text => {
+          this.globalMessageService.add({
+            text,
+            type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
+          });
+        });
+      this.routingService.go({ route: 'home' });
     }
   }
 

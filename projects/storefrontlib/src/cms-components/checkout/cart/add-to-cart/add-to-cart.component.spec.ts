@@ -1,18 +1,16 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
-import { of, Observable } from 'rxjs';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
+  Cart,
   CartDataService,
   CartService,
   I18nTestingModule,
+  OrderEntry,
 } from '@spartacus/core';
-import { SpinnerModule } from './../../ui/components/spinner/spinner.module';
-
+import { Observable, of } from 'rxjs';
+import { SpinnerModule } from '../../../../lib/ui/components/spinner/spinner.module';
 import { AddToCartComponent } from './add-to-cart.component';
 import { UICart, UIOrderEntry } from '@spartacus/core';
 

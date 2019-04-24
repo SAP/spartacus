@@ -3,7 +3,7 @@
     <div class="cart-totals-wrapper">
       <cx-order-summary [cart]="cart"></cx-order-summary>
       <button
-        [routerLink]="{ route: ['checkout'] } | cxTranslateUrl"
+        [routerLink]="{ route: 'checkout' } | cxTranslateUrl"
         *ngIf="entries.length"
         class="btn btn-primary btn-block"
         type="button"
