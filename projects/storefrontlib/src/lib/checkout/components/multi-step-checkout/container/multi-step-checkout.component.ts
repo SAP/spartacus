@@ -15,7 +15,7 @@ import {
   CartDataService,
   PaymentDetails,
   Address,
-  Cart,
+  UICart,
 } from '@spartacus/core';
 
 import { Subscription, Observable } from 'rxjs';
@@ -38,7 +38,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   shippingMethod: string;
   subscriptions: Subscription[] = [];
 
-  cart$: Observable<Cart>;
+  cart$: Observable<UICart>;
   tAndCToggler = false;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();

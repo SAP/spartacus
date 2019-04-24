@@ -10,6 +10,7 @@ import { CartDataService } from '../../facade/cart-data.service';
 import { Cart } from '../../../occ/occ-models/occ.models';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { ConverterService } from '../../../util/converter.service';
+import { UICart } from '../../model/cart';
 
 @Injectable()
 export class CartEffects {
@@ -45,15 +46,7 @@ export class CartEffects {
           loadCartParams.details
         )
         .pipe(
-          map((cart: Cart) => {
-            if (cart && cart.entries) {
-              for (const entry of cart.entries) {
-                entry.product = this.converter.convert(
-                  entry.product,
-                  PRODUCT_NORMALIZER
-                ) as any;
-              }
-            }
+          map((cart: UICart) => {
             return new fromActions.LoadCartSuccess(cart);
           }),
           catchError(error => of(new fromActions.LoadCartFail(error)))

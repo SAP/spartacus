@@ -10,6 +10,8 @@ import { CartEntryAdapter } from '../connectors/entry/cart-entry.adapter';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 import { CartPaymentAdapter } from '../connectors/payment/cart-payment.adapter';
 import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
+import { CART_NORMALIZER } from '../connectors/cart/converters';
+import { OccCartNormalizer } from './converters/occ-cart-normalizer';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule, OccModule],
@@ -17,6 +19,11 @@ import { OccCartPaymentAdapter } from './occ-cart-payment.adapter';
     {
       provide: CartAdapter,
       useClass: OccCartAdapter,
+    },
+    {
+      provide: CART_NORMALIZER,
+      useClass: OccCartNormalizer,
+      multi: true,
     },
     {
       provide: CartDeliveryAdapter,
