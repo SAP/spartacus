@@ -31,7 +31,7 @@ import { OccProductSearchPageNormalizer } from './converters/occ-product-search-
     },
     {
       provide: PRODUCT_NORMALIZER,
-      useExisting: ProductImageNormalizer,
+      useClass: ProductImageNormalizer,
       multi: true,
     },
     {
