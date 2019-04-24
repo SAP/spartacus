@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartComponentModule } from '../../cms-components/checkout';
+import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CloseAccountModule } from '../my-account/close-account/close-account.module';
