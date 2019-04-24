@@ -195,6 +195,13 @@ export class OccUserService {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
+  removeUser(userId: string): Observable<{}> {
+    const url = this.getUserEndpoint() + userId;
+    return this.http
+      .delete<User>(url)
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
   updateEmail(
     userId: string,
     currentPassword: string,
