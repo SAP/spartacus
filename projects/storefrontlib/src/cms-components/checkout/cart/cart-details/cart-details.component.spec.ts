@@ -1,19 +1,17 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 import {
+  Cart,
   CartDataService,
   CartService,
-  Cart,
-  PromotionResult,
   I18nTestingModule,
+  PromotionResult,
 } from '@spartacus/core';
-
-import { CartDetailsComponent } from './cart-details.component';
-import { Component, Input } from '@angular/core';
-
 import { Observable } from 'rxjs';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
+import { Item } from '../cart-shared/cart-item/cart-item.component';
+import { CartDetailsComponent } from './cart-details.component';
 
 class MockCartService {
   removeEntry(): void {}

@@ -1,16 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
-
 import {
-  UrlTranslationModule,
-  ConfigModule,
   CmsConfig,
+  ConfigModule,
   I18nModule,
+  UrlTranslationModule,
 } from '@spartacus/core';
+import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
 
 @NgModule({
   imports: [
