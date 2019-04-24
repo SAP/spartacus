@@ -26,7 +26,7 @@ import { delay } from 'rxjs/operators';
 })
 class MockSpinnerComponent {}
 
-fdescribe('NotificationPreferenceComponent', () => {
+describe('NotificationPreferenceComponent', () => {
   let component: NotificationPreferenceComponent;
   let fixture: ComponentFixture<NotificationPreferenceComponent>;
   let initialNotificationPreferenceList: BasicNotificationPreferenceList = {
