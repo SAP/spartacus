@@ -12,6 +12,7 @@ class MockCmsService {
     return of();
   }
   refreshLatestPage() {}
+  refreshPageById() {}
   refreshComponent() {}
 }
 class MockRoutingService {
@@ -198,7 +199,13 @@ describe('SmartEditService', () => {
   });
 
   describe('should render cms components', () => {
-    it('should render a slot', () => {
+    it('should render a slot (refresh page by Id)', () => {
+      spyOn(cmsService, 'refreshPageById').and.stub();
+      service['_currentPageId'] = 'testPageId';
+      service['renderComponent']('test-slot');
+      expect(cmsService.refreshPageById).toHaveBeenCalledWith('testPageId');
+    });
+    it('should render a slot (refresh latest page)', () => {
       spyOn(cmsService, 'refreshLatestPage').and.stub();
       service['renderComponent']('test-slot');
       expect(cmsService.refreshLatestPage).toHaveBeenCalled();

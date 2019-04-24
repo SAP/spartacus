@@ -135,6 +135,23 @@ describe('OccCmsPageAdapter', () => {
       testRequest.flush(cmsPageData);
     });
 
+    it('should get cms page data by pageId if PageType is unknow', () => {
+      const context: PageContext = {
+        id: '123',
+      };
+      service.load(context).subscribe(result => {
+        expect(result).toEqual(cmsPageData);
+      });
+
+      const testRequest = httpMock.expectOne(req => {
+        return req.method === 'GET' && req.url === endpoint + '/pages/123';
+      });
+
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(cmsPageData);
+    });
+
     it('should use normalizer', () => {
       const context: PageContext = {
         id: '123',
