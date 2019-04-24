@@ -1,7 +1,7 @@
 <ng-container *ngIf="(interests$ | async) as interests">
   <div class="container">
     <div class="cx-order-history-header">
-      <h3>My Interests</h3>
+      <h3>{{ 'myInterests.header' | cxTranslate }}</h3>
     </div>
     <div class="cx-order-history-body">
       <ng-container
@@ -9,10 +9,16 @@
       >
         <table class="table cx-order-history-table">
           <thead class="cx-order-history-thead-mobile">
-            <th scope="col" style="text-align: left">ITEM</th>
+            <th scope="col" style="text-align: left">
+              {{ 'myInterests.item' | cxTranslate }}
+            </th>
             <th scope="col" style="text-align: left"></th>
-            <th scope="col" style="text-align: left">PRICE</th>
-            <th scope="col" style="text-align: left">SUBSCRIPTIONS</th>
+            <th scope="col" style="text-align: left">
+              {{ 'myInterests.price' | cxTranslate }}
+            </th>
+            <th scope="col" style="text-align: left">
+              {{ 'myInterests.subcriptions' | cxTranslate }}
+            </th>
             <th scope="col" style="text-align: left"></th>
           </thead>
           <tbody>
@@ -68,13 +74,13 @@
                         [ngSwitch]="result.product.stock.stockLevelStatus"
                       >
                         <div class="cx-label" *ngSwitchCase="'inStock'">
-                          In Stock
+                          {{ 'myInterests.inStock' | cxTranslate }}
                         </div>
                         <div class="cx-label" *ngSwitchCase="'lowStock'">
-                          Low Stock
+                          {{ 'myInterests.lowStock' | cxTranslate }}
                         </div>
                         <div class="cx-label" *ngSwitchDefault>
-                          Out of Stock
+                          {{ 'myInterests.outOfStock' | cxTranslate }}
                         </div>
                       </div>
                     </div>
@@ -118,7 +124,7 @@
       <ng-template #noInterest>
         <div class="cx-order-history-no-order row" *ngIf="(loaded$ | async)">
           <div class="col-sm-12 col-md-6 col-lg-4">
-            <div>You Have No Interests Yet</div>
+            <div>{{ 'myInterests.noInterests' | cxTranslate }}</div>
           </div>
         </div>
       </ng-template>

@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { MyInterestsComponent } from './components/my-interests.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { BootstrapModule } from '../../bootstrap.module';
 import { PaginationAndSortingModule } from '../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { MediaModule } from '../../ui/components/media/media.module';
 
@@ -28,9 +25,6 @@ import {
       },
     }),
     RouterModule,
-    FormsModule,
-    NgSelectModule,
-    BootstrapModule,
     PaginationAndSortingModule,
     UrlTranslationModule,
     I18nModule,

@@ -16,4 +16,14 @@ export const myAccount = {
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
   },
+  myInterests: {
+    header: 'My Interests',
+    item: 'ITEM',
+    price: 'PRICE',
+    subcriptions: 'SUBSCRIPTIONS',
+    noInterests: 'You Have No Interests Yet',
+    inStock: 'In Stock',
+    lowStock: 'Low Stock',
+    outOfStock: 'Out of Stock',
+  },
 };
