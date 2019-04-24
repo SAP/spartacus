@@ -52,7 +52,9 @@ describe('ConfigurableRoutesService', () => {
     loader = TestBed.get(RoutesConfigLoader);
 
     router.config = [];
-    spyOn(UrlMatcherFactory, 'getPathsUrlMatcher').and.callFake(paths => paths);
+    spyOn(UrlMatcherFactory, 'getMultiplePathsUrlMatcher').and.callFake(
+      paths => paths
+    );
     spyOn(UrlMatcherFactory, 'getFalsyUrlMatcher').and.returnValue(false);
   });
 
@@ -103,20 +105,26 @@ describe('ConfigurableRoutesService', () => {
       ]);
     });
 
-    it('should generate routes matching configured paths', async () => {
-      router.config = [
-        { path: null, data: { cxPath: 'page1' } },
-        { path: null, data: { cxPath: 'page2' } },
-      ];
+    it('should generate route matching configured path', async () => {
+      router.config = [{ path: null, data: { cxPath: 'page1' } }];
       loader.routesConfig.translations = {
         en: {
           page1: { paths: ['path1'] },
-          page2: { paths: ['path2', 'path200'] },
         },
       };
       await service.init();
-      expect(router.config[0].matcher).toEqual(['path1']);
-      expect(router.config[1].matcher).toEqual(['path2', 'path200']);
+      expect(router.config[0].path).toEqual('path1');
+    });
+
+    it('should generate route matching configured multiple paths', async () => {
+      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      loader.routesConfig.translations = {
+        en: {
+          page1: { paths: ['path1', 'path100'] },
+        },
+      };
+      await service.init();
+      expect(router.config[0].matcher).toEqual(['path1', 'path100']);
     });
 
     it('should translate "redirectTo" of configurable routes', async () => {

@@ -124,10 +124,25 @@ export class ConfigurableRoutesService {
     routesTranslations: RoutesTranslations
   ): Route {
     const paths = this.getTranslatedPaths(route, 'cxPath', routesTranslations);
-    const matcher = paths.length
-      ? UrlMatcherFactory.getPathsUrlMatcher(paths)
-      : UrlMatcherFactory.getFalsyUrlMatcher(); // if there are no configured paths for this route, never match this route
-    return { ...route, matcher };
+    switch (paths.length) {
+      case 0:
+        delete route.path;
+        return {
+          ...route,
+          matcher: UrlMatcherFactory.getFalsyUrlMatcher(),
+        };
+
+      case 1:
+        delete route.matcher;
+        return { ...route, path: paths[0] };
+
+      default:
+        delete route.path;
+        return {
+          ...route,
+          matcher: UrlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+        };
+    }
   }
 
   private translateRouteRedirectTo(
