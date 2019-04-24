@@ -20,6 +20,8 @@ Configured router links can be automatically generated in HTML templates using `
   - [Transform the name of the route and the params object](#transform-the-name-of-the-route-and-the-params-object)
     - [The route with parameters](#the-route-with-parameters)
 - [Links to nested routes](#links-to-nested-routes)
+  - [Relative links](#relative-links)
+  - [Relative links up](#relative-links-up)
 - [Parameters mapping](#parameters-mapping)
   - [Predefined parameters mapping](#predefined-parameters-mapping)
     - [Define parameters mapping under key: default](#define-parameters-mapping-under-key-default)
@@ -30,12 +32,8 @@ Configured router links can be automatically generated in HTML templates using `
 
 ## Assumptions and limitations
 
-- the output path is always absolute (the path array contains the leading `''`)
+- the output path is absolute (the path array contains the leading `''`), unless option `relative: true` is set
 - the route that cannot be resolved from *a route's name and params* will return the root URL `['/']`
-- the route that cannot be resolved from the supposed *path having the default shape* will return the original URL
-- a *routes' names and params* are given in an array in order to support [Links to nested routes](#links-to-nested-routes) (planned API optimisation for non-nested routes: [#706](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/706))
-- the relative *path having the default shape* is treated as absolute
-
 
 ## Prerequisites
 
@@ -52,7 +50,7 @@ Import `UrlTranslatorModule` in every module that uses configurable router links
 Example:
 
 ```html
-<a [routerLink]="{ route: [ { name: 'cart' } ] } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'cart' } | cxTranslateUrl"></a>
 ```
 
 when config is:
@@ -80,7 +78,7 @@ result in:
 When the route needs parameters, the object with route's `name` and `params` can be passed instead of just simple string. For example:
 
 ```html
-<a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
 ```
 
 where config is:
@@ -114,12 +112,10 @@ const routes: Routes = [
         children: [
             {
                 data: { cxPath: 'child' }, // route name
-                children: [
-                    {
-                        data: { cxPath: 'grandChild' }, // route name
-                        /* ... */ 
-                    }
-                ],
+                /* ... */
+            },
+            {
+                data: { cxPath: 'otherChild' }, // route name
                 /* ... */
             }
         ],
@@ -128,7 +124,7 @@ const routes: Routes = [
 ];
 ```
 
-then config should contain **objects** with `children` routes translations:
+then config should be:
 
 ```typescript
 ConfigModule.withConfig({
@@ -137,38 +133,80 @@ ConfigModule.withConfig({
             en: {
                 parent: { // route name
                     paths: ['parent-path/:param1'],
-                    children: {
-                        child: { // route name
-                            paths: ['child-path/:param2'],
-                            children: {
-                                grandChild: { // route name
-                                    paths: ['grand-child-path/:param3']
-                                }
-                            }
-                        },
-                    }
                 },
+                child: { // route name
+                    paths: ['child-path/:param2'],
+                }
+                otherChild: { // route name
+                    paths: ['other-child-path'],
+                }
             }
         }
     }
 })
 ```
 
-In order to translate the path of grand child's route, `{ route: <route> }` needs an array of all nested routes from the root to the grand child's route. For example:
+In order to translate the path of parent and child route we need to pass them in an array. For example:
 
 ```html
-<a [routerLink]="{ route: [ 
-    { name: 'parent',     params: { param1: 'value1' } }, 
-    { name: 'child',      params: { param2: 'value2' } },
-    { name: 'grandChild', params: { param3: 'value3' } }
-} | cxTranslateUrl">
-</a>
+<a [routerLink]="[
+    { route: 'parent', params: { param1: 'value1' },
+    { route: 'child',  params: { param2: 'value2' }
+] | cxTranslateUrl,
+)"></a>
 ```
 
 result:
 
 ```html
-<a [routerLink]="['', 'parent-path', 'value1', 'child-path', 'value2', 'grand-child-path', 'value3']"></a>
+<a [routerLink]="['', 'parent-path', 'value1', 'child-path', 'value2']"></a>
+```
+
+
+### Relative links
+
+If you are already in the context of the activated parent route, you may want to only generate a relative link to the child route. Then you need to pass only the child route and the `relative: true` flag to the pipe. For example:
+
+```html
+<a [routerLink]="{ route: 'child',  params: { param2: 'value2' } | cxTranslateUrl : { relative: true },
+)"></a>
+```
+
+result:
+
+```html
+<a [routerLink]="['child-path', 'value2']"></a>
+```
+
+### Relative links up
+
+If you want to go i.e. one one level up in the routes tree, you can pass i.e. `../` to the array. For example:
+
+```html
+<a [routerLink]="[ '../', { route: 'otherChild' } ] | cxTranslateUrl : { relative: true },
+)"></a>
+```
+
+result:
+
+```html
+<a [routerLink]="['../', 'child-path', 'value2']"></a>
+```
+
+**NOTE:** *Every element that is **not an object with `route` property** won't be translated. So for example:*
+
+```html
+<a [routerLink]="[
+    { route: 'parent', params: { param1: 'value1' } },
+    'SOMETHING'
+] | cxTranslateUrl,
+)"></a>
+```
+
+*will result in:*
+
+```html
+<a [routerLink]="['', 'parent-path', 'value1', 'SOMETHING']"></a>
 ```
 
 
@@ -179,7 +217,7 @@ When properties of given `params` object do not match exactly to names of route 
 The `params` object below does not contain necessary property `productCode`, but it has `id`:
 
 ```html
-<a [routerLink]="{ route: [ { name: 'product', params: { id: 1234 } ] | cxTranslateUrl"></a>
+<a [routerLink]="{ route: 'product', params: { id: 1234 } } | cxTranslateUrl"></a>
 ```
 
 Then `paramsMapping` needs to be configured:
@@ -242,7 +280,7 @@ Not to repeat `paramsMapping` for all languages, it's recommended to configure t
 
 ### Navigation to the translated path
 
-The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path. For example:
+The `RoutingService.go` method called with `{ route: <route> }` navigates to the translated path - similar like `routerLink` with `cxTranslateUrl` pipe in the HTML template. For example:
 
 When config is:
 
@@ -258,22 +296,10 @@ ConfigModule.withConfig({
 })
 ```
 
-1. With `{ route: <route> }`:
-
-    ```typescript
-    routingService.go({ route: [ { name: 'product', params: { productCode: 1234 } } ] });
-
-    // router navigates to ['', 'p', 1234]
-    ```
-
-**`RoutingService.go` called with an array**
-
-When `RoutingService.go` method is **called with an array**, then **no translation happens**. It just navigates to the path given in the array:
-
 ```typescript
-routingService.go(['product', 1234]);
+routingService.go({ route: 'product', params: { productCode: 1234 } });
 
-// router navigates to ['product', 1234]
+// router navigates to ['', 'p', 1234]
 ```
 
 ### Simply translation of the path
@@ -294,10 +320,8 @@ ConfigModule.withConfig({
 })
 ```
 
-1. With `{ route: <route> }`:
+```typescript
+urlTranslatorService.translate({ route: 'product', params: { productCode: 1234 } });
 
-    ```typescript
-    urlTranslatorService.translate({ route: [ { name: 'product', params: { productCode: 1234 } } ] });
-
-    // ['', 'p', 1234]
-    ```
+// ['', 'p', 1234]
+```

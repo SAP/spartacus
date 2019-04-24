@@ -1,6 +1,6 @@
 import { CheckoutStepsState } from '../checkout-state';
 import * as fromAction from './../actions/index';
-import { Address, Order, DeliveryMode } from '../../../occ/occ-models/index';
+import { Address, DeliveryMode, Order } from '../../../occ/occ-models/index';
 
 export const initialState: CheckoutStepsState = {
   address: {},
@@ -28,7 +28,7 @@ export function reducer(
     }
 
     case fromAction.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS: {
-      const supportedModes = action.payload.deliveryModes;
+      const supportedModes = action.payload;
       if (!supportedModes) {
         return state;
       }
