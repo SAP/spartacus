@@ -78,6 +78,32 @@ describe('ConverterService', () => {
     });
   });
 
+  describe('pipeableMany', () => {
+    it('should convert when converters are available', () => {
+      const sources = [{ test: 'test' }, { test: 'test2' }];
+      let target;
+
+      of(sources)
+        .pipe(service.pipeableMany(TestConverterInjectionToken))
+        .subscribe(result => (target = result));
+
+      expect(target).toEqual([
+        { test: 'test', source: { test: 'test' } },
+        { test: 'test2', source: { test: 'test2' } },
+      ]);
+    });
+    it('should pass data if when converters are not provided', () => {
+      const sources = [{ test: 'test' }, { test: 'test2' }];
+      let target;
+
+      of(sources)
+        .pipe(service.pipeable(NotProvidedConverterInjectionToken))
+        .subscribe(result => (target = result));
+
+      expect(target).toBe(sources);
+    });
+  });
+
   describe('convert', () => {
     it('should convert when converters are available', () => {
       const source = { test: 'test' };
@@ -92,6 +118,26 @@ describe('ConverterService', () => {
         NotProvidedConverterInjectionToken
       );
       expect(target).toBe(source);
+    });
+  });
+
+  describe('convertMany', () => {
+    it('should convert when converters are available', () => {
+      const sources = [{ test: 'test' }, { test: 'test2' }];
+      const target = service.convertMany(sources, TestConverterInjectionToken);
+      expect(target).toEqual([
+        { test: 'test', source: { test: 'test' } },
+        { test: 'test2', source: { test: 'test2' } },
+      ]);
+    });
+
+    it('should pass data if when converters are not provided', () => {
+      const sources = [{ test: 'test' }, { test: 'test2' }];
+      const target = service.convertMany(
+        sources,
+        NotProvidedConverterInjectionToken
+      );
+      expect(target).toBe(sources);
     });
   });
 });

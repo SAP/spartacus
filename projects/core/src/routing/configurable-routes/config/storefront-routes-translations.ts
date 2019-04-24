@@ -24,15 +24,7 @@ export interface StorefrontRoutesTranslations {
   product?: StorefrontRouteTranslation;
   category?: StorefrontRouteTranslation;
   brand?: StorefrontRouteTranslation;
-  storeFinder?: {
-    paths?: string[];
-    children?: {
-      searchResults?: StorefrontRouteTranslation;
-      allStores?: StorefrontRouteTranslation;
-      listStores?: StorefrontRouteTranslation;
-      storeDescription?: StorefrontRouteTranslation;
-    };
-  };
+  storeFinder?: StorefrontRouteTranslation;
   termsAndConditions?: StorefrontRouteTranslation;
   contact?: StorefrontRouteTranslation;
   help?: StorefrontRouteTranslation;
@@ -44,5 +36,6 @@ export interface StorefrontRoutesTranslations {
   paymentManagement?: StorefrontRouteTranslation;
   updateEmail?: StorefrontRouteTranslation;
   updateProfile?: StorefrontRouteTranslation;
+  closeAccount?: StorefrontRouteTranslation;
   notificationPreference?: StorefrontRouteTranslation;
 }

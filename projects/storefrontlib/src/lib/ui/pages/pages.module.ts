@@ -128,6 +128,12 @@ const pageModules = [
         path: null,
         component: PageLayoutComponent,
         canActivate: [AuthGuard, CmsPageGuard],
+        data: { pageLabel: 'close-account', cxPath: 'closeAccount' },
+      },
+      {
+        path: null,
+        component: PageLayoutComponent,
+        canActivate: [AuthGuard, CmsPageGuard],
         data: {
           pageLabel: 'notification-preference',
           cxPath: 'notificationPreference',
