@@ -35,12 +35,10 @@ export class DeliveryModeSetGuard implements CanActivate {
     }
 
     return this.checkoutDetailsService
-      .getSelectedDeliveryMode()
+      .getSelectedDeliveryModeCode()
       .pipe(
-        map((mode: DeliveryMode) =>
-          !!(mode && Object.keys(mode).length)
-            ? true
-            : this.router.parseUrl(route && route.url)
+        map((mode: string) =>
+          mode.length ? true : this.router.parseUrl(route && route.url)
         )
       );
   }

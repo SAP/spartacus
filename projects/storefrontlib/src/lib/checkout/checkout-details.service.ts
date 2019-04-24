@@ -54,12 +54,6 @@ export class CheckoutDetailsService {
     );
   }
 
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutService.getSelectedDeliveryMode())
-    );
-  }
-
   getSelectedDeliveryModeCode(): Observable<string> {
     return this.getCheckoutDetailsLoaded$.pipe(
       switchMap(() => this.checkoutService.getSelectedDeliveryModeCode())

@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, Observable } from 'rxjs';
 import { UrlTree } from '@angular/router';
 
-import { DeliveryMode, ServerConfig } from '@spartacus/core';
+import { ServerConfig } from '@spartacus/core';
 import { DeliveryModeSetGuard } from './delivery-mode-set.guard';
 import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStepType } from '../config/default-checkout-config';
@@ -22,12 +22,10 @@ const MockCheckoutConfig: CheckoutConfig = {
   },
 };
 
-const mockDeliveryMode: DeliveryMode = {
-  name: 'test mode name',
-};
+const mockDeliveryModeCode = 'test mode code';
 
 class MockCheckoutDetailsService {
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryModeCode(): Observable<string> {
     return of();
   }
 }
@@ -61,7 +59,7 @@ describe(`DeliveryModeSetGuard`, () => {
   it('should redirect to deliveryMode page when no modes selected', done => {
     spyOn(
       mockCheckoutDetailsService,
-      'getSelectedDeliveryMode'
+      'getSelectedDeliveryModeCode'
     ).and.returnValue(of(null));
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
@@ -75,8 +73,8 @@ describe(`DeliveryModeSetGuard`, () => {
   it('should redirect to default page if there is no deliveryMode step', done => {
     spyOn(
       mockCheckoutDetailsService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of([]));
+      'getSelectedDeliveryModeCode'
+    ).and.returnValue(of(''));
     spyOn(console, 'warn');
     mockCheckoutConfig.checkout.steps = [];
 
@@ -92,8 +90,8 @@ describe(`DeliveryModeSetGuard`, () => {
   it('should not redirect to deliveryMode page when mode is selected', done => {
     spyOn(
       mockCheckoutDetailsService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of(mockDeliveryMode));
+      'getSelectedDeliveryModeCode'
+    ).and.returnValue(of(mockDeliveryModeCode));
 
     guard.canActivate().subscribe((result: boolean | UrlTree) => {
       expect(result).toEqual(true);
