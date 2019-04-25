@@ -1,30 +1,34 @@
 import { MemoizedSelector, createSelector } from '@ngrx/store';
 
-import { CheckoutState, CardTypesState } from '../checkout-state';
+import {
+  CheckoutState,
+  CardTypesState,
+  StateWithCheckout,
+} from '../checkout-state';
 import * as fromReducer from './../reducers/card-types.reducer';
-import * as fromFeature from './../reducers/index';
 import { CardType } from '../../../occ/occ-models/index';
+import { getCheckoutState } from './checkout.selectors';
 
 export const getCardTypesState: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   CardTypesState
-> = createSelector(
-  fromFeature.getCheckoutState,
+  > = createSelector(
+  getCheckoutState,
   (state: CheckoutState) => state.cardTypes
 );
 
 export const getCardTypesEntites: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   { [code: string]: CardType }
-> = createSelector(
+  > = createSelector(
   getCardTypesState,
   fromReducer.getCardTypesEntites
 );
 
 export const getAllCardTypes: MemoizedSelector<
-  CheckoutState,
+  StateWithCheckout,
   CardType[]
-> = createSelector(
+  > = createSelector(
   getCardTypesEntites,
   entites => {
     return Object.keys(entites).map(code => entites[code]);

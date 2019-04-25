@@ -20,7 +20,7 @@ import * as fromSelector from '../../checkout/store/selectors/index';
 @Injectable()
 export class CheckoutService {
   constructor(
-    private checkoutStore: Store<fromCheckoutStore.CheckoutState>,
+    private checkoutStore: Store<fromCheckoutStore.StateWithCheckout>,
     private cartData: CartDataService
   ) {}
 
