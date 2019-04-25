@@ -7,8 +7,7 @@ import createSpy = jasmine.createSpy;
 import {
   CartService,
   UserService,
-  Cart,
-  OrderEntry,
+  UICart,
   CheckoutService,
   PaymentDetails,
   Address,
@@ -16,12 +15,13 @@ import {
   DeliveryMode,
   Country,
   I18nTestingModule,
+  UIOrderEntry,
 } from '@spartacus/core';
 import { Item } from '../../../../../cms-components/checkout/cart/index';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 
-const mockCart: Cart = {
+const mockCart: UICart = {
   guid: 'test',
   code: 'test',
   deliveryItemsQuantity: 123,
@@ -60,7 +60,7 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
+const mockEntries: UIOrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -105,10 +105,10 @@ class MockUserService {
 }
 
 class MockCartService {
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return of(mockCart);
   }
-  getEntries(): Observable<OrderEntry[]> {
+  getEntries(): Observable<UIOrderEntry[]> {
     return of(mockEntries);
   }
 }
@@ -152,8 +152,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let cart: Cart;
-    component.cart$.subscribe((data: Cart) => {
+    let cart: UICart;
+    component.cart$.subscribe((data: UICart) => {
       cart = data;
     });
 
@@ -164,8 +164,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let entries: OrderEntry[];
-    component.entries$.subscribe((data: OrderEntry[]) => {
+    let entries: UIOrderEntry[];
+    component.entries$.subscribe((data: UIOrderEntry[]) => {
       entries = data;
     });
 
