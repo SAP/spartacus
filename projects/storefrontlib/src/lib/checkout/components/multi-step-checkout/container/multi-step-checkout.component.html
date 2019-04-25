@@ -28,10 +28,7 @@
 
       <div class="cx-media">
         <div class="cx-list-media">
-          {{
-            'cartItems.label.cartTotal'
-              | cxTranslate: { count: cart.totalItems }
-          }}:
+          {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
           {{ cart.subTotal?.formattedValue }}
         </div>
 
@@ -47,7 +44,7 @@
               class="btn btn-link"
               (click)="setStep(nav.id)"
             >
-              {{ 'common.action.edit' | cxTranslate }}
+              {{ 'common.edit' | cxTranslate }}
             </button>
           </div>
 
@@ -82,7 +79,7 @@
         <cx-place-order></cx-place-order>
 
         <button class="btn btn-action btn-block" (click)="setStep(3)">
-          {{ 'common.action.back' | cxTranslate }}
+          {{ 'common.back' | cxTranslate }}
         </button>
       </div>
     </div>

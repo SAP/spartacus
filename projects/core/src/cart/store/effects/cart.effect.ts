@@ -7,8 +7,8 @@ import { ProductImageNormalizer } from '../../../product/index';
 import { CURRENCY_CHANGE, LANGUAGE_CHANGE } from '../../../site-context/index';
 import * as fromActions from './../actions/cart.action';
 import { CartDataService } from '../../facade/cart-data.service';
-import { OccCartService } from '../../occ/cart.service';
 import { Cart } from '../../../occ/occ-models/occ.models';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 
 @Injectable()
 export class CartEffects {
@@ -37,8 +37,8 @@ export class CartEffects {
         return of(new fromActions.LoadCartFail({}));
       }
 
-      return this.occCartService
-        .loadCart(
+      return this.cartConnector
+        .load(
           loadCartParams.userId,
           loadCartParams.cartId,
           loadCartParams.details
@@ -66,8 +66,8 @@ export class CartEffects {
     ofType(fromActions.CREATE_CART),
     map((action: fromActions.CreateCart) => action.payload),
     mergeMap(payload => {
-      return this.occCartService
-        .createCart(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
+      return this.cartConnector
+        .create(payload.userId, payload.oldCartId, payload.toMergeCartGuid)
         .pipe(
           switchMap((cart: Cart) => {
             if (cart.entries) {
@@ -93,7 +93,7 @@ export class CartEffects {
     ofType(fromActions.MERGE_CART),
     map((action: fromActions.MergeCart) => action.payload),
     mergeMap(payload => {
-      return this.occCartService.loadCart(payload.userId, 'current').pipe(
+      return this.cartConnector.load(payload.userId, 'current').pipe(
         map(currentCart => {
           return new fromActions.CreateCart({
             userId: payload.userId,
@@ -108,7 +108,7 @@ export class CartEffects {
   constructor(
     private actions$: Actions,
     private productImageConverter: ProductImageNormalizer,
-    private occCartService: OccCartService,
+    private cartConnector: CartConnector,
     private cartData: CartDataService
   ) {}
 

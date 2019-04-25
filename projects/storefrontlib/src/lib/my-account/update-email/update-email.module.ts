@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CmsConfig, ConfigModule } from '@spartacus/core';
+
+import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
 import { UpdateEmailFormComponent } from './update-email-form/update-email-form.component';
 import { UpdateEmailComponent } from './update-email.component';
@@ -19,6 +20,7 @@ import { UpdateEmailComponent } from './update-email.component';
     FormsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    I18nModule,
   ],
   declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
   exports: [UpdateEmailComponent],
