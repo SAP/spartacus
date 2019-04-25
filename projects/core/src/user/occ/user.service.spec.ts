@@ -12,7 +12,10 @@ import {
   PaymentDetailsList,
   User,
 } from '../../occ/occ-models/index';
-import { BasicNotificationPreferenceList } from '../model/user.model';
+import {
+  BasicNotificationPreferenceList,
+  NotificationPreferenceList,
+} from '../model/user.model';
 import { OccUserService } from './user.service';
 
 const username = 'mockUsername';
@@ -355,15 +358,17 @@ describe('OccUserService', () => {
           channel: 'EMAIL',
           enabled: true,
           value: 'test@sap.com',
+          visible: true,
         },
         {
           channel: 'SITE_MESSAGE',
           enabled: true,
           value: '',
+          visible: true,
         },
       ],
     };
-    const preference: any = {
+    const preference: NotificationPreferenceList = {
       preferences: [{ channel: 'EMAIL', enabled: false }],
     };
     const userId = 'test@sap.com';

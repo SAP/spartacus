@@ -52,6 +52,7 @@ export class NotificationPreferenceComponent implements OnInit {
           channel: p.channel,
           enabled: !p.enabled,
           value: p.value,
+          visible: p.visible,
         });
       } else {
         basicNotificationPreferenceList.preferences.push(p);

@@ -662,7 +662,12 @@ describe('UserService', () => {
     const userId = 'testUserId';
     const mockBasicNotificationPreferenceList: BasicNotificationPreferenceList = {
       preferences: [
-        { channel: 'EMAIL', value: 'test@sap.com', enabled: false },
+        {
+          channel: 'EMAIL',
+          value: 'test@sap.com',
+          enabled: false,
+          visible: true,
+        },
       ],
     };
     it('should be able to load notification preferences', () => {

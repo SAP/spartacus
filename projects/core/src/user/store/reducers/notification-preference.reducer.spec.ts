@@ -57,6 +57,7 @@ describe('Notification Preference Reducer', () => {
             channel: 'EMAIL',
             enabled: true,
             value: 'test@sap.com',
+            visible: true,
           },
         ],
       };

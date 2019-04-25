@@ -19,7 +19,7 @@
         class="cx-ul"
         *ngFor="let preference of basicNotificationPreferenceList.preferences"
       >
-        <ng-container *ngIf="preference.value" class="cx-name">
+        <ng-container *ngIf="preference.visible" class="cx-name">
           <li>
             <div class="form-toggle">
               <input

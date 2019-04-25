@@ -120,11 +120,13 @@ describe('NotificationPreferenceComponent', () => {
           channel: 'EMAIL',
           enabled: true,
           value: 'test@sap.com',
+          visible: true,
         },
         {
           channel: 'SMS',
           enabled: false,
           value: '13800000831',
+          visible: true,
         },
       ],
     };
@@ -157,11 +159,13 @@ describe('NotificationPreferenceComponent', () => {
           channel: 'EMAIL',
           enabled: true,
           value: 'test@sap.com',
+          visible: true,
         },
         {
           channel: 'SMS',
           enabled: false,
           value: '13800000831',
+          visible: true,
         },
       ],
     };
@@ -212,6 +216,7 @@ describe('NotificationPreferenceComponent', () => {
           channel: 'EMAIL',
           enabled: true,
           value: 'test@sap.com',
+          visible: true,
         },
       ],
     };

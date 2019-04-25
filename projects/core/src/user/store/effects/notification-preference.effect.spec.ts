@@ -29,11 +29,13 @@ const basicNotificationPreferenceList: BasicNotificationPreferenceList = {
       channel: 'EMAIL',
       enabled: true,
       value: 'test@sap.com',
+      visible: true,
     },
     {
       channel: 'SMS',
       enabled: true,
       value: '1300000381',
+      visible: true,
     },
   ],
 };
