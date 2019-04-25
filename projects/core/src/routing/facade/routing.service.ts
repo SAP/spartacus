@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import * as fromStore from '../store';
 import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
-import { TranslateUrlOptions } from '../configurable-routes/url-translation/translate-url-options';
+import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
 
 @Injectable({
@@ -37,24 +37,17 @@ export class RoutingService {
 
   /**
    * Navigation with a new state into history
-   * @param pathOrTranslateUrlOptions: Path or options to translate url
+   * @param commands: url commands
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
   go(
-    pathOrTranslateUrlOptions: any[] | TranslateUrlOptions,
+    commands: TranslateUrlCommands,
     query?: object,
     extras?: NavigationExtras
   ): void {
-    let path: any[];
+    const path = this.urlTranslator.translate(commands, { relative: true });
 
-    if (Array.isArray(pathOrTranslateUrlOptions)) {
-      path = pathOrTranslateUrlOptions;
-    } else {
-      const translateUrlOptions = pathOrTranslateUrlOptions;
-      const translatedPath = this.urlTranslator.translate(translateUrlOptions);
-      path = Array.isArray(translatedPath) ? translatedPath : [translatedPath];
-    }
     return this.navigate(path, query, extras);
   }
 
