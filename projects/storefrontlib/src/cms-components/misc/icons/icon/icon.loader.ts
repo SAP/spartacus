@@ -34,9 +34,7 @@ export class IconLoaderService {
 
   getStyleClasses(iconType: ICON_TYPES | string): string[] {
     const styleClasses = [];
-    if (this.config.icon && !this.config.icon.useSvg) {
-      styleClasses.push('use-font');
-    }
+
     if (this.config.icon.iconClass) {
       styleClasses.push(this.config.icon.iconClass);
     }

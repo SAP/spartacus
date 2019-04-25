@@ -3,6 +3,7 @@ export enum ICON_TYPES {
   SEARCH = 'search',
   GRID_MODE = 'th-large',
   LIST_MODE = 'menu-hamburger',
+  CARET_DOWN = 'angle-down',
 }
 
 export abstract class IconConfig {
