@@ -98,15 +98,11 @@
 
                       <div
                         class="cx-property"
-                        [ngSwitch]="result.product.stock.stockLevelStatus"
+                        [ngSwitch]="
+                          result.product.stock.stockLevelStatus === 'outOfStock'
+                        "
                       >
-                        <div class="cx-label" *ngSwitchCase="'inStock'">
-                          {{ 'myInterests.inStock' | cxTranslate }}
-                        </div>
-                        <div class="cx-label" *ngSwitchCase="'lowStock'">
-                          {{ 'myInterests.lowStock' | cxTranslate }}
-                        </div>
-                        <div class="cx-label" *ngSwitchDefault>
+                        <div class="cx-label">
                           {{ 'myInterests.outOfStock' | cxTranslate }}
                         </div>
                       </div>
@@ -116,7 +112,7 @@
               </td>
               <td>
                 <div class="d-md-none ">PRICE</div>
-                {{ result.product.price.value }}
+                {{ result.product.price.formattedValue }}
               </td>
               <td>
                 <div class="d-md-none "></div>
