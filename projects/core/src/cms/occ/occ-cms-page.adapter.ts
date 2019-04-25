@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PageType } from '../../occ/occ-models/index';
@@ -19,38 +19,43 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getBaseEndPoint(): string {
-    return this.occEndpoints.getEndpoint('cms');
-  }
-
   load(
     pageContext: PageContext,
     fields?: string
   ): Observable<CmsStructureModel> {
-    let httpStringParams = '';
-
-    if (pageContext.id !== 'smartedit-preview') {
-      httpStringParams = 'pageType=' + pageContext.type;
-
-      if (pageContext.type === PageType.CONTENT_PAGE) {
-        httpStringParams =
-          httpStringParams + '&pageLabelOrId=' + pageContext.id;
-      } else {
-        httpStringParams = httpStringParams + '&code=' + pageContext.id;
-      }
-    }
-
-    if (fields !== undefined) {
-      httpStringParams = httpStringParams + '&fields=' + fields;
-    }
+    const httpParams = this.getPagesRequestParams(pageContext);
 
     return this.http
-      .get(this.getBaseEndPoint() + `/pages`, {
+      .get(this.getPagesEndpoint(httpParams, fields), {
         headers: this.headers,
-        params: new HttpParams({
-          fromString: httpStringParams,
-        }),
       })
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+  }
+
+  private getPagesEndpoint(
+    params: {
+      [key: string]: string;
+    },
+    fields?: string
+  ): string {
+    fields = fields ? fields : 'DEFAULT';
+    return this.occEndpoints.getUrl('pages', { fields }, params);
+  }
+
+  private getPagesRequestParams(
+    pageContext: PageContext
+  ): { [key: string]: any } {
+    let httpParams = {};
+
+    if (pageContext.id !== 'smartedit-preview') {
+      httpParams = { pageType: pageContext.type };
+
+      if (pageContext.type === PageType.CONTENT_PAGE) {
+        httpParams['pageLabelOrId'] = pageContext.id;
+      } else {
+        httpParams['code'] = pageContext.id;
+      }
+    }
+    return httpParams;
   }
 }

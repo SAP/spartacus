@@ -1,30 +1,57 @@
 <ng-container *ngIf="(interests$ | async) as interests">
   <div class="container">
-    <div class="cx-order-history-header">
+    <div class="cx-product-interests-header">
       <h3>{{ 'myInterests.header' | cxTranslate }}</h3>
     </div>
-    <div class="cx-order-history-body">
+
+    <div class="cx-product-interests-body">
       <ng-container
         *ngIf="interests.pagination.totalCount > 0; else noInterest"
       >
-        <table class="table cx-order-history-table">
+        <div class="cx-product-interests-sort top row">
+          <div
+            class="cx-product-interests-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              [sortLabels]="sortLabels"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+              placeholder="{{ 'myInterests.sortByMostRecent' | cxTranslate }}"
+            >
+            </cx-sorting>
+          </div>
+          <div class="cx-product-interests-pagination">
+            <cx-pagination
+              [pagination]="{
+                currentPage: interests.pagination.page,
+                pageSize: interests.pagination.count,
+                totalPages: interests.pagination.totalPages,
+                totalResults: interests.pagination.totalCount,
+                sort: 'byNameAsc'
+              }"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+        <table class="table cx-product-interests-table">
           <thead class="cx-order-history-thead-mobile">
-            <th scope="col" style="text-align: left">
+            <th scope="col">
               {{ 'myInterests.item' | cxTranslate }}
             </th>
-            <th scope="col" style="text-align: left"></th>
-            <th scope="col" style="text-align: left">
+            <th scope="col"></th>
+            <th scope="col">
               {{ 'myInterests.price' | cxTranslate }}
             </th>
-            <th scope="col" style="text-align: left">
+            <th scope="col">
               {{ 'myInterests.subcriptions' | cxTranslate }}
             </th>
-            <th scope="col" style="text-align: left"></th>
+            <th scope="col"></th>
           </thead>
           <tbody>
             <tr *ngFor="let result of interests.results">
               <td>
-                <div class="d-md-none ">ITEM</div>
+                <div class="d-md-none "></div>
                 <a
                   [routerLink]="
                     { route: [{ name: 'product', params: result.product }] }
@@ -92,7 +119,7 @@
                 {{ result.product.price.value }}
               </td>
               <td>
-                <div class="d-md-none ">SUBSCRIPTIONS</div>
+                <div class="d-md-none "></div>
                 <div
                   class="notificaitonPanel"
                   *ngFor="let ientry of result.productInterestEntry"
@@ -107,7 +134,7 @@
                 </div>
               </td>
               <td>
-                <div class="d-md-none">OPERATION</div>
+                <div class="d-md-none"></div>
                 <button
                   type="button"
                   class="close"
@@ -120,9 +147,41 @@
             </tr>
           </tbody>
         </table>
+        <!-- Select Form and Pagination Bottom -->
+        <div class="cx-product-interests-sort bottom row">
+          <div
+            class="cx-product-interests-form-group form-group col-sm-12 col-md-4 col-lg-4"
+          >
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              [sortLabels]="sortLabels"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+              placeholder="Sort by Product Name"
+            >
+            </cx-sorting>
+          </div>
+          <div class="cx-product-interests-pagination">
+            <cx-pagination
+              [pagination]="{
+                currentPage: interests.pagination.page,
+                pageSize: interests.pagination.count,
+                totalPages: interests.pagination.totalPages,
+                totalResults: interests.pagination.totalCount,
+                sort: 'byNameAsc'
+              }"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
       </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
       <ng-template #noInterest>
-        <div class="cx-order-history-no-order row" *ngIf="(loaded$ | async)">
+        <div
+          class="cx-product-interests-no-interests row"
+          *ngIf="(loaded$ | async)"
+        >
           <div class="col-sm-12 col-md-6 col-lg-4">
             <div>{{ 'myInterests.noInterests' | cxTranslate }}</div>
           </div>

@@ -20,16 +20,13 @@ export class ProductInterestsService {
     sort?: string
   ): Observable<any> {
     const url = this.getEndPoint(userId);
-    let params = new HttpParams();
+    let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
 
     if (pageSize) {
       params = params.set('pageSize', pageSize.toString());
     }
     if (currentPage) {
       params = params.set('currentPage', currentPage.toString());
-    }
-    if (sort) {
-      params = params.set('sort', sort);
     }
 
     const headers = new HttpHeaders({

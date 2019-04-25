@@ -52,32 +52,29 @@ ConfigModule.withConfig({
 })
 ```
 
-1. With `{ route: <route> }`:
-    1. when `campaignName` param **is** given:
+1. when `campaignName` param **is** given:
 
-        ```html
-        <a [routerLink]="{ route: [ 
-            { name: 'product', params: { productCode: 1234, campaignName: 'sale' } } 
-        ] } | cxTranslateUrl"></a>
-        ```
+    ```html
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+    ```
 
-        result
+    result
 
-        ```html
-        <a [routerLink]="['', 'sale', 'p', '1234']"></a>
-        ```
+    ```html
+    <a [routerLink]="['', 'sale', 'p', '1234']"></a>
+    ```
 
-    2. when `campaignName` param **is not** given:
+2. when `campaignName` param **is not** given:
 
-        ```html
-        <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
-        ```
+    ```html
+    <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+    ```
 
-        result
+    result
 
-        ```html
-        <a [routerLink]="['', 'p', '1234']"></a>
-        ```
+    ```html
+    <a [routerLink]="['', 'p', '1234']"></a>
+    ```
 
 ## Wrong order of aliases
 
@@ -119,20 +116,17 @@ All following examples result in the same:
 <a [routerLink]="['', 'p', '1234']"></a>
 ```
 
-1. `{ route: <route> }`:
-    1. when `campaignName` param **is** given:
-    
-        ```html
-        <a [routerLink]="{ route: [ 
-            { name: 'product', params: { productCode: 1234, campaignName: 'sale' } } 
-        ] } | cxTranslateUrl"></a>
-        ```
+ 1. when `campaignName` param **is** given:
+ 
+     ```html
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234, campaignName: 'sale' } } | cxTranslateUrl"></a>
+     ```
 
-    2. when `campaignName` param **is not** given:
+ 2. when `campaignName` param **is not** given:
 
-        ```html
-        <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
-        ```
+     ```html
+     <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+     ```
 
 ## Subjects of change
 

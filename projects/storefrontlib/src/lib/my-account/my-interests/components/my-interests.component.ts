@@ -11,7 +11,29 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   interests$: Observable<ProductInterestList>;
   loaded$: Observable<boolean>;
   subscription: Subscription;
-  userId: string;
+
+  private userId: string;
+  private PAGE_SIZE = 1;
+  private sortMapping = {
+    byNameAsc: 'name:asc',
+    byNameDesc: 'name:desc',
+  };
+
+  sort = 'byNameAsc';
+  sortLabels = {
+    byNameAsc: 'NAME(ASCENDING)',
+    byNameDesc: 'NAME(DESCENDING)',
+  };
+  sortOptions = [
+    {
+      code: 'byNameAsc',
+      selected: false,
+    },
+    {
+      code: 'byNameDesc',
+      selected: false,
+    },
+  ];
 
   constructor(private auth: AuthService, private userService: UserService) {}
 
@@ -21,7 +43,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         this.userId = userData.userId;
       }
     });
-    this.interests$ = this.userService.getProdutInterests(this.userId, 100);
+    this.interests$ = this.userService.getProdutInterests(
+      this.userId,
+      this.PAGE_SIZE
+    );
     this.loaded$ = this.userService.getProdutInterestsLoaded();
   }
 
@@ -29,6 +54,25 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     if (this.userId) {
       this.userService.deleteProdutInterest(this.userId, result);
     }
+  }
+
+  sortChange(sort: string): void {
+    this.sort = sort;
+    this.userService.loadProductInterests(
+      this.userId,
+      this.PAGE_SIZE,
+      0,
+      this.sortMapping[sort]
+    );
+  }
+
+  pageChange(page: number): void {
+    this.userService.loadProductInterests(
+      this.userId,
+      this.PAGE_SIZE,
+      page,
+      this.sortMapping[this.sort]
+    );
   }
 
   ngOnDestroy(): void {

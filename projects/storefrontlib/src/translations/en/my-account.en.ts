@@ -25,5 +25,6 @@ export const myAccount = {
     inStock: 'In Stock',
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
+    sortByMostRecent: 'Sort by Most recent',
   },
 };
