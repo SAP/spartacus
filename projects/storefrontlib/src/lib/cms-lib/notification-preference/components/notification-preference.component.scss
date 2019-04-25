@@ -9,7 +9,7 @@
   }
 }
 
-.cx-ul {
+.cx-notification-preference-ul {
   display: var(--cx-display, flex);
   flex-direction: var(--cx-flex-direction, column);
   list-style: var(--cx-list-style, none);
@@ -21,4 +21,10 @@
   position: var(--cx-position, relative);
   left: var(--cx-left, 20px);
   bottom: var(--cx-bottom, 15px);
+}
+.cx-notification-preference-body {
+  margin-top: var(--cx-margin, 20px);
+}
+.cx-notification-preference-li {
+  margin-bottom: var(--cx-margin, 5px);
 }

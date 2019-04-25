@@ -8,6 +8,7 @@
       <label> Select your preferred notification channels</label>
     </div>
     <div
+      class="cx-notification-preference-body"
       *ngIf="
         (basicNotificationPreferenceList$
           | async) as basicNotificationPreferenceList;
@@ -15,11 +16,11 @@
       "
     >
       <ul
-        class="cx-ul"
+        class="cx-notification-preference-ul"
         *ngFor="let preference of basicNotificationPreferenceList.preferences"
       >
         <ng-container *ngIf="preference.visible" class="cx-name">
-          <li>
+          <li class="cx-notification-preference-li">
             <div class="form-toggle">
               <input
                 class="form-toggle-input"
