@@ -6,6 +6,7 @@ import {
   CmsConfig,
   SiteContextConfig,
   I18nConfig,
+  PersonalizationConfig,
 } from '@spartacus/core';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 import { LayoutConfig } from './ui/layout/config/layout-config';
@@ -19,4 +20,5 @@ export type StorefrontModuleConfig =
   | SiteContextConfig
   | LayoutConfig
   | ConfigurableRoutesConfig
-  | I18nConfig;
+  | I18nConfig
+  | PersonalizationConfig;

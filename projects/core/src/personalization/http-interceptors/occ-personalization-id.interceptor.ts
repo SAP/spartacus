@@ -6,19 +6,22 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { PersonalizationConfig } from '../config/personalization-config';
 
 @Injectable()
 export class OccPersonalizationIdInterceptor implements HttpInterceptor {
-  private personalizationId: string = '295f424f-803e-4097-bd0a-bcd172a619b8';
+  private personalizationId: string = '9739a8b5-ba9c-4431-8da5-28ee1410d7ca';
+  constructor(private config: PersonalizationConfig) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    console.log('here');
     if (this.personalizationId) {
       request = request.clone({
         setHeaders: {
-          'Occ-Personalization-Id': this.personalizationId,
+          [this.config.personalization.requestHeader]: this.personalizationId,
         },
       });
     }
