@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
+import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
+import { CardModule } from '../../../ui/components/card/card.module';
 import { OrderDetailHeadlineComponent } from './order-detail-headline/order-detail-headline.component';
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
-import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
-import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { CardModule } from '../../../ui/components/card/card.module';
+import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
 
 const moduleComponents = [

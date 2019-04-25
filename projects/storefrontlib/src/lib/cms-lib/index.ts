@@ -10,8 +10,6 @@ export * from './footer-navigation/footer-navigation.component';
 export * from './footer-navigation/footer-navigation.module';
 export * from './link/link.component';
 export * from './link/link.module';
-export * from './mini-cart/mini-cart.component';
-export * from './mini-cart/mini-cart.module';
 export * from './navigation/navigation.component';
 export * from './navigation/navigation.module';
 export * from './paragraph/paragraph.component';

@@ -1,0 +1,29 @@
+@import '../../theme';
+
+%cx-close-account {
+  display: var(--cx-display, flex);
+  justify-content: var(--cx-justify-content, center);
+
+  .cx-info {
+    margin: var(--cx-margin, 0 0 3em 0);
+  }
+
+  .cx-btn-group {
+    button {
+      min-width: var(--cx-min-width, 100%);
+      &:first-child {
+        margin: var(--cx-margin, 0 1em 0 0);
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      a:first-child {
+        margin: var(--cx-margin, 0 0 1em 0);
+      }
+    }
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+}

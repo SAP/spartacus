@@ -148,7 +148,7 @@ describe('CartNotEmptyGuard', () => {
             .subscribe()
             .unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
-            route: ['home'],
+            route: 'home',
           });
         });
 
@@ -175,7 +175,7 @@ describe('CartNotEmptyGuard', () => {
             .subscribe()
             .unsubscribe();
           expect(routingService.go).toHaveBeenCalledWith({
-            route: ['home'],
+            route: 'home',
           });
         });
 

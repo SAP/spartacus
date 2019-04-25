@@ -57,12 +57,8 @@
         <div
           [routerLink]="
             {
-              route: [
-                {
-                  name: 'product',
-                  params: suggestion | stripHtml
-                }
-              ]
+              route: 'product',
+              params: suggestion | stripHtml
             } | cxTranslateUrl
           "
           class="cx-product"
