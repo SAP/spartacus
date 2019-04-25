@@ -1,29 +1,25 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-
 import {
-  CartService,
-  UserService,
-  Cart,
-  OrderEntry,
-  CheckoutService,
-  PaymentDetails,
   Address,
-  PromotionResult,
-  DeliveryMode,
+  Cart,
+  CartService,
+  CheckoutService,
   Country,
+  DeliveryMode,
   I18nTestingModule,
+  OrderEntry,
+  PaymentDetails,
+  PromotionResult,
+  UserService,
 } from '@spartacus/core';
-
-import { BehaviorSubject, of, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Item } from '../../../../../cms-components/checkout/cart/index';
+import { Card } from '../../../../ui/components/card/card.component';
+import { ReviewSubmitComponent } from './review-submit.component';
 
 import createSpy = jasmine.createSpy;
-
-import { Item } from '../../../../cart';
-import { Card } from '../../../../ui/components/card/card.component';
-
-import { ReviewSubmitComponent } from './review-submit.component';
 
 const mockCart: Cart = {
   guid: 'test',

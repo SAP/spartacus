@@ -51,12 +51,12 @@ export class ProductsSearchEffects {
       return this.productSearchConnector
         .getSuggestions(payload.term, payload.searchConfig.pageSize)
         .pipe(
-          map(data => {
-            if (data.suggestions === undefined) {
+          map(suggestions => {
+            if (suggestions === undefined) {
               return new productsSearchActions.GetProductSuggestionsSuccess([]);
             }
             return new productsSearchActions.GetProductSuggestionsSuccess(
-              data.suggestions
+              suggestions
             );
           }),
           catchError(error =>
