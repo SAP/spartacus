@@ -2,11 +2,11 @@ import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Cart,
   CartDataService,
   CartService,
   I18nTestingModule,
   PromotionResult,
+  UICart,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionsModule } from '../../../../lib/checkout/components/promotions/promotions.module';
@@ -58,7 +58,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions and appliedOrderPromotions are defined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '1',
         potentialOrderPromotions: [
           {
@@ -108,7 +108,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is empty and appliedOrderPromotions is defined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '2',
         potentialOrderPromotions: [],
         appliedOrderPromotions: [
@@ -141,7 +141,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is empty', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '3',
         potentialOrderPromotions: [
           {
@@ -174,7 +174,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is defined and appliedOrderPromotions is undefined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '4',
         potentialOrderPromotions: [
           {
@@ -206,7 +206,7 @@ describe('CartDetailsComponent', () => {
 
   describe('when cart has potentialOrderPromotions is undefined and appliedOrderPromotions is defined', () => {
     it('should have two consumedEntries', () => {
-      const mockedCart: Cart = {
+      const mockedCart: UICart = {
         guid: '5',
         appliedOrderPromotions: [
           {
