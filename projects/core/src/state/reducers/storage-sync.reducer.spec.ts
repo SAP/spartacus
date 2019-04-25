@@ -4,10 +4,9 @@ import {
   DEFAULT_LOCAL_STORAGE_KEY,
   DEFAULT_SESSION_STORAGE_KEY,
 } from '../config/default-state-config';
-import { StateConfig, StorageSyncType } from '../config/state-config';
+import { StateConfig, StateConfigType } from '../config/state-config';
 import {
   exists,
-  getKeysForStorage,
   getStorage,
   getStorageSyncReducer,
   isSsr,
@@ -56,17 +55,15 @@ describe('storage-sync-reducer', () => {
       };
       metaReducer = getStorageSyncReducer(winRef, {
         state: {
-          storageSync: {
-            localStorageKeyName: DEFAULT_LOCAL_STORAGE_KEY,
-            sessionStorageKeyName: DEFAULT_SESSION_STORAGE_KEY,
-            keys: {
-              access_token: StorageSyncType.SESSION_STORAGE,
-              refresh_token: StorageSyncType.LOCAL_STORAGE,
-              do_not_sync: StorageSyncType.NO_STORAGE,
-            },
+          localStorageKeyName: DEFAULT_LOCAL_STORAGE_KEY,
+          sessionStorageKeyName: DEFAULT_SESSION_STORAGE_KEY,
+          keys: {
+            access_token: StateConfigType.SESSION_STORAGE,
+            refresh_token: StateConfigType.LOCAL_STORAGE,
+            do_not_sync: StateConfigType.NO_STORAGE,
           },
         },
-      } as StateConfig);
+      });
       reducer = metaReducer(nextReducer);
     });
 
@@ -150,8 +147,8 @@ describe('storage-sync-reducer', () => {
           storageSync: {
             rehydrate: true,
             keys: {
-              'user.token.access_token': StorageSyncType.SESSION_STORAGE,
-              'user.token.refresh_token': StorageSyncType.LOCAL_STORAGE,
+              'user.token.access_token': StateConfigType.SESSION_STORAGE,
+              'user.token.refresh_token': StateConfigType.LOCAL_STORAGE,
             },
           },
         },
@@ -213,32 +210,6 @@ describe('storage-sync-reducer', () => {
     });
   });
 
-  describe('getKeysForStorage', () => {
-    const keys: { [key: string]: StorageSyncType } = {
-      a: StorageSyncType.LOCAL_STORAGE,
-      b: StorageSyncType.SESSION_STORAGE,
-      v: StorageSyncType.NO_STORAGE,
-      g: StorageSyncType.LOCAL_STORAGE,
-      d: StorageSyncType.SESSION_STORAGE,
-      dj: StorageSyncType.NO_STORAGE,
-    };
-
-    it('should return two keys for local storage', () => {
-      const result = getKeysForStorage(keys, StorageSyncType.LOCAL_STORAGE);
-      expect(result).toEqual(['a', 'g']);
-    });
-
-    it('should return two keys for session storage', () => {
-      const result = getKeysForStorage(keys, StorageSyncType.SESSION_STORAGE);
-      expect(result).toEqual(['b', 'd']);
-    });
-
-    it('should return two keys for no storage', () => {
-      const result = getKeysForStorage(keys, StorageSyncType.NO_STORAGE);
-      expect(result).toEqual(['v', 'dj']);
-    });
-  });
-
   describe('getStorage', () => {
     describe('when no storage type is requested', () => {
       it(`should return winRef's default storage`, () => {
@@ -250,20 +221,20 @@ describe('storage-sync-reducer', () => {
     describe('when localStorage type is requested', () => {
       it(`should return winRef's local storage`, () => {
         const spy = spyOnProperty(winRef, 'localStorage', 'get').and.stub();
-        getStorage(StorageSyncType.LOCAL_STORAGE, winRef);
+        getStorage(StateConfigType.LOCAL_STORAGE, winRef);
         expect(spy).toHaveBeenCalled();
       });
     });
     describe('when sessionStorage type is requested', () => {
       it(`should return winRef's default storage`, () => {
         const spy = spyOnProperty(winRef, 'sessionStorage', 'get').and.stub();
-        getStorage(StorageSyncType.SESSION_STORAGE, winRef);
+        getStorage(StateConfigType.SESSION_STORAGE, winRef);
         expect(spy).toHaveBeenCalled();
       });
     });
     describe('when no storage type is requested', () => {
       it(`should return undefined`, () => {
-        const result = getStorage(StorageSyncType.NO_STORAGE, winRef);
+        const result = getStorage(StateConfigType.NO_STORAGE, winRef);
         expect(result).toBeUndefined();
       });
     });

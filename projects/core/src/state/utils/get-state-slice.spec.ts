@@ -1,5 +1,7 @@
+import { KeysType, StateConfigType } from '../config/state-config';
 import {
   createShellObject,
+  getKeysOfType,
   getStateSlice,
   getStateSliceValue,
 } from './get-state-slice';
@@ -249,6 +251,39 @@ describe('state slice functions', () => {
           product1: 'p1',
         },
       });
+    });
+  });
+
+  describe('getKeysOfType', () => {
+    /* tslint:disable:no-bitwise */
+    const keys: KeysType = {
+      a: StateConfigType.LOCAL_STORAGE | StateConfigType.TRANSFER_STATE,
+      b: StateConfigType.SESSION_STORAGE | StateConfigType.TRANSFER_STATE,
+      v: StateConfigType.NO_STORAGE,
+      g: StateConfigType.LOCAL_STORAGE,
+      d: StateConfigType.SESSION_STORAGE,
+      dj: StateConfigType.NO_STORAGE | StateConfigType.TRANSFER_STATE,
+    };
+    /* tslint:enable:no-bitwise */
+
+    it('should return two keys for StateConfigType.LOCAL_STORAGE', () => {
+      const result = getKeysOfType(keys, StateConfigType.LOCAL_STORAGE);
+      expect(result).toEqual(['a', 'g']);
+    });
+
+    it('should return two keys for StateConfigType.SESSION_STORAGE', () => {
+      const result = getKeysOfType(keys, StateConfigType.SESSION_STORAGE);
+      expect(result).toEqual(['b', 'd']);
+    });
+
+    it('should return two keys for StateConfigType.NO_STORAGE', () => {
+      const result = getKeysOfType(keys, StateConfigType.NO_STORAGE);
+      expect(result).toEqual(['v', 'dj']);
+    });
+
+    it('should return three keys for StateConfigType.TRANSFER_STATE', () => {
+      const result = getKeysOfType(keys, StateConfigType.TRANSFER_STATE);
+      expect(result).toEqual(['a', 'b', 'dj']);
     });
   });
 });

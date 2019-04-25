@@ -1,4 +1,5 @@
 import { deepMerge } from '../../config/utils/deep-merge';
+import { KeysType, StateConfigType } from '../config/state-config';
 
 export function getStateSliceValue<T, E>(keys: string, state: T): E {
   return keys
@@ -44,4 +45,14 @@ export function getStateSlice<T, E>(keys: string[], state: T): E {
   }
 
   return stateSlices as E;
+}
+
+export function getKeysOfType(
+  keys: KeysType,
+  stateConfigType: StateConfigType
+): string[] {
+  return Object.keys(keys).filter(
+    // tslint:disable-next-line:no-bitwise
+    key => (keys[key] & stateConfigType) === stateConfigType
+  );
 }
