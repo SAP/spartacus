@@ -3,12 +3,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromCheckout from '../store/index';
-import { CartDataService } from '../../cart/index';
+import { CartDataService, UICart } from '../../cart/index';
 import {
   PaymentDetails,
   DeliveryMode,
   Address,
-  Cart,
   CardType,
   AddressValidation,
   Order,
@@ -21,7 +20,7 @@ describe('CheckoutService', () => {
   let cartData: CartDataService;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
-  const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart: UICart = { code: 'testCartId', guid: 'testGuid' };
 
   const paymentDetails: PaymentDetails = {
     id: 'mockPaymentDetails',
@@ -62,9 +61,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get supported delivery modes', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
 
     let deliveryModes: DeliveryMode[];
@@ -79,9 +79,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 
@@ -94,9 +95,10 @@ describe('CheckoutService', () => {
 
   it('should be able to get the code of selected delivery mode', () => {
     store.dispatch(
-      new fromCheckout.LoadSupportedDeliveryModesSuccess({
-        deliveryModes: [{ code: 'mode1' }, { code: 'mode2' }],
-      })
+      new fromCheckout.LoadSupportedDeliveryModesSuccess([
+        { code: 'mode1' },
+        { code: 'mode2' },
+      ])
     );
     store.dispatch(new fromCheckout.SetDeliveryModeSuccess('mode1'));
 

@@ -38,9 +38,7 @@ class MockCmsRoutesService {
   }
 }
 class MockCmsI18nService {
-  loadNamespacesForComponents = jasmine.createSpy(
-    'loadNamespacesForComponents'
-  );
+  loadChunksForComponents = jasmine.createSpy('loadChunksForComponents');
 }
 
 class MockCmsGuardsService {
@@ -118,7 +116,7 @@ describe('CmsPageGuard', () => {
       }
     ));
 
-    it('should load i18n namespaces', inject(
+    it('should load i18n chunks', inject(
       [CmsService, CmsI18nService, CmsPageGuard],
       (
         cmsService: CmsService,
@@ -132,7 +130,7 @@ describe('CmsPageGuard', () => {
           .subscribe()
           .unsubscribe();
 
-        expect(cmsI18n.loadNamespacesForComponents).toHaveBeenCalledWith(
+        expect(cmsI18n.loadChunksForComponents).toHaveBeenCalledWith(
           mockPageComponentTypes
         );
       }

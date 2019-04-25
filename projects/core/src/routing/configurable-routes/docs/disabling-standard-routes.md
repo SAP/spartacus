@@ -31,29 +31,15 @@ ConfigModule.withConfig({
 
 Then [configurable router links](./configurable-router-links.md) will output:
 
-1. For `{ route: <route> } `
+```html
+<a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
+```
 
-    ```html
-    <a [routerLink]="{ route: [ { name: 'product', params: { productCode: 1234 } } ] } | cxTranslateUrl"></a>
-    ```
+result
 
-    result
-
-    ```html
-    <a [routerLink]="['/']"></a>
-    ```
-
-2. For `{ url: <url> } `
-
-    ```html
-    <a [routerLink]="{ url: '/product/1234' } | cxTranslateUrl"></a> 
-    ```
-
-    result 
-
-    ```html
-    <a [routerLink]="'/product/1234'"></a>
-    ```
+```html
+<a [routerLink]="['/']"></a>
+```
 
 ## Subjects of change
 

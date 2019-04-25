@@ -7,8 +7,8 @@ import {
   Address,
   CartService,
   UserService,
-  OrderEntry,
-  Cart,
+  UIOrderEntry,
+  UICart,
   DeliveryMode,
   Country,
   PaymentDetails,
@@ -22,8 +22,8 @@ import { Card } from '../../../../ui/components/card/card.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReviewSubmitComponent implements OnInit {
-  entries$: Observable<OrderEntry[]>;
-  cart$: Observable<Cart>;
+  entries$: Observable<UIOrderEntry[]>;
+  cart$: Observable<UICart>;
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<string>;
   deliveryAddress$: Observable<Address>;

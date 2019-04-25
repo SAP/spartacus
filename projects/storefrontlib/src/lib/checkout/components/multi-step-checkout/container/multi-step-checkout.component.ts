@@ -1,25 +1,21 @@
 import {
-  Component,
   ChangeDetectionStrategy,
-  OnInit,
-  OnDestroy,
   ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 
 import {
   CheckoutService,
-  RoutingService,
   GlobalMessageService,
   CartService,
-  CartDataService,
-  PaymentDetails,
+  UICart,
   UserService,
-  Address,
-  Cart,
   User,
 } from '@spartacus/core';
 
-import { Subscription, Observable, combineLatest } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
 import { tap, filter } from 'rxjs/operators';
@@ -33,22 +29,15 @@ import { tap, filter } from 'rxjs/operators';
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
 
-  deliveryAddress: Address;
-  paymentDetails: PaymentDetails;
-  deliveryMode: string;
-  subscriptions: Subscription[] = [];
-
-  cart$: Observable<Cart>;
+  cart$: Observable<UICart>;
   user$: Observable<User>;
-  checkoutDetails$: Observable<[User, Cart]>;
+  checkoutDetails$: Observable<[User, UICart]>;
 
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
     protected checkoutService: CheckoutService,
     protected cartService: CartService,
-    protected cartDataService: CartDataService,
-    protected routingService: RoutingService,
     protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef

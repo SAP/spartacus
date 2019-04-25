@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-
 import { Actions, Effect, ofType } from '@ngrx/effects';
-
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-
 import * as fromOrderDetailsAction from '../actions/order-details.action';
 import { OccOrderService } from '../../occ/index';
 import { Order } from '../../../occ/occ-models/index';
-import { ProductImageConverterService } from '../../../product/store/converters/index';
+import { ConverterService } from '../../../util/converter.service';
+import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 
 @Injectable()
 export class OrderDetailsEffect {
@@ -26,15 +24,19 @@ export class OrderDetailsEffect {
             if (order.consignments) {
               order.consignments.forEach(element => {
                 element.entries.forEach(entry => {
-                  this.productImageConverter.convertProduct(
-                    entry.orderEntry.product
-                  );
+                  entry.orderEntry.product = this.converter.convert(
+                    entry.orderEntry.product,
+                    PRODUCT_NORMALIZER
+                  ) as any;
                 });
               });
             }
             if (order.unconsignedEntries) {
               order.unconsignedEntries.forEach(entry => {
-                this.productImageConverter.convertProduct(entry.product);
+                entry.product = this.converter.convert(
+                  entry.product,
+                  PRODUCT_NORMALIZER
+                ) as any;
               });
             }
             return new fromOrderDetailsAction.LoadOrderDetailsSuccess(order);
@@ -49,6 +51,6 @@ export class OrderDetailsEffect {
   constructor(
     private actions$: Actions,
     private occOrderService: OccOrderService,
-    private productImageConverter: ProductImageConverterService
+    private converter: ConverterService
   ) {}
 }

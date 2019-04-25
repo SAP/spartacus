@@ -29,30 +29,27 @@
           </ul>
         </div>
 
-        <div class="cx-media">
-          <div class="cx-list-media">
-            {{
-              'cartItems.label.cartTotal'
-                | cxTranslate: { count: cart.totalItems }
-            }}:
-            {{ cart.subTotal?.formattedValue }}
-          </div>
+      <div class="cx-media">
+        <div class="cx-list-media">
+          {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
+          {{ cart.subTotal?.formattedValue }}
+        </div>
 
-          <div *ngFor="let nav of navs">
-            <!-- Navigation -->
-            <div
-              class="cx-list-media"
-              [ngClass]="{ ' is-active': nav.status.active }"
+        <div *ngFor="let nav of navs">
+          <!-- Navigation -->
+          <div
+            class="cx-list-media"
+            [ngClass]="{ ' is-active': nav.status.active }"
+          >
+            <div>{{ nav.label }}</div>
+            <button
+              *ngIf="nav.status.completed && !nav.status.active"
+              class="btn btn-link"
+              (click)="setStep(nav.id)"
             >
-              <div>{{ nav.label }}</div>
-              <button
-                *ngIf="nav.status.completed && !nav.status.active"
-                class="btn btn-link"
-                (click)="setStep(nav.id)"
-              >
-                {{ 'common.action.edit' | cxTranslate }}
-              </button>
-            </div>
+              {{ 'common.edit' | cxTranslate }}
+            </button>
+          </div>
 
             <!-- Content -->
             <div *ngIf="nav.status.active && step === 1">
@@ -86,7 +83,7 @@
           <cx-place-order></cx-place-order>
 
           <button class="btn btn-action btn-block" (click)="setStep(3)">
-            {{ 'common.action.back' | cxTranslate }}
+            {{ 'common.back' | cxTranslate }}
           </button>
         </div>
       </div>

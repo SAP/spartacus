@@ -10,8 +10,8 @@ function createDir(dir) {
   }
 }
 const getLangDir = lang => `${translationsDist}${lang}/`;
-const getFileName = (lang, namespace) =>
-  `${getLangDir(lang)}${namespace}.${lang}.json`;
+const getFileName = (lang, chunk) =>
+  `${getLangDir(lang)}${chunk}.${lang}.json`;
 
 if (!fs.existsSync(libDist)) {
   console.log(
@@ -25,10 +25,10 @@ if (!fs.existsSync(libDist)) {
   // generate files
   Object.keys(translations).forEach(lang => {
     createDir(getLangDir(lang));
-    Object.keys(translations[lang]).forEach(namespace => {
-      const obj = translations[lang][namespace];
+    Object.keys(translations[lang]).forEach(chunk => {
+      const obj = translations[lang][chunk];
       const json = JSON.stringify(obj, null, 2);
-      const fileName = getFileName(lang, namespace);
+      const fileName = getFileName(lang, chunk);
       fs.writeFileSync(fileName, json, 'utf8');
     });
   });

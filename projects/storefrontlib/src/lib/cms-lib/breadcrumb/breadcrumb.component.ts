@@ -1,15 +1,16 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  CmsBreadcrumbsComponent,
+  PageMeta,
+  PageMetaService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CmsBreadcrumbsComponent, PageMeta } from '@spartacus/core';
+import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-
-import { PageMetaService } from '@spartacus/core';
-import { map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbComponent {

@@ -1,5 +1,5 @@
 import * as fromActions from './../actions/index';
-import { DeliveryModeList, PaymentDetails, Order, Address } from '../../../occ';
+import { Address, DeliveryMode, Order, PaymentDetails } from '../../../occ';
 
 import * as fromCheckout from './checkout.reducer';
 import { CheckoutDetails } from '../../models/checkout.model';
@@ -52,13 +52,11 @@ describe('Checkout reducer', () => {
 
   describe('LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS action', () => {
     it('should load all supported delivery modes from cart', () => {
-      const modes: DeliveryModeList = {
-        deliveryModes: [{ code: 'code1' }, { code: 'code2' }],
-      };
+      const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 
       const entities = {
-        code1: modes.deliveryModes[0],
-        code2: modes.deliveryModes[1],
+        code1: modes[0],
+        code2: modes[1],
       };
 
       const { initialState } = fromCheckout;

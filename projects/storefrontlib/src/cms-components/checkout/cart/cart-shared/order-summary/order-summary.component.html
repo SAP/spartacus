@@ -1,0 +1,50 @@
+<h4>{{ 'orderCost.orderSummary' | cxTranslate }}</h4>
+
+<div class="cx-summary-partials" *ngIf="cart">
+  <div class="cx-summary-row">
+    <div class="col-6 cx-summary-label">
+      {{ 'orderCost.subtotal' | cxTranslate }}
+    </div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalPrice?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-summary-row">
+    <div class="col-6 cx-summary-label">
+      {{ 'orderCost.estimatedShipping' | cxTranslate }}
+    </div>
+    <div class="col-6 cx-summary-amount">
+      {{
+        cart.deliveryCost?.formattedValue
+          ? cart.deliveryCost.formattedValue
+          : 'TBD'
+      }}
+    </div>
+  </div>
+  <div class="cx-summary-row cx-summary-savings">
+    <div class="col-6 cx-summary-label">
+      {{ 'orderCost.discount' | cxTranslate }}
+    </div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalDiscounts?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-summary-row">
+    <div class="col-6 cx-summary-label">
+      {{ 'orderCost.salesTax' | cxTranslate }}
+    </div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalTax?.formattedValue }}
+    </div>
+  </div>
+  <div class="cx-summary-row cx-summary-total">
+    <div class="col-6 cx-summary-label">
+      {{ 'orderCost.total' | cxTranslate }}
+    </div>
+    <div class="col-6 cx-summary-amount">
+      {{ cart.totalPriceWithTax?.formattedValue }}
+    </div>
+  </div>
+</div>
+
+<cx-promotions [promotions]="cart.appliedOrderPromotions"></cx-promotions>

@@ -6,12 +6,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 
 import { Observable, of } from 'rxjs';
 
-import { hot, cold } from 'jasmine-marbles';
+import { cold, hot } from 'jasmine-marbles';
 
-import { OccCartService } from '../../occ';
+import { CartConnector } from '../../connectors/cart/cart.connector';
 import * as fromActions from '../actions/cart.action';
-import { OccConfig, Cart } from '../../../occ';
-import { ProductImageConverterService } from '../../../product';
+import { Cart, OccConfig } from '../../../occ';
+import { ProductImageNormalizer } from '../../../product';
 import { CartDataService } from '../../facade/cart-data.service';
 import { CartService } from '../../facade/cart.service';
 import * as fromCart from '../../store/index';
@@ -19,25 +19,30 @@ import * as fromAuth from '../../../auth/store/index';
 import * as fromUser from '../../../user/store/index';
 
 import * as fromEffects from './cart.effect';
+import createSpy = jasmine.createSpy;
+
+const testCart: Cart = {
+  code: 'xxx',
+  guid: 'testGuid',
+  totalItems: 0,
+  totalPrice: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+  totalPriceWithTax: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+};
+
+class MockCartConnector {
+  create = createSpy().and.returnValue(of(testCart));
+  load = createSpy().and.returnValue(of(testCart));
+}
 
 describe('Cart effect', () => {
-  let cartService: OccCartService;
   let cartEffects: fromEffects.CartEffects;
   let actions$: Observable<any>;
-
-  const testCart: Cart = {
-    code: 'xxx',
-    guid: 'testGuid',
-    totalItems: 0,
-    totalPrice: {
-      currencyIso: 'USD',
-      value: 0,
-    },
-    totalPriceWithTax: {
-      currencyIso: 'USD',
-      value: 0,
-    },
-  };
 
   const MockOccModuleConfig: OccConfig = {
     backend: {
@@ -62,8 +67,11 @@ describe('Cart effect', () => {
       ],
 
       providers: [
-        OccCartService,
-        ProductImageConverterService,
+        {
+          provide: CartConnector,
+          useClass: MockCartConnector,
+        },
+        ProductImageNormalizer,
         fromEffects.CartEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
         CartService,
@@ -73,10 +81,6 @@ describe('Cart effect', () => {
     });
 
     cartEffects = TestBed.get(fromEffects.CartEffects);
-    cartService = TestBed.get(OccCartService);
-
-    spyOn(cartService, 'createCart').and.returnValue(of(testCart));
-    spyOn(cartService, 'loadCart').and.returnValue(of(testCart));
   });
 
   describe('createCart$', () => {

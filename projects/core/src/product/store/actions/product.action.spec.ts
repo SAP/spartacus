@@ -1,11 +1,11 @@
 import * as fromProduct from './product.action';
-import { Product } from '../../../occ/occ-models';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import {
   entityFailMeta,
   entityLoadMeta,
   entitySuccessMeta,
 } from '../../../state/utils/entity-loader/entity-loader.action';
+import { UIProduct } from '../../model/product';
 
 describe('Product Actions', () => {
   describe('LoadProduct Actions', () => {
@@ -37,7 +37,7 @@ describe('Product Actions', () => {
 
     describe('LoadProductSuccess', () => {
       it('should create an action', () => {
-        const payload: Product = { code: '123' };
+        const payload: UIProduct = { code: '123' };
         const action = new fromProduct.LoadProductSuccess(payload);
 
         expect({ ...action }).toEqual({

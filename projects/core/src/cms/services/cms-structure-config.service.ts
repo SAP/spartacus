@@ -54,17 +54,21 @@ export abstract class CmsStructureConfigService {
   }
 
   /**
-   * returns an Obserable component data from the static configuration.
+   * returns an Observable component data from the static configuration.
    */
   getComponentFromConfig(
     componentId: string
   ): Observable<ContentSlotComponentData | any> {
-    return of(
-      this.cmsDataConfig.cmsStructure &&
-        this.cmsDataConfig.cmsStructure.components
-        ? this.cmsDataConfig.cmsStructure.components[componentId]
-        : null
-    );
+    return of(this.getComponentById(componentId));
+  }
+
+  /**
+   * returns an Observable components data from the static configuration.
+   */
+  getComponentsFromConfig(
+    ids: string[]
+  ): Observable<ContentSlotComponentData[]> {
+    return of(ids.map(id => this.getComponentById(id)));
   }
 
   /**
@@ -179,5 +183,12 @@ export abstract class CmsStructureConfigService {
       }
     }
     return components;
+  }
+
+  private getComponentById(componentId: string): ContentSlotComponentData {
+    return this.cmsDataConfig.cmsStructure &&
+      this.cmsDataConfig.cmsStructure.components
+      ? this.cmsDataConfig.cmsStructure.components[componentId]
+      : undefined;
   }
 }

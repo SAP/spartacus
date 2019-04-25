@@ -17,7 +17,7 @@ import {
   Country,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Item } from '../../../../cart';
+import { Item } from '../../../../../cms-components/checkout/cart/index';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 

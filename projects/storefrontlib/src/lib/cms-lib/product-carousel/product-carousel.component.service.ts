@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import {
-  ProductService,
-  Product,
   CmsProductCarouselComponent,
+  ProductService,
+  UIProduct,
 } from '@spartacus/core';
 
 import { fromEvent, Observable, of } from 'rxjs';
 import {
   debounceTime,
-  map,
-  distinctUntilChanged,
-  startWith,
   delay,
+  distinctUntilChanged,
+  map,
+  startWith,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -24,7 +24,7 @@ export class ProductCarouselService {
   MAX_ITEM_SIZE = 4;
   SPEED = 250;
 
-  private items$: Observable<Observable<Product>[]>;
+  private items$: Observable<Observable<UIProduct>[]>;
   private itemSize$ = of(this.MAX_ITEM_SIZE);
   private activeItem$ = of(0);
   private activeItemWithDelay$ = of(0);
@@ -55,7 +55,7 @@ export class ProductCarouselService {
     );
   }
 
-  getItems(): Observable<Observable<Product>[]> {
+  getItems(): Observable<Observable<UIProduct>[]> {
     return this.items$;
   }
 
