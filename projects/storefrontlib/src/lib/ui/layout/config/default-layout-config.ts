@@ -8,6 +8,29 @@ export const defaultLayoutConfig: LayoutConfig = {
     lg: 1200,
   },
   layoutSlots: {
+    header: {
+      md: {
+        slots: [
+          'PreHeader',
+          'SiteContext',
+          'SiteLinks',
+          'SiteLogo',
+          'SearchBox',
+          'SiteLogin',
+          'MiniCart',
+          'NavigationBar',
+        ],
+      },
+      xs: {
+        slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
+      },
+    },
+    navigation: {
+      md: { slots: [] },
+      xs: {
+        slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
+      },
+    },
     footer: {
       slots: ['Footer'],
     },
@@ -43,7 +66,7 @@ export const defaultLayoutConfig: LayoutConfig = {
       slots: [
         'TopHeaderSlot',
         'VariantSelectorSlot',
-        'AddToCart',
+        // 'AddToCart', the add to cart is currently hard coded in the PDP component
         'UpSelling',
         'CrossSelling',
         'Tabs',
