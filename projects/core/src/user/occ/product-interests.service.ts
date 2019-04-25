@@ -4,6 +4,11 @@ import { Observable, throwError, forkJoin } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { OccConfig } from '../../occ/config/occ-config';
+import {
+  ProductInterestList,
+  ProductInterestRelation,
+} from '../model/product-interest.model';
+import { Image } from '../../occ';
 
 @Injectable()
 export class ProductInterestsService {
@@ -18,7 +23,7 @@ export class ProductInterestsService {
     pageSize?: number,
     currentPage?: number,
     sort?: string
-  ): Observable<any> {
+  ): Observable<ProductInterestList> {
     const url = this.getEndPoint(userId);
     let params = new HttpParams().set('sort', sort ? sort : 'name:asc');
 
@@ -33,11 +38,11 @@ export class ProductInterestsService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.get<any>(url, { headers, params }).pipe(
+    return this.http.get<ProductInterestList>(url, { headers, params }).pipe(
       tap(r => {
         if (r.results) {
           r.results.forEach(
-            (item: any) =>
+            (item: ProductInterestRelation) =>
               (item.product.images = this.convertImages(item.product.images))
           );
         }
@@ -46,7 +51,10 @@ export class ProductInterestsService {
     );
   }
 
-  public removeInterests(userId: string, item: any): Observable<any[]> {
+  public removeInterests(
+    userId: string,
+    item: ProductInterestRelation
+  ): Observable<any[]> {
     const r: Observable<any>[] = [];
     item.productInterestEntry.forEach((entry: any) => {
       const params: HttpParams = new HttpParams()
@@ -67,7 +75,7 @@ export class ProductInterestsService {
     );
   }
 
-  private convertImages(source: Array<any>): any {
+  private convertImages(source: Image[]): any {
     const images = {};
     if (source) {
       for (const image of source) {

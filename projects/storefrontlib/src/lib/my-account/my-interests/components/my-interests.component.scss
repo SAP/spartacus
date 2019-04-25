@@ -38,14 +38,19 @@
   }
 
   td {
-    width: var(--cx-width, 25%);
+    width: var(--cx-width, 23%);
     padding: var(--cx-padding, 1.625rem 0);
 
     @include media-breakpoint-up(md) {
       text-align: var(--cx-text-align, left);
 
+      &:first-child {
+        width: var(--cx-width, 12%);
+      }
+
       &:last-child {
         text-align: var(--cx-text-align, right);
+        width: var(--cx-width, 8%);
       }
     }
 

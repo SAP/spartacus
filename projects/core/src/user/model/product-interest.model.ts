@@ -18,7 +18,7 @@ export interface ProductInterest {
   futureStocks?: ProductInterestFutureStock[];
   manufacturer?: string;
   price?: Price;
-  images?: Image;
+  images?: Image[];
 }
 
 export interface ProductInterestRelation {
