@@ -44,6 +44,9 @@ export class IconComponent implements OnChanges {
   }
 
   private addStyleClasses() {
+    if (this.useSvg) {
+      return;
+    }
     this.clearStyleClasses();
     this.iconStyleClasses = this.iconLoader.getStyleClasses(this.type);
     this.iconStyleClasses.forEach(cls => {
