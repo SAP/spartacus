@@ -10,8 +10,8 @@ import {
   Address,
   CartService,
   UserService,
-  OrderEntry,
-  Cart,
+  UIOrderEntry,
+  UICart,
   DeliveryMode,
   Country,
   PaymentDetails,
@@ -36,8 +36,8 @@ export class ReviewSubmitComponent implements OnInit {
   @Input()
   paymentDetails: PaymentDetails;
 
-  entries$: Observable<OrderEntry[]>;
-  cart$: Observable<Cart>;
+  entries$: Observable<UIOrderEntry[]>;
+  cart$: Observable<UICart>;
   deliveryMode$: Observable<DeliveryMode>;
   countryName$: Observable<Country>;
 
