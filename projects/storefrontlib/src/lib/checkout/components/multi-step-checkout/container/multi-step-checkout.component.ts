@@ -7,22 +7,15 @@ import {
 } from '@angular/core';
 
 import {
-  CheckoutService,
-  RoutingService,
   GlobalMessageService,
   CartService,
-  CartDataService,
-  PaymentDetails,
-  UserService,
-  Address,
   Cart,
-  User,
 } from '@spartacus/core';
 
-import { Subscription, Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
-import { tap, filter } from 'rxjs/operators';
+import { CheckoutDetailsService } from '../../../checkout-details.service';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -32,46 +25,20 @@ import { tap, filter } from 'rxjs/operators';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
-
-  deliveryAddress: Address;
-  paymentDetails: PaymentDetails;
-  deliveryMode: string;
-  subscriptions: Subscription[] = [];
-
   cart$: Observable<Cart>;
-  user$: Observable<User>;
-  checkoutDetails$: Observable<[User, Cart]>;
-
+  checkoutDetails$: Observable<boolean>;
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected checkoutService: CheckoutDetailsService,
     protected cartService: CartService,
-    protected cartDataService: CartDataService,
-    protected routingService: RoutingService,
-    protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.userService.get();
     this.cart$ = this.cartService.getActive();
-
-    this.checkoutDetails$ = combineLatest(this.user$, this.cart$).pipe(
-      filter(([user, cart]) => !!(user && user.uid && cart && cart.code)),
-      tap(([user, cart]) => {
-        this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
-      })
-    );
-  }
-
-  setStep(backStep: number): void {
-    this.nextStep(backStep);
-  }
-
-  goToStep(step: number): void {
-    this.nextStep(step);
+    this.checkoutDetails$ = this.checkoutService.getCheckoutDetailsLoaded$;
   }
 
   nextStep(step: number): void {
