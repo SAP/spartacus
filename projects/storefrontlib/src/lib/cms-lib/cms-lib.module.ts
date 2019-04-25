@@ -22,7 +22,6 @@ import { NavigationModule } from './navigation/navigation.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
-import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 import { MyInterestsModule } from '../my-account/my-interests/my-interests.module';
 
 @NgModule({
