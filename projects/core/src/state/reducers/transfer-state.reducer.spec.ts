@@ -1,4 +1,5 @@
 import { INIT } from '@ngrx/store';
+import { StateConfig, StateTransferType } from '../config/state-config';
 import {
   CX_KEY,
   getBrowserTransferStateReducer,
@@ -14,11 +15,17 @@ describe('TransferStateReducer', () => {
     });
 
     it('should return reducer for proper configuration', () => {
-      const reducer = getTransferStateReducer('browser', {} as any, {
-        state: {
-          keys: {},
-        },
-      });
+      const reducer = getTransferStateReducer(
+        'browser',
+        {} as any,
+        {
+          state: {
+            ssrTransfer: {
+              keys: {},
+            },
+          },
+        } as StateConfig
+      );
 
       expect(reducer).toEqual(jasmine.any(Function));
     });
@@ -32,7 +39,9 @@ describe('TransferStateReducer', () => {
         set: jasmine.createSpy(),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
-      metaReducer = getServerTransferStateReducer(transferStateMock, ['test']);
+      metaReducer = getServerTransferStateReducer(transferStateMock, {
+        test: StateTransferType.TRANSFER_STATE,
+      });
       reducer = metaReducer(subReducer);
     });
 
@@ -70,7 +79,9 @@ describe('TransferStateReducer', () => {
         hasKey: jasmine.createSpy().and.returnValue(true),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
-      metaReducer = getBrowserTransferStateReducer(transferStateMock, ['test']);
+      metaReducer = getBrowserTransferStateReducer(transferStateMock, {
+        test: StateTransferType.TRANSFER_STATE,
+      });
       reducer = metaReducer(subReducer);
     });
 

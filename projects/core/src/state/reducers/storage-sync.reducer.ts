@@ -1,16 +1,24 @@
 import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { WindowRef } from '../../window/window-ref';
-import { StateConfig, StateConfigType } from '../config/state-config';
-import { getKeysOfType, getStateSlice } from '../utils/get-state-slice';
+import { StateConfig, StorageSyncType } from '../config/state-config';
+import { getStateSlice } from '../utils/get-state-slice';
 
 export function getStorageSyncReducer<T>(
   winRef: WindowRef,
   config?: StateConfig
 ): MetaReducer<T, Action> {
-  if (!winRef.nativeWindow || !config || !config.state || !config.state.keys) {
+  if (
+    !winRef.nativeWindow ||
+    !config ||
+    !config.state ||
+    !config.state.storageSync ||
+    !config.state.storageSync.keys
+  ) {
     return undefined;
   }
+
+  const storageSyncConfig = config.state.storageSync;
 
   return (reducer: ActionReducer<T, Action>): ActionReducer<T, Action> => {
     return (state, action): T => {
@@ -30,28 +38,28 @@ export function getStorageSyncReducer<T>(
 
       if (action.type !== INIT) {
         // handle local storage
-        const localStorageKeys = getKeysOfType(
-          config.state.keys,
-          StateConfigType.LOCAL_STORAGE
+        const localStorageKeys = getKeysForStorage(
+          storageSyncConfig.keys,
+          StorageSyncType.LOCAL_STORAGE
         );
         const localStorageStateSlices = getStateSlice(localStorageKeys, state);
         persistToStorage(
-          config.state.localStorageKeyName,
+          config.state.storageSync.localStorageKeyName,
           localStorageStateSlices,
           winRef.localStorage
         );
 
         // handle session storage
-        const sessionStorageKeys = getKeysOfType(
-          config.state.keys,
-          StateConfigType.SESSION_STORAGE
+        const sessionStorageKeys = getKeysForStorage(
+          storageSyncConfig.keys,
+          StorageSyncType.SESSION_STORAGE
         );
         const sessionStorageStateSlices = getStateSlice(
           sessionStorageKeys,
           state
         );
         persistToStorage(
-          config.state.sessionStorageKeyName,
+          config.state.storageSync.sessionStorageKeyName,
           sessionStorageStateSlices,
           winRef.sessionStorage
         );
@@ -62,14 +70,21 @@ export function getStorageSyncReducer<T>(
   };
 }
 
+export function getKeysForStorage(
+  keys: { [key: string]: StorageSyncType },
+  storageType: StorageSyncType
+): string[] {
+  return Object.keys(keys).filter(key => keys[key] === storageType);
+}
+
 export function rehydrate<T>(config: StateConfig, winRef: WindowRef): T {
   const localStorageValue = readFromStorage(
     winRef.localStorage,
-    config.state.localStorageKeyName
+    config.state.storageSync.localStorageKeyName
   );
   const sessionStorageValue = readFromStorage(
     winRef.sessionStorage,
-    config.state.sessionStorageKeyName
+    config.state.storageSync.sessionStorageKeyName
   );
 
   return deepMerge(localStorageValue, sessionStorageValue);
@@ -90,21 +105,21 @@ export function exists(value: Object): boolean {
 }
 
 export function getStorage(
-  storageType: StateConfigType,
+  storageType: StorageSyncType,
   winRef: WindowRef
 ): Storage {
   let storage: Storage;
 
   switch (storageType) {
-    case StateConfigType.LOCAL_STORAGE: {
+    case StorageSyncType.LOCAL_STORAGE: {
       storage = winRef.localStorage;
       break;
     }
-    case StateConfigType.SESSION_STORAGE: {
+    case StorageSyncType.SESSION_STORAGE: {
       storage = winRef.sessionStorage;
       break;
     }
-    case StateConfigType.NO_STORAGE: {
+    case StorageSyncType.NO_STORAGE: {
       storage = undefined;
       break;
     }

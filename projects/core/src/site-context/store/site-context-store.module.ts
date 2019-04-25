@@ -4,16 +4,21 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../../config/config.module';
-import { StateConfig, StateConfigType } from '../../state/config/state-config';
+import {
+  StateConfig,
+  StateTransferType,
+} from '../../state/config/state-config';
 import { effects } from './effects/index';
 import { reducerProvider, reducerToken } from './reducers/index';
 import { SITE_CONTEXT_FEATURE } from './state';
 
 export function siteContextStoreConfigFactory(): StateConfig {
   // if we want to reuse SITE_CONTEXT_FEATURE const in config, we have to use factory instead of plain object
-  const config: StateConfig = {
+  const config = {
     state: {
-      keys: { [SITE_CONTEXT_FEATURE]: StateConfigType.TRANSFER_STATE },
+      ssrTransfer: {
+        keys: { [SITE_CONTEXT_FEATURE]: StateTransferType.TRANSFER_STATE },
+      },
     },
   };
   return config;

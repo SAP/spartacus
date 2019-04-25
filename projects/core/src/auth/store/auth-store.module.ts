@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { ConfigModule } from '../../config/config.module';
-import { StateConfig, StateConfigType } from '../../state/config/state-config';
+import { StateConfig, StorageSyncType } from '../../state/config/state-config';
 import { StateModule } from '../../state/state.module';
 import { AUTH_FEATURE } from './auth-state';
 import { effects } from './effects/index';
@@ -14,8 +14,10 @@ export function authStoreConfigFactory(): StateConfig {
   // if we want to reuse AUTH_FEATURE const in config, we have to use factory instead of plain object
   const config: StateConfig = {
     state: {
-      keys: {
-        'auth.userToken.token': StateConfigType.LOCAL_STORAGE,
+      storageSync: {
+        keys: {
+          'auth.userToken.token': StorageSyncType.LOCAL_STORAGE,
+        },
       },
     },
   };
