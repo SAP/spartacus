@@ -9,8 +9,12 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
-import { CartDeliveryConnector, CartPaymentConnector } from '../../../cart';
 import * as fromCartActions from './../../../cart/store/actions/index';
+import {
+  CartDeliveryConnector,
+  CartPaymentConnector,
+  CartConnector,
+} from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import {
   Address,
@@ -27,8 +31,8 @@ import {
 } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
-import createSpy = jasmine.createSpy;
 import { CheckoutDetails } from '../../models/checkout.model';
+import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -54,15 +58,15 @@ const address: Address = {
 const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 const orderDetails: Order = { entries: [] };
 
+const details: CheckoutDetails = {
+  deliveryAddress: address,
+};
+
 const paymentDetails: PaymentDetails = {
   accountHolderName: 'test',
   billingAddress: {
     line1: '123 Montreal',
   },
-};
-
-const details: CheckoutDetails = {
-  deliveryAddress: address,
 };
 
 class MockCartDeliveryConnector {
@@ -77,10 +81,15 @@ class MockCartPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
+class MockCartConnector {
+  loadCheckoutDetails = createSpy().and.returnValue(of(details));
+}
+
 describe('Checkout effect', () => {
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
+  let productImageConverter: ProductImageNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -89,6 +98,7 @@ describe('Checkout effect', () => {
         CartPaymentConnector,
         { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
         { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
+        { provide: CartConnector, useClass: MockCartConnector },
         OccOrderService,
         ProductImageNormalizer,
         fromEffects.CheckoutEffects,
@@ -99,6 +109,7 @@ describe('Checkout effect', () => {
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     orderService = TestBed.get(OccOrderService);
+    productImageConverter = TestBed.get(ProductImageNormalizer);
 
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -249,6 +260,10 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
+      spyOn(productImageConverter, 'convert').and.returnValue(
+        orderDetails
+      );
+
       const action = new fromActions.PlaceOrder({
         userId: userId,
         cartId: cartId,
