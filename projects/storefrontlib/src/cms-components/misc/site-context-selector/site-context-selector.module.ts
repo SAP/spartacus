@@ -8,7 +8,7 @@ import {
   SiteContextModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { IconModule } from '../icons/index';
+import { IconModule } from '../icon/index';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';

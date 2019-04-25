@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CartService, CmsMiniCartComponent } from '@spartacus/core';
-import { ICON_TYPES } from 'projects/storefrontlib/src/cms-components/misc/icons/config/icon.config';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
