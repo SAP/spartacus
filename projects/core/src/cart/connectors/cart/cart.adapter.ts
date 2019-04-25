@@ -24,7 +24,6 @@ export abstract class CartAdapter {
     details?: boolean
   ): Observable<UICart>;
 
-
   /**
    * Abstract method used to load checkout details
    *

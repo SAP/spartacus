@@ -193,7 +193,6 @@ export class CheckoutEffects {
     })
   );
 
-
   @Effect()
   loadCheckoutDetails$: Observable<
     fromActions.LoadCheckoutDetailsSuccess | fromActions.LoadCheckoutDetailsFail
@@ -214,7 +213,6 @@ export class CheckoutEffects {
         );
     })
   );
-
 
   constructor(
     private actions$: Actions,

@@ -260,9 +260,7 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
-      spyOn(productImageConverter, 'convert').and.returnValue(
-        orderDetails
-      );
+      spyOn(productImageConverter, 'convert').and.returnValue(orderDetails);
 
       const action = new fromActions.PlaceOrder({
         userId: userId,
