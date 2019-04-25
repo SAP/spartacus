@@ -11,6 +11,7 @@ import { OrderDetailsService } from '../order-details.service';
   styleUrls: ['./order-detail-items.component.scss'],
 })
 export class OrderDetailItemsComponent implements OnInit {
+  orderDetailPrefix = 'orderDetails.';
   constructor(private orderDetailsService: OrderDetailsService) {}
 
   order$: Observable<Order>;
@@ -26,5 +27,12 @@ export class OrderDetailItemsComponent implements OnInit {
     });
 
     return products;
+  }
+
+  addLocalizationPrefix(
+    prefix: string = this.orderDetailPrefix,
+    wordToBeTranslated: string
+  ): string {
+    return `${prefix}${wordToBeTranslated}`;
   }
 }

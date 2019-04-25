@@ -5,6 +5,10 @@ export const myAccount = {
     status: 'Status',
     shippedOn: 'Shipped on',
     inProcess: 'In process...',
+    READY_FOR_PICKUP: 'Ready for pickup',
+    PICKUP_COMPLETE: 'Picked up',
+    SHIPPED: 'Shipped',
+    CANCELLED: 'Cancelled',
   },
   orderHistory: {
     orderHistory: 'Order history',
