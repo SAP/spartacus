@@ -15,6 +15,7 @@ import {
   CheckoutService,
   CartService,
   AuthService,
+  DeliveryMode,
 } from '@spartacus/core';
 
 @Injectable()
