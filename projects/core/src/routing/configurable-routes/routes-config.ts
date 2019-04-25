@@ -15,7 +15,6 @@ export interface RoutesTranslations {
 export interface RouteTranslation {
   paths?: string[];
   paramsMapping?: ParamsMapping;
-  children?: RoutesTranslations;
 }
 
 export interface ParamsMapping {
