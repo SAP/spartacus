@@ -18,6 +18,9 @@ export class IconLoaderService {
    * icon IDs in the SVG.
    */
   getSvgPath(iconType: ICON_TYPES | string): string {
+    if (!this.useSvg()) {
+      return null;
+    }
     let path = '';
 
     if (this.config.icon && this.config.icon.svgPath) {
@@ -32,14 +35,21 @@ export class IconLoaderService {
     return path;
   }
 
+  /**
+   *
+   * returns an array of css classes that can be used to
+   * render the icon by CSS / font. This is driven by the `iconType`
+   * and the icon configuration, so that multiple icon fonts are
+   * supported, such as font awesome, glypicons, Octicons, etc.
+   */
   getStyleClasses(iconType: ICON_TYPES | string): string[] {
     const styleClasses = [];
 
-    if (this.config.icon.iconClass) {
+    if (this.config.icon && this.config.icon.iconClass) {
       styleClasses.push(this.config.icon.iconClass);
     }
     let type = this.getMappedType(iconType);
-    if (this.config.icon.prefix) {
+    if (this.config.icon && this.config.icon.prefix) {
       type = this.config.icon.prefix + type;
     }
     styleClasses.push(type);
