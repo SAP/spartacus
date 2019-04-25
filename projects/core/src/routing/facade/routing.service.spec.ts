@@ -40,36 +40,26 @@ describe('RoutingService', () => {
   });
 
   describe('go', () => {
-    it('should dispatch navigation action with non-translated path when first argument is an array', () => {
-      spyOn(urlTranslator, 'translate');
-      service.go(['/search', 'query']);
-      expect(urlTranslator.translate).not.toHaveBeenCalled();
+    it('should dispatch navigation action with translated path', () => {
+      spyOn(urlTranslator, 'translate').and.returnValue(['translated', 'path']);
+      service.go([]);
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({
-          path: ['/search', 'query'],
+          path: ['translated', 'path'],
           query: undefined,
           extras: undefined,
         })
       );
     });
 
-    it('should dispatch navigation action with translated path when first argument is an object', () => {
-      spyOn(urlTranslator, 'translate').and.returnValue([
-        '',
-        'translated',
-        'path',
-      ]);
-      service.go({ route: ['testRoute'] });
-      expect(urlTranslator.translate).toHaveBeenCalledWith({
-        route: ['testRoute'],
+    it('should call url translator service with given array of commands and true "relative" option', () => {
+      spyOn(urlTranslator, 'translate');
+      const commands = ['test1'];
+      service.go({ route: 'testRoute' });
+      service.go(commands);
+      expect(urlTranslator.translate).toHaveBeenCalledWith(commands, {
+        relative: true,
       });
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new fromStore.Go({
-          path: ['', 'translated', 'path'],
-          query: undefined,
-          extras: undefined,
-        })
-      );
     });
   });
 
@@ -92,6 +82,7 @@ describe('RoutingService', () => {
       spyOnProperty(document, 'referrer', 'get').and.returnValue(
         'http://foobar.com'
       );
+      spyOn(urlTranslator, 'translate').and.callFake(x => x);
       service.back();
       expect(store.dispatch).toHaveBeenCalledWith(
         new fromStore.Go({

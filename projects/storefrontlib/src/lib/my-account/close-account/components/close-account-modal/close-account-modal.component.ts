@@ -63,7 +63,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
             type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
           });
         });
-      this.routingService.go({ route: ['home'] });
+      this.routingService.go({ route: 'home' });
     }
   }
 
