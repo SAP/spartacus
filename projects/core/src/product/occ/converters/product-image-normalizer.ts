@@ -5,9 +5,7 @@ import { Product } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
 import { UIImages, UIProduct } from '../../model/product';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ProductImageNormalizer implements Converter<Product, UIProduct> {
   constructor(protected config: OccConfig) {}
 
@@ -19,31 +17,6 @@ export class ProductImageNormalizer implements Converter<Product, UIProduct> {
       target.images = this.normalize(source.images);
     }
     return target;
-  }
-
-  /**
-   * @deprecated Use `convert(source, target?) => target` instead
-   *
-   * TODO: Should be removed when all use cases will be refactored
-   */
-  convertList(list: Array<Product>): void {
-    if (!list) {
-      return;
-    }
-    for (const product of list) {
-      this.convertProduct(product);
-    }
-  }
-
-  /**
-   * @deprecated Use `convert(source, target?) => target` instead
-   *
-   * TODO: Should be removed when all use cases will be refactored
-   */
-  convertProduct(product: any): void {
-    if (product.images) {
-      product.images = this.normalize(product.images);
-    }
   }
 
   /**
