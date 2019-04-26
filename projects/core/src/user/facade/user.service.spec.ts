@@ -17,6 +17,7 @@ import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
+import { ProductInterestList } from '../model/product-interest.model';
 
 describe('UserService', () => {
   let service: UserService;
@@ -655,5 +656,59 @@ describe('UserService', () => {
         new fromStore.UpdatePasswordReset()
       );
     });
+  });
+
+  it('should be able to load product interests', () => {
+    service.loadProductInterests('userId', 5, 0, 'name:asc');
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.LoadProductInterests({
+        userId: 'userId',
+        pageSize: 5,
+        currentPage: 1,
+        sort: 'name:asc',
+      })
+    );
+  });
+  it('should be able to get product interests', () => {
+    store.dispatch(
+      new fromStore.LoadProductInterestsSuccess({
+        results: [],
+        sorts: [],
+        pagination: {},
+      })
+    );
+
+    service
+      .getProdutInterests('', 1)
+      .subscribe(data =>
+        expect(data).toEqual({
+          orders: [],
+          pagination: {},
+          sorts: [],
+        })
+      )
+      .unsubscribe();
+  });
+  it('should be able to get product interests loaded flag', () => {
+    store.dispatch(new fromStore.LoadProductInterestsSuccess({}));
+    service
+      .getProdutInterestsLoaded()
+      .subscribe(data => expect(data).toEqual(true))
+      .unsubscribe();
+  });
+  it('should be able to delete product interests', () => {
+    service.deleteProdutInterest('userId', {});
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.DeleteProductInterests({
+        userId: 'userId',
+        item: {},
+      })
+    );
+  });
+  it('should be able to clear product interests', () => {
+    service.clearProductInterests();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.ClearProductInterests()
+    );
   });
 });
