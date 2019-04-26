@@ -4,15 +4,14 @@ import { RoutingConfigService } from './routing-config.service';
 import { RoutesConfig } from './routes-config';
 
 class MockRoutingConfig {
-  routing: RoutesConfig = {
+  routing: { routes: RoutesConfig } = {
     routes: {
-        page1: {
-          paths: ['default-path1'],
-          paramsMapping: { param1: 'mappedParam1' },
-        },
-        page2: { paths: ['default-path2', 'default-path20'] },
-        page3: { paths: ['default-path3'] },
+      page1: {
+        paths: ['default-path1'],
+        paramsMapping: { param1: 'mappedParam1' },
       },
+      page2: { paths: ['default-path2', 'default-path20'] },
+      page3: { paths: ['default-path3'] },
     },
   };
 }
