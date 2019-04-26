@@ -37,7 +37,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
   nextStep(step: number): void {
     const previousStep = step - 1;
-
     this.navs.forEach(function(nav) {
       if (nav.id === previousStep) {
         nav.status.completed = true;
@@ -51,7 +50,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
       nav.progressBar = nav.status.active || nav.status.completed;
     });
-
     this.step = step;
   }
 
