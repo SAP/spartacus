@@ -3,7 +3,9 @@ import { I18nConfig } from './config/i18n-config';
 
 @Injectable()
 export class TranslationChunkService {
-  constructor(protected config: I18nConfig) {}
+  constructor(protected config: I18nConfig) {
+    this.validateConfig(config);
+  }
 
   protected readonly KEY_SEPARATOR = '.';
 
@@ -18,10 +20,28 @@ export class TranslationChunkService {
   }
 
   private getChunkFromConfig(mainKey: string): string {
+    const config = this.config.i18n;
     return (
-      this.config.i18n &&
-      this.config.i18n.chunks &&
-      this.config.i18n.chunks[mainKey]
+      config &&
+      config.chunks &&
+      Object.keys(config.chunks)
+        .filter(chunk =>
+          config.chunks[chunk].filter(key => key === mainKey).join()
+        )
+        .join()
     );
+  }
+
+  private validateConfig(config: I18nConfig): void {
+    let allKeys = [];
+    Object.keys(config.i18n.chunks).forEach(
+      chunk => (allKeys = [...allKeys, ...config.i18n.chunks[chunk]])
+    );
+    const dupes = allKeys.filter((el, i) => allKeys.indexOf(el) !== i);
+    if (dupes.length > 0 && !config.production) {
+      console.warn(
+        `There are duplicated keys (${dupes.join()}) in the i18n config file.`
+      );
+    }
   }
 }
