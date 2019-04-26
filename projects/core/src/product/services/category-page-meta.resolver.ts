@@ -43,13 +43,11 @@ export class CategoryPageMetaResolver extends PageMetaResolver
             title: page.title || page.name,
           });
         }
-      }),
-      tap(console.log) //spike
+      })
     );
   }
 
   resolveTitle(data: UIProductSearchPage): Observable<string> {
-    console.log(data);
     return of(
       `${data.pagination.totalResults} results for ${
         data.breadcrumbs[0].facetValueName

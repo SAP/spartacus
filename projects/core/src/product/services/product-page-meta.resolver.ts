@@ -45,16 +45,12 @@ export class ProductPageMetaResolver extends PageMetaResolver
               this.resolveImage(p),
             ])
           ),
-          map(([heading, title, description, image]) => {
-            console.log([heading, title, description, image]);
-            debugger;
-            return {
-              heading,
-              title,
-              description,
-              image,
-            };
-          })
+          map(([heading, title, description, image]) => ({
+            heading,
+            title,
+            description,
+            image,
+          }))
         )
       )
     );
