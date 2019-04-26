@@ -10,8 +10,6 @@ class MockServerConfig {
 }
 
 class MockRouterConfigService {
-  translations = {};
-  async init(): Promise<void> {}
   getRouteConfig() {}
 }
 
@@ -65,8 +63,8 @@ describe('ConfigurableRoutesService', () => {
     router.config = [];
   });
 
-  describe('translateRouterConfig', () => {
-    it('should NOT translate "paths" of routes that are NOT configurable', async () => {
+  describe('configureRouter', () => {
+    it('should NOT configure "path" of routes that are NOT configurable', async () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
       await service.init();
@@ -86,7 +84,7 @@ describe('ConfigurableRoutesService', () => {
       ]);
     });
 
-    it('should NOT translate "redirectTo" of routes that are NOT configurable', async () => {
+    it('should NOT configure "redirectTo" of routes that are NOT configurable', async () => {
       router.config = [
         { path: 'path1', redirectTo: 'path100' },
         { path: 'path2', redirectTo: 'path200' },
@@ -117,7 +115,7 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config[0].matcher).toEqual(['path1', 'path100']);
     });
 
-    it('should translate "redirectTo" of configurable routes', async () => {
+    it('should configure "redirectTo" of configurable routes', async () => {
       router.config = [
         { path: 'path1', data: { cxRedirectTo: 'page1' } },
         { path: 'path2', data: { cxRedirectTo: 'page2' } },
@@ -160,7 +158,7 @@ describe('ConfigurableRoutesService', () => {
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should generate route for "redirectTo" with with first configured path in translations config for a given page', async () => {
+    it('should generate route for "redirectTo" with with first configured path in config for a given page', async () => {
       router.config = [
         { path: 'path', redirectTo: null, data: { cxRedirectTo: 'page1' } },
       ];
@@ -172,7 +170,7 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config[0].redirectTo).toEqual('path1');
     });
 
-    it('should generate route that will never match if there are no configured paths in translations config', async () => {
+    it('should generate route that will never match if there are no configured paths in config', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(null);
       await service.init();
@@ -180,7 +178,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     // tslint:disable-next-line:max-line-length
-    it('should console.warn in non-production environment if route refers a page name that does not exist in translations config', async () => {
+    it('should console.warn in non-production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
       serverConfig.production = false;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
@@ -190,7 +188,7 @@ describe('ConfigurableRoutesService', () => {
     });
 
     // tslint:disable-next-line:max-line-length
-    it('should NOT console.warn in production environment if route refers a page name that does not exist in translations config', async () => {
+    it('should NOT console.warn in production environment if route refers a page name that does not exist in config', async () => {
       spyOn(console, 'warn');
       serverConfig.production = true;
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
@@ -199,7 +197,7 @@ describe('ConfigurableRoutesService', () => {
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should translate configurable routes placed among non-configurable routes', async () => {
+    it('should configure configurable routes placed among non-configurable routes', async () => {
       router.config = [
         // normal routes
         { path: 'path1' },
