@@ -8,13 +8,13 @@ import {
 
 export class UrlMatcherFactory {
   static getFalsyUrlMatcher(): UrlMatcher {
-    return function cxFalsyUrlMatcher(): null {
+    return function falsyUrlMatcher(): null {
       return null;
     };
   }
 
   static getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
-    const func = function cxMultiplePathsUrlMatcher(
+    const matcher = function multiplePathsUrlMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
@@ -31,8 +31,8 @@ export class UrlMatcherFactory {
       }
       return null;
     };
-    func._paths = paths; // property added for easier debugging of routes
-    return func;
+    matcher.paths = paths; // property added for easier debugging of routes
+    return matcher;
   }
 
   // Similar to Angular's defaultUrlMatcher. The difference is that `path` comes from function's argument, not from `route.path`
