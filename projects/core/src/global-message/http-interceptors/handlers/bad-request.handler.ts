@@ -3,6 +3,7 @@ import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { HttpErrorHandler } from './http-error.handler';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { error } from 'projects/storefrontlib/src/translations/en/error.en';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -26,6 +27,13 @@ export class BadRequestHandler extends HttpErrorHandler {
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       }
+    } else if (response.error.errors[0].type === 'PasswordMismatchError') {
+      // uses en translation error message instead of backend exception error
+      // @todo: this condition could be removed if backend gives better message
+      this.globalMessageService.add({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: error.passwordMismatch,
+      });
     } else {
       // this is currently showing up in case we have a page not found. It should be a 404.
       // see https://jira.hybris.com/browse/CMSX-8516
