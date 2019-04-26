@@ -6,12 +6,12 @@ import * as fromActions from './../actions';
 import { StateWithCart } from '../cart-state';
 import * as fromReducers from './../reducers';
 import * as fromSelectors from './../selectors';
-import { Cart, OrderEntry } from '../../../occ';
+import { UICart, UIOrderEntry } from '@spartacus/core';
 
-describe('Cart selectors', () => {
+describe('UICart selectors', () => {
   let store: Store<StateWithCart>;
 
-  const testCart: Cart = {
+  const testCart: UICart = {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
@@ -26,7 +26,7 @@ describe('Cart selectors', () => {
     },
   };
 
-  const testEmptyCart: Cart = {
+  const testEmptyCart: UICart = {
     code: 'xxx',
     guid: 'xxx',
     totalItems: 0,
@@ -54,7 +54,7 @@ describe('Cart selectors', () => {
 
   describe('getActiveCartContent', () => {
     it('should return the cart content from the state', () => {
-      let result: Cart;
+      let result: UICart;
       store
         .pipe(select(fromSelectors.getCartContent))
         .subscribe(value => (result = value));
@@ -103,7 +103,7 @@ describe('Cart selectors', () => {
 
   describe('getEntriesMap', () => {
     it('should return the cart entries in map', () => {
-      let result: { [code: string]: OrderEntry };
+      let result: { [code: string]: UIOrderEntry };
       store
         .pipe(select(fromSelectors.getEntriesMap))
         .subscribe(value => (result = value));
@@ -120,7 +120,7 @@ describe('Cart selectors', () => {
 
   describe('getEntrySelectorFactory', () => {
     it('should return entry by productCode', () => {
-      let result: OrderEntry;
+      let result: UIOrderEntry;
 
       store
         .pipe(select(fromSelectors.getEntrySelectorFactory('1234')))
@@ -138,7 +138,7 @@ describe('Cart selectors', () => {
 
   describe('getEntriesList', () => {
     it('should return the list of entries', () => {
-      let result: OrderEntry[];
+      let result: UIOrderEntry[];
       store
         .pipe(select(fromSelectors.getEntries))
         .subscribe(value => (result = value));

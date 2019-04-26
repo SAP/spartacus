@@ -5,7 +5,7 @@ import { UIProductSearchPage } from '../../model/product-search-page';
 import { PRODUCT_NORMALIZER } from '../../connectors/product/converters';
 
 @Injectable()
-export class OccProductSearchNormalizer
+export class OccProductSearchPageNormalizer
   implements Converter<ProductSearchPage, UIProductSearchPage> {
   constructor(private converterService: ConverterService) {}
 

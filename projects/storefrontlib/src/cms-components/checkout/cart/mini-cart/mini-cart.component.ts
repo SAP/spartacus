@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Cart, CartService, CmsMiniCartComponent } from '@spartacus/core';
+import { CartService, CmsMiniCartComponent, UICart } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/index';
 
@@ -10,7 +10,7 @@ import { CmsComponentData } from '../../../../cms-structure/page/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
-  cart$: Observable<Cart>;
+  cart$: Observable<UICart>;
 
   constructor(
     protected component: CmsComponentData<CmsMiniCartComponent>,

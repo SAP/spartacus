@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ProductSearchAdapter } from '../connectors/search/product-search.adapter';
 import { SearchConfig } from '../model/search-config';
-import { SuggestionList } from '../../occ/occ-models/occ.models';
+import { Suggestion } from '../../occ/occ-models/occ.models';
 
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import {
-  PRODUCT_SEARCH_NORMALIZER,
-  PRODUCT_SUGGESTIONS_LIST_NORMALIZER,
+  PRODUCT_SEARCH_PAGE_NORMALIZER,
+  PRODUCT_SUGGESTION_NORMALIZER,
 } from '../connectors/search/converters';
 import { UIProductSearchPage } from '../model/product-search-page';
+import { pluck } from 'rxjs/operators';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
   pageSize: 20,
@@ -31,16 +32,19 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   ): Observable<UIProductSearchPage> {
     return this.http
       .get(this.getSearchEndpoint(query, searchConfig))
-      .pipe(this.converter.pipeable(PRODUCT_SEARCH_NORMALIZER));
+      .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
   }
 
   loadSuggestions(
     term: string,
     pageSize: number = 3
-  ): Observable<SuggestionList> {
+  ): Observable<Suggestion[]> {
     return this.http
       .get(this.getSuggestionEndpoint(term, pageSize.toString()))
-      .pipe(this.converter.pipeable(PRODUCT_SUGGESTIONS_LIST_NORMALIZER));
+      .pipe(
+        pluck('suggestions'),
+        this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
+      );
   }
 
   protected getSearchEndpoint(
