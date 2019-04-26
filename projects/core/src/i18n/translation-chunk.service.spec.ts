@@ -7,7 +7,7 @@ describe('TranslationChunkService', () => {
 
   beforeEach(() => {
     const mockChunksConfig = {
-      key1: 'chunk1',
+      chunk1: ['key1'],
     };
 
     TestBed.configureTestingModule({
