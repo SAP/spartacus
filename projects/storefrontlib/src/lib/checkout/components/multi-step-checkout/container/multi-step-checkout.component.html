@@ -1,4 +1,6 @@
-<ng-container *ngIf="(checkoutDetails$ | async)">
+<ng-container
+  *ngIf="(checkoutDetailsService.getCheckoutDetailsLoaded$ | async)"
+>
   <div *ngIf="(cart$ | async) as cart">
     <div class="row">
       <div class="col-md-12 col-lg-8">
