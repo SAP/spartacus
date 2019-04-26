@@ -66,19 +66,6 @@ describe('ConfigurableRoutesService', () => {
   });
 
   describe('translateRouterConfig', () => {
-    it('should load routes config from loader', async () => {
-      spyOn(routingConfigService, 'init');
-      await service.init();
-      expect(routingConfigService.init).toHaveBeenCalled();
-    });
-
-    it('when called twice, should load routes from routes config only once', async () => {
-      spyOn(routingConfigService, 'init');
-      await service.init();
-      await service.init();
-      expect(routingConfigService.init).toHaveBeenCalledTimes(1);
-    });
-
     it('should NOT translate "paths" of routes that are NOT configurable', async () => {
       router.config = [{ path: 'path1' }, { path: 'path2' }];
       spyOn(routingConfigService, 'getRouteConfig').and.returnValues(undefined);
