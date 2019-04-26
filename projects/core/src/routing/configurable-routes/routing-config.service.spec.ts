@@ -6,12 +6,7 @@ import { RoutesConfig } from './routes-config';
 class MockRoutingConfig {
   routing: { routes: RoutesConfig } = {
     routes: {
-      page1: {
-        paths: ['default-path1'],
-        paramsMapping: { param1: 'mappedParam1' },
-      },
-      page2: { paths: ['default-path2', 'default-path20'] },
-      page3: { paths: ['default-path3'] },
+      page1: { paths: ['path1', 'path10'] },
     },
   };
 }
@@ -34,7 +29,7 @@ describe('RoutingConfigService', () => {
   });
 
   describe('getRouteConfig', () => {
-    it('should return configured paths translations for given page name', async () => {
+    it('should return configured paths for given route name', async () => {
       service['_routesConfig'] = {
         page1: { paths: ['path1', 'path10'] },
       };
