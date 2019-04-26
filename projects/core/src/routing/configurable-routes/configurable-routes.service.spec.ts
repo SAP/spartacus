@@ -4,7 +4,7 @@ import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { RoutesConfig } from './routes-config';
-import { UrlMatcherFactory } from './url-matcher-factory';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 class MockServerConfig {
   production = false;
@@ -24,6 +24,15 @@ class MockRouter {
   }
 }
 
+class MockUrlMatcherFactoryService {
+  getMultiplePathsUrlMatcher = jasmine
+    .createSpy('getMultiplePathsUrlMatcher')
+    .and.callFake(paths => paths);
+  getFalsyUrlMatcher = jasmine
+    .createSpy('getFalsyUrlMatcher')
+    .and.returnValue(false);
+}
+
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
@@ -40,6 +49,10 @@ describe('ConfigurableRoutesService', () => {
         },
         { provide: ServerConfig, useClass: MockServerConfig },
         {
+          provide: UrlMatcherFactoryService,
+          useClass: MockUrlMatcherFactoryService,
+        },
+        {
           provide: Router,
           useClass: MockRouter,
         },
@@ -52,10 +65,6 @@ describe('ConfigurableRoutesService', () => {
     loader = TestBed.get(RoutesConfigLoader);
 
     router.config = [];
-    spyOn(UrlMatcherFactory, 'getMultiplePathsUrlMatcher').and.callFake(
-      paths => paths
-    );
-    spyOn(UrlMatcherFactory, 'getFalsyUrlMatcher').and.returnValue(false);
   });
 
   describe('translateRouterConfig', () => {

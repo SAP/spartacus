@@ -7,7 +7,7 @@ import {
   RoutesConfig,
 } from './routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
-import { UrlMatcherFactory } from './url-matcher-factory';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
@@ -16,7 +16,8 @@ export class ConfigurableRoutesService {
   constructor(
     private config: ServerConfig,
     private injector: Injector,
-    private routesConfigLoader: RoutesConfigLoader
+    private routesConfigLoader: RoutesConfigLoader,
+    private urlMatcherFactory: UrlMatcherFactoryService
   ) {}
 
   private readonly currentLanguageCode = 'en'; // TODO: hardcoded! should be removed when more languages are supported by localized routes
@@ -129,7 +130,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: UrlMatcherFactory.getFalsyUrlMatcher(),
+          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
         };
 
       case 1:
@@ -140,7 +141,7 @@ export class ConfigurableRoutesService {
         delete route.path;
         return {
           ...route,
-          matcher: UrlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
         };
     }
   }
