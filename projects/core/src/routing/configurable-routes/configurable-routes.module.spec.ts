@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigurableRoutesModule } from './configurable-routes.module';
 import { APP_INITIALIZER } from '@angular/core';
-import { RouterTranslationService } from './configurable-routes.service';
+import { ConfigurableRoutesService } from './configurable-routes.service';
 
 class MockConfigurableRoutesService {
   init = jasmine.createSpy().and.returnValue(Promise.resolve());
@@ -15,13 +15,13 @@ describe('ConfigurableRoutesModule', () => {
       imports: [ConfigurableRoutesModule],
       providers: [
         {
-          provide: RouterTranslationService,
+          provide: ConfigurableRoutesService,
           useClass: MockConfigurableRoutesService,
         },
       ],
     });
 
-    mockService = TestBed.get(RouterTranslationService);
+    mockService = TestBed.get(ConfigurableRoutesService);
     const appInits = TestBed.get(APP_INITIALIZER);
     const [appInitializerInvokingLoader] = appInits.slice(-1);
 

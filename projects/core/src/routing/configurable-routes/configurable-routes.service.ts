@@ -7,7 +7,7 @@ import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
 @Injectable()
-export class RouterTranslationService {
+export class ConfigurableRoutesService {
   constructor(
     private config: ServerConfig,
     private injector: Injector,

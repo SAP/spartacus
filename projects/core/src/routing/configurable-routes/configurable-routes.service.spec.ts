@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
-import { RouterTranslationService } from './configurable-routes.service';
+import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
@@ -32,7 +32,7 @@ class MockUrlMatcherFactoryService {
 }
 
 describe('ConfigurableRoutesService', () => {
-  let service: RouterTranslationService;
+  let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
   let router: Router;
   let routingConfigService: RoutingConfigService;
@@ -40,7 +40,7 @@ describe('ConfigurableRoutesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        RouterTranslationService,
+        ConfigurableRoutesService,
         {
           provide: RoutingConfigService,
           useClass: MockRouterConfigService,
@@ -57,7 +57,7 @@ describe('ConfigurableRoutesService', () => {
       ],
     });
 
-    service = TestBed.get(RouterTranslationService);
+    service = TestBed.get(ConfigurableRoutesService);
     serverConfig = TestBed.get(ServerConfig);
     router = TestBed.get(Router);
     routingConfigService = TestBed.get(RoutingConfigService);

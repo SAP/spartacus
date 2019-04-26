@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { RouterTranslationService } from './configurable-routes.service';
+import { ConfigurableRoutesService } from './configurable-routes.service';
 import { RoutingConfigService } from './routing-config.service';
 import { ConfigModule, Config } from '../../config/config.module';
 import { RoutingConfig } from './config/routing-config';
@@ -9,7 +9,7 @@ import { UrlParsingService } from './url-translation/url-parsing.service';
 import { UrlTranslationService } from './url-translation/url-translation.service';
 
 export function initConfigurableRoutes(
-  service: RouterTranslationService
+  service: ConfigurableRoutesService
 ): () => Promise<void> {
   const result = () => service.init(); // workaround for AOT compilation (see https://stackoverflow.com/a/51977115)
   return result;
@@ -20,14 +20,14 @@ export function initConfigurableRoutes(
   declarations: [],
   exports: [],
   providers: [
-    RouterTranslationService,
+    ConfigurableRoutesService,
     RoutingConfigService,
     UrlTranslationService,
     UrlParsingService,
     {
       provide: APP_INITIALIZER,
       useFactory: initConfigurableRoutes,
-      deps: [RouterTranslationService],
+      deps: [ConfigurableRoutesService],
       multi: true,
     },
     { provide: RoutingConfig, useExisting: Config },
