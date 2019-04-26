@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RouteConfig } from './routes-config';
 import { RoutingConfig } from './config/routing-config';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class RoutingConfigService {
   constructor(private config: RoutingConfig) {}
 

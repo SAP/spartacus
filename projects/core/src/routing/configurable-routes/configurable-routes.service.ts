@@ -6,7 +6,7 @@ import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ConfigurableRoutesService {
   constructor(
     private config: ServerConfig,
@@ -21,6 +21,7 @@ export class ConfigurableRoutesService {
    * Configures all existing Routes in the Router
    */
   init(): void {
+    debugger;
     if (!this.initCalled) {
       this.initCalled = true;
       this.configureRouter();

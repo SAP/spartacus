@@ -10,7 +10,7 @@ import {
 } from './translate-url-commands';
 import { RoutingConfigService } from '../routing-config.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UrlTranslationService {
   readonly ROOT_URL = ['/'];
 
