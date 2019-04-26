@@ -213,7 +213,7 @@ describe('RouterTranslationService', () => {
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should translate configurable routes placed among non-cofigurable routes', async () => {
+    it('should translate configurable routes placed among non-configurable routes', async () => {
       router.config = [
         // normal routes
         { path: 'path1' },
@@ -241,7 +241,6 @@ describe('RouterTranslationService', () => {
 
         // configurable routes
         {
-          path: null,
           data: { cxPath: 'page2' },
           matcher: ['path2', 'path20', 'path200'] as any,
         },
