@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  PageComponentModule,
-  SeoModule,
-} from '../../../../cms-structure/index';
+import { SeoModule } from '../../../../cms-structure/index';
 import { PageSlotModule } from '../../../../cms-structure/page/slot/page-slot.module';
 import { CmsModule } from '../../../cms/cms.module';
 import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
@@ -28,7 +25,6 @@ import { StorefrontComponent } from './storefront.component';
     PageLayoutModule,
     SeoModule,
     PageSlotModule,
-    PageComponentModule,
   ],
   declarations: [StorefrontComponent],
   exports: [StorefrontComponent],
