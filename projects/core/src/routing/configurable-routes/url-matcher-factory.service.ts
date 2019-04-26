@@ -5,22 +5,26 @@ import {
   UrlSegmentGroup,
   Route,
 } from '@angular/router';
+import { Injectable } from '@angular/core';
 
-export class UrlMatcherFactory {
-  static getFalsyUrlMatcher(): UrlMatcher {
+@Injectable({ providedIn: 'root' })
+export class UrlMatcherFactoryService {
+  getFalsyUrlMatcher(): UrlMatcher {
     return function falsyUrlMatcher(): null {
       return null;
     };
   }
 
-  static getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
+  getMultiplePathsUrlMatcher(paths: string[]): UrlMatcher {
+    const self = this;
+
     const matcher = function multiplePathsUrlMatcher(
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,
       route: Route
     ): UrlMatchResult | null {
       for (let i = 0; i < paths.length; i++) {
-        const result = UrlMatcherFactory.getPathUrlMatcher(paths[i])(
+        const result = self.getPathUrlMatcher(paths[i])(
           segments,
           segmentGroup,
           route
@@ -36,7 +40,7 @@ export class UrlMatcherFactory {
   }
 
   // Similar to Angular's defaultUrlMatcher. The difference is that `path` comes from function's argument, not from `route.path`
-  private static getPathUrlMatcher(path: string = ''): UrlMatcher {
+  private getPathUrlMatcher(path: string = ''): UrlMatcher {
     return (
       segments: UrlSegment[],
       segmentGroup: UrlSegmentGroup,

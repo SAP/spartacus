@@ -1,20 +1,26 @@
 import { UrlSegmentGroup, UrlSegment, Route } from '@angular/router';
-import { UrlMatcherFactory } from './url-matcher-factory';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
+import { TestBed } from '@angular/core/testing';
 
-describe('PathsUrlMatcherFactory', () => {
+describe('UrlMatcherFactoryService', () => {
   describe('create', () => {
     let segmentGroup: UrlSegmentGroup;
     let route: Route;
+    let factory: UrlMatcherFactoryService;
 
     beforeEach(() => {
       segmentGroup = { hasChildren: () => false } as UrlSegmentGroup;
       route = {} as Route;
+
+      TestBed.configureTestingModule({
+        providers: [UrlMatcherFactoryService],
+      });
+
+      factory = TestBed.get(UrlMatcherFactoryService);
     });
 
     it('should match simple path', () => {
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher([
-        'test/route',
-      ]);
+      const matcher = factory.getMultiplePathsUrlMatcher(['test/route']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -25,9 +31,7 @@ describe('PathsUrlMatcherFactory', () => {
     });
 
     it('should match path with params', () => {
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher([
-        'test/:param',
-      ]);
+      const matcher = factory.getMultiplePathsUrlMatcher(['test/:param']);
       const segments = [{ path: 'test' }, { path: 'value' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -38,7 +42,7 @@ describe('PathsUrlMatcherFactory', () => {
     });
 
     it('should match first path', () => {
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher([
+      const matcher = factory.getMultiplePathsUrlMatcher([
         'test1/:param1',
         'test2/:param2',
       ]);
@@ -52,7 +56,7 @@ describe('PathsUrlMatcherFactory', () => {
     });
 
     it('should match second path', () => {
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher([
+      const matcher = factory.getMultiplePathsUrlMatcher([
         'test1/:param1',
         'test2/:param2',
       ]);
@@ -66,7 +70,7 @@ describe('PathsUrlMatcherFactory', () => {
     });
 
     it('should match prefix path', () => {
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher(['test']);
+      const matcher = factory.getMultiplePathsUrlMatcher(['test']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = {
@@ -77,7 +81,7 @@ describe('PathsUrlMatcherFactory', () => {
     });
 
     it('should match the first prefix path', () => {
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher([
+      const matcher = factory.getMultiplePathsUrlMatcher([
         'test',
         'test/:param',
       ]);
@@ -92,7 +96,7 @@ describe('PathsUrlMatcherFactory', () => {
 
     it('should NOT match prefix path when route has "pathMatch: full"', () => {
       route.pathMatch = 'full';
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher(['test']);
+      const matcher = factory.getMultiplePathsUrlMatcher(['test']);
       const segments = [{ path: 'test' }, { path: 'route' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;
@@ -101,10 +105,7 @@ describe('PathsUrlMatcherFactory', () => {
 
     it('should NOT match different path', () => {
       route.pathMatch = 'full';
-      const matcher = UrlMatcherFactory.getMultiplePathsUrlMatcher([
-        'test1',
-        'test2',
-      ]);
+      const matcher = factory.getMultiplePathsUrlMatcher(['test1', 'test2']);
       const segments = [{ path: 'test3' }] as UrlSegment[];
       const result = matcher(segments, segmentGroup, route);
       const expected = null;

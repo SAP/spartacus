@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
-import { UrlMatcherFactory } from './url-matcher-factory';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
@@ -11,7 +11,8 @@ export class RouterTranslationService {
   constructor(
     private config: ServerConfig,
     private injector: Injector,
-    private routingConfigService: RoutingConfigService
+    private routingConfigService: RoutingConfigService,
+    private urlMatcherFactory: UrlMatcherFactoryService
   ) {}
 
   private initCalled = false; // guard not to call init() more than once
@@ -22,7 +23,6 @@ export class RouterTranslationService {
   async init(): Promise<void> {
     if (!this.initCalled) {
       this.initCalled = true;
-      await this.routingConfigService.init();
       this.translateRouter();
     }
   }
@@ -84,7 +84,7 @@ export class RouterTranslationService {
         delete route.path;
         return {
           ...route,
-          matcher: UrlMatcherFactory.getFalsyUrlMatcher(),
+          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
         };
 
       case 1:
@@ -95,7 +95,7 @@ export class RouterTranslationService {
         delete route.path;
         return {
           ...route,
-          matcher: UrlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
         };
     }
   }
