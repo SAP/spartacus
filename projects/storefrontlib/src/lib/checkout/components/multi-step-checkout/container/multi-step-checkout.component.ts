@@ -25,7 +25,7 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
-    protected checkoutDetailsService: CheckoutDetailsService,
+    public checkoutDetailsService: CheckoutDetailsService,
     protected cartService: CartService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef
