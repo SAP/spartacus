@@ -13,17 +13,15 @@ For example:
 
 ```typescript
 ConfigModule.withConfig({
-    routesConfig: {
-        translations: {
-            en: {
-                product: null,
-                /*
-                or
-                  product: { paths: null }
-                or
-                  product: { paths: [] }
-                */
-            }
+    routing: {
+        routes: {
+            product: null,
+            /*
+            or
+              product: { paths: null }
+            or
+              product: { paths: [] }
+            */
         }
     }
 })
