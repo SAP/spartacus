@@ -1,8 +1,11 @@
+import { Observable } from 'rxjs';
+import { PageRobotsMeta } from '../model/page.model';
+
 /**
  * Resolves the page heading which is used in the UI.
  */
 export interface PageHeadingResolver {
-  resolveHeading(...args);
+  resolveHeading(...args): Observable<string>;
 }
 
 /**
@@ -11,7 +14,7 @@ export interface PageHeadingResolver {
  * page heading in the UI.
  */
 export interface PageTitleResolver {
-  resolveTitle(...args);
+  resolveTitle(...args): Observable<string>;
 }
 
 /**
@@ -19,7 +22,7 @@ export interface PageTitleResolver {
  * in the Search Engine Result Page (SERP).
  */
 export interface PageDescriptionResolver {
-  resolveDescription(...args);
+  resolveDescription(...args): Observable<string>;
 }
 
 /**
@@ -27,7 +30,7 @@ export interface PageDescriptionResolver {
  * for social sharing (using `og:image` metatag)
  */
 export interface PageImageResolver {
-  resolveImage(...args): string;
+  resolveImage(...args): Observable<string>;
 }
 
 /**
@@ -37,5 +40,5 @@ export interface PageImageResolver {
  *
  */
 export interface PageRobotsResolver {
-  resolveRobots(...args);
+  resolveRobots(...args): Observable<PageRobotsMeta[]>;
 }
