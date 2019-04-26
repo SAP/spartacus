@@ -6,7 +6,7 @@ import { RoutingConfig } from './config/routing-config';
 export class RoutingConfigService {
   constructor(private config: RoutingConfig) {}
 
-  getRouteTranslation(routeName: string): RouteConfig {
+  getRouteConfig(routeName: string): RouteConfig {
     const routesConfig = this.config.routing.routes;
 
     const result = routesConfig && routesConfig[routeName];

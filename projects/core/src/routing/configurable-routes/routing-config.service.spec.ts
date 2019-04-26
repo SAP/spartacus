@@ -34,13 +34,13 @@ describe('RoutingConfigService', () => {
     service = TestBed.get(RoutingConfigService);
   });
 
-  describe('getRouteTranslation', () => {
+  describe('getRouteConfig', () => {
     it('should return configured paths translations for given page name', async () => {
       service['_routesConfig'] = {
         page1: { paths: ['path1', 'path10'] },
       };
       const expectedResult = { paths: ['path1', 'path10'] };
-      expect(service.getRouteTranslation('page1')).toEqual(expectedResult);
+      expect(service.getRouteConfig('page1')).toEqual(expectedResult);
     });
   });
 });

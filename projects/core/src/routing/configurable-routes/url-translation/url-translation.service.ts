@@ -59,7 +59,7 @@ export class UrlTranslationService {
       return null;
     }
 
-    const routeTranslation = this.routingConfigService.getRouteTranslation(
+    const routeTranslation = this.routingConfigService.getRouteConfig(
       command.route
     );
 

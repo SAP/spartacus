@@ -8,7 +8,7 @@ import { TranslateUrlCommands } from './translate-url-commands';
 import { RoutingConfigService } from '../routing-config.service';
 
 const mockRoutingConfigService = {
-  getRouteTranslation: () => {},
+  getRouteConfig: () => {},
 };
 
 describe('UrlTranslationService', () => {
@@ -41,7 +41,7 @@ describe('UrlTranslationService', () => {
       it('should console.warn in non-production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
         serverConfig.production = false;
         spyOn(console, 'warn');
-        spyOn(routingConfigService, 'getRouteTranslation').and.returnValue({
+        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
         service.translate({
@@ -55,7 +55,7 @@ describe('UrlTranslationService', () => {
       it('should NOT console.warn in production environment when no configured path matches all its parameters to given object using parameter names mapping ', () => {
         serverConfig.production = true;
         spyOn(console, 'warn');
-        spyOn(routingConfigService, 'getRouteTranslation').and.returnValue({
+        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
         service.translate({
@@ -66,7 +66,7 @@ describe('UrlTranslationService', () => {
       });
 
       it('should return absolute path', () => {
-        spyOn(routingConfigService, 'getRouteTranslation').and.returnValue({
+        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
         const resultPath = service.translate({
@@ -77,7 +77,7 @@ describe('UrlTranslationService', () => {
       });
 
       it('should return relative path when "relative" option is true', () => {
-        spyOn(routingConfigService, 'getRouteTranslation').and.returnValue({
+        spyOn(routingConfigService, 'getRouteConfig').and.returnValue({
           paths: ['path/:param1'],
         });
         const resultPath = service.translate(
@@ -96,7 +96,7 @@ describe('UrlTranslationService', () => {
         nestedRoutesTranslations: RouteConfig[];
         expectedResult: any[];
       }) {
-        spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
+        spyOn(routingConfigService, 'getRouteConfig').and.returnValues(
           ...nestedRoutesTranslations
         );
         expect(service.translate(translateUrlOptions)).toEqual(expectedResult);

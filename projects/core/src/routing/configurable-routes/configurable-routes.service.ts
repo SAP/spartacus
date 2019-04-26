@@ -112,9 +112,7 @@ export class ConfigurableRoutesService {
     key: ConfigurableRouteKey
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation = this.routingConfigService.getRouteTranslation(
-      routeName
-    );
+    const translation = this.routingConfigService.getRouteConfig(routeName);
     if (translation === undefined) {
       this.warn(
         `Could not configure the key '${key}' of the named route '${routeName}'`,
