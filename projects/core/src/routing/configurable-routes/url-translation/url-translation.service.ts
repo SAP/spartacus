@@ -29,8 +29,7 @@ export class UrlTranslationService {
     }
 
     const result: string[] = [];
-    for (let i = 0; i < commands.length; i++) {
-      const command = commands[i];
+    for (const command of commands) {
       if (!command || !command.route) {
         // don't modify segment that is not route command:
         result.push(command);

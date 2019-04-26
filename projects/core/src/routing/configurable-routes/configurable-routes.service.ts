@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Routes, Router, Route } from '@angular/router';
 import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
+import { UrlMatcherFactory } from './url-matcher-factory';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
@@ -38,20 +39,19 @@ export class RouterTranslationService {
   private translateRoutes(routes: Routes): Routes {
     const result = [];
     routes.forEach(route => {
-      const translatedRouteAliases = this.translateRoute(route);
+      const translatedRoute = this.translateRoute(route);
+
       if (route.children && route.children.length) {
         const translatedChildrenRoutes = this.translateRoutes(route.children);
 
-        translatedRouteAliases.forEach(translatedRouteAlias => {
-          translatedRouteAlias.children = translatedChildrenRoutes;
-        });
+        translatedRoute.children = translatedChildrenRoutes;
       }
-      result.push(...translatedRouteAliases);
+      result.push(translatedRoute);
     });
     return result;
   }
 
-  private translateRoute(route: Route): Routes {
+  private translateRoute(route: Route): Route {
     if (this.isConfigurable(route, 'cxPath')) {
       // we assume that 'path' and 'redirectTo' cannot be both configured for one route
       if (this.isConfigurable(route, 'cxRedirectTo')) {
@@ -66,7 +66,7 @@ export class RouterTranslationService {
       return this.translateRouteRedirectTo(route);
     }
 
-    return [route]; // if nothing is configurable, just pass the original route
+    return route; // if nothing is configurable, just pass the original route
   }
 
   private isConfigurable(route: Route, key: ConfigurableRouteKey): boolean {
@@ -77,17 +77,34 @@ export class RouterTranslationService {
     return route.data && route.data[key];
   }
 
-  private translateRoutePath(route: Route): Route[] {
-    return this.getTranslatedPaths(route, 'cxPath').map(translatedPath => {
-      return { ...route, path: translatedPath };
-    });
+  private translateRoutePath(route: Route): Route {
+    const paths = this.getTranslatedPaths(route, 'cxPath');
+    switch (paths.length) {
+      case 0:
+        delete route.path;
+        return {
+          ...route,
+          matcher: UrlMatcherFactory.getFalsyUrlMatcher(),
+        };
+
+      case 1:
+        delete route.matcher;
+        return { ...route, path: paths[0] };
+
+      default:
+        delete route.path;
+        return {
+          ...route,
+          matcher: UrlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+        };
+    }
   }
 
-  private translateRouteRedirectTo(route: Route): Route[] {
+  private translateRouteRedirectTo(route: Route): Route {
     const translatedPaths = this.getTranslatedPaths(route, 'cxRedirectTo');
     return translatedPaths.length
-      ? [{ ...route, redirectTo: translatedPaths[0] }] // take the first path from list by convention
-      : [];
+      ? { ...route, redirectTo: translatedPaths[0] } // take the first path from list by convention
+      : route;
   }
 
   private getTranslatedPaths(

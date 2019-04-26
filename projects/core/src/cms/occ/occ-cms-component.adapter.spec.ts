@@ -13,12 +13,8 @@ import { PageContext } from '../../routing/index';
 import { CmsStructureConfigService } from '../services';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { HttpRequest } from '@angular/common/http';
-import {
-  CMS_COMPONENT_LIST_NORMALIZER,
-  CMS_COMPONENT_NORMALIZER,
-  ConverterService,
-} from '@spartacus/core';
-import createSpy = jasmine.createSpy;
+import { ConverterService } from '../../util/converter.service';
+import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -41,10 +37,9 @@ class OccEndpointsServiceMock {
   getEndpoint(): string {
     return endpoint;
   }
-}
-
-class MockConverterService {
-  pipeable = createSpy().and.returnValue(x => x);
+  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+    return '';
+  }
 }
 
 const context: PageContext = {
@@ -58,6 +53,7 @@ describe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
+  let endpointsService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,7 +61,6 @@ describe('OccCmsComponentAdapter', () => {
       providers: [
         OccCmsComponentAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
-        { provide: ConverterService, useClass: MockConverterService },
         {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
@@ -76,6 +71,10 @@ describe('OccCmsComponentAdapter', () => {
     service = TestBed.get(OccCmsComponentAdapter);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+    endpointsService = TestBed.get(OccEndpointsService);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -84,26 +83,40 @@ describe('OccCmsComponentAdapter', () => {
 
   describe('load', () => {
     it('Should get cms component data', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint + `/components/comp1?productCode=${context.id}`
+      );
       service.load('comp1', context).subscribe(result => {
         expect(result).toEqual(component);
       });
 
       const testRequest = httpMock.expectOne(req => {
         return (
-          req.method === 'GET' && req.url === endpoint + '/components/comp1'
+          req.method === 'GET' &&
+          req.url === endpoint + `/components/comp1?productCode=${context.id}`
         );
       });
 
-      expect(testRequest.request.params.get('productCode')).toEqual('123');
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'component',
+        { id: 'comp1' },
+        { productCode: '123' }
+      );
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(component);
     });
 
     it('should use normalizer', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint + `/components/comp1?productCode=${context.id}`
+      );
       service.load('comp1', context).subscribe();
       httpMock
-        .expectOne(req => req.url === endpoint + '/components/comp1')
+        .expectOne(
+          req =>
+            req.url === endpoint + `/components/comp1?productCode=${context.id}`
+        )
         .flush(component);
 
       expect(converter.pipeable).toHaveBeenCalledWith(CMS_COMPONENT_NORMALIZER);
@@ -112,16 +125,27 @@ describe('OccCmsComponentAdapter', () => {
 
   describe('Load list of cms component data', () => {
     it('Should get a list of cms component data without pagination parameters', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint + `/components?productCode=${context.id}`
+      );
       service.loadList(ids, context).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === endpoint + '/components';
+        console.log(req);
+        return (
+          req.method === 'POST' &&
+          req.url === endpoint + `/components?productCode=${context.id}`
+        );
       });
 
       expect(testRequest.request.body).toEqual({ idList: ids });
-      expect(testRequest.request.params.get('productCode')).toEqual('123');
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'components',
+        { fields: 'DEFAULT' },
+        { productCode: '123', currentPage: '0', pageSize: '2' }
+      );
 
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -129,20 +153,28 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('Should get a list of cms component data with pagination parameters', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint + `/components?productCode=${context.id}`
+      );
       service.loadList(ids, context, 'FULL', 0, 5).subscribe(result => {
         expect(result).toEqual(componentList.component);
       });
 
       const testRequest = httpMock.expectOne(req => {
-        return req.method === 'POST' && req.url === endpoint + '/components';
+        return (
+          req.method === 'POST' &&
+          req.url === endpoint + `/components?productCode=${context.id}`
+        );
       });
 
       const request: HttpRequest<any> = testRequest.request;
+
       expect(request.body).toEqual({ idList: ids });
-      expect(request.params.get('productCode')).toEqual('123');
-      expect(request.params.get('fields')).toEqual('FULL');
-      expect(request.params.get('currentPage')).toEqual('0');
-      expect(request.params.get('pageSize')).toEqual('5');
+      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+        'components',
+        { fields: 'FULL' },
+        { productCode: '123', currentPage: '0', pageSize: '5' }
+      );
 
       expect(request.responseType).toEqual('json');
 
@@ -151,14 +183,17 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('should use normalizer', () => {
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint + '/components'
+      );
       service.loadList(ids, context).subscribe();
 
       httpMock
         .expectOne(req => req.url === endpoint + '/components')
         .flush(componentList);
 
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        CMS_COMPONENT_LIST_NORMALIZER
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        CMS_COMPONENT_NORMALIZER
       );
     });
   });

@@ -5,8 +5,8 @@ import { Review } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import {
+  PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
-  PRODUCT_REVIEWS_NORMALIZER,
 } from '../connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../connectors/reviews/product-reviews.adapter';
 import { pluck } from 'rxjs/operators';
@@ -22,7 +22,7 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http.get(this.getEndpoint(productCode, maxCount)).pipe(
       pluck('reviews'),
-      this.converter.pipeable(PRODUCT_REVIEWS_NORMALIZER)
+      this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
     );
   }
 

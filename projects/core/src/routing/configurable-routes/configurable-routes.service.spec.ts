@@ -3,6 +3,7 @@ import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
 import { RouterTranslationService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
+import { UrlMatcherFactory } from './url-matcher-factory';
 
 class MockServerConfig {
   production = false;
@@ -49,6 +50,10 @@ describe('RouterTranslationService', () => {
     routingConfigService = TestBed.get(RoutingConfigService);
 
     router.config = [];
+    spyOn(UrlMatcherFactory, 'getMultiplePathsUrlMatcher').and.callFake(
+      paths => paths
+    );
+    spyOn(UrlMatcherFactory, 'getFalsyUrlMatcher').and.returnValue(false);
   });
 
   describe('translateRouterConfig', () => {
@@ -104,18 +109,22 @@ describe('RouterTranslationService', () => {
       ]);
     });
 
-    it('should translate "path" of configurable routes', async () => {
-      router.config = [
-        { path: null, data: { cxPath: 'page1' } },
-        { path: null, data: { cxPath: 'page2' } },
-      ];
-      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(
-        { paths: ['path1'] },
-        { paths: ['path2'] }
-      );
+    it('should generate route matching configured path', async () => {
+      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues({
+        paths: ['path1'],
+      });
       await service.init();
       expect(router.config[0].path).toEqual('path1');
-      expect(router.config[1].path).toEqual('path2');
+    });
+
+    it('should generate route matching configured multiple paths', async () => {
+      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues({
+        paths: ['path1', 'path100'],
+      });
+      await service.init();
+      expect(router.config[0].matcher).toEqual(['path1', 'path100']);
     });
 
     it('should translate "redirectTo" of configurable routes', async () => {
@@ -161,17 +170,6 @@ describe('RouterTranslationService', () => {
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should generate many routes with different paths when translations config contain many paths for a given page', async () => {
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      spyOn(routingConfigService, 'getRouteTranslation').and.returnValues({
-        paths: ['path1', 'path100'],
-      });
-      await service.init();
-      expect(router.config.length).toEqual(2);
-      expect(router.config[0].path).toEqual('path1');
-      expect(router.config[1].path).toEqual('path100');
-    });
-
     it('should generate route for "redirectTo" with with first configured path in translations config for a given page', async () => {
       router.config = [
         { path: 'path', redirectTo: null, data: { cxRedirectTo: 'page1' } },
@@ -184,11 +182,11 @@ describe('RouterTranslationService', () => {
       expect(router.config[0].redirectTo).toEqual('path1');
     });
 
-    it('should not generate routes if they do not have configured paths in translations config', async () => {
+    it('should generate route that will never match if there are no configured paths in translations config', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(null);
       await service.init();
-      expect(router.config.length).toEqual(0);
+      expect(router.config[0].matcher).toBe(false);
     });
 
     // tslint:disable-next-line:max-line-length
@@ -237,15 +235,16 @@ describe('RouterTranslationService', () => {
         { paths: ['path40', 'path400'] }
       );
       await service.init();
-      expect(router.config.length).toBe(7);
       expect(router.config).toEqual([
         // normal routes
         { path: 'path1' },
 
         // configurable routes
-        { path: 'path2', data: { cxPath: 'page2' } },
-        { path: 'path20', data: { cxPath: 'page2' } },
-        { path: 'path200', data: { cxPath: 'page2' } },
+        {
+          path: null,
+          data: { cxPath: 'page2' },
+          matcher: ['path2', 'path20', 'path200'] as any,
+        },
 
         // normal routes
         { path: 'path3', redirectTo: 'path30' },

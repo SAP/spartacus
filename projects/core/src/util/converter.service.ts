@@ -69,9 +69,22 @@ export class ConverterService {
     injectionToken: InjectionToken<Converter<S, T>>
   ): OperatorFunction<S, T> {
     if (this.hasConverters(injectionToken)) {
-      return map((model: any) => this.convertSource(model, injectionToken));
+      return map((model: S) => this.convertSource(model, injectionToken));
     } else {
       return (observable: Observable<any>) => observable as Observable<T>;
+    }
+  }
+
+  /**
+   * Pipeable operator to apply converter logic in a observable stream to collection of items
+   */
+  pipeableMany<S, T>(
+    injectionToken: InjectionToken<Converter<S, T>>
+  ): OperatorFunction<S[], T[]> {
+    if (this.hasConverters(injectionToken)) {
+      return map((model: S[]) => this.convertMany(model, injectionToken));
+    } else {
+      return (observable: Observable<any[]>) => observable as Observable<T[]>;
     }
   }
 
@@ -83,6 +96,20 @@ export class ConverterService {
       return this.convertSource(source, injectionToken);
     } else {
       return source as any;
+    }
+  }
+
+  /**
+   * Apply converter logic specified by injection token to a collection
+   */
+  convertMany<S, T>(
+    sources: S[],
+    injectionToken: InjectionToken<Converter<S, T>>
+  ): T[] {
+    if (this.hasConverters(injectionToken) && Array.isArray(sources)) {
+      return sources.map(source => this.convertSource(source, injectionToken));
+    } else {
+      return sources as any[];
     }
   }
 
