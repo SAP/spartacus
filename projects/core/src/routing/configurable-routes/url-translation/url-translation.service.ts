@@ -59,20 +59,15 @@ export class UrlTranslationService {
       return null;
     }
 
-    const routeTranslation = this.routingConfigService.getRouteConfig(
-      command.route
-    );
+    const routeConfig = this.routingConfigService.getRouteConfig(command.route);
 
     // if no route translation was configured, return null:
-    if (!routeTranslation || !routeTranslation.paths) {
+    if (!routeConfig || !routeConfig.paths) {
       return null;
     }
 
     // find first path that can satisfy it's parameters with given parameters
-    const path = this.findPathWithFillableParams(
-      routeTranslation,
-      command.params
-    );
+    const path = this.findPathWithFillableParams(routeConfig, command.params);
 
     // if there is no configured path that can be satisfied with given params, return null
     if (!path) {
@@ -82,7 +77,7 @@ export class UrlTranslationService {
     const result = this.provideParamsValues(
       path,
       command.params,
-      routeTranslation.paramsMapping
+      routeConfig.paramsMapping
     );
 
     return result;
@@ -111,14 +106,14 @@ export class UrlTranslationService {
   }
 
   private findPathWithFillableParams(
-    routeTranslation: RouteConfig,
+    routeConfig: RouteConfig,
     params: object
   ): string {
-    const foundPath = routeTranslation.paths.find(path =>
+    const foundPath = routeConfig.paths.find(path =>
       this.getParams(path).every(paramName => {
         const mappedParamName = this.getMappedParamName(
           paramName,
-          routeTranslation.paramsMapping
+          routeConfig.paramsMapping
         );
 
         return params[mappedParamName] !== undefined;
@@ -129,7 +124,7 @@ export class UrlTranslationService {
       this.warn(
         `No configured path matches all its params to given object. `,
         `Route config: `,
-        routeTranslation,
+        routeConfig,
         `Params object: `,
         params
       );
