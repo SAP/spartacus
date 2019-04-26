@@ -11,6 +11,9 @@ import { tap } from 'rxjs/operators';
 
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { PersonalizationConfig } from '../config/personalization-config';
+import { WindowRef } from '../../window/window-ref';
+
+const PERSONALIZATION_KEY = 'personalization-id';
 
 @Injectable()
 export class OccPersonalizationIdInterceptor implements HttpInterceptor {
@@ -19,9 +22,13 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
   constructor(
     private config: PersonalizationConfig,
-    private occEndpoints: OccEndpointsService
+    private occEndpoints: OccEndpointsService,
+    private winRef: WindowRef
   ) {
     this.requestHeader = this.config.personalization.requestHeader.toLowerCase();
+    this.personalizationId = this.winRef.localStorage.getItem(
+      PERSONALIZATION_KEY
+    );
   }
 
   intercept(
@@ -41,13 +48,16 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       tap(event => {
-        if (
-          this.personalizationId === undefined &&
-          event instanceof HttpResponse
-        ) {
+        if (event instanceof HttpResponse) {
           if (event.headers.keys().indexOf(this.requestHeader) > -1) {
-            this.personalizationId = event.headers.get(this.requestHeader);
-            console.log(this.personalizationId);
+            const receivedId = event.headers.get(this.requestHeader);
+            if (this.personalizationId !== receivedId) {
+              this.personalizationId = receivedId;
+              this.winRef.localStorage.setItem(
+                PERSONALIZATION_KEY,
+                this.personalizationId
+              );
+            }
           }
         }
       })
