@@ -52,10 +52,19 @@ if (!environment.production) {
           },
         },
       },
+<<<<<<< HEAD
       routing: {
         routes: {
           product: {
             paths: ['product/:name/:productCode', 'product/:productCode'],
+=======
+      routesConfig: {
+        translations: {
+          default: {
+            product: {
+              paths: ['product/:name/:productCode', 'product/:productCode'],
+            },
+>>>>>>> 5c36ba3755e74f8a0b083be41f324121c424a888
           },
         },
       },
