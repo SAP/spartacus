@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IconConfig, ICON_TYPES } from './config/icon.config';
+import { IconConfig, ICON_TYPES } from './icon.config';
 
 @Injectable({
   providedIn: 'root',

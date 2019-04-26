@@ -12,7 +12,7 @@ import {
   StripHtmlModule,
   UrlTranslationModule,
 } from '@spartacus/core';
-import { IconModule } from 'projects/storefrontlib/src/cms-components/misc/icon/index';
+import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BootstrapModule } from '../../bootstrap.module';
 import { MediaModule } from '../../ui/components/media/media.module';

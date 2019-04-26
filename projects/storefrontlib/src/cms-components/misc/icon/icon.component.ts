@@ -5,8 +5,8 @@ import {
   OnChanges,
   Renderer2,
 } from '@angular/core';
-import { ICON_TYPES } from './config/icon.config';
 import { IconLoaderService } from './icon-loader.service';
+import { ICON_TYPES } from './icon.config';
 
 @Component({
   selector: 'cx-icon',
