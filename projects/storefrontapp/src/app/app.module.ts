@@ -46,8 +46,8 @@ if (!environment.production) {
         urlEncodingParameters: ['BASE_SITE', 'LANGUAGE', 'CURRENCY'],
         parameters: {
           BASE_SITE: {
-            values: ['electronics', 'apparel-de', 'apparel-uk'],
-            defaultValue: 'electronics',
+            values: ['electronics-spa', 'apparel-de', 'apparel-uk'],
+            defaultValue: 'electronics-spa',
             persistence: 'route',
           },
         },
@@ -67,9 +67,6 @@ if (!environment.production) {
       icon: {
         prefix: 'fa-',
         iconClass: 'fas',
-        // useSvg: true,
-        // svgPath: 'assets/icons.svg',
-        // prefix: 'fas-fa-',
       },
     }),
 
