@@ -32,15 +32,11 @@ export class ProductPageMetaResolver extends PageMetaResolver
   }
 
   resolve(): Observable<PageMeta> {
-    const product$: Observable<
-      UIProduct
-    > = this.routingService.getRouterState().pipe(
+    return this.routingService.getRouterState().pipe(
       map(state => state.state.params['productCode']),
       filter(Boolean),
-      switchMap(code => this.productService.get(code))
-    );
-
-    return product$.pipe(
+      switchMap(code => this.productService.get(code)),
+      filter(Boolean),
       switchMap((p: UIProduct) =>
         combineLatest([
           this.resolveHeading(p),
