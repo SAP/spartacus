@@ -21,7 +21,6 @@ export class ConfigurableRoutesService {
    * Configures all existing Routes in the Router
    */
   init(): void {
-    debugger;
     if (!this.initCalled) {
       this.initCalled = true;
       this.configureRouter();
