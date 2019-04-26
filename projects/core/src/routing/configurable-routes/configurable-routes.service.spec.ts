@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ServerConfig } from '../../config/server-config/server-config';
 import { RoutingConfigService } from './routing-config.service';
-import { RouterTranslationService } from './router-translation.service';
+import { RouterTranslationService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 
 class MockServerConfig {

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { RouterTranslationService } from './router-translation.service';
+import { RouterTranslationService } from './configurable-routes.service';
 import { RoutingConfigService } from './routing-config.service';
 import { ConfigModule, Config } from '../../config/config.module';
 import { RoutingConfig } from './config/routing-config';

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigurableRoutesModule } from './configurable-routes.module';
 import { APP_INITIALIZER } from '@angular/core';
-import { RouterTranslationService } from './router-translation.service';
+import { RouterTranslationService } from './configurable-routes.service';
 
 class MockConfigurableRoutesService {
   init = jasmine.createSpy().and.returnValue(Promise.resolve());
