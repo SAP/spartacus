@@ -60,7 +60,10 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-const mockEntries: UIOrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
+const mockEntries: UIOrderEntry[] = [
+  { entryNumber: 123 },
+  { entryNumber: 456 },
+];
 
 @Component({
   selector: 'cx-cart-item-list',
