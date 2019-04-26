@@ -9,7 +9,7 @@ class MockServerConfig {
   production = false;
 }
 
-class MockRouterConfigService {
+class MockRoutingConfigService {
   getRouteConfig() {}
 }
 
@@ -41,7 +41,7 @@ describe('ConfigurableRoutesService', () => {
         ConfigurableRoutesService,
         {
           provide: RoutingConfigService,
-          useClass: MockRouterConfigService,
+          useClass: MockRoutingConfigService,
         },
         { provide: ServerConfig, useClass: MockServerConfig },
         {
