@@ -4,12 +4,13 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import * as fromActions from '../actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
-import { ProductImageNormalizer } from '../../../product/index';
+import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry } from '../../../occ/occ-models/index';
 import * as fromUserActions from '../../../user/store/actions/index';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
+import { ConverterService } from '../../../util/converter.service';
 
 @Injectable()
 export class CheckoutEffects {
@@ -153,7 +154,10 @@ export class CheckoutEffects {
         .pipe(
           map(data => {
             for (const entry of data.entries as OrderEntry[]) {
-              this.productImageConverter.convertProduct(entry.product);
+              entry.product = this.converter.convert(
+                entry.product,
+                PRODUCT_NORMALIZER
+              ) as any;
             }
             return data;
           }),
@@ -174,6 +178,6 @@ export class CheckoutEffects {
     private cartDeliveryConnector: CartDeliveryConnector,
     private cartPaymentConnector: CartPaymentConnector,
     private occOrderService: OccOrderService,
-    private productImageConverter: ProductImageNormalizer
+    private converter: ConverterService
   ) {}
 }
