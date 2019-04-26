@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Observable } from 'rxjs';
 
-import { CartService, OrderEntry } from '@spartacus/core';
+import { CartService, UIOrderEntry } from '@spartacus/core';
 
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
@@ -33,7 +33,7 @@ export class AddToCartComponent implements OnInit {
   @Input()
   maxQuantity: number;
 
-  cartEntry$: Observable<OrderEntry>;
+  cartEntry$: Observable<UIOrderEntry>;
   loaded$: Observable<boolean>;
 
   constructor(

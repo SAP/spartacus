@@ -1,5 +1,5 @@
-import { OrderEntry } from '../../occ/occ-models/index';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { UIOrderEntry } from '../model';
 
 export const CART_FEATURE = 'cart';
 export const CART_DATA = '[Cart] Cart Data';
@@ -14,7 +14,7 @@ export interface CartsState {
 
 export interface CartState {
   content: any;
-  entries: { [code: string]: OrderEntry };
+  entries: { [code: string]: UIOrderEntry };
   refresh: boolean;
   cartMergeComplete: boolean;
 }

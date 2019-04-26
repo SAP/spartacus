@@ -1,28 +1,29 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Observable, of } from 'rxjs';
+
 import {
-  Cart,
   CartService,
   CmsMiniCartComponent,
   Component as SpaComponent,
-  TranslateUrlOptions,
+  TranslateUrlCommandRoute,
+  UICart,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxTranslateUrl',
 })
 class MockTranslateUrlPipe implements PipeTransform {
-  transform(options: TranslateUrlOptions): string | string[] {
-    return '/translated-path/' + options.route[0];
+  transform(options: TranslateUrlCommandRoute): string {
+    return options.route;
   }
 }
 
-const testCart: Cart = {
+const testCart: UICart = {
   code: 'xxx',
   guid: 'xxx',
   totalItems: 0,
@@ -49,7 +50,7 @@ const mockComponentData: CmsMiniCartComponent = {
 };
 
 class MockCartService {
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return of(testCart);
   }
 }
@@ -91,7 +92,7 @@ describe('MiniCartComponent', () => {
     it('should contain link to cart page', () => {
       const linkHref = fixture.debugElement.query(By.css('a')).nativeElement
         .attributes.href.value;
-      expect(linkHref).toBe('/translated-path/cart');
+      expect(linkHref).toBe('/cart');
     });
 
     it('should contain number of items in cart', () => {

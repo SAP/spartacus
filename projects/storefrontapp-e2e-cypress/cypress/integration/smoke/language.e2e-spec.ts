@@ -1,7 +1,3 @@
-const BASE_URL = Cypress.config().baseUrl;
-const CONTENT_CATALOG = 'electronics-spa';
-const CURRENCY = 'USD';
-
 // Use language switcher to change language
 function switchLanguage(lang: string) {
   cy.get('.SiteContext label')
@@ -12,6 +8,10 @@ function switchLanguage(lang: string) {
 }
 
 context('Language Switcher', () => {
+  const BASE_URL = Cypress.config().baseUrl;
+  const CONTENT_CATALOG = 'electronics-spa';
+  const CURRENCY = 'USD';
+
   describe('Product Page', () => {
     const PRODUCT_URL_EN = `/${CONTENT_CATALOG}/en/${CURRENCY}/product/`;
     const PRODUCT_URL_DE = `/${CONTENT_CATALOG}/de/${CURRENCY}/product/`;
