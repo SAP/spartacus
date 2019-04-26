@@ -18,7 +18,7 @@
     <button
       class="cx-button cx-button-desktop"
       type="submit"
-      aria-label="Submit "
+      aria-label="Submit"
       (click)="submitSearch()"
       [disabled]="!searchBoxControl?.value"
     >
@@ -29,7 +29,16 @@
     <button
       class="cx-button cx-button-mobile"
       type="button"
-      aria-label="Search "
+      aria-label="Search"
+      (click)="toggleMobileSearchInput()"
+    >
+      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    </button>
+
+    <!-- <button
+      class="cx-button cx-button-mobile"
+      type="button"
+      aria-label="Search"
       (click)="toggleMobileSearchInput()"
     >
       <svg
@@ -44,7 +53,7 @@
           transform="translate(-4472 4760) "
         />
       </svg>
-    </button>
+    </button> -->
     <!-- searchbox results -->
     <ng-template #rt let-suggestion="result">
       <div
