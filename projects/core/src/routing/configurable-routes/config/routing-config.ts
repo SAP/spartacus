@@ -1,6 +1,8 @@
-import { RoutesConfig } from '../routes-config';
 import { ServerConfig } from 'projects/core/src/config';
+import { RoutesConfig } from '../routes-config';
 
 export abstract class RoutingConfig extends ServerConfig {
-  routing?: RoutesConfig;
+  routing?: {
+    routes: RoutesConfig;
+  };
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UrlParsingService } from './url-parsing.service';
 import { ServerConfig } from '../../../config/server-config/server-config';
-import { RouteTranslation, ParamsMapping } from '../routes-config';
+import { RouteConfig, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import {
   TranslateUrlCommandRoute,
@@ -111,7 +111,7 @@ export class UrlTranslationService {
   }
 
   private findPathWithFillableParams(
-    routeTranslation: RouteTranslation,
+    routeTranslation: RouteConfig,
     params: object
   ): string {
     const foundPath = routeTranslation.paths.find(path =>
@@ -128,7 +128,7 @@ export class UrlTranslationService {
     if (foundPath === undefined || foundPath === null) {
       this.warn(
         `No configured path matches all its params to given object. `,
-        `Route translation: `,
+        `Route config: `,
         routeTranslation,
         `Params object: `,
         params

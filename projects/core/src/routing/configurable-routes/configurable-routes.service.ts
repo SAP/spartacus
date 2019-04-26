@@ -117,17 +117,17 @@ export class ConfigurableRoutesService {
     );
     if (translation === undefined) {
       this.warn(
-        `Could not translate key '${key}' of route '${routeName}'`,
+        `Could not configure the key '${key}' of the named route '${routeName}'`,
         route,
-        `due to undefined key '${routeName}' in routes translations`
+        `due to undefined key for named route '${routeName}' in config`
       );
       return [];
     }
     if (translation && translation.paths === undefined) {
       this.warn(
-        `Could not translate key '${key}' of route '${routeName}'`,
+        `Could not configure the key '${key}' of the named route '${routeName}'`,
         route,
-        `due to undefined 'paths' key for '${routeName}' route in routes translations`
+        `due to undefined 'paths' for the named route '${routeName}' in config`
       );
       return [];
     }

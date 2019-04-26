@@ -3,7 +3,7 @@ import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouterTestingModule } from '@angular/router/testing';
 import { UrlParsingService } from './url-parsing.service';
 import { UrlTranslationService } from './url-translation.service';
-import { RouteTranslation } from '../routes-config';
+import { RouteConfig } from '../routes-config';
 import { TranslateUrlCommands } from './translate-url-commands';
 import { RoutingConfigService } from '../routing-config.service';
 
@@ -93,7 +93,7 @@ describe('UrlTranslationService', () => {
         expectedResult,
       }: {
         translateUrlOptions: TranslateUrlCommands;
-        nestedRoutesTranslations: RouteTranslation[];
+        nestedRoutesTranslations: RouteConfig[];
         expectedResult: any[];
       }) {
         spyOn(routingConfigService, 'getRouteTranslation').and.returnValues(

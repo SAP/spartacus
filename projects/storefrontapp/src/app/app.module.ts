@@ -52,12 +52,10 @@ if (!environment.production) {
           },
         },
       },
-      routesConfig: {
-        translations: {
-          default: {
-            product: {
-              paths: ['product/:name/:productCode', 'product/:productCode'],
-            },
+      routing: {
+        routes: {
+          product: {
+            paths: ['product/:name/:productCode', 'product/:productCode'],
           },
         },
       },

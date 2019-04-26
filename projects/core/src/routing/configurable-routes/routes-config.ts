@@ -1,19 +1,8 @@
-import { StorefrontRoutesTranslations } from './config/storefront-routes-translations';
-
 export interface RoutesConfig {
-  translations?: RoutesConfigTranslations;
+  [routeName: string]: RouteConfig; // allows User's custom pages
 }
 
-export interface RoutesConfigTranslations {
-  default?: RoutesTranslations | StorefrontRoutesTranslations;
-  [languageCode: string]: RoutesTranslations | StorefrontRoutesTranslations;
-}
-
-export interface RoutesTranslations {
-  [routeName: string]: RouteTranslation; // allows User's custom pages
-}
-
-export interface RouteTranslation {
+export interface RouteConfig {
   paths?: string[];
   paramsMapping?: ParamsMapping;
 }
