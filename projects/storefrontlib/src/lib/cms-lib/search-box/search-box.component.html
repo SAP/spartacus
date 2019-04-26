@@ -5,7 +5,7 @@
       class="cx-input form-control dropdown-menu-toggle"
       [ngClass]="{ 'show-mobile': isMobileSearchVisible }"
       type="text"
-      placeholder="{{ 'common.placeholder.searchHere' | cxTranslate }}"
+      placeholder="{{ 'searchBox.searchHere' | cxTranslate }}"
       aria-label="search"
       [ngbTypeahead]="typeahead"
       [resultTemplate]="rt"
@@ -66,12 +66,8 @@
         <div
           [routerLink]="
             {
-              route: [
-                {
-                  name: 'product',
-                  params: suggestion | stripHtml
-                }
-              ]
+              route: 'product',
+              params: suggestion | stripHtml
             } | cxTranslateUrl
           "
           class="cx-product"

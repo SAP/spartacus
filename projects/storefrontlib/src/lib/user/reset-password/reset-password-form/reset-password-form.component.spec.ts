@@ -94,7 +94,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(component.form.valid).toBeFalsy();
     const message = fixture.debugElement.query(By.css('.invalid-feedback'))
       .children[0].nativeElement.textContent;
-    expect(message).toEqual('register.validation.passwordMinRequirements');
+    expect(message).toEqual('register.passwordMinRequirements');
   });
 
   it('should form be invalid when password and repassword are not match', () => {
@@ -107,7 +107,7 @@ describe('ResetPasswordFormComponent', () => {
     expect(component.form.valid).toBeFalsy();
     const message = fixture.debugElement.query(By.css('.invalid-feedback'))
       .children[0].nativeElement.textContent;
-    expect(message).toEqual('register.validation.bothPasswordMustMatch');
+    expect(message).toEqual('register.bothPasswordMustMatch');
   });
 
   it('should call resetPassword() method on submit', () => {
@@ -137,6 +137,6 @@ describe('ResetPasswordFormComponent', () => {
     spyOn(routingService, 'go').and.stub();
     spyOn(userService, 'isPasswordReset').and.returnValue(of(true));
     component.ngOnInit();
-    expect(routingService.go).toHaveBeenCalledWith({ route: ['login'] });
+    expect(routingService.go).toHaveBeenCalledWith({ route: 'login' });
   });
 });

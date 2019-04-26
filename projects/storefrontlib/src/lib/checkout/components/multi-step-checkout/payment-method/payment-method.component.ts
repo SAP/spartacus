@@ -41,9 +41,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   deliveryAddress: Address;
 
   @Output()
-  backStep = new EventEmitter<any>();
-
-  @Output()
   goToStep = new EventEmitter<any>();
 
   constructor(
@@ -75,7 +72,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.getPaymentDetailsSub = this.checkoutService
       .getPaymentDetails()
-      .pipe(filter(paymentInfo => Object.keys(paymentInfo).length !== 0))
+      .pipe(
+        filter(
+          paymentInfo => paymentInfo && Object.keys(paymentInfo).length !== 0
+        )
+      )
       .subscribe(paymentInfo => {
         if (!paymentInfo['hasError']) {
           this.selectedPayment = paymentInfo;
@@ -144,7 +145,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.backStep.emit();
+    this.goToStep.emit(2);
   }
 
   addNewPaymentMethod({

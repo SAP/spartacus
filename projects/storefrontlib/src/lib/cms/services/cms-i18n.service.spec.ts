@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import {
-  TranslationService,
-  TranslationNamespaceService,
-} from '@spartacus/core';
+import { TranslationService, TranslationChunkService } from '@spartacus/core';
 import { CmsMappingService } from '@spartacus/storefront';
 import createSpy = jasmine.createSpy;
 import { CmsI18nService } from './cms-i18n.service';
@@ -16,11 +13,11 @@ describe('CmsI18nService', () => {
     getI18nKeysForComponents: () => ['key1', 'key2'],
   };
   const mockTranslation = {
-    loadNamespaces: createSpy('loadNamespaces'),
+    loadChunks: createSpy('loadChunks'),
   };
-  const mockTranslationNamespace = {
-    getNamespace: createSpy('getNamespace').and.callFake(
-      key => `namespaceFor-${key}`
+  const mockTranslationChunk = {
+    getChunkNameForKey: createSpy('getChunkNameForKey').and.callFake(
+      key => `chunkFor-${key}`
     ),
   };
 
@@ -31,8 +28,8 @@ describe('CmsI18nService', () => {
         { provide: CmsMappingService, useValue: mockCmsMapping },
         { provide: TranslationService, useValue: mockTranslation },
         {
-          provide: TranslationNamespaceService,
-          useValue: mockTranslationNamespace,
+          provide: TranslationChunkService,
+          useValue: mockTranslationChunk,
         },
       ],
     });
@@ -44,13 +41,13 @@ describe('CmsI18nService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('loadNamespacesForComponents', () => {
-    it('should load i18n namespaces for given component types', () => {
-      service.loadNamespacesForComponents([]);
+  describe('loadChunksForComponents', () => {
+    it('should load i18n chunks for given component types', () => {
+      service.loadChunksForComponents([]);
 
-      expect(translation.loadNamespaces).toHaveBeenCalledWith([
-        'namespaceFor-key1',
-        'namespaceFor-key2',
+      expect(translation.loadChunks).toHaveBeenCalledWith([
+        'chunkFor-key1',
+        'chunkFor-key2',
       ]);
     });
   });

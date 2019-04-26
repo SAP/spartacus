@@ -78,7 +78,10 @@ const mockPaymentMethods: PaymentDetails[] = [
   selector: 'cx-payment-form',
   template: '',
 })
-class MockPaymentFormComponent {}
+class MockPaymentFormComponent {
+  @Input()
+  paymentMethodsCount: number;
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -134,7 +137,6 @@ describe('PaymentMethodComponent', () => {
     checkoutService = TestBed.get(CheckoutService);
 
     spyOn(component.goToStep, 'emit').and.callThrough();
-    spyOn(component.backStep, 'emit').and.callThrough();
   });
 
   it('should be created', () => {
@@ -234,14 +236,14 @@ describe('PaymentMethodComponent', () => {
 
   it('should call back()', () => {
     component.back();
-    expect(component.backStep.emit).toHaveBeenCalled();
+    expect(component.goToStep.emit).toHaveBeenCalledWith(2);
   });
 
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.action.continue');
+        .find(el => el.nativeElement.innerText === 'common.continue');
 
     it('should be enabled when payment method is selected', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
@@ -272,7 +274,7 @@ describe('PaymentMethodComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(el => el.nativeElement.innerText === 'common.action.back');
+        .find(el => el.nativeElement.innerText === 'common.back');
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getPaymentMethodsLoading').and.returnValue(of(false));
@@ -322,9 +324,7 @@ describe('PaymentMethodComponent', () => {
     const getAddNewPaymentBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(
-          el => el.nativeElement.innerText === 'payment.action.addNewPayment'
-        );
+        .find(el => el.nativeElement.innerText === 'paymentForm.addNewPayment');
     const getNewPaymentForm = () =>
       fixture.debugElement.query(By.css('cx-payment-form'));
 

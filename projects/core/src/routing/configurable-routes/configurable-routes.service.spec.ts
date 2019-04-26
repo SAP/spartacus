@@ -275,40 +275,18 @@ describe('ConfigurableRoutesService', () => {
         { path: 'path5' },
       ]);
     });
-
-    it('should move wildcard route to the end of the list, even after custom route', async () => {
-      router.config = [
-        { path: null, data: { cxPath: 'testWildcardRoute' } },
-        { path: null, data: { cxPath: 'page1' } },
-        { path: 'custom-route' },
-      ];
-      loader.routesConfig.translations = {
-        en: {
-          testWildcardRoute: { paths: ['**'] },
-          page1: { paths: ['path1'] },
-        },
-      };
-      await service.init();
-      expect(router.config).toEqual([
-        { path: 'path1', data: { cxPath: 'page1' } },
-        { path: 'custom-route' },
-        { path: '**', data: { cxPath: 'testWildcardRoute' } },
-      ]);
-    });
   });
 
-  describe('getNestedRoutesTranslations', () => {
+  describe('getRouteTranslation', () => {
     it('should return configured paths translations for given page name', async () => {
       loader.routesConfig.translations = {
         en: {
           page1: { paths: ['path1', 'path10'] },
         },
       };
-      const expectedResult = [{ paths: ['path1', 'path10'] }];
+      const expectedResult = { paths: ['path1', 'path10'] };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toEqual(
-        expectedResult
-      );
+      expect(service.getRouteTranslation('page1')).toEqual(expectedResult);
     });
 
     it('should console.warn in non-production environment if given page name does not exist in translations config', async () => {
@@ -318,7 +296,7 @@ describe('ConfigurableRoutesService', () => {
         en: {},
       };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
+      expect(service.getRouteTranslation('page1')).toBe(undefined);
       expect(console.warn).toHaveBeenCalled();
     });
 
@@ -331,7 +309,7 @@ describe('ConfigurableRoutesService', () => {
         },
       };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
+      expect(service.getRouteTranslation('page1')).toBe(null);
       expect(console.warn).not.toHaveBeenCalled();
     });
 
@@ -342,7 +320,7 @@ describe('ConfigurableRoutesService', () => {
         en: {},
       };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
+      expect(service.getRouteTranslation('page1')).toBe(undefined);
       expect(console.warn).not.toHaveBeenCalled();
     });
   });

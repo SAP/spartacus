@@ -83,6 +83,58 @@ describe('UserService', () => {
     );
   });
 
+  describe('Remove User Account', () => {
+    it('should be able to remove user account', () => {
+      service.remove('testUserId');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.RemoveUser('testUserId')
+      );
+    });
+
+    it('should getRemoveUserResultLoading() return loading flag', () => {
+      store.dispatch(new fromStore.RemoveUser('testUserId'));
+
+      let result = false;
+      service
+        .getRemoveUserResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should getRemoveUserResultError() return the error flag', () => {
+      store.dispatch(new fromStore.RemoveUserFail('error'));
+
+      let result = false;
+      service
+        .getRemoveUserResultError()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should getRemoveUserResultSuccess() return the success flag', () => {
+      store.dispatch(new fromStore.RemoveUserSuccess());
+
+      let result = false;
+      service
+        .getRemoveUserResultSuccess()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should resetUpdatePasswordProcessState() dispatch an UpdatePasswordReset action', () => {
+      service.resetUpdatePasswordProcessState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdatePasswordReset()
+      );
+    });
+  });
+
   it('should be able to get order details', () => {
     store.dispatch(
       new fromStore.LoadOrderDetailsSuccess({ code: 'testOrder' })
@@ -488,6 +540,62 @@ describe('UserService', () => {
       })
       .unsubscribe();
     expect(isResst).toBeTruthy();
+  });
+
+  describe('Update Email ', () => {
+    const uid = 'test@test.com';
+    const password = 'Qwe123!';
+    const newUid = 'tester@sap.com';
+
+    it('should dispatch UpdateEmail action', () => {
+      service.updateEmail(uid, password, newUid);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.UpdateEmailAction({ uid, password, newUid })
+      );
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultSuccess()
+        .subscribe(success => (result = success))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(new fromStore.UpdateEmailErrorAction('error'));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultError()
+        .subscribe(error => (result = error))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(new fromStore.UpdateEmailSuccessAction(newUid));
+
+      let result: boolean;
+      service
+        .getUpdateEmailResultLoading()
+        .subscribe(loading => (result = loading))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should dispatch a ResetUpdateEmail action', () => {
+      service.resetUpdateEmailResultState();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromStore.ResetUpdateEmailAction()
+      );
+    });
   });
 
   describe('update password', () => {

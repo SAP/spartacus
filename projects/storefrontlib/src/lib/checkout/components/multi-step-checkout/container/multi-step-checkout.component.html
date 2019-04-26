@@ -32,8 +32,7 @@
         <div class="cx-media">
           <div class="cx-list-media">
             {{
-              'cartItems.label.cartTotal'
-                | cxTranslate: { count: cart.totalItems }
+              'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems }
             }}:
             {{ cart.subTotal?.formattedValue }}
           </div>
@@ -50,7 +49,7 @@
                 class="btn btn-link"
                 (click)="nextStep(nav.id)"
               >
-                {{ 'common.action.edit' | cxTranslate }}
+                {{ 'common.edit' | cxTranslate }}
               </button>
             </div>
 
@@ -68,7 +67,6 @@
             <div *ngIf="nav.status.active && step === 3">
               <cx-payment-method
                 (goToStep)="nextStep($event)"
-                (backStep)="nextStep(2)"
               ></cx-payment-method>
             </div>
             <div *ngIf="nav.status.active && step === 4">
@@ -87,7 +85,7 @@
           <cx-place-order></cx-place-order>
 
           <button class="btn btn-action btn-block" (click)="nextStep(3)">
-            {{ 'common.action.back' | cxTranslate }}
+            {{ 'common.back' | cxTranslate }}
           </button>
         </div>
       </div>

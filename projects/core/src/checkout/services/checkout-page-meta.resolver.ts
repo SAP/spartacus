@@ -6,12 +6,11 @@ import { PageType } from '../../occ/occ-models/occ.models';
 import { CartService } from '../../cart/facade/cart.service';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
-  PageTitleResolver,
   PageRobotsResolver,
+  PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
-
-import { Cart } from '../../occ/occ-models/index';
+import { UICart } from '../../cart/model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +37,7 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(cart: Cart) {
+  resolveTitle(cart: UICart) {
     return `Checkout ${cart.totalItems} items`;
   }
 

@@ -1,6 +1,7 @@
 import { ProductsSearchState } from '../product-state';
 import * as fromProductsSearch from '../actions/product-search.action';
-import { Suggestion, ProductSearchPage } from '../../../occ/occ-models';
+import { Suggestion } from '../../../occ/occ-models';
+import { UIProductSearchPage } from '../../model/product-search-page';
 
 export const initialState: ProductsSearchState = {
   results: {},
@@ -40,10 +41,10 @@ export function reducer(
 
 export const getSearchResults = (
   state: ProductsSearchState
-): ProductSearchPage => state.results;
+): UIProductSearchPage => state.results;
 export const getAuxSearchResults = (
   state: ProductsSearchState
-): ProductSearchPage => state.auxResults;
+): UIProductSearchPage => state.auxResults;
 export const getProductSuggestions = (
   state: ProductsSearchState
 ): Suggestion[] => state.suggestions;

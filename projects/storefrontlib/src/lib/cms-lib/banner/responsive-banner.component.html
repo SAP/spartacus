@@ -2,7 +2,7 @@
   fxFlex
   class="link"
   *ngIf="service.hasImage() && (service.getComponentData() | async) as data"
-  [url]="{ url: data.urlLink } | cxTranslateUrl"
+  [url]="data.urlLink"
   [target]="service.getTarget() | async"
 >
   <picture [class]="getClass()">
