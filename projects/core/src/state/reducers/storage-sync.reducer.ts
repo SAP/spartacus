@@ -22,8 +22,7 @@ export function getStorageSyncReducer<T>(
 
   return (reducer: ActionReducer<T, Action>): ActionReducer<T, Action> => {
     return (state, action): T => {
-      const oldState = { ...state };
-      let newState = { ...oldState };
+      let newState = { ...state };
 
       if (action.type === INIT && !exists(newState)) {
         newState = reducer(state, action);
