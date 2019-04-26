@@ -22,22 +22,29 @@ export class SearchPageMetaResolver extends PageMetaResolver
   }
 
   resolve(): Observable<PageMeta> {
-    return combineLatest(
-      this.productSearchService.getSearchResults().pipe(
-        filter(data => !!(data && data.pagination)),
-        map(results => results.pagination.totalResults)
+    const total$: Observable<
+      number
+    > = this.productSearchService.getSearchResults().pipe(
+      filter(data => !!(data && data.pagination)),
+      map(results => results.pagination.totalResults)
+    );
+
+    const query$: Observable<
+      string
+    > = this.routingService.getRouterState().pipe(
+      map(state => state.state.params['query']),
+      filter(Boolean)
+    );
+
+    return combineLatest([total$, query$]).pipe(
+      switchMap(([total, query]: [number, string]) =>
+        this.resolveTitle(total, query)
       ),
-      this.routingService.getRouterState().pipe(
-        map(state => state.state.params['query']),
-        filter(Boolean)
-      )
-    ).pipe(
-      switchMap(([t, q]: [number, string]) => this.resolveTitle(t, q)),
       map(title => ({ title }))
     );
   }
 
-  resolveTitle(total: number, part: string): Observable<string> {
-    return of(`${total} results for "${part}"`);
+  resolveTitle(total: number, query: string): Observable<string> {
+    return of(`${total} results for "${query}"`);
   }
 }
