@@ -6,11 +6,11 @@
 
 ## Config
 
-All routes in Spartacus can be configured and internationalized by importing `ConfigModule.withConfig()` with an object containing `routesConfig` property: 
+All routes in Spartacus can be configured by importing `ConfigModule.withConfig()` with an object containing `routing` property: 
 
  ```typescript
 ConfigModule.withConfig({
-    routesConfig: { /* ... */ },
+    routing: { /* ... */ },
     /* ... */
 })
 ```
@@ -123,7 +123,7 @@ const routes: Routes = [
 ];
 ```
 
-then the children's configuration should be nested at `children` property of the parent route:
+then we need configuration for both parent and child routes:
 
 ```typescript
 ConfigModule.withConfig({
@@ -131,18 +131,11 @@ ConfigModule.withConfig({
         routes: {
             parent: { // the name of the route
                 paths: ['parent-path'],
-                children: {
-                    child: { // the name of the route
-                        paths: ['child-path']
-                    },
-                }
+            },
+            child: { // the name of the route
+                paths: ['child-path']
             },
         }
     }
 })
 ```
-
-### Subjects of change
-
-- `cxPath` property is considered to be replaced with other, more self-explanatory property
-- `path` is considered not to be `null` but the predefined default path taken into account

@@ -105,7 +105,3 @@ All following examples result in the same:
      ```html
      <a [routerLink]="{ route: 'product', params: { productCode: 1234 } } | cxTranslateUrl"></a>
      ```
-
-## Subjects of change
-
-- [#655](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/655) named aliases are under consideration - to allow translating precise aliases of paths and not to base only on the specificity of parameters

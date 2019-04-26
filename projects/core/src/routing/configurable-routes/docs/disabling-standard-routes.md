@@ -38,7 +38,3 @@ result
 ```html
 <a [routerLink]="['/']"></a>
 ```
-
-## Subjects of change
-
-- when predefined configuration of routes is splitted in between the feature modules (as planned in [652](https://github.com/SAP/cloud-commerce-spartacus-storefront/issues/652)), then it will suffice just not to import the feature module in order to disable its routes
