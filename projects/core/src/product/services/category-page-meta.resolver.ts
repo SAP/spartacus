@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { CmsService } from '../../cms/facade/cms.service';
 import { Page, PageMeta } from '../../cms/model/page.model';
@@ -33,12 +33,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         // are rendered or if this is an ordinary content page
         if (this.hasProductListComponent(page)) {
           return this.productSearchService.getSearchResults().pipe(
-            map(data => {
-              if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-                return {
-                  title: this.resolveTitle(data),
-                };
-              }
+            filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
+            switchMap(data => {
+              return this.resolveTitle(data).pipe(map(title => ({ title })));
             })
           );
         } else {
@@ -46,14 +43,18 @@ export class CategoryPageMetaResolver extends PageMetaResolver
             title: page.title || page.name,
           });
         }
-      })
+      }),
+      tap(console.log) //spike
     );
   }
 
-  resolveTitle(data: UIProductSearchPage) {
-    return `${data.pagination.totalResults} results for ${
-      data.breadcrumbs[0].facetValueName
-    }`;
+  resolveTitle(data: UIProductSearchPage): Observable<string> {
+    console.log(data);
+    return of(
+      `${data.pagination.totalResults} results for ${
+        data.breadcrumbs[0].facetValueName
+      }`
+    );
   }
 
   protected hasProductListComponent(page: Page): boolean {

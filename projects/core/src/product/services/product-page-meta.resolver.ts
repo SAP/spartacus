@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of, combineLatest } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -37,12 +37,22 @@ export class ProductPageMetaResolver extends PageMetaResolver
       switchMap(code =>
         this.productService.get(code).pipe(
           filter(Boolean),
-          map((p: Product) => {
-            return <PageMeta>{
-              heading: this.resolveHeading(p),
-              title: this.resolveTitle(p),
-              description: this.resolveDescription(p),
-              image: this.resolveImage(p),
+          switchMap((p: Product) =>
+            combineLatest([
+              this.resolveHeading(p),
+              this.resolveTitle(p),
+              this.resolveDescription(p),
+              this.resolveImage(p),
+            ])
+          ),
+          map(([heading, title, description, image]) => {
+            console.log([heading, title, description, image]);
+            debugger;
+            return {
+              heading,
+              title,
+              description,
+              image,
             };
           })
         )
@@ -50,31 +60,33 @@ export class ProductPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveHeading(product: Product): string {
-    return product.name;
+  resolveHeading(product: Product): Observable<string> {
+    return of(product.name);
   }
 
-  resolveTitle(product: Product): string {
+  resolveTitle(product: Product): Observable<string> {
     let title = product.name;
     title += this.resolveFirstCategory(product);
-    title += this.resolveManufactorer(product);
+    title += this.resolveManufacturer(product);
 
-    return title;
+    return of(title);
   }
 
-  resolveDescription(product: Product): string {
-    return product.summary;
+  resolveDescription(product: Product): Observable<string> {
+    return of(product.summary);
   }
 
-  resolveImage(product: any): string {
+  resolveImage(product: any): Observable<string> {
+    let result;
     if (
       product.images &&
       product.images.PRIMARY &&
       product.images.PRIMARY.zoom &&
       product.images.PRIMARY.zoom.url
     ) {
-      return product.images.PRIMARY.zoom.url;
+      result = product.images.PRIMARY.zoom.url;
     }
+    return of(result);
   }
 
   private resolveFirstCategory(product: Product): string {
@@ -87,7 +99,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
       : '';
   }
 
-  private resolveManufactorer(product: Product): string {
+  private resolveManufacturer(product: Product): string {
     return product.manufacturer ? ` | ${product.manufacturer}` : '';
   }
 }
