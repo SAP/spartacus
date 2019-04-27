@@ -56,7 +56,7 @@ if (!environment.production) {
         translations: {
           default: {
             product: {
-              paths: ['product/:productCode', 'product/:name/:productCode'],
+              paths: ['product/:name/:productCode', 'product/:productCode'],
             },
           },
         },
