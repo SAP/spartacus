@@ -35,12 +35,12 @@ export const getOrderDetailsSelector = (state: CheckoutStepsState) =>
 export const getCheckoutState: MemoizedSelector<
   StateWithCheckout,
   CheckoutState
-  > = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
+> = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
 
 export const getCheckoutStepsState: MemoizedSelector<
   StateWithCheckout,
   LoaderState<CheckoutStepsState>
-  > = createSelector(
+> = createSelector(
   getCheckoutState,
   (checkoutState: CheckoutState) => checkoutState.steps
 );
@@ -48,7 +48,7 @@ export const getCheckoutStepsState: MemoizedSelector<
 export const getCheckoutSteps: MemoizedSelector<
   StateWithCheckout,
   CheckoutStepsState
-  > = createSelector(
+> = createSelector(
   getCheckoutStepsState,
   state => loaderValueSelector(state)
 );
@@ -56,7 +56,7 @@ export const getCheckoutSteps: MemoizedSelector<
 export const getDeliveryAddress: MemoizedSelector<
   StateWithCheckout,
   Address
-  > = createSelector(
+> = createSelector(
   getCheckoutSteps,
   getDeliveryAddressSelector
 );
@@ -67,7 +67,7 @@ export const getDeliveryMode: MemoizedSelector<
     supported: { [code: string]: DeliveryMode };
     selected: string;
   }
-  > = createSelector(
+> = createSelector(
   getCheckoutSteps,
   getDeliveryModeSelector
 );
@@ -75,7 +75,7 @@ export const getDeliveryMode: MemoizedSelector<
 export const getSupportedDeliveryModes: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode[]
-  > = createSelector(
+> = createSelector(
   getDeliveryMode,
   deliveryMode => {
     return Object.keys(deliveryMode.supported).map(
@@ -87,7 +87,7 @@ export const getSupportedDeliveryModes: MemoizedSelector<
 export const getSelectedCode: MemoizedSelector<
   StateWithCheckout,
   string
-  > = createSelector(
+> = createSelector(
   getDeliveryMode,
   deliveryMode => {
     return deliveryMode.selected;
@@ -97,7 +97,7 @@ export const getSelectedCode: MemoizedSelector<
 export const getSelectedDeliveryMode: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode
-  > = createSelector(
+> = createSelector(
   getDeliveryMode,
   deliveryMode => {
     if (deliveryMode.selected !== '') {
@@ -112,7 +112,7 @@ export const getSelectedDeliveryMode: MemoizedSelector<
 export const getPaymentDetails: MemoizedSelector<
   StateWithCheckout,
   PaymentDetails
-  > = createSelector(
+> = createSelector(
   getCheckoutSteps,
   getPaymentDetailsSelector
 );
@@ -120,7 +120,7 @@ export const getPaymentDetails: MemoizedSelector<
 export const getCheckoutOrderDetails: MemoizedSelector<
   StateWithCheckout,
   Order
-  > = createSelector(
+> = createSelector(
   getCheckoutSteps,
   getOrderDetailsSelector
 );
@@ -128,7 +128,7 @@ export const getCheckoutOrderDetails: MemoizedSelector<
 export const getCheckoutDetailsLoaded: MemoizedSelector<
   StateWithCheckout,
   boolean
-  > = createSelector(
+> = createSelector(
   getCheckoutStepsState,
   state => loaderSuccessSelector(state) && !loaderLoadingSelector(state)
 );

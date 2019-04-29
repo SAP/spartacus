@@ -1,4 +1,6 @@
-<ng-container *ngIf="(checkoutDetails$ | async)">
+<ng-container
+  *ngIf="(checkoutDetailsService.getCheckoutDetailsLoaded$ | async)"
+>
   <div *ngIf="(cart$ | async) as cart">
     <div class="row">
       <div class="col-md-12 col-lg-8">
@@ -21,7 +23,7 @@
                   ' is-active': nav.status.active
                 }"
                 (click)="
-                  nav.status.disabled === false ? setStep(nav.id) : false
+                  nav.status.disabled === false ? nextStep(nav.id) : false
                 "
                 >{{ nav.label }}</a
               >
@@ -47,7 +49,7 @@
               <button
                 *ngIf="nav.status.completed && !nav.status.active"
                 class="btn btn-link"
-                (click)="setStep(nav.id)"
+                (click)="nextStep(nav.id)"
               >
                 {{ 'common.edit' | cxTranslate }}
               </button>
@@ -56,17 +58,17 @@
             <!-- Content -->
             <div *ngIf="nav.status.active && step === 1">
               <cx-shipping-address
-                (goToStep)="goToStep($event)"
+                (goToStep)="nextStep($event)"
               ></cx-shipping-address>
             </div>
             <div *ngIf="nav.status.active && step === 2">
               <cx-delivery-mode
-                (goToStep)="goToStep($event)"
+                (goToStep)="nextStep($event)"
               ></cx-delivery-mode>
             </div>
             <div *ngIf="nav.status.active && step === 3">
               <cx-payment-method
-                (goToStep)="goToStep($event)"
+                (goToStep)="nextStep($event)"
               ></cx-payment-method>
             </div>
             <div *ngIf="nav.status.active && step === 4">
@@ -84,7 +86,7 @@
         <div class="cx-place-order" *ngIf="step === 4">
           <cx-place-order></cx-place-order>
 
-          <button class="btn btn-action btn-block" (click)="setStep(3)">
+          <button class="btn btn-action btn-block" (click)="nextStep(3)">
             {{ 'common.back' | cxTranslate }}
           </button>
         </div>

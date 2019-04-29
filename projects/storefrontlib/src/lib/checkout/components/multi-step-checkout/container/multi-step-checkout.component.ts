@@ -1,24 +1,17 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  OnDestroy,
+  ChangeDetectionStrategy,
   OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
-import {
-  CheckoutService,
-  GlobalMessageService,
-  CartService,
-  UICart,
-  UserService,
-  User,
-} from '@spartacus/core';
+import { GlobalMessageService, CartService, UICart } from '@spartacus/core';
 
-import { Observable, combineLatest } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
-import { tap, filter } from 'rxjs/operators';
+import { CheckoutDetailsService } from '../../../checkout-details.service';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -28,44 +21,22 @@ import { tap, filter } from 'rxjs/operators';
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   step = 1;
-
   cart$: Observable<UICart>;
-  user$: Observable<User>;
-  checkoutDetails$: Observable<[User, UICart]>;
-
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
-    protected checkoutService: CheckoutService,
+    public checkoutDetailsService: CheckoutDetailsService,
     protected cartService: CartService,
-    protected userService: UserService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.user$ = this.userService.get();
     this.cart$ = this.cartService.getActive();
-
-    this.checkoutDetails$ = combineLatest(this.user$, this.cart$).pipe(
-      filter(([user, cart]) => !!(user && user.uid && cart && cart.code)),
-      tap(([user, cart]) => {
-        this.checkoutService.loadCheckoutDetails(user.uid, cart.code);
-      })
-    );
-  }
-
-  setStep(backStep: number): void {
-    this.nextStep(backStep);
-  }
-
-  goToStep(step: number): void {
-    this.nextStep(step);
   }
 
   nextStep(step: number): void {
     const previousStep = step - 1;
-
     this.navs.forEach(function(nav) {
       if (nav.id === previousStep) {
         nav.status.completed = true;
@@ -79,7 +50,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
       nav.progressBar = nav.status.active || nav.status.completed;
     });
-
     this.step = step;
   }
 
