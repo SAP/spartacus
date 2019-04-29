@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CartService } from '@spartacus/core';
+import { CartService, UICart } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-mini-cart',
@@ -8,7 +9,8 @@ import { CartService } from '@spartacus/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
-  cart$ = this.cartService.getActive();
-
-  constructor(protected cartService: CartService) {}
+  cart$: Observable<UICart>;
+  constructor(protected cartService: CartService) {
+    this.cart$ = this.cartService.getActive();
+  }
 }
