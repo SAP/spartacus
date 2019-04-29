@@ -178,12 +178,13 @@ export class CmsService {
    * Given pageContext, return whether the CMS page data exists or not
    * @param pageContext
    */
-  hasPage(pageContext: PageContext): Observable<boolean> {
+  hasPage(pageContext: PageContext, forceReload = false): Observable<boolean> {
     return this.store.pipe(
       select(fromStore.getIndexEntity(pageContext)),
       tap((entity: LoaderState<string>) => {
         const attemptedLoad = entity.loading || entity.success || entity.error;
-        if (!attemptedLoad) {
+        const shouldReload = forceReload && !entity.loading;
+        if (!attemptedLoad || shouldReload) {
           this.store.dispatch(new fromStore.LoadPageData(pageContext));
         }
       }),
