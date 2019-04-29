@@ -12,18 +12,14 @@ import { ICON_TYPES } from '../../../../cms-components/misc/icon/index';
 export class MiniCartComponent {
   iconTypes = ICON_TYPES;
 
+  quantity$: Observable<number> = this.cartService
+    .getActive()
+    .pipe(map(cart => cart.deliveryItemsQuantity || 0));
+
+  total$: Observable<string> = this.cartService.getActive().pipe(
+    filter(cart => !!cart.totalPrice),
+    map(cart => cart.totalPrice.formattedValue)
+  );
+
   constructor(protected cartService: CartService) {}
-
-  get quantity$(): Observable<number> {
-    return this.cartService
-      .getActive()
-      .pipe(map(cart => cart.deliveryItemsQuantity || 0));
-  }
-
-  get total$(): Observable<string> {
-    return this.cartService.getActive().pipe(
-      filter(cart => !!cart.totalPrice),
-      map(cart => cart.totalPrice.formattedValue)
-    );
-  }
 }
