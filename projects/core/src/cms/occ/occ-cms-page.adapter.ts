@@ -23,8 +23,23 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     pageContext: PageContext,
     fields?: string
   ): Observable<CmsStructureModel> {
-    const httpParams = this.getPagesRequestParams(pageContext);
+    // load page by Id
+    if (pageContext.type === undefined) {
+      return this.http
+        .get(
+          this.occEndpoints.getUrl('page', {
+            id: pageContext.id,
+            fields: fields ? fields : 'DEFAULT',
+          }),
+          {
+            headers: this.headers,
+          }
+        )
+        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
+    }
 
+    // load page by PageContext
+    const httpParams = this.getPagesRequestParams(pageContext);
     return this.http
       .get(this.getPagesEndpoint(httpParams, fields), {
         headers: this.headers,
@@ -47,24 +62,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
   ): { [key: string]: any } {
     let httpParams = {};
 
-    // load page by id
-    if (pageContext.type === undefined) {
-      if (fields !== undefined) {
-        httpStringParams = httpStringParams + '?fields=' + fields;
-      }
-
-      return this.http
-        .get(this.getBaseEndPoint() + `/pages/${pageContext.id}`, {
-          headers: this.headers,
-          params: new HttpParams({
-            fromString: httpStringParams,
-          }),
-        })
-        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZE));
-    }
-
-    // load page by context
-    // for smartedit preview page, page is loaded by previewToken which added by interceptor
+    // smartedit preview page is loaded by previewToken which added by interceptor
     if (pageContext.id !== 'smartedit-preview') {
       httpParams = { pageType: pageContext.type };
 
