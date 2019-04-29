@@ -6,7 +6,7 @@
       let i = index
     "
   >
-    <span class="alert-icon"></span> <span>{{ confMsg }}</span>
+    <span class="alert-icon"></span> <span>{{ confMsg | cxTranslate }}</span>
     <button
       class="close"
       type="button"
@@ -19,7 +19,7 @@
     class="alert alert-warning"
     *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i = index"
   >
-    <span class="alert-icon"></span> <span>{{ infoMsg }}</span>
+    <span class="alert-icon"></span> <span>{{ infoMsg | cxTranslate }}</span>
     <button
       class="close"
       type="button"
@@ -32,7 +32,7 @@
     class="alert alert-danger"
     *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i = index"
   >
-    <span class="alert-icon"></span> <span>{{ errorMsg }}</span>
+    <span class="alert-icon"></span> <span>{{ errorMsg | cxTranslate }}</span>
     <button
       class="close"
       type="button"

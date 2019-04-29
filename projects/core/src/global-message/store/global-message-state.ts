@@ -1,3 +1,5 @@
+import { TranslationCommand } from '../../i18n/translation-command';
+
 export const GLOBAL_MESSAGE_FEATURE = 'global-message';
 
 export interface StateWithGlobalMessage {
@@ -5,7 +7,7 @@ export interface StateWithGlobalMessage {
 }
 
 export interface GlobalMessageEntities {
-  [messageType: string]: string[];
+  [messageType: string]: TranslationCommand[];
 }
 
 export interface GlobalMessageState {

@@ -5,15 +5,12 @@ import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
 
 import * as fromStore from '../store/index';
-import {
-  GlobalMessageType,
-  GlobalMessage,
-} from '../models/global-message.model';
+import { GlobalMessageType } from '../models/global-message.model';
 import { GlobalMessageService } from './global-message.service';
 
 const mockMessages = {
-  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: ['Confirmation'],
-  [GlobalMessageType.MSG_TYPE_ERROR]: ['Error'],
+  [GlobalMessageType.MSG_TYPE_CONFIRMATION]: [{ raw: 'Confirmation' }],
+  [GlobalMessageType.MSG_TYPE_ERROR]: [{ raw: 'Error' }],
 };
 
 describe('GlobalMessageService', () => {
@@ -56,14 +53,29 @@ describe('GlobalMessageService', () => {
   });
 
   it('Should be able to add a message', () => {
-    const message: GlobalMessage = {
+    service.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
       text: 'Test error message',
-    };
-
-    service.add(message);
+    });
     expect(store.dispatch).toHaveBeenCalledWith(
-      new fromStore.AddMessage(message)
+      new fromStore.AddMessage({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: { raw: 'Test error message' },
+      })
+    );
+  });
+
+  it('Should be able to add a translation message', () => {
+    service.addI18n({
+      type: GlobalMessageType.MSG_TYPE_ERROR,
+      key: 'test.key',
+      params: { param: 'value' },
+    });
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromStore.AddMessage({
+        type: GlobalMessageType.MSG_TYPE_ERROR,
+        text: { key: 'test.key', params: { param: 'value' } },
+      })
     );
   });
 
