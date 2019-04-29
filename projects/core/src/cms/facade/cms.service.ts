@@ -4,15 +4,15 @@ import { select, Store } from '@ngrx/store';
 
 import { Observable, of, ReplaySubject } from 'rxjs';
 import {
+  catchError,
   filter,
-  tap,
   map,
-  withLatestFrom,
-  switchMap,
-  take,
   multicast,
   refCount,
-  catchError,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 import * as fromStore from '../store';
@@ -85,8 +85,8 @@ export class CmsService {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),
-        map(([productState]) => productState.value),
-        filter(Boolean),
+        filter(([componentState]) => componentState.success),
+        map(([componentState]) => componentState.value),
         // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
         multicast(() => new ReplaySubject(1)),
         refCount()
@@ -101,14 +101,15 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.routingService.getPageContext().pipe(
-      switchMap(pageContext =>
-        this.store.pipe(
-          select(fromStore.currentSlotSelectorFactory(pageContext, position)),
-          filter(Boolean)
+    return this.routingService
+      .getPageContext()
+      .pipe(
+        switchMap(pageContext =>
+          this.store.pipe(
+            select(fromStore.currentSlotSelectorFactory(pageContext, position))
+          )
         )
-      )
-    );
+      );
   }
 
   /**
