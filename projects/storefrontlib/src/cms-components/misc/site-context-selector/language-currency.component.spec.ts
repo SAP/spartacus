@@ -1,11 +1,11 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsService,
   CmsSiteContextSelectorComponent,
-  Component,
+  Component as SpaComponent,
   contextServiceMapProvider,
   Currency,
   CurrencyService,
@@ -18,6 +18,14 @@ import { BootstrapModule } from '../../../lib/bootstrap.module';
 import { LanguageCurrencyComponent } from './language-currency.component';
 import { SiteContextComponentService } from './site-context-component.service';
 import { SiteContextSelectorComponent } from './site-context-selector.component';
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
+}
 
 describe('LanguageCurrencyComponent in CmsLib', () => {
   let component: LanguageCurrencyComponent;
@@ -71,14 +79,18 @@ describe('LanguageCurrencyComponent in CmsLib', () => {
     getComponentData: () => of(mockComponentData),
   };
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(mockComponentData),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BootstrapModule, BrowserAnimationsModule],
-      declarations: [LanguageCurrencyComponent, SiteContextSelectorComponent],
+      declarations: [
+        LanguageCurrencyComponent,
+        SiteContextSelectorComponent,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {

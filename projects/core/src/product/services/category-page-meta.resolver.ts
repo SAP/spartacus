@@ -33,12 +33,9 @@ export class CategoryPageMetaResolver extends PageMetaResolver
         // are rendered or if this is an ordinary content page
         if (this.hasProductListComponent(page)) {
           return this.productSearchService.getSearchResults().pipe(
-            map(data => {
-              if (data.breadcrumbs && data.breadcrumbs.length > 0) {
-                return {
-                  title: this.resolveTitle(data),
-                };
-              }
+            filter(data => data.breadcrumbs && data.breadcrumbs.length > 0),
+            switchMap(data => {
+              return this.resolveTitle(data).pipe(map(title => ({ title })));
             })
           );
         } else {
@@ -50,10 +47,12 @@ export class CategoryPageMetaResolver extends PageMetaResolver
     );
   }
 
-  resolveTitle(data: UIProductSearchPage) {
-    return `${data.pagination.totalResults} results for ${
-      data.breadcrumbs[0].facetValueName
-    }`;
+  resolveTitle(data: UIProductSearchPage): Observable<string> {
+    return of(
+      `${data.pagination.totalResults} results for ${
+        data.breadcrumbs[0].facetValueName
+      }`
+    );
   }
 
   protected hasProductListComponent(page: Page): boolean {

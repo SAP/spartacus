@@ -7,16 +7,13 @@ import {
   ConfigModule,
   UrlTranslationModule,
 } from '@spartacus/core';
-import { BannerModule } from '../../../../lib/cms-lib/banner/banner.module';
-import { MediaModule } from '../../../../lib/ui/components/media/media.module';
+import { IconModule } from '../../../../cms-components/misc/icon/index';
 import { MiniCartComponent } from './mini-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    BannerModule,
-    MediaModule,
     CartModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
@@ -24,6 +21,7 @@ import { MiniCartComponent } from './mini-cart.component';
       },
     }),
     UrlTranslationModule,
+    IconModule,
   ],
   declarations: [MiniCartComponent],
   entryComponents: [MiniCartComponent],
