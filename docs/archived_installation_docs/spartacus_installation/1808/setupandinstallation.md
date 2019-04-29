@@ -52,7 +52,6 @@ The dependencies in this procedure are required by the Spartacus storefront.
    "@ngrx/router-store": "^6.1.0",
    "@ngrx/store": "^6.1.0",
    "bootstrap": "^4.1.3",
-   "ngrx-store-localstorage": "^5.0.1"
    ```
 
 2. Install the dependencies. The following is an example using yarn:

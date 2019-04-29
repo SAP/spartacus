@@ -33,7 +33,6 @@
     "@spartacus/styles": "0.1.0-alpha.4",
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.7",
-    "ngrx-store-localstorage": "^7.0.0",
     "rxjs": "^6.4.0",
     "zone.js": "^0.8.26"
   }
