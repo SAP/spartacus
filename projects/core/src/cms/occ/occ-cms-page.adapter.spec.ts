@@ -182,12 +182,13 @@ describe('OccCmsPageAdapter', () => {
     });
 
     it('should get cms page data by pageId if PageType is unknow', () => {
-      const context: PageContext = {
-        id: '123',
-      };
-      service.load(context).subscribe(result => {
-        expect(result).toEqual(cmsPageData);
-      });
+      service
+        .load({
+          id: '123',
+        })
+        .subscribe(result => {
+          expect(result).toEqual(cmsPageData);
+        });
 
       const testRequest = httpMock.expectOne(req => {
         return req.method === 'GET' && req.url === endpoint + '/pages/123';
