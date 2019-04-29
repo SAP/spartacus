@@ -1,6 +1,9 @@
 @import 'theme';
 
 .cx-media {
+  @include media-breakpoint-down(md) {
+    margin-bottom: var(--cx-margin-bottom, 1.5rem);
+  }
   .cx-list-media {
     display: var(--cx-display, none);
     @include type('3');
