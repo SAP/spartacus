@@ -14,7 +14,7 @@ const MockCheckoutConfig: CheckoutConfig = {
     steps: [
       {
         id: 'deliveryMode',
-        name: 'checkoutProgress.label.deliveryMode',
+        name: 'checkoutProgress.deliveryMode',
         url: '/checkout/delivery-mode',
         type: [CheckoutStepType.deliveryMode],
       },

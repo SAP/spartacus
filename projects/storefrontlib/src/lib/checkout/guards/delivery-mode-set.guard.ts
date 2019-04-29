@@ -4,7 +4,7 @@ import { CanActivate, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DeliveryMode, ServerConfig } from '@spartacus/core';
+import { ServerConfig } from '@spartacus/core';
 import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStep } from '../config/model/checkout-step.model';
 import { CheckoutStepType } from '../config/default-checkout-config';

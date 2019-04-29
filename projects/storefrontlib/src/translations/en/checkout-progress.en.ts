@@ -1,13 +1,8 @@
 export const checkoutProgress = {
   checkoutProgress: {
-    label: {
-      shippingAddress: 'Shipping Address',
-      deliveryMode: 'Delivery mode',
-      paymentDetails: 'Payment details',
-      reviewOrder: 'Review order',
-    },
-    action: {
-      edit: 'Edit',
-    },
+    shippingAddress: 'Shipping Address',
+    deliveryMode: 'Delivery mode',
+    paymentDetails: 'Payment details',
+    reviewOrder: 'Review order',
   },
 };
