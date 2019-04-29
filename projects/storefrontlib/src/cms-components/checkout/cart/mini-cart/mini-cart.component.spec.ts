@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -20,6 +20,14 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(options: TranslateUrlCommandRoute): string {
     return options.route;
   }
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 const testCart: UICart = {
@@ -65,7 +73,11 @@ describe('MiniCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [MiniCartComponent, MockTranslateUrlPipe],
+      declarations: [
+        MiniCartComponent,
+        MockTranslateUrlPipe,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CartService, useClass: MockCartService },
