@@ -23,3 +23,8 @@
     color: var(--cx-color, var(--cx-g-color-inverse));
   }
 }
+%cx-page-slot {
+  // smartedit requires every slot to be rendered in block mode
+  // most likely it cannot make an overlay without some minimal sizingn
+  display: block;
+}
