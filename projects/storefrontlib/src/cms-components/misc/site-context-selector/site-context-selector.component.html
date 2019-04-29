@@ -6,6 +6,6 @@
       value="{{ item.isocode }}"
       [selected]="(activeItem$ | async) === item.isocode"
       >{{ item.label }}</option
-    >
-  </select>
+    > </select
+  ><cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
 </label>

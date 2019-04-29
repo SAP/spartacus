@@ -8,6 +8,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ICON_TYPES } from '../../../cms-components/misc/icon/index';
 import { SearchBoxComponentService } from './search-box-component.service';
 @Component({
   selector: 'cx-searchbox',
@@ -16,6 +17,7 @@ import { SearchBoxComponentService } from './search-box-component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchBoxComponent implements OnInit {
+  iconTypes = ICON_TYPES;
   searchBoxControl: FormControl = new FormControl();
   isMobileSearchVisible: boolean;
 
