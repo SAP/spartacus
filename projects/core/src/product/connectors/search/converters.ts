@@ -1,12 +1,12 @@
 import { InjectionToken } from '@angular/core';
-import { SuggestionList } from '../../../occ/occ-models/occ.models';
+import { Suggestion } from '../../../occ/occ-models/occ.models';
 import { Converter } from '../../../util/converter.service';
 import { UIProductSearchPage } from '../../model/product-search-page';
 
-export const PRODUCT_SEARCH_NORMALIZER = new InjectionToken<
+export const PRODUCT_SEARCH_PAGE_NORMALIZER = new InjectionToken<
   Converter<any, UIProductSearchPage>
->('ProductSearchNormalizer');
+>('ProductSearchPageNormalizer');
 
-export const PRODUCT_SUGGESTIONS_LIST_NORMALIZER = new InjectionToken<
-  Converter<any, SuggestionList>
->('ProductSuggestionsListNormalizer');
+export const PRODUCT_SUGGESTION_NORMALIZER = new InjectionToken<
+  Converter<any, Suggestion>
+>('ProductSuggestionNormalizer');

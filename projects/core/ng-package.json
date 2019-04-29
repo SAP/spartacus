@@ -6,7 +6,6 @@
     "umdModuleIds": {
       "@ngrx/effects": "effects",
       "@ngrx/router-store": "fromNgrxRouter",
-      "ngrx-store-localstorage": "ngrxStoreLocalstorage",
       "@ngrx/store": "store",
       "i18next": "i18next",
       "i18next-xhr-backend": "i18nextXhrBackend"
