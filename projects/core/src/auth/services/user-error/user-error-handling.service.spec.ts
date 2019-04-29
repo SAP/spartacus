@@ -85,7 +85,7 @@ describe('UserErrorHandlingService', () => {
         .unsubscribe();
 
       expect(routingService.go).toHaveBeenCalledWith({
-        route: ['login'],
+        route: 'login',
       });
     });
 
