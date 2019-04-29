@@ -14,6 +14,7 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   userId: string;
 
   userServiceSub: Subscription;
+  paymentMethodsSub: Subscription;
 
   constructor(private userService: UserService) {}
 
@@ -24,6 +25,13 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
     this.userServiceSub = this.userService.get().subscribe(data => {
       this.userId = data.uid;
       this.userService.loadPaymentMethods(this.userId);
+    });
+
+    // Mark first payment as default in case there ever is none
+    this.paymentMethodsSub = this.paymentMethods$.subscribe(data => {
+      if (data.length > 0 && !data.find(x => x.defaultPayment)) {
+        this.setDefaultPaymentMethod(data[0]);
+      }
     });
   }
 
@@ -74,6 +82,9 @@ export class PaymentMethodsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.userServiceSub) {
       this.userServiceSub.unsubscribe();
+    }
+    if (this.paymentMethodsSub) {
+      this.paymentMethodsSub.unsubscribe();
     }
   }
 }
