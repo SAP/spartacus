@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
-import { CartDetailsModule } from '../cart/cart-details/cart-details.module';
-import { CartTotalsModule } from '../cart/cart-totals/cart-totals.module';
+import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
@@ -20,7 +20,6 @@ import { ProductReferencesModule } from './carousel/product-references/product-r
 import { CategoryNavigationModule } from './category-navigation/category-navigation.module';
 import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
 import { LinkModule } from './link/link.module';
-import { MiniCartModule } from './mini-cart/mini-cart.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
 import { SearchBoxModule } from './search-box/search-box.module';
@@ -39,7 +38,6 @@ import { SearchBoxModule } from './search-box/search-box.module';
     BreadcrumbModule,
     ProductCarouselModule,
     SearchBoxModule,
-    MiniCartModule,
     ProductReferencesModule,
     // TabParagraphContainerModule
     SiteContextSelectorModule,
@@ -47,13 +45,13 @@ import { SearchBoxModule } from './search-box/search-box.module';
     OrderHistoryModule,
     ProductListModule,
     ProductTabsModule,
-    CartDetailsModule,
-    CartTotalsModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
+    CartComponentModule,
+    CloseAccountModule,
   ],
 })
 export class CmsLibModule {}

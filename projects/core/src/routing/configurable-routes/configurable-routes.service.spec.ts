@@ -4,6 +4,7 @@ import { RoutesConfigLoader } from './routes-config-loader';
 import { ConfigurableRoutesService } from './configurable-routes.service';
 import { Router, Routes } from '@angular/router';
 import { RoutesConfig } from './routes-config';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 class MockServerConfig {
   production = false;
@@ -23,6 +24,15 @@ class MockRouter {
   }
 }
 
+class MockUrlMatcherFactoryService {
+  getMultiplePathsUrlMatcher = jasmine
+    .createSpy('getMultiplePathsUrlMatcher')
+    .and.callFake(paths => paths);
+  getFalsyUrlMatcher = jasmine
+    .createSpy('getFalsyUrlMatcher')
+    .and.returnValue(false);
+}
+
 describe('ConfigurableRoutesService', () => {
   let service: ConfigurableRoutesService;
   let serverConfig: MockServerConfig;
@@ -38,6 +48,10 @@ describe('ConfigurableRoutesService', () => {
           useClass: MockRoutesConfigLoader,
         },
         { provide: ServerConfig, useClass: MockServerConfig },
+        {
+          provide: UrlMatcherFactoryService,
+          useClass: MockUrlMatcherFactoryService,
+        },
         {
           provide: Router,
           useClass: MockRouter,
@@ -100,20 +114,26 @@ describe('ConfigurableRoutesService', () => {
       ]);
     });
 
-    it('should translate "path" of configurable routes', async () => {
-      router.config = [
-        { path: null, data: { cxPath: 'page1' } },
-        { path: null, data: { cxPath: 'page2' } },
-      ];
+    it('should generate route matching configured path', async () => {
+      router.config = [{ path: null, data: { cxPath: 'page1' } }];
       loader.routesConfig.translations = {
         en: {
           page1: { paths: ['path1'] },
-          page2: { paths: ['path2'] },
         },
       };
       await service.init();
       expect(router.config[0].path).toEqual('path1');
-      expect(router.config[1].path).toEqual('path2');
+    });
+
+    it('should generate route matching configured multiple paths', async () => {
+      router.config = [{ path: null, data: { cxPath: 'page1' } }];
+      loader.routesConfig.translations = {
+        en: {
+          page1: { paths: ['path1', 'path100'] },
+        },
+      };
+      await service.init();
+      expect(router.config[0].matcher).toEqual(['path1', 'path100']);
     });
 
     it('should translate "redirectTo" of configurable routes', async () => {
@@ -165,19 +185,6 @@ describe('ConfigurableRoutesService', () => {
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should generate many routes with different paths when translations config contain many paths for a given page', async () => {
-      router.config = [{ path: null, data: { cxPath: 'page1' } }];
-      loader.routesConfig.translations = {
-        en: {
-          page1: { paths: ['path1', 'path100'] },
-        },
-      };
-      await service.init();
-      expect(router.config.length).toEqual(2);
-      expect(router.config[0].path).toEqual('path1');
-      expect(router.config[1].path).toEqual('path100');
-    });
-
     it('should generate route for "redirectTo" with with first configured path in translations config for a given page', async () => {
       router.config = [
         { path: 'path', redirectTo: null, data: { cxRedirectTo: 'page1' } },
@@ -192,7 +199,7 @@ describe('ConfigurableRoutesService', () => {
       expect(router.config[0].redirectTo).toEqual('path1');
     });
 
-    it('should not generate routes if they do not have configured paths in translations config', async () => {
+    it('should generate route that will never match if there are no configured paths in translations config', async () => {
       router.config = [{ path: null, data: { cxPath: 'page1' } }];
       loader.routesConfig.translations = {
         en: {
@@ -200,7 +207,7 @@ describe('ConfigurableRoutesService', () => {
         },
       };
       await service.init();
-      expect(router.config.length).toEqual(0);
+      expect(router.config[0].matcher).toBe(false);
     });
 
     // tslint:disable-next-line:max-line-length
@@ -227,7 +234,7 @@ describe('ConfigurableRoutesService', () => {
       expect(console.warn).not.toHaveBeenCalled();
     });
 
-    it('should translate configurable routes placed among non-cofigurable routes', async () => {
+    it('should translate configurable routes placed among non-configurable routes', async () => {
       router.config = [
         // normal routes
         { path: 'path1' },
@@ -251,15 +258,15 @@ describe('ConfigurableRoutesService', () => {
         },
       };
       await service.init();
-      expect(router.config.length).toBe(7);
       expect(router.config).toEqual([
         // normal routes
         { path: 'path1' },
 
         // configurable routes
-        { path: 'path2', data: { cxPath: 'page2' } },
-        { path: 'path20', data: { cxPath: 'page2' } },
-        { path: 'path200', data: { cxPath: 'page2' } },
+        {
+          data: { cxPath: 'page2' },
+          matcher: ['path2', 'path20', 'path200'] as any,
+        },
 
         // normal routes
         { path: 'path3', redirectTo: 'path30' },
@@ -277,18 +284,16 @@ describe('ConfigurableRoutesService', () => {
     });
   });
 
-  describe('getNestedRoutesTranslations', () => {
+  describe('getRouteTranslation', () => {
     it('should return configured paths translations for given page name', async () => {
       loader.routesConfig.translations = {
         en: {
           page1: { paths: ['path1', 'path10'] },
         },
       };
-      const expectedResult = [{ paths: ['path1', 'path10'] }];
+      const expectedResult = { paths: ['path1', 'path10'] };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toEqual(
-        expectedResult
-      );
+      expect(service.getRouteTranslation('page1')).toEqual(expectedResult);
     });
 
     it('should console.warn in non-production environment if given page name does not exist in translations config', async () => {
@@ -298,7 +303,7 @@ describe('ConfigurableRoutesService', () => {
         en: {},
       };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
+      expect(service.getRouteTranslation('page1')).toBe(undefined);
       expect(console.warn).toHaveBeenCalled();
     });
 
@@ -311,7 +316,7 @@ describe('ConfigurableRoutesService', () => {
         },
       };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
+      expect(service.getRouteTranslation('page1')).toBe(null);
       expect(console.warn).not.toHaveBeenCalled();
     });
 
@@ -322,7 +327,7 @@ describe('ConfigurableRoutesService', () => {
         en: {},
       };
       await service.init();
-      expect(service.getNestedRoutesTranslations(['page1'])).toBe(null);
+      expect(service.getRouteTranslation('page1')).toBe(undefined);
       expect(console.warn).not.toHaveBeenCalled();
     });
   });

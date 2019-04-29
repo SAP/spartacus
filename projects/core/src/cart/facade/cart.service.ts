@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import { Store, select } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Cart, OrderEntry } from '../../occ/occ-models/index';
 import { AuthService, UserToken } from '../../auth/index';
 
 import * as fromAction from '../store/actions';
 import * as fromSelector from '../store/selectors';
 import { ANONYMOUS_USERID, CartDataService } from './cart-data.service';
 import { StateWithCart } from '../store/cart-state';
+import { UICart, UIOrderEntry } from '../model/cart';
+
 @Injectable()
 export class CartService {
   private callback: Function;
@@ -23,11 +24,11 @@ export class CartService {
     this.init();
   }
 
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return this.store.pipe(select(fromSelector.getCartContent));
   }
 
-  getEntries(): Observable<OrderEntry[]> {
+  getEntries(): Observable<UIOrderEntry[]> {
     return this.store.pipe(select(fromSelector.getEntries));
   }
 
@@ -153,7 +154,7 @@ export class CartService {
     }
   }
 
-  removeEntry(entry: OrderEntry): void {
+  removeEntry(entry: UIOrderEntry): void {
     this.store.dispatch(
       new fromAction.RemoveEntry({
         userId: this.cartData.userId,
@@ -184,17 +185,17 @@ export class CartService {
     }
   }
 
-  getEntry(productCode: string): Observable<OrderEntry> {
+  getEntry(productCode: string): Observable<UIOrderEntry> {
     return this.store.pipe(
       select(fromSelector.getEntrySelectorFactory(productCode))
     );
   }
 
-  isCreated(cart: Cart): boolean {
+  isCreated(cart: UICart): boolean {
     return cart && !!Object.keys(cart).length;
   }
 
-  isEmpty(cart: Cart): boolean {
+  isEmpty(cart: UICart): boolean {
     return cart && !cart.totalItems;
   }
 }
