@@ -7,6 +7,7 @@ import {
   RoutesConfig,
 } from './routes-config';
 import { RoutesConfigLoader } from './routes-config-loader';
+import { UrlMatcherFactoryService } from './url-matcher-factory.service';
 
 type ConfigurableRouteKey = 'cxPath' | 'cxRedirectTo';
 
@@ -15,7 +16,8 @@ export class ConfigurableRoutesService {
   constructor(
     private config: ServerConfig,
     private injector: Injector,
-    private routesConfigLoader: RoutesConfigLoader
+    private routesConfigLoader: RoutesConfigLoader,
+    private urlMatcherFactory: UrlMatcherFactoryService
   ) {}
 
   private readonly currentLanguageCode = 'en'; // TODO: hardcoded! should be removed when more languages are supported by localized routes
@@ -54,67 +56,18 @@ export class ConfigurableRoutesService {
     router.resetConfig(translatedRoutes);
   }
 
-  /**
-   * Returns the list of routes translations for given list of nested routes
-   * using given object of routes translations.
-   */
-  getNestedRoutesTranslations(
-    nestedRouteNames: string[],
-    routesTranslations: RoutesTranslations = this.currentRoutesTranslations
-  ): RouteTranslation[] {
-    return this.getNestedRoutesTranslationsRecursive(
-      nestedRouteNames,
-      routesTranslations,
-      []
-    );
-  }
+  getRouteTranslation(routeName: string): RouteTranslation {
+    const routesTranslations = this.currentRoutesTranslations;
 
-  private getNestedRoutesTranslationsRecursive(
-    nestedRoutesNames: string[],
-    routesTranslations: RoutesTranslations,
-    accResult: RouteTranslation[]
-  ): RouteTranslation[] {
-    if (!nestedRoutesNames.length) {
-      return accResult;
-    }
-    const [routeName, ...remainingRouteNames] = nestedRoutesNames;
-    const translation = this.getRouteTranslation(routeName, routesTranslations);
-    if (!translation) {
-      return null;
-    }
-
-    if (remainingRouteNames.length) {
-      const childrenTranslations = this.getChildrenRoutesTranslations(
-        routeName,
-        routesTranslations
-      );
-      if (!childrenTranslations) {
-        this.warn(
-          `No children routes translations were configured for page '${routeName}' in language '${
-            this.currentLanguageCode
-          }'!`
-        );
-        return null;
-      }
-
-      return this.getNestedRoutesTranslationsRecursive(
-        remainingRouteNames,
-        childrenTranslations,
-        accResult.concat(translation)
+    const result = routesTranslations && routesTranslations[routeName];
+    if (!routesTranslations || result === undefined) {
+      this.warn(
+        `No route translation was configured for page '${routeName}' in language '${
+          this.currentLanguageCode
+        }'!`
       );
     }
-    return accResult.concat(translation);
-  }
-
-  private getChildrenRoutesTranslations(
-    routeName: string,
-    routesTranslations: RoutesTranslations
-  ): RoutesTranslations {
-    const routeTranslation = this.getRouteTranslation(
-      routeName,
-      routesTranslations
-    );
-    return routeTranslation && routeTranslation.children;
+    return result;
   }
 
   private translateRoutes(
@@ -123,58 +76,25 @@ export class ConfigurableRoutesService {
   ): Routes {
     const result = [];
     routes.forEach(route => {
-      const translatedRouteAliases = this.translateRoute(
-        route,
-        routesTranslations
-      );
+      const translatedRoute = this.translateRoute(route, routesTranslations);
+
       if (route.children && route.children.length) {
-        const translatedChildrenRoutes = this.translateChildrenRoutes(
-          route,
+        const translatedChildrenRoutes = this.translateRoutes(
+          route.children,
           routesTranslations
         );
-        translatedRouteAliases.forEach(translatedRouteAlias => {
-          translatedRouteAlias.children = translatedChildrenRoutes;
-        });
+
+        translatedRoute.children = translatedChildrenRoutes;
       }
-      result.push(...translatedRouteAliases);
+      result.push(translatedRoute);
     });
     return result;
-  }
-
-  private translateChildrenRoutes(
-    route: Route,
-    routesTranslations: RoutesTranslations
-  ): Routes {
-    if (this.isConfigurable(route, 'cxPath')) {
-      const routeName = this.getConfigurable(route, 'cxPath');
-      const childrenTranslations = this.getChildrenRoutesTranslations(
-        routeName,
-        routesTranslations
-      );
-
-      if (childrenTranslations === undefined) {
-        this.warn(
-          `Could not translate children routes of route '${routeName}'`,
-          route,
-          `due to undefined 'children' key for '${routeName}' route in routes translations`,
-          routesTranslations
-        );
-        return [];
-      }
-
-      // null switches off the children routes:
-      if (childrenTranslations === null) {
-        return [];
-      }
-      return this.translateRoutes(route.children, childrenTranslations);
-    }
-    return route.children;
   }
 
   private translateRoute(
     route: Route,
     routesTranslations: RoutesTranslations
-  ): Routes {
+  ): Route {
     if (this.isConfigurable(route, 'cxPath')) {
       // we assume that 'path' and 'redirectTo' cannot be both configured for one route
       if (this.isConfigurable(route, 'cxRedirectTo')) {
@@ -189,7 +109,7 @@ export class ConfigurableRoutesService {
       return this.translateRouteRedirectTo(route, routesTranslations);
     }
 
-    return [route]; // if nothing is configurable, just pass the original route
+    return route; // if nothing is configurable, just pass the original route
   }
 
   private isConfigurable(route: Route, key: ConfigurableRouteKey): boolean {
@@ -203,41 +123,41 @@ export class ConfigurableRoutesService {
   private translateRoutePath(
     route: Route,
     routesTranslations: RoutesTranslations
-  ): Route[] {
-    return this.getTranslatedPaths(route, 'cxPath', routesTranslations).map(
-      translatedPath => {
-        return { ...route, path: translatedPath };
-      }
-    );
+  ): Route {
+    const paths = this.getTranslatedPaths(route, 'cxPath', routesTranslations);
+    switch (paths.length) {
+      case 0:
+        delete route.path;
+        return {
+          ...route,
+          matcher: this.urlMatcherFactory.getFalsyUrlMatcher(),
+        };
+
+      case 1:
+        delete route.matcher;
+        return { ...route, path: paths[0] };
+
+      default:
+        delete route.path;
+        return {
+          ...route,
+          matcher: this.urlMatcherFactory.getMultiplePathsUrlMatcher(paths),
+        };
+    }
   }
 
   private translateRouteRedirectTo(
     route: Route,
     translations: RoutesTranslations
-  ): Route[] {
+  ): Route {
     const translatedPaths = this.getTranslatedPaths(
       route,
       'cxRedirectTo',
       translations
     );
     return translatedPaths.length
-      ? [{ ...route, redirectTo: translatedPaths[0] }] // take the first path from list by convention
-      : [];
-  }
-
-  private getRouteTranslation(
-    routeName: string,
-    routesTranslations: RoutesTranslations
-  ): RouteTranslation {
-    const result = routesTranslations && routesTranslations[routeName];
-    if (!routesTranslations || result === undefined) {
-      this.warn(
-        `No route translation was configured for page '${routeName}' in language '${
-          this.currentLanguageCode
-        }'!`
-      );
-    }
-    return result;
+      ? { ...route, redirectTo: translatedPaths[0] } // take the first path from list by convention
+      : route;
   }
 
   private getTranslatedPaths(
@@ -246,7 +166,7 @@ export class ConfigurableRoutesService {
     routesTranslations: RoutesTranslations
   ): string[] {
     const routeName = this.getConfigurable(route, key);
-    const translation = this.getRouteTranslation(routeName, routesTranslations);
+    const translation = this.getRouteTranslation(routeName);
     if (translation === undefined) {
       this.warn(
         `Could not translate key '${key}' of route '${routeName}'`,

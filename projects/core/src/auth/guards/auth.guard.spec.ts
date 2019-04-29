@@ -12,7 +12,7 @@ import { AuthGuard } from './auth.guard';
 import { UserToken } from '../models/token-types.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
-import { TranslateUrlOptions } from '../../routing/configurable-routes/url-translation/translate-url-options';
+import { TranslateUrlCommands } from '../../routing/configurable-routes/url-translation/translate-url-commands';
 
 const mockUserToken = {
   access_token: 'Mock Access Token',
@@ -32,7 +32,7 @@ class ActivatedRouteSnapshotStub {}
 class RouterStateSnapshotStub {}
 class RoutingServiceStub {
   go(
-    _path: any[] | TranslateUrlOptions,
+    _path: any[] | TranslateUrlCommands,
     _query?: object,
     _extras?: NavigationExtras
   ) {}
@@ -115,7 +115,7 @@ describe('AuthGuard', () => {
       .subscribe()
       .unsubscribe();
 
-    expect(service.go).toHaveBeenCalledWith({ route: ['login'] });
+    expect(service.go).toHaveBeenCalledWith({ route: 'login' });
     expect(service.saveRedirectUrl).toHaveBeenCalledWith('/test');
   });
 });

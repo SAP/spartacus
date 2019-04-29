@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, filter, switchMap } from 'rxjs/operators';
 import { PageType } from '../../occ/occ-models/occ.models';
 import { CmsService } from '../facade/cms.service';
 import { PageMetaResolver } from './page-meta.resolver';
@@ -20,15 +20,12 @@ export class ContentPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
-      map(page => {
-        return {
-          title: this.resolveTitle(page),
-        };
-      })
+      switchMap(page => this.resolveTitle(page)),
+      map((title): PageMeta => ({ title }))
     );
   }
 
-  resolveTitle(page: Page) {
-    return page.title;
+  resolveTitle(page: Page): Observable<string> {
+    return of(page.title);
   }
 }

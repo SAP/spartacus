@@ -3,12 +3,11 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StoreModule, Store } from '@ngrx/store';
 
 import * as fromCheckout from '../store/index';
-import { CartDataService } from '../../cart/index';
+import { CartDataService, UICart } from '../../cart/index';
 import {
   PaymentDetails,
   DeliveryMode,
   Address,
-  Cart,
   CardType,
   AddressValidation,
   Order,
@@ -21,7 +20,7 @@ describe('CheckoutService', () => {
   let cartData: CartDataService;
   let store: Store<fromCheckout.CheckoutState>;
   const userId = 'testUserId';
-  const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
+  const cart: UICart = { code: 'testCartId', guid: 'testGuid' };
 
   const paymentDetails: PaymentDetails = {
     id: 'mockPaymentDetails',

@@ -7,8 +7,8 @@ import {
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import {
   ConverterService,
+  PRODUCT_REVIEW_NORMALIZER,
   PRODUCT_REVIEW_SERIALIZER,
-  PRODUCT_REVIEWS_NORMALIZER,
   ReviewList,
 } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -26,11 +26,6 @@ class MockOccEndpointsService {
   );
 }
 
-class MockConvertService {
-  convert = createSpy().and.callFake(x => x);
-  pipeable = createSpy().and.returnValue(x => x);
-}
-
 describe('OccProductReviewsAdapter', () => {
   let service: OccProductReviewsAdapter;
   let httpMock: HttpTestingController;
@@ -46,7 +41,6 @@ describe('OccProductReviewsAdapter', () => {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        { provide: ConverterService, useClass: MockConvertService },
       ],
     });
 
@@ -54,6 +48,10 @@ describe('OccProductReviewsAdapter', () => {
     endpoints = TestBed.get(OccEndpointsService);
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
+
+    spyOn(converter, 'convert').and.callThrough();
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -97,8 +95,8 @@ describe('OccProductReviewsAdapter', () => {
       service.load('333').subscribe();
       httpMock.expectOne(endpoint).flush(productReviews);
 
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        PRODUCT_REVIEWS_NORMALIZER
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        PRODUCT_REVIEW_NORMALIZER
       );
     });
   });

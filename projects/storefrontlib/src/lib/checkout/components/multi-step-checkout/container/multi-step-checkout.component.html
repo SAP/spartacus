@@ -5,23 +5,14 @@
       <!-- Navigation -->
       <div class="cx-nav d-none d-lg-block d-xl-block">
         <ul class="cx-list">
-          <li
-            *ngFor="let nav of navs"
-            class="cx-item"
-            [ngClass]="{
+          <li *ngFor="let nav of navs" class="cx-item" [ngClass]="{
               ' is-disabled': nav.status.disabled,
               ' is-active': nav.status.active
-            }"
-          >
-            <a
-              class="cx-link "
-              [ngClass]="{
+            }">
+            <a class="cx-link " [ngClass]="{
                 ' is-disabled': nav.status.disabled,
                 ' is-active': nav.status.active
-              }"
-              (click)="nav.status.disabled === false ? setStep(nav.id) : false"
-              >{{ nav.label }}</a
-            >
+              }" (click)="nav.status.disabled === false ? setStep(nav.id) : false">{{ nav.label }}</a>
           </li>
         </ul>
       </div>
@@ -34,34 +25,22 @@
 
         <div *ngFor="let nav of navs">
           <!-- Navigation -->
-          <div
-            class="cx-list-media"
-            [ngClass]="{ ' is-active': nav.status.active }"
-          >
+          <div class="cx-list-media" [ngClass]="{ ' is-active': nav.status.active }">
             <div>{{ nav.label }}</div>
-            <button
-              *ngIf="nav.status.completed && !nav.status.active"
-              class="btn btn-link"
-              (click)="setStep(nav.id)"
-            >
+            <button *ngIf="nav.status.completed && !nav.status.active" class="btn btn-link" (click)="setStep(nav.id)">
               {{ 'common.edit' | cxTranslate }}
             </button>
           </div>
 
           <!-- Content -->
           <div *ngIf="nav.status.active && step === 1">
-            <cx-shipping-address
-              (goToStep)="goToStep($event)"
-            ></cx-shipping-address>
+            <cx-shipping-address (goToStep)="goToStep($event)"></cx-shipping-address>
           </div>
           <div *ngIf="nav.status.active && step === 2">
             <cx-delivery-mode (goToStep)="goToStep($event)"></cx-delivery-mode>
           </div>
           <div *ngIf="nav.status.active && step === 3">
-            <cx-payment-method
-              (goToStep)="goToStep($event)"
-              (backStep)="setStep(2)"
-            ></cx-payment-method>
+            <cx-payment-method (goToStep)="goToStep($event)" (backStep)="setStep(2)"></cx-payment-method>
           </div>
           <div *ngIf="nav.status.active && step === 4">
             <cx-review-submit></cx-review-submit>

@@ -89,7 +89,6 @@ describe('Checkout effect', () => {
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let productImageConverter: ProductImageNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -109,7 +108,6 @@ describe('Checkout effect', () => {
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     orderService = TestBed.get(OccOrderService);
-    productImageConverter = TestBed.get(ProductImageNormalizer);
 
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -260,10 +258,6 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
-      spyOn(productImageConverter, 'convertProduct').and.returnValue(
-        orderDetails
-      );
-
       const action = new fromActions.PlaceOrder({
         userId: userId,
         cartId: cartId,

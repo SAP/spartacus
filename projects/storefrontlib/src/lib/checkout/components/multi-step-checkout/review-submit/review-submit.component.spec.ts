@@ -1,25 +1,26 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
-import { of, Observable, BehaviorSubject } from 'rxjs';
-import createSpy = jasmine.createSpy;
-
 import {
-  CartService,
-  UserService,
-  Cart,
-  OrderEntry,
-  CheckoutService,
-  PaymentDetails,
   Address,
-  PromotionResult,
-  DeliveryMode,
+  Cart,
+  CartService,
+  CheckoutService,
   Country,
+  DeliveryMode,
   I18nTestingModule,
+  PaymentDetails,
+  PromotionResult,
+  UserService,
+  UICart,
+  UIOrderEntry,
 } from '@spartacus/core';
-import { Item } from '../../../../cart';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Item } from '../../../../../cms-components/checkout/cart/index';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
+
+import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   guid: 'test',
@@ -60,7 +61,10 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
+const mockEntries: UIOrderEntry[] = [
+  { entryNumber: 123 },
+  { entryNumber: 456 },
+];
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -108,7 +112,7 @@ class MockCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
-  getEntries(): Observable<OrderEntry[]> {
+  getEntries(): Observable<UIOrderEntry[]> {
     return of(mockEntries);
   }
 }
@@ -152,8 +156,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let cart: Cart;
-    component.cart$.subscribe((data: Cart) => {
+    let cart: UICart;
+    component.cart$.subscribe((data: UICart) => {
       cart = data;
     });
 
@@ -164,8 +168,8 @@ describe('ReviewSubmitComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    let entries: OrderEntry[];
-    component.entries$.subscribe((data: OrderEntry[]) => {
+    let entries: UIOrderEntry[];
+    component.entries$.subscribe((data: UIOrderEntry[]) => {
       entries = data;
     });
 
