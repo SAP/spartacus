@@ -38,11 +38,11 @@ export class ProductInterestsService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.get<ProductInterestList>(url, { headers, params }).pipe(
-      tap(r => {
+    return this.http.get(url, { headers, params }).pipe(
+      tap((r: any) => {
         if (r.results) {
           r.results.forEach(
-            (item: ProductInterestRelation) =>
+            (item: any) =>
               (item.product.images = this.convertImages(item.product.images))
           );
         }

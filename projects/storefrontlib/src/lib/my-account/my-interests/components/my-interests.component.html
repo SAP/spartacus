@@ -53,6 +53,7 @@
               <td>
                 <div class="d-md-none "></div>
                 <a
+                  class="cx-product-interests-product-image-link"
                   [routerLink]="
                     { route: [{ name: 'product', params: result.product }] }
                       | cxTranslateUrl
@@ -70,7 +71,7 @@
                     <div class="">
                       <div *ngIf="result.product.name" class="cx-name">
                         <a
-                          class="cx-link"
+                          class="cx-link cx-product-interests-product-code-link"
                           [routerLink]="
                             {
                               route: [
@@ -98,11 +99,13 @@
 
                       <div
                         class="cx-property"
-                        [ngSwitch]="
+                        *ngIf="
                           result.product.stock.stockLevelStatus === 'outOfStock'
                         "
                       >
-                        <div class="cx-label">
+                        <div
+                          class="cx-label cx-product-interests-product-stock"
+                        >
                           {{ 'myInterests.outOfStock' | cxTranslate }}
                         </div>
                       </div>
