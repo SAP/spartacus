@@ -10,12 +10,12 @@ import { CmsComponentData } from '../../../../cms-structure/page/index';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MiniCartComponent {
-  cart$: Observable<UICart>;
-
   constructor(
     protected component: CmsComponentData<CmsMiniCartComponent>,
     protected cartService: CartService
-  ) {
-    this.cart$ = this.cartService.getActive();
+  ) {}
+
+  get cart$(): Observable<UICart> {
+    return this.cartService.getActive();
   }
 }
