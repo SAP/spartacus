@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   catchError,
   filter,
   map,
-  multicast,
-  refCount,
+  shareReplay,
   switchMap,
   take,
   tap,
@@ -87,9 +86,7 @@ export class CmsService {
         }),
         filter(([componentState]) => componentState.success),
         map(([componentState]) => componentState.value),
-        // TODO: Replace next two lines with shareReplay(1, undefined, true) when RxJS 6.4 will be in use
-        multicast(() => new ReplaySubject(1)),
-        refCount()
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
 
