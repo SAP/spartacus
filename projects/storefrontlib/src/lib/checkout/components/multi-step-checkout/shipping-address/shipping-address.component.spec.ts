@@ -207,7 +207,7 @@ describe('ShippingAddressComponent', () => {
   it('should call back()', () => {
     component.back();
     expect(mockRouting.go).toHaveBeenCalledWith({
-      route: ['cart'],
+      route: 'cart',
     });
   });
 
@@ -215,7 +215,7 @@ describe('ShippingAddressComponent', () => {
     const getContinueBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-primary'))
-        .find(el => el.nativeElement.innerText === 'common.action.continue');
+        .find(el => el.nativeElement.innerText === 'common.continue');
 
     it('should be disabled when no address is selected', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -251,9 +251,7 @@ describe('ShippingAddressComponent', () => {
     const getBackBtn = () =>
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
-        .find(
-          el => el.nativeElement.innerText === 'checkout.action.backToCart'
-        );
+        .find(el => el.nativeElement.innerText === 'checkout.backToCart');
 
     it('should call "back" function after being clicked', () => {
       spyOn(userService, 'getAddressesLoading').and.returnValue(of(false));
@@ -299,9 +297,7 @@ describe('ShippingAddressComponent', () => {
       fixture.debugElement
         .queryAll(By.css('.btn-action'))
         .find(
-          el =>
-            el.nativeElement.innerText ===
-            'checkoutAddress.action.addNewAddress'
+          el => el.nativeElement.innerText === 'checkoutAddress.addNewAddress'
         );
     const getNewAddressForm = () =>
       fixture.debugElement.query(By.css('cx-address-form'));

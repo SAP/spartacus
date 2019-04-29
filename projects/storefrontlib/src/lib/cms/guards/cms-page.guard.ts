@@ -47,7 +47,7 @@ export class CmsPageGuard implements CanActivate {
             ),
             tap(([canActivate, componentTypes]) => {
               if (canActivate === true) {
-                this.cmsI18n.loadNamespacesForComponents(componentTypes);
+                this.cmsI18n.loadChunksForComponents(componentTypes);
               }
             }),
             map(([canActivate, componentTypes]) => {

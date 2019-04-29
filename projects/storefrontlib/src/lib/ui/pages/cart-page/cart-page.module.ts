@@ -1,14 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { CmsPageGuard } from '../../../cms/guards/cms-page.guard';
-
-import { CartPageComponent } from './cart-page.component';
-import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
-import { CartDetailsModule } from '../../../cart/cart-details/cart-details.module';
-import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
+import { CartDetailsModule } from '../../../../cms-components/checkout/cart/cart-details/cart-details.module';
 import { CmsModule } from '../../../cms/cms.module';
+import { CmsPageGuard } from '../../../cms/guards/cms-page.guard';
+import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
+import { OutletRefModule } from '../../../outlet/outlet-ref/outlet-ref.module';
+import { CartPageComponent } from './cart-page.component';
 
 const routes: Routes = [
   {
