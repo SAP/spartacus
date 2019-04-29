@@ -13,7 +13,7 @@ $selectors: header, cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-product-attributes, cx-product-reviews, cx-product-list,
   cx-product-list-item, cx-product-grid, cx-product-facet-navigation,
   cx-pagination, cx-order-history, cx-address-book, cx-address-card,
-  cx-payment-method, cx-close-account !default;
+  cx-payment-method, cx-close-account, cx-icon !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut

@@ -11,34 +11,39 @@
   a {
     display: flex;
     background: var(--cx-background, var(--cx-g-color-primary));
-    padding: var(--cx-padding, 0 0.5rem);
+
+    width: 70px;
+    height: 48px;
     color: var(--cx-color, var(--cx-g-color-inverse));
     text-decoration: none;
+    justify-content: space-around;
+
+    color: currentColor;
+
     &:hover {
       color: currentColor;
       text-decoration: none;
     }
-    svg {
-      fill: currentColor;
-      width: 30px;
-      height: 30px;
-      margin: 9px 0;
-    }
 
-    span {
+    .count {
       color: currentColor;
       align-self: center;
-      padding: var(--cx-padding, 0 0.5rem);
+      padding-right: 7px;
+    }
+    .total {
+      display: none;
     }
 
     @include media-breakpoint-only(xs) {
-      min-height: 55px;
+      width: 55px;
+      height: 57px;
+      background-position: center top 4px;
       flex-direction: column;
-      padding: var(--cx-padding, 0.3rem 0.75rem);
+      justify-content: center;
 
-      svg {
-        margin: 0;
-        height: 24px;
+      .count {
+        padding-right: 0;
+        margin-bottom: -5px;
       }
     }
   }
