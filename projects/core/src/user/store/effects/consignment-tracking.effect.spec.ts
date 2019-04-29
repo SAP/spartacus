@@ -30,7 +30,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('Order Details effect', () => {
+describe('Consignment Tracking effect', () => {
   let trackingEffect: fromTrackingEffect.ConsignmentTrackingEffect;
   let orderService: OccOrderService;
   let actions$: Observable<any>;

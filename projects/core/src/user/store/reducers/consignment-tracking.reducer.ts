@@ -13,9 +13,7 @@ export function reducer(
   switch (action.type) {
     case fromAction.LOAD_CONSIGNMENT_TRACKING_SUCCESS: {
       const tracking: ConsignmentTracking = action.payload;
-
       return {
-        ...state,
         tracking,
       };
     }

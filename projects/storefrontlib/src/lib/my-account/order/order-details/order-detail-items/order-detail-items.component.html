@@ -14,7 +14,7 @@
           consignment.status === 'DELIVERY_COMPLETED' ||
           consignment.status === 'DELIVERY_REJECTED'
         "
-        (click)="getConsignmentTracking(consignment)"
+        (click)="openTrackingDialog(consignment)"
         class="btn btn-action"
       >
         {{ 'orderDetails.consignmentTracking.action' | cxTranslate }}

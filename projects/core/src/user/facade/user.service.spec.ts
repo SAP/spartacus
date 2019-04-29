@@ -17,7 +17,7 @@ import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import { USER_FEATURE } from '../store/user-state';
 import { UserService } from './user.service';
-import { Consignment } from 'projects/backend/occ-client/typings/lib/models';
+import { ConsignmentTracking } from '../model/consignment-tracking.model';
 
 describe('UserService', () => {
   let service: UserService;
@@ -172,12 +172,10 @@ describe('UserService', () => {
     store.dispatch(
       new fromStore.LoadConsignmentTrackingSuccess({ trackingID: '1234567890' })
     );
-    let tracking: Consignment;
     service
       .getConsignmentTracking()
-      .subscribe(r => (tracking = r))
+      .subscribe(r => expect(r).toEqual({ trackingID: '1234567890' }))
       .unsubscribe();
-    expect(tracking).toEqual({ trackingID: '1234567890' });
   });
 
   it('should be able to load consignment tracking', () => {

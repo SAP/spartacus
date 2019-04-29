@@ -168,7 +168,7 @@ describe('OrderDetailItemsComponent', () => {
     spyOn(ngbModal, 'open').and.returnValue(modalRef);
     spyOn(userService, 'loadConsignmentTracking').and.callThrough();
     component.orderCode = mockOrder.code;
-    component.getConsignmentTracking(mockOrder.consignments[0]);
+    component.openTrackingDialog(mockOrder.consignments[0]);
     fixture.detectChanges();
 
     expect(userService.loadConsignmentTracking).toHaveBeenCalledWith(

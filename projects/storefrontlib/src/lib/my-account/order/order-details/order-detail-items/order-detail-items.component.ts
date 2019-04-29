@@ -48,7 +48,7 @@ export class OrderDetailItemsComponent implements OnInit {
     return products;
   }
 
-  getConsignmentTracking(consignment: Consignment) {
+  openTrackingDialog(consignment: Consignment) {
     this.userService.loadConsignmentTracking(this.orderCode, consignment.code);
     this.dialog = this.ngbModal.open(TrackingEventsComponent, {
       centered: true,
