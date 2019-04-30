@@ -28,6 +28,17 @@ import {
 } from '../product-view/product-view.component';
 import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { ProductListComponent } from './product-list.component';
+import createSpy = jasmine.createSpy;
+
+class MockPageLayoutService {
+  getSlots(): Observable<string[]> {
+    return of(['LogoSlot']);
+  }
+  get templateName$(): Observable<string> {
+    return of('LandingPage2Template');
+  }
+}
+
 class MockProductSearchService {
   search = createSpy('search');
   searchResults$ = of();

@@ -1,16 +1,20 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
-  Component,
   ProductService,
   UIProduct,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { MediaComponent } from '../../ui/components/media/media.component';
 import { ProductCarouselComponent } from './product-carousel.component';
 import { ProductCarouselService } from './product-carousel.component.service';
 
@@ -19,6 +23,14 @@ import { ProductCarouselService } from './product-carousel.component.service';
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-media',
+  template: '',
+})
+class MockMediaComponent {
+  @Input() container;
 }
 
 const productCodeArray: string[] = ['111111', '222222', '333333', '444444'];
@@ -43,7 +55,7 @@ const mockProduct: UIProduct = {
   },
 };
 
-const MockCmsComponentData = <CmsComponentData<Component>>{
+const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
@@ -96,7 +108,7 @@ describe('ProductCarouselComponent', () => {
       imports: [RouterTestingModule],
       declarations: [
         ProductCarouselComponent,
-        MediaComponent,
+        MockMediaComponent,
         MockTranslateUrlPipe,
       ],
       providers: [

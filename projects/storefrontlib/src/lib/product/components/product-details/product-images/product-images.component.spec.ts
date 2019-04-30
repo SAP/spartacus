@@ -1,8 +1,7 @@
-import { DebugElement } from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OutletDirective } from '../../../../outlet/index';
-import { MediaComponent } from '../../../../ui/components/media/media.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 
 const firstImage = {
@@ -29,6 +28,14 @@ const mockDataWithOnePicture = {
   },
 };
 
+@Component({
+  selector: 'cx-media',
+  template: '',
+})
+class MockMediaComponent {
+  @Input() container;
+}
+
 describe('ProductImagesComponent', () => {
   let component: ProductImagesComponent;
   let fixture: ComponentFixture<ProductImagesComponent>;
@@ -36,7 +43,11 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductImagesComponent, MediaComponent, OutletDirective],
+      declarations: [
+        ProductImagesComponent,
+        MockMediaComponent,
+        OutletDirective,
+      ],
     }).compileComponents();
   }));
 

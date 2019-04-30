@@ -61,7 +61,6 @@ export class MediaComponent implements OnChanges {
 
   private loadImage() {
     this.renderer.addClass(<HTMLElement>this.elRef.nativeElement, LOADING_CLS);
-
     this.image = this.mediaService.getImage(
       this.container,
       this.format,

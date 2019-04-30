@@ -33,10 +33,8 @@ export class MockStarRatingComponent {
   selector: 'cx-media',
   template: 'mock picture component',
 })
-export class MockPictureComponent {
-  @Input() imageContainer;
-  @Input() imageFormat;
-  @Input() imagePosition;
+export class MockMediaComponent {
+  @Input() container;
   @Input() alt;
 }
 
@@ -78,7 +76,7 @@ describe('ProductGridItemComponent in product-list', () => {
       imports: [RouterTestingModule],
       declarations: [
         ProductGridItemComponent,
-        MockPictureComponent,
+        MockMediaComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
         MockTranslateUrlPipe,

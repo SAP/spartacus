@@ -1,29 +1,20 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { CmsBannerComponent, Component as SpaComponent } from '@spartacus/core';
 import { of } from 'rxjs';
-import { BannerComponent } from './banner.component';
-import {
-  CmsConfig,
-  Component as SpaComponent,
-  CmsBannerComponent,
-  CmsBannerComponentMedia,
-} from '@spartacus/core';
-import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BannerComponentService } from './banner.component.service';
+import { GenericLinkComponent } from '../../ui/components/generic-link/generic-link.component';
+import { BannerComponent } from './banner.component';
 
-const UseCmsModuleConfig: CmsConfig = {
-  cmsComponents: {
-    SimpleBannerComponent: { selector: 'BannerComponent' },
-  },
-  backend: {
-    occ: {
-      baseUrl: 'https://localhost:9002',
-    },
-  },
-};
+@Component({
+  selector: 'cx-media',
+  template: '',
+})
+class MockMediaComponent {
+  @Input() container;
+}
 
 describe('BannerComponent', () => {
   let bannerComponent: BannerComponent;
@@ -50,19 +41,14 @@ describe('BannerComponent', () => {
     uid: 'test',
   };
 
-  const MockBannerComponentService = new BannerComponentService(
-    MockCmsComponentData,
-    UseCmsModuleConfig
-  );
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [BannerComponent, GenericLinkComponent],
+      declarations: [BannerComponent, MockMediaComponent, GenericLinkComponent],
       providers: [
         {
-          provide: BannerComponentService,
-          useValue: MockBannerComponentService,
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
         },
       ],
     }).compileComponents();
@@ -78,10 +64,8 @@ describe('BannerComponent', () => {
     expect(bannerComponent).toBeTruthy();
   });
 
-  it('should contain image source', () => {
+  it('should contain cx-media', () => {
     fixture.detectChanges();
-    expect(el.query(By.css('img')).nativeElement.src).toContain(
-      (<CmsBannerComponentMedia>componentData.media).url
-    );
+    expect(el.query(By.css('cx-media'))).toBeTruthy();
   });
 });

@@ -14,12 +14,9 @@ import { ProductListItemComponent } from './product-list-item.component';
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input()
-  iconOnly;
-  @Input()
-  productCode;
-  @Input()
-  quantity;
+  @Input() iconOnly;
+  @Input() productCode;
+  @Input() quantity;
 }
 
 @Component({
@@ -27,12 +24,9 @@ export class MockAddToCartComponent {
   template: '*****',
 })
 export class MockStarRatingComponent {
-  @Input()
-  rating;
-  @Input()
-  disabled;
-  @Input()
-  steps;
+  @Input() rating;
+  @Input() disabled;
+  @Input() steps;
 }
 
 @Component({
@@ -40,9 +34,7 @@ export class MockStarRatingComponent {
   template: 'mock picture component',
 })
 export class MockPictureComponent {
-  @Input() imageContainer;
-  @Input() imageFormat;
-  @Input() imagePosition;
+  @Input() container;
   @Input() alt;
 }
 

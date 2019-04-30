@@ -1,4 +1,4 @@
-<ng-container *ngIf="(data$ | async) as data">
+<ng-container *ngIf="(component.data$ | async) as data">
   <p *ngIf="data.headLine">data.headLine</p>
   <cx-generic-link
     [url]="data.urlLink"
