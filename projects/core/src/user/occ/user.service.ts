@@ -266,7 +266,6 @@ export class OccUserService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
-    console.log(JSON.stringify(notificationPreferenceList));
     return this.http
       .patch(
         this.getUserEndpoint() + userId + NOTIFICATION_PREFERENCE_ENDPOINT,

@@ -16,4 +16,10 @@ export const myAccount = {
     startShopping: 'Start Shopping',
     sortByMostRecent: 'Sort by Most recent',
   },
+  notificationProference: {
+    message: 'Select your preferred notification channels',
+    EMAIL: 'Email:',
+    SMS: 'SMS:',
+    SITE_MESSAGE: 'SiteMessage',
+  },
 };

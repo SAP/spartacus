@@ -22,7 +22,7 @@ import { NavigationModule } from './navigation/navigation.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
 import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 import { SearchBoxModule } from './search-box/search-box.module';
-import { NotificationPreferenceModule } from './notification-preference/notification-preference.module';
+import { NotificationPreferenceModule } from '../my-account/notification-preference/notification-preference.module';
 
 @NgModule({
   imports: [

@@ -29,6 +29,7 @@ export const defaultI18nConfig: I18nConfig = {
 
       orderDetails: 'myAccount',
       orderHistory: 'myAccount',
+      notificationProference: 'myAccount',
 
       productDetails: 'product',
       productList: 'product',

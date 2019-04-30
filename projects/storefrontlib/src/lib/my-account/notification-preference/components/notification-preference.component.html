@@ -5,7 +5,7 @@
 
   <div class="cx-body">
     <div>
-      <label> Select your preferred notification channels</label>
+      <label>{{ 'notificationProference.message' | cxTranslate }}</label>
     </div>
     <div
       class="cx-notification-preference-body"
@@ -36,8 +36,11 @@
               </label>
             </div>
             <span class="cx-notification-preference-span"
-              >{{ preference.channel }}: {{ preference.value }}</span
-            >
+              >{{
+                'notificationProference.' + preference.channel | cxTranslate
+              }}
+              {{ preference.value }}
+            </span>
           </li>
         </ng-container>
       </ul>

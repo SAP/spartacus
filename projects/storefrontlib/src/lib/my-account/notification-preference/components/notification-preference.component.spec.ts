@@ -13,6 +13,7 @@ import {
   PageMeta,
   PageRobotsMeta,
   UserService,
+  I18nTestingModule,
   BasicNotificationPreferenceList,
 } from '@spartacus/core';
 import { NotificationPreferenceComponent } from './notification-preference.component';
@@ -57,6 +58,7 @@ describe('NotificationPreferenceComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [NotificationPreferenceComponent, MockSpinnerComponent],
+      imports: [I18nTestingModule],
       providers: [
         { provide: AuthService, useValue: authService },
         { provide: PageMetaService, useValue: pageMetaService },
@@ -145,8 +147,12 @@ describe('NotificationPreferenceComponent', () => {
       .unsubscribe();
     expect(notificationPreferences).toEqual(initialNotificationPreferenceList);
     expect(spans.length).toBe(2);
-    expect(spans[0].nativeElement.textContent).toContain('EMAIL: test@sap.com');
-    expect(spans[1].nativeElement.textContent).toContain('SMS: 13800000831');
+    expect(spans[0].nativeElement.textContent).toContain(
+      'notificationProference.EMAIL test@sap.com '
+    );
+    expect(spans[1].nativeElement.textContent).toContain(
+      'notificationProference.SMS 13800000831 '
+    );
     expect(inputs.length).toBe(2);
     expect(inputs[0].nativeElement.checked).toEqual(true);
     expect(inputs[1].nativeElement.checked).toEqual(false);
@@ -198,8 +204,12 @@ describe('NotificationPreferenceComponent', () => {
 
     fixture.detectChanges();
     expect(spans.length).toBe(2);
-    expect(spans[0].nativeElement.textContent).toContain('EMAIL: test@sap.com');
-    expect(spans[1].nativeElement.textContent).toContain('SMS: 13800000831');
+    expect(spans[0].nativeElement.textContent).toContain(
+      'notificationProference.EMAIL test@sap.com '
+    );
+    expect(spans[1].nativeElement.textContent).toContain(
+      'notificationProference.SMS 13800000831 '
+    );
 
     expect(
       component.basicNotificationPreferenceList.preferences[0].enabled
