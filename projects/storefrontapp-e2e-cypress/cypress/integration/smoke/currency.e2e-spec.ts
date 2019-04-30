@@ -1,8 +1,3 @@
-const JPY_CURR = 'JPY';
-const USD_CURR = 'USD';
-const BASE_URL = Cypress.config().baseUrl;
-const CONTENT_CATALOG = 'electronics-spa';
-
 const changeCurrency = (currency: string) => {
   cy.get('.SiteContext label')
     .contains('Currency')
@@ -12,9 +7,14 @@ const changeCurrency = (currency: string) => {
 };
 
 context('Currency change', () => {
+  const JPY_CURR = 'JPY';
+  const USD_CURR = 'USD';
+  const BASE_URL = Cypress.config().baseUrl;
+  const CONTENT_CATALOG = 'electronics-spa';
   const PRODUCT_URL_USD = `/${CONTENT_CATALOG}/en/${USD_CURR}/product/`;
   const PRODUCT_URL_JPY = `/${CONTENT_CATALOG}/en/${JPY_CURR}/product/`;
   const PRODUCT_ID = '280916';
+
   beforeEach(() => {
     cy.server();
     cy.route(
