@@ -122,9 +122,7 @@ describe('Big Happy Path', () => {
     expect(await reviewForm.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await reviewForm.shippingMethod.getText()).toContain(
-      'standard-gross'
-    );
+    expect(await reviewForm.deliveryMode.getText()).toContain('standard-gross');
     expect(await reviewForm.billingAddress.getText()).toContain(
       AddressForm.LAST_NAME
     );
@@ -149,7 +147,7 @@ describe('Big Happy Path', () => {
     expect(await orderConfirmationPage.shippingAddress.getText()).toContain(
       AddressForm.CITY
     );
-    expect(await orderConfirmationPage.shippingMethod.getText()).toContain(
+    expect(await orderConfirmationPage.deliveryMode.getText()).toContain(
       'Standard Delivery'
     );
     expect(await orderConfirmationPage.billingAddress.getText()).toContain(

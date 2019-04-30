@@ -85,7 +85,7 @@ export function placeOrder() {
     .contains('cx-card', 'Shipping Method')
     .find('.cx-card-container')
     .within(() => {
-      cy.getByText('standard-gross');
+      cy.getByText('Standard Delivery');
     });
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
     'contain',
