@@ -1,11 +1,17 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   CmsService,
   CmsSiteContextSelectorComponent,
-  Component,
+  Component as SpaComponent,
   contextServiceMapProvider,
   CurrencyService,
   Language,
@@ -23,6 +29,14 @@ import { SiteContextSelectorComponent } from './site-context-selector.component'
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 describe('SiteContextSelectorComponent in CmsLib', () => {
@@ -61,14 +75,18 @@ describe('SiteContextSelectorComponent in CmsLib', () => {
     getComponentData: () => of(mockComponentData),
   };
 
-  const MockCmsComponentData = <CmsComponentData<Component>>{
+  const MockCmsComponentData = <CmsComponentData<SpaComponent>>{
     data$: of(mockComponentData),
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [BootstrapModule, BrowserAnimationsModule],
-      declarations: [SiteContextSelectorComponent, MockTranslateUrlPipe],
+      declarations: [
+        SiteContextSelectorComponent,
+        MockTranslateUrlPipe,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },
         {
