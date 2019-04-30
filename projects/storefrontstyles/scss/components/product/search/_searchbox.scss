@@ -26,12 +26,12 @@
   }
 
   .cx-input {
+    color: var(--cx-color, var(--cx-g-color-inverse));
     @include placeholder {
-      color: var(--cx-color, var(--cx-g-color-inverse));
+      color: currentColor;
     }
 
     background-color: var(--cx-background-color, var(--cx-g-color-transparent));
-    color: var(--cx-color, var(--cx-g-color-inverse));
     border-radius: var(--cx-border-radius, 0);
     border-style: var(--cx-border-style, none);
     border-width: var(--cx-border-width, 0);
@@ -100,6 +100,9 @@
   }
 
   .cx-button {
+    display: flex;
+    color: currentColor;
+
     border-style: var(--cx-border-style, none);
     border-width: var(--cx-border-width, 0);
     padding: var(--cx-padding, 5px);
@@ -118,13 +121,6 @@
         display: var(--cx-display, block);
       }
     }
-  }
-
-  .cx-icon {
-    width: var(--cx-width, 28px);
-    height: var(--cx-height, 28px);
-    fill: var(--cx-fill, var(--cx-g-color-inverse));
-    pointer-events: var(--cx-pointer-events, none);
   }
 
   .cx-dropdown-content {

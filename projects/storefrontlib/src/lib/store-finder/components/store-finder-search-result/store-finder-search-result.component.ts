@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'cx-store-finder-search-result',
   templateUrl: './store-finder-search-result.component.html',
-  styleUrls: ['./store-finder-search-result.component.scss'],
 })
 export class StoreFinderSearchResultComponent implements OnInit, OnDestroy {
   locations: any;

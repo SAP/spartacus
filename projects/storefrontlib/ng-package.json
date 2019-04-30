@@ -7,7 +7,6 @@
       "@ng-bootstrap/ng-bootstrap": "ngBootstrap",
       "@ngrx/store": "store",
       "@ngrx/router-store": "fromNgrxRouter",
-      "ngrx-store-localstorage": "ngrxStoreLocalstorage",
       "@ng-select/ng-select": "ngSelect",
       "@spartacus/core": "core"
     },

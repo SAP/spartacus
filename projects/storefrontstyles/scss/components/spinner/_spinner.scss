@@ -1,0 +1,36 @@
+/* IDEAS TO EXTEND
+  - sizing (variants: small, medium, big)
+  - theme (variants: primary, secondary)
+*/
+
+%cx-spinner {
+  .loader,
+  .loader:after {
+    margin: var(--cx-margin, 0 auto);
+    border-radius: var(--cx-border-radius, 50%);
+    width: var(--cx-width, 10em);
+    height: var(--cx-height, 10em);
+  }
+  .loader {
+    margin: var(--cx-margin, 30px auto);
+    font-size: var(--cx-font-size, 0.65em);
+    position: var(--cx-position, relative);
+    text-indent: var(--cx-text-indent, -9999em);
+    border-width: var(--cx-border-width, 1.1em);
+    border-style: var(--cx-border-style, solid);
+    border-top-color: var(--cx-border-top-color, var(--cx-g-color-light));
+    border-bottom-color: var(--cx-border-bottom-color, var(--cx-g-color-light));
+    border-right-color: var(--cx-border-right-color, var(--cx-g-color-light));
+    border-left-color: var(--cx-border-left-color, var(--cx-g-color-primary));
+    transform: var(--cx-transform, translateZ(0));
+    animation: var(--cx-animation, load8 1.1s infinite linear);
+  }
+  @keyframes load8 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
