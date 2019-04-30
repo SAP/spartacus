@@ -1,7 +1,8 @@
 <img
-  [src]="mainImage || missingProductImgSrc"
+  *ngIf="image"
+  [attr.src]="image.src"
+  [attr.srcset]="image.srcset"
+  [attr.alt]="image.alt"
   (load)="loadHandler()"
   (error)="loadErrorHandler($event)"
-  [attr.alt]="alt"
-  [attr.title]="title"
 />

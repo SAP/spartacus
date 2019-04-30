@@ -1,5 +1,5 @@
 import {
-  ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -8,13 +8,9 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Image } from '@spartacus/core';
-import {
-  missingProductImageAlt,
-  missingProductImgSrc,
-} from '../../../images/missingProduct';
+import { Media } from './media.model';
+import { MediaService } from './media.service';
 
-const DEFAULT_FORMAT = 'product';
 const INITIALIZED_CLS = 'initialized';
 const LOADING_CLS = 'loading';
 
@@ -22,54 +18,47 @@ const LOADING_CLS = 'loading';
   selector: 'cx-picture',
   templateUrl: './picture.component.html',
   styleUrls: ['./picture.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PictureComponent implements OnChanges {
   @Input() imageContainer;
   @Input() imageFormat: string;
   @Input() imagePosition: string;
 
+  @Input() media: any;
+
   /**
    * An alternate text for an image, if the image cannot be displayed.
    */
   @Input() alt: string;
 
-  /**
-   * Additional info on the image, is often shown as a tooltip text when the mouse moves over the element.
-   * This is not used often anymore as it's not mobile friendly.
-   */
-  @Input() title: string;
-
   @Output() loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
-  @Input() mainImage: string;
+  /**
+   * The main image will be used by browser that do not support srcset's
+   */
+  image: Media;
 
-  missingProductImgSrc = missingProductImgSrc;
-  missingProductImageAlt = missingProductImageAlt;
+  srcset: string;
 
   constructor(
     private elRef: ElementRef,
-    private cd: ChangeDetectorRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    protected mediaService: MediaService
   ) {}
 
   ngOnChanges() {
     this.loadImage();
   }
 
-  loadImage(): void {
-    if (this.imageContainer) {
-      const image: Image = this.imageContainer[
-        this.imageFormat || DEFAULT_FORMAT
-      ];
-      if (image && image.url) {
-        this.renderer.addClass(
-          <HTMLElement>this.elRef.nativeElement,
-          LOADING_CLS
-        );
-        this.mainImage = image.url;
-        this.cd.detectChanges();
-      }
-    }
+  private loadImage() {
+    this.renderer.addClass(<HTMLElement>this.elRef.nativeElement, LOADING_CLS);
+
+    this.image = this.mediaService.getImage(
+      this.media,
+      this.imageFormat,
+      this.alt
+    );
   }
 
   loadHandler() {
@@ -85,6 +74,6 @@ export class PictureComponent implements OnChanges {
   }
 
   loadErrorHandler(event) {
-    event.target.src = missingProductImgSrc;
+    event.target.src = this.mediaService.getMissingImage();
   }
 }
