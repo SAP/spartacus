@@ -8,7 +8,7 @@ export class TranslationChunkService {
     Object.keys(config.i18n.chunks).forEach(chunk => {
       config.i18n.chunks[chunk].map(key => {
         if (this.chunks.hasOwnProperty(key)) {
-          console.warn(`Duplicated key (${key}) in the i18n config file.`);
+          this.warnDuplicates(key);
         }
         this.chunks[key] = chunk;
       });
@@ -25,5 +25,9 @@ export class TranslationChunkService {
       return mainKey; // fallback to main key as a chunk
     }
     return chunk;
+  }
+
+  warnDuplicates(key: string): void {
+    console.warn(`Duplicated key (${key}) in the i18n config file.`);
   }
 }
