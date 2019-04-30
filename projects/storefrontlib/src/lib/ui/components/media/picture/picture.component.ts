@@ -21,13 +21,22 @@ const LOADING_CLS = 'loading';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PictureComponent implements OnChanges {
-  @Input() imageContainer;
-  @Input() imageFormat: string;
+  /**
+   * The media container can hold multiple media items, so that
+   * a specific media (by format) can be used or multiple media
+   * can be provided in a `srcset` so the browser will figure out
+   * the best media for the device.
+   */
+  @Input() container: any;
 
-  @Input() media: any;
+  /**
+   * if a media format is given, a media for the given format will be rendered
+   */
+  @Input() format: string;
 
   /**
    * An alternate text for an image, if the image cannot be displayed.
+   * The media itself migth have an alt text already, this alt however will override.
    */
   @Input() alt: string;
 
@@ -54,8 +63,8 @@ export class PictureComponent implements OnChanges {
     this.renderer.addClass(<HTMLElement>this.elRef.nativeElement, LOADING_CLS);
 
     this.image = this.mediaService.getImage(
-      this.media,
-      this.imageFormat,
+      this.container,
+      this.format,
       this.alt
     );
   }

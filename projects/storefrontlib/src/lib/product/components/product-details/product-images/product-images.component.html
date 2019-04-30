@@ -1,8 +1,8 @@
 <ng-container *ngIf="product">
   <ng-container *cxOutlet="outlets.IMAGES">
     <cx-picture
-      [media]="mainImageContainer"
-      imageFormat="zoom"
+      [container]="mainImageContainer"
+      format="zoom"
       (loaded)="loadHandler()"
     >
     </cx-picture>
@@ -11,8 +11,8 @@
       <div class="thumbs">
         <cx-picture
           *ngFor="let image of product.images.GALLERY"
-          [media]="image"
-          imageFormat="thumbnail"
+          [container]="image"
+          format="thumbnail"
           (focus)="showImage($event, image)"
           tabindex="0"
           [class.active]="isMainImageContainer(image)"

@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { PictureComponent } from './picture.component';
 
 describe('PictureComponent', () => {
@@ -28,12 +27,12 @@ describe('PictureComponent', () => {
 
     component.ngOnChanges();
 
-    expect(component.mainImage).toEqual('mockProductImageUrl');
+    expect(component.image).toEqual('mockProductImageUrl');
   });
 
   it('should call ngOnInit() with invalid image url', () => {
     component.ngOnChanges();
 
-    expect(component.mainImage).toEqual(undefined);
+    expect(component.image).toEqual(undefined);
   });
 });

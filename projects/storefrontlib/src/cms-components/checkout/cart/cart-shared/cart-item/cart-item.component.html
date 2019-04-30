@@ -5,8 +5,8 @@
       [routerLink]="{ route: 'product', params: item.product } | cxTranslateUrl"
     >
       <cx-picture
-        [imageContainer]="item.product.images?.PRIMARY"
-        imageFormat="thumbnail"
+        [container]="item.product.images?.PRIMARY"
+        format="thumbnail"
       ></cx-picture>
     </a>
   </div>
