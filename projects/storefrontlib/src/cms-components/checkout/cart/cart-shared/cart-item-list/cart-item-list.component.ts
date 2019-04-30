@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CartService, PromotionResult } from '@spartacus/core';
 import { Item } from '../cart-item/cart-item.component';
@@ -6,8 +6,6 @@ import { Item } from '../cart-item/cart-item.component';
 @Component({
   selector: 'cx-cart-item-list',
   templateUrl: './cart-item-list.component.html',
-  styleUrls: ['./cart-item-list.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class CartItemListComponent implements OnInit {
   @Input()
