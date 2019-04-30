@@ -15,7 +15,7 @@ export class ReviewForm {
   readonly shippingAddress: ElementFinder = this.form.element(
     by.css('.cx-review__summary-card__address')
   );
-  readonly shippingMethod: ElementFinder = this.form.element(
+  readonly deliveryMode: ElementFinder = this.form.element(
     by.css('.cx-review__summary-card__shipping-method')
   );
   readonly paymentMethod: ElementFinder = this.form.element(
