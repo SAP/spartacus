@@ -6,6 +6,7 @@ import {
   Address,
   AddressList,
   AddressValidation,
+  ConsentTemplateList,
   PaymentDetailsList,
   User,
 } from '../../occ/occ-models/index';
@@ -24,6 +25,7 @@ const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
+const CONSENTS_ENDPOINT = '/consenttemplates';
 
 @Injectable()
 export class OccUserService {
@@ -237,6 +239,14 @@ export class OccUserService {
     });
     return this.http
       .put(url, httpParams, { headers })
+      .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  // TODO:#1184 - test
+  loadConsents(userId: string): Observable<ConsentTemplateList> {
+    const url = this.getUserEndpoint() + userId + CONSENTS_ENDPOINT;
+    return this.http
+      .get<ConsentTemplateList>(url)
       .pipe(catchError((error: any) => throwError(error)));
   }
 }

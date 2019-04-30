@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import {
-  ConsentTemplate,
-  ConsentTemplateList,
-} from '../../occ/occ-models/additional-occ.models';
+import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import {
   Address,
   Country,
@@ -554,37 +551,49 @@ export class UserService {
   }
 
   // TODO:#1184 - write API comments
+  // TODO:#1184 - test
+  loadConsents(userId: string): void {
+    this.store.dispatch(new fromStore.LoadUserConsents(userId));
+  }
 
-  getConsents(): Observable<ConsentTemplateList> {}
+  getConsents(): Observable<ConsentTemplateList> {
+    return this.store.pipe(select(fromStore.getConsentsValue));
+  }
 
-  getConsentsResultLoading(): Observable<boolean> {}
+  getConsentsResultLoading(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getConsentsLoading));
+  }
 
-  getConsentsResultSuccess(): Observable<boolean> {}
+  getConsentsResultSuccess(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getConsentsSuccess));
+  }
 
-  getConsentsResultError(): Observable<boolean> {}
+  getConsentsResultError(): Observable<boolean> {
+    return this.store.pipe(select(fromStore.getConsentsError));
+  }
 
-  resetGetConsentsProcessState(): void {}
+  // resetGetConsentsProcessState(): void {}
 
-  giveConsent(
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): Observable<ConsentTemplate> {}
+  // giveConsent(
+  //   consentTemplateId: string,
+  //   consentTemplateVersion: number
+  // ): Observable<ConsentTemplate> {}
 
-  giveConsentResultLoading(): Observable<boolean> {}
+  // giveConsentResultLoading(): Observable<boolean> {}
 
-  giveConsentResultSuccess(): Observable<boolean> {}
+  // giveConsentResultSuccess(): Observable<boolean> {}
 
-  giveConsentResultError(): Observable<boolean> {}
+  // giveConsentResultError(): Observable<boolean> {}
 
-  resetGiveConsentProcessState(): void {}
+  // resetGiveConsentProcessState(): void {}
 
-  withdrawConsent(consentCode: string): void {}
+  // withdrawConsent(consentCode: string): void {}
 
-  withdrawConsentResultLoading(): Observable<boolean> {}
+  // withdrawConsentResultLoading(): Observable<boolean> {}
 
-  withdrawConsentResultSuccess(): Observable<boolean> {}
+  // withdrawConsentResultSuccess(): Observable<boolean> {}
 
-  withdrawConsentResultError(): Observable<boolean> {}
+  // withdrawConsentResultError(): Observable<boolean> {}
 
-  resetWithdrawConsentProcessState(): void {}
+  // resetWithdrawConsentProcessState(): void {}
 }

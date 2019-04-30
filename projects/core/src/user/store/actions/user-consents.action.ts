@@ -14,7 +14,7 @@ export const LOAD_USER_CONSENTS_FAIL = '[User] Load User Consents Fail';
 
 export class LoadUserConsents extends LoaderLoadAction {
   readonly type = LOAD_USER_CONSENTS;
-  constructor() {
+  constructor(public payload: string) {
     super(USER_CONSENTS);
   }
 }
