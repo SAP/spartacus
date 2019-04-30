@@ -1,0 +1,78 @@
+$contentCatalog=electronicsContentCatalog
+$contentCV=catalogVersion(CatalogVersion.catalog(Catalog.id[default=$contentCatalog]),CatalogVersion.version[default=Online])[default=$contentCatalog:Online]
+$lang=en
+
+# Update MiniCartSlot
+UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];cmsComponents(uid, $contentCV)
+;;MiniCartSlot;MiniCart
+
+###### StoreFinder ######
+# Create ContentSlots
+INSERT_UPDATE ContentSlot;$contentCV[unique=true];uid[unique=true];name;active;cmsComponents(uid,$contentCV)
+;;StoreFinderSlot;Find a Store Link;true;StoreFinderLink
+
+# Create ContentSlotName for each page template
+INSERT_UPDATE ContentSlotName;name[unique=true];template(uid,$contentCV)[unique=true];validComponentTypes(code);compTypeGroup(code)
+;StoreFinder;ProductDetailsPageTemplate;CMSLinkComponent;;
+;StoreFinder;ErrorPageTemplate;CMSLinkComponent;;
+;StoreFinder;ProductListPageTemplate;CMSLinkComponent;;
+;StoreFinder;ProductGridPageTemplate;CMSLinkComponent;;
+;StoreFinder;SearchResultsListPageTemplate;CMSLinkComponent;;
+;StoreFinder;SearchResultsGridPageTemplate;CMSLinkComponent;;
+;StoreFinder;SearchResultsEmptyPageTemplate;CMSLinkComponent;;
+;StoreFinder;CategoryPageTemplate;CMSLinkComponent;;
+;StoreFinder;LandingPage1Template;CMSLinkComponent;;
+;StoreFinder;LandingPage2Template;CMSLinkComponent;;
+;StoreFinder;LandingPage3Template;CMSLinkComponent;;
+;StoreFinder;LandingPage4Template;CMSLinkComponent;;
+;StoreFinder;LandingPage5Template;CMSLinkComponent;;
+;StoreFinder;LandingPage6Template;CMSLinkComponent;;
+;StoreFinder;ContentPage1Template;CMSLinkComponent;;
+;StoreFinder;CartPageTemplate;CMSLinkComponent;;
+;StoreFinder;LoginPageTemplate;CMSLinkComponent;;
+;StoreFinder;CheckoutLoginPageTemplate;CMSLinkComponent;;
+;StoreFinder;MultiStepCheckoutSummaryPageTemplate;CMSLinkComponent;;
+;StoreFinder;OrderConfirmationPageTemplate;CMSLinkComponent;;
+;StoreFinder;AccountPageTemplate;CMSLinkComponent;;
+;StoreFinder;StoreFinderPageTemplate;CMSLinkComponent;;
+
+# Bind Content Slots to Page Templates
+INSERT_UPDATE ContentSlotForTemplate;$contentCV[unique=true];uid[unique=true];position[unique=true];pageTemplate(uid,$contentCV)[unique=true];contentSlot(uid,$contentCV)[unique=true];allowOverwrite
+;;StoreFinderSlot-ProductDetailsPage;StoreFinder;ProductDetailsPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-ErrorPage;StoreFinder;ErrorPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-ProductListPage;StoreFinder;ProductListPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-ProductGridPage;StoreFinder;ProductGridPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-SearchResultsListPage;StoreFinder;SearchResultsListPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-SearchResultsGridPage;StoreFinder;SearchResultsGridPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-SearchResultsEmpytPage;StoreFinder;SearchResultsEmptyPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-CategoryPage;StoreFinder;CategoryPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-LandingPage1;StoreFinder;LandingPage1Template;StoreFinderSlot;true
+;;StoreFinderSlot-LandingPage2;StoreFinder;LandingPage2Template;StoreFinderSlot;true
+;;StoreFinderSlot-LandingPage3;StoreFinder;LandingPage3Template;StoreFinderSlot;true
+;;StoreFinderSlot-LandingPage4;StoreFinder;LandingPage4Template;StoreFinderSlot;true
+;;StoreFinderSlot-LandingPage5;StoreFinder;LandingPage5Template;StoreFinderSlot;true
+;;StoreFinderSlot-LandingPage6;StoreFinder;LandingPage6Template;StoreFinderSlot;true
+;;StoreFinderSlot-ContentPage1;StoreFinder;ContentPage1Template;StoreFinderSlot;true
+;;StoreFinderSlot-CartPage;StoreFinder;CartPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-LoginPage;StoreFinder;LoginPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-CheckoutLoginPage;StoreFinder;CheckoutLoginPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-MultiStepCheckoutSummaryPage;StoreFinder;MultiStepCheckoutSummaryPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-OrderConfirmationPage;StoreFinder;OrderConfirmationPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-AccountPage;StoreFinder;AccountPageTemplate;StoreFinderSlot;true
+;;StoreFinderSlot-StoreFinderPage;StoreFinder;StoreFinderPageTemplate;StoreFinderSlot;true
+
+###### Sign out ######
+INSERT_UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];name;url;&linkRef;target(code)[default='sameWindow']
+;;SignOutLink;SignOutLink;;SignOutLink;
+
+INSERT_UPDATE CMSNavigationNode;uid[unique=true];$contentCV[unique=true];name;parent(uid, $contentCV);links(&linkRef);&nodeRef
+;SignOutNavNode;;Sign Out;MyAccountNavNode;;SignOutNavNode
+
+# create cms navigation entry for nvaigation child nodes
+INSERT_UPDATE CMSNavigationEntry;uid[unique=true];$contentCV[unique=true];name;navigationNode(&nodeRef);item(&linkRef);
+;SignOutNavNodeEntry;;SignOutNavNodeEntry;SignOutNavNode;SignOutLink;
+
+###### CMS link name in English ######
+UPDATE CMSLinkComponent;$contentCV[unique=true];uid[unique=true];linkName[lang=en]
+ ;;SignOutLink;"Sign Out"
+ ;;StoreFinderLink;"Find a Store"
