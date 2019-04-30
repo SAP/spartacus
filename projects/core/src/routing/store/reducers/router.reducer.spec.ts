@@ -3,17 +3,18 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
 
+import * as fromNgrxRouter from '@ngrx/router-store';
 import {
   RouterStateSerializer,
   StoreRouterConnectingModule,
 } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromNgrxRouter from '@ngrx/router-store';
 
 import * as fromAction from './../actions/';
 import { PageType } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './router.reducer';
+import { getNextPageContext } from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -146,6 +147,18 @@ describe('Router Reducer', () => {
       expect(state4.redirectUrl).toBe('');
     });
 
+    describe('ROUTER_NAVIGATION', () => {
+      it('should should populate the nextState', () => {
+        const { initialState } = fromReducer;
+        const action = {
+          ...templateAction,
+          type: fromNgrxRouter.ROUTER_NAVIGATION,
+        };
+        const state = fromReducer.reducer(initialState, action);
+        expect(state.nextState).toBe(action.payload.routerState);
+      });
+    });
+
     describe('ROUTER_NAVIGATED', () => {
       it('should should populate the state and the navigationId', () => {
         const { initialState } = fromReducer;
@@ -155,6 +168,26 @@ describe('Router Reducer', () => {
         };
         const state = fromReducer.reducer(initialState, action);
         expect(state.state).toBe(action.payload.routerState);
+      });
+      it('should clear nextState', () => {
+        const initialState: fromReducer.RouterState = {
+          ...fromReducer.initialState,
+          nextState: {
+            url: '',
+            queryParams: {},
+            params: {},
+            context: {
+              id: '',
+            },
+            cmsRequired: false,
+          },
+        };
+        const action = {
+          ...templateAction,
+          type: fromNgrxRouter.ROUTER_NAVIGATED,
+        };
+        const state = fromReducer.reducer(initialState, action);
+        expect(state.nextState).toBe(undefined);
       });
     });
 
@@ -260,6 +293,36 @@ describe('Router Reducer', () => {
         router.navigateByUrl('dynamically-created/sub-route')
       );
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
+    });
+  });
+
+  describe('getNextPageContext', () => {
+    it('should return the next page context', () => {
+      const context = {
+        id: 'testPageLabel',
+        type: PageType.CONTENT_PAGE,
+      };
+      const mockState = { router: { router: { nextState: { context } } } };
+      const result = fromReducer.getNextPageContext(mockState);
+      expect(result).toEqual(context);
+    });
+  });
+
+  describe('isNavigating', () => {
+    it('should return true while nextState is set', () => {
+      const context = {
+        id: 'testPageLabel',
+        type: PageType.CONTENT_PAGE,
+      };
+      const mockState = { router: { router: { nextState: { context } } } };
+      const result = fromReducer.isNavigating(mockState);
+      expect(result).toBe(true);
+    });
+
+    it('should return false if  nextState is not set', () => {
+      const mockState = { router: { router: { nextState: undefined } } };
+      const result = fromReducer.isNavigating(mockState);
+      expect(result).toBe(false);
     });
   });
 });
