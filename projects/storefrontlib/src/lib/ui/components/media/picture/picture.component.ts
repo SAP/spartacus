@@ -41,7 +41,8 @@ export class PictureComponent implements OnChanges {
 
   @Output() loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
-  mainImage: string;
+  @Input() mainImage: string;
+
   missingProductImgSrc = missingProductImgSrc;
   missingProductImageAlt = missingProductImageAlt;
 
