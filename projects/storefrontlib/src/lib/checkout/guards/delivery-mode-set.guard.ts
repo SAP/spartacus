@@ -23,7 +23,8 @@ export class DeliveryModeSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const route = this.checkoutConfig.checkout.steps.find(
-      (step: CheckoutStep) => step.type.includes(CheckoutStepType.deliveryMode)
+      (step: CheckoutStep) =>
+        step.type.indexOf(CheckoutStepType.deliveryMode) > -1
     );
 
     if (!route && !this.serverConfig.production) {
