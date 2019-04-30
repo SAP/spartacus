@@ -17,7 +17,6 @@ const LOADING_CLS = 'loading';
 @Component({
   selector: 'cx-media',
   templateUrl: './media.component.html',
-  styleUrls: ['./media.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MediaComponent implements OnChanges {
