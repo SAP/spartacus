@@ -17,7 +17,9 @@ import {
   AuthService,
 } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutDetailsService {
   userId$: Observable<string>;
   cartId$: Observable<string>;

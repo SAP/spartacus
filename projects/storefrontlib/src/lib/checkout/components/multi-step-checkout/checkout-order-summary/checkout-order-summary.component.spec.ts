@@ -1,9 +1,9 @@
-import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OrderSummaryComponent } from 'projects/storefrontlib/src/lib/cart';
-import { PromotionsComponent } from '../../promotions/promotions.component';
 import { BehaviorSubject } from 'rxjs';
-import { Cart, CartService, I18nTestingModule } from '@spartacus/core';
+import { UICart, CartService, I18nTestingModule } from '@spartacus/core';
+import { OrderSummaryComponent } from '../../../../../cms-components/checkout/cart/cart-shared/order-summary/order-summary.component';
+import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
+import { PromotionsComponent } from '../../promotions/promotions.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -14,7 +14,7 @@ describe('CheckoutOrderSummaryComponent', () => {
 
   beforeEach(async(() => {
     mockCartService = {
-      getActive(): BehaviorSubject<Cart> {
+      getActive(): BehaviorSubject<UICart> {
         return new BehaviorSubject({
           totalItems: 5141,
           subTotal: { formattedValue: '11119' },

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-
-import { CartSharedModule } from '../../../../cart/cart-shared/cart-shared.module';
-import { ConfigModule, CmsConfig } from '@spartacus/core';
-import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import { CommonModule } from '@angular/common';
+
+import { ConfigModule, CmsConfig } from '@spartacus/core';
+import { CartSharedModule } from '../../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
+import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 
 @NgModule({
   imports: [

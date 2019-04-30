@@ -18,6 +18,7 @@
             type="radio"
             id="deliveryMode-{{ mode.code }}"
             aria-checked="true"
+            (change)="changeMode(mode.code)"
             [value]="mode.code"
             formControlName="deliveryModeId"
           />

@@ -4,17 +4,17 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import * as fromActions from '../actions/index';
+import * as fromUserActions from '../../../user/store/actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
 import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry } from '../../../occ/occ-models/index';
-import * as fromUserActions from '../../../user/store/actions/index';
-import * as fromCartActions from './../../../cart/store/actions/index';
-import { CheckoutDetails } from '../../models/checkout.model';
+import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 import { ConverterService } from '../../../util/converter.service';
-import { CartConnector } from '../../../cart/index';
+import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
 
 @Injectable()
 export class CheckoutEffects {

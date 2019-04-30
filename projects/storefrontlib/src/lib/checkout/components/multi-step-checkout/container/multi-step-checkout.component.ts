@@ -5,22 +5,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import {
   Address,
-  CartDataService,
   CartService,
-  CheckoutService,
   GlobalMessageService,
   PaymentDetails,
-  RoutingService,
   UICart,
 } from '@spartacus/core';
-
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
 import { CheckoutNavBarItem } from './checkout-navigation-bar';
+import { CheckoutDetailsService } from '../../../checkout-details.service';
 
 @Component({
   selector: 'cx-multi-step-checkout',
@@ -34,78 +29,23 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
   deliveryAddress: Address;
   paymentDetails: PaymentDetails;
   deliveryMode: string;
-  subscriptions: Subscription[] = [];
 
   cart$: Observable<UICart>;
-  tAndCToggler = false;
-
   navs: CheckoutNavBarItem[] = this.initializeCheckoutNavBar();
 
   constructor(
-    protected checkoutService: CheckoutService,
+    public checkoutDetailsService: CheckoutDetailsService,
     protected cartService: CartService,
-    protected cartDataService: CartDataService,
-    protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected cd: ChangeDetectorRef
   ) {}
 
-  private refreshCart(): void {
-    this.cartService.loadDetails();
-  }
-
-  ngOnInit() {
-    if (!this.cartDataService.getDetails) {
-      this.cartService.loadDetails();
-    }
+  ngOnInit(): void {
     this.cart$ = this.cartService.getActive();
-    this.processSteps();
-  }
-
-  processSteps(): void {
-    // step1: set delivery address
-    this.subscriptions.push(
-      this.checkoutService
-        .getDeliveryAddress()
-        .pipe(
-          filter(
-            deliveryAddress =>
-              Object.keys(deliveryAddress).length !== 0 && this.step === 1
-          )
-        )
-        .subscribe(deliveryAddress => {
-          this.deliveryAddress = deliveryAddress;
-          this.nextStep(2);
-          this.refreshCart();
-          this.cd.detectChanges();
-        })
-    );
-
-    // step2: select delivery mode
-    this.subscriptions.push(
-      this.checkoutService
-        .getSelectedDeliveryModeCode()
-        .pipe(filter(selected => selected !== '' && this.step === 2))
-        .subscribe(selectedMode => {
-          this.nextStep(3);
-          this.refreshCart();
-          this.deliveryMode = selectedMode;
-          this.cd.detectChanges();
-        })
-    );
-  }
-
-  setStep(backStep: number): void {
-    this.nextStep(backStep);
-  }
-
-  goToStep(step: number): void {
-    this.nextStep(step);
   }
 
   nextStep(step: number): void {
     const previousStep = step - 1;
-
     this.navs.forEach(function(nav) {
       if (nav.id === previousStep) {
         nav.status.completed = true;
@@ -119,7 +59,6 @@ export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
 
       nav.progressBar = nav.status.active || nav.status.completed;
     });
-
     this.step = step;
   }
 

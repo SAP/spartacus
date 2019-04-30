@@ -77,4 +77,23 @@ describe('PlaceOrderComponent', () => {
       expect(placeOrderBtn().nativeElement.disabled).toBeFalsy();
     });
   });
+
+  it('should contain disabled place order button if terms not accepted', () => {
+    fixture.detectChanges();
+    const getPlaceOrderBtn = () =>
+      fixture.debugElement.query(By.css('.btn-primary')).nativeElement;
+    expect(getPlaceOrderBtn().disabled).toBe(true);
+  });
+
+  it('should contain enabled place order button if terms accepted', () => {
+    const inputCheckbox = fixture.debugElement.query(
+      By.css('.cx-place-order-form .form-check-input')
+    ).nativeElement;
+    inputCheckbox.click();
+    fixture.detectChanges();
+
+    const getPlaceOrderBtn = () =>
+      fixture.debugElement.query(By.css('.btn-primary')).nativeElement;
+    expect(getPlaceOrderBtn().disabled).toBe(false);
+  });
 });

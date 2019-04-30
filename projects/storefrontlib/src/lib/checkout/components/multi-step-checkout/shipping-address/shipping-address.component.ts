@@ -85,8 +85,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         return addresses.map(address => {
           const card = this.getCardContent(address, selected);
           return {
-            address: address,
-            card: card,
+            address,
+            card,
           };
         });
       })
@@ -165,7 +165,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   back(): void {
-    this.routingService.go({ route: 'cart' });
+    this.routingService.go(['cart']);
   }
 
   ngOnDestroy(): void {

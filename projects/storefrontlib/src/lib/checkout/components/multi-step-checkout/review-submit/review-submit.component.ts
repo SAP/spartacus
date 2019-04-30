@@ -58,7 +58,7 @@ export class ReviewSubmitComponent implements OnInit {
           this.userService.loadDeliveryCountries();
         }
       }),
-      map((country: Country) => country.name)
+      map((country: Country) => country && country.name)
     );
   }
 

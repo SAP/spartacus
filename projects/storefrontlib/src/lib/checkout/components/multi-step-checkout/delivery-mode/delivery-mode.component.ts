@@ -6,11 +6,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-
-import { DeliveryMode, CheckoutService } from '@spartacus/core';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-delivery-mode',

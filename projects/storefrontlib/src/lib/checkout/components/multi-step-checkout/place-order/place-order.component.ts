@@ -44,6 +44,8 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.placeOrderSubscription.unsubscribe();
+    if (this.placeOrderSubscription) {
+      this.placeOrderSubscription.unsubscribe();
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Input, Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import createSpy = jasmine.createSpy;
@@ -7,14 +7,14 @@ import createSpy = jasmine.createSpy;
 import {
   Address,
   CartService,
+  UserService,
+  UICart,
   CheckoutService,
   Country,
   DeliveryMode,
   I18nTestingModule,
   PaymentDetails,
   PromotionResult,
-  UserService,
-  UICart,
   UIOrderEntry,
 } from '@spartacus/core';
 import { Item } from '../../../../../cms-components/checkout/cart/index';
