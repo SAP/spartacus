@@ -1,18 +1,18 @@
 import {
+  ChangeDetectorRef,
   Component,
+  ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
-  ElementRef,
-  ChangeDetectorRef,
   Output,
-  EventEmitter,
   Renderer2,
 } from '@angular/core';
-import {
-  missingProductImgSrc,
-  missingProductImageAlt,
-} from '../../../images/missingProduct';
 import { Image } from '@spartacus/core';
+import {
+  missingProductImageAlt,
+  missingProductImgSrc,
+} from '../../../images/missingProduct';
 
 const DEFAULT_FORMAT = 'product';
 const INITIALIZED_CLS = 'initialized';
@@ -24,17 +24,14 @@ const LOADING_CLS = 'loading';
   styleUrls: ['./picture.component.scss'],
 })
 export class PictureComponent implements OnChanges {
-  @Input()
-  imageContainer;
-  @Input()
-  imageFormat: string;
-  @Input()
-  imagePosition: string;
-  @Input()
-  imageAlt: string;
+  @Input() imageContainer;
+  @Input() imageFormat: string;
+  @Input() imagePosition: string;
 
-  @Output()
-  loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
+  /** an alternate text for an image, if the image cannot be displayed */
+  @Input() alt: string;
+
+  @Output() loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   mainImage: string;
   missingProductImgSrc = missingProductImgSrc;
