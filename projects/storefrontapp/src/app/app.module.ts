@@ -33,15 +33,15 @@ if (!environment.production) {
     BrowserTransferStateModule,
     StorefrontModule.withConfig({
       production: environment.production,
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-        },
-        media: {
-          baseUrl:
-            'https://accstorefront.cqz1m-softwarea1-d21-public.model-t.cc.commerce.ondemand.com',
-        },
-      },
+      // backend: {
+      //   occ: {
+      //     baseUrl: environment.occBaseUrl,
+      //   },
+      //   media: {
+      //     baseUrl:
+      //       'https://accstorefront.cqz1m-softwarea1-d21-public.model-t.cc.commerce.ondemand.com',
+      //   },
+      // },
       pwa: {
         enabled: true,
         addToHomeScreen: true,
