@@ -7,7 +7,7 @@
     (service.hasImage() | async) && (service.getComponentData() | async) as data
   "
   [url]="data.urlLink"
-  [target]="service.getTarget() | async"
+  [attr.target]="service.getTarget() | async"
 >
   <cx-picture
     [alt]="service.getAltText() | async"

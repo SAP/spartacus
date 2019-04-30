@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import {
   CmsBannerComponent,
   CmsBannerComponentMedia,
   CmsConfig,
   CmsResponsiveBannerComponentMedia,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ResponsiveBannerFormat } from './responsive-banner-format.model';
 
@@ -84,7 +83,9 @@ export class BannerComponentService {
   getTarget(): Observable<string> {
     return this.getComponentData().pipe(
       map(data => {
-        return !data.external || data.external === 'false' ? '_self' : '_blank';
+        return !data.external || data.external === 'false'
+          ? undefined
+          : '_blank';
       })
     );
   }

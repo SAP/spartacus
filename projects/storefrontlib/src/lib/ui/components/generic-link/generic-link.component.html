@@ -2,11 +2,11 @@
   <a
     role="link"
     [href]="url"
-    [target]="target"
-    [class]="class ? class : ''"
-    [id]="id ? id : ''"
-    [style]="style"
-    [title]="title ? title : ''"
+    [attr.target]="target"
+    [attr.class]="class"
+    [attr.id]="id"
+    [attr.style]="style"
+    [attr.title]="title"
   >
     <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
   </a>
@@ -15,11 +15,11 @@
   <a
     role="link"
     [routerLink]="routerUrl"
-    [target]="target"
-    [class]="class ? class : ''"
-    [id]="id ? id : ''"
-    [style]="style"
-    [title]="title ? title : ''"
+    [attr.target]="target"
+    [attr.class]="class"
+    [attr.id]="id"
+    [attr.style]="style"
+    [attr.title]="title"
   >
     <ng-container *ngTemplateOutlet="templateOutlet"></ng-container>
   </a>
