@@ -1,10 +1,10 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { RouterStateSnapshot, Params } from '@angular/router';
+import { Params, RouterStateSnapshot } from '@angular/router';
 
 import {
-  createSelector,
-  createFeatureSelector,
   ActionReducerMap,
+  createFeatureSelector,
+  createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
 import * as fromNgrxRouter from '@ngrx/router-store';
@@ -102,7 +102,7 @@ export function reducer(
         redirectUrl: redirectUrl,
         state: action.payload.routerState,
         navigationId: action.payload.event.id,
-        nextState: undefined
+        nextState: undefined,
       };
     }
     default: {
@@ -113,7 +113,7 @@ export function reducer(
 
 export const reducerToken: InjectionToken<
   ActionReducerMap<State>
-  > = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
+> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -123,11 +123,12 @@ export const reducerProvider: Provider = {
 export const getRouterFeatureState: MemoizedSelector<
   any,
   State
-  > = createFeatureSelector<
-  State
-  >(ROUTING_FEATURE);
+> = createFeatureSelector<State>(ROUTING_FEATURE);
 
-export const getRouterState: MemoizedSelector<any, RouterState> = createSelector(
+export const getRouterState: MemoizedSelector<
+  any,
+  RouterState
+> = createSelector(
   getRouterFeatureState,
   state => state.router
 );
@@ -135,7 +136,7 @@ export const getRouterState: MemoizedSelector<any, RouterState> = createSelector
 export const getPageContext: MemoizedSelector<
   any,
   PageContext
-  > = createSelector(
+> = createSelector(
   getRouterState,
   (routingState: RouterState) => routingState.state.context
 );
@@ -143,11 +144,16 @@ export const getPageContext: MemoizedSelector<
 export const getNextPageContext: MemoizedSelector<
   any,
   PageContext
-  > = createSelector(
+> = createSelector(
   getRouterState,
-  (routingState: RouterState) => routingState.nextState && routingState.nextState.context
+  (routingState: RouterState) =>
+    routingState.nextState && routingState.nextState.context
 );
 
+export const isNavigating: MemoizedSelector<any, boolean> = createSelector(
+  getNextPageContext,
+  context => !!context
+);
 
 export const getRedirectUrl: MemoizedSelector<any, string> = createSelector(
   getRouterState,
