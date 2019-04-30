@@ -1,5 +1,3 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,7 +5,8 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductListItemComponent } from './product-list-item.component';
 
 @Component({
@@ -41,14 +40,10 @@ export class MockStarRatingComponent {
   template: 'mock picture component',
 })
 export class MockPictureComponent {
-  @Input()
-  imageContainer;
-  @Input()
-  imageFormat;
-  @Input()
-  imagePosition;
-  @Input()
-  imageAlt;
+  @Input() imageContainer;
+  @Input() imageFormat;
+  @Input() imagePosition;
+  @Input() alt;
 }
 
 @Pipe({

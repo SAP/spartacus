@@ -9,6 +9,6 @@
     [src]="mainImage || missingProductImgSrc"
     (load)="loadHandler()"
     (error)="loadErrorHandler($event)"
-    [alt]="alt"
+    [attr.alt]="alt"
   />
 </picture>

@@ -1,13 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ChangeDetectionStrategy,
-  Input,
   Component,
+  Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
@@ -15,12 +14,9 @@ import { ProductGridItemComponent } from './product-grid-item.component';
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input()
-  iconOnly;
-  @Input()
-  productCode;
-  @Input()
-  quantity;
+  @Input() iconOnly;
+  @Input() productCode;
+  @Input() quantity;
 }
 
 @Component({
@@ -28,12 +24,9 @@ export class MockAddToCartComponent {
   template: '*****',
 })
 export class MockStarRatingComponent {
-  @Input()
-  rating;
-  @Input()
-  disabled;
-  @Input()
-  steps;
+  @Input() rating;
+  @Input() disabled;
+  @Input() steps;
 }
 
 @Component({
@@ -41,14 +34,10 @@ export class MockStarRatingComponent {
   template: 'mock picture component',
 })
 export class MockPictureComponent {
-  @Input()
-  imageContainer;
-  @Input()
-  imageFormat;
-  @Input()
-  imagePosition;
-  @Input()
-  imageAlt;
+  @Input() imageContainer;
+  @Input() imageFormat;
+  @Input() imagePosition;
+  @Input() alt;
 }
 
 @Pipe({

@@ -28,7 +28,9 @@ export class PictureComponent implements OnChanges {
   @Input() imageFormat: string;
   @Input() imagePosition: string;
 
-  /** an alternate text for an image, if the image cannot be displayed */
+  /**
+   * An alternate text for an image, if the image cannot be displayed.
+   */
   @Input() alt: string;
 
   @Output() loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
