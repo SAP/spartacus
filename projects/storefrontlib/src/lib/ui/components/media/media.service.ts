@@ -3,8 +3,8 @@ import { CmsConfig } from '@spartacus/core';
 import {
   missingProductImageAlt,
   missingProductImgSrc,
-} from '../../../images/missingProduct';
-import { BREAKPOINT, LayoutConfig } from '../../../layout/index';
+} from '../../images/missingProduct';
+import { BREAKPOINT, LayoutConfig } from '../../layout/index';
 import { Media, MediaFormats } from './media.model';
 
 /** the default format is used for browsers that do not support   */

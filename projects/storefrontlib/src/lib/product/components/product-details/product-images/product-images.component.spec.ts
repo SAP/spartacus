@@ -2,7 +2,7 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OutletDirective } from '../../../../outlet/index';
-import { PictureComponent } from '../../../../ui/components/media/picture/picture.component';
+import { MediaComponent } from '../../../../ui/components/media/media.component';
 import { ProductImagesComponent } from '../product-images/product-images.component';
 
 const firstImage = {
@@ -36,7 +36,7 @@ describe('ProductImagesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ProductImagesComponent, PictureComponent, OutletDirective],
+      declarations: [ProductImagesComponent, MediaComponent, OutletDirective],
     }).compileComponents();
   }));
 
@@ -68,10 +68,10 @@ describe('ProductImagesComponent', () => {
       );
     });
 
-    it('should have <cx-picture>', () => {
+    it('should have <cx-media>', () => {
       component.ngOnChanges();
       fixture.detectChanges();
-      const picture = element.query(By.css('cx-picture'));
+      const picture = element.query(By.css('cx-media'));
       expect(picture.nativeElement).toBeDefined();
     });
 
@@ -85,7 +85,7 @@ describe('ProductImagesComponent', () => {
     it('should have two thumbnail element', () => {
       component.ngOnChanges();
       fixture.detectChanges();
-      expect(element.queryAll(By.css('.thumbs cx-picture')).length).toBe(2);
+      expect(element.queryAll(By.css('.thumbs cx-media')).length).toBe(2);
     });
 
     it('should call "imageContainer" for both thumbnails', () => {
@@ -99,7 +99,7 @@ describe('ProductImagesComponent', () => {
       component.ngOnChanges();
       fixture.detectChanges();
       const pictureEl = <HTMLElement>(
-        element.query(By.css('.thumbs cx-picture:nth-child(2)')).nativeElement
+        element.query(By.css('.thumbs cx-media:nth-child(2)')).nativeElement
       );
       pictureEl.dispatchEvent(new Event('focus'));
       expect(component.mainImageContainer).toBe(secondImage);

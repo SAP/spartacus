@@ -30,7 +30,7 @@ export class MockStarRatingComponent {
 }
 
 @Component({
-  selector: 'cx-picture',
+  selector: 'cx-media',
   template: 'mock picture component',
 })
 export class MockPictureComponent {
@@ -119,7 +119,7 @@ describe('ProductGridItemComponent in product-list', () => {
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-picture')
+      fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
   });
 

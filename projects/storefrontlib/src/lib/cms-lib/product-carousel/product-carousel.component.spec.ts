@@ -1,19 +1,18 @@
-import { Pipe, PipeTransform, DebugElement } from '@angular/core';
+import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import {
+  CmsProductCarouselComponent,
+  Component,
   ProductService,
   UIProduct,
-  Component,
-  CmsProductCarouselComponent,
 } from '@spartacus/core';
-import { ProductCarouselService } from './product-carousel.component.service';
-import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-import { ProductCarouselComponent } from './product-carousel.component';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { MediaComponent } from '../../ui/components/media/media.component';
+import { ProductCarouselComponent } from './product-carousel.component';
+import { ProductCarouselService } from './product-carousel.component.service';
 
 @Pipe({
   name: 'cxTranslateUrl',
@@ -97,7 +96,7 @@ describe('ProductCarouselComponent', () => {
       imports: [RouterTestingModule],
       declarations: [
         ProductCarouselComponent,
-        PictureComponent,
+        MediaComponent,
         MockTranslateUrlPipe,
       ],
       providers: [

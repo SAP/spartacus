@@ -15,12 +15,12 @@ const INITIALIZED_CLS = 'initialized';
 const LOADING_CLS = 'loading';
 
 @Component({
-  selector: 'cx-picture',
-  templateUrl: './picture.component.html',
-  styleUrls: ['./picture.component.scss'],
+  selector: 'cx-media',
+  templateUrl: './media.component.html',
+  styleUrls: ['./media.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PictureComponent implements OnChanges {
+export class MediaComponent implements OnChanges {
   /**
    * The media container can hold multiple media items, so that
    * a specific media (by format) can be used or multiple media

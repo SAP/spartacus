@@ -5,7 +5,7 @@
     [target]="data.external ? '_blank' : null"
     [title]="data.media?.altText"
   >
-    <cx-picture [container]="data.media"></cx-picture>
+    <cx-media [container]="data.media"></cx-media>
   </cx-generic-link>
 
   <p *ngIf="data.content">data.content</p>

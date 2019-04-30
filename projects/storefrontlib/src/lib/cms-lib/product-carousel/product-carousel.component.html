@@ -32,11 +32,8 @@
                 { route: 'product', params: product } | cxTranslateUrl
               "
             >
-              <cx-picture
-                [container]="product.images?.PRIMARY"
-                format="product"
-              >
-              </cx-picture>
+              <cx-media [container]="product.images?.PRIMARY" format="product">
+              </cx-media>
 
               <h4>{{ product.name }}</h4>
               <div class="price">{{ product.price?.formattedValue }}</div>
