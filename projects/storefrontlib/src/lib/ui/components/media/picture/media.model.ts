@@ -1,7 +1,7 @@
 export interface Media {
   src: string;
-  srcset: string;
-  alt: string;
+  srcset?: string;
+  alt?: string;
 }
 
 export interface MediaFormats {

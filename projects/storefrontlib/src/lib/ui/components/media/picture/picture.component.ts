@@ -23,7 +23,6 @@ const LOADING_CLS = 'loading';
 export class PictureComponent implements OnChanges {
   @Input() imageContainer;
   @Input() imageFormat: string;
-  @Input() imagePosition: string;
 
   @Input() media: any;
 
