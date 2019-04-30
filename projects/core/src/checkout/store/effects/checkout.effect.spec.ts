@@ -9,7 +9,12 @@ import { Observable, of } from 'rxjs';
 import { cold, hot } from 'jasmine-marbles';
 
 import * as fromActions from '../actions/checkout.action';
-import { CartDeliveryConnector, CartPaymentConnector } from '../../../cart';
+import * as fromCartActions from './../../../cart/store/actions/index';
+import {
+  CartDeliveryConnector,
+  CartPaymentConnector,
+  CartConnector,
+} from '../../../cart';
 import { AddMessage, GlobalMessageType } from '../../../global-message';
 import {
   Address,
@@ -26,6 +31,7 @@ import {
 } from '../../../user';
 
 import * as fromEffects from './checkout.effect';
+import { CheckoutDetails } from '../../models/checkout.model';
 import createSpy = jasmine.createSpy;
 
 const MockOccModuleConfig: OccConfig = {
@@ -52,6 +58,10 @@ const address: Address = {
 const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 const orderDetails: Order = { entries: [] };
 
+const details: CheckoutDetails = {
+  deliveryAddress: address,
+};
+
 const paymentDetails: PaymentDetails = {
   accountHolderName: 'test',
   billingAddress: {
@@ -71,10 +81,15 @@ class MockCartPaymentConnector {
   create = createSpy().and.returnValue(of(paymentDetails));
 }
 
+class MockCartConnector {
+  loadCheckoutDetails = createSpy().and.returnValue(of(details));
+}
+
 describe('Checkout effect', () => {
   let orderService: OccOrderService;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
+  let productImageConverter: ProductImageNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,6 +98,7 @@ describe('Checkout effect', () => {
         CartPaymentConnector,
         { provide: CartDeliveryConnector, useClass: MockCartDeliveryConnector },
         { provide: CartPaymentConnector, useClass: MockCartPaymentConnector },
+        { provide: CartConnector, useClass: MockCartConnector },
         OccOrderService,
         ProductImageNormalizer,
         fromEffects.CheckoutEffects,
@@ -93,6 +109,7 @@ describe('Checkout effect', () => {
 
     entryEffects = TestBed.get(fromEffects.CheckoutEffects);
     orderService = TestBed.get(OccOrderService);
+    productImageConverter = TestBed.get(ProductImageNormalizer);
 
     spyOn(orderService, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -127,9 +144,13 @@ describe('Checkout effect', () => {
         address: address,
       });
       const completion = new fromActions.SetDeliveryAddressSuccess(address);
+      const completion2 = new fromActions.LoadSupportedDeliveryModes({
+        userId,
+        cartId,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion, c: completion2 });
 
       expect(entryEffects.setDeliveryAddress$).toBeObservable(expected);
     });
@@ -159,12 +180,20 @@ describe('Checkout effect', () => {
         cartId: cartId,
         selectedModeId: 'testSelectedModeId',
       });
-      const completion = new fromActions.SetDeliveryModeSuccess(
+      const setDeliveryModeSuccess = new fromActions.SetDeliveryModeSuccess(
         'testSelectedModeId'
       );
+      const loadCart = new fromCartActions.LoadCart({
+        userId,
+        cartId,
+        details: true,
+      });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', {
+        b: setDeliveryModeSuccess,
+        c: loadCart,
+      });
 
       expect(entryEffects.setDeliveryMode$).toBeObservable(expected);
     });
@@ -231,6 +260,8 @@ describe('Checkout effect', () => {
 
   describe('placeOrder$', () => {
     it('should place order', () => {
+      spyOn(productImageConverter, 'convert').and.returnValue(orderDetails);
+
       const action = new fromActions.PlaceOrder({
         userId: userId,
         cartId: cartId,
@@ -245,6 +276,21 @@ describe('Checkout effect', () => {
       const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.placeOrder$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadCheckoutDetails$', () => {
+    it('should load checkout details from cart', () => {
+      const action = new fromActions.LoadCheckoutDetails({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion = new fromActions.LoadCheckoutDetailsSuccess(details);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.loadCheckoutDetails$).toBeObservable(expected);
     });
   });
 });

@@ -1,19 +1,19 @@
-import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Pipe, PipeTransform } from '@angular/core';
-
-import { CmsService, I18nTestingModule } from '@spartacus/core';
-import { ProductSearchService, CmsSearchBoxComponent } from '@spartacus/core';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
+import {
+  CmsSearchBoxComponent,
+  CmsService,
+  I18nTestingModule,
+  ProductSearchService,
+} from '@spartacus/core';
 import { of } from 'rxjs';
-
-import { BootstrapModule } from '../../bootstrap.module';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BootstrapModule } from '../../bootstrap.module';
 import { PictureComponent } from '../../ui/components/media/picture/picture.component';
-
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
@@ -29,6 +29,14 @@ class MockTranslateUrlPipe implements PipeTransform {
 })
 class MockStripHtmlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 describe('SearchBoxComponent in CmsLib', () => {
@@ -84,6 +92,7 @@ describe('SearchBoxComponent in CmsLib', () => {
         PictureComponent,
         MockTranslateUrlPipe,
         MockStripHtmlPipe,
+        MockCxIconComponent,
       ],
       providers: [
         { provide: CmsService, useValue: MockCmsService },

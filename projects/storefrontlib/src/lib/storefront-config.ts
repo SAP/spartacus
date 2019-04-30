@@ -1,13 +1,14 @@
 import {
   AuthConfig,
-  OccConfig,
-  StateConfig,
-  ConfigurableRoutesConfig,
   CmsConfig,
-  SiteContextConfig,
+  ConfigurableRoutesConfig,
   I18nConfig,
   PersonalizationConfig,
+  OccConfig,
+  SiteContextConfig,
+  StateConfig,
 } from '@spartacus/core';
+import { IconConfig } from '../cms-components/misc/icon/index';
 import { PWAModuleConfig } from './pwa/pwa.module-config';
 import { LayoutConfig } from './ui/layout/config/layout-config';
 
@@ -21,4 +22,5 @@ export type StorefrontModuleConfig =
   | LayoutConfig
   | ConfigurableRoutesConfig
   | I18nConfig
-  | PersonalizationConfig;
+  | PersonalizationConfig
+  | IconConfig;

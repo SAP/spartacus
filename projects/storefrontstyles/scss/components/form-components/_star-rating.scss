@@ -1,0 +1,19 @@
+%cx-star-rating {
+  .star {
+    position: var(--cx-position, relative);
+    display: var(--cx-display, inline-block);
+    color: var(--cx-color, var(--cx-g-color-light));
+    margin: var(--cx-margin, 0 5px 0 0);
+  }
+
+  .full {
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+
+  .half {
+    position: var(--cx-position, absolute);
+    display: var(--cx-display, inline-block);
+    overflow: var(--cx-overflow, hidden);
+    color: var(--cx-color, var(--cx-g-color-primary));
+  }
+}

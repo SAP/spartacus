@@ -8,6 +8,9 @@ class MockCartAdapter implements CartAdapter {
   create = createSpy().and.callFake(id => of('create' + id));
   load = createSpy().and.callFake((user, cart) => of('load' + user + cart));
   loadAll = createSpy().and.callFake(user => of('loadAll' + user));
+  loadCheckoutDetails = createSpy().and.callFake((user, cart) =>
+    of('loadCheckoutDetails' + user + cart)
+  );
 }
 
 describe('CartConnector', () => {
