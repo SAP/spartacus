@@ -1,4 +1,4 @@
-import { OccProductSearchNormalizer } from './occ-product-search-normalizer';
+import { OccProductSearchPageNormalizer } from './occ-product-search-page-normalizer.service';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, ProductSearchPage } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -14,7 +14,7 @@ const mockSource: ProductSearchPage = {
 };
 
 describe('OccProductSearchNormalizer', () => {
-  let normalizer: OccProductSearchNormalizer;
+  let normalizer: OccProductSearchPageNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,11 +23,11 @@ describe('OccProductSearchNormalizer', () => {
           provide: ConverterService,
           useClass: MockConverterService,
         },
-        OccProductSearchNormalizer,
+        OccProductSearchPageNormalizer,
       ],
     });
 
-    normalizer = TestBed.get(OccProductSearchNormalizer);
+    normalizer = TestBed.get(OccProductSearchPageNormalizer);
   });
 
   it('should inject ProductImageConverterService', () => {

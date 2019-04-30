@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { select, Store, StoreModule } from '@ngrx/store';
 
-import { CHECKOUT_FEATURE, CheckoutState } from '../checkout-state';
+import { CHECKOUT_FEATURE, StateWithCheckout } from '../checkout-state';
 import * as fromActions from '../actions/index';
 import * as fromReducers from '../reducers/index';
 import * as fromSelectors from '../selectors/index';
@@ -14,7 +14,7 @@ import {
 } from '../../../occ/occ-models/index';
 
 describe('Checkout Selectors', () => {
-  let store: Store<CheckoutState>;
+  let store: Store<StateWithCheckout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

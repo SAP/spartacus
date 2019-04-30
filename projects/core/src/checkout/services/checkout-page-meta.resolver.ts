@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, combineLatest } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageType } from '../../occ/occ-models/occ.models';
 import { CartService } from '../../cart/facade/cart.service';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
-  PageTitleResolver,
   PageRobotsResolver,
+  PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { PageMeta, PageRobotsMeta } from '../../cms/model/page.model';
-
-import { Cart } from '../../occ/occ-models/index';
+import { UICart } from '../../cart/model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,20 +28,18 @@ export class CheckoutPageMetaResolver extends PageMetaResolver
 
   resolve(): Observable<PageMeta> {
     return this.cartService.getActive().pipe(
-      map(cart => {
-        return {
-          title: this.resolveTitle(cart),
-          robots: this.resolveRobots(),
-        };
-      })
+      switchMap(cart =>
+        combineLatest([this.resolveTitle(cart), this.resolveRobots()])
+      ),
+      map(([title, robots]) => ({ title, robots }))
     );
   }
 
-  resolveTitle(cart: Cart) {
-    return `Checkout ${cart.totalItems} items`;
+  resolveTitle(cart: UICart): Observable<string> {
+    return of(`Checkout ${cart.totalItems} items`);
   }
 
-  resolveRobots(): PageRobotsMeta[] {
-    return [PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX];
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
   }
 }

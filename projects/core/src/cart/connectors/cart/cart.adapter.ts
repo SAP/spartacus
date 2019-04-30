@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
-import { Cart } from '../../../occ/occ-models/occ.models';
+import { UICart } from '../../model/cart';
+import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 
 export abstract class CartAdapter {
   /**
@@ -8,7 +9,7 @@ export abstract class CartAdapter {
    * @param userId
    * @param details Boolean flag indicating if we want to load details
    */
-  abstract loadAll(userId: string, details?: boolean): Observable<Cart[]>;
+  abstract loadAll(userId: string, details?: boolean): Observable<UICart[]>;
 
   /**
    * Abstract method used to load cart
@@ -21,7 +22,18 @@ export abstract class CartAdapter {
     userId: string,
     cartId: string,
     details?: boolean
-  ): Observable<Cart>;
+  ): Observable<UICart>;
+
+  /**
+   * Abstract method used to load checkout details
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract loadCheckoutDetails(
+    userId: string,
+    cartId: string
+  ): Observable<CheckoutDetails>;
 
   /**
    * Abstract method used to create cart. If toMergeCartGuid is specified, cart will be merged with existing one
@@ -34,5 +46,5 @@ export abstract class CartAdapter {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<Cart>;
+  ): Observable<UICart>;
 }

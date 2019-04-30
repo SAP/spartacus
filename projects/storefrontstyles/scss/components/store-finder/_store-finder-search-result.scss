@@ -1,0 +1,11 @@
+%cx-store-finder-search-result {
+  .cx-pagination {
+    margin: var(--cx-margin, 2rem auto);
+    justify-content: var(--cx-justify-content, center);
+    display: var(--cx-display, flex);
+  }
+
+  .cx-spinner {
+    padding: var(--cx-padding, 2rem 0);
+  }
+}

@@ -51,7 +51,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingCardContent(deliveryMode: DeliveryMode): Card {
+  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: deliveryMode.name,
