@@ -23,13 +23,7 @@
           </div>
           <div class="cx-product-interests-pagination">
             <cx-pagination
-              [pagination]="{
-                currentPage: interests.pagination.page,
-                pageSize: interests.pagination.count,
-                totalPages: interests.pagination.totalPages,
-                totalResults: interests.pagination.totalCount,
-                sort: 'byNameAsc'
-              }"
+              [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
             ></cx-pagination>
           </div>
@@ -159,19 +153,13 @@
               [sortLabels]="sortLabels"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
-              placeholder="Sort by Product Name"
+              placeholder="{{ 'myInterests.sortByMostRecent' | cxTranslate }}"
             >
             </cx-sorting>
           </div>
           <div class="cx-product-interests-pagination">
             <cx-pagination
-              [pagination]="{
-                currentPage: interests.pagination.page,
-                pageSize: interests.pagination.count,
-                totalPages: interests.pagination.totalPages,
-                totalResults: interests.pagination.totalCount,
-                sort: 'byNameAsc'
-              }"
+              [pagination]="pagination"
               (viewPageEvent)="pageChange($event)"
             ></cx-pagination>
           </div>

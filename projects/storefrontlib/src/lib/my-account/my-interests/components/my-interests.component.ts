@@ -1,7 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService, UserService, ProductInterestList } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { ProductInterestRelation } from '@spartacus/core';
+import {
+  AuthService,
+  UserService,
+  ProductInterestList,
+  ProductInterestRelation,
+  PaginationModel,
+} from '@spartacus/core';
+import { tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-my-interests',
   templateUrl: './my-interests.component.html',
@@ -34,6 +40,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
       selected: false,
     },
   ];
+  pagination: PaginationModel;
 
   constructor(private auth: AuthService, private userService: UserService) {}
 
@@ -43,10 +50,20 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         this.userId = userData.userId;
       }
     });
-    this.interests$ = this.userService.getProdutInterests(
-      this.userId,
-      this.PAGE_SIZE
-    );
+    this.interests$ = this.userService
+      .getProdutInterests(this.userId, this.PAGE_SIZE)
+      .pipe(
+        tap(
+          interests =>
+            (this.pagination = {
+              currentPage: interests.pagination.page,
+              pageSize: interests.pagination.count,
+              totalPages: interests.pagination.totalPages,
+              totalResults: interests.pagination.totalCount,
+              sort: 'byNameAsc',
+            })
+        )
+      );
     this.loaded$ = this.userService.getProdutInterestsLoaded();
   }
 
