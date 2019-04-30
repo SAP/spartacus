@@ -27,7 +27,6 @@ const COUNTER_CONTROL_ACCESSOR = {
 @Component({
   selector: 'cx-item-counter',
   templateUrl: './item-counter.component.html',
-  styleUrls: ['./item-counter.component.scss'],
   providers: [COUNTER_CONTROL_ACCESSOR],
 })
 export class ItemCounterComponent
