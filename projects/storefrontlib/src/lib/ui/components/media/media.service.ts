@@ -51,6 +51,8 @@ export class MediaService {
       return this.getImageUrl(media[format || DEFAULT_MEDIA_FORMAT].url);
     } else if (media.url) {
       return this.getImageUrl(media.url);
+    } else {
+      return this.getMissingImage();
     }
   }
 
