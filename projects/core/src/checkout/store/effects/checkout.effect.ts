@@ -7,10 +7,13 @@ import { AddMessage, GlobalMessageType } from '../../../global-message/index';
 import { PRODUCT_NORMALIZER } from '../../../product/connectors/product/converters';
 import { OccOrderService } from '../../../user/index';
 import { OrderEntry } from '../../../occ/occ-models/index';
+import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import * as fromUserActions from '../../../user/store/actions/index';
+import * as fromCartActions from './../../../cart/store/actions/index';
 import { CartDeliveryConnector } from '../../../cart/connectors/delivery/cart-delivery.connector';
 import { CartPaymentConnector } from '../../../cart/connectors/payment/cart-payment.connector';
 import { ConverterService } from '../../../util/converter.service';
+import { CartConnector } from '../../../cart/connectors/cart/cart.connector';
 
 @Injectable()
 export class CheckoutEffects {
@@ -44,7 +47,9 @@ export class CheckoutEffects {
 
   @Effect()
   setDeliveryAddress$: Observable<
-    fromActions.SetDeliveryAddressSuccess | fromActions.SetDeliveryAddressFail
+    | fromActions.SetDeliveryAddressSuccess
+    | fromActions.LoadSupportedDeliveryModes
+    | fromActions.SetDeliveryAddressFail
   > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
@@ -52,7 +57,13 @@ export class CheckoutEffects {
       return this.cartDeliveryConnector
         .setAddress(payload.userId, payload.cartId, payload.address.id)
         .pipe(
-          map(() => new fromActions.SetDeliveryAddressSuccess(payload.address)),
+          mergeMap(() => [
+            new fromActions.SetDeliveryAddressSuccess(payload.address),
+            new fromActions.LoadSupportedDeliveryModes({
+              userId: payload.userId,
+              cartId: payload.cartId,
+            }),
+          ]),
           catchError(error => of(new fromActions.SetDeliveryAddressFail(error)))
         );
     })
@@ -81,7 +92,9 @@ export class CheckoutEffects {
 
   @Effect()
   setDeliveryMode$: Observable<
-    fromActions.SetDeliveryModeSuccess | fromActions.SetDeliveryModeFail
+    | fromActions.SetDeliveryModeSuccess
+    | fromActions.SetDeliveryModeFail
+    | fromCartActions.LoadCart
   > = this.actions$.pipe(
     ofType(fromActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
@@ -89,9 +102,16 @@ export class CheckoutEffects {
       return this.cartDeliveryConnector
         .setMode(payload.userId, payload.cartId, payload.selectedModeId)
         .pipe(
-          map(
-            () => new fromActions.SetDeliveryModeSuccess(payload.selectedModeId)
-          ),
+          mergeMap(() => {
+            return [
+              new fromActions.SetDeliveryModeSuccess(payload.selectedModeId),
+              new fromCartActions.LoadCart({
+                userId: payload.userId,
+                cartId: payload.cartId,
+                details: true,
+              }),
+            ];
+          }),
           catchError(error => of(new fromActions.SetDeliveryModeFail(error)))
         );
     })
@@ -173,9 +193,31 @@ export class CheckoutEffects {
     })
   );
 
+  @Effect()
+  loadCheckoutDetails$: Observable<
+    fromActions.LoadCheckoutDetailsSuccess | fromActions.LoadCheckoutDetailsFail
+  > = this.actions$.pipe(
+    ofType(fromActions.LOAD_CHECKOUT_DETAILS),
+    map((action: fromActions.LoadCheckoutDetails) => action.payload),
+    mergeMap(payload => {
+      return this.cartConnector
+        .loadCheckoutDetails(payload.userId, payload.cartId)
+        .pipe(
+          map(
+            (data: CheckoutDetails) =>
+              new fromActions.LoadCheckoutDetailsSuccess(data)
+          ),
+          catchError(error =>
+            of(new fromActions.LoadCheckoutDetailsFail(error))
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private cartDeliveryConnector: CartDeliveryConnector,
+    private cartConnector: CartConnector,
     private cartPaymentConnector: CartPaymentConnector,
     private occOrderService: OccOrderService,
     private converter: ConverterService
