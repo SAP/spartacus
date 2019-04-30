@@ -1,7 +1,7 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartService,
   CmsMiniCartComponent,
@@ -9,10 +9,9 @@ import {
   TranslateUrlCommandRoute,
   UICart,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/index';
 import { MiniCartComponent } from './mini-cart.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
 
 @Pipe({
   name: 'cxTranslateUrl',
@@ -21,6 +20,14 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(options: TranslateUrlCommandRoute): string {
     return options.route;
   }
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+export class MockCxIconComponent {
+  @Input() type;
 }
 
 const testCart: UICart = {
@@ -66,7 +73,11 @@ describe('MiniCartComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [MiniCartComponent, MockTranslateUrlPipe],
+      declarations: [
+        MiniCartComponent,
+        MockTranslateUrlPipe,
+        MockCxIconComponent,
+      ],
       providers: [
         { provide: CmsComponentData, useValue: MockCmsComponentData },
         { provide: CartService, useClass: MockCartService },
@@ -85,7 +96,6 @@ describe('MiniCartComponent', () => {
 
   describe('template', () => {
     beforeEach(() => {
-      miniCartComponent.cart$ = of(testCart);
       fixture.detectChanges();
     });
 
