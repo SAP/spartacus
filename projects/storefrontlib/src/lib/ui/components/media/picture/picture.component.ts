@@ -33,6 +33,12 @@ export class PictureComponent implements OnChanges {
    */
   @Input() alt: string;
 
+  /**
+   * Additional info on the image, is often shown as a tooltip text when the mouse moves over the element.
+   * This is not used often anymore as it's not mobile friendly.
+   */
+  @Input() title: string;
+
   @Output() loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   mainImage: string;
