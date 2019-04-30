@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
@@ -18,6 +18,7 @@ export class SmartEditService {
   constructor(
     private cmsService: CmsService,
     private routingService: RoutingService,
+    private zone: NgZone,
     winRef: WindowRef
   ) {
     this.getCmsTicket();
@@ -110,11 +111,13 @@ export class SmartEditService {
   ): boolean {
     if (componentId) {
       // without parentId, it is slot
-      if (!parentId) {
-        this.cmsService.refreshLatestPage();
-      } else if (componentType) {
-        this.cmsService.refreshComponent(componentId);
-      }
+      this.zone.run(() => {
+        if (!parentId) {
+          this.cmsService.refreshLatestPage();
+        } else if (componentType) {
+          this.cmsService.refreshComponent(componentId);
+        }
+      });
     }
 
     return true;
