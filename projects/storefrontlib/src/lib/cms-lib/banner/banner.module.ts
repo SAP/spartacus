@@ -2,12 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, ConfigModule } from '@spartacus/core';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
 import { MediaModule } from '../../ui/components/media/media.module';
 import { BannerComponent } from './banner.component';
-import { BannerComponentService } from './banner.component.service';
-import { ResponsiveBannerComponent } from './responsive-banner.component';
 
 @NgModule({
   imports: [
@@ -18,40 +15,18 @@ import { ResponsiveBannerComponent } from './responsive-banner.component';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SimpleResponsiveBannerComponent: {
-          selector: 'cx-responsive-banner',
-          providers: [
-            {
-              provide: BannerComponentService,
-              useClass: BannerComponentService,
-              deps: [CmsComponentData, CmsConfig],
-            },
-          ],
+          selector: 'cx-banner',
         },
         BannerComponent: {
           selector: 'cx-banner',
-          providers: [
-            {
-              provide: BannerComponentService,
-              useClass: BannerComponentService,
-              deps: [CmsComponentData, CmsConfig],
-            },
-          ],
         },
         SimpleBannerComponent: {
           selector: 'cx-banner',
-          providers: [
-            {
-              provide: BannerComponentService,
-              useClass: BannerComponentService,
-              deps: [CmsComponentData, CmsConfig],
-            },
-          ],
         },
       },
     }),
   ],
-  declarations: [BannerComponent, ResponsiveBannerComponent],
-  exports: [BannerComponent, ResponsiveBannerComponent],
-  entryComponents: [BannerComponent, ResponsiveBannerComponent],
+  declarations: [BannerComponent],
+  entryComponents: [BannerComponent],
 })
 export class BannerModule {}
