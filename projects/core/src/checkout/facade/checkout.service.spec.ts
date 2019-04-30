@@ -325,4 +325,42 @@ describe('CheckoutService', () => {
       new fromCheckout.ClearCheckoutStep(2)
     );
   });
+
+  it('should be able to load checkout details', () => {
+    const cartId = cart.code;
+    service.loadCheckoutDetails(userId, cartId);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new fromCheckout.LoadCheckoutDetails({ userId, cartId })
+    );
+  });
+
+  describe('get checkout details loaded', () => {
+    it('should return true for success', () => {
+      store.dispatch(
+        new fromCheckout.LoadCheckoutDetailsSuccess({ deliveryAddress: {} })
+      );
+
+      let loaded: boolean;
+      service
+        .getCheckoutDetailsLoaded()
+        .subscribe(data => {
+          loaded = data;
+        })
+        .unsubscribe();
+      expect(loaded).toBeTruthy();
+    });
+  });
+
+  it('should return false for fail', () => {
+    store.dispatch(new fromCheckout.LoadCheckoutDetailsFail(new Error()));
+
+    let loaded: boolean;
+    service
+      .getCheckoutDetailsLoaded()
+      .subscribe(data => {
+        loaded = data;
+      })
+      .unsubscribe();
+    expect(loaded).toBeFalsy();
+  });
 });
