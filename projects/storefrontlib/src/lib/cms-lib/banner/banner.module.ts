@@ -1,19 +1,20 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
-import { ConfigModule, CmsConfig } from '@spartacus/core';
-import { ResponsiveBannerComponent } from './responsive-banner.component';
-import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
+import { CmsConfig, ConfigModule } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { GenericLinkModule } from '../../ui/components/generic-link/generic-link.module';
+import { MediaModule } from '../../ui/components/media/media.module';
 import { BannerComponent } from './banner.component';
 import { BannerComponentService } from './banner.component.service';
+import { ResponsiveBannerComponent } from './responsive-banner.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
     GenericLinkModule,
+    MediaModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SimpleResponsiveBannerComponent: {
