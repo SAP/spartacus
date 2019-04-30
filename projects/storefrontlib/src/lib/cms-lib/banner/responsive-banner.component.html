@@ -3,7 +3,7 @@
   class="link"
   *ngIf="service.hasImage() && (service.getComponentData() | async) as data"
   [url]="data.urlLink"
-  [target]="service.getTarget() | async"
+  [target]="data.external ? '_blank' : null"
 >
   <picture [class]="getClass()">
     <img

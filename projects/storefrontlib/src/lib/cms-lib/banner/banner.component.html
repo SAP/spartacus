@@ -1,21 +1,16 @@
-<p class="cx-banner-headline" *ngIf="(service.hasHeadline() | async)">
-  {{ service.getHeadline() | async }}
-</p>
+<ng-container *ngIf="(data$ | async) as data">
+  <p *ngIf="data.headLine">data.headLine</p>
+  <cx-generic-link
+    [url]="data.urlLink"
+    [target]="data.external ? '_blank' : null"
+  >
+    <cx-picture
+      *ngIf="data.media as media"
+      [alt]="media.altText"
+      [title]="media.altText"
+      [mainImage]="service.getImageAbsoluteUrl() | async"
+    ></cx-picture>
+  </cx-generic-link>
 
-<cx-generic-link
-  *ngIf="
-    (service.hasImage() | async) && (service.getComponentData() | async) as data
-  "
-  [url]="data.urlLink"
-  [attr.target]="service.getTarget() | async"
->
-  <cx-picture
-    [alt]="service.getAltText() | async"
-    [title]="service.getAltText() | async"
-    [mainImage]="service.getImageAbsoluteUrl() | async"
-  ></cx-picture>
-</cx-generic-link>
-
-<p class="cx-banner-content" *ngIf="(service.hasContent() | async)">
-  {{ service.getContent() | async }}
-</p>
+  <p *ngIf="data.content">data.content</p>
+</ng-container>

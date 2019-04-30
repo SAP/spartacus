@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { CmsBannerComponent } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { BannerComponentService } from './banner.component.service';
 
 @Component({
@@ -7,5 +9,6 @@ import { BannerComponentService } from './banner.component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent {
+  data$: Observable<CmsBannerComponent> = this.service.component.data$;
   constructor(public service: BannerComponentService) {}
 }
