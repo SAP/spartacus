@@ -96,7 +96,7 @@ describe('Router Reducer', () => {
     });
   });
 
-  describe('ROUTER_NAVIGATION, ROUTER_ERROR, ROUTER_CANCEL action', () => {
+  describe('ROUTER_NAVIGATED, ROUTER_ERROR, ROUTER_CANCEL action', () => {
     const templateAction = {
       type: '',
       payload: {
@@ -122,7 +122,7 @@ describe('Router Reducer', () => {
 
       const action = {
         ...templateAction,
-        type: fromNgrxRouter.ROUTER_NAVIGATION,
+        type: fromNgrxRouter.ROUTER_NAVIGATED,
       };
 
       action.payload.routerState.url = '/login';
@@ -146,12 +146,12 @@ describe('Router Reducer', () => {
       expect(state4.redirectUrl).toBe('');
     });
 
-    describe('ROUTER_NAVIGATION', () => {
+    describe('ROUTER_NAVIGATED', () => {
       it('should should populate the state and the navigationId', () => {
         const { initialState } = fromReducer;
         const action = {
           ...templateAction,
-          type: fromNgrxRouter.ROUTER_NAVIGATION,
+          type: fromNgrxRouter.ROUTER_NAVIGATED,
         };
         const state = fromReducer.reducer(initialState, action);
         expect(state.state).toBe(action.payload.routerState);
