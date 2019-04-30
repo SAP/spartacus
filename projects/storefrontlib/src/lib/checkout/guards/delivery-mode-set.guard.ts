@@ -39,7 +39,7 @@ export class DeliveryModeSetGuard implements CanActivate {
       .getSelectedDeliveryModeCode()
       .pipe(
         map((mode: string) =>
-          mode.length ? true : this.router.parseUrl(route && route.url)
+          mode && mode.length ? true : this.router.parseUrl(route && route.url)
         )
       );
   }
