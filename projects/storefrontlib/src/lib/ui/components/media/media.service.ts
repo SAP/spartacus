@@ -91,6 +91,8 @@ export class MediaService {
   };
 
   private getBaseUrl(): string {
-    return this.config.backend.occ.baseUrl || '';
+    return (
+      this.config.backend.media.baseUrl || this.config.backend.occ.baseUrl || ''
+    );
   }
 }

@@ -37,6 +37,10 @@ if (!environment.production) {
         occ: {
           baseUrl: environment.occBaseUrl,
         },
+        media: {
+          baseUrl:
+            'https://accstorefront.cqz1m-softwarea1-d21-public.model-t.cc.commerce.ondemand.com',
+        },
       },
       pwa: {
         enabled: true,
