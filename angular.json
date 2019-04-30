@@ -24,14 +24,9 @@
               "projects/storefrontapp/src/manifest.json",
               "projects/storefrontapp/src/webApplicationInjector.js"
             ],
-            "styles": [
-              "projects/storefrontapp/src/styles.scss"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects", "./projects/storefrontstyles/scss"]
             },
             "ngswConfigPath": "projects/storefrontlib/src/lib/pwa/ngsw-config.json",
             "scripts": []
@@ -128,18 +123,14 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": [
-              "projects/storefrontapp/src/styles.css"
-            ],
+            "styles": ["projects/storefrontapp/src/styles.css"],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
               "projects/storefrontapp/src/assets",
               "projects/storefrontapp/src/manifest.json"
             ],
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ]
+            "codeCoverageExclude": ["dist/**/*"]
           }
         },
         "lint": {
@@ -149,9 +140,7 @@
               "projects/storefrontapp/tsconfig.app.json",
               "projects/storefrontapp/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         },
         "server": {
@@ -165,36 +154,6 @@
                 "replace": "projects/storefrontapp/src/environments/environment.ts",
                 "with": "projects/storefrontapp/src/environments/environment.prod.ts"
               }
-            ]
-          }
-        }
-      }
-    },
-    "storefrontapp-e2e": {
-      "root": "projects/storefrontapp-e2e/",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "projects/storefrontapp-e2e/protractor.conf.js",
-            "devServerTarget": "storefrontapp:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "storefrontapp:serve:production"
-            },
-            "ci": {
-              "devServerTarget": "storefrontapp:serve:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "projects/storefrontapp-e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
             ]
           }
         }
@@ -219,13 +178,9 @@
             "main": "projects/storefrontlib/src/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
-            "codeCoverageExclude": [
-              "dist/**/*"
-            ],
+            "codeCoverageExclude": ["dist/**/*"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects/storefrontstyles/scss"
-              ]
+              "includePaths": ["./projects/storefrontstyles/scss"]
             }
           }
         },
@@ -236,9 +191,7 @@
               "projects/storefrontlib/tsconfig.lib.json",
               "projects/storefrontlib/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -271,9 +224,7 @@
               "projects/core/tsconfig.lib.json",
               "projects/core/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -306,9 +257,7 @@
               "projects/vendor/tsconfig.lib.json",
               "projects/vendor/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }

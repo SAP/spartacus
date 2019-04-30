@@ -30,8 +30,8 @@ if [[ $1 == '-h' ]]; then
     sonar-scanner \
     -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
     -Dsonar.organization=sap \
-    -Dsonar.sources=projects/storefrontlib,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e \
-    -Dsonar.tests=projects/storefrontlib,projects/core,projects/storefrontstyles,projects/storefrontapp-e2e \
+    -Dsonar.sources=projects/storefrontlib,projects/core,projects/storefrontstyles \
+    -Dsonar.tests=projects/storefrontlib,projects/core,projects/storefrontstyles \
     -Dsonar.host.url=https://sonarcloud.io \
     -Dsonar.login=$SONAR_TOKEN \
     -Dsonar.cfamily.build-wrapper-output.bypass=true
