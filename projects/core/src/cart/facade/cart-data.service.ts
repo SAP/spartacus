@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '../../occ/occ-models/index';
+import { UICart } from '../model';
 
 export const ANONYMOUS_USERID = 'anonymous';
 
 @Injectable()
 export class CartDataService {
   private _userId = ANONYMOUS_USERID;
-  private _cart: Cart;
+  private _cart: UICart;
   private _getDetails = false;
 
   constructor() {}
@@ -31,7 +31,7 @@ export class CartDataService {
     return this._userId;
   }
 
-  get cart(): Cart {
+  get cart(): UICart {
     return this._cart;
   }
 

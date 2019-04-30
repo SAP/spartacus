@@ -55,12 +55,12 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
         text: 'Personal details successfully updated',
         type: GlobalMessageType.MSG_TYPE_CONFIRMATION,
       });
-      this.routingService.go({ route: ['home'] });
+      this.routingService.go({ route: 'home' });
     }
   }
 
   onCancel(): void {
-    this.routingService.go({ route: ['home'] });
+    this.routingService.go({ route: 'home' });
   }
 
   onSubmit({ uid, userUpdates }: { uid: string; userUpdates: User }): void {

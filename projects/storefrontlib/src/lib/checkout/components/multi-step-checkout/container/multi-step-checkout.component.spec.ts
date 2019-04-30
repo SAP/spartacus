@@ -13,10 +13,13 @@
 //   Order,
 //   CheckoutService,
 //   Cart,
+//   I18nTestingModule,
 // } from '@spartacus/core';
 
 // import { BehaviorSubject, Observable, of } from 'rxjs';
+
 // import createSpy = jasmine.createSpy;
+
 // import { MultiStepCheckoutComponent } from './multi-step-checkout.component';
 
 // class MockCheckoutService {
@@ -76,7 +79,7 @@
 // @Component({ selector: 'cx-delivery-mode', template: '' })
 // class MockDeliveryModeComponent {
 //   @Input()
-//   selectedDeliveryMode: string;
+//   selectedShippingMethod: string;
 // }
 
 // @Component({ selector: 'cx-payment-method', template: '' })
@@ -85,19 +88,12 @@
 //   selectedPayment: PaymentDetails;
 // }
 
-// // *** From FR2
-// @Component({ selector: 'cx-checkout-order-summary', template: '' })
-// class MockCheckoutOrderSummaryComponent {
-//   @Input()
-//   cart: Cart;
-// }
-// // ***
 // @Component({ selector: 'cx-review-submit', template: '' })
 // class MockReviewSubmitComponent {
 //   @Input()
 //   deliveryAddress: Address;
 //   @Input()
-//   deliveryMode: string;
+//   shippingMethod: string;
 //   @Input()
 //   paymentDetails: PaymentDetails;
 // }
@@ -167,7 +163,7 @@
 //     };
 
 //     TestBed.configureTestingModule({
-//       imports: [RouterTestingModule],
+//       imports: [RouterTestingModule, I18nTestingModule],
 //       declarations: [
 //         MockTranslateUrlPipe,
 //         MultiStepCheckoutComponent,
@@ -176,9 +172,6 @@
 //         MockReviewSubmitComponent,
 //         MockShippingAddressComponent,
 //         MockOrderSummaryComponent,
-//         // *** FROM FR2
-//         MockCheckoutOrderSummaryComponent,
-//         // ***
 //       ],
 //       providers: [
 //         { provide: CheckoutService, useClass: MockCheckoutService },
@@ -196,7 +189,7 @@
 //     fixture = TestBed.createComponent(MultiStepCheckoutComponent);
 //     component = fixture.componentInstance;
 
-//     spyOn(component, 'goToStep').and.callThrough();
+//     spyOn(component, 'addAddress').and.callThrough();
 //     spyOn(component, 'nextStep').and.callThrough();
 //   });
 
@@ -263,7 +256,7 @@
 
 //     component.processSteps();
 //     expect(mockRoutingService.go).toHaveBeenCalledWith({
-//       route: ['orderConfirmation'],
+//       route: 'orderConfirmation',
 //     });
 //   });
 
@@ -293,9 +286,54 @@
 //     expect(component.navs[3].progressBar).toBeFalsy();
 //   });
 
-//   it('should call nextStep when invoking goToStep', () => {
-//     component.goToStep(2);
+//   it('should call addAddress() with new created address', () => {
+//     component.addAddress({ address: mockAddress, newAddress: true });
+//     expect(mockCheckoutService.createAndSetAddress).toHaveBeenCalledWith(
+//       mockAddress
+//     );
+//   });
+
+//   it('should call addAddress() with address selected from existing addresses', () => {
+//     component.addAddress({ address: mockAddress, newAddress: false });
+//     expect(mockCheckoutService.createAndSetAddress).not.toHaveBeenCalledWith(
+//       mockAddress
+//     );
+//     expect(mockCheckoutService.setDeliveryAddress).toHaveBeenCalledWith(
+//       mockAddress
+//     );
+//   });
+
+//   it('should call addAddress() with address already set to the cart, then go to next step direclty', () => {
+//     component.deliveryAddress = mockAddress;
+//     component.addAddress({ address: mockAddress, newAddress: false });
+
 //     expect(component.nextStep).toHaveBeenCalledWith(2);
+//     expect(mockCheckoutService.setDeliveryAddress).not.toHaveBeenCalledWith(
+//       mockAddress
+//     );
+//   });
+
+//   it('should call setDeliveryMode()', () => {
+//     const deliveryMode = {
+//       deliveryModeId: 'testId',
+//     } as any;
+//     component.setDeliveryMode(deliveryMode);
+//     expect(mockCheckoutService.setDeliveryMode).toHaveBeenCalledWith(
+//       deliveryMode.deliveryModeId
+//     );
+//   });
+
+//   it('should call setDeliveryMode() with the delivery mode already set to cart, go to next step directly', () => {
+//     const deliveryMode = {
+//       deliveryModeId: 'testId',
+//     } as any;
+//     component.shippingMethod = 'testId';
+//     component.setDeliveryMode(deliveryMode);
+
+//     expect(component.nextStep).toHaveBeenCalledWith(3);
+//     expect(mockCheckoutService.setDeliveryMode).not.toHaveBeenCalledWith(
+//       deliveryMode.deliveryModeId
+//     );
 //   });
 
 //   it('should call addPaymentInfo() with new created payment info', () => {

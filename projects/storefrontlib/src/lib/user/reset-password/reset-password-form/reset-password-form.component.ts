@@ -47,7 +47,7 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.userService.isPasswordReset().subscribe(reset => {
         if (reset) {
-          this.routingService.go({ route: ['login'] });
+          this.routingService.go({ route: 'login' });
         }
       })
     );

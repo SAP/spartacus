@@ -5,10 +5,10 @@ import { ServerConfig } from '../../../config/server-config/server-config';
 import { RouteTranslation, ParamsMapping } from '../routes-config';
 import { getParamName, isParam } from './path-utils';
 import {
+  TranslateUrlCommandRoute,
+  TranslateUrlCommands,
   TranslateUrlOptions,
-  TranslateUrlOptionsRoute,
-  TranslateUrlOptionsRouteObject,
-} from './translate-url-options';
+} from './translate-url-commands';
 
 @Injectable()
 export class UrlTranslationService {
@@ -20,176 +20,79 @@ export class UrlTranslationService {
     private config: ServerConfig
   ) {}
 
-  translate(options: TranslateUrlOptions): string | string[] {
-    // if options are invalid, return the root url
-    if (!this.validateOptions(options)) {
-      return this.ROOT_URL;
+  translate(
+    commands: TranslateUrlCommands,
+    options: TranslateUrlOptions = {}
+  ): any[] {
+    if (!Array.isArray(commands)) {
+      commands = [commands];
     }
 
-    return this.generateUrl(options.route);
-  }
+    const result: string[] = [];
+    for (const command of commands) {
+      if (!command || !command.route) {
+        // don't modify segment that is not route command:
+        result.push(command);
+      } else {
+        // generate array with url segments for given options object:
+        const partialResult = this.generateUrl(command);
 
-  private validateOptions(options: TranslateUrlOptions): boolean {
-    if (!options || typeof options !== 'object') {
-      this.warn(
-        `Incorrect options for translating url. Options have to be an object. Options: `,
-        options
-      );
-      return false;
-    }
+        if (partialResult === null) {
+          return this.ROOT_URL;
+        }
 
-    const routeDefined = Boolean(options.route);
-    if (!routeDefined) {
-      this.warn(
-        `Incorrect options for translating url. Options must have 'route' array property. Options: `,
-        options
-      );
-      return false;
-    }
-    if (routeDefined) {
-      return this.validateOptionsRoute(options.route);
-    }
-    return true;
-  }
-
-  private validateOptionsRoute(
-    nestedRoutes: TranslateUrlOptionsRoute[]
-  ): boolean {
-    if (!Array.isArray(nestedRoutes)) {
-      this.warn(
-        `Incorrect options for translating url.`,
-        `'route' property should be an array. Route: `,
-        nestedRoutes
-      );
-      return false;
-    }
-
-    const length = nestedRoutes.length;
-    if (!length) {
-      this.warn(
-        `Incorrect options for translating url.`,
-        `'route' array should not be empty. Route: `,
-        nestedRoutes
-      );
-      return false;
-    }
-
-    for (let i = 0; i < length; i++) {
-      const nestedRoute = nestedRoutes[i];
-      if (typeof nestedRoute !== 'string' && !nestedRoute.name) {
-        this.warn(
-          `Incorrect options for translating url.`,
-          `'route' array can contain only elements which are string or object with 'name' property. Route: `,
-          nestedRoutes
-        );
-        return false;
+        result.push(...partialResult);
       }
     }
-    return true;
+
+    if (!options.relative) {
+      result.unshift(''); // ensure absolute path ( leading '' in path array is equivalent to leading '/' in string)
+    }
+
+    return result;
   }
 
-  private generateUrl(nestedRoutes: TranslateUrlOptionsRoute[]): string[] {
-    const standarizedNestedRoutes = this.standarizeNestedRoutes(nestedRoutes);
+  private generateUrl(command: TranslateUrlCommandRoute): string[] | null {
+    this.standarizeRouteCommand(command);
 
-    // if no routes given, return root url
-    if (!standarizedNestedRoutes.length) {
-      return this.ROOT_URL;
+    if (!command.route) {
+      return null;
     }
 
-    const {
-      nestedRoutesNames,
-      nestedRoutesParams,
-    } = this.splitRoutesNamesAndParams(standarizedNestedRoutes);
-
-    const nestedRoutesTranslations = this.configurableRoutesService.getNestedRoutesTranslations(
-      nestedRoutesNames
+    const routeTranslation = this.configurableRoutesService.getRouteTranslation(
+      command.route
     );
 
-    // if no routes translations were configured, return root url:
-    if (!nestedRoutesTranslations) {
-      return this.ROOT_URL;
+    // if no route translation was configured, return null:
+    if (!routeTranslation || !routeTranslation.paths) {
+      return null;
     }
 
-    const [leafNestedRouteTranslation] = nestedRoutesTranslations.slice(-1);
-
-    // if leaf route was disabled in config (set to null), return root url:
-    if (!leafNestedRouteTranslation.paths) {
-      return this.ROOT_URL;
-    }
-
-    // find first path for every nested route that can satisfy it's parameters with given parameters
-    const nestedRoutesPaths = this.findPathsWithFillableParams(
-      nestedRoutesTranslations,
-      nestedRoutesParams
+    // find first path that can satisfy it's parameters with given parameters
+    const path = this.findPathWithFillableParams(
+      routeTranslation,
+      command.params
     );
 
-    // if not every nested route had configured path that can be satisfied with given params, return root url
-    if (!nestedRoutesPaths) {
-      return this.ROOT_URL;
+    // if there is no configured path that can be satisfied with given params, return null
+    if (!path) {
+      return null;
     }
 
     const result = this.provideParamsValues(
-      nestedRoutesPaths,
-      nestedRoutesParams,
-      nestedRoutesTranslations.map(
-        routTranslation => routTranslation.paramsMapping
-      )
+      path,
+      command.params,
+      routeTranslation.paramsMapping
     );
 
-    result.unshift(''); // ensure absolute path ( leading '' in path array is equvalent to leading '/' in string)
     return result;
   }
 
-  /**
-   * Converts all elements to objects
-   */
-  private standarizeNestedRoutes(
-    nestedRoutes: TranslateUrlOptionsRoute[]
-  ): TranslateUrlOptionsRouteObject[] {
-    return (nestedRoutes || []).map(route =>
-      typeof route === 'string'
-        ? { name: route, params: {} }
-        : { name: route.name, params: route.params || {} }
-    );
-  }
-
-  private splitRoutesNamesAndParams(
-    nestedRoutes: TranslateUrlOptionsRouteObject[]
-  ): {
-    nestedRoutesNames: string[];
-    nestedRoutesParams: object[];
-  } {
-    return (nestedRoutes || []).reduce(
-      ({ nestedRoutesNames, nestedRoutesParams }, route) => ({
-        nestedRoutesNames: [...nestedRoutesNames, route.name],
-        nestedRoutesParams: [...nestedRoutesParams, route.params],
-      }),
-      { nestedRoutesNames: [], nestedRoutesParams: [] }
-    );
+  private standarizeRouteCommand(command: TranslateUrlCommandRoute): void {
+    command.params = command.params || {};
   }
 
   private provideParamsValues(
-    nestedRoutesPaths: string[],
-    nestedRoutesParams: object[],
-    nestedRoutesParamsMappings: ParamsMapping[]
-  ): string[] {
-    const length = nestedRoutesPaths.length;
-    const result = [];
-    for (let i = 0; i < length; i++) {
-      const path = nestedRoutesPaths[i];
-      const paramsObject = nestedRoutesParams[i];
-      const paramsMapping = nestedRoutesParamsMappings[i];
-      const pathSegments = this.provideParamsValuesForSingleRoute(
-        path,
-        paramsObject,
-        paramsMapping
-      );
-      result.push(...pathSegments);
-    }
-    return result;
-  }
-
-  private provideParamsValuesForSingleRoute(
     path: string,
     params: object,
     paramsMapping: ParamsMapping
@@ -207,56 +110,32 @@ export class UrlTranslationService {
     });
   }
 
-  private findPathsWithFillableParams(
-    nestedRoutesTranslations: RouteTranslation[],
-    nestedRoutesParams: object[]
-  ): string[] {
-    const length = nestedRoutesTranslations.length;
-    const result = [];
-    for (let i = 0; i < length; i++) {
-      const routeTranslation = nestedRoutesTranslations[i];
-      const paramsObject = nestedRoutesParams[i];
-      const path = this.findPartialPathWithFillableParams(
-        routeTranslation.paths,
-        paramsObject,
-        routeTranslation.paramsMapping
-      );
-      if (path === undefined || path === null) {
-        this.warn(
-          `No configured path matches all its params to given object. `,
-          `Route translation: `,
-          routeTranslation,
-          `(in nested routes translations list`,
-          nestedRoutesTranslations,
-          `). Params object: `,
-          paramsObject,
-          `(in params objects list`,
-          nestedRoutesParams,
-          `)`
-        );
-        return null;
-      }
-      result.push(path);
-    }
-    return result;
-  }
-
-  // find first path that can fill all its params with values from given object
-  private findPartialPathWithFillableParams(
-    paths: string[],
-    params: object,
-    paramsMapping: ParamsMapping
+  private findPathWithFillableParams(
+    routeTranslation: RouteTranslation,
+    params: object
   ): string {
-    return paths.find(path =>
+    const foundPath = routeTranslation.paths.find(path =>
       this.getParams(path).every(paramName => {
         const mappedParamName = this.getMappedParamName(
           paramName,
-          paramsMapping
+          routeTranslation.paramsMapping
         );
 
         return params[mappedParamName] !== undefined;
       })
     );
+
+    if (foundPath === undefined || foundPath === null) {
+      this.warn(
+        `No configured path matches all its params to given object. `,
+        `Route translation: `,
+        routeTranslation,
+        `Params object: `,
+        params
+      );
+      return null;
+    }
+    return foundPath;
   }
 
   private getParams(path: string) {
