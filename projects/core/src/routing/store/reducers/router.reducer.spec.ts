@@ -14,7 +14,6 @@ import * as fromAction from './../actions/';
 import { PageType } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './router.reducer';
-import { getNextPageContext } from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
