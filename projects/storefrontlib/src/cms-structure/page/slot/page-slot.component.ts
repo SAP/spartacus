@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service';
 
 @Component({
   selector: 'cx-page-slot',
@@ -34,14 +33,14 @@ export class PageSlotComponent implements OnInit {
     protected cmsService: CmsService,
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
-    protected hostElement: ElementRef,
-    protected cmsMapping: CmsMappingService
+    protected hostElement: ElementRef
   ) {}
 
   ngOnInit(): void {
     // add the position name as a css class so that
     // layout can be applied to it, using the position based class.
     this.renderer.addClass(this.hostElement.nativeElement, this.position);
+
     this.components$ = this.slot$.pipe(
       map(slot => (slot && slot.components ? slot.components : [])),
       distinctUntilChanged(
