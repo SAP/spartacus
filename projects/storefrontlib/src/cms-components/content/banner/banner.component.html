@@ -1,5 +1,5 @@
 <ng-container *ngIf="(component.data$ | async) as data">
-  <p *ngIf="data.headLine">data.headLine</p>
+  <p *ngIf="data.headLine" [innerHTML]="data.headLine"></p>
   <cx-generic-link
     [url]="data.urlLink"
     [target]="data.external ? '_blank' : null"
@@ -8,5 +8,5 @@
     <cx-media [container]="data.media"></cx-media>
   </cx-generic-link>
 
-  <p *ngIf="data.content">data.content</p>
+  <p *ngIf="data.content" [innerHTML]="data.content"></p>
 </ng-container>
