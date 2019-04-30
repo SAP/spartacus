@@ -3,6 +3,10 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import {
+  ConsentTemplate,
+  ConsentTemplateList,
+} from '../../occ/occ-models/additional-occ.models';
+import {
   Address,
   Country,
   Order,
@@ -548,4 +552,39 @@ export class UserService {
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new fromStore.UpdatePasswordReset());
   }
+
+  // TODO:#1184 - write API comments
+
+  getConsents(): Observable<ConsentTemplateList> {}
+
+  getConsentsResultLoading(): Observable<boolean> {}
+
+  getConsentsResultSuccess(): Observable<boolean> {}
+
+  getConsentsResultError(): Observable<boolean> {}
+
+  resetGetConsentsProcessState(): void {}
+
+  giveConsent(
+    consentTemplateId: string,
+    consentTemplateVersion: number
+  ): Observable<ConsentTemplate> {}
+
+  giveConsentResultLoading(): Observable<boolean> {}
+
+  giveConsentResultSuccess(): Observable<boolean> {}
+
+  giveConsentResultError(): Observable<boolean> {}
+
+  resetGiveConsentProcessState(): void {}
+
+  withdrawConsent(consentCode: string): void {}
+
+  withdrawConsentResultLoading(): Observable<boolean> {}
+
+  withdrawConsentResultSuccess(): Observable<boolean> {}
+
+  withdrawConsentResultError(): Observable<boolean> {}
+
+  resetWithdrawConsentProcessState(): void {}
 }
