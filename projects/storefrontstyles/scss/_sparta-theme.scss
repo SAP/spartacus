@@ -19,7 +19,7 @@ $selectors: header, cx-site-context-selector, cx-breadcrumb, cx-banner,
   cx-payment-form, cx-review-submit, cx-address-form,
   cx-suggested-addresses-dialog, cx-order-confirmation, cx-promotions,
   cx-order-detail-headline, cx-order-detail-items, cx-order-detail-shipping,
-  cx-order-detail-totals, cx-close-account !default;
+  cx-order-detail-totals, cx-close-account, cx-payment-method, cx-icon !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut

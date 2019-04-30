@@ -7,6 +7,7 @@ import { catchError, map, pluck } from 'rxjs/operators';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '../connectors/cart/converters';
+import { UICart } from '../model/cart';
 
 // for mini cart
 const BASIC_PARAMS =
@@ -34,7 +35,7 @@ export class OccCartAdapter implements CartAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public loadAll(userId: string, details?: boolean): Observable<Cart[]> {
+  public loadAll(userId: string, details?: boolean): Observable<UICart[]> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
@@ -54,7 +55,7 @@ export class OccCartAdapter implements CartAdapter {
     userId: string,
     cartId: string,
     details?: boolean
-  ): Observable<Cart> {
+  ): Observable<UICart> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
@@ -89,7 +90,7 @@ export class OccCartAdapter implements CartAdapter {
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string
-  ): Observable<Cart> {
+  ): Observable<UICart> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
     let queryString = 'fields=' + BASIC_PARAMS;
@@ -104,8 +105,9 @@ export class OccCartAdapter implements CartAdapter {
       fromString: queryString,
     });
 
-    return this.http
-      .post<Cart>(url, toAdd, { params: params })
-      .pipe(catchError((error: any) => throwError(error.json())));
+    return this.http.post<Cart>(url, toAdd, { params: params }).pipe(
+      this.converter.pipeable(CART_NORMALIZER),
+      catchError((error: any) => throwError(error.json()))
+    );
   }
 }

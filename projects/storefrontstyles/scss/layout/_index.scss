@@ -14,6 +14,10 @@ cx-page-layout {
   @extend %cx-page-layout !optional;
 }
 
+cx-page-slot {
+  @extend %cx-page-slot !optional;
+}
+
 .LandingPage2Template {
   @extend %LandingPage2Template !optional;
 }

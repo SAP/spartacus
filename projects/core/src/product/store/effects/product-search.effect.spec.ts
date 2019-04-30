@@ -19,11 +19,11 @@ import { defaultOccProductConfig } from '../../config/product-config';
 import createSpy = jasmine.createSpy;
 
 const searchResult: UIProductSearchPage = { products: [] };
-const suggestions: SuggestionList = { suggestions: [] };
+const suggestionList: SuggestionList = { suggestions: [] };
 
 class MockProductSearchConnector {
   search = createSpy().and.returnValue(of(searchResult));
-  getSuggestions = createSpy().and.returnValue(of(suggestions));
+  getSuggestions = createSpy().and.returnValue(of(suggestionList.suggestions));
 }
 
 describe('ProductSearch Effects', () => {
@@ -91,7 +91,7 @@ describe('ProductSearch Effects', () => {
         searchConfig: searchConfig,
       });
       const completion = new fromActions.GetProductSuggestionsSuccess(
-        suggestions.suggestions
+        suggestionList.suggestions
       );
 
       actions$ = hot('-a', { a: action });
