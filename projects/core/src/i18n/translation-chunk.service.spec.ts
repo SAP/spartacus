@@ -26,7 +26,7 @@ describe('TranslationChunkService', () => {
     service = TestBed.get(TranslationChunkService);
   });
 
-  fdescribe('getChunk', () => {
+  describe('getChunk', () => {
     it('should return chunk name configured for the given key', () => {
       expect(service.getChunkNameForKey('key1')).toBe('chunk1');
     });
@@ -44,7 +44,7 @@ describe('TranslationChunkService', () => {
     });
   });
 
-  fdescribe('I18n config', () => {
+  describe('I18n config', () => {
     it('should composed of object of arrays', () => {
       const chunks = defaultI18nConfig.i18n.chunks;
       expect(chunks).toEqual(jasmine.any(Object));
