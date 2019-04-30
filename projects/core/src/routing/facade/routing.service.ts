@@ -10,6 +10,7 @@ import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
 import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,23 @@ export class RoutingService {
    */
   getPageContext(): Observable<PageContext> {
     return this.store.pipe(select(fromStore.getPageContext));
+  }
+
+  /**
+   * Get the next `PageContext` from the state
+   */
+  getNextPageContext(): Observable<PageContext> {
+    return this.store.pipe(select(fromStore.getNextPageContext));
+  }
+
+  /**
+   * Get the `isPageLoading` info from the state
+   */
+  isPageLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(fromStore.getNextPageContext),
+      map(context => !!context)
+    );
   }
 
   /**

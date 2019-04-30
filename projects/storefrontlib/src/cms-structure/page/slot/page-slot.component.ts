@@ -13,7 +13,7 @@ import {
   DynamicAttributeService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, tap } from 'rxjs/operators';
 import { CmsMappingService } from '../../../lib/cms/services/cms-mapping.service';
 
 @Component({
@@ -54,6 +54,11 @@ export class PageSlotComponent implements OnInit {
   get components$(): Observable<ContentSlotComponentData[]> {
     return this.slot$.pipe(
       map(slot => (slot && slot.components ? slot.components : [])),
+      distinctUntilChanged(
+        (a, b) =>
+          a.length === b.length &&
+          !a.find((el, index) => el.uid !== b[index].uid)
+      ),
       tap(components => this.addComponentClass(components))
     );
   }
