@@ -85,8 +85,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         return addresses.map(address => {
           const card = this.getCardContent(address, selected);
           return {
-            address: address,
-            card: card,
+            address,
+            card,
           };
         });
       })

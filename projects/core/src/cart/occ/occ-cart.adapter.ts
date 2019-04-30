@@ -34,7 +34,7 @@ export class OccCartAdapter implements CartAdapter {
   ) {}
 
   protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = 'users/' + userId + '/carts/';
+    const cartEndpoint = `users/${userId}/carts/`;
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
@@ -42,10 +42,10 @@ export class OccCartAdapter implements CartAdapter {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
-          fromString: 'fields=carts(' + DETAILS_PARAMS + ',saveTime)',
+          fromString: `fields=carts(${DETAILS_PARAMS},saveTime)`,
         })
       : new HttpParams({
-          fromString: 'fields=carts(' + BASIC_PARAMS + ',saveTime)',
+          fromString: `fields=carts(${BASIC_PARAMS},saveTime)`,
         });
     return this.http.get<CartList>(url, { params: params }).pipe(
       catchError((error: any) => throwError(error)),
@@ -62,10 +62,10 @@ export class OccCartAdapter implements CartAdapter {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
-          fromString: 'fields=' + DETAILS_PARAMS,
+          fromString: `fields=${DETAILS_PARAMS}`,
         })
       : new HttpParams({
-          fromString: 'fields=' + BASIC_PARAMS,
+          fromString: `fields=${BASIC_PARAMS}`,
         });
 
     if (cartId === 'current') {
@@ -95,7 +95,7 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<CheckoutDetails> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = new HttpParams({
-      fromString: 'fields=' + CHECKOUT_PARAMS,
+      fromString: `fields=${CHECKOUT_PARAMS}`,
     });
     return this.http
       .get<CheckoutDetails>(url, { params })
@@ -109,13 +109,13 @@ export class OccCartAdapter implements CartAdapter {
   ): Observable<UICart> {
     const url = this.getCartEndpoint(userId);
     const toAdd = JSON.stringify({});
-    let queryString = 'fields=' + BASIC_PARAMS;
+    let queryString = `fields=${BASIC_PARAMS}`;
 
     if (oldCartId) {
-      queryString = queryString + '&oldCartId=' + oldCartId;
+      queryString = `${queryString}&oldCartId=${oldCartId}`;
     }
     if (toMergeCartGuid) {
-      queryString = queryString + '&toMergeCartGuid=' + toMergeCartGuid;
+      queryString = `${queryString}&toMergeCartGuid=${toMergeCartGuid}`;
     }
     const params = new HttpParams({
       fromString: queryString,
