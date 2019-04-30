@@ -3,8 +3,9 @@
   <cx-generic-link
     [url]="data.urlLink"
     [target]="data.external ? '_blank' : null"
+    [title]="data.media?.altText"
   >
-    <cx-picture [media]="data.media" [title]="data.media?.altText"></cx-picture>
+    <cx-picture [media]="data.media"></cx-picture>
   </cx-generic-link>
 
   <p *ngIf="data.content">data.content</p>
