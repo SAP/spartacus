@@ -4,7 +4,7 @@ import { CanActivate, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DeliveryMode, ServerConfig } from '@spartacus/core';
+import { ServerConfig } from '@spartacus/core';
 import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutStep } from '../config/model/checkout-step.model';
 import { CheckoutStepType } from '../config/default-checkout-config';
@@ -23,7 +23,8 @@ export class DeliveryModeSetGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> {
     const route = this.checkoutConfig.checkout.steps.find(
-      (step: CheckoutStep) => step.type.includes(CheckoutStepType.deliveryMode)
+      (step: CheckoutStep) =>
+        step.type.indexOf(CheckoutStepType.deliveryMode) > -1
     );
 
     if (!route && !this.serverConfig.production) {
@@ -38,7 +39,7 @@ export class DeliveryModeSetGuard implements CanActivate {
       .getSelectedDeliveryModeCode()
       .pipe(
         map((mode: string) =>
-          mode.length ? true : this.router.parseUrl(route && route.url)
+          mode && mode.length ? true : this.router.parseUrl(route && route.url)
         )
       );
   }

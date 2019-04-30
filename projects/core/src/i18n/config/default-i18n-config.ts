@@ -24,7 +24,7 @@ export const defaultI18nConfig: I18nConfig = {
       checkout: 'checkout',
       checkoutAddress: 'checkout',
       checkoutOrderConfirmation: 'checkout',
-      checkoutProgress: 'checkoutProgress',
+      checkoutProgress: 'checkout',
       checkoutReview: 'checkout',
       checkoutShipping: 'checkout',
 

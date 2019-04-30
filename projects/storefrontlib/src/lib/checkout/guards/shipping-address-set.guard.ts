@@ -23,7 +23,7 @@ export class ShippingAddressSetGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     const route = this.config.checkout.steps.find(
       (step: CheckoutStep) =>
-        step.type.indexOf(CheckoutStepType.shippingAddress) !== -1
+        step.type.indexOf(CheckoutStepType.shippingAddress) > -1
     );
     if (!route && !this.serverConfig.production) {
       console.warn(
