@@ -6,16 +6,9 @@
     <source *ngIf="lgImage" [srcset]="lgImage" media="(min-width: 1200px)" />
   -->
   <img
-    *ngIf="mainImage"
     [src]="mainImage || missingProductImgSrc"
     (load)="loadHandler()"
     (error)="loadErrorHandler($event)"
     [alt]="imageAlt"
-  />
-
-  <img
-    *ngIf="!imageContainer"
-    [src]="missingProductImgSrc"
-    [alt]="missingProductImageAlt"
   />
 </picture>
