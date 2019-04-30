@@ -14,7 +14,6 @@ export enum ViewModes {
 @Component({
   selector: 'cx-product-view',
   templateUrl: './product-view.component.html',
-  styleUrls: ['./product-view.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductViewComponent {

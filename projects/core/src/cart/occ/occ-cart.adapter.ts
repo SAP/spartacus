@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CartAdapter } from '../connectors/cart/cart.adapter';
 import { Observable, throwError } from 'rxjs';
-import { Cart, CartList } from '../../occ/occ-models/occ.models';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map, pluck } from 'rxjs/operators';
+
+import { CartAdapter } from '../connectors/cart/cart.adapter';
+import { Cart, CartList } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { CART_NORMALIZER } from '../connectors/cart/converters';
@@ -38,7 +39,7 @@ export class OccCartAdapter implements CartAdapter {
     return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 
-  public loadAll(userId: string, details?: boolean): Observable<UICart[]> {
+  loadAll(userId: string, details?: boolean): Observable<UICart[]> {
     const url = this.getCartEndpoint(userId);
     const params = details
       ? new HttpParams({
@@ -54,11 +55,7 @@ export class OccCartAdapter implements CartAdapter {
     );
   }
 
-  public load(
-    userId: string,
-    cartId: string,
-    details?: boolean
-  ): Observable<UICart> {
+  load(userId: string, cartId: string, details?: boolean): Observable<UICart> {
     const url = this.getCartEndpoint(userId) + cartId;
     const params = details
       ? new HttpParams({
@@ -89,7 +86,7 @@ export class OccCartAdapter implements CartAdapter {
     }
   }
 
-  public loadCheckoutDetails(
+  loadCheckoutDetails(
     userId: string,
     cartId: string
   ): Observable<CheckoutDetails> {
@@ -102,7 +99,7 @@ export class OccCartAdapter implements CartAdapter {
       .pipe(catchError((error: any) => throwError(error)));
   }
 
-  public create(
+  create(
     userId: string,
     oldCartId?: string,
     toMergeCartGuid?: string

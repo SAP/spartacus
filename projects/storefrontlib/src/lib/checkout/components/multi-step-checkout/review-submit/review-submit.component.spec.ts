@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { of, Observable, BehaviorSubject } from 'rxjs';
+import createSpy = jasmine.createSpy;
+
 import {
   Address,
-  Cart,
   CartService,
   CheckoutService,
   Country,
@@ -15,14 +17,11 @@ import {
   UICart,
   UIOrderEntry,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Item } from '../../../../../cms-components/checkout/cart/index';
 import { Card } from '../../../../ui/components/card/card.component';
 import { ReviewSubmitComponent } from './review-submit.component';
 
-import createSpy = jasmine.createSpy;
-
-const mockCart: Cart = {
+const mockCart: UICart = {
   guid: 'test',
   code: 'test',
   deliveryItemsQuantity: 123,
@@ -109,7 +108,7 @@ class MockUserService {
 }
 
 class MockCartService {
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return of(mockCart);
   }
   getEntries(): Observable<UIOrderEntry[]> {

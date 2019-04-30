@@ -1,8 +1,9 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+
 import { CartAdapter } from './cart.adapter';
-import { CheckoutDetails } from 'projects/core/src/checkout';
 import { UICart } from '../../model/cart';
+import { CheckoutDetails } from '../../../checkout/index';
 
 @Injectable({
   providedIn: 'root',
