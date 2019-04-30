@@ -1,16 +1,13 @@
 <cx-generic-link
-  fxFlex
-  class="link"
-  *ngIf="service.hasImage() && (service.getComponentData() | async) as data"
+  *ngIf="data$ as data"
   [url]="data.urlLink"
   [target]="data.external ? '_blank' : null"
 >
-  <picture [class]="getClass()">
+  <picture>
     <img
       [src]="service.getResponsiveImageAbsoluteUrl() | async"
       [srcset]="service.getResponsiveSrcSet() | async"
       sizes="100%"
-      alt=""
     />
   </picture>
 </cx-generic-link>

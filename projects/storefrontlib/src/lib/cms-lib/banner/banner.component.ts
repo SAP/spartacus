@@ -10,5 +10,5 @@ import { BannerComponentService } from './banner.component.service';
 })
 export class BannerComponent {
   data$: Observable<CmsBannerComponent> = this.service.component.data$;
-  constructor(public service: BannerComponentService) {}
+  constructor(protected service: BannerComponentService) {}
 }

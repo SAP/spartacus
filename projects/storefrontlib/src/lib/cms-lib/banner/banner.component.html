@@ -4,12 +4,7 @@
     [url]="data.urlLink"
     [target]="data.external ? '_blank' : null"
   >
-    <cx-picture
-      *ngIf="data.media as media"
-      [alt]="media.altText"
-      [title]="media.altText"
-      [mainImage]="service.getImageAbsoluteUrl() | async"
-    ></cx-picture>
+    <cx-picture [media]="data.media" [title]="data.media?.altText"></cx-picture>
   </cx-generic-link>
 
   <p *ngIf="data.content">data.content</p>
