@@ -8,7 +8,6 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'cx-cart-details',
   templateUrl: './cart-details.component.html',
-  styleUrls: ['./cart-details.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartDetailsComponent implements OnInit {
