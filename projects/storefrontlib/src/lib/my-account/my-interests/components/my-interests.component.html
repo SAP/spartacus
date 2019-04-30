@@ -126,9 +126,12 @@
                   <span>
                     {{ ientry.interestType }}
                   </span>
-                  <span> - Till </span>
                   <span>
-                    {{ ientry.dateAdded | date: 'yyyy/MM/dd' }}
+                    {{
+                      'myInterests.expirationDate'
+                        | cxTranslate
+                          : { expirationDate: ientry.expirationDate | date }
+                    }}
                   </span>
                 </div>
               </td>

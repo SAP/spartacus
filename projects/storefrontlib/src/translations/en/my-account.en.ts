@@ -26,5 +26,6 @@ export const myAccount = {
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
     sortByMostRecent: 'Sort by Most recent',
+    expirationDate: ' - Till {{ expirationDate }}',
   },
 };

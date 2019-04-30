@@ -9,6 +9,7 @@ export interface ProductInterestEntry {
 export interface ProductInterestFutureStock {
   stock?: Stock;
   date?: Date;
+  expirationDate?: Date;
 }
 
 export interface ProductInterest {
