@@ -7,7 +7,6 @@ import { RoutingService } from '@spartacus/core';
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
-  styleUrls: ['./store-finder-grid.component.scss'],
 })
 export class StoreFinderGridComponent implements OnInit, OnDestroy {
   locations$: any;
