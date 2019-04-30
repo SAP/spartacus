@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CmsBannerComponent } from '@spartacus/core';
-import { CmsComponentData } from 'projects/storefrontlib/src/cms-structure';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
   selector: 'cx-banner',
