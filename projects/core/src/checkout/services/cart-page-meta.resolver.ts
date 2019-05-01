@@ -10,18 +10,13 @@ import {
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
 import { PageType } from '../../occ/occ-models/occ.models';
-import { RoutingService } from '../../routing/facade/routing.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartPageMetaResolver extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
-  constructor(
-    protected routingService: RoutingService,
-    protected cartService: CartService,
-    protected cms: CmsService
-  ) {
+  constructor(protected cartService: CartService, protected cms: CmsService) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
     this.pageTemplate = 'CartPageTemplate';
