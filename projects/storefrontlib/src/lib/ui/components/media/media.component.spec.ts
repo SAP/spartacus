@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MediaComponent } from './media.component';
+import { Media } from './media.model';
 import { MediaService } from './media.service';
 
 class MockMediaService {
-  getImage(media) {
+  getImage(media): Media {
     return {
       src: media ? media.product.url : undefined,
       srcset: undefined,
@@ -39,12 +40,12 @@ describe('MediaComponent', () => {
 
     component.ngOnChanges();
 
-    expect(component.image.src).toEqual('mockProductImageUrl');
+    expect(component.media.src).toEqual('mockProductImageUrl');
   });
 
   it('should call ngOnInit() with invalid image url', () => {
     component.ngOnChanges();
 
-    expect(component.image.src).toEqual(undefined);
+    expect(component.media.src).toEqual(undefined);
   });
 });
