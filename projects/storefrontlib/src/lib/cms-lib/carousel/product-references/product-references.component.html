@@ -1,7 +1,6 @@
 <!-- <ng-container
   *ngIf="(productReferencesService.getReferenceList() | async) as productList"
 >
-
   <h3 *ngIf="(productReferencesService.getTitle() | async) as title">
     {{ title }}
   </h3>
@@ -9,12 +8,68 @@
   <ng-container
     *ngIf="{
       maxItemSize: sharedCarouselService.getItemSize() | async,
-      products: productList.ACCESSORIES,
+      products: productList,
       activeItem: sharedCarouselService.getActiveItemWithDelay() | async,
       active: sharedCarouselService.getActiveItem() | async
     } as carousel"
   >
-    {{ carousel.products | json }}
+    <div class="cx-carousel" [ngClass]="'size-' + carousel.maxItemSize">
+      <button
+        class="previous"
+        (click)="sharedCarouselService.setPreviousItemAsActive()"
+        [disabled]="carousel.activeItem === 0"
+      ></button>
+      <div class="groups">
+        <ng-container *ngFor="let test of (carousel.products | keyvalue)">
+          <ng-container *ngFor="let unused of test.value; let i = index">
+            {{ i }}
+            <div class="group" *ngIf="i % carousel.maxItemSize === 0">
+              <ng-container
+                *ngFor="
+                  let products of (test.value
+                    | slice: i:i + carousel.maxItemSize)
+                "
+              >
+                <a
+                  *ngIf="products.target as product"
+                  class="product"
+                  [class.active]="i === carousel.activeItem"
+                  [routerLink]="
+                    { route: 'product', params: product } | cxTranslateUrl
+                  "
+                >
+                  <cx-picture
+                    [imageContainer]="product.images?.PRIMARY"
+                    imageFormat="product"
+                  >
+                  </cx-picture>
+
+                  <h4>{{ product.name }}</h4>
+                  <div class="price">{{ product.price?.formattedValue }}</div>
+                </a>
+              </ng-container>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <button
+        class="next"
+        (click)="sharedCarouselService.setNextItemAsActive()"
+        [disabled]="
+          carousel.activeItem > carousel.products.length - carousel.maxItemSize
+        "
+      ></button>
+    </div>
+    <div class="indicators">
+      <ng-container *ngFor="let test of (carousel.products | keyvalue)">
+        <ng-container *ngFor="let unused of test.value; let i = index">
+          <button
+            *ngIf="i % carousel.maxItemSize === 0"
+            (click)="sharedCarouselService.setItemAsActive(i)"
+          ></button>
+        </ng-container>
+      </ng-container>
+    </div>
   </ng-container>
 </ng-container> -->
 
@@ -28,7 +83,7 @@
   <ng-container
     *ngIf="{
       maxItemSize: sharedCarouselService.getItemSize() | async,
-      products: productList.ACCESSORIES,
+      products: productList.references,
       activeItem: sharedCarouselService.getActiveItemWithDelay() | async,
       active: sharedCarouselService.getActiveItem() | async
     } as carousel"
@@ -73,10 +128,9 @@
       <button
         class="next"
         (click)="sharedCarouselService.setNextItemAsActive()"
-        [disabled]="
-          carousel.activeItem > carousel.products.length - carousel.maxItemSize
-        "
-      ></button>
+      >
+        >
+      </button>
     </div>
     <div class="indicators">
       <ng-container *ngFor="let unused of carousel.products; let i = index">

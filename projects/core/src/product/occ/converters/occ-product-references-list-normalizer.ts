@@ -16,7 +16,6 @@ export class OccProductReferencesListNormalizer
     source: ProductReferenceList,
     target: UIProductReferenceList
   ): UIProductReferenceList {
-    // needs to be continued
     if (target === undefined) {
       target = { ...(source as any) };
     }
@@ -24,11 +23,11 @@ export class OccProductReferencesListNormalizer
     if (source && source.references) {
       target.references = source.references.map(reference => ({
         ...reference,
-        // referenceType: this.normalize(source.references),
         target: this.converter.convert(reference.target, PRODUCT_NORMALIZER),
       }));
 
-      target = this.normalize(target.references);
+      // TO DO: uncomment after talking to stan
+      // target = this.normalize(target.references);
       return target;
     }
   }

@@ -1,4 +1,4 @@
-import { ProductReference } from '../../../occ/occ-models';
+import { UIProductReferenceList } from '../../model/product-reference-list';
 import * as fromActions from './../actions/product-references.action';
 import * as fromReducer from './../reducers/product-references.reducer';
 
@@ -8,16 +8,12 @@ const product = {
   name: 'testProduct',
 };
 
-const list: ProductReference[] = [
-  {
-    referenceType: 'SIMILAR',
-    target: product,
-  },
-  {
-    referenceType: 'ACCESSORIES',
-    target: product,
-  },
-];
+const list: UIProductReferenceList = {
+  references: [
+    { referenceType: 'SIMILAR', target: product },
+    { referenceType: 'ACCESSORIES', target: product },
+  ],
+};
 
 describe('Product references reducer', () => {
   describe('undefined action', () => {
@@ -35,7 +31,7 @@ describe('Product references reducer', () => {
       const { initialState } = fromReducer;
       const action = new fromActions.LoadProductReferencesSuccess({
         productCode,
-        list: list,
+        list,
       });
       const state = fromReducer.reducer(initialState, action);
       expect(state.productCode).toBe(productCode);

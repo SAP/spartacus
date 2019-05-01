@@ -1,4 +1,5 @@
-import { ErrorModel, ProductReferenceList } from '../../../occ/occ-models';
+import { ErrorModel } from '../../../occ/occ-models';
+import { UIProductReferenceList } from '../../model/product-reference-list';
 import * as fromActions from './product-references.action';
 
 const productCode = 'productCode';
@@ -32,7 +33,7 @@ describe('Product References Actions', () => {
 
     describe('LOAD_PRODUCT_REFERENCES_SUCCESS', () => {
       it('should create the action', () => {
-        const list: ProductReferenceList = {
+        const list: UIProductReferenceList = {
           references: [
             {
               referenceType: 'SIMILAR',
@@ -47,11 +48,11 @@ describe('Product References Actions', () => {
 
         const action = new fromActions.LoadProductReferencesSuccess({
           productCode,
-          list: list.references,
+          list,
         });
         expect({ ...action }).toEqual({
           type: fromActions.LOAD_PRODUCT_REFERENCES_SUCCESS,
-          payload: { productCode, list: list.references },
+          payload: { productCode, list },
         });
       });
     });

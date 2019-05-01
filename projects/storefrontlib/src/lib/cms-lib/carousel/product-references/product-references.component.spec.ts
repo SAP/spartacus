@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductReferencesComponent,
   Component,
-  ProductReference,
   ProductReferenceService,
   RoutingService,
+  UIProductReferenceList,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
@@ -29,16 +29,12 @@ const product = {
   name: 'testProduct',
 };
 
-const references: ProductReference[] = [
-  {
-    referenceType: 'SIMILAR',
-    target: product,
-  },
-  {
-    referenceType: 'ACCESSORIES',
-    target: product,
-  },
-];
+const list: UIProductReferenceList = {
+  references: [
+    { referenceType: 'SIMILAR', target: product },
+    { referenceType: 'ACCESSORIES', target: product },
+  ],
+};
 
 const mockComponentData: CmsProductReferencesComponent = {
   uid: '001',
@@ -69,8 +65,8 @@ class MockRoutingService {
 }
 
 class MockProductReferenceService {
-  get(): Observable<ProductReference[]> {
-    return of(references);
+  get(): Observable<UIProductReferenceList> {
+    return of(list);
   }
 }
 
@@ -79,10 +75,10 @@ class MockProductReferencesService {
   setTitle = jasmine.createSpy('setTitle').and.callFake(() => of('Mock Title'));
   getReferenceList = jasmine
     .createSpy('getReferenceList')
-    .and.callFake(() => of([of(references), of(references)]));
+    .and.callFake(() => of(list));
   setReferenceList = jasmine
     .createSpy('setReferenceList')
-    .and.callFake(() => of([of(references), of(references)]));
+    .and.callFake(() => of([list]));
 }
 
 class MockSharedCarouselService {
@@ -155,16 +151,16 @@ describe('ProductReferencesComponent', () => {
     expect(productReferencesComponent).toBeTruthy();
   }));
 
-  it('should have product references', async(() => {
-    let references$: ProductReference[];
+  it('should have product list', async(() => {
+    let list$: UIProductReferenceList;
     productReferencesComponent.productReferencesService.setReferenceList();
     productReferencesComponent.productReferencesService
       .getReferenceList()
       .subscribe(productData$ => {
-        references$ = productData$;
+        list$ = productData$;
       })
       .unsubscribe();
-    expect(references$.length).toBe(references.length);
+    expect(list$).toBe(list);
   }));
 
   it('should contain cms content in the html rendering after bootstrap', () => {

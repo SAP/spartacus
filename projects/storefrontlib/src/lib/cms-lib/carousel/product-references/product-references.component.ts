@@ -2,11 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { Subscription } from 'rxjs';
 import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductReferencesService } from './product-references.component.service';
 
@@ -16,8 +14,7 @@ import { ProductReferencesService } from './product-references.component.service
   styleUrls: ['./product-references.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReferencesComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
+export class ProductReferencesComponent implements OnInit {
   private window: Window;
 
   constructor(
@@ -34,11 +31,5 @@ export class ProductReferencesComponent implements OnInit, OnDestroy {
     this.sharedCarouselService.setItemSize(this.window, this.el.nativeElement);
     this.productReferencesService.setReferenceList();
     this.sharedCarouselService.setItemAsActive(0);
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

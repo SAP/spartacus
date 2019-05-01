@@ -5,9 +5,9 @@ import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { ProductReference } from '../../../occ/occ-models';
 import { defaultOccProductConfig } from '../../config/product-config';
 import { ProductReferencesConnector } from '../../connectors/references/product-references.connector';
+import { UIProductReferenceList } from '../../model/product-reference-list';
 import * as fromActions from '../actions/product-references.action';
 import * as fromEffects from '../effects/product-references.effect';
 
@@ -19,16 +19,12 @@ const product = {
   name: 'testProduct',
 };
 
-const list: ProductReference[] = [
-  {
-    referenceType: 'SIMILAR',
-    target: product,
-  },
-  {
-    referenceType: 'ACCESSORIES',
-    target: product,
-  },
-];
+const list: UIProductReferenceList = {
+  references: [
+    { referenceType: 'SIMILAR', target: product },
+    { referenceType: 'ACCESSORIES', target: product },
+  ],
+};
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -69,7 +65,7 @@ describe('Product references effect', () => {
       const action = new fromActions.LoadProductReferences({ productCode });
       const completion = new fromActions.LoadProductReferencesSuccess({
         productCode,
-        list: list,
+        list,
       });
 
       actions$ = hot('-a', { a: action });

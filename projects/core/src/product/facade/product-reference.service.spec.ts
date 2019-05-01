@@ -2,7 +2,8 @@ import { inject, TestBed } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { Product, ProductReference } from '../../occ/occ-models';
+import { Product } from '../../occ/occ-models';
+import { UIProductReferenceList } from '../model/product-reference-list';
 import * as fromStore from '../store';
 import { PRODUCT_FEATURE } from '../store/product-state';
 import { ProductReferenceService } from './product-reference.service';
@@ -38,7 +39,7 @@ describe('ReferenceService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of([mockProduct])
       );
-      let result: ProductReference[];
+      let result: UIProductReferenceList;
       service.get(mockProduct.code).subscribe(productReferences => {
         result = productReferences;
       });

@@ -14,11 +14,11 @@ export function reducer(
   switch (action.type) {
     case fromProductReferences.LOAD_PRODUCT_REFERENCES_SUCCESS: {
       const productCode = action.payload.productCode;
-      const data = action.payload.list;
+      const list = action.payload.list;
 
       return {
         ...state,
-        list: data,
+        list,
         productCode,
       };
     }

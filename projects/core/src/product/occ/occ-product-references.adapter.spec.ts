@@ -3,10 +3,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ProductReferenceList } from '../../occ/occ-models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../connectors/references/converters';
+import { UIProductReferenceList } from '../model/product-reference-list';
 import { OccProductReferencesAdapter } from './occ-product-references.adapter';
 import createSpy = jasmine.createSpy;
 
@@ -17,7 +17,7 @@ const product = {
 };
 const referenceType = 'SIMILAR';
 const pageSize = 2;
-const productReferences: ProductReferenceList = {
+const productReferences: UIProductReferenceList = {
   references: [
     { referenceType: 'SIMILAR', target: product },
     { referenceType: 'ACCESSORIES', target: product },
@@ -82,7 +82,7 @@ describe('OccProductReferencesAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(productReferences);
 
-      expect(loadResult).toEqual(productReferences.references);
+      expect(loadResult).toEqual(productReferences);
     });
 
     it('should use references endpoint', () => {
@@ -93,8 +93,9 @@ describe('OccProductReferencesAdapter', () => {
         'productReferences',
         {
           productCode,
+          referenceType,
         },
-        { referenceType, pageSize }
+        { pageSize }
       );
     });
 
