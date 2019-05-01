@@ -18,6 +18,14 @@ cx-page-slot {
   @extend %cx-page-slot !optional;
 }
 
+cx-paragraph {
+  @extend %cx-paragraph !optional;
+}
+
+cx-category-navigation {
+  @extend %cx-category-navigation !optional;
+}
+
 .LandingPage2Template {
   @extend %LandingPage2Template !optional;
 }
