@@ -35,9 +35,12 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   private setCrumbs(): void {
-    this.crumbs$ = this.pageMetaService.getMeta().pipe(
-      filter(Boolean),
-      map((meta: PageMeta) => meta.breadcrumbs)
-    );
+    this.crumbs$ = this.pageMetaService
+      .getMeta()
+      .pipe(
+        map((meta: PageMeta) =>
+          meta.breadcrumbs ? meta.breadcrumbs : [{ label: 'Home', link: '/' }]
+        )
+      );
   }
 }
