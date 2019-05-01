@@ -20,7 +20,6 @@ export class ContentPageMetaResolver extends PageMetaResolver
   resolve(): Observable<PageMeta> {
     return this.cms.getCurrentPage().pipe(
       filter(Boolean),
-
       switchMap(page =>
         combineLatest([this.resolveTitle(page), this.resolveBreadcrumbs(page)])
       ),
