@@ -66,10 +66,9 @@ describe('GlobalMessageService', () => {
   });
 
   it('Should be able to add a translation message', () => {
-    service.addI18n({
+    service.add({
       type: GlobalMessageType.MSG_TYPE_ERROR,
-      key: 'test.key',
-      params: { param: 'value' },
+      text: { key: 'test.key', params: { param: 'value' } },
     });
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.AddMessage({

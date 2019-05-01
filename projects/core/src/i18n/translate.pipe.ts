@@ -7,10 +7,7 @@ import {
 import { Subscription } from 'rxjs';
 import { TranslationService } from './translation.service';
 import { shallowEqualObjects } from './utils/shallow-equal-objects';
-import {
-  TranslationCommand,
-  TranslationCommandParams,
-} from './translation-command';
+import { Translation, TranslationParams } from './translation';
 
 @Pipe({ name: 'cxTranslate', pure: false })
 export class TranslatePipe implements PipeTransform, OnDestroy {
@@ -25,11 +22,11 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   ) {}
 
   transform(
-    input: TranslationCommand | string,
-    options: TranslationCommandParams = {}
+    input: Translation | string,
+    options: TranslationParams = {}
   ): string {
-    if ((input as TranslationCommand).raw) {
-      return (input as TranslationCommand).raw;
+    if ((input as Translation).raw) {
+      return (input as Translation).raw;
     }
 
     let key: string;

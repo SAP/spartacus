@@ -1,4 +1,4 @@
-import { TranslationCommand } from '../../i18n/translation-command';
+import { Translation } from '../../i18n/translation';
 
 export enum GlobalMessageType {
   MSG_TYPE_CONFIRMATION = '[GlobalMessage] Confirmation',
@@ -7,6 +7,16 @@ export enum GlobalMessageType {
 }
 
 export interface GlobalMessage {
-  text: TranslationCommand;
+  text: Translation;
   type: GlobalMessageType;
+}
+
+export interface GlobalMessageInput {
+  text: string | GlobalMessageInputTranslation;
+  type: GlobalMessageType;
+}
+
+export interface GlobalMessageInputTranslation {
+  key: string;
+  params?: { [param: string]: any };
 }
