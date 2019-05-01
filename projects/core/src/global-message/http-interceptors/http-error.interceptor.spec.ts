@@ -137,10 +137,10 @@ describe('HttpErrorInterceptor', () => {
       });
 
       mockReq.flush({}, { status: 123, statusText: 'unknown' });
-      expect(mockMessageService.add).toHaveBeenCalledWith({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: 'An unknown error occured',
-      });
+      expect(mockMessageService.add).toHaveBeenCalledWith(
+        'An unknown error occured',
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

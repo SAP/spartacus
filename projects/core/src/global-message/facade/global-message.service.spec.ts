@@ -53,10 +53,7 @@ describe('GlobalMessageService', () => {
   });
 
   it('Should be able to add a message', () => {
-    service.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: 'Test error message',
-    });
+    service.add('Test error message', GlobalMessageType.MSG_TYPE_ERROR);
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,
@@ -66,10 +63,10 @@ describe('GlobalMessageService', () => {
   });
 
   it('Should be able to add a translation message', () => {
-    service.add({
-      type: GlobalMessageType.MSG_TYPE_ERROR,
-      text: { key: 'test.key', params: { param: 'value' } },
-    });
+    service.add(
+      { key: 'test.key', params: { param: 'value' } },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
     expect(store.dispatch).toHaveBeenCalledWith(
       new fromStore.AddMessage({
         type: GlobalMessageType.MSG_TYPE_ERROR,

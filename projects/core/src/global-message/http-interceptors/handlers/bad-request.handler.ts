@@ -18,10 +18,10 @@ export class BadRequestHandler extends HttpErrorHandler {
       response.error.error === 'invalid_grant'
     ) {
       if (request.body.get('grant_type') === 'password') {
-        this.globalMessageService.add({
-          type: GlobalMessageType.MSG_TYPE_ERROR,
-          text: this.getErrorMessage(response) + '. Please login again.',
-        });
+        this.globalMessageService.add(
+          this.getErrorMessage(response) + '. Please login again.',
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
         this.globalMessageService.remove(
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
@@ -29,10 +29,10 @@ export class BadRequestHandler extends HttpErrorHandler {
     } else {
       // this is currently showing up in case we have a page not found. It should be a 404.
       // see https://jira.hybris.com/browse/CMSX-8516
-      this.globalMessageService.add({
-        type: GlobalMessageType.MSG_TYPE_ERROR,
-        text: this.getErrorMessage(response),
-      });
+      this.globalMessageService.add(
+        this.getErrorMessage(response),
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     }
   }
 

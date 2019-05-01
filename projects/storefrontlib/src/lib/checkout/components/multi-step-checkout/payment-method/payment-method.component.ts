@@ -82,10 +82,10 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         } else {
           Object.keys(paymentInfo).forEach(key => {
             if (key.startsWith('InvalidField')) {
-              this.globalMessageService.add({
-                type: GlobalMessageType.MSG_TYPE_ERROR,
-                text: 'InvalidField: ' + paymentInfo[key],
-              });
+              this.globalMessageService.add(
+                'InvalidField: ' + paymentInfo[key],
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
             }
           });
           this.checkoutService.clearCheckoutStep(3);

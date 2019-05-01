@@ -10,8 +10,3 @@ export interface GlobalMessage {
   text: Translatable;
   type: GlobalMessageType;
 }
-
-export interface GlobalMessageInput {
-  text: string | Translatable;
-  type: GlobalMessageType;
-}
