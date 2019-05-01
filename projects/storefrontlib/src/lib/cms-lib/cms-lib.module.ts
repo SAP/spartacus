@@ -4,6 +4,7 @@ import { CartComponentModule } from '../../cms-components/checkout/cart/cart.mod
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CloseAccountModule } from '../my-account/close-account/close-account.module';
+import { ConsentManagementModule } from '../my-account/consents/consent-management.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
 import { OrderHistoryModule } from '../my-account/order/order-history/order-history.module';
 import { PaymentMethodsModule } from '../my-account/payment-methods/payment-methods.module';
@@ -47,8 +48,9 @@ import { SearchBoxModule } from './search-box/search-box.module';
     UpdateEmailModule,
     UpdatePasswordModule,
     UpdateProfileModule,
-    CartComponentModule,
+    ConsentManagementModule,
     CloseAccountModule,
+    CartComponentModule,
   ],
 })
 export class CmsLibModule {}

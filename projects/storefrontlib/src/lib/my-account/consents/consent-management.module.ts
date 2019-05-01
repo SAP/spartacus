@@ -3,15 +3,14 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { SpinnerModule } from '../../ui/components/spinner/spinner.module';
-import { UpdateProfileFormComponent } from './components/update-profile-form.component';
-import { UpdateProfileComponent } from './update-profile.component';
+import { ConsentManagementComponent } from './consent-management.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        UpdateProfileComponent: { selector: 'cx-update-profile' },
+        ConsentManagementComponent: { selector: 'cx-consent-management' },
       },
     }),
     FormsModule,
@@ -19,8 +18,8 @@ import { UpdateProfileComponent } from './update-profile.component';
     SpinnerModule,
     I18nModule,
   ],
-  declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
-  exports: [UpdateProfileComponent],
-  entryComponents: [UpdateProfileComponent],
+  declarations: [ConsentManagementComponent],
+  exports: [ConsentManagementComponent],
+  entryComponents: [ConsentManagementComponent],
 })
-export class UpdateProfileModule {}
+export class ConsentManagementModule {}
