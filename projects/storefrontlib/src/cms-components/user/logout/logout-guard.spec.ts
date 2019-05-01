@@ -22,6 +22,7 @@ class MockCmsService {
   hasPage(): Observable<Boolean> {
     return of(false);
   }
+  refreshLatestPage(): void {}
 }
 
 describe('LogoutGuard', () => {
