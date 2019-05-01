@@ -75,6 +75,7 @@ export function reducer(
       return {
         ...state,
         nextState: action.payload.routerState,
+        navigationId: action.payload.event.id,
       };
     }
 

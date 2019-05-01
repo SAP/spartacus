@@ -52,7 +52,7 @@ export class SmartEditService {
       .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
       .subscribe(([, routerState]) => {
         if (routerState.state && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+          this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
           if (this._cmsTicketId) {
             this.cmsService.launchInSmartEdit = true;
           }
