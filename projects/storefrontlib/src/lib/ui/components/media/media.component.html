@@ -1,8 +1,8 @@
 <img
-  *ngIf="image"
-  [attr.src]="image.src"
-  [attr.srcset]="image.srcset"
-  [attr.alt]="image.alt"
+  *ngIf="media"
+  [attr.src]="media.src"
+  [attr.srcset]="media.srcset"
+  [attr.alt]="media.alt"
   (load)="loadHandler()"
   (error)="loadErrorHandler($event)"
 />

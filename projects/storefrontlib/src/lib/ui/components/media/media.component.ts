@@ -34,19 +34,21 @@ export class MediaComponent implements OnChanges {
   @Input() format: string;
 
   /**
-   * An alternate text for an image, if the image cannot be displayed.
-   * The media itself migth have an alt text already, this alt however will override.
+   * A specific alt text for an image, which overrules the alt text
+   * from the container data.
    */
   @Input() alt: string;
 
+  /**
+   * Once the media is loaded, we emit an event.
+   */
   @Output() loaded: EventEmitter<HTMLElement> = new EventEmitter<HTMLElement>();
 
   /**
-   * The main image will be used by browser that do not support srcset's
+   * The media contains the info for the UI to create the image. This media
+   * object might contain more info once other media types (i.e. video) is supported.
    */
-  image: Media;
-
-  srcset: string;
+  media: Media;
 
   constructor(
     private elRef: ElementRef,
@@ -54,20 +56,20 @@ export class MediaComponent implements OnChanges {
     protected mediaService: MediaService
   ) {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.loadImage();
   }
 
-  private loadImage() {
+  private loadImage(): void {
     this.renderer.addClass(<HTMLElement>this.elRef.nativeElement, LOADING_CLS);
-    this.image = this.mediaService.getImage(
+    this.media = this.mediaService.getImage(
       this.container,
       this.format,
       this.alt
     );
   }
 
-  loadHandler() {
+  loadHandler(): void {
     this.renderer.addClass(
       <HTMLElement>this.elRef.nativeElement,
       INITIALIZED_CLS
@@ -79,7 +81,7 @@ export class MediaComponent implements OnChanges {
     this.loaded.emit(this.elRef.nativeElement);
   }
 
-  loadErrorHandler(event) {
+  loadErrorHandler(event): void {
     event.target.src = this.mediaService.getMissingImage();
   }
 }
