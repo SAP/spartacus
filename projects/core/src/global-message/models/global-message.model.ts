@@ -12,11 +12,6 @@ export interface GlobalMessage {
 }
 
 export interface GlobalMessageInput {
-  text: string | GlobalMessageTranslatableText;
+  text: string | Translatable;
   type: GlobalMessageType;
-}
-
-export interface GlobalMessageTranslatableText {
-  key: string;
-  params?: { [param: string]: any };
 }
