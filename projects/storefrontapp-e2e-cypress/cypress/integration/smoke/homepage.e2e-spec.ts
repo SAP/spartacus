@@ -12,7 +12,7 @@ context('Homepage', () => {
   });
 
   it('should have splash banner', () => {
-    cy.get('picture.ElectronicsHompageSplashBannerComponent');
+    cy.get('cx-page-slot.Section1 cx-banner');
   });
 
   it('should have footer with footer navigation and notice', () => {

@@ -28,7 +28,6 @@ import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/su
 @Component({
   selector: 'cx-address-form',
   templateUrl: './address-form.component.html',
-  styleUrls: ['./address-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressFormComponent implements OnInit, OnDestroy {

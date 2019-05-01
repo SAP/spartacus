@@ -9,5 +9,6 @@ export const defaultOccConfig: OccConfig = {
     occ: {
       prefix: '/rest/v2/',
     },
+    media: {},
   },
 };

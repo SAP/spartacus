@@ -13,7 +13,7 @@ import {
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { BootstrapModule } from '../../bootstrap.module';
-import { PictureComponent } from '../../ui/components/media/picture/picture.component';
+import { MediaComponent } from '../../ui/components/media/media.component';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 
@@ -89,7 +89,7 @@ describe('SearchBoxComponent in CmsLib', () => {
       ],
       declarations: [
         SearchBoxComponent,
-        PictureComponent,
+        MediaComponent,
         MockTranslateUrlPipe,
         MockStripHtmlPipe,
         MockCxIconComponent,

@@ -14,7 +14,6 @@ import { CartService, Cart, OrderEntry } from '@spartacus/core';
 @Component({
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
-  styleUrls: ['./added-to-cart-dialog.component.scss'],
 })
 export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   entry$: Observable<OrderEntry>;
