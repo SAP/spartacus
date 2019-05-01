@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductReference } from '../../../occ/occ-models/occ.models';
+import { UIProductReferenceList } from '../../model/product-reference-list';
+// import { ProductReference } from '../../../occ/occ-models/occ.models';
 import { ProductReferencesAdapter } from './product-references.adapter';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class ProductReferencesConnector {
     productCode: string,
     referenceType?: string,
     pageSize?: number
-  ): Observable<ProductReference[]> {
+  ): Observable<UIProductReferenceList> {
     return this.adapter.load(productCode, referenceType, pageSize);
   }
 }

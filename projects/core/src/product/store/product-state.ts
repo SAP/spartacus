@@ -1,10 +1,7 @@
-import {
-  ProductReference,
-  Review,
-  Suggestion,
-} from '../../occ/occ-models/occ.models';
+import { Review, Suggestion } from '../../occ/occ-models/occ.models';
 import { EntityLoaderState } from '../../state/utils/entity-loader/entity-loader-state';
 import { UIProduct } from '../model/product';
+import { UIProductReferenceList } from '../model/product-reference-list';
 import { UIProductSearchPage } from '../model/product-search-page';
 
 export const PRODUCT_FEATURE = 'product';
@@ -34,5 +31,5 @@ export interface ProductReviewsState {
 
 export interface ProductReferencesState {
   productCode: string;
-  list: ProductReference[];
+  list: UIProductReferenceList;
 }

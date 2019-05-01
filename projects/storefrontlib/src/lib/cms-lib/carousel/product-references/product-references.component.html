@@ -1,3 +1,23 @@
+<!-- <ng-container
+  *ngIf="(productReferencesService.getReferenceList() | async) as productList"
+>
+
+  <h3 *ngIf="(productReferencesService.getTitle() | async) as title">
+    {{ title }}
+  </h3>
+
+  <ng-container
+    *ngIf="{
+      maxItemSize: sharedCarouselService.getItemSize() | async,
+      products: productList.ACCESSORIES,
+      activeItem: sharedCarouselService.getActiveItemWithDelay() | async,
+      active: sharedCarouselService.getActiveItem() | async
+    } as carousel"
+  >
+    {{ carousel.products | json }}
+  </ng-container>
+</ng-container> -->
+
 <ng-container
   *ngIf="(productReferencesService.getReferenceList() | async) as productList"
 >
@@ -8,7 +28,7 @@
   <ng-container
     *ngIf="{
       maxItemSize: sharedCarouselService.getItemSize() | async,
-      products: productList,
+      products: productList.ACCESSORIES,
       activeItem: sharedCarouselService.getActiveItemWithDelay() | async,
       active: sharedCarouselService.getActiveItem() | async
     } as carousel"
@@ -34,8 +54,7 @@
                 class="product"
                 [class.active]="i === carousel.activeItem"
                 [routerLink]="
-                  { route: [{ name: 'product', params: product }] }
-                    | cxTranslateUrl
+                  { route: 'product', params: product } | cxTranslateUrl
                 "
               >
                 <cx-picture
@@ -44,11 +63,6 @@
                 >
                 </cx-picture>
 
-                <!-- <cx-picture
-                  [imageContainer]="product.images?.PRIMARY"
-                  imageFormat="product"
-                >
-                </cx-picture> -->
                 <h4>{{ product.name }}</h4>
                 <div class="price">{{ product.price?.formattedValue }}</div>
               </a>

@@ -1,10 +1,10 @@
-import { ProductReference } from '../../../occ/occ-models';
+import { UIProductReferenceList } from '../../model/product-reference-list';
 import * as fromProductReferences from '../actions/product-references.action';
 import { ProductReferencesState } from '../product-state';
 
 export const initialState: ProductReferencesState = {
   productCode: '',
-  list: [],
+  list: {},
 };
 
 export function reducer(
@@ -14,12 +14,13 @@ export function reducer(
   switch (action.type) {
     case fromProductReferences.LOAD_PRODUCT_REFERENCES_SUCCESS: {
       const productCode = action.payload.productCode;
-      const list = action.payload.list;
+      const data = action.payload.list;
+      console.log('reducer', data);
 
       return {
         ...state,
+        list: data,
         productCode,
-        list,
       };
     }
   }
@@ -29,7 +30,7 @@ export function reducer(
 
 export const getProductReferenceList = (
   state: ProductReferencesState
-): ProductReference[] => state.list;
+): UIProductReferenceList => state.list;
 export const getProductReferenceProductCode = (
   state: ProductReferencesState
 ): string => state.productCode;

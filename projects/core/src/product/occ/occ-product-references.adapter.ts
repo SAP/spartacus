@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
-import { ProductReference } from '../../occ/occ-models/occ.models';
+// import { ProductReference } from '../../occ/occ-models/occ.models';
 import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { ConverterService } from '../../util/converter.service';
 import { PRODUCT_REFERENCES_NORMALIZER } from '../connectors/references/converters';
 import { ProductReferencesAdapter } from '../connectors/references/product-references.adapter';
+import { UIProductReferenceList } from '../model/product-reference-list';
 
 @Injectable()
 export class OccProductReferencesAdapter implements ProductReferencesAdapter {
@@ -20,11 +20,11 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
     productCode: string,
     referenceType?: string,
     pageSize?: number
-  ): Observable<ProductReference[]> {
+  ): Observable<UIProductReferenceList> {
     return this.http
       .get(this.getEndpoint(productCode, referenceType, pageSize))
       .pipe(
-        pluck('references'),
+        // pluck('references'),
         this.converter.pipeable(PRODUCT_REFERENCES_NORMALIZER)
       );
   }
@@ -38,8 +38,9 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
       'productReferences',
       {
         productCode: code,
+        referenceType: reference,
       },
-      { referenceType: reference, pageSize }
+      { pageSize }
     );
   }
 }

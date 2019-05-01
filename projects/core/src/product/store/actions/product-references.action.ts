@@ -1,5 +1,8 @@
 import { Action } from '@ngrx/store';
-import { ErrorModel, ProductReference } from '../../../occ/occ-models';
+// import { ProductReference } from 'projects/backend/occ-client/lib/models';
+import { ErrorModel } from '../../../occ/occ-models';
+import { UIProductReferenceList } from '../../model/product-reference-list';
+// import { UIProductReferenceList } from '../../model/product-reference-list';
 
 export const LOAD_PRODUCT_REFERENCES = '[Product] Load Product References Data';
 export const LOAD_PRODUCT_REFERENCES_FAIL =
@@ -28,7 +31,7 @@ export class LoadProductReferencesSuccess implements Action {
   constructor(
     public payload: {
       productCode: string;
-      list: ProductReference[];
+      list: UIProductReferenceList;
     }
   ) {}
 }

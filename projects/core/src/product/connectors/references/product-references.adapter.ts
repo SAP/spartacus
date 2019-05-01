@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
-import { ProductReference } from '../../../occ/occ-models/occ.models';
+// import { ProductReference } from '../../../occ/occ-models/occ.models';
+import { UIProductReferenceList } from '../../model/product-reference-list';
 
 export abstract class ProductReferencesAdapter {
   /**
@@ -15,5 +16,5 @@ export abstract class ProductReferencesAdapter {
     productCode: string,
     referenceType?: string,
     pageSize?: number
-  ): Observable<ProductReference[]>;
+  ): Observable<UIProductReferenceList>;
 }
