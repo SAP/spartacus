@@ -4,7 +4,6 @@ import { Promotion } from '@spartacus/core';
 @Component({
   selector: 'cx-promotions',
   templateUrl: './promotions.component.html',
-  styleUrls: ['./promotions.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PromotionsComponent {

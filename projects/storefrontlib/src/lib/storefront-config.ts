@@ -2,6 +2,7 @@ import {
   AuthConfig,
   CmsConfig,
   I18nConfig,
+  PersonalizationConfig,
   OccConfig,
   RoutingConfig,
   SiteContextConfig,
@@ -21,4 +22,5 @@ export type StorefrontModuleConfig =
   | LayoutConfig
   | RoutingConfig
   | I18nConfig
+  | PersonalizationConfig
   | IconConfig;
