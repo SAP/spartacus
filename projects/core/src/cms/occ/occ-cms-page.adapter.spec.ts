@@ -193,7 +193,6 @@ describe('OccCmsPageAdapter', () => {
       });
 
       const testRequest = httpMock.expectOne(req => {
-        console.log('request: ', req);
         return (
           req.method === 'GET' &&
           req.url === endpoint + '/pages/123?fields=DEFAULT'
