@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CmsConfig } from '@spartacus/core';
+import { OccConfig } from '@spartacus/core';
 import {
   missingProductImageAlt,
   missingProductImgSrc,
@@ -15,7 +15,7 @@ const DEFAULT_MEDIA_FORMAT = 'tablet';
 })
 export class MediaService {
   constructor(
-    protected config: CmsConfig,
+    protected config: OccConfig,
     protected layoutConfig: LayoutConfig
   ) {}
 
@@ -61,7 +61,7 @@ export class MediaService {
       return missingProductImageAlt;
     } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
       return media[format || DEFAULT_MEDIA_FORMAT].altText;
-    } else if (media.url) {
+    } else if (media.altText) {
       return media.altText;
     }
   }
@@ -74,13 +74,15 @@ export class MediaService {
       return undefined;
     }
     const srcset = this.mediaFormats.reduce((set, format) => {
-      if (typeof media[format.code] !== 'undefined') {
-        return (set += `${this.getImageUrl(media[format.code].url)} ${
+      if (!!media[format.code]) {
+        if (set) {
+          set += ', ';
+        }
+        set += `${this.getImageUrl(media[format.code].url)} ${
           format.threshold
-        }w, `);
-      } else {
-        return set;
+        }w`;
       }
+      return set;
     }, '');
 
     return srcset === '' ? undefined : srcset;
