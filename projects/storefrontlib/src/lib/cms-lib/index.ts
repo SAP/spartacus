@@ -1,6 +1,3 @@
-export * from './banner/banner.component';
-export * from './banner/banner.module';
-export * from './banner/responsive-banner.component';
 export * from './breadcrumb/breadcrumb.component';
 export * from './breadcrumb/breadcrumb.module';
 export * from './category-navigation/category-navigation.component';

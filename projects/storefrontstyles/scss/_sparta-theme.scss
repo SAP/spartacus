@@ -6,25 +6,24 @@
 $skipComponentStyles: () !default;
 
 // major version standard
-$selectors: header, cx-site-context-selector, cx-breadcrumb, cx-banner,
-  cx-responsive-banner, cx-login, cx-register, cx-link, cx-navigation-ui,
-  cx-footer-navigation, cx-category-navigation, cx-mini-cart, cx-searchbox,
-  cx-product-carousel, cx-product-images, cx-product-summary,
-  cx-product-attributes, cx-product-reviews, cx-product-list,
-  cx-product-list-item, cx-product-grid, cx-product-facet-navigation,
-  cx-pagination, cx-order-history, cx-address-book, cx-address-card,
-  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
-  cx-order-summary, cx-cart-totals, cx-multi-step-checkout, cx-delivery-mode,
-  cx-shipping-address, cx-billing-address-form, cx-payment-form,
-  cx-review-submit, cx-address-form, cx-suggested-addresses-dialog,
-  cx-order-confirmation, cx-promotions, cx-order-detail-headline,
-  cx-order-detail-items, cx-order-detail-shipping, cx-order-detail-totals,
-  cx-product-view, cx-payment-method, cx-close-account,
+$selectors: header, cx-site-context-selector, cx-breadcrumb, cx-banner, cx-login,
+  cx-register, cx-link, cx-navigation-ui, cx-footer-navigation,
+  cx-category-navigation, cx-mini-cart, cx-searchbox, cx-product-carousel,
+  cx-product-images, cx-product-summary, cx-product-attributes,
+  cx-product-reviews, cx-product-list, cx-product-list-item, cx-product-grid,
+  cx-product-facet-navigation, cx-pagination, cx-order-history, cx-address-book,
+  cx-address-card, cx-added-to-cart-dialog, cx-cart-details, cx-cart-item,
+  cx-cart-item-list, cx-order-summary, cx-cart-totals, cx-multi-step-checkout,
+  cx-delivery-mode, cx-shipping-address, cx-billing-address-form,
+  cx-payment-form, cx-review-submit, cx-address-form,
+  cx-suggested-addresses-dialog, cx-order-confirmation, cx-promotions,
+  cx-order-detail-headline, cx-order-detail-items, cx-order-detail-shipping,
+  cx-order-detail-totals, cx-product-view, cx-payment-method, cx-close-account,
   cx-store-finder-list-item, cx-store-finder-grid,
   cx-store-finder-store-description, cx-store-finder-stores-count,
   cx-store-finder-search-result, cx-store-finder-list, cx-store-finder-search,
   cx-store-finder-schedule, cx-store-finder-map, cx-add-to-home-screen-banner,
-  cx-item-counter, cx-star-rating, cx-spinner, cx-icon !default;
+  cx-item-counter, cx-star-rating, cx-spinner, cx-icon, cx-media !default;
 
 // future theme's, can be introduced during minors
 $theme: ''; // conconut
