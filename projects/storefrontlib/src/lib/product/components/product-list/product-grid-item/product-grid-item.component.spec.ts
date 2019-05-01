@@ -1,13 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
   ChangeDetectionStrategy,
-  Input,
   Component,
+  Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProductGridItemComponent } from './product-grid-item.component';
 
 @Component({
@@ -15,12 +14,9 @@ import { ProductGridItemComponent } from './product-grid-item.component';
   template: '<button>add to cart</button>',
 })
 export class MockAddToCartComponent {
-  @Input()
-  iconOnly;
-  @Input()
-  productCode;
-  @Input()
-  quantity;
+  @Input() iconOnly;
+  @Input() productCode;
+  @Input() quantity;
 }
 
 @Component({
@@ -28,27 +24,18 @@ export class MockAddToCartComponent {
   template: '*****',
 })
 export class MockStarRatingComponent {
-  @Input()
-  rating;
-  @Input()
-  disabled;
-  @Input()
-  steps;
+  @Input() rating;
+  @Input() disabled;
+  @Input() steps;
 }
 
 @Component({
-  selector: 'cx-picture',
+  selector: 'cx-media',
   template: 'mock picture component',
 })
-export class MockPictureComponent {
-  @Input()
-  imageContainer;
-  @Input()
-  imageFormat;
-  @Input()
-  imagePosition;
-  @Input()
-  imageAlt;
+export class MockMediaComponent {
+  @Input() container;
+  @Input() alt;
 }
 
 @Pipe({
@@ -89,7 +76,7 @@ describe('ProductGridItemComponent in product-list', () => {
       imports: [RouterTestingModule],
       declarations: [
         ProductGridItemComponent,
-        MockPictureComponent,
+        MockMediaComponent,
         MockAddToCartComponent,
         MockStarRatingComponent,
         MockTranslateUrlPipe,
@@ -130,7 +117,7 @@ describe('ProductGridItemComponent in product-list', () => {
 
   it('should display product image', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('cx-picture')
+      fixture.debugElement.nativeElement.querySelector('cx-media')
     ).not.toBeNull();
   });
 

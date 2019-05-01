@@ -3,7 +3,7 @@
   flex-direction: var(--cx-flex-direction, column);
 
   height: 100%;
-  > cx-picture {
+  > cx-media {
     height: 100%;
     width: 100%; // required to support horizontal layouts
     position: relative;
@@ -13,7 +13,7 @@
     display: flex;
     justify-content: flex-start;
 
-    cx-picture {
+    cx-media {
       width: var(--cx-width, 75px);
       height: var(--cx-width, 75px);
       transition: all var(--cx-g-transition-duration);
