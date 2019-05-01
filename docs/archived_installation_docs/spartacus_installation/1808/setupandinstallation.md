@@ -12,9 +12,9 @@ Before carrying out the procedures below, please ensure the following front end 
 
 Your Angular development environment should include the following:
 
-- Angular cli v6.2.4
-- node.js >= 8.9.0
-- yarn >= 1.9.4
+- Angular cli v7
+- node.js >= 10 and < 12
+- yarn >= 1.15
 
 ## Back end Requirements
 
