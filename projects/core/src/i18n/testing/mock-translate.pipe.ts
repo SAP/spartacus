@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { mockTranslate } from './mock-translate';
-import { Translation } from '../translation';
+import { Translatable } from '../translatable';
 
 @Pipe({ name: 'cxTranslate' })
 export class MockTranslatePipe implements PipeTransform {
-  transform(input: Translation | string, options: object = {}): string {
-    if ((input as Translation).raw) {
-      return (input as Translation).raw;
+  transform(input: Translatable | string, options: object = {}): string {
+    if ((input as Translatable).raw) {
+      return (input as Translatable).raw;
     }
 
     let key: string;
