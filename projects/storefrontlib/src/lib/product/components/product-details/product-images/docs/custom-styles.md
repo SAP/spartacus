@@ -31,7 +31,7 @@ cx-product-images {
   .thumbs {
     position: absolute;
 
-    cx-picture {
+    cx-media {
       transition: all var(--cx-g-transition-duration);
 
       background: #fff;
@@ -53,7 +53,7 @@ cx-product-images {
     }
 
     &:hover {
-      cx-picture {
+      cx-media {
         @for $i from 1 through 10 {
           &:nth-child(#{$i}) {
             left: #{($i - 1) * $size};
