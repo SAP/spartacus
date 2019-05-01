@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '@spartacus/core';
-import {
-  missingProductImageAlt,
-  missingProductImgSrc,
-} from '../../images/missingProduct';
+import { missingProductImgSrc } from '../../images/missingProduct';
 import { BREAKPOINT, LayoutConfig } from '../../layout/index';
 import { Media, MediaFormats } from './media.model';
 
@@ -56,9 +53,9 @@ export class MediaService {
     }
   }
 
-  private getAlt(media, format?: string) {
+  private getAlt(media, format?: string): string {
     if (!media) {
-      return missingProductImageAlt;
+      return undefined;
     } else if (media[format || DEFAULT_MEDIA_FORMAT]) {
       return media[format || DEFAULT_MEDIA_FORMAT].altText;
     } else if (media.altText) {
