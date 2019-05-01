@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { of, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { CmsService, Page } from '../../cms/index';
 import { RoutingService } from '../../routing';
@@ -50,7 +50,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(undefined));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -66,7 +66,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of({}));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -79,7 +79,7 @@ describe('SmartEditService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(of(undefined));
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: {},
           },
@@ -106,7 +106,7 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -139,7 +139,7 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -160,7 +160,7 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
@@ -184,7 +184,7 @@ describe('SmartEditService', () => {
       );
       spyOn(routingService, 'getRouterState').and.returnValue(
         of({
-          state: {
+          nextState: {
             url: '/test',
             queryParams: { cmsTicketId: 'mockCmsTicketId' },
           },
