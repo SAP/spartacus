@@ -13,6 +13,9 @@
     padding: 5px 0;
     a {
       color: var(--cx-g-color-secondary);
+      &:not(:last-child):after {
+        content: '/';
+      }
     }
   }
 }
