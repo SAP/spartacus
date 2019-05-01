@@ -13,6 +13,15 @@ export interface PageHeadingResolver {
  * used for the page title tag, but coudl also be used for the
  * page heading in the UI.
  */
+export interface PageBreadcrumbResolver {
+  resolveBreadcrumbs(...args): Observable<any[]>;
+}
+
+/**
+ * Resolves the page title which is first and foremost
+ * used for the page title tag, but coudl also be used for the
+ * page heading in the UI.
+ */
 export interface PageTitleResolver {
   resolveTitle(...args): Observable<string>;
 }

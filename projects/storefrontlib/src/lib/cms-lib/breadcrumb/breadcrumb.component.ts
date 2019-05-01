@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsBreadcrumbsComponent,
   PageMeta,
   PageMetaService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
@@ -13,23 +13,31 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreadcrumbComponent {
+export class BreadcrumbComponent implements OnInit {
+  title$: Observable<string>;
+  crumbs$: Observable<any[]>;
+
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
     protected pageMetaService: PageMetaService
   ) {}
 
-  get title$(): Observable<string> {
-    return this.pageMetaService.getMeta().pipe(
+  ngOnInit(): void {
+    this.setTitle();
+    this.setCrumbs();
+  }
+
+  private setTitle(): void {
+    this.title$ = this.pageMetaService.getMeta().pipe(
       filter(Boolean),
       map((meta: PageMeta) => meta.heading || meta.title)
     );
   }
 
-  get crumbs$(): Observable<any[]> {
-    // initial version for the breadcrumb
-    // this must be done in such a way that
-    // other pages can contribute to a stream of crumbs
-    return of([{ label: 'Home', link: '/' }]);
+  private setCrumbs(): void {
+    this.crumbs$ = this.pageMetaService.getMeta().pipe(
+      filter(Boolean),
+      map((meta: PageMeta) => meta.breadcrumbs)
+    );
   }
 }
