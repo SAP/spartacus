@@ -572,7 +572,9 @@ export class UserService {
     return this.store.pipe(select(fromStore.getConsentsError));
   }
 
-  // resetGetConsentsProcessState(): void {}
+  resetConsentsProcessState(): void {
+    this.store.dispatch(new fromStore.ResetLoadUserConsents());
+  }
 
   // giveConsent(
   //   consentTemplateId: string,
