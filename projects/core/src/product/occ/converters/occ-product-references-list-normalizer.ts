@@ -29,7 +29,6 @@ export class OccProductReferencesListNormalizer
       }));
 
       target = this.normalize(target.references);
-      console.log('YES WE DONE BOYS', target);
       return target;
     }
   }
@@ -43,8 +42,6 @@ export class OccProductReferencesListNormalizer
    */
   protected normalize(source: UIProductReference[]): UIProductReferenceList {
     const references = {};
-
-    console.log('normalize ', source);
 
     if (source) {
       for (const reference of source) {

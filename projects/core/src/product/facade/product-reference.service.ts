@@ -18,7 +18,6 @@ export class ProductReferenceService {
     return this.store.pipe(
       select(fromStore.getSelectedProductReferencesFactory(productCode)),
       tap(references => {
-        console.log('facade', references);
         if (references === undefined && productCode !== undefined) {
           this.store.dispatch(
             new fromStore.LoadProductReferences({

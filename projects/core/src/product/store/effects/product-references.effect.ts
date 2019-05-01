@@ -22,7 +22,6 @@ export class ProductReferencesEffects {
         .get(payload.productCode, payload.referenceType, payload.pageSize)
         .pipe(
           map(data => {
-            console.log('data from effects', data);
             return new productReferencesActions.LoadProductReferencesSuccess({
               productCode: payload.productCode,
               list: data,

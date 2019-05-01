@@ -15,7 +15,6 @@ export function reducer(
     case fromProductReferences.LOAD_PRODUCT_REFERENCES_SUCCESS: {
       const productCode = action.payload.productCode;
       const data = action.payload.list;
-      console.log('reducer', data);
 
       return {
         ...state,

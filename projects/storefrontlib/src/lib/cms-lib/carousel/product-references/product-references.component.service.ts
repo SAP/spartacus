@@ -65,7 +65,6 @@ export class ProductReferencesService {
   setReferenceList(pageSize?: number): void {
     this.items$ = this.getProductCode().pipe(
       switchMap((productCode: string) => {
-        console.log('what am i', productCode);
         return this.referenceService.get(productCode, 'ACCESSORIES', pageSize);
       })
     );
