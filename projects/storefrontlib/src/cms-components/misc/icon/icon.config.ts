@@ -2,7 +2,7 @@ export enum ICON_TYPES {
   CART = 'shopping-cart',
   SEARCH = 'search',
   GRID_MODE = 'th-large',
-  LIST_MODE = 'menu-hamburger',
+  LIST_MODE = 'bars',
   CARET_DOWN = 'angle-down',
 }
 
