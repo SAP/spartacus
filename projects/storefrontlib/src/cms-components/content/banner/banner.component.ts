@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BannerComponentService } from './banner.component.service';
+import { CmsBannerComponent } from '@spartacus/core';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
   selector: 'cx-banner',
@@ -7,5 +8,5 @@ import { BannerComponentService } from './banner.component.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent {
-  constructor(public service: BannerComponentService) {}
+  constructor(public component: CmsComponentData<CmsBannerComponent>) {}
 }
