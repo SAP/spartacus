@@ -14,6 +14,7 @@ import { WindowRef } from '../../window/window-ref';
 export class SmartEditService {
   private _cmsTicketId: string;
   private getPreviewPage = false;
+  private _currentPageId: string;
 
   constructor(
     private cmsService: CmsService,
@@ -64,6 +65,8 @@ export class SmartEditService {
   protected addPageContract() {
     this.cmsService.getCurrentPage().subscribe(cmsPage => {
       if (cmsPage && this._cmsTicketId) {
+        this._currentPageId = cmsPage.pageId;
+
         // before adding contract, we need redirect to preview page
         this.goToPreviewPage(cmsPage);
 
@@ -110,10 +113,14 @@ export class SmartEditService {
     parentId?: string
   ): boolean {
     if (componentId) {
-      // without parentId, it is slot
       this.zone.run(() => {
+        // without parentId, it is slot
         if (!parentId) {
-          this.cmsService.refreshLatestPage();
+          if (this._currentPageId) {
+            this.cmsService.refreshPageById(this._currentPageId);
+          } else {
+            this.cmsService.refreshLatestPage();
+          }
         } else if (componentType) {
           this.cmsService.refreshComponent(componentId);
         }

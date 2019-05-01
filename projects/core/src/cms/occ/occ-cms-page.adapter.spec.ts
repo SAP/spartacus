@@ -181,6 +181,29 @@ describe('OccCmsPageAdapter', () => {
       testRequest.flush(cmsPageData);
     });
 
+    it('should get cms page data by pageId if PageType is unknow', () => {
+      const contextWithoutType: PageContext = {
+        id: '123',
+      };
+      spyOn(endpointsService, 'getUrl').and.returnValue(
+        endpoint + `/pages/${contextWithoutType.id}?fields=DEFAULT`
+      );
+      service.load(contextWithoutType).subscribe(result => {
+        expect(result).toEqual(cmsPageData);
+      });
+
+      const testRequest = httpMock.expectOne(req => {
+        return (
+          req.method === 'GET' &&
+          req.url === endpoint + '/pages/123?fields=DEFAULT'
+        );
+      });
+
+      expect(testRequest.cancelled).toBeFalsy();
+      expect(testRequest.request.responseType).toEqual('json');
+      testRequest.flush(cmsPageData);
+    });
+
     it('should use normalizer', () => {
       spyOn(endpointsService, 'getUrl').and.returnValue(endpoint + '/pages');
       const converter = TestBed.get(ConverterService);

@@ -27,7 +27,6 @@ export interface CardWithAddress {
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',
-  styleUrls: ['./shipping-address.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ShippingAddressComponent implements OnInit, OnDestroy {
