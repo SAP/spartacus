@@ -10,7 +10,7 @@ export interface PageHeadingResolver {
 
 /**
  * Resolves the page title which is first and foremost
- * used for the page title tag, but coudl also be used for the
+ * used for the page title tag, but could also be used for the
  * page heading in the UI.
  */
 export interface PageTitleResolver {
@@ -23,6 +23,13 @@ export interface PageTitleResolver {
  */
 export interface PageDescriptionResolver {
   resolveDescription(...args): Observable<string>;
+}
+
+/**
+ * Resolves breadcrumbs for the page, which is used in the `BreadcrumbComponent`/
+ */
+export interface PageBreadcrumbResolver {
+  resolveBreadcrumbs(...args): Observable<any[]>;
 }
 
 /**
