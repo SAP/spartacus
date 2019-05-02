@@ -1,16 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
-import { Order, Address, PaymentDetails, DeliveryMode } from '@spartacus/core';
+import {
+  Order,
+  Address,
+  PaymentDetails,
+  DeliveryMode,
+  TranslationService,
+} from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 import { OrderDetailsService } from '../order-details.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-details-shipping',
   templateUrl: './order-detail-shipping.component.html',
 })
 export class OrderDetailShippingComponent implements OnInit {
-  constructor(private orderDetailsService: OrderDetailsService) {}
+  constructor(
+    private orderDetailsService: OrderDetailsService,
+    private translation: TranslationService
+  ) {}
 
   order$: Observable<Order>;
 
@@ -46,16 +56,22 @@ export class OrderDetailShippingComponent implements OnInit {
     };
   }
 
-  getPaymentCardContent(payment: PaymentDetails): Card {
-    return {
-      title: 'Payment',
-      textBold: payment.accountHolderName,
-      text: [
-        payment.cardType.name,
-        payment.cardNumber,
-        `Expires: ${payment.expiryMonth} / ${payment.expiryYear}`,
-      ],
-    };
+  getPaymentCardContent(payment: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentForm.payment'),
+      this.translation.translate('paymentCard.expires', {
+        month: payment.expiryMonth,
+        year: payment.expiryYear,
+      }),
+    ]).pipe(
+      map(([textTitle, textExpires]) => {
+        return {
+          title: textTitle,
+          textBold: payment.accountHolderName,
+          text: [payment.cardType.name, payment.cardNumber, textExpires],
+        };
+      })
+    );
   }
 
   getShippingMethodCardContent(shipping: DeliveryMode): Card {

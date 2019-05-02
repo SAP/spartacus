@@ -20,6 +20,7 @@ export const defaultI18nConfig: I18nConfig = {
 
       paymentForm: 'payment',
       paymentMethods: 'payment',
+      paymentCard: 'payment',
 
       checkout: 'checkout',
       checkoutAddress: 'checkout',

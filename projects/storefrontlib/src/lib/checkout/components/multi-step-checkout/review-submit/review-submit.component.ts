@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { tap, switchMap, map } from 'rxjs/operators';
 
 import {
@@ -12,6 +12,7 @@ import {
   DeliveryMode,
   Country,
   PaymentDetails,
+  TranslationService,
 } from '@spartacus/core';
 import { Card } from '../../../../ui/components/card/card.component';
 
@@ -31,7 +32,8 @@ export class ReviewSubmitComponent implements OnInit {
   constructor(
     protected checkoutService: CheckoutService,
     protected userService: UserService,
-    protected cartService: CartService
+    protected cartService: CartService,
+    private translation: TranslationService
   ) {}
 
   ngOnInit() {
@@ -94,17 +96,25 @@ export class ReviewSubmitComponent implements OnInit {
     }
   }
 
-  getPaymentMethodCard(paymentDetails: PaymentDetails): Card {
-    return {
-      title: 'Payment',
-      textBold: paymentDetails.accountHolderName,
-      text: [
-        paymentDetails.cardNumber,
-        'Expires: ' +
-          paymentDetails.expiryMonth +
-          '/' +
-          paymentDetails.expiryYear,
-      ],
-    };
+  getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentForm.payment'),
+      this.translation.translate('paymentCard.expires', {
+        month: paymentDetails.expiryMonth,
+        year: paymentDetails.expiryYear,
+      }),
+    ]).pipe(
+      map(([textTitle, textExpires]) => {
+        return {
+          title: textTitle,
+          textBold: paymentDetails.accountHolderName,
+          text: [
+            paymentDetails.cardType.name,
+            paymentDetails.cardNumber,
+            textExpires,
+          ],
+        };
+      })
+    );
   }
 }

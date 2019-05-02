@@ -11,11 +11,13 @@ import {
   Address,
   PaymentDetails,
   DeliveryMode,
+  TranslationService,
 } from '@spartacus/core';
 
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
 import { Card } from '../../../ui/components/card/card.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation',
@@ -25,7 +27,10 @@ import { Card } from '../../../ui/components/card/card.component';
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
 
-  constructor(protected checkoutService: CheckoutService) {}
+  constructor(
+    protected checkoutService: CheckoutService,
+    private translation: TranslationService
+  ) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();
@@ -73,14 +78,21 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getPaymentInfoCardContent(paymentInfo: PaymentDetails): Card {
-    return {
-      title: 'Payment',
-      textBold: paymentInfo.accountHolderName,
-      text: [
-        paymentInfo.cardNumber,
-        `Expires: ${paymentInfo.expiryMonth} / ${paymentInfo.expiryYear}`,
-      ],
-    };
+  getPaymentInfoCardContent(payment: PaymentDetails): Observable<Card> {
+    return combineLatest([
+      this.translation.translate('paymentForm.payment'),
+      this.translation.translate('paymentCard.expires', {
+        month: payment.expiryMonth,
+        year: payment.expiryYear,
+      }),
+    ]).pipe(
+      map(([textTitle, textExpires]) => {
+        return {
+          title: textTitle,
+          textBold: payment.accountHolderName,
+          text: [payment.cardType.name, payment.cardNumber, textExpires],
+        };
+      })
+    );
   }
 }
