@@ -14,6 +14,7 @@ import * as fromAction from './../actions/';
 import { PageType } from '../../../occ/occ-models/index';
 
 import * as fromReducer from './router.reducer';
+import { initialState } from './router.reducer';
 
 @Component({
   selector: 'cx-test-cmp',
@@ -292,6 +293,43 @@ describe('Router Reducer', () => {
         router.navigateByUrl('dynamically-created/sub-route')
       );
       expect(context).toEqual({ id: 'explicit', type: PageType.CONTENT_PAGE });
+    });
+  });
+
+  describe('getRouterFeatureState', () => {
+    it('should return the next page context', () => {
+      const mockState = { router: { router: initialState } };
+      const result = fromReducer.getRouterFeatureState(mockState);
+      expect(result).toEqual({ router: initialState });
+    });
+  });
+
+  describe('getRouterState;', () => {
+    it('should return the next page context', () => {
+      const mockState = { router: { router: initialState } };
+      const result = fromReducer.getRouterState(mockState);
+      expect(result).toEqual(initialState);
+    });
+  });
+
+  describe('getPageContext', () => {
+    it('should return the next page context', () => {
+      const context = {
+        id: 'testPageLabel',
+        type: PageType.CONTENT_PAGE,
+      };
+      const mockState = { router: { router: { state: { context } } } };
+      const result = fromReducer.getPageContext(mockState);
+      expect(result).toEqual(context);
+    });
+  });
+
+  describe('getRedirectUrl', () => {
+    it('should return the next page context', () => {
+      const redirectUrl = 'test-url';
+      const mockState = { router: { router: { redirectUrl } } };
+      const result = fromReducer.getRedirectUrl(mockState);
+      expect(result).toEqual(redirectUrl);
     });
   });
 
