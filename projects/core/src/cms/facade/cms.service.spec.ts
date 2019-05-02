@@ -26,6 +26,9 @@ class MockRoutingService {
   getPageContext(): Observable<PageContext> {
     return of();
   }
+  isNavigating(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 const mockContentSlot: ContentSlotData = {

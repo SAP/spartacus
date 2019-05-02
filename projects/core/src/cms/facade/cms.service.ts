@@ -74,13 +74,13 @@ export class CmsService {
     if (!this.components[uid]) {
       this.components[uid] = this.store.pipe(
         select(fromStore.componentStateSelectorFactory(uid)),
-        withLatestFrom(this.getCurrentPage()),
-        tap(([componentState, currentPage]) => {
+        withLatestFrom(this.routingService.isNavigating()),
+        tap(([componentState, isNavigating]) => {
           const attemptedLoad =
             componentState.loading ||
             componentState.success ||
             componentState.error;
-          if (!attemptedLoad && currentPage) {
+          if (!attemptedLoad && !isNavigating) {
             this.store.dispatch(new fromStore.LoadComponent(uid));
           }
         }),

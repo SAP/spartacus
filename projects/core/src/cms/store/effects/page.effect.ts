@@ -31,7 +31,10 @@ export class PageEffects {
       this.routingService.getRouterState().pipe(
         filter(
           routerState =>
-            routerState && routerState.state && routerState.state.cmsRequired
+            routerState &&
+            routerState.state &&
+            routerState.state.cmsRequired &&
+            !routerState.nextState
         ),
         map(routerState => routerState.state.context),
         take(1),

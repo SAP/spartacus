@@ -10,6 +10,7 @@ import { PageContext } from '../models/page-context.model';
 import { WindowRef } from '../../window/window-ref';
 import { TranslateUrlCommands } from '../configurable-routes/url-translation/translate-url-commands';
 import { UrlTranslationService } from '../configurable-routes/url-translation/url-translation.service';
+import { RouterState } from '../store/reducers/router.reducer';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class RoutingService {
   /**
    * Get the current router state
    */
-  getRouterState(): Observable<any> {
+  getRouterState(): Observable<RouterState> {
     return this.store.pipe(select(fromStore.getRouterState));
   }
 

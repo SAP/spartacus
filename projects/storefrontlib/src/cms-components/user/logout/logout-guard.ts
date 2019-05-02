@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService, CmsService, PageType } from '@spartacus/core';
+import {
+  AuthService,
+  CmsService,
+  PageType,
+  RoutingService,
+} from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -10,9 +15,13 @@ import { tap } from 'rxjs/operators';
 export class LogoutGuard implements CanActivate {
   static GUARD_NAME = 'LogoutGuard';
 
-  constructor(protected auth: AuthService, protected cms: CmsService) {}
+  constructor(
+    protected auth: AuthService,
+    protected cms: CmsService,
+    protected routing: RoutingService
+  ) {}
 
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<any> {
     this.logout();
 
     return this.cms
@@ -23,7 +32,7 @@ export class LogoutGuard implements CanActivate {
       .pipe(
         tap(hasPage => {
           if (!hasPage) {
-            this.cms.refreshLatestPage();
+            this.routing.go(['/']);
           }
         })
       );
