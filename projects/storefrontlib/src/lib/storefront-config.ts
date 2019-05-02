@@ -3,6 +3,7 @@ import {
   CmsConfig,
   ConfigurableRoutesConfig,
   I18nConfig,
+  PersonalizationConfig,
   OccConfig,
   SiteContextConfig,
   StateConfig,
@@ -21,4 +22,5 @@ export type StorefrontModuleConfig =
   | LayoutConfig
   | ConfigurableRoutesConfig
   | I18nConfig
+  | PersonalizationConfig
   | IconConfig;

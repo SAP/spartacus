@@ -1,71 +1,96 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  Input,
   Output,
   EventEmitter,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { DeliveryMode, CheckoutService } from '@spartacus/core';
 
-import { Observable } from 'rxjs';
-import { tap, takeWhile } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
-  styleUrls: ['./delivery-mode.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeliveryModeComponent implements OnInit {
-  @Input()
-  selectedShippingMethod: string;
-
+export class DeliveryModeComponent implements OnInit, OnDestroy {
   @Output()
-  selectMode = new EventEmitter<any>();
-  @Output()
-  backStep = new EventEmitter<any>();
+  goToStep = new EventEmitter<number>();
 
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
-  leave = false;
+  selectedDeliveryMode$: Observable<DeliveryMode>;
+  currentDeliveryModeId: string;
+
+  changedOption: boolean;
+  deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
   });
 
-  constructor(private fb: FormBuilder, private service: CheckoutService) {}
+  constructor(
+    private fb: FormBuilder,
+    private checkoutService: CheckoutService
+  ) {}
 
   ngOnInit() {
-    this.supportedDeliveryModes$ = this.service
-      .getSupportedDeliveryModes()
+    this.changedOption = false;
+    this.checkoutService.loadSupportedDeliveryModes();
+
+    this.supportedDeliveryModes$ = this.checkoutService.getSupportedDeliveryModes();
+    this.selectedDeliveryMode$ = this.checkoutService.getSelectedDeliveryMode();
+
+    this.selectedDeliveryMode$
       .pipe(
-        takeWhile(() => !this.leave),
-        tap(supportedModes => {
-          if (Object.keys(supportedModes).length === 0) {
-            this.service.loadSupportedDeliveryModes();
-          } else {
-            if (this.selectedShippingMethod) {
-              this.mode.controls['deliveryModeId'].setValue(
-                this.selectedShippingMethod
-              );
-            }
-          }
-        })
-      );
+        map((deliveryMode: DeliveryMode) =>
+          deliveryMode && deliveryMode.code ? deliveryMode.code : null
+        )
+      )
+      .subscribe(code => {
+        if (code) {
+          this.mode.controls['deliveryModeId'].setValue(code);
+          this.currentDeliveryModeId = code;
+        }
+      });
+  }
+
+  changeMode(code: string): void {
+    if (code !== this.currentDeliveryModeId) {
+      this.changedOption = true;
+      this.currentDeliveryModeId = code;
+    }
   }
 
   next(): void {
-    this.selectMode.emit(this.mode.value);
+    if (this.changedOption) {
+      this.checkoutService.setDeliveryMode(this.currentDeliveryModeId);
+    }
+
+    this.deliveryModeSub = this.checkoutService
+      .getSelectedDeliveryMode()
+      .subscribe(data => {
+        if (data && data.code === this.currentDeliveryModeId) {
+          this.goToStep.emit(3);
+        }
+      });
   }
 
   back(): void {
-    this.leave = true;
-    this.backStep.emit();
+    this.goToStep.emit(1);
   }
 
   get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
+  }
+
+  ngOnDestroy(): void {
+    if (this.deliveryModeSub) {
+      this.deliveryModeSub.unsubscribe();
+    }
   }
 }

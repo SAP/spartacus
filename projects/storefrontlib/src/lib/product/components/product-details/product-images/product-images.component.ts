@@ -31,7 +31,11 @@ export class ProductImagesComponent implements OnChanges {
   }
 
   isMainImageContainer(imageContainer): boolean {
-    return imageContainer.zoom.url === this.mainImageContainer.zoom.url;
+    return (
+      this.mainImageContainer.zoom &&
+      imageContainer.zoom &&
+      imageContainer.zoom.url === this.mainImageContainer.zoom.url
+    );
   }
 
   loadHandler(): void {

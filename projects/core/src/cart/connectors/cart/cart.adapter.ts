@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs';
 import { UICart } from '../../model/cart';
+import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 
 export abstract class CartAdapter {
   /**
@@ -22,6 +23,17 @@ export abstract class CartAdapter {
     cartId: string,
     details?: boolean
   ): Observable<UICart>;
+
+  /**
+   * Abstract method used to load checkout details
+   *
+   * @param userId
+   * @param cartId
+   */
+  abstract loadCheckoutDetails(
+    userId: string,
+    cartId: string
+  ): Observable<CheckoutDetails>;
 
   /**
    * Abstract method used to create cart. If toMergeCartGuid is specified, cart will be merged with existing one
