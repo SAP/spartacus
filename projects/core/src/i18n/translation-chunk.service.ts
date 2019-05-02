@@ -3,16 +3,24 @@ import { I18nConfig } from './config/i18n-config';
 
 @Injectable()
 export class TranslationChunkService {
-  private chunks: object = {};
+  private duplicates: { [key: string]: string[] } = {};
+  private chunks: { [key: string]: string } = {};
   constructor(protected config: I18nConfig) {
     Object.keys(config.i18n.chunks).forEach(chunk => {
-      config.i18n.chunks[chunk].map(key => {
+      config.i18n.chunks[chunk].forEach(key => {
         if (this.chunks.hasOwnProperty(key)) {
-          this.warnDuplicates(key);
+          if (!this.duplicates[key]) {
+            this.duplicates[key] = [this.chunks[key]];
+          }
+          this.duplicates[key].push(chunk);
+        } else {
+          this.chunks[key] = chunk;
         }
-        this.chunks[key] = chunk;
       });
     });
+    if (Object.keys(this.duplicates).length > 0 && !this.config.production) {
+      this.warnDuplicates(this.duplicates);
+    }
   }
 
   protected readonly KEY_SEPARATOR = '.';
@@ -27,7 +35,19 @@ export class TranslationChunkService {
     return chunk;
   }
 
-  warnDuplicates(key: string): void {
-    console.warn(`Duplicated key (${key}) in the i18n config file.`);
+  private warnDuplicates(items: { [key: string]: string[] }): void {
+    const dupes: string[] = [];
+    Object.keys(items).forEach(key => {
+      dupes.push(
+        `* '${key}' key occurrences: ${items[key].join(', ')}. '${
+          this.chunks[key]
+        }.${key}' has been used.`
+      );
+    });
+    console.warn(
+      `Duplicated keys has been found in the 'defaultI18nConfig.i18n.chunks':\n${dupes.join(
+        '\n'
+      )}`
+    );
   }
 }

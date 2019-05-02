@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { I18nConfig } from './config/i18n-config';
 import { TranslationChunkService } from './translation-chunk.service';
-import { defaultI18nConfig } from './config/default-i18n-config';
 
 describe('TranslationChunkService', () => {
   let service: TranslationChunkService;
@@ -45,24 +44,14 @@ describe('TranslationChunkService', () => {
   });
 
   describe('I18n config', () => {
-    it('should composed of object of arrays', () => {
-      const chunks = defaultI18nConfig.i18n.chunks;
-      expect(chunks).toEqual(jasmine.any(Object));
-      const chunk = Object.keys(chunks)[0];
-      expect(chunks[chunk]).toEqual(jasmine.any(Array));
-    });
-
     it('should warn if there are duplicated keys in the config', () => {
-      const constructorSpy = spyOn(
-        TranslationChunkService.prototype,
-        'warnDuplicates'
-      );
+      const warnSpy = spyOn(console, 'warn');
       // @ts-ignore: 'mockService' is declared but its value is never read
       const mockService = new TranslationChunkService({
         production: false,
         i18n: { chunks: mockChunksConfig },
       });
-      expect(constructorSpy).toHaveBeenCalled();
+      expect(warnSpy).toHaveBeenCalled();
     });
   });
 });
