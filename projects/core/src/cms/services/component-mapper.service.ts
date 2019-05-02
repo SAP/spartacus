@@ -45,7 +45,7 @@ export class ComponentMapperService {
   protected getType(typeCode: string): string {
     const componentConfig = this.config.cmsComponents[typeCode];
     if (!componentConfig) {
-      if (this.missingComponents.indexOf(typeCode) === -1) {
+      if (this.missingComponents.includes(typeCode)) {
         this.missingComponents.push(typeCode);
         console.warn(
           `No component implementation found for the CMS component type '${typeCode}'.\n`,

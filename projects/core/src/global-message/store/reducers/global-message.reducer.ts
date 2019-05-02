@@ -29,7 +29,7 @@ export function reducer(
       } else {
         const msgs = state.entities[message.type];
 
-        if (msgs.indexOf(message.text) === -1) {
+        if (msgs.includes(message.text)) {
           return {
             ...state,
             entities: {

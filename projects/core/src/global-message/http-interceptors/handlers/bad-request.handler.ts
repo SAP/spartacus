@@ -14,7 +14,7 @@ export class BadRequestHandler extends HttpErrorHandler {
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
     if (
-      response.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
+      response.url.includes(OAUTH_ENDPOINT) &&
       response.error.error === 'invalid_grant'
     ) {
       if (request.body.get('grant_type') === 'password') {

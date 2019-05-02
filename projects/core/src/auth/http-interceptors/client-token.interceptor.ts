@@ -33,7 +33,7 @@ export class ClientTokenInterceptor implements HttpInterceptor {
       switchMap((token: ClientToken) => {
         if (
           token &&
-          request.url.indexOf(this.occEndpoints.getBaseEndpoint()) > -1
+          request.url.includes(this.occEndpoints.getBaseEndpoint())
         ) {
           request = request.clone({
             setHeaders: {
