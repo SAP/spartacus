@@ -151,6 +151,15 @@ export class CmsService {
   }
 
   /**
+   * Refresh the cms page content by page Id
+   * @param pageId
+   */
+  refreshPageById(pageId: string): void {
+    const pageContext: PageContext = { id: pageId };
+    this.store.dispatch(new fromStore.LoadPageData(pageContext));
+  }
+
+  /**
    * Refresh cms component's content
    * @param uid : component uid
    */

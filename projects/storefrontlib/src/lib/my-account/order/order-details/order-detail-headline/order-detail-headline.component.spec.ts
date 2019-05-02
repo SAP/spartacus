@@ -10,7 +10,7 @@ import { OrderDetailsService } from '../order-details.service';
 
 const mockOrder: Order = {
   code: '1',
-  statusDisplay: 'Shipped',
+  statusDisplay: 'orderDetails.statusDisplay context:Shipped',
   deliveryAddress: {
     firstName: 'John',
     lastName: 'Smith',
@@ -122,6 +122,8 @@ describe('OrderDetailHeadlineComponent', () => {
     const element: DebugElement = el.query(
       By.css('.cx-detail:last-of-type .cx-detail-value')
     );
-    expect(element.nativeElement.textContent).toEqual(mockOrder.statusDisplay);
+    expect(element.nativeElement.textContent).toContain(
+      mockOrder.statusDisplay
+    );
   });
 });
