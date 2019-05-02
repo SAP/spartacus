@@ -1,10 +1,12 @@
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import {
-  Component,
-  Input,
   ChangeDetectionStrategy,
+  Component,
+  ElementRef,
   forwardRef,
+  Input,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ICON_TYPES } from '../../cms-components/misc/index';
 
 @Component({
   selector: 'cx-star-rating',
@@ -19,12 +21,19 @@ import {
   ],
 })
 export class StarRatingComponent implements ControlValueAccessor {
-  @Input()
-  rating = 1;
-  @Input()
-  disabled = false;
-  @Input()
-  steps = 1;
+  iconTypes = ICON_TYPES;
+  rating;
+
+  constructor(private el: ElementRef) {}
+
+  @Input('rating')
+  set allowDay(value: string) {
+    this.rating = value;
+    this.el.nativeElement.style.setProperty('--star-fill', value || 0);
+  }
+
+  @Input() disabled = false;
+  @Input() steps = 1;
 
   onChange = (_rating: number) => {};
   onTouched = () => {};
