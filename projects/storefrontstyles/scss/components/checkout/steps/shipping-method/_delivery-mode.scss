@@ -1,0 +1,33 @@
+@import '../../../../theme';
+
+%cx-delivery-mode {
+  @include checkout-media-style();
+
+  .cx-delivery-label {
+    padding: var(--cx-padding, 0);
+    margin: var(--cx-margin, 0 auto 1.5rem 0.75rem);
+    width: var(--cx-width, 100%);
+    display: var(--cx-display, flex);
+    flex-direction: var(--cx-flex-direction, row);
+    justify-content: var(--cx-space-justify-content, space-between);
+    flex-wrap: var(--cx-flex-wrap, wrap);
+
+    .cx-delivery-shipping {
+      flex: var(--cx-flex, 50%);
+    }
+
+    .cx-delivery-price {
+      flex: var(--cx-flex, 50%);
+      text-align: var(--cx-text-align, right);
+    }
+
+    .cx-delivery-details {
+      flex: var(--cx-flex, 100%);
+      color: var(--cx-color, var(--cx-g-color-success));
+    }
+  }
+
+  .form-check {
+    display: var(--cx-display, flex);
+  }
+}

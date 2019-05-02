@@ -2,7 +2,7 @@
   "name": "hybris-mock-server",
   "version": "0.1.0",
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=10 <12"
   },
   "scripts": {
     "start": "json-server --config=config.json ./datasets/db.json -i uid",

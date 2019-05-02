@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
+import { BannerModule } from '../../cms-components/content/banner/banner.module';
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
+import { BreadcrumbModule } from '../../cms-components/navigation/breadcrumb/breadcrumb.module';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 import { ConsentManagementModule } from '../my-account/consents/consent-management.module';
@@ -14,8 +16,6 @@ import { UpdateProfileModule } from '../my-account/update-profile/update-profile
 import { ProductListModule } from '../product/components/product-list/product-list.module';
 import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
 import { AddressBookModule } from './address-book/address-book.module';
-import { BannerModule } from './banner/banner.module';
-import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { CategoryNavigationModule } from './category-navigation/category-navigation.module';
 import { FooterNavigationModule } from './footer-navigation/footer-navigation.module';
 import { LinkModule } from './link/link.module';

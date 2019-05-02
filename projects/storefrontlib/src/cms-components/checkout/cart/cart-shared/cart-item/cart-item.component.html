@@ -4,10 +4,10 @@
     <a
       [routerLink]="{ route: 'product', params: item.product } | cxTranslateUrl"
     >
-      <cx-picture
-        [imageContainer]="item.product.images?.PRIMARY"
-        imageFormat="thumbnail"
-      ></cx-picture>
+      <cx-media
+        [container]="item.product.images?.PRIMARY"
+        format="thumbnail"
+      ></cx-media>
     </a>
   </div>
   <!-- Item Information -->
