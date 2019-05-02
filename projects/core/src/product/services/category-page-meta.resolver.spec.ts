@@ -1,17 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
-
 import { Injectable } from '@angular/core';
-import { PageType } from '../../occ/occ-models/occ.models';
+import { inject, TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import {
-  Page,
-  PageMetaResolver,
   CmsService,
-  PageMetaService,
+  Page,
   PageMeta,
+  PageMetaResolver,
+  PageMetaService,
 } from '../../cms';
-import { ProductSearchService } from '../facade';
+import { PageType } from '../../occ/occ-models/occ.models';
 import { RoutingService } from '../../routing';
+import { ProductSearchService } from '../facade';
 import { CategoryPageMetaResolver } from './category-page-meta.resolver';
 
 const mockPageWithProductList: Page = {
@@ -123,6 +122,30 @@ describe('CategoryPageTitleResolver', () => {
         .unsubscribe();
 
       expect(result.title).toEqual('6 results for Hand-held Camcorders');
+    });
+
+    it('should resolve 2 breadcrumbs', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+
+      expect(result.breadcrumbs.length).toEqual(2);
+    });
+
+    it('should resolve 2nd breadcrumbs with facetValueName', () => {
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe(value => {
+          result = value;
+        })
+        .unsubscribe();
+      console.log(result.breadcrumbs);
+      expect(result.breadcrumbs[1].label).toEqual('Hand-held Camcorders');
     });
   });
 
