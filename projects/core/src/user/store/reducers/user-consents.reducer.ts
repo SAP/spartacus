@@ -21,6 +21,9 @@ export function reducer(
     case fromActions.LOAD_USER_CONSENTS_FAIL: {
       return initialState;
     }
+    case fromActions.RESET_LOAD_USER_CONSENTS: {
+      return state;
+    }
   }
 
   return state;
