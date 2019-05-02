@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConsentTemplateList, UserService } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -16,12 +17,22 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.consents$ = this.userService.getConsents();
+    this.userService.resetConsentsProcessState();
+    this.consents$ = combineLatest(
+      this.userService.getConsents(),
+      this.userService.get()
+    ).pipe(
+      map(([consents, user]) => {
+        if (!consents || !consents.consentTemplates.length) {
+          this.userService.loadConsents(user.uid);
+        }
+        return consents;
+      })
+    );
+
     this.loading$ = this.userService.getConsentsResultLoading();
     this.success$ = this.userService.getConsentsResultSuccess();
     this.error$ = this.userService.getConsentsResultError();
-
-    this.userService.loadConsents('xxx@xxx.xxx');
   }
 
   ngOnDestroy(): void {

@@ -6,5 +6,12 @@
   // Prettify on save
   "editor.formatOnSave": true,
   // Uses the project specific typescript version.
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#fd7c04",
+    "activityBar.foreground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "activityBarBadge.background": "#61feac",
+    "activityBarBadge.foreground": "#15202b"
+  }
 }
