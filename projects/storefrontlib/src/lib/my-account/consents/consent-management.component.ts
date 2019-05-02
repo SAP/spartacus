@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConsentTemplateList, UserService } from '@spartacus/core';
+import { Component, OnInit } from '@angular/core';
+import { ConsentTemplateList, User, UserService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './consent-management.component.html',
   styleUrls: ['./consent-management.component.scss'],
 })
-export class ConsentManagementComponent implements OnInit, OnDestroy {
+export class ConsentManagementComponent implements OnInit {
   consents$: Observable<ConsentTemplateList>;
   loading$: Observable<boolean>;
   success$: Observable<boolean>;
@@ -17,13 +17,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.resetConsentsProcessState();
     this.consents$ = combineLatest(
       this.userService.getConsents(),
       this.userService.get()
     ).pipe(
       map(([consents, user]) => {
-        if (!consents || !consents.consentTemplates.length) {
+        if (this.consentsExists(consents) && this.userExists(user)) {
           this.userService.loadConsents(user.uid);
         }
         return consents;
@@ -35,7 +34,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     this.error$ = this.userService.getConsentsResultError();
   }
 
-  ngOnDestroy(): void {
-    this.userService.resetConsentsProcessState();
+  private consentsExists(consents: ConsentTemplateList): boolean {
+    return (
+      consents && consents.consentTemplates && !consents.consentTemplates.length
+    );
+  }
+  private userExists(user: User): boolean {
+    return Boolean(user) && Boolean(user.uid);
   }
 }
