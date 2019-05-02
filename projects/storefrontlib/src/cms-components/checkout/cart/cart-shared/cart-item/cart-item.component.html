@@ -21,6 +21,7 @@
             [routerLink]="
               { route: 'product', params: item.product } | cxTranslateUrl
             "
+            (click)="closeDialog()"
             >{{ item.product.name }}</a
           >
         </div>

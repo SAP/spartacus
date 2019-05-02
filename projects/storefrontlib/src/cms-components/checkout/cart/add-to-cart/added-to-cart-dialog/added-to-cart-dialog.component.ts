@@ -90,4 +90,8 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
       quantity: entry.quantity,
     });
   }
+
+  closeDialog(): void {
+    this.activeModal.dismiss('Cross click');
+  }
 }

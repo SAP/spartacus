@@ -28,6 +28,8 @@ export class CartItemComponent implements OnInit {
   remove = new EventEmitter<any>();
   @Output()
   update = new EventEmitter<any>();
+  @Output()
+  close = new EventEmitter<any>();
 
   @Input()
   parent: FormGroup;
@@ -41,6 +43,10 @@ export class CartItemComponent implements OnInit {
       product.stock &&
       product.stock.stockLevelStatus === 'outOfStock'
     );
+  }
+
+  closeDialog() {
+    this.close.emit();
   }
 
   updateItem(updatedQuantity: number) {
