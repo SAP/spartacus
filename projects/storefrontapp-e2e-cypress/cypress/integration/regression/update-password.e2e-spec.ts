@@ -51,13 +51,13 @@ describe('My Account - Update Password', () => {
     });
 
     it('should update the password with success.', () => {
-      cy.get('cx-global-message .alert-info').should('not.exist');
+      cy.get('cx-global-message .alert-success').should('not.exist');
       cy.get('[formcontrolname="oldPassword"]').type(user.password);
       cy.get('[formcontrolname="newPassword"]').type(newPassword);
       cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
       cy.get('cx-update-password button[type="submit"]').click();
       cy.title().should('eq', PAGE_TITLE_HOME);
-      cy.get('cx-global-message .alert-info').should('exist');
+      cy.get('cx-global-message .alert-success').should('exist');
 
       helper.signOutUser();
       helper.loginWithCredentials(user.email, newPassword);
