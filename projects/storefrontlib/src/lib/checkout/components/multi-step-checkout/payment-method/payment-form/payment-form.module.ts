@@ -8,6 +8,7 @@ import { CardModule } from '../../../../../ui/components/card/card.module';
 import { I18nModule } from '@spartacus/core';
 import { PaymentFormComponent } from './payment-form.component';
 import { BillingAddressFormModule } from '../billing-address-form/billing-address-form.module';
+import { IconModule } from '../../../../../../cms-components';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { BillingAddressFormModule } from '../billing-address-form/billing-addres
     CardModule,
     BillingAddressFormModule,
     I18nModule,
+    IconModule,
   ],
   declarations: [PaymentFormComponent],
   entryComponents: [PaymentFormComponent],
