@@ -141,15 +141,19 @@ export function reducer(
         },
       };
     }
+    case fromAction.LOAD_CHECKOUT_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        address: action.payload.deliveryAddress,
+        deliveryMode: {
+          ...state.deliveryMode,
+          selected:
+            action.payload.deliveryMode && action.payload.deliveryMode.code,
+        },
+        paymentDetails: action.payload.paymentInfo,
+      };
+    }
   }
 
   return state;
 }
-
-export const getDeliveryAddress = (state: CheckoutStepsState) => state.address;
-export const getDeliveryMode = (state: CheckoutStepsState) =>
-  state.deliveryMode;
-export const getPaymentDetails = (state: CheckoutStepsState) =>
-  state.paymentDetails;
-export const getOrderDetails = (state: CheckoutStepsState) =>
-  state.orderDetails;

@@ -174,7 +174,18 @@
   <!-- BUTTON SECTION -->
   <div class="cx-checkout-btns row">
     <div class="col-md-12 col-lg-6">
-      <button class="btn btn-block btn-action" (click)="back()">
+      <button
+        *ngIf="paymentMethodsCount === 0"
+        class="btn btn-block btn-action"
+        (click)="back()"
+      >
+        {{ 'common.back' | cxTranslate }}
+      </button>
+      <button
+        *ngIf="paymentMethodsCount > 0"
+        class="btn btn-block btn-action"
+        (click)="close()"
+      >
         {{ 'paymentForm.changePayment' | cxTranslate }}
       </button>
     </div>
