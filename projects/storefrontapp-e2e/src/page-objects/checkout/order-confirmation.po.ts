@@ -20,7 +20,7 @@ export class OrderConfirmationPage extends AppPage {
   readonly shippingAddress: ElementFinder = this.confirmationComponent
     .all(by.css('.summary-card'))
     .get(0);
-  readonly shippingMethod: ElementFinder = this.confirmationComponent
+  readonly deliveryMode: ElementFinder = this.confirmationComponent
     .all(by.css('.summary-card'))
     .get(2);
   readonly paymentMethod: ElementFinder = this.confirmationComponent

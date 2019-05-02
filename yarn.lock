@@ -5919,11 +5919,6 @@ lodash.get@^4.4.2:
   resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
-lodash.merge@^4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.1.tgz#adc25d9cb99b9391c59624f379fbba60d7111d54"
-  integrity sha512-AOYza4+Hf5z1/0Hztxpm2/xiPZgi/cjMqdnKTUWTBSKchJlxXXuUSxCCl8rJlf4g6yww/j6mA8nC8Hw/EZWxKQ==
-
 lodash.mergewith@^4.6.0:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
@@ -6577,13 +6572,6 @@ ng-packagr@^4.2.0:
     stylus "^0.54.5"
     uglify-js "^3.0.7"
     update-notifier "^2.3.0"
-
-ngrx-store-localstorage@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/ngrx-store-localstorage/-/ngrx-store-localstorage-7.0.0.tgz#86d52e1016243acf5dad80cdb86fb8f0adde76bb"
-  integrity sha512-Bpu4C1tA4L3tyD0x4rf+ff52ZAhQskWy7AWr7iREmJfh89sYA1bsRjWNr0PL1gRmEP+1l7V2cUKCH/DhLCDInQ==
-  dependencies:
-    lodash.merge "^4.6.1"
 
 nice-try@^1.0.4:
   version "1.0.5"

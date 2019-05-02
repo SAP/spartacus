@@ -1,0 +1,18 @@
+%cx-store-finder-search {
+  display: var(--cx-display, block);
+  margin: var(--cx-margin, 0 0 3rem);
+
+  .cx-find-store {
+    margin: var(--cx-margin, 0 0 1rem);
+  }
+
+  .cx-bottom-links {
+    text-align: var(--cx-text-align, center);
+  }
+
+  .cx-link {
+    @include type('6');
+    border: var(--cx-border, 0);
+    padding: var(--cx-padding, 0);
+  }
+}

@@ -7,6 +7,7 @@ import {
   RoutingModule,
   StateModule,
   SmartEditModule,
+  PersonalizationModule,
   CxApiModule,
   I18nModule,
 } from '@spartacus/core';
@@ -39,6 +40,7 @@ import { CmsRouteModule } from './cms-route/cms-route.module';
     ConfigModule.forRoot(),
     CxApiModule,
     SmartEditModule.forRoot(),
+    PersonalizationModule.forRoot(),
     MultiStepCheckoutModule,
     I18nModule.forRoot(),
   ],

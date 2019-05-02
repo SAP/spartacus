@@ -1,14 +1,12 @@
 import { InjectionToken, Provider } from '@angular/core';
 
-import {
-  ActionReducerMap,
-  createFeatureSelector,
-  MetaReducer,
-  ActionReducer,
-  MemoizedSelector,
-} from '@ngrx/store';
+import { ActionReducerMap, MetaReducer, ActionReducer } from '@ngrx/store';
 
-import { CheckoutState, CHECKOUT_FEATURE } from '../checkout-state';
+import {
+  CheckoutState,
+  CHECKOUT_DETAILS,
+  CheckoutStepsState,
+} from '../checkout-state';
 import * as fromAction from '../actions/index';
 import { LOGOUT } from '../../../auth/store/actions/index';
 import {
@@ -19,10 +17,14 @@ import {
 import * as fromAddressVerification from './address-verification.reducer';
 import * as fromCardTypes from './card-types.reducer';
 import * as fromCheckout from './checkout.reducer';
+import { loaderReducer } from '../../../state/utils/loader/loader.reducer';
 
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
-    steps: fromCheckout.reducer,
+    steps: loaderReducer<CheckoutStepsState>(
+      CHECKOUT_DETAILS,
+      fromCheckout.reducer
+    ),
     cardTypes: fromCardTypes.reducer,
     addressVerification: fromAddressVerification.reducer,
   };
@@ -36,11 +38,6 @@ export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
-
-export const getCheckoutState: MemoizedSelector<
-  any,
-  CheckoutState
-> = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
 
 export function clearCheckoutState(
   reducer: ActionReducer<CheckoutState>
