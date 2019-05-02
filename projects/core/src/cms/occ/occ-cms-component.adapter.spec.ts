@@ -14,11 +14,7 @@ import { CmsStructureConfigService } from '../services';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 import { HttpRequest } from '@angular/common/http';
 import { ConverterService } from '../../util/converter.service';
-import {
-  CMS_COMPONENT_LIST_NORMALIZER,
-  CMS_COMPONENT_NORMALIZER,
-} from '../connectors/component/converters';
-import createSpy = jasmine.createSpy;
+import { CMS_COMPONENT_NORMALIZER } from '../connectors/component/converters';
 
 const components: CmsComponent[] = [
   { uid: 'comp1', typeCode: 'SimpleBannerComponent' },
@@ -46,10 +42,6 @@ class OccEndpointsServiceMock {
   }
 }
 
-class MockConverterService {
-  pipeable = createSpy().and.returnValue(x => x);
-}
-
 const context: PageContext = {
   id: '123',
   type: PageType.PRODUCT_PAGE,
@@ -69,7 +61,6 @@ describe('OccCmsComponentAdapter', () => {
       providers: [
         OccCmsComponentAdapter,
         { provide: OccEndpointsService, useClass: OccEndpointsServiceMock },
-        { provide: ConverterService, useClass: MockConverterService },
         {
           provide: CmsStructureConfigService,
           useClass: CmsStructureConfigServiceMock,
@@ -81,6 +72,9 @@ describe('OccCmsComponentAdapter', () => {
     httpMock = TestBed.get(HttpTestingController);
     converter = TestBed.get(ConverterService);
     endpointsService = TestBed.get(OccEndpointsService);
+
+    spyOn(converter, 'pipeable').and.callThrough();
+    spyOn(converter, 'pipeableMany').and.callThrough();
   });
 
   afterEach(() => {
@@ -198,8 +192,8 @@ describe('OccCmsComponentAdapter', () => {
         .expectOne(req => req.url === endpoint + '/components')
         .flush(componentList);
 
-      expect(converter.pipeable).toHaveBeenCalledWith(
-        CMS_COMPONENT_LIST_NORMALIZER
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        CMS_COMPONENT_NORMALIZER
       );
     });
   });

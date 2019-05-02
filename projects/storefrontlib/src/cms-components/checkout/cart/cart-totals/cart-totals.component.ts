@@ -2,17 +2,16 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Cart, OrderEntry, CartService } from '@spartacus/core';
+import { UICart, UIOrderEntry, CartService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-cart-totals',
   templateUrl: './cart-totals.component.html',
-  styleUrls: ['./cart-totals.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartTotalsComponent implements OnInit {
-  cart$: Observable<Cart>;
-  entries$: Observable<OrderEntry[]>;
+  cart$: Observable<UICart>;
+  entries$: Observable<UIOrderEntry[]>;
 
   constructor(protected cartService: CartService) {}
 

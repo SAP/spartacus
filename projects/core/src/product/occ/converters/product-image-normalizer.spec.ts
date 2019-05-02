@@ -1,8 +1,7 @@
-import { TestBed, inject } from '@angular/core/testing';
-
+import { inject, TestBed } from '@angular/core/testing';
+import { UIProduct } from '@spartacus/core';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { Product, ImageType } from '../../../occ/occ-models/occ.models';
-
+import { ImageType, Product } from '../../../occ/occ-models/occ.models';
 import { ProductImageNormalizer } from './product-image-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -11,10 +10,13 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
     },
+    media: {
+      baseUrl: '',
+    },
   },
 };
 
-describe('ProductImageConverterService', () => {
+describe('ProductImageNormalizer', () => {
   let service: ProductImageNormalizer;
 
   const product: Product = {
@@ -50,7 +52,7 @@ describe('ProductImageConverterService', () => {
     ],
   };
 
-  const convertedProduct = {
+  const convertedProduct: UIProduct = {
     code: 'testCode',
     description: 'test',
     images: {
@@ -58,13 +60,13 @@ describe('ProductImageConverterService', () => {
         product: {
           altText: 'Test alt text',
           format: 'product',
-          imageType: 'PRIMARY',
+          imageType: ImageType.PRIMARY,
           url: '/test1',
         },
         thumbnail: {
           altText: 'Test alt text',
           format: 'thumbnail',
-          imageType: 'PRIMARY',
+          imageType: ImageType.PRIMARY,
           url: '/test2',
         },
       },
@@ -74,14 +76,14 @@ describe('ProductImageConverterService', () => {
             altText: 'Test alt text',
             format: 'product',
             galleryIndex: 0,
-            imageType: 'GALLERY',
+            imageType: ImageType.GALLERY,
             url: '/test3',
           },
           thumbnail: {
             altText: 'Test alt text',
             format: 'thumbnail',
             galleryIndex: 0,
-            imageType: 'GALLERY',
+            imageType: ImageType.GALLERY,
             url: '/test4',
           },
         },
@@ -108,12 +110,7 @@ describe('ProductImageConverterService', () => {
   ));
 
   it('should convert product image', () => {
-    service.convertProduct(product);
-    expect(product).toBeTruthy(convertedProduct);
-  });
-
-  it('should convert a list of products', () => {
-    service.convertList([product]);
-    expect(product).toBeTruthy(convertedProduct);
+    const result = service.convert(product);
+    expect(result).toEqual(convertedProduct);
   });
 });

@@ -3,11 +3,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
-  Cart,
   CartDataService,
   CartService,
   I18nTestingModule,
-  OrderEntry,
+  UICart,
+  UIOrderEntry,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SpinnerModule } from '../../../../lib/ui/components/spinner/spinner.module';
@@ -16,13 +16,13 @@ import { AddToCartComponent } from './add-to-cart.component';
 const productCode = '1234';
 class MockCartService {
   addEntry(_productCode: string, _quantity: number): void {}
-  getEntry(_productCode: string): Observable<OrderEntry> {
+  getEntry(_productCode: string): Observable<UIOrderEntry> {
     return of();
   }
   getLoaded(): Observable<boolean> {
     return of();
   }
-  getActive(): Observable<Cart> {
+  getActive(): Observable<UICart> {
     return of();
   }
 }
@@ -67,10 +67,10 @@ describe('AddToCartComponent', () => {
   });
 
   it('should call ngOnInit()', () => {
-    const mockCartEntry: OrderEntry = { entryNumber: 7 };
+    const mockCartEntry: UIOrderEntry = { entryNumber: 7 };
     spyOn(service, 'getEntry').and.returnValue(of(mockCartEntry));
     addToCartComponent.ngOnInit();
-    let result: OrderEntry;
+    let result: UIOrderEntry;
     addToCartComponent.cartEntry$.subscribe(entry => (result = entry));
     expect(result).toEqual(mockCartEntry);
   });
