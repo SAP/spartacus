@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   Renderer2,
 } from '@angular/core';
@@ -19,7 +20,7 @@ const LOADING_CLS = 'loading';
   templateUrl: './media.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MediaComponent implements OnChanges {
+export class MediaComponent implements OnChanges, OnInit {
   /**
    * The media container can hold multiple media items, so that
    * a specific media (by format) can be used or multiple media
@@ -56,12 +57,15 @@ export class MediaComponent implements OnChanges {
     protected mediaService: MediaService
   ) {}
 
+  ngOnInit(): void {
+    this.renderer.addClass(<HTMLElement>this.elRef.nativeElement, LOADING_CLS);
+  }
+
   ngOnChanges(): void {
     this.loadImage();
   }
 
   private loadImage(): void {
-    this.renderer.addClass(<HTMLElement>this.elRef.nativeElement, LOADING_CLS);
     this.media = this.mediaService.getImage(
       this.container,
       this.format,
