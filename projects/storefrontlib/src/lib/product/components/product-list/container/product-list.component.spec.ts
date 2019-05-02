@@ -15,7 +15,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AddToCartComponent } from '../../../../../cms-components/checkout';
-import { StarRatingComponent } from '../../../../ui';
+import { StarRatingComponent } from '../../../../../common-components/index';
 import { MediaComponent } from '../../../../ui/components/media/media.component';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';

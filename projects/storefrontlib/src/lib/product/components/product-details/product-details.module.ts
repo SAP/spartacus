@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
-import { StarRatingModule } from 'projects/storefrontlib/src/common-components';
 import { AddToCartModule } from '../../../../cms-components/checkout/cart/add-to-cart/add-to-cart.module';
 // guards
 import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
+import { StarRatingModule } from '../../../../common-components/index';
 import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
 import { OutletModule } from '../../../outlet/index';
 import { ComponentsModule } from './../../../ui/components/components.module';

@@ -1,6 +1,12 @@
 %cx-star-rating {
+  padding: 15px 0;
+
+  &:not([disabled='true']) {
+    cursor: pointer;
+  }
+
   .star {
-    margin: var(--cx-margin, 0 5px 0 0);
+    padding-right: 5px;
     font-size: 20px;
 
     @for $i from 1 to 6 {
