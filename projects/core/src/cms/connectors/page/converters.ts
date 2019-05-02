@@ -4,4 +4,4 @@ import { Converter } from '../../../util/converter.service';
 
 export const CMS_PAGE_NORMALIZE = new InjectionToken<
   Converter<any, CmsStructureModel>
->('CmsPageNormalize');
+>('CmsPageNormalizer');

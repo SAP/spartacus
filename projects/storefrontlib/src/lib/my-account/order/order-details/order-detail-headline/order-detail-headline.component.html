@@ -16,7 +16,12 @@
       <div class="cx-detail-label">
         {{ 'orderDetails.status' | cxTranslate }}
       </div>
-      <div class="cx-detail-value">{{ order?.statusDisplay }}</div>
+      <div class="cx-detail-value">
+        {{
+          'orderDetails.statusDisplay'
+            | cxTranslate: { context: order?.statusDisplay }
+        }}
+      </div>
     </div>
   </div>
 </ng-container>

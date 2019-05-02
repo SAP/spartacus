@@ -6,8 +6,10 @@ import {
   PaymentDetails,
   AddressValidation,
 } from '../../occ/occ-models/index';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 
 export const CHECKOUT_FEATURE = 'checkout';
+export const CHECKOUT_DETAILS = '[Checkout] Checkout Details';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
@@ -32,7 +34,7 @@ export interface CheckoutStepsState {
 }
 
 export interface CheckoutState {
-  steps: CheckoutStepsState;
+  steps: LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
   addressVerification: AddressVerificationState;
 }

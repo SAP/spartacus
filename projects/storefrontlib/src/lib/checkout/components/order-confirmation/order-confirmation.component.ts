@@ -20,7 +20,6 @@ import { Card } from '../../../ui/components/card/card.component';
 @Component({
   selector: 'cx-order-confirmation',
   templateUrl: './order-confirmation.component.html',
-  styleUrls: ['./order-confirmation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationComponent implements OnInit, OnDestroy {
@@ -51,7 +50,7 @@ export class OrderConfirmationComponent implements OnInit, OnDestroy {
     };
   }
 
-  getShippingCardContent(deliveryMode: DeliveryMode): Card {
+  getDeliveryModeCardContent(deliveryMode: DeliveryMode): Card {
     return {
       title: 'Shipping Method',
       textBold: deliveryMode.name,

@@ -1,21 +1,21 @@
 import {
-  MemoizedSelector,
-  createSelector,
   createFeatureSelector,
+  createSelector,
+  MemoizedSelector,
 } from '@ngrx/store';
-import { Cart, OrderEntry } from '../../../occ/occ-models/index';
 import {
-  CartState,
-  CartsState,
-  StateWithCart,
   CART_FEATURE,
+  CartsState,
+  CartState,
+  StateWithCart,
 } from '../cart-state';
 import {
+  loaderLoadingSelector,
   loaderSuccessSelector,
   loaderValueSelector,
-  loaderLoadingSelector,
 } from '../../../state/utils/loader/loader.selectors';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { UICart, UIOrderEntry } from '../../model';
 
 export const getCartContentSelector = (state: CartState) => state.content;
 export const getRefreshSelector = (state: CartState) => state.refresh;
@@ -46,7 +46,7 @@ export const getCartState: MemoizedSelector<
 
 export const getCartContent: MemoizedSelector<
   StateWithCart,
-  Cart
+  UICart
 > = createSelector(
   getCartState,
   getCartContentSelector
@@ -78,7 +78,7 @@ export const getCartMergeComplete: MemoizedSelector<
 
 export const getEntriesMap: MemoizedSelector<
   any,
-  { [code: string]: OrderEntry }
+  { [code: string]: UIOrderEntry }
 > = createSelector(
   getCartState,
   getEntriesSelector
@@ -86,7 +86,7 @@ export const getEntriesMap: MemoizedSelector<
 
 export const getEntrySelectorFactory = (
   productCode
-): MemoizedSelector<any, OrderEntry> => {
+): MemoizedSelector<any, UIOrderEntry> => {
   return createSelector(
     getEntriesMap,
     entries => {
@@ -97,7 +97,7 @@ export const getEntrySelectorFactory = (
   );
 };
 
-export const getEntries: MemoizedSelector<any, OrderEntry[]> = createSelector(
+export const getEntries: MemoizedSelector<any, UIOrderEntry[]> = createSelector(
   getEntriesMap,
   entities => {
     return Object.keys(entities).map(code => entities[code]);

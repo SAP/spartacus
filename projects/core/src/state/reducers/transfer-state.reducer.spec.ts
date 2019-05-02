@@ -1,5 +1,5 @@
-import { StateConfig } from '../config/state-config';
-
+import { INIT } from '@ngrx/store';
+import { StateConfig, StateTransferType } from '../config/state-config';
 import {
   CX_KEY,
   getBrowserTransferStateReducer,
@@ -40,7 +40,7 @@ describe('TransferStateReducer', () => {
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
       metaReducer = getServerTransferStateReducer(transferStateMock, {
-        test: true,
+        test: StateTransferType.TRANSFER_STATE,
       });
       reducer = metaReducer(subReducer);
     });
@@ -80,13 +80,13 @@ describe('TransferStateReducer', () => {
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
       metaReducer = getBrowserTransferStateReducer(transferStateMock, {
-        test: true,
+        test: StateTransferType.TRANSFER_STATE,
       });
       reducer = metaReducer(subReducer);
     });
 
     it('should get transfer state for initial action', () => {
-      reducer({}, { type: '@ngrx/store/init' });
+      reducer({}, { type: INIT });
       expect(transferStateMock.get).toHaveBeenCalledWith(CX_KEY, {});
     });
 
@@ -97,7 +97,7 @@ describe('TransferStateReducer', () => {
     });
 
     it('should merge transfer state with the state', () => {
-      const state = reducer({}, { type: '@ngrx/store/init' });
+      const state = reducer({}, { type: INIT });
       expect(state).toEqual(serverState);
     });
 
