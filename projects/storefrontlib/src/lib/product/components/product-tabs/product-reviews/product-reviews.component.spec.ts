@@ -1,9 +1,10 @@
-import { ComponentsModule } from './../../../../ui/components/components.module';
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { of, Observable } from 'rxjs';
+import { I18nTestingModule, ProductReviewService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { ComponentsModule } from './../../../../ui/components/components.module';
 import { ProductReviewsComponent } from './product-reviews.component';
-import { ProductReviewService, I18nTestingModule } from '@spartacus/core';
 
 const productCode = '123';
 const product = { code: productCode, text: 'bla' };
@@ -19,6 +20,14 @@ class MockProductReviewService {
   add() {}
 }
 
+@Component({
+  selector: 'cx-star-rating',
+  template: '',
+})
+class MockStarRatingComponent {
+  @Input() rating;
+  @Input() disabled;
+}
 describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
@@ -32,7 +41,7 @@ describe('ProductReviewsComponent in product', () => {
           useClass: MockProductReviewService,
         },
       ],
-      declarations: [ProductReviewsComponent],
+      declarations: [MockStarRatingComponent, ProductReviewsComponent],
     }).compileComponents();
   }));
 

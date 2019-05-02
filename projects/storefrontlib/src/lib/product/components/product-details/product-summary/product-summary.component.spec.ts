@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { AddToCartModule } from '../../../../../cms-components/checkout';
@@ -5,14 +6,27 @@ import { OutletDirective } from '../../../../outlet';
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { FormComponentsModule } from './../../../../ui/components/form-components/form-components.module';
 
-describe('ProductSummaryComponent in product', () => {
+@Component({
+  selector: 'cx-star-rating',
+  template: '',
+})
+class MockStarRatingComponent {
+  @Input() rating;
+  @Input() disabled;
+}
+
+describe('ProductSummaryComponent in product ', () => {
   let productSummaryComponent: ProductSummaryComponent;
   let fixture: ComponentFixture<ProductSummaryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [AddToCartModule, FormComponentsModule, I18nTestingModule],
-      declarations: [ProductSummaryComponent, OutletDirective],
+      declarations: [
+        ProductSummaryComponent,
+        OutletDirective,
+        MockStarRatingComponent,
+      ],
     }).compileComponents();
   }));
 

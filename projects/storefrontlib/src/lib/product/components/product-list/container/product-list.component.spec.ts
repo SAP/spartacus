@@ -15,7 +15,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AddToCartComponent } from '../../../../../cms-components/checkout';
-import { StarRatingComponent } from '../../../../../common-components/index';
 import { MediaComponent } from '../../../../ui/components/media/media.component';
 import { PaginationAndSortingModule } from '../../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
 import { PaginationComponent } from '../../../../ui/components/pagination-and-sorting/pagination/pagination.component';
@@ -29,6 +28,15 @@ import {
 import { PageLayoutService } from './../../../../cms/page-layout/page-layout.service';
 import { ProductListComponent } from './product-list.component';
 import createSpy = jasmine.createSpy;
+
+@Component({
+  selector: 'cx-star-rating',
+  template: '',
+})
+class MockStarRatingComponent {
+  @Input() rating;
+  @Input() disabled;
+}
 
 class MockPageLayoutService {
   getSlots(): Observable<string[]> {
@@ -110,10 +118,10 @@ describe('ProductListComponent in product-list', () => {
         ProductListComponent,
         ProductFacetNavigationComponent,
         ProductGridItemComponent,
+        MockStarRatingComponent,
         AddToCartComponent,
         MediaComponent,
         ProductViewComponent,
-        StarRatingComponent,
         MockProductListItemComponent,
         MockTranslateUrlPipe,
         MockStripHtmlPipe,
