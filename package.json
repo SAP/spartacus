@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10 <11"
+    "node": ">=10 <12"
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
@@ -40,6 +40,7 @@
     "start:qa": "ng serve -c=qa",
     "start:ci": "ng serve -c=ci",
     "start:prod": "ng serve --prod",
+    "start:ssl": "ng serve --ssl",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server -p 4200",
     "test": "ng test",
     "test:core:lib": "concurrently \"ng test core --code-coverage\" \"ng test storefrontlib --code-coverage\"",

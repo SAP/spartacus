@@ -40,11 +40,9 @@ See the [Release 1.0 documentation](https://github.com/SAP/cloud-commerce-sparta
 - SAP Commerce Cloud instance
   - Release 1905 recommended
   - Works with 1811 and 1808, with reduced functionality
-- [Angular CLI](https://angular.io/): 7.3.7 - 8.0.0
-- node.js: 10.14.1 or later
-- yarn: 1.9.4 or later
-
-
+- [Angular CLI](https://angular.io/): v7.3.7 or later, < v8.0.0
+- node.js: v10 or later, < v12
+- yarn: v1.15 or later
 
 # Download and Installation
 

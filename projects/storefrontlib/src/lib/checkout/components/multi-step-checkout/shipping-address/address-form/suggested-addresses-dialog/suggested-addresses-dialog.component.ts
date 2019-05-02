@@ -12,7 +12,6 @@ import { Address } from '@spartacus/core';
 @Component({
   selector: 'cx-suggested-addresses-dialog',
   templateUrl: './suggested-addresses-dialog.component.html',
-  styleUrls: ['./suggested-addresses-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuggestedAddressDialogComponent implements OnInit {

@@ -1,0 +1,38 @@
+@import '../../../theme';
+
+%cx-add-to-home-screen-banner {
+  .cx-add-to-home-screen-banner {
+    background-color: var(--cx-background-color, var(--cx-g-color-background));
+    padding: var(--cx-padding, 20px);
+    text-align: var(--cx-text-align, center);
+    margin: var(--cx-margin, 0 0 2.5rem);
+
+    @include media-breakpoint-down(sm) {
+      margin: var(--cx-margin, 0 1.25rem 2rem);
+    }
+
+    ul {
+      display: var(--cx-display, flex);
+      justify-content: var(--cx-justify-content, space-around);
+      flex-wrap: var(--cx-flex-wrap, wrap);
+      padding: var(--cx-padding, 10px 40px);
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: var(--cx-flex-direction, column);
+        margin: var(--cx-margin, 0 auto 0 auto);
+        max-width: var(--cx-max-width, 280px);
+        padding: var(--cx-padding, 0 20px 20px 50px);
+      }
+
+      li {
+        min-width: var(--cx-min-width, 35%);
+        text-align: var(--cx-text-align, left);
+      }
+    }
+  }
+
+  .cx-add-to-home-screen-banner-inner {
+    max-width: var(--cx-max-width, 600px);
+    margin: var(--cx-margin, 0 auto);
+  }
+}
