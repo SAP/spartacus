@@ -1,17 +1,21 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  Component,
+  DebugElement,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductReferencesComponent,
-  Component,
   ProductReferenceService,
   RoutingService,
   UIProductReferenceList,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { PictureComponent } from '../../../ui/components/media/picture/picture.component';
 import { SharedCarouselService } from '../shared-carousel.service';
 import { ProductReferencesComponent } from './product-references.component';
 import { ProductReferencesService } from './product-references.component.service';
@@ -21,6 +25,14 @@ import { ProductReferencesService } from './product-references.component.service
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-media',
+  template: '',
+})
+class MockMediaComponent {
+  @Input() container;
 }
 
 const productCode = 'productCode';
@@ -46,7 +58,7 @@ const mockComponentData: CmsProductReferencesComponent = {
   container: 'false',
 };
 
-const MockCmsComponentData = <CmsComponentData<Component>>{
+const MockCmsComponentData = <CmsComponentData<any>>{
   data$: of(mockComponentData),
 };
 
@@ -97,7 +109,7 @@ class MockSharedCarouselService {
   getActiveItem = jasmine.createSpy('getActiveItem').and.callFake(() => of(1));
 }
 
-describe('ProductReferencesComponent', () => {
+fdescribe('ProductReferencesComponent', () => {
   let productReferencesComponent: ProductReferencesComponent;
   let fixture: ComponentFixture<ProductReferencesComponent>;
   let el: DebugElement;
@@ -107,7 +119,7 @@ describe('ProductReferencesComponent', () => {
       imports: [RouterTestingModule],
       declarations: [
         ProductReferencesComponent,
-        PictureComponent,
+        MockMediaComponent,
         MockTranslateUrlPipe,
       ],
       providers: [

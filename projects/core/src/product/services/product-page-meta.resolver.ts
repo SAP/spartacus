@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, combineLatest } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageMeta } from '../../cms/model/page.model';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
+  PageBreadcrumbResolver,
   PageDescriptionResolver,
   PageHeadingResolver,
   PageImageResolver,
@@ -22,6 +23,7 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageHeadingResolver,
     PageTitleResolver,
     PageDescriptionResolver,
+    PageBreadcrumbResolver,
     PageImageResolver {
   constructor(
     protected routingService: RoutingService,
@@ -42,13 +44,15 @@ export class ProductPageMetaResolver extends PageMetaResolver
           this.resolveHeading(p),
           this.resolveTitle(p),
           this.resolveDescription(p),
+          this.resolveBreadcrumbs(p),
           this.resolveImage(p),
         ])
       ),
-      map(([heading, title, description, image]) => ({
+      map(([heading, title, description, breadcrumbs, image]) => ({
         heading,
         title,
         description,
+        breadcrumbs,
         image,
       }))
     );
@@ -68,6 +72,18 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   resolveDescription(product: UIProduct): Observable<string> {
     return of(product.summary);
+  }
+
+  resolveBreadcrumbs(product: UIProduct): Observable<any[]> {
+    const breadcrumbs = [];
+    breadcrumbs.push({ label: 'Home', link: '/' });
+    for (const c of product.categories) {
+      breadcrumbs.push({
+        label: c.name || c.code,
+        link: '/c/' + c.code,
+      });
+    }
+    return of(breadcrumbs);
   }
 
   resolveImage(product: any): Observable<string> {

@@ -34,12 +34,8 @@
                 { route: 'product', params: product } | cxTranslateUrl
               "
             >
-              <!-- {{ product | json }} -->
-              <cx-picture
-                [imageContainer]="product.images?.PRIMARY"
-                imageFormat="product"
-              >
-              </cx-picture>
+              <cx-media [container]="product.images?.PRIMARY" format="product">
+              </cx-media>
 
               <h4>{{ product.name }}</h4>
               <div class="price">{{ product.price?.formattedValue }}</div>

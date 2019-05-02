@@ -1,11 +1,10 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartService, I18nTestingModule } from '@spartacus/core';
 import { PromotionsModule } from '../../../../../lib/checkout/components/promotions/promotions.module';
 import { ComponentsModule } from '../../../../../lib/ui/components/components.module';
-import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockCartService {
@@ -44,6 +43,18 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform() {}
 }
 
+@Component({
+  template: '',
+  selector: 'cx-cart-item',
+})
+class MockCartItemComponent {
+  @Input() parent;
+  @Input() item;
+  @Input() potentialProductPromotions;
+  @Input() isReadOnly;
+  @Input() cartIsLoading;
+}
+
 describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
@@ -60,7 +71,7 @@ describe('CartItemListComponent', () => {
       ],
       declarations: [
         CartItemListComponent,
-        CartItemComponent,
+        MockCartItemComponent,
         MockTranslateUrlPipe,
       ],
       providers: [{ provide: CartService, useClass: MockCartService }],
