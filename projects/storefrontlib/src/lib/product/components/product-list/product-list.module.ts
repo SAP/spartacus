@@ -9,6 +9,7 @@ import {
   UrlTranslationModule,
 } from '@spartacus/core';
 import { AddToCartModule } from '../../../../cms-components/checkout/cart/index';
+import { StarRatingModule } from '../../../../common-components/star-rating/star-rating.module';
 import { BootstrapModule } from '../../../bootstrap.module';
 import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
 import { MediaModule } from '../../../ui/components/media/media.module';
@@ -38,6 +39,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     StripHtmlModule,
     UrlTranslationModule,
     I18nModule,
+    StarRatingModule,
   ],
   declarations: [
     ProductListComponent,

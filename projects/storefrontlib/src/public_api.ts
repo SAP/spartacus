@@ -4,6 +4,7 @@
 
 export * from './cms-components/index';
 export * from './cms-structure/index';
+export * from './common-components/index';
 export * from './layout/index';
 export * from './lib/checkout/index';
 export * from './lib/cms-lib/index';

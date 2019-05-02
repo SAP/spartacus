@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
+import { StarRatingModule } from 'projects/storefrontlib/src/common-components';
 import { AddToCartModule } from '../../../../cms-components/checkout/cart/add-to-cart/add-to-cart.module';
 // guards
 import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
@@ -25,6 +26,7 @@ import { ProductSummaryComponent } from './product-summary/product-summary.compo
     AddToCartModule,
     OutletModule,
     I18nModule,
+    StarRatingModule,
   ],
   declarations: [
     ProductDetailsComponent,

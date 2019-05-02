@@ -3,7 +3,6 @@ import { CardComponent } from './card/card.component';
 import { CardModule } from './card/card.module';
 import { FormComponentsModule } from './form-components/form-components.module';
 import { ItemCounterComponent } from './form-components/item-counter/item-counter.component';
-import { StarRatingComponent } from './form-components/star-rating/star-rating.component';
 import { GenericLinkComponent } from './generic-link/generic-link.component';
 import { GenericLinkModule } from './generic-link/generic-link.module';
 import { MediaComponent } from './media/media.component';
@@ -30,7 +29,6 @@ import { SpinnerModule } from './spinner/spinner.module';
   ],
   exports: [
     MediaComponent,
-    StarRatingComponent,
     ItemCounterComponent,
     CardComponent,
     PaginationComponent,
