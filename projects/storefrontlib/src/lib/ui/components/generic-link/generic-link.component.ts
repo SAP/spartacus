@@ -11,19 +11,12 @@ import { Component, Input } from '@angular/core';
 export class GenericLinkComponent {
   private readonly protocolRegex: RegExp = /^https?:\/\//i;
 
-  @Input()
-  url: string | any[];
-
-  @Input()
-  target: string;
-  @Input()
-  class: string;
-  @Input()
-  id: string;
-  @Input()
-  style: string;
-  @Input()
-  title: string;
+  @Input() url: string | any[];
+  @Input() target: string;
+  @Input() class: string;
+  @Input() id: string;
+  @Input() style: string;
+  @Input() title: string;
 
   get routerUrl(): any[] {
     if (typeof this.url === 'string') {
