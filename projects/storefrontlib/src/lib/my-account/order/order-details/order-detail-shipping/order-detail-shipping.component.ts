@@ -8,7 +8,6 @@ import { OrderDetailsService } from '../order-details.service';
 @Component({
   selector: 'cx-order-details-shipping',
   templateUrl: './order-detail-shipping.component.html',
-  styleUrls: ['./order-detail-shipping.component.scss'],
 })
 export class OrderDetailShippingComponent implements OnInit {
   constructor(private orderDetailsService: OrderDetailsService) {}
