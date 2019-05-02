@@ -22,8 +22,10 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
   cartLoaded$: Observable<boolean>;
 
   quantity = 0;
+  headerLabel = `addToCart.itemsAddedToYourCart`;
   previousLoaded: boolean;
   finishedLoading: boolean;
+  private firstUpdate = true;
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
@@ -57,6 +59,16 @@ export class AddedToCartDialogComponent implements OnInit, AfterViewChecked {
             entryForm.controls.quantity.setValue(entry.quantity);
           }
           this.form.markAsPristine();
+
+          // Announce in header if Add To Cart button has incremented product
+          if (this.firstUpdate && entry.quantity > 1) {
+            this.headerLabel = `addToCart.itemsIncrementedInYourCart`;
+          } else {
+            this.headerLabel = `addToCart.itemsAddedToYourCart`;
+          }
+
+          // Any updates after the first will be flagged as false
+          this.firstUpdate = false;
         }
       })
     );
