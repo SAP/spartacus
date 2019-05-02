@@ -192,6 +192,16 @@ describe('CmsService', () => {
     }
   ));
 
+  it('should be able to refresh cms page by id', inject(
+    [CmsService],
+    (service: CmsService) => {
+      service.refreshPageById('testPageId');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new fromActions.LoadPageData({ id: 'testPageId' })
+      );
+    }
+  ));
+
   it('should be able to refresh the cms component by uid', inject(
     [CmsService],
     (service: CmsService) => {
