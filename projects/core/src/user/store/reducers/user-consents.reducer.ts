@@ -21,6 +21,7 @@ export function reducer(
     case fromActions.LOAD_USER_CONSENTS_FAIL: {
       return initialState;
     }
+    // TODO:#1184 - create a separate action that will reset the flags only?
     case fromActions.RESET_LOAD_USER_CONSENTS: {
       return state;
     }
