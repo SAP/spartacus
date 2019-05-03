@@ -20,6 +20,7 @@ import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';
 import { ProductReviewsModule } from './product-reviews/product-reviews.module';
+import { ProductDetailsTabModule } from './product-details/product-details-tab.module';
 
 @NgModule({
   imports: [
@@ -32,11 +33,21 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     CmsModule,
     OutletModule,
     ProductReviewsModule,
+    ProductDetailsTabModule,
     PageComponentModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         CMSTabParagraphContainer: {
           selector: 'cx-product-tabs',
+        },
+        ProductDetailsTabComponent: {
+          selector: 'cx-product-details-tab',
+        },
+        ProductSpecsTabComponent: {
+          selector: 'cx-product-attributes',
+        },
+        ProductReviewsTabComponent: {
+          selector: 'cx-product-reviews',
         },
       },
     }),
@@ -48,7 +59,7 @@ import { ProductReviewsModule } from './product-reviews/product-reviews.module';
     ProductReviewsComponent,
     ProductTabsComponent,
   ],
-  entryComponents: [ProductTabsComponent],
+  entryComponents: [ProductTabsComponent, ProductAttributesComponent],
   providers: [ProductService, WindowRef, RoutingService],
 })
 export class ProductTabsModule {}

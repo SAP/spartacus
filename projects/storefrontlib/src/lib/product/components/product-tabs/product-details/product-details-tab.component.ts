@@ -4,11 +4,11 @@ import { CurrentProductService } from 'projects/storefrontlib/src/lib/ui/pages/p
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-product-attributes',
-  templateUrl: './product-attributes.component.html',
+  selector: 'cx-product-details-tab',
+  templateUrl: './product-details-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductAttributesComponent implements OnInit {
+export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<UIProduct>;
 
   constructor(protected currentProductService: CurrentProductService) {}

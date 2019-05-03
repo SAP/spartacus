@@ -15,6 +15,7 @@ import { FormComponentsModule } from './../../../../ui/components/form-component
     I18nModule,
   ],
   declarations: [ProductReviewsComponent],
+  entryComponents: [ProductReviewsComponent],
   exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}

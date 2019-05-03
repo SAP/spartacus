@@ -1,33 +1,25 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
   OnChanges,
   OnInit,
-  Output,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Product, ProductReviewService, Review } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { ProductReviewService, Review, UIProduct } from '@spartacus/core';
+import { Observable, Subscription } from 'rxjs';
+import { CurrentProductService } from 'projects/storefrontlib/src/lib/ui/pages/product-page/current-product.service';
 
 @Component({
   selector: 'cx-product-reviews',
   templateUrl: './product-reviews.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductReviewsComponent implements OnChanges, OnInit {
-  @Input() product: Product;
-  @Input() get isWritingReview(): boolean {
-    return this._isWritingReview;
-  }
-  @Output() isWritingReviewChange = new EventEmitter();
+export class ProductReviewsComponent implements OnChanges, OnInit, OnDestroy {
+  product: UIProduct;
+  subscription: Subscription;
 
-  set isWritingReview(val) {
-    this._isWritingReview = val;
-    this.isWritingReviewChange.emit(this.isWritingReview);
-  }
-  private _isWritingReview = false;
+  isWritingReview = false;
 
   // TODO: configurable
   initialMaxListItems = 5;
@@ -38,19 +30,28 @@ export class ProductReviewsComponent implements OnChanges, OnInit {
 
   constructor(
     protected reviewService: ProductReviewService,
+    protected currentProductService: CurrentProductService,
     private fb: FormBuilder
   ) {}
 
   ngOnChanges(): void {
     this.maxListItems = this.initialMaxListItems;
-
-    if (this.product) {
-      this.reviews$ = this.reviewService.getByProductCode(this.product.code);
-    }
   }
 
   ngOnInit(): void {
+    this.subscription = this.currentProductService
+      .getProduct()
+      .subscribe((product: UIProduct) => {
+        this.product = product;
+        this.reviews$ = this.reviewService.getByProductCode(this.product.code);
+      });
     this.resetReviewForm();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   initiateWriteReview(): void {
