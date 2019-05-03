@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { RoutingService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
@@ -27,6 +29,13 @@ class DynamicSlotComponent {}
 })
 class MockFooterComponent {}
 
+class MockRoutingService {
+  isNavigating(): Observable<boolean> {
+    console.log('is nav');
+    return of(true);
+  }
+}
+
 @Component({
   selector: 'cx-page-layout',
   template: '',
@@ -36,6 +45,8 @@ class MockPageLayoutComponent {}
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
+  let el: DebugElement;
+  let routingService: RoutingService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -48,16 +59,35 @@ describe('StorefrontComponent', () => {
         DynamicSlotComponent,
         MockPageLayoutComponent,
       ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
+        },
+      ],
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StorefrontComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    el = fixture.debugElement;
+    routingService = TestBed.get(RoutingService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should contain is-navigating class', () => {
+    spyOn(routingService, 'isNavigating').and.returnValue(of(true));
+    fixture.detectChanges();
+    expect(el.nativeElement.classList.contains('is-navigating')).toBeTruthy();
+  });
+
+  it('should not contain is-navigating class', () => {
+    spyOn(routingService, 'isNavigating').and.returnValue(of(false));
+    fixture.detectChanges();
+    expect(el.nativeElement.classList.contains('is-navigating')).toBeFalsy();
   });
 });
