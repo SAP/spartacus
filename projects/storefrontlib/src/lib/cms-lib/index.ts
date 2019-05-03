@@ -1,5 +1,3 @@
-export * from './breadcrumb/breadcrumb.component';
-export * from './breadcrumb/breadcrumb.module';
 export * from './category-navigation/category-navigation.component';
 export * from './category-navigation/category-navigation.module';
 export * from './cms-lib.module';

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
 
@@ -19,6 +19,7 @@ export class SmartEditService {
   constructor(
     private cmsService: CmsService,
     private routingService: RoutingService,
+    private zone: NgZone,
     winRef: WindowRef
   ) {
     this.getCmsTicket();
@@ -52,8 +53,8 @@ export class SmartEditService {
     )
       .pipe(takeWhile(([cmsPage]) => cmsPage === undefined))
       .subscribe(([, routerState]) => {
-        if (routerState.state && !this._cmsTicketId) {
-          this._cmsTicketId = routerState.state.queryParams['cmsTicketId'];
+        if (routerState.nextState && !this._cmsTicketId) {
+          this._cmsTicketId = routerState.nextState.queryParams['cmsTicketId'];
           if (this._cmsTicketId) {
             this.cmsService.launchInSmartEdit = true;
           }
@@ -112,16 +113,18 @@ export class SmartEditService {
     parentId?: string
   ): boolean {
     if (componentId) {
-      // without parentId, it is slot
-      if (!parentId) {
-        if (this._currentPageId) {
-          this.cmsService.refreshPageById(this._currentPageId);
-        } else {
-          this.cmsService.refreshLatestPage();
+      this.zone.run(() => {
+        // without parentId, it is slot
+        if (!parentId) {
+          if (this._currentPageId) {
+            this.cmsService.refreshPageById(this._currentPageId);
+          } else {
+            this.cmsService.refreshLatestPage();
+          }
+        } else if (componentType) {
+          this.cmsService.refreshComponent(componentId);
         }
-      } else if (componentType) {
-        this.cmsService.refreshComponent(componentId);
-      }
+      });
     }
 
     return true;
