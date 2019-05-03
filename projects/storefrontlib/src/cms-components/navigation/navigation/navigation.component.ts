@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { NavigationComponentService } from './navigation.component.service';
 import { NavigationNode } from './navigation-node.model';
+import { NavigationComponentService } from './navigation.component.service';
 
 @Component({
   selector: 'cx-navigation',
   templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationComponent {

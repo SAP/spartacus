@@ -1,18 +1,17 @@
-import { BootstrapModule } from '../../bootstrap.module';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import {
   CmsConfig,
   CmsService,
   ConfigModule,
   I18nModule,
 } from '@spartacus/core';
-import { NavigationComponent } from './navigation.component';
-import { NavigationUIComponent } from './navigation-ui.component';
-import { NavigationComponentService } from './navigation.component.service';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { BootstrapModule } from '../../../lib/bootstrap.module';
+import { NavigationUIComponent } from './navigation-ui.component';
+import { NavigationComponent } from './navigation.component';
+import { NavigationComponentService } from './navigation.component.service';
 
 @NgModule({
   imports: [

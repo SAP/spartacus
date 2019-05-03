@@ -1,10 +1,10 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { NavigationUIComponent } from './navigation-ui.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
 import { DebugElement, ElementRef } from '@angular/core';
-import { NavigationNode } from '../navigation/navigation-node.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { NavigationNode } from './navigation-node.model';
+import { NavigationUIComponent } from './navigation-ui.component';
 
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;

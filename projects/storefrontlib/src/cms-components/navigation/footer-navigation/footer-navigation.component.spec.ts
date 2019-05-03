@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Component as SpaComponent } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { NavigationNode } from '../../../lib/cms-lib/navigation/navigation-node.model';
-import { NavigationComponent } from '../../../lib/cms-lib/navigation/navigation.component';
-import { NavigationComponentService } from '../../../lib/cms-lib/navigation/navigation.component.service';
+import { NavigationNode } from '../navigation/navigation-node.model';
+import { NavigationComponent } from '../navigation/navigation.component';
+import { NavigationComponentService } from '../navigation/navigation.component.service';
 import { FooterNavigationComponent } from './footer-navigation.component';
 import createSpy = jasmine.createSpy;
 
