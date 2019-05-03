@@ -16,7 +16,6 @@ import { CheckoutDetailsService } from '../../../checkout-details.service';
 @Component({
   selector: 'cx-multi-step-checkout',
   templateUrl: './multi-step-checkout.component.html',
-  styleUrls: ['./multi-step-checkout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiStepCheckoutComponent implements OnInit, OnDestroy {
