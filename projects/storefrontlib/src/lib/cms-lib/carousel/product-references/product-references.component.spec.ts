@@ -109,7 +109,7 @@ class MockSharedCarouselService {
   getActiveItem = jasmine.createSpy('getActiveItem').and.callFake(() => of(1));
 }
 
-fdescribe('ProductReferencesComponent', () => {
+describe('ProductReferencesComponent', () => {
   let productReferencesComponent: ProductReferencesComponent;
   let fixture: ComponentFixture<ProductReferencesComponent>;
   let el: DebugElement;
