@@ -33,6 +33,7 @@
           aria-controls=""
         >
           {{ facet.name }}
+          <cx-icon [type]="iconTypes.PLUS"></cx-icon>
         </a>
       </span>
       <div [ngbCollapse]="isFacetCollapsed(facet.name)">

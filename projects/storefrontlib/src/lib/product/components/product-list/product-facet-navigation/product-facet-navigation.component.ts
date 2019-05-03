@@ -9,6 +9,12 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
+import { ICON_TYPES } from '../../../../../cms-components/misc/icon';
+
+export enum ariaState {
+  PLUS = 'plus',
+  MINUS = 'minus',
+}
 
 @Component({
   selector: 'cx-product-facet-navigation',
@@ -16,6 +22,8 @@ import { filter, tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductFacetNavigationComponent implements OnInit {
+  iconTypes = ICON_TYPES;
+
   activeFacetValueCode: string;
   searchResult: UIProductSearchPage;
   minPerFacet = 6;

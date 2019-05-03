@@ -18,6 +18,7 @@ import { ProductFacetNavigationComponent } from './product-facet-navigation/prod
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
+import { IconModule } from '../../../../cms-components/misc/icon';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     StripHtmlModule,
     UrlTranslationModule,
     I18nModule,
+    IconModule,
   ],
   declarations: [
     ProductListComponent,
