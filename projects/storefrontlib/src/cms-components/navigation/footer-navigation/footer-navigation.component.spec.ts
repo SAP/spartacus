@@ -1,16 +1,15 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, Input, Component } from '@angular/core';
-import createSpy = jasmine.createSpy;
-import { of } from 'rxjs';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { Component as SpaComponent } from '@spartacus/core';
-import { NavigationComponentService } from '../navigation/navigation.component.service';
-import { NavigationComponent } from '../navigation/navigation.component';
-import { FooterNavigationComponent } from './footer-navigation.component';
+import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { NavigationNode } from '../navigation/navigation-node.model';
+import { NavigationNode } from '../../../lib/cms-lib/navigation/navigation-node.model';
+import { NavigationComponent } from '../../../lib/cms-lib/navigation/navigation.component';
+import { NavigationComponentService } from '../../../lib/cms-lib/navigation/navigation.component.service';
+import { FooterNavigationComponent } from './footer-navigation.component';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-navigation-ui',

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { NavigationComponent } from '../navigation/navigation.component';
+import { NavigationComponent } from '../../../lib/cms-lib/navigation/navigation.component';
 
 @Component({
   selector: 'cx-footer-navigation',
