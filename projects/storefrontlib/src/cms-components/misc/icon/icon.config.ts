@@ -4,6 +4,7 @@ export enum ICON_TYPES {
   GRID_MODE = 'th-large',
   LIST_MODE = 'menu-hamburger',
   CARET_DOWN = 'angle-down',
+  TIMES = 'times',
 }
 
 export abstract class IconConfig {
