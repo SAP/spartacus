@@ -31,8 +31,7 @@ class MockFooterComponent {}
 
 class MockRoutingService {
   isNavigating(): Observable<boolean> {
-    console.log('is nav');
-    return of(true);
+    return of();
   }
 }
 
@@ -79,15 +78,18 @@ describe('StorefrontComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should contain is-navigating class', () => {
+  it('should contain start-navigating class', () => {
     spyOn(routingService, 'isNavigating').and.returnValue(of(true));
     fixture.detectChanges();
-    expect(el.nativeElement.classList.contains('is-navigating')).toBeTruthy();
+    expect(
+      el.nativeElement.classList.contains('start-navigating')
+    ).toBeTruthy();
   });
 
-  it('should not contain is-navigating class', () => {
+  it('should contain stop-navigating class', () => {
     spyOn(routingService, 'isNavigating').and.returnValue(of(false));
     fixture.detectChanges();
-    expect(el.nativeElement.classList.contains('is-navigating')).toBeFalsy();
+    expect(el.nativeElement.classList.contains('stop-navigating')).toBeTruthy();
+    expect(el.nativeElement.classList.contains('start-navigating')).toBeFalsy();
   });
 });

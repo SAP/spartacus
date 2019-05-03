@@ -11,7 +11,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   navigateSubscription: Subscription;
   isExpanded$: Observable<boolean> = this.hamburgerMenuService.isExpanded;
 
-  @HostBinding('class.is-navigating') isNavigating;
+  @HostBinding('class.start-navigating') startNavigating;
+  @HostBinding('class.stop-navigating') stopNavigating;
 
   constructor(
     private hamburgerMenuService: HamburgerMenuService,
@@ -21,7 +22,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.navigateSubscription = this.routingService
       .isNavigating()
-      .subscribe(val => (this.isNavigating = !!val));
+      .subscribe(val => {
+        this.startNavigating = val === true;
+        this.stopNavigating = val === false;
+      });
   }
 
   collapseMenu(): void {
