@@ -1,7 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
-import { BannerModule } from '../../cms-components/content/banner/banner.module';
+import {
+  BannerModule,
+  CmsParagraphModule,
+  LinkModule,
+  TabParagraphContainerModule,
+} from '../../cms-components/content/index';
 import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
 import {
   BreadcrumbModule,
@@ -24,8 +29,6 @@ import { UpdateEmailModule } from '../my-account/update-email/update-email.modul
 import { UpdatePasswordModule } from '../my-account/update-password/update-password.module';
 import { UpdateProfileModule } from '../my-account/update-profile/update-profile.module';
 import { AddressBookModule } from './address-book/address-book.module';
-import { LinkModule } from './link/link.module';
-import { CmsParagraphModule } from './paragraph/paragraph.module';
 
 @NgModule({
   imports: [
@@ -53,6 +56,7 @@ import { CmsParagraphModule } from './paragraph/paragraph.module';
     UpdateProfileModule,
     CartComponentModule,
     CloseAccountModule,
+    TabParagraphContainerModule,
   ],
 })
 export class CmsLibModule {}
