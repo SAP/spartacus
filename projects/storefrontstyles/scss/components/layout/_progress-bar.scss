@@ -1,0 +1,35 @@
+%progress-bar {
+  @keyframes running-progress {
+    0% {
+      margin-left: 0px;
+      margin-right: 100%;
+    }
+    50% {
+      margin-left: 25%;
+      margin-right: 0%;
+    }
+    100% {
+      margin-left: 100%;
+      margin-right: 0;
+    }
+  }
+
+  &:before,
+  &:after {
+    height: 2px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    content: '';
+    position: fixed;
+  }
+  &:before {
+    background-color: var(--cx-g-color-light);
+  }
+
+  &:after {
+    background-color: var(--cx-g-color-dark);
+    animation: running-progress 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}

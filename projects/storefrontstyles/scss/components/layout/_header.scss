@@ -1,6 +1,12 @@
+@import './progress-bar';
+
 $space: 0.5rem;
 
 %header {
+  &.is-navigating {
+    @extend %progress-bar !optional;
+  }
+
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
@@ -132,7 +138,7 @@ $space: 0.5rem;
         width: 100%;
         position: absolute;
         left: 0;
-        top: 30px;
+        top: 32px;
       }
     }
 
