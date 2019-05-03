@@ -1,0 +1,17 @@
+<div>
+  <div *ngFor="let consentTemplate of consentTemplates">
+    <cx-consent-management-form
+      [consentTemplate]="consentTemplate"
+      (consentChanged)="onConsentChanged($event)"
+    ></cx-consent-management-form>
+  </div>
+  <div>
+    <div class="cx-checkout-btns row">
+      <div class="col-md-12 col-lg-6">
+        <button class="btn btn-block btn-primary" (click)="onDone()">
+          {{ doneBtnLabel || ('common.done' | cxTranslate) }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

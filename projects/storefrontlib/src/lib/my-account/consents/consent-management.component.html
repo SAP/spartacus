@@ -4,3 +4,9 @@ CONSENT MANAGEMENT WORKS
 <div>Loading: {{ loading$ | async }}</div>
 <div>Success: {{ success$ | async }}</div>
 <div>Error: {{ error$ | async }}</div>
+
+<cx-consent-management-list
+  [consentTemplates]="(consents$ | async).consentTemplates"
+  (consentChanged)="onConsentChange($event)"
+  (done)="onDone()"
+></cx-consent-management-list>

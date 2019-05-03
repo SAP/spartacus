@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ConsentTemplateList, User, UserService } from '@spartacus/core';
+import {
+  ConsentTemplate,
+  ConsentTemplateList,
+  RoutingService,
+  User,
+  UserService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,9 +20,13 @@ export class ConsentManagementComponent implements OnInit {
   success$: Observable<boolean>;
   error$: Observable<boolean>;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private routingService: RoutingService
+  ) {}
 
   ngOnInit(): void {
+    this.userService.resetConsentsProcessState();
     this.consents$ = combineLatest(
       this.userService.getConsents(),
       this.userService.get()
@@ -41,5 +51,13 @@ export class ConsentManagementComponent implements OnInit {
   }
   private userExists(user: User): boolean {
     return Boolean(user) && Boolean(user.uid);
+  }
+
+  onConsentChange(change: { given: boolean; template: ConsentTemplate }): void {
+    console.log('change', change);
+  }
+
+  onDone(): void {
+    this.routingService.go({ route: 'home' });
   }
 }
