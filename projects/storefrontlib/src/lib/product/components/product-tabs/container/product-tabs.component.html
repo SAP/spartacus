@@ -18,15 +18,12 @@
       {{ 'productDetails.specification' | cxTranslate }}
     </h3>
     <div #specifications>
-      <div class="container">
-        <h2>{{ 'productDetails.specification' | cxTranslate }}</h2>
-        <ng-container
-          [cxComponentWrapper]="{
-            flexType: 'ProductSpecsTabComponent',
-            uid: 'ProductSpecsTabComponent'
-          }"
-        ></ng-container>
-      </div>
+      <ng-container
+        [cxComponentWrapper]="{
+          flexType: 'ProductSpecsTabComponent',
+          uid: 'ProductSpecsTabComponent'
+        }"
+      ></ng-container>
     </div>
   </ng-container>
 
@@ -37,19 +34,12 @@
       }})
     </h3>
     <div #reviews>
-      <div class="container">
-        <h2>
-          {{ 'productDetails.reviews' | cxTranslate }} ({{
-            product?.numberOfReviews
-          }})
-        </h2>
-        <ng-container
-          [cxComponentWrapper]="{
-            flexType: 'ProductReviewsTabComponent',
-            uid: 'ProductReviewsTabComponent'
-          }"
-        ></ng-container>
-      </div>
+      <ng-container
+        [cxComponentWrapper]="{
+          flexType: 'ProductReviewsTabComponent',
+          uid: 'ProductReviewsTabComponent'
+        }"
+      ></ng-container>
     </div>
   </ng-container>
 
