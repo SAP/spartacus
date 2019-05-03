@@ -1,0 +1,7 @@
+@import './progress-bar';
+
+%cx-storefront {
+  &.is-navigating {
+    @extend %progress-bar !optional;
+  }
+}

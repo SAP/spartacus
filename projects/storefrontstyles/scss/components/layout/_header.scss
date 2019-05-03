@@ -1,12 +1,6 @@
-@import './progress-bar';
-
 $space: 0.5rem;
 
 %header {
-  &.is-navigating {
-    @extend %progress-bar !optional;
-  }
-
   background-color: var(--cx-background-color, var(--cx-g-color-dark));
   color: var(--cx-color, var(--cx-g-color-inverse));
   display: block;
