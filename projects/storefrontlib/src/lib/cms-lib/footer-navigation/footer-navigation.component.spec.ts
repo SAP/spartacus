@@ -34,7 +34,7 @@ class MockGenericLinkComponent {
   target: string;
 }
 
-describe('FooterNavigationComponent', () => {
+fdescribe('FooterNavigationComponent', () => {
   let component: FooterNavigationComponent;
   let fixture: ComponentFixture<FooterNavigationComponent>;
   let footer: DebugElement;
@@ -107,7 +107,7 @@ describe('FooterNavigationComponent', () => {
     });
 
     it('should display the column title', () => {
-      const titleElement: HTMLElement = column.query(By.css('h1'))
+      const titleElement: HTMLElement = column.query(By.css('h5'))
         .nativeElement;
 
       expect(titleElement.textContent).toEqual('Test 1');
