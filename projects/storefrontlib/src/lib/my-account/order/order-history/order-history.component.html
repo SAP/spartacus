@@ -89,7 +89,10 @@
                   "
                   class="cx-order-history-value"
                 >
-                  {{ order?.statusDisplay }}</a
+                  {{
+                    'orderDetails.statusDisplay'
+                      | cxTranslate: { context: order?.statusDisplay }
+                  }}</a
                 >
               </td>
               <td class="cx-order-history-total">

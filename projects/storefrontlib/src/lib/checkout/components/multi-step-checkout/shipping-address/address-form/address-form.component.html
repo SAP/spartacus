@@ -208,7 +208,7 @@
     </div>
   </div>
   <div class="cx-checkout-btns row">
-    <div class="col-md-12 col-lg-6">
+    <div class="col-md-12 col-lg-6" *ngIf="showCancelBtn">
       <button class="btn btn-block btn-action" (click)="back()">
         {{ cancelBtnLabel || ('addressForm.chooseAddress' | cxTranslate) }}
       </button>

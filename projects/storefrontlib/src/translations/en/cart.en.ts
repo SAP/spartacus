@@ -1,6 +1,5 @@
 export const cart = {
   cartDetails: {
-    shoppingCart: 'Shopping Cart',
     id: 'ID',
     proceedToCheckout: 'Proceed to Checkout',
   },
