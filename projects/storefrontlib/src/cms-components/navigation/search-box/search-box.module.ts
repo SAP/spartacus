@@ -14,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { BootstrapModule } from '../../bootstrap.module';
-import { MediaModule } from '../../ui/components/media/media.module';
+import { BootstrapModule } from '../../../lib/bootstrap.module';
+import { MediaModule } from '../../../lib/ui/components/media/media.module';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
 

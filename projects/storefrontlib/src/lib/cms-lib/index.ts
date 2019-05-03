@@ -11,8 +11,5 @@ export * from './product-carousel/product-carousel.component';
 export * from './product-carousel/product-carousel.module';
 export * from './product-references/product-references.component';
 export * from './product-references/product-references.module';
-export * from './search-box/search-box-component.service';
-export * from './search-box/search-box.component';
-export * from './search-box/search-box.module';
 export * from './tab-paragraph-container/tab-paragraph-container.component';
 export * from './tab-paragraph-container/tab-paragraph-container.module';

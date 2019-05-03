@@ -1,14 +1,14 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { SearchBoxComponentService } from './search-box-component.service';
-import { of, Observable } from 'rxjs';
-import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { inject, TestBed } from '@angular/core/testing';
 import {
-  ProductSearchService,
-  ProductSearchPage,
-  Suggestion,
   Component as SpaComponent,
+  ProductSearchPage,
+  ProductSearchService,
+  RoutingService,
+  Suggestion,
 } from '@spartacus/core';
-import { RoutingService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { SearchBoxComponentService } from './search-box-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockQueryString = '?query=mockQuery';
