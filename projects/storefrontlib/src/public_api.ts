@@ -13,7 +13,6 @@ export * from './lib/global-message/index';
 export * from './lib/my-account/index';
 export * from './lib/occ/index';
 export * from './lib/outlet/index';
-export * from './lib/product/index';
 export * from './lib/pwa/pwa.module';
 export * from './lib/store-finder/index';
 export * from './lib/storefront-config';

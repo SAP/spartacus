@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { UIProduct } from '@spartacus/core';
-import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
-import { ProductDetailOutlets } from '../../../product-outlets.model';
+import { Observable } from 'rxjs';
+import { CurrentProductService } from '../../current-product.service';
+import { ProductDetailOutlets } from '../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-details',

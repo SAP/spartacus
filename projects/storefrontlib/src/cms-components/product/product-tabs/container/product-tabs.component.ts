@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { UIProduct, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CurrentProductService } from '../../../../ui/pages/product-page/current-product.service';
-import { ProductTabsOutlets } from '../../../product-outlets.model';
+import { CurrentProductService } from '../../current-product.service';
+import { ProductTabsOutlets } from '../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-tabs',

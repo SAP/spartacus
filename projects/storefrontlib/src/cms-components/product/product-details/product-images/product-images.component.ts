@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { ProductDetailOutlets } from '../../../product-outlets.model';
+import { ProductDetailOutlets } from '../../product-outlets.model';
 
 const WAITING_CLASS = 'waiting';
 

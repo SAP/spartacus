@@ -10,6 +10,11 @@ import {
   SearchBoxModule,
 } from '../../cms-components/navigation/index';
 import { NavigationModule } from '../../cms-components/navigation/navigation/navigation.module';
+import {
+  ProductCarouselModule,
+  ProductListModule,
+  ProductTabsModule,
+} from '../../cms-components/product/index';
 import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 import { CloseAccountModule } from '../my-account/close-account/close-account.module';
 import { OrderDetailsModule } from '../my-account/order/order-details/order-details.module';
@@ -18,12 +23,9 @@ import { PaymentMethodsModule } from '../my-account/payment-methods/payment-meth
 import { UpdateEmailModule } from '../my-account/update-email/update-email.module';
 import { UpdatePasswordModule } from '../my-account/update-password/update-password.module';
 import { UpdateProfileModule } from '../my-account/update-profile/update-profile.module';
-import { ProductListModule } from '../product/components/product-list/product-list.module';
-import { ProductTabsModule } from '../product/components/product-tabs/product-tabs.module';
 import { AddressBookModule } from './address-book/address-book.module';
 import { LinkModule } from './link/link.module';
 import { CmsParagraphModule } from './paragraph/paragraph.module';
-import { ProductCarouselModule } from './product-carousel/product-carousel.module';
 
 @NgModule({
   imports: [
@@ -37,13 +39,13 @@ import { ProductCarouselModule } from './product-carousel/product-carousel.modul
     NavigationModule,
     FooterNavigationModule,
     BreadcrumbModule,
-    ProductCarouselModule,
     SearchBoxModule,
     SiteContextSelectorModule,
     AddressBookModule,
     OrderHistoryModule,
     ProductListModule,
     ProductTabsModule,
+    ProductCarouselModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     UpdateEmailModule,

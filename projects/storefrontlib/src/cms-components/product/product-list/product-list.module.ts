@@ -8,11 +8,13 @@ import {
   StripHtmlModule,
   UrlTranslationModule,
 } from '@spartacus/core';
-import { AddToCartModule } from '../../../../cms-components/checkout/cart/index';
-import { BootstrapModule } from '../../../bootstrap.module';
-import { FormComponentsModule } from '../../../ui/components/form-components/form-components.module';
-import { MediaModule } from '../../../ui/components/media/media.module';
-import { PaginationAndSortingModule } from '../../../ui/components/pagination-and-sorting/pagination-and-sorting.module';
+import { BootstrapModule } from '../../../lib/bootstrap.module';
+import {
+  FormComponentsModule,
+  MediaModule,
+  PaginationAndSortingModule,
+} from '../../../lib/ui/components/index';
+import { AddToCartModule } from '../../checkout/index';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';

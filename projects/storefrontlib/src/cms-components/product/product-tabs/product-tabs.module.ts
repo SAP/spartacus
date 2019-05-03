@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  CmsModule,
   ConfigModule,
   I18nModule,
   ProductService,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+import { PageComponentModule } from '../../../cms-structure/page/index';
+import { OutletModule } from '../../../lib/outlet/index';
+import { ComponentsModule } from '../../../lib/ui/components/index';
+import { CartSharedModule } from '../../checkout/index';
 // guards
-import { CartSharedModule } from '../../../../cms-components/checkout/cart/cart-shared/cart-shared.module';
-import { PageComponentModule } from '../../../../cms-structure/page/component/page-component.module';
-import { CmsModule } from '../../../cms/cms.module'; // some slots are loaded inside components (i.e. tabs)
-import { OutletModule } from '../../../outlet/index';
-import { ComponentsModule } from './../../../ui/components/components.module';
 import { ProductTabsComponent } from './container/product-tabs.component';
 import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 import { ProductReviewsComponent } from './product-reviews/product-reviews.component';

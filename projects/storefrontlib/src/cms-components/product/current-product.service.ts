@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { ProductService, RoutingService, UIProduct } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CurrentProductService {
   constructor(
     private routingService: RoutingService,

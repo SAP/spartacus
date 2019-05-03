@@ -4,8 +4,8 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { ProductDetailOutlets } from '../../../product-outlets.model';
 import { TranslatePipe } from '@spartacus/core';
+import { ProductDetailOutlets } from '../../product-outlets.model';
 
 @Component({
   selector: 'cx-product-summary',
