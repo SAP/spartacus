@@ -22,6 +22,7 @@ import {
 import { UserRegisterFormData } from '../model/user.model';
 import * as fromStore from '../store/index';
 import {
+  GIVE_CONSENT_PROCESS_ID,
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
 } from '../store/user-state';
@@ -576,20 +577,43 @@ export class UserService {
     this.store.dispatch(new fromStore.ResetLoadUserConsents());
   }
 
-  // giveConsent(
-  //   consentTemplateId: string,
-  //   consentTemplateVersion: number
-  // ): Observable<ConsentTemplate> {}
+  giveConsent(
+    userId: string,
+    consentTemplateId: string,
+    consentTemplateVersion: number
+  ): void {
+    this.store.dispatch(
+      new fromStore.GiveUserConsent({
+        userId,
+        consentTemplateId,
+        consentTemplateVersion,
+      })
+    );
+  }
 
-  // giveConsentResultLoading(): Observable<boolean> {}
+  giveConsentResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(GIVE_CONSENT_PROCESS_ID))
+    );
+  }
 
-  // giveConsentResultSuccess(): Observable<boolean> {}
+  giveConsentResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(GIVE_CONSENT_PROCESS_ID))
+    );
+  }
 
-  // giveConsentResultError(): Observable<boolean> {}
+  giveConsentResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(GIVE_CONSENT_PROCESS_ID))
+    );
+  }
 
-  // resetGiveConsentProcessState(): void {}
+  resetGiveConsentProcessState(): void {
+    return this.store.dispatch(new fromStore.ResetUpdateUserDetails());
+  }
 
-  // withdrawConsent(consentCode: string): void {}
+  // withdrawConsent(userId: string,consentCode: string): void {}
 
   // withdrawConsentResultLoading(): Observable<boolean> {}
 

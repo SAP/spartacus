@@ -20,6 +20,20 @@ export class UserConsentsEffect {
     )
   );
 
+  @Effect()
+  giveConsent$: Observable<fromActions.UserConsentsAction> = this.actions$.pipe(
+    ofType(fromActions.GIVE_USER_CONSENT),
+    map((action: fromActions.GiveUserConsent) => action.payload),
+    switchMap(({ userId, consentTemplateId, consentTemplateVersion }) =>
+      this.occUserService
+        .giveConsent(userId, consentTemplateId, consentTemplateVersion)
+        .pipe(
+          map(consent => new fromActions.GiveUserConsentSuccess(consent)),
+          catchError(error => of(new fromActions.GiveUserConsentFail(error)))
+        )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private occUserService: OccUserService
