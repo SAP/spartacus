@@ -79,7 +79,7 @@ export class GiveUserConsentFail extends EntityFailAction {
 
 export class GiveUserConsentSuccess extends EntitySuccessAction {
   readonly type = GIVE_USER_CONSENT_SUCCESS;
-  constructor(public consent: ConsentTemplate) {
+  constructor(public consentTemplate: ConsentTemplate) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
 }
