@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
-
 import {
   CmsProductCarouselComponent,
   ProductService,
   UIProduct,
 } from '@spartacus/core';
-
 import { fromEvent, Observable, of } from 'rxjs';
 import {
   debounceTime,
   delay,
   distinctUntilChanged,
+  filter,
   map,
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
-
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Injectable()
@@ -67,6 +65,7 @@ export class ProductCarouselService {
    */
   setItems(): void {
     this.items$ = this.component.data$.pipe(
+      filter(data => data && !!data.productCodes),
       map(data => {
         const productCodes = data.productCodes.split(' ');
         return productCodes.map(code => this.productService.get(code));

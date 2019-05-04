@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
-import { PageLayoutService } from '../../../../lib/cms/page-layout/page-layout.service';
+import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewModes } from '../product-view/product-view.component';
 
 @Component({

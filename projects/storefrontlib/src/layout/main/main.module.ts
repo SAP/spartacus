@@ -4,10 +4,10 @@ import { RouterModule } from '@angular/router';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
 import { UserComponentModule } from '../../cms-components/user/user.module';
 import { SeoModule } from '../../cms-structure/index';
+import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
+import { PageLayoutModule } from '../../cms-structure/page/index';
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
 import { CmsModule } from '../../lib/cms/cms.module';
-import { PageLayoutModule } from '../../lib/cms/page-layout/page-layout.module';
-import { OutletRefModule } from '../../lib/outlet/outlet-ref/outlet-ref.module';
 import { PwaModule } from './../../lib/pwa/pwa.module';
 import { StorefrontComponent } from './storefront.component';
 

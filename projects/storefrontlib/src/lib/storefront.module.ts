@@ -14,7 +14,6 @@ import { MultiStepCheckoutModule } from './checkout/index';
 import { CmsLibModule } from './cms-lib/index';
 import { CmsRouteModule } from './cms-route/cms-route.module';
 import { CmsModule } from './cms/index';
-import { OccModule } from './occ/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
 import { StoreFinderModule } from './store-finder/store-finder.module';
 import { StorefrontModuleConfig } from './storefront-config';
@@ -26,7 +25,6 @@ import { UiModule } from './ui/index';
     StateModule,
     RoutingModule,
     AuthModule.forRoot(),
-    OccModule,
     StoreFinderModule,
     CmsLibModule,
     CmsModule,

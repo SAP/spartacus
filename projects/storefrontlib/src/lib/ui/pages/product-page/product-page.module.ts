@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProductDetailsModule } from '../../../../cms-components/product/index';
+import { PageLayoutModule } from '../../../../cms-structure/page/index';
 import { CmsPageGuard } from '../../../cms/guards/cms-page.guard';
-import { PageLayoutModule } from '../../../cms/page-layout/page-layout.module';
 import { ProductPageComponent } from './product-page.component';
 
 const routes: Routes = [

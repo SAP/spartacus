@@ -1,12 +1,11 @@
 import {
   Directive,
   Input,
-  TemplateRef,
-  ViewContainerRef,
   OnInit,
   Renderer2,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
-
 import { OutletStyleService } from './outlet-style.service';
 import { OutletPosition } from './outlet.model';
 import { OutletService } from './outlet.service';
@@ -15,8 +14,7 @@ import { OutletService } from './outlet.service';
   selector: '[cxOutlet]',
 })
 export class OutletDirective implements OnInit {
-  @Input()
-  cxOutlet: string;
+  @Input() cxOutlet: string;
 
   private _context: string;
   @Input()
@@ -32,7 +30,7 @@ export class OutletDirective implements OnInit {
     private renderer: Renderer2
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const nodes = [];
     nodes.push(...this.renderTemplate(OutletPosition.BEFORE));
     nodes.push(...this.renderTemplate(OutletPosition.REPLACE, true));

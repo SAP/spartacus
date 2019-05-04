@@ -11,8 +11,8 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
+import { OutletModule } from '../../../cms-structure/outlet/index';
 import { PageComponentModule } from '../../../cms-structure/page/index';
-import { OutletModule } from '../../../lib/outlet/index';
 import { ComponentsModule } from '../../../lib/ui/components/index';
 import { CartSharedModule } from '../../checkout/index';
 // guards
