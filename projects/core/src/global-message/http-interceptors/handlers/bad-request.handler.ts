@@ -1,8 +1,8 @@
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorHandler } from './http-error.handler';
 import { GlobalMessageType } from '../../models/global-message.model';
 import { HttpResponseStatus } from '../../models/response-status.model';
+import { HttpErrorHandler } from './http-error.handler';
 
 const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 
@@ -12,7 +12,7 @@ const OAUTH_ENDPOINT = '/authorizationserver/oauth/token';
 export class BadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
-  handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
+  handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     if (
       response.url.indexOf(OAUTH_ENDPOINT) !== -1 &&
       response.error.error === 'invalid_grant'
@@ -44,7 +44,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     }
   }
 
-  protected getErrorMessage(resp: HttpErrorResponse) {
+  protected getErrorMessage(resp: HttpErrorResponse): string {
     let errMsg = resp.message;
     if (resp.error) {
       if (resp.error.errors && resp.error.errors instanceof Array) {

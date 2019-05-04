@@ -1,28 +1,27 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  HttpTestingController,
   HttpClientTestingModule,
+  HttpTestingController,
 } from '@angular/common/http/testing';
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
-import createSpy = jasmine.createSpy;
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-
-import { HttpErrorInterceptor } from './http-error.interceptor';
+import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HttpResponseStatus } from '../models/response-status.model';
 import {
-  HttpErrorHandler,
-  UnknownErrorHandler,
-  ForbiddenHandler,
   BadGatewayHandler,
   BadRequestHandler,
   ConflictHandler,
+  ForbiddenHandler,
   GatewayTimeoutHandler,
+  HttpErrorHandler,
   NotFoundHandler,
+  UnknownErrorHandler,
 } from './handlers';
-import { HttpResponseStatus } from '../models/response-status.model';
+import { HttpErrorInterceptor } from './http-error.interceptor';
+import createSpy = jasmine.createSpy;
 
-describe('HttpErrorInterceptor', () => {
+fdescribe('HttpErrorInterceptor', () => {
   let httpMock: HttpTestingController;
   let mockMessageService: any;
   let http: HttpClient;
