@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
-import { NgModule, Component, Input } from '@angular/core';
-import { CmsService, Page, ContentSlotData } from '@spartacus/core';
-import { of, Observable } from 'rxjs';
-import { By } from '@angular/platform-browser';
-import { PageLayoutService } from './page-layout.service';
-import { PageLayoutComponent } from './page-layout.component';
 import { CommonModule } from '@angular/common';
+import { Component, Input, NgModule } from '@angular/core';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CmsService, ContentSlotData, Page } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { OutletDirective } from '../../outlet';
+import { PageLayoutComponent } from './page-layout.component';
+import { PageLayoutService } from './page-layout.service';
 
 const slots = {
   Section1: {

@@ -7,8 +7,8 @@ import { SeoModule } from '../../cms-structure/index';
 import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { PageLayoutModule } from '../../cms-structure/page/index';
 import { PageSlotModule } from '../../cms-structure/page/slot/page-slot.module';
+import { PwaModule } from '../../cms-structure/pwa/index';
 import { CmsModule } from '../../lib/cms/cms.module';
-import { PwaModule } from './../../lib/pwa/pwa.module';
 import { StorefrontComponent } from './storefront.component';
 
 @NgModule({

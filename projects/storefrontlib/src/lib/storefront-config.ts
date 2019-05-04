@@ -9,8 +9,8 @@ import {
   StateConfig,
 } from '@spartacus/core';
 import { IconConfig } from '../cms-components/misc/icon/index';
+import { PWAModuleConfig } from '../cms-structure/pwa/index';
 import { LayoutConfig } from '../layout/config/layout-config';
-import { PWAModuleConfig } from './pwa/pwa.module-config';
 
 export type StorefrontModuleConfig =
   | AuthConfig

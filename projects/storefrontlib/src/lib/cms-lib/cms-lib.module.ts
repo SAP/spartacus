@@ -6,7 +6,7 @@ import {
   LinkModule,
   TabParagraphContainerModule,
 } from '../../cms-components/content/index';
-import { SiteContextSelectorModule } from '../../cms-components/misc/site-context-selector/site-context-selector.module';
+import { SiteContextSelectorModule } from '../../cms-components/misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
