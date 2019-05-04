@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { of, Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { CustomFormValidators } from '../../ui/validators/custom-form-validators';
+import { CustomFormValidators } from '../../../lib/ui/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-login-form',

@@ -18,5 +18,4 @@ export * from './lib/storefront-config';
 export * from './lib/storefront.module';
 export * from './lib/suffix-routes/index';
 export * from './lib/ui/index';
-export * from './lib/user/index';
 export * from './translations/index';

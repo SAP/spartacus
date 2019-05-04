@@ -1,15 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
+import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-
-import { LoginModule } from './login/login.module';
-import { UserModule, UrlTranslationModule } from '@spartacus/core';
-import { RegisterComponentModule } from './register/register.module';
+import { RouterModule } from '@angular/router';
+import { UrlTranslationModule, UserModule } from '@spartacus/core';
 import { LoginFormModule } from './login-form/login-form.module';
-import { ResetPasswordModule } from './reset-password/reset-password.module';
-import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
+import { LoginModule } from './login/login.module';
+import { RegisterComponentModule } from './register/register.module';
 
 @NgModule({
   imports: [
@@ -21,8 +17,6 @@ import { ForgotPasswordModule } from './forgot-password/forgot-password.module';
     UserModule,
     UrlTranslationModule,
     RegisterComponentModule,
-    ResetPasswordModule,
-    ForgotPasswordModule,
   ],
 })
 export class UserComponentModule {}
