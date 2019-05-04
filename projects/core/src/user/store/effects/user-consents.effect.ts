@@ -34,6 +34,20 @@ export class UserConsentsEffect {
     )
   );
 
+  @Effect()
+  withdrawConsent$: Observable<
+    fromActions.UserConsentsAction
+  > = this.actions$.pipe(
+    ofType(fromActions.WITHDRAW_USER_CONSENT),
+    map((action: fromActions.WithdrawUserConsent) => action.payload),
+    switchMap(({ userId, consentCode }) =>
+      this.occUserService.withdrawConsent(userId, consentCode).pipe(
+        map(_ => new fromActions.WithdrawUserConsentSuccess()),
+        catchError(error => of(new fromActions.WithdrawUserConsentFail(error)))
+      )
+    )
+  );
+
   constructor(
     private actions$: Actions,
     private occUserService: OccUserService
