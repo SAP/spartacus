@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { PageLayoutService } from './page-layout.service';
-import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
-import { LayoutConfig, BREAKPOINT } from '../../ui/layout/config/layout-config';
+import { CmsService, Page } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Page, CmsService } from '@spartacus/core';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
+import { BREAKPOINT, LayoutConfig } from '../../../layout/config/layout-config';
+import { PageLayoutService } from './page-layout.service';
 
 const PAGE_TITLE = 'The page title will be returned if `showTitle` enabled';
 

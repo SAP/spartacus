@@ -1,7 +1,7 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { WindowRef } from '@spartacus/core';
+import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 import { BreakpointService } from './breakpoint.service';
-import { LayoutConfig, BREAKPOINT } from '../config/layout-config';
 
 const MockLayoutConfig: LayoutConfig = {
   breakpoints: {

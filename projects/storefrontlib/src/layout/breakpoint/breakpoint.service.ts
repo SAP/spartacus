@@ -9,7 +9,9 @@ import {
 } from 'rxjs/operators';
 import { BREAKPOINT, LayoutConfig } from '../config/layout-config';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BreakpointService {
   constructor(private winRef: WindowRef, private config: LayoutConfig) {}
 

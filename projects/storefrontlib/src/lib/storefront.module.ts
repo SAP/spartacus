@@ -1,28 +1,25 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
-
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   AuthModule,
   ConfigModule,
-  provideConfig,
-  RoutingModule,
-  StateModule,
-  SmartEditModule,
-  PersonalizationModule,
   CxApiModule,
   I18nModule,
+  PersonalizationModule,
+  provideConfig,
+  RoutingModule,
+  SmartEditModule,
+  StateModule,
 } from '@spartacus/core';
-
-import { StorefrontModuleConfig } from './storefront-config';
-
+import { MultiStepCheckoutModule } from './checkout/index';
 import { CmsLibModule } from './cms-lib/index';
+import { CmsRouteModule } from './cms-route/cms-route.module';
 import { CmsModule } from './cms/index';
 import { OccModule } from './occ/index';
-import { UiModule, UiFrameworkModule } from './ui/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { MultiStepCheckoutModule } from './checkout/index';
 import { StoreFinderModule } from './store-finder/store-finder.module';
+import { StorefrontModuleConfig } from './storefront-config';
 import { SuffixRoutesModule } from './suffix-routes/suffix-routes.module';
-import { CmsRouteModule } from './cms-route/cms-route.module';
+import { UiModule } from './ui/index';
 
 @NgModule({
   imports: [
@@ -36,7 +33,6 @@ import { CmsRouteModule } from './cms-route/cms-route.module';
     UiModule,
     SuffixRoutesModule,
     CmsRouteModule,
-    UiFrameworkModule,
     ConfigModule.forRoot(),
     CxApiModule,
     SmartEditModule.forRoot(),

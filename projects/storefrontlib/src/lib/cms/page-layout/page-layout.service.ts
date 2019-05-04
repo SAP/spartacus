@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { CmsService, Page } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
-import { BreakpointService } from '../../ui/layout/breakpoint/breakpoint.service';
+import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
   BREAKPOINT,
   LayoutConfig,
   LayoutSlotConfig,
   SlotConfig,
-} from '../../ui/layout/config/layout-config';
+} from '../../../layout/config/layout-config';
 
 @Injectable()
 export class PageLayoutService {

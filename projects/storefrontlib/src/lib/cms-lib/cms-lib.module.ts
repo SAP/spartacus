@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
 import {
@@ -34,7 +33,6 @@ import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
 
 @NgModule({
   imports: [
-    CommonModule,
     SkipLinkModule,
     HamburgerMenuModule,
     CmsParagraphModule,

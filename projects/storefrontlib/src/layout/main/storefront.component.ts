@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HamburgerMenuService } from '../../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { HamburgerMenuService } from '../header/index';
 
 @Component({
   selector: 'cx-storefront',
