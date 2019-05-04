@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ConsentTemplate,
   ConsentTemplateList,
@@ -14,11 +14,15 @@ import { map } from 'rxjs/operators';
   templateUrl: './consent-management.component.html',
   styleUrls: ['./consent-management.component.scss'],
 })
-export class ConsentManagementComponent implements OnInit {
-  consents$: Observable<ConsentTemplateList>;
-  loading$: Observable<boolean>;
-  success$: Observable<boolean>;
-  error$: Observable<boolean>;
+export class ConsentManagementComponent implements OnInit, OnDestroy {
+  templateList$: Observable<ConsentTemplateList>;
+  templateListloading$: Observable<boolean>;
+  templateListSuccess$: Observable<boolean>;
+  templateListError$: Observable<boolean>;
+
+  giveConsentLoading$: Observable<boolean>;
+  giveConsentSuccess$: Observable<boolean>;
+  giveConsentError$: Observable<boolean>;
 
   constructor(
     private userService: UserService,
@@ -26,38 +30,73 @@ export class ConsentManagementComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.templateListInit();
+    this.giveConsentInit();
+  }
+
+  private templateListInit(): void {
+    // TODO:#1185 - reset templateList loading state? This triggers a new http request.
     this.userService.resetConsentsProcessState();
-    this.consents$ = combineLatest(
+    this.templateList$ = combineLatest(
       this.userService.getConsents(),
       this.userService.get()
     ).pipe(
-      map(([consents, user]) => {
-        if (this.consentsExists(consents) && this.userExists(user)) {
+      map(([templateList, user]) => {
+        if (this.consentsExists(templateList) && this.userExists(user)) {
           this.userService.loadConsents(user.uid);
         }
-        return consents;
+        return templateList;
       })
     );
 
-    this.loading$ = this.userService.getConsentsResultLoading();
-    this.success$ = this.userService.getConsentsResultSuccess();
-    this.error$ = this.userService.getConsentsResultError();
+    this.templateListloading$ = this.userService.getConsentsResultLoading();
+    this.templateListSuccess$ = this.userService.getConsentsResultSuccess();
+    this.templateListError$ = this.userService.getConsentsResultError();
   }
 
-  private consentsExists(consents: ConsentTemplateList): boolean {
+  private giveConsentInit(): void {
+    this.userService.resetGiveConsentProcessState();
+    this.giveConsentSuccess$ = this.userService.giveConsentResultSuccess();
+    this.giveConsentError$ = this.userService.giveConsentResultError();
+    this.giveConsentSuccess$ = this.userService.giveConsentResultSuccess();
+  }
+
+  private consentsExists(templateList: ConsentTemplateList): boolean {
     return (
-      consents && consents.consentTemplates && !consents.consentTemplates.length
+      templateList &&
+      templateList.consentTemplates &&
+      !templateList.consentTemplates.length
     );
   }
   private userExists(user: User): boolean {
     return Boolean(user) && Boolean(user.uid);
   }
 
-  onConsentChange(change: { given: boolean; template: ConsentTemplate }): void {
-    console.log('change', change);
+  onConsentChange({
+    given,
+    template,
+  }: {
+    given: boolean;
+    template: ConsentTemplate;
+  }): void {
+    if (given) {
+      this.userService.giveConsent(
+        // TODO:#1185 - combine with the current user. how to subscribe?
+        'xxx@xxx.xxx',
+        template.id,
+        template.version
+      );
+    } else {
+      // TODO:#1185 - withdraw consent
+    }
   }
 
   onDone(): void {
     this.routingService.go({ route: 'home' });
+  }
+
+  ngOnDestroy(): void {
+    // TODO:#1185 - reset templateList loading state?
+    this.userService.resetGiveConsentProcessState();
   }
 }
