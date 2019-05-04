@@ -259,15 +259,14 @@ export class OccUserService {
     consentTemplateVersion: number
   ): Observable<ConsentTemplate> {
     const url = this.getUserEndpoint() + userId + CONSENTS_ENDPOINT;
+    const httpParams = new HttpParams()
+      .set('consentTemplateId', consentTemplateId)
+      .set('consentTemplateVersion', consentTemplateVersion.toString());
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
     return this.http
-      .post<ConsentTemplate>(
-        url,
-        { consentTemplateId, consentTemplateVersion },
-        { headers }
-      )
+      .post<ConsentTemplate>(url, httpParams, { headers })
       .pipe(catchError(error => throwError(error)));
   }
 }
