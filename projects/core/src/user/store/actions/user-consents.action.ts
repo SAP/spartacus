@@ -15,17 +15,29 @@ import {
   LoaderResetAction,
   LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { GIVE_CONSENT_PROCESS_ID, USER_CONSENTS } from '../user-state';
+import {
+  GIVE_CONSENT_PROCESS_ID,
+  USER_CONSENTS,
+  WITHDRAW_CONSENT_PROCESS_ID,
+} from '../user-state';
 
 export const LOAD_USER_CONSENTS = '[User] Load User Consents';
 export const LOAD_USER_CONSENTS_SUCCESS = '[User] Load User Consents Success';
 export const LOAD_USER_CONSENTS_FAIL = '[User] Load User Consents Fail';
 export const RESET_LOAD_USER_CONSENTS = '[User] Reset Load User Consents';
+
 export const GIVE_USER_CONSENT = '[User] Give User Consent';
 export const GIVE_USER_CONSENT_FAIL = '[User] Give User Consent Fail';
 export const GIVE_USER_CONSENT_SUCCESS = '[User] Give User Consent Success';
 export const RESET_GIVE_USER_CONSENT_PROCESS =
   '[User] Reset Give User Consent Process';
+
+export const WITHDRAW_USER_CONSENT = '[User] Withdraw User Consent';
+export const WITHDRAW_USER_CONSENT_FAIL = '[User] Withdraw User Consent Fail';
+export const WITHDRAW_USER_CONSENT_SUCCESS =
+  '[User] Withdraw User Consent Success';
+export const RESET_WITHDRAW_USER_CONSENT_PROCESS =
+  '[User] Reset Withdraw User Consent Process';
 
 // TODO:#1184 - test
 
@@ -83,10 +95,44 @@ export class GiveUserConsentSuccess extends EntitySuccessAction {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
   }
 }
+
 export class ResetGiveUserConsentProcess extends EntityResetAction {
   readonly type = RESET_GIVE_USER_CONSENT_PROCESS;
   constructor() {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);
+  }
+}
+
+export class WithdrawUserConsent extends EntityLoadAction {
+  readonly type = WITHDRAW_USER_CONSENT;
+  constructor(
+    public payload: {
+      userId: string;
+      consentCode: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
+  }
+}
+
+export class WithdrawUserConsentFail extends EntityFailAction {
+  readonly type = WITHDRAW_USER_CONSENT_FAIL;
+  constructor(payload: any) {
+    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID, payload);
+  }
+}
+
+export class WithdrawUserConsentSuccess extends EntitySuccessAction {
+  readonly type = WITHDRAW_USER_CONSENT_SUCCESS;
+  constructor() {
+    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
+  }
+}
+
+export class ResetWithdrawUserConsentProcess extends EntityResetAction {
+  readonly type = RESET_WITHDRAW_USER_CONSENT_PROCESS;
+  constructor() {
+    super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
   }
 }
 
@@ -97,4 +143,8 @@ export type UserConsentsAction =
   | ResetLoadUserConsents
   | GiveUserConsent
   | GiveUserConsentFail
-  | GiveUserConsentSuccess;
+  | GiveUserConsentSuccess
+  | WithdrawUserConsent
+  | WithdrawUserConsentFail
+  | WithdrawUserConsentSuccess
+  | ResetWithdrawUserConsentProcess;

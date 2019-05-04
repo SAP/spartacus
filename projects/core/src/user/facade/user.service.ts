@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { ConsentTemplateList } from '../../occ/occ-models/additional-occ.models';
 import {
   Address,
@@ -25,6 +25,7 @@ import {
   GIVE_CONSENT_PROCESS_ID,
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
+  WITHDRAW_CONSENT_PROCESS_ID,
 } from '../store/user-state';
 
 @Injectable()
@@ -553,8 +554,18 @@ export class UserService {
 
   // TODO:#1184 - write API comments
   // TODO:#1184 - test
-  loadConsents(userId: string): void {
-    this.store.dispatch(new fromStore.LoadUserConsents(userId));
+  loadConsents(): void {
+    this.get()
+      .pipe(
+        map(user => user.uid),
+        tap(userId => {
+          if (userId) {
+            this.store.dispatch(new fromStore.LoadUserConsents(userId));
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   getConsents(): Observable<ConsentTemplateList> {
@@ -577,18 +588,24 @@ export class UserService {
     this.store.dispatch(new fromStore.ResetLoadUserConsents());
   }
 
-  giveConsent(
-    userId: string,
-    consentTemplateId: string,
-    consentTemplateVersion: number
-  ): void {
-    this.store.dispatch(
-      new fromStore.GiveUserConsent({
-        userId,
-        consentTemplateId,
-        consentTemplateVersion,
-      })
-    );
+  giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
+    this.get()
+      .pipe(
+        map(user => user.uid),
+        tap(userId => {
+          if (userId) {
+            this.store.dispatch(
+              new fromStore.GiveUserConsent({
+                userId,
+                consentTemplateId,
+                consentTemplateVersion,
+              })
+            );
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   giveConsentResultLoading(): Observable<boolean> {
@@ -610,16 +627,44 @@ export class UserService {
   }
 
   resetGiveConsentProcessState(): void {
-    return this.store.dispatch(new fromStore.ResetUpdateUserDetails());
+    return this.store.dispatch(new fromStore.ResetGiveUserConsentProcess());
   }
 
-  // withdrawConsent(userId: string,consentCode: string): void {}
+  withdrawConsent(consentCode: string): void {
+    this.get()
+      .pipe(
+        map(user => user.uid),
+        tap(userId => {
+          if (userId) {
+            this.store.dispatch(
+              new fromStore.WithdrawUserConsent({ userId, consentCode })
+            );
+          }
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
 
-  // withdrawConsentResultLoading(): Observable<boolean> {}
+  withdrawConsentResultLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessLoadingFactory(WITHDRAW_CONSENT_PROCESS_ID))
+    );
+  }
 
-  // withdrawConsentResultSuccess(): Observable<boolean> {}
+  withdrawConsentResultSuccess(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessSuccessFactory(WITHDRAW_CONSENT_PROCESS_ID))
+    );
+  }
 
-  // withdrawConsentResultError(): Observable<boolean> {}
+  withdrawConsentResultError(): Observable<boolean> {
+    return this.store.pipe(
+      select(getProcessErrorFactory(WITHDRAW_CONSENT_PROCESS_ID))
+    );
+  }
 
-  // resetWithdrawConsentProcessState(): void {}
+  resetWithdrawConsentProcessState(): void {
+    return this.store.dispatch(new fromStore.ResetWithdrawUserConsentProcess());
+  }
 }

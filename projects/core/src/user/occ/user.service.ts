@@ -269,4 +269,11 @@ export class OccUserService {
       .post<ConsentTemplate>(url, httpParams, { headers })
       .pipe(catchError(error => throwError(error)));
   }
+
+  // TODO:#1184 - test
+  withdrawConsent(userId: string, consentCode: string): Observable<void> {
+    const url =
+      this.getUserEndpoint() + userId + CONSENTS_ENDPOINT + '/' + consentCode;
+    return this.http.delete<void>(url);
+  }
 }
