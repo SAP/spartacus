@@ -10,8 +10,8 @@ import {
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
+import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { MultiStepCheckoutModule } from './checkout/index';
-import { CmsLibModule } from './cms-lib/index';
 import { CmsRouteModule } from './cms-route/cms-route.module';
 import { CmsModule } from './cms/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';

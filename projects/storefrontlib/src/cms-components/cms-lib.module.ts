@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CartComponentModule } from '../../cms-components/checkout/cart/cart.module';
+import { HamburgerMenuModule, SkipLinkModule } from '../layout/index';
+import { CartComponentModule } from './checkout/cart/cart.module';
 import {
   BannerModule,
   CmsParagraphModule,
   LinkModule,
   TabParagraphContainerModule,
-} from '../../cms-components/content/index';
-import { SiteContextSelectorModule } from '../../cms-components/misc/index';
+} from './content/index';
+import { SiteContextSelectorModule } from './misc/index';
 import {
   AddressBookModule,
   CloseAccountModule,
@@ -16,20 +17,19 @@ import {
   UpdateEmailModule,
   UpdatePasswordModule,
   UpdateProfileModule,
-} from '../../cms-components/myaccount/index';
+} from './myaccount/index';
 import {
   BreadcrumbModule,
   CategoryNavigationModule,
   FooterNavigationModule,
   NavigationModule,
   SearchBoxModule,
-} from '../../cms-components/navigation/index';
+} from './navigation/index';
 import {
   ProductCarouselModule,
   ProductListModule,
   ProductTabsModule,
-} from '../../cms-components/product/index';
-import { HamburgerMenuModule, SkipLinkModule } from '../../layout/index';
+} from './product/index';
 
 @NgModule({
   imports: [

@@ -9,7 +9,6 @@ export * from './cms-structure/outlet/index';
 export * from './cms-structure/pwa/pwa.module';
 export * from './layout/index';
 export * from './lib/checkout/index';
-export * from './lib/cms-lib/index';
 export * from './lib/cms-route/index';
 export * from './lib/cms/index';
 export * from './lib/store-finder/index';
