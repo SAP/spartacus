@@ -10,7 +10,6 @@ export * from './lib/checkout/index';
 export * from './lib/cms-lib/index';
 export * from './lib/cms-route/index';
 export * from './lib/cms/index';
-export * from './lib/global-message/index';
 export * from './lib/occ/index';
 export * from './lib/outlet/index';
 export * from './lib/pwa/pwa.module';
