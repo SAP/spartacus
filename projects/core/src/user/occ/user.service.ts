@@ -6,6 +6,7 @@ import {
   Address,
   AddressList,
   AddressValidation,
+  ConsentTemplate,
   ConsentTemplateList,
   PaymentDetailsList,
   User,
@@ -25,7 +26,8 @@ const FORGOT_PASSWORD_ENDPOINT = '/forgottenpasswordtokens';
 const RESET_PASSWORD_ENDPOINT = '/resetpassword';
 const UPDATE_EMAIL_ENDPOINT = '/login';
 const UPDATE_PASSWORD_ENDPOINT = '/password';
-const CONSENTS_ENDPOINT = '/consenttemplates';
+const CONSENTS_TEMPLATES_ENDPOINT = '/consenttemplates';
+const CONSENTS_ENDPOINT = '/consents';
 
 @Injectable()
 export class OccUserService {
@@ -244,9 +246,28 @@ export class OccUserService {
 
   // TODO:#1184 - test
   loadConsents(userId: string): Observable<ConsentTemplateList> {
-    const url = this.getUserEndpoint() + userId + CONSENTS_ENDPOINT;
+    const url = this.getUserEndpoint() + userId + CONSENTS_TEMPLATES_ENDPOINT;
     return this.http
       .get<ConsentTemplateList>(url)
       .pipe(catchError((error: any) => throwError(error)));
+  }
+
+  // TODO:#1184 - test
+  giveConsent(
+    userId: string,
+    consentTemplateId: string,
+    consentTemplateVersion: number
+  ): Observable<ConsentTemplate> {
+    const url = this.getUserEndpoint() + userId + CONSENTS_ENDPOINT;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+    return this.http
+      .post<ConsentTemplate>(
+        url,
+        { consentTemplateId, consentTemplateVersion },
+        { headers }
+      )
+      .pipe(catchError(error => throwError(error)));
   }
 }
