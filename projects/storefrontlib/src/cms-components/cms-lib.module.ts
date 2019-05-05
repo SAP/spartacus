@@ -30,6 +30,7 @@ import {
   ProductListModule,
   ProductTabsModule,
 } from './product/index';
+import { StoreFinderModule } from './storefinder/index';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import {
     CartComponentModule,
     CloseAccountModule,
     TabParagraphContainerModule,
+    StoreFinderModule,
   ],
 })
 export class CmsLibModule {}

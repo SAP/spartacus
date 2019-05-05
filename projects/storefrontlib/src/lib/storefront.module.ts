@@ -10,8 +10,7 @@ import {
   SmartEditModule,
   StateModule,
 } from '@spartacus/core';
-import { CmsLibModule } from '../cms-components/cms-lib.module';
-import { StoreFinderModule } from '../cms-components/storefinder/index';
+import { CmsLibModule } from '../cms-components/index';
 import { MultiStepCheckoutModule } from './checkout/index';
 import { CmsRouteModule } from './cms-route/cms-route.module';
 import { CmsModule } from './cms/index';
@@ -25,7 +24,6 @@ import { UiModule } from './ui/index';
     StateModule,
     RoutingModule,
     AuthModule.forRoot(),
-    StoreFinderModule,
     CmsLibModule,
     CmsModule,
     UiModule,

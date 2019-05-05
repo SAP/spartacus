@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { GlobalMessageComponentModule } from '../../cms-components/misc/global-message/global-message.module';
-import { UserComponentModule } from '../../cms-components/user/user.module';
+import { UserComponentModule } from '../../cms-components/user/index';
 import { SeoModule } from '../../cms-structure/index';
 import { OutletRefModule } from '../../cms-structure/outlet/outlet-ref/outlet-ref.module';
 import { PageLayoutModule } from '../../cms-structure/page/index';

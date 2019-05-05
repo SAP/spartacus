@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CmsModule, I18nModule } from '@spartacus/core';
-import { OutletModule } from 'projects/storefrontlib/src/cms-structure/outlet';
+import { OutletModule } from '../../../cms-structure/outlet/index';
 import { ComponentsModule } from '../../../lib/ui/components/index';
 import { AddToCartModule, CartSharedModule } from '../../checkout/index';
 // guards
