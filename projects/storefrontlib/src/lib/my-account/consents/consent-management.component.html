@@ -12,8 +12,28 @@ CONSENT MANAGEMENT WORKS
 <div>Withdraw Consent Success: {{ withdrawConsentSuccess$ | async }}</div>
 <div>Withdraw Consent Error: {{ withdrawConsentError$ | async }}</div>
 
-<cx-consent-management-list
-  [consentTemplates]="(templateList$ | async).consentTemplates"
-  (consentChanged)="onConsentChange($event)"
-  (done)="onDone()"
-></cx-consent-management-list>
+<ng-container>
+  <div
+    *ngIf="
+      (templateListloading$ | async) ||
+        (giveConsentLoading$ | async) ||
+        (withdrawConsentLoading$ | async);
+      else consentManagementForm
+    "
+  >
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </div>
+
+  <ng-template #consentManagementForm>
+    <div class="row d-flex justify-content-center">
+      <cx-consent-management-list
+        class="col-md-6"
+        [consentTemplates]="(templateList$ | async).consentTemplates"
+        (consentChanged)="onConsentChange($event)"
+        (done)="onDone()"
+      ></cx-consent-management-list>
+    </div>
+  </ng-template>
+</ng-container>
