@@ -3,11 +3,10 @@ import {
   ConsentTemplate,
   ConsentTemplateList,
   RoutingService,
-  User,
   UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-consent-management',
@@ -24,6 +23,10 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   giveConsentSuccess$: Observable<boolean>;
   giveConsentError$: Observable<boolean>;
 
+  withdrawConsentLoading$: Observable<boolean>;
+  withdrawConsentSuccess$: Observable<boolean>;
+  withdrawConsentError$: Observable<boolean>;
+
   constructor(
     private userService: UserService,
     private routingService: RoutingService
@@ -32,23 +35,20 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.templateListInit();
     this.giveConsentInit();
+    this.withdrawConsentInit();
   }
 
   private templateListInit(): void {
     // TODO:#1185 - reset templateList loading state? This triggers a new http request.
     this.userService.resetConsentsProcessState();
-    this.templateList$ = combineLatest(
-      this.userService.getConsents(),
-      this.userService.get()
-    ).pipe(
-      map(([templateList, user]) => {
-        if (this.consentsExists(templateList) && this.userExists(user)) {
-          this.userService.loadConsents(user.uid);
+    this.templateList$ = this.userService.getConsents().pipe(
+      tap(templateList => {
+        if (this.consentsExists(templateList)) {
+          this.userService.loadConsents();
         }
         return templateList;
       })
     );
-
     this.templateListloading$ = this.userService.getConsentsResultLoading();
     this.templateListSuccess$ = this.userService.getConsentsResultSuccess();
     this.templateListError$ = this.userService.getConsentsResultError();
@@ -56,9 +56,27 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
 
   private giveConsentInit(): void {
     this.userService.resetGiveConsentProcessState();
-    this.giveConsentSuccess$ = this.userService.giveConsentResultSuccess();
+    this.giveConsentLoading$ = this.userService.giveConsentResultLoading();
     this.giveConsentError$ = this.userService.giveConsentResultError();
     this.giveConsentSuccess$ = this.userService.giveConsentResultSuccess();
+  }
+
+  private withdrawConsentInit(): void {
+    this.userService.resetWithdrawConsentProcessState();
+    this.withdrawConsentLoading$ = this.userService.withdrawConsentResultLoading();
+    this.withdrawConsentError$ = this.userService.withdrawConsentResultError();
+
+    this.withdrawConsentSuccess$ = combineLatest(
+      this.userService.withdrawConsentResultSuccess(),
+      this.userService.getConsentsResultSuccess()
+    ).pipe(
+      filter(([withdrawalSuccess, _]) => withdrawalSuccess),
+      tap(_ => this.userService.loadConsents()),
+      map(
+        ([withdrawalSuccess, loadConsentsSuccess]) =>
+          withdrawalSuccess && loadConsentsSuccess
+      )
+    );
   }
 
   private consentsExists(templateList: ConsentTemplateList): boolean {
@@ -67,9 +85,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       templateList.consentTemplates &&
       !templateList.consentTemplates.length
     );
-  }
-  private userExists(user: User): boolean {
-    return Boolean(user) && Boolean(user.uid);
   }
 
   onConsentChange({
@@ -80,14 +95,9 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     template: ConsentTemplate;
   }): void {
     if (given) {
-      this.userService.giveConsent(
-        // TODO:#1185 - combine with the current user. how to subscribe?
-        'xxx@xxx.xxx',
-        template.id,
-        template.version
-      );
+      this.userService.giveConsent(template.id, template.version);
     } else {
-      // TODO:#1185 - withdraw consent
+      this.userService.withdrawConsent(template.currentConsent.code);
     }
   }
 
@@ -98,5 +108,6 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // TODO:#1185 - reset templateList loading state?
     this.userService.resetGiveConsentProcessState();
+    this.userService.resetWithdrawConsentProcessState();
   }
 }

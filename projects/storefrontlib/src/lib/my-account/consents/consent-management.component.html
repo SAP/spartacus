@@ -1,9 +1,16 @@
 CONSENT MANAGEMENT WORKS
 
-<div>Consents: {{ templateList$ | async | json }}</div>
-<div>Loading: {{ templateListloading$ | async }}</div>
-<div>Success: {{ templateListSuccess$ | async }}</div>
-<div>Error: {{ templateListError$ | async }}</div>
+<div>Consent Template Loading: {{ templateListloading$ | async }}</div>
+<div>Consent Template Success: {{ templateListSuccess$ | async }}</div>
+<div>Consent Template Error: {{ templateListError$ | async }}</div>
+
+<div>Give Consent Loading: {{ giveConsentLoading$ | async }}</div>
+<div>Give Consent Success: {{ giveConsentSuccess$ | async }}</div>
+<div>Give Consent Error: {{ giveConsentError$ | async }}</div>
+
+<div>Withdraw Consent Loading: {{ withdrawConsentLoading$ | async }}</div>
+<div>Withdraw Consent Success: {{ withdrawConsentSuccess$ | async }}</div>
+<div>Withdraw Consent Error: {{ withdrawConsentError$ | async }}</div>
 
 <cx-consent-management-list
   [consentTemplates]="(templateList$ | async).consentTemplates"
