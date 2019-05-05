@@ -33,12 +33,12 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.templateListInit();
+    this.consentListInit();
     this.giveConsentInit();
     this.withdrawConsentInit();
   }
 
-  private templateListInit(): void {
+  private consentListInit(): void {
     // TODO:#1185 - reset templateList loading state? This triggers a new http request.
     this.userService.resetConsentsProcessState();
     this.templateList$ = this.userService.getConsents().pipe(
@@ -70,8 +70,11 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       this.userService.withdrawConsentResultSuccess(),
       this.userService.getConsentsResultSuccess()
     ).pipe(
+      tap(x => console.log(`before filter`, x)),
       filter(([withdrawalSuccess, _]) => withdrawalSuccess),
+      tap(x => console.log(`after filter`, x)),
       tap(_ => this.userService.loadConsents()),
+      tap(x => console.log(`after tap (load consents)`, x)),
       map(
         ([withdrawalSuccess, loadConsentsSuccess]) =>
           withdrawalSuccess && loadConsentsSuccess
@@ -106,7 +109,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // TODO:#1185 - reset templateList loading state?
+    // TODO:#1185 - reset templateList loading state here?
     this.userService.resetGiveConsentProcessState();
     this.userService.resetWithdrawConsentProcessState();
   }
