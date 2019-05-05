@@ -11,11 +11,11 @@ import {
   StateModule,
 } from '@spartacus/core';
 import { CmsLibModule } from '../cms-components/cms-lib.module';
+import { StoreFinderModule } from '../cms-components/storefinder/index';
 import { MultiStepCheckoutModule } from './checkout/index';
 import { CmsRouteModule } from './cms-route/cms-route.module';
 import { CmsModule } from './cms/index';
 import { provideConfigFromMetaTags } from './provide-config-from-meta-tags';
-import { StoreFinderModule } from './store-finder/store-finder.module';
 import { StorefrontModuleConfig } from './storefront-config';
 import { SuffixRoutesModule } from './suffix-routes/suffix-routes.module';
 import { UiModule } from './ui/index';

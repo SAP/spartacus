@@ -9,3 +9,4 @@ export * from './media/media.module';
 export * from './media/media.service';
 export * from './pagination-and-sorting/pagination-and-sorting.module';
 export * from './spinner/spinner.component';
+export * from './spinner/spinner.module';
